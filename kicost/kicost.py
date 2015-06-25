@@ -178,6 +178,22 @@ def kicost(infile, qty, outfile):
                 print '{} = '.format(f),
                 pprint.pprint(part.__dict__[f])
         print
+
+def convert_to_ranges(nums):
+    nums.sort()
+    num_ranges = []
+    i = 0
+    while i < len(nums):
+        num_range = nums[i]
+        jump_i = i+1
+        for j in range(i+2, len(nums)):
+            if j-i != nums[j]-nums[i]:
+                break
+            num_range = [nums[i], nums[j]]
+            jump_i = j+1
+        num_ranges.append(num_range)
+        i = jump_i
+    return num_ranges
         
 def sort_refs(refs):
     ref_re = re.compile('(?P<id>[a-zA-Z]+)(?P<num>[0-9]+)', re.IGNORECASE)
@@ -190,9 +206,15 @@ def sort_refs(refs):
             ref_numbers[id].append(num)
         except KeyError:
             ref_numbers[id] = [num]
-    sorted_refs = []
     for id in ref_numbers.keys():
-        sorted_refs.extend(['{}{}'.format(id, n) for n in sorted(ref_numbers[id])])
+        ref_numbers[id] = convert_to_ranges(ref_numbers[id])
+    sorted_refs = []
+    for id, nums in ref_numbers.items():
+        for num in nums:
+            if type(num)==list:
+                sorted_refs.append('{0}{1}-{0}{2}'.format(id, num[0], num[1]))
+            else:
+                sorted_refs.append('{}{}'.format(id, num))
     return sorted_refs
     
 
