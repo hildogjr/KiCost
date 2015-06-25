@@ -179,6 +179,22 @@ def kicost(infile, qty, outfile):
                 pprint.pprint(part.__dict__[f])
         print
         
+def sort_refs(refs):
+    ref_re = re.compile('(?P<id>[a-zA-Z]+)(?P<num>[0-9]+)', re.IGNORECASE)
+    ref_numbers = {}
+    for r in refs:
+        match = re.search(ref_re, r)
+        id = match.group('id')
+        num = int(match.group('num'))
+        try:
+            ref_numbers[id].append(num)
+        except KeyError:
+            ref_numbers[id] = [num]
+    sorted_refs = []
+    for id in ref_numbers.keys():
+        sorted_refs.extend(['{}{}'.format(id, n) for n in sorted(ref_numbers[id])])
+    return sorted_refs
+    
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
     wks.merge_range(start_row, start_col, start_row, start_col+6, "Globals", wrk_formats['global'])
@@ -187,7 +203,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         wks.write_string(start_row, start_col+col, col_name, wrk_formats['header'])
     start_row += 1
     for row,part in enumerate(parts):
-        wks.write_string(start_row+row, start_col, ','.join(sorted(part.refs)))
+        wks.write_string(start_row+row, start_col, ','.join(sort_refs(part.refs)))
         for col,field in enumerate(('desc', 'footprint', 'manf', 'manf#')):
             try: 
                 wks.write_string(start_row+row, start_col+col+1, part.fields[field])
