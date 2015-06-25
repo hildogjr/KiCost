@@ -20,13 +20,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import sys
 import pprint
 import bs4 as BS
 import difflib
+import re
+import xlsxwriter
+from xlsxwriter.utility import xl_rowcol_to_cell, xl_range
 import xml.etree.ElementTree as ET
 import urllib as URLL
 
 DELIMITER = ':'
+
+THIS_MODULE = sys.modules[__name__]
 
 # Global array of distributor names.
 distis = ['digikey', 'mouser']
@@ -35,10 +41,12 @@ distis = ['digikey', 'mouser']
 def kicost(infile, qty, outfile):
 
     # Read-in the schematic XML file to get a tree and get its root.
+    print 'Get schematic XML...'
     tree = ET.parse(infile)
     root = tree.getroot()
 
     # Find the parts used from each library.
+    print 'Get parts library...'
     libparts = {}
     for p in root.find('libparts').iter('libpart'):
 
@@ -55,10 +63,18 @@ def kicost(infile, qty, outfile):
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
         libparts[p.get('lib') + DELIMITER + p.get('part')] = fields
+        
+        # Also have to store the fields under any part aliases.
+        try:
+            for alias in p.find('aliases').iter('alias'):
+                libparts[p.get('lib') + DELIMITER + alias.text] = fields
+        except AttributeError:
+            pass # No aliases for this part.
 
     # Find the components used in the schematic and elaborate
     # them with global values from the libraries and local values
     # from the schematic.
+    print 'Get components...'
     components = {}
     for c in root.find('components').iter('comp'):
 
@@ -94,6 +110,7 @@ def kicost(infile, qty, outfile):
         components[c.get('ref')] = fields
 
     # Get groups of identical components.
+    print 'Get groups of identical components...'
     component_groups = {}
     for c in components:
 
@@ -118,33 +135,60 @@ def kicost(infile, qty, outfile):
             component_groups[h].refs = [c]  # Init list of refs with first ref.
             component_groups[h].fields = components[c]  # Store field values.
 
-    # Calculate the quantity needed of each part.
+    # Calculate the quantity needed of each part for a single board.
+    print 'Calculate required # of each component group...'
     for part in component_groups.values():
-        # part quantity = qty of boards * # of identical components per board.
-        part.qty = qty * len(part.refs)
+        # part quantity = # of identical components per board.
+        part.qty = len(part.refs)
 
     # Get the parsed product pages for each part from each distributor.
+    print 'Get parsed product page for each component group...'
     for part in component_groups.values():
-        part.html_trees = get_part_html_trees(part)
+        part.html_trees, part.urls = get_part_html_trees(part)
 
-    # Lookup the price tiers of each component for each distributor.
-    for part in component_groups.values():
-        part.price_tiers = get_price_tiers(part.html_trees)
+    # # Lookup the price tiers of each component for each distributor.
+    # print 'Get price tiers for each component group...'
+    # for part in component_groups.values():
+        # pprint.pprint(part.refs)
+        # part.price_tiers = get_price_tiers(part.html_trees)
 
-    # Get total cost of each component from each distributor.
-    for part in component_groups.values():
-        part.total_costs = get_costs(part.qty, part.price_tiers)
+    # # Get total cost of each component from each distributor.
+    # print 'Calculate total cost of each component group...'
+    # for part in component_groups.values():
+        # part.total_costs = get_costs(part.qty, part.price_tiers)
 
-    # Get the total price of the board for each distributor.
-    board_cost = {}
-    for dist in distis:
-        board_cost[dist] = 0.0
-        for part in component_groups.values():
-            try:
-                board_cost[dist] += part.total_costs[dist]
-            except TypeError:
-                pass
-        print '{} cost = {:.2f}'.format(dist, board_cost[dist])
+    # # Get the total price of the board for each distributor.
+    # print 'Calculate total board cost...'
+    # board_cost = {}
+    # for dist in distis:
+        # board_cost[dist] = 0.0
+        # for part in component_groups.values():
+            # try:
+                # board_cost[dist] += part.total_costs[dist]
+            # except TypeError:
+                # pass
+        # print '{} cost = {:.2f}'.format(dist, board_cost[dist])
+        
+    # Create spreadsheet file.
+    with xlsxwriter.Workbook('kicost.xlsx') as workbook:
+        wrk_formats = {}
+        wrk_formats['global'] = workbook.add_format({'font_size':14, 'font_color':'#FFFFFF', 'bold':True, 'align':'center', 'valign':'vcenter', 'bg_color':'#303030'})
+        wrk_formats['digikey'] = workbook.add_format({'font_size':14, 'font_color':'#000000', 'bold':True, 'align':'center', 'valign':'vcenter', 'bg_color':'#FFD320'})
+        wrk_formats['mouser'] = workbook.add_format({'font_size':14, 'font_color':'#FFFFFF', 'bold':True, 'align':'center', 'valign':'vcenter', 'bg_color':'#004586'})
+        wrk_formats['header'] = workbook.add_format({'font_size':12, 'bold':True, 'align':'center', 'valign':'bottom', 'text_wrap':True })
+        wrk_formats['total_cost_label'] = workbook.add_format({'font_size':14, 'bold':True, 'align':'right'})
+        wrk_formats['total_cost_currency'] = workbook.add_format({'font_size':14, 'bold':True, 'num_format':'$#,##0.00'})
+        wrk_formats['currency'] = workbook.add_format({'num_format':'$#,##0.00'})
+        wrk_formats['centered_text'] = workbook.add_format({'align':'center'})
+        wks = workbook.add_worksheet('Pricing')
+        workbook.define_name('BoardQty', '=Pricing!$B$1:$B$1')
+        brd_qty_fmt = workbook.add_format({'font_size':14, 'bold':True, 'align':'right'})
+        wks.write(0,0,'Board Qty:',brd_qty_fmt)
+        wks.write(0,1,0,brd_qty_fmt) # Set initial board quantity to zero.
+        add_globals_to_worksheet(wks, wrk_formats, 2, 0, component_groups.values())
+        for col,dist in enumerate(distis):
+            add_dist_to_worksheet = getattr(THIS_MODULE, 'add_{}_to_worksheet'.format(dist))
+            add_dist_to_worksheet(wks, wrk_formats, 2, 7+col*6,component_groups.values())
 
     # Print component groups for debugging purposes.
     for part in component_groups.values():
@@ -157,6 +201,60 @@ def kicost(infile, qty, outfile):
                 print '{} = '.format(f),
                 pprint.pprint(part.__dict__[f])
         print
+        
+
+def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
+    wks.merge_range(start_row, start_col, start_row, start_col+6, "Globals", wrk_formats['global'])
+    start_row += 1
+    for col,col_name in enumerate(('Part Refs', 'Description', 'Footprint', 'Manufacturer', 'Manf Part#', 'Qty Needed', 'Qty Slack')):
+        wks.write_string(start_row, start_col+col, col_name, wrk_formats['header'])
+    start_row += 1
+    for row,part in enumerate(parts):
+        wks.write_string(start_row+row, start_col, ','.join(part.refs))
+        for col,field in enumerate(('desc', 'footprint', 'manf', 'manf#')):
+            try: 
+                wks.write_string(start_row+row, start_col+col+1, part.fields[field])
+            except KeyError:
+                pass
+        wks.write(start_row+row, start_col+5, '=BoardQty*{}'.format(part.qty))
+        wks.write(start_row+row, start_col+6, 0) # slack quantity. (Not handled, yet.)
+    
+    
+def add_digikey_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
+    row = start_row
+    wks.merge_range(row, start_col, start_row, start_col+5, "Digi-Key", wrk_formats['digikey'])
+    row += 1
+    for col,col_name in enumerate(('Available Qty', 'Purchase Qty', 'Unit Price', 'Extended Price', 'Digikey Part#', 'Catalog Page')):
+        wks.write_string(row, start_col+col, col_name, wrk_formats['header'])
+    row += 1
+    for part in parts:
+        wks.write(row, start_col+0, get_digikey_qty_avail(part.html_trees['digikey']))
+        wks.write(row, start_col+1, '=IF(LEN({})=0,"",{})'.format(xl_rowcol_to_cell(row, start_col+4), xl_rowcol_to_cell(row, 5))) # Show global quantity if digikey part# exists.
+        price_tiers = get_digikey_price_tiers2(part.html_trees['digikey'])
+        qtys = sorted(price_tiers.keys())
+        prices = [str(price_tiers[q]) for q in qtys]
+        qtys = [str(q) for q in qtys]
+        lookup_func = '=iferror(lookup({},{{{}}},{{{}}}),"")'.format(
+            xl_rowcol_to_cell(row, start_col+1),
+            ','.join(qtys),
+            ','.join(prices))
+        wks.write_formula(row, start_col+2, lookup_func, wrk_formats['currency'])
+        wks.write_formula(row, start_col+3, '=iferror({}*{},"")'.format(
+            xl_rowcol_to_cell(row, start_col+1),
+            xl_rowcol_to_cell(row, start_col+2)
+            ), wrk_formats['currency']
+            )
+        digikey_part_num = get_digikey_part_num(part.html_trees['digikey'])
+        wks.write(row, start_col+4, digikey_part_num)
+        if len(digikey_part_num) > 0:
+            wks.write_url(row, start_col+5, part.urls['digikey'], wrk_formats['centered_text'], string='Link')
+        row += 1
+    wks.write(row, start_col+2, 'Total Cost:', wrk_formats['total_cost_label'])
+    wks.write(row, start_col+3, '=sum({})'.format(xl_range(start_row+2,start_col+3,row-1,start_col+3)), wrk_formats['total_cost_currency'])
+        
+    
+def add_mouser_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
+    pass
 
 
 def get_costs(qty, price_tiers):
@@ -193,8 +291,12 @@ def get_price_tiers(html_trees):
     '''Get the pricing tiers from the parsed trees of distributor product pages.'''
     price_tiers = {}
     for dist in distis:
-        price_tiers[dist] = eval(
-            'get_' + dist + '_price_tiers(html_trees[dist])')
+        get_dist_price_tiers = getattr(THIS_MODULE,'get_{}_price_tiers'.format(dist))
+        tiers = get_dist_price_tiers(html_trees[dist])
+        for t in tiers:
+            t.qty = int(re.sub('[^0-9]', '', t.qty))
+            t.unit_price = float(re.sub('[^0-9\.]', '', t.unit_price))
+        price_tiers[dist] = tiers
     return price_tiers
 
 
@@ -214,24 +316,39 @@ def get_digikey_price_tiers(html_tree):
         for tr in html_tree.find(id='pricing').find_all('tr'):
             try:
                 td = tr.find_all('td')
-                if len(td) == 2:
-                    qty_price = QtyPrice()
-                    qty_price.qty = int(td[0].text)
-                    qty_price.unit_price = float(td[1].text)
-                    price_tiers.append(qty_price)
-                elif len(td) == 3:
-                    qty_price = QtyPrice()
-                    qty_price.qty = int(td[0].text)
-                    qty_price.unit_price = min(float(td[1].text),
-                                               float(td[2].text))
-                    price_tiers.append(qty_price)
-                else:
-                    continue
-            except TypeError:  # Happens when there's no <td> in table row.
+                qty_price = QtyPrice()
+                # qty_price.qty = int(td[0].text)
+                # qty_price.unit_price = float(td[1].text)
+                qty_price.qty = td[0].text
+                qty_price.unit_price = td[1].text
+                price_tiers.append(qty_price)
+            except IndexError:  # Happens when there's no <td> in table row.
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
         pass
+    return price_tiers
+
+
+def get_digikey_price_tiers2(html_tree):
+    '''Get the pricing tiers from the parsed tree of the Digikey product page.'''
+    price_tiers = {}
+    try:
+        for tr in html_tree.find(id='pricing').find_all('tr'):
+            try:
+                td = tr.find_all('td')
+                qty = int(re.sub('[^0-9]', '', td[0].text))
+                price_tiers[qty] = float(re.sub('[^0-9\.]', '', td[1].text))
+            except IndexError:  # Happens when there's no <td> in table row.
+                continue
+    except AttributeError:
+        # This happens when no pricing info is found in the tree.
+        price_tiers[0] = 0.00
+        return price_tiers # Return the quantity-zero pricing.
+    min_qty = min(price_tiers.keys())
+    if min_qty > 1:
+        price_tiers[1] = price_tiers[min_qty]
+    price_tiers[0] = 0.00 # Add zero-quantity level so LOOKUP function works sensibly.
     return price_tiers
 
 
@@ -242,12 +359,8 @@ def get_mouser_price_tiers(html_tree):
         for tr in html_tree.find('table', class_='PriceBreaks').find_all('tr'):
             try:
                 qty_price = QtyPrice()
-                qty_price.qty = int(
-                    tr.find('td',
-                            class_='PriceBreakQuantity').a.text)
-                qty_price.unit_price = float(
-                    tr.find('td',
-                            class_='PriceBreakPrice').text[2:])
+                qty_price.qty = tr.find('td', class_='PriceBreakQuantity').a.text
+                qty_price.unit_price = tr.find('td', class_='PriceBreakPrice').text
                 price_tiers.append(qty_price)
             except TypeError:  # Happens when there's no <td> in table row.
                 continue
@@ -255,25 +368,50 @@ def get_mouser_price_tiers(html_tree):
         # This happens when no pricing info is found in the tree.
         pass
     return price_tiers
+    
+
+def get_digikey_part_num(html_tree):
+    try:
+        return html_tree.find('td', id='reportpartnumber').text
+    except AttributeError:
+        return ''
+    
+
+def get_mouser_part_num(html_tree):
+    pass
+    
+
+def get_digikey_qty_avail(html_tree):
+    try:
+        qty_str = html_tree.find('td', id='quantityavailable').text
+        qty_str = re.search('(?<=stock: )[0-9,]*',qty_str,re.IGNORECASE).group(0)
+        return int(re.sub('[^0-9]', '', qty_str))
+    except AttributeError:
+        return ''
+    
+
+def get_mouser_qty_avail(html_tree):
+    pass
 
 
 def get_part_html_trees(part):
     '''Get the parsed HTML trees from each distributor website for the given part.'''
     html_trees = {}
+    urls = {}
     fields = part.fields
     for dist in distis:
+        get_dist_part_html_tree = getattr(THIS_MODULE,'get_{}_part_html_tree'.format(dist))
         try:
             if dist + '#' in fields:
-                html_trees[dist] = eval(
-                    'get_' + dist + '_part_html_tree(fields[dist+"#"])')
+                html_trees[dist], urls[dist] = get_dist_part_html_tree(fields[dist+'#'])
             elif 'manf#' in fields:
-                html_trees[dist] = eval(
-                    'get_' + dist + '_part_html_tree(fields["manf#"])')
+                html_trees[dist], urls[dist] = get_dist_part_html_tree(fields['manf#'])
             else:
                 raise PartHtmlError
         except PartHtmlError, AttributeError:
             html_trees[dist] = BS.BeautifulSoup('<html></html>')
-    return html_trees
+            urls[dist] = ''
+    return html_trees, urls
 
 
 class FakeBrowser(URLL.FancyURLopener):
@@ -307,7 +445,7 @@ def get_digikey_part_html_tree(pn, url=None):
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('html', class_='rd-product-details-page') is not None:
-        return tree
+        return tree, url
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('html', class_='rd-product-category-page') is not None:
@@ -333,7 +471,7 @@ def get_digikey_part_html_tree(pn, url=None):
                 # Get the tree for the linked-to page and return that.
                 return get_digikey_part_html_tree(pn, url=l['href'])
 
-            # If the HTML contains a list of part categories, then give up.
+    # If the HTML contains a list of part categories, then give up.
     if tree.find('html', class_='rd-search-parts-page') is not None:
         raise PartHtmlError
 
@@ -359,7 +497,7 @@ def get_mouser_part_html_tree(pn, url=None):
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', id='product-details') is not None:
-        return tree
+        return tree, url
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('table', class_='SearchResultsTable') is not None:
