@@ -145,29 +145,6 @@ def kicost(infile, qty, outfile):
     print 'Get parsed product page for each component group...'
     for part in component_groups.values():
         part.html_trees, part.urls = get_part_html_trees(part)
-
-    # # Lookup the price tiers of each component for each distributor.
-    # print 'Get price tiers for each component group...'
-    # for part in component_groups.values():
-        # pprint.pprint(part.refs)
-        # part.price_tiers = get_price_tiers(part.html_trees)
-
-    # # Get total cost of each component from each distributor.
-    # print 'Calculate total cost of each component group...'
-    # for part in component_groups.values():
-        # part.total_costs = get_costs(part.qty, part.price_tiers)
-
-    # # Get the total price of the board for each distributor.
-    # print 'Calculate total board cost...'
-    # board_cost = {}
-    # for dist in distis:
-        # board_cost[dist] = 0.0
-        # for part in component_groups.values():
-            # try:
-                # board_cost[dist] += part.total_costs[dist]
-            # except TypeError:
-                # pass
-        # print '{} cost = {:.2f}'.format(dist, board_cost[dist])
         
     # Create spreadsheet file.
     with xlsxwriter.Workbook('kicost.xlsx') as workbook:
@@ -210,7 +187,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         wks.write_string(start_row, start_col+col, col_name, wrk_formats['header'])
     start_row += 1
     for row,part in enumerate(parts):
-        wks.write_string(start_row+row, start_col, ','.join(part.refs))
+        wks.write_string(start_row+row, start_col, ','.join(sorted(part.refs)))
         for col,field in enumerate(('desc', 'footprint', 'manf', 'manf#')):
             try: 
                 wks.write_string(start_row+row, start_col+col+1, part.fields[field])
@@ -230,7 +207,7 @@ def add_digikey_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
     for part in parts:
         wks.write(row, start_col+0, get_digikey_qty_avail(part.html_trees['digikey']))
         wks.write(row, start_col+1, '=IF(LEN({})=0,"",{})'.format(xl_rowcol_to_cell(row, start_col+4), xl_rowcol_to_cell(row, 5))) # Show global quantity if digikey part# exists.
-        price_tiers = get_digikey_price_tiers2(part.html_trees['digikey'])
+        price_tiers = get_digikey_price_tiers(part.html_trees['digikey'])
         qtys = sorted(price_tiers.keys())
         prices = [str(price_tiers[q]) for q in qtys]
         qtys = [str(q) for q in qtys]
@@ -257,80 +234,7 @@ def add_mouser_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
     pass
 
 
-def get_costs(qty, price_tiers):
-    '''Get the total cost for a part used in a schematic.'''
-
-    def qty_cost(qty, tiers):
-        '''Get the unit cost of a part at a particular quantity.'''
-        cost = tiers[0].unit_price # Start off at lowest quantity price.
-        
-        # Go through tiers of increasing quantity.
-        for t in tiers:
-
-            # Exit loop when the requested quantity doesn't qualify for this tier.
-            if qty < t.qty:
-                break
-
-            # Otherwise, set unit price to be this tier price and keep on looking.
-            cost = t.unit_price
-            
-        # Return the unit cost for the highest qualifying tier.
-        return cost
-
-    costs = {}
-    for dist in distis:
-        try:
-            costs[dist] = qty * qty_cost(qty, price_tiers[dist])
-        except IndexError:
-            # This happens when the part isn't offered by this distributor.
-            costs[dist] = '???'
-    return costs
-
-
-def get_price_tiers(html_trees):
-    '''Get the pricing tiers from the parsed trees of distributor product pages.'''
-    price_tiers = {}
-    for dist in distis:
-        get_dist_price_tiers = getattr(THIS_MODULE,'get_{}_price_tiers'.format(dist))
-        tiers = get_dist_price_tiers(html_trees[dist])
-        for t in tiers:
-            t.qty = int(re.sub('[^0-9]', '', t.qty))
-            t.unit_price = float(re.sub('[^0-9\.]', '', t.unit_price))
-        price_tiers[dist] = tiers
-    return price_tiers
-
-
-class QtyPrice:
-    '''Class for holding price and quantity for a pricing tier.'''
-    def __repr__(self):
-        return 'Qty: ' + str(self.qty) + '  Price: ' + str(self.unit_price)
-
-    def __str__(self):
-        return 'Qty: ' + str(self.qty) + '  Price: ' + str(self.unit_price)
-
-
 def get_digikey_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the Digikey product page.'''
-    price_tiers = []
-    try:
-        for tr in html_tree.find(id='pricing').find_all('tr'):
-            try:
-                td = tr.find_all('td')
-                qty_price = QtyPrice()
-                # qty_price.qty = int(td[0].text)
-                # qty_price.unit_price = float(td[1].text)
-                qty_price.qty = td[0].text
-                qty_price.unit_price = td[1].text
-                price_tiers.append(qty_price)
-            except IndexError:  # Happens when there's no <td> in table row.
-                continue
-    except AttributeError:
-        # This happens when no pricing info is found in the tree.
-        pass
-    return price_tiers
-
-
-def get_digikey_price_tiers2(html_tree):
     '''Get the pricing tiers from the parsed tree of the Digikey product page.'''
     price_tiers = {}
     try:
