@@ -22,13 +22,12 @@
 
 import sys
 import pprint
-from bs4 import BeautifulSoup
-import difflib
 import re
+import difflib
+from bs4 import BeautifulSoup
+import urllib as URLL
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range
-import xml.etree.ElementTree as ET
-import urllib as URLL
 
 DELIMITER = ':'
 
@@ -162,9 +161,8 @@ def kicost(infile, qty, outfile):
         wks.write(0,0,'Board Qty:',brd_qty_fmt)
         wks.write(0,1,0,brd_qty_fmt) # Set initial board quantity to zero.
         add_globals_to_worksheet(wks, wrk_formats, 2, 0, component_groups.values())
-        for col,dist in enumerate(distis):
-            add_dist_to_worksheet = getattr(THIS_MODULE, 'add_{}_to_worksheet'.format(dist))
-            add_dist_to_worksheet(wks, wrk_formats, 2, 7+col*6,component_groups.values())
+        for col, dist in enumerate(distis):
+            add_dist_to_worksheet(wks, wrk_formats, 2, 7+col*6, dist, component_groups.values())
 
     # Print component groups for debugging purposes.
     for part in component_groups.values():
@@ -178,23 +176,25 @@ def kicost(infile, qty, outfile):
                 pprint.pprint(part.__dict__[f])
         print
 
-def convert_to_ranges(nums):
-    nums.sort()
-    num_ranges = []
-    i = 0
-    while i < len(nums):
-        num_range = nums[i]
-        jump_i = i+1
-        for j in range(i+2, len(nums)):
-            if j-i != nums[j]-nums[i]:
-                break
-            num_range = [nums[i], nums[j]]
-            jump_i = j+1
-        num_ranges.append(num_range)
-        i = jump_i
-    return num_ranges
         
 def sort_refs(refs):
+
+    def convert_to_ranges(nums):
+        nums.sort()
+        num_ranges = []
+        i = 0
+        while i < len(nums):
+            num_range = nums[i]
+            jump_i = i+1
+            for j in range(i+2, len(nums)):
+                if j-i != nums[j]-nums[i]:
+                    break
+                num_range = [nums[i], nums[j]]
+                jump_i = j+1
+            num_ranges.append(num_range)
+            i = jump_i
+        return num_ranges
+        
     ref_re = re.compile('(?P<id>[a-zA-Z]+)(?P<num>[0-9]+)', re.IGNORECASE)
     ref_numbers = {}
     for r in refs:
@@ -234,17 +234,19 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         wks.write(start_row+row, start_col+6, 0) # slack quantity. (Not handled, yet.)
     
     
-def add_digikey_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
+def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col, dist, parts):
     row = start_row
-    wks.merge_range(row, start_col, start_row, start_col+5, "Digi-Key", wrk_formats['digikey'])
+    wks.merge_range(row, start_col, start_row, start_col+5, dist, wrk_formats[dist])
     row += 1
     for col,col_name in enumerate(('Available Qty', 'Purchase Qty', 'Unit Price', 'Extended Price', 'Digikey Part#', 'Catalog Page')):
         wks.write_string(row, start_col+col, col_name, wrk_formats['header'])
     row += 1
     for part in parts:
-        wks.write(row, start_col+0, get_digikey_qty_avail(part.html_trees['digikey']))
-        wks.write(row, start_col+1, '=IF(LEN({})=0,"",{})'.format(xl_rowcol_to_cell(row, start_col+4), xl_rowcol_to_cell(row, 5))) # Show global quantity if digikey part# exists.
-        price_tiers = get_digikey_price_tiers(part.html_trees['digikey'])
+        get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(dist))
+        wks.write(row, start_col+0, get_dist_qty_avail(part.html_trees[dist]))
+        wks.write(row, start_col+1, '=IF(LEN({})=0,"",{})'.format(xl_rowcol_to_cell(row, start_col+4), xl_rowcol_to_cell(row, 5))) # Show global quantity if distributor part# exists.
+        get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(dist))
+        price_tiers = get_dist_price_tiers(part.html_trees[dist])
         qtys = sorted(price_tiers.keys())
         prices = [str(price_tiers[q]) for q in qtys]
         qtys = [str(q) for q in qtys]
@@ -258,10 +260,11 @@ def add_digikey_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
             xl_rowcol_to_cell(row, start_col+2)
             ), wrk_formats['currency']
             )
-        digikey_part_num = get_digikey_part_num(part.html_trees['digikey'])
-        wks.write(row, start_col+4, digikey_part_num)
-        if len(digikey_part_num) > 0:
-            wks.write_url(row, start_col+5, part.urls['digikey'], wrk_formats['centered_text'], string='Link')
+        get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(dist))
+        dist_part_num = get_dist_part_num(part.html_trees[dist])
+        wks.write(row, start_col+4, dist_part_num)
+        if len(dist_part_num) > 0:
+            wks.write_url(row, start_col+5, part.urls[dist], wrk_formats['centered_text'], string='Link')
         row += 1
     wks.write(row, start_col+2, 'Total Cost:', wrk_formats['total_cost_label'])
     wks.write(row, start_col+3, '=sum({})'.format(xl_range(start_row+2,start_col+3,row-1,start_col+3)), wrk_formats['total_cost_currency'])
@@ -295,19 +298,23 @@ def get_digikey_price_tiers(html_tree):
 
 def get_mouser_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
-    price_tiers = []
+    price_tiers = {}
     try:
         for tr in html_tree.find('table', class_='PriceBreaks').find_all('tr'):
             try:
-                qty_price = QtyPrice()
-                qty_price.qty = tr.find('td', class_='PriceBreakQuantity').a.text
-                qty_price.unit_price = tr.find('td', class_='PriceBreakPrice').text
-                price_tiers.append(qty_price)
-            except TypeError:  # Happens when there's no <td> in table row.
+                qty = int(re.sub('[^0-9]', '', tr.find('td', class_='PriceBreakQuantity').a.text))
+                unit_price = tr.find('td', class_='PriceBreakPrice').span.text
+                price_tiers[qty] = float(re.sub('[^0-9\.]', '', unit_price))
+            except (TypeError, AttributeError, ValueError):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
-        pass
+        price_tiers[0] = 0.00
+        return price_tiers # Return the quantity-zero pricing.
+    min_qty = min(price_tiers.keys())
+    if min_qty > 1:
+        price_tiers[1] = price_tiers[min_qty]
+    price_tiers[0] = 0.00 # Add zero-quantity level so LOOKUP function works sensibly.
     return price_tiers
     
 
@@ -319,7 +326,10 @@ def get_digikey_part_num(html_tree):
     
 
 def get_mouser_part_num(html_tree):
-    pass
+    try:
+        return html_tree.find('div', id='divMouserPartNum').text
+    except AttributeError:
+        return ''
     
 
 def get_digikey_qty_avail(html_tree):
@@ -332,7 +342,11 @@ def get_digikey_qty_avail(html_tree):
     
 
 def get_mouser_qty_avail(html_tree):
-    pass
+    try:
+        qty_str = html_tree.find('table', id='ctl00_ContentMain_availability_tbl1').find_all('td')[0].text
+        return int(re.sub('[^0-9]', '', qty_str))
+    except AttributeError:
+        return ''
 
 
 def get_part_html_trees(part):
@@ -364,8 +378,17 @@ class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
 
+    
+def merge_digikey_price_tiers(master_tree, slave_tree):
+    try:
+        master_insertion_point = master_tree.find('table', id='pricing').find('tr')
+        for tr in slave_tree.find('table', id='pricing').find_all('tr'):
+            master_insertion_point.insert_after(tr)
+    except AttributeError:
+        pass
+    
 
-def get_digikey_part_html_tree(pn, url=None):
+def get_digikey_part_html_tree(pn, url=None, descend=2):
     '''Find the Digikey HTML page for a part number and return the parse tree.'''
     #url='https://www.google.com/search?q=pic18f14k50-I%2FSS-ND+site%3Adigikey.com'
     #url = 'http://www.digikey.com/product-search/en?WT.z_homepage_link=hp_go_button&lang=en&site=us&keywords=' + URLL.quote(pn,safe='')
@@ -386,31 +409,46 @@ def get_digikey_part_html_tree(pn, url=None):
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('html', class_='rd-product-details-page') is not None:
+        # Digikey separates cut-tape and reel packaging, so we need to examine more pages to get all the pricing info.
+        if descend > 0:
+            try:
+                alt_packaging_urls = [ap.find('td', class_='lnkAltPack').a['href'] for ap in tree.find('table', class_='product-details-alternate-packaging').find_all('tr', class_='more-expander-item')]
+                for ap_url in alt_packaging_urls:
+                    try:
+                        ap_tree, waste_url = get_digikey_part_html_tree(pn, url=ap_url, descend=0)
+                        merge_digikey_price_tiers(tree, ap_tree)
+                    except AttributeError:
+                        continue
+            except AttributeError:
+                pass
         return tree, url
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('html', class_='rd-product-category-page') is not None:
-        # Look for the table of products.
-        products = tree.find('table',
-                             class_='stickyHeader',
-                             id='productTable').find('tbody').find_all('tr')
+        if descend <= 0:
+            raise PartHtmlError
+        else:
+            # Look for the table of products.
+            products = tree.find('table',
+                                 class_='stickyHeader',
+                                 id='productTable').find('tbody').find_all('tr')
 
-        # Extract the product links for the part numbers from the table.
-        product_links = [p.find('td',
-                                class_='digikey-partnumber').a
-                         for p in products]
+            # Extract the product links for the part numbers from the table.
+            product_links = [p.find('td',
+                                    class_='digikey-partnumber').a
+                             for p in products]
 
-        # Extract all the part numbers from the text portion of the links.
-        part_numbers = [l.text for l in product_links]
+            # Extract all the part numbers from the text portion of the links.
+            part_numbers = [l.text for l in product_links]
 
-        # Look for the part number in the list that most closely matches the requested part number.
-        match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
+            # Look for the part number in the list that most closely matches the requested part number.
+            match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
 
-        # Now look for the link that goes with the closest matching part number.
-        for l in product_links:
-            if l.text == match:
-                # Get the tree for the linked-to page and return that.
-                return get_digikey_part_html_tree(pn, url=l['href'])
+            # Now look for the link that goes with the closest matching part number.
+            for l in product_links:
+                if l.text == match:
+                    # Get the tree for the linked-to page and return that.
+                    return get_digikey_part_html_tree(pn, url=l['href'], descend=descend-1)
 
     # If the HTML contains a list of part categories, then give up.
     if tree.find('html', class_='rd-search-parts-page') is not None:
