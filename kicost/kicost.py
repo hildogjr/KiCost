@@ -22,7 +22,7 @@
 
 import sys
 import pprint
-import bs4 as BS
+from bs4 import BeautifulSoup
 import difflib
 import re
 import xlsxwriter
@@ -42,32 +42,31 @@ def kicost(infile, qty, outfile):
 
     # Read-in the schematic XML file to get a tree and get its root.
     print 'Get schematic XML...'
-    tree = ET.parse(infile)
-    root = tree.getroot()
+    root = BeautifulSoup(open(infile))
 
     # Find the parts used from each library.
     print 'Get parts library...'
     libparts = {}
-    for p in root.find('libparts').iter('libpart'):
+    for p in root.find('libparts').find_all('libpart'):
 
         # Get the values for the fields in each part (if any).
         fields = {}  # Clear the field dict for this part.
         try:
-            for f in p.find('fields').iter('field'):
+            for f in p.find('fields').find_all('field'):
                 # Store the name and value for each field.
-                fields[f.get('name').lower()] = f.text
+                fields[f['name'].lower()] = f.string
         except AttributeError:
             # No fields found for this part.
             pass
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
-        libparts[p.get('lib') + DELIMITER + p.get('part')] = fields
+        libparts[p['lib'] + DELIMITER + p['part']] = fields
         
         # Also have to store the fields under any part aliases.
         try:
-            for alias in p.find('aliases').iter('alias'):
-                libparts[p.get('lib') + DELIMITER + alias.text] = fields
+            for alias in p.find('aliases').find_all('alias'):
+                libparts[p['lib'] + DELIMITER + alias.string] = fields
         except AttributeError:
             pass # No aliases for this part.
 
@@ -76,13 +75,13 @@ def kicost(infile, qty, outfile):
     # from the schematic.
     print 'Get components...'
     components = {}
-    for c in root.find('components').iter('comp'):
+    for c in root.find('components').find_all('comp'):
 
         # Find the library used for this component.
         libsource = c.find('libsource')
 
         # Create the key to look up the part in the libparts dict.
-        libpart = libsource.get('lib') + DELIMITER + libsource.get('part')
+        libpart = libsource['lib'] + DELIMITER + libsource['part']
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
@@ -90,24 +89,24 @@ def kicost(infile, qty, outfile):
 
         # Store the part key and its value.
         fields['libpart'] = libpart
-        fields['value'] = c.find('value').text
+        fields['value'] = c.find('value').string
 
         # Get the footprint for the part (if any) from the schematic.
         try:
-            fields['footprint'] = c.find('footprint').text
+            fields['footprint'] = c.find('footprint').string
         except AttributeError:
             pass
 
         # Get the values for any other the fields in the part (if any) from the schematic.
         try:
-            for f in c.find('fields').iter('field'):
-                fields[f.get('name').lower()] = f.text
+            for f in c.find('fields').find_all('field'):
+                fields[f['name'].lower()] = f.string
         except AttributeError:
             pass
 
         # Store the fields for the part using the reference identifier as the key.
-        ref = c.get('ref')
-        components[c.get('ref')] = fields
+        ref = c['ref']
+        components[c['ref']] = fields
 
     # Get groups of identical components.
     print 'Get groups of identical components...'
@@ -351,7 +350,7 @@ def get_part_html_trees(part):
             else:
                 raise PartHtmlError
         except PartHtmlError, AttributeError:
-            html_trees[dist] = BS.BeautifulSoup('<html></html>')
+            html_trees[dist] = BeautifulSoup('<html></html>')
             urls[dist] = ''
     return html_trees, urls
 
@@ -383,7 +382,7 @@ def get_digikey_part_html_tree(pn, url=None):
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     url_opener = FakeBrowser()
     html = url_opener.open(url).read()
-    tree = BS.BeautifulSoup(html)
+    tree = BeautifulSoup(html)
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('html', class_='rd-product-details-page') is not None:
@@ -435,7 +434,7 @@ def get_mouser_part_html_tree(pn, url=None):
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     url_opener = FakeBrowser()
     html = url_opener.open(url).read()
-    tree = BS.BeautifulSoup(html)
+    tree = BeautifulSoup(html)
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', id='product-details') is not None:
