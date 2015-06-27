@@ -196,7 +196,7 @@ def kicost(infile, qty, outfile):
              'bold': True,
              'align': 'right'})
         wks.write(0, 0, 'Board Qty:', brd_qty_fmt)
-        wks.write(0, 1, 0, brd_qty_fmt)  # Set initial board quantity to zero.
+        wks.write(0, 1, 100, brd_qty_fmt)  # Set initial board quantity to zero.
         start_row = 2
         start_col = 0
         next_col = add_globals_to_worksheet(wks, wrk_formats, start_row,
@@ -334,7 +334,8 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col, dist, parts):
         col += 1
         
         # Enter quantity of this part that's needed.
-        wks.write(row, col, '=IF(LEN({})=0,"",{})'.format(
+#        wks.write(row, col, '=IF(LEN({})=0,"",{})'.format(
+        wks.write(row, col, ''.format(
             xl_rowcol_to_cell(row, start_col + 4), xl_rowcol_to_cell(row, 6))
                   )  # Show global quantity if distributor part# exists, else blank.
         col += 1
@@ -352,14 +353,15 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col, dist, parts):
         qtys = [str(q) for q in qtys]
         
         # Enter a lookup function that determines the unit price based on purchased quantity.
+        needed_qty_col = 6 
         lookup_func = '=iferror(lookup({},{{{}}},{{{}}}),"")'.format(
-            xl_rowcol_to_cell(row, col - 1), ','.join(qtys), ','.join(prices))
+            xl_rowcol_to_cell(row, needed_qty_col), ','.join(qtys), ','.join(prices))
         wks.write_formula(row, col, lookup_func, wrk_formats['currency'])
         col += 1
         
         # Enter the formula for the extended price = qty * unit price.
         wks.write_formula(row, col, '=iferror({}*{},"")'.format(
-            xl_rowcol_to_cell(row, col - 2), xl_rowcol_to_cell(row, col - 1)),
+            xl_rowcol_to_cell(row, needed_qty_col), xl_rowcol_to_cell(row, col - 1)),
                           wrk_formats['currency'])
         col += 1
         
@@ -384,46 +386,41 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col, dist, parts):
               wrk_formats['total_cost_currency'])
               
     # Add list of part numbers and purchase quantities for ordering purposes.
-    num_parts = len(parts)
-    order_start_row = start_row + 1 + 1 + num_parts + 1 + 3
+    qty_col = start_col + 1
+    def enter_order_info(info_col, order_col):
+        num_parts = len(parts)
+        order_start_row = start_row + 1 + 1 + num_parts + 1 + 3
+        data_row = start_row + 2
+        formula = '''
+            IFERROR(
+                INDEX(
+                    {get_range},
+                    SMALL(
+                        IF(
+                            {sel_range} <> "",
+                            ROW({sel_range}) - MIN(ROW({sel_range})) + 1,
+                            ""
+                        ),
+                        ROW()-ROW({order_start_row})+1
+                    )
+                ),
+                ""
+            )
+        '''
+        formula = re.sub('[\s\n]','',formula)
+        wks.write_array_formula(
+                xl_range(order_start_row, order_col, order_start_row+num_parts-1, order_col),
+                '{{={formula}}}'.format(formula=formula.format(
+                order_start_row=xl_rowcol_to_cell(order_start_row, order_col, row_abs=True),
+                sel_range=xl_range_abs(data_row, qty_col, data_row+num_parts-1, qty_col),
+                get_range=xl_range_abs(data_row, info_col, data_row+num_parts-1, info_col)
+                ))
+        )
+    part_num_col = start_col + 4
     order_qty_col = start_col + 1
     order_part_num_col = order_qty_col + 1
-    qty_col = start_col + 1
-    part_num_col = start_col + 4
-    data_row = start_row + 2
-    formula = '''
-        IFERROR(
-            INDEX(
-                {get_range},
-                SMALL(
-                    IF(
-                        {sel_range} <> "",
-                        ROW({sel_range}) - MIN(ROW({sel_range})) + 1,
-                        ""
-                    ),
-                    ROW()-ROW({order_start_row})+1
-                )
-            ),
-            ""
-        )
-    '''
-    formula = re.sub('[\s\n]','',formula)
-    wks.write_array_formula(
-            xl_range(order_start_row, order_qty_col, order_start_row+num_parts-1, order_qty_col),
-            '{{={formula}}}'.format(formula=formula.format(
-            order_start_row=xl_rowcol_to_cell(order_start_row, 0, row_abs=True),
-            sel_range=xl_range_abs(data_row, qty_col, data_row+num_parts-1, qty_col),
-            get_range=xl_range_abs(data_row, qty_col, data_row+num_parts-1, qty_col)
-            ))
-    )
-    wks.write_array_formula(
-            xl_range(order_start_row, order_part_num_col, order_start_row+num_parts-1, order_part_num_col),
-            '{{={formula}}}'.format(formula=formula.format(
-            order_start_row=xl_rowcol_to_cell(order_start_row, 0, row_abs=True),
-            sel_range=xl_range_abs(data_row, qty_col, data_row+num_parts-1, qty_col),
-            get_range=xl_range_abs(data_row, part_num_col, data_row+num_parts-1, part_num_col)
-            ))
-    )
+    enter_order_info(qty_col,      order_qty_col)
+    enter_order_info(part_num_col, order_part_num_col)
              
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
 
