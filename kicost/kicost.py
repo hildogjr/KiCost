@@ -29,9 +29,9 @@ import urllib as URLL
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
-DELIMITER = ':'
-
 THIS_MODULE = sys.modules[__name__]
+DEFAULT_BUILD_QTY = 100
+LIB_DELIMITER = ':'
 
 # Global array of distributor names.
 distributors = {
@@ -53,18 +53,19 @@ distributors = {
 }
 
 
-def kicost(infile, qty, outfile):
+def kicost(in_file, out_filename):
+    '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Read-in the schematic XML file to get a tree and get its root.
     print 'Get schematic XML...'
-    root = BeautifulSoup(open(infile))
+    root = BeautifulSoup(in_file)
 
     # Find the parts used from each library.
     print 'Get parts library...'
     libparts = {}
     for p in root.find('libparts').find_all('libpart'):
 
-        # Get the values for the fields in each part (if any).
+        # Get the values for the fields in each library part (if any).
         fields = {}  # Clear the field dict for this part.
         try:
             for f in p.find('fields').find_all('field'):
@@ -76,12 +77,12 @@ def kicost(infile, qty, outfile):
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
-        libparts[p['lib'] + DELIMITER + p['part']] = fields
+        libparts[p['lib'] + LIB_DELIMITER + p['part']] = fields
 
         # Also have to store the fields under any part aliases.
         try:
             for alias in p.find('aliases').find_all('alias'):
-                libparts[p['lib'] + DELIMITER + alias.string] = fields
+                libparts[p['lib'] + LIB_DELIMITER + alias.string] = fields
         except AttributeError:
             pass  # No aliases for this part.
 
@@ -96,7 +97,7 @@ def kicost(infile, qty, outfile):
         libsource = c.find('libsource')
 
         # Create the key to look up the part in the libparts dict.
-        libpart = libsource['lib'] + DELIMITER + libsource['part']
+        libpart = libsource['lib'] + LIB_DELIMITER + libsource['part']
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
@@ -161,14 +162,14 @@ def kicost(infile, qty, outfile):
         part.html_trees, part.urls = get_part_html_trees(part)
 
     # Create spreadsheet file.
-    with xlsxwriter.Workbook('kicost.xlsx') as workbook:
+    with xlsxwriter.Workbook(out_filename) as workbook:
 
         # Create the various format styles used by various spreadsheet items.
         wrk_formats = {}
         wrk_formats['separation'] = workbook.add_format({'left': 0})
         wrk_formats['global'] = workbook.add_format({
             'font_size': 14,
-            'font_color': '#FFFFFF',
+            'font_color': 'white',
             'bold': True,
             'align': 'center',
             'valign': 'vcenter',
@@ -176,27 +177,27 @@ def kicost(infile, qty, outfile):
         })
         wrk_formats['digikey'] = workbook.add_format({
             'font_size': 14,
-            'font_color': '#FFFFFF',
+            'font_color': 'white',
             'bold': True,
             'align': 'center',
             'valign': 'vcenter',
-            'bg_color': '#CC0000'
+            'bg_color': '#CC0000' # Digi-Key red.
         })
         wrk_formats['mouser'] = workbook.add_format({
             'font_size': 14,
-            'font_color': '#FFFFFF',
+            'font_color': 'white',
             'bold': True,
             'align': 'center',
             'valign': 'vcenter',
-            'bg_color': '#004A85'
+            'bg_color': '#004A85' # Mouser blue.
         })
         wrk_formats['newark'] = workbook.add_format({
             'font_size': 14,
-            'font_color': '#FFFFFF',
+            'font_color': 'white',
             'bold': True,
             'align': 'center',
             'valign': 'vcenter',
-            'bg_color': '#A2AE06'
+            'bg_color': '#A2AE06' # Newark/E14 olive green.
         })
         wrk_formats['header'] = workbook.add_format({
             'font_size': 12,
@@ -205,15 +206,19 @@ def kicost(infile, qty, outfile):
             'valign': 'top',
             'text_wrap': True
         })
+        wrk_formats['board_qty'] = workbook.add_format(
+            {'font_size': 13,
+             'bold': True,
+             'align': 'right'})
         wrk_formats['total_cost_label'] = workbook.add_format({
-            'font_size': 14,
+            'font_size': 13,
             'bold': True,
             'align': 'right',
             'valign': 'vcenter'
         })
         wrk_formats['total_cost_currency'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': '#FF0000',
+            'font_size': 13,
+            'font_color': 'red',
             'bold': True,
             'num_format': '$#,##0.00',
             'valign': 'vcenter',
@@ -221,10 +226,6 @@ def kicost(infile, qty, outfile):
         wrk_formats['currency'] = workbook.add_format(
             {'num_format': '$#,##0.00'})
         wrk_formats['centered_text'] = workbook.add_format({'align': 'center'})
-        wrk_formats['board_qty'] = workbook.add_format(
-            {'font_size': 14,
-             'bold': True,
-             'align': 'right'})
 
         # Create the sheet that holds the pricing information.
         wks = workbook.add_worksheet('Pricing')
@@ -243,7 +244,7 @@ def kicost(infile, qty, outfile):
         # Place the board qty cells on the right side of the global info.
         wks.write(brd_qty_row, next_col - 2, 'Board Qty:',
                   wrk_formats['board_qty'])
-        wks.write(brd_qty_row, next_col - 1, 100, wrk_formats['board_qty']
+        wks.write(brd_qty_row, next_col - 1, DEFAULT_BUILD_QTY, wrk_formats['board_qty']
                   )  # Set initial board quantity to 100.
         # Define the named cell where the total board quantity can be found.
         workbook.define_name('BoardQty', '=Pricing!{}'.format(
@@ -258,7 +259,7 @@ def kicost(infile, qty, outfile):
 
         # Freeze view of the global information and the column headers, but
         # allow the distributor-specific info to scroll.
-        wks.freeze_panes(start_row + 1, next_col)
+        wks.freeze_panes(start_row + 2, next_col)
 
         # Load the part information from each distributor into the sheet.
         for dist in distributors.keys():
@@ -322,38 +323,38 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
     columns = {
         'refs': {'col': 0,
                  'label': 'Refs',
-                 'comment': 'Schematic part identifiers.'},
+                 'comment': 'Schematic identifier for each part.'},
         'value': {'col': 1,
                   'label': 'Value',
-                  'comment': 'Part values.'},
+                  'comment': 'Value of each part.'},
         'desc': {'col': 2,
                  'label': 'Desc',
-                 'comment': 'Part descriptions.'},
+                 'comment': 'Description of each part.'},
         'footprint': {
             'col': 3,
             'label': 'Footprint',
-            'comment': 'Part PCB footprints.'},
+            'comment': 'PCB footprint for each part.'},
         'manf': {'col': 4,
                  'label': 'Manf',
-                 'comment': 'Part manufacturers.'},
+                 'comment': 'Manufacturer of each part.'},
         'manf#': {
             'col': 5,
             'label': 'Manf#',
-            'comment': 'Manufacturer part numbers.'},
+            'comment': 'Manufacturer number for each part.'},
         'qty': {
             'col': 6,
             'label': 'Qty',
-            'comment': 'Total number of each part needed for assembly.'},
-        'short': {
-            'col': 7,
-            'label': 'Short',
-            'comment': 'Shortage of each part needed for assembly.'},
+            'comment': 'Total number of each part needed to assemble the board.'},
+        # 'short': {
+            # 'col': 7,
+            # 'label': 'Short',
+            # 'comment': 'Shortage of each part needed for assembly.'},
     }
     num_cols = len(columns.keys())
     row = start_row
 
     # Add label for global section.
-    wks.merge_range(row, start_col, row, start_col + num_cols - 1, "Globals",
+    wks.merge_range(row, start_col, row, start_col + num_cols - 1, "Global Part Info",
                     wrk_formats['global'])
     row += 1
 
@@ -379,16 +380,23 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
             except KeyError:
                 pass
 
-            # Enter total part quantity needed.
-        wks.write(row, start_col + columns['qty']['col'],
+        # Enter total part quantity needed.
+        try:
+            wks.write(row, start_col + columns['qty']['col'],
                   '=BoardQty*{}'.format(part.qty))
+        except KeyError:
+            pass
 
         # Enter part shortage quantity.
-        wks.write(row, start_col + columns['short']['col'],
+        try:
+            wks.write(row, start_col + columns['short']['col'],
                   0)  # slack quantity. (Not handled, yet.)
+        except KeyError:
+            pass
+            
         row += 1
 
-        # Return column following the globals so we know where to start next set of cells.
+    # Return column following the globals so we know where to start next set of cells.
     return start_col + num_cols
 
 
@@ -399,24 +407,28 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             'col': 0,
             'level': 1,
             'label': 'Avail',
+            'width': None,
             'comment': 'Available quantity of each part at the distributor.'
         },
         'purch': {
             'col': 1,
             'level': 2,
             'label': 'Purch',
+            'width': None,
             'comment': 'Purchase quantity of each part from this distributor.'
         },
         'unit_price': {
             'col': 2,
             'level': 2,
             'label': 'Unit$',
+            'width': None,
             'comment': 'Unit price of each part from this distributor.'
         },
         'ext_price': {
             'col': 3,
             'level': 0,
             'label': 'Ext$',
+            'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
             '(Unit Price) x (Purchase Qty) of each part from this distributor.'
         },
@@ -424,12 +436,14 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             'col': 4,
             'level': 2,
             'label': 'Cat#',
+            'width': None,
             'comment': 'Distributor-assigned part number for each part.'
         },
         'part_url': {
             'col': 5,
             'level': 2,
             'label': 'Doc',
+            'width': None,
             'comment': 'Link to distributor webpage for each part.'
         },
     }
@@ -452,7 +466,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         col = start_col + columns[k]['col']
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
-        wks.set_column(col, col, None, None, {'level': columns[k]['level']})
+        wks.set_column(col, col, columns[k]['width'], None, {'level': columns[k]['level']})
     row += 1
 
     num_parts = len(parts)
@@ -998,3 +1012,43 @@ def get_newark_part_html_tree(pn, url=None):
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
+
+    
+if __name__ == '__main__':
+
+    import argparse as ap
+    import os
+
+    parser = ap.ArgumentParser(description='Build cost spreadsheet for a KiCAD project.')
+    # parser.add_argument('-v', '--version',
+                        # action='version',
+                        # version='%(prog)s ' + __version__)
+    parser.add_argument('-i', '--input', nargs='?', type=str, metavar='file.xml', help='Schematic XML input file.')
+    parser.add_argument('-o', '--output', nargs='?', type=str, metavar='file.xlsx', help='Cost spreadsheet output file.')
+    parser.add_argument('-w', '--overwrite', action='store_true', help='Allow overwriting of an existing spreadsheet file.')
+
+    args = parser.parse_args()
+    print args
+        
+    if args.output == None:
+        if args.input != None:
+            args.output = os.path.splitext(args.input)[0] + '.xlsx'
+        else:
+            args.output = os.path.splitext(sys.argv[0])[0] + '.xlsx'
+    else:
+        args.output = os.path.splitext(args.output)[0] + '.xlsx'
+    if os.path.isfile(args.output):
+        if not args.overwrite:
+            print 'Output file {} already exists! Use the --overwrite option to replace it.'.format(args.output)
+            sys.exit(1)
+    
+    if args.input == None:
+        args.input = sys.stdin
+    else:
+        args.input = os.path.splitext(args.input)[0] + '.xml'
+        args.input = open(args.input)
+
+    print args
+
+    kicost(in_file=args.input, out_filename=args.output)
+    
