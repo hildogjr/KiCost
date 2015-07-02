@@ -18,7 +18,8 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    'beautifulsoup4 >= 4.3.2',
+    'XlsxWriter >= 0.7.3',
 ]
 
 test_requirements = [
@@ -28,22 +29,22 @@ test_requirements = [
 setup(
     name='kicost',
     version=kicost.__version__,
-    description="Calculate the cost of a KiCAD project.",
+    description="Build cost spreadsheet for a KiCad project.",
     long_description=readme + '\n\n' + history,
     author=kicost.__author__,
     author_email=kicost.__email__,
     url='https://github.com/xesscorp/kicost',
 #    packages=['kicost',],
     packages=setuptools.find_packages(),
-    package_dir={'kicost':
-                 'kicost'},
+    entry_points={'console_scripts':['kicost = kicost.__main__']},
+    package_dir={'kicost':'kicost'},
     include_package_data=True,
     package_data={'kicost': ['*.gif', '*.png']},
     scripts=[],
     install_requires=requirements,
     license="MIT",
     zip_safe=False,
-    keywords='kicost',
+    keywords='kicost, KiCAD',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
@@ -52,9 +53,6 @@ setup(
         "Programming Language :: Python :: 2",
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
     ],
     test_suite='tests',
     tests_require=test_requirements
