@@ -1,5 +1,5 @@
 ===============================
-kicost
+KiCost
 ===============================
 
 .. image:: https://img.shields.io/travis/xesscorp/kicost.svg
@@ -9,7 +9,8 @@ kicost
         :target: https://pypi.python.org/pypi/kicost
 
 
-Calculate the cost of a KiCAD project.
+KiCost is intended to be run as a script for generating part-cost spreadsheets for
+circuit boards developed with KiCad.
 
 * Free software: MIT license
 * Documentation: https://kicost.readthedocs.org.
@@ -17,4 +18,16 @@ Calculate the cost of a KiCAD project.
 Features
 --------
 
-* TODO
+* Processes the BOM XML file from your KiCad schematic to create a part-cost spreadsheet by
+  scraping the web sites of several popular distributors for price and inventory data 
+  (Digi-Key, Mouser and Newark/Element14 are currently supported).
+* The spreadsheet contains quantity-adjusted pricing from each distributor for 
+  individual parts and the total board.
+* Enter the number of boards to be built in a spreadsheet cell and all the pricing
+  for the total board and individual parts is updated.
+* The spreadsheet also shows the current inventory on-hand for each part at each distributor.
+* Enter the quantity of each part that you want to purchase from each distributor and
+  lists of part numbers and quantities will appear in formats that you can cut-and-paste
+  directly into the website ordering page of each distributor.
+
+.. image:: block_diag.png
