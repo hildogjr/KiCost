@@ -30,7 +30,7 @@ parser = ap.ArgumentParser(
     description='Build cost spreadsheet for a KiCAD project.')
 parser.add_argument('-v', '--version',
                     action='version',
-                    version='%(prog)s ' + __version__)
+                    version='KiCost ' + __version__)
 parser.add_argument('-i', '--input',
                     nargs='?',
                     type=str,
