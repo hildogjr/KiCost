@@ -41,17 +41,17 @@ distributors = {
     'digikey': {
         'label': 'Digi-Key',
         'order_cols': ['purch', 'part_num', 'refs'],
-        'order_delimiter': ', '
+        'order_delimiter': ','
     },
     'mouser': {
         'label': 'Mouser',
         'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ' | '
+        'order_delimiter': ' '
     },
     'newark': {
         'label': 'Newark',
         'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ', '
+        'order_delimiter': ','
     }
 }
 
