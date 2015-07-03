@@ -29,12 +29,9 @@ import urllib as URLL
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
-__all__ = ['kicost']
+__all__ = ['kicost']  # Only export this routine for use by the outside world.
 
-THIS_MODULE = sys.modules[__name__]
-DEFAULT_BUILD_QTY = 100
-LIB_DELIMITER = ':'
-WORKSHEET_NAME = 'KiCost'
+THIS_MODULE = sys.modules[__name__]  # Reference to this module for making named calls.
 
 # Global array of distributor names.
 distributors = {
@@ -71,26 +68,26 @@ def kicost(in_file, out_filename, debug_level=None):
     global dbg_level
     dbg_level = debug_level
 
-    # Get groups of identical components.
-    component_groups = get_component_groups(in_file)
+    # Get groups of identical parts.
+    parts = get_part_groups(in_file)
 
     # Calculate the quantity needed of each part for a single board.
     debug_print(1, 'Calculate required # of each component group...')
-    for part in component_groups.values():
+    for part in parts:
         # part quantity = # of identical components per board.
         part.qty = len(part.refs)
 
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
-    for part in component_groups.values():
+    for part in parts:
         part.html_trees, part.urls = get_part_html_trees(part)
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(component_groups, out_filename)
+    create_spreadsheet(parts, out_filename)
 
     # Print component groups for debugging purposes.
     if 2 <= dbg_level:
-        for part in component_groups.values():
+        for part in parts:
             for f in dir(part):
                 if f.startswith('__'):
                     continue
@@ -102,8 +99,10 @@ def kicost(in_file, out_filename, debug_level=None):
             print
         
     
-def get_component_groups(in_file):
+def get_part_groups(in_file):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
+
+    LIB_DELIMITER = ':'  # Delimiter between library and component name.
 
     # Read-in the schematic XML file to get a tree and get its root.
     debug_print(1, 'Get schematic XML...')
@@ -199,186 +198,233 @@ def get_component_groups(in_file):
             component_groups[h].refs = [c]  # Init list of refs with first ref.
             component_groups[h].fields = components[c]  # Store field values.
             
-    return component_groups
+    return component_groups.values()
     
 
-def create_spreadsheet(component_groups, out_filename):
+def create_spreadsheet(parts, spreadsheet_filename):
+    '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
+
+    DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
+    WORKSHEET_NAME = 'KiCost'  # Default name for part-pricing worksheet.
 
     # Create spreadsheet file.
-    with xlsxwriter.Workbook(out_filename) as workbook:
+    with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
 
         # Create the various format styles used by various spreadsheet items.
-        wrk_formats = {}
-        wrk_formats['separation'] = workbook.add_format({'left': 0})
-        wrk_formats['global'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#303030'
-        })
-        wrk_formats['digikey'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#CC0000'  # Digi-Key red.
-        })
-        wrk_formats['mouser'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#004A85'  # Mouser blue.
-        })
-        wrk_formats['newark'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#A2AE06'  # Newark/E14 olive green.
-        })
-        wrk_formats['header'] = workbook.add_format({
-            'font_size': 12,
-            'bold': True,
-            'align': 'center',
-            'valign': 'top',
-            'text_wrap': True
-        })
-        wrk_formats['board_qty'] = workbook.add_format(
-            {'font_size': 13,
-             'bold': True,
-             'align': 'right'})
-        wrk_formats['total_cost_label'] = workbook.add_format({
-            'font_size': 13,
-            'bold': True,
-            'align': 'right',
-            'valign': 'vcenter'
-        })
-        wrk_formats['total_cost_currency'] = workbook.add_format({
-            'font_size': 13,
-            'font_color': 'red',
-            'bold': True,
-            'num_format': '$#,##0.00',
-            'valign': 'vcenter',
-        })
-        wrk_formats['currency'] = workbook.add_format(
-            {'num_format': '$#,##0.00'})
-        wrk_formats['centered_text'] = workbook.add_format({'align': 'center'})
+        wrk_formats = {
+            'global' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#303030'
+            }),
+            'digikey' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#CC0000'  # Digi-Key red.
+            }),
+            'mouser' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#004A85'  # Mouser blue.
+            }),
+            'newark' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#A2AE06'  # Newark/E14 olive green.
+            }),
+            'header' : workbook.add_format({
+                'font_size': 12,
+                'bold': True,
+                'align': 'center',
+                'valign': 'top',
+                'text_wrap': True
+            }),
+            'board_qty' : workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right'
+            }),
+            'total_cost_label' : workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right',
+                'valign': 'vcenter'
+            }),
+            'total_cost_currency' : workbook.add_format({
+                'font_size': 13,
+                'font_color': 'red',
+                'bold': True,
+                'num_format': '$#,##0.00',
+                'valign': 'vcenter',
+            }),
+            'currency' : workbook.add_format({
+                'num_format': '$#,##0.00'
+            }),
+            'centered_text' : workbook.add_format({
+                'align': 'center'
+            }),
+        }
 
-        # Create the sheet that holds the pricing information.
+        # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
 
         # Set the row & column for entering the part information in the sheet.
-        start_row = 3
-        start_col = 0
-        last_row = start_row + 2 + len(component_groups.values()) - 1
+        START_COL = 0
+        BOARD_QTY_ROW = 0
+        TOTAL_COST_ROW = BOARD_QTY_ROW + 1
+        START_ROW = 3
+        LABEL_ROW = START_ROW + 1
+        COL_HDR_ROW = LABEL_ROW + 1
+        FIRST_PART_ROW = COL_HDR_ROW + 1
+        LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
 
         # Load the global part information (not distributor-specific) into the sheet.
-        next_col = add_globals_to_worksheet(wks, wrk_formats, start_row,
-                                            start_col,
-                                            component_groups.values())
+        # (next_col = the column immediately to the right of the global data.)
+        next_col = add_globals_to_worksheet(wks, wrk_formats, START_ROW,
+                                            START_COL,
+                                            parts)
+        # Create a defined range for the global data.
         workbook.define_name('global_part_data',
                              '={wks_name}!{data_range}'.format(
                                  wks_name=WORKSHEET_NAME,
-                                 data_range=xl_range(start_row, start_col,
-                                                     last_row, next_col - 1)))
+                                 data_range=xl_range(START_ROW, START_COL,
+                                                     LAST_PART_ROW, next_col - 1)))
 
         # Create the cell where the quantity of boards to assemble is entered.
-        brd_qty_row = start_row - 3
-        # Place the board qty cells on the right side of the global info.
-        wks.write(brd_qty_row, next_col - 2, 'Board Qty:',
+        # Place the board qty cells near the right side of the global info.
+        wks.write(BOARD_QTY_ROW, next_col - 2, 'Board Qty:',
                   wrk_formats['board_qty'])
-        wks.write(brd_qty_row, next_col - 1, DEFAULT_BUILD_QTY,
+        wks.write(BOARD_QTY_ROW, next_col - 1, DEFAULT_BUILD_QTY,
                   wrk_formats['board_qty']
-                  )  # Set initial board quantity to 100.
+                  )  # Set initial board quantity.
         # Define the named cell where the total board quantity can be found.
         workbook.define_name('BoardQty', '={wks_name}!{cell_ref}'.format(
             wks_name=WORKSHEET_NAME,
-            cell_ref=xl_rowcol_to_cell(brd_qty_row, next_col - 1,
+            cell_ref=xl_rowcol_to_cell(BOARD_QTY_ROW, next_col - 1,
                                        row_abs=True,
                                        col_abs=True)))
 
         # Create the row to show total cost of board parts for each distributor.
-        total_cost_row = brd_qty_row + 1
-        wks.write(total_cost_row, next_col - 2, 'Total Cost:',
+        wks.write(TOTAL_COST_ROW, next_col - 2, 'Total Cost:',
                   wrk_formats['total_cost_label'])
 
         # Freeze view of the global information and the column headers, but
-        # allow the distributor-specific info to scroll.
-        wks.freeze_panes(start_row + 2, next_col)
+        # allow the distributor-specific part info to scroll.
+        wks.freeze_panes(COL_HDR_ROW, next_col)
 
         # Load the part information from each distributor into the sheet.
         for dist in distributors.keys():
-            start_col = next_col
-            next_col = add_dist_to_worksheet(wks, wrk_formats, start_row,
-                                             next_col, total_cost_row, dist,
-                                             component_groups.values())
+            dist_start_col = next_col
+            next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
+                                             dist_start_col, TOTAL_COST_ROW, dist,
+                                             parts)
+            # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
                     wks_name=WORKSHEET_NAME,
-                    data_range=xl_range(start_row, start_col, last_row,
+                    data_range=xl_range(START_ROW, dist_start_col, LAST_PART_ROW,
                                         next_col - 1)))
 
 
-def sort_refs(refs):
+def collapse_refs(refs):
+    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
+    
     def convert_to_ranges(nums):
-        nums.sort()
-        num_ranges = []
-        i = 0
-        while i < len(nums):
-            num_range = nums[i]
-            jump_i = i + 1
-            for j in range(i + 2, len(nums)):
-                if j - i != nums[j] - nums[i]:
-                    break
-                num_range = [nums[i], nums[j]]
-                jump_i = j + 1
+        '''Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
+           e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14'''
+        nums.sort()  # Sort all the numbers.
+        num_ranges = [] # No ranges found yet since we just started.
+        range_start = 0  # First possible range is at the start of the list of numbers.
+        # Go through the list of numbers looking for 3 or more sequential numbers.
+        while range_start < len(nums):
+            num_range = nums[range_start] # Current range starts off as a single number.
+            next_range_start = range_start + 1 # The next possible start of a range.
+            # Look for sequences of three or more sequential numbers.
+            for range_end in range(range_start + 2, len(nums)):
+                if range_end - range_start != nums[range_end] - nums[range_start]:
+                    break  # Non-sequential numbers found, so break out of loop.
+                # Otherwise, extend the current range.
+                num_range = [nums[range_start], nums[range_end]]
+                # 3 or more sequential numbers found, so next possible range must start after this one.
+                next_range_start = range_end + 1
+            # Append the range (or single number) just found to the list of range.
             num_ranges.append(num_range)
-            i = jump_i
+            # Point to the start of the next possible range and keep looking.
+            range_start = next_range_start
         return num_ranges
 
-    ref_re = re.compile('(?P<id>[a-zA-Z]+)(?P<num>[0-9]+)', re.IGNORECASE)
-    ref_numbers = {}
-    for r in refs:
-        match = re.search(ref_re, r)
-        id = match.group('id')
+    # Regular expression for detecting part references consisting of a
+    # prefix of non-digits followed by a sequence of digits, such as 'LED10'.
+    ref_re = re.compile('(?P<prefix>\D+)(?P<num>\d+)', re.IGNORECASE)
+    
+    prefix_nums = {} # Contains a list of numbers for each distinct prefix.
+    for ref in refs:
+        # Partition each part reference into its beginning part prefix and ending number.
+        match = re.search(ref_re, ref)
+        prefix = match.group('prefix')
         num = int(match.group('num'))
+        
+        # Append the number to the list of numbers for this prefix, or create a list
+        # with a single number if this is the first time a particular prefix was encountered.
         try:
-            ref_numbers[id].append(num)
+            prefix_nums[prefix].append(num)
         except KeyError:
-            ref_numbers[id] = [num]
-    for id in ref_numbers.keys():
-        ref_numbers[id] = convert_to_ranges(ref_numbers[id])
-    sorted_refs = []
-    for id, nums in ref_numbers.items():
+            prefix_nums[prefix] = [num]
+            
+    # Convert the list of numbers for each prefix into ranges.
+    for prefix in prefix_nums.keys():
+        prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
+        
+    # Combine the prefixes and number ranges back into part references.
+    collapsed_refs = []
+    for prefix, nums in prefix_nums.items():
         for num in nums:
             if type(num) == list:
-                sorted_refs.append('{0}{1}-{0}{2}'.format(id, num[0], num[1]))
+                # Convert a range list into a collapsed part reference:
+                # e.g., 'R10-R15' from 'R':[10,15].
+                collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0], num[-1]))
+            elif type(num) == int:
+                # Convert a single number into a simple part reference: e.g., 'R10'.
+                collapsed_refs.append('{}{}'.format(prefix, num))
             else:
-                sorted_refs.append('{}{}'.format(id, num))
-    return sorted_refs
+                raise Exception('Unknown part reference {}{}'.format(prefix,num))
+                
+    # Return the collapsed par references.
+    return collapsed_refs
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
+    '''Add global part data to the spreadsheet.'''
+    
+    # Columns for the various types of global part data.
     columns = {
         'refs': {
             'col': 0,
             'label': 'Refs',
             'comment': 'Schematic identifier for each part.'
         },
-        'value':
-        {'col': 1,
-         'label': 'Value',
-         'comment': 'Value of each part.'},
-        'desc':
-        {'col': 2,
-         'label': 'Desc',
-         'comment': 'Description of each part.'},
+        'value': {
+            'col': 1,
+            'label': 'Value',
+            'comment': 'Value of each part.'
+        },
+        'desc': {
+            'col': 2,
+            'label': 'Desc',
+            'comment': 'Description of each part.'
+        },
         'footprint': {
             'col': 3,
             'label': 'Footprint',
@@ -424,7 +470,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
 
         # Enter part references.
         wks.write_string(row, start_col + columns['refs']['col'],
-                         ','.join(sort_refs(part.refs)))
+                         ','.join(collapse_refs(part.refs)))
 
         # Enter more data for the part.
         for field in ('value', 'desc', 'footprint', 'manf', 'manf#'):
@@ -502,11 +548,6 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         },
     }
     num_cols = len(columns.keys())
-
-    # Add left-side border to separate this section from the ones before.
-    wks.set_column(start_col, start_col, None, wrk_formats['separation'])
-    wks.set_column(start_col, start_col + num_cols - 1, None,
-                   wrk_formats['separation'])
 
     row = start_row
 
