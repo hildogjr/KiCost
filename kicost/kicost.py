@@ -63,13 +63,47 @@ def debug_print(level, msg):
         return
     if level <= dbg_level:
         print msg
-
-
+        
+        
 def kicost(in_file, out_filename, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     global dbg_level
     dbg_level = debug_level
+
+    # Get groups of identical components.
+    component_groups = get_component_groups(in_file)
+
+    # Calculate the quantity needed of each part for a single board.
+    debug_print(1, 'Calculate required # of each component group...')
+    for part in component_groups.values():
+        # part quantity = # of identical components per board.
+        part.qty = len(part.refs)
+
+    # Get the distributor product page for each part and parse it into a tree.
+    debug_print(1, 'Get parsed product page for each component group...')
+    for part in component_groups.values():
+        part.html_trees, part.urls = get_part_html_trees(part)
+
+    # Create the part pricing spreadsheet.
+    create_spreadsheet(component_groups, out_filename)
+
+    # Print component groups for debugging purposes.
+    if 2 <= dbg_level:
+        for part in component_groups.values():
+            for f in dir(part):
+                if f.startswith('__'):
+                    continue
+                elif f.startswith('html_trees'):
+                    continue
+                else:
+                    print '{} = '.format(f),
+                    pprint.pprint(part.__dict__[f])
+            print
+        
+    
+def get_component_groups(in_file):
+    '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     # Read-in the schematic XML file to get a tree and get its root.
     debug_print(1, 'Get schematic XML...')
@@ -164,17 +198,11 @@ def kicost(in_file, out_filename, debug_level=None):
             component_groups[h] = IdenticalComponents()  # Add empty structure.
             component_groups[h].refs = [c]  # Init list of refs with first ref.
             component_groups[h].fields = components[c]  # Store field values.
+            
+    return component_groups
+    
 
-    # Calculate the quantity needed of each part for a single board.
-    debug_print(1, 'Calculate required # of each component group...')
-    for part in component_groups.values():
-        # part quantity = # of identical components per board.
-        part.qty = len(part.refs)
-
-    # Get the parsed product pages for each part from each distributor.
-    debug_print(1, 'Get parsed product page for each component group...')
-    for part in component_groups.values():
-        part.html_trees, part.urls = get_part_html_trees(part)
+def create_spreadsheet(component_groups, out_filename):
 
     # Create spreadsheet file.
     with xlsxwriter.Workbook(out_filename) as workbook:
@@ -295,19 +323,6 @@ def kicost(in_file, out_filename, debug_level=None):
                     wks_name=WORKSHEET_NAME,
                     data_range=xl_range(start_row, start_col, last_row,
                                         next_col - 1)))
-
-    # Print component groups for debugging purposes.
-    if 2 <= dbg_level:
-        for part in component_groups.values():
-            for f in dir(part):
-                if f.startswith('__'):
-                    continue
-                elif f.startswith('html_trees'):
-                    continue
-                else:
-                    print '{} = '.format(f),
-                    pprint.pprint(part.__dict__[f])
-            print
 
 
 def sort_refs(refs):
