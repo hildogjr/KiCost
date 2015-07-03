@@ -71,12 +71,6 @@ def kicost(in_file, out_filename, debug_level=None):
     # Get groups of identical parts.
     parts = get_part_groups(in_file)
 
-    # Calculate the quantity needed of each part for a single board.
-    debug_print(1, 'Calculate required # of each component group...')
-    for part in parts:
-        # part quantity = # of identical components per board.
-        part.qty = len(part.refs)
-
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
     for part in parts:
@@ -451,19 +445,20 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         # 'comment': 'Shortage of each part needed for assembly.'},
     }
     num_cols = len(columns.keys())
-    row = start_row
+    
+    row = start_row  # Start building global section at this row.
 
     # Add label for global section.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
                     "Global Part Info", wrk_formats['global'])
-    row += 1
+    row += 1 # Go to next row.
 
     # Add column headers.
     for k in columns.keys():
         col = start_col + columns[k]['col']
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
-    row += 1
+    row += 1 # Go to next row.
 
     # Add global data for each part.
     for part in parts:
@@ -483,7 +478,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         # Enter total part quantity needed.
         try:
             wks.write(row, start_col + columns['qty']['col'],
-                      '=BoardQty*{}'.format(part.qty))
+                      '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
 
@@ -494,7 +489,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         except KeyError:
             pass
 
-        row += 1
+        row += 1 # Go to next row.
 
     # Return column following the globals so we know where to start next set of cells.
     return start_col + num_cols
@@ -502,13 +497,16 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
 
 def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                           total_cost_row, dist, parts):
+    '''Add distributor-specific part data to the spreadsheet.'''
+
+    # Columns for the various types of distributor-specific part data.
     columns = {
         'avail': {
-            'col': 0,
-            'level': 1,
-            'label': 'Avail',
-            'width': None,
-            'comment': 'Available quantity of each part at the distributor.'
+            'col': 0, # column offset within this distributor range of the worksheet.
+            'level': 1, # Outline level (or hierarchy level) for this column.
+            'label': 'Avail', # Column header label.
+            'width': None, # Column width (default in this case).
+            'comment': 'Available quantity of each part at the distributor.' # Column header tool-tip.
         },
         'purch': {
             'col': 1,
@@ -549,108 +547,113 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
     }
     num_cols = len(columns.keys())
 
-    row = start_row
+    row = start_row  # Start building distributor section at this row.
 
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
                     distributors[dist]['label'], wrk_formats[dist])
-    row += 1
+    row += 1 # Go to next row.
 
-    # Add column headers, comments, and outline level.
+    # Add column headers, comments, and outline level (for hierarchy).
     for k in columns.keys():
-        col = start_col + columns[k]['col']
+        col = start_col + columns[k]['col'] # Column index for this column.
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
         wks.set_column(col, col, columns[k]['width'], None,
                        {'level': columns[k]['level']})
-    row += 1
+    row += 1 # Go to next row.
 
     num_parts = len(parts)
-    part_info_first_row = row  # Starting row of part info.
-    part_info_last_row = row + num_parts - 1  # Last row of part info.
 
     # Add distributor data for each part.
+    PART_INFO_FIRST_ROW = row  # Starting row of part info.
+    PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
+    
+    # Get function names for getting data from the HTML tree for this distributor.
+    get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(dist))
+    get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(dist))
+    get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(dist))
+    
     for part in parts:
 
-        # Enter distributor part number for ordering purposes.
-        get_dist_part_num = getattr(THIS_MODULE,
-                                    'get_{}_part_num'.format(dist))
+        # Get the distributor part number from the HTML tree.
         dist_part_num = get_dist_part_num(part.html_trees[dist])
-        wks.write(row, start_col + columns['part_num']['col'], dist_part_num,
-                  None)
+        
+        # If the part number doesn't exist, the distributor doesn't stock this part
+        # so leave this row blank.
+        if len(dist_part_num) == 0:
+            row += 1 # Skip this row and go to the next.
+            continue
+        
+        # Enter distributor part number for ordering purposes.
+        wks.write(row, start_col + columns['part_num']['col'], dist_part_num, None)
 
         # Enter quantity of part available at this distributor.
-        get_dist_qty_avail = getattr(THIS_MODULE,
-                                     'get_{}_qty_avail'.format(dist))
         wks.write(row, start_col + columns['avail']['col'],
                   get_dist_qty_avail(part.html_trees[dist]), None)
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, start_col + columns['purch']['col'], '', None)
 
-        # Get function for extracting the price tiers from the distributor HTML page tree.
-        get_dist_price_tiers = getattr(THIS_MODULE,
-                                       'get_{}_price_tiers'.format(dist))
-
         # Extract price tiers from distributor HTML page tree.
         price_tiers = get_dist_price_tiers(part.html_trees[dist])
-        # Add the price for a single unit if it doesn't already exist.
+        # Add the price for a single unit if it doesn't already exist in the tiers.
         try:
             min_qty = min(price_tiers.keys())
             if min_qty > 1:
                 price_tiers[1] = price_tiers[
                     min_qty
-                ]  # Set unit price to lowest existing price.
-        except ValueError:  # This happens if the min_qty list is empty.
+                ]  # Set unit price to price of lowest available quantity.
+        except ValueError:  # This happens if the price tier list is empty.
             pass
         price_tiers[0] = 0.00  # Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.
 
-        # Sort the quantity breaks and prices and turn them into lists of strings.
+        # Sort the tiers based on quantities and turn them into lists of strings.
         qtys = sorted(price_tiers.keys())
         prices = [str(price_tiers[q]) for q in qtys]
         qtys = [str(q) for q in qtys]
 
-        # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
-        # or the purchased quantity (if that is non-zero).
         needed_qty_col = 6  # TODO: Hard-coded column in the global table where part quantity is stored. Not good!
         purch_qty_col = start_col + columns['purch']['col']
         unit_price_col = start_col + columns['unit_price']['col']
-        if len(dist_part_num) > 0:
-            wks.write_formula(
-                row, unit_price_col,
-                '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                    needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
-                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    qtys=','.join(qtys),
-                    prices=','.join(prices)), wrk_formats['currency'])
+        
+        # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
+        # or the purchased quantity (if that is non-zero), but only if the part number exists.
+        wks.write_formula(
+            row, unit_price_col,
+            '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
+                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                qtys=','.join(qtys),
+                prices=','.join(prices)), wrk_formats['currency'])
 
         # Enter the formula for the extended price = purch qty * unit price.
-        if len(dist_part_num) > 0:
-            wks.write_formula(
-                row, start_col + columns['ext_price']['col'],
-                '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
-                    needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
-                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    unit_price=xl_rowcol_to_cell(row, unit_price_col)),
-                wrk_formats['currency'])
+        wks.write_formula(
+            row, start_col + columns['ext_price']['col'],
+            '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
+                needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
+                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                unit_price=xl_rowcol_to_cell(row, unit_price_col)),
+            wrk_formats['currency'])
 
         # Enter a link to the distributor webpage for this part.
-        if len(dist_part_num) > 0:
-            wks.write_url(row, start_col + columns['part_url']['col'],
-                          part.urls[dist], wrk_formats['centered_text'],
-                          string='Link')
-        row += 1
+        wks.write_url(row, start_col + columns['part_url']['col'],
+                      part.urls[dist], wrk_formats['centered_text'],
+                      string='Link')
+
+        # Finished processing distributor data for this part.              
+        row += 1 # Go to next row.
 
     # Sum the extended prices for all the parts to get the total cost from this distributor.
     total_cost_col = start_col + columns['ext_price']['col']
     wks.write(total_cost_row, total_cost_col, '=sum({sum_range})'.format(
-        sum_range=xl_range(part_info_first_row, total_cost_col,
-                           part_info_last_row, total_cost_col)),
+        sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
+                           PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
-    order_first_row = part_info_last_row + 5
-    order_last_row = order_first_row + num_parts - 1
+    ORDER_FIRST_ROW = PART_INFO_LAST_ROW + 2
+    ORDER_LAST_ROW = ORDER_FIRST_ROW + num_parts - 1
 
     order_col = {}
     order_col_numeric = {}
@@ -684,7 +687,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                                     ),
                                     ""
                                 ),
-                                ROW()-ROW({order_first_row})+1
+                                ROW()-ROW({ORDER_FIRST_ROW})+1
                             )
                         )
                         {num_to_text_fmt}
@@ -710,18 +713,18 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         purch_qty_col = start_col + columns['purch']['col']
         part_num_col = start_col + columns['part_num']['col']
 
-        for r in range(order_first_row, order_last_row + 1):
+        for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
             wks.write_array_formula(
                 xl_range(r, order_col, r, order_col),
                 '{{={formula}}}'.format(formula=formula.format(
-                    order_first_row=xl_rowcol_to_cell(order_first_row, 0,
+                    ORDER_FIRST_ROW=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0,
                                                       row_abs=True),
-                    sel_range1=xl_range_abs(part_info_first_row, purch_qty_col,
-                                            part_info_last_row, purch_qty_col),
-                    sel_range2=xl_range_abs(part_info_first_row, part_num_col,
-                                            part_info_last_row, part_num_col),
-                    get_range=xl_range_abs(part_info_first_row, info_col,
-                                           part_info_last_row, info_col),
+                    sel_range1=xl_range_abs(PART_INFO_FIRST_ROW, purch_qty_col,
+                                            PART_INFO_LAST_ROW, purch_qty_col),
+                    sel_range2=xl_range_abs(PART_INFO_FIRST_ROW, part_num_col,
+                                            PART_INFO_LAST_ROW, part_num_col),
+                    get_range=xl_range_abs(PART_INFO_FIRST_ROW, info_col,
+                                           PART_INFO_LAST_ROW, info_col),
                     delimiter=delimiter,
                     num_to_text_func=num_to_text_func,
                     num_to_text_fmt=num_to_text_fmt)))
@@ -819,15 +822,6 @@ def get_digikey_part_num(html_tree):
                                                id='reportpartnumber').text)
     except AttributeError:
         return ''
-
-
-def replace_digikey_part_num(html_tree, new_pn):
-    try:
-        insertion_point = html_tree.find('td', id='reportpartnumber')
-        insertion_point.string = new_pn
-    except AttributeError:
-        return False
-    return True
 
 
 def get_mouser_part_num(html_tree):
