@@ -285,8 +285,9 @@ def create_spreadsheet(parts, spreadsheet_filename):
         LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
 
         # Load the global part information (not distributor-specific) into the sheet.
-        # (next_col = the column immediately to the right of the global data.)
-        next_col = add_globals_to_worksheet(wks, wrk_formats, START_ROW,
+        # next_col = the column immediately to the right of the global data.
+        # qty_col = the column where the quantity needed of each part is stored.
+        next_col, refs_col, qty_col = add_globals_to_worksheet(wks, wrk_formats, START_ROW,
                                             START_COL,
                                             parts)
         # Create a defined range for the global data.
@@ -322,7 +323,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
         for dist in distributors.keys():
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
-                                             dist_start_col, TOTAL_COST_ROW, dist,
+                                             dist_start_col, TOTAL_COST_ROW, refs_col, qty_col, dist,
                                              parts)
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
@@ -492,11 +493,12 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         row += 1 # Go to next row.
 
     # Return column following the globals so we know where to start next set of cells.
-    return start_col + num_cols
+    # Also return the columns where the references and quantity needed of each part is stored.
+    return start_col + num_cols, start_col + columns['refs']['col'], start_col + columns['qty']['col']
 
 
 def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
-                          total_cost_row, dist, parts):
+                          total_cost_row, part_ref_col, part_qty_col, dist, parts):
     '''Add distributor-specific part data to the spreadsheet.'''
 
     # Columns for the various types of distributor-specific part data.
@@ -613,7 +615,6 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         prices = [str(price_tiers[q]) for q in qtys]
         qtys = [str(q) for q in qtys]
 
-        needed_qty_col = 6  # TODO: Hard-coded column in the global table where part quantity is stored. Not good!
         purch_qty_col = start_col + columns['purch']['col']
         unit_price_col = start_col + columns['unit_price']['col']
         
@@ -622,7 +623,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         wks.write_formula(
             row, unit_price_col,
             '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
+                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                 purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                 qtys=','.join(qtys),
                 prices=','.join(prices)), wrk_formats['currency'])
@@ -631,7 +632,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         wks.write_formula(
             row, start_col + columns['ext_price']['col'],
             '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
-                needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
+                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                 purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                 unit_price=xl_rowcol_to_cell(row, unit_price_col)),
             wrk_formats['currency'])
@@ -652,26 +653,33 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
               wrk_formats['total_cost_currency'])
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
+    ORDER_START_COL = start_col + 1
     ORDER_FIRST_ROW = PART_INFO_LAST_ROW + 2
     ORDER_LAST_ROW = ORDER_FIRST_ROW + num_parts - 1
 
+    # Each distributor has a different format for entering ordering information,
+    # so we account for that here.
     order_col = {}
     order_col_numeric = {}
     order_delimiter = {}
     dist_col = {}
-    for position, c in enumerate(distributors[dist]['order_cols']):
-        order_col[c] = start_col + 1 + position
-        order_col_numeric[c] = (c == 'purch')
-        order_delimiter[c] = distributors[dist]['order_delimiter']
+    for position, col_tag in enumerate(distributors[dist]['order_cols']):
+        order_col[col_tag] = ORDER_START_COL + position # Column for this order info.
+        order_col_numeric[col_tag] = (col_tag == 'purch') # Is this order info numeric?
+        order_delimiter[col_tag] = distributors[dist]['order_delimiter'] # Delimiter btwn order columns.
+        # For the last column of order info, the delimiter is blanked.
         if position + 1 == len(distributors[dist]['order_cols']):
-            order_delimiter[c] = ''
+            order_delimiter[col_tag] = ''
+        # If the column tag doesn't exist in the list of distributor columns,
+        # then assume its for the part reference column in the global data section
+        # of the worksheet.
         try:
-            dist_col[c] = start_col + columns[c]['col']
+            dist_col[col_tag] = start_col + columns[col_tag]['col']
         except KeyError:
-            dist_col[c] = 0  # TODO: Hard-coded column in the global table where part refs are stored. Not good!
+            dist_col[col_tag] = part_ref_col
 
     def enter_order_info(info_col, order_col, numeric=False, delimiter=''):
-        formula = '''
+        order_info_func = '''
             IFERROR(
                 CONCATENATE(
                     {num_to_text_func}(
@@ -687,7 +695,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                                     ),
                                     ""
                                 ),
-                                ROW()-ROW({ORDER_FIRST_ROW})+1
+                                ROW()-ROW({order_first_row})+1
                             )
                         )
                         {num_to_text_fmt}
@@ -698,7 +706,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             )
         '''
 
-        formula = re.sub('[\s\n]', '', formula)
+        order_info_func = re.sub('[\s\n]', '', order_info_func)
 
         if numeric:
             num_to_text_func = 'TEXT'
@@ -716,8 +724,8 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
             wks.write_array_formula(
                 xl_range(r, order_col, r, order_col),
-                '{{={formula}}}'.format(formula=formula.format(
-                    ORDER_FIRST_ROW=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0,
+                '{{={func}}}'.format(func=order_info_func.format(
+                    order_first_row=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0,
                                                       row_abs=True),
                     sel_range1=xl_range_abs(PART_INFO_FIRST_ROW, purch_qty_col,
                                             PART_INFO_LAST_ROW, purch_qty_col),
@@ -729,10 +737,10 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                     num_to_text_func=num_to_text_func,
                     num_to_text_fmt=num_to_text_fmt)))
 
-    for c in ('purch', 'part_num', 'refs'):
-        enter_order_info(dist_col[c], order_col[c],
-                         numeric=order_col_numeric[c],
-                         delimiter=order_delimiter[c])
+    for col_tag in ('purch', 'part_num', 'refs'):
+        enter_order_info(dist_col[col_tag], order_col[col_tag],
+                         numeric=order_col_numeric[col_tag],
+                         delimiter=order_delimiter[col_tag])
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
 
