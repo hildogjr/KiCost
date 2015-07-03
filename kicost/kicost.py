@@ -74,7 +74,7 @@ def kicost(in_file, out_filename, debug_level=None):
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
     for part in parts:
-        part.html_trees, part.urls = get_part_html_trees(part)
+        part.html_trees, part.urls = get_part_html_trees(distributors.keys(), part)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, out_filename)
@@ -679,6 +679,29 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             dist_col[col_tag] = part_ref_col
 
     def enter_order_info(info_col, order_col, numeric=False, delimiter=''):
+        ''' This function enters a function into a spreadsheet cell that
+            prints the information found in info_col into the order_col column
+            of the order.
+        '''
+        
+        # This very complicated spreadsheet function does the following:
+        # 1) Computes the set of row indices in the part data that have
+        #    non-empty cells in sel_range1 and sel_range2. (Innermost
+        #    nested IF and ROW commands.) sel_range1 and sel_range2 are
+        #    the part's catalog number and purchase quantity.
+        # 2) Selects the k'th smallest of the row indices where k is the
+        #    number of rows between the current part row in the order and the
+        #    top row of the order. (SMALL() and ROW() commands.)
+        # 3) Gets the cell contents  from the get_range using the k'th 
+        #    smallest row index found in step #2. (INDEX() command.)
+        # 4) Converts the cell contents to a string if it is numeric.
+        #    (num_to_text_func is used.) Otherwise, it's already a string.
+        # 5) CONCATENATES the string from step #4 with the delimiter
+        #    that goes between fields of an order for a part.
+        #    (CONCATENATE() command.)
+        # 6) If any error occurs (which usually means the indexed cell
+        #    contents were blank), then a blank is printed. Otherwise,
+        #    the string from step #5 is printed in this cell.
         order_info_func = '''
             IFERROR(
                 CONCATENATE(
@@ -687,9 +710,9 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                             {get_range},
                             SMALL(
                                 IF(
-                                    {sel_range1} <> "",
+                                    {sel_range2} <> "",
                                     IF(
-                                        {sel_range2} <> "",
+                                        {sel_range1} <> "",
                                         ROW({sel_range1}) - MIN(ROW({sel_range1})) + 1,
                                         ""
                                     ),
@@ -706,8 +729,11 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             )
         '''
 
+        # Strip all the whitespace from the function string.
         order_info_func = re.sub('[\s\n]', '', order_info_func)
 
+        # This sets the function and conversion format to use if
+        # numeric cell contents have to be converted to a string.
         if numeric:
             num_to_text_func = 'TEXT'
             num_to_text_fmt = ',"##0"'
@@ -715,12 +741,15 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             num_to_text_func = ''
             num_to_text_fmt = ''
 
+        # This puts the order column delimiter into a form acceptable in a spreadsheet formula.
         if delimiter != '':
             delimiter = '"{}"'.format(delimiter)
 
+        # These are the columns where the part catalog numbers and purchase quantities can be found.
         purch_qty_col = start_col + columns['purch']['col']
         part_num_col = start_col + columns['part_num']['col']
 
+        # Now write the order_info_func into every row of the order in the given column.
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
             wks.write_array_formula(
                 xl_range(r, order_col, r, order_col),
@@ -737,6 +766,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                     num_to_text_func=num_to_text_func,
                     num_to_text_fmt=num_to_text_fmt)))
 
+    # For every column in the order info range, enter the part order information.
     for col_tag in ('purch', 'part_num', 'refs'):
         enter_order_info(dist_col[col_tag], order_col[col_tag],
                          numeric=order_col_numeric[col_tag],
@@ -782,7 +812,7 @@ def get_mouser_price_tiers(html_tree):
 
 
 def get_newark_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
+    '''Get the pricing tiers from the parsed tree of the Newark product page.'''
     price_tiers = {}
     try:
         qty_strs = []
@@ -825,6 +855,7 @@ def digikey_part_is_reeled(html_tree):
 
 
 def get_digikey_part_num(html_tree):
+    '''Get the part number from the Digikey product page.'''
     try:
         return re.sub('\n', '', html_tree.find('td',
                                                id='reportpartnumber').text)
@@ -833,6 +864,7 @@ def get_digikey_part_num(html_tree):
 
 
 def get_mouser_part_num(html_tree):
+    '''Get the part number from the Mouser product page.'''
     try:
         return re.sub('\n', '', html_tree.find('div',
                                                id='divMouserPartNum').text)
@@ -841,6 +873,7 @@ def get_mouser_part_num(html_tree):
 
 
 def get_newark_part_num(html_tree):
+    '''Get the part number from the Newark product page.'''
     try:
         part_num_str = html_tree.find('div',
                                       id='productDescription').find(
@@ -853,6 +886,7 @@ def get_newark_part_num(html_tree):
 
 
 def get_digikey_qty_avail(html_tree):
+    '''Get the available quantity of the part from the Digikey product page.'''
     try:
         qty_str = html_tree.find('td', id='quantityavailable').text
     except AttributeError:
@@ -866,6 +900,7 @@ def get_digikey_qty_avail(html_tree):
 
 
 def get_mouser_qty_avail(html_tree):
+    '''Get the available quantity of the part from the Mouser product page.'''
     try:
         qty_str = html_tree.find(
             'table',
@@ -879,6 +914,7 @@ def get_mouser_qty_avail(html_tree):
 
 
 def get_newark_qty_avail(html_tree):
+    '''Get the available quantity of the part from the Newark product page.'''
     try:
         qty_str = html_tree.find('div',
                                  id='priceWrap').find(
@@ -892,27 +928,37 @@ def get_newark_qty_avail(html_tree):
         return 0
 
 
-def get_part_html_trees(part):
-    '''Get the parsed HTML trees from each distributor website for the given part.'''
+def get_part_html_trees(distributors, part):
+    '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
+    
     html_trees = {}
     urls = {}
     fields = part.fields
-    for dist in distributors.keys():
+
+    for dist in distributors:
         debug_print(2, '{} {}'.format(dist, part.refs))
+        
+        # Get function name for getting the HTML tree for this part from this distributor.
         get_dist_part_html_tree = getattr(THIS_MODULE,
                                           'get_{}_part_html_tree'.format(dist))
         try:
+            # Use the distributor's catalog number (if available) to get the page.
             if dist + '#' in fields:
                 html_trees[dist], urls[dist] = get_dist_part_html_tree(
                     fields[dist + '#'])
+            # Else, use the manufacturer's catalog number (if available) to get the page.
             elif 'manf#' in fields:
                 html_trees[dist], urls[dist] = get_dist_part_html_tree(
                     fields['manf#'])
+            # Else, give up.
             else:
                 raise PartHtmlError
         except PartHtmlError, AttributeError:
+            # If no HTML page was found, then return a tree for an empty page.
             html_trees[dist] = BeautifulSoup('<html></html>')
             urls[dist] = ''
+            
+    # Return the parsed HTML trees and the page URLs from whence they came.
     return html_trees, urls
 
 
@@ -926,32 +972,29 @@ class PartHtmlError(Exception):
     pass
 
 
-def merge_digikey_price_tiers(main_tree, alt_tree):
-    '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
-    try:
-        insertion_point = main_tree.find('table', id='pricing').find('tr')
-        for tr in alt_tree.find('table', id='pricing').find_all('tr'):
-            insertion_point.insert_after(tr)
-    except AttributeError:
-        pass
-
-
-def merge_digikey_qty_avail(main_tree, alt_tree):
-    try:
-        main_qty = get_digikey_qty_avail(main_tree)
-        alt_qty = get_digikey_qty_avail(alt_tree)
-        merged_qty = max(main_qty, alt_qty)
-        insertion_point = main_tree.find('td', id='quantityavailable')
-        insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
-    except AttributeError:
-        pass
-
-
 def get_digikey_part_html_tree(pn, url=None, descend=2):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
-    #url='https://www.google.com/search?q=pic18f14k50-I%2FSS-ND+site%3Adigikey.com'
-    #url = 'http://www.digikey.com/product-search/en?WT.z_homepage_link=hp_go_button&lang=en&site=us&keywords=' + URLL.quote(pn,safe='')
-    #url = 'http://www.digikey.com/product-detail/en/PIC18F14K50T-I%2FSS/PIC18F14K50T-I%2FSSCT-ND/5013555'
+
+    def merge_price_tiers(main_tree, alt_tree):
+        '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
+        try:
+            insertion_point = main_tree.find('table', id='pricing').find('tr')
+            for tr in alt_tree.find('table', id='pricing').find_all('tr'):
+                insertion_point.insert_after(tr)
+        except AttributeError:
+            pass
+
+
+    def merge_qty_avail(main_tree, alt_tree):
+        '''Merge the quantities from the alternate-packaging tree into the main tree.'''
+        try:
+            main_qty = get_digikey_qty_avail(main_tree)
+            alt_qty = get_digikey_qty_avail(alt_tree)
+            merged_qty = max(main_qty, alt_qty)
+            insertion_point = main_tree.find('td', id='quantityavailable')
+            insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
+        except AttributeError:
+            pass
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
@@ -983,27 +1026,33 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
                             'tr',
                             class_='more-expander-item')
                 ]
-
                 ap_trees_and_urls = [get_digikey_part_html_tree(pn, ap_url,
                                                                 descend=0)
                                      for ap_url in ap_urls]
+                                     
+                # Put the main tree on the list as well and then look through
+                # the entire list for one that's non-reeled. Use this as the
+                # main page for the part.
                 ap_trees_and_urls.append((tree, url))
                 if digikey_part_is_reeled(tree):
                     for ap_tree, ap_url in ap_trees_and_urls:
                         if not digikey_part_is_reeled(ap_tree):
+                            # Found a non-reeled part, so use it as the main page.
                             tree = ap_tree
                             url = ap_url
-                            break
+                            break # Done looking.
 
+                # Now go through the other pages, merging their pricing and quantity
+                # info into the main page.
                 for ap_tree, ap_url in ap_trees_and_urls:
                     if ap_tree is tree:
-                        continue
+                        continue # Skip examining the main tree. It already contains its info.
                     try:
                         # Merge the pricing info from that into the main parse tree to make
                         # a single, unified set of price tiers...
-                        merge_digikey_price_tiers(tree, ap_tree)
+                        merge_price_tiers(tree, ap_tree)
                         # and merge available quantity, using the maximum found.
-                        merge_digikey_qty_avail(tree, ap_tree)
+                        merge_qty_avail(tree, ap_tree)
                     except AttributeError:
                         continue
             except AttributeError:
