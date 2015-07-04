@@ -114,8 +114,7 @@ def get_part_groups(in_file):
                 # Store the name and value for each field.
                 fields[f['name'].lower()] = f.string
         except AttributeError:
-            # No fields found for this part.
-            pass
+            pass  # No fields found for this part.
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
@@ -163,10 +162,10 @@ def get_part_groups(in_file):
             pass
 
         # Store the fields for the part using the reference identifier as the key.
-        ref = c['ref']
         components[c['ref']] = fields
 
-    # Get groups of identical components.
+    # First, get groups of identical components but ignore any manufacturer's
+    # part numbers that may be assigned. Just collect those in a list for each group.
     debug_print(1, 'Get groups of identical components...')
     component_groups = {}
     for c in components:
@@ -174,7 +173,10 @@ def get_part_groups(in_file):
         # Take the field keys and values of each part and create a hash.
         # Use the hash as the key to a dictionary that stores lists of
         # part references that have identical field values.
-        h = hash(tuple(sorted(components[c].items())))
+        # Don't use the manufacturer's part number when calculating the hash!
+        fields = components[c]
+        hash_fields = {k:fields[k] for k in fields if k!='manf#'}
+        h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
         # or create a new group if the hash hasn't been seen before.
@@ -183,16 +185,69 @@ def get_part_groups(in_file):
             # No need to add field values since they are the same as the 
             # starting ref field values.
             component_groups[h].refs.append(c)
+            # Also add any manufacturer's part number to the group's list.
+            try:
+                component_groups[h].manf_nums.add(components[c]['manf#'])
+            except KeyError:
+                # This happens when the part has no manf. part number.
+                pass
         except KeyError:
+            # This happens if it is the first part in a group, so the group
+            # doesn't exist yet.
 
             class IdenticalComponents:
                 pass  # Just need a temporary class here.
 
             component_groups[h] = IdenticalComponents()  # Add empty structure.
-            component_groups[h].refs = [c]  # Init list of refs with first ref.
             component_groups[h].fields = components[c]  # Store field values.
-            
-    return component_groups.values()
+            component_groups[h].refs = [c]  # Init list of refs with first ref.
+            # Now add the manf. part num for this part to the group list,
+            # or create an empty list if the part doesn't have a number.
+            try:
+                component_groups[h].manf_nums = set([components[c]['manf#']])
+            except KeyError:
+                component_groups[h].manf_nums = set()
+
+    # Some groups of parts may have more than one manufacturer's part number.
+    # If so, then partition the group into smaller groups, each having parts
+    # with the same manf. part number.
+    new_component_groups = {}  # Copy component_groups into this.
+    for g in component_groups:
+        if len(component_groups[g].manf_nums) > 1:
+            # Found a group with two or more manf. part numbers.
+            for c in component_groups[g].refs:
+                # Calculate a hash of each component's field values like before,
+                # only now include the manufacturer's part number.
+                h = hash(tuple(sorted(components[c].items())))
+                try:
+                    # Add next ref for identical part to the list.
+                    # No need to add field values since they are the same as the 
+                    # starting ref field values.
+                    new_component_groups[h].refs.append(c)
+                except KeyError:
+                    # This happens if it is the first part in a group, so the group
+                    # doesn't exist yet.
+
+                    class IdenticalComponents:
+                        pass  # Just need a temporary class here.
+
+                    new_component_groups[h] = IdenticalComponents()  # Add empty structure.
+                    new_component_groups[h].fields = components[c]  # Store field values.
+                    new_component_groups[h].refs = [c]  # Init list of refs with first ref.
+
+        elif len(component_groups[g].manf_nums) == 1:
+            # This group has a single manf. part number, so there's no need to partition it.
+            # Just assign the manf. part number to all the parts.
+            new_component_groups[g] = component_groups[g]  # Copy the group.
+            new_component_groups[g].fields['manf#'] = component_groups[g].manf_nums.pop()
+
+        else:
+            # This group has no manf. part number at all, so leave it blank
+            # for all the parts.
+            new_component_groups[g] = component_groups[g]  # Copy the group.
+
+    # Now return a list of the groups without their hash keys.            
+    return new_component_groups.values()
     
 
 def create_spreadsheet(parts, spreadsheet_filename):
