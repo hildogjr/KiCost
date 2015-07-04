@@ -29,12 +29,9 @@ import urllib as URLL
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
-__all__ = ['kicost']
+__all__ = ['kicost']  # Only export this routine for use by the outside world.
 
-THIS_MODULE = sys.modules[__name__]
-DEFAULT_BUILD_QTY = 100
-LIB_DELIMITER = ':'
-WORKSHEET_NAME = 'KiCost'
+THIS_MODULE = sys.modules[__name__]  # Reference to this module for making named calls.
 
 # Global array of distributor names.
 distributors = {
@@ -63,13 +60,43 @@ def debug_print(level, msg):
         return
     if level <= dbg_level:
         print msg
-
-
+        
+        
 def kicost(in_file, out_filename, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     global dbg_level
     dbg_level = debug_level
+
+    # Get groups of identical parts.
+    parts = get_part_groups(in_file)
+
+    # Get the distributor product page for each part and parse it into a tree.
+    debug_print(1, 'Get parsed product page for each component group...')
+    for part in parts:
+        part.html_trees, part.urls = get_part_html_trees(distributors.keys(), part)
+
+    # Create the part pricing spreadsheet.
+    create_spreadsheet(parts, out_filename)
+
+    # Print component groups for debugging purposes.
+    if 2 <= dbg_level:
+        for part in parts:
+            for f in dir(part):
+                if f.startswith('__'):
+                    continue
+                elif f.startswith('html_trees'):
+                    continue
+                else:
+                    print '{} = '.format(f),
+                    pprint.pprint(part.__dict__[f])
+            print
+        
+    
+def get_part_groups(in_file):
+    '''Get groups of identical parts from an XML file and return them as a dictionary.'''
+
+    LIB_DELIMITER = ':'  # Delimiter between library and component name.
 
     # Read-in the schematic XML file to get a tree and get its root.
     debug_print(1, 'Get schematic XML...')
@@ -87,8 +114,7 @@ def kicost(in_file, out_filename, debug_level=None):
                 # Store the name and value for each field.
                 fields[f['name'].lower()] = f.string
         except AttributeError:
-            # No fields found for this part.
-            pass
+            pass  # No fields found for this part.
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
@@ -136,10 +162,10 @@ def kicost(in_file, out_filename, debug_level=None):
             pass
 
         # Store the fields for the part using the reference identifier as the key.
-        ref = c['ref']
         components[c['ref']] = fields
 
-    # Get groups of identical components.
+    # First, get groups of identical components but ignore any manufacturer's
+    # part numbers that may be assigned. Just collect those in a list for each group.
     debug_print(1, 'Get groups of identical components...')
     component_groups = {}
     for c in components:
@@ -147,7 +173,10 @@ def kicost(in_file, out_filename, debug_level=None):
         # Take the field keys and values of each part and create a hash.
         # Use the hash as the key to a dictionary that stores lists of
         # part references that have identical field values.
-        h = hash(tuple(sorted(components[c].items())))
+        # Don't use the manufacturer's part number when calculating the hash!
+        fields = components[c]
+        hash_fields = {k:fields[k] for k in fields if k!='manf#'}
+        h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
         # or create a new group if the hash hasn't been seen before.
@@ -156,214 +185,296 @@ def kicost(in_file, out_filename, debug_level=None):
             # No need to add field values since they are the same as the 
             # starting ref field values.
             component_groups[h].refs.append(c)
+            # Also add any manufacturer's part number to the group's list.
+            try:
+                component_groups[h].manf_nums.add(components[c]['manf#'])
+            except KeyError:
+                # This happens when the part has no manf. part number.
+                pass
         except KeyError:
+            # This happens if it is the first part in a group, so the group
+            # doesn't exist yet.
 
             class IdenticalComponents:
                 pass  # Just need a temporary class here.
 
             component_groups[h] = IdenticalComponents()  # Add empty structure.
-            component_groups[h].refs = [c]  # Init list of refs with first ref.
             component_groups[h].fields = components[c]  # Store field values.
+            component_groups[h].refs = [c]  # Init list of refs with first ref.
+            # Now add the manf. part num for this part to the group list,
+            # or create an empty list if the part doesn't have a number.
+            try:
+                component_groups[h].manf_nums = set([components[c]['manf#']])
+            except KeyError:
+                component_groups[h].manf_nums = set()
 
-    # Calculate the quantity needed of each part for a single board.
-    debug_print(1, 'Calculate required # of each component group...')
-    for part in component_groups.values():
-        # part quantity = # of identical components per board.
-        part.qty = len(part.refs)
+    # Some groups of parts may have more than one manufacturer's part number.
+    # If so, then partition the group into smaller groups, each having parts
+    # with the same manf. part number.
+    new_component_groups = {}  # Copy component_groups into this.
+    for g in component_groups:
+        if len(component_groups[g].manf_nums) > 1:
+            # Found a group with two or more manf. part numbers.
+            for c in component_groups[g].refs:
+                # Calculate a hash of each component's field values like before,
+                # only now include the manufacturer's part number.
+                h = hash(tuple(sorted(components[c].items())))
+                try:
+                    # Add next ref for identical part to the list.
+                    # No need to add field values since they are the same as the 
+                    # starting ref field values.
+                    new_component_groups[h].refs.append(c)
+                except KeyError:
+                    # This happens if it is the first part in a group, so the group
+                    # doesn't exist yet.
 
-    # Get the parsed product pages for each part from each distributor.
-    debug_print(1, 'Get parsed product page for each component group...')
-    for part in component_groups.values():
-        part.html_trees, part.urls = get_part_html_trees(part)
+                    class IdenticalComponents:
+                        pass  # Just need a temporary class here.
+
+                    new_component_groups[h] = IdenticalComponents()  # Add empty structure.
+                    new_component_groups[h].fields = components[c]  # Store field values.
+                    new_component_groups[h].refs = [c]  # Init list of refs with first ref.
+
+        elif len(component_groups[g].manf_nums) == 1:
+            # This group has a single manf. part number, so there's no need to partition it.
+            # Just assign the manf. part number to all the parts.
+            new_component_groups[g] = component_groups[g]  # Copy the group.
+            new_component_groups[g].fields['manf#'] = component_groups[g].manf_nums.pop()
+
+        else:
+            # This group has no manf. part number at all, so leave it blank
+            # for all the parts.
+            new_component_groups[g] = component_groups[g]  # Copy the group.
+
+    # Now return a list of the groups without their hash keys.            
+    return new_component_groups.values()
+    
+
+def create_spreadsheet(parts, spreadsheet_filename):
+    '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
+
+    DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
+    WORKSHEET_NAME = 'KiCost'  # Default name for part-pricing worksheet.
 
     # Create spreadsheet file.
-    with xlsxwriter.Workbook(out_filename) as workbook:
+    with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
 
         # Create the various format styles used by various spreadsheet items.
-        wrk_formats = {}
-        wrk_formats['separation'] = workbook.add_format({'left': 0})
-        wrk_formats['global'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#303030'
-        })
-        wrk_formats['digikey'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#CC0000'  # Digi-Key red.
-        })
-        wrk_formats['mouser'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#004A85'  # Mouser blue.
-        })
-        wrk_formats['newark'] = workbook.add_format({
-            'font_size': 14,
-            'font_color': 'white',
-            'bold': True,
-            'align': 'center',
-            'valign': 'vcenter',
-            'bg_color': '#A2AE06'  # Newark/E14 olive green.
-        })
-        wrk_formats['header'] = workbook.add_format({
-            'font_size': 12,
-            'bold': True,
-            'align': 'center',
-            'valign': 'top',
-            'text_wrap': True
-        })
-        wrk_formats['board_qty'] = workbook.add_format(
-            {'font_size': 13,
-             'bold': True,
-             'align': 'right'})
-        wrk_formats['total_cost_label'] = workbook.add_format({
-            'font_size': 13,
-            'bold': True,
-            'align': 'right',
-            'valign': 'vcenter'
-        })
-        wrk_formats['total_cost_currency'] = workbook.add_format({
-            'font_size': 13,
-            'font_color': 'red',
-            'bold': True,
-            'num_format': '$#,##0.00',
-            'valign': 'vcenter',
-        })
-        wrk_formats['currency'] = workbook.add_format(
-            {'num_format': '$#,##0.00'})
-        wrk_formats['centered_text'] = workbook.add_format({'align': 'center'})
+        wrk_formats = {
+            'global' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#303030'
+            }),
+            'digikey' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#CC0000'  # Digi-Key red.
+            }),
+            'mouser' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#004A85'  # Mouser blue.
+            }),
+            'newark' : workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#A2AE06'  # Newark/E14 olive green.
+            }),
+            'header' : workbook.add_format({
+                'font_size': 12,
+                'bold': True,
+                'align': 'center',
+                'valign': 'top',
+                'text_wrap': True
+            }),
+            'board_qty' : workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right'
+            }),
+            'total_cost_label' : workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right',
+                'valign': 'vcenter'
+            }),
+            'total_cost_currency' : workbook.add_format({
+                'font_size': 13,
+                'font_color': 'red',
+                'bold': True,
+                'num_format': '$#,##0.00',
+                'valign': 'vcenter',
+            }),
+            'currency' : workbook.add_format({
+                'num_format': '$#,##0.00'
+            }),
+            'centered_text' : workbook.add_format({
+                'align': 'center'
+            }),
+        }
 
-        # Create the sheet that holds the pricing information.
+        # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
 
         # Set the row & column for entering the part information in the sheet.
-        start_row = 3
-        start_col = 0
-        last_row = start_row + 2 + len(component_groups.values()) - 1
+        START_COL = 0
+        BOARD_QTY_ROW = 0
+        TOTAL_COST_ROW = BOARD_QTY_ROW + 1
+        START_ROW = 3
+        LABEL_ROW = START_ROW + 1
+        COL_HDR_ROW = LABEL_ROW + 1
+        FIRST_PART_ROW = COL_HDR_ROW + 1
+        LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
 
         # Load the global part information (not distributor-specific) into the sheet.
-        next_col = add_globals_to_worksheet(wks, wrk_formats, start_row,
-                                            start_col,
-                                            component_groups.values())
+        # next_col = the column immediately to the right of the global data.
+        # qty_col = the column where the quantity needed of each part is stored.
+        next_col, refs_col, qty_col = add_globals_to_worksheet(wks, wrk_formats, START_ROW,
+                                            START_COL,
+                                            parts)
+        # Create a defined range for the global data.
         workbook.define_name('global_part_data',
                              '={wks_name}!{data_range}'.format(
                                  wks_name=WORKSHEET_NAME,
-                                 data_range=xl_range(start_row, start_col,
-                                                     last_row, next_col - 1)))
+                                 data_range=xl_range(START_ROW, START_COL,
+                                                     LAST_PART_ROW, next_col - 1)))
 
         # Create the cell where the quantity of boards to assemble is entered.
-        brd_qty_row = start_row - 3
-        # Place the board qty cells on the right side of the global info.
-        wks.write(brd_qty_row, next_col - 2, 'Board Qty:',
+        # Place the board qty cells near the right side of the global info.
+        wks.write(BOARD_QTY_ROW, next_col - 2, 'Board Qty:',
                   wrk_formats['board_qty'])
-        wks.write(brd_qty_row, next_col - 1, DEFAULT_BUILD_QTY,
+        wks.write(BOARD_QTY_ROW, next_col - 1, DEFAULT_BUILD_QTY,
                   wrk_formats['board_qty']
-                  )  # Set initial board quantity to 100.
+                  )  # Set initial board quantity.
         # Define the named cell where the total board quantity can be found.
         workbook.define_name('BoardQty', '={wks_name}!{cell_ref}'.format(
             wks_name=WORKSHEET_NAME,
-            cell_ref=xl_rowcol_to_cell(brd_qty_row, next_col - 1,
+            cell_ref=xl_rowcol_to_cell(BOARD_QTY_ROW, next_col - 1,
                                        row_abs=True,
                                        col_abs=True)))
 
         # Create the row to show total cost of board parts for each distributor.
-        total_cost_row = brd_qty_row + 1
-        wks.write(total_cost_row, next_col - 2, 'Total Cost:',
+        wks.write(TOTAL_COST_ROW, next_col - 2, 'Total Cost:',
                   wrk_formats['total_cost_label'])
 
         # Freeze view of the global information and the column headers, but
-        # allow the distributor-specific info to scroll.
-        wks.freeze_panes(start_row + 2, next_col)
+        # allow the distributor-specific part info to scroll.
+        wks.freeze_panes(COL_HDR_ROW, next_col)
 
         # Load the part information from each distributor into the sheet.
         for dist in distributors.keys():
-            start_col = next_col
-            next_col = add_dist_to_worksheet(wks, wrk_formats, start_row,
-                                             next_col, total_cost_row, dist,
-                                             component_groups.values())
+            dist_start_col = next_col
+            next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
+                                             dist_start_col, TOTAL_COST_ROW, refs_col, qty_col, dist,
+                                             parts)
+            # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
                     wks_name=WORKSHEET_NAME,
-                    data_range=xl_range(start_row, start_col, last_row,
+                    data_range=xl_range(START_ROW, dist_start_col, LAST_PART_ROW,
                                         next_col - 1)))
 
-    # Print component groups for debugging purposes.
-    if 2 <= dbg_level:
-        for part in component_groups.values():
-            for f in dir(part):
-                if f.startswith('__'):
-                    continue
-                elif f.startswith('html_trees'):
-                    continue
-                else:
-                    print '{} = '.format(f),
-                    pprint.pprint(part.__dict__[f])
-            print
 
-
-def sort_refs(refs):
+def collapse_refs(refs):
+    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
+    
     def convert_to_ranges(nums):
-        nums.sort()
-        num_ranges = []
-        i = 0
-        while i < len(nums):
-            num_range = nums[i]
-            jump_i = i + 1
-            for j in range(i + 2, len(nums)):
-                if j - i != nums[j] - nums[i]:
-                    break
-                num_range = [nums[i], nums[j]]
-                jump_i = j + 1
+        '''Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
+           e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14'''
+        nums.sort()  # Sort all the numbers.
+        num_ranges = [] # No ranges found yet since we just started.
+        range_start = 0  # First possible range is at the start of the list of numbers.
+        # Go through the list of numbers looking for 3 or more sequential numbers.
+        while range_start < len(nums):
+            num_range = nums[range_start] # Current range starts off as a single number.
+            next_range_start = range_start + 1 # The next possible start of a range.
+            # Look for sequences of three or more sequential numbers.
+            for range_end in range(range_start + 2, len(nums)):
+                if range_end - range_start != nums[range_end] - nums[range_start]:
+                    break  # Non-sequential numbers found, so break out of loop.
+                # Otherwise, extend the current range.
+                num_range = [nums[range_start], nums[range_end]]
+                # 3 or more sequential numbers found, so next possible range must start after this one.
+                next_range_start = range_end + 1
+            # Append the range (or single number) just found to the list of range.
             num_ranges.append(num_range)
-            i = jump_i
+            # Point to the start of the next possible range and keep looking.
+            range_start = next_range_start
         return num_ranges
 
-    ref_re = re.compile('(?P<id>[a-zA-Z]+)(?P<num>[0-9]+)', re.IGNORECASE)
-    ref_numbers = {}
-    for r in refs:
-        match = re.search(ref_re, r)
-        id = match.group('id')
+    # Regular expression for detecting part references consisting of a
+    # prefix of non-digits followed by a sequence of digits, such as 'LED10'.
+    ref_re = re.compile('(?P<prefix>\D+)(?P<num>\d+)', re.IGNORECASE)
+    
+    prefix_nums = {} # Contains a list of numbers for each distinct prefix.
+    for ref in refs:
+        # Partition each part reference into its beginning part prefix and ending number.
+        match = re.search(ref_re, ref)
+        prefix = match.group('prefix')
         num = int(match.group('num'))
+        
+        # Append the number to the list of numbers for this prefix, or create a list
+        # with a single number if this is the first time a particular prefix was encountered.
         try:
-            ref_numbers[id].append(num)
+            prefix_nums[prefix].append(num)
         except KeyError:
-            ref_numbers[id] = [num]
-    for id in ref_numbers.keys():
-        ref_numbers[id] = convert_to_ranges(ref_numbers[id])
-    sorted_refs = []
-    for id, nums in ref_numbers.items():
+            prefix_nums[prefix] = [num]
+            
+    # Convert the list of numbers for each prefix into ranges.
+    for prefix in prefix_nums.keys():
+        prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
+        
+    # Combine the prefixes and number ranges back into part references.
+    collapsed_refs = []
+    for prefix, nums in prefix_nums.items():
         for num in nums:
             if type(num) == list:
-                sorted_refs.append('{0}{1}-{0}{2}'.format(id, num[0], num[1]))
+                # Convert a range list into a collapsed part reference:
+                # e.g., 'R10-R15' from 'R':[10,15].
+                collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0], num[-1]))
+            elif type(num) == int:
+                # Convert a single number into a simple part reference: e.g., 'R10'.
+                collapsed_refs.append('{}{}'.format(prefix, num))
             else:
-                sorted_refs.append('{}{}'.format(id, num))
-    return sorted_refs
+                raise Exception('Unknown part reference {}{}'.format(prefix,num))
+                
+    # Return the collapsed par references.
+    return collapsed_refs
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
+    '''Add global part data to the spreadsheet.'''
+    
+    # Columns for the various types of global part data.
     columns = {
         'refs': {
             'col': 0,
             'label': 'Refs',
             'comment': 'Schematic identifier for each part.'
         },
-        'value':
-        {'col': 1,
-         'label': 'Value',
-         'comment': 'Value of each part.'},
-        'desc':
-        {'col': 2,
-         'label': 'Desc',
-         'comment': 'Description of each part.'},
+        'value': {
+            'col': 1,
+            'label': 'Value',
+            'comment': 'Value of each part.'
+        },
+        'desc': {
+            'col': 2,
+            'label': 'Desc',
+            'comment': 'Description of each part.'
+        },
         'footprint': {
             'col': 3,
             'label': 'Footprint',
@@ -390,26 +501,27 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         # 'comment': 'Shortage of each part needed for assembly.'},
     }
     num_cols = len(columns.keys())
-    row = start_row
+    
+    row = start_row  # Start building global section at this row.
 
     # Add label for global section.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
                     "Global Part Info", wrk_formats['global'])
-    row += 1
+    row += 1 # Go to next row.
 
     # Add column headers.
     for k in columns.keys():
         col = start_col + columns[k]['col']
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
-    row += 1
+    row += 1 # Go to next row.
 
     # Add global data for each part.
     for part in parts:
 
         # Enter part references.
         wks.write_string(row, start_col + columns['refs']['col'],
-                         ','.join(sort_refs(part.refs)))
+                         ','.join(collapse_refs(part.refs)))
 
         # Enter more data for the part.
         for field in ('value', 'desc', 'footprint', 'manf', 'manf#'):
@@ -422,7 +534,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         # Enter total part quantity needed.
         try:
             wks.write(row, start_col + columns['qty']['col'],
-                      '=BoardQty*{}'.format(part.qty))
+                      '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
 
@@ -433,21 +545,25 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         except KeyError:
             pass
 
-        row += 1
+        row += 1 # Go to next row.
 
     # Return column following the globals so we know where to start next set of cells.
-    return start_col + num_cols
+    # Also return the columns where the references and quantity needed of each part is stored.
+    return start_col + num_cols, start_col + columns['refs']['col'], start_col + columns['qty']['col']
 
 
 def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
-                          total_cost_row, dist, parts):
+                          total_cost_row, part_ref_col, part_qty_col, dist, parts):
+    '''Add distributor-specific part data to the spreadsheet.'''
+
+    # Columns for the various types of distributor-specific part data.
     columns = {
         'avail': {
-            'col': 0,
-            'level': 1,
-            'label': 'Avail',
-            'width': None,
-            'comment': 'Available quantity of each part at the distributor.'
+            'col': 0, # column offset within this distributor range of the worksheet.
+            'level': 1, # Outline level (or hierarchy level) for this column.
+            'label': 'Avail', # Column header label.
+            'width': None, # Column width (default in this case).
+            'comment': 'Available quantity of each part at the distributor.' # Column header tool-tip.
         },
         'purch': {
             'col': 1,
@@ -488,131 +604,160 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
     }
     num_cols = len(columns.keys())
 
-    # Add left-side border to separate this section from the ones before.
-    wks.set_column(start_col, start_col, None, wrk_formats['separation'])
-    wks.set_column(start_col, start_col + num_cols - 1, None,
-                   wrk_formats['separation'])
-
-    row = start_row
+    row = start_row  # Start building distributor section at this row.
 
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
                     distributors[dist]['label'], wrk_formats[dist])
-    row += 1
+    row += 1 # Go to next row.
 
-    # Add column headers, comments, and outline level.
+    # Add column headers, comments, and outline level (for hierarchy).
     for k in columns.keys():
-        col = start_col + columns[k]['col']
+        col = start_col + columns[k]['col'] # Column index for this column.
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
         wks.set_column(col, col, columns[k]['width'], None,
                        {'level': columns[k]['level']})
-    row += 1
+    row += 1 # Go to next row.
 
     num_parts = len(parts)
-    part_info_first_row = row  # Starting row of part info.
-    part_info_last_row = row + num_parts - 1  # Last row of part info.
 
     # Add distributor data for each part.
+    PART_INFO_FIRST_ROW = row  # Starting row of part info.
+    PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
+    
+    # Get function names for getting data from the HTML tree for this distributor.
+    get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(dist))
+    get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(dist))
+    get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(dist))
+    
     for part in parts:
 
-        # Enter distributor part number for ordering purposes.
-        get_dist_part_num = getattr(THIS_MODULE,
-                                    'get_{}_part_num'.format(dist))
+        # Get the distributor part number from the HTML tree.
         dist_part_num = get_dist_part_num(part.html_trees[dist])
-        wks.write(row, start_col + columns['part_num']['col'], dist_part_num,
-                  None)
+        
+        # If the part number doesn't exist, the distributor doesn't stock this part
+        # so leave this row blank.
+        if len(dist_part_num) == 0:
+            row += 1 # Skip this row and go to the next.
+            continue
+        
+        # Enter distributor part number for ordering purposes.
+        wks.write(row, start_col + columns['part_num']['col'], dist_part_num, None)
 
         # Enter quantity of part available at this distributor.
-        get_dist_qty_avail = getattr(THIS_MODULE,
-                                     'get_{}_qty_avail'.format(dist))
         wks.write(row, start_col + columns['avail']['col'],
                   get_dist_qty_avail(part.html_trees[dist]), None)
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, start_col + columns['purch']['col'], '', None)
 
-        # Get function for extracting the price tiers from the distributor HTML page tree.
-        get_dist_price_tiers = getattr(THIS_MODULE,
-                                       'get_{}_price_tiers'.format(dist))
-
         # Extract price tiers from distributor HTML page tree.
         price_tiers = get_dist_price_tiers(part.html_trees[dist])
-        # Add the price for a single unit if it doesn't already exist.
+        # Add the price for a single unit if it doesn't already exist in the tiers.
         try:
             min_qty = min(price_tiers.keys())
             if min_qty > 1:
                 price_tiers[1] = price_tiers[
                     min_qty
-                ]  # Set unit price to lowest existing price.
-        except ValueError:  # This happens if the min_qty list is empty.
+                ]  # Set unit price to price of lowest available quantity.
+        except ValueError:  # This happens if the price tier list is empty.
             pass
         price_tiers[0] = 0.00  # Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.
 
-        # Sort the quantity breaks and prices and turn them into lists of strings.
+        # Sort the tiers based on quantities and turn them into lists of strings.
         qtys = sorted(price_tiers.keys())
         prices = [str(price_tiers[q]) for q in qtys]
         qtys = [str(q) for q in qtys]
 
-        # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
-        # or the purchased quantity (if that is non-zero).
-        needed_qty_col = 6  # TODO: Hard-coded column in the global table where part quantity is stored. Not good!
         purch_qty_col = start_col + columns['purch']['col']
         unit_price_col = start_col + columns['unit_price']['col']
-        if len(dist_part_num) > 0:
-            wks.write_formula(
-                row, unit_price_col,
-                '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                    needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
-                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    qtys=','.join(qtys),
-                    prices=','.join(prices)), wrk_formats['currency'])
+        
+        # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
+        # or the purchased quantity (if that is non-zero), but only if the part number exists.
+        wks.write_formula(
+            row, unit_price_col,
+            '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                qtys=','.join(qtys),
+                prices=','.join(prices)), wrk_formats['currency'])
 
         # Enter the formula for the extended price = purch qty * unit price.
-        if len(dist_part_num) > 0:
-            wks.write_formula(
-                row, start_col + columns['ext_price']['col'],
-                '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
-                    needed_qty=xl_rowcol_to_cell(row, needed_qty_col),
-                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    unit_price=xl_rowcol_to_cell(row, unit_price_col)),
-                wrk_formats['currency'])
+        wks.write_formula(
+            row, start_col + columns['ext_price']['col'],
+            '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
+                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                unit_price=xl_rowcol_to_cell(row, unit_price_col)),
+            wrk_formats['currency'])
 
         # Enter a link to the distributor webpage for this part.
-        if len(dist_part_num) > 0:
-            wks.write_url(row, start_col + columns['part_url']['col'],
-                          part.urls[dist], wrk_formats['centered_text'],
-                          string='Link')
-        row += 1
+        wks.write_url(row, start_col + columns['part_url']['col'],
+                      part.urls[dist], wrk_formats['centered_text'],
+                      string='Link')
+
+        # Finished processing distributor data for this part.              
+        row += 1 # Go to next row.
 
     # Sum the extended prices for all the parts to get the total cost from this distributor.
     total_cost_col = start_col + columns['ext_price']['col']
     wks.write(total_cost_row, total_cost_col, '=sum({sum_range})'.format(
-        sum_range=xl_range(part_info_first_row, total_cost_col,
-                           part_info_last_row, total_cost_col)),
+        sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
+                           PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
-    order_first_row = part_info_last_row + 5
-    order_last_row = order_first_row + num_parts - 1
+    ORDER_START_COL = start_col + 1
+    ORDER_FIRST_ROW = PART_INFO_LAST_ROW + 2
+    ORDER_LAST_ROW = ORDER_FIRST_ROW + num_parts - 1
 
+    # Each distributor has a different format for entering ordering information,
+    # so we account for that here.
     order_col = {}
     order_col_numeric = {}
     order_delimiter = {}
     dist_col = {}
-    for position, c in enumerate(distributors[dist]['order_cols']):
-        order_col[c] = start_col + 1 + position
-        order_col_numeric[c] = (c == 'purch')
-        order_delimiter[c] = distributors[dist]['order_delimiter']
+    for position, col_tag in enumerate(distributors[dist]['order_cols']):
+        order_col[col_tag] = ORDER_START_COL + position # Column for this order info.
+        order_col_numeric[col_tag] = (col_tag == 'purch') # Is this order info numeric?
+        order_delimiter[col_tag] = distributors[dist]['order_delimiter'] # Delimiter btwn order columns.
+        # For the last column of order info, the delimiter is blanked.
         if position + 1 == len(distributors[dist]['order_cols']):
-            order_delimiter[c] = ''
+            order_delimiter[col_tag] = ''
+        # If the column tag doesn't exist in the list of distributor columns,
+        # then assume its for the part reference column in the global data section
+        # of the worksheet.
         try:
-            dist_col[c] = start_col + columns[c]['col']
+            dist_col[col_tag] = start_col + columns[col_tag]['col']
         except KeyError:
-            dist_col[c] = 0  # TODO: Hard-coded column in the global table where part refs are stored. Not good!
+            dist_col[col_tag] = part_ref_col
 
     def enter_order_info(info_col, order_col, numeric=False, delimiter=''):
-        formula = '''
+        ''' This function enters a function into a spreadsheet cell that
+            prints the information found in info_col into the order_col column
+            of the order.
+        '''
+        
+        # This very complicated spreadsheet function does the following:
+        # 1) Computes the set of row indices in the part data that have
+        #    non-empty cells in sel_range1 and sel_range2. (Innermost
+        #    nested IF and ROW commands.) sel_range1 and sel_range2 are
+        #    the part's catalog number and purchase quantity.
+        # 2) Selects the k'th smallest of the row indices where k is the
+        #    number of rows between the current part row in the order and the
+        #    top row of the order. (SMALL() and ROW() commands.)
+        # 3) Gets the cell contents  from the get_range using the k'th 
+        #    smallest row index found in step #2. (INDEX() command.)
+        # 4) Converts the cell contents to a string if it is numeric.
+        #    (num_to_text_func is used.) Otherwise, it's already a string.
+        # 5) CONCATENATES the string from step #4 with the delimiter
+        #    that goes between fields of an order for a part.
+        #    (CONCATENATE() command.)
+        # 6) If any error occurs (which usually means the indexed cell
+        #    contents were blank), then a blank is printed. Otherwise,
+        #    the string from step #5 is printed in this cell.
+        order_info_func = '''
             IFERROR(
                 CONCATENATE(
                     {num_to_text_func}(
@@ -620,9 +765,9 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                             {get_range},
                             SMALL(
                                 IF(
-                                    {sel_range1} <> "",
+                                    {sel_range2} <> "",
                                     IF(
-                                        {sel_range2} <> "",
+                                        {sel_range1} <> "",
                                         ROW({sel_range1}) - MIN(ROW({sel_range1})) + 1,
                                         ""
                                     ),
@@ -639,8 +784,11 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             )
         '''
 
-        formula = re.sub('[\s\n]', '', formula)
+        # Strip all the whitespace from the function string.
+        order_info_func = re.sub('[\s\n]', '', order_info_func)
 
+        # This sets the function and conversion format to use if
+        # numeric cell contents have to be converted to a string.
         if numeric:
             num_to_text_func = 'TEXT'
             num_to_text_fmt = ',"##0"'
@@ -648,32 +796,36 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             num_to_text_func = ''
             num_to_text_fmt = ''
 
+        # This puts the order column delimiter into a form acceptable in a spreadsheet formula.
         if delimiter != '':
             delimiter = '"{}"'.format(delimiter)
 
+        # These are the columns where the part catalog numbers and purchase quantities can be found.
         purch_qty_col = start_col + columns['purch']['col']
         part_num_col = start_col + columns['part_num']['col']
 
-        for r in range(order_first_row, order_last_row + 1):
+        # Now write the order_info_func into every row of the order in the given column.
+        for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
             wks.write_array_formula(
                 xl_range(r, order_col, r, order_col),
-                '{{={formula}}}'.format(formula=formula.format(
-                    order_first_row=xl_rowcol_to_cell(order_first_row, 0,
+                '{{={func}}}'.format(func=order_info_func.format(
+                    order_first_row=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0,
                                                       row_abs=True),
-                    sel_range1=xl_range_abs(part_info_first_row, purch_qty_col,
-                                            part_info_last_row, purch_qty_col),
-                    sel_range2=xl_range_abs(part_info_first_row, part_num_col,
-                                            part_info_last_row, part_num_col),
-                    get_range=xl_range_abs(part_info_first_row, info_col,
-                                           part_info_last_row, info_col),
+                    sel_range1=xl_range_abs(PART_INFO_FIRST_ROW, purch_qty_col,
+                                            PART_INFO_LAST_ROW, purch_qty_col),
+                    sel_range2=xl_range_abs(PART_INFO_FIRST_ROW, part_num_col,
+                                            PART_INFO_LAST_ROW, part_num_col),
+                    get_range=xl_range_abs(PART_INFO_FIRST_ROW, info_col,
+                                           PART_INFO_LAST_ROW, info_col),
                     delimiter=delimiter,
                     num_to_text_func=num_to_text_func,
                     num_to_text_fmt=num_to_text_fmt)))
 
-    for c in ('purch', 'part_num', 'refs'):
-        enter_order_info(dist_col[c], order_col[c],
-                         numeric=order_col_numeric[c],
-                         delimiter=order_delimiter[c])
+    # For every column in the order info range, enter the part order information.
+    for col_tag in ('purch', 'part_num', 'refs'):
+        enter_order_info(dist_col[col_tag], order_col[col_tag],
+                         numeric=order_col_numeric[col_tag],
+                         delimiter=order_delimiter[col_tag])
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
 
@@ -715,7 +867,7 @@ def get_mouser_price_tiers(html_tree):
 
 
 def get_newark_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
+    '''Get the pricing tiers from the parsed tree of the Newark product page.'''
     price_tiers = {}
     try:
         qty_strs = []
@@ -758,6 +910,7 @@ def digikey_part_is_reeled(html_tree):
 
 
 def get_digikey_part_num(html_tree):
+    '''Get the part number from the Digikey product page.'''
     try:
         return re.sub('\n', '', html_tree.find('td',
                                                id='reportpartnumber').text)
@@ -765,16 +918,8 @@ def get_digikey_part_num(html_tree):
         return ''
 
 
-def replace_digikey_part_num(html_tree, new_pn):
-    try:
-        insertion_point = html_tree.find('td', id='reportpartnumber')
-        insertion_point.string = new_pn
-    except AttributeError:
-        return False
-    return True
-
-
 def get_mouser_part_num(html_tree):
+    '''Get the part number from the Mouser product page.'''
     try:
         return re.sub('\n', '', html_tree.find('div',
                                                id='divMouserPartNum').text)
@@ -783,6 +928,7 @@ def get_mouser_part_num(html_tree):
 
 
 def get_newark_part_num(html_tree):
+    '''Get the part number from the Newark product page.'''
     try:
         part_num_str = html_tree.find('div',
                                       id='productDescription').find(
@@ -795,6 +941,7 @@ def get_newark_part_num(html_tree):
 
 
 def get_digikey_qty_avail(html_tree):
+    '''Get the available quantity of the part from the Digikey product page.'''
     try:
         qty_str = html_tree.find('td', id='quantityavailable').text
     except AttributeError:
@@ -808,6 +955,7 @@ def get_digikey_qty_avail(html_tree):
 
 
 def get_mouser_qty_avail(html_tree):
+    '''Get the available quantity of the part from the Mouser product page.'''
     try:
         qty_str = html_tree.find(
             'table',
@@ -821,6 +969,7 @@ def get_mouser_qty_avail(html_tree):
 
 
 def get_newark_qty_avail(html_tree):
+    '''Get the available quantity of the part from the Newark product page.'''
     try:
         qty_str = html_tree.find('div',
                                  id='priceWrap').find(
@@ -834,27 +983,37 @@ def get_newark_qty_avail(html_tree):
         return 0
 
 
-def get_part_html_trees(part):
-    '''Get the parsed HTML trees from each distributor website for the given part.'''
+def get_part_html_trees(distributors, part):
+    '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
+    
     html_trees = {}
     urls = {}
     fields = part.fields
-    for dist in distributors.keys():
+
+    for dist in distributors:
         debug_print(2, '{} {}'.format(dist, part.refs))
+        
+        # Get function name for getting the HTML tree for this part from this distributor.
         get_dist_part_html_tree = getattr(THIS_MODULE,
                                           'get_{}_part_html_tree'.format(dist))
         try:
+            # Use the distributor's catalog number (if available) to get the page.
             if dist + '#' in fields:
                 html_trees[dist], urls[dist] = get_dist_part_html_tree(
                     fields[dist + '#'])
+            # Else, use the manufacturer's catalog number (if available) to get the page.
             elif 'manf#' in fields:
                 html_trees[dist], urls[dist] = get_dist_part_html_tree(
                     fields['manf#'])
+            # Else, give up.
             else:
                 raise PartHtmlError
         except PartHtmlError, AttributeError:
+            # If no HTML page was found, then return a tree for an empty page.
             html_trees[dist] = BeautifulSoup('<html></html>')
             urls[dist] = ''
+            
+    # Return the parsed HTML trees and the page URLs from whence they came.
     return html_trees, urls
 
 
@@ -868,32 +1027,29 @@ class PartHtmlError(Exception):
     pass
 
 
-def merge_digikey_price_tiers(main_tree, alt_tree):
-    '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
-    try:
-        insertion_point = main_tree.find('table', id='pricing').find('tr')
-        for tr in alt_tree.find('table', id='pricing').find_all('tr'):
-            insertion_point.insert_after(tr)
-    except AttributeError:
-        pass
-
-
-def merge_digikey_qty_avail(main_tree, alt_tree):
-    try:
-        main_qty = get_digikey_qty_avail(main_tree)
-        alt_qty = get_digikey_qty_avail(alt_tree)
-        merged_qty = max(main_qty, alt_qty)
-        insertion_point = main_tree.find('td', id='quantityavailable')
-        insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
-    except AttributeError:
-        pass
-
-
 def get_digikey_part_html_tree(pn, url=None, descend=2):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
-    #url='https://www.google.com/search?q=pic18f14k50-I%2FSS-ND+site%3Adigikey.com'
-    #url = 'http://www.digikey.com/product-search/en?WT.z_homepage_link=hp_go_button&lang=en&site=us&keywords=' + URLL.quote(pn,safe='')
-    #url = 'http://www.digikey.com/product-detail/en/PIC18F14K50T-I%2FSS/PIC18F14K50T-I%2FSSCT-ND/5013555'
+
+    def merge_price_tiers(main_tree, alt_tree):
+        '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
+        try:
+            insertion_point = main_tree.find('table', id='pricing').find('tr')
+            for tr in alt_tree.find('table', id='pricing').find_all('tr'):
+                insertion_point.insert_after(tr)
+        except AttributeError:
+            pass
+
+
+    def merge_qty_avail(main_tree, alt_tree):
+        '''Merge the quantities from the alternate-packaging tree into the main tree.'''
+        try:
+            main_qty = get_digikey_qty_avail(main_tree)
+            alt_qty = get_digikey_qty_avail(alt_tree)
+            merged_qty = max(main_qty, alt_qty)
+            insertion_point = main_tree.find('td', id='quantityavailable')
+            insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
+        except AttributeError:
+            pass
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
@@ -925,27 +1081,33 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
                             'tr',
                             class_='more-expander-item')
                 ]
-
                 ap_trees_and_urls = [get_digikey_part_html_tree(pn, ap_url,
                                                                 descend=0)
                                      for ap_url in ap_urls]
+                                     
+                # Put the main tree on the list as well and then look through
+                # the entire list for one that's non-reeled. Use this as the
+                # main page for the part.
                 ap_trees_and_urls.append((tree, url))
                 if digikey_part_is_reeled(tree):
                     for ap_tree, ap_url in ap_trees_and_urls:
                         if not digikey_part_is_reeled(ap_tree):
+                            # Found a non-reeled part, so use it as the main page.
                             tree = ap_tree
                             url = ap_url
-                            break
+                            break # Done looking.
 
+                # Now go through the other pages, merging their pricing and quantity
+                # info into the main page.
                 for ap_tree, ap_url in ap_trees_and_urls:
                     if ap_tree is tree:
-                        continue
+                        continue # Skip examining the main tree. It already contains its info.
                     try:
                         # Merge the pricing info from that into the main parse tree to make
                         # a single, unified set of price tiers...
-                        merge_digikey_price_tiers(tree, ap_tree)
+                        merge_price_tiers(tree, ap_tree)
                         # and merge available quantity, using the maximum found.
-                        merge_digikey_qty_avail(tree, ap_tree)
+                        merge_qty_avail(tree, ap_tree)
                     except AttributeError:
                         continue
             except AttributeError:

@@ -3,6 +3,16 @@
 History
 -------
 
+0.1.2 (2015-07-04)
+---------------------
+
+* Refactoring.
+* To reduce the effort in adding manufacturer's part numbers to a schematic, one will now be assigned to a part if:
+
+  #. It doesn't have one.
+  #. It is identical to another part or parts which do have a manf. part number.
+  #. There are no other identical parts with a different manf. part number than the ones in item #2.
+
 0.1.1 (2015-07-02)
 ---------------------
 
