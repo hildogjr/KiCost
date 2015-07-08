@@ -214,7 +214,9 @@ def get_part_groups(in_file):
     new_component_groups = {}  # Copy component_groups into this.
     for g in component_groups:
         if len(component_groups[g].manf_nums) > 1:
-            # Found a group with two or more manf. part numbers.
+            # Found a group with two or more manf. part numbers,
+            # so partition the group into smaller groups whose members
+            # all have the same manf. part number.
             for c in component_groups[g].refs:
                 # Calculate a hash of each component's field values like before,
                 # only now include the manufacturer's part number.
@@ -226,7 +228,7 @@ def get_part_groups(in_file):
                     new_component_groups[h].refs.append(c)
                 except KeyError:
                     # This happens if it is the first part in a group, so the group
-                    # doesn't exist yet.
+                    # doesn't exist yet. We have to make it.
 
                     class IdenticalComponents:
                         pass  # Just need a temporary class here.
@@ -343,13 +345,13 @@ def create_spreadsheet(parts, spreadsheet_filename):
         # next_col = the column immediately to the right of the global data.
         # qty_col = the column where the quantity needed of each part is stored.
         next_col, refs_col, qty_col = add_globals_to_worksheet(wks, wrk_formats, START_ROW,
-                                            START_COL,
+                                            START_COL, TOTAL_COST_ROW,
                                             parts)
         # Create a defined range for the global data.
         workbook.define_name('global_part_data',
                              '={wks_name}!{data_range}'.format(
                                  wks_name=WORKSHEET_NAME,
-                                 data_range=xl_range(START_ROW, START_COL,
+                                 data_range=xl_range_abs(START_ROW, START_COL,
                                                      LAST_PART_ROW, next_col - 1)))
 
         # Create the cell where the quantity of boards to assemble is entered.
@@ -384,7 +386,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
                     wks_name=WORKSHEET_NAME,
-                    data_range=xl_range(START_ROW, dist_start_col, LAST_PART_ROW,
+                    data_range=xl_range_abs(START_ROW, dist_start_col, LAST_PART_ROW,
                                         next_col - 1)))
 
 
@@ -455,49 +457,79 @@ def collapse_refs(refs):
     return collapsed_refs
 
 
-def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
+def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, total_cost_row, parts):
     '''Add global part data to the spreadsheet.'''
     
     # Columns for the various types of global part data.
     columns = {
         'refs': {
             'col': 0,
+            'level': 0, # Outline level (or hierarchy level) for this column.
             'label': 'Refs',
+            'width': None, # Column width (default in this case).
             'comment': 'Schematic identifier for each part.'
         },
         'value': {
             'col': 1,
+            'level': 0,
             'label': 'Value',
+            'width': None,
             'comment': 'Value of each part.'
         },
         'desc': {
             'col': 2,
+            'level': 0,
             'label': 'Desc',
+            'width': None,
             'comment': 'Description of each part.'
         },
         'footprint': {
             'col': 3,
+            'level': 0,
             'label': 'Footprint',
+            'width': None,
             'comment': 'PCB footprint for each part.'
         },
         'manf': {
             'col': 4,
+            'level': 0,
             'label': 'Manf',
+            'width': None,
             'comment': 'Manufacturer of each part.'
         },
         'manf#': {
             'col': 5,
+            'level': 0,
             'label': 'Manf#',
+            'width': None,
             'comment': 'Manufacturer number for each part.'
         },
         'qty': {
             'col': 6,
+            'level': 0,
             'label': 'Qty',
+            'width': None,
             'comment': 'Total number of each part needed to assemble the board.'
+        },
+        'unit_price': {
+            'col': 7,
+            'level': 0,
+            'label': 'Unit$',
+            'width': None,
+            'comment': 'Minimum unit price for each part across all distributors.'
+        },
+        'ext_price': {
+            'col': 8,
+            'level': 0,
+            'label': 'Ext$',
+            'width': 15,  # Displays up to $9,999,999.99 without "###".
+            'comment': 'Minimum extended price for each part across all distributors.'
         },
         # 'short': {
         # 'col': 7,
+        # 'level': 0,
         # 'label': 'Short',
+        # 'width': None, # Column width (default in this case).
         # 'comment': 'Shortage of each part needed for assembly.'},
     }
     num_cols = len(columns.keys())
@@ -514,7 +546,13 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
         col = start_col + columns[k]['col']
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
+        wks.set_column(col, col, columns[k]['width'], None,
+                       {'level': columns[k]['level']})
     row += 1 # Go to next row.
+
+    num_parts = len(parts)
+    PART_INFO_FIRST_ROW = row  # Starting row of part info.
+    PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
     # Add global data for each part.
     for part in parts:
@@ -537,6 +575,22 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
                       '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
+            
+        # Enter spreadsheet formula for getting the minimum unit price from all the distributors.
+        dist_unit_prices = []
+        for dist in distributors.keys():
+            dist_part_data_range = '{}_part_data'.format(dist)
+            dist_unit_prices.append('INDEX({},{},{})'.format(dist_part_data_range, row-start_row+1, 3))
+        min_unit_price_func = '=MINA({})'.format(','.join(dist_unit_prices))
+        wks.write(row, start_col + columns['unit_price']['col'], min_unit_price_func, wrk_formats['currency'])
+        
+        # Enter spreadsheet formula for calculating minimum extended price.
+        wks.write_formula(
+            row, start_col + columns['ext_price']['col'],
+            '=iferror({qty}*{unit_price},"")'.format(
+                qty=xl_rowcol_to_cell(row, start_col + columns['qty']['col']),
+                unit_price=xl_rowcol_to_cell(row, start_col + columns['unit_price']['col'])),
+            wrk_formats['currency'])
 
         # Enter part shortage quantity.
         try:
@@ -546,6 +600,13 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, parts):
             pass
 
         row += 1 # Go to next row.
+
+    # Sum the extended prices for all the parts to get the total minimum cost.
+    total_cost_col = start_col + columns['ext_price']['col']
+    wks.write(total_cost_row, total_cost_col, '=sum({sum_range})'.format(
+        sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
+                           PART_INFO_LAST_ROW, total_cost_col)),
+              wrk_formats['total_cost_currency'])
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.
