@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.3 (2015-07-07)
+---------------------
+
+* Added global part columns that show minimum unit and extended prices for all parts across all distributors.
+
 0.1.2 (2015-07-04)
 ---------------------
 
