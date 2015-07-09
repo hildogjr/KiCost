@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.4 (2015-07-09)
+---------------------
+
+* Added conditional formatting to indicate which distributor had the best price for a particular part.
+* Fixed calc of min unit price so it wouldn't be affected if part rows were sorted.
+
 0.1.3 (2015-07-07)
 ---------------------
 
