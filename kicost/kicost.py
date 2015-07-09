@@ -320,6 +320,9 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'num_format': '$#,##0.00',
                 'valign': 'vcenter',
             }),
+            'best_price' : workbook.add_format({
+                'bg_color': '#80FF80',
+            }),
             'currency' : workbook.add_format({
                 'num_format': '$#,##0.00'
             }),
@@ -579,8 +582,11 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, total_cost_
         # Enter spreadsheet formula for getting the minimum unit price from all the distributors.
         dist_unit_prices = []
         for dist in distributors.keys():
+            # Get the name of the data range for this distributor.
             dist_part_data_range = '{}_part_data'.format(dist)
-            dist_unit_prices.append('INDEX({},{},{})'.format(dist_part_data_range, row-start_row+1, 3))
+            # Get the contents of the unit price cell for this part (row) and distributor (column+offset).
+            dist_unit_prices.append('INDIRECT(ADDRESS(ROW(),COLUMN({})+2))'.format(dist_part_data_range))
+        # Create the function that finds the minimum of all the distributor unit price cells for this part.
         min_unit_price_func = '=MINA({})'.format(','.join(dist_unit_prices))
         wks.write(row, start_col + columns['unit_price']['col'], min_unit_price_func, wrk_formats['currency'])
         
@@ -733,6 +739,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
 
         purch_qty_col = start_col + columns['purch']['col']
         unit_price_col = start_col + columns['unit_price']['col']
+        ext_price_col = start_col + columns['ext_price']['col']
         
         # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
         # or the purchased quantity (if that is non-zero), but only if the part number exists.
@@ -743,15 +750,31 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                 purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                 qtys=','.join(qtys),
                 prices=','.join(prices)), wrk_formats['currency'])
+        # Conditionally format the unit price cell that contains the best price.
+        wks.conditional_format(row, unit_price_col, row, unit_price_col, {
+            'type':'cell', 
+            'criteria':'<=', 
+            'value': xl_rowcol_to_cell(row,7), # This is the global data cell holding the minimum unit price for this part. 
+            'format': wrk_formats['best_price']
+            }
+        )
 
         # Enter the formula for the extended price = purch qty * unit price.
         wks.write_formula(
-            row, start_col + columns['ext_price']['col'],
+            row, ext_price_col,
             '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
                 needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                 purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                 unit_price=xl_rowcol_to_cell(row, unit_price_col)),
             wrk_formats['currency'])
+        # Conditionally format the extended price cell that contains the best price.
+        wks.conditional_format(row, ext_price_col, row, ext_price_col, {
+            'type':'cell', 
+            'criteria':'<=', 
+            'value': xl_rowcol_to_cell(row,8), # This is the global data cell holding the minimum extended price for this part.
+            'format': wrk_formats['best_price']
+            }
+        )
 
         # Enter a link to the distributor webpage for this part.
         wks.write_url(row, start_col + columns['part_url']['col'],
