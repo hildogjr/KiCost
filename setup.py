@@ -36,7 +36,7 @@ setup(
     url='https://github.com/xesscorp/KiCost',
 #    packages=['kicost',],
     packages=setuptools.find_packages(),
-    entry_points={'console_scripts':['kicost = kicost.__main__']},
+    entry_points={'console_scripts':['kicost = kicost.__main__:main']},
     package_dir={'kicost':'kicost'},
     include_package_data=True,
     package_data={'kicost': ['*.gif', '*.png']},
