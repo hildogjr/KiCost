@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.6 (2015-08-26)
+---------------------
+
+* Mouser changed their HTML page format, so I changed their web scraper.
+
 0.1.5 (2015-07-25)
 ---------------------
 

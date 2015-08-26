@@ -935,7 +935,7 @@ def get_mouser_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
     price_tiers = {}
     try:
-        for tr in html_tree.find('table', class_='PriceBreaks').find_all('tr'):
+        for tr in html_tree.find('div', class_='PriceBreaks').find_all('tr'):
             try:
                 qty = int(re.sub('[^0-9]', '',
                                  tr.find('td',
@@ -946,6 +946,31 @@ def get_mouser_price_tiers(html_tree):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
+        return price_tiers  # Return empty price tiers.
+    return price_tiers
+
+
+def get_mouser_price_tiers(html_tree):
+    '''Get the pricing tiers from the parsed tree of the Newark product page.'''
+    price_tiers = {}
+    try:
+        qty_strs = []
+        for qty in html_tree.find('div', class_='PriceBreaks').find_all('div', class_='PriceBreakQuantity'):
+            qty_strs.append(qty.text)
+        price_strs = []
+        for price in html_tree.find('div', class_='PriceBreaks').find_all('div', class_='PriceBreakPrice'):
+            price_strs.append(price.text)
+        qtys_prices = zip(qty_strs, price_strs)
+        for qty_str, price_str in qtys_prices:
+            try:
+                qty = re.search('(\s*)([0-9,]+)', qty_str).group(2)
+                qty = int(re.sub('[^0-9]', '', qty))
+                price_tiers[qty] = float(re.sub('[^0-9\.]', '', price_str))
+            except (TypeError, AttributeError, ValueError):
+                continue
+    except AttributeError:
+        # This happens when no pricing info is found in the tree.
+        print 'Mouser: no price tiers found.'
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
