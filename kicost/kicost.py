@@ -1092,7 +1092,7 @@ def get_part_html_trees(distributors, part):
             # Else, give up.
             else:
                 raise PartHtmlError
-        except PartHtmlError, AttributeError:
+        except (PartHtmlError, AttributeError):
             # If no HTML page was found, then return a tree for an empty page.
             html_trees[dist] = BeautifulSoup('<html></html>')
             urls[dist] = ''
