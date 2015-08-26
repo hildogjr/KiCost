@@ -20,11 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from __future__ import print_function
+from __future__ import absolute_import
+
 import argparse as ap
 import os
 import sys
-from __init__ import __version__
-from kicost import *
+from .__init__ import __version__
+from .kicost import *
 
 def main():
     parser = ap.ArgumentParser(
@@ -64,8 +67,8 @@ def main():
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
     if os.path.isfile(args.output):
         if not args.overwrite:
-            print 'Output file {} already exists! Use the --overwrite option to replace it.'.format(
-                args.output)
+            print('Output file {} already exists! Use the --overwrite option to replace it.'.format(
+                args.output))
             sys.exit(1)
 
     if args.input == None:

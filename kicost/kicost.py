@@ -20,12 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from __future__ import print_function
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import zip
+from builtins import range
+from builtins import object
+
 import sys
 import pprint
 import re
 import difflib
 from bs4 import BeautifulSoup
-import urllib as URLL
+
+try:
+    from urllib import FancyURLopener, quote as urlquote
+except ImportError:
+    from urllib.request import FancyURLopener
+    from urllib.parse import quote as urlquote
+
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
@@ -59,7 +73,7 @@ def debug_print(level, msg):
     if dbg_level == None:
         return
     if level <= dbg_level:
-        print msg
+        print(msg)
         
         
 def kicost(in_file, out_filename, debug_level=None):
@@ -74,7 +88,7 @@ def kicost(in_file, out_filename, debug_level=None):
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
     for part in parts:
-        part.html_trees, part.urls = get_part_html_trees(distributors.keys(), part)
+        part.html_trees, part.urls = get_part_html_trees(list(distributors.keys()), part)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, out_filename)
@@ -88,9 +102,12 @@ def kicost(in_file, out_filename, debug_level=None):
                 elif f.startswith('html_trees'):
                     continue
                 else:
-                    print '{} = '.format(f),
-                    pprint.pprint(part.__dict__[f])
-            print
+                    print('{} = '.format(f), end=' ')
+                    try:
+                        pprint.pprint(part.__dict__[f])
+                    except KeyError:
+                        pass
+            print()
         
     
 def get_part_groups(in_file):
@@ -100,7 +117,7 @@ def get_part_groups(in_file):
 
     # Read-in the schematic XML file to get a tree and get its root.
     debug_print(1, 'Get schematic XML...')
-    root = BeautifulSoup(in_file)
+    root = BeautifulSoup(in_file, 'lxml')
 
     # Find the parts used from each library.
     debug_print(1, 'Get parts library...')
@@ -195,7 +212,7 @@ def get_part_groups(in_file):
             # This happens if it is the first part in a group, so the group
             # doesn't exist yet.
 
-            class IdenticalComponents:
+            class IdenticalComponents(object):
                 pass  # Just need a temporary class here.
 
             component_groups[h] = IdenticalComponents()  # Add empty structure.
@@ -230,7 +247,7 @@ def get_part_groups(in_file):
                     # This happens if it is the first part in a group, so the group
                     # doesn't exist yet. We have to make it.
 
-                    class IdenticalComponents:
+                    class IdenticalComponents(object):
                         pass  # Just need a temporary class here.
 
                     new_component_groups[h] = IdenticalComponents()  # Add empty structure.
@@ -249,7 +266,7 @@ def get_part_groups(in_file):
             new_component_groups[g] = component_groups[g]  # Copy the group.
 
     # Now return a list of the groups without their hash keys.            
-    return new_component_groups.values()
+    return list(new_component_groups.values())
     
 
 def create_spreadsheet(parts, spreadsheet_filename):
@@ -380,7 +397,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
         wks.freeze_panes(COL_HDR_ROW, next_col)
 
         # Load the part information from each distributor into the sheet.
-        for dist in distributors.keys():
+        for dist in list(distributors.keys()):
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
                                              dist_start_col, TOTAL_COST_ROW, refs_col, qty_col, dist,
@@ -439,12 +456,12 @@ def collapse_refs(refs):
             prefix_nums[prefix] = [num]
             
     # Convert the list of numbers for each prefix into ranges.
-    for prefix in prefix_nums.keys():
+    for prefix in list(prefix_nums.keys()):
         prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
         
     # Combine the prefixes and number ranges back into part references.
     collapsed_refs = []
-    for prefix, nums in prefix_nums.items():
+    for prefix, nums in list(prefix_nums.items()):
         for num in nums:
             if type(num) == list:
                 # Convert a range list into a collapsed part reference:
@@ -535,7 +552,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, total_cost_
         # 'width': None, # Column width (default in this case).
         # 'comment': 'Shortage of each part needed for assembly.'},
     }
-    num_cols = len(columns.keys())
+    num_cols = len(list(columns.keys()))
     
     row = start_row  # Start building global section at this row.
 
@@ -545,7 +562,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, total_cost_
     row += 1 # Go to next row.
 
     # Add column headers.
-    for k in columns.keys():
+    for k in list(columns.keys()):
         col = start_col + columns[k]['col']
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
@@ -581,7 +598,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col, total_cost_
             
         # Enter spreadsheet formula for getting the minimum unit price from all the distributors.
         dist_unit_prices = []
-        for dist in distributors.keys():
+        for dist in list(distributors.keys()):
             # Get the name of the data range for this distributor.
             dist_part_data_range = '{}_part_data'.format(dist)
             # Get the contents of the unit price cell for this part (row) and distributor (column+offset).
@@ -669,7 +686,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             'comment': 'Link to distributor webpage for each part.'
         },
     }
-    num_cols = len(columns.keys())
+    num_cols = len(list(columns.keys()))
 
     row = start_row  # Start building distributor section at this row.
 
@@ -679,7 +696,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
     row += 1 # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
-    for k in columns.keys():
+    for k in list(columns.keys()):
         col = start_col + columns[k]['col'] # Column index for this column.
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
         wks.write_comment(row, col, columns[k]['comment'])
@@ -960,7 +977,7 @@ def get_mouser_price_tiers(html_tree):
         price_strs = []
         for price in html_tree.find('div', class_='PriceBreaks').find_all('div', class_='PriceBreakPrice'):
             price_strs.append(price.text)
-        qtys_prices = zip(qty_strs, price_strs)
+        qtys_prices = list(zip(qty_strs, price_strs))
         for qty_str, price_str in qtys_prices:
             try:
                 qty = re.search('(\s*)([0-9,]+)', qty_str).group(2)
@@ -970,7 +987,7 @@ def get_mouser_price_tiers(html_tree):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
-        print 'Mouser: no price tiers found.'
+        print('Mouser: no price tiers found.')
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
@@ -993,7 +1010,7 @@ def get_newark_price_tiers(html_tree):
                 'td',
                 class_='threeColTd'):
             price_strs.append(price.text)
-        qtys_prices = zip(qty_strs, price_strs)
+        qtys_prices = list(zip(qty_strs, price_strs))
         for qty_str, price_str in qtys_prices:
             try:
                 qty = re.search('(\s*)([0-9,]+)', qty_str).group(2)
@@ -1009,7 +1026,7 @@ def get_newark_price_tiers(html_tree):
 
 def digikey_part_is_reeled(html_tree):
     '''Returns True is this Digi-Key part is reeled or Digi-reeled.'''
-    qty_tiers = get_digikey_price_tiers(html_tree).keys()
+    qty_tiers = list(get_digikey_price_tiers(html_tree).keys())
     if min(qty_tiers) >= 100:
         return True
     if html_tree.find('table',
@@ -1119,14 +1136,14 @@ def get_part_html_trees(distributors, part):
                 raise PartHtmlError
         except (PartHtmlError, AttributeError):
             # If no HTML page was found, then return a tree for an empty page.
-            html_trees[dist] = BeautifulSoup('<html></html>')
+            html_trees[dist] = BeautifulSoup('<html></html>', 'lxml')
             urls[dist] = ''
             
     # Return the parsed HTML trees and the page URLs from whence they came.
     return html_trees, urls
 
 
-class FakeBrowser(URLL.FancyURLopener):
+class FakeBrowser(FancyURLopener):
     ''' This is a fake browser string so the distributor websites will talk to us.'''
     version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36'
 
@@ -1162,7 +1179,7 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-        url = 'http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=' + URLL.quote(
+        url = 'http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=' + urlquote(
             pn,
             safe='')
     elif url[0] == '/':
@@ -1171,7 +1188,7 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     url_opener = FakeBrowser()
     html = url_opener.open(url).read()
-    tree = BeautifulSoup(html)
+    tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then return it.
     if tree.find('html', class_='rd-product-details-page') is not None:
@@ -1266,7 +1283,7 @@ def get_mouser_part_html_tree(pn, url=None):
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-        url = 'http://www.mouser.com/Search/Refine.aspx?Keyword=' + URLL.quote(
+        url = 'http://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(
             pn,
             safe='')
     elif url[0] == '/':
@@ -1277,7 +1294,7 @@ def get_mouser_part_html_tree(pn, url=None):
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     url_opener = FakeBrowser()
     html = url_opener.open(url).read()
-    tree = BeautifulSoup(html)
+    tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', id='product-details') is not None:
@@ -1316,7 +1333,7 @@ def get_newark_part_html_tree(pn, url=None):
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-        url = 'http://www.newark.com/webapp/wcs/stores/servlet/Search?catalogId=15003&langId=-1&storeId=10194&gs=true&st=' + URLL.quote(
+        url = 'http://www.newark.com/webapp/wcs/stores/servlet/Search?catalogId=15003&langId=-1&storeId=10194&gs=true&st=' + urlquote(
             pn,
             safe='')
     elif url[0] == '/':
@@ -1327,7 +1344,7 @@ def get_newark_part_html_tree(pn, url=None):
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     url_opener = FakeBrowser()
     html = url_opener.open(url).read()
-    tree = BeautifulSoup(html)
+    tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', class_='productDisplay', id='page') is not None:
