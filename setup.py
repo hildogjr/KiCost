@@ -20,6 +20,8 @@ with open('HISTORY.rst') as history_file:
 requirements = [
     'beautifulsoup4 >= 4.3.2',
     'XlsxWriter >= 0.7.3',
+    'future >= 0.15.0',
+    'lxml >= 3.3.5',
 ]
 
 test_requirements = [

@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.8 (2015-09-17)
+---------------------
+
+* Added missing requirements for future and lxml packages.
+
 0.1.7 (2015-08-26)
 ---------------------
 
