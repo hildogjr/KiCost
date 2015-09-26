@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.9 (2015-09-26)
+---------------------
+
+* Fixed exception caused by Digi-Key part with 'call' as an entry in a part's price list.
+* Fixed extraction of part quantities in Mouser web pages.
+* Added randomly-selected user-agent strings so sites might be less likely to block scraping.
+* Added ghost.py code for getting around Javascript challenge pages (currently inactive).
+
 0.1.8 (2015-09-17)
 ---------------------
 
