@@ -19,9 +19,7 @@ Features
 --------
 
 * Processes the BOM XML file from your KiCad schematic to create a part-cost spreadsheet by
-  scraping the web sites of several popular distributors for price and inventory data. 
-  (Mouser and Newark/Element14 are currently supported. Digi-Key was supported, but they
-  put a challenge script into their website to prevent scraping, so we're working on that.)
+  scraping the web sites of several popular distributors for price and inventory data.
 * The spreadsheet contains quantity-adjusted pricing from each distributor for 
   individual parts and the total board.
 * Enter the number of boards to be built in a spreadsheet cell and all the pricing
