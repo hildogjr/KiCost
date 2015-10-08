@@ -3,6 +3,11 @@
 History
 -------
 
+0.1.10 (2015-10-08)
+---------------------
+
+* Pushed lxml requirement back to 3.3.3 so linux mint would have fewer problems trying to install.
+
 0.1.9 (2015-09-26)
 ---------------------
 
