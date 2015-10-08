@@ -21,7 +21,7 @@ requirements = [
     'beautifulsoup4 >= 4.3.2',
     'XlsxWriter >= 0.7.3',
     'future >= 0.15.0',
-    'lxml >= 3.3.5',
+    'lxml >= 3.3.3',
 ]
 
 test_requirements = [
