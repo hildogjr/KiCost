@@ -41,9 +41,10 @@ from random import randint
 #from ghost import Ghost
 
 try:
-    from urllib import FancyURLopener, quote as urlquote
+    from urllib import urlopen, Request, urlencode, quote as urlquote
 except ImportError:
-    from urllib.request import FancyURLopener
+    from urllib import urlencode
+    from urllib.request import urlopen, Request
     from urllib.parse import quote as urlquote
 
 import xlsxwriter
@@ -992,7 +993,7 @@ def get_mouser_price_tiers(html_tree):
 
 
 def get_mouser_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the Newark product page.'''
+    '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
     price_tiers = {}
     try:
         qty_strs = []
@@ -1207,16 +1208,11 @@ def get_user_agent():
     return user_agent_list[randint(0, len(user_agent_list) - 1)]
 
 
-class FakeBrowser(FancyURLopener):
-    ''' This is a fake browser user-agent string so the distributor websites will talk to us.'''
-    version = get_user_agent()
-    #version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.124 Safari/537.36'
-    #version = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36'
-    #version = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6'
-    #version = 'Lynx/2.8.7rel.2 libwww-FM/2.14 SSL-MM/1.4.1 OpenSSL/1.0.0a'
-    #version = 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:1.8.0.7) Gecko/20110321 MultiZilla/4.33.2.6a SeaMonkey/8.6.55'
-    #version = 'Python-urllib/3.1'
-
+def FakeBrowser(url):
+    req = Request(url)
+    req.add_header('Accept-Language', 'en-US')
+    req.add_header('User-agent', get_user_agent())
+    return req
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
@@ -1256,8 +1252,9 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
         url = 'http://www.digikey.com' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
-    url_opener = FakeBrowser()
-    html = url_opener.open(url).read()
+    req = FakeBrowser(url)
+    response = urlopen(req)
+    html = response.read()
 
     # Use the following code if Javascript challenge pages are used to block scrapers.
     # try:
@@ -1373,8 +1370,10 @@ def get_mouser_part_html_tree(pn, url=None):
         url = 'http://www.mouser.com/Search/' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
-    url_opener = FakeBrowser()
-    html = url_opener.open(url).read()
+    req = FakeBrowser(url)
+    req.add_header('Cookie', 'preferences=ps=www2&pl=en-US&pc_www2=USDe')
+    response = urlopen(req)
+    html = response.read()
     tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then just return it.
@@ -1423,8 +1422,9 @@ def get_newark_part_html_tree(pn, url=None):
         url = 'http://www.newark.com/Search/' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
-    url_opener = FakeBrowser()
-    html = url_opener.open(url).read()
+    req = FakeBrowser(url)
+    response = urlopen(req)
+    html = response.read()
     tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then just return it.
