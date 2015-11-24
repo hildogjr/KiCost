@@ -1,17 +1,17 @@
 # MIT license
-# 
+#
 # Copyright (C) 2015 by XESS Corporation
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -207,7 +207,7 @@ def get_part_groups(in_file):
         # or create a new group if the hash hasn't been seen before.
         try:
             # Add next ref for identical part to the list.
-            # No need to add field values since they are the same as the 
+            # No need to add field values since they are the same as the
             # starting ref field values.
             component_groups[h].refs.append(c)
             # Also add any manufacturer's part number to the group's list.
@@ -248,7 +248,7 @@ def get_part_groups(in_file):
                 h = hash(tuple(sorted(components[c].items())))
                 try:
                     # Add next ref for identical part to the list.
-                    # No need to add field values since they are the same as the 
+                    # No need to add field values since they are the same as the
                     # starting ref field values.
                     new_component_groups[h].refs.append(c)
                 except KeyError:
@@ -341,6 +341,11 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'font_size': 13,
                 'bold': True,
                 'align': 'right',
+                'valign': 'vcenter'}),
+            'board_cost_label': workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right',
                 'valign': 'vcenter'
             }),
             'total_cost_currency': workbook.add_format({
@@ -348,7 +353,13 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'font_color': 'red',
                 'bold': True,
                 'num_format': '$#,##0.00',
-                'valign': 'vcenter',
+                'valign': 'vcenter'}),
+            'board_cost_currency': workbook.add_format({
+                'font_size': 13,
+                'font_color': 'green',
+                'bold': True,
+                'num_format': '$#,##0.00',
+                'valign': 'vcenter'
             }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
@@ -362,6 +373,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
         START_COL = 0
         BOARD_QTY_ROW = 0
         TOTAL_COST_ROW = BOARD_QTY_ROW + 1
+        BOARD_COST_ROW = TOTAL_COST_ROW + 1
         START_ROW = 3
         LABEL_ROW = START_ROW + 1
         COL_HDR_ROW = LABEL_ROW + 1
@@ -396,6 +408,20 @@ def create_spreadsheet(parts, spreadsheet_filename):
         # Create the row to show total cost of board parts for each distributor.
         wks.write(TOTAL_COST_ROW, next_col - 2, 'Total Cost:',
                   wrk_formats['total_cost_label'])
+
+        # Define the named cell where the total cost can be found.
+        workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(
+            wks_name=WORKSHEET_NAME,
+            cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
+                                       row_abs=True,
+                                       col_abs=True)))
+
+
+        # Create the row to show total cost of board parts for each distributor.
+        wks.write(BOARD_COST_ROW, next_col - 2, 'Board Cost:',
+                  wrk_formats['board_cost_label'])
+        wks.write(BOARD_COST_ROW, next_col - 1, "=TotalCost/BoardQty",
+                  wrk_formats['board_qty'])  # Set initial board quantity.
 
         # Freeze view of the global information and the column headers, but
         # allow the distributor-specific part info to scroll.
@@ -792,7 +818,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
             'type': 'cell',
             'criteria': '<=',
             'value': xl_rowcol_to_cell(row, 7),
-            # This is the global data cell holding the minimum unit price for this part. 
+            # This is the global data cell holding the minimum unit price for this part.
             'format': wrk_formats['best_price']
         })
 
@@ -871,7 +897,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         # 2) Selects the k'th smallest of the row indices where k is the
         #    number of rows between the current part row in the order and the
         #    top row of the order. (SMALL() and ROW() commands.)
-        # 3) Gets the cell contents  from the get_range using the k'th 
+        # 3) Gets the cell contents  from the get_range using the k'th
         #    smallest row index found in step #2. (INDEX() command.)
         # 4) Converts the cell contents to a string if it is numeric.
         #    (num_to_text_func is used.) Otherwise, it's already a string.
@@ -1171,8 +1197,10 @@ def get_part_html_trees(distributors, part):
                     fields['manf#'])
             # Else, give up.
             else:
+                debug_print(2, "No '" + dist + "#' field or 'manf#' field, cannot lookup part at :"+dist)
                 raise PartHtmlError
         except (PartHtmlError, AttributeError):
+            debug_print(2, "Part not found at :"+dist)
             # If no HTML page was found, then return a tree for an empty page.
             html_trees[dist] = BeautifulSoup('<html></html>', 'lxml')
             urls[dist] = ''
@@ -1274,7 +1302,7 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
     # If the tree contains the tag for a product page, then return it.
     if tree.find('html', class_='rd-product-details-page') is not None:
 
-        # Digikey separates cut-tape and reel packaging, so we need to examine more pages 
+        # Digikey separates cut-tape and reel packaging, so we need to examine more pages
         # to get all the pricing info. But don't descend any further if limit has been reached.
         if descend > 0:
             try:
