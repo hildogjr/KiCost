@@ -342,7 +342,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'bold': True,
                 'align': 'right',
                 'valign': 'vcenter'}),
-            'board_cost_label': workbook.add_format({
+            'unit_cost_label': workbook.add_format({
                 'font_size': 13,
                 'bold': True,
                 'align': 'right',
@@ -354,7 +354,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'bold': True,
                 'num_format': '$#,##0.00',
                 'valign': 'vcenter'}),
-            'board_cost_currency': workbook.add_format({
+            'unit_cost_currency': workbook.add_format({
                 'font_size': 13,
                 'font_color': 'green',
                 'bold': True,
@@ -373,8 +373,8 @@ def create_spreadsheet(parts, spreadsheet_filename):
         START_COL = 0
         BOARD_QTY_ROW = 0
         TOTAL_COST_ROW = BOARD_QTY_ROW + 1
-        BOARD_COST_ROW = TOTAL_COST_ROW + 1
-        START_ROW = 3
+        UNIT_COST_ROW = TOTAL_COST_ROW + 1
+        START_ROW = 4
         LABEL_ROW = START_ROW + 1
         COL_HDR_ROW = LABEL_ROW + 1
         FIRST_PART_ROW = COL_HDR_ROW + 1
@@ -417,11 +417,11 @@ def create_spreadsheet(parts, spreadsheet_filename):
                                        col_abs=True)))
 
 
-        # Create the row to show total cost of board parts for each distributor.
-        wks.write(BOARD_COST_ROW, next_col - 2, 'Board Cost:',
-                  wrk_formats['board_cost_label'])
-        wks.write(BOARD_COST_ROW, next_col - 1, "=TotalCost/BoardQty",
-                  wrk_formats['board_qty'])  # Set initial board quantity.
+        # Create the row to show unit cost of board parts.
+        wks.write(UNIT_COST_ROW, next_col - 2, 'Unit Cost:',
+                  wrk_formats['unit_cost_label'])
+        wks.write(UNIT_COST_ROW, next_col - 1, "=TotalCost/BoardQty",
+                  wrk_formats['unit_cost_currency'])
 
         # Freeze view of the global information and the column headers, but
         # allow the distributor-specific part info to scroll.
@@ -1197,10 +1197,10 @@ def get_part_html_trees(distributors, part):
                     fields['manf#'])
             # Else, give up.
             else:
-                debug_print(2, "No '" + dist + "#' field or 'manf#' field, cannot lookup part at :"+dist)
+                debug_print(2, "No '" + dist + "#' field or 'manf#' field: cannot lookup part at " + dist)
                 raise PartHtmlError
         except (PartHtmlError, AttributeError):
-            debug_print(2, "Part not found at :"+dist)
+            debug_print(2, "Part not found at " + dist)
             # If no HTML page was found, then return a tree for an empty page.
             html_trees[dist] = BeautifulSoup('<html></html>', 'lxml')
             urls[dist] = ''
