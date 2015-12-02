@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.11 (2015-12-02)
+---------------------
+
+* Changed BOARD_COST field to UNIT_COST.
+* Changed formatting of UNIT_COST field to make use monetary units.
+* Changed format of debug messages.
+
 0.1.10 (2015-10-08)
 ---------------------
 
