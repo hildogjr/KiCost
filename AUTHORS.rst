@@ -10,4 +10,5 @@ Development Lead
 Contributors
 ------------
 
-Steven Johnson: https://github.com/stevenj
+* Steven Johnson: https://github.com/stevenj
+* Diorcet Yann: https://github.com/diorcety
