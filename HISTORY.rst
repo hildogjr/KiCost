@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.12 (2015-12-03)
+---------------------
+
+* Following the IP address mouser with redirect you to the nearest locale match, 
+  so the price will be in Euro if you are in Europe and the price decimal can be a comma.
+
 0.1.11 (2015-12-02)
 ---------------------
 
