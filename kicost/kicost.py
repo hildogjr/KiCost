@@ -176,8 +176,12 @@ def get_part_groups(in_file):
         fields = {}  # Clear the field dict for this part.
         try:
             for f in p.find('fields').find_all('field'):
-                # Store the name and value for each field.
-                fields[f['name'].lower()] = f.string
+                # Store the name and value for each kicost-related field.
+                name = f['name'].lower()
+                if name == 'manf#':
+                    fields[name] = f.string
+                elif name.startswith('kicost:'): # strip leading 'kicost:'.
+                    fields[name[len('kicost:'):]] = f.string
         except AttributeError:
             pass  # No fields found for this part.
 
@@ -219,10 +223,15 @@ def get_part_groups(in_file):
         except AttributeError:
             pass
 
-        # Get the values for any other the fields in the part (if any) from the schematic.
+        # Get the values for any other kicost-related fields in the part (if any) from the schematic.
         try:
             for f in c.find('fields').find_all('field'):
-                fields[f['name'].lower()] = f.string
+                # Store the name and value for each kicost-related field.
+                name = f['name'].lower()
+                if name == 'manf#':
+                    fields[name] = f.string
+                elif name.startswith('kicost:'): # strip leading 'kicost:'.
+                    fields[name[len('kicost:'):]] = f.string
         except AttributeError:
             pass
 
@@ -240,7 +249,7 @@ def get_part_groups(in_file):
         # part references that have identical field values.
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with ':' in the label because that indicates
-        # a field used by a specific tool.
+        # a field used by a specific tool (including kicost).
         fields = components[c]
         hash_fields = {k: fields[k] for k in fields if k != 'manf#' and ':' not in k }
         h = hash(tuple(sorted(hash_fields.items())))
