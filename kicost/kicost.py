@@ -57,22 +57,34 @@ THIS_MODULE = sys.modules[__name__
 
 # Global array of distributor names.
 distributors = {
-    'digikey': {
-        'label': 'Digi-Key',
+    # 'digikey': {
+        # 'location': 'web',
+        # 'label': 'Digi-Key',
+        # 'order_cols': ['purch', 'part_num', 'refs'],
+        # 'order_delimiter': ','
+    # },
+    # 'mouser': {
+        # 'location': 'web',
+        # 'label': 'Mouser',
+        # 'order_cols': ['part_num', 'purch', 'refs'],
+        # 'order_delimiter': ' '
+    # },
+    # 'newark': {
+        # 'location': 'web',
+        # 'label': 'Newark',
+        # 'order_cols': ['part_num', 'purch', 'refs'],
+        # 'order_delimiter': ','
+    # },
+    'misc': {
+        'location': 'local',
+        'label': 'Miscellaneous',
         'order_cols': ['purch', 'part_num', 'refs'],
-        'order_delimiter': ','
+        'order_delimiter': ''
     },
-    'mouser': {
-        'label': 'Mouser',
-        'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ' '
-    },
-    'newark': {
-        'label': 'Newark',
-        'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ','
-    }
 }
+
+# String that holds all the miscellaneous part info as an HTML page.
+misc_part_html = '<html></html>'
 
 dbg_level = None
 
@@ -83,6 +95,29 @@ def debug_print(level, msg):
     if level <= dbg_level:
         print(msg)
 
+from yattag import Doc, indent
+def create_misc_part_html(parts):
+    doc, tag, text = Doc().tagtext()
+    with tag('html'):
+        with tag('body'):
+            for p in parts:
+                pn = None
+                if 'misc#' in p.fields:
+                    pn = p.fields['misc#']
+                elif 'manf#' in p.fields:
+                    pn = p.fields['manf#']
+                if pn is not None:
+                    with tag('div', klass=pn):
+                        with tag('div', klass='cat#'):
+                            text(pn)
+                        if 'misc:pricing' in p.fields:
+                            with tag('div', klass='pricing'):
+                                text(p.fields['misc:pricing'])
+                        if 'misc:link' in p.fields:
+                            with tag('div', klass='link'):
+                                text(p.fields['misc:link'])
+    global misc_part_html
+    misc_part_html = doc.getvalue()
 
 def kicost(in_file, out_filename, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
@@ -92,6 +127,10 @@ def kicost(in_file, out_filename, debug_level=None):
 
     # Get groups of identical parts.
     parts = get_part_groups(in_file)
+    
+    # Create an HTML page containing all the miscellaneous part information.
+    create_misc_part_html(parts)
+    print(indent(misc_part_html))
 
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
@@ -200,8 +239,10 @@ def get_part_groups(in_file):
         # Use the hash as the key to a dictionary that stores lists of
         # part references that have identical field values.
         # Don't use the manufacturer's part number when calculating the hash!
+        # Also, don't use any fields with ':' in the label because that indicates
+        # a field used by a specific tool.
         fields = components[c]
-        hash_fields = {k: fields[k] for k in fields if k != 'manf#'}
+        hash_fields = {k: fields[k] for k in fields if k != 'manf#' and ':' not in k }
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
@@ -326,6 +367,14 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#A2AE06'  # Newark/E14 olive green.
+            }),
+            'misc': workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#808080'  # Grey.
             }),
             'header': workbook.add_format({
                 'font_size': 12,
@@ -765,6 +814,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
 
         # Get the distributor part number from the HTML tree.
         dist_part_num = get_dist_part_num(part.html_trees[dist])
+        print('dist_part_num: {}'.format(dist_part_num))
 
         # If the part number doesn't exist, the distributor doesn't stock this part
         # so leave this row blank.
@@ -1081,6 +1131,22 @@ def get_newark_price_tiers(html_tree):
     return price_tiers
 
 
+def get_misc_price_tiers(html_tree):
+    '''Get the pricing tiers from the parsed tree of the miscellaneous product page.'''
+    price_tiers = {}
+    try:
+        pricing = html_tree.find('div', class_='pricing').text
+        for qty_price in pricing.split(';'):
+            qty, price = qty_price.split(':')
+            price_tiers[int(qty)] = float(price)
+    except AttributeError:
+        # This happens when no pricing info is found in the tree.
+        print('Misc: no price tiers found.')
+        return price_tiers  # Return empty price tiers.
+    print('misc price tiers: {}'.format(price_tiers))
+    return price_tiers
+
+
 def digikey_part_is_reeled(html_tree):
     '''Returns True if this Digi-Key part is reeled or Digi-reeled.'''
     qty_tiers = list(get_digikey_price_tiers(html_tree).keys())
@@ -1118,6 +1184,15 @@ def get_newark_part_num(html_tree):
                                           'ul').find_all('li')[1].text
         part_num_str = re.search('(Newark Part No.:)(\s*)([^\s]*)',
                                  part_num_str, re.IGNORECASE).group(3)
+        return part_num_str
+    except AttributeError:
+        return ''
+
+
+def get_misc_part_num(html_tree):
+    '''Get the part number from the miscellaneous product page.'''
+    try:
+        part_num_str = html_tree.find('div', class_='cat#').text
         return part_num_str
     except AttributeError:
         return ''
@@ -1166,6 +1241,18 @@ def get_newark_qty_avail(html_tree):
                                  id='priceWrap').find(
                                      'div',
                                      class_='highLightBox').p.text
+    except (AttributeError, ValueError):
+        return ''
+    try:
+        return int(re.sub('[^0-9]', '', qty_str))
+    except ValueError:
+        return 0
+
+
+def get_misc_qty_avail(html_tree):
+    '''Get the available quantity of the part from the miscellaneous product page.'''
+    try:
+        qty_str = html_tree.find('div', class_='quantity').text
     except (AttributeError, ValueError):
         return ''
     try:
@@ -1492,3 +1579,12 @@ def get_newark_part_html_tree(pn, url=None):
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
+    
+    
+def get_misc_part_html_tree(pn, url=None):
+    html = misc_part_html
+    tree =  BeautifulSoup(html, 'lxml')
+    if tree.find('div', class_=pn):
+        return tree.find('div', class_=pn), ''
+    raise PartHtmlError
+
