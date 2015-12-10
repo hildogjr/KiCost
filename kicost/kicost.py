@@ -57,29 +57,23 @@ THIS_MODULE = sys.modules[__name__
 
 # Global array of distributor names.
 distributors = {
-    # 'digikey': {
-        # 'location': 'web',
-        # 'label': 'Digi-Key',
-        # 'order_cols': ['purch', 'part_num', 'refs'],
-        # 'order_delimiter': ','
-    # },
-    # 'mouser': {
-        # 'location': 'web',
-        # 'label': 'Mouser',
-        # 'order_cols': ['part_num', 'purch', 'refs'],
-        # 'order_delimiter': ' '
-    # },
-    # 'newark': {
-        # 'location': 'web',
-        # 'label': 'Newark',
-        # 'order_cols': ['part_num', 'purch', 'refs'],
-        # 'order_delimiter': ','
-    # },
-    'misc': {
-        'location': 'local',
-        'label': 'Miscellaneous',
+    'digikey': {
+        'location': 'web',
+        'label': 'Digi-Key',
         'order_cols': ['purch', 'part_num', 'refs'],
-        'order_delimiter': ''
+        'order_delimiter': ','
+    },
+    'mouser': {
+        'location': 'web',
+        'label': 'Mouser',
+        'order_cols': ['part_num', 'purch', 'refs'],
+        'order_delimiter': ' '
+    },
+    'newark': {
+        'location': 'web',
+        'label': 'Newark',
+        'order_cols': ['part_num', 'purch', 'refs'],
+        'order_delimiter': ','
     },
 }
 
@@ -101,21 +95,30 @@ def create_misc_part_html(parts):
     with tag('html'):
         with tag('body'):
             for p in parts:
-                pn = None
-                if 'misc#' in p.fields:
-                    pn = p.fields['misc#']
-                elif 'manf#' in p.fields:
-                    pn = p.fields['manf#']
-                if pn is not None:
-                    with tag('div', klass=pn):
-                        with tag('div', klass='cat#'):
-                            text(pn)
-                        if 'misc:pricing' in p.fields:
-                            with tag('div', klass='pricing'):
-                                text(p.fields['misc:pricing'])
-                        if 'misc:link' in p.fields:
-                            with tag('div', klass='link'):
-                                text(p.fields['misc:link'])
+                for key in p.fields:
+                    if key.endswith(('cat#', 'manf#')):
+                        try:
+                            dist = key[:key.index(':')]
+                            if dist not in distributors:
+                                distributors[dist] = {
+                                    'location': 'local',
+                                    'label': dist,
+                                    'order_cols': ['purch', 'part_num', 'refs'],
+                                    'order_delimiter': ''
+                                }
+                            dist += ':'
+                        except ValueError:
+                            dist = ''
+                        pn = p.fields[key]
+                        with tag('div', klass=dist+pn):
+                            if dist+'pricing' in p.fields:
+                                with tag('div', klass='pricing'):
+                                    text(p.fields[dist+'pricing'])
+                            if dist+'link' in p.fields:
+                                with tag('div', klass='link'):
+                                    text(p.fields[dist+'link'])
+                    else:
+                        continue
     global misc_part_html
     misc_part_html = doc.getvalue()
 
@@ -131,6 +134,7 @@ def kicost(in_file, out_filename, debug_level=None):
     # Create an HTML page containing all the miscellaneous part information.
     create_misc_part_html(parts)
     print(indent(misc_part_html))
+    print(distributors)
 
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
