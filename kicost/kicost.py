@@ -34,6 +34,7 @@ import re
 import difflib
 from bs4 import BeautifulSoup
 from random import randint
+from yattag import Doc, indent  # For generating HTML page for local parts.
 
 # ghost library allows scraping pages that have Javascript challenge pages that
 # screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
@@ -58,27 +59,27 @@ THIS_MODULE = sys.modules[__name__
 # Global array of distributor names.
 distributors = {
     'digikey': {
-        'location': 'web',
+        'function': 'digikey',
         'label': 'Digi-Key',
         'order_cols': ['purch', 'part_num', 'refs'],
         'order_delimiter': ','
     },
     'mouser': {
-        'location': 'web',
+        'function': 'mouser',
         'label': 'Mouser',
         'order_cols': ['part_num', 'purch', 'refs'],
         'order_delimiter': ' '
     },
     'newark': {
-        'location': 'web',
+        'function': 'newark',
         'label': 'Newark',
         'order_cols': ['part_num', 'purch', 'refs'],
         'order_delimiter': ','
     },
 }
 
-# String that holds all the miscellaneous part info as an HTML page.
-misc_part_html = '<html></html>'
+# String that holds all the local part info as an HTML page.
+local_part_html = '<html></html>'
 
 dbg_level = None
 
@@ -89,39 +90,6 @@ def debug_print(level, msg):
     if level <= dbg_level:
         print(msg)
 
-from yattag import Doc, indent
-def create_misc_part_html(parts):
-    doc, tag, text = Doc().tagtext()
-    with tag('html'):
-        with tag('body'):
-            for p in parts:
-                for key in p.fields:
-                    if key.endswith(('cat#', 'manf#')):
-                        try:
-                            dist = key[:key.index(':')]
-                            if dist not in distributors:
-                                distributors[dist] = {
-                                    'location': 'local',
-                                    'label': dist,
-                                    'order_cols': ['purch', 'part_num', 'refs'],
-                                    'order_delimiter': ''
-                                }
-                            dist += ':'
-                        except ValueError:
-                            dist = ''
-                        pn = p.fields[key]
-                        with tag('div', klass=dist+pn):
-                            if dist+'pricing' in p.fields:
-                                with tag('div', klass='pricing'):
-                                    text(p.fields[dist+'pricing'])
-                            if dist+'link' in p.fields:
-                                with tag('div', klass='link'):
-                                    text(p.fields[dist+'link'])
-                    else:
-                        continue
-    global misc_part_html
-    misc_part_html = doc.getvalue()
-
 def kicost(in_file, out_filename, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
@@ -131,10 +99,11 @@ def kicost(in_file, out_filename, debug_level=None):
     # Get groups of identical parts.
     parts = get_part_groups(in_file)
     
-    # Create an HTML page containing all the miscellaneous part information.
-    create_misc_part_html(parts)
-    print(indent(misc_part_html))
-    print(distributors)
+    # Create an HTML page containing all the local part information.
+    create_local_part_html(parts)
+    if 2 <= dbg_level:
+        print(indent(local_part_html))
+        pprint.pprint(distributors)
 
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
@@ -182,10 +151,15 @@ def get_part_groups(in_file):
             for f in p.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
                 name = f['name'].lower()
-                if name == 'manf#':
+                if name == 'manf#' or name[:-1] in distributors:
                     fields[name] = f.string
-                elif name.startswith('kicost:'): # strip leading 'kicost:'.
-                    fields[name[len('kicost:'):]] = f.string
+                elif name.startswith('kicost:'):
+                    name = name[len('kicost:'):] # strip leading 'kicost:'.
+                    if name == 'manf#' or name[:-1] in distributors:
+                        fields[name] = f.string
+                    elif ':' not in name:
+                        name = 'local:'+name
+                    fields[name] = f.string
         except AttributeError:
             pass  # No fields found for this part.
 
@@ -232,10 +206,15 @@ def get_part_groups(in_file):
             for f in c.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
                 name = f['name'].lower()
-                if name == 'manf#':
+                if name == 'manf#' or name[:-1] in distributors:
                     fields[name] = f.string
-                elif name.startswith('kicost:'): # strip leading 'kicost:'.
-                    fields[name[len('kicost:'):]] = f.string
+                elif name.startswith('kicost:'):
+                    name = name[len('kicost:'):] # strip leading 'kicost:'.
+                    if name == 'manf#' or name[:-1] in distributors:
+                        fields[name] = f.string
+                    elif ':' not in name:
+                        name = 'local:'+name
+                    fields[name] = f.string
         except AttributeError:
             pass
 
@@ -262,9 +241,14 @@ def get_part_groups(in_file):
         # or create a new group if the hash hasn't been seen before.
         try:
             # Add next ref for identical part to the list.
-            # No need to add field values since they are the same as the
-            # starting ref field values.
             component_groups[h].refs.append(c)
+            # Now blend-in the kicost-related fields.
+            for key,val in components[c].items():
+                grp_fld_val = component_groups[h].fields.get(key)
+                if grp_fld_val is None:
+                    component_groups[h].fields[key] = val
+                elif grp_fld_val != val:
+                    raise Exception('Mismatch in field {} of components {}: {} != {}'.format(key,component_groups[h].refs,val, grp_fld_val))
             # Also add any manufacturer's part number to the group's list.
             try:
                 component_groups[h].manf_nums.add(components[c]['manf#'])
@@ -337,6 +321,57 @@ def get_part_groups(in_file):
     # Now return a list of the groups without their hash keys.
     return list(new_component_groups.values())
 
+    
+def create_local_part_html(parts):
+    '''Create HTML page containing local (non-webscraped) part information.'''
+    doc, tag, text = Doc().tagtext()
+    with tag('html'):
+        with tag('body'):
+            for p in parts:
+                # Find the manufacturer's part number if it exists.
+                pn = p.fields.get('manf#') # Returns None if no manf# field.
+
+                # Find the various distributors for this part by 
+                # looking for leading fields terminated by ':'.
+                for key in p.fields:
+                    try:
+                        dist = key[:key.index(':')]
+                    except ValueError:
+                        continue
+                    if dist not in distributors:
+                        distributors[dist] = {
+                            'function': 'local',
+                            'label': dist,
+                            'order_cols': ['purch', 'part_num', 'refs'],
+                            'order_delimiter': ''
+                        }
+                # Now look for catalog number, price list and webpage link for this part.
+                for dist in distributors:
+                    cat_num = p.fields.get(dist+':cat#')
+                    pricing = p.fields.get(dist+':pricing')
+                    link = p.fields.get(dist+':link')
+                    if cat_num is None and pricing is None and link is None:
+                        continue
+
+                    def make_random_catalog_number(p):
+                        hash_fields = {k: p.fields[k] for k in p.fields}
+                        hash_fields['dist'] = dist
+                        return str(hash(tuple(sorted(hash_fields.items()))))
+                        
+                    cat_num = cat_num or pn or make_random_catalog_number(p)
+                    p.fields[dist+':cat#'] = cat_num # Store generated cat#.
+                    with tag('div', klass=dist+':'+cat_num):
+                        with tag('div', klass='cat#'):
+                            text(cat_num)
+                        if pricing is not None:
+                            with tag('div', klass='pricing'):
+                                text(pricing)
+                        if link is not None:
+                            with tag('div', klass='link'):
+                                text(link)
+    global local_part_html
+    local_part_html = doc.getvalue()
+
 
 def create_spreadsheet(parts, spreadsheet_filename):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
@@ -381,7 +416,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'valign': 'vcenter',
                 'bg_color': '#A2AE06'  # Newark/E14 olive green.
             }),
-            'misc': workbook.add_format({
+            'local': workbook.add_format({
                 'font_size': 14,
                 'font_color': 'white',
                 'bold': True,
@@ -798,8 +833,12 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
     row = start_row  # Start building distributor section at this row.
 
     # Add label for this distributor.
-    wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-                    distributors[dist]['label'], wrk_formats[dist])
+    try:
+        wks.merge_range(row, start_col, row, start_col + num_cols - 1,
+                    distributors[dist]['label'].title(), wrk_formats[dist])
+    except KeyError:
+        wks.merge_range(row, start_col, row, start_col + num_cols - 1,
+                    distributors[dist]['label'].title(), wrk_formats['local'])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -818,16 +857,16 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
     # Get function names for getting data from the HTML tree for this distributor.
-    get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(dist))
-    get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(dist))
+    function = distributors[dist]['function']
+    get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(function))
+    get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(function))
     get_dist_price_tiers = getattr(THIS_MODULE,
-                                   'get_{}_price_tiers'.format(dist))
+                                   'get_{}_price_tiers'.format(function))
 
     for part in parts:
 
         # Get the distributor part number from the HTML tree.
         dist_part_num = get_dist_part_num(part.html_trees[dist])
-        print('dist_part_num: {}'.format(dist_part_num))
 
         # If the part number doesn't exist, the distributor doesn't stock this part
         # so leave this row blank.
@@ -904,7 +943,8 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         })
 
         # Enter a link to the distributor webpage for this part.
-        wks.write_url(row, start_col + columns['part_url']['col'],
+        if part.urls[dist]:
+            wks.write_url(row, start_col + columns['part_url']['col'],
                       part.urls[dist], wrk_formats['centered_text'],
                       string='Link')
 
@@ -1144,19 +1184,18 @@ def get_newark_price_tiers(html_tree):
     return price_tiers
 
 
-def get_misc_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the miscellaneous product page.'''
+def get_local_price_tiers(html_tree):
+    '''Get the pricing tiers from the parsed tree of the local product page.'''
     price_tiers = {}
     try:
         pricing = html_tree.find('div', class_='pricing').text
+        pricing = re.sub('[^0-9.;:]', '', pricing) # Keep only digits, decimals, delimiters.
         for qty_price in pricing.split(';'):
             qty, price = qty_price.split(':')
             price_tiers[int(qty)] = float(price)
     except AttributeError:
         # This happens when no pricing info is found in the tree.
-        print('Misc: no price tiers found.')
         return price_tiers  # Return empty price tiers.
-    print('misc price tiers: {}'.format(price_tiers))
     return price_tiers
 
 
@@ -1202,8 +1241,8 @@ def get_newark_part_num(html_tree):
         return ''
 
 
-def get_misc_part_num(html_tree):
-    '''Get the part number from the miscellaneous product page.'''
+def get_local_part_num(html_tree):
+    '''Get the part number from the local product page.'''
     try:
         part_num_str = html_tree.find('div', class_='cat#').text
         return part_num_str
@@ -1238,7 +1277,6 @@ def get_mouser_qty_avail(html_tree):
                                          'div',
                                          class_='av-col2').text
     except AttributeError as e:
-        print('get_mouser_qty_avail exception {}'.format(e))
         return ''
     try:
         qty_str = re.search('(\s*)([0-9,]*)', qty_str, re.IGNORECASE).group(2)
@@ -1262,8 +1300,8 @@ def get_newark_qty_avail(html_tree):
         return 0
 
 
-def get_misc_qty_avail(html_tree):
-    '''Get the available quantity of the part from the miscellaneous product page.'''
+def get_local_qty_avail(html_tree):
+    '''Get the available quantity of the part from the local product page.'''
     try:
         qty_str = html_tree.find('div', class_='quantity').text
     except (AttributeError, ValueError):
@@ -1274,28 +1312,33 @@ def get_misc_qty_avail(html_tree):
         return 0
 
 
-def get_part_html_trees(distributors, part):
+def get_part_html_trees(dist_list, part):
     '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
 
     html_trees = {}
     urls = {}
     fields = part.fields
 
-    for dist in distributors:
+    for dist in dist_list:
         debug_print(2, '{} {}'.format(dist, part.refs))
 
         # Get function name for getting the HTML tree for this part from this distributor.
+        function = distributors[dist]['function']
         get_dist_part_html_tree = getattr(THIS_MODULE,
-                                          'get_{}_part_html_tree'.format(dist))
+                                          'get_{}_part_html_tree'.format(function))
         try:
             # Use the distributor's catalog number (if available) to get the page.
             if dist + '#' in fields:
                 html_trees[dist], urls[dist] = get_dist_part_html_tree(
-                    fields[dist + '#'])
+                    dist, fields[dist + '#'])
+            # Else, use the distributor's catalog number (if available) to get the page.
+            elif dist + ':' + 'cat#' in fields:
+                html_trees[dist], urls[dist] = get_dist_part_html_tree(
+                    dist, fields[dist + ':' + 'cat#'])
             # Else, use the manufacturer's catalog number (if available) to get the page.
             elif 'manf#' in fields:
                 html_trees[dist], urls[dist] = get_dist_part_html_tree(
-                    fields['manf#'])
+                    dist, fields['manf#'])
             # Else, give up.
             else:
                 debug_print(2, "No '" + dist + "#' field or 'manf#' field: cannot lookup part at " + dist)
@@ -1347,7 +1390,7 @@ class PartHtmlError(Exception):
     pass
 
 
-def get_digikey_part_html_tree(pn, url=None, descend=2):
+def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
 
     def merge_price_tiers(main_tree, alt_tree):
@@ -1413,7 +1456,7 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
                             'tr',
                             class_='more-expander-item')
                 ]
-                ap_trees_and_urls = [get_digikey_part_html_tree(pn, ap_url,
+                ap_trees_and_urls = [get_digikey_part_html_tree(dist, pn, ap_url,
                                                                 descend=0)
                                      for ap_url in ap_urls]
 
@@ -1472,7 +1515,7 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
             for l in product_links:
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
-                    return get_digikey_part_html_tree(pn,
+                    return get_digikey_part_html_tree(dist, pn,
                                                       url=l['href'],
                                                       descend=descend - 1)
 
@@ -1484,7 +1527,7 @@ def get_digikey_part_html_tree(pn, url=None, descend=2):
     raise PartHtmlError
 
 
-def get_mouser_part_html_tree(pn, url=None):
+def get_mouser_part_html_tree(dist, pn, url=None):
     '''Find the Mouser HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -1530,13 +1573,13 @@ def get_mouser_part_html_tree(pn, url=None):
         for l in product_links:
             if l.text == match:
                 # Get the tree for the linked-to page and return that.
-                return get_mouser_part_html_tree(pn, url=l['href'])
+                return get_mouser_part_html_tree(dist, pn, url=l['href'])
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
 
 
-def get_newark_part_html_tree(pn, url=None):
+def get_newark_part_html_tree(dist, pn, url=None):
     '''Find the Newark HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -1588,16 +1631,22 @@ def get_newark_part_html_tree(pn, url=None):
         for l in product_links:
             if l.text == match:
                 # Get the tree for the linked-to page and return that.
-                return get_newark_part_html_tree(pn, url=l['href'])
+                return get_newark_part_html_tree(dist, pn, url=l['href'])
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
     
     
-def get_misc_part_html_tree(pn, url=None):
-    html = misc_part_html
+def get_local_part_html_tree(dist, pn, url=None):
+    html = local_part_html
     tree =  BeautifulSoup(html, 'lxml')
-    if tree.find('div', class_=pn):
-        return tree.find('div', class_=pn), ''
+    class_ = dist + ':' + pn
+    part_tree = tree.find('div', class_=class_)
+    if part_tree:
+        url_tree = part_tree.find('div', class_='link')
+        if url_tree:
+            return part_tree, url_tree.text.strip()
+        else:
+            return part_tree, None
     raise PartHtmlError
 
