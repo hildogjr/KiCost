@@ -35,12 +35,14 @@ import difflib
 from bs4 import BeautifulSoup
 from random import randint
 from yattag import Doc, indent  # For generating HTML page for local parts.
+import threading # For running web scrapes in parallel.
 
 # ghost library allows scraping pages that have Javascript challenge pages that
 # screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
+from httplib import IncompleteRead
 try:
     from urllib import urlopen, Request, urlencode, quote as urlquote
 except ImportError:
@@ -56,6 +58,9 @@ __all__ = ['kicost']  # Only export this routine for use by the outside world.
 THIS_MODULE = sys.modules[__name__
                           ]  # Reference to this module for making named calls.
 
+SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
+HTML_RESPONSE_RETRIES = 2
+                          
 # Global array of distributor names.
 distributors = {
     'digikey': {
@@ -129,48 +134,56 @@ def kicost(in_file, out_filename, debug_level=None):
                     except KeyError:
                         pass
             print()
-
+            
 
 def get_part_groups(in_file):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
+                
+    def extract_fields(part):
+        '''Extract XML fields from the part in a library or schematic.'''
+        fields = {}
+        try:
+            for f in part.find('fields').find_all('field'):
+                # Store the name and value for each kicost-related field.
+                name = f['name'].lower() # Ignore case of field name.
+                if SEPRTR not in name: # No seperator, so get global field value.
+                    fields[name] = f.string
+                elif name.startswith('kicost:'): # Store kicost-related values.
+                    name = name[len('kicost:'):] # strip leading 'kicost:'.
+                    # Add 'local' to non-manf#/cat# fields without leading distributor name.
+                    if name != 'manf#' and name[:-1] not in distributors:
+                        if SEPRTR not in name: # This field has no distributor.
+                            name = 'local:'+name # Assign it to a local distributor.
+                    fields[name] = f.string
+        except AttributeError:
+            pass  # No fields found for this part.
+        return fields
 
-    LIB_DELIMITER = ':'  # Delimiter between library and component name.
+    # Temporary class for storing information.
+    class IdenticalComponents(object):
+        pass
 
     # Read-in the schematic XML file to get a tree and get its root.
     debug_print(1, 'Get schematic XML...')
     root = BeautifulSoup(in_file, 'lxml')
 
-    # Find the parts used from each library.
+    # Make a dictionary from the fields in the parts library so these field
+    # values can be instantiated into the individual components in the schematic.
     debug_print(1, 'Get parts library...')
     libparts = {}
     for p in root.find('libparts').find_all('libpart'):
 
         # Get the values for the fields in each library part (if any).
-        fields = {}  # Clear the field dict for this part.
-        try:
-            for f in p.find('fields').find_all('field'):
-                # Store the name and value for each kicost-related field.
-                name = f['name'].lower()
-                if name == 'manf#' or name[:-1] in distributors:
-                    fields[name] = f.string
-                elif name.startswith('kicost:'):
-                    name = name[len('kicost:'):] # strip leading 'kicost:'.
-                    if name == 'manf#' or name[:-1] in distributors:
-                        fields[name] = f.string
-                    elif ':' not in name:
-                        name = 'local:'+name
-                    fields[name] = f.string
-        except AttributeError:
-            pass  # No fields found for this part.
+        fields = extract_fields(p)
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
-        libparts[p['lib'] + LIB_DELIMITER + p['part']] = fields
+        libparts[p['lib'] + SEPRTR + p['part']] = fields
 
         # Also have to store the fields under any part aliases.
         try:
             for alias in p.find('aliases').find_all('alias'):
-                libparts[p['lib'] + LIB_DELIMITER + alias.string] = fields
+                libparts[p['lib'] + SEPRTR + alias.string] = fields
         except AttributeError:
             pass  # No aliases for this part.
 
@@ -185,7 +198,7 @@ def get_part_groups(in_file):
         libsource = c.find('libsource')
 
         # Create the key to look up the part in the libparts dict.
-        libpart = libsource['lib'] + LIB_DELIMITER + libsource['part']
+        libpart = libsource['lib'] + SEPRTR + libsource['part']
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
@@ -201,122 +214,97 @@ def get_part_groups(in_file):
         except AttributeError:
             pass
 
-        # Get the values for any other kicost-related fields in the part (if any) from the schematic.
-        try:
-            for f in c.find('fields').find_all('field'):
-                # Store the name and value for each kicost-related field.
-                name = f['name'].lower()
-                if name == 'manf#' or name[:-1] in distributors:
-                    fields[name] = f.string
-                elif name.startswith('kicost:'):
-                    name = name[len('kicost:'):] # strip leading 'kicost:'.
-                    if name == 'manf#' or name[:-1] in distributors:
-                        fields[name] = f.string
-                    elif ':' not in name:
-                        name = 'local:'+name
-                    fields[name] = f.string
-        except AttributeError:
-            pass
+        # Get the values for any other kicost-related fields in the part 
+        # (if any) from the schematic. These will override any field values
+        # from the part library.
+        fields.update(extract_fields(c))
 
         # Store the fields for the part using the reference identifier as the key.
         components[c['ref']] = fields
 
+    # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
     debug_print(1, 'Get groups of identical components...')
     component_groups = {}
-    for c in components:
+    for ref, fields in components.items(): # part references and field values.
 
         # Take the field keys and values of each part and create a hash.
         # Use the hash as the key to a dictionary that stores lists of
-        # part references that have identical field values.
+        # part references that have identical field values. The important fields
+        # are the reference prefix ('R', 'C', etc.), value, and footprint.
         # Don't use the manufacturer's part number when calculating the hash!
-        # Also, don't use any fields with ':' in the label because that indicates
+        # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including kicost).
-        fields = components[c]
-        hash_fields = {k: fields[k] for k in fields if k != 'manf#' and ':' not in k }
+        hash_fields = {k: fields[k] for k in fields if k != 'manf#' and SEPRTR not in k }
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
         # or create a new group if the hash hasn't been seen before.
         try:
             # Add next ref for identical part to the list.
-            component_groups[h].refs.append(c)
-            # Now blend-in the kicost-related fields.
-            for key,val in components[c].items():
-                grp_fld_val = component_groups[h].fields.get(key)
-                if grp_fld_val is None:
-                    component_groups[h].fields[key] = val
-                elif grp_fld_val != val:
-                    raise Exception('Mismatch in field {} of components {}: {} != {}'.format(key,component_groups[h].refs,val, grp_fld_val))
-            # Also add any manufacturer's part number to the group's list.
-            try:
-                component_groups[h].manf_nums.add(components[c]['manf#'])
-            except KeyError:
-                # This happens when the part has no manf. part number.
-                pass
+            component_groups[h].refs.append(ref)
+            # Also add any manufacturer's part number (or None) to the group's list.
+            component_groups[h].manf_nums.add(fields.get('manf#'))
         except KeyError:
             # This happens if it is the first part in a group, so the group
             # doesn't exist yet.
-
-            class IdenticalComponents(object):
-                pass  # Just need a temporary class here.
-
             component_groups[h] = IdenticalComponents()  # Add empty structure.
-            component_groups[h].fields = components[c]  # Store field values.
-            component_groups[h].refs = [c]  # Init list of refs with first ref.
-            # Now add the manf. part num for this part to the group list,
-            # or create an empty list if the part doesn't have a number.
-            try:
-                component_groups[h].manf_nums = set([components[c]['manf#']])
-            except KeyError:
-                component_groups[h].manf_nums = set()
+            component_groups[h].refs = [ref]  # Init list of refs with first ref.
+            # Now add the manf. part num (or None) for this part to the group set.
+            component_groups[h].manf_nums = set([fields.get('manf#')])
 
-    # Some groups of parts may have more than one manufacturer's part number.
-    # If so, then partition the group into smaller groups, each having parts
-    # with the same manf. part number.
-    new_component_groups = {}  # Copy component_groups into this.
-    for g in component_groups:
-        if len(component_groups[g].manf_nums) > 1:
-            # Found a group with two or more manf. part numbers,
-            # so partition the group into smaller groups whose members
-            # all have the same manf. part number.
-            for c in component_groups[g].refs:
-                # Calculate a hash of each component's field values like before,
-                # only now include the manufacturer's part number.
-                h = hash(tuple(sorted(components[c].items())))
-                try:
-                    # Add next ref for identical part to the list.
-                    # No need to add field values since they are the same as the
-                    # starting ref field values.
-                    new_component_groups[h].refs.append(c)
-                except KeyError:
-                    # This happens if it is the first part in a group, so the group
-                    # doesn't exist yet. We have to make it.
+    # Now we have groups of seemingly identical parts. But some of the parts
+    # within a group may have different manufacturer's part numbers, and these
+    # groups may need to be split into smaller groups of parts all having the
+    # same manufacturer's number. Here are the cases that need to be handled:
+    #   One manf# number: All parts have the same manf#. Don't split this group.
+    #   Two manf# numbers, but one is None: Some of the parts have no manf# but
+    #       are otherwise identical to the other parts in the group. Don't split
+    #       this group. Instead, propagate the non-None manf# to all the parts.
+    #   Two manf#, neither is None: All parts have non-None manf# numbers.
+    #       Split the group into two smaller groups of parts all having the same
+    #       manf#.
+    #   Three or more manf#: Split this group into smaller groups, each one with
+    #       parts having the same manf#, even if it's None. It's impossible to
+    #       determine which manf# the None parts should be assigned, so leave
+    #       their manf# as None.
+    new_component_groups = [] # Copy new component groups into this.
+    for g, grp in component_groups.items():
+        num_manf_nums = len(grp.manf_nums)
+        if num_manf_nums == 1:
+            new_component_groups.append(grp)
+            continue  # Single manf#. Don't split this group.
+        elif num_manf_nums == 2 and None in grp.manf_nums:
+            new_component_groups.append(grp)
+            continue  # Two manf#, but one of them is None. Don't split this group.
+        # Otherwise, split the group into subgroups, each with the same manf#.
+        for manf_num in grp.manf_nums:
+            sub_group = IdenticalComponents()
+            sub_group.manf_nums = [manf_num]
+            sub_group.refs = []
+            for ref in grp.refs:
+                if components[ref]['manf#'] == manf_num:
+                    sub_group.refs.append(ref)
+            new_component_groups.append(sub_group)
+            
+    # Now get the values of all fields within the members of a group.
+    # These will become the field values for ALL members of that group.
+    for grp in new_component_groups:
+        grp_fields = {}
+        for ref in grp.refs:
+            for key, val in components[ref].items():
+                if val is None: # Field with no value...
+                    continue # so ignore it.
+                if grp_fields.get(key): # This field has been seen before.
+                    if grp_fields[key] != val: # Flag if new field value not the same as old.
+                        raise Exception('field value mismatch: {} {} {}'.format(ref, key, val))
+                else: # First time this field has been seen in the group, so store it.
+                    grp_fields[key] = val
+        grp.fields = grp_fields
 
-                    class IdenticalComponents(object):
-                        pass  # Just need a temporary class here.
-
-                    new_component_groups[h] = IdenticalComponents(
-                    )  # Add empty structure.
-                    new_component_groups[h].fields = components[
-                        c
-                    ]  # Store field values.
-                    new_component_groups[h].refs = [
-                        c
-                    ]  # Init list of refs with first ref.
-
-        elif len(component_groups[g].manf_nums) == 1:
-            # This group has a single manf. part number, so there's no need to partition it.
-            # Just assign the manf. part number to all the parts.
-            new_component_groups[g] = component_groups[g]  # Copy the group.
-            new_component_groups[g].fields['manf#'] = component_groups[g].manf_nums.pop(
-            )
-
-        else:
-            # This group has no manf. part number at all, so leave it blank
-            # for all the parts.
-            new_component_groups[g] = component_groups[g]  # Copy the group.
+    # Now return the list of identical part groups.
+    return new_component_groups
 
     # Now return a list of the groups without their hash keys.
     return list(new_component_groups.values())
@@ -332,10 +320,10 @@ def create_local_part_html(parts):
                 pn = p.fields.get('manf#') # Returns None if no manf# field.
 
                 # Find the various distributors for this part by 
-                # looking for leading fields terminated by ':'.
+                # looking for leading fields terminated by SEPRTR.
                 for key in p.fields:
                     try:
-                        dist = key[:key.index(':')]
+                        dist = key[:key.index(SEPRTR)]
                     except ValueError:
                         continue
                     if dist not in distributors:
@@ -360,7 +348,7 @@ def create_local_part_html(parts):
                         
                     cat_num = cat_num or pn or make_random_catalog_number(p)
                     p.fields[dist+':cat#'] = cat_num # Store generated cat#.
-                    with tag('div', klass=dist+':'+cat_num):
+                    with tag('div', klass=dist+SEPRTR+cat_num):
                         with tag('div', klass='cat#'):
                             text(cat_num)
                         if pricing is not None:
@@ -1191,7 +1179,7 @@ def get_local_price_tiers(html_tree):
         pricing = html_tree.find('div', class_='pricing').text
         pricing = re.sub('[^0-9.;:]', '', pricing) # Keep only digits, decimals, delimiters.
         for qty_price in pricing.split(';'):
-            qty, price = qty_price.split(':')
+            qty, price = qty_price.split(SEPRTR)
             price_tiers[int(qty)] = float(price)
     except AttributeError:
         # This happens when no pricing info is found in the tree.
@@ -1315,30 +1303,21 @@ def get_local_qty_avail(html_tree):
 def get_part_html_trees(dist_list, part):
     '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
 
-    html_trees = {}
-    urls = {}
-    fields = part.fields
-
-    for dist in dist_list:
-        debug_print(2, '{} {}'.format(dist, part.refs))
-
+    def get_html_tree(dist, part):
         # Get function name for getting the HTML tree for this part from this distributor.
         function = distributors[dist]['function']
         get_dist_part_html_tree = getattr(THIS_MODULE,
                                           'get_{}_part_html_tree'.format(function))
         try:
             # Use the distributor's catalog number (if available) to get the page.
-            if dist + '#' in fields:
-                html_trees[dist], urls[dist] = get_dist_part_html_tree(
-                    dist, fields[dist + '#'])
+            if dist + '#' in part.fields:
+                return get_dist_part_html_tree(dist, part.fields[dist + '#'])
             # Else, use the distributor's catalog number (if available) to get the page.
-            elif dist + ':' + 'cat#' in fields:
-                html_trees[dist], urls[dist] = get_dist_part_html_tree(
-                    dist, fields[dist + ':' + 'cat#'])
+            elif dist + SEPRTR + 'cat#' in part.fields:
+                return get_dist_part_html_tree(dist, part.fields[dist + SEPRTR + 'cat#'])
             # Else, use the manufacturer's catalog number (if available) to get the page.
-            elif 'manf#' in fields:
-                html_trees[dist], urls[dist] = get_dist_part_html_tree(
-                    dist, fields['manf#'])
+            elif 'manf#' in part.fields:
+                return get_dist_part_html_tree(dist, part.fields['manf#'])
             # Else, give up.
             else:
                 debug_print(2, "No '" + dist + "#' field or 'manf#' field: cannot lookup part at " + dist)
@@ -1346,10 +1325,34 @@ def get_part_html_trees(dist_list, part):
         except (PartHtmlError, AttributeError):
             debug_print(2, "Part not found at " + dist)
             # If no HTML page was found, then return a tree for an empty page.
-            html_trees[dist] = BeautifulSoup('<html></html>', 'lxml')
-            urls[dist] = ''
+            return BeautifulSoup('<html></html>', 'lxml'), ''
+    
+    class HtmlTreeGetter(threading.Thread):
+        def __init__(self, dist, part):
+            threading.Thread.__init__(self)
+            self.dist = dist
+            self.part = part
+            
+        def run(self):
+            self.tree, self.url = get_html_tree(self.dist, self.part)
+            
+    html_trees = {}
+    urls = {}
+    threads = {}
 
-            # Return the parsed HTML trees and the page URLs from whence they came.
+    for dist in dist_list:
+        debug_print(2, '{} {}'.format(dist, part.refs))
+        threads[dist] = HtmlTreeGetter(dist, part)
+        threads[dist].start()
+        
+    while threading.active_count() > 1:
+        pass
+        
+    for t in threads:
+        html_trees[t] = threads[t].tree
+        urls[t] = threads[t].url
+
+    # Return the parsed HTML trees and the page URLs from whence they came.
     return html_trees, urls
 
 
@@ -1424,8 +1427,15 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
-    response = urlopen(req)
-    html = response.read()
+    for _ in range(HTML_RESPONSE_RETRIES):
+        try:
+            response = urlopen(req)
+            html = response.read()
+            break
+        except IncompleteRead:
+            pass
+    else: # Couldn't get a good read from the website.
+        raise PartHtmlError
 
     # Use the following code if Javascript challenge pages are used to block scrapers.
     # try:
@@ -1543,8 +1553,15 @@ def get_mouser_part_html_tree(dist, pn, url=None):
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
     req.add_header('Cookie', 'preferences=ps=www2&pl=en-US&pc_www2=USDe')
-    response = urlopen(req)
-    html = response.read()
+    for _ in range(HTML_RESPONSE_RETRIES):
+        try:
+            response = urlopen(req)
+            html = response.read()
+            break
+        except IncompleteRead:
+            pass
+    else: # Couldn't get a good read from the website.
+        raise PartHtmlError
     tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then just return it.
@@ -1594,8 +1611,15 @@ def get_newark_part_html_tree(dist, pn, url=None):
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
-    response = urlopen(req)
-    html = response.read()
+    for _ in range(HTML_RESPONSE_RETRIES):
+        try:
+            response = urlopen(req)
+            html = response.read()
+            break
+        except IncompleteRead:
+            pass
+    else: # Couldn't get a good read from the website.
+        raise PartHtmlError
     tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then just return it.
@@ -1640,7 +1664,7 @@ def get_newark_part_html_tree(dist, pn, url=None):
 def get_local_part_html_tree(dist, pn, url=None):
     html = local_part_html
     tree =  BeautifulSoup(html, 'lxml')
-    class_ = dist + ':' + pn
+    class_ = dist + SEPRTR + pn
     part_tree = tree.find('div', class_=class_)
     if part_tree:
         url_tree = part_tree.find('div', class_='link')
