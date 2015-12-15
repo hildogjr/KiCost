@@ -27,7 +27,10 @@ from builtins import str
 from builtins import zip
 from builtins import range
 from builtins import object
+
+# XXX: make that portable from 2.x
 from future.backports.http.client import HTTPException
+from future.backports.urllib.error import URLError
 
 import sys
 import pprint
@@ -1203,7 +1206,7 @@ def get_part_html_trees(distributors, part):
                 else:
                     debug_print(2, "No '" + dist + "#' field or 'manf#' field: cannot lookup part at " + dist)
                     raise PartHtmlError
-            except (PartHtmlError, AttributeError, HTTPException) as ex:
+            except (PartHtmlError, AttributeError, HTTPException, URLError) as ex:
                 debug_print(2, "Part not found at " + dist + " (" + repr(ex) + ")")
                 if retryno < 1:  debug_print(2, "Retrying...")
                 # If no HTML page was found, then return a tree for an empty page.
