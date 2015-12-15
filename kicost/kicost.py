@@ -28,6 +28,10 @@ from builtins import zip
 from builtins import range
 from builtins import object
 
+# XXX: make that portable from 2.x
+from future.backports.http.client import HTTPException
+from future.backports.urllib.error import URLError
+
 import sys
 import pprint
 import re
@@ -1187,24 +1191,29 @@ def get_part_html_trees(distributors, part):
         # Get function name for getting the HTML tree for this part from this distributor.
         get_dist_part_html_tree = getattr(THIS_MODULE,
                                           'get_{}_part_html_tree'.format(dist))
-        try:
-            # Use the distributor's catalog number (if available) to get the page.
-            if dist + '#' in fields:
-                html_trees[dist], urls[dist] = get_dist_part_html_tree(
-                    fields[dist + '#'])
-            # Else, use the manufacturer's catalog number (if available) to get the page.
-            elif 'manf#' in fields:
-                html_trees[dist], urls[dist] = get_dist_part_html_tree(
-                    fields['manf#'])
-            # Else, give up.
+
+        for retryno in range(2):
+            try:
+                # Use the distributor's catalog number (if available) to get the page.
+                if dist + '#' in fields:
+                    html_trees[dist], urls[dist] = get_dist_part_html_tree(
+                        fields[dist + '#'])
+                # Else, use the manufacturer's catalog number (if available) to get the page.
+                elif 'manf#' in fields:
+                    html_trees[dist], urls[dist] = get_dist_part_html_tree(
+                        fields['manf#'])
+                # Else, give up.
+                else:
+                    debug_print(2, "No '" + dist + "#' field or 'manf#' field: cannot lookup part at " + dist)
+                    raise PartHtmlError
+            except (PartHtmlError, AttributeError, HTTPException, URLError) as ex:
+                debug_print(2, "Part not found at " + dist + " (" + repr(ex) + ")")
+                if retryno < 1:  debug_print(2, "Retrying...")
+                # If no HTML page was found, then return a tree for an empty page.
+                html_trees[dist] = BeautifulSoup('<html></html>', 'lxml')
+                urls[dist] = ''
             else:
-                debug_print(2, "No '" + dist + "#' field or 'manf#' field: cannot lookup part at " + dist)
-                raise PartHtmlError
-        except (PartHtmlError, AttributeError):
-            debug_print(2, "Part not found at " + dist)
-            # If no HTML page was found, then return a tree for an empty page.
-            html_trees[dist] = BeautifulSoup('<html></html>', 'lxml')
-            urls[dist] = ''
+                break
 
             # Return the parsed HTML trees and the page URLs from whence they came.
     return html_trees, urls
