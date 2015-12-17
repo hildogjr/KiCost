@@ -110,8 +110,12 @@ def kicost(in_file, out_filename, debug_level=None):
     # Get the distributor product page for each part and parse it into a tree.
     debug_print(1, 'Get parsed product page for each component group...')
     for part in parts:
-        part.html_trees, part.urls = get_part_html_trees(
-            list(distributors.keys()), part)
+        part.html_trees, part.urls = get_part_html_trees(part)
+
+    # results = ThreadPool(1).imap_unordered(get_part_html_trees, parts)
+    # for part, html_trees, urls in results:
+        # part.html_trees = html_trees
+        # part.urls = urls
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, out_filename)
@@ -1328,36 +1332,34 @@ def get_html_tree(args):
         return dist, (BeautifulSoup('<html></html>', 'lxml'), '')
             
 
-def get_part_html_trees(dist_list, part):
+def get_part_html_trees(part):
     '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
     # Parallel version.
 
     html_trees = {}
     urls = {}
-    pool = ThreadPool(len(dist_list))
-    results = pool.imap_unordered(get_html_tree,[(d,part) for d in dist_list])
+    pool = ThreadPool(len(distributors))
+    results = pool.imap_unordered(get_html_tree,[(d,part) for d in distributors])
     for dist, (html_tree, url) in results:
         html_trees[dist] = html_tree
         urls[dist] = url
 
     # Return the parsed HTML trees and the page URLs from whence they came.
     return html_trees, urls
-            
 
-# def get_part_html_trees(dist_list, part):
+# def get_part_html_trees(part):
     # '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
     # # Serial version.
 
     # html_trees = {}
     # urls = {}
-    # for d in dist_list:
+    # for d in distributors:
         # dist, (html_tree, url) = get_html_tree((d,part))
         # html_trees[dist] = html_tree
         # urls[dist] = url
 
     # # Return the parsed HTML trees and the page URLs from whence they came.
     # return html_trees, urls
-
 
 def get_user_agent():
     # The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
