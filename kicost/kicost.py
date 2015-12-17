@@ -21,12 +21,15 @@
 # THE SOFTWARE.
 
 from __future__ import print_function
+from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
 from builtins import str
 from builtins import zip
 from builtins import range
 from builtins import object
+from future.backports.http.client import HTTPException
+from future.backports.urllib.error import URLError
 
 import sys
 import pprint
@@ -35,23 +38,17 @@ import difflib
 from bs4 import BeautifulSoup
 from random import randint
 from yattag import Doc, indent  # For generating HTML page for local parts.
-import threading # For running web scrapes in parallel.
+from multiprocessing.pool import ThreadPool # For running web scrapes in parallel.
+import time # For timing execution.
+from urllib.request import urlopen, Request
+from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
+import xlsxwriter
+from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
 # ghost library allows scraping pages that have Javascript challenge pages that
 # screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
-
-from httplib import IncompleteRead
-try:
-    from urllib import urlopen, Request, urlencode, quote as urlquote
-except ImportError:
-    from urllib import urlencode
-    from urllib.request import urlopen, Request
-    from urllib.parse import quote as urlquote
-
-import xlsxwriter
-from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
 __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
@@ -63,6 +60,12 @@ HTML_RESPONSE_RETRIES = 2
                           
 # Global array of distributor names.
 distributors = {
+    'newark': {
+        'function': 'newark',
+        'label': 'Newark',
+        'order_cols': ['part_num', 'purch', 'refs'],
+        'order_delimiter': ','
+    },
     'digikey': {
         'function': 'digikey',
         'label': 'Digi-Key',
@@ -74,12 +77,6 @@ distributors = {
         'label': 'Mouser',
         'order_cols': ['part_num', 'purch', 'refs'],
         'order_delimiter': ' '
-    },
-    'newark': {
-        'function': 'newark',
-        'label': 'Newark',
-        'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ','
     },
 }
 
@@ -134,7 +131,11 @@ def kicost(in_file, out_filename, debug_level=None):
                     except KeyError:
                         pass
             print()
+
             
+# Temporary class for storing part group information.
+class IdenticalComponents(object):
+    pass
 
 def get_part_groups(in_file):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
@@ -158,10 +159,6 @@ def get_part_groups(in_file):
         except AttributeError:
             pass  # No fields found for this part.
         return fields
-
-    # Temporary class for storing information.
-    class IdenticalComponents(object):
-        pass
 
     # Read-in the schematic XML file to get a tree and get its root.
     debug_print(1, 'Get schematic XML...')
@@ -227,7 +224,7 @@ def get_part_groups(in_file):
     # part numbers that may be assigned. Just collect those in a list for each group.
     debug_print(1, 'Get groups of identical components...')
     component_groups = {}
-    for ref, fields in components.items(): # part references and field values.
+    for ref, fields in list(components.items()): # part references and field values.
 
         # Take the field keys and values of each part and create a hash.
         # Use the hash as the key to a dictionary that stores lists of
@@ -267,10 +264,10 @@ def get_part_groups(in_file):
     #       manf#.
     #   Three or more manf#: Split this group into smaller groups, each one with
     #       parts having the same manf#, even if it's None. It's impossible to
-    #       determine which manf# the None parts should be assigned, so leave
+    #       determine which manf# the None parts should be assigned to, so leave
     #       their manf# as None.
     new_component_groups = [] # Copy new component groups into this.
-    for g, grp in component_groups.items():
+    for g, grp in list(component_groups.items()):
         num_manf_nums = len(grp.manf_nums)
         if num_manf_nums == 1:
             new_component_groups.append(grp)
@@ -293,7 +290,7 @@ def get_part_groups(in_file):
     for grp in new_component_groups:
         grp_fields = {}
         for ref in grp.refs:
-            for key, val in components[ref].items():
+            for key, val in list(components[ref].items()):
                 if val is None: # Field with no value...
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
@@ -344,7 +341,7 @@ def create_local_part_html(parts):
                     def make_random_catalog_number(p):
                         hash_fields = {k: p.fields[k] for k in p.fields}
                         hash_fields['dist'] = dist
-                        return str(hash(tuple(sorted(hash_fields.items()))))
+                        return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
                         
                     cat_num = cat_num or pn or make_random_catalog_number(p)
                     p.fields[dist+':cat#'] = cat_num # Store generated cat#.
@@ -355,6 +352,11 @@ def create_local_part_html(parts):
                             with tag('div', klass='pricing'):
                                 text(pricing)
                         if link is not None:
+                            url_parts = list(urlsplit(link))
+                            if url_parts[0] == '':
+                                url_parts[0] = u'http'
+                            print(url_parts)
+                            link = urlunsplit(url_parts)
                             with tag('div', klass='link'):
                                 text(link)
     global local_part_html
@@ -1299,61 +1301,62 @@ def get_local_qty_avail(html_tree):
     except ValueError:
         return 0
 
+def get_html_tree(args):
+
+    dist, part = args
+
+    debug_print(2, '{} {}'.format(dist, part.refs))
+    # Get function name for getting the HTML tree for this part from this distributor.
+    function = distributors[dist]['function']
+    get_dist_part_html_tree = getattr(THIS_MODULE,
+                                      'get_{}_part_html_tree'.format(function))
+    
+    try:
+        # Search for part information using one of the following:
+        #    1) the distributor's catalog number.
+        #    2) the manufacturer's part number.
+        for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
+            if key in part.fields:
+                return dist, get_dist_part_html_tree(dist, part.fields[key])
+        # No distributor or manufacturer number, so give up.
+        else:
+            debug_print(2, "No {0}#' field or 'manf#' field: cannot lookup part at {0}".format(dist))
+            raise PartHtmlError
+    except (PartHtmlError, AttributeError):
+        debug_print(2, "Part not found at " + dist)
+        # If no HTML page was found, then return a tree for an empty page.
+        return dist, (BeautifulSoup('<html></html>', 'lxml'), '')
+            
 
 def get_part_html_trees(dist_list, part):
     '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
+    # Parallel version.
 
-    def get_html_tree(dist, part):
-        # Get function name for getting the HTML tree for this part from this distributor.
-        function = distributors[dist]['function']
-        get_dist_part_html_tree = getattr(THIS_MODULE,
-                                          'get_{}_part_html_tree'.format(function))
-        try:
-            # Use the distributor's catalog number (if available) to get the page.
-            if dist + '#' in part.fields:
-                return get_dist_part_html_tree(dist, part.fields[dist + '#'])
-            # Else, use the distributor's catalog number (if available) to get the page.
-            elif dist + SEPRTR + 'cat#' in part.fields:
-                return get_dist_part_html_tree(dist, part.fields[dist + SEPRTR + 'cat#'])
-            # Else, use the manufacturer's catalog number (if available) to get the page.
-            elif 'manf#' in part.fields:
-                return get_dist_part_html_tree(dist, part.fields['manf#'])
-            # Else, give up.
-            else:
-                debug_print(2, "No '" + dist + "#' field or 'manf#' field: cannot lookup part at " + dist)
-                raise PartHtmlError
-        except (PartHtmlError, AttributeError):
-            debug_print(2, "Part not found at " + dist)
-            # If no HTML page was found, then return a tree for an empty page.
-            return BeautifulSoup('<html></html>', 'lxml'), ''
-    
-    class HtmlTreeGetter(threading.Thread):
-        def __init__(self, dist, part):
-            threading.Thread.__init__(self)
-            self.dist = dist
-            self.part = part
-            
-        def run(self):
-            self.tree, self.url = get_html_tree(self.dist, self.part)
-            
     html_trees = {}
     urls = {}
-    threads = {}
-
-    for dist in dist_list:
-        debug_print(2, '{} {}'.format(dist, part.refs))
-        threads[dist] = HtmlTreeGetter(dist, part)
-        threads[dist].start()
-        
-    while threading.active_count() > 1:
-        pass
-        
-    for t in threads:
-        html_trees[t] = threads[t].tree
-        urls[t] = threads[t].url
+    pool = ThreadPool(len(dist_list))
+    results = pool.imap_unordered(get_html_tree,[(d,part) for d in dist_list])
+    for dist, (html_tree, url) in results:
+        html_trees[dist] = html_tree
+        urls[dist] = url
 
     # Return the parsed HTML trees and the page URLs from whence they came.
     return html_trees, urls
+            
+
+# def get_part_html_trees(dist_list, part):
+    # '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
+    # # Serial version.
+
+    # html_trees = {}
+    # urls = {}
+    # for d in dist_list:
+        # dist, (html_tree, url) = get_html_tree((d,part))
+        # html_trees[dist] = html_tree
+        # urls[dist] = url
+
+    # # Return the parsed HTML trees and the page URLs from whence they came.
+    # return html_trees, urls
 
 
 def get_user_agent():
@@ -1432,7 +1435,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
             response = urlopen(req)
             html = response.read()
             break
-        except IncompleteRead:
+        except (HTTPException, URLError):
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1558,7 +1561,7 @@ def get_mouser_part_html_tree(dist, pn, url=None):
             response = urlopen(req)
             html = response.read()
             break
-        except IncompleteRead:
+        except (HTTPException, URLError):
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1610,13 +1613,13 @@ def get_newark_part_html_tree(dist, pn, url=None):
         url = 'http://www.newark.com/Search/' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
-    req = FakeBrowser(url)
     for _ in range(HTML_RESPONSE_RETRIES):
         try:
+            req = FakeBrowser(url)
             response = urlopen(req)
             html = response.read()
             break
-        except IncompleteRead:
+        except (HTTPException, URLError):
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1673,4 +1676,70 @@ def get_local_part_html_tree(dist, pn, url=None):
         else:
             return part_tree, None
     raise PartHtmlError
+
+    
+    
+import argparse as ap
+import os
+import sys
+#from .__init__ import __version__
+#from .kicost import *
+
+def main():
+    __version__ = '0.1.13'
+    parser = ap.ArgumentParser(
+        description='Build cost spreadsheet for a KiCAD project.')
+    parser.add_argument('-v', '--version',
+                        action='version',
+                        version='KiCost ' + __version__)
+    parser.add_argument('-i', '--input',
+                        nargs='?',
+                        type=str,
+                        metavar='file.xml',
+                        help='Schematic BOM XML file.')
+    parser.add_argument('-o', '--output',
+                        nargs='?',
+                        type=str,
+                        metavar='file.xlsx',
+                        help='Generated cost spreadsheet.')
+    parser.add_argument('-w', '--overwrite',
+                        action='store_true',
+                        help='Allow overwriting of an existing spreadsheet.')
+    parser.add_argument(
+        '-d', '--debug',
+        nargs='?',
+        type=int,
+        default=0,
+        metavar='LEVEL',
+        help='Print debugging info. (Larger LEVEL means more info.)')
+
+    args = parser.parse_args()
+
+    if args.output == None:
+        if args.input != None:
+            args.output = os.path.splitext(args.input)[0] + '.xlsx'
+        else:
+            args.output = os.path.splitext(sys.argv[0])[0] + '.xlsx'
+    else:
+        args.output = os.path.splitext(args.output)[0] + '.xlsx'
+    if os.path.isfile(args.output):
+        if not args.overwrite:
+            print('Output file {} already exists! Use the --overwrite option to replace it.'.format(
+                args.output))
+            sys.exit(1)
+
+    if args.input == None:
+        args.input = sys.stdin
+    else:
+        args.input = os.path.splitext(args.input)[0] + '.xml'
+        args.input = open(args.input)
+
+    kicost(in_file=args.input, out_filename=args.output, debug_level=args.debug)
+
+# main entrypoint.
+if __name__ == '__main__':
+    start_time = time.time()
+    main()
+    end_time = time.time()
+    debug_print(3, 'Elapsed execution time: {} seconds.'.format(end_time-start_time))
 
