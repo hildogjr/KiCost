@@ -35,10 +35,12 @@ import sys
 import pprint
 import re
 import difflib
+from operator import itemgetter
 from bs4 import BeautifulSoup
 from random import randint
 from yattag import Doc, indent  # For generating HTML page for local parts.
-from multiprocessing.pool import ThreadPool # For running web scrapes in parallel.
+from multiprocessing import Pool # For running web scrapes in parallel.
+import multiprocessing.pool
 import time # For timing execution.
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
@@ -61,18 +63,21 @@ HTML_RESPONSE_RETRIES = 2
 # Global array of distributor names.
 distributors = {
     'newark': {
+        'scrape': 'web',
         'function': 'newark',
         'label': 'Newark',
         'order_cols': ['part_num', 'purch', 'refs'],
         'order_delimiter': ','
     },
     'digikey': {
+        'scrape': 'web',
         'function': 'digikey',
         'label': 'Digi-Key',
         'order_cols': ['purch', 'part_num', 'refs'],
         'order_delimiter': ','
     },
     'mouser': {
+        'scrape': 'web',
         'function': 'mouser',
         'label': 'Mouser',
         'order_cols': ['part_num', 'purch', 'refs'],
@@ -80,8 +85,7 @@ distributors = {
     },
 }
 
-# String that holds all the local part info as an HTML page.
-local_part_html = '<html></html>'
+local_part_html = ''
 
 dbg_level = None
 
@@ -92,7 +96,7 @@ def debug_print(level, msg):
     if level <= dbg_level:
         print(msg)
 
-def kicost(in_file, out_filename, debug_level=None):
+def kicost(in_file, out_filename, serial=False, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     global dbg_level
@@ -102,20 +106,28 @@ def kicost(in_file, out_filename, debug_level=None):
     parts = get_part_groups(in_file)
     
     # Create an HTML page containing all the local part information.
-    create_local_part_html(parts)
-    if 2 <= dbg_level:
-        print(indent(local_part_html))
-        pprint.pprint(distributors)
+    local_part_html = create_local_part_html(parts)
 
-    # Get the distributor product page for each part and parse it into a tree.
-    debug_print(1, 'Get parsed product page for each component group...')
-    for part in parts:
-        part.html_trees, part.urls = get_part_html_trees(part)
-
-    # results = ThreadPool(1).imap_unordered(get_part_html_trees, parts)
-    # for part, html_trees, urls in results:
-        # part.html_trees = html_trees
-        # part.urls = urls
+    # Get the distributor product page for each part and scrape the part data.
+    debug_print(1, 'Scrape part data for each component group...')
+    if serial==True:
+        # Scrape data, one part at a time.
+        for i in range(len(parts)):
+            args = (i, parts[i], distributors, local_part_html)
+            id, url, part_num, price_tiers, qty_avail = scrape_part(args)
+            parts[id].part_num = part_num
+            parts[id].url = url
+            parts[id].price_tiers = price_tiers
+            parts[id].qty_avail = qty_avail
+    else:
+        # Scrape data for multiple parts simultaneously.
+        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
+        results = Pool(20).imap_unordered(scrape_part, args)
+        for id, url, part_num, price_tiers, qty_avail in results:
+            parts[id].part_num = part_num
+            parts[id].url = url
+            parts[id].price_tiers = price_tiers
+            parts[id].qty_avail = qty_avail
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, out_filename)
@@ -313,6 +325,11 @@ def get_part_groups(in_file):
     
 def create_local_part_html(parts):
     '''Create HTML page containing local (non-webscraped) part information.'''
+    
+    global distributors
+    
+    debug_print(1, 'Create HTML page for parts with custom pricing...')
+    
     doc, tag, text = Doc().tagtext()
     with tag('html'):
         with tag('body'):
@@ -329,6 +346,7 @@ def create_local_part_html(parts):
                         continue
                     if dist not in distributors:
                         distributors[dist] = {
+                            'scrape': 'local',
                             'function': 'local',
                             'label': dist,
                             'order_cols': ['purch', 'part_num', 'refs'],
@@ -363,8 +381,11 @@ def create_local_part_html(parts):
                             link = urlunsplit(url_parts)
                             with tag('div', klass='link'):
                                 text(link)
-    global local_part_html
-    local_part_html = doc.getvalue()
+    html = doc.getvalue()
+    if 2 <= dbg_level:
+        print(indent(html))
+        pprint.pprint(distributors)
+    return html
 
 
 def create_spreadsheet(parts, spreadsheet_filename):
@@ -410,14 +431,24 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'valign': 'vcenter',
                 'bg_color': '#A2AE06'  # Newark/E14 olive green.
             }),
-            'local': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#808080'  # Grey.
-            }),
+            'localhdr': [
+                workbook.add_format({
+                    'font_size': 14,
+                    'font_color': 'black',
+                    'bold': True,
+                    'align': 'center',
+                    'valign': 'vcenter',
+                    'bg_color': '#909090'  # Grey.
+                }),
+                workbook.add_format({
+                    'font_size': 14,
+                    'font_color': 'black',
+                    'bold': True,
+                    'align': 'center',
+                    'valign': 'vcenter',
+                    'bg_color': '#c0c0c0'  # Grey.
+                }),
+            ],
             'header': workbook.add_format({
                 'font_size': 12,
                 'bold': True,
@@ -520,11 +551,21 @@ def create_spreadsheet(parts, spreadsheet_filename):
         wks.freeze_panes(COL_HDR_ROW, next_col)
 
         # Load the part information from each distributor into the sheet.
-        for dist in list(distributors.keys()):
+        def dist_cmp(d0, d1):
+            if distributors[d0]['scrape'] == distributors[d1]['scrape']:
+                return cmp(d0, d1)
+            if distributors[d0]['scrape'] == 'local':
+                return 1
+            return -1
+            
+        dist_list = sorted(list(distributors.keys()), cmp=dist_cmp)
+        index = 0
+        for dist in dist_list:
             dist_start_col = next_col
-            next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
+            next_col = add_dist_to_worksheet(wks, wrk_formats, index, START_ROW,
                                              dist_start_col, TOTAL_COST_ROW,
                                              refs_col, qty_col, dist, parts)
+            index = (index+1) % 2
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
@@ -769,7 +810,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
     return start_col + num_cols, start_col + columns['refs']['col'], start_col + columns['qty']['col']
 
 
-def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
+def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                           total_cost_row, part_ref_col, part_qty_col, dist,
                           parts):
     '''Add distributor-specific part data to the spreadsheet.'''
@@ -832,7 +873,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                     distributors[dist]['label'].title(), wrk_formats[dist])
     except KeyError:
         wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-                    distributors[dist]['label'].title(), wrk_formats['local'])
+                    distributors[dist]['label'].title(), wrk_formats['localhdr'][index])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -850,17 +891,10 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
     PART_INFO_FIRST_ROW = row  # Starting row of part info.
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
-    # Get function names for getting data from the HTML tree for this distributor.
-    function = distributors[dist]['function']
-    get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(function))
-    get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(function))
-    get_dist_price_tiers = getattr(THIS_MODULE,
-                                   'get_{}_price_tiers'.format(function))
-
     for part in parts:
 
-        # Get the distributor part number from the HTML tree.
-        dist_part_num = get_dist_part_num(part.html_trees[dist])
+        # Get the distributor part number.
+        dist_part_num = part.part_num[dist]
 
         # If the part number doesn't exist, the distributor doesn't stock this part
         # so leave this row blank.
@@ -874,13 +908,13 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
 
         # Enter quantity of part available at this distributor.
         wks.write(row, start_col + columns['avail']['col'],
-                  get_dist_qty_avail(part.html_trees[dist]), None)
+                  part.qty_avail[dist], None)
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, start_col + columns['purch']['col'], '', None)
 
         # Extract price tiers from distributor HTML page tree.
-        price_tiers = get_dist_price_tiers(part.html_trees[dist])
+        price_tiers = part.price_tiers[dist]
         # Add the price for a single unit if it doesn't already exist in the tiers.
         try:
             min_qty = min(price_tiers.keys())
@@ -937,9 +971,9 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
         })
 
         # Enter a link to the distributor webpage for this part.
-        if part.urls[dist]:
+        if part.url[dist]:
             wks.write_url(row, start_col + columns['part_url']['col'],
-                      part.urls[dist], wrk_formats['centered_text'],
+                      part.url[dist], wrk_formats['centered_text'],
                       string='Link')
 
         # Finished processing distributor data for this part.
@@ -1096,23 +1130,23 @@ def get_digikey_price_tiers(html_tree):
     return price_tiers
 
 
-def get_mouser_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
-    price_tiers = {}
-    try:
-        for tr in html_tree.find('div', class_='PriceBreaks').find_all('tr'):
-            try:
-                qty = int(re.sub('[^0-9]', '',
-                                 tr.find('td',
-                                         class_='PriceBreakQuantity').a.text))
-                unit_price = tr.find('td', class_='PriceBreakPrice').span.text
-                price_tiers[qty] = float(re.sub('[^0-9\.]', '', unit_price))
-            except (TypeError, AttributeError, ValueError, IndexError):
-                continue
-    except AttributeError:
-        # This happens when no pricing info is found in the tree.
-        return price_tiers  # Return empty price tiers.
-    return price_tiers
+# def get_mouser_price_tiers(html_tree):
+    # '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
+    # price_tiers = {}
+    # try:
+        # for tr in html_tree.find('div', class_='PriceBreaks').find_all('tr'):
+            # try:
+                # qty = int(re.sub('[^0-9]', '',
+                                 # tr.find('td',
+                                         # class_='PriceBreakQuantity').a.text))
+                # unit_price = tr.find('td', class_='PriceBreakPrice').span.text
+                # price_tiers[qty] = float(re.sub('[^0-9\.]', '', unit_price))
+            # except (TypeError, AttributeError, ValueError, IndexError):
+                # continue
+    # except AttributeError:
+        # # This happens when no pricing info is found in the tree.
+        # return price_tiers  # Return empty price tiers.
+    # return price_tiers
 
 
 def get_mouser_price_tiers(html_tree):
@@ -1141,7 +1175,6 @@ def get_mouser_price_tiers(html_tree):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
-        print('Mouser: no price tiers found.')
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
@@ -1305,13 +1338,14 @@ def get_local_qty_avail(html_tree):
     except ValueError:
         return 0
 
-def get_html_tree(args):
+def get_part_html_tree(part, dist, distributor_dict, local_html):
 
-    dist, part = args
+    global local_part_html
+    local_part_html = local_html
 
     debug_print(2, '{} {}'.format(dist, part.refs))
     # Get function name for getting the HTML tree for this part from this distributor.
-    function = distributors[dist]['function']
+    function = distributor_dict[dist]['function']
     get_dist_part_html_tree = getattr(THIS_MODULE,
                                       'get_{}_part_html_tree'.format(function))
     
@@ -1321,7 +1355,7 @@ def get_html_tree(args):
         #    2) the manufacturer's part number.
         for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
             if key in part.fields:
-                return dist, get_dist_part_html_tree(dist, part.fields[key])
+                return get_dist_part_html_tree(dist, part.fields[key])
         # No distributor or manufacturer number, so give up.
         else:
             debug_print(2, "No {0}#' field or 'manf#' field: cannot lookup part at {0}".format(dist))
@@ -1329,37 +1363,31 @@ def get_html_tree(args):
     except (PartHtmlError, AttributeError):
         debug_print(2, "Part not found at " + dist)
         # If no HTML page was found, then return a tree for an empty page.
-        return dist, (BeautifulSoup('<html></html>', 'lxml'), '')
-            
+        return BeautifulSoup('<html></html>', 'lxml'), ''
 
-def get_part_html_trees(part):
-    '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
-    # Parallel version.
+        
+def scrape_part(args):
+    id, part, distributor_dict, local_html = args
 
-    html_trees = {}
-    urls = {}
-    pool = ThreadPool(len(distributors))
-    results = pool.imap_unordered(get_html_tree,[(d,part) for d in distributors])
-    for dist, (html_tree, url) in results:
-        html_trees[dist] = html_tree
-        urls[dist] = url
+    url = {}
+    part_num = {}
+    price_tiers = {}
+    qty_avail = {}
+    
+    for d in distributor_dict:
+        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html)
+        
+        function = distributor_dict[d]['function']
+        get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(function))
+        get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(function))
+        get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(function))
 
-    # Return the parsed HTML trees and the page URLs from whence they came.
-    return html_trees, urls
-
-# def get_part_html_trees(part):
-    # '''Get the parsed HTML trees and page URL from each distributor website for the given part.'''
-    # # Serial version.
-
-    # html_trees = {}
-    # urls = {}
-    # for d in distributors:
-        # dist, (html_tree, url) = get_html_tree((d,part))
-        # html_trees[dist] = html_tree
-        # urls[dist] = url
-
-    # # Return the parsed HTML trees and the page URLs from whence they came.
-    # return html_trees, urls
+        part_num[d] = get_dist_part_num(html_tree)
+        qty_avail[d] = get_dist_qty_avail(html_tree)
+        price_tiers[d] = get_dist_price_tiers(html_tree)
+    
+    return id, url, part_num, price_tiers, qty_avail
+        
 
 def get_user_agent():
     # The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
@@ -1542,7 +1570,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
     raise PartHtmlError
 
 
-def get_mouser_part_html_tree(dist, pn, url=None):
+def get_mouser_part_html_tree(dist, pn, url=None, descend=2):
     '''Find the Mouser HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -1575,33 +1603,36 @@ def get_mouser_part_html_tree(dist, pn, url=None):
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('table', class_='SearchResultsTable') is not None:
-        # Look for the table of products.
-        products = tree.find(
-            'table',
-            class_='SearchResultsTable').find_all(
-                'tr',
-                class_=('SearchResultsRowOdd', 'SearchResultsRowEven'))
+        if descend <= 0:
+            raise PartHtmlError
+        else:
+            # Look for the table of products.
+            products = tree.find(
+                'table',
+                class_='SearchResultsTable').find_all(
+                    'tr',
+                    class_=('SearchResultsRowOdd', 'SearchResultsRowEven'))
 
-        # Extract the product links for the part numbers from the table.
-        product_links = [p.find('div', class_='mfrDiv').a for p in products]
+            # Extract the product links for the part numbers from the table.
+            product_links = [p.find('div', class_='mfrDiv').a for p in products]
 
-        # Extract all the part numbers from the text portion of the links.
-        part_numbers = [l.text for l in product_links]
+            # Extract all the part numbers from the text portion of the links.
+            part_numbers = [l.text for l in product_links]
 
-        # Look for the part number in the list that most closely matches the requested part number.
-        match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
+            # Look for the part number in the list that most closely matches the requested part number.
+            match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
 
-        # Now look for the link that goes with the closest matching part number.
-        for l in product_links:
-            if l.text == match:
-                # Get the tree for the linked-to page and return that.
-                return get_mouser_part_html_tree(dist, pn, url=l['href'])
+            # Now look for the link that goes with the closest matching part number.
+            for l in product_links:
+                if l.text == match:
+                    # Get the tree for the linked-to page and return that.
+                    return get_mouser_part_html_tree(dist, pn, url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
 
 
-def get_newark_part_html_tree(dist, pn, url=None):
+def get_newark_part_html_tree(dist, pn, url=None, descend=2):
     '''Find the Newark HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -1623,6 +1654,8 @@ def get_newark_part_html_tree(dist, pn, url=None):
             break
         except (HTTPException, URLError):
             pass
+        except Multiprocessing.pool.MaybeEncodingError:
+            raise PartHtmlError
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
     tree = BeautifulSoup(html, 'lxml')
@@ -1633,34 +1666,37 @@ def get_newark_part_html_tree(dist, pn, url=None):
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('table', class_='productLister', id='sProdList') is not None:
-        # Look for the table of products.
-        products = tree.find('table',
-                             class_='productLister',
-                             id='sProdList').find_all('tr',
-                                                      class_='altRow')
+        if descend <= 0:
+            raise PartHtmlError
+        else:
+            # Look for the table of products.
+            products = tree.find('table',
+                                 class_='productLister',
+                                 id='sProdList').find_all('tr',
+                                                          class_='altRow')
 
-        # Extract the product links for the part numbers from the table.
-        product_links = []
-        for p in products:
-            try:
-                product_links.append(
-                    p.find('td',
-                           class_='mftrPart').find('p',
-                                                   class_='wordBreak').a)
-            except AttributeError:
-                continue
+            # Extract the product links for the part numbers from the table.
+            product_links = []
+            for p in products:
+                try:
+                    product_links.append(
+                        p.find('td',
+                               class_='mftrPart').find('p',
+                                                       class_='wordBreak').a)
+                except AttributeError:
+                    continue
 
-        # Extract all the part numbers from the text portion of the links.
-        part_numbers = [l.text for l in product_links]
+            # Extract all the part numbers from the text portion of the links.
+            part_numbers = [l.text for l in product_links]
 
-        # Look for the part number in the list that most closely matches the requested part number.
-        match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
+            # Look for the part number in the list that most closely matches the requested part number.
+            match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
 
-        # Now look for the link that goes with the closest matching part number.
-        for l in product_links:
-            if l.text == match:
-                # Get the tree for the linked-to page and return that.
-                return get_newark_part_html_tree(dist, pn, url=l['href'])
+            # Now look for the link that goes with the closest matching part number.
+            for l in product_links:
+                if l.text == match:
+                    # Get the tree for the linked-to page and return that.
+                    return get_newark_part_html_tree(dist, pn, url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
@@ -1707,6 +1743,9 @@ def main():
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
                         help='Allow overwriting of an existing spreadsheet.')
+    parser.add_argument('-s', '--serial',
+                        action='store_true',
+                        help='Speed-up web scraping of part data using parallel processes.')
     parser.add_argument(
         '-d', '--debug',
         nargs='?',
@@ -1736,10 +1775,11 @@ def main():
         args.input = os.path.splitext(args.input)[0] + '.xml'
         args.input = open(args.input)
 
-    kicost(in_file=args.input, out_filename=args.output, debug_level=args.debug)
+    kicost(in_file=args.input, out_filename=args.output, serial=args.serial, debug_level=args.debug)
 
 # main entrypoint.
 if __name__ == '__main__':
+    #sys.setrecursionlimit(1000)
     start_time = time.time()
     main()
     end_time = time.time()
