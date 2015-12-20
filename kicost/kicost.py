@@ -22,6 +22,7 @@
 
 from __future__ import print_function
 from __future__ import absolute_import
+from past.builtins import cmp
 from future import standard_library
 standard_library.install_aliases()
 from builtins import str
@@ -35,7 +36,6 @@ import sys
 import pprint
 import re
 import difflib
-from operator import itemgetter
 from bs4 import BeautifulSoup
 from random import randint
 from yattag import Doc, indent  # For generating HTML page for local parts.
@@ -56,9 +56,10 @@ __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
 THIS_MODULE = sys.modules[__name__
                           ]  # Reference to this module for making named calls.
+THIS_MODULE = sys.modules[__name__].__dict__
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
-HTML_RESPONSE_RETRIES = 2
+HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
                           
 # Global array of distributor names.
 distributors = {
@@ -324,7 +325,7 @@ def get_part_groups(in_file):
 
     
 def create_local_part_html(parts):
-    '''Create HTML page containing local (non-webscraped) part information.'''
+    '''Create HTML page containing info for local (non-webscraped) parts.'''
     
     global distributors
     
@@ -377,7 +378,6 @@ def create_local_part_html(parts):
                             url_parts = list(urlsplit(link))
                             if url_parts[0] == '':
                                 url_parts[0] = u'http'
-                            print(url_parts)
                             link = urlunsplit(url_parts)
                             with tag('div', klass='link'):
                                 text(link)
@@ -431,14 +431,14 @@ def create_spreadsheet(parts, spreadsheet_filename):
                 'valign': 'vcenter',
                 'bg_color': '#A2AE06'  # Newark/E14 olive green.
             }),
-            'localhdr': [
+            'local_lbl': [
                 workbook.add_format({
                     'font_size': 14,
                     'font_color': 'black',
                     'bold': True,
                     'align': 'center',
                     'valign': 'vcenter',
-                    'bg_color': '#909090'  # Grey.
+                    'bg_color': '#909090'  # Darker grey.
                 }),
                 workbook.add_format({
                     'font_size': 14,
@@ -446,7 +446,7 @@ def create_spreadsheet(parts, spreadsheet_filename):
                     'bold': True,
                     'align': 'center',
                     'valign': 'vcenter',
-                    'bg_color': '#c0c0c0'  # Grey.
+                    'bg_color': '#c0c0c0'  # Lighter grey.
                 }),
             ],
             'header': workbook.add_format({
@@ -873,7 +873,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     distributors[dist]['label'].title(), wrk_formats[dist])
     except KeyError:
         wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-                    distributors[dist]['label'].title(), wrk_formats['localhdr'][index])
+                    distributors[dist]['label'].title(), wrk_formats['local_lbl'][index])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -1130,25 +1130,6 @@ def get_digikey_price_tiers(html_tree):
     return price_tiers
 
 
-# def get_mouser_price_tiers(html_tree):
-    # '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
-    # price_tiers = {}
-    # try:
-        # for tr in html_tree.find('div', class_='PriceBreaks').find_all('tr'):
-            # try:
-                # qty = int(re.sub('[^0-9]', '',
-                                 # tr.find('td',
-                                         # class_='PriceBreakQuantity').a.text))
-                # unit_price = tr.find('td', class_='PriceBreakPrice').span.text
-                # price_tiers[qty] = float(re.sub('[^0-9\.]', '', unit_price))
-            # except (TypeError, AttributeError, ValueError, IndexError):
-                # continue
-    # except AttributeError:
-        # # This happens when no pricing info is found in the tree.
-        # return price_tiers  # Return empty price tiers.
-    # return price_tiers
-
-
 def get_mouser_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
     price_tiers = {}
@@ -1337,56 +1318,6 @@ def get_local_qty_avail(html_tree):
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
         return 0
-
-def get_part_html_tree(part, dist, distributor_dict, local_html):
-
-    global local_part_html
-    local_part_html = local_html
-
-    debug_print(2, '{} {}'.format(dist, part.refs))
-    # Get function name for getting the HTML tree for this part from this distributor.
-    function = distributor_dict[dist]['function']
-    get_dist_part_html_tree = getattr(THIS_MODULE,
-                                      'get_{}_part_html_tree'.format(function))
-    
-    try:
-        # Search for part information using one of the following:
-        #    1) the distributor's catalog number.
-        #    2) the manufacturer's part number.
-        for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
-            if key in part.fields:
-                return get_dist_part_html_tree(dist, part.fields[key])
-        # No distributor or manufacturer number, so give up.
-        else:
-            debug_print(2, "No {0}#' field or 'manf#' field: cannot lookup part at {0}".format(dist))
-            raise PartHtmlError
-    except (PartHtmlError, AttributeError):
-        debug_print(2, "Part not found at " + dist)
-        # If no HTML page was found, then return a tree for an empty page.
-        return BeautifulSoup('<html></html>', 'lxml'), ''
-
-        
-def scrape_part(args):
-    id, part, distributor_dict, local_html = args
-
-    url = {}
-    part_num = {}
-    price_tiers = {}
-    qty_avail = {}
-    
-    for d in distributor_dict:
-        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html)
-        
-        function = distributor_dict[d]['function']
-        get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(function))
-        get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(function))
-        get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(function))
-
-        part_num[d] = get_dist_part_num(html_tree)
-        qty_avail[d] = get_dist_qty_avail(html_tree)
-        price_tiers[d] = get_dist_price_tiers(html_tree)
-    
-    return id, url, part_num, price_tiers, qty_avail
         
 
 def get_user_agent():
@@ -1421,6 +1352,7 @@ def FakeBrowser(url):
     req.add_header('User-agent', get_user_agent())
     return req
 
+    
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
@@ -1703,24 +1635,103 @@ def get_newark_part_html_tree(dist, pn, url=None, descend=2):
     
     
 def get_local_part_html_tree(dist, pn, url=None):
+    '''Extract the HTML tree from the HTML page for local parts.'''
+    
+    # Extract the HTML tree from the local part HTML page.
     html = local_part_html
     tree =  BeautifulSoup(html, 'lxml')
-    class_ = dist + SEPRTR + pn
-    part_tree = tree.find('div', class_=class_)
-    if part_tree:
+    
+    try:
+        # Find the DIV in the tree for the given part and distributor.
+        class_ = dist + SEPRTR + pn
+        part_tree = tree.find('div', class_=class_)
         url_tree = part_tree.find('div', class_='link')
-        if url_tree:
+        try:
+            # Return the part data tree and any URL associated with the part.
             return part_tree, url_tree.text.strip()
-        else:
+        except AttributeError:
+            # Return part data tree and None if the URL is not found.
             return part_tree, None
-    raise PartHtmlError
+    except AttributeError:
+        # Return an error if the part_tree is not found.
+        raise PartHtmlError
+
+
+def get_part_html_tree(part, dist, distributor_dict, local_html):
+    '''Get the HTML tree for a part from the given distributor website or local HTML.'''
+
+    global local_part_html
+    local_part_html = local_html
+
+    debug_print(2, '{} {}'.format(dist, part.refs))
+    
+    # Get function name for getting the HTML tree for this part from this distributor.
+    function = distributor_dict[dist]['function']
+    # get_dist_part_html_tree = getattr(THIS_MODULE,
+                                      # 'get_{}_part_html_tree'.format(function))
+    get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
+    
+    try:
+        # Search for part information using one of the following:
+        #    1) the distributor's catalog number.
+        #    2) the manufacturer's part number.
+        for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
+            if key in part.fields:
+                return get_dist_part_html_tree(dist, part.fields[key])
+        # No distributor or manufacturer number, so give up.
+        else:
+            debug_print(2, "No {0}#' field or 'manf#' field: cannot lookup part at {0}".format(dist))
+            raise PartHtmlError
+    except (PartHtmlError, AttributeError):
+        debug_print(2, "Part not found at " + dist)
+        # If no HTML page was found, then return a tree for an empty page.
+        return BeautifulSoup('<html></html>', 'lxml'), ''
+
+        
+def scrape_part(args):
+    '''Scrape the data for a part from each distributor website or local HTML.'''
+    
+    id, part, distributor_dict, local_html = args # Unpack the arguments.
+
+    # Create dictionaries for the various items of part data from each distributor.
+    url = {}
+    part_num = {}
+    price_tiers = {}
+    qty_avail = {}
+    
+    # Scrape the part data from each distributor website or the local HTML.
+    for d in distributor_dict:
+        # Get the HTML tree for the part.
+        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html)
+        
+        # Get the function names for getting the part data from the HTML tree.
+        function = distributor_dict[d]['function']
+        # get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(function))
+        # get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(function))
+        # get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(function))
+        get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
+        get_dist_part_num = THIS_MODULE['get_{}_part_num'.format(function)]
+        get_dist_qty_avail = THIS_MODULE['get_{}_qty_avail'.format(function)]
+
+        # Call the functions that extract the data from the HTML tree.
+        part_num[d] = get_dist_part_num(html_tree)
+        qty_avail[d] = get_dist_qty_avail(html_tree)
+        price_tiers[d] = get_dist_price_tiers(html_tree)
+    
+    # Return the part data.
+    return id, url, part_num, price_tiers, qty_avail
+
 
     
+    
+###############################################################################
+# Command-line interface.
+###############################################################################
     
 import argparse as ap
 import os
 import sys
-#from .__init__ import __version__
+#from . import __version__
 #from .kicost import *
 
 def main():
@@ -1777,9 +1788,11 @@ def main():
 
     kicost(in_file=args.input, out_filename=args.output, serial=args.serial, debug_level=args.debug)
 
-# main entrypoint.
+    
+###############################################################################
+# Main entrypoint.
+###############################################################################
 if __name__ == '__main__':
-    #sys.setrecursionlimit(1000)
     start_time = time.time()
     main()
     end_time = time.time()
