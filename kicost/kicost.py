@@ -40,7 +40,6 @@ from bs4 import BeautifulSoup
 from random import randint
 from yattag import Doc, indent  # For generating HTML page for local parts.
 from multiprocessing import Pool # For running web scrapes in parallel.
-import multiprocessing.pool
 import time # For timing execution.
 from urllib.request import urlopen, Request
 from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
@@ -54,9 +53,7 @@ from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
 __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
-THIS_MODULE = sys.modules[__name__
-                          ]  # Reference to this module for making named calls.
-THIS_MODULE = sys.modules[__name__].__dict__
+#THIS_MODULE = locals()
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
@@ -99,7 +96,7 @@ def debug_print(level, msg):
 
 def kicost(in_file, out_filename, serial=False, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
-
+    
     global dbg_level
     dbg_level = debug_level
 
@@ -108,6 +105,14 @@ def kicost(in_file, out_filename, serial=False, debug_level=None):
     
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
+    
+    # for d in distributors:
+        # distributors[d]['funcs'] = {}
+        # for f in ('get_{}_price_tiers', 'get_{}_part_num', 'get_{}_qty_avail', 'get_{}_part_html_tree'):
+            # distributors[d]['funcs'][re.sub(r'_{}_','_',f)] = globals()[f.format(distributors[d]['function'])]
+
+    if 2 <= dbg_level:
+        pprint.pprint(distributors)
 
     # Get the distributor product page for each part and scrape the part data.
     debug_print(1, 'Scrape part data for each component group...')
@@ -384,7 +389,6 @@ def create_local_part_html(parts):
     html = doc.getvalue()
     if 2 <= dbg_level:
         print(indent(html))
-        pprint.pprint(distributors)
     return html
 
 
@@ -1666,10 +1670,19 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
     debug_print(2, '{} {}'.format(dist, part.refs))
     
     # Get function name for getting the HTML tree for this part from this distributor.
-    function = distributor_dict[dist]['function']
+    #function = distributor_dict[dist]['function']
     # get_dist_part_html_tree = getattr(THIS_MODULE,
                                       # 'get_{}_part_html_tree'.format(function))
-    get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
+    # get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
+    # get_dist_part_html_tree = distributor_dict[dist]['funcs']['get_part_html_tree']
+    if dist == 'mouser':
+        get_dist_part_html_tree = get_mouser_part_html_tree
+    elif dist == 'digikey':
+        get_dist_part_html_tree = get_digikey_part_html_tree
+    elif dist == 'newark':
+        get_dist_part_html_tree = get_newark_part_html_tree
+    else:
+        get_dist_part_html_tree = get_local_part_html_tree
     
     try:
         # Search for part information using one of the following:
@@ -1705,13 +1718,32 @@ def scrape_part(args):
         html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html)
         
         # Get the function names for getting the part data from the HTML tree.
-        function = distributor_dict[d]['function']
+        # function = distributor_dict[d]['function']
         # get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(function))
         # get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(function))
         # get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(function))
-        get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
-        get_dist_part_num = THIS_MODULE['get_{}_part_num'.format(function)]
-        get_dist_qty_avail = THIS_MODULE['get_{}_qty_avail'.format(function)]
+        # get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
+        # get_dist_part_num = THIS_MODULE['get_{}_part_num'.format(function)]
+        # get_dist_qty_avail = THIS_MODULE['get_{}_qty_avail'.format(function)]
+        # get_dist_price_tiers = distributor_dict[d]['funcs']['get_price_tiers']
+        # get_dist_part_num = distributor_dict[d]['funcs']['get_part_num']
+        # get_dist_qty_avail = distributor_dict[d]['funcs']['get_qty_avail']
+        if d == 'mouser':
+            get_dist_part_num = get_mouser_part_num
+            get_dist_qty_avail = get_mouser_qty_avail
+            get_dist_price_tiers = get_mouser_price_tiers
+        elif d == 'digikey':
+            get_dist_part_num = get_digikey_part_num
+            get_dist_qty_avail = get_digikey_qty_avail
+            get_dist_price_tiers = get_digikey_price_tiers
+        elif d == 'newark':
+            get_dist_part_num = get_newark_part_num
+            get_dist_qty_avail = get_newark_qty_avail
+            get_dist_price_tiers = get_newark_price_tiers
+        else:
+            get_dist_part_num = get_local_part_num
+            get_dist_qty_avail = get_local_qty_avail
+            get_dist_price_tiers = get_local_price_tiers
 
         # Call the functions that extract the data from the HTML tree.
         part_num[d] = get_dist_part_num(html_tree)
@@ -1735,7 +1767,7 @@ import sys
 #from .kicost import *
 
 def main():
-    __version__ = '0.1.13'
+    __version__ = '0.1.14'
     parser = ap.ArgumentParser(
         description='Build cost spreadsheet for a KiCAD project.')
     parser.add_argument('-v', '--version',

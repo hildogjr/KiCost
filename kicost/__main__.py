@@ -26,10 +26,16 @@ from __future__ import absolute_import
 import argparse as ap
 import os
 import sys
-from .__init__ import __version__
-from .kicost import *
+import time
+from kicost import *
+#from . import __version__
+
+###############################################################################
+# Command-line interface.
+###############################################################################
 
 def main():
+    __version__ = '0.1.14'
     parser = ap.ArgumentParser(
         description='Build cost spreadsheet for a KiCAD project.')
     parser.add_argument('-v', '--version',
@@ -48,6 +54,9 @@ def main():
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
                         help='Allow overwriting of an existing spreadsheet.')
+    parser.add_argument('-s', '--serial',
+                        action='store_true',
+                        help='Speed-up web scraping of part data using parallel processes.')
     parser.add_argument(
         '-d', '--debug',
         nargs='?',
@@ -77,8 +86,14 @@ def main():
         args.input = os.path.splitext(args.input)[0] + '.xml'
         args.input = open(args.input)
 
-    kicost(in_file=args.input, out_filename=args.output, debug_level=args.debug)
+    kicost(in_file=args.input, out_filename=args.output, serial=args.serial, debug_level=args.debug)
 
-# main entrypoint.
+    
+###############################################################################
+# Main entrypoint.
+###############################################################################
 if __name__ == '__main__':
+    start_time = time.time()
     main()
+    end_time = time.time()
+    debug_print(3, 'Elapsed execution time: {} seconds.'.format(end_time-start_time))
