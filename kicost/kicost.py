@@ -22,15 +22,15 @@
 
 from __future__ import print_function
 from __future__ import absolute_import
-from past.builtins import cmp
 from future import standard_library
 standard_library.install_aliases()
 from builtins import str
 from builtins import zip
 from builtins import range
 from builtins import object
-from future.backports.http.client import HTTPException
+from future.backports.http.client import HTTPException, IncompleteRead
 from future.backports.urllib.error import URLError
+from http.client import IncompleteRead
 
 import sys
 import pprint
@@ -51,7 +51,7 @@ from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost']  # Only export this routine for use by the outside world.
+__all__ = ['kicost',]  # Only export this routine for use by the outside world.
 
 #THIS_MODULE = locals()
 
@@ -94,7 +94,7 @@ def debug_print(level, msg):
     if level <= dbg_level:
         print(msg)
 
-def kicost(in_file, out_filename, serial=False, debug_level=None):
+def kicost(in_file, out_filename, parallel=False, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
     
     global dbg_level
@@ -116,20 +116,20 @@ def kicost(in_file, out_filename, serial=False, debug_level=None):
 
     # Get the distributor product page for each part and scrape the part data.
     debug_print(1, 'Scrape part data for each component group...')
-    if serial==True:
-        # Scrape data, one part at a time.
-        for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html)
-            id, url, part_num, price_tiers, qty_avail = scrape_part(args)
+    if parallel==True:
+        # Scrape data for multiple parts simultaneously.
+        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
+        results = Pool(20).imap_unordered(scrape_part, args)
+        for id, url, part_num, price_tiers, qty_avail in results:
             parts[id].part_num = part_num
             parts[id].url = url
             parts[id].price_tiers = price_tiers
             parts[id].qty_avail = qty_avail
     else:
-        # Scrape data for multiple parts simultaneously.
-        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
-        results = Pool(20).imap_unordered(scrape_part, args)
-        for id, url, part_num, price_tiers, qty_avail in results:
+        # Scrape data, one part at a time.
+        for i in range(len(parts)):
+            args = (i, parts[i], distributors, local_part_html)
+            id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
             parts[id].url = url
             parts[id].price_tiers = price_tiers
@@ -554,15 +554,12 @@ def create_spreadsheet(parts, spreadsheet_filename):
         # allow the distributor-specific part info to scroll.
         wks.freeze_panes(COL_HDR_ROW, next_col)
 
+        # Make a list of alphabetically-ordered distributors with web distributors before locals.
+        web_dists = sorted([d for d in distributors if distributors[d]['scrape'] != 'local'])
+        local_dists = sorted([d for d in distributors if distributors[d]['scrape'] == 'local'])
+        dist_list = web_dists + local_dists
+
         # Load the part information from each distributor into the sheet.
-        def dist_cmp(d0, d1):
-            if distributors[d0]['scrape'] == distributors[d1]['scrape']:
-                return cmp(d0, d1)
-            if distributors[d0]['scrape'] == 'local':
-                return 1
-            return -1
-            
-        dist_list = sorted(list(distributors.keys()), cmp=dist_cmp)
         index = 0
         for dist in dist_list:
             dist_start_col = next_col
@@ -1527,7 +1524,7 @@ def get_mouser_part_html_tree(dist, pn, url=None, descend=2):
             response = urlopen(req)
             html = response.read()
             break
-        except (HTTPException, URLError):
+        except (HTTPException, URLError, IncompleteRead):
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1752,81 +1749,3 @@ def scrape_part(args):
     
     # Return the part data.
     return id, url, part_num, price_tiers, qty_avail
-
-
-    
-    
-###############################################################################
-# Command-line interface.
-###############################################################################
-    
-import argparse as ap
-import os
-import sys
-#from . import __version__
-#from .kicost import *
-
-def main():
-    __version__ = '0.1.14'
-    parser = ap.ArgumentParser(
-        description='Build cost spreadsheet for a KiCAD project.')
-    parser.add_argument('-v', '--version',
-                        action='version',
-                        version='KiCost ' + __version__)
-    parser.add_argument('-i', '--input',
-                        nargs='?',
-                        type=str,
-                        metavar='file.xml',
-                        help='Schematic BOM XML file.')
-    parser.add_argument('-o', '--output',
-                        nargs='?',
-                        type=str,
-                        metavar='file.xlsx',
-                        help='Generated cost spreadsheet.')
-    parser.add_argument('-w', '--overwrite',
-                        action='store_true',
-                        help='Allow overwriting of an existing spreadsheet.')
-    parser.add_argument('-s', '--serial',
-                        action='store_true',
-                        help='Speed-up web scraping of part data using parallel processes.')
-    parser.add_argument(
-        '-d', '--debug',
-        nargs='?',
-        type=int,
-        default=0,
-        metavar='LEVEL',
-        help='Print debugging info. (Larger LEVEL means more info.)')
-
-    args = parser.parse_args()
-
-    if args.output == None:
-        if args.input != None:
-            args.output = os.path.splitext(args.input)[0] + '.xlsx'
-        else:
-            args.output = os.path.splitext(sys.argv[0])[0] + '.xlsx'
-    else:
-        args.output = os.path.splitext(args.output)[0] + '.xlsx'
-    if os.path.isfile(args.output):
-        if not args.overwrite:
-            print('Output file {} already exists! Use the --overwrite option to replace it.'.format(
-                args.output))
-            sys.exit(1)
-
-    if args.input == None:
-        args.input = sys.stdin
-    else:
-        args.input = os.path.splitext(args.input)[0] + '.xml'
-        args.input = open(args.input)
-
-    kicost(in_file=args.input, out_filename=args.output, serial=args.serial, debug_level=args.debug)
-
-    
-###############################################################################
-# Main entrypoint.
-###############################################################################
-if __name__ == '__main__':
-    start_time = time.time()
-    main()
-    end_time = time.time()
-    debug_print(3, 'Elapsed execution time: {} seconds.'.format(end_time-start_time))
-
