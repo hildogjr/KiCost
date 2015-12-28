@@ -20,29 +20,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import print_function
-from __future__ import absolute_import
-from future import standard_library
-standard_library.install_aliases()
-from builtins import str
-from builtins import zip
-from builtins import range
-from builtins import object
-from future.backports.http.client import HTTPException, IncompleteRead
-from future.backports.urllib.error import URLError
-from http.client import IncompleteRead
+# from __future__ import print_function
+# from __future__ import absolute_import
+# from future import standard_library
+# standard_library.install_aliases()
+# from builtins import str
+# from builtins import zip
+# from builtins import range
+# from builtins import object
+# from future.backports.http.client import HTTPException, IncompleteRead
+# from future.backports.urllib.error import URLError
 
 import sys
 import pprint
 import re
 import difflib
+import dill
 from bs4 import BeautifulSoup
 from random import randint
 from yattag import Doc, indent  # For generating HTML page for local parts.
 from multiprocessing import Pool # For running web scrapes in parallel.
-import time # For timing execution.
-from urllib.request import urlopen, Request
 from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
+from urllib.request import urlopen, Request, URLError
+from http.client import HTTPException, IncompleteRead
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 
@@ -94,6 +94,14 @@ def debug_print(level, msg):
     if level <= dbg_level:
         print(msg)
 
+
+def run_dill_encoded(what):
+    fun, args = dill.loads(what)
+    return fun(args)
+
+def apply_async(pool, fun, args):
+    return pool.apply_async(run_dill_encoded, (dill.dumps((fun, args)),))
+
 def kicost(in_file, out_filename, parallel=False, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
     
@@ -118,9 +126,13 @@ def kicost(in_file, out_filename, parallel=False, debug_level=None):
     debug_print(1, 'Scrape part data for each component group...')
     if parallel==True:
         # Scrape data for multiple parts simultaneously.
-        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
-        results = Pool(20).imap_unordered(scrape_part, args)
-        for id, url, part_num, price_tiers, qty_avail in results:
+        pool = Pool(20)
+        jobs = []
+        for i in range(len(parts)):
+            args = (i, parts[i], distributors, local_part_html)
+            jobs.append(apply_async(pool, scrape_part, args))
+        for job in jobs:
+            id, url, part_num, price_tiers, qty_avail = job.get()
             parts[id].part_num = part_num
             parts[id].url = url
             parts[id].price_tiers = price_tiers
@@ -169,15 +181,16 @@ def get_part_groups(in_file):
             for f in part.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
                 name = f['name'].lower() # Ignore case of field name.
+                name = str(name)
                 if SEPRTR not in name: # No seperator, so get global field value.
-                    fields[name] = f.string
+                    fields[name] = str(f.string)
                 elif name.startswith('kicost:'): # Store kicost-related values.
                     name = name[len('kicost:'):] # strip leading 'kicost:'.
                     # Add 'local' to non-manf#/cat# fields without leading distributor name.
                     if name != 'manf#' and name[:-1] not in distributors:
                         if SEPRTR not in name: # This field has no distributor.
                             name = 'local:'+name # Assign it to a local distributor.
-                    fields[name] = f.string
+                    fields[name] = str(f.string)
         except AttributeError:
             pass  # No fields found for this part.
         return fields
@@ -197,12 +210,12 @@ def get_part_groups(in_file):
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
-        libparts[p['lib'] + SEPRTR + p['part']] = fields
+        libparts[str(p['lib'] + SEPRTR + p['part'])] = fields
 
         # Also have to store the fields under any part aliases.
         try:
             for alias in p.find('aliases').find_all('alias'):
-                libparts[p['lib'] + SEPRTR + alias.string] = fields
+                libparts[str(p['lib'] + SEPRTR + alias.string)] = fields
         except AttributeError:
             pass  # No aliases for this part.
 
@@ -217,7 +230,7 @@ def get_part_groups(in_file):
         libsource = c.find('libsource')
 
         # Create the key to look up the part in the libparts dict.
-        libpart = libsource['lib'] + SEPRTR + libsource['part']
+        libpart = str(libsource['lib'] + SEPRTR + libsource['part'])
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
@@ -225,11 +238,11 @@ def get_part_groups(in_file):
 
         # Store the part key and its value.
         fields['libpart'] = libpart
-        fields['value'] = c.find('value').string
+        fields['value'] = str(c.find('value').string)
 
         # Get the footprint for the part (if any) from the schematic.
         try:
-            fields['footprint'] = c.find('footprint').string
+            fields['footprint'] = str(c.find('footprint').string)
         except AttributeError:
             pass
 
@@ -239,7 +252,7 @@ def get_part_groups(in_file):
         fields.update(extract_fields(c))
 
         # Store the fields for the part using the reference identifier as the key.
-        components[c['ref']] = fields
+        components[str(c['ref'])] = fields
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
