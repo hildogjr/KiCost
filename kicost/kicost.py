@@ -59,7 +59,8 @@ except ImportError:
 
 __all__ = ['kicost', 'debug_print', 'dbg_level']  # Only export this routine for use by the outside world.
 
-#THIS_MODULE = locals()
+# Used to get the names of functions in this module so they can be called dynamically.
+THIS_MODULE = locals()
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
@@ -114,11 +115,6 @@ def kicost(in_file, out_filename, parallel=False, debug_level=None):
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
     
-    # for d in distributors:
-        # distributors[d]['funcs'] = {}
-        # for f in ('get_{}_price_tiers', 'get_{}_part_num', 'get_{}_qty_avail', 'get_{}_part_html_tree'):
-            # distributors[d]['funcs'][re.sub(r'_{}_','_',f)] = globals()[f.format(distributors[d]['function'])]
-
     if 2 <= dbg_level:
         pprint.pprint(distributors)
 
@@ -1677,19 +1673,8 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
     debug_print(2, '{} {}'.format(dist, part.refs))
     
     # Get function name for getting the HTML tree for this part from this distributor.
-    #function = distributor_dict[dist]['function']
-    # get_dist_part_html_tree = getattr(THIS_MODULE,
-                                      # 'get_{}_part_html_tree'.format(function))
-    # get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
-    # get_dist_part_html_tree = distributor_dict[dist]['funcs']['get_part_html_tree']
-    if dist == 'mouser':
-        get_dist_part_html_tree = get_mouser_part_html_tree
-    elif dist == 'digikey':
-        get_dist_part_html_tree = get_digikey_part_html_tree
-    elif dist == 'newark':
-        get_dist_part_html_tree = get_newark_part_html_tree
-    else:
-        get_dist_part_html_tree = get_local_part_html_tree
+    function = distributor_dict[dist]['function']
+    get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
     
     try:
         # Search for part information using one of the following:
@@ -1725,32 +1710,10 @@ def scrape_part(args):
         html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html)
         
         # Get the function names for getting the part data from the HTML tree.
-        # function = distributor_dict[d]['function']
-        # get_dist_price_tiers = getattr(THIS_MODULE, 'get_{}_price_tiers'.format(function))
-        # get_dist_part_num = getattr(THIS_MODULE, 'get_{}_part_num'.format(function))
-        # get_dist_qty_avail = getattr(THIS_MODULE, 'get_{}_qty_avail'.format(function))
-        # get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
-        # get_dist_part_num = THIS_MODULE['get_{}_part_num'.format(function)]
-        # get_dist_qty_avail = THIS_MODULE['get_{}_qty_avail'.format(function)]
-        # get_dist_price_tiers = distributor_dict[d]['funcs']['get_price_tiers']
-        # get_dist_part_num = distributor_dict[d]['funcs']['get_part_num']
-        # get_dist_qty_avail = distributor_dict[d]['funcs']['get_qty_avail']
-        if d == 'mouser':
-            get_dist_part_num = get_mouser_part_num
-            get_dist_qty_avail = get_mouser_qty_avail
-            get_dist_price_tiers = get_mouser_price_tiers
-        elif d == 'digikey':
-            get_dist_part_num = get_digikey_part_num
-            get_dist_qty_avail = get_digikey_qty_avail
-            get_dist_price_tiers = get_digikey_price_tiers
-        elif d == 'newark':
-            get_dist_part_num = get_newark_part_num
-            get_dist_qty_avail = get_newark_qty_avail
-            get_dist_price_tiers = get_newark_price_tiers
-        else:
-            get_dist_part_num = get_local_part_num
-            get_dist_qty_avail = get_local_qty_avail
-            get_dist_price_tiers = get_local_price_tiers
+        function = distributor_dict[d]['function']
+        get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
+        get_dist_part_num = THIS_MODULE['get_{}_part_num'.format(function)]
+        get_dist_qty_avail = THIS_MODULE['get_{}_qty_avail'.format(function)]
 
         # Call the functions that extract the data from the HTML tree.
         part_num[d] = get_dist_part_num(html_tree)
