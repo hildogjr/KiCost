@@ -35,7 +35,6 @@ import sys
 import pprint
 import re
 import difflib
-import dill
 from bs4 import BeautifulSoup
 from random import randint
 from yattag import Doc, indent  # For generating HTML page for local parts.
@@ -51,12 +50,14 @@ from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost',]  # Only export this routine for use by the outside world.
+__all__ = ['kicost', 'debug_print']  # Only export this routine for use by the outside world.
 
 #THIS_MODULE = locals()
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
+
+WEB_SCRAPE_EXCEPTIONS = (URLError, HTTPException, IncompleteRead)
                           
 # Global array of distributor names.
 distributors = {
@@ -94,14 +95,6 @@ def debug_print(level, msg):
     if level <= dbg_level:
         print(msg)
 
-
-def run_dill_encoded(what):
-    fun, args = dill.loads(what)
-    return fun(args)
-
-def apply_async(pool, fun, args):
-    return pool.apply_async(run_dill_encoded, (dill.dumps((fun, args)),))
-
 def kicost(in_file, out_filename, parallel=False, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
     
@@ -126,13 +119,9 @@ def kicost(in_file, out_filename, parallel=False, debug_level=None):
     debug_print(1, 'Scrape part data for each component group...')
     if parallel==True:
         # Scrape data for multiple parts simultaneously.
-        pool = Pool(20)
-        jobs = []
-        for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html)
-            jobs.append(apply_async(pool, scrape_part, args))
-        for job in jobs:
-            id, url, part_num, price_tiers, qty_avail = job.get()
+        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
+        results = Pool(30).imap_unordered(scrape_part, args)
+        for id, url, part_num, price_tiers, qty_avail in results:
             parts[id].part_num = part_num
             parts[id].url = url
             parts[id].price_tiers = price_tiers
@@ -1411,7 +1400,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
             response = urlopen(req)
             html = response.read()
             break
-        except (HTTPException, URLError):
+        except WEB_SCRAPE_EXCEPTIONS:
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1537,7 +1526,7 @@ def get_mouser_part_html_tree(dist, pn, url=None, descend=2):
             response = urlopen(req)
             html = response.read()
             break
-        except (HTTPException, URLError, IncompleteRead):
+        except WEB_SCRAPE_EXCEPTIONS:
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1598,10 +1587,8 @@ def get_newark_part_html_tree(dist, pn, url=None, descend=2):
             response = urlopen(req)
             html = response.read()
             break
-        except (HTTPException, URLError):
+        except WEB_SCRAPE_EXCEPTIONS:
             pass
-        except Multiprocessing.pool.MaybeEncodingError:
-            raise PartHtmlError
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
     tree = BeautifulSoup(html, 'lxml')
