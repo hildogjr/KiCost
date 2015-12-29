@@ -20,8 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Inserted by Pasteurize tool.
 from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
 from __future__ import absolute_import
+from builtins import open
+from future import standard_library
+standard_library.install_aliases()
 
 import argparse as ap
 import os
@@ -92,4 +98,6 @@ def main():
 # Main entrypoint.
 ###############################################################################
 if __name__ == '__main__':
+    start_time = time.time()
     main()
+    debug_print(3, 'Elapsed time: {} seconds'.format(time.time() - start_time))

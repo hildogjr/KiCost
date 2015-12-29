@@ -20,16 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# from __future__ import print_function
-# from __future__ import absolute_import
-# from future import standard_library
-# standard_library.install_aliases()
-# from builtins import str
-# from builtins import zip
-# from builtins import range
-# from builtins import object
-# from future.backports.http.client import HTTPException, IncompleteRead
-# from future.backports.urllib.error import URLError
+# Inserted by Pasteurize tool.
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import division
+from __future__ import absolute_import
+from builtins import zip
+from builtins import range
+from builtins import int
+from builtins import str
+from future import standard_library
+standard_library.install_aliases()
 
 import sys
 import pprint
@@ -37,27 +38,33 @@ import re
 import difflib
 from bs4 import BeautifulSoup
 from random import randint
-from yattag import Doc, indent  # For generating HTML page for local parts.
-from multiprocessing import Pool # For running web scrapes in parallel.
-from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
-from urllib.request import urlopen, Request, URLError
-from http.client import HTTPException, IncompleteRead
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
+from yattag import Doc, indent  # For generating HTML page for local parts.
+from multiprocessing import Pool # For running web scrapes in parallel.
+import http.client # For web scraping exceptions.
+try:
+    from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
+    import urllib.request
+    from urllib.request import urlopen, Request
+except ImportError:
+    from urlparse import quote as urlquote, urlsplit, urlunsplit
+    from urllib import urlencode
+    from urllib2 import urlopen, Request
 
 # ghost library allows scraping pages that have Javascript challenge pages that
 # screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost', 'debug_print']  # Only export this routine for use by the outside world.
+__all__ = ['kicost', 'debug_print', 'dbg_level']  # Only export this routine for use by the outside world.
 
 #THIS_MODULE = locals()
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
-WEB_SCRAPE_EXCEPTIONS = (URLError, HTTPException, IncompleteRead)
+WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException, http.client.IncompleteRead)
                           
 # Global array of distributor names.
 distributors = {
@@ -151,6 +158,9 @@ def kicost(in_file, out_filename, parallel=False, debug_level=None):
                     print('{} = '.format(f), end=' ')
                     try:
                         pprint.pprint(part.__dict__[f])
+                    except TypeError:
+                        # Pyton 2.7 pprint has some problem ordering None and strings.
+                        print(part.__dict__[f])
                     except KeyError:
                         pass
             print()
