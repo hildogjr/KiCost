@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.13 (2015-12-29)
+---------------------
+
+* 'kicost:' can be prepended to schematic field labels to distinguish them from other app fields.
+* Custom prices and documentation links can now be added to parts in the schematic.
+* Web-scraping for part data is sped up using parallel processes.
+
 0.1.12 (2015-12-03)
 ---------------------
 

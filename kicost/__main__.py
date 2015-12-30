@@ -59,9 +59,9 @@ def main():
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
                         help='Allow overwriting of an existing spreadsheet.')
-    parser.add_argument('-p', '--parallel',
+    parser.add_argument('-s', '--serial',
                         action='store_true',
-                        help='Do web scraping of part data using multiple parallel processes.')
+                        help='Do web scraping of part data using a single process.')
     parser.add_argument(
         '-d', '--debug',
         nargs='?',
@@ -91,7 +91,7 @@ def main():
         args.input = os.path.splitext(args.input)[0] + '.xml'
         args.input = open(args.input)
 
-    kicost(in_file=args.input, out_filename=args.output, parallel=args.parallel, debug_level=args.debug)
+    kicost(in_file=args.input, out_filename=args.output, serial=args.serial, debug_level=args.debug)
 
     
 ###############################################################################

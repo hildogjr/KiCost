@@ -66,6 +66,8 @@ SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException, http.client.IncompleteRead)
+
+POOL_SIZE = 30  # Maximum number of parallel web-scraping processes.
                           
 # Global array of distributor names.
 distributors = {
@@ -103,7 +105,7 @@ def debug_print(level, msg):
     if level <= dbg_level:
         print(msg)
 
-def kicost(in_file, out_filename, parallel=False, debug_level=None):
+def kicost(in_file, out_filename, serial=False, debug_level=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
     
     global dbg_level
@@ -120,20 +122,20 @@ def kicost(in_file, out_filename, parallel=False, debug_level=None):
 
     # Get the distributor product page for each part and scrape the part data.
     debug_print(1, 'Scrape part data for each component group...')
-    if parallel==True:
-        # Scrape data for multiple parts simultaneously.
-        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
-        results = Pool(30).imap_unordered(scrape_part, args)
-        for id, url, part_num, price_tiers, qty_avail in results:
+    if serial==True:
+        # Scrape data, one part at a time.
+        for i in range(len(parts)):
+            args = (i, parts[i], distributors, local_part_html)
+            id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
             parts[id].url = url
             parts[id].price_tiers = price_tiers
             parts[id].qty_avail = qty_avail
     else:
-        # Scrape data, one part at a time.
-        for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html)
-            id, url, part_num, price_tiers, qty_avail = scrape_part(args)
+        # Scrape data for multiple parts simultaneously.
+        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
+        results = Pool(POOL_SIZE).imap_unordered(scrape_part, args)
+        for id, url, part_num, price_tiers, qty_avail in results:
             parts[id].part_num = part_num
             parts[id].url = url
             parts[id].price_tiers = price_tiers

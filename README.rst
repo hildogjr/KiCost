@@ -20,6 +20,8 @@ Features
 
 * Processes the BOM XML file from your KiCad schematic to create a part-cost spreadsheet by
   scraping the web sites of several popular distributors for price and inventory data.
+  (You can also enter your own quantity-adjusted pricing data for specialized parts or those
+  not found at the supported distributors.)
 * The spreadsheet contains quantity-adjusted pricing from each distributor for 
   individual parts and the total board.
 * Enter the number of boards to be built in a spreadsheet cell and all the pricing
