@@ -1487,9 +1487,13 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
                 id='productTable').find('tbody').find_all('tr')
 
             # Extract the product links for the part numbers from the table.
+            # Extract links for both manufacturer and catalog numbers.
             product_links = [p.find('td',
-                                    class_='digikey-partnumber').a
+                                    class_='mfg-partnumber').a
                              for p in products]
+            product_links.extend([p.find('td',
+                                    class_='digikey-partnumber').a
+                             for p in products])
 
             # Extract all the part numbers from the text portion of the links.
             part_numbers = [l.text for l in product_links]
