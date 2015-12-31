@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.14 (2015-12-31)
+---------------------
+
+* When scraping a Digi-Key product list page, use both the manfufacturer's AND 
+  Digi-Key's number to select the closest match to the part number.
+
+
 0.1.13 (2015-12-29)
 ---------------------
 
