@@ -313,7 +313,9 @@ def get_part_groups(in_file):
             sub_group.manf_nums = [manf_num]
             sub_group.refs = []
             for ref in grp.refs:
-                if components[ref]['manf#'] == manf_num:
+                # Use get() which returns None if the component has no manf# field.
+                # That will match if the group manf_num is also None.
+                if components[ref].get('manf#') == manf_num:
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)
             
