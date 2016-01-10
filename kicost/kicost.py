@@ -36,6 +36,7 @@ import sys
 import pprint
 import re
 import difflib
+import logging
 from bs4 import BeautifulSoup
 from random import randint
 import xlsxwriter
@@ -57,7 +58,7 @@ except ImportError:
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost', 'debug_print', 'dbg_level']  # Only export this routine for use by the outside world.
+__all__ = ['kicost']  # Only export this routine for use by the outside world.
 
 # Used to get the names of functions in this module so they can be called dynamically.
 THIS_MODULE = locals()
@@ -96,20 +97,11 @@ distributors = {
 
 local_part_html = ''
 
-dbg_level = None
+logger = logging.getLogger('kicost')
 
 
-def debug_print(level, msg):
-    if dbg_level == None:
-        return
-    if level <= dbg_level:
-        print(msg)
-
-def kicost(in_file, out_filename, serial=False, debug_level=None):
+def kicost(in_file, out_filename, serial=False):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
-    
-    global dbg_level
-    dbg_level = debug_level
 
     # Get groups of identical parts.
     parts = get_part_groups(in_file)
@@ -117,11 +109,11 @@ def kicost(in_file, out_filename, serial=False, debug_level=None):
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
     
-    if 2 <= dbg_level:
+    if logger.isEnabledFor(logging.DEBUG - 2):
         pprint.pprint(distributors)
 
     # Get the distributor product page for each part and scrape the part data.
-    debug_print(1, 'Scrape part data for each component group...')
+    logger.log(logging.DEBUG-1, 'Scrape part data for each component group...')
     if serial==True:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
@@ -145,7 +137,7 @@ def kicost(in_file, out_filename, serial=False, debug_level=None):
     create_spreadsheet(parts, out_filename)
 
     # Print component groups for debugging purposes.
-    if 2 <= dbg_level:
+    if logger.isEnabledFor(logging.DEBUG - 2):
         for part in parts:
             for f in dir(part):
                 if f.startswith('__'):
@@ -193,12 +185,12 @@ def get_part_groups(in_file):
         return fields
 
     # Read-in the schematic XML file to get a tree and get its root.
-    debug_print(1, 'Get schematic XML...')
+    logger.log(logging.DEBUG-1, 'Get schematic XML...')
     root = BeautifulSoup(in_file, 'lxml')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
-    debug_print(1, 'Get parts library...')
+    logger.log(logging.DEBUG-1, 'Get parts library...')
     libparts = {}
     for p in root.find('libparts').find_all('libpart'):
 
@@ -219,7 +211,7 @@ def get_part_groups(in_file):
     # Find the components used in the schematic and elaborate
     # them with global values from the libraries and local values
     # from the schematic.
-    debug_print(1, 'Get components...')
+    logger.log(logging.DEBUG-1, 'Get components...')
     components = {}
     for c in root.find('components').find_all('comp'):
 
@@ -254,7 +246,7 @@ def get_part_groups(in_file):
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
-    debug_print(1, 'Get groups of identical components...')
+    logger.log(logging.DEBUG-1, 'Get groups of identical components...')
     component_groups = {}
     for ref, fields in list(components.items()): # part references and field values.
 
@@ -346,7 +338,7 @@ def create_local_part_html(parts):
     
     global distributors
     
-    debug_print(1, 'Create HTML page for parts with custom pricing...')
+    logger.log(logging.DEBUG-1, 'Create HTML page for parts with custom pricing...')
     
     doc, tag, text = Doc().tagtext()
     with tag('html'):
@@ -399,13 +391,15 @@ def create_local_part_html(parts):
                             with tag('div', klass='link'):
                                 text(link)
     html = doc.getvalue()
-    if 2 <= dbg_level:
+    if logger.isEnabledFor(logging.DEBUG - 2):
         print(indent(html))
     return html
 
 
 def create_spreadsheet(parts, spreadsheet_filename):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
+    
+    logger.log(logging.DEBUG-1, 'Create spreadsheet...')
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = 'KiCost'  # Default name for part-pricing worksheet.
@@ -1678,7 +1672,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
     global local_part_html
     local_part_html = local_html
 
-    debug_print(2, '{} {}'.format(dist, part.refs))
+    logger.log(logging.DEBUG-2, '%s %s', dist, str(part.refs))
     
     # Get function name for getting the HTML tree for this part from this distributor.
     function = distributor_dict[dist]['function']
@@ -1693,10 +1687,10 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
                 return get_dist_part_html_tree(dist, part.fields[key])
         # No distributor or manufacturer number, so give up.
         else:
-            debug_print(2, "No {0}#' field or 'manf#' field: cannot lookup part at {0}".format(dist))
+            logger.log(logging.DEBUG-2, "No %s#' field or 'manf#' field: cannot lookup part at %s", dist, dist)
             raise PartHtmlError
     except (PartHtmlError, AttributeError):
-        debug_print(2, "Part not found at " + dist)
+        logger.log(logging.DEBUG-2, "Part not found at %s", dist)
         # If no HTML page was found, then return a tree for an empty page.
         return BeautifulSoup('<html></html>', 'lxml'), ''
 

@@ -32,6 +32,7 @@ standard_library.install_aliases()
 import argparse as ap
 import os
 import sys
+import logging
 import time
 from .kicost import *
 from . import __version__
@@ -66,7 +67,7 @@ def main():
         '-d', '--debug',
         nargs='?',
         type=int,
-        default=0,
+        default=None,
         metavar='LEVEL',
         help='Print debugging info. (Larger LEVEL means more info.)')
 
@@ -91,7 +92,15 @@ def main():
         args.input = os.path.splitext(args.input)[0] + '.xml'
         args.input = open(args.input)
 
-    kicost(in_file=args.input, out_filename=args.output, serial=args.serial, debug_level=args.debug)
+    logger = logging.getLogger('kicost')
+    if args.debug is not None:
+        log_level = logging.DEBUG - args.debug
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(log_level)
+        logger.addHandler(handler)
+        logger.setLevel(log_level)
+
+    kicost(in_file=args.input, out_filename=args.output, serial=args.serial)
 
     
 ###############################################################################
@@ -100,4 +109,5 @@ def main():
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    debug_print(3, 'Elapsed time: {} seconds'.format(time.time() - start_time))
+    logger = logging.getLogger('kicost')
+    logger.log(logging.DEBUG-3, 'Elapsed time: %f seconds', time.time() - start_time)
