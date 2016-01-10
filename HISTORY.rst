@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.15 (2016-01-10)
+---------------------
+
+* Fixed exception caused when indexing with 'manf#' on components that didn't
+  have that field defined.
+* Replaced custom debug_print() with logging module.
+
+
 0.1.14 (2015-12-31)
 ---------------------
 
