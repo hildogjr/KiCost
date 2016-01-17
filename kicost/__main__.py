@@ -63,6 +63,12 @@ def main():
     parser.add_argument('-s', '--serial',
                         action='store_true',
                         help='Do web scraping of part data using a single process.')
+    parser.add_argument('-p', '--private',
+                        nargs='+',
+                        default=[],
+                        help='Declare a field private, to be ignored when grouping objects',
+                        metavar='field',
+                        type=str)
     parser.add_argument(
         '-d', '--debug',
         nargs='?',
@@ -100,7 +106,7 @@ def main():
         logger.addHandler(handler)
         logger.setLevel(log_level)
 
-    kicost(in_file=args.input, out_filename=args.output, serial=args.serial)
+    kicost(in_file=args.input, out_filename=args.output, serial=args.serial, private=args.private)
 
     
 ###############################################################################

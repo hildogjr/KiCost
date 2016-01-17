@@ -100,11 +100,11 @@ local_part_html = ''
 logger = logging.getLogger('kicost')
 
 
-def kicost(in_file, out_filename, serial=False):
+def kicost(in_file, out_filename, serial=False, private=[]):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Get groups of identical parts.
-    parts = get_part_groups(in_file)
+    parts = get_part_groups(in_file, private)
     
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
@@ -160,9 +160,11 @@ def kicost(in_file, out_filename, serial=False):
 class IdenticalComponents(object):
     pass
 
-def get_part_groups(in_file):
+def get_part_groups(in_file, private):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
-                
+
+    privs = [f.lower() for f in private]
+
     def extract_fields(part):
         '''Extract XML fields from the part in a library or schematic.'''
         fields = {}
@@ -171,6 +173,8 @@ def get_part_groups(in_file):
                 # Store the name and value for each kicost-related field.
                 name = f['name'].lower() # Ignore case of field name.
                 name = str(name)
+                if name in privs:
+                    continue # ignore entirely fields that are declared private
                 if SEPRTR not in name: # No seperator, so get global field value.
                     fields[name] = str(f.string)
                 elif name.startswith('kicost:'): # Store kicost-related values.
@@ -257,7 +261,7 @@ def get_part_groups(in_file):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including kicost).
-        hash_fields = {k: fields[k] for k in fields if k != 'manf#' and SEPRTR not in k }
+        hash_fields = {k: fields[k] for k in fields if k != 'manf#' and SEPRTR not in k}
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
