@@ -69,7 +69,7 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException, http.client.IncompleteRead)
 
 POOL_SIZE = 30  # Maximum number of parallel web-scraping processes.
-                          
+
 # Global array of distributor names.
 distributors = {
     'newark': {
@@ -100,15 +100,15 @@ local_part_html = ''
 logger = logging.getLogger('kicost')
 
 
-def kicost(in_file, out_filename, serial=False):
+def kicost(in_file, out_filename, serial=False, fitting=None):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Get groups of identical parts.
-    parts = get_part_groups(in_file)
-    
+    parts = get_part_groups(in_file, fitting)
+
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
-    
+
     if logger.isEnabledFor(logging.DEBUG - 2):
         pprint.pprint(distributors)
 
@@ -134,7 +134,7 @@ def kicost(in_file, out_filename, serial=False):
             parts[id].qty_avail = qty_avail
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, out_filename)
+    create_spreadsheet(parts, out_filename, fitting)
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(logging.DEBUG - 2):
@@ -155,17 +155,31 @@ def kicost(in_file, out_filename, serial=False):
                         pass
             print()
 
-            
+
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     pass
 
-def get_part_groups(in_file):
+def get_part_groups(in_file, fitting):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
-                
-    def extract_fields(part):
+
+    def extract_fields(part, fitting):
+        def extract_field(key, name):
+            key = key.lower() # Ignore case of key name.
+            if name.startswith(key): # Store kicost-related values.
+                name = name[len(key):] # strip leading key (eg, 'kicost:'.)
+                # Add 'local' to non-manf#/cat# fields without leading distributor name.
+                if name != 'manf#' and name[:-1] not in distributors:
+                    if SEPRTR not in name: # This field has no distributor.
+                        name = 'local:'+name # Assign it to a local distributor.
+                fields[name] = str(f.string)
+                return True
+            else:
+                return False
+
         '''Extract XML fields from the part in a library or schematic.'''
         fields = {}
+
         try:
             for f in part.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
@@ -173,13 +187,11 @@ def get_part_groups(in_file):
                 name = str(name)
                 if SEPRTR not in name: # No seperator, so get global field value.
                     fields[name] = str(f.string)
-                elif name.startswith('kicost:'): # Store kicost-related values.
-                    name = name[len('kicost:'):] # strip leading 'kicost:'.
-                    # Add 'local' to non-manf#/cat# fields without leading distributor name.
-                    if name != 'manf#' and name[:-1] not in distributors:
-                        if SEPRTR not in name: # This field has no distributor.
-                            name = 'local:'+name # Assign it to a local distributor.
-                    fields[name] = str(f.string)
+                elif extract_field('kicost:', name):
+                    pass
+                elif (fitting is not None) and extract_field('kicost.'+fitting+':', name):
+                    pass
+
         except AttributeError:
             pass  # No fields found for this part.
         return fields
@@ -195,7 +207,7 @@ def get_part_groups(in_file):
     for p in root.find('libparts').find_all('libpart'):
 
         # Get the values for the fields in each library part (if any).
-        fields = extract_fields(p)
+        fields = extract_fields(p, fitting)
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
@@ -235,10 +247,10 @@ def get_part_groups(in_file):
         except AttributeError:
             pass
 
-        # Get the values for any other kicost-related fields in the part 
+        # Get the values for any other kicost-related fields in the part
         # (if any) from the schematic. These will override any field values
         # from the part library.
-        fields.update(extract_fields(c))
+        fields.update(extract_fields(c, fitting))
 
         # Store the fields for the part using the reference identifier as the key.
         components[str(c['ref'])] = fields
@@ -310,7 +322,7 @@ def get_part_groups(in_file):
                 if components[ref].get('manf#') == manf_num:
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)
-            
+
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
     for grp in new_component_groups:
@@ -332,14 +344,14 @@ def get_part_groups(in_file):
     # Now return a list of the groups without their hash keys.
     return list(new_component_groups.values())
 
-    
+
 def create_local_part_html(parts):
     '''Create HTML page containing info for local (non-webscraped) parts.'''
-    
+
     global distributors
-    
+
     logger.log(logging.DEBUG-1, 'Create HTML page for parts with custom pricing...')
-    
+
     doc, tag, text = Doc().tagtext()
     with tag('html'):
         with tag('body'):
@@ -347,7 +359,7 @@ def create_local_part_html(parts):
                 # Find the manufacturer's part number if it exists.
                 pn = p.fields.get('manf#') # Returns None if no manf# field.
 
-                # Find the various distributors for this part by 
+                # Find the various distributors for this part by
                 # looking for leading fields terminated by SEPRTR.
                 for key in p.fields:
                     try:
@@ -374,7 +386,7 @@ def create_local_part_html(parts):
                         hash_fields = {k: p.fields[k] for k in p.fields}
                         hash_fields['dist'] = dist
                         return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
-                        
+
                     cat_num = cat_num or pn or make_random_catalog_number(p)
                     p.fields[dist+':cat#'] = cat_num # Store generated cat#.
                     with tag('div', klass=dist+SEPRTR+cat_num):
@@ -396,13 +408,16 @@ def create_local_part_html(parts):
     return html
 
 
-def create_spreadsheet(parts, spreadsheet_filename):
+def create_spreadsheet(parts, spreadsheet_filename, fitting):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
-    
+
     logger.log(logging.DEBUG-1, 'Create spreadsheet...')
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = 'KiCost'  # Default name for part-pricing worksheet.
+
+    if fitting is not None:
+        WORKSHEET_NAME = WORKSHEET_NAME + "." + fitting
 
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
@@ -1325,7 +1340,7 @@ def get_local_qty_avail(html_tree):
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
         return 0
-        
+
 
 def get_user_agent():
     # The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
@@ -1359,7 +1374,7 @@ def FakeBrowser(url):
     req.add_header('User-agent', get_user_agent())
     return req
 
-    
+
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
@@ -1641,15 +1656,15 @@ def get_newark_part_html_tree(dist, pn, url=None, descend=2):
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
-    
-    
+
+
 def get_local_part_html_tree(dist, pn, url=None):
     '''Extract the HTML tree from the HTML page for local parts.'''
-    
+
     # Extract the HTML tree from the local part HTML page.
     html = local_part_html
     tree =  BeautifulSoup(html, 'lxml')
-    
+
     try:
         # Find the DIV in the tree for the given part and distributor.
         class_ = dist + SEPRTR + pn
@@ -1673,11 +1688,11 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
     local_part_html = local_html
 
     logger.log(logging.DEBUG-2, '%s %s', dist, str(part.refs))
-    
+
     # Get function name for getting the HTML tree for this part from this distributor.
     function = distributor_dict[dist]['function']
     get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
-    
+
     try:
         # Search for part information using one of the following:
         #    1) the distributor's catalog number.
@@ -1694,10 +1709,10 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
         # If no HTML page was found, then return a tree for an empty page.
         return BeautifulSoup('<html></html>', 'lxml'), ''
 
-        
+
 def scrape_part(args):
     '''Scrape the data for a part from each distributor website or local HTML.'''
-    
+
     id, part, distributor_dict, local_html = args # Unpack the arguments.
 
     # Create dictionaries for the various items of part data from each distributor.
@@ -1705,12 +1720,12 @@ def scrape_part(args):
     part_num = {}
     price_tiers = {}
     qty_avail = {}
-    
+
     # Scrape the part data from each distributor website or the local HTML.
     for d in distributor_dict:
         # Get the HTML tree for the part.
         html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html)
-        
+
         # Get the function names for getting the part data from the HTML tree.
         function = distributor_dict[d]['function']
         get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
@@ -1721,6 +1736,6 @@ def scrape_part(args):
         part_num[d] = get_dist_part_num(html_tree)
         qty_avail[d] = get_dist_qty_avail(html_tree)
         price_tiers[d] = get_dist_price_tiers(html_tree)
-    
+
     # Return the part data.
     return id, url, part_num, price_tiers, qty_avail
