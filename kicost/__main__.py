@@ -37,11 +37,14 @@ import time
 from .kicost import *
 from . import __version__
 
+NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
+
 ###############################################################################
 # Command-line interface.
 ###############################################################################
 
 def main():
+
     parser = ap.ArgumentParser(
         description='Build cost spreadsheet for a KiCAD project.')
     parser.add_argument('-v', '--version',
@@ -63,6 +66,14 @@ def main():
     parser.add_argument('-s', '--serial',
                         action='store_true',
                         help='Do web scraping of part data using a single process.')
+    parser.add_argument('-np', '--num_processes',
+                        nargs='?',
+                        type=int,
+                        default=NUM_PROCESSES,
+                        const=NUM_PROCESSES,
+                        metavar='NUM_PROCESSES',
+                        help='''Set the number of parallel 
+                            processes used for web scraping part data.''')
     parser.add_argument(
         '-d', '--debug',
         nargs='?',
@@ -73,6 +84,14 @@ def main():
 
     args = parser.parse_args()
 
+    logger = logging.getLogger('kicost')
+    if args.debug is not None:
+        log_level = logging.DEBUG + 1 - args.debug
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(log_level)
+        logger.addHandler(handler)
+        logger.setLevel(log_level)
+
     if args.output == None:
         if args.input != None:
             args.output = os.path.splitext(args.input)[0] + '.xlsx'
@@ -82,8 +101,8 @@ def main():
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
     if os.path.isfile(args.output):
         if not args.overwrite:
-            print('Output file {} already exists! Use the --overwrite option to replace it.'.format(
-                args.output))
+            logger.critical('''Output file {} already exists! Use the
+                --overwrite option to replace it.'''.format(args.output))
             sys.exit(1)
 
     if args.input == None:
@@ -92,15 +111,12 @@ def main():
         args.input = os.path.splitext(args.input)[0] + '.xml'
         args.input = open(args.input)
 
-    logger = logging.getLogger('kicost')
-    if args.debug is not None:
-        log_level = logging.DEBUG - args.debug
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(log_level)
-        logger.addHandler(handler)
-        logger.setLevel(log_level)
+    if args.serial:
+        num_processes = 1
+    else:
+        num_processes = args.num_processes
 
-    kicost(in_file=args.input, out_filename=args.output, serial=args.serial)
+    kicost(in_file=args.input, out_filename=args.output, num_processes=num_processes)
 
     
 ###############################################################################
@@ -110,4 +126,4 @@ if __name__ == '__main__':
     start_time = time.time()
     main()
     logger = logging.getLogger('kicost')
-    logger.log(logging.DEBUG-3, 'Elapsed time: %f seconds', time.time() - start_time)
+    logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
