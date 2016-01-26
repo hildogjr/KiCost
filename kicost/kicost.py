@@ -68,9 +68,7 @@ THIS_MODULE = locals()
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
-WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException, 
-                        http.client.IncompleteRead, 
-                        future.backports.http.client.IncompleteRead)
+WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
                           
 # Global array of distributor names.
 distributors = {
@@ -105,11 +103,11 @@ DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
 
-def kicost(in_file, out_filename, num_processes):
+def kicost(in_file, out_filename, ignore_fields, num_processes):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Get groups of identical parts.
-    parts = get_part_groups(in_file)
+    parts = get_part_groups(in_file, ignore_fields)
     
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
@@ -165,18 +163,21 @@ def kicost(in_file, out_filename, num_processes):
 class IdenticalComponents(object):
     pass
 
-def get_part_groups(in_file):
+def get_part_groups(in_file, ignore_fields):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
-                
+
+    ign_fields = [str(f.lower()) for f in ignore_fields]
+
     def extract_fields(part):
         '''Extract XML fields from the part in a library or schematic.'''
         fields = {}
         try:
             for f in part.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
-                name = f['name'].lower() # Ignore case of field name.
-                name = str(name)
-                if SEPRTR not in name: # No seperator, so get global field value.
+                name = str(f['name'].lower()) # Ignore case of field name.
+                if name in ign_fields:
+                    continue  # Ignore fields in the ignore list.
+                if SEPRTR not in name: # No separator, so get global field value.
                     fields[name] = str(f.string)
                 elif name.startswith('kicost:'): # Store kicost-related values.
                     name = name[len('kicost:'):] # strip leading 'kicost:'.
@@ -262,7 +263,7 @@ def get_part_groups(in_file):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including kicost).
-        hash_fields = {k: fields[k] for k in fields if k != 'manf#' and SEPRTR not in k }
+        hash_fields = {k: fields[k] for k in fields if k != 'manf#' and SEPRTR not in k}
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
@@ -1410,6 +1411,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
             html = response.read()
             break
         except WEB_SCRAPE_EXCEPTIONS:
+            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1540,6 +1542,7 @@ def get_mouser_part_html_tree(dist, pn, url=None, descend=2):
             html = response.read()
             break
         except WEB_SCRAPE_EXCEPTIONS:
+            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
@@ -1601,6 +1604,7 @@ def get_newark_part_html_tree(dist, pn, url=None, descend=2):
             html = response.read()
             break
         except WEB_SCRAPE_EXCEPTIONS:
+            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError

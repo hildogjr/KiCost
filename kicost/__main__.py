@@ -74,6 +74,12 @@ def main():
                         metavar='NUM_PROCESSES',
                         help='''Set the number of parallel 
                             processes used for web scraping part data.''')
+    parser.add_argument('-ign', '--ignore_fields',
+                        nargs='+',
+                        default=[],
+                        help='Declare part fields to ignore when grouping parts.',
+                        metavar='name',
+                        type=str)
     parser.add_argument(
         '-d', '--debug',
         nargs='?',
@@ -116,7 +122,8 @@ def main():
     else:
         num_processes = args.num_processes
 
-    kicost(in_file=args.input, out_filename=args.output, num_processes=num_processes)
+    kicost(in_file=args.input, out_filename=args.output, 
+        ignore_fields=args.ignore_fields, num_processes=num_processes)
 
     
 ###############################################################################
