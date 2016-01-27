@@ -92,13 +92,76 @@ There are several cases that are considered when propagating part data:
   data are left that way because it is impossible to figure out which data should
   be propagated to them.
 
+It is possible that there are identical parts in your schematic that have differing data
+and, hence, wouldn't be grouped together.
+For example, you might store information about a part in a "notes" field,
+but that shouldn't exclude the part from a group that had no or different notes.
+That can be prevented in two ways:
+
+#. Use the ``-ignore_fields`` command-line option to make KiCost ignore part fields
+   with certain names::
+
+     kicost -i schematic.xml -ignore_fields notes
+
+#. Precede the field name with a ":" such as ``:note``. This makes KiCost ignore the
+   field because it is in a different namespace.
+
+------------------------
+Schematic Variants
+------------------------
+
+There are cases where a schematic might need to be priced differently depending
+upon the context.
+For example, the price of the end-user circuit board might be needed, but
+then the price for the board plus additional parts for test also has to be 
+calculated.
+
+KiCost supports this with augmented the part field labels in the schematic in
+conjunction with the ``--variant`` command-line option.
+Suppose a circuit has a connector, J1, that's only inserted for certain units.
+If the manufacturer's part number field for J1 is given the label ``kicost.v1:manf#``,
+then KiCost will ignore it during a normal cost calculation.
+But J1 will be included in the cost calculation if you run KiCost like so::
+
+    kicost -i schematic.xml -variant v1
+
+In more complicated situations, you may have several circuit variants, some of which
+are combined in combination.
+The ``--variant`` option will accept a regular expression as its argument
+so, for example, you could get the cost of a board that includes circuitry for both variants 1
+and 3 with::
+
+    kicost -i schematic.xml -variant "(v1|v2)"
+
+-----------------------
+Parallel Web Scraping
+-----------------------
+
+KiCost spends most of its time scraping the part data from the distributor
+web sites.
+In order to speed this up, many of the web scrapes can be run in parallel.
+By default, KiCost uses 30 parallel processes to gather the part data.
+This can be too much for some computers, so you can decrease the load
+using the ``--num_processes`` command-line option with the number of
+processes you want to spawn::
+
+    kicost -i schematic.xml -num_processes 10
+
+In addition, you can use the ``--serial`` command-line option to force KiCost
+into single-threaded operation.
+This is equivalent to using ``-num_processes 1``.
+(If you encounter problems running KiCost on a Windows PC with Python 2, then
+using this command may help.)
+
 ---------------------
 Command-Line Options
 ---------------------
 
 ::
 
-    usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]] [-w] [-s] [-d [LEVEL]]
+    usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]] [-var [VARIANT]]
+                  [-w] [-s] [-np [NUM_PROCESSES]] [-ign name [name ...]]
+                  [-d [LEVEL]]
 
     Build cost spreadsheet for a KiCAD project.
 
@@ -109,8 +172,16 @@ Command-Line Options
                             Schematic BOM XML file.
       -o [file.xlsx], --output [file.xlsx]
                             Generated cost spreadsheet.
+      -var [VARIANT], --variant [VARIANT]
+                            Include parts for schematic variants whose field
+                            labels match the named variant or regex filter.
       -w, --overwrite       Allow overwriting of an existing spreadsheet.
       -s, --serial          Do web scraping of part data using a single process.
+      -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
+                            Set the number of parallel processes used for web
+                            scraping part data.
+      -ign name [name ...], --ignore_fields name [name ...]
+                            Declare part fields to ignore when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
 

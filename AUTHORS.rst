@@ -10,5 +10,6 @@ Development Lead
 Contributors
 ------------
 
+* Timo Alho: https://github.com/timoalho
 * Steven Johnson: https://github.com/stevenj
 * Diorcet Yann: https://github.com/diorcety

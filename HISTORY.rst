@@ -3,6 +3,16 @@
 History
 -------
 
+0.1.16 (2016-01-26)
+---------------------
+
+* Added ``--variant`` command-line option for costing different variants of a single schematic.
+* Added ``--num_processes`` command-line option for setting the number of parallel 
+  processes used to scrape part data from the distributor web sites.
+* Added ``--ignore_fields`` command-line option for ignoring benign fields that might
+  prevent identical parts from being grouped together.
+
+
 0.1.15 (2016-01-10)
 ---------------------
 
