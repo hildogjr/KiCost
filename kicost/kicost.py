@@ -175,7 +175,8 @@ def get_part_groups(in_file, ignore_fields, variant):
         try:
             for f in part.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
-                name = str(f['name'].lower()) # Ignore case of field name.
+                # Remove case of field name along with leading/trailing whitespace.
+                name = str(f['name'].lower().strip())
                 if name in ign_fields:
                     continue  # Ignore fields in the ignore list.
                 elif SEPRTR not in name: # No separator, so get global field value.
