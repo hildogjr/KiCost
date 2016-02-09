@@ -1151,7 +1151,7 @@ def get_digikey_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Digikey product page.'''
     price_tiers = {}
     try:
-        for tr in html_tree.find('table', id='pricing').find_all('tr'):
+        for tr in html_tree.find('table', id='product-dollars').find_all('tr'):
             try:
                 td = tr.find_all('td')
                 qty = int(re.sub('[^0-9]', '', td[0].text))
@@ -1248,7 +1248,7 @@ def digikey_part_is_reeled(html_tree):
     if len(qty_tiers) > 0 and min(qty_tiers) >= 100:
         return True
     if html_tree.find('table',
-                      class_='product-details-reel-pricing') is not None:
+                      id='product-details-reel-pricing') is not None:
         return True
     return False
 
@@ -1256,8 +1256,8 @@ def digikey_part_is_reeled(html_tree):
 def get_digikey_part_num(html_tree):
     '''Get the part number from the Digikey product page.'''
     try:
-        return re.sub('\n', '', html_tree.find('td',
-                                               id='reportpartnumber').text)
+        return re.sub('\s', '', html_tree.find('td',
+                                               id='reportPartNumber').text)
     except AttributeError:
         return ''
 
@@ -1399,8 +1399,8 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
     def merge_price_tiers(main_tree, alt_tree):
         '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
         try:
-            insertion_point = main_tree.find('table', id='pricing').find('tr')
-            for tr in alt_tree.find('table', id='pricing').find_all('tr'):
+            insertion_point = main_tree.find('table', id='product-dollars').find('tr')
+            for tr in alt_tree.find('table', id='product-dollars').find_all('tr'):
                 insertion_point.insert_after(tr)
         except AttributeError:
             pass
@@ -1411,7 +1411,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
             main_qty = get_digikey_qty_avail(main_tree)
             alt_qty = get_digikey_qty_avail(alt_tree)
             merged_qty = max(main_qty, alt_qty)
-            insertion_point = main_tree.find('td', id='quantityavailable')
+            insertion_point = main_tree.find('td', id='quantityAvailable')
             insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
         except AttributeError:
             pass
@@ -1451,7 +1451,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
     tree = BeautifulSoup(html, 'lxml')
 
     # If the tree contains the tag for a product page, then return it.
-    if tree.find('html', class_='rd-product-details-page') is not None:
+    if tree.find('div', class_='product-top-section') is not None:
 
         # Digikey separates cut-tape and reel packaging, so we need to examine more pages
         # to get all the pricing info. But don't descend any further if limit has been reached.
@@ -1501,23 +1501,22 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
         return tree, url  # Return the parse tree and the URL where it came from.
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
-    if tree.find('html', class_='rd-product-category-page') is not None:
+    if tree.find('table', id='productTable') is not None:
         if descend <= 0:
             raise PartHtmlError
         else:
             # Look for the table of products.
             products = tree.find(
                 'table',
-                class_='stickyHeader',
                 id='productTable').find('tbody').find_all('tr')
 
             # Extract the product links for the part numbers from the table.
             # Extract links for both manufacturer and catalog numbers.
             product_links = [p.find('td',
-                                    class_='mfg-partnumber').a
+                                    class_='tr-mfgPartNumber').a
                              for p in products]
             product_links.extend([p.find('td',
-                                    class_='digikey-partnumber').a
+                                    class_='tr-dkPartNumber').a
                              for p in products])
 
             # Extract all the part numbers from the text portion of the links.
@@ -1535,7 +1534,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
                                                       descend=descend - 1)
 
     # If the HTML contains a list of part categories, then give up.
-    if tree.find('html', class_='rd-search-parts-page') is not None:
+    if tree.find('form', id='keywordSearchForm') is not None:
         raise PartHtmlError
 
     # I don't know what happened here, so give up.
