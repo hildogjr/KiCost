@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.17 (2016-02-09)
+---------------------
+
+* Made changes to adapt to changes in Digi-Key's webpage format.
+
+
 0.1.16 (2016-01-26)
 ---------------------
 
