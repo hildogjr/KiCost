@@ -931,9 +931,10 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
         # Get the distributor part number.
         dist_part_num = part.part_num[dist]
 
-        # If the part number doesn't exist, the distributor doesn't stock this part
+        # If the part number doesn't exist or the part quantity is None 
+        # (not the same as 0), then the distributor doesn't stock this part
         # so leave this row blank.
-        if len(dist_part_num) == 0:
+        if len(dist_part_num) == 0 or part.qty_avail[dist] is None:
             row += 1  # Skip this row and go to the next.
             continue
 
@@ -1296,15 +1297,15 @@ def get_local_part_num(html_tree):
 def get_digikey_qty_avail(html_tree):
     '''Get the available quantity of the part from the Digikey product page.'''
     try:
-        qty_str = html_tree.find('td', id='quantityavailable').text
+        qty_str = html_tree.find('td', id='quantityAvailable').text
     except AttributeError:
-        return ''
+        return None
     try:
         qty_str = re.search('(stock:\s*)([0-9,]*)', qty_str,
                             re.IGNORECASE).group(2)
         return int(re.sub('[^0-9]', '', qty_str))
     except (AttributeError, ValueError):
-        return 0
+        return None
 
 
 def get_mouser_qty_avail(html_tree):
@@ -1320,12 +1321,12 @@ def get_mouser_qty_avail(html_tree):
                                          'div',
                                          class_='av-col2').text
     except AttributeError as e:
-        return ''
+        return None
     try:
         qty_str = re.search('(\s*)([0-9,]*)', qty_str, re.IGNORECASE).group(2)
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
-        return 0
+        return None
 
 
 def get_newark_qty_avail(html_tree):
@@ -1336,11 +1337,11 @@ def get_newark_qty_avail(html_tree):
                                      'div',
                                      class_='highLightBox').p.text
     except (AttributeError, ValueError):
-        return ''
+        return None
     try:
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
-        return 0
+        return None
 
 
 def get_local_qty_avail(html_tree):
@@ -1348,11 +1349,11 @@ def get_local_qty_avail(html_tree):
     try:
         qty_str = html_tree.find('div', class_='quantity').text
     except (AttributeError, ValueError):
-        return ''
+        return None
     try:
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
-        return 0
+        return None
 
 
 def get_user_agent():
@@ -1410,9 +1411,15 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
         try:
             main_qty = get_digikey_qty_avail(main_tree)
             alt_qty = get_digikey_qty_avail(alt_tree)
-            merged_qty = max(main_qty, alt_qty)
-            insertion_point = main_tree.find('td', id='quantityAvailable')
-            insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
+            if main_qty is None:
+                merged_qty = alt_qty
+            elif alt_qty is None:
+                merged_qty = main_qty
+            else:
+                merged_qty = max(main_qty, alt_qty)
+            if merged_qty is not None:
+                insertion_point = main_tree.find('td', id='quantityAvailable')
+                insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
         except AttributeError:
             pass
 

@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.18 (2016-02-10)
+---------------------
+
+* Made change to adapt to change in Digi-Key's part quantity field of their webpages.
+* Omit parts from the spreadsheet that are listed but not stocked at a distributor.
+
+
 0.1.17 (2016-02-09)
 ---------------------
 
