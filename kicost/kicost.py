@@ -1299,12 +1299,16 @@ def get_digikey_qty_avail(html_tree):
     try:
         qty_str = html_tree.find('td', id='quantityAvailable').text
     except AttributeError:
+        # No quantity found (not even 0) so this is probably a non-stocked part.
+        # Return None so the part won't show in the spreadsheet for this dist.
         return None
     try:
         qty_str = re.search('(stock:\s*)([0-9,]*)', qty_str,
                             re.IGNORECASE).group(2)
         return int(re.sub('[^0-9]', '', qty_str))
     except (AttributeError, ValueError):
+        # No quantity found (not even 0) so this is probably a non-stocked part.
+        # Return None so the part won't show in the spreadsheet for this dist.
         return None
 
 
@@ -1321,11 +1325,15 @@ def get_mouser_qty_avail(html_tree):
                                          'div',
                                          class_='av-col2').text
     except AttributeError as e:
+        # No quantity found (not even 0) so this is probably a non-stocked part.
+        # Return None so the part won't show in the spreadsheet for this dist.
         return None
     try:
         qty_str = re.search('(\s*)([0-9,]*)', qty_str, re.IGNORECASE).group(2)
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
+        # No quantity found (not even 0) so this is probably a non-stocked part.
+        # Return None so the part won't show in the spreadsheet for this dist.
         return None
 
 
@@ -1337,10 +1345,14 @@ def get_newark_qty_avail(html_tree):
                                      'div',
                                      class_='highLightBox').p.text
     except (AttributeError, ValueError):
+        # No quantity found (not even 0) so this is probably a non-stocked part.
+        # Return None so the part won't show in the spreadsheet for this dist.
         return None
     try:
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
+        # No quantity found (not even 0) so this is probably a non-stocked part.
+        # Return None so the part won't show in the spreadsheet for this dist.
         return None
 
 
@@ -1349,11 +1361,15 @@ def get_local_qty_avail(html_tree):
     try:
         qty_str = html_tree.find('div', class_='quantity').text
     except (AttributeError, ValueError):
-        return None
+        # Return 0 (not None) so this part will show in the spreadsheet
+        # even if there is no quantity found.
+        return 0
     try:
         return int(re.sub('[^0-9]', '', qty_str))
     except ValueError:
-        return None
+        # Return 0 (not None) so this part will show in the spreadsheet
+        # even if there is no quantity found.
+        return 0
 
 
 def get_user_agent():

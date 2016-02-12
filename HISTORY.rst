@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.19 (2016-02-12)
+---------------------
+
+* Local parts weren't showing up in spreadsheet because of previous fix to
+  omit parts that had no quantity field (non-stocked; not even 0). Fixed.
+
+
 0.1.18 (2016-02-10)
 ---------------------
 
