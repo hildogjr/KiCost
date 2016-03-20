@@ -196,7 +196,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # number or a distributors catalog number, then add
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
-                        if fld_nm != 'manf#' and fld_nm[:-1] not in distributors:
+                        if fld_nm not in ('manf#', 'manf') and fld_nm[:-1] not in distributors:
                             if SEPRTR not in fld_nm: # This field has no distributor.
                                 fld_nm = 'local:' + fld_nm # Assign it to a local distributor.
                         fields[fld_nm] = str(f.string)
@@ -951,60 +951,65 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
 
         # Extract price tiers from distributor HTML page tree.
         price_tiers = part.price_tiers[dist]
-        # Add the price for a single unit if it doesn't already exist in the tiers.
-        try:
-            min_qty = min(price_tiers.keys())
-            if min_qty > 1:
-                price_tiers[1] = price_tiers[
-                    min_qty
-                ]  # Set unit price to price of lowest available quantity.
-        except ValueError:  # This happens if the price tier list is empty.
-            pass
-        price_tiers[0] = 0.00  # Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.
 
-        # Sort the tiers based on quantities and turn them into lists of strings.
-        qtys = sorted(price_tiers.keys())
-        prices = [str(price_tiers[q]) for q in qtys]
-        qtys = [str(q) for q in qtys]
+        # Enter pricing info into sheet if the pricing tiers exist.
+        # Otherwise, leave the cells empty so a $0.00 price isn't injected that
+        # messes up the search for the best price.
+        if len(list(price_tiers.keys())) > 0:
+            # Add the price for a single unit if it doesn't already exist in the tiers.
+            try:
+                min_qty = min(price_tiers.keys())
+                if min_qty > 1:
+                    price_tiers[1] = price_tiers[
+                        min_qty
+                    ]  # Set unit price to price of lowest available quantity.
+            except ValueError:  # This happens if the price tier list is empty.
+                pass
+            price_tiers[0] = 0.00  # Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.
 
-        purch_qty_col = start_col + columns['purch']['col']
-        unit_price_col = start_col + columns['unit_price']['col']
-        ext_price_col = start_col + columns['ext_price']['col']
+            # Sort the tiers based on quantities and turn them into lists of strings.
+            qtys = sorted(price_tiers.keys())
+            prices = [str(price_tiers[q]) for q in qtys]
+            qtys = [str(q) for q in qtys]
 
-        # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
-        # or the purchased quantity (if that is non-zero), but only if the part number exists.
-        wks.write_formula(
-            row, unit_price_col,
-            '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                qtys=','.join(qtys),
-                prices=','.join(prices)), wrk_formats['currency'])
-        # Conditionally format the unit price cell that contains the best price.
-        wks.conditional_format(row, unit_price_col, row, unit_price_col, {
-            'type': 'cell',
-            'criteria': '<=',
-            'value': xl_rowcol_to_cell(row, 7),
-            # This is the global data cell holding the minimum unit price for this part.
-            'format': wrk_formats['best_price']
-        })
+            purch_qty_col = start_col + columns['purch']['col']
+            unit_price_col = start_col + columns['unit_price']['col']
+            ext_price_col = start_col + columns['ext_price']['col']
 
-        # Enter the formula for the extended price = purch qty * unit price.
-        wks.write_formula(
-            row, ext_price_col,
-            '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
-                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                unit_price=xl_rowcol_to_cell(row, unit_price_col)),
-            wrk_formats['currency'])
-        # Conditionally format the extended price cell that contains the best price.
-        wks.conditional_format(row, ext_price_col, row, ext_price_col, {
-            'type': 'cell',
-            'criteria': '<=',
-            'value': xl_rowcol_to_cell(row, 8),
-            # This is the global data cell holding the minimum extended price for this part.
-            'format': wrk_formats['best_price']
-        })
+            # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
+            # or the purchased quantity (if that is non-zero).
+            wks.write_formula(
+                row, unit_price_col,
+                '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                    qtys=','.join(qtys),
+                    prices=','.join(prices)), wrk_formats['currency'])
+            # Conditionally format the unit price cell that contains the best price.
+            wks.conditional_format(row, unit_price_col, row, unit_price_col, {
+                'type': 'cell',
+                'criteria': '<=',
+                'value': xl_rowcol_to_cell(row, 7),
+                # This is the global data cell holding the minimum unit price for this part.
+                'format': wrk_formats['best_price']
+            })
+
+            # Enter the formula for the extended price = purch qty * unit price.
+            wks.write_formula(
+                row, ext_price_col,
+                '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
+                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                    unit_price=xl_rowcol_to_cell(row, unit_price_col)),
+                wrk_formats['currency'])
+            # Conditionally format the extended price cell that contains the best price.
+            wks.conditional_format(row, ext_price_col, row, ext_price_col, {
+                'type': 'cell',
+                'criteria': '<=',
+                'value': xl_rowcol_to_cell(row, 8),
+                # This is the global data cell holding the minimum extended price for this part.
+                'format': wrk_formats['best_price']
+            })
 
         # Enter a link to the distributor webpage for this part.
         if part.url[dist]:
@@ -1410,7 +1415,7 @@ class PartHtmlError(Exception):
     pass
 
 
-def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
+def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
 
     def merge_price_tiers(main_tree, alt_tree):
@@ -1442,7 +1447,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
         url = 'http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=' + urlquote(
-            pn,
+            pn + ' ' + extra_search_terms,
             safe='')
         #url = 'http://www.digikey.com/product-search/en?KeyWords=' + urlquote(pn,safe='') + '&WT.z_header=search_go'
     elif url[0] == '/':
@@ -1490,8 +1495,8 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
                             'tr',
                             class_='more-expander-item')
                 ]
-                ap_trees_and_urls = [get_digikey_part_html_tree(dist, pn, ap_url,
-                                                                descend=0)
+                ap_trees_and_urls = [get_digikey_part_html_tree(dist, pn, 
+                                     extra_search_terms, ap_url, descend=0)
                                      for ap_url in ap_urls]
 
                 # Put the main tree on the list as well and then look through
@@ -1552,7 +1557,7 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
             for l in product_links:
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
-                    return get_digikey_part_html_tree(dist, pn,
+                    return get_digikey_part_html_tree(dist, pn, extra_search_terms,
                                                       url=l['href'],
                                                       descend=descend - 1)
 
@@ -1564,13 +1569,13 @@ def get_digikey_part_html_tree(dist, pn, url=None, descend=2):
     raise PartHtmlError
 
 
-def get_mouser_part_html_tree(dist, pn, url=None, descend=2):
+def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
     '''Find the Mouser HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
         url = 'http://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(
-            pn,
+            pn + ' ' + extra_search_terms,
             safe='')
     elif url[0] == '/':
         url = 'http://www.mouser.com' + url
@@ -1621,19 +1626,20 @@ def get_mouser_part_html_tree(dist, pn, url=None, descend=2):
             for l in product_links:
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
-                    return get_mouser_part_html_tree(dist, pn, url=l['href'], descend=descend-1)
+                    return get_mouser_part_html_tree(dist, pn, extra_search_terms,
+                                url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
 
 
-def get_newark_part_html_tree(dist, pn, url=None, descend=2):
+def get_newark_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
     '''Find the Newark HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
         url = 'http://www.newark.com/webapp/wcs/stores/servlet/Search?catalogId=15003&langId=-1&storeId=10194&gs=true&st=' + urlquote(
-            pn,
+            pn + ' ' + extra_search_terms,
             safe='')
     elif url[0] == '/':
         url = 'http://www.newark.com' + url
@@ -1690,13 +1696,14 @@ def get_newark_part_html_tree(dist, pn, url=None, descend=2):
             for l in product_links:
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
-                    return get_newark_part_html_tree(dist, pn, url=l['href'], descend=descend-1)
+                    return get_newark_part_html_tree(dist, pn, extra_search_terms,
+                                url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.
     raise PartHtmlError
 
 
-def get_local_part_html_tree(dist, pn, url=None):
+def get_local_part_html_tree(dist, pn, extra_search_terms='', url=None):
     '''Extract the HTML tree from the HTML page for local parts.'''
 
     # Extract the HTML tree from the local part HTML page.
@@ -1735,9 +1742,10 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
         # Search for part information using one of the following:
         #    1) the distributor's catalog number.
         #    2) the manufacturer's part number.
+        extra_search_terms = part.fields.get('manf', '')
         for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
             if key in part.fields:
-                return get_dist_part_html_tree(dist, part.fields[key])
+                return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms)
         # No distributor or manufacturer number, so give up.
         else:
             logger.warn("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)

@@ -3,6 +3,17 @@
 History
 -------
 
+0.1.20 (2016-03-20)
+---------------------
+
+* Prices of $0.00 was appearing in the spreadsheet for parts that were
+  listed but not stocked. Parts having no pricing list no longer list a price
+  in the sheet.
+* Parts with short manf. numbers (e.g. 5010) were not found correctly in the
+  distributor websites. The manufacturer name was added to the search string
+  to increase the probability of the search finding the correct part.
+
+
 0.1.19 (2016-02-12)
 ---------------------
 
