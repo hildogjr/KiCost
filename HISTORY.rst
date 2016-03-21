@@ -3,10 +3,18 @@
 History
 -------
 
+0.1.21 (2016-03-20)
+---------------------
+
+* Parts with valid Digi-Key web pages were not appearing in the spreadsheet
+  because they had strange quantity listings (e.g., input fields or 'call for
+  quantities'. This commit fixes #36.
+
+
 0.1.20 (2016-03-20)
 ---------------------
 
-* Prices of $0.00 was appearing in the spreadsheet for parts that were
+* Prices of $0.00 were appearing in the spreadsheet for parts that were
   listed but not stocked. Parts having no pricing list no longer list a price
   in the sheet.
 * Parts with short manf. numbers (e.g. 5010) were not found correctly in the
