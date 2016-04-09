@@ -60,6 +60,14 @@ def main():
                         type=str,
                         metavar='file.xlsx',
                         help='Generated cost spreadsheet.')
+    parser.add_argument('-f', '--fields',
+                        nargs='+',
+                        type=str,
+                        default=[],
+                        metavar='name',
+                        help='''Specify the names of additional part fields to 
+                            extract and insert in the global data section of 
+                            the spreadsheet.''')
     parser.add_argument('-var', '--variant',
                         nargs='?',
                         type=str,
@@ -127,9 +135,9 @@ def main():
     else:
         num_processes = args.num_processes
 
-    kicost(in_file=args.input, out_filename=args.output, 
-        ignore_fields=args.ignore_fields, variant=args.variant,
-        num_processes=num_processes)
+    kicost(in_file=args.input, out_filename=args.output,
+        user_fields=args.fields, ignore_fields=args.ignore_fields, 
+        variant=args.variant, num_processes=num_processes)
 
 ###############################################################################
 # Main entrypoint.

@@ -123,7 +123,7 @@ If the manufacturer's part number field for J1 is given the label ``kicost.v1:ma
 then KiCost will ignore it during a normal cost calculation.
 But J1 will be included in the cost calculation if you run KiCost like so::
 
-    kicost -i schematic.xml -variant v1
+    kicost -i schematic.xml --variant v1
 
 In more complicated situations, you may have several circuit variants, some of which
 are combined in combination.
@@ -131,7 +131,19 @@ The ``--variant`` option will accept a regular expression as its argument
 so, for example, you could get the cost of a board that includes circuitry for both variants 1
 and 3 with::
 
-    kicost -i schematic.xml -variant "(v1|v2)"
+    kicost -i schematic.xml --variant "(v1|v2)"
+
+-----------------------------------------------
+Showing Extra Part Data in the Spreadsheet
+-----------------------------------------------
+
+Sometimes it is desirable to show additional data for the parts in the
+spreadsheet.
+To do this, use the ``-fields`` command-line option followed by the names of the
+additional part fields you want displayed in the global data section of the
+of the spreadsheet:
+
+    kicost -i schematic.xml --fields fld1 fld2
 
 -----------------------
 Parallel Web Scraping
@@ -159,32 +171,33 @@ Command-Line Options
 
 ::
 
-    usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]] [-var [VARIANT]]
-                  [-w] [-s] [-np [NUM_PROCESSES]] [-ign name [name ...]]
-                  [-d [LEVEL]]
+usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]]
+              [-f name [name ...]] [-var [VARIANT]] [-w] [-s]
+              [-np [NUM_PROCESSES]] [-ign name [name ...]] [-d [LEVEL]]
 
-    Build cost spreadsheet for a KiCAD project.
+Build cost spreadsheet for a KiCAD project.
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -v, --version         show program's version number and exit
-      -i [file.xml], --input [file.xml]
-                            Schematic BOM XML file.
-      -o [file.xlsx], --output [file.xlsx]
-                            Generated cost spreadsheet.
-      -var [VARIANT], --variant [VARIANT]
-                            Include parts for schematic variants whose field
-                            labels match the named variant or regex filter.
-      -w, --overwrite       Allow overwriting of an existing spreadsheet.
-      -s, --serial          Do web scraping of part data using a single process.
-      -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
-                            Set the number of parallel processes used for web
-                            scraping part data.
-      -ign name [name ...], --ignore_fields name [name ...]
-                            Declare part fields to ignore when grouping parts.
-      -d [LEVEL], --debug [LEVEL]
-                            Print debugging info. (Larger LEVEL means more info.)
-
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
+  -i [file.xml], --input [file.xml]
+                        Schematic BOM XML file.
+  -o [file.xlsx], --output [file.xlsx]
+                        Generated cost spreadsheet.
+  -f name [name ...], --fields name [name ...]
+                        Specify the names of additional part fields to extract
+                        and insert in the global data section of the spreadsheet.
+  -var [VARIANT], --variant [VARIANT]
+                        schematic variant name filter
+  -w, --overwrite       Allow overwriting of an existing spreadsheet.
+  -s, --serial          Do web scraping of part data using a single process.
+  -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
+                        Set the number of parallel processes used for web
+                        scraping part data.
+  -ign name [name ...], --ignore_fields name [name ...]
+                        Declare part fields to ignore when grouping parts.
+  -d [LEVEL], --debug [LEVEL]
+                        Print debugging info. (Larger LEVEL means more info.)
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
 -------------------------------------------------

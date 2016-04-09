@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.22 (2016-04-08)
+---------------------
+
+* Extra part data can now be shown in the global data section of the spreadsheet
+  by using the new ``--fields`` command-line option. This commit implements 
+  issue #8.
+
+
 0.1.21 (2016-03-20)
 ---------------------
 

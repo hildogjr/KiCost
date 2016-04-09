@@ -103,7 +103,7 @@ DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
 
-def kicost(in_file, out_filename, ignore_fields, variant, num_processes):
+def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Get groups of identical parts.
@@ -137,7 +137,7 @@ def kicost(in_file, out_filename, ignore_fields, variant, num_processes):
             parts[id].qty_avail = qty_avail
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, out_filename, variant)
+    create_spreadsheet(parts, out_filename, user_fields, variant)
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):
@@ -185,7 +185,6 @@ def get_part_groups(in_file, ignore_fields, variant):
                     # Now look for fields that start with 'kicost' and possibly
                     # another dot-separated variant field and store their values.
                     # Anything else is in a non-kicost namespace.
-                    # key_re = 'kicost(\.{})?:(?P<name>.*)'.format(re.escape(variant))
                     key_re = 'kicost(\.{})?:(?P<name>.*)'.format(variant)
                     mtch = re.match(key_re, name, flags=re.IGNORECASE)
                     if mtch:
@@ -417,7 +416,7 @@ def create_local_part_html(parts):
     return html
 
 
-def create_spreadsheet(parts, spreadsheet_filename, variant):
+def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
@@ -545,7 +544,7 @@ def create_spreadsheet(parts, spreadsheet_filename, variant):
         # next_col = the column immediately to the right of the global data.
         # qty_col = the column where the quantity needed of each part is stored.
         next_col, refs_col, qty_col = add_globals_to_worksheet(
-            wks, wrk_formats, START_ROW, START_COL, TOTAL_COST_ROW, parts)
+            wks, wrk_formats, START_ROW, START_COL, TOTAL_COST_ROW, parts, user_fields)
         # Create a defined range for the global data.
         workbook.define_name(
             'global_part_data', '={wks_name}!{data_range}'.format(
@@ -680,7 +679,7 @@ def collapse_refs(refs):
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
-                             total_cost_row, parts):
+                             total_cost_row, parts, user_fields):
     '''Add global part data to the spreadsheet.'''
 
     # Columns for the various types of global part data.
@@ -690,49 +689,56 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,  # Outline level (or hierarchy level) for this column.
             'label': 'Refs',
             'width': None,  # Column width (default in this case).
-            'comment': 'Schematic identifier for each part.'
+            'comment': 'Schematic identifier for each part.',
+            'static': False,
         },
         'value': {
             'col': 1,
             'level': 0,
             'label': 'Value',
             'width': None,
-            'comment': 'Value of each part.'
+            'comment': 'Value of each part.',
+            'static': True,
         },
         'desc': {
             'col': 2,
             'level': 0,
             'label': 'Desc',
             'width': None,
-            'comment': 'Description of each part.'
+            'comment': 'Description of each part.',
+            'static': True,
         },
         'footprint': {
             'col': 3,
             'level': 0,
             'label': 'Footprint',
             'width': None,
-            'comment': 'PCB footprint for each part.'
+            'comment': 'PCB footprint for each part.',
+            'static': True,
         },
         'manf': {
             'col': 4,
             'level': 0,
             'label': 'Manf',
             'width': None,
-            'comment': 'Manufacturer of each part.'
+            'comment': 'Manufacturer of each part.',
+            'static': True,
         },
         'manf#': {
             'col': 5,
             'level': 0,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part.'
+            'comment': 'Manufacturer number for each part.',
+            'static': True,
         },
         'qty': {
             'col': 6,
             'level': 0,
             'label': 'Qty',
             'width': None,
-            'comment': 'Total number of each part needed to assemble the board.'
+            'comment': 'Total number of each part needed to assemble the board.',
+            'static': False,
         },
         'unit_price': {
             'col': 7,
@@ -740,7 +746,8 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'label': 'Unit$',
             'width': None,
             'comment':
-            'Minimum unit price for each part across all distributors.'
+            'Minimum unit price for each part across all distributors.',
+            'static': False,
         },
         'ext_price': {
             'col': 8,
@@ -748,15 +755,33 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            'Minimum extended price for each part across all distributors.'
+            'Minimum extended price for each part across all distributors.',
+            'static': False,
         },
-        # 'short': {
-        # 'col': 7,
-        # 'level': 0,
-        # 'label': 'Short',
-        # 'width': None, # Column width (default in this case).
-        # 'comment': 'Shortage of each part needed for assembly.'},
     }
+
+    # Enter user-defined fields into the global part data columns structure.
+    for user_field in list(reversed(user_fields)):
+        # Skip the user field if it's already in the list of data columns.
+        col_ids = list(columns.keys())
+        user_field_id = user_field.lower()
+        if user_field_id not in col_ids:
+            # Put user fields immediately to right of the 'desc' column. 
+            desc_col = columns['desc']['col']
+            # Push all existing fields to right of 'desc' over by one column.
+            for id in col_ids:
+                if columns[id]['col'] > desc_col:
+                    columns[id]['col'] += 1
+            # Insert user field in the vacated space.
+            columns[user_field_id] = {
+                'col': columns['desc']['col']+1,
+                'level': 0,
+                'label': user_field,
+                'width': None,
+                'comment': 'User-defined field',
+                'static': True,
+            }
+
     num_cols = len(list(columns.keys()))
 
     row = start_row  # Start building global section at this row.
@@ -786,8 +811,10 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         wks.write_string(row, start_col + columns['refs']['col'],
                          ','.join(collapse_refs(part.refs)))
 
-        # Enter more data for the part.
-        for field in ('value', 'desc', 'footprint', 'manf', 'manf#'):
+        # Enter more static data for the part.
+        for field in list(columns.keys()):
+            if columns[field]['static'] is False:
+                continue
             try:
                 wks.write_string(row, start_col + columns[field]['col'],
                                  part.fields[field])
@@ -801,7 +828,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         except KeyError:
             pass
 
-            # Enter spreadsheet formula for getting the minimum unit price from all the distributors.
+        # Enter spreadsheet formula for getting the minimum unit price from all the distributors.
         dist_unit_prices = []
         for dist in list(distributors.keys()):
             # Get the name of the data range for this distributor.
