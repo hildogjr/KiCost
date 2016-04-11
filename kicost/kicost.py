@@ -103,6 +103,8 @@ DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
 
+cnt = 0
+
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
@@ -129,8 +131,29 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     else:
         # Scrape data for multiple parts simultaneously.
         args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
-        results = Pool(num_processes).imap_unordered(scrape_part, args)
-        for id, url, part_num, price_tiers, qty_avail in results:
+        pool = Pool(num_processes)
+        def inc_cnt(x):
+            global cnt
+            cnt += 1
+            return x
+        num_done = 0
+        results = list(range(len(args)))
+        for i in range(len(args)):
+            results[i] = pool.apply_async(scrape_part, [args[i]], callback=inc_cnt)
+        pool.close()
+        import tqdm
+        progress = tqdm.tqdm(desc='Progress', total=len(parts))
+        while num_done < len(parts):
+            curr_cnt = cnt
+            if curr_cnt > num_done:
+                progress.update(curr_cnt-num_done)
+                num_done = curr_cnt
+        pool.join()
+        #results = Pool(num_processes).imap_unordered(scrape_part, args)
+        print('cnt = {}'.format(cnt))
+        # for id, url, part_num, price_tiers, qty_avail in results:
+        for result in results:
+            id, url, part_num, price_tiers, qty_avail = result.get()
             parts[id].part_num = part_num
             parts[id].url = url
             parts[id].price_tiers = price_tiers
