@@ -39,6 +39,7 @@ import pprint
 import re
 import difflib
 import logging
+import tqdm
 from bs4 import BeautifulSoup
 from random import randint
 import xlsxwriter
@@ -102,8 +103,8 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
-
-cnt = 0
+# Progress indicator for web scraping.
+scraping_progress = tqdm.tqdm()
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
@@ -119,6 +120,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
 
     # Get the distributor product page for each part and scrape the part data.
     logger.log(DEBUG_OVERVIEW, 'Scrape part data for each component group...')
+    global scraping_progress
+    scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts))
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
@@ -128,29 +131,20 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
             parts[id].url = url
             parts[id].price_tiers = price_tiers
             parts[id].qty_avail = qty_avail
+            scraping_progress.update(1)
     else:
         # Scrape data for multiple parts simultaneously.
         args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
         pool = Pool(num_processes)
-        def inc_cnt(x):
-            global cnt
-            cnt += 1
-            return x
-        num_done = 0
         results = list(range(len(args)))
+        def update(x):
+            scraping_progress.update(1)
+            return x
         for i in range(len(args)):
-            results[i] = pool.apply_async(scrape_part, [args[i]], callback=inc_cnt)
+            results[i] = pool.apply_async(scrape_part, [args[i]], callback=update)
         pool.close()
-        import tqdm
-        progress = tqdm.tqdm(desc='Progress', total=len(parts))
-        while num_done < len(parts):
-            curr_cnt = cnt
-            if curr_cnt > num_done:
-                progress.update(curr_cnt-num_done)
-                num_done = curr_cnt
         pool.join()
         #results = Pool(num_processes).imap_unordered(scrape_part, args)
-        print('cnt = {}'.format(cnt))
         # for id, url, part_num, price_tiers, qty_avail in results:
         for result in results:
             id, url, part_num, price_tiers, qty_avail = result.get()
