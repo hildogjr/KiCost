@@ -79,6 +79,9 @@ def main():
     parser.add_argument('-s', '--serial',
                         action='store_true',
                         help='Do web scraping of part data using a single process.')
+    parser.add_argument('-q', '--quiet',
+                        action='store_true',
+                        help='Enable quiet mode with no warnings.')
     parser.add_argument('-np', '--num_processes',
                         nargs='?',
                         type=int,
@@ -93,13 +96,12 @@ def main():
                         help='Declare part fields to ignore when grouping parts.',
                         metavar='name',
                         type=str)
-    parser.add_argument(
-        '-d', '--debug',
-        nargs='?',
-        type=int,
-        default=None,
-        metavar='LEVEL',
-        help='Print debugging info. (Larger LEVEL means more info.)')
+    parser.add_argument('-d', '--debug',
+                        nargs='?',
+                        type=int,
+                        default=None,
+                        metavar='LEVEL',
+                        help='Print debugging info. (Larger LEVEL means more info.)')
 
     args = parser.parse_args()
 
@@ -109,7 +111,11 @@ def main():
         handler = logging.StreamHandler(sys.stdout)
         handler.setLevel(log_level)
         logger.addHandler(handler)
-        logger.setLevel(log_level)
+    elif args.quiet is True:
+        log_level = logging.ERROR
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(log_level)
+        logger.addHandler(handler)
 
     if args.output == None:
         if args.input != None:
