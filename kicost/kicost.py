@@ -103,8 +103,6 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
-# Progress indicator for web scraping.
-scraping_progress = tqdm.tqdm()
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
@@ -133,19 +131,29 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
             parts[id].qty_avail = qty_avail
             scraping_progress.update(1)
     else:
-        # Scrape data for multiple parts simultaneously.
-        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
+        # Create pool of processes to scrape data for multiple parts simultaneously.
         pool = Pool(num_processes)
+
+        # Package part data for passing to each process.
+        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
+
+        # Create a list to store the output from each process.
         results = list(range(len(args)))
+
+        # Define a callback routine for updating the scraping progress bar.
         def update(x):
             scraping_progress.update(1)
             return x
+
+        # Start the web scraping processes, one for each part.
         for i in range(len(args)):
             results[i] = pool.apply_async(scrape_part, [args[i]], callback=update)
+
+        # Wait for all the processes to complete.
         pool.close()
         pool.join()
-        #results = Pool(num_processes).imap_unordered(scrape_part, args)
-        # for id, url, part_num, price_tiers, qty_avail in results:
+
+        # Get the data from each process result structure.
         for result in results:
             id, url, part_num, price_tiers, qty_avail = result.get()
             parts[id].part_num = part_num
@@ -1797,11 +1805,11 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
                 return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms)
         # No distributor or manufacturer number, so give up.
         else:
-            logger.warn("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
+            logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
             return BeautifulSoup('<html></html>', 'lxml'), ''
             #raise PartHtmlError
     except (PartHtmlError, AttributeError):
-        logger.warn("Part %s not found at %s", part.refs, dist)
+        logger.warning("Part %s not found at %s", part.refs, dist)
         # If no HTML page was found, then return a tree for an empty page.
         return BeautifulSoup('<html></html>', 'lxml'), ''
 
