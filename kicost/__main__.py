@@ -39,6 +39,8 @@ from . import __version__
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 
+logger = logging.getLogger('kicost')
+
 ###############################################################################
 # Command-line interface.
 ###############################################################################
@@ -105,37 +107,48 @@ def main():
 
     args = parser.parse_args()
 
-    logger = logging.getLogger('kicost')
+    # Set up logging.
     if args.debug is not None:
         log_level = logging.DEBUG + 1 - args.debug
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(log_level)
-        logger.addHandler(handler)
     elif args.quiet is True:
         log_level = logging.ERROR
-        handler = logging.StreamHandler(sys.stdout)
-        handler.setLevel(log_level)
-        logger.addHandler(handler)
+    else:
+        log_level = logging.WARNING
+    handler = logging.StreamHandler(sys.stdout)
+    handler.setLevel(log_level)
+    logger.addHandler(handler)
+    logger.setLevel(log_level)
 
+    # Set up spreadsheet output file.
     if args.output == None:
+        # If no output file is given...
         if args.input != None:
+            # Send output to spreadsheet with name of input file.
             args.output = os.path.splitext(args.input)[0] + '.xlsx'
         else:
+            # Send output to spreadsheet with name of this application.
             args.output = os.path.splitext(sys.argv[0])[0] + '.xlsx'
     else:
+        # Output file was given. Make sure it has spreadsheet extension.
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
+
+    # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
         if not args.overwrite:
             logger.critical('''Output file {} already exists! Use the
                 --overwrite option to replace it.'''.format(args.output))
             sys.exit(1)
 
+    # Set XML input source.
     if args.input == None:
+        # Get XML from the STDIN if no input file is given.
         args.input = sys.stdin
     else:
+        # Otherwise get XML from the given file.
         args.input = os.path.splitext(args.input)[0] + '.xml'
         args.input = open(args.input)
 
+    # Set number of processes to use for web scraping.
     if args.serial:
         num_processes = 1
     else:

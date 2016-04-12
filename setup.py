@@ -23,6 +23,7 @@ requirements = [
     'future >= 0.15.0',
     'lxml >= 3.3.3',
     'yattag >= 1.5.2',
+    'tqdm >= 4.4.0',
 ]
 
 test_requirements = [

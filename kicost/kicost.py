@@ -45,6 +45,7 @@ from random import randint
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from yattag import Doc, indent  # For generating HTML page for local parts.
+import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
 try:
@@ -99,6 +100,7 @@ distributors = {
 local_part_html = ''
 
 logger = logging.getLogger('kicost')
+
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
@@ -119,11 +121,11 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     # Get the distributor product page for each part and scrape the part data.
     logger.log(DEBUG_OVERVIEW, 'Scrape part data for each component group...')
     global scraping_progress
-    scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts))
+    scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html)
+            args = (i, parts[i], distributors, local_part_html, logger.getEffectiveLevel())
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
             parts[id].url = url
@@ -135,7 +137,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         pool = Pool(num_processes)
 
         # Package part data for passing to each process.
-        args = [(i, parts[i], distributors, local_part_html) for i in range(len(parts))]
+        args = [(i, parts[i], distributors, local_part_html, logger.getEffectiveLevel()) for i in range(len(parts))]
 
         # Create a list to store the output from each process.
         results = list(range(len(args)))
@@ -1783,7 +1785,7 @@ def get_local_part_html_tree(dist, pn, extra_search_terms='', url=None):
         raise PartHtmlError
 
 
-def get_part_html_tree(part, dist, distributor_dict, local_html):
+def get_part_html_tree(part, dist, distributor_dict, local_html, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     global local_part_html
@@ -1817,7 +1819,16 @@ def get_part_html_tree(part, dist, distributor_dict, local_html):
 def scrape_part(args):
     '''Scrape the data for a part from each distributor website or local HTML.'''
 
-    id, part, distributor_dict, local_html = args # Unpack the arguments.
+    id, part, distributor_dict, local_html, log_level = args # Unpack the arguments.
+
+    if multiprocessing.current_process().name == "MainProcess":
+        scrape_logger = logging.getLogger('kicost')
+    else:
+        scrape_logger = multiprocessing.get_logger()
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setLevel(log_level)
+        scrape_logger.addHandler(handler)
+        scrape_logger.setLevel(log_level)
 
     # Create dictionaries for the various items of part data from each distributor.
     url = {}
@@ -1828,7 +1839,7 @@ def scrape_part(args):
     # Scrape the part data from each distributor website or the local HTML.
     for d in distributor_dict:
         # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html)
+        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html, scrape_logger)
 
         # Get the function names for getting the part data from the HTML tree.
         function = distributor_dict[d]['function']
