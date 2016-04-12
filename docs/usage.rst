@@ -172,7 +172,7 @@ Command-Line Options
 ::
 
 usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]]
-              [-f name [name ...]] [-var [VARIANT]] [-w] [-s]
+              [-f name [name ...]] [-var [VARIANT]] [-w] [-s] [-q]
               [-np [NUM_PROCESSES]] [-ign name [name ...]] [-d [LEVEL]]
 
 Build cost spreadsheet for a KiCAD project.
@@ -186,11 +186,13 @@ optional arguments:
                         Generated cost spreadsheet.
   -f name [name ...], --fields name [name ...]
                         Specify the names of additional part fields to extract
-                        and insert in the global data section of the spreadsheet.
+                        and insert in the global data section of the
+                        spreadsheet.
   -var [VARIANT], --variant [VARIANT]
                         schematic variant name filter
   -w, --overwrite       Allow overwriting of an existing spreadsheet.
   -s, --serial          Do web scraping of part data using a single process.
+  -q, --quiet           Enable quiet mode with no warnings.
   -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
                         Set the number of parallel processes used for web
                         scraping part data.
@@ -198,6 +200,7 @@ optional arguments:
                         Declare part fields to ignore when grouping parts.
   -d [LEVEL], --debug [LEVEL]
                         Print debugging info. (Larger LEVEL means more info.)
+
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
 -------------------------------------------------

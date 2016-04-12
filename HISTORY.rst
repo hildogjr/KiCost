@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.23 (2016-04-12)
+---------------------
+
+* Added progress bar.
+* Added quiet option to suppress warning messages.
+* 'manf#' and 'manf#' fields are now both propagated to similar parts.
+
+
 0.1.22 (2016-04-08)
 ---------------------
 
