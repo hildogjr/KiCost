@@ -1335,14 +1335,18 @@ def get_mouser_part_num(html_tree):
 def get_newark_part_num(html_tree):
     '''Get the part number from the Newark product page.'''
     try:
-        part_num_str = html_tree.find('div',
-                                      id='productDescription').find(
-                                          'ul').find_all('li')[1].text
-        part_num_str = re.search('(Newark Part No.:)(\s*)([^\s]*)',
-                                 part_num_str, re.IGNORECASE).group(3)
-        return part_num_str
+        # Newark catalog number is stored in a description list, so get
+        # all the list terms and descriptions, strip all the spaces from those,
+        # and pair them up.
+        div = html_tree.find('div', class_='productDescription').find('dl')
+        dt = [re.sub('\s','',d.text) for d in div.find_all('dt')]
+        dd = [re.sub('\s','',d.text) for d in div.find_all('dd')]
+        dtdd = {k:v for k,v in zip(dt,dd)}  # Pair terms with descriptions.
+        return dtdd['NewarkPartNo.:']
+    except KeyError:
+        return '' # No catalog number found in page.
     except AttributeError:
-        return ''
+        return '' # No ProductDescription found in page.
 
 
 def get_local_part_num(html_tree):
@@ -1404,16 +1408,18 @@ def get_mouser_qty_avail(html_tree):
 def get_newark_qty_avail(html_tree):
     '''Get the available quantity of the part from the Newark product page.'''
     try:
+        # Note that 'availability' is misspelled in the container class name!
         qty_str = html_tree.find('div',
-                                 id='priceWrap').find(
-                                     'div',
-                                     class_='highLightBox').p.text
+                                 class_='avalabilityContainer').find(
+                                     'span',
+                                     class_='availability').text
     except (AttributeError, ValueError):
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
         return None
     try:
-        return int(re.sub('[^0-9]', '', qty_str))
+        qty = re.sub('[^0-9]','',qty_str)  # Strip all non-number chars.
+        return int(re.sub('[^0-9]', '', qty_str))  # Return integer for quantity.
     except ValueError:
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
