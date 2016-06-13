@@ -190,6 +190,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
 class IdenticalComponents(object):
     pass
 
+
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
@@ -843,8 +844,10 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             if columns[field]['static'] is False:
                 continue
             try:
+                # Fields found in the XML are lower-cased, so do the same for the column key.
+                field_name = field.lower().strip()
                 wks.write_string(row, start_col + columns[field]['col'],
-                                 part.fields[field])
+                                 part.fields[field_name])
             except KeyError:
                 pass
 

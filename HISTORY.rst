@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.25 (2016-06-12)
+---------------------
+
+* Contents of "Desc" field in component/library were being ignored when generating spreadsheet.
+
+
 0.1.24 (2016-05-28)
 ---------------------
 
