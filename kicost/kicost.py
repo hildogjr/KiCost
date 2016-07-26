@@ -1368,15 +1368,14 @@ def get_local_part_num(html_tree):
 def get_digikey_qty_avail(html_tree):
     '''Get the available quantity of the part from the Digikey product page.'''
     try:
-        qty_tree = html_tree.find('td', id='quantityAvailable')
+        qty_tree = html_tree.find('td', id='quantityAvailable').find('span', id='dkQty')
         qty_str = qty_tree.text
     except AttributeError:
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
         return None
     try:
-        qty_str = re.search('(stock:\s*)([0-9,]*)', qty_str,
-                            re.IGNORECASE).group(2)
+        qty_str = re.search('([0-9,]*)', qty_str, re.IGNORECASE).group(1)
         return int(re.sub('[^0-9]', '', qty_str))
     except (AttributeError, ValueError):
         # Didn't find the usual quantity text field. This might be one of those

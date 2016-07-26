@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.27 (2016-07-26)
+---------------------
+
+* Fixed scraping of Digi-Key pages to correctly extract available quantity of parts.
+
+
 0.1.26 (2016-07-25)
 ---------------------
 
