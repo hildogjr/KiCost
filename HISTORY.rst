@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.26 (2016-07-25)
+---------------------
+
+* Progress bar is explicitly deleted to prevent an error from occurring when the program terminates.
+
+
 0.1.25 (2016-06-12)
 ---------------------
 
