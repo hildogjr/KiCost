@@ -163,6 +163,10 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
             parts[id].price_tiers = price_tiers
             parts[id].qty_avail = qty_avail
 
+    # Done with the scraping progress bar so delete it or else we get an 
+    # error when the program terminates.
+    del scraping_progress
+
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, out_filename, user_fields, variant)
 
