@@ -18,7 +18,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    'beautifulsoup4 >= 4.3.2',
+    'beautifulsoup4 >= 4.3.2, < 4.5.0',
     'XlsxWriter >= 0.7.3',
     'future >= 0.15.0',
     'lxml >= 3.3.3',
