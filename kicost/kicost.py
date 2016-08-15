@@ -1547,7 +1547,10 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
     # except Exception as e:
     # print('Exception reading with Ghost: {}'.format(e))
 
-    tree = BeautifulSoup(html, 'lxml')
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except:
+        raise PartHtmlError
 
     # If the tree contains the tag for a product page, then return it.
     if tree.find('div', class_='product-top-section') is not None:
@@ -1666,7 +1669,10 @@ def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
-    tree = BeautifulSoup(html, 'lxml')
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except:
+       raise PartHtmlError
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', id='product-details') is not None:
@@ -1729,7 +1735,10 @@ def get_newark_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
-    tree = BeautifulSoup(html, 'lxml')
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except:
+        raise PartHtmlError
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', class_='productDisplay', id='page') is not None:
