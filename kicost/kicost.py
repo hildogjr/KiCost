@@ -381,9 +381,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Now return the list of identical part groups.
     return new_component_groups
 
-    # Now return a list of the groups without their hash keys.
-    return list(new_component_groups.values())
-
 
 def create_local_part_html(parts):
     '''Create HTML page containing info for local (non-webscraped) parts.'''
@@ -1229,6 +1226,7 @@ def get_digikey_price_tiers(html_tree):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
+        logger.log(DEBUG_OBSESSIVE, 'No Digikey pricing information found!')
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
@@ -1259,6 +1257,7 @@ def get_mouser_price_tiers(html_tree):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
+        logger.log(DEBUG_OBSESSIVE, 'No Mouser pricing information found!')
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
@@ -1291,6 +1290,7 @@ def get_newark_price_tiers(html_tree):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
+        logger.log(DEBUG_OBSESSIVE, 'No Newark pricing information found!')
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
@@ -1306,6 +1306,7 @@ def get_local_price_tiers(html_tree):
             price_tiers[int(qty)] = float(price)
     except AttributeError:
         # This happens when no pricing info is found in the tree.
+        logger.log(DEBUG_OBSESSIVE, 'No local pricing information found!')
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
@@ -1314,9 +1315,6 @@ def digikey_part_is_reeled(html_tree):
     '''Returns True if this Digi-Key part is reeled or Digi-reeled.'''
     qty_tiers = list(get_digikey_price_tiers(html_tree).keys())
     if len(qty_tiers) > 0 and min(qty_tiers) >= 100:
-        return True
-    if html_tree.find('table',
-                      id='product-details-reel-pricing') is not None:
         return True
     return False
 
@@ -1327,6 +1325,7 @@ def get_digikey_part_num(html_tree):
         return re.sub('\s', '', html_tree.find('td',
                                                id='reportPartNumber').text)
     except AttributeError:
+        logger.log(DEBUG_OBSESSIVE, 'No Digikey part number found!')
         return ''
 
 
@@ -1336,6 +1335,7 @@ def get_mouser_part_num(html_tree):
         return re.sub('\n', '', html_tree.find('div',
                                                id='divMouserPartNum').text)
     except AttributeError:
+        logger.log(DEBUG_OBSESSIVE, 'No Mouser part number found!')
         return ''
 
 
@@ -1351,8 +1351,10 @@ def get_newark_part_num(html_tree):
         dtdd = {k:v for k,v in zip(dt,dd)}  # Pair terms with descriptions.
         return dtdd['NewarkPartNo.:']
     except KeyError:
+        logger.log(DEBUG_OBSESSIVE, 'No Newark catalog number found!')
         return '' # No catalog number found in page.
     except AttributeError:
+        logger.log(DEBUG_OBSESSIVE, 'No Newark product description found!')
         return '' # No ProductDescription found in page.
 
 
@@ -1382,6 +1384,7 @@ def get_digikey_qty_avail(html_tree):
         # input fields for requesting a quantity, so get the value from the
         # input field.
         try:
+            logger.log(DEBUG_OBSESSIVE, 'No Digikey part quantity found!')
             return int(qty_tree.find('input', type='text').get('value'))
         except (AttributeError, ValueError):
             # Well, there's a quantityAvailable section in the website, but
@@ -1401,6 +1404,7 @@ def get_mouser_qty_avail(html_tree):
     except AttributeError as e:
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
+        logger.log(DEBUG_OBSESSIVE, 'No Mouser part quantity found!')
         return None
     try:
         qty_str = re.search('(\s*)([0-9,]*)', qty_str, re.IGNORECASE).group(2)
@@ -1408,6 +1412,7 @@ def get_mouser_qty_avail(html_tree):
     except ValueError:
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
+        logger.log(DEBUG_OBSESSIVE, 'No Mouser part quantity found!')
         return None
 
 
@@ -1429,6 +1434,7 @@ def get_newark_qty_avail(html_tree):
     except ValueError:
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
+        logger.log(DEBUG_OBSESSIVE, 'No Newark part quantity found!')
         return None
 
 
@@ -1445,6 +1451,7 @@ def get_local_qty_avail(html_tree):
     except ValueError:
         # Return 0 (not None) so this part will show in the spreadsheet
         # even if there is no quantity found.
+        logger.log(DEBUG_OBSESSIVE, 'No local part quantity found!')
         return 0
 
 
@@ -1496,6 +1503,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             for tr in alt_tree.find('table', id='product-dollars').find_all('tr'):
                 insertion_point.insert_after(tr)
         except AttributeError:
+            logger.log(DEBUG_OBSESSIVE, 'Problem merging price tiers for Digikey part {} with alternate packaging!'.format(pn))
             pass
 
     def merge_qty_avail(main_tree, alt_tree):
@@ -1510,9 +1518,10 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             else:
                 merged_qty = max(main_qty, alt_qty)
             if merged_qty is not None:
-                insertion_point = main_tree.find('td', id='quantityAvailable')
-                insertion_point.string = 'Digi-Key Stock: {}'.format(merged_qty)
+                insertion_point = main_tree.find('td', id='quantityAvailable').find('span', id='dkQty')
+                insertion_point.string = '{}'.format(merged_qty)
         except AttributeError:
+            logger.log(DEBUG_OBSESSIVE, 'Problem merging available quantities for Digikey part {} with alternate packaging!'.format(pn))
             pass
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -1547,7 +1556,10 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
     # except Exception as e:
     # print('Exception reading with Ghost: {}'.format(e))
 
-    tree = BeautifulSoup(html, 'lxml')
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except Exception:
+        raise PartHtmlError
 
     # If the tree contains the tag for a product page, then return it.
     if tree.find('div', class_='product-top-section') is not None:
@@ -1558,17 +1570,19 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             try:
                 # Find all the URLs to alternate-packaging pages for this part.
                 ap_urls = [
-                    ap.find('td',
-                            class_='lnkAltPack').a['href']
+                    ap.find('li', class_='lnkAltPack').find_all('a')[-1].get('href')
                     for ap in tree.find(
-                        'table',
-                        class_='product-details-alternate-packaging').find_all(
-                            'tr',
-                            class_='more-expander-item')
+                        'div', class_='bota',
+                        id='additionalPackaging').find_all(
+                            'ul', class_='more-expander-item')
                 ]
-                ap_trees_and_urls = [get_digikey_part_html_tree(dist, pn, 
+                logger.log(DEBUG_OBSESSIVE,'Found {} alternate packagings for {} from {}'.format(len(ap_urls), pn, dist))
+                try:
+                    ap_trees_and_urls = [get_digikey_part_html_tree(dist, pn, 
                                      extra_search_terms, ap_url, descend=0)
                                      for ap_url in ap_urls]
+                except Exception:
+                    logger.log(DEBUG_OBSESSIVE,'Failed to find alternate packagings for {} from {}'.format(pn, dist))
 
                 # Put the main tree on the list as well and then look through
                 # the entire list for one that's non-reeled. Use this as the
@@ -1594,13 +1608,16 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                         # and merge available quantity, using the maximum found.
                         merge_qty_avail(tree, ap_tree)
                     except AttributeError:
+                        logger.log(DEBUG_OBSESSIVE,'Problem merging price/qty for {} from {}'.format(pn, dist))
                         continue
             except AttributeError:
+                logger.log(DEBUG_OBSESSIVE,'Problem parsing URLs from product page for {} from {}'.format(pn, dist))
                 pass
         return tree, url  # Return the parse tree and the URL where it came from.
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('table', id='productTable') is not None:
+        logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
         if descend <= 0:
             raise PartHtmlError
         else:
@@ -1628,6 +1645,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             for l in product_links:
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
+                    logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
                     return get_digikey_part_html_tree(dist, pn, extra_search_terms,
                                                       url=l['href'],
                                                       descend=descend - 1)
@@ -1666,7 +1684,11 @@ def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
-    tree = BeautifulSoup(html, 'lxml')
+
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except Exception:
+        raise PartHtmlError
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', id='product-details') is not None:
@@ -1729,7 +1751,11 @@ def get_newark_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
-    tree = BeautifulSoup(html, 'lxml')
+
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except Exception:
+        raise PartHtmlError
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', class_='productDisplay', id='page') is not None:
@@ -1779,7 +1805,10 @@ def get_local_part_html_tree(dist, pn, extra_search_terms='', url=None):
 
     # Extract the HTML tree from the local part HTML page.
     html = local_part_html
-    tree =  BeautifulSoup(html, 'lxml')
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except Exception:
+        raise PartHtmlError
 
     try:
         # Find the DIV in the tree for the given part and distributor.
@@ -1821,7 +1850,6 @@ def get_part_html_tree(part, dist, distributor_dict, local_html, logger):
         else:
             logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
             return BeautifulSoup('<html></html>', 'lxml'), ''
-            #raise PartHtmlError
     except (PartHtmlError, AttributeError):
         logger.warning("Part %s not found at %s", part.refs, dist)
         # If no HTML page was found, then return a tree for an empty page.

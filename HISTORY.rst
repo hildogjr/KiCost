@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.28 (2016-08-18)
+______________________
+
+* Fixed scraping of Digi-Key pages to correctly detect reeled parts and scrape alternate packaging options.
+
+
 0.1.27 (2016-07-26)
 ______________________
 
