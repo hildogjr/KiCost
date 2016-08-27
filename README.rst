@@ -13,7 +13,7 @@ KiCost is intended to be run as a script for generating part-cost spreadsheets f
 circuit boards developed with KiCad.
 
 * Free software: MIT license
-* Documentation: https://xesscorp.github.com/kicost.
+* Documentation: https://xesscorp.github.io/KiCost.
 
 Features
 --------
