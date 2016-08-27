@@ -244,21 +244,25 @@ def get_part_groups(in_file, ignore_fields, variant):
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts library...')
     libparts = {}
-    for p in root.find('libparts').find_all('libpart'):
+    try:
+        for p in root.find('libparts').find_all('libpart'):
 
-        # Get the values for the fields in each library part (if any).
-        fields = extract_fields(p, variant)
+            # Get the values for the fields in each library part (if any).
+            fields = extract_fields(p, variant)
 
-        # Store the field dict under the key made from the
-        # concatenation of the library and part names.
-        libparts[str(p['lib'] + SEPRTR + p['part'])] = fields
+            # Store the field dict under the key made from the
+            # concatenation of the library and part names.
+            libparts[str(p['lib'] + SEPRTR + p['part'])] = fields
 
-        # Also have to store the fields under any part aliases.
-        try:
-            for alias in p.find('aliases').find_all('alias'):
-                libparts[str(p['lib'] + SEPRTR + alias.string)] = fields
-        except AttributeError:
-            pass  # No aliases for this part.
+            # Also have to store the fields under any part aliases.
+            try:
+                for alias in p.find('aliases').find_all('alias'):
+                    libparts[str(p['lib'] + SEPRTR + alias.string)] = fields
+            except AttributeError:
+                pass  # No aliases for this part.
+    except AttributeError:
+        # This happens if there is no libparts section in the XML file.
+        pass
 
     # Find the components used in the schematic and elaborate
     # them with global values from the libraries and local values
@@ -275,7 +279,10 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
-        fields = libparts[libpart].copy()  # Make a copy! Don't use reference!
+        try:
+            fields = libparts[libpart].copy()  # Make a copy! Don't use reference!
+        except KeyError:
+            fields = {}
 
         # Store the part key and its value.
         fields['libpart'] = libpart

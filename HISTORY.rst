@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.29 (2016-08-27)
+______________________
+
+* KiCost no longer fails if the <libparts>...</libparts> section is missing from the XML file.
+* Documentation moved to Github Pages.
+
+
 0.1.28 (2016-08-18)
 ______________________
 
