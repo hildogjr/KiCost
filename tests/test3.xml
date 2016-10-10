@@ -1,0 +1,1211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:/ICI/Indium/Kicost_Sandbox/Indium_X2.sch</source>
+    <date>9/25/2015 11:25:55 PM</date>
+    <tool>Eeschema 4.0.0-rc1-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>KiCost Test</title>
+        <company>Your Design Force</company>
+        <rev>X2</rev>
+        <date>2015-09-25</date>
+        <source>Indium_X2.sch</source>
+        <comment number="1" value="Jason W."/>
+        <comment number="2" value=""/>
+        <comment number="3" value="Testing Targeted For KiCost"/>
+        <comment number="4" value="Document and accompying artwork designated as &quot;CONFIDENTAL information&quot; of YDF"/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/Indium_X2_FX2LP/" tstamps="/53661626/">
+      <title_block>
+        <title>KiCost Test</title>
+        <company>Your Design Force</company>
+        <rev>X2</rev>
+        <date>2015-09-25</date>
+        <source>Indium_X2_FX2LP.sch</source>
+        <comment number="1" value="Jason W."/>
+        <comment number="2" value=""/>
+        <comment number="3" value="Testing Targeted For KiCost"/>
+        <comment number="4" value="Document and accompying artwork designated as &quot;CONFIDENTAL information&quot; of YDF"/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/Indium_X2_I2C/" tstamps="/53660F85/">
+      <title_block>
+        <title>KiCost Test</title>
+        <company>Your Design Force</company>
+        <rev>X2</rev>
+        <date>2015-09-25</date>
+        <source>Indium_X2_I2C.sch</source>
+        <comment number="1" value="Jason W."/>
+        <comment number="2" value=""/>
+        <comment number="3" value="Testing Targeted For KiCost"/>
+        <comment number="4" value="Document and accompying artwork designated as &quot;CONFIDENTAL information&quot; of YDF"/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/Indium_X2_Interface/" tstamps="/53662479/">
+      <title_block>
+        <title>KiCost Test</title>
+        <company>Your Design Force</company>
+        <rev>X2</rev>
+        <date>2015-09-25</date>
+        <source>Indium_X2_Interface.sch</source>
+        <comment number="1" value="Jason W."/>
+        <comment number="2" value=""/>
+        <comment number="3" value="Testing Targeted For KiCost"/>
+        <comment number="4" value="Document and accompying artwork designated as &quot;CONFIDENTAL information&quot; of YDF"/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/Indium_X2_Power/" tstamps="/53662614/">
+      <title_block>
+        <title>KiCost Test</title>
+        <company>Your Design Force</company>
+        <rev>X2</rev>
+        <date>2015-09-25</date>
+        <source>Indium_X2_Power.sch</source>
+        <comment number="1" value="Jason W."/>
+        <comment number="2" value=""/>
+        <comment number="3" value="Testing Targeted For KiCost"/>
+        <comment number="4" value="Document and accompying artwork designated as &quot;CONFIDENTAL information&quot; of YDF"/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C29">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ104KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53639FEB</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ105KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A002</tstamp>
+    </comp>
+    <comp ref="C32">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A012</tstamp>
+    </comp>
+    <comp ref="C28">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ105KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A152</tstamp>
+    </comp>
+    <comp ref="C27">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ104KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A16D</tstamp>
+    </comp>
+    <comp ref="C26">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ104KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A177</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ104KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A17F</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>10 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Samsung</field>
+        <field name="manf#">CL10A106MQ8NNNC</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A327</tstamp>
+    </comp>
+    <comp ref="C20">
+      <value>10 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Samsung</field>
+        <field name="manf#">CL10A106MQ8NNNC</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A375</tstamp>
+    </comp>
+    <comp ref="C21">
+      <value>10 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Samsung</field>
+        <field name="manf#">CL10A106MQ8NNNC</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A37B</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>8 pF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">TDK</field>
+        <field name="manf#">C1005C0G1H040B050BA</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A6E1</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>8 pF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">TDK</field>
+        <field name="manf#">C1005C0G1H040B050BA</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A6FB</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>22 pF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Yaego</field>
+        <field name="manf#">CC0402JRNPO9BN220</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5363A92E</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>1M</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-071ML</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365D02A</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402JR-070RL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365D323</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ104KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365D3C4</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">LMK105BJ104KV-F</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365D3CA</tstamp>
+    </comp>
+    <comp ref="C31">
+      <value>2.2 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">JMK107BJ225KA-T</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365D3D0</tstamp>
+    </comp>
+    <comp ref="C30">
+      <value>2.2 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">JMK107BJ225KA-T</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365D3D6</tstamp>
+    </comp>
+    <comp ref="C16">
+      <value>10 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Samsung</field>
+        <field name="manf#">CL10A106MQ8NNNC</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365DA16</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>100k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-07100KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365DA1C</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>100k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365DA22</tstamp>
+    </comp>
+    <comp ref="R52">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365DEE8</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">TMK107BJ104KA-T</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365E46C</tstamp>
+    </comp>
+    <comp ref="R47">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-0710KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365E90E</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>1M</value>
+      <footprint>Footprints:SM0805_YDF_Sunnee</footprint>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365F65D</tstamp>
+    </comp>
+    <comp ref="C17">
+      <value>4700 pF</value>
+      <footprint>Footprints:SM1812</footprint>
+      <fields>
+        <field name="manf">Murata</field>
+        <field name="manf#">GA343DR7GD472KW01L</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365F66F</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>0.05</value>
+      <footprint>Footprints:SM0805_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Vishay Dale</field>
+        <field name="manf#">CRCW08050000Z0EAHP</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>5365FA31</tstamp>
+    </comp>
+    <comp ref="R31">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-0710KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53660769</tstamp>
+    </comp>
+    <comp ref="R30">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53660795</tstamp>
+    </comp>
+    <comp ref="R33">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-0710KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53660C7B</tstamp>
+    </comp>
+    <comp ref="R32">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53660C87</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-0710KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53660F94</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>10k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-0710KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53660F9A</tstamp>
+    </comp>
+    <comp ref="J5">
+      <value>MOLEX_TH_USB</value>
+      <footprint>Footprints:MOLEX-MINIB-USB-TH</footprint>
+      <fields>
+        <field name="manf">Molex</field>
+        <field name="manf#">500075-1517</field>
+      </fields>
+      <libsource lib="ydf_molex_th_usb" part="MOLEX_TH_USB"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>53D95DC5</tstamp>
+    </comp>
+    <comp ref="TP3">
+      <value>TESTPOINT</value>
+      <footprint>Footprints:TESTPOINT2</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="Testpoint" part="TESTPOINT"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>55ED4874</tstamp>
+    </comp>
+    <comp ref="TP4">
+      <value>TESTPOINT</value>
+      <footprint>Footprints:TESTPOINT2</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="Testpoint" part="TESTPOINT"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>55ED49B3</tstamp>
+    </comp>
+    <comp ref="C35">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">TDK</field>
+        <field name="manf#">C1005X7R1E104K050BB</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
+      <tstamp>55FCE19D</tstamp>
+    </comp>
+    <comp ref="U7">
+      <value>MCP98243-BE/ST</value>
+      <footprint>Footprints:SOIC8_MICROCHIP_YDF</footprint>
+      <fields>
+        <field name="manf">Microchip</field>
+        <field name="manf#">MCP98243-BE/ST    </field>
+      </fields>
+      <libsource lib="YDF_Components" part="MCP98243-BE/ST"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>536616EC</tstamp>
+    </comp>
+    <comp ref="U9">
+      <value>24AA128ISN</value>
+      <footprint>Footprints:SO8_YDF</footprint>
+      <fields>
+        <field name="manf">Microchip</field>
+        <field name="manf#">24AA128ISN</field>
+      </fields>
+      <libsource lib="YDF_Components" part="24AA128ISN"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>536616FB</tstamp>
+    </comp>
+    <comp ref="R64">
+      <value>330</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>536617F3</tstamp>
+    </comp>
+    <comp ref="R26">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402JR-070RL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>5366182F</tstamp>
+    </comp>
+    <comp ref="R27">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>5366184D</tstamp>
+    </comp>
+    <comp ref="R60">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402JR-070RL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>53661AC2</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>330</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-07330RL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>53661C11</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>4.7k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Panasonic</field>
+        <field name="manf#">ERJ-2RKF4701X</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>53661DE1</tstamp>
+    </comp>
+    <comp ref="R25">
+      <value>4.7k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Panasonic</field>
+        <field name="manf#">ERJ-2RKF4701X</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>53661E07</tstamp>
+    </comp>
+    <comp ref="R62">
+      <value>330</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>536621A4</tstamp>
+    </comp>
+    <comp ref="R61">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402JR-070RL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
+      <tstamp>53662269</tstamp>
+    </comp>
+    <comp ref="J6">
+      <value>CONN_4</value>
+      <footprint>Footprints:HIROSE_FH19C_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Hirose</field>
+        <field name="manf#">FH19C-4S-0.5SH(05)</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="CONN_4"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>53679204</tstamp>
+    </comp>
+    <comp ref="DH1">
+      <value>YDF_TAU_HOLE</value>
+      <footprint>Footprints:YDF_TAU_HOLE</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="YDF_TAU_HOLE" part="YDF_TAU_HOLE"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>53ACBAE8</tstamp>
+    </comp>
+    <comp ref="DH2">
+      <value>YDF_TAU_HOLE</value>
+      <footprint>Footprints:YDF_TAU_HOLE</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="YDF_TAU_HOLE" part="YDF_TAU_HOLE"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>53ACBAF5</tstamp>
+    </comp>
+    <comp ref="DH3">
+      <value>YDF_TAU_HOLE</value>
+      <footprint>Footprints:YDF_TAU_HOLE</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="YDF_TAU_HOLE" part="YDF_TAU_HOLE"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>53ACBAFB</tstamp>
+    </comp>
+    <comp ref="DH4">
+      <value>YDF_TAU_HOLE</value>
+      <footprint>Footprints:YDF_TAU_HOLE</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="YDF_TAU_HOLE" part="YDF_TAU_HOLE"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>53ACBB01</tstamp>
+    </comp>
+    <comp ref="R70">
+      <value>1M</value>
+      <footprint>Footprints:SM0805_YDF_Sunnee</footprint>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>55FC5CA1</tstamp>
+    </comp>
+    <comp ref="C37">
+      <value>0.1 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">TDK</field>
+        <field name="manf#">C1005X7R1E104K050BB</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>55FC8F1E</tstamp>
+    </comp>
+    <comp ref="R69">
+      <value>1M</value>
+      <footprint>Footprints:SM0805_YDF_Sunnee</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
+      <tstamp>55FCA602</tstamp>
+    </comp>
+    <comp ref="U6">
+      <value>LP3982IMMX-3.3</value>
+      <footprint>Footprints:LP3982-VSSOP8</footprint>
+      <fields>
+        <field name="manf">TI</field>
+        <field name="manf#">LP3982IMM-3.3/NOPB</field>
+      </fields>
+      <libsource lib="YDF_Components" part="LP3982IMMX-3.3"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>536627D3</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>100k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-07100KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>536627FF</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>100k</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="manf">Yageo</field>
+        <field name="manf#">RC0402FR-07100KL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>5366287C</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>10 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Samsung</field>
+        <field name="manf#">CL10A106MQ8NNNC</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>536628B4</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>RED</value>
+      <footprint>Footprints:LED-0603_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Lumex Opto</field>
+        <field name="manf#">SML-LX0603SRW-TR</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="LED-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>53662919</tstamp>
+    </comp>
+    <comp ref="C19">
+      <value>0.033 uF</value>
+      <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
+      <fields>
+        <field name="manf">Kemet</field>
+        <field name="manf#">C0402C333K4RACTU</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>536629E2</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>2.2 uF</value>
+      <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
+      <fields>
+        <field name="manf">Taiyo-Yuden</field>
+        <field name="manf#">JMK107BJ225KA-T</field>
+      </fields>
+      <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>53662A18</tstamp>
+    </comp>
+    <comp ref="R53">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>53662B93</tstamp>
+    </comp>
+    <comp ref="R54">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>53662C83</tstamp>
+    </comp>
+    <comp ref="R55">
+      <value>0</value>
+      <footprint>Footprints:SM0402_r_YDF</footprint>
+      <fields>
+        <field name="INSTALL">N</field>
+        <field name="desc">NO-INSTALL</field>
+      </fields>
+      <libsource lib="diy_rcl" part="R_US"/>
+      <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
+      <tstamp>53662C8E</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="diy_rcl" part="R_US">
+      <footprints>
+        <fp>R?</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_US</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ydf_molex_th_usb" part="MOLEX_TH_USB">
+      <fields>
+        <field name="Reference">USB</field>
+        <field name="Value">MOLEX_TH_USB</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VBUS" type="power_out"/>
+        <pin num="2" name="D-" type="BiDi"/>
+        <pin num="3" name="D+" type="BiDi"/>
+        <pin num="4" name="ID" type="BiDi"/>
+        <pin num="5" name="GND" type="power_out"/>
+        <pin num="6" name="SH1" type="input"/>
+        <pin num="7" name="SH1" type="input"/>
+        <pin num="8" name="GND" type="power_in"/>
+        <pin num="9" name="VBUS" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1">
+      <footprints>
+        <fp>SM*</fp>
+        <fp>C?</fp>
+        <fp>C1-1</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C-RESCUE-Zambezi_X1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="YDF_TAU_HOLE" part="YDF_TAU_HOLE">
+      <fields>
+        <field name="Reference">DH</field>
+        <field name="Value">YDF_TAU_HOLE</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="Indium_X2-cache" part="LED-RESCUE-Zambezi_X1">
+      <footprints>
+        <fp>LED-3MM</fp>
+        <fp>LED-5MM</fp>
+        <fp>LED-10MM</fp>
+        <fp>LED-0603</fp>
+        <fp>LED-0805</fp>
+        <fp>LED-1206</fp>
+        <fp>LEDV</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED-RESCUE-Zambezi_X1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Testpoint" part="TESTPOINT">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TESTPOINT</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Indium_X2-cache" part="CONN_4">
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_4</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="YDF_Components" part="LP3982IMMX-3.3">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LP3982IMMX-3.3</field>
+      </fields>
+      <pins>
+        <pin num="1" name="OUT" type="output"/>
+        <pin num="2" name="IN" type="input"/>
+        <pin num="3" name="GND" type="input"/>
+        <pin num="4" name="OUT" type="input"/>
+        <pin num="5" name="SET" type="input"/>
+        <pin num="6" name="CC" type="input"/>
+        <pin num="7" name="SHDN#" type="input"/>
+        <pin num="8" name="FAULT#" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="YDF_Components" part="MCP98243-BE/ST">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MCP98243-BE/ST</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A0" type="input"/>
+        <pin num="2" name="A1" type="input"/>
+        <pin num="3" name="A2" type="input"/>
+        <pin num="4" name="GND" type="input"/>
+        <pin num="5" name="SDA" type="input"/>
+        <pin num="6" name="SCL" type="input"/>
+        <pin num="7" name="EVENT" type="input"/>
+        <pin num="8" name="VDD" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="YDF_Components" part="24AA128ISN">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">24AA128ISN</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A0" type="input"/>
+        <pin num="2" name="A1" type="input"/>
+        <pin num="3" name="A2" type="input"/>
+        <pin num="4" name="GND" type="input"/>
+        <pin num="5" name="SDA" type="input"/>
+        <pin num="6" name="SCL" type="input"/>
+        <pin num="7" name="WP" type="input"/>
+        <pin num="8" name="VDD" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="YDF_Components">
+      <uri>C:\Kicad_YDF_Library\YDF_Components.lib</uri>
+    </library>
+    <library logical="diy_rcl">
+      <uri>C:\Kicad_YDF_Library\DIY_Libraries\diy_rcl.lib</uri>
+    </library>
+    <library logical="YDF_TAU_HOLE">
+      <uri>C:\Kicad_YDF_Library\YDF_TAU_HOLE.lib</uri>
+    </library>
+    <library logical="Indium_X2-cache">
+      <uri>C:\ICI\Indium\Kicost_Sandbox\Indium_X2-cache.lib</uri>
+    </library>
+    <library logical="Testpoint">
+      <uri>C:\Kicad_YDF_Library\Testpoint.lib</uri>
+    </library>
+    <library logical="ydf_molex_th_usb">
+      <uri>C:\Kicad_YDF_Library\ydf_molex_th_usb.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(R64-Pad1)">
+      <node ref="U7" pin="1"/>
+      <node ref="R64" pin="1"/>
+    </net>
+    <net code="2" name="/Indium_X2_I2C/P3V3_P1V8_U7VDD           ">
+      <node ref="U7" pin="8"/>
+      <node ref="R27" pin="2"/>
+      <node ref="R26" pin="2"/>
+    </net>
+    <net code="3" name="P3V3           ">
+      <node ref="J6" pin="1"/>
+      <node ref="U6" pin="1"/>
+      <node ref="U6" pin="4"/>
+      <node ref="R21" pin="1"/>
+      <node ref="R64" pin="2"/>
+      <node ref="C1" pin="1"/>
+      <node ref="R1" pin="1"/>
+      <node ref="R26" pin="1"/>
+    </net>
+    <net code="4" name="P1V8_VCCIO">
+      <node ref="R30" pin="1"/>
+      <node ref="R32" pin="1"/>
+      <node ref="C10" pin="1"/>
+      <node ref="C26" pin="1"/>
+      <node ref="C20" pin="1"/>
+      <node ref="C21" pin="1"/>
+      <node ref="C27" pin="1"/>
+      <node ref="C14" pin="1"/>
+      <node ref="R47" pin="2"/>
+      <node ref="R9" pin="2"/>
+      <node ref="C28" pin="1"/>
+      <node ref="C32" pin="1"/>
+      <node ref="C6" pin="1"/>
+      <node ref="C29" pin="1"/>
+      <node ref="U9" pin="8"/>
+      <node ref="R2" pin="1"/>
+      <node ref="R62" pin="2"/>
+      <node ref="R25" pin="2"/>
+      <node ref="R28" pin="1"/>
+      <node ref="R27" pin="1"/>
+    </net>
+    <net code="5" name="/Indium_X2_I2C/SCL_P3V3           ">
+      <node ref="U7" pin="6"/>
+    </net>
+    <net code="6" name="/Indium_X2_I2C/SDA_P3V3           ">
+      <node ref="U7" pin="5"/>
+    </net>
+    <net code="7" name="GND">
+      <node ref="C12" pin="1"/>
+      <node ref="C19" pin="2"/>
+      <node ref="C14" pin="2"/>
+      <node ref="C7" pin="2"/>
+      <node ref="C26" pin="2"/>
+      <node ref="U6" pin="3"/>
+      <node ref="C27" pin="2"/>
+      <node ref="C28" pin="2"/>
+      <node ref="C6" pin="2"/>
+      <node ref="C32" pin="2"/>
+      <node ref="C4" pin="2"/>
+      <node ref="R52" pin="1"/>
+      <node ref="C18" pin="2"/>
+      <node ref="C13" pin="2"/>
+      <node ref="R8" pin="1"/>
+      <node ref="C16" pin="2"/>
+      <node ref="C30" pin="2"/>
+      <node ref="C31" pin="2"/>
+      <node ref="C15" pin="2"/>
+      <node ref="C17" pin="1"/>
+      <node ref="R22" pin="1"/>
+      <node ref="C21" pin="2"/>
+      <node ref="C20" pin="2"/>
+      <node ref="C37" pin="1"/>
+      <node ref="J5" pin="5"/>
+      <node ref="R23" pin="1"/>
+      <node ref="R24" pin="1"/>
+      <node ref="C10" pin="2"/>
+      <node ref="R33" pin="2"/>
+      <node ref="R31" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="C1" pin="2"/>
+      <node ref="J6" pin="2"/>
+      <node ref="R70" pin="2"/>
+      <node ref="C35" pin="2"/>
+      <node ref="R61" pin="2"/>
+      <node ref="C29" pin="2"/>
+      <node ref="U7" pin="4"/>
+      <node ref="U7" pin="2"/>
+      <node ref="R60" pin="2"/>
+      <node ref="U9" pin="4"/>
+      <node ref="U7" pin="3"/>
+      <node ref="U9" pin="3"/>
+      <node ref="U9" pin="2"/>
+    </net>
+    <net code="8" name="/Indium_X2_I2C/WP_U9           ">
+      <node ref="R62" pin="1"/>
+      <node ref="R61" pin="1"/>
+      <node ref="U9" pin="7"/>
+    </net>
+    <net code="9" name="/Indium_X2_I2C/SCL_P1V8           ">
+      <node ref="U9" pin="6"/>
+      <node ref="R2" pin="2"/>
+    </net>
+    <net code="10" name="/Indium_X2_I2C/SDA_P1V8           ">
+      <node ref="U9" pin="5"/>
+      <node ref="R25" pin="1"/>
+    </net>
+    <net code="11" name="/Indium_X2_I2C/EVENT_U7           ">
+      <node ref="R60" pin="1"/>
+      <node ref="U7" pin="7"/>
+    </net>
+    <net code="12" name="Net-(R28-Pad2)">
+      <node ref="R28" pin="2"/>
+      <node ref="U9" pin="1"/>
+    </net>
+    <net code="13" name="P5V_VIN">
+      <node ref="C18" pin="1"/>
+      <node ref="U6" pin="2"/>
+      <node ref="R6" pin="1"/>
+      <node ref="R3" pin="2"/>
+    </net>
+    <net code="14" name="Net-(C12-Pad2)">
+      <node ref="C12" pin="2"/>
+    </net>
+    <net code="15" name="P5V_USB">
+      <node ref="R3" pin="1"/>
+      <node ref="J5" pin="2"/>
+    </net>
+    <net code="16" name="IFCLK           ">
+      <node ref="R52" pin="2"/>
+    </net>
+    <net code="17" name="/Indium_X2_FX2LP/WAKEUP_N           ">
+      <node ref="R8" pin="2"/>
+      <node ref="R9" pin="1"/>
+      <node ref="C16" pin="1"/>
+    </net>
+    <net code="18" name="/Indium_X2_FX2LP/P3V3_AVCC           ">
+      <node ref="C31" pin="1"/>
+      <node ref="R1" pin="2"/>
+      <node ref="C15" pin="1"/>
+      <node ref="C4" pin="1"/>
+      <node ref="C30" pin="1"/>
+    </net>
+    <net code="19" name="/Indium_X2_FX2LP/USB_D_N           ">
+      <node ref="J5" pin="3"/>
+    </net>
+    <net code="20" name="GND_USBCABLE           ">
+      <node ref="J5" pin="7"/>
+      <node ref="C35" pin="1"/>
+      <node ref="J5" pin="6"/>
+      <node ref="C17" pin="2"/>
+      <node ref="R22" pin="2"/>
+    </net>
+    <net code="21" name="/Indium_X2_FX2LP/USB_D_P           ">
+      <node ref="J5" pin="4"/>
+    </net>
+    <net code="22" name="RESET_N           ">
+      <node ref="R54" pin="2"/>
+      <node ref="R55" pin="2"/>
+      <node ref="R47" pin="1"/>
+    </net>
+    <net code="23" name="/Indium_X2_FX2LP/SRT           ">
+      <node ref="C13" pin="1"/>
+    </net>
+    <net code="24" name="FD15           ">
+      <node ref="R24" pin="2"/>
+      <node ref="TP4" pin="1"/>
+    </net>
+    <net code="25" name="/Indium_X2_FX2LP/FD14           ">
+      <node ref="R23" pin="2"/>
+      <node ref="TP3" pin="1"/>
+    </net>
+    <net code="34" name="/Indium_X2_FX2LP/XTALIN           ">
+      <node ref="R20" pin="1"/>
+      <node ref="C5" pin="1"/>
+    </net>
+    <net code="35" name="/Indium_X2_FX2LP/XTALOUT           ">
+      <node ref="C7" pin="1"/>
+      <node ref="R20" pin="2"/>
+    </net>
+    <net code="39" name="/Indium_X2_FX2LP/XYZ456           ">
+      <node ref="R33" pin="1"/>
+      <node ref="R32" pin="2"/>
+    </net>
+    <net code="40" name="/Indium_X2_FX2LP/ABC123           ">
+      <node ref="R30" pin="2"/>
+      <node ref="R31" pin="1"/>
+    </net>
+    <net code="41" name="Net-(J5-Pad9)">
+      <node ref="J5" pin="9"/>
+    </net>
+    <net code="42" name="Net-(J5-Pad8)">
+      <node ref="J5" pin="8"/>
+    </net>
+    <net code="45" name="Net-(J5-Pad1)">
+      <node ref="J5" pin="1"/>
+    </net>
+    <net code="46" name="/Indium_X2_Interface/GND_USBCABLE           ">
+      <node ref="R69" pin="2"/>
+    </net>
+    <net code="47" name="/Indium_X2_Interface/GND_IRCASE           ">
+      <node ref="R69" pin="1"/>
+      <node ref="C37" pin="2"/>
+      <node ref="R70" pin="1"/>
+      <node ref="DH3" pin="1"/>
+      <node ref="DH4" pin="1"/>
+      <node ref="DH1" pin="1"/>
+      <node ref="DH2" pin="1"/>
+    </net>
+    <net code="48" name="SCL_P3V3           ">
+      <node ref="J6" pin="4"/>
+    </net>
+    <net code="49" name="SDA_P3V3           ">
+      <node ref="J6" pin="3"/>
+    </net>
+    <net code="50" name="/Indium_X2_Power/U6_CC           ">
+      <node ref="C19" pin="1"/>
+      <node ref="U6" pin="6"/>
+    </net>
+    <net code="51" name="/Indium_X2_Power/U1_FAULT_N           ">
+      <node ref="R54" pin="1"/>
+    </net>
+    <net code="52" name="Net-(U6-Pad5)">
+      <node ref="U6" pin="5"/>
+    </net>
+    <net code="53" name="/Indium_X2_Power/U6_FAULT_N           ">
+      <node ref="D2" pin="2"/>
+      <node ref="R55" pin="1"/>
+      <node ref="U6" pin="8"/>
+      <node ref="R53" pin="1"/>
+    </net>
+    <net code="54" name="/Indium_X2_Power/U1_SHDN_N           ">
+      <node ref="R53" pin="2"/>
+    </net>
+    <net code="55" name="/Indium_X2_Power/U6_FAULT_S_N           ">
+      <node ref="R21" pin="2"/>
+      <node ref="D2" pin="1"/>
+    </net>
+    <net code="56" name="/Indium_X2_Power/U6_SHDN_N           ">
+      <node ref="R6" pin="2"/>
+      <node ref="U6" pin="7"/>
+    </net>
+  </nets>
+</export>

@@ -1,0 +1,2011 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/massi/Documents/myKicad/Receiver_1W/Receiver_1W.sch</source>
+    <date>mar 22 dic 2015 11:10:57 CET</date>
+    <tool>Eeschema 0.201512080931+6353~38~ubuntu14.04.1-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>SHIELD</title>
+        <company>.</company>
+        <rev>A</rev>
+        <date>13 mar 2014</date>
+        <source>Helios_Receiver_1W.sch</source>
+        <comment number="1" value="Helios 1W Receiver"/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/LEMON2-Connector/" tstamps="/560575AC/">
+      <title_block>
+        <title>SHIELD</title>
+        <company>.</company>
+        <rev>A</rev>
+        <date>13 mar 2014</date>
+        <source>LEMON2-Connector.sch</source>
+        <comment number="1" value="Helios 1W Receiver"/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/PA/" tstamps="/56096DEA/">
+      <title_block>
+        <title>SHIELD</title>
+        <company>.</company>
+        <rev>A</rev>
+        <date>13 mar 2014</date>
+        <source>PA.sch</source>
+        <comment number="1" value="Helios 1W Receiver"/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/MICRF113YM6TR/" tstamps="/560AD0EF/">
+      <title_block>
+        <title>SHIELD</title>
+        <company>.</company>
+        <rev>A</rev>
+        <date>13 mar 2014</date>
+        <source>MICRF113YM6TR.sch</source>
+        <comment number="1" value="Helios 1W Receiver"/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/POWER SUPPLY/" tstamps="/561FA713/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Power.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="6" name="/HeadPhone/" tstamps="/561FC484/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>HeadPhone.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="GPIO-3">
+      <value>FL40YA-V36P-2X20-LF</value>
+      <footprint>mm_conn_oLEMONx:YA-V36P-2X20-LF</footprint>
+      <fields>
+        <field name="manf#">YA-V36P-2X20-LF</field>
+      </fields>
+      <libsource lib="Helios_Receiver_1W-cache" part="FL40YA-V36P-2X20-LF"/>
+      <sheetpath names="/LEMON2-Connector/" tstamps="/560575AC/"/>
+      <tstamp>5605763B</tstamp>
+    </comp>
+    <comp ref="GPIO-1">
+      <value>FL40YA-V36P-2X20-LF</value>
+      <footprint>mm_conn_oLEMONx:YA-V36P-2X20-LF</footprint>
+      <fields>
+        <field name="manf#">YA-V36P-2X20-LF</field>
+      </fields>
+      <libsource lib="Helios_Receiver_1W-cache" part="FL40YA-V36P-2X20-LF"/>
+      <sheetpath names="/LEMON2-Connector/" tstamps="/560575AC/"/>
+      <tstamp>5605763D</tstamp>
+    </comp>
+    <comp ref="FB202">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+        <field name="Model">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/LEMON2-Connector/" tstamps="/560575AC/"/>
+      <tstamp>563B28CD</tstamp>
+    </comp>
+    <comp ref="FB204">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+        <field name="Model">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/LEMON2-Connector/" tstamps="/560575AC/"/>
+      <tstamp>563B29D7</tstamp>
+    </comp>
+    <comp ref="FB201">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+        <field name="Model">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/LEMON2-Connector/" tstamps="/560575AC/"/>
+      <tstamp>563B2A42</tstamp>
+    </comp>
+    <comp ref="FB203">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+        <field name="Model">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/LEMON2-Connector/" tstamps="/560575AC/"/>
+      <tstamp>563B2A71</tstamp>
+    </comp>
+    <comp ref="TP201">
+      <value>TP</value>
+      <footprint>w_details:testpoint_2mm</footprint>
+      <libsource lib="ise" part="TP"/>
+      <sheetpath names="/LEMON2-Connector/" tstamps="/560575AC/"/>
+      <tstamp>564DB309</tstamp>
+    </comp>
+    <comp ref="U302">
+      <value>LM4889</value>
+      <footprint>mm_rf_PA:LM4889</footprint>
+      <fields>
+        <field name="manf#">LM4889</field>
+      </fields>
+      <libsource lib="mm_rf_PA" part="LM4889"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>5609745F</tstamp>
+    </comp>
+    <comp ref="C307">
+      <value>8.2pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H8R2CA01D</field>
+        <field name="Model">GRM1555C1H8R2CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>56097486</tstamp>
+    </comp>
+    <comp ref="C308">
+      <value>3pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H3R0CA01D</field>
+        <field name="Model">GRM1555C1H3R0CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>5609748D</tstamp>
+    </comp>
+    <comp ref="C309">
+      <value>8.2pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H8R2CA01D</field>
+        <field name="Model">GRM1555C1H8R2CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>56097494</tstamp>
+    </comp>
+    <comp ref="L301">
+      <value>12nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN12NJ00</field>
+        <field name="Model">LQW15AN12NJ00</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>5609749B</tstamp>
+    </comp>
+    <comp ref="C305">
+      <value>10nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E103KA01D</field>
+        <field name="Model">GRM155R71E103KA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>560974BC</tstamp>
+    </comp>
+    <comp ref="C304">
+      <value>220pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H221JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>560974C3</tstamp>
+    </comp>
+    <comp ref="C301">
+      <value>220pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H221JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>560974E3</tstamp>
+    </comp>
+    <comp ref="C302">
+      <value>10nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E103KA01D</field>
+        <field name="Model">GRM155R71E103KA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>560974EA</tstamp>
+    </comp>
+    <comp ref="C303">
+      <value>1uF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R70J105KA12D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>560974F1</tstamp>
+    </comp>
+    <comp ref="R304">
+      <value>220R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">CRCW0402220RJNED</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>56097510</tstamp>
+    </comp>
+    <comp ref="R307">
+      <value>220R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">CRCW0402220RJNED</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>56097517</tstamp>
+    </comp>
+    <comp ref="R305">
+      <value>220R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">CRCW0402220RJNED</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>5609751E</tstamp>
+    </comp>
+    <comp ref="R306">
+      <value>0R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">CRCW04020000Z0ED</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>56097525</tstamp>
+    </comp>
+    <comp ref="R301">
+      <value>10K</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">ERJ-2RKF1002X</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>560993DA</tstamp>
+    </comp>
+    <comp ref="R302">
+      <value>22K</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">ERJ-2RKF2002X</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>56099497</tstamp>
+    </comp>
+    <comp ref="C306">
+      <value>4.7nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E472KA01D</field>
+        <field name="Model">GRM155R71E472KA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>561F76CB</tstamp>
+    </comp>
+    <comp ref="J301">
+      <value>SMA_RF</value>
+      <footprint>mm_conn_smd_rf:5-1814400-1</footprint>
+      <fields>
+        <field name="manf#">5-1814400-1</field>
+      </fields>
+      <libsource lib="ise" part="RF_CONN"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>5621E932</tstamp>
+    </comp>
+    <comp ref="C310">
+      <value>1nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H102JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>56379B8B</tstamp>
+    </comp>
+    <comp ref="D301">
+      <value>ASML-5822</value>
+      <footprint>w_smd_trans:sot323</footprint>
+      <fields>
+        <field name="manf#">ASML-5822</field>
+        <field name="Model">ASML5822</field>
+      </fields>
+      <libsource lib="mm_rf_limiter" part="ASML-5822"/>
+      <sheetpath names="/PA/" tstamps="/56096DEA/"/>
+      <tstamp>5670524F</tstamp>
+    </comp>
+    <comp ref="U402">
+      <value>MICRF113YM6TR</value>
+      <footprint>mm_smd_qfn:pvqfn-n32-thermal</footprint>
+      <fields>
+        <field name="manf#">MICRF113YM6TRRHB</field>
+      </fields>
+      <libsource lib="mm_rf_xceiver" part="MICRF113YM6TR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612676F</tstamp>
+    </comp>
+    <comp ref="C412">
+      <value>1.5nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1557U1A152JA01D</field>
+        <field name="Model">GRM1557U1A152JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612A598</tstamp>
+    </comp>
+    <comp ref="C414">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612A623</tstamp>
+    </comp>
+    <comp ref="C413">
+      <value>10nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E103KA01D</field>
+        <field name="Model">GRM155R71E103KA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612A778</tstamp>
+    </comp>
+    <comp ref="L402">
+      <value>56nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN56NJ00D</field>
+        <field name="Model">LQW15AN56NJ00D</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612A7D8</tstamp>
+    </comp>
+    <comp ref="L403">
+      <value>27nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN27NJ00D</field>
+        <field name="Model">LQW15AN27NJ00D</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612AB71</tstamp>
+    </comp>
+    <comp ref="C421">
+      <value>5.1pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H5R1CA01D</field>
+        <field name="Model">GRM1555C1H5R1CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612ABA3</tstamp>
+    </comp>
+    <comp ref="L405">
+      <value>27nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN27NJ00D</field>
+        <field name="Model">LQW15AN27NJ00D</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612AD78</tstamp>
+    </comp>
+    <comp ref="C424">
+      <value>5.1pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H5R1CA01D</field>
+        <field name="Model">GRM1555C1H5R1CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612ADBA</tstamp>
+    </comp>
+    <comp ref="L406">
+      <value>15nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN15NJ00D</field>
+        <field name="Model">LQW15AN15NJ00D</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612AE79</tstamp>
+    </comp>
+    <comp ref="L401">
+      <value>56nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN56NJ00D</field>
+        <field name="Model">LQW15AN56NJ00D</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612B76E</tstamp>
+    </comp>
+    <comp ref="C415">
+      <value>39pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H390JA01D</field>
+        <field name="Model">GRM1555C1H390JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612B84F</tstamp>
+    </comp>
+    <comp ref="L404">
+      <value>15nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN15NJ00D</field>
+        <field name="Model">LQW15AN15NJ00D</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612B8C6</tstamp>
+    </comp>
+    <comp ref="C420">
+      <value>2.2pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H2R2CA01D</field>
+        <field name="Model">GRM1555C1H2R2CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612B946</tstamp>
+    </comp>
+    <comp ref="C425">
+      <value>5.1pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H5R1CA01D</field>
+        <field name="Model">GRM1555C1H5R1CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612B9C5</tstamp>
+    </comp>
+    <comp ref="L407">
+      <value>43nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN43NJ00D</field>
+        <field name="Model">LQW15AN43NJ00D</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612BA45</tstamp>
+    </comp>
+    <comp ref="C427">
+      <value>6.2pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H6R2CA01D</field>
+        <field name="Model">GRM1555C1H6R2CA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612BAC6</tstamp>
+    </comp>
+    <comp ref="C416">
+      <value>10nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E103KA01D</field>
+        <field name="Model">GRM155R71E103KA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612BB44</tstamp>
+    </comp>
+    <comp ref="C419">
+      <value>100pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H101JA01D</field>
+        <field name="Model">GRM1555C1H101JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612BC0F</tstamp>
+    </comp>
+    <comp ref="FB403">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+        <field name="Model">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612BC7C</tstamp>
+    </comp>
+    <comp ref="C426">
+      <value>100nF</value>
+      <footprint>mm_smd_x2y_cap:c_X2Y_0603</footprint>
+      <fields>
+        <field name="manf#">100X14W104MV4T</field>
+      </fields>
+      <libsource lib="ise" part="Cap_X2Y"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612BCF1</tstamp>
+    </comp>
+    <comp ref="R401">
+      <value>56K 1%</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">CRCW080556K0FKEA</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>5612F332</tstamp>
+    </comp>
+    <comp ref="C405">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CD5DA</tstamp>
+    </comp>
+    <comp ref="C411">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CD6AC</tstamp>
+    </comp>
+    <comp ref="C404">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CD9AE</tstamp>
+    </comp>
+    <comp ref="C408">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CDD53</tstamp>
+    </comp>
+    <comp ref="C409">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CE223</tstamp>
+    </comp>
+    <comp ref="C407">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CE49D</tstamp>
+    </comp>
+    <comp ref="C406">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CEB59</tstamp>
+    </comp>
+    <comp ref="C410">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561CEE8E</tstamp>
+    </comp>
+    <comp ref="C401">
+      <value>220nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R61A224KE19D</field>
+        <field name="Model">GRM155R61A224KE19D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D0978</tstamp>
+    </comp>
+    <comp ref="FB402">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+        <field name="Model">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D12FD</tstamp>
+    </comp>
+    <comp ref="C418">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D15FD</tstamp>
+    </comp>
+    <comp ref="C423">
+      <value>100nF</value>
+      <footprint>mm_smd_x2y_cap:c_X2Y_0603</footprint>
+      <fields>
+        <field name="manf#">100X14W104MV4T</field>
+      </fields>
+      <libsource lib="ise" part="Cap_X2Y"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D1747</tstamp>
+    </comp>
+    <comp ref="FB401">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+        <field name="Model">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D2012</tstamp>
+    </comp>
+    <comp ref="C417">
+      <value>47nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R71E473KA88D</field>
+        <field name="Model">GRM155R71E473KA88D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D2018</tstamp>
+    </comp>
+    <comp ref="C422">
+      <value>100nF</value>
+      <footprint>mm_smd_x2y_cap:c_X2Y_0603</footprint>
+      <fields>
+        <field name="manf#">100X14W104MV4T</field>
+      </fields>
+      <libsource lib="ise" part="Cap_X2Y"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D201E</tstamp>
+    </comp>
+    <comp ref="U401">
+      <value>ABS06-32.768KHz-T</value>
+      <footprint>mm_smd_txco:TG-5021CG</footprint>
+      <fields>
+        <field name="manf#">ABS06-32.768KHz-T</field>
+        <field name="Digikey">ABS06-32.768KHz-T 40.0000M0-ND</field>
+        <field name="Farnell">2471843</field>
+        <field name="Price">5.45</field>
+      </fields>
+      <libsource lib="ise" part="TG-5021CG"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D59FB</tstamp>
+    </comp>
+    <comp ref="C403">
+      <value>22pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H220JA01D</field>
+        <field name="Specs">NP0</field>
+        <field name="Model">GRM1555C1H220JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D6736</tstamp>
+    </comp>
+    <comp ref="C402">
+      <value>100nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R61C105KA12D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>561D6C66</tstamp>
+    </comp>
+    <comp ref="L408">
+      <value>22nH</value>
+      <footprint>w_smd_inductors:inductor_smd_0402</footprint>
+      <fields>
+        <field name="manf#">LQW15AN22NJ00B</field>
+        <field name="Model">LQW15AN22NJ00B</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>566861D9</tstamp>
+    </comp>
+    <comp ref="R402">
+      <value>18R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">CRCW040218R0FKED</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>567025BE</tstamp>
+    </comp>
+    <comp ref="C428">
+      <value>56nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1H560JA01D</field>
+        <field name="Model">GRM1555C1H560JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/MICRF113YM6TR/" tstamps="/560AD0EF/"/>
+      <tstamp>56702824</tstamp>
+    </comp>
+    <comp ref="J503">
+      <value>Batt. OUT</value>
+      <footprint>w_pin_strip:pin_strip_2</footprint>
+      <libsource lib="w_connectors" part="HEADER_2"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>56212238</tstamp>
+    </comp>
+    <comp ref="J501">
+      <value>Batt. IN</value>
+      <footprint>w_conn_jst-ph:s2b-ph-sm4-tb</footprint>
+      <fields>
+        <field name="manf#">S2B-PH-SM4-TB(LF)(SN)</field>
+        <field name="Model">JST-PH</field>
+      </fields>
+      <libsource lib="w_connectors" part="HEADER_2"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>562122F0</tstamp>
+    </comp>
+    <comp ref="U501">
+      <value>TPS63060</value>
+      <footprint>mm_smd_qfn:DSC(S-PWSON-N10)</footprint>
+      <fields>
+        <field name="manf#">TPS63060DSC</field>
+      </fields>
+      <libsource lib="mm_switching" part="TPS63060"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>562132EF</tstamp>
+    </comp>
+    <comp ref="L501">
+      <value>1uH</value>
+      <footprint>mm_smd_inductors:XFL4020</footprint>
+      <fields>
+        <field name="manf#">XFL4020-102</field>
+        <field name="Model">XFL4020-102</field>
+      </fields>
+      <libsource lib="w_device" part="INDUCTOR"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>56213444</tstamp>
+    </comp>
+    <comp ref="C503">
+      <value>100nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R61C105KA12D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>562134D5</tstamp>
+    </comp>
+    <comp ref="C501">
+      <value>10uF</value>
+      <footprint>ki_smd_cap:C_0805</footprint>
+      <fields>
+        <field name="manf#">EMK212BJ</field>
+        <field name="Specs">16V/X5R/0805</field>
+        <field name="Model">EMK212BJ</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>56213509</tstamp>
+    </comp>
+    <comp ref="C504">
+      <value>10pF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM1555C1E100JA01D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>56213542</tstamp>
+    </comp>
+    <comp ref="C505">
+      <value>22uF</value>
+      <footprint>ki_smd_cap:C_0805</footprint>
+      <fields>
+        <field name="manf#">LMK212BJ</field>
+        <field name="Model">LMK212BJ</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>562135B6</tstamp>
+    </comp>
+    <comp ref="C506">
+      <value>22uF</value>
+      <footprint>ki_smd_cap:C_0805</footprint>
+      <fields>
+        <field name="manf#">LMK212BJ</field>
+        <field name="Model">LMK212BJ</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>56213618</tstamp>
+    </comp>
+    <comp ref="C507">
+      <value>22uF</value>
+      <footprint>ki_smd_cap:C_0805</footprint>
+      <fields>
+        <field name="manf#">LMK212BJ</field>
+        <field name="Model">LMK212BJ</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>5621364E</tstamp>
+    </comp>
+    <comp ref="R501">
+      <value>680K 1%</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">ERJ-2RKF6803X</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>5621370A</tstamp>
+    </comp>
+    <comp ref="R502">
+      <value>110K 1%</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">ERJ-2RKF1103X</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>56213785</tstamp>
+    </comp>
+    <comp ref="R503">
+      <value>1M</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">CRCW04021M00FKED</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>562137DA</tstamp>
+    </comp>
+    <comp ref="C502">
+      <value>10uF</value>
+      <footprint>ki_smd_cap:C_0805</footprint>
+      <fields>
+        <field name="manf#">EMK212BJ</field>
+        <field name="Model">EMK212BJ</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>562139CA</tstamp>
+    </comp>
+    <comp ref="J502">
+      <value>Power Select</value>
+      <footprint>w_pin_strip:pin_strip_3</footprint>
+      <libsource lib="w_connectors" part="HEADER_3"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>56216E2D</tstamp>
+    </comp>
+    <comp ref="F501">
+      <value>1A</value>
+      <footprint>mm_smd_fuses:f_1206</footprint>
+      <fields>
+        <field name="manf#">1206L110THYR</field>
+        <field name="Specs">12V</field>
+        <field name="Model">1206L110THYR</field>
+      </fields>
+      <libsource lib="w_device" part="FUSE"/>
+      <sheetpath names="/POWER SUPPLY/" tstamps="/561FA713/"/>
+      <tstamp>562181E4</tstamp>
+    </comp>
+    <comp ref="R601">
+      <value>22R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">ERJ-2RKF22R0X</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>56250DE1</tstamp>
+    </comp>
+    <comp ref="R602">
+      <value>22R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">ERJ-2RKF22R0X</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>56250E5A</tstamp>
+    </comp>
+    <comp ref="R603">
+      <value>22R</value>
+      <footprint>ki_smd_res:R_0402</footprint>
+      <fields>
+        <field name="manf#">ERJ-2RKF22R0X</field>
+      </fields>
+      <libsource lib="w_device" part="R"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>56250E82</tstamp>
+    </comp>
+    <comp ref="C601">
+      <value>100nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R61C105KA12D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>56250FFE</tstamp>
+    </comp>
+    <comp ref="C602">
+      <value>100nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R61C105KA12D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>5625106E</tstamp>
+    </comp>
+    <comp ref="C603">
+      <value>100nF</value>
+      <footprint>ki_smd_cap:C_0402</footprint>
+      <fields>
+        <field name="manf#">GRM155R61C105KA12D</field>
+      </fields>
+      <libsource lib="w_device" part="C"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>562510D2</tstamp>
+    </comp>
+    <comp ref="FB601">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>56251577</tstamp>
+    </comp>
+    <comp ref="FB602">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>562515AE</tstamp>
+    </comp>
+    <comp ref="FB603">
+      <value>120Ohm/3000mA/25mOhm</value>
+      <footprint>mm_smd_inductors:murata_BLM18SG</footprint>
+      <fields>
+        <field name="manf#">BLM18SG121TN</field>
+      </fields>
+      <libsource lib="ise" part="FERRITE_BEAD"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>5625160E</tstamp>
+    </comp>
+    <comp ref="J601">
+      <value>35RASMT2BHNTRX</value>
+      <footprint>mm_conn_av:35RASMT2BHNTRX</footprint>
+      <fields>
+        <field name="manf#">35RASMT2BHNTRX</field>
+      </fields>
+      <libsource lib="ise" part="35RASMT2BHNTRX"/>
+      <sheetpath names="/HeadPhone/" tstamps="/561FC484/"/>
+      <tstamp>562F9DF5</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="ise" part="35RASMT2BHNTRX">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">35RASMT2BHNTRX</field>
+      </fields>
+      <pins>
+        <pin num="1" name="R" type="passive"/>
+        <pin num="4" name="L" type="passive"/>
+        <pin num="5" name="T" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="mm_rf_limiter" part="ASML-5822">
+      <description>Schottky Assisted Low Power PIN Diode Limiter</description>
+      <docs>http://www.avagotech.com/products/wireless/diodes/schottky/asml-5822</docs>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">ASML-5822</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+        <pin num="2" name="~" type="input"/>
+        <pin num="3" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="w_device" part="C">
+      <aliases>
+        <alias>cap_np</alias>
+      </aliases>
+      <description>Capacitor non pol</description>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="mm_rf_xceiver" part="MICRF113YM6TR">
+      <description>MICRF113YM6TR Low-Power, High-PerformanceRF Transceiver</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MICRF113YM6TR</field>
+        <field name="Footprint">MODULE</field>
+        <field name="Datasheet">DOCUMENTATION</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VDD_G" type="input"/>
+        <pin num="2" name="RESET_N" type="input"/>
+        <pin num="3" name="GPIO3" type="input"/>
+        <pin num="4" name="GPIO2" type="input"/>
+        <pin num="5" name="DVDD" type="input"/>
+        <pin num="6" name="DCPL" type="input"/>
+        <pin num="7" name="SI" type="input"/>
+        <pin num="8" name="SCLK" type="input"/>
+        <pin num="9" name="SO(GPIO1)" type="input"/>
+        <pin num="10" name="GPIO0" type="input"/>
+        <pin num="11" name="CSn" type="input"/>
+        <pin num="12" name="DVDD" type="input"/>
+        <pin num="13" name="AVDD_IF" type="input"/>
+        <pin num="14" name="RBIAS" type="input"/>
+        <pin num="15" name="AVDD_RF" type="input"/>
+        <pin num="16" name="N.C." type="input"/>
+        <pin num="17" name="PA" type="input"/>
+        <pin num="18" name="TRX_SW" type="input"/>
+        <pin num="19" name="LNA_P" type="input"/>
+        <pin num="20" name="LNA_N" type="input"/>
+        <pin num="21" name="DCPL_VCO" type="input"/>
+        <pin num="22" name="AVDD_SYNTH1" type="input"/>
+        <pin num="23" name="LPF0" type="input"/>
+        <pin num="24" name="LPF1" type="input"/>
+        <pin num="25" name="AVDD_PFD_CHP" type="input"/>
+        <pin num="26" name="DCPL_PFD_CHP" type="input"/>
+        <pin num="27" name="AVDD_SYNTH2" type="input"/>
+        <pin num="28" name="AVDD_XOSC" type="input"/>
+        <pin num="29" name="DCPL_XOSC" type="input"/>
+        <pin num="30" name="XOSC_Q1" type="input"/>
+        <pin num="31" name="XOSC_Q2" type="input"/>
+        <pin num="32" name="EXT_XOSC" type="input"/>
+        <pin num="33" name="EPAD" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="ise" part="Cap_X2Y">
+      <footprints>
+        <fp>C?</fp>
+        <fp>SM*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">Cap_X2Y</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ise" part="FERRITE_BEAD">
+      <description>Inductor</description>
+      <fields>
+        <field name="Reference">FB</field>
+        <field name="Value">FERRITE_BEAD</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Helios_Receiver_1W-cache" part="FL40YA-V36P-2X20-LF">
+      <fields>
+        <field name="Reference">CON</field>
+        <field name="Value">FL40YA-V36P-2X20-LF</field>
+        <field name="Footprint">A10_OLEMONXINO_LEMON_SHIELD_1-YA-V36P-2X20-LF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="6" type="passive"/>
+        <pin num="7" name="7" type="passive"/>
+        <pin num="8" name="8" type="passive"/>
+        <pin num="9" name="9" type="passive"/>
+        <pin num="10" name="10" type="passive"/>
+        <pin num="11" name="11" type="passive"/>
+        <pin num="12" name="12" type="passive"/>
+        <pin num="13" name="13" type="passive"/>
+        <pin num="14" name="14" type="passive"/>
+        <pin num="15" name="15" type="passive"/>
+        <pin num="16" name="16" type="passive"/>
+        <pin num="17" name="17" type="passive"/>
+        <pin num="18" name="18" type="passive"/>
+        <pin num="19" name="19" type="passive"/>
+        <pin num="20" name="20" type="passive"/>
+        <pin num="21" name="21" type="passive"/>
+        <pin num="22" name="22" type="passive"/>
+        <pin num="23" name="23" type="passive"/>
+        <pin num="24" name="24" type="passive"/>
+        <pin num="25" name="25" type="passive"/>
+        <pin num="26" name="26" type="passive"/>
+        <pin num="27" name="27" type="passive"/>
+        <pin num="28" name="28" type="passive"/>
+        <pin num="29" name="29" type="passive"/>
+        <pin num="30" name="30" type="passive"/>
+        <pin num="31" name="31" type="passive"/>
+        <pin num="32" name="32" type="passive"/>
+        <pin num="33" name="33" type="passive"/>
+        <pin num="34" name="34" type="passive"/>
+        <pin num="35" name="35" type="passive"/>
+        <pin num="36" name="36" type="passive"/>
+        <pin num="37" name="37" type="passive"/>
+        <pin num="38" name="38" type="passive"/>
+        <pin num="39" name="39" type="passive"/>
+        <pin num="40" name="40" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="w_device" part="FUSE">
+      <description>Fuse, generic</description>
+      <fields>
+        <field name="Reference">F</field>
+        <field name="Value">FUSE</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+        <pin num="2" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="w_connectors" part="HEADER_2">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">HEADER_2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="w_connectors" part="HEADER_3">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">HEADER_3</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="w_device" part="INDUCTOR">
+      <description>Inductor</description>
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">INDUCTOR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="w_device" part="R">
+      <description>Resistance</description>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ise" part="RF_CONN">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">RF_CONN</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+        <pin num="2" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="mm_rf_PA" part="LM4889">
+      <description>LM4889: 400 MHz Transmit/Receive Front-End Module</description>
+      <docs>http://www.texasinstrumentsinc.com/uploads/documents/LM4889.pdf</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LM4889</field>
+      </fields>
+      <pins>
+        <pin num="0" name="EPAD" type="input"/>
+        <pin num="1" name="GND" type="input"/>
+        <pin num="2" name="TR" type="input"/>
+        <pin num="3" name="EN" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="ise" part="TG-5021CG">
+      <description>Crystal Oscillator</description>
+      <docs>http://www.farnell.com/datasheets/1897375.pdfppm</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TG-5021CG</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VC" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="OUT" type="input"/>
+        <pin num="4" name="VCC" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="ise" part="TP">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TP</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="mm_switching" part="TPS63060">
+      <description>TPS6306x High Input Voltage, Buck-Boost Converter With 2-A Switch Current</description>
+      <docs>http://www.ti.com/lit/ds/symlink/tps63060.pdf</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TPS63060</field>
+      </fields>
+      <pins>
+        <pin num="0" name="PGND" type="input"/>
+        <pin num="1" name="L1" type="input"/>
+        <pin num="2" name="VIN" type="input"/>
+        <pin num="3" name="EN" type="input"/>
+        <pin num="4" name="PS/SYNC" type="input"/>
+        <pin num="5" name="PG" type="input"/>
+        <pin num="6" name="VAUX" type="input"/>
+        <pin num="7" name="GND" type="input"/>
+        <pin num="8" name="FB" type="input"/>
+        <pin num="9" name="VOUT" type="input"/>
+        <pin num="10" name="L2" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="w_device">
+      <uri>/opt/kicad_libs/library/w_device.lib</uri>
+    </library>
+    <library logical="w_connectors">
+      <uri>/opt/kicad_libs/library/w_connectors.lib</uri>
+    </library>
+    <library logical="mm_switching">
+      <uri>/opt/kicad_libs/library/mm_switching.lib</uri>
+    </library>
+    <library logical="mm_rf_PA">
+      <uri>/opt/kicad_libs/library/mm_rf_PA.lib</uri>
+    </library>
+    <library logical="ise">
+      <uri>/opt/kicad_libs/library/ise.lib</uri>
+    </library>
+    <library logical="mm_rf_xceiver">
+      <uri>/opt/kicad_libs/library/mm_rf_xceiver.lib</uri>
+    </library>
+    <library logical="mm_rf_limiter">
+      <uri>/opt/kicad_libs/library/mm_rf_limiter.lib</uri>
+    </library>
+    <library logical="Helios_Receiver_1W-cache">
+      <uri>/home/massi/Documents/myKicad/Helios_Receiver_1W/Helios_Receiver_1W-cache.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/PA/TR">
+      <node ref="GPIO-1" pin="5"/>
+      <node ref="R304" pin="2"/>
+    </net>
+    <net code="2" name="/PA/EN">
+      <node ref="R307" pin="2"/>
+      <node ref="GPIO-1" pin="7"/>
+    </net>
+    <net code="3" name="/MICRF113YM6TR/GPIO0">
+      <node ref="GPIO-3" pin="29"/>
+      <node ref="U402" pin="10"/>
+    </net>
+    <net code="4" name="/MICRF113YM6TR/GPIO2">
+      <node ref="GPIO-3" pin="35"/>
+      <node ref="U402" pin="4"/>
+    </net>
+    <net code="5" name="/MICRF113YM6TR/MISO">
+      <node ref="U402" pin="9"/>
+      <node ref="GPIO-1" pin="39"/>
+    </net>
+    <net code="6" name="/MICRF113YM6TR/MOSI">
+      <node ref="GPIO-1" pin="37"/>
+      <node ref="U402" pin="7"/>
+    </net>
+    <net code="7" name="/MICRF113YM6TR/SCLK">
+      <node ref="U402" pin="8"/>
+      <node ref="GPIO-1" pin="35"/>
+    </net>
+    <net code="8" name="/HeadPhone/HP_COM">
+      <node ref="GPIO-1" pin="16"/>
+      <node ref="R602" pin="2"/>
+      <node ref="FB603" pin="2"/>
+    </net>
+    <net code="9" name="/MICRF113YM6TR/CSn">
+      <node ref="GPIO-1" pin="33"/>
+      <node ref="U402" pin="11"/>
+    </net>
+    <net code="10" name="/MICRF113YM6TR/GPIO3">
+      <node ref="GPIO-3" pin="33"/>
+      <node ref="U402" pin="3"/>
+    </net>
+    <net code="11" name="/HeadPhone/HP_R">
+      <node ref="R601" pin="2"/>
+      <node ref="GPIO-1" pin="18"/>
+      <node ref="FB601" pin="1"/>
+    </net>
+    <net code="12" name="/HeadPhone/HP_L">
+      <node ref="R603" pin="2"/>
+      <node ref="FB602" pin="2"/>
+      <node ref="GPIO-1" pin="14"/>
+    </net>
+    <net code="13" name="/MICRF113YM6TR/RESETn">
+      <node ref="GPIO-1" pin="40"/>
+      <node ref="U402" pin="2"/>
+    </net>
+    <net code="14" name="/PA/BYP">
+      <node ref="GPIO-1" pin="9"/>
+      <node ref="R305" pin="2"/>
+    </net>
+    <net code="15" name="/MICRF113YM6TR/LNA">
+      <node ref="L406" pin="1"/>
+      <node ref="U302" pin="18"/>
+    </net>
+    <net code="16" name="/MICRF113YM6TR/PA">
+      <node ref="U302" pin="20"/>
+      <node ref="L408" pin="2"/>
+    </net>
+    <net code="17" name="GNDPWR">
+      <node ref="GPIO-1" pin="4"/>
+    </net>
+    <net code="18" name="GND">
+      <node ref="C426" pin="2"/>
+      <node ref="C426" pin="1"/>
+      <node ref="C422" pin="1"/>
+      <node ref="C417" pin="2"/>
+      <node ref="C422" pin="2"/>
+      <node ref="C413" pin="1"/>
+      <node ref="C414" pin="2"/>
+      <node ref="C421" pin="1"/>
+      <node ref="L403" pin="1"/>
+      <node ref="R302" pin="2"/>
+      <node ref="GPIO-1" pin="2"/>
+      <node ref="U302" pin="15"/>
+      <node ref="U402" pin="30"/>
+      <node ref="U402" pin="33"/>
+      <node ref="U302" pin="6"/>
+      <node ref="U302" pin="8"/>
+      <node ref="U302" pin="9"/>
+      <node ref="U302" pin="21"/>
+      <node ref="U302" pin="12"/>
+      <node ref="U302" pin="22"/>
+      <node ref="C305" pin="2"/>
+      <node ref="C304" pin="2"/>
+      <node ref="C306" pin="1"/>
+      <node ref="D301" pin="3"/>
+      <node ref="D301" pin="1"/>
+      <node ref="U302" pin="28"/>
+      <node ref="U302" pin="19"/>
+      <node ref="J301" pin="2"/>
+      <node ref="C307" pin="2"/>
+      <node ref="C309" pin="2"/>
+      <node ref="U302" pin="1"/>
+      <node ref="C416" pin="2"/>
+      <node ref="C427" pin="2"/>
+      <node ref="C425" pin="2"/>
+      <node ref="C310" pin="2"/>
+      <node ref="C301" pin="2"/>
+      <node ref="C302" pin="2"/>
+      <node ref="C419" pin="2"/>
+      <node ref="C303" pin="2"/>
+      <node ref="U302" pin="11"/>
+      <node ref="U302" pin="0"/>
+      <node ref="U501" pin="4"/>
+      <node ref="U501" pin="7"/>
+      <node ref="C503" pin="2"/>
+      <node ref="C501" pin="2"/>
+      <node ref="C504" pin="2"/>
+      <node ref="C505" pin="2"/>
+      <node ref="J503" pin="2"/>
+      <node ref="J501" pin="2"/>
+      <node ref="C507" pin="2"/>
+      <node ref="R502" pin="2"/>
+      <node ref="C603" pin="1"/>
+      <node ref="C601" pin="1"/>
+      <node ref="C602" pin="1"/>
+      <node ref="C502" pin="2"/>
+      <node ref="R306" pin="2"/>
+      <node ref="U501" pin="0"/>
+      <node ref="C506" pin="2"/>
+      <node ref="U401" pin="2"/>
+      <node ref="C407" pin="2"/>
+      <node ref="C409" pin="1"/>
+      <node ref="C408" pin="2"/>
+      <node ref="C411" pin="2"/>
+      <node ref="C423" pin="2"/>
+      <node ref="C423" pin="1"/>
+      <node ref="C418" pin="2"/>
+      <node ref="C404" pin="2"/>
+      <node ref="U302" pin="27"/>
+      <node ref="C402" pin="1"/>
+      <node ref="C410" pin="1"/>
+      <node ref="GPIO-3" pin="2"/>
+      <node ref="C405" pin="1"/>
+      <node ref="R401" pin="2"/>
+      <node ref="C401" pin="1"/>
+      <node ref="C406" pin="1"/>
+    </net>
+    <net code="19" name="+5V">
+      <node ref="FB202" pin="1"/>
+      <node ref="J502" pin="1"/>
+      <node ref="FB201" pin="2"/>
+    </net>
+    <net code="20" name="Net-(FB203-Pad1)">
+      <node ref="FB203" pin="1"/>
+      <node ref="GPIO-1" pin="3"/>
+    </net>
+    <net code="21" name="Net-(FB201-Pad1)">
+      <node ref="GPIO-1" pin="1"/>
+      <node ref="FB201" pin="1"/>
+    </net>
+    <net code="22" name="Net-(FB204-Pad2)">
+      <node ref="GPIO-3" pin="3"/>
+      <node ref="FB204" pin="2"/>
+    </net>
+    <net code="23" name="Net-(FB202-Pad2)">
+      <node ref="GPIO-3" pin="1"/>
+      <node ref="FB202" pin="2"/>
+    </net>
+    <net code="25" name="+3.3V">
+      <node ref="C408" pin="1"/>
+      <node ref="C409" pin="2"/>
+      <node ref="C407" pin="1"/>
+      <node ref="U401" pin="4"/>
+      <node ref="C402" pin="2"/>
+      <node ref="FB401" pin="1"/>
+      <node ref="U402" pin="27"/>
+      <node ref="C414" pin="1"/>
+      <node ref="R503" pin="2"/>
+      <node ref="U501" pin="3"/>
+      <node ref="R301" pin="1"/>
+      <node ref="C404" pin="1"/>
+      <node ref="FB402" pin="1"/>
+      <node ref="C405" pin="2"/>
+      <node ref="C411" pin="1"/>
+      <node ref="U402" pin="13"/>
+      <node ref="U402" pin="5"/>
+      <node ref="FB203" pin="2"/>
+      <node ref="FB204" pin="1"/>
+      <node ref="U402" pin="12"/>
+      <node ref="U402" pin="22"/>
+      <node ref="U402" pin="1"/>
+      <node ref="U402" pin="15"/>
+      <node ref="FB403" pin="1"/>
+      <node ref="TP201" pin="1"/>
+      <node ref="U302" pin="16"/>
+      <node ref="C305" pin="1"/>
+      <node ref="C304" pin="1"/>
+      <node ref="U302" pin="17"/>
+    </net>
+    <net code="26" name="/LEMON2-Connector/VMIC">
+      <node ref="GPIO-1" pin="12"/>
+    </net>
+    <net code="27" name="/LEMON2-Connector/UART0_TX/IR1_TX/PB22">
+      <node ref="GPIO-1" pin="28"/>
+    </net>
+    <net code="28" name="/LEMON2-Connector/UART0_RX/IR1_RX/PB23">
+      <node ref="GPIO-1" pin="26"/>
+    </net>
+    <net code="29" name="/LEMON2-Connector/TWI2_SDA/PB21">
+      <node ref="GPIO-1" pin="30"/>
+    </net>
+    <net code="30" name="/LEMON2-Connector/TWI2_SCK/PB20">
+      <node ref="GPIO-1" pin="32"/>
+    </net>
+    <net code="31" name="/LEMON2-Connector/TWI1_SDA/PB19">
+      <node ref="GPIO-1" pin="34"/>
+    </net>
+    <net code="32" name="/LEMON2-Connector/TWI1_SCK/PB18">
+      <node ref="GPIO-1" pin="36"/>
+    </net>
+    <net code="33" name="/LEMON2-Connector/TVOUT2/VGA-R">
+      <node ref="GPIO-1" pin="24"/>
+    </net>
+    <net code="34" name="/LEMON2-Connector/TVOUT1/VGA-B">
+      <node ref="GPIO-1" pin="22"/>
+    </net>
+    <net code="35" name="/LEMON2-Connector/TVOUT0/VGA-G">
+      <node ref="GPIO-1" pin="20"/>
+    </net>
+    <net code="36" name="/LEMON2-Connector/TS1_DVLD/CSI1_VSYNC/SDC1_D1/PG3">
+      <node ref="GPIO-1" pin="11"/>
+    </net>
+    <net code="37" name="/LEMON2-Connector/TS1_D7/CSI1_D7/UART4_RX/CSI0_D15/PG11">
+      <node ref="GPIO-1" pin="27"/>
+    </net>
+    <net code="38" name="/LEMON2-Connector/TS1_D6/CSI1_D6/UART4_TX/CSI0_D14/PG10">
+      <node ref="GPIO-1" pin="25"/>
+    </net>
+    <net code="39" name="/LEMON2-Connector/TS1_D5/CSI1_D5/UART3_CTS/CSI0_D13/PG9">
+      <node ref="GPIO-1" pin="23"/>
+    </net>
+    <net code="40" name="/LEMON2-Connector/TS1_D4/CSI1_D4/UART3_RTS/CSI0_D12/PG8">
+      <node ref="GPIO-1" pin="21"/>
+    </net>
+    <net code="41" name="/LEMON2-Connector/TS1_D3/CSI1_D3/UART3_RX/CSI0_D11/PG7">
+      <node ref="GPIO-1" pin="19"/>
+    </net>
+    <net code="42" name="/LEMON2-Connector/TS1_D2/CSI1_D2/UART3_TX/CSI0_D10/PG6">
+      <node ref="GPIO-1" pin="17"/>
+    </net>
+    <net code="43" name="/LEMON2-Connector/TS1_D1/CSI1_D1/SDC1_D3/CSI0_D9/PG5">
+      <node ref="GPIO-1" pin="15"/>
+    </net>
+    <net code="44" name="/LEMON2-Connector/TS1_D0/CSI1_D0/SDC1_D2/CSI0_D8/PG4">
+      <node ref="GPIO-1" pin="13"/>
+    </net>
+    <net code="45" name="/LEMON2-Connector/LCD1_D0/ATAA0/UART3_TX/EINT0/CSI1_D0/PH0">
+      <node ref="GPIO-3" pin="7"/>
+    </net>
+    <net code="46" name="/LEMON2-Connector/ETXD0/LCD1_D17/ATAD13/KP_IN7/SMC_VCCEN/EINT17/CSI1_D17/PH17">
+      <node ref="GPIO-3" pin="27"/>
+    </net>
+    <net code="47" name="/LEMON2-Connector/ETXD1/LCD1_D16/ATAD12/KP_IN6/SMC_DET/EINT16/CSI1_D16/PH16">
+      <node ref="GPIO-3" pin="25"/>
+    </net>
+    <net code="48" name="/LEMON2-Connector/ETXD2/LCD1_D15/ATAD11/KP_IN5/SMC_VPPPP/EINT15/CSI1_D15/PH15">
+      <node ref="GPIO-3" pin="23"/>
+    </net>
+    <net code="49" name="/LEMON2-Connector/ETXD3/LCD1_D14/ATAD10/KP_IN4/SMC_VPPEN/EINT14/CSI1_D14/PH14">
+      <node ref="GPIO-3" pin="21"/>
+    </net>
+    <net code="50" name="/LEMON2-Connector/LCD1_D13/ATAD9/PS2_SDA1/SMC_RST/EINT13/CSI1_D13/PH13">
+      <node ref="GPIO-3" pin="19"/>
+    </net>
+    <net code="51" name="/LEMON2-Connector/LCD1_D12/ATAD8/PS2_SCK1/EINT12/CSI1_D12/PH12">
+      <node ref="GPIO-3" pin="17"/>
+    </net>
+    <net code="52" name="/LEMON2-Connector/ERXD0/LCD1_D11/ATAD7/KP_IN3/MS_D3/EINT11/CSI1_D11/PH11">
+      <node ref="GPIO-3" pin="15"/>
+    </net>
+    <net code="53" name="/LEMON2-Connector/ERXD1/LCD1_D10/ATAD6/KP_IN2/MS_D2/EINT10/CSI1_D10/PH10">
+      <node ref="GPIO-3" pin="13"/>
+    </net>
+    <net code="54" name="/LEMON2-Connector/ERXD2/LCD1_D9/ATAD5/KP_IN1/MS_D1/EINT9/CSI1_D9/PH9">
+      <node ref="GPIO-3" pin="11"/>
+    </net>
+    <net code="55" name="/LEMON2-Connector/LCD1_D7/ATAD3/UART5_RX/MS_CLK/EINT7/CSI1_D7/PH7/I2S_DO1/PB9/USB0-DRV">
+      <node ref="GPIO-3" pin="9"/>
+    </net>
+    <net code="56" name="/LEMON2-Connector/ETXCK/LCD1_CLK/ATACS1/KP_OUT4/SDC1_D0/CSI1_PCLK/PH24">
+      <node ref="GPIO-3" pin="34"/>
+    </net>
+    <net code="57" name="/LEMON2-Connector/IR0_TX/SPDIF_MCLK/STANBYWFI/PB3">
+      <node ref="GPIO-3" pin="4"/>
+    </net>
+    <net code="58" name="/LEMON2-Connector/IR0_RX/PB4">
+      <node ref="GPIO-3" pin="6"/>
+    </net>
+    <net code="59" name="/LEMON2-Connector/I2S_MCLK/AC97_MCLK/PB5">
+      <node ref="GPIO-3" pin="8"/>
+    </net>
+    <net code="60" name="/LEMON2-Connector/I2S_LRCK/AC97_SYNC/PB7">
+      <node ref="GPIO-3" pin="12"/>
+    </net>
+    <net code="61" name="/LEMON2-Connector/I2S_DO0/AC97_DO/PB8/SATA-PWR-EN">
+      <node ref="GPIO-3" pin="14"/>
+    </net>
+    <net code="62" name="/LEMON2-Connector/I2S_BCLK/AC97_BCLK/PB6">
+      <node ref="GPIO-3" pin="10"/>
+    </net>
+    <net code="63" name="/LEMON2-Connector/LRADC1">
+      <node ref="GPIO-1" pin="8"/>
+    </net>
+    <net code="64" name="/LEMON2-Connector/RESET_N">
+      <node ref="GPIO-3" pin="5"/>
+    </net>
+    <net code="65" name="/LEMON2-Connector/NDQS/PC24">
+      <node ref="GPIO-1" pin="38"/>
+    </net>
+    <net code="66" name="/LEMON2-Connector/NCE3/PC18">
+      <node ref="GPIO-1" pin="31"/>
+    </net>
+    <net code="67" name="/LEMON2-Connector/NCE1/PC3/SATA-PWR-EN">
+      <node ref="GPIO-1" pin="29"/>
+    </net>
+    <net code="68" name="/LEMON2-Connector/MICIN1">
+      <node ref="GPIO-1" pin="10"/>
+    </net>
+    <net code="69" name="/LEMON2-Connector/LRADC0">
+      <node ref="GPIO-1" pin="6"/>
+    </net>
+    <net code="70" name="/LEMON2-Connector/ETXERR/LCD1_VSYNC/ATAIOW/KP_OUT7/SDC1_D3/CSI1_VSYNC/PH27">
+      <node ref="GPIO-3" pin="40"/>
+    </net>
+    <net code="71" name="/LEMON2-Connector/ECOL/LCD1_HSYNC/ATAIOR/KP_OUT6/SDC1_D2/CSI1_HSYNC/PH26">
+      <node ref="GPIO-3" pin="38"/>
+    </net>
+    <net code="72" name="/LEMON2-Connector/ECRS/LCD1_DE/ATAIORDY/KP_OUT5/SDC1_D1/CSI1_FIELD/PH25">
+      <node ref="GPIO-3" pin="36"/>
+    </net>
+    <net code="73" name="/LEMON2-Connector/ETEN/LCD1_D23/ATACS0/KP_OUT3/SDC1_CLK/CSI1_D23/PH23">
+      <node ref="GPIO-3" pin="39"/>
+    </net>
+    <net code="74" name="/LEMON2-Connector/EMDIO/LCD1_D22/ATADACK/KP_OUT2/SDC1_CMD/CSI1_D22/PH22">
+      <node ref="GPIO-3" pin="37"/>
+    </net>
+    <net code="75" name="/LEMON2-Connector/ERXERR/LCD1_D19/ATAD15/KP_OUT1/SMC_SDA/EINT19/CSI1_D19/PH19">
+      <node ref="GPIO-3" pin="31"/>
+    </net>
+    <net code="76" name="/LEMON2-Connector/JTAG_DO0/SPI2_MOSI/PB16">
+      <node ref="GPIO-3" pin="30"/>
+    </net>
+    <net code="77" name="/LEMON2-Connector/I2S_DO1/PB9">
+      <node ref="GPIO-3" pin="16"/>
+    </net>
+    <net code="78" name="/LEMON2-Connector/I2S_DI/AC97_DI/SPDIF_DI/PB12">
+      <node ref="GPIO-3" pin="22"/>
+    </net>
+    <net code="79" name="/LEMON2-Connector/I2S_DO2/PB10">
+      <node ref="GPIO-3" pin="18"/>
+    </net>
+    <net code="80" name="/LEMON2-Connector/I2S_DO3/PB11">
+      <node ref="GPIO-3" pin="20"/>
+    </net>
+    <net code="81" name="/LEMON2-Connector/JTAG_CK0/SPI2_CLK/PB15">
+      <node ref="GPIO-3" pin="28"/>
+    </net>
+    <net code="82" name="/LEMON2-Connector/JTAG_DI0/SPI2_MISO/PB17">
+      <node ref="GPIO-3" pin="32"/>
+    </net>
+    <net code="83" name="/LEMON2-Connector/JTAG_MS0/SPI2_CS0/PB14">
+      <node ref="GPIO-3" pin="26"/>
+    </net>
+    <net code="84" name="/LEMON2-Connector/SPI2_CS1/SPDIF_DO/PB13">
+      <node ref="GPIO-3" pin="24"/>
+    </net>
+    <net code="85" name="/PA/TR_R">
+      <node ref="R304" pin="1"/>
+      <node ref="U302" pin="2"/>
+    </net>
+    <net code="86" name="/PA/EN_R">
+      <node ref="U302" pin="3"/>
+      <node ref="R307" pin="1"/>
+    </net>
+    <net code="87" name="VDD">
+      <node ref="C303" pin="1"/>
+      <node ref="C302" pin="1"/>
+      <node ref="C310" pin="1"/>
+      <node ref="C506" pin="1"/>
+      <node ref="C507" pin="1"/>
+      <node ref="R501" pin="1"/>
+      <node ref="U302" pin="26"/>
+      <node ref="U302" pin="25"/>
+      <node ref="U302" pin="24"/>
+      <node ref="C505" pin="1"/>
+      <node ref="U302" pin="23"/>
+      <node ref="U501" pin="9"/>
+      <node ref="C301" pin="1"/>
+    </net>
+    <net code="88" name="/PA/RX1">
+      <node ref="U302" pin="13"/>
+      <node ref="D301" pin="2"/>
+      <node ref="U302" pin="10"/>
+    </net>
+    <net code="89" name="/PA/RBIAS">
+      <node ref="U302" pin="14"/>
+      <node ref="R306" pin="1"/>
+    </net>
+    <net code="90" name="/PA/BYP_R">
+      <node ref="R305" pin="1"/>
+      <node ref="U302" pin="4"/>
+    </net>
+    <net code="91" name="/PA/ANT_UF">
+      <node ref="C308" pin="2"/>
+      <node ref="U302" pin="7"/>
+      <node ref="L301" pin="1"/>
+      <node ref="C307" pin="1"/>
+    </net>
+    <net code="92" name="/PA/ANT">
+      <node ref="C309" pin="1"/>
+      <node ref="L301" pin="2"/>
+      <node ref="C308" pin="1"/>
+      <node ref="J301" pin="1"/>
+    </net>
+    <net code="93" name="/PA/VPC_R">
+      <node ref="C306" pin="2"/>
+      <node ref="U302" pin="5"/>
+      <node ref="R302" pin="1"/>
+      <node ref="R301" pin="2"/>
+    </net>
+    <net code="94" name="/MICRF113YM6TR/PA_CC1">
+      <node ref="C420" pin="1"/>
+      <node ref="C415" pin="2"/>
+      <node ref="L404" pin="1"/>
+    </net>
+    <net code="95" name="/MICRF113YM6TR/LNA_P">
+      <node ref="U402" pin="19"/>
+      <node ref="C424" pin="1"/>
+      <node ref="L403" pin="2"/>
+      <node ref="L402" pin="2"/>
+    </net>
+    <net code="96" name="/MICRF113YM6TR/PA_CC2">
+      <node ref="C420" pin="2"/>
+      <node ref="C425" pin="1"/>
+      <node ref="L407" pin="1"/>
+      <node ref="L404" pin="2"/>
+    </net>
+    <net code="97" name="/MICRF113YM6TR/PA_CC">
+      <node ref="C415" pin="1"/>
+      <node ref="L401" pin="2"/>
+      <node ref="U402" pin="17"/>
+    </net>
+    <net code="98" name="/MICRF113YM6TR/LPF1">
+      <node ref="C412" pin="1"/>
+      <node ref="U402" pin="24"/>
+    </net>
+    <net code="99" name="/MICRF113YM6TR/EXT_CLK">
+      <node ref="C403" pin="2"/>
+      <node ref="U401" pin="3"/>
+    </net>
+    <net code="100" name="/MICRF113YM6TR/DCPL_VCO">
+      <node ref="C413" pin="2"/>
+      <node ref="U402" pin="21"/>
+    </net>
+    <net code="101" name="/MICRF113YM6TR/LNA_N">
+      <node ref="U402" pin="20"/>
+      <node ref="L402" pin="1"/>
+      <node ref="C421" pin="2"/>
+      <node ref="L405" pin="2"/>
+    </net>
+    <net code="102" name="/MICRF113YM6TR/LPF2">
+      <node ref="C412" pin="2"/>
+      <node ref="U402" pin="23"/>
+    </net>
+    <net code="103" name="/MICRF113YM6TR/DCPL">
+      <node ref="C401" pin="2"/>
+      <node ref="U402" pin="6"/>
+    </net>
+    <net code="104" name="/MICRF113YM6TR/RBIAS">
+      <node ref="U402" pin="14"/>
+      <node ref="R401" pin="1"/>
+    </net>
+    <net code="105" name="/MICRF113YM6TR/LNA_B">
+      <node ref="L406" pin="2"/>
+      <node ref="L405" pin="1"/>
+      <node ref="C424" pin="2"/>
+    </net>
+    <net code="106" name="/MICRF113YM6TR/EXT_XOSC">
+      <node ref="U402" pin="32"/>
+      <node ref="C403" pin="1"/>
+    </net>
+    <net code="107" name="Net-(C428-Pad2)">
+      <node ref="C428" pin="2"/>
+      <node ref="L401" pin="1"/>
+      <node ref="R402" pin="2"/>
+    </net>
+    <net code="108" name="/MICRF113YM6TR/VCC_FILT">
+      <node ref="C419" pin="1"/>
+      <node ref="C416" pin="1"/>
+      <node ref="R402" pin="1"/>
+      <node ref="C428" pin="1"/>
+      <node ref="C426" pin="3"/>
+      <node ref="FB403" pin="2"/>
+    </net>
+    <net code="109" name="/MICRF113YM6TR/PA_CC3">
+      <node ref="L408" pin="1"/>
+      <node ref="L407" pin="2"/>
+      <node ref="C427" pin="1"/>
+    </net>
+    <net code="110" name="/MICRF113YM6TR/DCPL_PFD">
+      <node ref="U402" pin="26"/>
+      <node ref="C410" pin="2"/>
+    </net>
+    <net code="111" name="/MICRF113YM6TR/DCPL_XOSC">
+      <node ref="C406" pin="2"/>
+      <node ref="U402" pin="29"/>
+    </net>
+    <net code="112" name="/MICRF113YM6TR/AVDD_S2">
+      <node ref="U402" pin="28"/>
+      <node ref="C422" pin="3"/>
+      <node ref="C417" pin="1"/>
+      <node ref="FB401" pin="2"/>
+    </net>
+    <net code="113" name="/MICRF113YM6TR/AVDD_PFD">
+      <node ref="FB402" pin="2"/>
+      <node ref="C418" pin="1"/>
+      <node ref="U402" pin="25"/>
+      <node ref="C423" pin="3"/>
+    </net>
+    <net code="114" name="Net-(U402-Pad31)">
+      <node ref="U402" pin="31"/>
+    </net>
+    <net code="115" name="Net-(U402-Pad18)">
+      <node ref="U402" pin="18"/>
+    </net>
+    <net code="116" name="Net-(U402-Pad16)">
+      <node ref="U402" pin="16"/>
+    </net>
+    <net code="117" name="Net-(U401-Pad1)">
+      <node ref="U401" pin="1"/>
+    </net>
+    <net code="118" name="/POWER SUPPLY/PG">
+      <node ref="U501" pin="5"/>
+      <node ref="R503" pin="1"/>
+    </net>
+    <net code="119" name="+BATT">
+      <node ref="J501" pin="1"/>
+      <node ref="J503" pin="1"/>
+      <node ref="J502" pin="3"/>
+    </net>
+    <net code="120" name="/POWER SUPPLY/unfused">
+      <node ref="J502" pin="2"/>
+      <node ref="F501" pin="1"/>
+    </net>
+    <net code="121" name="/POWER SUPPLY/FB">
+      <node ref="U501" pin="8"/>
+      <node ref="R502" pin="1"/>
+      <node ref="R501" pin="2"/>
+      <node ref="C504" pin="1"/>
+    </net>
+    <net code="122" name="/POWER SUPPLY/VAUX">
+      <node ref="U501" pin="6"/>
+      <node ref="C503" pin="1"/>
+    </net>
+    <net code="123" name="/POWER SUPPLY/VIN">
+      <node ref="C501" pin="1"/>
+      <node ref="F501" pin="2"/>
+      <node ref="C502" pin="1"/>
+      <node ref="U501" pin="2"/>
+    </net>
+    <net code="124" name="/POWER SUPPLY/L1">
+      <node ref="U501" pin="1"/>
+      <node ref="L501" pin="1"/>
+    </net>
+    <net code="125" name="/POWER SUPPLY/L2">
+      <node ref="U501" pin="10"/>
+      <node ref="L501" pin="2"/>
+    </net>
+    <net code="126" name="/HeadPhone/R">
+      <node ref="FB601" pin="2"/>
+      <node ref="J601" pin="1"/>
+    </net>
+    <net code="127" name="/HeadPhone/L">
+      <node ref="FB602" pin="1"/>
+      <node ref="J601" pin="4"/>
+    </net>
+    <net code="128" name="/HeadPhone/T">
+      <node ref="FB603" pin="1"/>
+      <node ref="J601" pin="5"/>
+    </net>
+    <net code="129" name="/HeadPhone/HP_L_FILT">
+      <node ref="C603" pin="2"/>
+      <node ref="R603" pin="1"/>
+    </net>
+    <net code="130" name="/HeadPhone/HP_R_FILT">
+      <node ref="C601" pin="2"/>
+      <node ref="R601" pin="1"/>
+    </net>
+    <net code="131" name="/HeadPhone/HP_COM_FILT">
+      <node ref="C602" pin="2"/>
+      <node ref="R602" pin="1"/>
+    </net>
+  </nets>
+</export>

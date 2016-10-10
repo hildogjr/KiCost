@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:\xesscorp\PRODUCTS\StickIt_2nd_gen\StickIt-MB\pcb\StickIt-Hat.sch</source>
+    <date>07/02/2015 12:40:36 PM</date>
+    <tool>Eeschema (2015-05-28 BZR 5690)-product</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>StickIt! Motherboard / Raspberry Pi B+ Hat</title>
+        <company>XESS Corp.</company>
+        <rev>4.1</rev>
+        <date>Wednesday, May 06, 2015</date>
+        <source>StickIt-Hat.sch</source>
+        <comment number="1" value="(c) 2015"/>
+        <comment number="2" value="CC-BY-SA"/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="JP1">
+      <value>JUMPER3</value>
+      <footprint>XESS:HDR_1x3</footprint>
+      <libsource lib="device" part="JUMPER3"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>55182078</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>SW_PUSH</value>
+      <footprint>XESS:RS-282G05A3-SM_RT</footprint>
+      <fields>
+        <field name="manf#">RS-282G05A3-SM RT</field>
+        <field name="kicost:pricing">1:0.10;10:0.03</field>
+        <field name="kicost:link">http://www.xess.com</link>
+      </fields>
+      <libsource lib="device" part="SW_PUSH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>55182122</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>4.7uF</value>
+      <footprint>Resistors_SMD:R_0805_HandSoldering</footprint>
+      <fields>
+        <field name="manf#">LMK212BJ475KD-T</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5519E7D1</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>22uF</value>
+      <footprint>Capacitors_SMD:c_elec_5x5.3</footprint>
+      <fields>
+        <field name="manf#">UWX1C220MCL1GB</field>
+      </fields>
+      <libsource lib="device" part="CP1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5519E854</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>NCV1117</value>
+      <footprint>XESS:SOT-223</footprint>
+      <fields>
+        <field name="manf#">NCP1117ST33T3G</field>
+      </fields>
+      <libsource lib="xess" part="NCV1117"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>551828EF</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>CAT24C32</value>
+      <footprint>SMD_Packages:SOIC-8-N</footprint>
+      <fields>
+        <field name="manf#">CAT24C32WI-GT3</field>
+      </fields>
+      <libsource lib="xess" part="EEPROM_I2C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>551AE8F0</tstamp>
+    </comp>
+    <comp ref="RN1">
+      <value>3.9K</value>
+      <footprint>XESS:CTS_742C043</footprint>
+      <fields>
+        <field name="manf#">742C083392JP</field>
+      </fields>
+      <libsource lib="xess" part="RN2"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>551AF2C0</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>1K</value>
+      <footprint>Resistors_SMD:R_0805_HandSoldering</footprint>
+      <fields>
+        <field name="manf#">RC0805JR-071KL</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>551AF55F</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="device" part="C">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="CP1">
+      <description>Polarised capacitor</description>
+      <footprints>
+        <fp>SMD*_Pol</fp>
+        <fp>c_elec*</fp>
+        <fp>C*elec</fp>
+        <fp>TantalC*</fp>
+        <fp>Elko*</fp>
+        <fp>CP*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">CP1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="JUMPER">
+      <fields>
+        <field name="Reference">JP</field>
+        <field name="Value">JUMPER</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="JUMPER3">
+      <fields>
+        <field name="Reference">JP</field>
+        <field name="Value">JUMPER3</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="SW_PUSH">
+      <description>Push Button</description>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">SW_PUSH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="BARREL_JACK">
+      <description>DC Barrel Jack</description>
+      <fields>
+        <field name="Reference">CON</field>
+        <field name="Value">BARREL_JACK</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="1117">
+      <aliases>
+        <alias>NCV1117</alias>
+        <alias>LD1117</alias>
+      </aliases>
+      <description>fixed-output voltage regulator</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">1117</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="power_in"/>
+        <pin num="2" name="OUT" type="power_out"/>
+        <pin num="3" name="IN" type="power_in"/>
+        <pin num="4" name="HS" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="EEPROM_I2C">
+      <aliases>
+        <alias>24C512</alias>
+      </aliases>
+      <description>I2C Serial EEPROM</description>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">EEPROM_I2C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A0" type="input"/>
+        <pin num="2" name="A1" type="input"/>
+        <pin num="3" name="A2" type="input"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="SDA" type="BiDi"/>
+        <pin num="6" name="SCL" type="input"/>
+        <pin num="7" name="WP" type="input"/>
+        <pin num="8" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="Grove_Male">
+      <description>Seeed Grove male connector</description>
+      <fields>
+        <field name="Reference">GR</field>
+        <field name="Value">Grove_Male</field>
+      </fields>
+      <pins>
+        <pin num="1" name="IO1" type="BiDi"/>
+        <pin num="2" name="IO2" type="BiDi"/>
+        <pin num="3" name="VCC" type="power_in"/>
+        <pin num="4" name="GND" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="JSHORTNORMAL">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">JSHORTNORMAL</field>
+        <field name="Footprint">xess-JSHORT</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="PMOD_SCKT-12">
+      <description>PMOD header</description>
+      <fields>
+        <field name="Reference">PM</field>
+        <field name="Value">PMOD_SCKT-12</field>
+      </fields>
+      <pins>
+        <pin num="1" name="AIO1" type="passive"/>
+        <pin num="2" name="AIO2" type="passive"/>
+        <pin num="3" name="AIO3" type="passive"/>
+        <pin num="4" name="AIO4" type="passive"/>
+        <pin num="5" name="AGND" type="passive"/>
+        <pin num="6" name="APWR" type="passive"/>
+        <pin num="7" name="BIO1" type="passive"/>
+        <pin num="8" name="BIO2" type="passive"/>
+        <pin num="9" name="BIO3" type="passive"/>
+        <pin num="10" name="BIO4" type="passive"/>
+        <pin num="11" name="BGND" type="passive"/>
+        <pin num="12" name="BPWR" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="RN2">
+      <fields>
+        <field name="Reference">RN</field>
+        <field name="Value">RN2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="1" type="passive"/>
+        <pin num="3" name="2" type="passive"/>
+        <pin num="4" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="RPi_GPIO">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">RPi_GPIO</field>
+      </fields>
+      <pins>
+        <pin num="1" name="3.3V" type="power_in"/>
+        <pin num="2" name="5V" type="power_in"/>
+        <pin num="3" name="BCM2_SDA" type="BiDi"/>
+        <pin num="4" name="5V" type="power_in"/>
+        <pin num="5" name="BCM3_SCL" type="BiDi"/>
+        <pin num="6" name="GND" type="power_in"/>
+        <pin num="7" name="BCM4_GPCLK0" type="BiDi"/>
+        <pin num="8" name="BCM14_TXD" type="BiDi"/>
+        <pin num="9" name="GND" type="power_in"/>
+        <pin num="10" name="BCM15_RXD" type="BiDi"/>
+        <pin num="11" name="BCM17" type="BiDi"/>
+        <pin num="12" name="BCM18_PCM_C" type="BiDi"/>
+        <pin num="13" name="BCM27_PCM_D" type="BiDi"/>
+        <pin num="14" name="GND" type="power_in"/>
+        <pin num="15" name="BCM22" type="BiDi"/>
+        <pin num="16" name="BCM23" type="BiDi"/>
+        <pin num="17" name="3.3V" type="power_in"/>
+        <pin num="18" name="BCM24" type="BiDi"/>
+        <pin num="19" name="BCM10_MOSI" type="BiDi"/>
+        <pin num="20" name="GND" type="power_in"/>
+        <pin num="21" name="BCM9_MISO" type="BiDi"/>
+        <pin num="22" name="BCM25" type="BiDi"/>
+        <pin num="23" name="BCM11_SCLK" type="BiDi"/>
+        <pin num="24" name="BCM8_CE0" type="BiDi"/>
+        <pin num="25" name="GND" type="power_in"/>
+        <pin num="26" name="BCM7_CE1" type="BiDi"/>
+        <pin num="27" name="BCM0_ID_SD" type="BiDi"/>
+        <pin num="28" name="BCM1_ID_SC" type="BiDi"/>
+        <pin num="29" name="BCM5" type="BiDi"/>
+        <pin num="30" name="GND" type="power_in"/>
+        <pin num="31" name="BCM6" type="BiDi"/>
+        <pin num="32" name="BCM12" type="BiDi"/>
+        <pin num="33" name="BCM13" type="BiDi"/>
+        <pin num="34" name="GND" type="power_in"/>
+        <pin num="35" name="BCM19_MISO" type="BiDi"/>
+        <pin num="36" name="BCM16" type="BiDi"/>
+        <pin num="37" name="BCM26" type="BiDi"/>
+        <pin num="38" name="BCM20_MOSI" type="BiDi"/>
+        <pin num="39" name="GND" type="power_in"/>
+        <pin num="40" name="BCM21_SCLK" type="BiDi"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="XuLA_IO_HDR">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">XuLA_IO_HDR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Analog_I/O_1" type="passive"/>
+        <pin num="2" name="Analog_I/O_0" type="passive"/>
+        <pin num="3" name="+5V" type="power_out"/>
+        <pin num="4" name="Chan31" type="BiDi"/>
+        <pin num="5" name="Chan30" type="BiDi"/>
+        <pin num="6" name="Chan29" type="BiDi"/>
+        <pin num="7" name="Chan28" type="BiDi"/>
+        <pin num="8" name="Chan27" type="BiDi"/>
+        <pin num="9" name="Chan26" type="BiDi"/>
+        <pin num="10" name="Chan25" type="BiDi"/>
+        <pin num="11" name="Chan24" type="BiDi"/>
+        <pin num="12" name="Chan23" type="BiDi"/>
+        <pin num="13" name="Chan22" type="BiDi"/>
+        <pin num="14" name="Chan21" type="BiDi"/>
+        <pin num="15" name="Chan20" type="BiDi"/>
+        <pin num="16" name="Chan19" type="BiDi"/>
+        <pin num="17" name="Chan18" type="BiDi"/>
+        <pin num="18" name="Chan17" type="BiDi"/>
+        <pin num="19" name="Chan16" type="BiDi"/>
+        <pin num="20" name="Chan15" type="BiDi"/>
+        <pin num="21" name="ChanClk" type="BiDi"/>
+        <pin num="22" name="Chan0" type="BiDi"/>
+        <pin num="23" name="Chan1" type="BiDi"/>
+        <pin num="24" name="Chan2" type="BiDi"/>
+        <pin num="25" name="Chan3" type="BiDi"/>
+        <pin num="26" name="Chan4" type="BiDi"/>
+        <pin num="27" name="Chan5" type="BiDi"/>
+        <pin num="28" name="Chan6" type="BiDi"/>
+        <pin num="29" name="Chan7" type="BiDi"/>
+        <pin num="30" name="Chan8" type="BiDi"/>
+        <pin num="31" name="Chan9" type="BiDi"/>
+        <pin num="32" name="Chan10" type="BiDi"/>
+        <pin num="33" name="Chan11" type="BiDi"/>
+        <pin num="34" name="Chan12" type="BiDi"/>
+        <pin num="35" name="Chan13" type="BiDi"/>
+        <pin num="36" name="Chan14" type="BiDi"/>
+        <pin num="37" name="+3.3V" type="power_out"/>
+        <pin num="38" name="GND" type="power_out"/>
+        <pin num="39" name="+1.2V" type="power_out"/>
+        <pin num="40" name="~RESET" type="output"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>C:\kicad\kicad\share\library\device.lib</uri>
+    </library>
+    <library logical="conn">
+      <uri>C:\kicad\kicad\share\library\conn.lib</uri>
+    </library>
+    <library logical="xess">
+      <uri>C:\xesscorp\KiCad\libraries\xess.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="GND">
+      <node ref="C3" pin="2"/>
+      <node ref="GR2" pin="4"/>
+      <node ref="U1" pin="1"/>
+      <node ref="U2" pin="2"/>
+      <node ref="C4" pin="2"/>
+      <node ref="PM3" pin="5"/>
+      <node ref="PM3" pin="11"/>
+      <node ref="U2" pin="3"/>
+      <node ref="U2" pin="1"/>
+      <node ref="U2" pin="4"/>
+      <node ref="PM2" pin="11"/>
+      <node ref="PM2" pin="5"/>
+      <node ref="GPIO1" pin="14"/>
+      <node ref="GPIO1" pin="30"/>
+      <node ref="GPIO1" pin="34"/>
+      <node ref="GPIO1" pin="25"/>
+      <node ref="J1" pin="38"/>
+      <node ref="CON1" pin="2"/>
+      <node ref="SW1" pin="2"/>
+      <node ref="GPIO1" pin="39"/>
+      <node ref="GR3" pin="4"/>
+      <node ref="GR1" pin="4"/>
+      <node ref="PM1" pin="5"/>
+      <node ref="PM1" pin="11"/>
+      <node ref="GPIO1" pin="6"/>
+      <node ref="GPIO1" pin="9"/>
+      <node ref="GPIO1" pin="20"/>
+      <node ref="TP1" pin="2"/>
+      <node ref="TP1" pin="1"/>
+      <node ref="JP8" pin="1"/>
+      <node ref="C2" pin="2"/>
+      <node ref="C1" pin="2"/>
+      <node ref="C5" pin="2"/>
+    </net>
+    <net code="2" name="CHAN0">
+      <node ref="PM1" pin="1"/>
+      <node ref="GPIO1" pin="37"/>
+      <node ref="JP10" pin="1"/>
+      <node ref="J1" pin="22"/>
+    </net>
+    <net code="3" name="CHANCLK">
+      <node ref="GR1" pin="1"/>
+      <node ref="PM1" pin="7"/>
+      <node ref="JP9" pin="1"/>
+      <node ref="J1" pin="21"/>
+      <node ref="GPIO1" pin="40"/>
+    </net>
+    <net code="4" name="+5V">
+      <node ref="U1" pin="3"/>
+      <node ref="JP2" pin="1"/>
+      <node ref="JP5" pin="2"/>
+      <node ref="JP6" pin="2"/>
+      <node ref="JP1" pin="1"/>
+      <node ref="JP4" pin="2"/>
+      <node ref="C2" pin="1"/>
+      <node ref="JP3" pin="1"/>
+      <node ref="C1" pin="1"/>
+    </net>
+    <net code="5" name="Net-(J1-Pad40)">
+      <node ref="J1" pin="40"/>
+      <node ref="SW1" pin="1"/>
+    </net>
+    <net code="6" name="+5V-RPi">
+      <node ref="GPIO1" pin="4"/>
+      <node ref="GPIO1" pin="2"/>
+      <node ref="JP4" pin="1"/>
+    </net>
+    <net code="7" name="+3.3V-RPi">
+      <node ref="GPIO1" pin="17"/>
+      <node ref="JP7" pin="2"/>
+      <node ref="GPIO1" pin="1"/>
+    </net>
+    <net code="8" name="Net-(CON1-Pad3)">
+      <node ref="CON1" pin="3"/>
+    </net>
+    <net code="9" name="Net-(J1-Pad2)">
+      <node ref="J1" pin="2"/>
+    </net>
+    <net code="10" name="Net-(J1-Pad1)">
+      <node ref="J1" pin="1"/>
+    </net>
+    <net code="11" name="Net-(J1-Pad37)">
+      <node ref="J1" pin="37"/>
+    </net>
+    <net code="12" name="ID_SD">
+      <node ref="JP10" pin="2"/>
+      <node ref="GPIO1" pin="27"/>
+      <node ref="RN1" pin="3"/>
+      <node ref="U2" pin="5"/>
+    </net>
+    <net code="13" name="ID_SC">
+      <node ref="U2" pin="6"/>
+      <node ref="GPIO1" pin="28"/>
+      <node ref="JP9" pin="2"/>
+      <node ref="RN1" pin="4"/>
+    </net>
+    <net code="14" name="Net-(JP8-Pad2)">
+      <node ref="JP8" pin="2"/>
+      <node ref="R1" pin="2"/>
+      <node ref="U2" pin="7"/>
+    </net>
+    <net code="15" name="Net-(GR1-Pad3)">
+      <node ref="GR1" pin="3"/>
+      <node ref="PM1" pin="12"/>
+      <node ref="PM1" pin="6"/>
+      <node ref="JP1" pin="2"/>
+      <node ref="J3" pin="1"/>
+    </net>
+    <net code="16" name="Net-(CON1-Pad1)">
+      <node ref="CON1" pin="1"/>
+      <node ref="JP6" pin="1"/>
+    </net>
+    <net code="17" name="Net-(GR2-Pad3)">
+      <node ref="J4" pin="1"/>
+      <node ref="PM2" pin="12"/>
+      <node ref="JP2" pin="2"/>
+      <node ref="GR2" pin="3"/>
+      <node ref="PM2" pin="6"/>
+    </net>
+    <net code="18" name="Net-(GR3-Pad3)">
+      <node ref="PM3" pin="12"/>
+      <node ref="PM3" pin="6"/>
+      <node ref="GR3" pin="3"/>
+      <node ref="J5" pin="1"/>
+      <node ref="JP3" pin="2"/>
+    </net>
+    <net code="19" name="+3.3V">
+      <node ref="C4" pin="1"/>
+      <node ref="U1" pin="2"/>
+      <node ref="U1" pin="4"/>
+      <node ref="J3" pin="2"/>
+      <node ref="JP1" pin="3"/>
+      <node ref="C3" pin="1"/>
+      <node ref="JP2" pin="3"/>
+      <node ref="J5" pin="2"/>
+      <node ref="JP3" pin="3"/>
+      <node ref="J4" pin="2"/>
+      <node ref="U2" pin="8"/>
+      <node ref="C5" pin="1"/>
+      <node ref="R1" pin="1"/>
+      <node ref="RN1" pin="2"/>
+      <node ref="RN1" pin="1"/>
+      <node ref="JP7" pin="1"/>
+    </net>
+    <net code="20" name="CHAN27">
+      <node ref="J1" pin="8"/>
+      <node ref="GPIO1" pin="13"/>
+      <node ref="PM3" pin="3"/>
+    </net>
+    <net code="21" name="CHAN25">
+      <node ref="PM3" pin="2"/>
+      <node ref="GPIO1" pin="19"/>
+      <node ref="J1" pin="10"/>
+    </net>
+    <net code="22" name="Net-(J1-Pad39)">
+      <node ref="J1" pin="39"/>
+    </net>
+    <net code="23" name="CHAN11">
+      <node ref="J1" pin="33"/>
+      <node ref="GPIO1" pin="16"/>
+    </net>
+    <net code="24" name="CHAN2">
+      <node ref="GPIO1" pin="35"/>
+      <node ref="J1" pin="24"/>
+      <node ref="PM1" pin="2"/>
+    </net>
+    <net code="25" name="CHAN8">
+      <node ref="J1" pin="30"/>
+      <node ref="GPIO1" pin="24"/>
+    </net>
+    <net code="26" name="CHAN4">
+      <node ref="PM1" pin="3"/>
+      <node ref="J1" pin="26"/>
+      <node ref="GPIO1" pin="33"/>
+    </net>
+    <net code="27" name="CHAN23">
+      <node ref="PM3" pin="1"/>
+      <node ref="J1" pin="12"/>
+      <node ref="GPIO1" pin="23"/>
+    </net>
+    <net code="28" name="CHAN6">
+      <node ref="J1" pin="28"/>
+      <node ref="GPIO1" pin="32"/>
+      <node ref="PM1" pin="4"/>
+    </net>
+    <net code="29" name="CHAN9">
+      <node ref="GPIO1" pin="22"/>
+      <node ref="J1" pin="31"/>
+    </net>
+    <net code="30" name="CHAN12">
+      <node ref="GPIO1" pin="12"/>
+      <node ref="J1" pin="34"/>
+    </net>
+    <net code="31" name="CHAN5">
+      <node ref="GPIO1" pin="31"/>
+      <node ref="J1" pin="27"/>
+      <node ref="PM1" pin="10"/>
+    </net>
+    <net code="32" name="CHAN7">
+      <node ref="GPIO1" pin="26"/>
+      <node ref="J1" pin="29"/>
+    </net>
+    <net code="33" name="CHAN13">
+      <node ref="J1" pin="35"/>
+      <node ref="GPIO1" pin="10"/>
+    </net>
+    <net code="34" name="CHAN14">
+      <node ref="GPIO1" pin="8"/>
+      <node ref="J1" pin="36"/>
+    </net>
+    <net code="35" name="CHAN31">
+      <node ref="GPIO1" pin="3"/>
+      <node ref="J1" pin="4"/>
+    </net>
+    <net code="36" name="+5V-XuLA">
+      <node ref="J1" pin="3"/>
+      <node ref="JP5" pin="1"/>
+    </net>
+    <net code="37" name="CHAN1">
+      <node ref="GPIO1" pin="38"/>
+      <node ref="J1" pin="23"/>
+      <node ref="PM1" pin="8"/>
+      <node ref="GR1" pin="2"/>
+    </net>
+    <net code="38" name="CHAN29">
+      <node ref="PM3" pin="4"/>
+      <node ref="J1" pin="6"/>
+      <node ref="GPIO1" pin="7"/>
+    </net>
+    <net code="39" name="CHAN10">
+      <node ref="J1" pin="32"/>
+      <node ref="GPIO1" pin="18"/>
+    </net>
+    <net code="40" name="CHAN3">
+      <node ref="GPIO1" pin="36"/>
+      <node ref="PM1" pin="9"/>
+      <node ref="J1" pin="25"/>
+    </net>
+    <net code="41" name="CHAN22">
+      <node ref="GPIO1" pin="29"/>
+      <node ref="PM2" pin="10"/>
+      <node ref="J1" pin="13"/>
+    </net>
+    <net code="42" name="CHAN20">
+      <node ref="J1" pin="15"/>
+      <node ref="PM2" pin="9"/>
+    </net>
+    <net code="43" name="CHAN18">
+      <node ref="GR2" pin="2"/>
+      <node ref="PM2" pin="8"/>
+      <node ref="J1" pin="17"/>
+    </net>
+    <net code="44" name="CHAN16">
+      <node ref="PM2" pin="7"/>
+      <node ref="GR2" pin="1"/>
+      <node ref="J1" pin="19"/>
+    </net>
+    <net code="45" name="CHAN21">
+      <node ref="PM2" pin="4"/>
+      <node ref="J1" pin="14"/>
+    </net>
+    <net code="46" name="CHAN19">
+      <node ref="J1" pin="16"/>
+      <node ref="PM2" pin="3"/>
+    </net>
+    <net code="47" name="CHAN17">
+      <node ref="J1" pin="18"/>
+      <node ref="PM2" pin="2"/>
+    </net>
+    <net code="48" name="CHAN15">
+      <node ref="PM2" pin="1"/>
+      <node ref="J1" pin="20"/>
+    </net>
+    <net code="49" name="CHAN30">
+      <node ref="J1" pin="5"/>
+      <node ref="PM3" pin="10"/>
+      <node ref="GPIO1" pin="5"/>
+    </net>
+    <net code="50" name="CHAN28">
+      <node ref="GPIO1" pin="11"/>
+      <node ref="J1" pin="7"/>
+      <node ref="PM3" pin="9"/>
+    </net>
+    <net code="51" name="CHAN26">
+      <node ref="J1" pin="9"/>
+      <node ref="GPIO1" pin="15"/>
+      <node ref="GR3" pin="2"/>
+      <node ref="PM3" pin="8"/>
+    </net>
+    <net code="52" name="CHAN24">
+      <node ref="GR3" pin="1"/>
+      <node ref="PM3" pin="7"/>
+      <node ref="GPIO1" pin="21"/>
+      <node ref="J1" pin="11"/>
+    </net>
+  </nets>
+</export>
