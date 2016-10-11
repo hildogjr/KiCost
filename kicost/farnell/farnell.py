@@ -38,11 +38,15 @@ except ImportError:
     
 from ..kicost import PartHtmlError, FakeBrowser
 
+from currency_converter import CurrencyConverter
+
 __author__='Giacinto Luigi Cerone'
 
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
+
+currency = CurrencyConverter()
 
 def get_farnell_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the farnell product page.'''
@@ -69,6 +73,7 @@ def get_farnell_price_tiers(html_tree):
                 qty = int(re.sub('[^0-9]', '', qty))
                 price_str=price_str.replace(',','.')
                 price_tiers[qty] = float(re.sub('[^0-9\.]', '', price_str))
+                price_tiers[qty] = currency.convert(price_tiers[qty], 'EUR', 'USD')
             except (TypeError, AttributeError, ValueError):
                 continue
     except AttributeError:

@@ -1,0 +1,4942 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>E:/PCB/Board files/CSPM9100/BoulderCreek_MotherBoard/BoulderCreek_MotherBoard.sch</source>
+    <date>6/3/2016 12:22:55 PM</date>
+    <tool>Eeschema 4.0.0-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>BoulderCreek_MotherBoard.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/RelayMatrix/" tstamps="/5731B912/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>RelayMatrix.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/RelayMatrix/Relays_Load/" tstamps="/5731B912/5742ABFE/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Relays_Load.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Relays_OutputSense.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Relays_Power_And_InputSense.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="6" name="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>RelayControl.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="7" name="/NanoGrabitConnectorsandLevelShifters/" tstamps="/5731B92D/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>NanoGrabitConnectorsandLevelShifters.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="8" name="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>NanoGraBITConnectors.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="9" name="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Translators.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="10" name="/PowerAndSenses/" tstamps="/5731B900/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>PowerAndSenses.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="11" name="/DaughterBoardConnectors/" tstamps="/5731B94B/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>DaughterBoardConnectors.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="12" name="/LoadBlock/" tstamps="/5732DCDF/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>LoadBlock.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="13" name="/DBSupplySelection/" tstamps="/57D42FB6/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>DBSupplySelection.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="TP2">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5772E57C</tstamp>
+    </comp>
+    <comp ref="TP7">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5772ED56</tstamp>
+    </comp>
+    <comp ref="TP15">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5772F01A</tstamp>
+    </comp>
+    <comp ref="TP20">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5772FCE3</tstamp>
+    </comp>
+    <comp ref="TP3">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5773731E</tstamp>
+    </comp>
+    <comp ref="TP9">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5773BA5A</tstamp>
+    </comp>
+    <comp ref="TP16">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5773D514</tstamp>
+    </comp>
+    <comp ref="TP17">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579AEF05</tstamp>
+    </comp>
+    <comp ref="TP21">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579AEF0B</tstamp>
+    </comp>
+    <comp ref="TP18">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579AEF13</tstamp>
+    </comp>
+    <comp ref="TP23">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579AEF19</tstamp>
+    </comp>
+    <comp ref="TP8">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579BC510</tstamp>
+    </comp>
+    <comp ref="TP11">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579BFF3B</tstamp>
+    </comp>
+    <comp ref="TP14">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579C0200</tstamp>
+    </comp>
+    <comp ref="TP10">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579C5DE7</tstamp>
+    </comp>
+    <comp ref="TP12">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>579C60AE</tstamp>
+    </comp>
+    <comp ref="TP4">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57E96FC1</tstamp>
+    </comp>
+    <comp ref="TP22">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57E9AA32</tstamp>
+    </comp>
+    <comp ref="TP1">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57EA0260</tstamp>
+    </comp>
+    <comp ref="TP6">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57EA094E</tstamp>
+    </comp>
+    <comp ref="TP13">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57EA6992</tstamp>
+    </comp>
+    <comp ref="TP19">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57EABAB9</tstamp>
+    </comp>
+    <comp ref="TP5">
+      <value>TP-TH</value>
+      <footprint>MISC:TP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-TH"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57EB7929</tstamp>
+    </comp>
+    <comp ref="K1">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Load/" tstamps="/5731B912/5742ABFE/"/>
+      <tstamp>5753F3E6</tstamp>
+    </comp>
+    <comp ref="K10">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Load/" tstamps="/5731B912/5742ABFE/"/>
+      <tstamp>5753F473</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>OPA277UA-ND</value>
+      <footprint>Analog:OPA277UA-ND_8P_SOIC</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="OPA277UA-ND"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBBFCD</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBBFD4</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>NC</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBBFDB</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBBFE8</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBBFEF</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>NC</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBBFFC</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBC00C</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBC013</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>1uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBC02C</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBC039</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>1uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBC049</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>57CBC056</tstamp>
+    </comp>
+    <comp ref="K7">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575BBAD0</tstamp>
+    </comp>
+    <comp ref="K8">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575BBCD8</tstamp>
+    </comp>
+    <comp ref="K9">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575BC09D</tstamp>
+    </comp>
+    <comp ref="K6">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575BD102</tstamp>
+    </comp>
+    <comp ref="K2">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575C0AE9</tstamp>
+    </comp>
+    <comp ref="K3">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575C27BC</tstamp>
+    </comp>
+    <comp ref="K4">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575C5070</tstamp>
+    </comp>
+    <comp ref="K5">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575C7CC4</tstamp>
+    </comp>
+    <comp ref="K15">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_OutputSense/" tstamps="/5731B912/57428967/"/>
+      <tstamp>575D226A</tstamp>
+    </comp>
+    <comp ref="K18">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57AC9B11</tstamp>
+    </comp>
+    <comp ref="K22">
+      <value>RTE24005F</value>
+      <footprint>MISC:RTE24005F</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="RTE24005F"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57ACD0D9</tstamp>
+    </comp>
+    <comp ref="K16">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57ADD082</tstamp>
+    </comp>
+    <comp ref="K20">
+      <value>RTE24005F</value>
+      <footprint>MISC:RTE24005F</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="RTE24005F"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57ADD098</tstamp>
+    </comp>
+    <comp ref="K17">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57ADD212</tstamp>
+    </comp>
+    <comp ref="K21">
+      <value>RTE24005F</value>
+      <footprint>MISC:RTE24005F</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="RTE24005F"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57ADD228</tstamp>
+    </comp>
+    <comp ref="K14">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57ADD272</tstamp>
+    </comp>
+    <comp ref="K19">
+      <value>RTE24005F</value>
+      <footprint>MISC:RTE24005F</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="RTE24005F"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57ADD288</tstamp>
+    </comp>
+    <comp ref="K27">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57B5C53D</tstamp>
+    </comp>
+    <comp ref="K26">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>5754886D</tstamp>
+    </comp>
+    <comp ref="K28">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57549A2F</tstamp>
+    </comp>
+    <comp ref="K24">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>5754CFDD</tstamp>
+    </comp>
+    <comp ref="K25">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>5754CFF5</tstamp>
+    </comp>
+    <comp ref="K13">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>5754F151</tstamp>
+    </comp>
+    <comp ref="K23">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>5754F169</tstamp>
+    </comp>
+    <comp ref="K11">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57550CEC</tstamp>
+    </comp>
+    <comp ref="K12">
+      <value>ALQ305</value>
+      <footprint>MISC:ALQ305</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ALQ305"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>57550D04</tstamp>
+    </comp>
+    <comp ref="K29">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>575ACDC0</tstamp>
+    </comp>
+    <comp ref="K30">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>575AFE8B</tstamp>
+    </comp>
+    <comp ref="K32">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>575B2AFA</tstamp>
+    </comp>
+    <comp ref="K31">
+      <value>IMO3TS</value>
+      <footprint>MISC:IM03TS</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IMO3TS"/>
+      <sheetpath names="/RelayMatrix/Relays_Power_And_InputSense/" tstamps="/5731B912/57B7E840/"/>
+      <tstamp>575B5A8F</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D481</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D495</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D4A8</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D4BB</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D4CE</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D4E1</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D4F4</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D507</tstamp>
+    </comp>
+    <comp ref="U8">
+      <value>ULN2803A</value>
+      <footprint>MISC:ULN2803A_SOIC_18P_WIDE</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ULN2803A"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D52A</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D537</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D54A</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>74HC595</value>
+      <footprint>Digital:74HC595_SO-16</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="74HC595"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D55C</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D563</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D576</tstamp>
+    </comp>
+    <comp ref="U7">
+      <value>ULN2803A</value>
+      <footprint>MISC:ULN2803A_SOIC_18P_WIDE</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ULN2803A"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D583</tstamp>
+    </comp>
+    <comp ref="U6">
+      <value>ULN2803A</value>
+      <footprint>MISC:ULN2803A_SOIC_18P_WIDE</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ULN2803A"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D5B2</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D5BF</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D5D2</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>74HC595</value>
+      <footprint>Digital:74HC595_SO-16</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="74HC595"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>5732D5D9</tstamp>
+    </comp>
+    <comp ref="U9">
+      <value>ULN2803A</value>
+      <footprint>MISC:ULN2803A_SOIC_18P_WIDE</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="ULN2803A"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>573F25DE</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>573F25EA</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>573F25F6</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>74HC595</value>
+      <footprint>Digital:74HC595_SO-16</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="74HC595"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>573F25FC</tstamp>
+    </comp>
+    <comp ref="U4">
+      <value>74HC595</value>
+      <footprint>Digital:74HC595_SO-16</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="74HC595"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>578C5F1A</tstamp>
+    </comp>
+    <comp ref="R27">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02305</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0230C</tstamp>
+    </comp>
+    <comp ref="R30">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02313</tstamp>
+    </comp>
+    <comp ref="R29">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0231A</tstamp>
+    </comp>
+    <comp ref="R25">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02321</tstamp>
+    </comp>
+    <comp ref="R26">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02328</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0232F</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02336</tstamp>
+    </comp>
+    <comp ref="R31">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0233D</tstamp>
+    </comp>
+    <comp ref="R32">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02344</tstamp>
+    </comp>
+    <comp ref="R34">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0234B</tstamp>
+    </comp>
+    <comp ref="R33">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02352</tstamp>
+    </comp>
+    <comp ref="R37">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02359</tstamp>
+    </comp>
+    <comp ref="R38">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02360</tstamp>
+    </comp>
+    <comp ref="R36">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02367</tstamp>
+    </comp>
+    <comp ref="R35">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0236E</tstamp>
+    </comp>
+    <comp ref="R19">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02375</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0237C</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02383</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0238A</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02391</tstamp>
+    </comp>
+    <comp ref="R18">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A02398</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A0239F</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A023BE</tstamp>
+    </comp>
+    <comp ref="R39">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A067A6</tstamp>
+    </comp>
+    <comp ref="R41">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A067AC</tstamp>
+    </comp>
+    <comp ref="R40">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A067B2</tstamp>
+    </comp>
+    <comp ref="R44">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A067B8</tstamp>
+    </comp>
+    <comp ref="R45">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A067BE</tstamp>
+    </comp>
+    <comp ref="R43">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A067C4</tstamp>
+    </comp>
+    <comp ref="R42">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A067CA</tstamp>
+    </comp>
+    <comp ref="R46">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/RelayMatrix/RelayControl/" tstamps="/5731B912/5731C5C9/"/>
+      <tstamp>57A08FFB</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>NANOGraBIT</value>
+      <footprint>Connectors:NANO-GrabIT_DB_96P</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="NANOGraBIT"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DDB74</tstamp>
+    </comp>
+    <comp ref="R47">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DDD1F</tstamp>
+    </comp>
+    <comp ref="R48">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DDDEC</tstamp>
+    </comp>
+    <comp ref="R49">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DDE17</tstamp>
+    </comp>
+    <comp ref="R50">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DDE4D</tstamp>
+    </comp>
+    <comp ref="R51">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE09A</tstamp>
+    </comp>
+    <comp ref="R52">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE0A0</tstamp>
+    </comp>
+    <comp ref="R53">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE0A6</tstamp>
+    </comp>
+    <comp ref="R54">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE0AC</tstamp>
+    </comp>
+    <comp ref="R55">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE2FB</tstamp>
+    </comp>
+    <comp ref="R56">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE301</tstamp>
+    </comp>
+    <comp ref="R57">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE307</tstamp>
+    </comp>
+    <comp ref="R58">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575DE30D</tstamp>
+    </comp>
+    <comp ref="R59">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575E2E9F</tstamp>
+    </comp>
+    <comp ref="R60">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575E52D6</tstamp>
+    </comp>
+    <comp ref="R61">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575E52DE</tstamp>
+    </comp>
+    <comp ref="R62">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575E5636</tstamp>
+    </comp>
+    <comp ref="R63">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575E7E6F</tstamp>
+    </comp>
+    <comp ref="R65">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>57D8E463</tstamp>
+    </comp>
+    <comp ref="R66">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>57D8E469</tstamp>
+    </comp>
+    <comp ref="R67">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>57D8E46F</tstamp>
+    </comp>
+    <comp ref="R136">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759AA1D</tstamp>
+    </comp>
+    <comp ref="R137">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759AA24</tstamp>
+    </comp>
+    <comp ref="R138">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759AA2B</tstamp>
+    </comp>
+    <comp ref="R139">
+      <value>100E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759AC94</tstamp>
+    </comp>
+    <comp ref="R141">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759BB30</tstamp>
+    </comp>
+    <comp ref="R126">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759BB37</tstamp>
+    </comp>
+    <comp ref="R127">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759BB3E</tstamp>
+    </comp>
+    <comp ref="R128">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759BB45</tstamp>
+    </comp>
+    <comp ref="R129">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759C559</tstamp>
+    </comp>
+    <comp ref="R130">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759C55F</tstamp>
+    </comp>
+    <comp ref="R131">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759E99A</tstamp>
+    </comp>
+    <comp ref="R132">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759E9A1</tstamp>
+    </comp>
+    <comp ref="R133">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759E9A8</tstamp>
+    </comp>
+    <comp ref="R134">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759E9BA</tstamp>
+    </comp>
+    <comp ref="R135">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>5759E9C1</tstamp>
+    </comp>
+    <comp ref="R140">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A0BC0</tstamp>
+    </comp>
+    <comp ref="R143">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A1EBE</tstamp>
+    </comp>
+    <comp ref="R142">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A1EC5</tstamp>
+    </comp>
+    <comp ref="R146">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A2B27</tstamp>
+    </comp>
+    <comp ref="R145">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A2B2E</tstamp>
+    </comp>
+    <comp ref="R147">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A2E95</tstamp>
+    </comp>
+    <comp ref="R144">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A3BC7</tstamp>
+    </comp>
+    <comp ref="R125">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/" tstamps="/5731B92D/575BF3FF/"/>
+      <tstamp>575A47AC</tstamp>
+    </comp>
+    <comp ref="U10">
+      <value>74LVCH8T245PW118</value>
+      <footprint>Digital:74LVCH8T245PW118</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="74LVCH8T245PW118"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>576045E3</tstamp>
+    </comp>
+    <comp ref="R75">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>576076FC</tstamp>
+    </comp>
+    <comp ref="R76">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5760782D</tstamp>
+    </comp>
+    <comp ref="R77">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5760787A</tstamp>
+    </comp>
+    <comp ref="R78">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57607BAA</tstamp>
+    </comp>
+    <comp ref="R79">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57607DE3</tstamp>
+    </comp>
+    <comp ref="R80">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57607E12</tstamp>
+    </comp>
+    <comp ref="R72">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57828AD7</tstamp>
+    </comp>
+    <comp ref="R74">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57828B84</tstamp>
+    </comp>
+    <comp ref="R68">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57829AE9</tstamp>
+    </comp>
+    <comp ref="R69">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782AD61</tstamp>
+    </comp>
+    <comp ref="R70">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782AFC3</tstamp>
+    </comp>
+    <comp ref="R73">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782B063</tstamp>
+    </comp>
+    <comp ref="R71">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782B0C9</tstamp>
+    </comp>
+    <comp ref="R82">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782B943</tstamp>
+    </comp>
+    <comp ref="U11">
+      <value>74LVCH8T245PW118</value>
+      <footprint>Digital:74LVCH8T245PW118</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="74LVCH8T245PW118"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB2A</tstamp>
+    </comp>
+    <comp ref="R90">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB31</tstamp>
+    </comp>
+    <comp ref="R91">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB38</tstamp>
+    </comp>
+    <comp ref="R92">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB3F</tstamp>
+    </comp>
+    <comp ref="R93">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB46</tstamp>
+    </comp>
+    <comp ref="R94">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB4D</tstamp>
+    </comp>
+    <comp ref="R95">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB54</tstamp>
+    </comp>
+    <comp ref="R87">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB6C</tstamp>
+    </comp>
+    <comp ref="R89">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB73</tstamp>
+    </comp>
+    <comp ref="R83">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DB88</tstamp>
+    </comp>
+    <comp ref="R84">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DBA7</tstamp>
+    </comp>
+    <comp ref="R85">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DBB7</tstamp>
+    </comp>
+    <comp ref="R88">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DBBE</tstamp>
+    </comp>
+    <comp ref="R86">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DBC4</tstamp>
+    </comp>
+    <comp ref="R97">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>5782DBD2</tstamp>
+    </comp>
+    <comp ref="R81">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>578B60C0</tstamp>
+    </comp>
+    <comp ref="R96">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>578B8488</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>3P_JMP_TH</value>
+      <footprint>Connectors_TH:3PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="3P_JMP_TH"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57FC4151</tstamp>
+    </comp>
+    <comp ref="J3">
+      <value>3P_JMP_TH</value>
+      <footprint>Connectors_TH:3PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="3P_JMP_TH"/>
+      <sheetpath names="/NanoGrabitConnectorsandLevelShifters/Translators/" tstamps="/5731B92D/575EC24F/"/>
+      <tstamp>57FC5342</tstamp>
+    </comp>
+    <comp ref="J4">
+      <value>SMA_TH</value>
+      <footprint>Connectors_TH:SMA_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="SMA_TH"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D24D</tstamp>
+    </comp>
+    <comp ref="P4">
+      <value>PHX_2PIN</value>
+      <footprint>Connectors_TH:Phx_2pin</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="PHX_2PIN"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D256</tstamp>
+    </comp>
+    <comp ref="P1">
+      <value>PHX_3PIN</value>
+      <footprint>Connectors_TH:Phx_3pin</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="PHX_3PIN"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D271</tstamp>
+    </comp>
+    <comp ref="P5">
+      <value>PHX_2PIN</value>
+      <footprint>Connectors_TH:Phx_2pin</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="PHX_2PIN"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D27A</tstamp>
+    </comp>
+    <comp ref="P8">
+      <value>PHX_2PIN</value>
+      <footprint>Connectors_TH:Phx_2pin</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="PHX_2PIN"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D282</tstamp>
+    </comp>
+    <comp ref="J5">
+      <value>SMA_TH</value>
+      <footprint>Connectors_TH:SMA_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="SMA_TH"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D29C</tstamp>
+    </comp>
+    <comp ref="P3">
+      <value>DC_JACK</value>
+      <footprint>MISC:DC_JACK_3P_LOCAL</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="DC_JACK"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D2A3</tstamp>
+    </comp>
+    <comp ref="P6">
+      <value>PHX_2PIN</value>
+      <footprint>Connectors_TH:Phx_2pin</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="PHX_2PIN"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D2F0</tstamp>
+    </comp>
+    <comp ref="C44">
+      <value>1uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D322</tstamp>
+    </comp>
+    <comp ref="C38">
+      <value>33pF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D329</tstamp>
+    </comp>
+    <comp ref="R100">
+      <value>45k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D336</tstamp>
+    </comp>
+    <comp ref="C19">
+      <value>2.2uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D34F</tstamp>
+    </comp>
+    <comp ref="U13">
+      <value>TPS79601DGQG4</value>
+      <footprint>MISC:TPS79601DCQG4</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TPS79601DGQG4"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D356</tstamp>
+    </comp>
+    <comp ref="R104">
+      <value>1k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D375</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>LED</value>
+      <footprint>MISC:LED_0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="LED"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D37C</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>LED</value>
+      <footprint>MISC:LED_0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="LED"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D395</tstamp>
+    </comp>
+    <comp ref="R107">
+      <value>1k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D39C</tstamp>
+    </comp>
+    <comp ref="R106">
+      <value>100</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D3A9</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>LED</value>
+      <footprint>MISC:LED_0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="LED"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D3B0</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>LED</value>
+      <footprint>MISC:LED_0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="LED"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D3C3</tstamp>
+    </comp>
+    <comp ref="R105">
+      <value>350</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5740D3CA</tstamp>
+    </comp>
+    <comp ref="C42">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411395</tstamp>
+    </comp>
+    <comp ref="C46">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5741139C</tstamp>
+    </comp>
+    <comp ref="C45">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411407</tstamp>
+    </comp>
+    <comp ref="C41">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5741140E</tstamp>
+    </comp>
+    <comp ref="C31">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411421</tstamp>
+    </comp>
+    <comp ref="C33">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411440</tstamp>
+    </comp>
+    <comp ref="C34">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411493</tstamp>
+    </comp>
+    <comp ref="C32">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>574114B2</tstamp>
+    </comp>
+    <comp ref="C26">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411531</tstamp>
+    </comp>
+    <comp ref="C24">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411544</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5741157D</tstamp>
+    </comp>
+    <comp ref="C16">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57411590</tstamp>
+    </comp>
+    <comp ref="C17">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>574115A3</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>574115B6</tstamp>
+    </comp>
+    <comp ref="U14">
+      <value>LM337</value>
+      <footprint>MISC:LM337KC</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="LM337"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577CBF82</tstamp>
+    </comp>
+    <comp ref="R102">
+      <value>240</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577CBF89</tstamp>
+    </comp>
+    <comp ref="R103">
+      <value>750</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577CBF90</tstamp>
+    </comp>
+    <comp ref="C52">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577CBF9D</tstamp>
+    </comp>
+    <comp ref="C53">
+      <value>1uF</value>
+      <footprint>MISC:CASEC_6032</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577CBFB0</tstamp>
+    </comp>
+    <comp ref="C51">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577CBFBE</tstamp>
+    </comp>
+    <comp ref="D5">
+      <value>LED</value>
+      <footprint>MISC:LED_0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="LED"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577D0B61</tstamp>
+    </comp>
+    <comp ref="R108">
+      <value>350</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>577D0B67</tstamp>
+    </comp>
+    <comp ref="P2">
+      <value>DC_JACK</value>
+      <footprint>MISC:DC_JACK_3P_LOCAL</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="DC_JACK"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5783657E</tstamp>
+    </comp>
+    <comp ref="R101">
+      <value>27k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57863FB3</tstamp>
+    </comp>
+    <comp ref="P9">
+      <value>PHX_2PIN</value>
+      <footprint>Connectors_TH:Phx_2pin</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="PHX_2PIN"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>5786E70E</tstamp>
+    </comp>
+    <comp ref="P7">
+      <value>PHX_2PIN</value>
+      <footprint>Connectors_TH:Phx_2pin</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="PHX_2PIN"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57931454</tstamp>
+    </comp>
+    <comp ref="C43">
+      <value>1uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57CFC6BA</tstamp>
+    </comp>
+    <comp ref="C37">
+      <value>33pF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57CFC6C0</tstamp>
+    </comp>
+    <comp ref="R98">
+      <value>45k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57CFC6CC</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>2.2uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57CFC6E4</tstamp>
+    </comp>
+    <comp ref="U12">
+      <value>TPS79601DGQG4</value>
+      <footprint>MISC:TPS79601DCQG4</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TPS79601DGQG4"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57CFC6EA</tstamp>
+    </comp>
+    <comp ref="R99">
+      <value>27k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57CFC6F8</tstamp>
+    </comp>
+    <comp ref="R109">
+      <value>100</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57E6CAEF</tstamp>
+    </comp>
+    <comp ref="D6">
+      <value>LED</value>
+      <footprint>MISC:LED_0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="LED"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57E6CAF5</tstamp>
+    </comp>
+    <comp ref="C66">
+      <value>10uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57FC850F</tstamp>
+    </comp>
+    <comp ref="C67">
+      <value>NC (1210)</value>
+      <footprint>MISC:SM1210</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>575419B2</tstamp>
+    </comp>
+    <comp ref="C21">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57503591</tstamp>
+    </comp>
+    <comp ref="C20">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>575035A3</tstamp>
+    </comp>
+    <comp ref="J13">
+      <value>2P_JMP_TH</value>
+      <footprint>Connectors_TH:2PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="2P_JMP_TH"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>575E0367</tstamp>
+    </comp>
+    <comp ref="J6">
+      <value>3P_JMP_TH</value>
+      <footprint>Connectors_TH:3PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="3P_JMP_TH"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>57F779F2</tstamp>
+    </comp>
+    <comp ref="R149">
+      <value>250</value>
+      <footprint>MISC:R0603</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/PowerAndSenses/" tstamps="/5731B900/"/>
+      <tstamp>575E4AC9</tstamp>
+    </comp>
+    <comp ref="U17">
+      <value>TEMPLATE-FTSH-120-02-F-DV-ES_40PIN_MALE</value>
+      <footprint>Connectors:TEMPLATE-FTSH-120-02-F-DV-ES_40PIN_MALE</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TEMPLATE-FTSH-120-02-F-DV-ES_40PIN_MALE"/>
+      <sheetpath names="/DaughterBoardConnectors/" tstamps="/5731B94B/"/>
+      <tstamp>574CEC0F</tstamp>
+    </comp>
+    <comp ref="C56">
+      <value>10uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57358E80</tstamp>
+    </comp>
+    <comp ref="C57">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>573592BF</tstamp>
+    </comp>
+    <comp ref="C54">
+      <value>10uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>573600C7</tstamp>
+    </comp>
+    <comp ref="C55">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>573600CD</tstamp>
+    </comp>
+    <comp ref="C60">
+      <value>10uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57360515</tstamp>
+    </comp>
+    <comp ref="C61">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5736051B</tstamp>
+    </comp>
+    <comp ref="C58">
+      <value>10uF</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5736053E</tstamp>
+    </comp>
+    <comp ref="C59">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57360544</tstamp>
+    </comp>
+    <comp ref="C64">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5736A450</tstamp>
+    </comp>
+    <comp ref="C65">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5736A456</tstamp>
+    </comp>
+    <comp ref="C62">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5736A477</tstamp>
+    </comp>
+    <comp ref="C63">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5736A47D</tstamp>
+    </comp>
+    <comp ref="R115">
+      <value>0.1E_2.5W</value>
+      <footprint>MISC:R_2.5W_Local</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57399B6B</tstamp>
+    </comp>
+    <comp ref="R114">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57399B72</tstamp>
+    </comp>
+    <comp ref="Q2">
+      <value>IRF530A</value>
+      <footprint>MISC:IRF530</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IRF530A"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57399B79</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>IRF530A</value>
+      <footprint>MISC:IRF530</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IRF530A"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57399B80</tstamp>
+    </comp>
+    <comp ref="R113">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57399B8F</tstamp>
+    </comp>
+    <comp ref="R112">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57399B9C</tstamp>
+    </comp>
+    <comp ref="U15">
+      <value>THS4041</value>
+      <footprint>Analog:THS4041ID</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="THS4041"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57399BA5</tstamp>
+    </comp>
+    <comp ref="R123">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57747B3A</tstamp>
+    </comp>
+    <comp ref="Q4">
+      <value>IRF530A</value>
+      <footprint>MISC:IRF530</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IRF530A"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57747B40</tstamp>
+    </comp>
+    <comp ref="Q3">
+      <value>IRF530A</value>
+      <footprint>MISC:IRF530</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="IRF530A"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57747B46</tstamp>
+    </comp>
+    <comp ref="R122">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57747B53</tstamp>
+    </comp>
+    <comp ref="R121">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57747B5F</tstamp>
+    </comp>
+    <comp ref="U16">
+      <value>THS4041</value>
+      <footprint>Analog:THS4041ID</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="THS4041"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57747B67</tstamp>
+    </comp>
+    <comp ref="R110">
+      <value>191M</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57790836</tstamp>
+    </comp>
+    <comp ref="R111">
+      <value>10M</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5779091D</tstamp>
+    </comp>
+    <comp ref="R118">
+      <value>191M</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57794253</tstamp>
+    </comp>
+    <comp ref="R119">
+      <value>10M</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57794259</tstamp>
+    </comp>
+    <comp ref="R116">
+      <value>0E</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>577BC6DA</tstamp>
+    </comp>
+    <comp ref="R117">
+      <value>0E</value>
+      <footprint>MISC:SM0805</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>577BA50D</tstamp>
+    </comp>
+    <comp ref="R120">
+      <value>0E</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57C2CB27</tstamp>
+    </comp>
+    <comp ref="P12">
+      <value>QSE-014-01-L-D-DP-A</value>
+      <footprint>Connectors:QSE-014-01-L-D-DP-A</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="QSE-014-01-L-D-DP-A"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57C5CAE7</tstamp>
+    </comp>
+    <comp ref="TP25">
+      <value>TP-SMD</value>
+      <footprint>MISC:TP_SMD</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-SMD"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57C778BB</tstamp>
+    </comp>
+    <comp ref="TP24">
+      <value>TP-SMD</value>
+      <footprint>MISC:TP_SMD</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="TP-SMD"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57C78196</tstamp>
+    </comp>
+    <comp ref="J7">
+      <value>2P_JMP_TH</value>
+      <footprint>Connectors_TH:2PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="2P_JMP_TH"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57F7EF7D</tstamp>
+    </comp>
+    <comp ref="J8">
+      <value>2P_JMP_TH</value>
+      <footprint>Connectors_TH:2PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="2P_JMP_TH"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57F7F0A2</tstamp>
+    </comp>
+    <comp ref="J9">
+      <value>2P_JMP_TH</value>
+      <footprint>Connectors_TH:2PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="2P_JMP_TH"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57F7FBE4</tstamp>
+    </comp>
+    <comp ref="J10">
+      <value>2P_JMP_TH</value>
+      <footprint>Connectors_TH:2PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="2P_JMP_TH"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57F7FE40</tstamp>
+    </comp>
+    <comp ref="C22">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>5750AD1C</tstamp>
+    </comp>
+    <comp ref="C23">
+      <value>0.1uF</value>
+      <footprint>MISC:C0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="C"/>
+      <sheetpath names="/LoadBlock/" tstamps="/5732DCDF/"/>
+      <tstamp>57525682</tstamp>
+    </comp>
+    <comp ref="Q7">
+      <value>P-MOS(DMP3056L)</value>
+      <footprint>MISC:DMP3056L-SOT23AB</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="P-MOS"/>
+      <sheetpath names="/DBSupplySelection/" tstamps="/57D42FB6/"/>
+      <tstamp>57D4349C</tstamp>
+    </comp>
+    <comp ref="R124">
+      <value>45k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/DBSupplySelection/" tstamps="/57D42FB6/"/>
+      <tstamp>57D4367A</tstamp>
+    </comp>
+    <comp ref="Q5">
+      <value>N-MOS(T2N7002AK)</value>
+      <footprint>MISC:2N7002_SOT-23</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="N-MOS"/>
+      <sheetpath names="/DBSupplySelection/" tstamps="/57D42FB6/"/>
+      <tstamp>57D437A5</tstamp>
+    </comp>
+    <comp ref="J11">
+      <value>3P_JMP_TH</value>
+      <footprint>Connectors_TH:3PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="3P_JMP_TH"/>
+      <sheetpath names="/DBSupplySelection/" tstamps="/57D42FB6/"/>
+      <tstamp>57F7AF55</tstamp>
+    </comp>
+    <comp ref="J12">
+      <value>3P_JMP_TH</value>
+      <footprint>Connectors_TH:3PINJUMP_TH</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="3P_JMP_TH"/>
+      <sheetpath names="/DBSupplySelection/" tstamps="/57D42FB6/"/>
+      <tstamp>57F7B15B</tstamp>
+    </comp>
+    <comp ref="R148">
+      <value>10k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/DBSupplySelection/" tstamps="/57D42FB6/"/>
+      <tstamp>5750577B</tstamp>
+    </comp>
+    <comp ref="R150">
+      <value>2.5k</value>
+      <footprint>MISC:R0402</footprint>
+      <libsource lib="BoulderCreek_MotherBoard-cache" part="R"/>
+      <sheetpath names="/DBSupplySelection/" tstamps="/57D42FB6/"/>
+      <tstamp>575DD9B4</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="2P_JMP_TH">
+      <footprints>
+        <fp>2PINJUMP_TH</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">2P_JMP_TH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="3P_JMP_TH">
+      <footprints>
+        <fp>3PINJUMP_TH</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">3P_JMP_TH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="74HC595">
+      <footprints>
+        <fp>74HC595_SO-16</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74HC595</field>
+      </fields>
+      <pins>
+        <pin num="1" name="QB" type="output"/>
+        <pin num="2" name="QC" type="output"/>
+        <pin num="3" name="QD" type="output"/>
+        <pin num="4" name="QE" type="output"/>
+        <pin num="5" name="QF" type="output"/>
+        <pin num="6" name="QG" type="output"/>
+        <pin num="7" name="QH" type="output"/>
+        <pin num="8" name="GND" type="power_in"/>
+        <pin num="9" name="QH'" type="output"/>
+        <pin num="10" name="MRZ" type="BiDi"/>
+        <pin num="11" name="SRCLK" type="input"/>
+        <pin num="12" name="RCLK" type="input"/>
+        <pin num="13" name="OEZ" type="passive"/>
+        <pin num="14" name="SER" type="input"/>
+        <pin num="15" name="QA" type="output"/>
+        <pin num="16" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="74LVCH8T245PW118">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74LVCH8T245PW118</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCCA" type="power_in"/>
+        <pin num="2" name="DIR" type="input"/>
+        <pin num="3" name="A1" type="BiDi"/>
+        <pin num="4" name="A2" type="BiDi"/>
+        <pin num="5" name="A3" type="BiDi"/>
+        <pin num="6" name="A4" type="BiDi"/>
+        <pin num="7" name="A5" type="BiDi"/>
+        <pin num="8" name="A6" type="BiDi"/>
+        <pin num="9" name="A7" type="BiDi"/>
+        <pin num="10" name="A8" type="BiDi"/>
+        <pin num="11" name="GND" type="power_in"/>
+        <pin num="12" name="GND" type="power_in"/>
+        <pin num="13" name="GND" type="power_in"/>
+        <pin num="14" name="B8" type="BiDi"/>
+        <pin num="15" name="B7" type="BiDi"/>
+        <pin num="16" name="B6" type="BiDi"/>
+        <pin num="17" name="B5" type="BiDi"/>
+        <pin num="18" name="B4" type="BiDi"/>
+        <pin num="19" name="B3" type="BiDi"/>
+        <pin num="20" name="B2" type="BiDi"/>
+        <pin num="21" name="B1" type="BiDi"/>
+        <pin num="22" name="~OE" type="input"/>
+        <pin num="23" name="VCCB" type="power_in"/>
+        <pin num="24" name="VCCB" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="ALQ305">
+      <fields>
+        <field name="Reference">K</field>
+        <field name="Value">ALQ305</field>
+      </fields>
+      <pins>
+        <pin num="1" name="C1" type="passive"/>
+        <pin num="2" name="AO" type="passive"/>
+        <pin num="3" name="A" type="passive"/>
+        <pin num="4" name="C2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="C">
+      <footprints>
+        <fp>C0402</fp>
+        <fp>C0805</fp>
+        <fp>0201</fp>
+        <fp>SM1206</fp>
+        <fp>SM0805</fp>
+        <fp>C0603</fp>
+        <fp>SM2917</fp>
+        <fp>SM0603</fp>
+        <fp>SM2220</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="DC_JACK">
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">DC_JACK</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="power_in"/>
+        <pin num="2" name="~" type="power_in"/>
+        <pin num="3" name="~" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="IMO3TS">
+      <footprints>
+        <fp>IM03TS</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">K</field>
+        <field name="Value">IMO3TS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="C1" type="passive"/>
+        <pin num="2" name="AC" type="passive"/>
+        <pin num="3" name="A" type="passive"/>
+        <pin num="4" name="AO" type="passive"/>
+        <pin num="5" name="BO" type="passive"/>
+        <pin num="6" name="B" type="passive"/>
+        <pin num="7" name="BC" type="passive"/>
+        <pin num="8" name="C2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="IRF530A">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">IRF530A</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="D" type="passive"/>
+        <pin num="3" name="S" type="passive"/>
+        <pin num="4" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="LED">
+      <footprints>
+        <fp>LED_0805</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="LM337">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LM337</field>
+      </fields>
+      <pins>
+        <pin num="1" name="ADJ" type="BiDi"/>
+        <pin num="2" name="VIN" type="input"/>
+        <pin num="3" name="VOUT" type="output"/>
+        <pin num="4" name="TAB" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="N-MOS">
+      <footprints>
+        <fp>2N7002_SOT-23</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">N-MOS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="S" type="input"/>
+        <pin num="3" name="D" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="NANOGraBIT">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">NANOGraBIT</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Data11_P" type="BiDi"/>
+        <pin num="2" name="Data9_N" type="BiDi"/>
+        <pin num="3" name="Data11_N" type="BiDi"/>
+        <pin num="4" name="Data9_P" type="BiDi"/>
+        <pin num="5" name="Data10_P" type="BiDi"/>
+        <pin num="6" name="Data8_N" type="BiDi"/>
+        <pin num="7" name="Data10_N" type="BiDi"/>
+        <pin num="8" name="Data8_P" type="BiDi"/>
+        <pin num="9" name="GND" type="passive"/>
+        <pin num="10" name="Data12_N" type="BiDi"/>
+        <pin num="11" name="+5.0V" type="passive"/>
+        <pin num="12" name="Data12_P" type="BiDi"/>
+        <pin num="13" name="+5.0V" type="passive"/>
+        <pin num="14" name="Data13_P" type="BiDi"/>
+        <pin num="15" name="GND" type="passive"/>
+        <pin num="16" name="Data13_N" type="BiDi"/>
+        <pin num="17" name="G_CLKP_1" type="BiDi"/>
+        <pin num="18" name="Data14_P" type="BiDi"/>
+        <pin num="19" name="G_CLKN_2" type="BiDi"/>
+        <pin num="20" name="Data14_N" type="BiDi"/>
+        <pin num="21" name="IP_DataP_0" type="BiDi"/>
+        <pin num="22" name="Data15_P" type="BiDi"/>
+        <pin num="23" name="IP_DataN_0" type="BiDi"/>
+        <pin num="24" name="Data15_N" type="BiDi"/>
+        <pin num="25" name="Data1_P" type="BiDi"/>
+        <pin num="26" name="NC" type="passive"/>
+        <pin num="27" name="Data1_N" type="BiDi"/>
+        <pin num="28" name="NC" type="passive"/>
+        <pin num="29" name="GND" type="passive"/>
+        <pin num="30" name="Data2_P" type="BiDi"/>
+        <pin num="31" name="NC" type="passive"/>
+        <pin num="32" name="Data2_N" type="BiDi"/>
+        <pin num="33" name="NC" type="passive"/>
+        <pin num="34" name="Data3_P" type="BiDi"/>
+        <pin num="35" name="GND" type="passive"/>
+        <pin num="36" name="Data3_N" type="BiDi"/>
+        <pin num="37" name="+3.3V" type="passive"/>
+        <pin num="38" name="Data16_P" type="BiDi"/>
+        <pin num="39" name="GND" type="passive"/>
+        <pin num="40" name="Data16_N" type="BiDi"/>
+        <pin num="41" name="+2.5V" type="passive"/>
+        <pin num="42" name="Data4_P" type="BiDi"/>
+        <pin num="43" name="+1.2V" type="passive"/>
+        <pin num="44" name="Data4_N" type="BiDi"/>
+        <pin num="45" name="GND" type="passive"/>
+        <pin num="46" name="Data5_P" type="BiDi"/>
+        <pin num="47" name="+5.0V" type="passive"/>
+        <pin num="48" name="Data5_N" type="BiDi"/>
+        <pin num="49" name="+5.0V" type="passive"/>
+        <pin num="50" name="Data6_P" type="BiDi"/>
+        <pin num="51" name="GND" type="passive"/>
+        <pin num="52" name="Data6_NP" type="BiDi"/>
+        <pin num="53" name="G_CLKP_3" type="BiDi"/>
+        <pin num="54" name="Data7_P" type="BiDi"/>
+        <pin num="55" name="G_CLKN_4" type="BiDi"/>
+        <pin num="56" name="Data7_N" type="BiDi"/>
+        <pin num="57" name="GND" type="passive"/>
+        <pin num="58" name="NC" type="BiDi"/>
+        <pin num="59" name="NC" type="BiDi"/>
+        <pin num="60" name="GND" type="passive"/>
+        <pin num="61" name="NC" type="passive"/>
+        <pin num="62" name="GPIO_4" type="BiDi"/>
+        <pin num="63" name="NC" type="passive"/>
+        <pin num="64" name="GPIO_2" type="BiDi"/>
+        <pin num="65" name="DUT_SPI_DOUT" type="BiDi"/>
+        <pin num="66" name="GPIO_3" type="BiDi"/>
+        <pin num="67" name="DUT_SPI_DIN" type="BiDi"/>
+        <pin num="68" name="GPIO_1" type="BiDi"/>
+        <pin num="69" name="DUT_SPI_EN" type="BiDi"/>
+        <pin num="70" name="NC" type="BiDi"/>
+        <pin num="71" name="DUT_SPI_CLK" type="BiDi"/>
+        <pin num="72" name="NC" type="BiDi"/>
+        <pin num="73" name="NC" type="passive"/>
+        <pin num="74" name="NC" type="passive"/>
+        <pin num="75" name="NC" type="passive"/>
+        <pin num="76" name="NC" type="passive"/>
+        <pin num="77" name="NC" type="passive"/>
+        <pin num="78" name="NC" type="passive"/>
+        <pin num="79" name="GND" type="passive"/>
+        <pin num="80" name="GND" type="passive"/>
+        <pin num="81" name="uC_SPI_MOSI" type="BiDi"/>
+        <pin num="82" name="NC" type="BiDi"/>
+        <pin num="83" name="NC" type="BiDi"/>
+        <pin num="84" name="NC" type="BiDi"/>
+        <pin num="85" name="NC" type="BiDi"/>
+        <pin num="86" name="NC" type="BiDi"/>
+        <pin num="87" name="NC" type="BiDi"/>
+        <pin num="88" name="NC" type="BiDi"/>
+        <pin num="89" name="uC_SPI_CLK" type="BiDi"/>
+        <pin num="90" name="GPIO_7" type="BiDi"/>
+        <pin num="91" name="uC_SPI_MISO" type="BiDi"/>
+        <pin num="92" name="GPIO_6" type="BiDi"/>
+        <pin num="93" name="I2C_SCL" type="BiDi"/>
+        <pin num="94" name="GPIO_5" type="BiDi"/>
+        <pin num="95" name="I2C_SDA" type="BiDi"/>
+        <pin num="96" name="NC" type="BiDi"/>
+        <pin num="97" name="GPIO_8" type="input"/>
+        <pin num="98" name="NC" type="BiDi"/>
+        <pin num="99" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="OPA277UA-ND">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">OPA277UA-ND</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="+" type="input"/>
+        <pin num="4" name="-V" type="power_in"/>
+        <pin num="6" name="OUT" type="output"/>
+        <pin num="7" name="+V" type="power_in"/>
+        <pin num="8" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="P-MOS">
+      <footprints>
+        <fp>2N7002_SOT-23</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">P-MOS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="S" type="input"/>
+        <pin num="3" name="D" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="PHX_2PIN">
+      <footprints>
+        <fp>Phx_2pin</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">PHX_2PIN</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="PHX_3PIN">
+      <footprints>
+        <fp>Phx_3pin</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">PHX_3PIN</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="QSE-014-01-L-D-DP-A">
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">QSE-014-01-L-D-DP-A</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+        <pin num="9" name="P9" type="passive"/>
+        <pin num="10" name="P10" type="passive"/>
+        <pin num="11" name="P11" type="passive"/>
+        <pin num="12" name="P12" type="passive"/>
+        <pin num="13" name="P13" type="passive"/>
+        <pin num="14" name="P14" type="passive"/>
+        <pin num="15" name="P15" type="passive"/>
+        <pin num="16" name="P16" type="passive"/>
+        <pin num="17" name="P17" type="passive"/>
+        <pin num="18" name="P18" type="passive"/>
+        <pin num="19" name="P19" type="passive"/>
+        <pin num="20" name="P20" type="passive"/>
+        <pin num="21" name="P21" type="passive"/>
+        <pin num="22" name="P22" type="passive"/>
+        <pin num="23" name="P21" type="passive"/>
+        <pin num="24" name="P24" type="passive"/>
+        <pin num="25" name="~" type="passive"/>
+        <pin num="26" name="P26" type="passive"/>
+        <pin num="27" name="P27" type="passive"/>
+        <pin num="28" name="P28" type="passive"/>
+        <pin num="29" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="R">
+      <footprints>
+        <fp>R0402</fp>
+        <fp>R0603</fp>
+        <fp>SM0805</fp>
+        <fp>SM1206</fp>
+        <fp>0201</fp>
+        <fp>R_2.5W_Local</fp>
+        <fp>SM1210</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="RTE24005F">
+      <fields>
+        <field name="Reference">K</field>
+        <field name="Value">RTE24005F</field>
+      </fields>
+      <pins>
+        <pin num="1" name="C1" type="passive"/>
+        <pin num="2" name="AC" type="passive"/>
+        <pin num="3" name="A" type="passive"/>
+        <pin num="4" name="AO" type="passive"/>
+        <pin num="5" name="BO" type="passive"/>
+        <pin num="6" name="B" type="passive"/>
+        <pin num="7" name="BC" type="passive"/>
+        <pin num="8" name="C2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="SMA_TH">
+      <footprints>
+        <fp>SMA_TH</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">SMA_TH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="SIG" type="BiDi"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+        <pin num="4" name="~" type="passive"/>
+        <pin num="5" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="TEMPLATE-FTSH-120-02-F-DV-ES_40PIN_MALE">
+      <footprints>
+        <fp>TEMPLATE-FTSH-120-02-F-DV-ES_40PIN_MALE</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TEMPLATE-FTSH-120-02-F-DV-ES_40PIN_MALE</field>
+      </fields>
+      <pins>
+        <pin num="1" name="PIN1" type="passive"/>
+        <pin num="2" name="PIN2" type="passive"/>
+        <pin num="3" name="PIN3" type="passive"/>
+        <pin num="4" name="PIN4" type="passive"/>
+        <pin num="5" name="PIN5" type="passive"/>
+        <pin num="6" name="PIN6" type="passive"/>
+        <pin num="7" name="PIN7" type="passive"/>
+        <pin num="8" name="PIN8" type="passive"/>
+        <pin num="9" name="PIN9" type="passive"/>
+        <pin num="10" name="PIN10" type="passive"/>
+        <pin num="11" name="PIN11" type="passive"/>
+        <pin num="12" name="PIN12" type="passive"/>
+        <pin num="13" name="PIN13" type="passive"/>
+        <pin num="14" name="PIN14" type="passive"/>
+        <pin num="15" name="PIN15" type="passive"/>
+        <pin num="16" name="PIN16" type="passive"/>
+        <pin num="17" name="PIN17" type="passive"/>
+        <pin num="18" name="PIN18" type="passive"/>
+        <pin num="19" name="PIN19" type="passive"/>
+        <pin num="20" name="PIN20" type="passive"/>
+        <pin num="21" name="PIN21" type="passive"/>
+        <pin num="22" name="PIN22" type="passive"/>
+        <pin num="23" name="PIN23" type="passive"/>
+        <pin num="24" name="PIN24" type="passive"/>
+        <pin num="25" name="PIN25" type="passive"/>
+        <pin num="26" name="PIN26" type="passive"/>
+        <pin num="27" name="PIN27" type="passive"/>
+        <pin num="28" name="PIN28" type="passive"/>
+        <pin num="29" name="PIN29" type="passive"/>
+        <pin num="30" name="PIN30" type="passive"/>
+        <pin num="31" name="PIN31" type="passive"/>
+        <pin num="32" name="PIN32" type="passive"/>
+        <pin num="33" name="PIN33" type="passive"/>
+        <pin num="34" name="PIN34" type="passive"/>
+        <pin num="35" name="PIN35" type="passive"/>
+        <pin num="36" name="PIN36" type="passive"/>
+        <pin num="37" name="PIN37" type="passive"/>
+        <pin num="38" name="PIN38" type="passive"/>
+        <pin num="39" name="PIN39" type="passive"/>
+        <pin num="40" name="PIN40" type="passive"/>
+        <pin num="41" name="PIN41" type="passive"/>
+        <pin num="42" name="PIN42" type="passive"/>
+        <pin num="43" name="PIN43" type="passive"/>
+        <pin num="44" name="PIN44" type="passive"/>
+        <pin num="45" name="PIN45" type="passive"/>
+        <pin num="46" name="PIN46" type="passive"/>
+        <pin num="47" name="PIN47" type="passive"/>
+        <pin num="48" name="PIN48" type="passive"/>
+        <pin num="49" name="PIN49" type="passive"/>
+        <pin num="50" name="PIN50" type="passive"/>
+        <pin num="51" name="PIN51" type="passive"/>
+        <pin num="52" name="PIN52" type="passive"/>
+        <pin num="53" name="PIN53" type="passive"/>
+        <pin num="54" name="PIN54" type="passive"/>
+        <pin num="55" name="PIN55" type="passive"/>
+        <pin num="56" name="PIN56" type="passive"/>
+        <pin num="57" name="PIN57" type="passive"/>
+        <pin num="58" name="PIN58" type="passive"/>
+        <pin num="59" name="PIN59" type="passive"/>
+        <pin num="60" name="PIN60" type="passive"/>
+        <pin num="61" name="PIN61" type="passive"/>
+        <pin num="62" name="PIN62" type="passive"/>
+        <pin num="63" name="PIN63" type="passive"/>
+        <pin num="64" name="PIN64" type="passive"/>
+        <pin num="65" name="PIN65" type="passive"/>
+        <pin num="66" name="PIN66" type="passive"/>
+        <pin num="67" name="PIN67" type="passive"/>
+        <pin num="68" name="PIN68" type="passive"/>
+        <pin num="69" name="PIN69" type="passive"/>
+        <pin num="70" name="PIN70" type="passive"/>
+        <pin num="71" name="PIN71" type="passive"/>
+        <pin num="72" name="PIN72" type="passive"/>
+        <pin num="73" name="PIN73" type="passive"/>
+        <pin num="74" name="PIN74" type="passive"/>
+        <pin num="75" name="PIN75" type="passive"/>
+        <pin num="76" name="PIN76" type="passive"/>
+        <pin num="77" name="PIN77" type="passive"/>
+        <pin num="78" name="PIN78" type="passive"/>
+        <pin num="79" name="PIN79" type="passive"/>
+        <pin num="80" name="PIN80" type="passive"/>
+        <pin num="81" name="PIN81" type="passive"/>
+        <pin num="82" name="PIN82" type="passive"/>
+        <pin num="83" name="PIN83" type="passive"/>
+        <pin num="84" name="PIN84" type="passive"/>
+        <pin num="85" name="PIN85" type="passive"/>
+        <pin num="86" name="PIN86" type="passive"/>
+        <pin num="87" name="PIN87" type="passive"/>
+        <pin num="88" name="PIN88" type="passive"/>
+        <pin num="89" name="PIN89" type="passive"/>
+        <pin num="90" name="PIN90" type="passive"/>
+        <pin num="91" name="PIN91" type="passive"/>
+        <pin num="92" name="PIN92" type="passive"/>
+        <pin num="93" name="PIN93" type="passive"/>
+        <pin num="94" name="PIN94" type="passive"/>
+        <pin num="95" name="PIN95" type="passive"/>
+        <pin num="96" name="PIN96" type="passive"/>
+        <pin num="97" name="PIN97" type="passive"/>
+        <pin num="98" name="PIN98" type="passive"/>
+        <pin num="99" name="PIN99" type="passive"/>
+        <pin num="100" name="PIN100" type="passive"/>
+        <pin num="101" name="PIN101" type="passive"/>
+        <pin num="102" name="PIN102" type="passive"/>
+        <pin num="103" name="PIN103" type="passive"/>
+        <pin num="104" name="PIN104" type="passive"/>
+        <pin num="105" name="PIN105" type="passive"/>
+        <pin num="106" name="PIN106" type="passive"/>
+        <pin num="107" name="PIN107" type="passive"/>
+        <pin num="108" name="PIN108" type="passive"/>
+        <pin num="109" name="PIN109" type="passive"/>
+        <pin num="110" name="PIN110" type="passive"/>
+        <pin num="111" name="PIN111" type="passive"/>
+        <pin num="112" name="PIN112" type="passive"/>
+        <pin num="113" name="PIN113" type="passive"/>
+        <pin num="114" name="PIN114" type="passive"/>
+        <pin num="115" name="PIN115" type="passive"/>
+        <pin num="116" name="PIN116" type="passive"/>
+        <pin num="117" name="PIN117" type="passive"/>
+        <pin num="118" name="PIN118" type="passive"/>
+        <pin num="119" name="PIN119" type="passive"/>
+        <pin num="120" name="PIN120" type="passive"/>
+        <pin num="121" name="PIN121" type="passive"/>
+        <pin num="122" name="PIN122" type="passive"/>
+        <pin num="123" name="PIN123" type="passive"/>
+        <pin num="124" name="PIN124" type="passive"/>
+        <pin num="125" name="PIN125" type="passive"/>
+        <pin num="126" name="PIN126" type="passive"/>
+        <pin num="127" name="PIN127" type="passive"/>
+        <pin num="128" name="PIN128" type="passive"/>
+        <pin num="129" name="PIN129" type="passive"/>
+        <pin num="130" name="PIN130" type="passive"/>
+        <pin num="131" name="PIN131" type="passive"/>
+        <pin num="132" name="PIN132" type="passive"/>
+        <pin num="133" name="PIN133" type="passive"/>
+        <pin num="134" name="PIN134" type="passive"/>
+        <pin num="135" name="PIN135" type="passive"/>
+        <pin num="136" name="PIN136" type="passive"/>
+        <pin num="137" name="PIN137" type="passive"/>
+        <pin num="138" name="PIN138" type="passive"/>
+        <pin num="139" name="PIN139" type="passive"/>
+        <pin num="140" name="PIN140" type="passive"/>
+        <pin num="141" name="PIN141" type="passive"/>
+        <pin num="142" name="PIN142" type="passive"/>
+        <pin num="143" name="PIN143" type="passive"/>
+        <pin num="144" name="PIN144" type="passive"/>
+        <pin num="145" name="PIN145" type="passive"/>
+        <pin num="146" name="PIN146" type="passive"/>
+        <pin num="147" name="PIN147" type="passive"/>
+        <pin num="148" name="PIN148" type="passive"/>
+        <pin num="149" name="PIN149" type="passive"/>
+        <pin num="150" name="PIN150" type="passive"/>
+        <pin num="151" name="PIN151" type="passive"/>
+        <pin num="152" name="PIN152" type="passive"/>
+        <pin num="153" name="PIN153" type="passive"/>
+        <pin num="154" name="PIN154" type="passive"/>
+        <pin num="155" name="PIN155" type="passive"/>
+        <pin num="156" name="PIN156" type="passive"/>
+        <pin num="157" name="PIN157" type="passive"/>
+        <pin num="158" name="PIN158" type="passive"/>
+        <pin num="159" name="PIN159" type="passive"/>
+        <pin num="160" name="PIN160" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="THS4041">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">THS4041</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="-" type="input"/>
+        <pin num="3" name="+" type="input"/>
+        <pin num="4" name="V-" type="power_in"/>
+        <pin num="6" name="~" type="output"/>
+        <pin num="7" name="V+" type="power_in"/>
+        <pin num="8" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="TP-SMD">
+      <footprints>
+        <fp>TP_SMD</fp>
+        <fp>TP_SMD_SPL</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TP-SMD</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="TP-TH">
+      <footprints>
+        <fp>TP_TH</fp>
+        <fp>TP50XX</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TP-TH</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="TPS79601DGQG4">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TPS79601DGQG4</field>
+      </fields>
+      <pins>
+        <pin num="1" name="EN" type="input"/>
+        <pin num="2" name="IN" type="input"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="OUT" type="output"/>
+        <pin num="5" name="NR/FB" type="output"/>
+        <pin num="6" name="GND" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="BoulderCreek_MotherBoard-cache" part="ULN2803A">
+      <footprints>
+        <fp>ULN2803A_SOIC_18P_WIDE</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ULN2803A</field>
+      </fields>
+      <pins>
+        <pin num="1" name="B1" type="input"/>
+        <pin num="2" name="B2" type="input"/>
+        <pin num="3" name="B3" type="input"/>
+        <pin num="4" name="B4" type="input"/>
+        <pin num="5" name="B5" type="input"/>
+        <pin num="6" name="B6" type="input"/>
+        <pin num="7" name="B7" type="input"/>
+        <pin num="8" name="B8" type="input"/>
+        <pin num="9" name="GND" type="passive"/>
+        <pin num="10" name="COM" type="passive"/>
+        <pin num="11" name="C8" type="output"/>
+        <pin num="12" name="C7" type="output"/>
+        <pin num="13" name="C6" type="output"/>
+        <pin num="14" name="C5" type="output"/>
+        <pin num="15" name="C4" type="output"/>
+        <pin num="16" name="C3" type="output"/>
+        <pin num="17" name="C2" type="output"/>
+        <pin num="18" name="C1" type="output"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="BoulderCreek_MotherBoard-cache">
+      <uri>E:\PCB\Board files\CSPM9100\BoulderCreek_MotherBoard\BoulderCreek_MotherBoard-cache.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/LoadBlock/CSDAC4">
+      <node ref="P12" pin="14"/>
+      <node ref="R139" pin="2"/>
+    </net>
+    <net code="2" name="/LoadBlock/CSDAC3">
+      <node ref="R138" pin="2"/>
+      <node ref="P12" pin="8"/>
+    </net>
+    <net code="3" name="/LoadBlock/CSDAC2">
+      <node ref="P12" pin="10"/>
+      <node ref="R137" pin="2"/>
+    </net>
+    <net code="4" name="/LoadBlock/CSDAC1">
+      <node ref="P12" pin="12"/>
+      <node ref="R136" pin="2"/>
+    </net>
+    <net code="5" name="/LoadBlock/3V3_DAC">
+      <node ref="U12" pin="4"/>
+      <node ref="R109" pin="1"/>
+      <node ref="C43" pin="1"/>
+      <node ref="C37" pin="1"/>
+      <node ref="R98" pin="1"/>
+      <node ref="P12" pin="2"/>
+    </net>
+    <net code="6" name="/DBSupplySelection/DBSupply-">
+      <node ref="K20" pin="4"/>
+      <node ref="K19" pin="4"/>
+      <node ref="K22" pin="4"/>
+      <node ref="K21" pin="4"/>
+      <node ref="TP23" pin="1"/>
+      <node ref="TP21" pin="1"/>
+      <node ref="C67" pin="1"/>
+      <node ref="P6" pin="2"/>
+      <node ref="J6" pin="3"/>
+    </net>
+    <net code="7" name="/DBSupplySelection/DBSupply+">
+      <node ref="J11" pin="3"/>
+      <node ref="P6" pin="1"/>
+      <node ref="C67" pin="2"/>
+      <node ref="R124" pin="1"/>
+      <node ref="Q7" pin="2"/>
+      <node ref="J12" pin="3"/>
+    </net>
+    <net code="8" name="GND">
+      <node ref="R1" pin="1"/>
+      <node ref="C4" pin="2"/>
+      <node ref="R148" pin="1"/>
+      <node ref="C3" pin="2"/>
+      <node ref="U2" pin="8"/>
+      <node ref="R8" pin="2"/>
+      <node ref="U4" pin="8"/>
+      <node ref="R119" pin="2"/>
+      <node ref="R46" pin="2"/>
+      <node ref="U9" pin="9"/>
+      <node ref="U8" pin="9"/>
+      <node ref="U7" pin="9"/>
+      <node ref="C1" pin="2"/>
+      <node ref="R11" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="U3" pin="8"/>
+      <node ref="R12" pin="2"/>
+      <node ref="U6" pin="9"/>
+      <node ref="C66" pin="2"/>
+      <node ref="P12" pin="6"/>
+      <node ref="D6" pin="2"/>
+      <node ref="C18" pin="2"/>
+      <node ref="U12" pin="3"/>
+      <node ref="U12" pin="6"/>
+      <node ref="R99" pin="2"/>
+      <node ref="J6" pin="1"/>
+      <node ref="P12" pin="11"/>
+      <node ref="C21" pin="2"/>
+      <node ref="D1" pin="1"/>
+      <node ref="C22" pin="2"/>
+      <node ref="C44" pin="2"/>
+      <node ref="J1" pin="99"/>
+      <node ref="J1" pin="79"/>
+      <node ref="C43" pin="2"/>
+      <node ref="R101" pin="2"/>
+      <node ref="Q5" pin="2"/>
+      <node ref="C58" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="C20" pin="2"/>
+      <node ref="C57" pin="2"/>
+      <node ref="C56" pin="2"/>
+      <node ref="C23" pin="2"/>
+      <node ref="U17" pin="5"/>
+      <node ref="U17" pin="1"/>
+      <node ref="U17" pin="33"/>
+      <node ref="R19" pin="2"/>
+      <node ref="R35" pin="2"/>
+      <node ref="R115" pin="2"/>
+      <node ref="U17" pin="30"/>
+      <node ref="U17" pin="40"/>
+      <node ref="R36" pin="2"/>
+      <node ref="U17" pin="32"/>
+      <node ref="R38" pin="2"/>
+      <node ref="U17" pin="2"/>
+      <node ref="R37" pin="2"/>
+      <node ref="U17" pin="34"/>
+      <node ref="R33" pin="2"/>
+      <node ref="U17" pin="35"/>
+      <node ref="R34" pin="2"/>
+      <node ref="U17" pin="36"/>
+      <node ref="U17" pin="116"/>
+      <node ref="U17" pin="107"/>
+      <node ref="U17" pin="117"/>
+      <node ref="R18" pin="2"/>
+      <node ref="U17" pin="118"/>
+      <node ref="U17" pin="109"/>
+      <node ref="U17" pin="119"/>
+      <node ref="U17" pin="113"/>
+      <node ref="R16" pin="2"/>
+      <node ref="U17" pin="37"/>
+      <node ref="U17" pin="28"/>
+      <node ref="U17" pin="38"/>
+      <node ref="U17" pin="39"/>
+      <node ref="U17" pin="81"/>
+      <node ref="U17" pin="120"/>
+      <node ref="U17" pin="3"/>
+      <node ref="U17" pin="4"/>
+      <node ref="R32" pin="2"/>
+      <node ref="R31" pin="2"/>
+      <node ref="U17" pin="6"/>
+      <node ref="R23" pin="2"/>
+      <node ref="U17" pin="111"/>
+      <node ref="R22" pin="2"/>
+      <node ref="U17" pin="114"/>
+      <node ref="U17" pin="115"/>
+      <node ref="R44" pin="2"/>
+      <node ref="R43" pin="2"/>
+      <node ref="R42" pin="2"/>
+      <node ref="R15" pin="2"/>
+      <node ref="R41" pin="2"/>
+      <node ref="R20" pin="2"/>
+      <node ref="R40" pin="2"/>
+      <node ref="R17" pin="2"/>
+      <node ref="R39" pin="2"/>
+      <node ref="C6" pin="2"/>
+      <node ref="R27" pin="2"/>
+      <node ref="R28" pin="2"/>
+      <node ref="R30" pin="2"/>
+      <node ref="R29" pin="2"/>
+      <node ref="C7" pin="2"/>
+      <node ref="R25" pin="2"/>
+      <node ref="U5" pin="8"/>
+      <node ref="R14" pin="2"/>
+      <node ref="R45" pin="2"/>
+      <node ref="C12" pin="2"/>
+      <node ref="R26" pin="2"/>
+      <node ref="R24" pin="2"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C8" pin="2"/>
+      <node ref="U17" pin="86"/>
+      <node ref="U17" pin="82"/>
+      <node ref="R21" pin="2"/>
+      <node ref="U17" pin="83"/>
+      <node ref="U17" pin="84"/>
+      <node ref="C13" pin="2"/>
+      <node ref="U17" pin="85"/>
+      <node ref="C11" pin="2"/>
+      <node ref="C10" pin="2"/>
+      <node ref="R111" pin="2"/>
+      <node ref="C52" pin="2"/>
+      <node ref="R126" pin="2"/>
+      <node ref="C53" pin="2"/>
+      <node ref="R103" pin="2"/>
+      <node ref="R141" pin="1"/>
+      <node ref="D2" pin="2"/>
+      <node ref="C46" pin="2"/>
+      <node ref="TP8" pin="1"/>
+      <node ref="C42" pin="2"/>
+      <node ref="TP11" pin="1"/>
+      <node ref="TP14" pin="1"/>
+      <node ref="R146" pin="1"/>
+      <node ref="C16" pin="2"/>
+      <node ref="C14" pin="2"/>
+      <node ref="C17" pin="2"/>
+      <node ref="C24" pin="2"/>
+      <node ref="D5" pin="1"/>
+      <node ref="TP10" pin="1"/>
+      <node ref="TP12" pin="1"/>
+      <node ref="P2" pin="3"/>
+      <node ref="P2" pin="2"/>
+      <node ref="C51" pin="2"/>
+      <node ref="R71" pin="2"/>
+      <node ref="R68" pin="2"/>
+      <node ref="R97" pin="1"/>
+      <node ref="R70" pin="2"/>
+      <node ref="P12" pin="29"/>
+      <node ref="R73" pin="2"/>
+      <node ref="R84" pin="2"/>
+      <node ref="C62" pin="2"/>
+      <node ref="C61" pin="2"/>
+      <node ref="C63" pin="2"/>
+      <node ref="U11" pin="11"/>
+      <node ref="U11" pin="12"/>
+      <node ref="C59" pin="2"/>
+      <node ref="C60" pin="2"/>
+      <node ref="U11" pin="13"/>
+      <node ref="R82" pin="1"/>
+      <node ref="R83" pin="2"/>
+      <node ref="C26" pin="2"/>
+      <node ref="C32" pin="2"/>
+      <node ref="U10" pin="12"/>
+      <node ref="C34" pin="2"/>
+      <node ref="C33" pin="2"/>
+      <node ref="U10" pin="13"/>
+      <node ref="C65" pin="2"/>
+      <node ref="C64" pin="2"/>
+      <node ref="C31" pin="2"/>
+      <node ref="C41" pin="2"/>
+      <node ref="R69" pin="2"/>
+      <node ref="C45" pin="2"/>
+      <node ref="U10" pin="11"/>
+      <node ref="P3" pin="3"/>
+      <node ref="J1" pin="60"/>
+      <node ref="R147" pin="1"/>
+      <node ref="R144" pin="1"/>
+      <node ref="J4" pin="4"/>
+      <node ref="J5" pin="3"/>
+      <node ref="U13" pin="3"/>
+      <node ref="R132" pin="2"/>
+      <node ref="R133" pin="2"/>
+      <node ref="U13" pin="6"/>
+      <node ref="R134" pin="2"/>
+      <node ref="R135" pin="2"/>
+      <node ref="J4" pin="3"/>
+      <node ref="J4" pin="2"/>
+      <node ref="P3" pin="2"/>
+      <node ref="P1" pin="2"/>
+      <node ref="C54" pin="2"/>
+      <node ref="R145" pin="1"/>
+      <node ref="J1" pin="45"/>
+      <node ref="R125" pin="2"/>
+      <node ref="C55" pin="2"/>
+      <node ref="J5" pin="4"/>
+      <node ref="J1" pin="35"/>
+      <node ref="J1" pin="51"/>
+      <node ref="J1" pin="15"/>
+      <node ref="J4" pin="5"/>
+      <node ref="J5" pin="5"/>
+      <node ref="R129" pin="2"/>
+      <node ref="D4" pin="2"/>
+      <node ref="J1" pin="39"/>
+      <node ref="C19" pin="2"/>
+      <node ref="C15" pin="2"/>
+      <node ref="R130" pin="2"/>
+      <node ref="R140" pin="1"/>
+      <node ref="R128" pin="2"/>
+      <node ref="J1" pin="29"/>
+      <node ref="R143" pin="1"/>
+      <node ref="R127" pin="2"/>
+      <node ref="J5" pin="2"/>
+      <node ref="R86" pin="2"/>
+      <node ref="R142" pin="1"/>
+      <node ref="J1" pin="57"/>
+      <node ref="R85" pin="2"/>
+      <node ref="D3" pin="2"/>
+      <node ref="R88" pin="2"/>
+      <node ref="J1" pin="80"/>
+      <node ref="R131" pin="2"/>
+    </net>
+    <net code="9" name="/DaughterBoardConnectors/T20_DNW">
+      <node ref="U17" pin="97"/>
+      <node ref="TP20" pin="1"/>
+      <node ref="TP22" pin="1"/>
+      <node ref="TP19" pin="1"/>
+    </net>
+    <net code="10" name="/DaughterBoardConnectors/T20_GT">
+      <node ref="TP4" pin="1"/>
+      <node ref="TP2" pin="1"/>
+      <node ref="TP1" pin="1"/>
+      <node ref="U17" pin="87"/>
+    </net>
+    <net code="11" name="/DBSupplySelection/HighInputSwitchCtrl">
+      <node ref="Q5" pin="1"/>
+      <node ref="R148" pin="2"/>
+      <node ref="R63" pin="2"/>
+    </net>
+    <net code="12" name="/DBSupplySelection/ExternalSupply">
+      <node ref="R150" pin="1"/>
+      <node ref="R149" pin="2"/>
+      <node ref="P7" pin="1"/>
+      <node ref="J2" pin="1"/>
+    </net>
+    <net code="13" name="/RelayMatrix/DOT1_Supply">
+      <node ref="U17" pin="9"/>
+      <node ref="U17" pin="7"/>
+      <node ref="U17" pin="13"/>
+      <node ref="U17" pin="11"/>
+      <node ref="K18" pin="3"/>
+    </net>
+    <net code="14" name="/LoadBlock/DAC_VREF">
+      <node ref="C64" pin="1"/>
+      <node ref="C65" pin="1"/>
+      <node ref="R102" pin="1"/>
+      <node ref="C53" pin="1"/>
+      <node ref="C52" pin="1"/>
+      <node ref="U14" pin="3"/>
+      <node ref="C63" pin="1"/>
+      <node ref="C62" pin="1"/>
+      <node ref="R108" pin="1"/>
+      <node ref="P12" pin="4"/>
+    </net>
+    <net code="15" name="/LoadBlock/DAC_A4">
+      <node ref="P12" pin="23"/>
+      <node ref="R51" pin="2"/>
+    </net>
+    <net code="16" name="/RelayMatrix/DOT2_Supply">
+      <node ref="K16" pin="3"/>
+      <node ref="U17" pin="19"/>
+      <node ref="U17" pin="21"/>
+      <node ref="U17" pin="17"/>
+      <node ref="U17" pin="15"/>
+    </net>
+    <net code="17" name="/NanoGrabitConnectorsandLevelShifters/LevelShifterSupply_Ext">
+      <node ref="J3" pin="1"/>
+      <node ref="P2" pin="1"/>
+    </net>
+    <net code="18" name="/NanoGrabitConnectorsandLevelShifters/R_CLK">
+      <node ref="U5" pin="11"/>
+      <node ref="R78" pin="1"/>
+      <node ref="U4" pin="11"/>
+      <node ref="U2" pin="11"/>
+      <node ref="U3" pin="11"/>
+    </net>
+    <net code="19" name="/NanoGrabitConnectorsandLevelShifters/DUT_ShutDown">
+      <node ref="U17" pin="31"/>
+      <node ref="J2" pin="2"/>
+    </net>
+    <net code="20" name="/DaughterBoardConnectors/CLK">
+      <node ref="R94" pin="1"/>
+      <node ref="U17" pin="16"/>
+    </net>
+    <net code="21" name="/DaughterBoardConnectors/DATA">
+      <node ref="U17" pin="18"/>
+      <node ref="R93" pin="1"/>
+    </net>
+    <net code="22" name="/NanoGrabitConnectorsandLevelShifters/R_LOAD">
+      <node ref="U2" pin="12"/>
+      <node ref="U3" pin="12"/>
+      <node ref="U4" pin="12"/>
+      <node ref="U5" pin="12"/>
+      <node ref="R80" pin="1"/>
+    </net>
+    <net code="23" name="/NanoGrabitConnectorsandLevelShifters/R_DATA">
+      <node ref="U2" pin="14"/>
+      <node ref="R79" pin="1"/>
+    </net>
+    <net code="24" name="/LoadBlock/DAC_R/WB">
+      <node ref="R59" pin="2"/>
+      <node ref="P12" pin="28"/>
+    </net>
+    <net code="25" name="/LoadBlock/DAC_A11">
+      <node ref="R58" pin="2"/>
+      <node ref="P12" pin="26"/>
+    </net>
+    <net code="26" name="/LoadBlock/DAC_A10">
+      <node ref="P12" pin="24"/>
+      <node ref="R57" pin="2"/>
+    </net>
+    <net code="27" name="/LoadBlock/DAC_A9">
+      <node ref="P12" pin="22"/>
+      <node ref="R56" pin="2"/>
+    </net>
+    <net code="28" name="/LoadBlock/DAC_A8">
+      <node ref="R55" pin="2"/>
+      <node ref="P12" pin="20"/>
+    </net>
+    <net code="29" name="/LoadBlock/DAC_A7">
+      <node ref="R54" pin="2"/>
+      <node ref="P12" pin="18"/>
+    </net>
+    <net code="30" name="/LoadBlock/DAC_A6">
+      <node ref="R53" pin="2"/>
+      <node ref="P12" pin="16"/>
+    </net>
+    <net code="31" name="/LoadBlock/DAC_A5">
+      <node ref="P12" pin="25"/>
+      <node ref="R52" pin="2"/>
+    </net>
+    <net code="32" name="/DaughterBoardConnectors/BandGap_Sense">
+      <node ref="R2" pin="1"/>
+      <node ref="U17" pin="112"/>
+    </net>
+    <net code="33" name="/DaughterBoardConnectors/Vout_Sense">
+      <node ref="U17" pin="104"/>
+      <node ref="K2" pin="4"/>
+      <node ref="K2" pin="5"/>
+    </net>
+    <net code="34" name="/RelayMatrix/DOT4_Sense">
+      <node ref="U17" pin="105"/>
+      <node ref="K9" pin="5"/>
+      <node ref="K31" pin="6"/>
+      <node ref="K31" pin="3"/>
+    </net>
+    <net code="35" name="/RelayMatrix/DOT3_Sense">
+      <node ref="U17" pin="103"/>
+      <node ref="K32" pin="3"/>
+      <node ref="K9" pin="7"/>
+      <node ref="K32" pin="6"/>
+    </net>
+    <net code="36" name="/RelayMatrix/DOT2_Sense">
+      <node ref="K30" pin="3"/>
+      <node ref="K9" pin="4"/>
+      <node ref="K30" pin="6"/>
+      <node ref="U17" pin="101"/>
+    </net>
+    <net code="37" name="/RelayMatrix/DOT1_Sense">
+      <node ref="K9" pin="2"/>
+      <node ref="U17" pin="99"/>
+      <node ref="K29" pin="6"/>
+      <node ref="K29" pin="3"/>
+    </net>
+    <net code="38" name="/DaughterBoardConnectors/Vgate_Sense">
+      <node ref="K4" pin="5"/>
+      <node ref="K4" pin="4"/>
+      <node ref="U17" pin="108"/>
+    </net>
+    <net code="39" name="/DaughterBoardConnectors/Vout_Load">
+      <node ref="K1" pin="3"/>
+      <node ref="U17" pin="88"/>
+      <node ref="U17" pin="92"/>
+      <node ref="U17" pin="94"/>
+      <node ref="K10" pin="3"/>
+      <node ref="U17" pin="90"/>
+    </net>
+    <net code="40" name="/RelayMatrix/DOT4_Supply">
+      <node ref="U17" pin="10"/>
+      <node ref="U17" pin="8"/>
+      <node ref="K14" pin="3"/>
+      <node ref="U17" pin="14"/>
+      <node ref="U17" pin="12"/>
+    </net>
+    <net code="41" name="/RelayMatrix/DOT3_Supply">
+      <node ref="U17" pin="29"/>
+      <node ref="U17" pin="27"/>
+      <node ref="U17" pin="25"/>
+      <node ref="U17" pin="23"/>
+      <node ref="K17" pin="3"/>
+    </net>
+    <net code="42" name="/LoadBlock/DAC_A3">
+      <node ref="R50" pin="2"/>
+      <node ref="P12" pin="21"/>
+    </net>
+    <net code="43" name="/LoadBlock/DAC_A2">
+      <node ref="P12" pin="19"/>
+      <node ref="R49" pin="2"/>
+    </net>
+    <net code="44" name="/LoadBlock/DAC_A1">
+      <node ref="R48" pin="2"/>
+      <node ref="P12" pin="17"/>
+    </net>
+    <net code="45" name="/LoadBlock/DAC_A0">
+      <node ref="R47" pin="2"/>
+      <node ref="P12" pin="15"/>
+    </net>
+    <net code="46" name="/DaughterBoardConnectors/Vplus_Supply">
+      <node ref="K27" pin="2"/>
+      <node ref="U17" pin="20"/>
+    </net>
+    <net code="47" name="/PowerAndSenses/Ammeter_OUT_n">
+      <node ref="P9" pin="2"/>
+      <node ref="K1" pin="2"/>
+      <node ref="J7" pin="2"/>
+      <node ref="J8" pin="2"/>
+      <node ref="J9" pin="2"/>
+      <node ref="J10" pin="2"/>
+    </net>
+    <net code="48" name="/DaughterBoardConnectors/CBOOT_Sense">
+      <node ref="K5" pin="4"/>
+      <node ref="K5" pin="5"/>
+      <node ref="U17" pin="110"/>
+    </net>
+    <net code="49" name="/DaughterBoardConnectors/VDD_Sense">
+      <node ref="U17" pin="106"/>
+      <node ref="K3" pin="5"/>
+      <node ref="K3" pin="4"/>
+    </net>
+    <net code="50" name="/DaughterBoardConnectors/Vplus_Sense">
+      <node ref="U17" pin="22"/>
+      <node ref="K7" pin="5"/>
+    </net>
+    <net code="51" name="/DaughterBoardConnectors/T30ESD">
+      <node ref="TP5" pin="1"/>
+      <node ref="TP3" pin="1"/>
+      <node ref="U17" pin="26"/>
+    </net>
+    <net code="52" name="/PowerAndSenses/Volt_IN_p">
+      <node ref="K20" pin="7"/>
+      <node ref="K19" pin="7"/>
+      <node ref="K21" pin="7"/>
+      <node ref="J4" pin="1"/>
+      <node ref="P4" pin="1"/>
+      <node ref="K22" pin="7"/>
+    </net>
+    <net code="53" name="/PowerAndSenses/Ammeter_OUT_p">
+      <node ref="P9" pin="1"/>
+      <node ref="K10" pin="2"/>
+    </net>
+    <net code="54" name="/PowerAndSenses/Ammeter_IN_n">
+      <node ref="K11" pin="2"/>
+      <node ref="J11" pin="2"/>
+      <node ref="K24" pin="2"/>
+      <node ref="J12" pin="2"/>
+      <node ref="K26" pin="2"/>
+      <node ref="K27" pin="3"/>
+      <node ref="P8" pin="2"/>
+      <node ref="K13" pin="2"/>
+      <node ref="TP18" pin="1"/>
+      <node ref="TP17" pin="1"/>
+    </net>
+    <net code="55" name="/PowerAndSenses/Ammeter_IN_p">
+      <node ref="K12" pin="2"/>
+      <node ref="K28" pin="2"/>
+      <node ref="K25" pin="2"/>
+      <node ref="P8" pin="1"/>
+      <node ref="K23" pin="2"/>
+    </net>
+    <net code="56" name="/PowerAndSenses/Volt_OUT_p">
+      <node ref="P5" pin="1"/>
+      <node ref="J5" pin="1"/>
+      <node ref="K4" pin="3"/>
+      <node ref="K2" pin="3"/>
+      <node ref="K2" pin="6"/>
+      <node ref="K3" pin="6"/>
+      <node ref="K3" pin="3"/>
+      <node ref="K15" pin="5"/>
+      <node ref="K5" pin="3"/>
+      <node ref="K6" pin="3"/>
+      <node ref="K4" pin="6"/>
+      <node ref="K6" pin="6"/>
+      <node ref="K5" pin="6"/>
+      <node ref="K15" pin="4"/>
+    </net>
+    <net code="57" name="/DaughterBoardConnectors/Vminus_Sense">
+      <node ref="P5" pin="2"/>
+      <node ref="U17" pin="24"/>
+    </net>
+    <net code="58" name="/PowerAndSenses/Volt_IN_n">
+      <node ref="K22" pin="5"/>
+      <node ref="P4" pin="2"/>
+      <node ref="K20" pin="5"/>
+      <node ref="K19" pin="5"/>
+      <node ref="K21" pin="5"/>
+    </net>
+    <net code="59" name="/DaughterBoardConnectors/T20_DRN">
+      <node ref="TP16" pin="1"/>
+      <node ref="U17" pin="96"/>
+      <node ref="U17" pin="102"/>
+      <node ref="TP13" pin="1"/>
+      <node ref="U17" pin="100"/>
+      <node ref="U17" pin="98"/>
+      <node ref="TP15" pin="1"/>
+    </net>
+    <net code="60" name="/DaughterBoardConnectors/T20_SRC">
+      <node ref="TP7" pin="1"/>
+      <node ref="TP9" pin="1"/>
+      <node ref="TP6" pin="1"/>
+      <node ref="U17" pin="89"/>
+      <node ref="U17" pin="93"/>
+      <node ref="U17" pin="91"/>
+      <node ref="U17" pin="95"/>
+    </net>
+    <net code="61" name="VEE">
+      <node ref="C34" pin="1"/>
+      <node ref="C32" pin="1"/>
+      <node ref="R122" pin="2"/>
+      <node ref="R4" pin="1"/>
+      <node ref="C66" pin="1"/>
+      <node ref="C33" pin="1"/>
+      <node ref="R113" pin="2"/>
+      <node ref="P12" pin="27"/>
+      <node ref="C31" pin="1"/>
+      <node ref="P1" pin="3"/>
+      <node ref="U14" pin="4"/>
+      <node ref="R104" pin="1"/>
+      <node ref="U14" pin="2"/>
+      <node ref="C51" pin="1"/>
+    </net>
+    <net code="62" name="+3V3">
+      <node ref="C41" pin="1"/>
+      <node ref="P12" pin="13"/>
+      <node ref="R106" pin="1"/>
+      <node ref="C38" pin="1"/>
+      <node ref="C45" pin="1"/>
+      <node ref="C42" pin="1"/>
+      <node ref="C46" pin="1"/>
+      <node ref="U13" pin="4"/>
+      <node ref="R100" pin="1"/>
+      <node ref="R72" pin="2"/>
+      <node ref="R87" pin="2"/>
+      <node ref="R74" pin="2"/>
+      <node ref="C44" pin="1"/>
+      <node ref="R89" pin="2"/>
+    </net>
+    <net code="63" name="+5V">
+      <node ref="K24" pin="1"/>
+      <node ref="J3" pin="3"/>
+      <node ref="K28" pin="1"/>
+      <node ref="K5" pin="1"/>
+      <node ref="R81" pin="1"/>
+      <node ref="U3" pin="16"/>
+      <node ref="K3" pin="1"/>
+      <node ref="C26" pin="1"/>
+      <node ref="R9" pin="1"/>
+      <node ref="U9" pin="10"/>
+      <node ref="K22" pin="1"/>
+      <node ref="K18" pin="1"/>
+      <node ref="K4" pin="1"/>
+      <node ref="K7" pin="1"/>
+      <node ref="K6" pin="1"/>
+      <node ref="K9" pin="1"/>
+      <node ref="K8" pin="1"/>
+      <node ref="U4" pin="16"/>
+      <node ref="K15" pin="1"/>
+      <node ref="K10" pin="1"/>
+      <node ref="K1" pin="1"/>
+      <node ref="K2" pin="1"/>
+      <node ref="R13" pin="1"/>
+      <node ref="K26" pin="1"/>
+      <node ref="K25" pin="1"/>
+      <node ref="U5" pin="16"/>
+      <node ref="K31" pin="1"/>
+      <node ref="C12" pin="1"/>
+      <node ref="K17" pin="1"/>
+      <node ref="C8" pin="1"/>
+      <node ref="C9" pin="1"/>
+      <node ref="K21" pin="1"/>
+      <node ref="R7" pin="1"/>
+      <node ref="C11" pin="1"/>
+      <node ref="U2" pin="16"/>
+      <node ref="C24" pin="1"/>
+      <node ref="K16" pin="1"/>
+      <node ref="K20" pin="1"/>
+      <node ref="C7" pin="1"/>
+      <node ref="C6" pin="1"/>
+      <node ref="U12" pin="2"/>
+      <node ref="U6" pin="10"/>
+      <node ref="C19" pin="1"/>
+      <node ref="U13" pin="1"/>
+      <node ref="U13" pin="2"/>
+      <node ref="U8" pin="10"/>
+      <node ref="U12" pin="1"/>
+      <node ref="C18" pin="1"/>
+      <node ref="P3" pin="1"/>
+      <node ref="U7" pin="10"/>
+      <node ref="R105" pin="1"/>
+      <node ref="K30" pin="1"/>
+      <node ref="K32" pin="1"/>
+      <node ref="R10" pin="1"/>
+      <node ref="K29" pin="1"/>
+      <node ref="K12" pin="1"/>
+      <node ref="K11" pin="1"/>
+      <node ref="C21" pin="1"/>
+      <node ref="K13" pin="1"/>
+      <node ref="K23" pin="1"/>
+      <node ref="K27" pin="1"/>
+      <node ref="C10" pin="1"/>
+      <node ref="K19" pin="1"/>
+      <node ref="C13" pin="1"/>
+      <node ref="C20" pin="1"/>
+      <node ref="K14" pin="1"/>
+    </net>
+    <net code="64" name="Net-(D2-Pad1)">
+      <node ref="D2" pin="1"/>
+      <node ref="R105" pin="2"/>
+    </net>
+    <net code="65" name="VCC">
+      <node ref="C15" pin="1"/>
+      <node ref="P12" pin="1"/>
+      <node ref="R112" pin="1"/>
+      <node ref="C14" pin="1"/>
+      <node ref="R107" pin="1"/>
+      <node ref="C16" pin="1"/>
+      <node ref="C17" pin="1"/>
+      <node ref="R3" pin="2"/>
+      <node ref="P1" pin="1"/>
+      <node ref="R121" pin="1"/>
+    </net>
+    <net code="66" name="Net-(D5-Pad2)">
+      <node ref="R108" pin="2"/>
+      <node ref="D5" pin="2"/>
+    </net>
+    <net code="67" name="Net-(R102-Pad2)">
+      <node ref="R103" pin="1"/>
+      <node ref="U14" pin="1"/>
+      <node ref="R102" pin="2"/>
+    </net>
+    <net code="68" name="Net-(D3-Pad1)">
+      <node ref="D3" pin="1"/>
+      <node ref="R106" pin="2"/>
+    </net>
+    <net code="69" name="Net-(D4-Pad1)">
+      <node ref="D4" pin="1"/>
+      <node ref="R107" pin="2"/>
+    </net>
+    <net code="70" name="Net-(D1-Pad2)">
+      <node ref="D1" pin="2"/>
+      <node ref="R104" pin="2"/>
+    </net>
+    <net code="71" name="Net-(C38-Pad2)">
+      <node ref="R101" pin="1"/>
+      <node ref="C38" pin="2"/>
+      <node ref="U13" pin="5"/>
+      <node ref="R100" pin="2"/>
+    </net>
+    <net code="72" name="Net-(D6-Pad1)">
+      <node ref="R109" pin="2"/>
+      <node ref="D6" pin="1"/>
+    </net>
+    <net code="73" name="Net-(J13-Pad2)">
+      <node ref="R149" pin="1"/>
+      <node ref="J13" pin="2"/>
+    </net>
+    <net code="74" name="/PowerAndSenses/Keithley/ExtSupply-">
+      <node ref="P7" pin="2"/>
+      <node ref="J6" pin="2"/>
+      <node ref="J13" pin="1"/>
+    </net>
+    <net code="75" name="Net-(C37-Pad2)">
+      <node ref="R99" pin="1"/>
+      <node ref="U12" pin="5"/>
+      <node ref="C37" pin="2"/>
+      <node ref="R98" pin="2"/>
+    </net>
+    <net code="76" name="/RelayMatrix/RelayControl/RelayCtrl_VDD_Sense">
+      <node ref="K3" pin="8"/>
+      <node ref="U9" pin="13"/>
+    </net>
+    <net code="77" name="/RelayMatrix/RelayControl/RelayCtrl_CBOOT_Sense">
+      <node ref="K5" pin="8"/>
+      <node ref="U9" pin="12"/>
+    </net>
+    <net code="78" name="/RelayMatrix/RelayControl/RelayCtrl_Vgate_Sense">
+      <node ref="K4" pin="8"/>
+      <node ref="U9" pin="18"/>
+    </net>
+    <net code="79" name="/RelayMatrix/RelayControl/RelayCtrl_BandGap_Sense">
+      <node ref="K15" pin="8"/>
+      <node ref="U8" pin="11"/>
+    </net>
+    <net code="80" name="/RelayMatrix/RelayControl/RelayCtrl_Vout_Sense">
+      <node ref="K2" pin="8"/>
+      <node ref="U8" pin="12"/>
+    </net>
+    <net code="81" name="/RelayMatrix/RelayControl/RelayCtrl4_DOTs_Vp_Sense">
+      <node ref="U9" pin="14"/>
+      <node ref="K9" pin="8"/>
+    </net>
+    <net code="82" name="/RelayMatrix/RelayControl/RelayCtrl3_DOTs_Vp_Sense">
+      <node ref="U9" pin="15"/>
+      <node ref="K8" pin="8"/>
+    </net>
+    <net code="83" name="/RelayMatrix/RelayControl/RelayCtrl2_DOTs_Vp_Sense">
+      <node ref="K7" pin="8"/>
+      <node ref="U9" pin="16"/>
+    </net>
+    <net code="84" name="/RelayMatrix/RelayControl/RelayCtrl1_DOTs_Vp_Sense">
+      <node ref="U9" pin="17"/>
+      <node ref="K6" pin="8"/>
+    </net>
+    <net code="85" name="/RelayMatrix/RelayControl/RelayCtrl_Vout_Load_withAmmeter">
+      <node ref="K10" pin="4"/>
+      <node ref="U8" pin="13"/>
+    </net>
+    <net code="86" name="/RelayMatrix/RelayControl/RelayCtrl_Vout_Load_withoutAmmeter">
+      <node ref="K1" pin="4"/>
+      <node ref="U8" pin="14"/>
+    </net>
+    <net code="87" name="/RelayMatrix/RelayControl/RelayCtrl_VoltIN_DOT2">
+      <node ref="K30" pin="8"/>
+      <node ref="U6" pin="13"/>
+    </net>
+    <net code="88" name="/RelayMatrix/RelayControl/RelayCtrl_Vin_DOT2">
+      <node ref="U6" pin="14"/>
+      <node ref="K16" pin="4"/>
+    </net>
+    <net code="89" name="/RelayMatrix/RelayControl/RelayCtrl_DOT1_VinPN_VoltInPN">
+      <node ref="K22" pin="8"/>
+      <node ref="U6" pin="16"/>
+    </net>
+    <net code="90" name="/RelayMatrix/RelayControl/RelayCtrl_VoltIN_DOT1">
+      <node ref="U6" pin="17"/>
+      <node ref="K29" pin="8"/>
+    </net>
+    <net code="91" name="/RelayMatrix/RelayControl/RelayCtrl_Vin_DOT1">
+      <node ref="U6" pin="18"/>
+      <node ref="K18" pin="4"/>
+    </net>
+    <net code="92" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_Vplus">
+      <node ref="K27" pin="4"/>
+      <node ref="U9" pin="11"/>
+    </net>
+    <net code="93" name="/RelayMatrix/Relays_Power_And_InputSense/RelayCtrl_VinP_DOT3">
+      <node ref="U7" pin="18"/>
+      <node ref="K17" pin="4"/>
+    </net>
+    <net code="94" name="/RelayMatrix/RelayControl/RelayCtrl_DOT2_VinPN_VoltInPN">
+      <node ref="U6" pin="12"/>
+      <node ref="K20" pin="8"/>
+    </net>
+    <net code="95" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT4_withAmmeterIN">
+      <node ref="K12" pin="4"/>
+      <node ref="U8" pin="15"/>
+    </net>
+    <net code="96" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT3_withAmmeterIN">
+      <node ref="U8" pin="16"/>
+      <node ref="K23" pin="4"/>
+    </net>
+    <net code="97" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT2_withAmmeterIN">
+      <node ref="K25" pin="4"/>
+      <node ref="U8" pin="17"/>
+    </net>
+    <net code="98" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT1_withAmmeterIN">
+      <node ref="U8" pin="18"/>
+      <node ref="K28" pin="4"/>
+    </net>
+    <net code="99" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT2_withoutAmmeterIN">
+      <node ref="U6" pin="11"/>
+      <node ref="K24" pin="4"/>
+    </net>
+    <net code="100" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT4_withoutAmmeterIN">
+      <node ref="U7" pin="11"/>
+      <node ref="K11" pin="4"/>
+    </net>
+    <net code="101" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT3_withoutAmmeterIN">
+      <node ref="U7" pin="15"/>
+      <node ref="K13" pin="4"/>
+    </net>
+    <net code="102" name="/RelayMatrix/RelayControl/RelayCtrl_VinP_DOT1_withoutAmmeterIN">
+      <node ref="U6" pin="15"/>
+      <node ref="K26" pin="4"/>
+    </net>
+    <net code="103" name="/RelayMatrix/RelayControl/RelayCtrl_DOT4_VinPN_VoltInPN">
+      <node ref="K19" pin="8"/>
+      <node ref="U7" pin="12"/>
+    </net>
+    <net code="104" name="/RelayMatrix/RelayControl/RelayCtrl_VoltIN_DOT4">
+      <node ref="U7" pin="13"/>
+      <node ref="K31" pin="8"/>
+    </net>
+    <net code="105" name="/RelayMatrix/RelayControl/RelayCtrl_Vin_DOT4">
+      <node ref="U7" pin="14"/>
+      <node ref="K14" pin="4"/>
+    </net>
+    <net code="106" name="/RelayMatrix/RelayControl/RelayCtrl_DOT3_VinPN_VoltInPN">
+      <node ref="K21" pin="8"/>
+      <node ref="U7" pin="16"/>
+    </net>
+    <net code="107" name="/RelayMatrix/RelayControl/RelayCtrl_VoltIN_DOT3">
+      <node ref="K32" pin="8"/>
+      <node ref="U7" pin="17"/>
+    </net>
+    <net code="108" name="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/R_CLK_BeforeTranslator">
+      <node ref="R60" pin="2"/>
+      <node ref="R75" pin="2"/>
+    </net>
+    <net code="109" name="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/R_DATA_BeforeTranslator">
+      <node ref="R76" pin="2"/>
+      <node ref="R61" pin="2"/>
+    </net>
+    <net code="110" name="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/R_LOAD_BeforeTranslator">
+      <node ref="R77" pin="2"/>
+      <node ref="R62" pin="2"/>
+    </net>
+    <net code="111" name="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/DUT_DATA_BeforeTranslator">
+      <node ref="R65" pin="2"/>
+      <node ref="R90" pin="2"/>
+    </net>
+    <net code="112" name="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/DUT_CLK_BeforeTranslator">
+      <node ref="R66" pin="2"/>
+      <node ref="R91" pin="2"/>
+    </net>
+    <net code="113" name="/NanoGrabitConnectorsandLevelShifters/NanoGraBITConnectors/DUT_ShutDown_BeforeTranslator">
+      <node ref="R67" pin="2"/>
+      <node ref="R92" pin="2"/>
+    </net>
+    <net code="114" name="Net-(U15-Pad8)">
+      <node ref="U15" pin="8"/>
+    </net>
+    <net code="115" name="Net-(R110-Pad2)">
+      <node ref="R110" pin="2"/>
+      <node ref="U15" pin="3"/>
+      <node ref="R111" pin="1"/>
+    </net>
+    <net code="116" name="Net-(U15-Pad1)">
+      <node ref="U15" pin="1"/>
+    </net>
+    <net code="117" name="/LoadBlock/VCC1">
+      <node ref="U15" pin="7"/>
+      <node ref="R112" pin="2"/>
+      <node ref="C56" pin="1"/>
+      <node ref="C57" pin="1"/>
+    </net>
+    <net code="118" name="/LoadBlock/Drain1">
+      <node ref="J8" pin="1"/>
+      <node ref="C22" pin="1"/>
+      <node ref="J7" pin="1"/>
+      <node ref="Q1" pin="4"/>
+      <node ref="Q1" pin="2"/>
+      <node ref="Q2" pin="4"/>
+      <node ref="Q2" pin="2"/>
+      <node ref="R117" pin="2"/>
+    </net>
+    <net code="119" name="Net-(Q1-Pad1)">
+      <node ref="R114" pin="2"/>
+      <node ref="Q1" pin="1"/>
+      <node ref="Q2" pin="1"/>
+    </net>
+    <net code="120" name="Net-(R114-Pad1)">
+      <node ref="U15" pin="6"/>
+      <node ref="R114" pin="1"/>
+    </net>
+    <net code="121" name="/LoadBlock/LoadSignal1">
+      <node ref="P12" pin="7"/>
+      <node ref="R120" pin="2"/>
+      <node ref="R110" pin="1"/>
+    </net>
+    <net code="122" name="/LoadBlock/Drain2">
+      <node ref="C23" pin="1"/>
+      <node ref="J9" pin="1"/>
+      <node ref="Q4" pin="2"/>
+      <node ref="Q3" pin="4"/>
+      <node ref="R117" pin="1"/>
+      <node ref="J10" pin="1"/>
+      <node ref="Q3" pin="2"/>
+      <node ref="Q4" pin="4"/>
+    </net>
+    <net code="123" name="/LoadBlock/VEE2">
+      <node ref="U16" pin="4"/>
+      <node ref="C58" pin="1"/>
+      <node ref="C59" pin="1"/>
+      <node ref="R122" pin="1"/>
+    </net>
+    <net code="124" name="/LoadBlock/VCC2">
+      <node ref="C60" pin="1"/>
+      <node ref="C61" pin="1"/>
+      <node ref="U16" pin="7"/>
+      <node ref="R121" pin="2"/>
+    </net>
+    <net code="125" name="Net-(Q3-Pad1)">
+      <node ref="Q3" pin="1"/>
+      <node ref="R123" pin="2"/>
+      <node ref="Q4" pin="1"/>
+    </net>
+    <net code="126" name="/LoadBlock/Source2">
+      <node ref="Q4" pin="3"/>
+      <node ref="R116" pin="1"/>
+      <node ref="U16" pin="2"/>
+      <node ref="Q3" pin="3"/>
+    </net>
+    <net code="127" name="Net-(R118-Pad2)">
+      <node ref="U16" pin="3"/>
+      <node ref="R119" pin="1"/>
+      <node ref="R118" pin="2"/>
+    </net>
+    <net code="128" name="/LoadBlock/LoadSignal2">
+      <node ref="P12" pin="9"/>
+      <node ref="R120" pin="1"/>
+      <node ref="R118" pin="1"/>
+    </net>
+    <net code="129" name="/LoadBlock/VEE1">
+      <node ref="C54" pin="1"/>
+      <node ref="C55" pin="1"/>
+      <node ref="R113" pin="1"/>
+      <node ref="U15" pin="4"/>
+    </net>
+    <net code="130" name="Net-(R123-Pad1)">
+      <node ref="U16" pin="6"/>
+      <node ref="R123" pin="1"/>
+    </net>
+    <net code="131" name="/LoadBlock/Source1">
+      <node ref="Q1" pin="3"/>
+      <node ref="U15" pin="2"/>
+      <node ref="R115" pin="1"/>
+      <node ref="Q2" pin="3"/>
+      <node ref="R116" pin="2"/>
+    </net>
+    <net code="132" name="Net-(U16-Pad1)">
+      <node ref="U16" pin="1"/>
+    </net>
+    <net code="133" name="Net-(U16-Pad8)">
+      <node ref="U16" pin="8"/>
+    </net>
+    <net code="134" name="Net-(P12-Pad5)">
+      <node ref="P12" pin="5"/>
+      <node ref="TP24" pin="1"/>
+    </net>
+    <net code="135" name="Net-(P12-Pad3)">
+      <node ref="P12" pin="3"/>
+      <node ref="TP25" pin="1"/>
+    </net>
+    <net code="136" name="Net-(Q5-Pad3)">
+      <node ref="Q7" pin="1"/>
+      <node ref="Q5" pin="3"/>
+      <node ref="R124" pin="2"/>
+    </net>
+    <net code="137" name="/DBSupplySelection/AfterSwitchDBSupply+">
+      <node ref="J12" pin="1"/>
+      <node ref="J11" pin="1"/>
+      <node ref="R150" pin="2"/>
+      <node ref="Q7" pin="3"/>
+    </net>
+    <net code="138" name="Net-(R9-Pad2)">
+      <node ref="R9" pin="2"/>
+      <node ref="U3" pin="10"/>
+    </net>
+    <net code="139" name="Net-(R11-Pad1)">
+      <node ref="U3" pin="13"/>
+      <node ref="R11" pin="1"/>
+    </net>
+    <net code="140" name="Net-(R12-Pad1)">
+      <node ref="R12" pin="1"/>
+      <node ref="U4" pin="13"/>
+    </net>
+    <net code="141" name="Net-(U3-Pad9)">
+      <node ref="U3" pin="9"/>
+      <node ref="U4" pin="14"/>
+    </net>
+    <net code="142" name="Net-(U2-Pad9)">
+      <node ref="U3" pin="14"/>
+      <node ref="U2" pin="9"/>
+    </net>
+    <net code="143" name="Net-(R7-Pad2)">
+      <node ref="R7" pin="2"/>
+      <node ref="U2" pin="10"/>
+    </net>
+    <net code="144" name="Net-(R8-Pad1)">
+      <node ref="R8" pin="1"/>
+      <node ref="U2" pin="13"/>
+    </net>
+    <net code="145" name="Net-(R10-Pad2)">
+      <node ref="U4" pin="10"/>
+      <node ref="R10" pin="2"/>
+    </net>
+    <net code="146" name="Net-(U4-Pad9)">
+      <node ref="U5" pin="14"/>
+      <node ref="U4" pin="9"/>
+    </net>
+    <net code="147" name="/RelayMatrix/RelayControl/R3">
+      <node ref="U6" pin="4"/>
+      <node ref="R18" pin="1"/>
+      <node ref="U2" pin="3"/>
+    </net>
+    <net code="148" name="/RelayMatrix/RelayControl/R1">
+      <node ref="U6" pin="2"/>
+      <node ref="R16" pin="1"/>
+      <node ref="U2" pin="1"/>
+    </net>
+    <net code="149" name="/RelayMatrix/RelayControl/R2">
+      <node ref="U6" pin="3"/>
+      <node ref="U2" pin="2"/>
+      <node ref="R17" pin="1"/>
+    </net>
+    <net code="150" name="/RelayMatrix/RelayControl/R6">
+      <node ref="R21" pin="1"/>
+      <node ref="U2" pin="6"/>
+      <node ref="U6" pin="7"/>
+    </net>
+    <net code="151" name="/RelayMatrix/RelayControl/R9">
+      <node ref="U3" pin="1"/>
+      <node ref="R24" pin="1"/>
+      <node ref="U7" pin="2"/>
+    </net>
+    <net code="152" name="/RelayMatrix/RelayControl/R10">
+      <node ref="U3" pin="2"/>
+      <node ref="R25" pin="1"/>
+      <node ref="U7" pin="3"/>
+    </net>
+    <net code="153" name="/RelayMatrix/RelayControl/R11">
+      <node ref="U7" pin="4"/>
+      <node ref="U3" pin="3"/>
+      <node ref="R26" pin="1"/>
+    </net>
+    <net code="154" name="/RelayMatrix/RelayControl/R12">
+      <node ref="R27" pin="1"/>
+      <node ref="U7" pin="5"/>
+      <node ref="U3" pin="4"/>
+    </net>
+    <net code="155" name="/RelayMatrix/RelayControl/R13">
+      <node ref="U7" pin="6"/>
+      <node ref="R28" pin="1"/>
+      <node ref="U3" pin="5"/>
+    </net>
+    <net code="156" name="/RelayMatrix/RelayControl/R14">
+      <node ref="U7" pin="7"/>
+      <node ref="U3" pin="6"/>
+      <node ref="R29" pin="1"/>
+    </net>
+    <net code="157" name="/RelayMatrix/RelayControl/R15">
+      <node ref="R30" pin="1"/>
+      <node ref="U3" pin="7"/>
+      <node ref="U7" pin="8"/>
+    </net>
+    <net code="158" name="/RelayMatrix/RelayControl/R4">
+      <node ref="U6" pin="5"/>
+      <node ref="R19" pin="1"/>
+      <node ref="U2" pin="4"/>
+    </net>
+    <net code="159" name="/RelayMatrix/RelayControl/R5">
+      <node ref="U2" pin="5"/>
+      <node ref="U6" pin="6"/>
+      <node ref="R20" pin="1"/>
+    </net>
+    <net code="160" name="/RelayMatrix/RelayControl/R7">
+      <node ref="R22" pin="1"/>
+      <node ref="U6" pin="8"/>
+      <node ref="U2" pin="7"/>
+    </net>
+    <net code="161" name="/RelayMatrix/RelayControl/R24">
+      <node ref="U5" pin="15"/>
+      <node ref="U9" pin="1"/>
+      <node ref="R39" pin="1"/>
+    </net>
+    <net code="162" name="/RelayMatrix/RelayControl/R16">
+      <node ref="R31" pin="1"/>
+      <node ref="U8" pin="1"/>
+      <node ref="U4" pin="15"/>
+    </net>
+    <net code="163" name="/RelayMatrix/RelayControl/R17">
+      <node ref="U4" pin="1"/>
+      <node ref="U8" pin="2"/>
+      <node ref="R32" pin="1"/>
+    </net>
+    <net code="164" name="/RelayMatrix/RelayControl/R18">
+      <node ref="U8" pin="3"/>
+      <node ref="R33" pin="1"/>
+      <node ref="U4" pin="2"/>
+    </net>
+    <net code="165" name="/RelayMatrix/RelayControl/R19">
+      <node ref="U8" pin="4"/>
+      <node ref="U4" pin="3"/>
+      <node ref="R34" pin="1"/>
+    </net>
+    <net code="166" name="/RelayMatrix/RelayControl/R20">
+      <node ref="U4" pin="4"/>
+      <node ref="R35" pin="1"/>
+      <node ref="U8" pin="5"/>
+    </net>
+    <net code="167" name="/RelayMatrix/RelayControl/R21">
+      <node ref="U4" pin="5"/>
+      <node ref="R36" pin="1"/>
+      <node ref="U8" pin="6"/>
+    </net>
+    <net code="168" name="/RelayMatrix/RelayControl/R22">
+      <node ref="R37" pin="1"/>
+      <node ref="U4" pin="6"/>
+      <node ref="U8" pin="7"/>
+    </net>
+    <net code="169" name="/RelayMatrix/RelayControl/R23">
+      <node ref="U4" pin="7"/>
+      <node ref="R38" pin="1"/>
+      <node ref="U8" pin="8"/>
+    </net>
+    <net code="170" name="/RelayMatrix/RelayControl/R0">
+      <node ref="R15" pin="1"/>
+      <node ref="U2" pin="15"/>
+      <node ref="U6" pin="1"/>
+    </net>
+    <net code="171" name="/RelayMatrix/RelayControl/R8">
+      <node ref="U3" pin="15"/>
+      <node ref="U7" pin="1"/>
+      <node ref="R23" pin="1"/>
+    </net>
+    <net code="172" name="/RelayMatrix/RelayControl/R26">
+      <node ref="U9" pin="3"/>
+      <node ref="R41" pin="1"/>
+      <node ref="U5" pin="2"/>
+    </net>
+    <net code="173" name="/RelayMatrix/RelayControl/R28">
+      <node ref="U5" pin="4"/>
+      <node ref="R43" pin="1"/>
+      <node ref="U9" pin="5"/>
+    </net>
+    <net code="174" name="/RelayMatrix/RelayControl/R30">
+      <node ref="U5" pin="6"/>
+      <node ref="U9" pin="7"/>
+      <node ref="R45" pin="1"/>
+    </net>
+    <net code="175" name="Net-(R14-Pad1)">
+      <node ref="U5" pin="13"/>
+      <node ref="R14" pin="1"/>
+    </net>
+    <net code="176" name="Net-(R13-Pad2)">
+      <node ref="R13" pin="2"/>
+      <node ref="U5" pin="10"/>
+    </net>
+    <net code="177" name="Net-(U5-Pad9)">
+      <node ref="U5" pin="9"/>
+    </net>
+    <net code="178" name="/RelayMatrix/RelayControl/R31">
+      <node ref="U9" pin="8"/>
+      <node ref="R46" pin="1"/>
+      <node ref="U5" pin="7"/>
+    </net>
+    <net code="179" name="/RelayMatrix/RelayControl/R29">
+      <node ref="U9" pin="6"/>
+      <node ref="R44" pin="1"/>
+      <node ref="U5" pin="5"/>
+    </net>
+    <net code="180" name="/RelayMatrix/RelayControl/R27">
+      <node ref="R42" pin="1"/>
+      <node ref="U9" pin="4"/>
+      <node ref="U5" pin="3"/>
+    </net>
+    <net code="181" name="/RelayMatrix/RelayControl/R25">
+      <node ref="U9" pin="2"/>
+      <node ref="R40" pin="1"/>
+      <node ref="U5" pin="1"/>
+    </net>
+    <net code="182" name="Net-(K7-Pad2)">
+      <node ref="K7" pin="2"/>
+      <node ref="K8" pin="6"/>
+      <node ref="K8" pin="3"/>
+    </net>
+    <net code="183" name="Net-(K8-Pad5)">
+      <node ref="K9" pin="6"/>
+      <node ref="K8" pin="5"/>
+    </net>
+    <net code="184" name="Net-(K8-Pad2)">
+      <node ref="K9" pin="3"/>
+      <node ref="K8" pin="2"/>
+    </net>
+    <net code="185" name="Net-(R5-Pad2)">
+      <node ref="R5" pin="2"/>
+      <node ref="U1" pin="6"/>
+      <node ref="R6" pin="1"/>
+    </net>
+    <net code="186" name="Net-(R1-Pad2)">
+      <node ref="U1" pin="2"/>
+      <node ref="R1" pin="2"/>
+      <node ref="R5" pin="1"/>
+    </net>
+    <net code="187" name="Net-(K3-Pad2)">
+      <node ref="K3" pin="2"/>
+    </net>
+    <net code="188" name="Net-(K2-Pad7)">
+      <node ref="K2" pin="7"/>
+    </net>
+    <net code="189" name="Net-(K3-Pad7)">
+      <node ref="K3" pin="7"/>
+    </net>
+    <net code="190" name="Net-(K2-Pad2)">
+      <node ref="K2" pin="2"/>
+    </net>
+    <net code="191" name="Net-(K6-Pad2)">
+      <node ref="K7" pin="3"/>
+      <node ref="K6" pin="7"/>
+      <node ref="K7" pin="6"/>
+      <node ref="K6" pin="2"/>
+    </net>
+    <net code="192" name="Net-(K6-Pad5)">
+      <node ref="K6" pin="5"/>
+    </net>
+    <net code="193" name="Net-(K6-Pad4)">
+      <node ref="K6" pin="4"/>
+    </net>
+    <net code="194" name="Net-(K5-Pad7)">
+      <node ref="K5" pin="7"/>
+    </net>
+    <net code="195" name="Net-(K5-Pad2)">
+      <node ref="K5" pin="2"/>
+    </net>
+    <net code="196" name="Net-(K4-Pad7)">
+      <node ref="K4" pin="7"/>
+    </net>
+    <net code="197" name="Net-(K4-Pad2)">
+      <node ref="K4" pin="2"/>
+    </net>
+    <net code="198" name="Net-(C5-Pad1)">
+      <node ref="K15" pin="6"/>
+      <node ref="K15" pin="3"/>
+      <node ref="C5" pin="1"/>
+      <node ref="R6" pin="2"/>
+    </net>
+    <net code="199" name="Net-(R2-Pad2)">
+      <node ref="U1" pin="3"/>
+      <node ref="R2" pin="2"/>
+    </net>
+    <net code="200" name="Net-(K8-Pad7)">
+      <node ref="K8" pin="7"/>
+    </net>
+    <net code="201" name="Net-(K8-Pad4)">
+      <node ref="K8" pin="4"/>
+    </net>
+    <net code="202" name="Net-(K7-Pad7)">
+      <node ref="K7" pin="7"/>
+    </net>
+    <net code="203" name="Net-(K7-Pad4)">
+      <node ref="K7" pin="4"/>
+    </net>
+    <net code="204" name="Net-(K15-Pad2)">
+      <node ref="K15" pin="2"/>
+    </net>
+    <net code="205" name="Net-(K15-Pad7)">
+      <node ref="K15" pin="7"/>
+    </net>
+    <net code="206" name="/RelayMatrix/Relays_OutputSense/VEE1">
+      <node ref="C1" pin="1"/>
+      <node ref="U1" pin="4"/>
+      <node ref="C2" pin="1"/>
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="207" name="/RelayMatrix/Relays_OutputSense/VCC1">
+      <node ref="C3" pin="1"/>
+      <node ref="R3" pin="1"/>
+      <node ref="C4" pin="1"/>
+      <node ref="U1" pin="7"/>
+    </net>
+    <net code="208" name="Net-(U1-Pad8)">
+      <node ref="U1" pin="8"/>
+    </net>
+    <net code="209" name="Net-(U1-Pad1)">
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="210" name="Net-(K18-Pad2)">
+      <node ref="K18" pin="2"/>
+      <node ref="K22" pin="3"/>
+    </net>
+    <net code="211" name="Net-(K31-Pad7)">
+      <node ref="K31" pin="7"/>
+    </net>
+    <net code="212" name="Net-(K19-Pad6)">
+      <node ref="K19" pin="6"/>
+      <node ref="K31" pin="5"/>
+      <node ref="K31" pin="4"/>
+    </net>
+    <net code="213" name="Net-(K31-Pad2)">
+      <node ref="K31" pin="2"/>
+    </net>
+    <net code="214" name="Net-(K32-Pad7)">
+      <node ref="K32" pin="7"/>
+    </net>
+    <net code="215" name="Net-(K32-Pad2)">
+      <node ref="K32" pin="2"/>
+    </net>
+    <net code="216" name="Net-(K30-Pad7)">
+      <node ref="K30" pin="7"/>
+    </net>
+    <net code="217" name="Net-(K30-Pad2)">
+      <node ref="K30" pin="2"/>
+    </net>
+    <net code="218" name="Net-(K29-Pad7)">
+      <node ref="K29" pin="7"/>
+    </net>
+    <net code="219" name="Net-(K29-Pad2)">
+      <node ref="K29" pin="2"/>
+    </net>
+    <net code="220" name="Net-(K22-Pad6)">
+      <node ref="K29" pin="4"/>
+      <node ref="K22" pin="6"/>
+      <node ref="K29" pin="5"/>
+    </net>
+    <net code="221" name="Net-(K22-Pad2)">
+      <node ref="K28" pin="3"/>
+      <node ref="K22" pin="2"/>
+      <node ref="K26" pin="3"/>
+    </net>
+    <net code="222" name="Net-(K13-Pad3)">
+      <node ref="K13" pin="3"/>
+      <node ref="K23" pin="3"/>
+      <node ref="K21" pin="2"/>
+    </net>
+    <net code="223" name="Net-(K11-Pad3)">
+      <node ref="K12" pin="3"/>
+      <node ref="K11" pin="3"/>
+      <node ref="K19" pin="2"/>
+    </net>
+    <net code="224" name="Net-(K20-Pad6)">
+      <node ref="K30" pin="5"/>
+      <node ref="K20" pin="6"/>
+      <node ref="K30" pin="4"/>
+    </net>
+    <net code="225" name="Net-(K21-Pad6)">
+      <node ref="K32" pin="4"/>
+      <node ref="K32" pin="5"/>
+      <node ref="K21" pin="6"/>
+    </net>
+    <net code="226" name="Net-(K17-Pad2)">
+      <node ref="K17" pin="2"/>
+      <node ref="K21" pin="3"/>
+    </net>
+    <net code="227" name="Net-(K14-Pad2)">
+      <node ref="K19" pin="3"/>
+      <node ref="K14" pin="2"/>
+    </net>
+    <net code="228" name="Net-(K16-Pad2)">
+      <node ref="K16" pin="2"/>
+      <node ref="K20" pin="3"/>
+    </net>
+    <net code="229" name="Net-(K20-Pad2)">
+      <node ref="K20" pin="2"/>
+      <node ref="K25" pin="3"/>
+      <node ref="K24" pin="3"/>
+    </net>
+    <net code="230" name="Net-(J1-Pad30)">
+      <node ref="R56" pin="1"/>
+      <node ref="J1" pin="30"/>
+    </net>
+    <net code="231" name="Net-(J1-Pad24)">
+      <node ref="J1" pin="24"/>
+      <node ref="R55" pin="1"/>
+    </net>
+    <net code="232" name="Net-(J1-Pad34)">
+      <node ref="R58" pin="1"/>
+      <node ref="J1" pin="34"/>
+    </net>
+    <net code="233" name="Net-(J1-Pad32)">
+      <node ref="R57" pin="1"/>
+      <node ref="J1" pin="32"/>
+    </net>
+    <net code="234" name="Net-(J1-Pad22)">
+      <node ref="J1" pin="22"/>
+      <node ref="R54" pin="1"/>
+    </net>
+    <net code="235" name="Net-(J1-Pad20)">
+      <node ref="J1" pin="20"/>
+      <node ref="R53" pin="1"/>
+    </net>
+    <net code="236" name="Net-(J1-Pad12)">
+      <node ref="R49" pin="1"/>
+      <node ref="J1" pin="12"/>
+    </net>
+    <net code="237" name="Net-(J1-Pad89)">
+      <node ref="J1" pin="89"/>
+    </net>
+    <net code="238" name="Net-(J1-Pad8)">
+      <node ref="J1" pin="8"/>
+      <node ref="R47" pin="1"/>
+    </net>
+    <net code="239" name="Net-(J1-Pad10)">
+      <node ref="J1" pin="10"/>
+      <node ref="R48" pin="1"/>
+    </net>
+    <net code="240" name="Net-(J1-Pad18)">
+      <node ref="J1" pin="18"/>
+      <node ref="R52" pin="1"/>
+    </net>
+    <net code="241" name="Net-(J1-Pad14)">
+      <node ref="R50" pin="1"/>
+      <node ref="J1" pin="14"/>
+    </net>
+    <net code="242" name="Net-(J1-Pad16)">
+      <node ref="J1" pin="16"/>
+      <node ref="R51" pin="1"/>
+    </net>
+    <net code="243" name="Net-(J1-Pad38)">
+      <node ref="J1" pin="38"/>
+      <node ref="R59" pin="1"/>
+    </net>
+    <net code="244" name="Net-(J1-Pad40)">
+      <node ref="J1" pin="40"/>
+      <node ref="R60" pin="1"/>
+    </net>
+    <net code="245" name="Net-(J1-Pad42)">
+      <node ref="R61" pin="1"/>
+      <node ref="J1" pin="42"/>
+    </net>
+    <net code="246" name="Net-(J1-Pad44)">
+      <node ref="J1" pin="44"/>
+      <node ref="R62" pin="1"/>
+    </net>
+    <net code="247" name="Net-(J1-Pad46)">
+      <node ref="R63" pin="1"/>
+      <node ref="J1" pin="46"/>
+    </net>
+    <net code="248" name="Net-(J1-Pad94)">
+      <node ref="J1" pin="94"/>
+    </net>
+    <net code="249" name="Net-(J1-Pad92)">
+      <node ref="J1" pin="92"/>
+    </net>
+    <net code="250" name="Net-(J1-Pad90)">
+      <node ref="J1" pin="90"/>
+    </net>
+    <net code="251" name="Net-(J1-Pad81)">
+      <node ref="J1" pin="81"/>
+    </net>
+    <net code="252" name="Net-(J1-Pad91)">
+      <node ref="J1" pin="91"/>
+    </net>
+    <net code="253" name="Net-(J1-Pad93)">
+      <node ref="J1" pin="93"/>
+    </net>
+    <net code="254" name="Net-(J1-Pad95)">
+      <node ref="J1" pin="95"/>
+    </net>
+    <net code="255" name="Net-(J1-Pad25)">
+      <node ref="J1" pin="25"/>
+    </net>
+    <net code="256" name="Net-(J1-Pad13)">
+      <node ref="J1" pin="13"/>
+    </net>
+    <net code="257" name="Net-(J1-Pad23)">
+      <node ref="J1" pin="23"/>
+    </net>
+    <net code="258" name="Net-(J1-Pad33)">
+      <node ref="J1" pin="33"/>
+    </net>
+    <net code="259" name="Net-(J1-Pad43)">
+      <node ref="J1" pin="43"/>
+    </net>
+    <net code="260" name="Net-(J1-Pad53)">
+      <node ref="J1" pin="53"/>
+    </net>
+    <net code="261" name="Net-(J1-Pad54)">
+      <node ref="J1" pin="54"/>
+    </net>
+    <net code="262" name="Net-(J1-Pad52)">
+      <node ref="J1" pin="52"/>
+    </net>
+    <net code="263" name="Net-(J1-Pad55)">
+      <node ref="J1" pin="55"/>
+    </net>
+    <net code="264" name="Net-(J1-Pad26)">
+      <node ref="J1" pin="26"/>
+    </net>
+    <net code="265" name="Net-(J1-Pad36)">
+      <node ref="J1" pin="36"/>
+    </net>
+    <net code="266" name="Net-(J1-Pad56)">
+      <node ref="J1" pin="56"/>
+    </net>
+    <net code="267" name="Net-(J1-Pad17)">
+      <node ref="J1" pin="17"/>
+    </net>
+    <net code="268" name="Net-(J1-Pad27)">
+      <node ref="J1" pin="27"/>
+    </net>
+    <net code="269" name="Net-(J1-Pad37)">
+      <node ref="J1" pin="37"/>
+    </net>
+    <net code="270" name="Net-(J1-Pad1)">
+      <node ref="J1" pin="1"/>
+    </net>
+    <net code="271" name="Net-(J1-Pad2)">
+      <node ref="J1" pin="2"/>
+    </net>
+    <net code="272" name="Net-(J1-Pad3)">
+      <node ref="J1" pin="3"/>
+    </net>
+    <net code="273" name="Net-(J1-Pad4)">
+      <node ref="J1" pin="4"/>
+    </net>
+    <net code="274" name="Net-(J1-Pad5)">
+      <node ref="J1" pin="5"/>
+    </net>
+    <net code="275" name="Net-(J1-Pad6)">
+      <node ref="J1" pin="6"/>
+    </net>
+    <net code="276" name="Net-(J1-Pad7)">
+      <node ref="J1" pin="7"/>
+    </net>
+    <net code="277" name="Net-(J1-Pad9)">
+      <node ref="J1" pin="9"/>
+    </net>
+    <net code="278" name="Net-(J1-Pad47)">
+      <node ref="J1" pin="47"/>
+    </net>
+    <net code="279" name="Net-(J1-Pad50)">
+      <node ref="J1" pin="50"/>
+    </net>
+    <net code="280" name="Net-(J1-Pad11)">
+      <node ref="J1" pin="11"/>
+    </net>
+    <net code="281" name="Net-(J1-Pad21)">
+      <node ref="J1" pin="21"/>
+    </net>
+    <net code="282" name="Net-(J1-Pad31)">
+      <node ref="J1" pin="31"/>
+    </net>
+    <net code="283" name="Net-(J1-Pad41)">
+      <node ref="J1" pin="41"/>
+    </net>
+    <net code="284" name="Net-(J1-Pad73)">
+      <node ref="R125" pin="1"/>
+      <node ref="J1" pin="73"/>
+    </net>
+    <net code="285" name="Net-(J1-Pad84)">
+      <node ref="R144" pin="2"/>
+      <node ref="J1" pin="84"/>
+    </net>
+    <net code="286" name="Net-(J1-Pad65)">
+      <node ref="R65" pin="1"/>
+      <node ref="J1" pin="65"/>
+    </net>
+    <net code="287" name="Net-(J1-Pad75)">
+      <node ref="R126" pin="1"/>
+      <node ref="J1" pin="75"/>
+    </net>
+    <net code="288" name="Net-(J1-Pad85)">
+      <node ref="R146" pin="2"/>
+      <node ref="J1" pin="85"/>
+    </net>
+    <net code="289" name="Net-(J1-Pad63)">
+      <node ref="J1" pin="63"/>
+      <node ref="R141" pin="2"/>
+    </net>
+    <net code="290" name="Net-(J1-Pad96)">
+      <node ref="J1" pin="96"/>
+      <node ref="R135" pin="1"/>
+    </net>
+    <net code="291" name="Net-(J1-Pad67)">
+      <node ref="J1" pin="67"/>
+    </net>
+    <net code="292" name="Net-(J1-Pad77)">
+      <node ref="J1" pin="77"/>
+      <node ref="R127" pin="1"/>
+    </net>
+    <net code="293" name="Net-(J1-Pad87)">
+      <node ref="J1" pin="87"/>
+      <node ref="R147" pin="2"/>
+    </net>
+    <net code="294" name="Net-(J1-Pad97)">
+      <node ref="J1" pin="97"/>
+    </net>
+    <net code="295" name="Net-(J1-Pad28)">
+      <node ref="J1" pin="28"/>
+    </net>
+    <net code="296" name="Net-(J1-Pad48)">
+      <node ref="J1" pin="48"/>
+    </net>
+    <net code="297" name="Net-(J1-Pad58)">
+      <node ref="J1" pin="58"/>
+    </net>
+    <net code="298" name="Net-(J1-Pad19)">
+      <node ref="J1" pin="19"/>
+    </net>
+    <net code="299" name="Net-(J1-Pad49)">
+      <node ref="J1" pin="49"/>
+    </net>
+    <net code="300" name="Net-(J1-Pad59)">
+      <node ref="J1" pin="59"/>
+    </net>
+    <net code="301" name="Net-(J1-Pad71)">
+      <node ref="J1" pin="71"/>
+      <node ref="R66" pin="1"/>
+    </net>
+    <net code="302" name="Net-(J1-Pad82)">
+      <node ref="J1" pin="82"/>
+      <node ref="R131" pin="1"/>
+    </net>
+    <net code="303" name="Net-(J1-Pad86)">
+      <node ref="R132" pin="1"/>
+      <node ref="J1" pin="86"/>
+    </net>
+    <net code="304" name="Net-(J1-Pad88)">
+      <node ref="J1" pin="88"/>
+      <node ref="R133" pin="1"/>
+    </net>
+    <net code="305" name="Net-(J1-Pad98)">
+      <node ref="J1" pin="98"/>
+      <node ref="R134" pin="1"/>
+    </net>
+    <net code="306" name="Net-(J1-Pad78)">
+      <node ref="J1" pin="78"/>
+      <node ref="R128" pin="1"/>
+    </net>
+    <net code="307" name="Net-(J1-Pad76)">
+      <node ref="J1" pin="76"/>
+      <node ref="R129" pin="1"/>
+    </net>
+    <net code="308" name="Net-(J1-Pad74)">
+      <node ref="J1" pin="74"/>
+      <node ref="R130" pin="1"/>
+    </net>
+    <net code="309" name="Net-(J1-Pad83)">
+      <node ref="J1" pin="83"/>
+      <node ref="R145" pin="2"/>
+    </net>
+    <net code="310" name="Net-(J1-Pad61)">
+      <node ref="J1" pin="61"/>
+      <node ref="R140" pin="2"/>
+    </net>
+    <net code="311" name="Net-(J1-Pad70)">
+      <node ref="J1" pin="70"/>
+      <node ref="R143" pin="2"/>
+    </net>
+    <net code="312" name="Net-(J1-Pad72)">
+      <node ref="J1" pin="72"/>
+      <node ref="R142" pin="2"/>
+    </net>
+    <net code="313" name="Net-(J1-Pad64)">
+      <node ref="J1" pin="64"/>
+      <node ref="R137" pin="1"/>
+    </net>
+    <net code="314" name="Net-(J1-Pad69)">
+      <node ref="R67" pin="1"/>
+      <node ref="J1" pin="69"/>
+    </net>
+    <net code="315" name="Net-(J1-Pad62)">
+      <node ref="J1" pin="62"/>
+      <node ref="R136" pin="1"/>
+    </net>
+    <net code="316" name="Net-(J1-Pad68)">
+      <node ref="R138" pin="1"/>
+      <node ref="J1" pin="68"/>
+    </net>
+    <net code="317" name="Net-(J1-Pad66)">
+      <node ref="R139" pin="1"/>
+      <node ref="J1" pin="66"/>
+    </net>
+    <net code="318" name="Net-(R82-Pad2)">
+      <node ref="U10" pin="22"/>
+      <node ref="R82" pin="2"/>
+    </net>
+    <net code="319" name="Net-(U10-Pad14)">
+      <node ref="U10" pin="14"/>
+    </net>
+    <net code="320" name="Net-(R81-Pad2)">
+      <node ref="U10" pin="23"/>
+      <node ref="U10" pin="24"/>
+      <node ref="R81" pin="2"/>
+    </net>
+    <net code="321" name="Net-(U10-Pad15)">
+      <node ref="U10" pin="15"/>
+    </net>
+    <net code="322" name="Net-(U10-Pad16)">
+      <node ref="U10" pin="16"/>
+    </net>
+    <net code="323" name="Net-(R80-Pad2)">
+      <node ref="R80" pin="2"/>
+      <node ref="U10" pin="17"/>
+    </net>
+    <net code="324" name="Net-(U10-Pad18)">
+      <node ref="U10" pin="18"/>
+    </net>
+    <net code="325" name="Net-(R79-Pad2)">
+      <node ref="U10" pin="19"/>
+      <node ref="R79" pin="2"/>
+    </net>
+    <net code="326" name="Net-(J2-Pad3)">
+      <node ref="J2" pin="3"/>
+      <node ref="R95" pin="1"/>
+    </net>
+    <net code="327" name="Net-(J3-Pad2)">
+      <node ref="J3" pin="2"/>
+      <node ref="R96" pin="1"/>
+    </net>
+    <net code="328" name="Net-(R74-Pad1)">
+      <node ref="R74" pin="1"/>
+      <node ref="U10" pin="2"/>
+    </net>
+    <net code="329" name="Net-(R75-Pad1)">
+      <node ref="U10" pin="3"/>
+      <node ref="R75" pin="1"/>
+    </net>
+    <net code="330" name="Net-(R68-Pad1)">
+      <node ref="U10" pin="4"/>
+      <node ref="R68" pin="1"/>
+    </net>
+    <net code="331" name="Net-(R76-Pad1)">
+      <node ref="R76" pin="1"/>
+      <node ref="U10" pin="5"/>
+    </net>
+    <net code="332" name="Net-(R69-Pad1)">
+      <node ref="U10" pin="6"/>
+      <node ref="R69" pin="1"/>
+    </net>
+    <net code="333" name="Net-(R77-Pad1)">
+      <node ref="R77" pin="1"/>
+      <node ref="U10" pin="7"/>
+    </net>
+    <net code="334" name="Net-(R70-Pad1)">
+      <node ref="R70" pin="1"/>
+      <node ref="U10" pin="8"/>
+    </net>
+    <net code="335" name="Net-(R73-Pad1)">
+      <node ref="R73" pin="1"/>
+      <node ref="U10" pin="9"/>
+    </net>
+    <net code="336" name="Net-(R71-Pad1)">
+      <node ref="R71" pin="1"/>
+      <node ref="U10" pin="10"/>
+    </net>
+    <net code="337" name="Net-(U10-Pad20)">
+      <node ref="U10" pin="20"/>
+    </net>
+    <net code="338" name="Net-(R78-Pad2)">
+      <node ref="R78" pin="2"/>
+      <node ref="U10" pin="21"/>
+    </net>
+    <net code="339" name="Net-(R94-Pad2)">
+      <node ref="R94" pin="2"/>
+      <node ref="U11" pin="19"/>
+    </net>
+    <net code="340" name="Net-(R93-Pad2)">
+      <node ref="U11" pin="21"/>
+      <node ref="R93" pin="2"/>
+    </net>
+    <net code="341" name="Net-(R92-Pad1)">
+      <node ref="U11" pin="7"/>
+      <node ref="R92" pin="1"/>
+    </net>
+    <net code="342" name="Net-(R91-Pad1)">
+      <node ref="U11" pin="5"/>
+      <node ref="R91" pin="1"/>
+    </net>
+    <net code="343" name="Net-(R95-Pad2)">
+      <node ref="U11" pin="17"/>
+      <node ref="R95" pin="2"/>
+    </net>
+    <net code="344" name="Net-(R90-Pad1)">
+      <node ref="U11" pin="3"/>
+      <node ref="R90" pin="1"/>
+    </net>
+    <net code="345" name="Net-(R83-Pad1)">
+      <node ref="U11" pin="4"/>
+      <node ref="R83" pin="1"/>
+    </net>
+    <net code="346" name="Net-(R89-Pad1)">
+      <node ref="U11" pin="2"/>
+      <node ref="R89" pin="1"/>
+    </net>
+    <net code="347" name="Net-(R88-Pad1)">
+      <node ref="R88" pin="1"/>
+      <node ref="U11" pin="9"/>
+    </net>
+    <net code="348" name="Net-(R85-Pad1)">
+      <node ref="R85" pin="1"/>
+      <node ref="U11" pin="8"/>
+    </net>
+    <net code="349" name="Net-(R84-Pad1)">
+      <node ref="U11" pin="6"/>
+      <node ref="R84" pin="1"/>
+    </net>
+    <net code="350" name="Net-(U11-Pad20)">
+      <node ref="U11" pin="20"/>
+    </net>
+    <net code="351" name="Net-(U11-Pad15)">
+      <node ref="U11" pin="15"/>
+    </net>
+    <net code="352" name="Net-(U11-Pad18)">
+      <node ref="U11" pin="18"/>
+    </net>
+    <net code="353" name="Net-(U11-Pad16)">
+      <node ref="U11" pin="16"/>
+    </net>
+    <net code="354" name="Net-(U11-Pad14)">
+      <node ref="U11" pin="14"/>
+    </net>
+    <net code="355" name="Net-(R97-Pad2)">
+      <node ref="R97" pin="2"/>
+      <node ref="U11" pin="22"/>
+    </net>
+    <net code="356" name="Net-(R87-Pad1)">
+      <node ref="R87" pin="1"/>
+      <node ref="U11" pin="1"/>
+    </net>
+    <net code="357" name="Net-(R96-Pad2)">
+      <node ref="U11" pin="23"/>
+      <node ref="R96" pin="2"/>
+      <node ref="U11" pin="24"/>
+    </net>
+    <net code="358" name="Net-(R72-Pad1)">
+      <node ref="R72" pin="1"/>
+      <node ref="U10" pin="1"/>
+    </net>
+    <net code="359" name="Net-(R86-Pad1)">
+      <node ref="U11" pin="10"/>
+      <node ref="R86" pin="1"/>
+    </net>
+  </nets>
+</export>
