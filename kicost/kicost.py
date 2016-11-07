@@ -106,6 +106,36 @@ DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
 
+# Generate a dictionary to translate all the different ways people might want
+# to refer to part numbers, vendor numbers, and such.
+field_name_translations = {
+    'mpn': 'manf#',
+    'pn': 'manf#',
+    'manf_num': 'manf#',
+    'manf-num': 'manf#',
+    'mfg_num': 'manf#',
+    'mfg-num': 'manf#',
+    'mfg#': 'manf#',
+    'man_num': 'manf#',
+    'man-num': 'manf#',
+    'man#': 'manf#',
+    'mfr_num': 'manf#',
+    'mfr-num': 'manf#',
+    'mfr#': 'manf#',
+    'part-num': 'manf#',
+    'part_num': 'manf#',
+    'p#': 'manf#',
+    'part#': 'manf#',
+}
+for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
+    for dist in distributors:
+        field_name_translations[dist + stub] = dist + '#'
+        field_name_translations[dist + '_' + stub] = dist + '#'
+        field_name_translations[dist + '-' + stub] = dist + '#'
+field_name_translations['manufacturer'] = 'manf'
+field_name_translations['mnf'] = 'manf'
+
+
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
@@ -212,6 +242,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 if name in ign_fields:
                     continue  # Ignore fields in the ignore list.
                 elif SEPRTR not in name: # No separator, so get global field value.
+                    name = field_name_translations.get(name, name)
                     fields[name] = str(f.string)
                 else:
                     # Now look for fields that start with 'kicost' and possibly
@@ -222,15 +253,16 @@ def get_part_groups(in_file, ignore_fields, variant):
                     if mtch:
                         # The field name is anything that came after the leading
                         # 'kicost' and variant field.
-                        fld_nm = mtch.group('name')
+                        name = mtch.group('name')
+                        name = field_name_translations.get(name, name)
                         # If the field name isn't for a manufacturer's part
                         # number or a distributors catalog number, then add
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
-                        if fld_nm not in ('manf#', 'manf') and fld_nm[:-1] not in distributors:
-                            if SEPRTR not in fld_nm: # This field has no distributor.
-                                fld_nm = 'local:' + fld_nm # Assign it to a local distributor.
-                        fields[fld_nm] = str(f.string)
+                        if name not in ('manf#', 'manf') and name[:-1] not in distributors:
+                            if SEPRTR not in name: # This field has no distributor.
+                                name = 'local:' + name # Assign it to a local distributor.
+                        fields[name] = str(f.string)
 
         except AttributeError:
             pass  # No fields found for this part.

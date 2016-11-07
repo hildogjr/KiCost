@@ -76,7 +76,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -87,7 +87,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -98,7 +98,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -109,7 +109,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -120,7 +120,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -131,7 +131,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -142,7 +142,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -153,7 +153,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Samsung</field>
-        <field name="manf#">CL10A106MQ8NNNC</field>
+        <field name="mpn">CL10A106MQ8NNNC</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -164,7 +164,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Samsung</field>
-        <field name="manf#">CL10A106MQ8NNNC</field>
+        <field name="mpn">CL10A106MQ8NNNC</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -175,7 +175,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Samsung</field>
-        <field name="manf#">CL10A106MQ8NNNC</field>
+        <field name="mpn">CL10A106MQ8NNNC</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -186,7 +186,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">TDK</field>
-        <field name="manf#">C1005C0G1H040B050BA</field>
+        <field name="mpn">C1005C0G1H040B050BA</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -197,7 +197,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">TDK</field>
-        <field name="manf#">C1005C0G1H040B050BA</field>
+        <field name="mpn">C1005C0G1H040B050BA</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -208,7 +208,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Yaego</field>
-        <field name="manf#">CC0402JRNPO9BN220</field>
+        <field name="mpn">CC0402JRNPO9BN220</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -219,7 +219,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-071ML</field>
+        <field name="mpn">RC0402FR-071ML</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -230,7 +230,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402JR-070RL</field>
+        <field name="mpn">RC0402JR-070RL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -241,7 +241,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -252,7 +252,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">LMK105BJ104KV-F</field>
+        <field name="mpn">LMK105BJ104KV-F</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -263,7 +263,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">JMK107BJ225KA-T</field>
+        <field name="mpn">JMK107BJ225KA-T</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -274,7 +274,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">JMK107BJ225KA-T</field>
+        <field name="mpn">JMK107BJ225KA-T</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -285,7 +285,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Samsung</field>
-        <field name="manf#">CL10A106MQ8NNNC</field>
+        <field name="mpn">CL10A106MQ8NNNC</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -296,7 +296,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-07100KL</field>
+        <field name="mpn">RC0402FR-07100KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -329,7 +329,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">TMK107BJ104KA-T</field>
+        <field name="mpn">TMK107BJ104KA-T</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -340,7 +340,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-0710KL</field>
+        <field name="mpn">RC0402FR-0710KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -358,7 +358,7 @@
       <footprint>Footprints:SM1812</footprint>
       <fields>
         <field name="manf">Murata</field>
-        <field name="manf#">GA343DR7GD472KW01L</field>
+        <field name="mpn">GA343DR7GD472KW01L</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -369,7 +369,7 @@
       <footprint>Footprints:SM0805_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Vishay Dale</field>
-        <field name="manf#">CRCW08050000Z0EAHP</field>
+        <field name="mpn">CRCW08050000Z0EAHP</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -380,7 +380,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-0710KL</field>
+        <field name="mpn">RC0402FR-0710KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -402,7 +402,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-0710KL</field>
+        <field name="mpn">RC0402FR-0710KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -414,7 +414,6 @@
       <fields>
         <field name="INSTALL">N</field>
         <field name="desc">NO-INSTALL</field>
-        <field name="kicost:pricing">1:0.10;10:0.05;100:0.01</pricing>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -425,7 +424,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-0710KL</field>
+        <field name="mpn">RC0402FR-0710KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -436,7 +435,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-0710KL</field>
+        <field name="mpn">RC0402FR-0710KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -447,7 +446,7 @@
       <footprint>Footprints:MOLEX-MINIB-USB-TH</footprint>
       <fields>
         <field name="manf">Molex</field>
-        <field name="manf#">500075-1517</field>
+        <field name="mpn">500075-1517</field>
       </fields>
       <libsource lib="ydf_molex_th_usb" part="MOLEX_TH_USB"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -480,7 +479,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">TDK</field>
-        <field name="manf#">C1005X7R1E104K050BB</field>
+        <field name="mpn">C1005X7R1E104K050BB</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_FX2LP/" tstamps="/53661626/"/>
@@ -491,7 +490,7 @@
       <footprint>Footprints:SOIC8_MICROCHIP_YDF</footprint>
       <fields>
         <field name="manf">Microchip</field>
-        <field name="manf#">MCP98243-BE/ST    </field>
+        <field name="mpn">MCP98243-BE/ST    </field>
       </fields>
       <libsource lib="YDF_Components" part="MCP98243-BE/ST"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -502,7 +501,7 @@
       <footprint>Footprints:SO8_YDF</footprint>
       <fields>
         <field name="manf">Microchip</field>
-        <field name="manf#">24AA128ISN</field>
+        <field name="mpn">24AA128ISN</field>
       </fields>
       <libsource lib="YDF_Components" part="24AA128ISN"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -524,7 +523,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402JR-070RL</field>
+        <field name="mpn">RC0402JR-070RL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -546,7 +545,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402JR-070RL</field>
+        <field name="mpn">RC0402JR-070RL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -557,7 +556,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-07330RL</field>
+        <field name="mpn">RC0402FR-07330RL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -568,7 +567,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Panasonic</field>
-        <field name="manf#">ERJ-2RKF4701X</field>
+        <field name="mpn">ERJ-2RKF4701X</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -579,7 +578,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Panasonic</field>
-        <field name="manf#">ERJ-2RKF4701X</field>
+        <field name="mpn">ERJ-2RKF4701X</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -601,7 +600,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402JR-070RL</field>
+        <field name="mpn">RC0402JR-070RL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_I2C/" tstamps="/53660F85/"/>
@@ -612,7 +611,7 @@
       <footprint>Footprints:HIROSE_FH19C_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Hirose</field>
-        <field name="manf#">FH19C-4S-0.5SH(05)</field>
+        <field name="mpn">FH19C-4S-0.5SH(05)</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="CONN_4"/>
       <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
@@ -674,7 +673,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">TDK</field>
-        <field name="manf#">C1005X7R1E104K050BB</field>
+        <field name="mpn">C1005X7R1E104K050BB</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_Interface/" tstamps="/53662479/"/>
@@ -696,7 +695,7 @@
       <footprint>Footprints:LP3982-VSSOP8</footprint>
       <fields>
         <field name="manf">TI</field>
-        <field name="manf#">LP3982IMM-3.3/NOPB</field>
+        <field name="mpn">LP3982IMM-3.3/NOPB</field>
       </fields>
       <libsource lib="YDF_Components" part="LP3982IMMX-3.3"/>
       <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
@@ -707,7 +706,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-07100KL</field>
+        <field name="mpn">RC0402FR-07100KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
@@ -718,7 +717,7 @@
       <footprint>Footprints:SM0402_r_YDF</footprint>
       <fields>
         <field name="manf">Yageo</field>
-        <field name="manf#">RC0402FR-07100KL</field>
+        <field name="mpn">RC0402FR-07100KL</field>
       </fields>
       <libsource lib="diy_rcl" part="R_US"/>
       <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
@@ -729,7 +728,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Samsung</field>
-        <field name="manf#">CL10A106MQ8NNNC</field>
+        <field name="mpn">CL10A106MQ8NNNC</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
@@ -740,7 +739,7 @@
       <footprint>Footprints:LED-0603_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Lumex Opto</field>
-        <field name="manf#">SML-LX0603SRW-TR</field>
+        <field name="mpn">SML-LX0603SRW-TR</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="LED-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
@@ -751,7 +750,7 @@
       <footprint>Footprints:SM0402_c_YDF_Sunnee</footprint>
       <fields>
         <field name="manf">Kemet</field>
-        <field name="manf#">C0402C333K4RACTU</field>
+        <field name="mpn">C0402C333K4RACTU</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>
@@ -762,7 +761,7 @@
       <footprint>Footprints:SM0603_Capa_ydf_sunnee</footprint>
       <fields>
         <field name="manf">Taiyo-Yuden</field>
-        <field name="manf#">JMK107BJ225KA-T</field>
+        <field name="mpn">JMK107BJ225KA-T</field>
       </fields>
       <libsource lib="Indium_X2-cache" part="C-RESCUE-Zambezi_X1"/>
       <sheetpath names="/Indium_X2_Power/" tstamps="/53662614/"/>

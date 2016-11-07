@@ -6,8 +6,18 @@ KiCost is mainly intended to be run as a script for generating part-cost spreads
 circuit boards developed with KiCad. Typical use is as follows:
 
 1. For each part in your schematic, create a field called *manf#* and set the field value
-   to the manufacturer's part number. (You can reduce the effort of adding this information to individual parts by
+   to the manufacturer's part number.
+   (You can reduce the effort of adding this information to individual parts by
    placing the *manf#* field into the part info in the schematic library so it gets applied globally.)
+   The allowable field names for part numbers are::
+
+        mpn          pn           p#
+        part_num     part-num     part#
+        manf_num     manf-num     manf#  
+        man_num      man-num      man# 
+        mfg_num      mfg-num      mfg#  
+        mfr_num      mfr-num      mfr#  
+
 2. Output a BOM from your KiCad schematic. This will be an XML file. For this example, say it is *schem.xml*.
 3. Process the XML file with KiCost to create a part-cost spreadsheet named *schem.xlsx* like this::
 
@@ -95,7 +105,7 @@ There are several cases that are considered when propagating part data:
 It is possible that there are identical parts in your schematic that have differing data
 and, hence, wouldn't be grouped together.
 For example, you might store information about a part in a "notes" field,
-but that shouldn't exclude the part from a group that had no or different notes.
+but that shouldn't exclude the part from a group that had none or different notes.
 That can be prevented in two ways:
 
 #. Use the ``-ignore_fields`` command-line option to make KiCost ignore part fields

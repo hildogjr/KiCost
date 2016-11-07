@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.30 (2016-11-07)
+______________________
+
+* Manufacturer's part number field can now be labeled as 'manf#', 'mpn', 'pn', '#', etc. (See documentation.)
+* Manufacturer field can now be labeled as 'manf' or 'manufacturer'.
+* Distributor part number fields can now be labeled as 'digikey#', 'digikeypn', digikey_pn', 'digikey-pn', etc. 
+
+
 0.1.29 (2016-08-27)
 ______________________
 
