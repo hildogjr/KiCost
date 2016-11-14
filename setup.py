@@ -24,6 +24,7 @@ requirements = [
     'lxml >= 3.3.3',
     'yattag >= 1.5.2',
     'tqdm >= 4.4.0',
+    'CurrencyConverter >= 0.5',
 ]
 
 test_requirements = [

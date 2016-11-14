@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.31 (2016-11-14)
+______________________
+
+* Giacinto Luigi Cerone added support for distributors Farnell and RS. 
+
+
 0.1.30 (2016-11-07)
 ______________________
 

@@ -48,6 +48,21 @@ from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
+
+def FakeBrowser(url):
+    req = Request(url)
+    req.add_header('Accept-Language', 'en-US')
+    req.add_header('User-agent', get_user_agent())
+    return req
+
+class PartHtmlError(Exception):
+    '''Exception for failed retrieval of an HTML parse tree for a part.'''
+    pass
+
+from .altium.altium import get_part_groups_altium
+from .rs.rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree
+from .farnell.farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
+
 try:
     from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
     import urllib.request
@@ -66,6 +81,8 @@ __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
 # Used to get the names of functions in this module so they can be called dynamically.
 THIS_MODULE = locals()
+
+ALL_MODULES = globals()
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
@@ -95,6 +112,21 @@ distributors = {
         'order_cols': ['part_num', 'purch', 'refs'],
         'order_delimiter': ' '
     },
+        'rs': {
+        'scrape': 'web',
+        'function': 'rs',
+        'label': 'RS Components',
+        'order_cols': ['part_num', 'purch', 'refs'],
+        'order_delimiter': ' '
+    },
+        'farnell': {
+        'scrape': 'web',
+        'function': 'farnell',
+        'label': 'Farnell',
+        'order_cols': ['part_num', 'purch', 'refs'],
+        'order_delimiter': ' '
+    },
+
 }
 
 local_part_html = ''
@@ -136,12 +168,15 @@ field_name_translations['manufacturer'] = 'manf'
 field_name_translations['mnf'] = 'manf'
 
 
-def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes):
+def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, is_altium):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Get groups of identical parts.
-    parts = get_part_groups(in_file, ignore_fields, variant)
-    
+    if not is_altium:
+        parts = get_part_groups(in_file, ignore_fields, variant)
+    else:
+        parts = get_part_groups_altium(in_file, ignore_fields, variant)
+        
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
     
@@ -171,7 +206,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
 
         # Create a list to store the output from each process.
         results = list(range(len(args)))
-
+        
         # Define a callback routine for updating the scraping progress bar.
         def update(x):
             scraping_progress.update(1)
@@ -276,25 +311,21 @@ def get_part_groups(in_file, ignore_fields, variant):
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts library...')
     libparts = {}
-    try:
-        for p in root.find('libparts').find_all('libpart'):
+    for p in root.find('libparts').find_all('libpart'):
 
-            # Get the values for the fields in each library part (if any).
-            fields = extract_fields(p, variant)
+        # Get the values for the fields in each library part (if any).
+        fields = extract_fields(p, variant)
 
-            # Store the field dict under the key made from the
-            # concatenation of the library and part names.
-            libparts[str(p['lib'] + SEPRTR + p['part'])] = fields
+        # Store the field dict under the key made from the
+        # concatenation of the library and part names.
+        libparts[str(p['lib'] + SEPRTR + p['part'])] = fields
 
-            # Also have to store the fields under any part aliases.
-            try:
-                for alias in p.find('aliases').find_all('alias'):
-                    libparts[str(p['lib'] + SEPRTR + alias.string)] = fields
-            except AttributeError:
-                pass  # No aliases for this part.
-    except AttributeError:
-        # This happens if there is no libparts section in the XML file.
-        pass
+        # Also have to store the fields under any part aliases.
+        try:
+            for alias in p.find('aliases').find_all('alias'):
+                libparts[str(p['lib'] + SEPRTR + alias.string)] = fields
+        except AttributeError:
+            pass  # No aliases for this part.
 
     # Find the components used in the schematic and elaborate
     # them with global values from the libraries and local values
@@ -311,10 +342,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
-        try:
-            fields = libparts[libpart].copy()  # Make a copy! Don't use reference!
-        except KeyError:
-            fields = {}
+        fields = libparts[libpart].copy()  # Make a copy! Don't use reference!
 
         # Store the part key and its value.
         fields['libpart'] = libpart
@@ -419,6 +447,9 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Now return the list of identical part groups.
     return new_component_groups
+
+    # Now return a list of the groups without their hash keys.
+    return list(new_component_groups.values())
 
 
 def create_local_part_html(parts):
@@ -536,6 +567,23 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
                 'valign': 'vcenter',
                 'bg_color': '#A2AE06'  # Newark/E14 olive green.
             }),
+            'rs': workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#FF0000'  # RS Components red.
+            }),
+            'farnell': workbook.add_format({
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#FF6600'  # Farnell/E14 orange.
+            }),
+
             'local_lbl': [
                 workbook.add_format({
                     'font_size': 14,
@@ -1333,7 +1381,6 @@ def get_newark_price_tiers(html_tree):
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
-
 def get_local_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the local product page.'''
     price_tiers = {}
@@ -1354,6 +1401,9 @@ def digikey_part_is_reeled(html_tree):
     '''Returns True if this Digi-Key part is reeled or Digi-reeled.'''
     qty_tiers = list(get_digikey_price_tiers(html_tree).keys())
     if len(qty_tiers) > 0 and min(qty_tiers) >= 100:
+        return True
+    if html_tree.find('table',
+                      id='product-details-reel-pricing') is not None:
         return True
     return False
 
@@ -1395,7 +1445,6 @@ def get_newark_part_num(html_tree):
     except AttributeError:
         logger.log(DEBUG_OBSESSIVE, 'No Newark product description found!')
         return '' # No ProductDescription found in page.
-
 
 def get_local_part_num(html_tree):
     '''Get the part number from the local product page.'''
@@ -1476,7 +1525,6 @@ def get_newark_qty_avail(html_tree):
         logger.log(DEBUG_OBSESSIVE, 'No Newark part quantity found!')
         return None
 
-
 def get_local_qty_avail(html_tree):
     '''Get the available quantity of the part from the local product page.'''
     try:
@@ -1520,16 +1568,16 @@ def get_user_agent():
     return user_agent_list[randint(0, len(user_agent_list) - 1)]
 
 
-def FakeBrowser(url):
-    req = Request(url)
-    req.add_header('Accept-Language', 'en-US')
-    req.add_header('User-agent', get_user_agent())
-    return req
+#~ def FakeBrowser(url):
+    #~ req = Request(url)
+    #~ req.add_header('Accept-Language', 'en-US')
+    #~ req.add_header('User-agent', get_user_agent())
+    #~ return req
 
 
-class PartHtmlError(Exception):
-    '''Exception for failed retrieval of an HTML parse tree for a part.'''
-    pass
+#~ class PartHtmlError(Exception):
+    #~ '''Exception for failed retrieval of an HTML parse tree for a part.'''
+    #~ pass
 
 
 def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
@@ -1723,7 +1771,7 @@ def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
             pass
     else: # Couldn't get a good read from the website.
         raise PartHtmlError
-
+    
     try:
         tree = BeautifulSoup(html, 'lxml')
     except Exception:
@@ -1838,12 +1886,12 @@ def get_newark_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
     # I don't know what happened here, so give up.
     raise PartHtmlError
 
-
 def get_local_part_html_tree(dist, pn, extra_search_terms='', url=None):
     '''Extract the HTML tree from the HTML page for local parts.'''
 
     # Extract the HTML tree from the local part HTML page.
     html = local_part_html
+
     try:
         tree = BeautifulSoup(html, 'lxml')
     except Exception:
@@ -1889,6 +1937,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_html, logger):
         else:
             logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
             return BeautifulSoup('<html></html>', 'lxml'), ''
+            #raise PartHtmlError
     except (PartHtmlError, AttributeError):
         logger.warning("Part %s not found at %s", part.refs, dist)
         # If no HTML page was found, then return a tree for an empty page.
