@@ -26,7 +26,7 @@ circuit boards developed with KiCad. Typical use is as follows:
 4. Open the *schem.xlsx* spreadsheet using Microsoft Excel, LibreOffice Calc, or Google Sheets.
    Then enter the number of boards that you need to build and see
    the prices for the total board and individual parts when purchased from 
-   several different distributors (KiCost currently supports Digi-Key, Mouser and Newark/Element14).
+   several different distributors (KiCost currently supports Digi-Key, Mouser, Newark, Farnell and RS).
    All of the pricing information reflects the quantity discounts currently in effect at
    each distributor.
    The spreadsheet also shows the current inventory of each part from each distributor so you can tell
