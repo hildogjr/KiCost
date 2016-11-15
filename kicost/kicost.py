@@ -116,6 +116,9 @@ field_name_translations = {
     'man_num': 'manf#',
     'man-num': 'manf#',
     'man#': 'manf#',
+    'mnf_num': 'manf#',
+    'mnf-num': 'manf#',
+    'mnf#': 'manf#',
     'mfr_num': 'manf#',
     'mfr-num': 'manf#',
     'mfr#': 'manf#',
@@ -129,8 +132,16 @@ for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
         field_name_translations[dist + stub] = dist + '#'
         field_name_translations[dist + '_' + stub] = dist + '#'
         field_name_translations[dist + '-' + stub] = dist + '#'
-field_name_translations['manufacturer'] = 'manf'
-field_name_translations['mnf'] = 'manf'
+field_name_translations.update(
+    {
+        'manf': 'manf',
+        'manufacturer': 'manf',
+        'mnf': 'manf',
+        'man': 'manf',
+        'mfg': 'manf',
+        'mfr': 'manf',
+    }
+)
 
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, is_altium):
