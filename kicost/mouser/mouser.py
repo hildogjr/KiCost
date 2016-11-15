@@ -69,6 +69,19 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
+from ..kicost import distributors
+distributors.update(
+    {
+        'mouser': {
+            'scrape': 'web',
+            'function': 'mouser',
+            'label': 'Mouser',
+            'order_cols': ['part_num', 'purch', 'refs'],
+            'order_delimiter': ' '
+        }
+    }
+)
+
 
 def get_mouser_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
@@ -135,7 +148,7 @@ def get_mouser_qty_avail(html_tree):
         return None
 
 
-def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
+def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
     '''Find the Mouser HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.

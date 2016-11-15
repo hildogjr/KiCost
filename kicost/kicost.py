@@ -86,46 +86,7 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
                           
 # Global array of distributor names.
-distributors = {
-    'newark': {
-        'scrape': 'web',
-        'function': 'newark',
-        'label': 'Newark',
-        'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ','
-    },
-    'digikey': {
-        'scrape': 'web',
-        'function': 'digikey',
-        'label': 'Digi-Key',
-        'order_cols': ['purch', 'part_num', 'refs'],
-        'order_delimiter': ','
-    },
-    'mouser': {
-        'scrape': 'web',
-        'function': 'mouser',
-        'label': 'Mouser',
-        'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ' '
-    },
-        'rs': {
-        'scrape': 'web',
-        'function': 'rs',
-        'label': 'RS Components',
-        'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ' '
-    },
-        'farnell': {
-        'scrape': 'web',
-        'function': 'farnell',
-        'label': 'Farnell',
-        'order_cols': ['part_num', 'purch', 'refs'],
-        'order_delimiter': ' '
-    },
-
-}
-
-local_part_html = ''
+distributors = {}
 
 logger = logging.getLogger('kicost')
 
@@ -1329,11 +1290,8 @@ def get_user_agent():
     return user_agent_list[randint(0, len(user_agent_list) - 1)]
 
 
-def get_part_html_tree(part, dist, distributor_dict, local_html, logger):
+def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
-
-    global local_part_html
-    local_part_html = local_html
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
@@ -1348,7 +1306,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_html, logger):
         extra_search_terms = part.fields.get('manf', '')
         for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
             if key in part.fields:
-                return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms)
+                return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
         # No distributor or manufacturer number, so give up.
         else:
             logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
@@ -1363,7 +1321,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_html, logger):
 def scrape_part(args):
     '''Scrape the data for a part from each distributor website or local HTML.'''
 
-    id, part, distributor_dict, local_html, log_level = args # Unpack the arguments.
+    id, part, distributor_dict, local_part_html, log_level = args # Unpack the arguments.
 
     if multiprocessing.current_process().name == "MainProcess":
         scrape_logger = logging.getLogger('kicost')
@@ -1383,7 +1341,7 @@ def scrape_part(args):
     # Scrape the part data from each distributor website or the local HTML.
     for d in distributor_dict:
         # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_html, scrape_logger)
+        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_part_html, scrape_logger)
 
         # Get the function names for getting the part data from the HTML tree.
         function = distributor_dict[d]['function']

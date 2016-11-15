@@ -69,6 +69,20 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
+from ..kicost import distributors
+distributors.update(
+    {
+        'digikey': {
+            'scrape': 'web',
+            'function': 'digikey',
+            'label': 'Digi-Key',
+            'order_cols': ['purch', 'part_num', 'refs'],
+            'order_delimiter': ','
+        }
+    }
+)
+
+
 def get_digikey_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Digikey product page.'''
     price_tiers = {}
@@ -134,7 +148,7 @@ def get_digikey_qty_avail(html_tree):
             return 0
 
 
-def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
+def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
 
     def merge_price_tiers(main_tree, alt_tree):

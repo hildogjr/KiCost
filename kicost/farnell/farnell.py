@@ -48,6 +48,20 @@ WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
 currency = CurrencyConverter()
 
+from ..kicost import distributors
+distributors.update(
+    {
+        'farnell': {
+            'scrape': 'web',
+            'function': 'farnell',
+            'label': 'Farnell',
+            'order_cols': ['part_num', 'purch', 'refs'],
+            'order_delimiter': ' '
+        }
+    }
+)
+
+
 def get_farnell_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the farnell product page.'''
     price_tiers = {}
@@ -118,7 +132,7 @@ def get_farnell_qty_avail(html_tree):
         # Return None so the part won't show in the spreadsheet for this dist.
         return None
 
-def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
+def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
     '''Find the farnell HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.

@@ -48,41 +48,19 @@ WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
 currency = CurrencyConverter()
 
-#~ def get_user_agent():
-    #~ # The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
-    #~ # for more user agent strings,you can find it in http://www.useragentstring.com/pages/useragentstring.php
-    #~ user_agent_list = [
-        #~ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-        #~ "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-        #~ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-        #~ "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-        #~ "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-        #~ "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-        #~ "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-        #~ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        #~ "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        #~ "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        #~ "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        #~ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        #~ "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        #~ "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        #~ "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        #~ "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-        #~ "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-        #~ "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
-    #~ ]
-    #~ return user_agent_list[randint(0, len(user_agent_list) - 1)]
+from ..kicost import distributors
+distributors.update(
+    {
+        'rs': {
+            'scrape': 'web',
+            'function': 'rs',
+            'label': 'RS Components',
+            'order_cols': ['part_num', 'purch', 'refs'],
+            'order_delimiter': ' '
+        }
+    }
+)
 
-#~ def FakeBrowser(url):
-    #~ req = Request(url)
-    #~ req.add_header('Accept-Language', 'en-US')
-    #~ req.add_header('User-agent', get_user_agent())
-    #~ return req
-
-
-#~ class PartHtmlError(Exception):
-    #~ '''Exception for failed retrieval of an HTML parse tree for a part.'''
-    #~ pass
 
 def get_rs_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the RS Components product page.'''
@@ -141,7 +119,7 @@ def get_rs_qty_avail(html_tree):
         # Return None so the part won't show in the spreadsheet for this dist.
         return None
 
-def get_rs_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2):
+def get_rs_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
     '''Find the RS Components HTML page for a part number and return the URL and parse tree.'''
             
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
