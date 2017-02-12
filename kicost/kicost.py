@@ -40,6 +40,7 @@ import re
 import difflib
 import logging
 import tqdm
+import os
 from bs4 import BeautifulSoup
 from random import randint
 import xlsxwriter
@@ -88,6 +89,8 @@ WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 # Global array of distributor names.
 distributors = {}
 
+distributors_list=['rs', 'farnell', 'newark', 'mouser', 'digikey']
+
 logger = logging.getLogger('kicost')
 
 DEBUG_OVERVIEW = logging.DEBUG
@@ -96,11 +99,11 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 
 from .altium.altium import get_part_groups_altium
 from .local.local import get_local_price_tiers, get_local_part_num, get_local_qty_avail, get_local_part_html_tree
-from .digikey.digikey import get_digikey_price_tiers, get_digikey_part_num, get_digikey_qty_avail, get_digikey_part_html_tree
-from .newark.newark import get_newark_price_tiers, get_newark_part_num, get_newark_qty_avail, get_newark_part_html_tree
-from .mouser.mouser import get_mouser_price_tiers, get_mouser_part_num, get_mouser_qty_avail, get_mouser_part_html_tree
-from .rs.rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree
-from .farnell.farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
+from .digikey.digikey import get_digikey_price_tiers, get_digikey_part_num, get_digikey_qty_avail, get_digikey_part_html_tree, digikey_update_dist
+from .newark.newark import get_newark_price_tiers, get_newark_part_num, get_newark_qty_avail, get_newark_part_html_tree, newark_update_dist
+from .mouser.mouser import get_mouser_price_tiers, get_mouser_part_num, get_mouser_qty_avail, get_mouser_part_html_tree, mouser_update_dist
+from .rs.rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree, rs_update_dist
+from .farnell.farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree, farnell_update_dist
 
 
 # Generate a dictionary to translate all the different ways people might want
@@ -144,7 +147,7 @@ field_name_translations.update(
 )
 
 
-def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, is_altium):
+def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, is_altium, exclude_dist_list):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Get groups of identical parts.
@@ -152,6 +155,11 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         parts = get_part_groups(in_file, ignore_fields, variant)
     else:
         parts = get_part_groups_altium(in_file, ignore_fields, variant)
+    
+    for dist in distributors_list:
+        if dist not in exclude_dist_list:
+            update_dist = THIS_MODULE['{}_update_dist'.format(dist)]
+            update_dist()
         
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
@@ -497,7 +505,7 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
-    WORKSHEET_NAME = 'KiCost'  # Default name for part-pricing worksheet.
+    WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0]  # Default name for part-pricing worksheet.
 
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
@@ -1364,6 +1372,7 @@ def scrape_part(args):
         part_num[d] = get_dist_part_num(html_tree)
         qty_avail[d] = get_dist_qty_avail(html_tree)
         price_tiers[d] = get_dist_price_tiers(html_tree)
+                
 
     # Return the part data.
     return id, url, part_num, price_tiers, qty_avail

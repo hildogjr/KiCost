@@ -49,7 +49,9 @@ WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 currency = CurrencyConverter()
 
 from ..kicost import distributors
-distributors.update(
+
+def farnell_update_dist():
+    distributors.update(
     {
         'farnell': {
             'scrape': 'web',
@@ -58,8 +60,7 @@ distributors.update(
             'order_cols': ['part_num', 'purch', 'refs'],
             'order_delimiter': ' '
         }
-    }
-)
+    })
 
 
 def get_farnell_price_tiers(html_tree):

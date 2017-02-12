@@ -1,0 +1,81 @@
+<?xml version = "1.0" ?>
+<?xml:stylesheet type="text/xsl" href="trigstim.xsl"?>
+<!DOCTYPE GRID [
+  <!ELEMENT GRID (BANDS, COLUMNS, ROWS*)>
+  <!ATTLIST GRID ExportVersion CDATA #REQUIRED>
+  <!ELEMENT BANDS (BAND*)>
+  <!ELEMENT BAND EMPTY>
+  <!ATTLIST BAND Index CDATA #REQUIRED>
+  <!ATTLIST BAND Caption CDATA #IMPLIED>
+  <!ELEMENT COLUMNS (COLUMN*)>
+  <!ELEMENT COLUMN EMPTY>
+  <!ATTLIST COLUMN Name CDATA #REQUIRED>
+  <!ATTLIST COLUMN Caption CDATA #IMPLIED>
+  <!ATTLIST COLUMN Index CDATA #REQUIRED>
+  <!ATTLIST COLUMN BandIndex CDATA #REQUIRED>
+  <!ATTLIST COLUMN RowIndex CDATA #REQUIRED>
+  <!ATTLIST COLUMN ColIndex CDATA #REQUIRED>
+  <!ATTLIST COLUMN Width CDATA #IMPLIED>
+  <!ELEMENT GROUP (GROUP*, ROW*)>
+  <!ATTLIST GROUP GroupText CDATA #IMPLIED>
+  <!ELEMENT ROWS (ROW*)>
+  <!ELEMENT ROW EMPTY>
+  <!ATTLIST ROW Designator1 CDATA #IMPLIED>
+  <!ATTLIST ROW Comment1 CDATA #IMPLIED>
+  <!ATTLIST ROW Description1 CDATA #IMPLIED>
+  <!ATTLIST ROW value3 CDATA #IMPLIED>
+  <!ATTLIST ROW Footprint1 CDATA #IMPLIED>
+  <!ATTLIST ROW LibRef1 CDATA #IMPLIED>
+  <!ATTLIST ROW Manufacturer_11 CDATA #IMPLIED>
+  <!ATTLIST ROW Manufacturer_Part_Number_11 CDATA #IMPLIED>
+  <!ATTLIST ROW Supplier_11 CDATA #IMPLIED>
+  <!ATTLIST ROW Supplier_Currency_11 CDATA #IMPLIED>
+  <!ATTLIST ROW Supplier_Part_Number_11 CDATA #IMPLIED>
+  <!ATTLIST ROW Supplier_Subtotal_11 CDATA #IMPLIED>
+  <!ATTLIST ROW Supplier_Unit_Price_11 CDATA #IMPLIED>
+  <!ATTLIST ROW Quantity1 CDATA #IMPLIED>
+]>
+<GRID ExportVersion="1.0">
+  <BANDS>
+    <BAND Index="0" Caption=""></BAND>
+  </BANDS>
+  <COLUMNS>
+    <COLUMN Name="Designator1" Caption="Designator" Index="0" BandIndex="0" RowIndex="0" ColIndex="0" Width="100"></COLUMN>
+    <COLUMN Name="Comment1" Caption="Comment" Index="1" BandIndex="0" RowIndex="0" ColIndex="1" Width="100"></COLUMN>
+    <COLUMN Name="Description1" Caption="Description" Index="2" BandIndex="0" RowIndex="0" ColIndex="2" Width="100"></COLUMN>
+    <COLUMN Name="value3" Caption="Value" Index="3" BandIndex="0" RowIndex="0" ColIndex="3" Width="100"></COLUMN>
+    <COLUMN Name="Footprint1" Caption="Footprint" Index="4" BandIndex="0" RowIndex="0" ColIndex="4" Width="100"></COLUMN>
+    <COLUMN Name="LibRef1" Caption="LibRef" Index="5" BandIndex="0" RowIndex="0" ColIndex="5" Width="100"></COLUMN>
+    <COLUMN Name="Manufacturer_11" Caption="Manufacturer 1" Index="6" BandIndex="0" RowIndex="0" ColIndex="6" Width="100"></COLUMN>
+    <COLUMN Name="Manufacturer_Part_Number_11" Caption="Manufacturer Part Number 1" Index="7" BandIndex="0" RowIndex="0" ColIndex="7" Width="100"></COLUMN>
+    <COLUMN Name="Supplier_11" Caption="Supplier 1" Index="8" BandIndex="0" RowIndex="0" ColIndex="8" Width="100"></COLUMN>
+    <COLUMN Name="Supplier_Currency_11" Caption="Supplier Currency 1" Index="9" BandIndex="0" RowIndex="0" ColIndex="9" Width="100"></COLUMN>
+    <COLUMN Name="Supplier_Part_Number_11" Caption="Supplier Part Number 1" Index="10" BandIndex="0" RowIndex="0" ColIndex="10" Width="100"></COLUMN>
+    <COLUMN Name="Supplier_Subtotal_11" Caption="Supplier Subtotal 1" Index="11" BandIndex="0" RowIndex="0" ColIndex="11" Width="100"></COLUMN>
+    <COLUMN Name="Supplier_Unit_Price_11" Caption="Supplier Unit Price 1" Index="12" BandIndex="0" RowIndex="0" ColIndex="12" Width="100"></COLUMN>
+    <COLUMN Name="Quantity1" Caption="Quantity" Index="13" BandIndex="0" RowIndex="0" ColIndex="13" Width="100"></COLUMN>
+  </COLUMNS>
+  <ROWS>
+    <ROW Designator1="C1, C2, C3, C4, C5, C6, C8, C9, C10, C11, C14, C15, C16" Comment1="Capacitor" Description1="Capacitor" value3="100nF, 100nF, 100nF, 18pF, 18pF, 10uF, 100nF, 100nF, 100nF, 100nF, 1nF, 100nF, 100nF" Footprint1="0805" LibRef1="Cap" Manufacturer_11="" Manufacturer_Part_Number_11="" Supplier_11="" Supplier_Currency_11="" Supplier_Part_Number_11="" Supplier_Subtotal_11="" Supplier_Unit_Price_11="" Quantity1="13"></ROW>
+    <ROW Designator1="C7" Comment1="10V" Description1="Capacitor" value3="47uF" Footprint1="0805" LibRef1="Cap" Manufacturer_11="" Manufacturer_Part_Number_11="" Supplier_11="" Supplier_Currency_11="" Supplier_Part_Number_11="" Supplier_Subtotal_11="" Supplier_Unit_Price_11="" Quantity1="1"></ROW>
+    <ROW Designator1="C12, C13" Comment1="C2012X5R0J106K125AB" Description1="Capacitor" value3="10 &#181;F" Footprint1="0805" LibRef1="Cap" Manufacturer_11="&#255;NIL&#255;" Manufacturer_Part_Number_11="&#255;NIL&#255;" Supplier_11="RS-Components" Supplier_Currency_11="&#255;NIL&#255;" Supplier_Part_Number_11="&#255;NIL&#255;" Supplier_Subtotal_11="0" Supplier_Unit_Price_11="0,00" Quantity1="2"></ROW>
+    <ROW Designator1="D1, D4" Comment1="Diode Schottky" Description1="Schottky Diode" value3="" Footprint1="SOD-123" LibRef1="Diode Schottky" Manufacturer_11="Panasonic Electronic Components" Manufacturer_Part_Number_11="DB2X20700L" Supplier_11="Digi-Key" Supplier_Currency_11="EUR" Supplier_Part_Number_11="DB2X20700LTR-ND" Supplier_Subtotal_11="" Supplier_Unit_Price_11="" Quantity1="2"></ROW>
+    <ROW Designator1="D2" Comment1="GREEN" Description1="Typical BLUE SiC LED" value3="" Footprint1="PLCC2" LibRef1="LED3" Manufacturer_11="OSRAM Opto Semiconductors Inc." Manufacturer_Part_Number_11="LG T676-P2R1-24-Z" Supplier_11="Digi-Key" Supplier_Currency_11="EUR" Supplier_Part_Number_11="LG T676-P2R1-24-Z-ND" Supplier_Subtotal_11="" Supplier_Unit_Price_11="" Quantity1="1"></ROW>
+    <ROW Designator1="D3" Comment1="RED" Description1="Typical BLUE SiC LED" value3="" Footprint1="PLCC2" LibRef1="LED3" Manufacturer_11="BROADCOM LIMITED" Manufacturer_Part_Number_11="HSMC-A160-Q00J1" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="1058387" Supplier_Subtotal_11="" Supplier_Unit_Price_11="0,268" Quantity1="1"></ROW>
+    <ROW Designator1="DS1" Comment1="162C-CC-BC-3LP" Description1="Module, LCD; 16 x 2 mm; 5 x 8; 5 V &#40;Typ.&#41;; 2 mA &#40;Typ.&#41;; 4.2 V &#64;50 degC &#40;Min.&#41;" value3="" Footprint1="162C-CC-BC-3LP" LibRef1="162C-CC-BC-3LP" Manufacturer_11="&#255;NIL&#255;" Manufacturer_Part_Number_11="&#255;NIL&#255;" Supplier_11="RS-Components" Supplier_Currency_11="&#255;NIL&#255;" Supplier_Part_Number_11="&#255;NIL&#255;" Supplier_Subtotal_11="0" Supplier_Unit_Price_11="0,00" Quantity1="1"></ROW>
+    <ROW Designator1="J1" Comment1="Micro USB" Description1="Micro USB connector Type B" value3="" Footprint1="USB_MICRO_TYPE_B_47346-0001" LibRef1="USB MICRO Type B" Manufacturer_11="MOLEX" Manufacturer_Part_Number_11="47346-0001" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="1568026" Supplier_Subtotal_11="" Supplier_Unit_Price_11="0,844" Quantity1="1"></ROW>
+    <ROW Designator1="L1" Comment1="740-9653" Description1="Inductor" value3="27uH" Footprint1="INDUCTOR_NPI_NPI32C" LibRef1="Inductor" Manufacturer_11="&#255;NIL&#255;" Manufacturer_Part_Number_11="&#255;NIL&#255;" Supplier_11="RS-Components" Supplier_Currency_11="&#255;NIL&#255;" Supplier_Part_Number_11="&#255;NIL&#255;" Supplier_Subtotal_11="0" Supplier_Unit_Price_11="0,00" Quantity1="1"></ROW>
+    <ROW Designator1="P1" Comment1="Trigger Output" Description1="BNC Elbow Connector" value3="" Footprint1="BNC_RA CON" LibRef1="BNC" Manufacturer_11="AMP - TE CONNECTIVITY" Manufacturer_Part_Number_11="1-1634613-0" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="1020956" Supplier_Subtotal_11="" Supplier_Unit_Price_11="1,26" Quantity1="1"></ROW>
+    <ROW Designator1="P2" Comment1="Bootloader Programming" Description1="Header, 6-Pin" value3="" Footprint1="HDR1X6" LibRef1="Header 6" Manufacturer_11="" Manufacturer_Part_Number_11="" Supplier_11="" Supplier_Currency_11="" Supplier_Part_Number_11="" Supplier_Subtotal_11="" Supplier_Unit_Price_11="" Quantity1="1"></ROW>
+    <ROW Designator1="P3" Comment1="Flash Programming" Description1="Header, 5-Pin" value3="" Footprint1="HDR1X5" LibRef1="Header 5" Manufacturer_11="" Manufacturer_Part_Number_11="" Supplier_11="" Supplier_Currency_11="" Supplier_Part_Number_11="" Supplier_Subtotal_11="" Supplier_Unit_Price_11="" Quantity1="1"></ROW>
+    <ROW Designator1="P4" Comment1="3.7V LiPo Battery" Description1="Header, 2-Pin" value3="" Footprint1="MHDR1x2" LibRef1="Header 2" Manufacturer_11="JST &#40;JAPAN SOLDERLESS TERMINALS&#41;" Manufacturer_Part_Number_11="SM02B-SRSS-TB &#40;LF&#41;&#40;SN&#41;" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="1679117" Supplier_Subtotal_11="" Supplier_Unit_Price_11="0,399" Quantity1="1"></ROW>
+    <ROW Designator1="R1, R2, R3, R4, R5, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21" Comment1="Resitor" Description1="Resistor" value3="100k, 100k, 0R, 10k, 0R, 33R, 220R, 4k7, 33k, 100k, 100k, 100k, 100k, 100k, 30.1k, 10k, 100k, 100k, 220R, 220R" Footprint1="0805" LibRef1="Res1" Manufacturer_11="" Manufacturer_Part_Number_11="" Supplier_11="" Supplier_Currency_11="" Supplier_Part_Number_11="" Supplier_Subtotal_11="" Supplier_Unit_Price_11="" Quantity1="20"></ROW>
+    <ROW Designator1="R6" Comment1="RPot" Description1="Potentiometer" value3="10k" Footprint1="POT_VISHAY_TS53Y" LibRef1="RPot" Manufacturer_11="VISHAY" Manufacturer_Part_Number_11="TS53YL103MR10" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="1141474" Supplier_Subtotal_11="" Supplier_Unit_Price_11="1,15" Quantity1="1"></ROW>
+    <ROW Designator1="S1" Comment1="SW-SPDT" Description1="SPDT Subminiature Toggle Switch, Right Angle Mounting, Vertical Actuation" value3="" Footprint1="Slide switch_SPDT_5SES1S105M6RES" LibRef1="SW-SPDT" Manufacturer_11="MULTICOMP" Manufacturer_Part_Number_11="MC5SES1S105M6RES" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="2008801" Supplier_Subtotal_11="" Supplier_Unit_Price_11="0,866" Quantity1="1"></ROW>
+    <ROW Designator1="S2, S3, S4, S5, S6, S7" Comment1="SW-PB" Description1="Switch" value3="" Footprint1="SWITCH-MEC-5G5E" LibRef1="SW-PB" Manufacturer_11="MULTIMEC" Manufacturer_Part_Number_11="5GSH935+1SS09-15.0" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="2280471" Supplier_Subtotal_11="" Supplier_Unit_Price_11="1,55" Quantity1="6"></ROW>
+    <ROW Designator1="U1" Comment1="ATmega328P-AU" Description1="8-bit AVR Microcontroller, 32KB Flash, 1KB EEPROM, 2KB SRAM, 32-pin TQFP, Industrial Grade &#40;-40&#176;C to 85&#176;C&#41;" value3="" Footprint1="32A_N" LibRef1="ATmega328P-AU" Manufacturer_11="ATMEL" Manufacturer_Part_Number_11="ATMEGA328P-AU" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="1715486" Supplier_Subtotal_11="" Supplier_Unit_Price_11="3,02" Quantity1="1"></ROW>
+    <ROW Designator1="U2" Comment1="MCP73832T-2ACI/OT" Description1="Miniature Single-Cell, Fully Integrated Li-Ion, Li-Polymer Charge Management Controller, 4.2V, 5-Pin SOT-23, Industrial Temperature, Tape and Reel" value3="" Footprint1="SOT-23-CT5_N" LibRef1="MCP73831T-2ACI/OT" Manufacturer_11="MICROCHIP" Manufacturer_Part_Number_11="MCP73832T-2ACI/OT" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="1332159" Supplier_Subtotal_11="" Supplier_Unit_Price_11="0,552" Quantity1="1"></ROW>
+    <ROW Designator1="U3" Comment1="LM2735YMF" Description1="520kHz/1.6MHz - Space-Efficient Boost and SEPIC DC-DC Regulator 5-SOT-23" value3="" Footprint1="SOT23-5AL" LibRef1="LM2735YMF" Manufacturer_11="TEXAS INSTRUMENTS" Manufacturer_Part_Number_11="LM2735YMF/NOPB" Supplier_11="Farnell" Supplier_Currency_11="EUR" Supplier_Part_Number_11="2323478" Supplier_Subtotal_11="" Supplier_Unit_Price_11="2,82" Quantity1="1"></ROW>
+    <ROW Designator1="X1" Comment1="16MHz" Description1="" value3="" Footprint1="QUARTZ_QT_QTC7A" LibRef1="Resonator" Manufacturer_11="&#255;NIL&#255;" Manufacturer_Part_Number_11="&#255;NIL&#255;" Supplier_11="RS-Components" Supplier_Currency_11="&#255;NIL&#255;" Supplier_Part_Number_11="&#255;NIL&#255;" Supplier_Subtotal_11="0" Supplier_Unit_Price_11="0,00" Quantity1="1"></ROW>
+  </ROWS>
+</GRID>
