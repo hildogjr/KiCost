@@ -70,7 +70,9 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
 from ..kicost import distributors
-distributors.update(
+
+def newark_update_dist():
+    distributors.update(
     {
         'newark': {
             'scrape': 'web',
@@ -79,8 +81,7 @@ distributors.update(
             'order_cols': ['part_num', 'purch', 'refs'],
             'order_delimiter': ','
         }
-    }
-)
+    })
 
 
 def get_newark_price_tiers(html_tree):

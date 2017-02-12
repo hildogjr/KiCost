@@ -70,7 +70,9 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
 from ..kicost import distributors
-distributors.update(
+
+def digikey_update_dist():
+    distributors.update(
     {
         'digikey': {
             'scrape': 'web',
@@ -79,8 +81,7 @@ distributors.update(
             'order_cols': ['purch', 'part_num', 'refs'],
             'order_delimiter': ','
         }
-    }
-)
+    })
 
 
 def get_digikey_price_tiers(html_tree):
