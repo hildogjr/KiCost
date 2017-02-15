@@ -37,6 +37,7 @@ except ImportError:
     from urllib2 import urlopen, Request
     
 from ..kicost import PartHtmlError, FakeBrowser
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 from currency_converter import CurrencyConverter
 
@@ -160,8 +161,21 @@ def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
             pass
     else: # Couldn't get a good read from the website.
+        logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
-    tree = BeautifulSoup(html, 'lxml')
+
+    # Abort if the part number isn't in the HTML somewhere.
+    try:
+        if str(pn) not in str(html):
+            raise PartHtmlError
+    except Exception:
+        pass
+
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except Exception:
+        logger.log(DEBUG_OBSESSIVE,'No HTML tree for {} from {}'.format(pn, dist))
+        raise PartHtmlError
 
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', class_='productDisplay', id='page') is not None:
@@ -169,7 +183,9 @@ def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('table', class_='productLister', id='sProdList') is not None:
+        logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
         if descend <= 0:
+            logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, dist))
             raise PartHtmlError
         else:
             # Look for the table of products.
@@ -199,8 +215,10 @@ def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             for l in product_links:
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
+                    logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
                     return get_farnell_part_html_tree(dist, pn, extra_search_terms,
                                 url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.
+    logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))
     raise PartHtmlError

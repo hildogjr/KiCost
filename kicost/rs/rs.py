@@ -37,6 +37,7 @@ except ImportError:
     from urllib2 import urlopen, Request
     
 from ..kicost import PartHtmlError, FakeBrowser
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 from currency_converter import CurrencyConverter
 
@@ -142,8 +143,14 @@ def get_rs_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, 
             logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
             pass
     else: # Couldn't get a good read from the website.
+        logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
-    tree = BeautifulSoup(html, 'lxml')
+
+    try:
+        tree = BeautifulSoup(html, 'lxml')
+    except Exception:
+        logger.log(DEBUG_OBSESSIVE,'No HTML tree for {} from {}'.format(pn, dist))
+        raise PartHtmlError
         
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', class_='specTableContainer') is not None:
@@ -151,7 +158,9 @@ def get_rs_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, 
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
     if tree.find('div', class_='srtnPageContainer') is not None:
+        logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
         if descend <= 0:
+            logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, dist))
             raise PartHtmlError
         else:
             # Look for the table of products.
@@ -208,6 +217,7 @@ def get_rs_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, 
                                 #~ url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.
+    logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))
     raise PartHtmlError
 
 if __name__=='__main__':

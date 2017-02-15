@@ -199,6 +199,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
             pass
     else: # Couldn't get a good read from the website.
+        logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
 
     # Use the following code if Javascript challenge pages are used to block scrapers.
@@ -214,6 +215,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
     try:
         tree = BeautifulSoup(html, 'lxml')
     except Exception:
+        logger.log(DEBUG_OBSESSIVE,'No HTML tree for {} from {}'.format(pn, dist))
         raise PartHtmlError
 
     # If the tree contains the tag for a product page, then return it.
@@ -274,6 +276,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
     if tree.find('table', id='productTable') is not None:
         logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
         if descend <= 0:
+            logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, dist))
             raise PartHtmlError
         else:
             # Look for the table of products.
@@ -307,7 +310,9 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
 
     # If the HTML contains a list of part categories, then give up.
     if tree.find('form', id='keywordSearchForm') is not None:
+        logger.log(DEBUG_OBSESSIVE,'Found high-level part categories for {} from {}'.format(pn, dist))
         raise PartHtmlError
 
     # I don't know what happened here, so give up.
+    logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))
     raise PartHtmlError

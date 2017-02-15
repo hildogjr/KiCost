@@ -1310,23 +1310,26 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
     function = distributor_dict[dist]['function']
     get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
 
-    try:
-        # Search for part information using one of the following:
-        #    1) the distributor's catalog number.
-        #    2) the manufacturer's part number.
-        extra_search_terms = part.fields.get('manf', '')
-        for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
-            if key in part.fields:
-                return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
-        # No distributor or manufacturer number, so give up.
-        else:
-            logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
-            return BeautifulSoup('<html></html>', 'lxml'), ''
-            #raise PartHtmlError
-    except (PartHtmlError, AttributeError):
-        logger.warning("Part %s not found at %s", part.refs, dist)
-        # If no HTML page was found, then return a tree for an empty page.
-        return BeautifulSoup('<html></html>', 'lxml'), ''
+    for extra_search_terms in set([part.fields.get('manf', ''), '']):
+        try:
+            # Search for part information using one of the following:
+            #    1) the distributor's catalog number.
+            #    2) the manufacturer's part number.
+            for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
+                if key in part.fields:
+                    return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
+            # No distributor or manufacturer number, so give up.
+            else:
+                logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
+                return BeautifulSoup('<html></html>', 'lxml'), ''
+                #raise PartHtmlError
+        except PartHtmlError:
+            pass
+        except AttributeError:
+            break
+    logger.warning("Part %s not found at %s", part.refs, dist)
+    # If no HTML page was found, then return a tree for an empty page.
+    return BeautifulSoup('<html></html>', 'lxml'), ''
 
 
 def scrape_part(args):
