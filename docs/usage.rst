@@ -164,14 +164,14 @@ web sites.
 In order to speed this up, many of the web scrapes can be run in parallel.
 By default, KiCost uses 30 parallel processes to gather the part data.
 This can be too much for some computers, so you can decrease the load
-using the ``--num_processes`` command-line option with the number of
+using the ``-np`` command-line option with the number of
 processes you want to spawn::
 
-    kicost -i schematic.xml -num_processes 10
+    kicost -i schematic.xml -np 10
 
 In addition, you can use the ``--serial`` command-line option to force KiCost
 into single-threaded operation.
-This is equivalent to using ``-num_processes 1``.
+This is equivalent to using ``-np 1``.
 (If you encounter problems running KiCost on a Windows PC with Python 2, then
 using this command may help.)
 
