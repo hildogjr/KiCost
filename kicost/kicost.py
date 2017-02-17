@@ -441,9 +441,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Now return the list of identical part groups.
     return new_component_groups
 
-    # Now return a list of the groups without their hash keys.
-    return list(new_component_groups.values())
-
 
 def create_local_part_html(parts):
     '''Create HTML page containing info for local (non-webscraped) parts.'''
