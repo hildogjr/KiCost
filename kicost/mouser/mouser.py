@@ -175,6 +175,12 @@ def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
     else: # Couldn't get a good read from the website.
         logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
+
+    # Abort if the part number isn't in the HTML somewhere.
+    # (Only use the numbers and letters to compare PN to HTML.)
+    if re.sub('[\W_]','',str.lower(pn)) not in re.sub('[\W_]','',str.lower(str(html))):
+        logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {}'.format(pn, dist))
+        raise PartHtmlError
     
     try:
         tree = BeautifulSoup(html, 'lxml')

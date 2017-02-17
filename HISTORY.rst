@@ -3,6 +3,15 @@
 History
 -------
 
+0.1.32 (2017-02-14)
+______________________
+
+* Added options for including or excluding distributors.
+* Updated web scrapers for various distributors.
+* Added more debugging/logger statements.
+* Updated some of the package requirements.
+
+
 0.1.31 (2016-11-14)
 ______________________
 

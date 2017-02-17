@@ -190,6 +190,12 @@ def get_newark_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
         logger.log(DEBUG_OBSESSIVE,'No HTML tree for {} from {}'.format(pn, dist))
         raise PartHtmlError
 
+    # Abort if the part number isn't in the HTML somewhere.
+    # (Only use the numbers and letters to compare PN to HTML.)
+    if re.sub('[\W_]','',str.lower(pn)) not in re.sub('[\W_]','',str.lower(str(html))):
+        logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {}'.format(pn, dist))
+        raise PartHtmlError
+
     # If the tree contains the tag for a product page, then just return it.
     if tree.find('div', class_='productDisplay', id='page') is not None:
         return tree, url

@@ -106,7 +106,16 @@ def main():
                         help='Print debugging info. (Larger LEVEL means more info.)')
     parser.add_argument('-a', '--altium',
                         action='store_true',
-                        help='Allow parsing of an Altium Designer .xml BOM file specified as input.')
+                        help='Allows parsing of an Altium Designer .xml BOM file specified as input.')
+    parser.add_argument('-e', '--exclude',
+                        nargs='+', type=str, default='',
+                        metavar = 'dist',
+                        help='Excludes the given distributor(s) from the scraping process.')
+    parser.add_argument('--include',
+                        nargs='+', type=str, default='',
+                        metavar = 'dist',
+                        help='Includes only the given distributor(s) in the scraping process.')
+
 
     args = parser.parse_args()
 
@@ -159,7 +168,8 @@ def main():
 
     kicost(in_file=args.input, out_filename=args.output,
         user_fields=args.fields, ignore_fields=args.ignore_fields, 
-        variant=args.variant, num_processes=num_processes, is_altium=args.altium)
+        variant=args.variant, num_processes=num_processes, is_altium=args.altium,
+        exclude_dist_list=args.exclude, include_dist_list=args.include)
 
 ###############################################################################
 # Main entrypoint.

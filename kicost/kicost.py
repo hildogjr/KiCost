@@ -40,6 +40,7 @@ import re
 import difflib
 import logging
 import tqdm
+import os
 from bs4 import BeautifulSoup
 from random import randint
 import xlsxwriter
@@ -48,6 +49,13 @@ from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
+
+# Stops UnicodeDecodeError exceptions.
+try:
+    reload(sys)
+    sys.setdefaultencoding('utf8')
+except NameError:
+    pass  # Happens if reload is attempted in Python 3.
 
 def FakeBrowser(url):
     req = Request(url)
@@ -144,8 +152,17 @@ field_name_translations.update(
 )
 
 
-def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, is_altium):
+def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
+        is_altium, exclude_dist_list, include_dist_list):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
+
+    # Only keep distributors in the included list and not in the excluded list.
+    if not include_dist_list:
+        include_dist_list = list(distributors.keys())
+    rmv_dist = set(exclude_dist_list)
+    rmv_dist |= set(list(distributors.keys())) - set(include_dist_list)
+    for dist in rmv_dist:
+        distributors.pop(dist, None)
 
     # Get groups of identical parts.
     if not is_altium:
@@ -497,7 +514,7 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
-    WORKSHEET_NAME = 'KiCost'  # Default name for part-pricing worksheet.
+    WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
 
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.

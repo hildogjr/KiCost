@@ -165,11 +165,10 @@ def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
         raise PartHtmlError
 
     # Abort if the part number isn't in the HTML somewhere.
-    try:
-        if str(pn) not in str(html):
-            raise PartHtmlError
-    except Exception:
-        pass
+    # (Only use the numbers and letters to compare PN to HTML.)
+    if re.sub('[\W_]','',str.lower(pn)) not in re.sub('[\W_]','',str.lower(str(html))):
+        logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {}'.format(pn, dist))
+        raise PartHtmlError
 
     try:
         tree = BeautifulSoup(html, 'lxml')

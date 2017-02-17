@@ -183,7 +183,9 @@ Command-Line Options
 
 usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]]
               [-f name [name ...]] [-var [VARIANT]] [-w] [-s] [-q]
-              [-np [NUM_PROCESSES]] [-ign name [name ...]] [-d [LEVEL]]
+              [-np [NUM_PROCESSES]] [-ign name [name ...]]
+              [-d [LEVEL]] [-a] [-e dist [dist ...]]
+              [--include dist [dist ...]]
 
 Build cost spreadsheet for a KiCAD project.
 
@@ -210,6 +212,14 @@ optional arguments:
                         Declare part fields to ignore when grouping parts.
   -d [LEVEL], --debug [LEVEL]
                         Print debugging info. (Larger LEVEL means more info.)
+  -a, --altium          Allows parsing of an Altium Designer .xml BOM file
+                        specified as input.
+  -e dist [dist ...], --exclude dist [dist ...]
+                        Excludes the given distributor(s) from the scraping
+                        process.
+  --include dist [dist ...]
+                        Includes only the given distributor(s) in the scraping
+                        process.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)

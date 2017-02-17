@@ -202,6 +202,12 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
         logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
 
+    # Abort if the part number isn't in the HTML somewhere.
+    # (Only use the numbers and letters to compare PN to HTML.)
+    if re.sub('[\W_]','',str.lower(pn)) not in re.sub('[\W_]','',str.lower(str(html))):
+        logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {}'.format(pn, dist))
+        raise PartHtmlError
+
     # Use the following code if Javascript challenge pages are used to block scrapers.
     # try:
     # ghst = Ghost()
