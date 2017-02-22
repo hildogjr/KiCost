@@ -197,11 +197,10 @@ def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             product_links = []
             for p in products:
                 try:
-                    product_links.append(
-                        p.find('td',
-                               class_='mftrPart').find('p',
-                                                       class_='wordBreak').a)
-                except AttributeError:
+                    product_links.append(p.find('td',
+                               class_='mftrPart').a)
+                except AttributeError, err:
+                    logger.log(DEBUG_OVERVIEW,'AttributeError: %s '%(str(err)))
                     continue
 
             # Extract all the part numbers from the text portion of the links.
