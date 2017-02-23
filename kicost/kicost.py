@@ -657,7 +657,7 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
         # Create a defined range for the global data.
         workbook.define_name(
             'global_part_data', '={wks_name}!{data_range}'.format(
-                wks_name=WORKSHEET_NAME,
+                wks_name= "'" + WORKSHEET_NAME + "'",
                 data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
                                         next_col - 1)))
 
@@ -669,7 +669,7 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
                   wrk_formats['board_qty'])  # Set initial board quantity.
         # Define the named cell where the total board quantity can be found.
         workbook.define_name('BoardQty', '={wks_name}!{cell_ref}'.format(
-            wks_name=WORKSHEET_NAME,
+            wks_name="'" + WORKSHEET_NAME + "'",
             cell_ref=xl_rowcol_to_cell(BOARD_QTY_ROW, next_col - 1,
                                        row_abs=True,
                                        col_abs=True)))
@@ -680,7 +680,7 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
 
         # Define the named cell where the total cost can be found.
         workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(
-            wks_name=WORKSHEET_NAME,
+            wks_name="'" + WORKSHEET_NAME + "'",
             cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
                                        row_abs=True,
                                        col_abs=True)))
@@ -712,7 +712,7 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
-                    wks_name=WORKSHEET_NAME,
+                    wks_name="'" + WORKSHEET_NAME + "'",
                     data_range=xl_range_abs(START_ROW, dist_start_col,
                                             LAST_PART_ROW, next_col - 1)))
 
