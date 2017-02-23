@@ -3,6 +3,13 @@
 History
 -------
 
+0.1.33 (2017-02-23)
+______________________
+
+* Surround worksheet name with quotes in case it contains spreadsheet operators.
+* Fixed extraction of product links from Farnell product tables.
+
+
 0.1.32 (2017-02-14)
 ______________________
 
