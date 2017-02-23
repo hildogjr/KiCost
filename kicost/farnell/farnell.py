@@ -197,10 +197,7 @@ def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             product_links = []
             for p in products:
                 try:
-                    product_links.append(
-                        p.find('td',
-                               class_='mftrPart').find('p',
-                                                       class_='wordBreak').a)
+                    product_links.append(p.find('td', class_='mftrPart').find('a'))
                 except AttributeError:
                     continue
 
