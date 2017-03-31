@@ -12,19 +12,10 @@ standard_library.install_aliases()
 
 import future
 
-import sys
-import pprint
 import re
 import difflib
 import logging
-import tqdm
 from bs4 import BeautifulSoup
-from random import randint
-import xlsxwriter
-from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
-from yattag import Doc, indent  # For generating HTML page for local parts.
-import multiprocessing
-from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
 
 try:
@@ -97,9 +88,9 @@ def get_rs_part_num(html_tree):
         pn = re.sub('[^0-9\-]','', pn_str)
         return pn
     except KeyError:
-        return 'no part number found' # No catalog number found in page.
+        return '' # No catalog number found in page.
     except AttributeError:
-        return 'no part number found' # No ProductDescription found in page.
+        return '' # No ProductDescription found in page.
 
 def get_rs_qty_avail(html_tree):
     '''Get the available quantity of the part from the farnell product page.'''

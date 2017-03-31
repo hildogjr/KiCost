@@ -1081,80 +1081,85 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                       part.url[dist], wrk_formats['centered_text'],
                       string='Link')
 
-        # If the part number doesn't exist or the part quantity is None 
-        # (not the same as 0), then the distributor doesn't stock this part
-        # so leave this row blank.
-        # Also leave this row blank if the pricing info doesn't exist so a $0
-        # price isn't injected that messes up the search for the best price.
-        if len(dist_part_num) == 0 or part.qty_avail[dist] is None or len(list(price_tiers.keys())) == 0:
+        # If the part number doesn't exist, just leave this row blank.
+        if len(dist_part_num) == 0:
             row += 1  # Skip this row and go to the next.
             continue
 
+        # if len(dist_part_num) == 0 or part.qty_avail[dist] is None or len(list(price_tiers.keys())) == 0:
+            # row += 1  # Skip this row and go to the next.
+            # continue
+
         # Enter distributor part number for ordering purposes.
-        wks.write(row, start_col + columns['part_num']['col'], dist_part_num,
+        if dist_part_num:
+            wks.write(row, start_col + columns['part_num']['col'], dist_part_num,
                   None)
 
-        # Enter quantity of part available at this distributor.
-        wks.write(row, start_col + columns['avail']['col'],
+        # Enter quantity of part available at this distributor unless it is None
+        # which means the part is not stocked.
+        if part.qty_avail[dist]:
+            wks.write(row, start_col + columns['avail']['col'],
                   part.qty_avail[dist], None)
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, start_col + columns['purch']['col'], '', None)
 
-        # Add the price for a single unit if it doesn't already exist in the tiers.
-        try:
-            min_qty = min(price_tiers.keys())
-            if min_qty > 1:
-                price_tiers[1] = price_tiers[
-                    min_qty
-                ]  # Set unit price to price of lowest available quantity.
-        except ValueError:  # This happens if the price tier list is empty.
-            pass
-        price_tiers[0] = 0.00  # Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.
+        # Add pricing information if it exists.
+        if len(list(price_tiers)) > 0:
+            # Add the price for a single unit if it doesn't already exist in the tiers.
+            try:
+                min_qty = min(price_tiers.keys())
+                if min_qty > 1:
+                    price_tiers[1] = price_tiers[
+                        min_qty
+                    ]  # Set unit price to price of lowest available quantity.
+            except ValueError:  # This happens if the price tier list is empty.
+                pass
+            price_tiers[0] = 0.00  # Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.
 
-        # Sort the tiers based on quantities and turn them into lists of strings.
-        qtys = sorted(price_tiers.keys())
-        prices = [str(price_tiers[q]) for q in qtys]
-        qtys = [str(q) for q in qtys]
+            # Sort the tiers based on quantities and turn them into lists of strings.
+            qtys = sorted(price_tiers.keys())
+            prices = [str(price_tiers[q]) for q in qtys]
+            qtys = [str(q) for q in qtys]
 
-        purch_qty_col = start_col + columns['purch']['col']
-        unit_price_col = start_col + columns['unit_price']['col']
-        ext_price_col = start_col + columns['ext_price']['col']
+            purch_qty_col = start_col + columns['purch']['col']
+            unit_price_col = start_col + columns['unit_price']['col']
+            ext_price_col = start_col + columns['ext_price']['col']
 
-        # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
-        # or the purchased quantity (if that is non-zero).
-        wks.write_formula(
-            row, unit_price_col,
-            '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                qtys=','.join(qtys),
-                prices=','.join(prices)), wrk_formats['currency'])
-        # Conditionally format the unit price cell that contains the best price.
-        wks.conditional_format(row, unit_price_col, row, unit_price_col, {
-            'type': 'cell',
-            'criteria': '<=',
-            'value': xl_rowcol_to_cell(row, 7),
-            # This is the global data cell holding the minimum unit price for this part.
-            'format': wrk_formats['best_price']
-        })
+            # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
+            # or the purchased quantity (if that is non-zero).
+            wks.write_formula(
+                row, unit_price_col,
+                '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                    qtys=','.join(qtys),
+                    prices=','.join(prices)), wrk_formats['currency'])
+            # Conditionally format the unit price cell that contains the best price.
+            wks.conditional_format(row, unit_price_col, row, unit_price_col, {
+                'type': 'cell',
+                'criteria': '<=',
+                'value': xl_rowcol_to_cell(row, 7),
+                # This is the global data cell holding the minimum unit price for this part.
+                'format': wrk_formats['best_price']
+            })
 
-        # Enter the formula for the extended price = purch qty * unit price.
-        wks.write_formula(
-            row, ext_price_col,
-            '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
-                needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-                purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                unit_price=xl_rowcol_to_cell(row, unit_price_col)),
-            wrk_formats['currency'])
-        # Conditionally format the extended price cell that contains the best price.
-        wks.conditional_format(row, ext_price_col, row, ext_price_col, {
-            'type': 'cell',
-            'criteria': '<=',
-            'value': xl_rowcol_to_cell(row, 8),
-            # This is the global data cell holding the minimum extended price for this part.
-            'format': wrk_formats['best_price']
-        })
+            # Enter the formula for the extended price = purch qty * unit price.
+            wks.write_formula(
+                row, ext_price_col,
+                '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
+                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                    unit_price=xl_rowcol_to_cell(row, unit_price_col)),
+                wrk_formats['currency'])
+            # Conditionally format the extended price cell that contains the best price.
+            wks.conditional_format(row, ext_price_col, row, ext_price_col, {
+                'type': 'cell',
+                'criteria': '<=',
+                'value': xl_rowcol_to_cell(row, 8),
+                # This is the global data cell holding the minimum extended price for this part.
+                'format': wrk_formats['best_price']
+            })
 
         # Finished processing distributor data for this part.
         row += 1  # Go to next row.

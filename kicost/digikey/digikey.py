@@ -34,19 +34,10 @@ standard_library.install_aliases()
 
 import future
 
-import sys
-import pprint
 import re
 import difflib
 import logging
-import tqdm
 from bs4 import BeautifulSoup
-from random import randint
-import xlsxwriter
-from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
-from yattag import Doc, indent  # For generating HTML page for local parts.
-import multiprocessing
-from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
 
 try:
@@ -159,7 +150,6 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                 insertion_point.insert_after(tr)
         except AttributeError:
             logger.log(DEBUG_OBSESSIVE, 'Problem merging price tiers for Digikey part {} with alternate packaging!'.format(pn))
-            pass
 
     def merge_qty_avail(main_tree, alt_tree):
         '''Merge the quantities from the alternate-packaging tree into the main tree.'''
@@ -177,7 +167,6 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                 insertion_point.string = '{}'.format(merged_qty)
         except AttributeError:
             logger.log(DEBUG_OBSESSIVE, 'Problem merging available quantities for Digikey part {} with alternate packaging!'.format(pn))
-            pass
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
@@ -197,7 +186,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
             break
         except WEB_SCRAPE_EXCEPTIONS:
             logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
-            pass
+
     else: # Couldn't get a good read from the website.
         logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
@@ -240,6 +229,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                             'ul', class_='more-expander-item')
                 ]
                 logger.log(DEBUG_OBSESSIVE,'Found {} alternate packagings for {} from {}'.format(len(ap_urls), pn, dist))
+                ap_trees_and_urls = []  # Initialize as empty in case no alternate packagings are found.
                 try:
                     ap_trees_and_urls = [get_digikey_part_html_tree(dist, pn, 
                                      extra_search_terms, ap_url, descend=0)
@@ -273,9 +263,9 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                     except AttributeError:
                         logger.log(DEBUG_OBSESSIVE,'Problem merging price/qty for {} from {}'.format(pn, dist))
                         continue
-            except AttributeError:
+            except AttributeError as e:
                 logger.log(DEBUG_OBSESSIVE,'Problem parsing URLs from product page for {} from {}'.format(pn, dist))
-                pass
+
         return tree, url  # Return the parse tree and the URL where it came from.
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
