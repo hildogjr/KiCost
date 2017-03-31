@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.34 (2017-03-31)
+______________________
+
+* Fixed crash caused by uninitialized array in Digikey webscraping module.
+* Place any available scraped part info into spreadsheet even if part is not available from a distributor. 
+* Removed unused imports from distributor modules.
+
+
 0.1.33 (2017-02-23)
 ______________________
 
