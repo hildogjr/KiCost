@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>kicost 0.1.32 documentation</title>
+    <title>kicost 0.1.35 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.32',
+        VERSION:     '0.1.35',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -29,7 +29,7 @@
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.32 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.35 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -511,90 +511,112 @@ and make sure that the tests pass for all supported Python versions.</li>
 <span id="document-history"></span><div class="section" id="history">
 <h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>0.1.32 (2017-02-14)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>0.1.35 (2017-04-24)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
+<li>Fixed bug in scraping RS website when a part search results in a list of matches instead of a single product page.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>0.1.34 (2017-03-31)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed crash caused by uninitialized array in Digikey webscraping module.</li>
+<li>Place any available scraped part info into spreadsheet even if part is not available from a distributor.</li>
+<li>Removed unused imports from distributor modules.</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>0.1.33 (2017-02-23)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Surround worksheet name with quotes in case it contains spreadsheet operators.</li>
+<li>Fixed extraction of product links from Farnell product tables.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>0.1.32 (2017-02-14)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Added options for including or excluding distributors.</li>
 <li>Updated web scrapers for various distributors.</li>
 <li>Added more debugging/logger statements.</li>
 <li>Updated some of the package requirements.</li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h3>0.1.31 (2016-11-14)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>0.1.31 (2016-11-14)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Giacinto Luigi Cerone added support for distributors Farnell and RS.</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>0.1.30 (2016-11-07)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>0.1.30 (2016-11-07)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Manufacturer&#8217;s part number field can now be labeled as &#8216;manf#&#8217;, &#8216;mpn&#8217;, &#8216;pn&#8217;, &#8216;#&#8217;, etc. (See documentation.)</li>
 <li>Manufacturer field can now be labeled as &#8216;manf&#8217; or &#8216;manufacturer&#8217;.</li>
 <li>Distributor part number fields can now be labeled as &#8216;digikey#&#8217;, &#8216;digikeypn&#8217;, digikey_pn&#8217;, &#8216;digikey-pn&#8217;, etc.</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>0.1.29 (2016-08-27)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>0.1.29 (2016-08-27)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>KiCost no longer fails if the &lt;libparts&gt;...&lt;/libparts&gt; section is missing from the XML file.</li>
 <li>Documentation moved to Github Pages.</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>0.1.28 (2016-08-18)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>0.1.28 (2016-08-18)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed scraping of Digi-Key pages to correctly detect reeled parts and scrape alternate packaging options.</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>0.1.27 (2016-07-26)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>0.1.27 (2016-07-26)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed scraping of Digi-Key pages to correctly extract available quantity of parts.</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>0.1.26 (2016-07-25)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>0.1.26 (2016-07-25)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Progress bar is explicitly deleted to prevent an error from occurring when the program terminates.</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>0.1.25 (2016-06-12)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>0.1.25 (2016-06-12)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Contents of &#8220;Desc&#8221; field in component/library were being ignored when generating spreadsheet.</li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>0.1.24 (2016-05-28)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>0.1.24 (2016-05-28)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed part scraping from Newark website.</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>0.1.23 (2016-04-12)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>0.1.23 (2016-04-12)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added progress bar.</li>
 <li>Added quiet option to suppress warning messages.</li>
 <li>&#8216;manf#&#8217; and &#8216;manf&#8217; fields are now both propagated to similar parts.</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>0.1.22 (2016-04-08)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>0.1.22 (2016-04-08)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Extra part data can now be shown in the global data section of the spreadsheet
 by using the new <code class="docutils literal"><span class="pre">--fields</span></code> command-line option. This commit implements
 issue #8.</li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>0.1.21 (2016-03-20)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>0.1.21 (2016-03-20)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Parts with valid Digi-Key web pages were not appearing in the spreadsheet
 because they had strange quantity listings (e.g., input fields or &#8216;call for
 quantities&#8217;. This commit fixes #36.</li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>0.1.20 (2016-03-20)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>0.1.20 (2016-03-20)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Prices of $0.00 were appearing in the spreadsheet for parts that were
 listed but not stocked. Parts having no pricing list no longer list a price
@@ -604,28 +626,28 @@ distributor websites. The manufacturer name was added to the search string
 to increase the probability of the search finding the correct part.</li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>0.1.19 (2016-02-12)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>0.1.19 (2016-02-12)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Local parts weren&#8217;t showing up in spreadsheet because of previous fix to
 omit parts that had no quantity field (non-stocked; not even 0). Fixed.</li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>0.1.18 (2016-02-10)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>0.1.18 (2016-02-10)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Made change to adapt to change in Digi-Key&#8217;s part quantity field of their webpages.</li>
 <li>Omit parts from the spreadsheet that are listed but not stocked at a distributor.</li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>0.1.17 (2016-02-09)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>0.1.17 (2016-02-09)<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Made changes to adapt to changes in Digi-Key&#8217;s webpage format.</li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h3>0.1.16 (2016-01-26)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>0.1.16 (2016-01-26)<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added <code class="docutils literal"><span class="pre">--variant</span></code> command-line option for costing different variants of a single schematic.</li>
 <li>Added <code class="docutils literal"><span class="pre">--num_processes</span></code> command-line option for setting the number of parallel
@@ -634,52 +656,52 @@ processes used to scrape part data from the distributor web sites.</li>
 prevent identical parts from being grouped together.</li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>0.1.15 (2016-01-10)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>0.1.15 (2016-01-10)<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed exception caused when indexing with &#8216;manf#&#8217; on components that didn&#8217;t
 have that field defined.</li>
 <li>Replaced custom debug_print() with logging module.</li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>0.1.14 (2015-12-31)<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>0.1.14 (2015-12-31)<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>When scraping a Digi-Key product list page, use both the manfufacturer&#8217;s AND
 Digi-Key&#8217;s number to select the closest match to the part number.</li>
 </ul>
 </div>
-<div class="section" id="id20">
-<h3>0.1.13 (2015-12-29)<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>0.1.13 (2015-12-29)<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>&#8216;kicost:&#8217; can be prepended to schematic field labels to distinguish them from other app fields.</li>
 <li>Custom prices and documentation links can now be added to parts in the schematic.</li>
 <li>Web-scraping for part data is sped up using parallel processes.</li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h3>0.1.12 (2015-12-03)<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>0.1.12 (2015-12-03)<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Following the IP address mouser with redirect you to the nearest locale match,
 so the price will be in Euro if you are in Europe and the price decimal can be a comma.</li>
 </ul>
 </div>
-<div class="section" id="id22">
-<h3>0.1.11 (2015-12-02)<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h3>0.1.11 (2015-12-02)<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Changed BOARD_COST field to UNIT_COST.</li>
 <li>Changed formatting of UNIT_COST field to make use monetary units.</li>
 <li>Changed format of debug messages.</li>
 </ul>
 </div>
-<div class="section" id="id23">
-<h3>0.1.10 (2015-10-08)<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>0.1.10 (2015-10-08)<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Pushed lxml requirement back to 3.3.3 so linux mint would have fewer problems trying to install.</li>
 </ul>
 </div>
-<div class="section" id="id24">
-<h3>0.1.9 (2015-09-26)<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>0.1.9 (2015-09-26)<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed exception caused by Digi-Key part with &#8216;call&#8217; as an entry in a part&#8217;s price list.</li>
 <li>Fixed extraction of part quantities in Mouser web pages.</li>
@@ -687,45 +709,45 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 <li>Added ghost.py code for getting around Javascript challenge pages (currently inactive).</li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>0.1.8 (2015-09-17)<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>0.1.8 (2015-09-17)<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added missing requirements for future and lxml packages.</li>
 </ul>
 </div>
-<div class="section" id="id26">
-<h3>0.1.7 (2015-08-26)<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3>0.1.7 (2015-08-26)<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>KiCost now runs under both Python 2.7.6 and 3.4.</li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>0.1.6 (2015-08-26)<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3>0.1.6 (2015-08-26)<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Mouser changed their HTML page format, so I changed their web scraper.</li>
 </ul>
 </div>
-<div class="section" id="id28">
-<h3>0.1.5 (2015-07-25)<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>0.1.5 (2015-07-25)<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Corrected entrypoint in __main__.py.</li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h3>0.1.4 (2015-07-09)<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>0.1.4 (2015-07-09)<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added conditional formatting to indicate which distributor had the best price for a particular part.</li>
 <li>Fixed calc of min unit price so it wouldn&#8217;t be affected if part rows were sorted.</li>
 </ul>
 </div>
-<div class="section" id="id30">
-<h3>0.1.3 (2015-07-07)<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>0.1.3 (2015-07-07)<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added global part columns that show minimum unit and extended prices for all parts across all distributors.</li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h3>0.1.2 (2015-07-04)<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id34">
+<h3>0.1.2 (2015-07-04)<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Refactoring.</li>
 <li>To reduce the effort in adding manufacturer&#8217;s part numbers to a schematic, one will now be assigned to a part if:<ol class="arabic">
@@ -736,14 +758,14 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 </li>
 </ul>
 </div>
-<div class="section" id="id32">
-<h3>0.1.1 (2015-07-02)<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id35">
+<h3>0.1.1 (2015-07-02)<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed delimiter for Mouser online order cut-and-paste.</li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h3>0.1.0 (2015-06-30)<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id36">
+<h3>0.1.0 (2015-06-30)<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>First release on PyPI.</li>
 </ul>
@@ -796,39 +818,42 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-history">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id1">0.1.32 (2017-02-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id2">0.1.31 (2016-11-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id3">0.1.30 (2016-11-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id4">0.1.29 (2016-08-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id5">0.1.28 (2016-08-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id6">0.1.27 (2016-07-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id7">0.1.26 (2016-07-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id8">0.1.25 (2016-06-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id9">0.1.24 (2016-05-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id10">0.1.23 (2016-04-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id11">0.1.22 (2016-04-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id12">0.1.21 (2016-03-20)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id13">0.1.20 (2016-03-20)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id14">0.1.19 (2016-02-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id15">0.1.18 (2016-02-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id16">0.1.17 (2016-02-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id17">0.1.16 (2016-01-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id18">0.1.15 (2016-01-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id19">0.1.14 (2015-12-31)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id20">0.1.13 (2015-12-29)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id21">0.1.12 (2015-12-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id22">0.1.11 (2015-12-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id23">0.1.10 (2015-10-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id24">0.1.9 (2015-09-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id25">0.1.8 (2015-09-17)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id26">0.1.7 (2015-08-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id27">0.1.6 (2015-08-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id28">0.1.5 (2015-07-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id29">0.1.4 (2015-07-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id30">0.1.3 (2015-07-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id31">0.1.2 (2015-07-04)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id32">0.1.1 (2015-07-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id33">0.1.0 (2015-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">0.1.35 (2017-04-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">0.1.34 (2017-03-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id3">0.1.33 (2017-02-23)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id4">0.1.32 (2017-02-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id5">0.1.31 (2016-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id6">0.1.30 (2016-11-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id7">0.1.29 (2016-08-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id8">0.1.28 (2016-08-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id9">0.1.27 (2016-07-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id10">0.1.26 (2016-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id11">0.1.25 (2016-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id12">0.1.24 (2016-05-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id13">0.1.23 (2016-04-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id14">0.1.22 (2016-04-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id15">0.1.21 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id16">0.1.20 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id17">0.1.19 (2016-02-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id18">0.1.18 (2016-02-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id19">0.1.17 (2016-02-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id20">0.1.16 (2016-01-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id21">0.1.15 (2016-01-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id22">0.1.14 (2015-12-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id23">0.1.13 (2015-12-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id24">0.1.12 (2015-12-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id25">0.1.11 (2015-12-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id26">0.1.10 (2015-10-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id27">0.1.9 (2015-09-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id28">0.1.8 (2015-09-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id29">0.1.7 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id30">0.1.6 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id31">0.1.5 (2015-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id32">0.1.4 (2015-07-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id33">0.1.3 (2015-07-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id34">0.1.2 (2015-07-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id35">0.1.1 (2015-07-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id36">0.1.0 (2015-06-30)</a></li>
 </ul>
 </li>
 </ul>
@@ -840,7 +865,7 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.32 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.35 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

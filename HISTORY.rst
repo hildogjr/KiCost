@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.35 (2017-04-24)
+______________________
+
+* Fixed bug in scraping RS website when a part search results in a list of matches instead of a single product page.
+
+
 0.1.34 (2017-03-31)
 ______________________
 

@@ -167,7 +167,7 @@ def get_rs_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, 
             product_links= []
             for p in products:
                 try:
-                    product_links.append('http://it.rs-online.com'+p.find('a',class_='tnProdDesc')['href'])
+                    product_links.append(p.find('a',class_='primarySearchLink')['href'])
                     # Up to now get the first url found in the list. i.e. do not choose the url based on the stock type (e.g. single unit, reel etc.)
                     return get_rs_part_html_tree(dist, pn, extra_search_terms,url=product_links[0], descend=descend-1)
                 except AttributeError:
