@@ -150,6 +150,18 @@ field_name_translations.update(
         'mfr': 'manf',
     }
 )
+field_name_translations.update(
+    {
+        'variant': 'variant',
+        'version': 'variant',
+    }
+)
+field_name_translations.update(
+    {
+        'dnp': 'dnp',
+        'nopop': 'dnp',
+    }
+)
 
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
@@ -354,6 +366,36 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Store the fields for the part using the reference identifier as the key.
         components[str(c['ref'])] = fields
+
+    # Remove components that are assigned to a variant that is not the current variant,
+    # or which are "do not popoulate" (DNP). (Any component that does not have a variant
+    # is assigned the current variant so it will not be removed unless it is also DNP.)
+    accepted_components = {}
+    for ref, fields in components.items():
+        # Remove DNPs.
+        try:
+            dnp = fields.get('dnp', 0)
+            dnp = float(dnp)
+        except ValueError:
+            pass  # The field value must have been a string.
+        if dnp:
+            continue
+        # Remove parts that are not assigned to the current variant.
+        # If a part is not assigned to any variant, then it is never removed.
+        variants = fields.get('variant', None)
+        if variants:
+            # A part can be assigned to multiple variants. The part will not
+            # be removed if any of its variants match the current variant.
+            # Split the variants apart and abort the loop if any of them match.
+            for v in re.split('[,;/ ]', variants):
+                if re.match(variant, v, flags=re.IGNORECASE):
+                    break
+            else:
+                # None of the variants matched, so skip/remove this part.
+                continue
+        # The part was not removed, so add it to the list of accepted components.
+        accepted_components[ref] = fields
+    components = accepted_components
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
