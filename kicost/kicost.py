@@ -380,9 +380,12 @@ def get_part_groups(in_file, ignore_fields, variant):
             pass  # The field value must have been a string.
         if dnp:
             continue
+
+        # Get part variant. Prioritize local variants over global ones.
+        variants = fields.get('local:variant', fields.get('variant', None))
+
         # Remove parts that are not assigned to the current variant.
         # If a part is not assigned to any variant, then it is never removed.
-        variants = fields.get('variant', None)
         if variants:
             # A part can be assigned to multiple variants. The part will not
             # be removed if any of its variants match the current variant.
@@ -393,8 +396,13 @@ def get_part_groups(in_file, ignore_fields, variant):
             else:
                 # None of the variants matched, so skip/remove this part.
                 continue
+
         # The part was not removed, so add it to the list of accepted components.
         accepted_components[ref] = fields
+
+    print('Removed parts:', set(components.keys())-set(accepted_components.keys()))
+
+    # Replace the component list with the list of accepted parts.
     components = accepted_components
 
     # Now partition the parts into groups of like components.

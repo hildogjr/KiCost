@@ -5,10 +5,10 @@ Usage
 KiCost is mainly intended to be run as a script for generating part-cost spreadsheets for
 circuit boards developed with KiCad. Typical use is as follows:
 
-1. For each part in your schematic, create a field called *manf#* and set the field value
+1. For each part in your schematic, create a field called ``manf#`` and set the field value
    to the manufacturer's part number.
    (You can reduce the effort of adding this information to individual parts by
-   placing the *manf#* field into the part info in the schematic library so it gets applied globally.)
+   placing the ``manf#`` field into the part info in the schematic library so it gets applied globally.)
    The allowable field names for part numbers are::
 
         mpn          pn           p#
@@ -18,12 +18,12 @@ circuit boards developed with KiCad. Typical use is as follows:
         mfg_num      mfg-num      mfg#  
         mfr_num      mfr-num      mfr#  
 
-2. Output a BOM from your KiCad schematic. This will be an XML file. For this example, say it is *schem.xml*.
-3. Process the XML file with KiCost to create a part-cost spreadsheet named *schem.xlsx* like this::
+2. Output a BOM from your KiCad schematic. This will be an XML file. For this example, say it is ``schem.xml``.
+3. Process the XML file with KiCost to create a part-cost spreadsheet named ``schem.xlsx`` like this::
 
      python kicost -i schem.xml
 
-4. Open the *schem.xlsx* spreadsheet using Microsoft Excel, LibreOffice Calc, or Google Sheets.
+4. Open the ``schem.xlsx`` spreadsheet using Microsoft Excel, LibreOffice Calc, or Google Sheets.
    Then enter the number of boards that you need to build and see
    the prices for the total board and individual parts when purchased from 
    several different distributors (KiCost currently supports Digi-Key, Mouser, Newark, Farnell and RS).
@@ -46,7 +46,7 @@ The price breaks on some parts can't be obtained automatically because:
 
 For these parts, you can manually enter price information as follows:
 
-#. Create a new field for the part named *kicost:pricing* in either the schematic or library.
+#. Create a new field for the part named ``kicost:pricing`` in either the schematic or library.
 #. For the field value, enter a semicolon-separated list of quantities and prices which
    are separated by colons like so::
 
@@ -55,7 +55,7 @@ For these parts, you can manually enter price information as follows:
    (You can put spaces and currency symbols in the field value. KiCost will
    strip everything except digits, decimal points, semicolons, and colons.)
    
-You can also enter a link to documentation for the part using a field named *kicost:link*.
+You can also enter a link to documentation for the part using a field named ``kicost:link``.
 The value of this field will be a web address like::
 
     www.reallyweirdparts.com/products/weird_product.html
@@ -98,7 +98,7 @@ There are several cases that are considered when propagating part data:
   in the group.
 * If two or more parts have data but it is identical, then that
   data is propagated to any of the parts in the group without data.
-* If two or more parts in the group have *different* data, then any parts without
+* If two or more parts in the group have ``different`` data, then any parts without
   data are left that way because it is impossible to figure out which data should
   be propagated to them.
 
@@ -120,28 +120,53 @@ That can be prevented in two ways:
 Schematic Variants
 ------------------------
 
-There are cases where a schematic might need to be priced differently depending
+There are cases where a schematic needs to be priced differently depending
 upon the context.
 For example, the price of the end-user circuit board might be needed, but
 then the price for the board plus additional parts for test also has to be 
 calculated.
 
-KiCost supports this with augmented the part field labels in the schematic in
+KiCost supports this using a ``variant`` field for parts in the schematic in
 conjunction with the ``--variant`` command-line option.
 Suppose a circuit has a connector, J1, that's only inserted for certain units.
-If the manufacturer's part number field for J1 is given the label ``kicost.v1:manf#``,
+If a field called ``variant`` is added to J1 and given the value V1,
 then KiCost will ignore it during a normal cost calculation.
-But J1 will be included in the cost calculation if you run KiCost like so::
+But J1 will be included in the cost calculation spreadsheet if you run KiCost like so::
 
-    kicost -i schematic.xml --variant v1
+    kicost -i schematic.xml --variant V1
 
 In more complicated situations, you may have several circuit variants, some of which
-are combined in combination.
+are used in combination.
 The ``--variant`` option will accept a regular expression as its argument
-so, for example, you could get the cost of a board that includes circuitry for both variants 1
-and 3 with::
+so, for example, you could get the cost of a board that includes circuitry for
+both variants V1 and V2 with::
 
-    kicost -i schematic.xml --variant "(v1|v2)"
+    kicost -i schematic.xml --variant "(V1|V2)"
+
+A part can be a member of more than one variant by loading its ``variant`` field
+with a list such as "V1, V2".
+(The allowed delimiters for the list are comma (,), semicolon (;), slash (/), and space ( ).)
+The part will be included in the cost calculation spreadsheet if any of its variants matches
+the ``--variant`` argument.
+
+..........................
+Old-Style Variants
+..........................
+
+KiCost supports another way of specifying the variant associated with a part.
+Using the example from above, labeling the part number for J1 as
+``kicost.v1:manf#`` will assign it to the v1 variant.
+This method is not as flexible as using the ``variant`` field and may be removed
+in future versions of KiCost.
+
+-----------------------------------------------
+"Do Not Populate" Parts
+-----------------------------------------------
+
+Some parts in a schematic are not intended for insertion on the final board assembly.
+These "do not populate" (DNP) parts can be assigned a field called ``DNP`` or ``NOPOP``.
+Setting the value of this field to a non-zero number or any string will cause this part
+to be omitted from the cost calculation spreadsheet.
 
 -----------------------------------------------
 Showing Extra Part Data in the Spreadsheet
@@ -151,7 +176,7 @@ Sometimes it is desirable to show additional data for the parts in the
 spreadsheet.
 To do this, use the ``-fields`` command-line option followed by the names of the
 additional part fields you want displayed in the global data section of the
-of the spreadsheet:
+of the spreadsheet::
 
     kicost -i schematic.xml --fields fld1 fld2
 
@@ -181,45 +206,44 @@ Command-Line Options
 
 ::
 
-usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]]
-              [-f name [name ...]] [-var [VARIANT]] [-w] [-s] [-q]
-              [-np [NUM_PROCESSES]] [-ign name [name ...]]
-              [-d [LEVEL]] [-a] [-e dist [dist ...]]
-              [--include dist [dist ...]]
+    usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]] [-f name [name ...]]
+                  [-var [VARIANT]] [-w] [-s] [-q] [-np [NUM_PROCESSES]]
+                  [-ign name [name ...]] [-d [LEVEL]] [-a] [-e dist [dist ...]]
+                  [--include dist [dist ...]]
 
-Build cost spreadsheet for a KiCAD project.
+    Build cost spreadsheet for a KiCAD project.
 
-optional arguments:
-  -h, --help            show this help message and exit
-  -v, --version         show program's version number and exit
-  -i [file.xml], --input [file.xml]
-                        Schematic BOM XML file.
-  -o [file.xlsx], --output [file.xlsx]
-                        Generated cost spreadsheet.
-  -f name [name ...], --fields name [name ...]
-                        Specify the names of additional part fields to extract
-                        and insert in the global data section of the
-                        spreadsheet.
-  -var [VARIANT], --variant [VARIANT]
-                        schematic variant name filter
-  -w, --overwrite       Allow overwriting of an existing spreadsheet.
-  -s, --serial          Do web scraping of part data using a single process.
-  -q, --quiet           Enable quiet mode with no warnings.
-  -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
-                        Set the number of parallel processes used for web
-                        scraping part data.
-  -ign name [name ...], --ignore_fields name [name ...]
-                        Declare part fields to ignore when grouping parts.
-  -d [LEVEL], --debug [LEVEL]
-                        Print debugging info. (Larger LEVEL means more info.)
-  -a, --altium          Allows parsing of an Altium Designer .xml BOM file
-                        specified as input.
-  -e dist [dist ...], --exclude dist [dist ...]
-                        Excludes the given distributor(s) from the scraping
-                        process.
-  --include dist [dist ...]
-                        Includes only the given distributor(s) in the scraping
-                        process.
+    optional arguments:
+      -h, --help            show this help message and exit
+      -v, --version         show program's version number and exit
+      -i [file.xml], --input [file.xml]
+                            Schematic BOM XML file.
+      -o [file.xlsx], --output [file.xlsx]
+                            Generated cost spreadsheet.
+      -f name [name ...], --fields name [name ...]
+                            Specify the names of additional part fields to extract
+                            and insert in the global data section of the
+                            spreadsheet.
+      -var [VARIANT], --variant [VARIANT]
+                            schematic variant name filter
+      -w, --overwrite       Allow overwriting of an existing spreadsheet.
+      -s, --serial          Do web scraping of part data using a single process.
+      -q, --quiet           Enable quiet mode with no warnings.
+      -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
+                            Set the number of parallel processes used for web
+                            scraping part data.
+      -ign name [name ...], --ignore_fields name [name ...]
+                            Declare part fields to ignore when grouping parts.
+      -d [LEVEL], --debug [LEVEL]
+                            Print debugging info. (Larger LEVEL means more info.)
+      -a, --altium          Allows parsing of an Altium Designer .xml BOM file
+                            specified as input.
+      -e dist [dist ...], --exclude dist [dist ...]
+                            Excludes the given distributor(s) from the scraping
+                            process.
+      --include dist [dist ...]
+                            Includes only the given distributor(s) in the scraping
+                            process.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
@@ -229,8 +253,8 @@ You can add KiCost to the Windows context menu so you can right-click on an
 XML file and generate the pricing spreadsheet.
 To do this:
 
-#. Open the registry and find the *HKEY_CLASSES_ROOT => xmlfile => shell* key. 
-   Then add a *KiCost* key to it and, under that, add a *command* key.
+#. Open the registry and find the ``HKEY_CLASSES_ROOT => xmlfile => shell`` key. 
+   Then add a ``KiCost`` key to it and, under that, add a ``command`` key.
    The resulting hierarchy of keys will look like this::
 
     HKEY_CLASSES_ROOT

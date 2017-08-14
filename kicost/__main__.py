@@ -73,7 +73,7 @@ def main():
     parser.add_argument('-var', '--variant',
                         nargs='?',
                         type=str,
-                        default='',
+                        default=' ', # Default variant is a space.
                         help='schematic variant name filter')
     parser.add_argument('-w', '--overwrite',
                         action='store_true',

@@ -3,6 +3,15 @@
 History
 -------
 
+0.1.36 (2017-08-14)
+______________________
+
+* Parts may now be assigned to a variant by giving them a ``variant`` field.
+* Parts may now be assigned to multiple variants.
+* Parts may be designated as "do not populate" by giving them a ``DNP`` field.
+* DNP parts or parts not in the current variant will not appear in the cost spreadsheet.
+
+
 0.1.35 (2017-04-24)
 ______________________
 
