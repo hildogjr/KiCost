@@ -373,8 +373,8 @@ def get_part_groups(in_file, ignore_fields, variant):
     accepted_components = {}
     for ref, fields in components.items():
         # Remove DNPs.
+        dnp = fields.get('local:dnp', fields.get('dnp', 0))
         try:
-            dnp = fields.get('dnp', 0)
             dnp = float(dnp)
         except ValueError:
             pass  # The field value must have been a string.
