@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.37 (2017-08-15)
+______________________
+
+* Fixed problem where "kicost:dnp" field was not recognized.
+
+
 0.1.36 (2017-08-14)
 ______________________
 
