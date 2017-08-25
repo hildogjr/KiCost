@@ -50,6 +50,8 @@ import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
 
+from datetime import datetime
+
 # Stops UnicodeDecodeError exceptions.
 try:
     reload(sys)
@@ -178,10 +180,10 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
 
     # Get groups of identical parts.
     if not is_altium:
-        parts = get_part_groups(in_file, ignore_fields, variant)
+        parts, prj_info = get_part_groups(in_file, ignore_fields, variant)
     else:
-        parts = get_part_groups_altium(in_file, ignore_fields, variant)
-        
+        parts, prj_info = get_part_groups_altium(in_file, ignore_fields, variant)
+
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
     
@@ -238,7 +240,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     del scraping_progress
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, out_filename, user_fields, variant)
+    create_spreadsheet(parts, prj_info, out_filename, user_fields, variant)
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):
@@ -311,6 +313,14 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, 'Get schematic XML...')
     root = BeautifulSoup(in_file, 'lxml')
+
+    # Get the general information of the project BoM XML file.
+    title = root.find('title_block')
+    prj_info = dict()
+    prj_info['title'] = title.findAll('title')[0].string
+    prj_info['company'] = title.findAll('company')[0].string
+    prj_info['date'] = title.findAll('date')[0].string
+    del title
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
@@ -489,10 +499,10 @@ def get_part_groups(in_file, ignore_fields, variant):
         grp.fields = grp_fields
 
     # Now return the list of identical part groups.
-    return new_component_groups
+    return new_component_groups, prj_info
 
     # Now return a list of the groups without their hash keys.
-    return list(new_component_groups.values())
+    return list(new_component_groups.values()), prj_info
 
 
 def create_local_part_html(parts):
@@ -558,7 +568,7 @@ def create_local_part_html(parts):
     return html
 
 
-def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
+def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
@@ -680,6 +690,15 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
                 'num_format': '$#,##0.00',
                 'valign': 'vcenter'
             }),
+            'id_name': workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right',
+                'valign': 'vcenter'}),
+            'id_value': workbook.add_format({
+                'font_size': 12,
+                'align': 'left',
+                'valign': 'vcenter'}),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
@@ -710,6 +729,15 @@ def create_spreadsheet(parts, spreadsheet_filename, user_fields, variant):
                 wks_name= "'" + WORKSHEET_NAME + "'",
                 data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
                                         next_col - 1)))
+
+        # Create a geral information to track the project (in an printed version
+        # of the BoM) and the date because of the price variations.
+        wks.write(BOARD_QTY_ROW, START_COL, 'Proj:', wrk_formats['id_name'])
+        wks.write(BOARD_QTY_ROW, START_COL+1, prj_info['title'], wrk_formats['id_value'])
+        wks.write(TOTAL_COST_ROW, START_COL, 'Co.:', wrk_formats['id_name'])
+        wks.write(TOTAL_COST_ROW, START_COL+1, prj_info['company'], wrk_formats['id_value'])
+        wks.write(UNIT_COST_ROW, START_COL, 'Date:', wrk_formats['id_name'])
+        wks.write(UNIT_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['id_value'])
 
         # Create the cell where the quantity of boards to assemble is entered.
         # Place the board qty cells near the right side of the global info.
