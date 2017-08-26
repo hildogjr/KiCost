@@ -1213,6 +1213,22 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                     qtys=','.join(qtys),
                     prices=','.join(prices)), wrk_formats['currency'])
+            # Add comment if the price break
+            price_break_info = 'Price break:\n'
+            for count_price_break in range(0,len(qtys)):
+                if int(qtys[count_price_break]) != 0: # 0 qnty information is not userful to show.
+                    price_break_info += qtys[count_price_break] + ' - ' + '$' + prices[count_price_break] + '\n'
+            wks.write_comment( row, unit_price_col, price_break_info[:-1])
+            # Conditional format, if the price of the next price break is less than the actual
+            # unity price by the quantity chosen, put the unit price red.
+#            wks.conditional_format(row, unit_price_col, row, unit_price_col, { #TODO
+#                 'type': 'cell',
+#                'criteria': '<=',
+#                'value': xl_rowcol_to_cell(row, 7),
+#                # This is the global data cell holding the minimum unit price for this part.
+#                'format': wrk_formats['best_price']
+#            })
+
             # Conditionally format the unit price cell that contains the best price.
             wks.conditional_format(row, unit_price_col, row, unit_price_col, {
                 'type': 'cell',
