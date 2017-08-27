@@ -701,6 +701,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'vcenter'}),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
             'take_next_price_break': workbook.add_format({'color': '#FF0000', }),
+            'not_qty_avail': workbook.add_format({'bg_color': '#FF0000', }),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
@@ -941,7 +942,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'col': 8,
             'level': 0,
             'label': 'Ext$',
-            'width': 15,  # Displays up to $9,999,999.99 without "###".
+            'width': 11,  # Displays up to $9,999.99 without "###".
             'comment':
             'Minimum extended price for each part across all distributors.',
             'static': False,
@@ -1075,7 +1076,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'level': 1,  # Outline level (or hierarchy level) for this column.
             'label': 'Avail',  # Column header label.
             'width': None,  # Column width (default in this case).
-            'comment': 'Available quantity of each part at the distributor.'
+            'comment': 'Available quantity of each part at the distributor.\nred qty -> not avaliable necessary quantity'
             # Column header tool-tip.
         },
         'purch': {
@@ -1098,21 +1099,14 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred text -> next breaker is cheaper\ngreen block -> cheaper supplier'
+            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred price -> next breaker is cheaper\ngreen block -> cheaper supplier'
         },
         'part_num': {
             'col': 4,
             'level': 2,
             'label': 'Cat#',
-            'width': None,
-            'comment': 'Distributor-assigned part number for each part.'
-        },
-        'part_url': {
-            'col': 5,
-            'level': 2,
-            'label': 'Doc',
-            'width': None,
-            'comment': 'Link to distributor webpage for each part.'
+            'width': 15,
+            'comment': 'Distributor-assigned part number for each part and link to its web page (click).'
         },
     }
     num_cols = len(list(columns.keys()))
@@ -1151,15 +1145,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
         # Extract price tiers from distributor HTML page tree.
         price_tiers = part.price_tiers[dist]
 
-        # Enter a link to the distributor webpage for this part, even if there
-        # is no valid quantity or pricing for the part (see next conditional).
-        # Having the link present will help debug if the extraction of the
-        # quantity or pricing information was done correctly.
-        if part.url[dist]:
-            wks.write_url(row, start_col + columns['part_url']['col'],
-                      part.url[dist], wrk_formats['centered_text'],
-                      string='Link')
-
         # If the part number doesn't exist, just leave this row blank.
         if len(dist_part_num) == 0:
             row += 1  # Skip this row and go to the next.
@@ -1171,14 +1156,27 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
 
         # Enter distributor part number for ordering purposes.
         if dist_part_num:
-            wks.write(row, start_col + columns['part_num']['col'], dist_part_num,
-                  None)
+            wks.write(row, start_col + columns['part_num']['col'], dist_part_num,None)
+        else:
+            dist_part_num = 'Link' # To use as a text to the link.
+
+        # Enter a link to the distributor webpage for this part, even if there
+        # is no valid quantity or pricing for the part (see next conditional).
+        # Having the link present will help debug if the extraction of the
+        # quantity or pricing information was done correctly.
+        if part.url[dist]:
+            wks.write_url(row, start_col + columns['part_num']['col'],
+                part.url[dist], wrk_formats['centered_text'],
+                string=dist_part_num)
 
         # Enter quantity of part available at this distributor unless it is None
         # which means the part is not stocked.
         if part.qty_avail[dist]:
             wks.write(row, start_col + columns['avail']['col'],
                   part.qty_avail[dist], None)
+        else:
+            wks.write(row, start_col + columns['avail']['col'],
+                  '?', None) # Not got the avaliable part.
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, start_col + columns['purch']['col'], '', None)
@@ -1236,6 +1234,17 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     qtys=','.join(qtys[:-1]), # Configuration to take the next price break value.
                     prices=','.join(prices_ext[1:])),
                 'format': wrk_formats['take_next_price_break']
+            })
+
+            # Conditional format to inform to avaliable the necessary quantity of the device.
+            wks.conditional_format(row, start_col + columns['avail']['col'], 
+                row, start_col + columns['avail']['col'], {
+                    'type': 'cell',
+                    'criteria': '<',
+                    'value': '=iferror(if({purch_qty}="",{needed_qty},{purch_qty}),"")'.format(
+                        needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                        purch_qty=xl_rowcol_to_cell(row, purch_qty_col)),
+                'format': wrk_formats['not_qty_avail']
             })
 
             # Conditionally format the unit price cell that contains the best price.
