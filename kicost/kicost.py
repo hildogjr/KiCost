@@ -1225,22 +1225,16 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             wks.write_comment( row, unit_price_col, price_break_info[:-1])
             # Conditional format, if the price of the next price break is less than the actual
             # unity price by the quantity chosen, put the unit price red.
-            prices_ext.append('0.00') # Configuration to take the next price break value.
-            prices_ext = prices_ext[1:]
-            #TODO -> conditioned format do not allow lookup
-#            print('=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-#                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-#                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-#                    qtys=','.join(qtys),
-#                    prices=','.join(prices_ext)))
+            #TODO -> conditioned format do not allow cell
             wks.conditional_format(row, ext_price_col, row, ext_price_col, {
-                'type': 'cell',
-                'criteria': '>=',
-                'value': '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                'type': 'formula',
+                'criteria': '=iferror(and(if({purch_qty}="",{needed_qty},{purch_qty})<{max_break},{cel}>lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}})),"")'.format(
+                    cel=xl_rowcol_to_cell(row, ext_price_col),
+                    max_break=qtys[-1],
                     needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                     purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    qtys=','.join(qtys),
-                    prices=','.join(prices_ext)),
+                    qtys=','.join(qtys[:-1]), # Configuration to take the next price break value.
+                    prices=','.join(prices_ext[1:])),
                 'format': wrk_formats['take_next_price_break']
             })
 
