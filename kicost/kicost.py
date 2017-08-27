@@ -700,6 +700,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'align': 'left',
                 'valign': 'vcenter'}),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
+            'take_next_price_break': workbook.add_format({'color': '#FF0000', }),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
@@ -1089,7 +1090,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'level': 2,
             'label': 'Unit$',
             'width': None,
-            'comment': 'Unit price of each part from this distributor.'
+            'comment': 'Unit price of each part from this distributor.\ngreen block -> cheaper supplier'
         },
         'ext_price': {
             'col': 3,
@@ -1097,7 +1098,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.'
+            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred text -> next breaker is cheaper\ngreen block -> cheaper supplier'
         },
         'part_num': {
             'col': 4,
@@ -1198,6 +1199,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             # Sort the tiers based on quantities and turn them into lists of strings.
             qtys = sorted(price_tiers.keys())
             prices = [str(price_tiers[q]) for q in qtys]
+            prices_ext = [str(price_tiers[qtys[q]]*int(qtys[q])) for q in range(len(qtys))] # Evaluate the extended prices, use in the "is more convinient buy the next price break quantity?".
             qtys = [str(q) for q in qtys]
 
             purch_qty_col = start_col + columns['purch']['col']
@@ -1214,20 +1216,33 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     qtys=','.join(qtys),
                     prices=','.join(prices)), wrk_formats['currency'])
             # Add comment if the price break
-            price_break_info = 'Price break:\n'
-            for count_price_break in range(0,len(qtys)):
-                if int(qtys[count_price_break]) != 0: # 0 qnty information is not userful to show.
-                    price_break_info += qtys[count_price_break] + ' - ' + '$' + prices[count_price_break] + '\n'
+            price_break_info = 'Price break:\nQnt - Unit - Extended\n'
+            for count_price_break in range(1,len(qtys)): # 0 qnty information is not userful to show.
+                #if int(qtys[count_price_break]) != 0: 
+                    price_break_info += qtys[count_price_break] + ' - ' + \
+                        '$' + prices[count_price_break] + ' - ' + \
+                        '$' + prices_ext[count_price_break] + '\n'
             wks.write_comment( row, unit_price_col, price_break_info[:-1])
             # Conditional format, if the price of the next price break is less than the actual
             # unity price by the quantity chosen, put the unit price red.
-#            wks.conditional_format(row, unit_price_col, row, unit_price_col, { #TODO
-#                 'type': 'cell',
-#                'criteria': '<=',
-#                'value': xl_rowcol_to_cell(row, 7),
-#                # This is the global data cell holding the minimum unit price for this part.
-#                'format': wrk_formats['best_price']
-#            })
+            prices_ext.append('0.00') # Configuration to take the next price break value.
+            prices_ext = prices_ext[1:]
+            #TODO -> conditioned format do not allow lookup
+#            print('=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+#                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+#                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+#                    qtys=','.join(qtys),
+#                    prices=','.join(prices_ext)))
+            wks.conditional_format(row, ext_price_col, row, ext_price_col, {
+                'type': 'cell',
+                'criteria': '>=',
+                'value': '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                    qtys=','.join(qtys),
+                    prices=','.join(prices_ext)),
+                'format': wrk_formats['take_next_price_break']
+            })
 
             # Conditionally format the unit price cell that contains the best price.
             wks.conditional_format(row, unit_price_col, row, unit_price_col, {
