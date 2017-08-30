@@ -100,6 +100,7 @@ distributors = {}
 
 logger = logging.getLogger('kicost')
 
+
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
@@ -145,6 +146,7 @@ for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
 field_name_translations.update(
     {
         'manf': 'manf',
+
         'manufacturer': 'manf',
         'mnf': 'manf',
         'man': 'manf',
@@ -197,6 +199,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
+
             args = (i, parts[i], distributors, local_part_html, logger.getEffectiveLevel())
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
@@ -322,6 +325,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     prj_info['date'] = title.findAll('date')[0].string
     del title
 
+
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts library...')
@@ -385,6 +389,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Remove DNPs.
         dnp = fields.get('local:dnp', fields.get('dnp', 0))
         try:
+
             dnp = float(dnp)
         except ValueError:
             pass  # The field value must have been a string.
@@ -437,6 +442,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         try:
             # Add next ref for identical part to the list.
             component_groups[h].refs.append(ref)
+
             # Also add any manufacturer's part number (or None) to the group's list.
             component_groups[h].manf_nums.add(fields.get('manf#'))
         except KeyError:
@@ -476,6 +482,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             sub_group = IdenticalComponents()
             sub_group.manf_nums = [manf_num]
             sub_group.refs = []
+
             for ref in grp.refs:
                 # Use get() which returns None if the component has no manf# field.
                 # That will match if the group manf_num is also None.
@@ -492,6 +499,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 if val is None: # Field with no value...
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
+
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
                         raise Exception('field value mismatch: {} {} {}'.format(ref, key, val))
                 else: # First time this field has been seen in the group, so store it.
@@ -503,6 +511,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Now return a list of the groups without their hash keys.
     return list(new_component_groups.values()), prj_info
+
 
 
 def create_local_part_html(parts):
@@ -540,6 +549,7 @@ def create_local_part_html(parts):
                     pricing = p.fields.get(dist+':pricing')
                     link = p.fields.get(dist+':link')
                     if cat_num is None and pricing is None and link is None:
+
                         continue
 
                     def make_random_catalog_number(p):
@@ -570,6 +580,7 @@ def create_local_part_html(parts):
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
+
     
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
@@ -706,6 +717,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             'centered_text': workbook.add_format({'align': 'center'}),
         }
 
+
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
 
@@ -823,6 +835,7 @@ def collapse_refs(refs):
             num_ranges.append(num_range)
             # Point to the start of the next possible range and keep looking.
             range_start = next_range_start
+
         return num_ranges
 
     # Regular expression for detecting part references consisting of a
@@ -984,6 +997,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
     for k in list(columns.keys()):
         col = start_col + columns[k]['col']
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
+
         wks.write_comment(row, col, columns[k]['comment'])
         wks.set_column(col, col, columns[k]['width'], None,
                        {'level': columns[k]['level']})
@@ -1076,7 +1090,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'level': 1,  # Outline level (or hierarchy level) for this column.
             'label': 'Avail',  # Column header label.
             'width': None,  # Column width (default in this case).
-            'comment': 'Available quantity of each part at the distributor.\nred qty -> not avaliable necessary quantity'
+            'comment': 'Available quantity of each part at the distributor.\nred -> not avaliable necessary quantity'
             # Column header tool-tip.
         },
         'purch': {
@@ -1091,7 +1105,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'level': 2,
             'label': 'Unit$',
             'width': None,
-            'comment': 'Unit price of each part from this distributor.\ngreen block -> cheaper supplier'
+            'comment': 'Unit price of each part from this distributor.\ngreen -> cheaper supplier'
         },
         'ext_price': {
             'col': 3,
@@ -1099,7 +1113,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred price -> next breaker is cheaper\ngreen block -> cheaper supplier'
+            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred -> next breaker is cheaper\ngreen block -> cheaper supplier'
         },
         'part_num': {
             'col': 4,
@@ -1119,6 +1133,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     distributors[dist]['label'].title(), wrk_formats[dist])
     except KeyError:
         wks.merge_range(row, start_col, row, start_col + num_cols - 1,
+
                     distributors[dist]['label'].title(), wrk_formats['local_lbl'][index])
     row += 1  # Go to next row.
 
@@ -1223,18 +1238,18 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             wks.write_comment( row, unit_price_col, price_break_info[:-1])
             # Conditional format, if the price of the next price break is less than the actual
             # unity price by the quantity chosen, put the unit price red.
-            #TODO -> conditioned format do not allow cell
-            wks.conditional_format(row, ext_price_col, row, ext_price_col, {
-                'type': 'formula',
-                'criteria': '=iferror(and(if({purch_qty}="",{needed_qty},{purch_qty})<{max_break},{cel}>lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}})),"")'.format(
-                    cel=xl_rowcol_to_cell(row, ext_price_col),
-                    max_break=qtys[-1],
-                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    qtys=','.join(qtys[:-1]), # Configuration to take the next price break value.
-                    prices=','.join(prices_ext[1:])),
-                'format': wrk_formats['take_next_price_break']
-            })
+            #REMOVED -> conditioned format do not allow cell in Microsft Excel, only in LibreOffice Calc.
+            #wks.conditional_format(row, unit_price_col, row, unit_price_col, {
+            #    'type': 'formula',
+            #    'criteria': '=iferror(and(if({purch_qty}="",{needed_qty},{purch_qty})<{max_break},{cel}>lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}})),"")'.format(
+            #        cel=xl_rowcol_to_cell(row, ext_price_col),
+            #        max_break=qtys[-1],
+            #        needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+            #        purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+            #        qtys=','.join(qtys[:-1]), # Configuration to take the next price break value.
+            #        prices=','.join(prices_ext[1:])),
+            #    'format': wrk_formats['take_next_price_break']
+            #})
 
             # Conditional format to inform to avaliable the necessary quantity of the device.
             wks.conditional_format(row, start_col + columns['avail']['col'], 
@@ -1352,6 +1367,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                                     ),
                                     ""
                                 ),
+
                                 ROW()-ROW({order_first_row})+1
                             )
                         )
@@ -1392,6 +1408,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                                                       row_abs=True),
                     sel_range1=xl_range_abs(PART_INFO_FIRST_ROW, purch_qty_col,
                                             PART_INFO_LAST_ROW, purch_qty_col),
+
                     sel_range2=xl_range_abs(PART_INFO_FIRST_ROW, part_num_col,
                                             PART_INFO_LAST_ROW, part_num_col),
                     get_range=xl_range_abs(PART_INFO_FIRST_ROW, info_col,
