@@ -49,6 +49,7 @@ from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
+import re # Regular expression parser.
 
 from datetime import datetime
 
@@ -66,7 +67,7 @@ def FakeBrowser(url):
     return req
 
 class PartHtmlError(Exception):
-    '''Exception for failed retrieval of an HTML parse tree for a part.'''
+    # Exception for failed retrieval of an HTML parse tree for a part.
     pass
 
 try:
@@ -146,7 +147,6 @@ for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
 field_name_translations.update(
     {
         'manf': 'manf',
-
         'manufacturer': 'manf',
         'mnf': 'manf',
         'man': 'manf',
@@ -170,7 +170,7 @@ field_name_translations.update(
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         is_altium, exclude_dist_list, include_dist_list):
-    '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
+    # Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
 
     # Only keep distributors in the included list and not in the excluded list.
     if not include_dist_list:
@@ -184,7 +184,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if not is_altium:
         parts, prj_info = get_part_groups(in_file, ignore_fields, variant)
     else:
-        parts, prj_info = get_part_groups_altium(in_file, ignore_fields, variant)
+        parts, prj_info = get_part_groups_altium(in_file, ignore_fields, variant)     
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
@@ -271,12 +271,12 @@ class IdenticalComponents(object):
 
 
 def get_part_groups(in_file, ignore_fields, variant):
-    '''Get groups of identical parts from an XML file and return them as a dictionary.'''
+    # Get groups of identical parts from an XML file and return them as a dictionary.
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
     def extract_fields(part, variant):
-        '''Extract XML fields from the part in a library or schematic.'''
+        # Extract XML fields from the part in a library or schematic.
 
         fields = {}
         try:
@@ -515,7 +515,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
 
 def create_local_part_html(parts):
-    '''Create HTML page containing info for local (non-webscraped) parts.'''
+    # Create HTML page containing info for local (non-webscraped) parts.
 
     global distributors
     
@@ -579,9 +579,8 @@ def create_local_part_html(parts):
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
-    '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
+    # Create a spreadsheet using the info for the parts (including their HTML trees).
 
-    
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
@@ -810,11 +809,11 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
 
 def collapse_refs(refs):
-    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
+    # Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.
 
     def convert_to_ranges(nums):
-        '''Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
-           e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14'''
+        # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
+        # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
         nums.sort()  # Sort all the numbers.
         num_ranges = []  # No ranges found yet since we just started.
         range_start = 0  # First possible range is at the start of the list of numbers.
@@ -882,7 +881,7 @@ def collapse_refs(refs):
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields):
-    '''Add global part data to the spreadsheet.'''
+    # Add global part data to the spreadsheet.
 
     # Columns for the various types of global part data.
     columns = {
@@ -1080,7 +1079,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
 def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                           total_cost_row, part_ref_col, part_qty_col, dist,
                           parts):
-    '''Add distributor-specific part data to the spreadsheet.'''
+    # Add distributor-specific part data to the spreadsheet.
 
     # Columns for the various types of distributor-specific part data.
     columns = {
@@ -1328,10 +1327,9 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             dist_col[col_tag] = part_ref_col
 
     def enter_order_info(info_col, order_col, numeric=False, delimiter=''):
-        ''' This function enters a function into a spreadsheet cell that
-            prints the information found in info_col into the order_col column
-            of the order.
-        '''
+        # This function enters a function into a spreadsheet cell that
+        # prints the information found in info_col into the order_col column
+        # of the order.
 
         # This very complicated spreadsheet function does the following:
         # 1) Computes the set of row indices in the part data that have
@@ -1453,7 +1451,7 @@ def get_user_agent():
 
 
 def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
-    '''Get the HTML tree for a part from the given distributor website or local HTML.'''
+    # Get the HTML tree for a part from the given distributor website or local HTML.
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
@@ -1484,7 +1482,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
 
 
 def scrape_part(args):
-    '''Scrape the data for a part from each distributor website or local HTML.'''
+    # Scrape the data for a part from each distributor website or local HTML.
 
     id, part, distributor_dict, local_part_html, log_level = args # Unpack the arguments.
 
