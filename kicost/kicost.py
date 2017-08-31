@@ -1212,7 +1212,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             # Sort the tiers based on quantities and turn them into lists of strings.
             qtys = sorted(price_tiers.keys())
             prices = [str(price_tiers[q]) for q in qtys]
-            prices_ext = [str(price_tiers[qtys[q]]*int(qtys[q])) for q in range(len(qtys))] # Evaluate the extended prices, use in the "is more convinient buy the next price break quantity?".
+            prices_ext = [str( round( price_tiers[qtys[q]]*int(qtys[q]), 2 )) for q in range(len(qtys))] # Evaluate the extended prices, use in the "is more convinient buy the next price break quantity?".
             qtys = [str(q) for q in qtys]
 
             purch_qty_col = start_col + columns['purch']['col']
