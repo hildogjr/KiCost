@@ -105,14 +105,16 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
-# Import web scraping functions for various distributor websites.
+# Altium requires a different part grouping function than KiCad.
 from .altium.altium import get_part_groups_altium
-from .local.local import get_local_price_tiers, get_local_part_num, get_local_qty_avail, get_local_part_html_tree
-from .digikey.digikey import get_digikey_price_tiers, get_digikey_part_num, get_digikey_qty_avail, get_digikey_part_html_tree
-from .newark.newark import get_newark_price_tiers, get_newark_part_num, get_newark_qty_avail, get_newark_part_html_tree
-from .mouser.mouser import get_mouser_price_tiers, get_mouser_part_num, get_mouser_qty_avail, get_mouser_part_html_tree
-from .rs.rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree
-from .farnell.farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
+
+# Import web scraping functions for various distributor websites.
+from .local import *
+from .digikey import *
+from .newark import *
+from .mouser import *
+from .rs import *
+from .farnell import *
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
