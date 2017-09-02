@@ -122,7 +122,11 @@ Sub parts manufacture codes
 
 Sometimes one component of the board is composed by multiple distributors sub-parts (e.g. connectors), for this is possible to express more the one manufecture code or distributor code, separeded by comma or semicolon, and these sub-quantities separeded of the manufecture/distributor code by *. The spaces between them are allowed and even fractional/decimal parts of a component, which have to preced the code (in the spreadsheet the necessary quantity is ceiled to the next interger).
 
-e.g.: '4*ADUM3150BRSZ-RL7,  4/5* 08-50-0114  ; 0.5*OSTTJ047150' (the manufacture number here is not necessarily fractionable, it just a use example).
+e.g.:
+
+    4*ADUM3150BRSZ-RL7,  4/5* 08-50-0114  ; 0.5*OSTTJ047150
+
+The manufacture number here is not necessarily fractionable, it just a use example.
 
 ------------------------
 Schematic Variants
