@@ -1171,7 +1171,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
         # quantity or pricing information was done correctly.
         if part.url[dist]:
             wks.write_url(row, start_col + columns['part_num']['col'],
-                part.url[dist], wrk_formats['centered_text'],
+                part.url[dist],
                 string=dist_part_num)
 
         # Enter quantity of part available at this distributor unless it is None
@@ -1220,7 +1220,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit -  Extended\n================'
+            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n================'
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
                     q,
