@@ -123,7 +123,6 @@ def get_rs_qty_avail(html_tree):
         # Note that 'availability' is misspelled in the container class name!        
         qty_str = html_tree.find('div', class_='floatLeft stockMessaging availMessageDiv bottom5').text
     except (AttributeError, ValueError):
-        print('no quantity')
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
         return None
