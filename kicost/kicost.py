@@ -41,17 +41,15 @@ import difflib
 import logging
 import tqdm
 import os
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup # XML file interpreter.
 from random import randint
-import xlsxwriter
+import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
-import re # Regular expression parser.
-
-from datetime import datetime
+from datetime import datetime # For information abou date of the quotation.
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -106,6 +104,7 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
+# Project libraries.
 from .altium.altium import get_part_groups_altium
 from .local.local import get_local_price_tiers, get_local_part_num, get_local_qty_avail, get_local_part_html_tree
 from .digikey.digikey import get_digikey_price_tiers, get_digikey_part_num, get_digikey_qty_avail, get_digikey_part_html_tree
@@ -113,7 +112,6 @@ from .newark.newark import get_newark_price_tiers, get_newark_part_num, get_newa
 from .mouser.mouser import get_mouser_price_tiers, get_mouser_part_num, get_mouser_qty_avail, get_mouser_part_html_tree
 from .rs.rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree
 from .farnell.farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
-
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -324,7 +322,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     prj_info['company'] = title.findAll('company')[0].string
     prj_info['date'] = title.findAll('date')[0].string
     del title
-
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
