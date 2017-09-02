@@ -41,9 +41,9 @@ import difflib
 import logging
 import tqdm
 import os
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup # XML file interpreter.
 from random import randint
-import xlsxwriter
+import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
@@ -105,6 +105,7 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
+# Import web scraping functions for various distributor websites.
 from .altium.altium import get_part_groups_altium
 from .local.local import get_local_price_tiers, get_local_part_num, get_local_qty_avail, get_local_part_html_tree
 from .digikey.digikey import get_digikey_price_tiers, get_digikey_part_num, get_digikey_qty_avail, get_digikey_part_html_tree
@@ -112,7 +113,6 @@ from .newark.newark import get_newark_price_tiers, get_newark_part_num, get_newa
 from .mouser.mouser import get_mouser_price_tiers, get_mouser_part_num, get_mouser_qty_avail, get_mouser_part_html_tree
 from .rs.rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree
 from .farnell.farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
-
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -735,7 +735,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
                                         next_col - 1)))
 
-        # Create a general information to track the project (in a printed version
+        # Add project information to track the project (in a printed version
         # of the BOM) and the date because of price variations.
         wks.write(BOARD_QTY_ROW, START_COL, 'Proj:', wrk_formats['proj_info_field'])
         wks.write(BOARD_QTY_ROW, START_COL+1, prj_info['title'], wrk_formats['proj_info'])
@@ -1104,7 +1104,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> next price break is cheaper.\nGreen block -> cheapest supplier.'
+            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> next price break is cheaper.\nGreen -> cheapest supplier.'
         },
         'part_num': {
             'col': 4,
@@ -1220,7 +1220,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            price_break_info = 'Price breaks:\n  Qty  -  Unit -  Extended\n__________________'
+            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit -  Extended\n================'
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
                     q,
