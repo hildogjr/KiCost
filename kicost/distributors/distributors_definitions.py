@@ -35,7 +35,7 @@ from .newark import get_newark_price_tiers, get_newark_part_num, get_newark_qty_
 from .mouser import get_mouser_price_tiers, get_mouser_part_num, get_mouser_qty_avail, get_mouser_part_html_tree
 from .rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree
 from .farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
-#from .tme import get_tme_price_tiers, get_tme_part_num, get_tme_qty_avail, get_tme_part_html_tree
+from .tme import get_tme_price_tiers, get_tme_part_num, get_tme_qty_avail, get_tme_part_html_tree
 
 # File's author information (do not change).
 __author__ = 'Hildo Guillardi Junior'
