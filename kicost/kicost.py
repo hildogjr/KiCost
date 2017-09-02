@@ -104,14 +104,11 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
-# Project libraries.
-from .altium.altium import get_part_groups_altium
-from .local.local import get_local_price_tiers, get_local_part_num, get_local_qty_avail, get_local_part_html_tree
-from .digikey.digikey import get_digikey_price_tiers, get_digikey_part_num, get_digikey_qty_avail, get_digikey_part_html_tree
-from .newark.newark import get_newark_price_tiers, get_newark_part_num, get_newark_qty_avail, get_newark_part_html_tree
-from .mouser.mouser import get_mouser_price_tiers, get_mouser_part_num, get_mouser_qty_avail, get_mouser_part_html_tree
-from .rs.rs import get_rs_price_tiers, get_rs_part_num, get_rs_qty_avail, get_rs_part_html_tree
-from .farnell.farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
+# KiCost own libraries.
+from .cad_softwares.kicad import get_part_groups_kicad # Main function of this tool.
+from .cad_softwares.altium import get_part_groups_altium
+#from .cad_softwares.cad_soft_def import *
+from .distributors.distributors_definitions import *
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -186,7 +183,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
-    
+
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributors)
 
@@ -510,7 +507,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     return list(new_component_groups.values()), prj_info
 
 
-
 def create_local_part_html(parts):
     # Create HTML page containing info for local (non-webscraped) parts.
 
@@ -603,65 +599,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'vcenter',
                 'bg_color': '#303030'
             }),
-            'digikey': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#CC0000'  # Digi-Key red.
-            }),
-            'mouser': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#004A85'  # Mouser blue.
-            }),
-            'newark': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#A2AE06'  # Newark/E14 olive green.
-            }),
-            'rs': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#FF0000'  # RS Components red.
-            }),
-            'farnell': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#FF6600'  # Farnell/E14 orange.
-            }),
-
-            'local_lbl': [
-                workbook.add_format({
-                    'font_size': 14,
-                    'font_color': 'black',
-                    'bold': True,
-                    'align': 'center',
-                    'valign': 'vcenter',
-                    'bg_color': '#909090'  # Darker grey.
-                }),
-                workbook.add_format({
-                    'font_size': 14,
-                    'font_color': 'black',
-                    'bold': True,
-                    'align': 'center',
-                    'valign': 'vcenter',
-                    'bg_color': '#c0c0c0'  # Lighter grey.
-                }),
-            ],
             'header': workbook.add_format({
                 'font_size': 12,
                 'bold': True,
@@ -712,7 +649,26 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
-
+        for dist in distributors.keys():
+            try:
+                wrk_formats[dist] = workbook.add_format({ # Text font for distrubutors name.
+                        'font_size': 14,
+                        'font_color': distributor_colors[dist]['font_color'],
+                        'bold': True,
+                        'align': 'center',
+                        'valign': 'vcenter',
+                        'bg_color': distributor_colors[dist]['bg_color']
+                    })
+            except KeyError:
+                for sub in dist:
+                    wrk_formats[dist][sub] = workbook.add_format({ # Text font for distrubutors name.
+                            'font_size': 14,
+                            'font_color': distributor_colors[dist][sub]['font_color'],
+                            'bold': True,
+                            'align': 'center',
+                            'valign': 'vcenter',
+                            'bg_color': distributor_colors[dist][sub]['bg_color']
+                        })
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
@@ -772,7 +728,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
                                        row_abs=True,
                                        col_abs=True)))
-
 
         # Create the row to show unit cost of board parts.
         wks.write(UNIT_COST_ROW, next_col - 2, 'Unit Cost:',
@@ -927,7 +882,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part.',
+            'comment': 'Manufacturer number for each part and its datasheet (click).',
             'static': True,
         },
         'qty': {
@@ -1109,7 +1064,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred -> next breaker is cheaper\ngreen block -> cheaper supplier'
+            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred -> next breaker is cheaper\ngreen block -> cheaper supplier (not work)'
         },
         'part_num': {
             'col': 4,
@@ -1129,8 +1084,8 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     distributors[dist]['label'].title(), wrk_formats[dist])
     except KeyError:
         wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-
                     distributors[dist]['label'].title(), wrk_formats['local_lbl'][index])
+
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).

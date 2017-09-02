@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2015 by XESS Corporation
@@ -53,6 +54,9 @@ from ..kicost import PartHtmlError, FakeBrowser
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 from currency_converter import CurrencyConverter
+
+__author__ = 'XESS Corporation'
+__email__ = 'info@xess.com'
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
