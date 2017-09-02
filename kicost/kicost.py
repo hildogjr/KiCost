@@ -50,7 +50,6 @@ import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
 import re # Regular expression parser.
-
 from datetime import datetime
 
 # Stops UnicodeDecodeError exceptions.
@@ -67,7 +66,7 @@ def FakeBrowser(url):
     return req
 
 class PartHtmlError(Exception):
-    # Exception for failed retrieval of an HTML parse tree for a part.
+    '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
 
 try:
@@ -170,7 +169,7 @@ field_name_translations.update(
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         is_altium, exclude_dist_list, include_dist_list):
-    # Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
+    '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Only keep distributors in the included list and not in the excluded list.
     if not include_dist_list:
@@ -199,7 +198,6 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
-
             args = (i, parts[i], distributors, local_part_html, logger.getEffectiveLevel())
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
@@ -271,7 +269,7 @@ class IdenticalComponents(object):
 
 
 def get_part_groups(in_file, ignore_fields, variant):
-    # Get groups of identical parts from an XML file and return them as a dictionary.
+    '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
@@ -320,11 +318,9 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
     prj_info = dict()
-    prj_info['title'] = title.findAll('title')[0].string
-    prj_info['company'] = title.findAll('company')[0].string
-    prj_info['date'] = title.findAll('date')[0].string
-    del title
-
+    prj_info['title'] = title.find_all('title')[0].string
+    prj_info['company'] = title.find_all('company')[0].string
+    prj_info['date'] = title.find_all('date')[0].string
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
@@ -389,7 +385,6 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Remove DNPs.
         dnp = fields.get('local:dnp', fields.get('dnp', 0))
         try:
-
             dnp = float(dnp)
         except ValueError:
             pass  # The field value must have been a string.
@@ -415,7 +410,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # The part was not removed, so add it to the list of accepted components.
         accepted_components[ref] = fields
 
-    print('Removed parts:', set(components.keys())-set(accepted_components.keys()))
+    #print('Removed parts:', set(components.keys())-set(accepted_components.keys()))
 
     # Replace the component list with the list of accepted parts.
     components = accepted_components
@@ -442,7 +437,6 @@ def get_part_groups(in_file, ignore_fields, variant):
         try:
             # Add next ref for identical part to the list.
             component_groups[h].refs.append(ref)
-
             # Also add any manufacturer's part number (or None) to the group's list.
             component_groups[h].manf_nums.add(fields.get('manf#'))
         except KeyError:
@@ -488,6 +482,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 # That will match if the group manf_num is also None.
                 if components[ref].get('manf#') == manf_num:
                     sub_group.refs.append(ref)
+
             new_component_groups.append(sub_group)
 
     # Now get the values of all fields within the members of a group.
@@ -499,7 +494,6 @@ def get_part_groups(in_file, ignore_fields, variant):
                 if val is None: # Field with no value...
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
-
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
                         raise Exception('field value mismatch: {} {} {}'.format(ref, key, val))
                 else: # First time this field has been seen in the group, so store it.
@@ -509,13 +503,9 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
 
-    # Now return a list of the groups without their hash keys.
-    return list(new_component_groups.values()), prj_info
-
-
 
 def create_local_part_html(parts):
-    # Create HTML page containing info for local (non-webscraped) parts.
+    '''Create HTML page containing info for local (non-webscraped) parts.'''
 
     global distributors
     
@@ -549,7 +539,6 @@ def create_local_part_html(parts):
                     pricing = p.fields.get(dist+':pricing')
                     link = p.fields.get(dist+':link')
                     if cat_num is None and pricing is None and link is None:
-
                         continue
 
                     def make_random_catalog_number(p):
@@ -579,7 +568,7 @@ def create_local_part_html(parts):
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
-    # Create a spreadsheet using the info for the parts (including their HTML trees).
+    '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
@@ -646,7 +635,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'vcenter',
                 'bg_color': '#FF6600'  # Farnell/E14 orange.
             }),
-
             'local_lbl': [
                 workbook.add_format({
                     'font_size': 14,
@@ -672,15 +660,17 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'top',
                 'text_wrap': True
             }),
-            'board_qty': workbook.add_format(
-                {'font_size': 13,
-                 'bold': True,
-                 'align': 'right'}),
+            'board_qty': workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right'
+            }),
             'total_cost_label': workbook.add_format({
                 'font_size': 13,
                 'bold': True,
                 'align': 'right',
-                'valign': 'vcenter'}),
+                'valign': 'vcenter'
+            }),
             'unit_cost_label': workbook.add_format({
                 'font_size': 13,
                 'bold': True,
@@ -692,7 +682,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'font_color': 'red',
                 'bold': True,
                 'num_format': '$#,##0.00',
-                'valign': 'vcenter'}),
+                'valign': 'vcenter'
+            }),
             'unit_cost_currency': workbook.add_format({
                 'font_size': 13,
                 'font_color': 'green',
@@ -700,22 +691,23 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'num_format': '$#,##0.00',
                 'valign': 'vcenter'
             }),
-            'id_name': workbook.add_format({
+            'proj_info_field': workbook.add_format({
                 'font_size': 13,
                 'bold': True,
                 'align': 'right',
-                'valign': 'vcenter'}),
-            'id_value': workbook.add_format({
+                'valign': 'vcenter'
+            }),
+            'proj_info': workbook.add_format({
                 'font_size': 12,
                 'align': 'left',
-                'valign': 'vcenter'}),
+                'valign': 'vcenter'
+            }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
-            'take_next_price_break': workbook.add_format({'color': '#FF0000', }),
-            'not_qty_avail': workbook.add_format({'bg_color': '#FF0000', }),
+            'insufficient_qty': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
+            'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right' }),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
-
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
@@ -743,14 +735,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
                                         next_col - 1)))
 
-        # Create a geral information to track the project (in an printed version
-        # of the BoM) and the date because of the price variations.
-        wks.write(BOARD_QTY_ROW, START_COL, 'Proj:', wrk_formats['id_name'])
-        wks.write(BOARD_QTY_ROW, START_COL+1, prj_info['title'], wrk_formats['id_value'])
-        wks.write(TOTAL_COST_ROW, START_COL, 'Co.:', wrk_formats['id_name'])
-        wks.write(TOTAL_COST_ROW, START_COL+1, prj_info['company'], wrk_formats['id_value'])
-        wks.write(UNIT_COST_ROW, START_COL, 'Date:', wrk_formats['id_name'])
-        wks.write(UNIT_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['id_value'])
+        # Create a general information to track the project (in a printed version
+        # of the BOM) and the date because of price variations.
+        wks.write(BOARD_QTY_ROW, START_COL, 'Proj:', wrk_formats['proj_info_field'])
+        wks.write(BOARD_QTY_ROW, START_COL+1, prj_info['title'], wrk_formats['proj_info'])
+        wks.write(TOTAL_COST_ROW, START_COL, 'Co.:', wrk_formats['proj_info_field'])
+        wks.write(TOTAL_COST_ROW, START_COL+1, prj_info['company'], wrk_formats['proj_info'])
+        wks.write(UNIT_COST_ROW, START_COL, 'Date:', wrk_formats['proj_info_field'])
+        wks.write(UNIT_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
 
         # Create the cell where the quantity of boards to assemble is entered.
         # Place the board qty cells near the right side of the global info.
@@ -809,7 +801,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
 
 def collapse_refs(refs):
-    # Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.
+    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
 
     def convert_to_ranges(nums):
         # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
@@ -817,6 +809,7 @@ def collapse_refs(refs):
         nums.sort()  # Sort all the numbers.
         num_ranges = []  # No ranges found yet since we just started.
         range_start = 0  # First possible range is at the start of the list of numbers.
+
         # Go through the list of numbers looking for 3 or more sequential numbers.
         while range_start < len(nums):
             num_range = nums[range_start
@@ -881,7 +874,7 @@ def collapse_refs(refs):
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields):
-    # Add global part data to the spreadsheet.
+    '''Add global part data to the spreadsheet.'''
 
     # Columns for the various types of global part data.
     columns = {
@@ -954,7 +947,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'col': 8,
             'level': 0,
             'label': 'Ext$',
-            'width': 11,  # Displays up to $9,999.99 without "###".
+            'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
             'Minimum extended price for each part across all distributors.',
             'static': False,
@@ -996,7 +989,6 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
     for k in list(columns.keys()):
         col = start_col + columns[k]['col']
         wks.write_string(row, col, columns[k]['label'], wrk_formats['header'])
-
         wks.write_comment(row, col, columns[k]['comment'])
         wks.set_column(col, col, columns[k]['width'], None,
                        {'level': columns[k]['level']})
@@ -1079,7 +1071,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
 def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                           total_cost_row, part_ref_col, part_qty_col, dist,
                           parts):
-    # Add distributor-specific part data to the spreadsheet.
+    '''Add distributor-specific part data to the spreadsheet.'''
 
     # Columns for the various types of distributor-specific part data.
     columns = {
@@ -1089,7 +1081,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'level': 1,  # Outline level (or hierarchy level) for this column.
             'label': 'Avail',  # Column header label.
             'width': None,  # Column width (default in this case).
-            'comment': 'Available quantity of each part at the distributor.\nred -> not avaliable necessary quantity'
+            'comment': 'Available quantity of each part at the distributor.\nRed -> necessary quantity is not available.'
             # Column header tool-tip.
         },
         'purch': {
@@ -1104,7 +1096,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'level': 2,
             'label': 'Unit$',
             'width': None,
-            'comment': 'Unit price of each part from this distributor.\ngreen -> cheaper supplier'
+            'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price.'
         },
         'ext_price': {
             'col': 3,
@@ -1112,7 +1104,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nred -> next breaker is cheaper\ngreen block -> cheaper supplier'
+            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> next price break is cheaper.\nGreen block -> cheapest supplier.'
         },
         'part_num': {
             'col': 4,
@@ -1129,11 +1121,10 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
     # Add label for this distributor.
     try:
         wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-                    distributors[dist]['label'].title(), wrk_formats[dist])
+            distributors[dist]['label'].title(), wrk_formats[dist])
     except KeyError:
         wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-
-                    distributors[dist]['label'].title(), wrk_formats['local_lbl'][index])
+            distributors[dist]['label'].title(), wrk_formats['local_lbl'][index])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -1170,9 +1161,9 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
 
         # Enter distributor part number for ordering purposes.
         if dist_part_num:
-            wks.write(row, start_col + columns['part_num']['col'], dist_part_num,None)
+            wks.write(row, start_col + columns['part_num']['col'], dist_part_num, None)
         else:
-            dist_part_num = 'Link' # To use as a text to the link.
+            dist_part_num = 'Link' # To use as text for the link.
 
         # Enter a link to the distributor webpage for this part, even if there
         # is no valid quantity or pricing for the part (see next conditional).
@@ -1190,7 +1181,9 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                   part.qty_avail[dist], None)
         else:
             wks.write(row, start_col + columns['avail']['col'],
-                  '?', None) # Not got the avaliable part.
+                'NonStk', wrk_formats['not_stocked'])
+            wks.write_comment(row, start_col + columns['avail']['col'], 
+                'This part is listed but is not normally stocked.')
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, start_col + columns['purch']['col'], '', None)
@@ -1210,9 +1203,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
 
             # Sort the tiers based on quantities and turn them into lists of strings.
             qtys = sorted(price_tiers.keys())
-            prices = [str(price_tiers[q]) for q in qtys]
-            prices_ext = [str( round( price_tiers[qtys[q]]*int(qtys[q]), 2 )) for q in range(len(qtys))] # Evaluate the extended prices, use in the "is more convinient buy the next price break quantity?".
-            qtys = [str(q) for q in qtys]
 
             purch_qty_col = start_col + columns['purch']['col']
             unit_price_col = start_col + columns['unit_price']['col']
@@ -1225,32 +1215,20 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                 '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
                     needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                     purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    qtys=','.join(qtys),
-                    prices=','.join(prices)), wrk_formats['currency'])
-            # Add comment if the price break
-            price_break_info = 'Price break:\nQnt - Unit - Extended\n'
-            for count_price_break in range(1,len(qtys)): # 0 qnty information is not userful to show.
-                #if int(qtys[count_price_break]) != 0: 
-                    price_break_info += qtys[count_price_break] + ' - ' + \
-                        '$' + prices[count_price_break] + ' - ' + \
-                        '$' + prices_ext[count_price_break] + '\n'
-            wks.write_comment( row, unit_price_col, price_break_info[:-1])
-            # Conditional format, if the price of the next price break is less than the actual
-            # unity price by the quantity chosen, put the unit price red.
-            #REMOVED -> conditioned format do not allow cell in Microsft Excel, only in LibreOffice Calc.
-            #wks.conditional_format(row, unit_price_col, row, unit_price_col, {
-            #    'type': 'formula',
-            #    'criteria': '=iferror(and(if({purch_qty}="",{needed_qty},{purch_qty})<{max_break},{cel}>lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}})),"")'.format(
-            #        cel=xl_rowcol_to_cell(row, ext_price_col),
-            #        max_break=qtys[-1],
-            #        needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-            #        purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-            #        qtys=','.join(qtys[:-1]), # Configuration to take the next price break value.
-            #        prices=','.join(prices_ext[1:])),
-            #    'format': wrk_formats['take_next_price_break']
-            #})
+                    qtys=','.join([str(q) for q in qtys]),
+                    prices=','.join([str(price_tiers[q]) for q in qtys])),
+                    wrk_formats['currency'])
 
-            # Conditional format to inform to avaliable the necessary quantity of the device.
+            # Add a comment to the cell showing the qty/price breaks.
+            price_break_info = 'Price breaks:\n  Qty  -  Unit -  Extended\n__________________'
+            for q in qtys[1:]:  # Skip the first qty which is always 0.
+                price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
+                    q,
+                    '${:.2f}'.format(price_tiers[q]),
+                    '${:.2f}'.format(price_tiers[q] * q))
+            wks.write_comment(row, unit_price_col, price_break_info)
+
+            # Conditional format to show the avaliable quantity is less than required.
             wks.conditional_format(row, start_col + columns['avail']['col'], 
                 row, start_col + columns['avail']['col'], {
                     'type': 'cell',
@@ -1258,7 +1236,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     'value': '=iferror(if({purch_qty}="",{needed_qty},{purch_qty}),"")'.format(
                         needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                         purch_qty=xl_rowcol_to_cell(row, purch_qty_col)),
-                'format': wrk_formats['not_qty_avail']
+                'format': wrk_formats['insufficient_qty']
             })
 
             # Conditionally format the unit price cell that contains the best price.
@@ -1278,6 +1256,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                     unit_price=xl_rowcol_to_cell(row, unit_price_col)),
                 wrk_formats['currency'])
+
             # Conditionally format the extended price cell that contains the best price.
             wks.conditional_format(row, ext_price_col, row, ext_price_col, {
                 'type': 'cell',
@@ -1365,7 +1344,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                                     ),
                                     ""
                                 ),
-
                                 ROW()-ROW({order_first_row})+1
                             )
                         )
@@ -1406,7 +1384,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                                                       row_abs=True),
                     sel_range1=xl_range_abs(PART_INFO_FIRST_ROW, purch_qty_col,
                                             PART_INFO_LAST_ROW, purch_qty_col),
-
                     sel_range2=xl_range_abs(PART_INFO_FIRST_ROW, part_num_col,
                                             PART_INFO_LAST_ROW, part_num_col),
                     get_range=xl_range_abs(PART_INFO_FIRST_ROW, info_col,
@@ -1451,7 +1428,7 @@ def get_user_agent():
 
 
 def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
-    # Get the HTML tree for a part from the given distributor website or local HTML.
+    '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
@@ -1482,7 +1459,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
 
 
 def scrape_part(args):
-    # Scrape the data for a part from each distributor website or local HTML.
+    '''Scrape the data for a part from each distributor website or local HTML.'''
 
     id, part, distributor_dict, local_part_html, log_level = args # Unpack the arguments.
 

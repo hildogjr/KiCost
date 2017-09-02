@@ -127,7 +127,7 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)
 
-    prj_info = {'title':'teste_title','company':'teste_company'} # Not implementation yet
+    prj_info = {'title':'test_title','company':'test_company'} # Not implemented yet.
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
