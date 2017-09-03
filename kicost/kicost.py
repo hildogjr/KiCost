@@ -106,7 +106,7 @@ DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
 # Altium requires a different part grouping function than KiCad.
-from .eadTools.altium import get_part_groups_altium
+from .edaTools.altium import get_part_groups_altium
 
 # Import web scraping functions for various distributor websites.
 from .distributors import *

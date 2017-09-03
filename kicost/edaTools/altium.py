@@ -1,25 +1,3 @@
-# MIT license
-#
-# Copyright (C) 2015 by XESS Corporation
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-
 # Inserted by Pasteurize tool.
 from __future__ import print_function
 from __future__ import unicode_literals
@@ -45,7 +23,7 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 
 import sys
 
-SEPRTR = ':'  # Delimiter between library:component, distributor: field, etc.
+SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
@@ -149,10 +127,13 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)
 
-    prj_info = {'title':'test_title','company':'test_company'} # Not implementation yet.
+    prj_info = {'title':'test_title','company':'test_company'} # Not implemented yet.
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
+
+    # Now return a list of the groups without their hash keys.
+    return list(new_component_groups.values()), prj_info
 
 if __name__=='__main__':
 	
