@@ -7,6 +7,9 @@ History
 ______________________
 
 * Fixed problem where "kicost:dnp" field was not recognized.
+* Unit price cells for parts now show complete Qty/Price table as a cell comment.
+* Non-stocked parts are indicated.
+* Project name, company, and date are now shown in the spreadsheet.
 
 
 0.1.36 (2017-08-14)
