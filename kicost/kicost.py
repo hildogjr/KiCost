@@ -49,7 +49,8 @@ from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
-from datetime import datetime # For information abou date of the quotation.
+import re # Regular expression parser.
+from datetime import datetime
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -65,7 +66,7 @@ def FakeBrowser(url):
     return req
 
 class PartHtmlError(Exception):
-    # Exception for failed retrieval of an HTML parse tree for a part.
+    '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
 
 try:
@@ -104,16 +105,68 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
-# KiCost own libraries.
-#from .edaTool.kicad import get_part_groups_kicad # Main function of this tool.
-#from .edaTool.altium import get_part_groups_altium
-from .edaTools.__init__ import *
+# Altium requires a different part grouping function than KiCad.
+from .eadTools.altium import get_part_groups_altium
+
+# Import web scraping functions for various distributor websites.
 from .distributors import *
+
+# Generate a dictionary to translate all the different ways people might want
+# to refer to part numbers, vendor numbers, and such.
+field_name_translations = {
+    'mpn': 'manf#',
+    'pn': 'manf#',
+    'manf_num': 'manf#',
+    'manf-num': 'manf#',
+    'mfg_num': 'manf#',
+    'mfg-num': 'manf#',
+    'mfg#': 'manf#',
+    'man_num': 'manf#',
+    'man-num': 'manf#',
+    'man#': 'manf#',
+    'mnf_num': 'manf#',
+    'mnf-num': 'manf#',
+    'mnf#': 'manf#',
+    'mfr_num': 'manf#',
+    'mfr-num': 'manf#',
+    'mfr#': 'manf#',
+    'part-num': 'manf#',
+    'part_num': 'manf#',
+    'p#': 'manf#',
+    'part#': 'manf#',
+}
+for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
+    for dist in distributors:
+        field_name_translations[dist + stub] = dist + '#'
+        field_name_translations[dist + '_' + stub] = dist + '#'
+        field_name_translations[dist + '-' + stub] = dist + '#'
+field_name_translations.update(
+    {
+        'manf': 'manf',
+        'manufacturer': 'manf',
+        'mnf': 'manf',
+        'man': 'manf',
+        'mfg': 'manf',
+        'mfr': 'manf',
+    }
+)
+field_name_translations.update(
+    {
+        'variant': 'variant',
+        'version': 'variant',
+    }
+)
+field_name_translations.update(
+    {
+        'dnp': 'dnp',
+        'nopop': 'dnp',
+    }
+)
 
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         is_altium, exclude_dist_list, include_dist_list):
-    # Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
+    '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Only keep distributors in the included list and not in the excluded list.
     if not include_dist_list:
@@ -131,13 +184,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
-
-#    for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
-#        for dist in distributors:
-#            field_name_translations[dist + stub] = dist + '#'
-#            field_name_translations[dist + '_' + stub] = dist + '#'
-#            field_name_translations[dist + '-' + stub] = dist + '#'
-
+    
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributors)
 
@@ -148,7 +195,6 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
-
             args = (i, parts[i], distributors, local_part_html, logger.getEffectiveLevel())
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
@@ -220,7 +266,7 @@ class IdenticalComponents(object):
 
 
 def get_part_groups(in_file, ignore_fields, variant):
-    # Get groups of identical parts from an XML file and return them as a dictionary.
+    '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
@@ -269,9 +315,9 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
     prj_info = dict()
-    prj_info['title'] = title.findAll('title')[0].string
-    prj_info['company'] = title.findAll('company')[0].string
-    prj_info['date'] = title.findAll('date')[0].string
+    prj_info['title'] = title.find_all('title')[0].string
+    prj_info['company'] = title.find_all('company')[0].string
+    prj_info['date'] = title.find_all('date')[0].string
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
@@ -388,7 +434,6 @@ def get_part_groups(in_file, ignore_fields, variant):
         try:
             # Add next ref for identical part to the list.
             component_groups[h].refs.append(ref)
-
             # Also add any manufacturer's part number (or None) to the group's list.
             component_groups[h].manf_nums.add(fields.get('manf#'))
         except KeyError:
@@ -434,6 +479,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 # That will match if the group manf_num is also None.
                 if components[ref].get('manf#') == manf_num:
                     sub_group.refs.append(ref)
+
             new_component_groups.append(sub_group)
 
     # Now get the values of all fields within the members of a group.
@@ -456,7 +502,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
 
 def create_local_part_html(parts):
-    # Create HTML page containing info for local (non-webscraped) parts.
+    '''Create HTML page containing info for local (non-webscraped) parts.'''
 
     global distributors
     
@@ -519,7 +565,7 @@ def create_local_part_html(parts):
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
-    # Create a spreadsheet using the info for the parts (including their HTML trees).
+    '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
@@ -553,10 +599,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'top',
                 'text_wrap': True
             }),
-            'board_qty': workbook.add_format(
-                {'font_size': 13,
-                 'bold': True,
-                 'align': 'right'
+            'board_qty': workbook.add_format({
+                'font_size': 13,
+                'bold': True,
+                'align': 'right'
             }),
             'total_cost_label': workbook.add_format({
                 'font_size': 13,
@@ -575,7 +621,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'font_color': 'red',
                 'bold': True,
                 'num_format': '$#,##0.00',
-                'valign': 'vcenter'}),
+                'valign': 'vcenter'
+            }),
             'unit_cost_currency': workbook.add_format({
                 'font_size': 13,
                 'font_color': 'green',
@@ -587,14 +634,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'font_size': 13,
                 'bold': True,
                 'align': 'right',
-                'valign': 'vcenter'}),
+                'valign': 'vcenter'
+            }),
             'proj_info': workbook.add_format({
                 'font_size': 12,
                 'align': 'left',
                 'valign': 'vcenter'
             }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
-#            'take_next_price_break': workbook.add_format({'color': '#FF0000', }),
             'insufficient_qty': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right' }),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
@@ -647,7 +694,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
                                         next_col - 1)))
 
-        # Create a general information to track the project (in a printed version
+        # Add project information to track the project (in a printed version
         # of the BOM) and the date because of price variations.
         wks.write(BOARD_QTY_ROW, START_COL, 'Proj:', wrk_formats['proj_info_field'])
         wks.write(BOARD_QTY_ROW, START_COL+1, prj_info['title'], wrk_formats['proj_info'])
@@ -679,6 +726,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
                                        row_abs=True,
                                        col_abs=True)))
+
 
         # Create the row to show unit cost of board parts.
         wks.write(UNIT_COST_ROW, next_col - 2, 'Unit Cost:',
@@ -712,7 +760,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
 
 def collapse_refs(refs):
-    # Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.
+    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
 
     def convert_to_ranges(nums):
         # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
@@ -720,6 +768,7 @@ def collapse_refs(refs):
         nums.sort()  # Sort all the numbers.
         num_ranges = []  # No ranges found yet since we just started.
         range_start = 0  # First possible range is at the start of the list of numbers.
+
         # Go through the list of numbers looking for 3 or more sequential numbers.
         while range_start < len(nums):
             num_range = nums[range_start
@@ -784,7 +833,7 @@ def collapse_refs(refs):
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields):
-    # Add global part data to the spreadsheet.
+    '''Add global part data to the spreadsheet.'''
 
     # Columns for the various types of global part data.
     columns = {
@@ -833,7 +882,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part and its datasheet (click).',
+            'comment': 'Manufacturer number for each part.',
             'static': True,
         },
         'qty': {
@@ -981,7 +1030,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
 def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                           total_cost_row, part_ref_col, part_qty_col, dist,
                           parts):
-    # Add distributor-specific part data to the spreadsheet.
+    '''Add distributor-specific part data to the spreadsheet.'''
 
     # Columns for the various types of distributor-specific part data.
     columns = {
@@ -1014,7 +1063,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> next price break is cheaper.\nGreen block -> cheaper supplier (not work).'
+            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> next price break is cheaper.\nGreen -> cheapest supplier.'
         },
         'part_num': {
             'col': 4,
@@ -1035,7 +1084,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
     except KeyError:
         wks.merge_range(row, start_col, row, start_col + num_cols - 1,
             distributors[dist]['label'].title(), wrk_formats['local_lbl'][index])
-
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -1092,7 +1140,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                   part.qty_avail[dist], None)
         else:
             wks.write(row, start_col + columns['avail']['col'],
-                  'NonStk', wrk_formats['not_stocked'])
+                'NonStk', wrk_formats['not_stocked'])
             wks.write_comment(row, start_col + columns['avail']['col'], 
                 'This part is listed but is not normally stocked.')
 
@@ -1130,30 +1178,16 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     prices=','.join([str(price_tiers[q]) for q in qtys])),
                     wrk_formats['currency'])
 
-            # Add comment if the price break.
+            # Add a comment to the cell showing the qty/price breaks.
             price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n================'
             for q in qtys[1:]:  # Skip the first qty which is always 0.
-                    price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
-                        q,    
-                        '${:.3f}'.format(price_tiers[q]),
-                        '${:.2f}'.format(price_tiers[q] * q))
-            wks.write_comment( row, unit_price_col, price_break_info[:-1])
-            # Conditional format, if the price of the next price break is less than the actual
-            # unity price by the quantity chosen, put the unit price red.
-            #REMOVED -> conditioned format do not allow cell in Microsft Excel, only in LibreOffice Calc.
-            #wks.conditional_format(row, unit_price_col, row, unit_price_col, {
-            #    'type': 'formula',
-            #    'criteria': '=iferror(and(if({purch_qty}="",{needed_qty},{purch_qty})<{max_break},{cel}>lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}})),"")'.format(
-            #        cel=xl_rowcol_to_cell(row, ext_price_col),
-            #        max_break=qtys[-1],
-            #        needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-            #        purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-            #        qtys=','.join(qtys[:-1]), # Configuration to take the next price break value.
-            #        prices=','.join(prices_ext[1:])),
-            #    'format': wrk_formats['take_next_price_break']
-            #})
+                price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
+                    q,
+                    '${:.2f}'.format(price_tiers[q]),
+                    '${:.2f}'.format(price_tiers[q] * q))
+            wks.write_comment(row, unit_price_col, price_break_info)
 
-            # Conditional format to inform to avaliable the necessary quantity of the device.
+            # Conditional format to show the avaliable quantity is less than required.
             wks.conditional_format(row, start_col + columns['avail']['col'], 
                 row, start_col + columns['avail']['col'], {
                     'type': 'cell',
@@ -1181,6 +1215,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                     unit_price=xl_rowcol_to_cell(row, unit_price_col)),
                 wrk_formats['currency'])
+
             # Conditionally format the extended price cell that contains the best price.
             wks.conditional_format(row, ext_price_col, row, ext_price_col, {
                 'type': 'cell',
@@ -1352,7 +1387,7 @@ def get_user_agent():
 
 
 def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
-    # Get the HTML tree for a part from the given distributor website or local HTML.
+    '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
@@ -1383,7 +1418,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
 
 
 def scrape_part(args):
-    # Scrape the data for a part from each distributor website or local HTML.
+    '''Scrape the data for a part from each distributor website or local HTML.'''
 
     id, part, distributor_dict, local_part_html, log_level = args # Unpack the arguments.
 
