@@ -3,4 +3,19 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from .local import get_local_price_tiers, get_local_part_num, get_local_qty_avail, get_local_part_html_tree
+from . import local
+
+from ..kicost import distributors
+distributors.update(
+    {
+        'local': {
+            'module': local,
+            'scrape': 'web',
+            'function': 'farnell',
+            'label': 'Farnell',
+            'order_cols': ['part_num', 'purch', 'refs'],
+            'order_delimiter': ' '
+        }
+    }
+)
+

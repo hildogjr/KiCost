@@ -60,21 +60,8 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
-from ..kicost import distributors
-distributors.update(
-    {
-        'mouser': {
-            'scrape': 'web',
-            'function': 'mouser',
-            'label': 'Mouser',
-            'order_cols': ['part_num', 'purch', 'refs'],
-            'order_delimiter': ' '
-        }
-    }
-)
 
-
-def get_mouser_price_tiers(html_tree):
+def get_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
     price_tiers = {}
     try:
@@ -105,7 +92,7 @@ def get_mouser_price_tiers(html_tree):
     return price_tiers
 
 
-def get_mouser_part_num(html_tree):
+def get_part_num(html_tree):
     '''Get the part number from the Mouser product page.'''
     try:
         return re.sub('\n', '', html_tree.find('div',
@@ -115,7 +102,7 @@ def get_mouser_part_num(html_tree):
         return ''
 
 
-def get_mouser_qty_avail(html_tree):
+def get_qty_avail(html_tree):
     '''Get the available quantity of the part from the Mouser product page.'''
     try:
         qty_str = html_tree.find('div',
@@ -139,7 +126,7 @@ def get_mouser_qty_avail(html_tree):
         return None
 
 
-def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
     '''Find the Mouser HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -211,7 +198,7 @@ def get_mouser_part_html_tree(dist, pn, extra_search_terms='', url=None, descend
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
-                    return get_mouser_part_html_tree(dist, pn, extra_search_terms,
+                    return get_part_html_tree(dist, pn, extra_search_terms,
                                 url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.

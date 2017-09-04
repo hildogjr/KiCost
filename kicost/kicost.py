@@ -109,12 +109,12 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 from .altium.altium import get_part_groups_altium
 
 # Import web scraping functions for various distributor websites.
-from .local import *
-from .digikey import *
-from .newark import *
-from .mouser import *
-from .rs import *
-from .farnell import *
+import kicost.local
+import kicost.digikey
+import kicost.newark
+import kicost.mouser
+import kicost.rs
+import kicost.farnell
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -1435,8 +1435,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
     # Get function name for getting the HTML tree for this part from this distributor.
-    function = distributor_dict[dist]['function']
-    get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
+    get_dist_part_html_tree = distributor_dict[dist]['module'].get_part_html_tree
 
     for extra_search_terms in set([part.fields.get('manf', ''), '']):
         try:
@@ -1486,10 +1485,9 @@ def scrape_part(args):
         html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_part_html, scrape_logger)
 
         # Get the function names for getting the part data from the HTML tree.
-        function = distributor_dict[d]['function']
-        get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
-        get_dist_part_num = THIS_MODULE['get_{}_part_num'.format(function)]
-        get_dist_qty_avail = THIS_MODULE['get_{}_qty_avail'.format(function)]
+        get_dist_price_tiers = distributor_dict[d]['module'].get_price_tiers
+        get_dist_part_num = distributor_dict[d]['module'].get_part_num
+        get_dist_qty_avail = distributor_dict[d]['module'].get_qty_avail
 
         # Call the functions that extract the data from the HTML tree.
         part_num[d] = get_dist_part_num(html_tree)

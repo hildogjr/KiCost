@@ -40,21 +40,8 @@ WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
 currency = CurrencyConverter()
 
-from ..kicost import distributors
-distributors.update(
-    {
-        'farnell': {
-            'scrape': 'web',
-            'function': 'farnell',
-            'label': 'Farnell',
-            'order_cols': ['part_num', 'purch', 'refs'],
-            'order_delimiter': ' '
-        }
-    }
-)
 
-
-def get_farnell_price_tiers(html_tree):
+def get_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the farnell product page.'''
     price_tiers = {}
     try:
@@ -87,7 +74,7 @@ def get_farnell_price_tiers(html_tree):
         return price_tiers  # Return empty price tiers.
     return price_tiers
     
-def get_farnell_part_num(html_tree):
+def get_part_num(html_tree):
     '''Get the part number from the farnell product page.'''
     try:
         # farnell catalog number is stored in a description list, so get
@@ -104,7 +91,7 @@ def get_farnell_part_num(html_tree):
     except AttributeError:
         return '' # No ProductDescription found in page.
 
-def get_farnell_qty_avail(html_tree):
+def get_qty_avail(html_tree):
     '''Get the available quantity of the part from the farnell product page.'''
     try:
         qty_str = html_tree.find('p', class_='availabilityHeading').text
@@ -120,7 +107,7 @@ def get_farnell_qty_avail(html_tree):
         # Return None so the part won't show in the spreadsheet for this dist.
         return None
 
-def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
     '''Find the farnell HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -199,7 +186,7 @@ def get_farnell_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
-                    return get_farnell_part_html_tree(dist, pn, extra_search_terms,
+                    return get_part_html_tree(dist, pn, extra_search_terms,
                                 url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.

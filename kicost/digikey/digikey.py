@@ -60,21 +60,8 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
-from ..kicost import distributors
-distributors.update(
-    {
-        'digikey': {
-            'scrape': 'web',
-            'function': 'digikey',
-            'label': 'Digi-Key',
-            'order_cols': ['purch', 'part_num', 'refs'],
-            'order_delimiter': ','
-        }
-    }
-)
 
-
-def get_digikey_price_tiers(html_tree):
+def get_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Digikey product page.'''
     price_tiers = {}
     try:
@@ -93,9 +80,9 @@ def get_digikey_price_tiers(html_tree):
     return price_tiers
 
 
-def digikey_part_is_reeled(html_tree):
+def part_is_reeled(html_tree):
     '''Returns True if this Digi-Key part is reeled or Digi-reeled.'''
-    qty_tiers = list(get_digikey_price_tiers(html_tree).keys())
+    qty_tiers = list(get_price_tiers(html_tree).keys())
     if len(qty_tiers) > 0 and min(qty_tiers) >= 100:
         return True
     if html_tree.find('table',
@@ -104,7 +91,7 @@ def digikey_part_is_reeled(html_tree):
     return False
 
 
-def get_digikey_part_num(html_tree):
+def get_part_num(html_tree):
     '''Get the part number from the Digikey product page.'''
     try:
         return re.sub('\s', '', html_tree.find('td',
@@ -114,7 +101,7 @@ def get_digikey_part_num(html_tree):
         return ''
 
 
-def get_digikey_qty_avail(html_tree):
+def get_qty_avail(html_tree):
     '''Get the available quantity of the part from the Digikey product page.'''
     try:
         qty_tree = html_tree.find('td', id='quantityAvailable').find('span', id='dkQty')
@@ -139,7 +126,7 @@ def get_digikey_qty_avail(html_tree):
             return 0
 
 
-def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
 
     def merge_price_tiers(main_tree, alt_tree):
@@ -154,8 +141,8 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
     def merge_qty_avail(main_tree, alt_tree):
         '''Merge the quantities from the alternate-packaging tree into the main tree.'''
         try:
-            main_qty = get_digikey_qty_avail(main_tree)
-            alt_qty = get_digikey_qty_avail(alt_tree)
+            main_qty = get_qty_avail(main_tree)
+            alt_qty = get_qty_avail(alt_tree)
             if main_qty is None:
                 merged_qty = alt_qty
             elif alt_qty is None:
@@ -231,7 +218,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                 logger.log(DEBUG_OBSESSIVE,'Found {} alternate packagings for {} from {}'.format(len(ap_urls), pn, dist))
                 ap_trees_and_urls = []  # Initialize as empty in case no alternate packagings are found.
                 try:
-                    ap_trees_and_urls = [get_digikey_part_html_tree(dist, pn, 
+                    ap_trees_and_urls = [get_part_html_tree(dist, pn, 
                                      extra_search_terms, ap_url, descend=0)
                                      for ap_url in ap_urls]
                 except Exception:
@@ -241,9 +228,9 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                 # the entire list for one that's non-reeled. Use this as the
                 # main page for the part.
                 ap_trees_and_urls.append((tree, url))
-                if digikey_part_is_reeled(tree):
+                if part_is_reeled(tree):
                     for ap_tree, ap_url in ap_trees_and_urls:
-                        if not digikey_part_is_reeled(ap_tree):
+                        if not part_is_reeled(ap_tree):
                             # Found a non-reeled part, so use it as the main page.
                             tree = ap_tree
                             url = ap_url
@@ -300,7 +287,7 @@ def get_digikey_part_html_tree(dist, pn, extra_search_terms='', url=None, descen
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
-                    return get_digikey_part_html_tree(dist, pn, extra_search_terms,
+                    return get_part_html_tree(dist, pn, extra_search_terms,
                                                       url=l['href'],
                                                       descend=descend - 1)
 

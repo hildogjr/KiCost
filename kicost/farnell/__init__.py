@@ -2,4 +2,19 @@
 
 __author__='Giacinto Luigi Cerone'
 
-from .farnell import get_farnell_price_tiers, get_farnell_part_num, get_farnell_qty_avail, get_farnell_part_html_tree
+from . import farnell
+
+from ..kicost import distributors
+distributors.update(
+    {
+        'farnell': {
+            'module': farnell,
+            'scrape': 'web',
+            'function': 'farnell',
+            'label': 'Farnell',
+            'order_cols': ['part_num', 'purch', 'refs'],
+            'order_delimiter': ' '
+        }
+    }
+)
+
