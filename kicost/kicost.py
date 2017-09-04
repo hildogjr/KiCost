@@ -517,14 +517,13 @@ def create_local_part_html(parts):
                         dist = key[:key.index(SEPRTR)]
                     except ValueError:
                         continue
+
+                    # If the distributor is not in the list of web-scrapable distributors,
+                    # then it's a local distributor. Copy the local distributor template
+                    # and add it to the table of distributors.
                     if dist not in distributors:
-                        distributors[dist] = {
-                            'scrape': 'local',
-                            'function': 'local',
-                            'label': dist,
-                            'order_cols': ['purch', 'part_num', 'refs'],
-                            'order_delimiter': ''
-                        }
+                        distributors[dist] = copy(distributors['local_template'])
+
                 # Now look for catalog number, price list and webpage link for this part.
                 for dist in distributors:
                     cat_num = p.fields.get(dist+':cat#')
@@ -553,6 +552,11 @@ def create_local_part_html(parts):
                             link = urlunsplit(url_parts)
                             with tag('div', klass='link'):
                                 text(link)
+
+    # Remove the local distributor template so it won't be processed.
+    # It has served its purpose.
+    del distributors['local_template']
+
     html = doc.getvalue()
     if logger.isEnabledFor(DEBUG_OBSESSIVE):
         print(indent(html))

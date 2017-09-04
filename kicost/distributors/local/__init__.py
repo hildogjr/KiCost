@@ -8,11 +8,11 @@ from .local import *
 from .. import distributors
 distributors.update(
     {
-        'local': {
+        'local_template': {
             'module': local,
             'scrape': 'web',
-            'function': 'farnell',
-            'label': 'Farnell',
+            'function': 'local',
+            'label': 'Local',
             'order_cols': ['part_num', 'purch', 'refs'],
             'order_delimiter': ' '
         }

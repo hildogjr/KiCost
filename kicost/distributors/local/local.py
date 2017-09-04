@@ -102,12 +102,12 @@ def get_qty_avail(html_tree):
         return 0
 
 
-def get_part_html_tree(dist, pn, extra_search_terms='', url=None, part_html=None):
+def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=None, local_part_html=None):
     '''Extract the HTML tree from the HTML page for local parts.'''
 
     # Extract the HTML tree from the local part HTML page.
     try:
-        tree = BeautifulSoup(part_html, 'lxml')
+        tree = BeautifulSoup(local_part_html, 'lxml')
     except Exception:
         raise PartHtmlError
 
