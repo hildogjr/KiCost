@@ -2,18 +2,19 @@
 
 __author__='Giacinto Luigi Cerone'
 
-from . import rs
+from . import farnell
 
-from ..kicost import distributors
+from .. import distributors
 distributors.update(
     {
-        'rs': {
-            'module': rs,
+        'farnell': {
+            'module': farnell,
             'scrape': 'web',
-            'function': 'rs',
-            'label': 'RS Components',
+            'function': 'farnell',
+            'label': 'Farnell',
             'order_cols': ['part_num', 'purch', 'refs'],
             'order_delimiter': ' '
         }
     }
 )
+

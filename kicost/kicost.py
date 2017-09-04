@@ -109,12 +109,8 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 from .altium.altium import get_part_groups_altium
 
 # Import web scraping functions for various distributor websites.
-import kicost.local
-import kicost.digikey
-import kicost.newark
-import kicost.mouser
-import kicost.rs
-import kicost.farnell
+from . import distributors_dir
+from distributors_dir import distributors
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.

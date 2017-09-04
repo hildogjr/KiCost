@@ -3,18 +3,19 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from . import mouser
+from . import local
 
-from ..kicost import distributors
+from .. import distributors
 distributors.update(
     {
-        'mouser': {
-            'module': mouser,
+        'local': {
+            'module': local,
             'scrape': 'web',
-            'function': 'mouser',
-            'label': 'Mouser',
+            'function': 'farnell',
+            'label': 'Farnell',
             'order_cols': ['part_num', 'purch', 'refs'],
             'order_delimiter': ' '
         }
     }
 )
+

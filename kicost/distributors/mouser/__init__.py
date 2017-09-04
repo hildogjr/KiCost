@@ -3,18 +3,18 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from . import newark
+from . import mouser
 
-from ..kicost import distributors
+from .. import distributors
 distributors.update(
     {
-        'newark': {
-            'module': newark,
+        'mouser': {
+            'module': mouser,
             'scrape': 'web',
-            'function': 'newark',
-            'label': 'Newark',
+            'function': 'mouser',
+            'label': 'Mouser',
             'order_cols': ['part_num', 'purch', 'refs'],
-            'order_delimiter': ','
+            'order_delimiter': ' '
         }
     }
 )

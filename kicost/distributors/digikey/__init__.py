@@ -6,7 +6,7 @@ __email__ = 'info@xess.com'
 #from .digikey import get_digikey_price_tiers, get_digikey_part_num, get_digikey_qty_avail, get_digikey_part_html_tree
 from . import digikey
 
-from ..kicost import distributors
+from .. import distributors
 distributors.update(
     {
         'digikey': {
