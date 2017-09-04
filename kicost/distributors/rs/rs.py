@@ -27,8 +27,8 @@ except ImportError:
     from urllib import urlencode
     from urllib2 import urlopen, Request
     
-from ..kicost import PartHtmlError, FakeBrowser
-from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...kicost import PartHtmlError, FakeBrowser
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 from currency_converter import CurrencyConverter
 

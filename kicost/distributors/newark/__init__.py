@@ -3,7 +3,7 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from . import newark
+from .newark import *
 
 from .. import distributors
 distributors.update(

@@ -2,7 +2,7 @@
 
 __author__='Giacinto Luigi Cerone'
 
-from . import farnell
+from .farnell import *
 
 from .. import distributors
 distributors.update(

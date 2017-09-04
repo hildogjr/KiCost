@@ -95,12 +95,7 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
                           
-# Global array of distributor names.
-distributors = {}
-
 logger = logging.getLogger('kicost')
-
-
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
@@ -109,8 +104,7 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 from .altium.altium import get_part_groups_altium
 
 # Import web scraping functions for various distributor websites.
-from . import distributors_dir
-from distributors_dir import distributors
+from .distributors import *
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -1431,6 +1425,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
     # Get function name for getting the HTML tree for this part from this distributor.
+    #import pdb; pdb.set_trace()
     get_dist_part_html_tree = distributor_dict[dist]['module'].get_part_html_tree
 
     for extra_search_terms in set([part.fields.get('manf', ''), '']):

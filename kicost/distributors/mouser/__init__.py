@@ -3,7 +3,7 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from . import mouser
+from .mouser import *
 
 from .. import distributors
 distributors.update(
