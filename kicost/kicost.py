@@ -1042,8 +1042,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                     dist_part_data_range))
             # Get the purchased quantity cell reference.
             dist_purchased_qty.append(
-                'INDIRECT(ADDRESS(ROW(),COLUMN({})+1))'.format(
-                    dist_part_data_range))
+                'IF(ISNUMBER(INDIRECT(ADDRESS(ROW(),COLUMN({dist_part})+2))),INDIRECT(ADDRESS(ROW(),COLUMN({dist_part})+1)),0)'.format(dist_part=dist_part_data_range))
         # Create the function that finds the minimum of all the distributor unit price cells for this part.
         wks.write(row, start_col + columns['unit_price']['col'],
                   '=MINA({})'.format(','.join(dist_unit_prices)),
