@@ -36,6 +36,7 @@ import future
 
 import sys
 import pprint
+import copy
 import re
 import difflib
 import logging
@@ -103,8 +104,9 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 # Altium requires a different part grouping function than KiCad.
 from .altium.altium import get_part_groups_altium
 
-# Import web scraping functions for various distributor websites.
-from .distributors import *
+# Import information about various distributors.
+from . import distributors as distributor_imports
+distributors = distributor_imports.distributors
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -522,7 +524,7 @@ def create_local_part_html(parts):
                     # then it's a local distributor. Copy the local distributor template
                     # and add it to the table of distributors.
                     if dist not in distributors:
-                        distributors[dist] = copy(distributors['local_template'])
+                        distributors[dist] = copy.copy(distributors['local_template'])
 
                 # Now look for catalog number, price list and webpage link for this part.
                 for dist in distributors:
@@ -1423,14 +1425,15 @@ def get_user_agent():
     return user_agent_list[randint(0, len(user_agent_list) - 1)]
 
 
-def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
+def get_part_html_tree(part, dist, local_part_html, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
     # Get function name for getting the HTML tree for this part from this distributor.
     #import pdb; pdb.set_trace()
-    get_dist_part_html_tree = distributor_dict[dist]['module'].get_part_html_tree
+    dist_module = getattr(distributor_imports, dist)
+    get_part_html_tree = dist_module.get_part_html_tree
 
     for extra_search_terms in set([part.fields.get('manf', ''), '']):
         try:
@@ -1439,7 +1442,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
             #    2) the manufacturer's part number.
             for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
                 if key in part.fields:
-                    return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
+                    return get_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
             # No distributor or manufacturer number, so give up.
             else:
                 logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
@@ -1477,17 +1480,13 @@ def scrape_part(args):
     # Scrape the part data from each distributor website or the local HTML.
     for d in distributor_dict:
         # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_part_html, scrape_logger)
-
-        # Get the function names for getting the part data from the HTML tree.
-        get_dist_price_tiers = distributor_dict[d]['module'].get_price_tiers
-        get_dist_part_num = distributor_dict[d]['module'].get_part_num
-        get_dist_qty_avail = distributor_dict[d]['module'].get_qty_avail
+        html_tree, url[d] = get_part_html_tree(part, d, local_part_html, scrape_logger)
 
         # Call the functions that extract the data from the HTML tree.
-        part_num[d] = get_dist_part_num(html_tree)
-        qty_avail[d] = get_dist_qty_avail(html_tree)
-        price_tiers[d] = get_dist_price_tiers(html_tree)
+        dist_module = getattr(distributor_imports, d)
+        part_num[d] = dist_module.get_part_num(html_tree)
+        qty_avail[d] = dist_module.get_qty_avail(html_tree)
+        price_tiers[d] = dist_module.get_price_tiers(html_tree)
 
     # Return the part data.
     return id, url, part_num, price_tiers, qty_avail

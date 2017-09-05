@@ -5,13 +5,12 @@ __email__ = 'info@xess.com'
 
 from .mouser import *
 
+# Place information about this distributor into the distributor dictionary.
 from .. import distributors
 distributors.update(
     {
         'mouser': {
-            'module': mouser,
             'scrape': 'web',
-            'function': 'mouser',
             'label': 'Mouser',
             'order_cols': ['part_num', 'purch', 'refs'],
             'order_delimiter': ' '
