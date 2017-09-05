@@ -170,6 +170,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         include_dist_list = list(distributors.keys())
     rmv_dist = set(exclude_dist_list)
     rmv_dist |= set(list(distributors.keys())) - set(include_dist_list)
+    rmv_dist -= set(['local_template'])  # We need this later for creating non-web distributors.
     for dist in rmv_dist:
         distributors.pop(dist, None)
 
