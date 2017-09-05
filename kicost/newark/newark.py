@@ -129,11 +129,7 @@ def get_newark_part_num(html_tree):
 def get_newark_qty_avail(html_tree):
     '''Get the available quantity of the part from the Newark product page.'''
     try:
-        # Note that 'availability' is misspelled in the container class name!
-        qty_str = html_tree.find('div',
-                                 class_='avalabilityContainer').find(
-                                     'span',
-                                     class_='availability').text
+        qty_str = html_tree.find('p', class_='availabilityHeading').text
     except (AttributeError, ValueError):
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.

@@ -711,6 +711,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             'insufficient_qty': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right' }),
             'not_purchased' : workbook.add_format({'bg_color': '#FFFF00'}),
+            'not_founded' : workbook.add_format({'bg_color': '#FF0000'}),
+            'not_enough' : workbook.add_format({'bg_color': '#FFFF00'}),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
@@ -929,7 +931,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part.',
+            'comment': 'Manufacturer number for each part.\nRed -> Not founded parts\nYellow -> Not enough aval.',
             'static': True,
         },
         'qty': {
@@ -1030,9 +1032,12 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         except KeyError:
             pass
 
+        
         # Enter spreadsheet formula for getting the minimum unit price from all the distributors.
         dist_unit_prices = []
         dist_purchased_qty = []
+        qty_not_enough = []
+        part_not_founded = []
         for dist in list(distributors.keys()):
             # Get the name of the data range for this distributor.
             dist_part_data_range = '{}_part_data'.format(dist)
@@ -1043,6 +1048,14 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             # Get the purchased quantity cell reference.
             dist_purchased_qty.append(
                 'IF(ISNUMBER(INDIRECT(ADDRESS(ROW(),COLUMN({dist_part})+2))),INDIRECT(ADDRESS(ROW(),COLUMN({dist_part})+1)),0)'.format(dist_part=dist_part_data_range))
+            # Get the contents of the unit price cell for this part (row) and distributor (column+offset).
+            qty_not_enough.append(
+                'INDIRECT(ADDRESS(ROW(),COLUMN({})))'.format(
+                    dist_part_data_range))
+            # Get the contents of the unit price cell for this part (row) and distributor (column+offset).
+            part_not_founded.append(
+                'NOT(ISNUMBER(INDIRECT(ADDRESS(ROW(),COLUMN({})+2))))'.format(
+                    dist_part_data_range))
         # Create the function that finds the minimum of all the distributor unit price cells for this part.
         wks.write(row, start_col + columns['unit_price']['col'],
                   '=MINA({})'.format(','.join(dist_unit_prices)),
@@ -1054,6 +1067,23 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                 'criteria': '>',
                 'value': '=SUM({})'.format(','.join(dist_purchased_qty)),
                 'format': wrk_formats['not_purchased']
+            })
+        # Create a function that error if not found part in any distributor.
+        # Add first to be prioritary to the next one.
+        wks.conditional_format(row, start_col + columns['manf#']['col'],
+            row, start_col + columns['manf#']['col'], {
+                'type': 'formula',
+                'criteria': '=AND({})'.format(','.join(part_not_founded)),
+                'format': wrk_formats['not_founded']
+            })
+        # Create a function that warnning if not avaliable the necessary quantity.
+        wks.conditional_format(row, start_col + columns['manf#']['col'],
+            row, start_col + columns['manf#']['col'], {
+                'type': 'formula',
+                'criteria': '=SUM({formula})<{qty_needed}'.format(
+                    formula=','.join(qty_not_enough),
+                    qty_needed=xl_rowcol_to_cell(row, start_col + columns['qty']['col'])),
+                'format': wrk_formats['not_enough']
             })
 
         # Enter spreadsheet formula for calculating minimum extended price.
@@ -1238,11 +1268,11 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n================'
+            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n==============='
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
                     q,
-                    '${:.2f}'.format(price_tiers[q]),
+                    '${:.3f}'.format(price_tiers[q]),
                     '${:.2f}'.format(price_tiers[q] * q))
             wks.write_comment(row, unit_price_col, price_break_info)
 
@@ -1269,7 +1299,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
             # Enter the formula for the extended price = purch qty * unit price.
             wks.write_formula(
                 row, ext_price_col,
-                '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},0)'.format(
+                '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
                     needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                     purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                     unit_price=xl_rowcol_to_cell(row, unit_price_col)),
@@ -1304,7 +1334,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
     ORDER_START_COL = start_col + 1
-    ORDER_HEADER =  PART_INFO_LAST_ROW + 2
     ORDER_FIRST_ROW = PART_INFO_LAST_ROW + 3
     ORDER_LAST_ROW = ORDER_FIRST_ROW + num_parts - 1
 
@@ -1419,14 +1448,15 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     num_to_text_func=num_to_text_func,
                     num_to_text_fmt=num_to_text_fmt)))
 
-        # Write the header and how many parts is purchasing.
-        wks.write(ORDER_HEADER, purch_qty_col,
-            '=IFERROR(IF(OR({count_range}),"Purch cart: "&COUNTIF({count_range},">0")&"/"&ROWS({count_range})&" purchased",""),"")'.format(
-            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
-                           PART_INFO_LAST_ROW, purch_qty_col)),
-                wrk_formats['founded_perc'])
-        wks.write_comment(ORDER_HEADER, purch_qty_col,
-            'Copy the code bellow to the distributor web site importer.')
+    # Write the header and how many parts is purchasing.
+    ORDER_HEADER =  PART_INFO_LAST_ROW + 2
+    wks.write(ORDER_HEADER, purch_qty_col,
+        '=IFERROR(IF(OR({count_range}),"Purch cart: "&COUNTIF({count_range},">0")&"/"&ROWS({count_range})&" purchased",""),"")'.format(
+        count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
+                       PART_INFO_LAST_ROW, purch_qty_col)),
+            wrk_formats['founded_perc'])
+    wks.write_comment(ORDER_HEADER, purch_qty_col,
+        'Copy the code bellow to the distributor web site importer.')
 
     # For every column in the order info range, enter the part order information.
     for col_tag in ('purch', 'part_num', 'refs'):
