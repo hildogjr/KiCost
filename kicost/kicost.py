@@ -1326,7 +1326,7 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
 
     # Show the percentual of founded components.
     wks.write(unit_cost_row, total_cost_col,
-        '=(ROWS({count_range})-COUNTBLANK({count_range}))&"/"&ROWS({count_range})&" parts"'.format(
+        '=(ROWS({count_range})-COUNTBLANK({count_range}))&"/"&ROWS({count_range})&" founded"'.format(
         count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['founded_perc'])
