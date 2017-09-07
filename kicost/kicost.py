@@ -86,11 +86,6 @@ except ImportError:
 
 __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
-# Used to get the names of functions in this module so they can be called dynamically.
-THIS_MODULE = locals()
-
-ALL_MODULES = globals()
-
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
@@ -556,7 +551,7 @@ def create_local_part_html(parts):
                             with tag('div', klass='link'):
                                 text(link)
 
-    # Remove the local distributor template so it won't be processed.
+    # Remove the local distributor template so it won't be processed later on.
     # It has served its purpose.
     del distributors['local_template']
 
@@ -593,46 +588,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#303030'
-            }),
-            'digikey': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#CC0000'  # Digi-Key red.
-            }),
-            'mouser': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#004A85'  # Mouser blue.
-            }),
-            'newark': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#A2AE06'  # Newark/E14 olive green.
-            }),
-            'rs': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#FF0000'  # RS Components red.
-            }),
-            'farnell': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#FF6600'  # Farnell/E14 orange.
             }),
             'local_lbl': [
                 workbook.add_format({
@@ -707,6 +662,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
+
+        # Add the distinctive header format for each distributor to the dict of formats.
+        for d in distributors:
+            wrk_formats[d] = workbook.add_format(distributors[d]['wrk_hdr_format'])
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)

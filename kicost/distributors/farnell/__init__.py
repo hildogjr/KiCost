@@ -12,7 +12,15 @@ distributors.update(
             'scrape': 'web',
             'label': 'Farnell',
             'order_cols': ['part_num', 'purch', 'refs'],
-            'order_delimiter': ' '
+            'order_delimiter': ' ',
+            'wrk_hdr_format': {
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#FF6600'  # Farnell/E14 orange.
+            }
         }
     }
 )

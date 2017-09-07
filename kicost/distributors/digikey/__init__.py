@@ -13,7 +13,15 @@ distributors.update(
             'scrape': 'web',
             'label': 'Digi-Key',
             'order_cols': ['purch', 'part_num', 'refs'],
-            'order_delimiter': ','
+            'order_delimiter': ',',
+            'wrk_hdr_format': {
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#CC0000'  # Digi-Key red.
+            }
         }
     }
 )
