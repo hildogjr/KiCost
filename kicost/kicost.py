@@ -37,7 +37,7 @@ import future
 import sys
 import pprint
 import copy
-import re
+import re # Regular expression parser.
 import difflib
 import logging
 import tqdm
@@ -50,7 +50,6 @@ from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
-import re # Regular expression parser.
 from datetime import datetime
 
 # Stops UnicodeDecodeError exceptions.
@@ -103,6 +102,7 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 
 # Altium requires a different part grouping function than KiCad.
 from .altium.altium import get_part_groups_altium
+from .eda_tools.subparts import *
 
 # Import information about various distributors.
 from . import distributors as distributor_imports
@@ -407,8 +407,9 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     #print('Removed parts:', set(components.keys())-set(accepted_components.keys()))
 
-    # Replace the component list with the list of accepted parts.
-    components = accepted_components
+    # Replace the component list with the list of accepted parts,
+    # spliting the subparts and gettin the subpart quantity.
+    components = subpart_split(accepted_components)
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
@@ -1019,7 +1020,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         # Enter total part quantity needed.
         try:
             wks.write(row, start_col + columns['qty']['col'],
-                      '=BoardQty*{}'.format(len(part.refs)))
+                      subpart_qty(part))
         except KeyError:
             pass
 
