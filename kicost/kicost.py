@@ -36,7 +36,8 @@ import future
 
 import sys
 import pprint
-import re # Regular expression parser.
+import copy
+import re
 import difflib
 import logging
 import tqdm
@@ -49,6 +50,7 @@ from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 import http.client # For web scraping exceptions.
+import re # Regular expression parser.
 from datetime import datetime
 
 # Stops UnicodeDecodeError exceptions.
@@ -94,12 +96,7 @@ HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
                           
-# Global array of distributor names.
-distributors = {}
-
 logger = logging.getLogger('kicost')
-
-
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
@@ -107,13 +104,9 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 # Altium requires a different part grouping function than KiCad.
 from .altium.altium import get_part_groups_altium
 
-# Import web scraping functions for various distributor websites.
-from .local import *
-from .digikey import *
-from .newark import *
-from .mouser import *
-from .rs import *
-from .farnell import *
+# Import information about various distributors.
+from . import distributors as distributor_imports
+distributors = distributor_imports.distributors
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -177,6 +170,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         include_dist_list = list(distributors.keys())
     rmv_dist = set(exclude_dist_list)
     rmv_dist |= set(list(distributors.keys())) - set(include_dist_list)
+    rmv_dist -= set(['local_template'])  # We need this later for creating non-web distributors.
     for dist in rmv_dist:
         distributors.pop(dist, None)
 
@@ -526,14 +520,13 @@ def create_local_part_html(parts):
                         dist = key[:key.index(SEPRTR)]
                     except ValueError:
                         continue
+
+                    # If the distributor is not in the list of web-scrapable distributors,
+                    # then it's a local distributor. Copy the local distributor template
+                    # and add it to the table of distributors.
                     if dist not in distributors:
-                        distributors[dist] = {
-                            'scrape': 'local',
-                            'function': 'local',
-                            'label': dist,
-                            'order_cols': ['purch', 'part_num', 'refs'],
-                            'order_delimiter': ''
-                        }
+                        distributors[dist] = copy.copy(distributors['local_template'])
+
                 # Now look for catalog number, price list and webpage link for this part.
                 for dist in distributors:
                     cat_num = p.fields.get(dist+':cat#')
@@ -562,6 +555,11 @@ def create_local_part_html(parts):
                             link = urlunsplit(url_parts)
                             with tag('div', klass='link'):
                                 text(link)
+
+    # Remove the local distributor template so it won't be processed.
+    # It has served its purpose.
+    del distributors['local_template']
+
     html = doc.getvalue()
     if logger.isEnabledFor(DEBUG_OBSESSIVE):
         print(indent(html))
@@ -692,10 +690,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'num_format': '$#,##0.00',
                 'valign': 'vcenter'
             }),
-            'founded_perc': workbook.add_format({
-                'font_size': 12,
-                'valign': 'vcenter'
-            }),
             'proj_info_field': workbook.add_format({
                 'font_size': 13,
                 'bold': True,
@@ -710,9 +704,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
             'insufficient_qty': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right' }),
-            'not_purchased' : workbook.add_format({'bg_color': '#FFFF00'}),
-            'not_founded' : workbook.add_format({'bg_color': '#FF0000'}),
-            'not_enough' : workbook.add_format({'bg_color': '#FFFF00'}),
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
@@ -797,7 +788,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, index, START_ROW,
-                                             dist_start_col, UNIT_COST_ROW, TOTAL_COST_ROW,
+                                             dist_start_col, TOTAL_COST_ROW,
                                              refs_col, qty_col, dist, parts)
             index = (index+1) % 2
             # Create a defined range for each set of distributor part data.
@@ -931,7 +922,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part.\nRed -> Not founded parts\nYellow -> Not enough aval.',
+            'comment': 'Manufacturer number for each part.',
             'static': True,
         },
         'qty': {
@@ -939,7 +930,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Qty',
             'width': None,
-            'comment': 'Total number of each part needed to assemble the board.\nYellow -> Not purchased part enough.',
+            'comment': 'Total number of each part needed to assemble the board.',
             'static': False,
         },
         'unit_price': {
@@ -1032,12 +1023,8 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         except KeyError:
             pass
 
-        
         # Enter spreadsheet formula for getting the minimum unit price from all the distributors.
         dist_unit_prices = []
-        dist_purchased_qty = []
-        qty_not_enough = []
-        part_not_founded = []
         for dist in list(distributors.keys()):
             # Get the name of the data range for this distributor.
             dist_part_data_range = '{}_part_data'.format(dist)
@@ -1045,46 +1032,10 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             dist_unit_prices.append(
                 'INDIRECT(ADDRESS(ROW(),COLUMN({})+2))'.format(
                     dist_part_data_range))
-            # Get the purchased quantity cell reference.
-            dist_purchased_qty.append(
-                'IF(ISNUMBER(INDIRECT(ADDRESS(ROW(),COLUMN({dist_part})+2))),INDIRECT(ADDRESS(ROW(),COLUMN({dist_part})+1)),0)'.format(dist_part=dist_part_data_range))
-            # Get the contents of the unit price cell for this part (row) and distributor (column+offset).
-            qty_not_enough.append(
-                'INDIRECT(ADDRESS(ROW(),COLUMN({})))'.format(
-                    dist_part_data_range))
-            # Get the contents of the unit price cell for this part (row) and distributor (column+offset).
-            part_not_founded.append(
-                'NOT(ISNUMBER(INDIRECT(ADDRESS(ROW(),COLUMN({})+2))))'.format(
-                    dist_part_data_range))
         # Create the function that finds the minimum of all the distributor unit price cells for this part.
+        min_unit_price_func = '=MINA({})'.format(','.join(dist_unit_prices))
         wks.write(row, start_col + columns['unit_price']['col'],
-                  '=MINA({})'.format(','.join(dist_unit_prices)),
-                  wrk_formats['currency'])
-        # Create a function that warnning the user if he do not purche the necessary quantity.
-        wks.conditional_format(row, start_col + columns['qty']['col'],
-            row, start_col + columns['qty']['col'], {
-                'type': 'cell',
-                'criteria': '>',
-                'value': '=SUM({})'.format(','.join(dist_purchased_qty)),
-                'format': wrk_formats['not_purchased']
-            })
-        # Create a function that error if not found part in any distributor.
-        # Add first to be prioritary to the next one.
-        wks.conditional_format(row, start_col + columns['manf#']['col'],
-            row, start_col + columns['manf#']['col'], {
-                'type': 'formula',
-                'criteria': '=AND({})'.format(','.join(part_not_founded)),
-                'format': wrk_formats['not_founded']
-            })
-        # Create a function that warnning if not avaliable the necessary quantity.
-        wks.conditional_format(row, start_col + columns['manf#']['col'],
-            row, start_col + columns['manf#']['col'], {
-                'type': 'formula',
-                'criteria': '=SUM({formula})<{qty_needed}'.format(
-                    formula=','.join(qty_not_enough),
-                    qty_needed=xl_rowcol_to_cell(row, start_col + columns['qty']['col'])),
-                'format': wrk_formats['not_enough']
-            })
+                  min_unit_price_func, wrk_formats['currency'])
 
         # Enter spreadsheet formula for calculating minimum extended price.
         wks.write_formula(
@@ -1117,8 +1068,8 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
 
 
 def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
-                          unit_cost_row, total_cost_row, part_ref_col, part_qty_col,
-                          dist, parts):
+                          total_cost_row, part_ref_col, part_qty_col, dist,
+                          parts):
     '''Add distributor-specific part data to the spreadsheet.'''
 
     # Columns for the various types of distributor-specific part data.
@@ -1268,11 +1219,11 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n==============='
+            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n================'
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
                     q,
-                    '${:.3f}'.format(price_tiers[q]),
+                    '${:.2f}'.format(price_tiers[q]),
                     '${:.2f}'.format(price_tiers[q] * q))
             wks.write_comment(row, unit_price_col, price_break_info)
 
@@ -1324,17 +1275,9 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
 
-    # Show the percentual of founded components.
-    wks.write(unit_cost_row, total_cost_col,
-        '=(ROWS({count_range})-COUNTBLANK({count_range}))&"/"&ROWS({count_range})&" founded"'.format(
-        count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
-                           PART_INFO_LAST_ROW, total_cost_col)),
-              wrk_formats['founded_perc'])
-    wks.write_comment(unit_cost_row, total_cost_col, 'Founded components in this distributor.')
-
     # Add list of part numbers and purchase quantities for ordering from this distributor.
     ORDER_START_COL = start_col + 1
-    ORDER_FIRST_ROW = PART_INFO_LAST_ROW + 3
+    ORDER_FIRST_ROW = PART_INFO_LAST_ROW + 2
     ORDER_LAST_ROW = ORDER_FIRST_ROW + num_parts - 1
 
     # Each distributor has a different format for entering ordering information,
@@ -1448,16 +1391,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                     num_to_text_func=num_to_text_func,
                     num_to_text_fmt=num_to_text_fmt)))
 
-    # Write the header and how many parts is purchasing.
-    ORDER_HEADER =  PART_INFO_LAST_ROW + 2
-    wks.write(ORDER_HEADER, purch_qty_col,
-        '=IFERROR(IF(OR({count_range}),"Purch cart: "&COUNTIF({count_range},">0")&"/"&ROWS({count_range})&" purchased",""),"")'.format(
-        count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
-                       PART_INFO_LAST_ROW, purch_qty_col)),
-            wrk_formats['founded_perc'])
-    wks.write_comment(ORDER_HEADER, purch_qty_col,
-        'Copy the code bellow to the distributor web site importer.')
-
     # For every column in the order info range, enter the part order information.
     for col_tag in ('purch', 'part_num', 'refs'):
         enter_order_info(dist_col[col_tag], order_col[col_tag],
@@ -1493,14 +1426,15 @@ def get_user_agent():
     return user_agent_list[randint(0, len(user_agent_list) - 1)]
 
 
-def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
+def get_part_html_tree(part, dist, local_part_html, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
     
     # Get function name for getting the HTML tree for this part from this distributor.
-    function = distributor_dict[dist]['function']
-    get_dist_part_html_tree = THIS_MODULE['get_{}_part_html_tree'.format(function)]
+    #import pdb; pdb.set_trace()
+    dist_module = getattr(distributor_imports, dist)
+    get_part_html_tree = dist_module.get_part_html_tree
 
     for extra_search_terms in set([part.fields.get('manf', ''), '']):
         try:
@@ -1509,7 +1443,7 @@ def get_part_html_tree(part, dist, distributor_dict, local_part_html, logger):
             #    2) the manufacturer's part number.
             for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
                 if key in part.fields:
-                    return get_dist_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
+                    return get_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
             # No distributor or manufacturer number, so give up.
             else:
                 logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
@@ -1547,18 +1481,13 @@ def scrape_part(args):
     # Scrape the part data from each distributor website or the local HTML.
     for d in distributor_dict:
         # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, distributor_dict, local_part_html, scrape_logger)
-
-        # Get the function names for getting the part data from the HTML tree.
-        function = distributor_dict[d]['function']
-        get_dist_price_tiers = THIS_MODULE['get_{}_price_tiers'.format(function)]
-        get_dist_part_num = THIS_MODULE['get_{}_part_num'.format(function)]
-        get_dist_qty_avail = THIS_MODULE['get_{}_qty_avail'.format(function)]
+        html_tree, url[d] = get_part_html_tree(part, d, local_part_html, scrape_logger)
 
         # Call the functions that extract the data from the HTML tree.
-        part_num[d] = get_dist_part_num(html_tree)
-        qty_avail[d] = get_dist_qty_avail(html_tree)
-        price_tiers[d] = get_dist_price_tiers(html_tree)
+        dist_module = getattr(distributor_imports, d)
+        part_num[d] = dist_module.get_part_num(html_tree)
+        qty_avail[d] = dist_module.get_qty_avail(html_tree)
+        price_tiers[d] = dist_module.get_price_tiers(html_tree)
 
     # Return the part data.
     return id, url, part_num, price_tiers, qty_avail
