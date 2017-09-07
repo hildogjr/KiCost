@@ -117,6 +117,18 @@ That can be prevented in two ways:
    field because it is in a different namespace.
 
 ------------------------
+Multiple Parts
+------------------------
+
+KiCost allow use of multiple parts with diferent quantities to one designator, an userfull resource to list parts to assembly conectors and so on. To use, the subparts have to be separeted by comma or semicolon and the quantity (optional, default is 1) separeted by ":".
+
+E.g., em maf# field of KiCad:
+
+    ' 5 : PART1;PART2   , PART3:0.5 , 1/2:PARTE4'
+
+It is allowed decimal and fractional subquantities. In the spreadsheet the total part is ceiled to the next interger.
+
+------------------------
 Schematic Variants
 ------------------------
 
