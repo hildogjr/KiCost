@@ -14,31 +14,18 @@ import future
 
 import re
 import difflib
-import logging
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-
-try:
-    from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
-    import urllib.request
-    from urllib.request import urlopen, Request
-except ImportError:
-    from urlparse import quote as urlquote, urlsplit, urlunsplit
-    from urllib import urlencode
-    from urllib2 import urlopen, Request
-    
-from ...kicost import PartHtmlError, FakeBrowser
+from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
+from .. import HTML_RESPONSE_RETRIES
+from .. import WEB_SCRAPE_EXCEPTIONS
+from .. import FakeBrowser
+from ...kicost import PartHtmlError
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-
 from currency_converter import CurrencyConverter
+currency = CurrencyConverter()
 
 __author__='Giacinto Luigi Cerone'
-
-HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
-
-WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
-
-currency = CurrencyConverter()
 
 
 def get_price_tiers(html_tree):
