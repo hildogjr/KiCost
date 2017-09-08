@@ -51,6 +51,11 @@ from multiprocessing import Pool # For running web scrapes in parallel.
 import re # Regular expression parser.
 from datetime import datetime
 
+try:
+    from urllib.parse import urlsplit, urlunsplit
+except ImportError:
+    from urlparse import quote as urlsplit, urlunsplit
+
 # Stops UnicodeDecodeError exceptions.
 try:
     reload(sys)
@@ -501,6 +506,7 @@ def create_local_part_html(parts):
                     # and add it to the table of distributors.
                     if dist not in distributors:
                         distributors[dist] = copy.copy(distributors['local_template'])
+                        distributors[dist]['label'] = dist  # Set dist name for spreadsheet header.
 
                 # Now look for catalog number, price list and webpage link for this part.
                 for dist in distributors:
@@ -569,24 +575,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'vcenter',
                 'bg_color': '#303030'
             }),
-            'local_lbl': [
-                workbook.add_format({
-                    'font_size': 14,
-                    'font_color': 'black',
-                    'bold': True,
-                    'align': 'center',
-                    'valign': 'vcenter',
-                    'bg_color': '#909090'  # Darker grey.
-                }),
-                workbook.add_format({
-                    'font_size': 14,
-                    'font_color': 'black',
-                    'bold': True,
-                    'align': 'center',
-                    'valign': 'vcenter',
-                    'bg_color': '#c0c0c0'  # Lighter grey.
-                }),
-            ],
             'header': workbook.add_format({
                 'font_size': 12,
                 'bold': True,
@@ -723,13 +711,11 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
-        index = 0
         for dist in dist_list:
             dist_start_col = next_col
-            next_col = add_dist_to_worksheet(wks, wrk_formats, index, START_ROW,
+            next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
                                              dist_start_col, TOTAL_COST_ROW,
                                              refs_col, qty_col, dist, parts)
-            index = (index+1) % 2
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
@@ -1006,7 +992,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
     return start_col + num_cols, start_col + columns['refs']['col'], start_col + columns['qty']['col']
 
 
-def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
+def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                           total_cost_row, part_ref_col, part_qty_col, dist,
                           parts):
     '''Add distributor-specific part data to the spreadsheet.'''
@@ -1057,12 +1043,8 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
     row = start_row  # Start building distributor section at this row.
 
     # Add label for this distributor.
-    try:
-        wks.merge_range(row, start_col, row, start_col + num_cols - 1,
+    wks.merge_range(row, start_col, row, start_col + num_cols - 1,
             distributors[dist]['label'].title(), wrk_formats[dist])
-    except KeyError:
-        wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-            distributors[dist]['label'].title(), wrk_formats['local_lbl'][index])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -1339,15 +1321,10 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
 
 
-def get_part_html_tree(part, dist, local_part_html, logger):
+def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
-    
-    # Get function name for getting the HTML tree for this part from this distributor.
-    #import pdb; pdb.set_trace()
-    dist_module = getattr(distributor_imports, dist)
-    get_part_html_tree = dist_module.get_part_html_tree
 
     for extra_search_terms in set([part.fields.get('manf', ''), '']):
         try:
@@ -1356,7 +1333,7 @@ def get_part_html_tree(part, dist, local_part_html, logger):
             #    2) the manufacturer's part number.
             for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
                 if key in part.fields:
-                    return get_part_html_tree(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
+                    return get_html_tree_func(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
             # No distributor or manufacturer number, so give up.
             else:
                 logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
@@ -1393,11 +1370,15 @@ def scrape_part(args):
 
     # Scrape the part data from each distributor website or the local HTML.
     for d in distributor_dict:
+        try:
+            dist_module = getattr(distributor_imports, d)
+        except AttributeError:
+            dist_module = getattr(distributor_imports, distributor_dict[d]['module'])
+
         # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, local_part_html, scrape_logger)
+        html_tree, url[d] = get_part_html_tree(part, d, dist_module.get_part_html_tree, local_part_html, scrape_logger)
 
         # Call the functions that extract the data from the HTML tree.
-        dist_module = getattr(distributor_imports, d)
         part_num[d] = dist_module.get_part_num(html_tree)
         qty_avail[d] = dist_module.get_qty_avail(html_tree)
         price_tiers[d] = dist_module.get_price_tiers(html_tree)
