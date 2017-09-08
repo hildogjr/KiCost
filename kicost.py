@@ -43,13 +43,11 @@ import logging
 import tqdm
 import os
 from bs4 import BeautifulSoup # XML file interpreter.
-from random import randint
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
-import http.client # For web scraping exceptions.
 from datetime import datetime
 
 # Stops UnicodeDecodeError exceptions.
@@ -59,24 +57,9 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-def FakeBrowser(url):
-    req = Request(url)
-    req.add_header('Accept-Language', 'en-US')
-    req.add_header('User-agent', get_user_agent())
-    return req
-
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
-
-try:
-    from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
-    import urllib.request
-    from urllib.request import urlopen, Request
-except ImportError:
-    from urlparse import quote as urlquote, urlsplit, urlunsplit
-    from urllib import urlencode
-    from urllib2 import urlopen, Request
 
 # ghost library allows scraping pages that have Javascript challenge pages that
 # screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
@@ -86,9 +69,6 @@ except ImportError:
 __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
-HTML_RESPONSE_RETRIES = 20 # Num of retries for getting part data web page.
-
-WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
                           
 logger = logging.getLogger('kicost')
 DEBUG_OVERVIEW = logging.DEBUG
@@ -977,8 +957,10 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
 
         # Enter total part quantity needed.
         try:
+            part_qty = subpart_qty(part);
             wks.write(row, start_col + columns['qty']['col'],
-                      '=BoardQty*{}'.format(len(part.refs)))
+                       part_qty.format('BoardQty') )
+            #          '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
 
@@ -1357,32 +1339,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                          delimiter=order_delimiter[col_tag])
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
-
-
-def get_user_agent():
-    # The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
-    # for more user agent strings,you can find it in http://www.useragentstring.com/pages/useragentstring.php
-    user_agent_list = [
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-        "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-        "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
-    ]
-    return user_agent_list[randint(0, len(user_agent_list) - 1)]
 
 
 def get_part_html_tree(part, dist, local_part_html, logger):

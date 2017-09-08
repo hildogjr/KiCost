@@ -119,15 +119,18 @@ def subpart_qty(component):
     # Calculate the string of the quantity of the item parsing the
     # referente (design) quantity and the sub quantity (in case that
     # was a sub part of a manufacture/distributor code).
-#    print('DEBUG>>>',component)
-#    try:
-#        if component['manf#_subqty'] != '1':
-#            string = '=ceiling({{}}*{subqty}*{qty})'.format(
-#                                subqty=component.subqty,
-#                                qty=len(component.refs))
-#    except KeyError:
-    string = '={{}}*{qty}'.format(len(component.refs))
-    return string.format('BoardQty')
+    try:
+        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+            print('Qty>>',component.refs,'>>',
+                component['manf#_subqty'], '*', len(component.refs))
+        string = '=ceiling({{}}*{subqty}*{qty})'.format(
+                            subqty=component['manf#_subqty'],
+                            qty=len(component.refs))
+    except (KeyError, TypeError):
+        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+            print('Qty>>',component.refs,'>>',len(component.refs))
+        string = '={{}}*{qty}'.format(qty=len(component.refs))
+    return string
 
 
 
