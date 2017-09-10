@@ -67,6 +67,7 @@ def __ajax_details(pn):
         return None, None
 
     try:
+        r = r.decode('utf-8')  # Convert bytes to string in Python 3.
         p = json.loads(r)['Products'][0]
         html_tree = BeautifulSoup(p['PriceTpl'].replace("\n", ""), "lxml")
         quantity = p['InStock']
