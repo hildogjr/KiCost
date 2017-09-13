@@ -21,8 +21,10 @@
 # THE SOFTWARE.
 
 # Libraries.
-#from ..kicost import field_name_translations
 import re # Regular expression parser.
+#from ..kicost import distributors
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+distributors = ['rs','digikey','mouser','newark','farnell']
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
@@ -35,21 +37,26 @@ QTY_SSTR = '[\:]' # String that separate the subpart quantity and the
                 # manufacture/distributor code.
 PART_SSTR = '[\;\,]' # String that separate the part (manufacture/
                      # distributor code) in the list.
-SUB_SSTR = '.' # String to separete the subpart in the new reference create.
-
-#global field_name_translations # Use the definitions of fileds for
-                               # manufacture/distributors code.
+SUB_SSTR = ''#'.' # String to separete the subpart in the new reference create.
 
 # Definitions to parse the manufature / distributor code to allow
 # sub parts and diferent quantities (even fraction) in these.
 
 
 
-# ------------------ Plublic functions
+#    components = subpart_split(accepted_components)
+
+# ------------------ Public functions
 
 def subpart_split(components):
+    # Take each part and the all manufacture/distributors combination
+    # possibility to split in subpart the components part that have
+    # more than one manufacture/distributors code.
     # For each designator...
+    logger.log(DEBUG_OVERVIEW, 'Search for subpart in the designed parts...')
     designator = list(components.keys())
+    dist = [d+'#' for d in distributors]
+    dist.append('manf#')
     for parts_index in range(len(designator)):
         part = components[designator[parts_index]]
         try:
@@ -61,20 +68,23 @@ def subpart_split(components):
             founded_fields = []
             subparts_qty = 0
             subparts_manf = dict()
-            for field_code in ['manf#','digikey#','mouser#']:#field_name_translations.keys():
+            for field_code in dist:
                 if field_code in part:
                     subparts_qty = max(subparts_qty, 
-                            len( subpart_list(part[field_code]) ) )
+                            len( subpart_list(part[field_code]) ) ) # Quantity of sub parts.
                     founded_fields += [field_code]
                     subparts_manf[field_code] = subpart_list(part[field_code])
             if not founded_fields:
                 continue # If not manf/distributor code pass to next.
+            if logger.isEnabledFor(DEBUG_DETAILED):
+                print(designator,'>>',founded_fields)
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
             # so on... Get the subpar
             if subparts_qty>1:
                 # Remove the actual part from the list.
                 part_actual = components.pop(designator[parts_index])
+                part_actual_value = part_actual['value']
                 # Add the splited subparts.
                 for subparts_index in range(0,subparts_qty):
                     # Create a sub component based on the main component with
@@ -92,18 +102,21 @@ def subpart_split(components):
                         # U1.3:{'manf#':'PARTG3'}
                         try:
                             p_manf = subparts_manf[field_manf][subparts_index]
-                            subparts_qty, subpart_part = subpart_qtypart(p_manf)
+                            subpart_qty, subpart_part = subpart_qtypart(p_manf)
+                            subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
+                                            v=part_actual_value,
+                                            idx=subparts_index+1,
+                                            total=subparts_qty)
                             subpart_actual[field_manf] = subpart_part
-                            subpart_actual[field_manf+'_subqty'] = subparts_qty
+                            subpart_actual[field_manf+'_subqty'] = subpart_qty
+                            if logger.isEnabledFor(DEBUG_OBSESSIVE):
+                                print(subpart_actual)
                         except IndexError:
                             pass
-                    #ref = designator[parts_index] + SUB_SSTR + str(subparts_index + 1)
-                    ref = designator[parts_index] + str(subparts_index + 1) #TODO use the bellow in final code, just a test because of some issue in the order rotine.
-                    print('INICIAL>>>',ref,':',subpart_actual,'\n\n')
+                    ref = designator[parts_index] + SUB_SSTR + str(subparts_index + 1)
                     components.update({ref:subpart_actual.copy()})
         except KeyError:
             continue
-    print('FINAL>>', components)
     return components
     
 
@@ -111,15 +124,18 @@ def subpart_qty(component):
     # Calculate the string of the quantity of the item parsing the
     # referente (design) quantity and the sub quantity (in case that
     # was a sub part of a manufacture/distributor code).
-#    print('DEBUG>>>',component)
-#    try:
-#        if component['manf#_subqty'] != '1':
-#            string = '=ceiling({{}}*{subqty}*{qty})'.format(
-#                                subqty=component.subqty,
-#                                qty=len(component.refs))
-#    except KeyError:
-    string = '={{}}*{qty}'.format(len(component.refs))
-    return string.format('BoardQty')
+    try:
+        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+            print('Qty>>',component.refs,'>>',
+                component['manf#_subqty'], '*', len(component.refs))
+        string = '=ceiling({{}}*{subqty}*{qty})'.format(
+                            subqty=component['manf#_subqty'],
+                            qty=len(component.refs))
+    except (KeyError, TypeError):
+        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+            print('Qty>>',component.refs,'>>',len(component.refs))
+        string = '={{}}*{qty}'.format(qty=len(component.refs))
+    return string
 
 
 
@@ -176,4 +192,6 @@ def subpart_qtypart(subpart):
     else:
         qty = '1'
         part = ''.join(strings)
+    if logger.isEnabledFor(DEBUG_OBSESSIVE):
+        print('part/qty>>', subpart, '\t\tpart>>', part, '\tqty>>', qty)
     return qty, part

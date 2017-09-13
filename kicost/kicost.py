@@ -43,13 +43,11 @@ import logging
 import tqdm
 import os
 from bs4 import BeautifulSoup # XML file interpreter.
-from random import randint
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
-import http.client # For web scraping exceptions.
 from datetime import datetime
 
 # Stops UnicodeDecodeError exceptions.
@@ -59,24 +57,9 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-def FakeBrowser(url):
-    req = Request(url)
-    req.add_header('Accept-Language', 'en-US')
-    req.add_header('User-agent', get_user_agent())
-    return req
-
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
-
-try:
-    from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
-    import urllib.request
-    from urllib.request import urlopen, Request
-except ImportError:
-    from urlparse import quote as urlquote, urlsplit, urlunsplit
-    from urllib import urlencode
-    from urllib2 import urlopen, Request
 
 # ghost library allows scraping pages that have Javascript challenge pages that
 # screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
@@ -85,15 +68,7 @@ except ImportError:
 
 __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
-# Used to get the names of functions in this module so they can be called dynamically.
-THIS_MODULE = locals()
-
-ALL_MODULES = globals()
-
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
-HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
-
-WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
                           
 logger = logging.getLogger('kicost')
 DEBUG_OVERVIEW = logging.DEBUG
@@ -407,8 +382,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     #print('Removed parts:', set(components.keys())-set(accepted_components.keys()))
 
-    # Replace the component list with the list of accepted parts,
-    # spliting the subparts and gettin the subpart quantity.
+    # Replace the component list with the list of accepted parts and split the subparts.
     components = subpart_split(accepted_components)
 
     # Now partition the parts into groups of like components.
@@ -557,7 +531,7 @@ def create_local_part_html(parts):
                             with tag('div', klass='link'):
                                 text(link)
 
-    # Remove the local distributor template so it won't be processed.
+    # Remove the local distributor template so it won't be processed later on.
     # It has served its purpose.
     del distributors['local_template']
 
@@ -594,46 +568,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#303030'
-            }),
-            'digikey': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#CC0000'  # Digi-Key red.
-            }),
-            'mouser': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#004A85'  # Mouser blue.
-            }),
-            'newark': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#A2AE06'  # Newark/E14 olive green.
-            }),
-            'rs': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#FF0000'  # RS Components red.
-            }),
-            'farnell': workbook.add_format({
-                'font_size': 14,
-                'font_color': 'white',
-                'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#FF6600'  # Farnell/E14 orange.
             }),
             'local_lbl': [
                 workbook.add_format({
@@ -708,6 +642,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             'currency': workbook.add_format({'num_format': '$#,##0.00'}),
             'centered_text': workbook.add_format({'align': 'center'}),
         }
+
+        # Add the distinctive header format for each distributor to the dict of formats.
+        for d in distributors:
+            wrk_formats[d] = workbook.add_format(distributors[d]['wrk_hdr_format'])
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
@@ -1019,8 +957,10 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
 
         # Enter total part quantity needed.
         try:
+            part_qty = subpart_qty(part);
             wks.write(row, start_col + columns['qty']['col'],
-                      subpart_qty(part))
+                       part_qty.format('BoardQty') )
+            #          '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
 
@@ -1399,32 +1339,6 @@ def add_dist_to_worksheet(wks, wrk_formats, index, start_row, start_col,
                          delimiter=order_delimiter[col_tag])
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
-
-
-def get_user_agent():
-    # The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
-    # for more user agent strings,you can find it in http://www.useragentstring.com/pages/useragentstring.php
-    user_agent_list = [
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-        "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-        "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"
-    ]
-    return user_agent_list[randint(0, len(user_agent_list) - 1)]
 
 
 def get_part_html_tree(part, dist, local_part_html, logger):
