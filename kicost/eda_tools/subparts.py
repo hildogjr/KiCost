@@ -130,10 +130,9 @@ def subpart_qty(component):
                 component.fields.get('manf#_subqty'), '*',
                 	component.fields.get('manf#'))
         subqty = component.fields.get('manf#_subqty')
-        print('>>>',subqty,'*',component.fields.get('manf#'))
         string = '={{}}*{qty}'.format(qty=len(component.refs))
         if subqty != '1' and subqty != None:
-        	string = '=CEILING({{}}*({subqty})*{qty})'.format(
+        	string = '=CEILING({{}}*({subqty})*{qty},1)'.format(
                             subqty=subqty,
                             qty=len(component.refs))
         else:
