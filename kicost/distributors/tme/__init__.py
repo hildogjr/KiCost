@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
-__author__ = 'XESS Corporation'
-__email__ = 'info@xess.com'
+__author__ ='Adam Heinrich'
+__email__ = 'adam@adamh.cz'
 
-from .local import *
+from .tme import *
 
 # Place information about this distributor into the distributor dictionary.
 from .. import distributors
 distributors.update(
     {
-        'local_template': {
-            'module': 'local', # The directory name containing this file.
-            'scrape': 'local', # Allowable values: 'web' or 'local'.
-            'label': 'Local',  # Distributor label used in spreadsheet columns.
+        'tme': {
+            'module': 'tme', # The directory name containing this file.
+            'scrape': 'web',     # Allowable values: 'web' or 'local'.
+            'label': 'TME',  # Distributor label used in spreadsheet columns.
             'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
             'order_delimiter': ' ',  # Delimiter for online orders.
             # Formatting for distributor header in worksheet.
@@ -22,7 +22,7 @@ distributors.update(
                 'bold': True,
                 'align': 'center',
                 'valign': 'vcenter',
-                'bg_color': '#008000'  # Darker green.
+                'bg_color': '#0C4DA1'  # TME blue
             }
         }
     }

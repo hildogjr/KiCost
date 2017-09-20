@@ -10,10 +10,20 @@ from .. import distributors
 distributors.update(
     {
         'newark': {
-            'scrape': 'web',
-            'label': 'Newark',
-            'order_cols': ['part_num', 'purch', 'refs'],
-            'order_delimiter': ','
+            'module': 'newark', # The directory name containing this file.
+            'scrape': 'web',    # Allowable values: 'web' or 'local'.
+            'label': 'Newark',  # Distributor label used in spreadsheet columns.
+            'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+            'order_delimiter': ',',  # Delimiter for online orders.
+            # Formatting for distributor header in worksheet.
+            'wrk_hdr_format': {
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#A2AE06'  # Newark/E14 olive green.
+            }
         }
     }
 )

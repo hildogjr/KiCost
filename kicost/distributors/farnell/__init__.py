@@ -9,11 +9,20 @@ from .. import distributors
 distributors.update(
     {
         'farnell': {
-            'scrape': 'web',
-            'label': 'Farnell',
-            'order_cols': ['part_num', 'purch', 'refs'],
-            'order_delimiter': ' '
+            'module': 'farnell', # The directory name containing this file.
+            'scrape': 'web',     # Allowable values: 'web' or 'local'.
+            'label': 'Farnell',  # Distributor label used in spreadsheet columns.
+            'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+            'order_delimiter': ' ',  # Delimiter for online orders.
+            # Formatting for distributor header in worksheet.
+            'wrk_hdr_format': {
+                'font_size': 14,
+                'font_color': 'white',
+                'bold': True,
+                'align': 'center',
+                'valign': 'vcenter',
+                'bg_color': '#FF6600'  # Farnell/E14 orange.
+            }
         }
     }
 )
-

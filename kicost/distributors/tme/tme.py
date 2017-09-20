@@ -36,32 +36,66 @@ import future
 
 import re
 import difflib
+import json
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
+from .. import urlencode, urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import HTML_RESPONSE_RETRIES
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
 from ...kicost import PartHtmlError
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
+def __ajax_details(pn):
+    '''Load part details from TME using XMLHttpRequest'''
+    data = urlencode({
+        'symbol': pn,
+        'currency': 'USD'
+    }).encode("utf-8")
+    req = FakeBrowser('http://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html')
+    req.add_header('X-Requested-With', 'XMLHttpRequest')
+    for _ in range(HTML_RESPONSE_RETRIES):
+        try:
+            response = urlopen(req, data)
+            r = response.read()
+            break
+        except WEB_SCRAPE_EXCEPTIONS:
+            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
+            pass
+    else: # Couldn't get a good read from the website.
+        logger.log(DEBUG_OBSESSIVE,'No AJAX data for {} from {}'.format(pn, dist))
+        return None, None
+
+    try:
+        r = r.decode('utf-8')  # Convert bytes to string in Python 3.
+        p = json.loads(r)['Products'][0]
+        html_tree = BeautifulSoup(p['PriceTpl'].replace("\n", ""), "lxml")
+        quantity = p['InStock']
+        return html_tree, quantity
+    except (ValueError, KeyError, IndexError):
+        logger.log(DEBUG_OBSESSIVE, 'Could not obtain AJAX data from TME!')
+        return None, None
 
 def get_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
+    '''Get the pricing tiers from the parsed tree of the TME product page.'''
     price_tiers = {}
     try:
+        pn = get_part_num(html_tree)
+        if pn == '':
+            return price_tiers
+
+        ajax_tree, quantity = __ajax_details(pn)
+        if ajax_tree is None:
+            return price_tiers
+
         qty_strs = []
-        for qty in html_tree.find('div',
-                                  class_='PriceBreaks').find_all(
-                                      'div',
-                                      class_='PriceBreakQuantity'):
-            qty_strs.append(qty.text)
         price_strs = []
-        for price in html_tree.find('div',
-                                    class_='PriceBreaks').find_all(
-                                        'div',
-                                        class_='PriceBreakPrice'):
-            price_strs.append(price.text)
+        for tr in ajax_tree.find('tbody', id='prices_body').find_all('tr'):
+            td = tr.find_all('td')
+            if len(td) == 3:
+                qty_strs.append(td[0].text)
+                price_strs.append(td[2].text)
+
         qtys_prices = list(zip(qty_strs, price_strs))
         for qty_str, price_str in qtys_prices:
             try:
@@ -72,61 +106,53 @@ def get_price_tiers(html_tree):
                 continue
     except AttributeError:
         # This happens when no pricing info is found in the tree.
-        logger.log(DEBUG_OBSESSIVE, 'No Mouser pricing information found!')
+        logger.log(DEBUG_OBSESSIVE, 'No TME pricing information found!')
         return price_tiers  # Return empty price tiers.
     return price_tiers
 
 
 def get_part_num(html_tree):
-    '''Get the part number from the Mouser product page.'''
+    '''Get the part number from the TME product page.'''
     try:
-        return re.sub('\n', '', html_tree.find('div',
-                                               id='divMouserPartNum').text)
+        return html_tree.find('td', class_="pip-product-symbol").text
     except AttributeError:
-        logger.log(DEBUG_OBSESSIVE, 'No Mouser part number found!')
+        logger.log(DEBUG_OBSESSIVE, 'No TME part number found!')
         return ''
 
 
 def get_qty_avail(html_tree):
-    '''Get the available quantity of the part from the Mouser product page.'''
-    try:
-        qty_str = html_tree.find('div',
-                                 id='availability').find(
-                                     'div',
-                                     class_='av-row').find(
-                                         'div',
-                                         class_='av-col2').text
-    except AttributeError as e:
-        # No quantity found (not even 0) so this is probably a non-stocked part.
-        # Return None so the part won't show in the spreadsheet for this dist.
-        logger.log(DEBUG_OBSESSIVE, 'No Mouser part quantity found!')
+    '''Get the available quantity of the part from the TME product page.'''
+    pn = get_part_num(html_tree)
+    if pn == '':
+        logger.log(DEBUG_OBSESSIVE, 'No TME part quantity found!')
         return None
+
+    ajax_tree, qty_str = __ajax_details(pn)
+    if qty_str is None:
+        return None
+
     try:
-        qty_str = re.search('(\s*)([0-9,]*)', qty_str, re.IGNORECASE).group(2)
-        return int(re.sub('[^0-9]', '', qty_str))
+        return int(qty_str)
     except ValueError:
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
-        logger.log(DEBUG_OBSESSIVE, 'No Mouser part quantity found!')
+        logger.log(DEBUG_OBSESSIVE, 'No TME part quantity found!')
         return None
 
 
 def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
-    '''Find the Mouser HTML page for a part number and return the URL and parse tree.'''
+    '''Find the TME HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-        url = 'http://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(
+        url = 'http://www.tme.eu/en/katalog/?search=' + urlquote(
             pn + ' ' + extra_search_terms,
             safe='')
     elif url[0] == '/':
-        url = 'http://www.mouser.com' + url
-    elif url.startswith('..'):
-        url = 'http://www.mouser.com/Search/' + url
+        url = 'http://www.tme.eu' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
-    req.add_header('Cookie', 'preferences=ps=www2&pl=en-US&pc_www2=USDe')
     for _ in range(HTML_RESPONSE_RETRIES):
         try:
             response = urlopen(req)
@@ -142,9 +168,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
     # Abort if the part number isn't in the HTML somewhere.
     # (Only use the numbers and letters to compare PN to HTML.)
     if re.sub('[\W_]','',str.lower(pn)) not in re.sub('[\W_]','',str.lower(str(html))):
-        logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {}'.format(pn, dist))
+        logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {} ({})'.format(pn, dist, url))
         raise PartHtmlError
-    
+
     try:
         tree = BeautifulSoup(html, 'lxml')
     except Exception:
@@ -152,11 +178,11 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
         raise PartHtmlError
 
     # If the tree contains the tag for a product page, then just return it.
-    if tree.find('div', id='product-details') is not None:
+    if tree.find('div', id='ph') is not None:
         return tree, url
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
-    if tree.find('table', class_='SearchResultsTable') is not None:
+    if tree.find('table', id="products") is not None:
         logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
         if descend <= 0:
             logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, dist))
@@ -165,12 +191,15 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
             # Look for the table of products.
             products = tree.find(
                 'table',
-                class_='SearchResultsTable').find_all(
+                id="products").find_all(
                     'tr',
-                    class_=('SearchResultsRowOdd', 'SearchResultsRowEven'))
+                    class_=('product-row'))
 
             # Extract the product links for the part numbers from the table.
-            product_links = [p.find('div', class_='mfrDiv').a for p in products]
+            product_links = []
+            for p in products:
+                for a in p.find('div', class_='manufacturer').find_all('a'):
+                    product_links.append(a)
 
             # Extract all the part numbers from the text portion of the links.
             part_numbers = [l.text for l in product_links]
@@ -180,11 +209,21 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
 
             # Now look for the link that goes with the closest matching part number.
             for l in product_links:
-                if l.text == match:
+                if (not l['href'].startswith('./katalog')) and l.text == match:
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
+                    # TODO: The current implementation does up to four HTTP
+                    # requests per part (search, part details page for TME P/N,
+                    # XHR for pricing information, and XHR for stock
+                    # availability). This is mainly for the compatibility with
+                    # other distributor implementations (html_tree gets passed
+                    # to all functions).
+                    # A modified implementation (which would pass JSON data
+                    # obtained by the XHR instead of the HTML DOM tree) might be
+                    # able to do the same with just two requests (search for TME
+                    # P/N, XHR for pricing and stock availability).
                     return get_part_html_tree(dist, pn, extra_search_terms,
-                                url=l['href'], descend=descend-1)
+                                              url=l['href'], descend=descend-1)
 
     # I don't know what happened here, so give up.
     logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))
