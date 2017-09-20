@@ -127,10 +127,17 @@ def subpart_qty(component):
     try:
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',
-                component['manf#_subqty'], '*', len(component.refs))
-        string = '=ceiling({{}}*{subqty}*{qty})'.format(
-                            subqty=component['manf#_subqty'],
+                component.fields.get('manf#_subqty'), '*',
+                	component.fields.get('manf#'))
+        subqty = component.fields.get('manf#_subqty')
+        print('>>>',subqty,'*',component.fields.get('manf#'))
+        string = '={{}}*{qty}'.format(qty=len(component.refs))
+        if subqty != '1' and subqty != None:
+        	string = '=CEILING({{}}*({subqty})*{qty})'.format(
+                            subqty=subqty,
                             qty=len(component.refs))
+        else:
+        	string = '={{}}*{qty}'.format(qty=len(component.refs))
     except (KeyError, TypeError):
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',len(component.refs))
