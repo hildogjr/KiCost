@@ -1250,7 +1250,7 @@ Orange -> Too little quantity available.'''
                     wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n==============='
+            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n================'
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
                     q,

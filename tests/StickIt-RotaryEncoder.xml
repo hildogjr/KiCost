@@ -23,8 +23,8 @@
       <value>STICKIT2_HDR</value>
       <footprint>XESS:STICKIT2_HDR</footprint>
       <fields>
-        <field name="kicost:pricing">1:0.09</field>
-        <field name="kicost:link">http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html</field>
+        <field name="kicost:aliexpress:pricing">1:0.09</field>
+        <field name="kicost:aliexpress:link">http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html</field>
       </fields>
       <libsource lib="xess" part="STICKIT2_HDR"/>
       <sheetpath names="/" tstamps="/"/>
