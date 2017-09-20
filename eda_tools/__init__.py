@@ -31,7 +31,7 @@ import os
 
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
-BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con,mgt'
+BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 
 
 # The distributor module directories will be found in this directory.

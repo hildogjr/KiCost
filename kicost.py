@@ -492,7 +492,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         print(len(component_groups_order_old), 'groups of components')
         print('Identifiers founded', component_groups_refs)
     for ref_identifier in ref_identifiers:
-        component_groups_ref_match = [i for i in range(0,len(component_groups_refs)) if ref_identifier in component_groups_refs[i].lower()]
+        component_groups_ref_match = [i for i in range(0,len(component_groups_refs)) if ref_identifier==component_groups_refs[i].lower()]
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Identifier: ', ref_identifier, ' in ', component_groups_ref_match)
         if len(component_groups_ref_match)>0:
@@ -524,7 +524,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 print('2>>',component_groups_order_new,'\n\n')
     # The new order is the found refs firt and at the last the not referenced in BOM_ORDER.
     component_groups_order_new += component_groups_order_old # Add the missing references groups.
-    #new_component_groups = [new_component_groups[i] for i in component_groups_order_new]
+    new_component_groups = [new_component_groups[i] for i in component_groups_order_new]
     print('FINAL>>',component_groups_order_new,'\n\n')
 
     # Now return the list of identical part groups.
