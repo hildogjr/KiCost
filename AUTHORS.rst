@@ -15,3 +15,4 @@ Contributors
 * Steven Johnson: https://github.com/stevenj
 * Diorcet Yann: https://github.com/diorcety
 * Giacinto Luigi Cerone https://github.com/glcerone
+* Hildo Guillardi Júnior https://github.com/hildogjr
