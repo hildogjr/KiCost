@@ -15,7 +15,7 @@ except ImportError:
     from urlparse import quote as urlquote, urlsplit, urlunsplit
     from urllib import urlencode
     from urllib2 import urlopen, Request
-HTML_RESPONSE_RETRIES = 20 # Num of retries for getting part data web page.
+HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
 

@@ -71,7 +71,7 @@ def subpart_split(components):
             for field_code in dist:
                 if field_code in part:
                     subparts_qty = max(subparts_qty, 
-                            len( subpart_list(part[field_code]) ) )
+                            len( subpart_list(part[field_code]) ) ) # Quantity of sub parts.
                     founded_fields += [field_code]
                     subparts_manf[field_code] = subpart_list(part[field_code])
             if not founded_fields:
@@ -84,6 +84,7 @@ def subpart_split(components):
             if subparts_qty>1:
                 # Remove the actual part from the list.
                 part_actual = components.pop(designator[parts_index])
+                part_actual_value = part_actual['value']
                 # Add the splited subparts.
                 for subparts_index in range(0,subparts_qty):
                     # Create a sub component based on the main component with
@@ -101,9 +102,13 @@ def subpart_split(components):
                         # U1.3:{'manf#':'PARTG3'}
                         try:
                             p_manf = subparts_manf[field_manf][subparts_index]
-                            subparts_qty, subpart_part = subpart_qtypart(p_manf)
+                            subpart_qty, subpart_part = subpart_qtypart(p_manf)
+                            subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
+                                            v=part_actual_value,
+                                            idx=subparts_index+1,
+                                            total=subparts_qty)
                             subpart_actual[field_manf] = subpart_part
-                            subpart_actual[field_manf+'_subqty'] = subparts_qty
+                            subpart_actual[field_manf+'_subqty'] = subpart_qty
                             if logger.isEnabledFor(DEBUG_OBSESSIVE):
                                 print(subpart_actual)
                         except IndexError:

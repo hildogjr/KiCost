@@ -9,10 +9,12 @@ from .. import distributors
 distributors.update(
     {
         'rs': {
-            'scrape': 'web',
-            'label': 'RS Components',
-            'order_cols': ['part_num', 'purch', 'refs'],
-            'order_delimiter': ' ',
+            'module': 'rs',           # The directory name containing this file.
+            'scrape': 'web',          # Allowable values: 'web' or 'local'.
+            'label': 'RS Components', # Distributor label used in spreadsheet columns.
+            'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+            'order_delimiter': ' ',  # Delimiter for online orders.
+            # Formatting for distributor header in worksheet.
             'wrk_hdr_format': {
                 'font_size': 14,
                 'font_color': 'white',
