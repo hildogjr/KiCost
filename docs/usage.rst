@@ -125,6 +125,7 @@ KiCost allow use of multiple parts with diferent quantities to one designator, a
 E.g., em maf# field of KiCad:
 
     ' 5 : PART1;PART2   , PART3:0.5 , 1/2:PARTE4'
+    'CONNECTOR , 1/2: PINBAR , CABLE :  5'
 
 It is allowed decimal and fractional subquantities. In the spreadsheet the total part is ceiled to the next interger.
 
