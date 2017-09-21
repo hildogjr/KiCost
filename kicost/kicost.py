@@ -475,50 +475,8 @@ def get_part_groups(in_file, ignore_fields, variant):
                     grp_fields[key] = val
         grp.fields = grp_fields
 
-    # Put the components groups in the spreadsheet rows in a spefic order
-    # using the reference string of the components. The order is defined
-    # by BOM_ORDER.
-    ref_identifiers = re.split('(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
-                BOM_ORDER, flags=re.IGNORECASE)
-    component_groups_order_old = list( range(0,len(new_component_groups)) )
-    component_groups_order_new = list()
-    component_groups_refs = [new_component_groups[g].fields.get('reference') for g in component_groups_order_old]
-    if logger.isEnabledFor(DEBUG_OBSESSIVE):
-        print('All ref identifier: ', ref_identifiers)
-        print(len(component_groups_order_old), 'groups of components')
-        print('Identifiers founded', component_groups_refs)
-    for ref_identifier in ref_identifiers:
-        component_groups_ref_match = [i for i in range(0,len(component_groups_refs)) if ref_identifier==component_groups_refs[i].lower()]
-        if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Identifier: ', ref_identifier, ' in ', component_groups_ref_match)
-        if len(component_groups_ref_match)>0:
-            # If found more than one group with the reference, use the 'manf#'
-            # as second order criterian.
-            if len(component_groups_ref_match)>1:
-                try:
-                    for item in component_groups_ref_match:
-                        component_groups_order_old.remove(item)
-                except ValueError:
-                    pass
-                # Examine 'manf#' to get the order.
-                group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
-                if group_manf_list:
-                    m=group_manf_list
-                    sorted_groups = sorted(range(len(group_manf_list)), key=lambda k:(group_manf_list[k] is None,  group_manf_list[k]))
-#                    [i[0] for i in sorted(enumerate(group_manf_list), key=lambda x:x[1])]
-                    if logger.isEnabledFor(DEBUG_OBSESSIVE):
-                        print(group_manf_list,' > order: ', sorted_groups)
-                    component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
-                component_groups_order_new += component_groups_ref_match
-            else:
-                try:
-                    component_groups_order_old.remove(component_groups_ref_match[0])
-                except ValueError:
-                    pass
-                component_groups_order_new += component_groups_ref_match
-    # The new order is the found refs firt and at the last the not referenced in BOM_ORDER.
-    component_groups_order_new += component_groups_order_old # Add the missing references groups.
-    new_component_groups = [new_component_groups[i] for i in component_groups_order_new]
+    # Sort the founded groups by BOM_ORDER definition.
+    new_component_groups = groups_sort(new_component_groups)
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info

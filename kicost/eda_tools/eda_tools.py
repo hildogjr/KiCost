@@ -24,14 +24,14 @@
 import re # Regular expression parser.
 #from ..kicost import distributors
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-distributors = ['rs','digikey','mouser','newark','farnell']
+distributors = ['rs','digikey','mouser','newark','farnell'] #TODO import for `kicost/distributors`
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-__all__ = ['subpart_split','subpart_qty']
+__all__ = ['groups_sort','subpart_split','subpart_qty']
 
 QTY_SSTR = '[\:]' # String that separate the subpart quantity and the
                 # manufacture/distributor code.
@@ -39,14 +39,65 @@ PART_SSTR = '[\;\,]' # String that separate the part (manufacture/
                      # distributor code) in the list.
 SUB_SSTR = ''#'.' # String to separete the subpart in the new reference create.
 
+# Reference string order to the spreadsheet. Use this to
+# group the elements in sequencial rows.
+BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
+
+
+# ------------------ Public functions
+
+def groups_sort(new_component_groups):
+# Put the components groups in the spreadsheet rows in a spefic order
+    # using the reference string of the components. The order is defined
+    # by BOM_ORDER.
+    ref_identifiers = re.split('(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
+                BOM_ORDER, flags=re.IGNORECASE)
+    component_groups_order_old = list( range(0,len(new_component_groups)) )
+    component_groups_order_new = list()
+    component_groups_refs = [new_component_groups[g].fields.get('reference') for g in component_groups_order_old]
+    if logger.isEnabledFor(DEBUG_OBSESSIVE):
+        print('All ref identifier: ', ref_identifiers)
+        print(len(component_groups_order_old), 'groups of components')
+        print('Identifiers founded', component_groups_refs)
+    for ref_identifier in ref_identifiers:
+        component_groups_ref_match = [i for i in range(0,len(component_groups_refs)) if ref_identifier==component_groups_refs[i].lower()]
+        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+            print('Identifier: ', ref_identifier, ' in ', component_groups_ref_match)
+        if len(component_groups_ref_match)>0:
+            # If found more than one group with the reference, use the 'manf#'
+            # as second order criterian.
+            if len(component_groups_ref_match)>1:
+                try:
+                    for item in component_groups_ref_match:
+                        component_groups_order_old.remove(item)
+                except ValueError:
+                    pass
+                # Examine 'manf#' to get the order.
+                group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
+                if group_manf_list:
+                    m=group_manf_list
+                    sorted_groups = sorted(range(len(group_manf_list)), key=lambda k:(group_manf_list[k] is None,  group_manf_list[k]))
+#                    [i[0] for i in sorted(enumerate(group_manf_list), key=lambda x:x[1])]
+                    if logger.isEnabledFor(DEBUG_OBSESSIVE):
+                        print(group_manf_list,' > order: ', sorted_groups)
+                    component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
+                component_groups_order_new += component_groups_ref_match
+            else:
+                try:
+                    component_groups_order_old.remove(component_groups_ref_match[0])
+                except ValueError:
+                    pass
+                component_groups_order_new += component_groups_ref_match
+    # The new order is the found refs firt and at the last the not referenced in BOM_ORDER.
+    component_groups_order_new += component_groups_order_old # Add the missing references groups.
+    new_component_groups = [new_component_groups[i] for i in component_groups_order_new]
+    return new_component_groups
+
+
+
 # Definitions to parse the manufature / distributor code to allow
 # sub parts and diferent quantities (even fraction) in these.
 
-
-
-#    components = subpart_split(accepted_components)
-
-# ------------------ Public functions
 
 def subpart_split(components):
     # Take each part and the all manufacture/distributors combination

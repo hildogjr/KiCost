@@ -28,12 +28,6 @@ __company__ = 'University of Campinas - Brazil'
 
 import os
 
-
-# Reference string order to the spreadsheet. Use this to
-# group the elements in sequencial rows.
-BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
-
-
 # The distributor module directories will be found in this directory.
 directory = os.path.dirname(__file__)
 
@@ -52,4 +46,4 @@ for module in os.listdir(os.path.dirname(__file__)):
     # Import the module.
     __import__(module, globals(), locals(), [], level=1)
 
-from .subparts import * # Subparts and sub quantities rotines.
+from .eda_tools import * # Subparts and sub quantities rotines.
