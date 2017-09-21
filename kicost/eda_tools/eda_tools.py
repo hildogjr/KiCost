@@ -24,7 +24,7 @@
 import re # Regular expression parser.
 #from ..kicost import distributors
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-distributors = ['rs','digikey','mouser','newark','farnell'] #TODO import for `kicost/distributors`
+from ..distributors import distributors # Distributors name to use as field.
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
