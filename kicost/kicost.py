@@ -37,7 +37,7 @@ import future
 import sys
 import pprint
 import copy
-import re
+import re # Regular expression parser.
 import difflib
 import logging
 import tqdm
@@ -48,7 +48,6 @@ from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
-import re # Regular expression parser.
 from datetime import datetime
 
 try:
@@ -81,8 +80,9 @@ DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 
+# Import other EDA importer routines.
 # Altium requires a different part grouping function than KiCad.
-from .altium.altium import get_part_groups_altium
+from .eda_tools import *
 
 # Import information about various distributors.
 from . import distributors as distributor_imports
@@ -388,7 +388,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     #print('Removed parts:', set(components.keys())-set(accepted_components.keys()))
 
     # Replace the component list with the list of accepted parts.
-    components = accepted_components
+    components = subpart_split(accepted_components)
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
@@ -474,6 +474,9 @@ def get_part_groups(in_file, ignore_fields, variant):
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
+
+    # Sort the founded groups by BOM_ORDER definition.
+    new_component_groups = groups_sort(new_component_groups)
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
@@ -953,8 +956,10 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
 
         # Enter total part quantity needed.
         try:
+            part_qty = subpart_qty(part);
             wks.write(row, start_col + columns['qty']['col'],
-                      '=BoardQty*{}'.format(len(part.refs)))
+                       part_qty.format('BoardQty') )
+            #          '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
 
