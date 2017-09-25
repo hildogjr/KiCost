@@ -75,9 +75,7 @@ def groups_sort(new_component_groups):
                 # Examine 'manf#' to get the order.
                 group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
                 if group_manf_list:
-                    m=group_manf_list
                     sorted_groups = sorted(range(len(group_manf_list)), key=lambda k:(group_manf_list[k] is None,  group_manf_list[k]))
-#                    [i[0] for i in sorted(enumerate(group_manf_list), key=lambda x:x[1])]
                     if logger.isEnabledFor(DEBUG_OBSESSIVE):
                         print(group_manf_list,' > order: ', sorted_groups)
                     component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]

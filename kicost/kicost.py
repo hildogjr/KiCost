@@ -475,9 +475,6 @@ def get_part_groups(in_file, ignore_fields, variant):
                     grp_fields[key] = val
         grp.fields = grp_fields
 
-    # Sort the founded groups by BOM_ORDER definition.
-    new_component_groups = groups_sort(new_component_groups)
-
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
 
@@ -554,6 +551,9 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
+
+    # Sort the founded groups by BOM_ORDER definition.
+    parts = groups_sort(parts)
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.

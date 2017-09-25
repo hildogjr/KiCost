@@ -129,9 +129,6 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
 
     prj_info = {'title':'test_title','company':'test_company'} # Not implemented yet.
 
-    # Sort the founded groups by BOM_ORDER definition.
-    new_component_groups = groups_sort(new_component_groups)
-
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
 
