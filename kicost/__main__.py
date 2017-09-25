@@ -104,9 +104,9 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('-a', '--altium',
-                        action='store_true',
-                        help='Allows parsing of an Altium Designer .xml BOM file specified as input.')
+    parser.add_argument('--eda_tool', choices=['kicad', 'altium'],
+                        default='kicad',
+                        help='Choose EDA tool from which the .XML BOM file originated.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
@@ -168,7 +168,7 @@ def main():
 
     kicost(in_file=args.input, out_filename=args.output,
         user_fields=args.fields, ignore_fields=args.ignore_fields, 
-        variant=args.variant, num_processes=num_processes, is_altium=args.altium,
+        variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
         exclude_dist_list=args.exclude, include_dist_list=args.include)
 
 ###############################################################################
