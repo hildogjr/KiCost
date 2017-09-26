@@ -52,7 +52,7 @@ def __ajax_details(pn):
         'symbol': pn,
         'currency': 'USD'
     }).encode("utf-8")
-    req = FakeBrowser('http://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html')
+    req = FakeBrowser('https://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html')
     req.add_header('X-Requested-With', 'XMLHttpRequest')
     for _ in range(HTML_RESPONSE_RETRIES):
         try:
@@ -145,11 +145,11 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-        url = 'http://www.tme.eu/en/katalog/?search=' + urlquote(
+        url = 'https://www.tme.eu/en/katalog/?search=' + urlquote(
             pn + ' ' + extra_search_terms,
             safe='')
     elif url[0] == '/':
-        url = 'http://www.tme.eu' + url
+        url = 'https://www.tme.eu' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
