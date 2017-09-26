@@ -72,13 +72,14 @@ def groups_sort(new_component_groups):
                         component_groups_order_old.remove(item)
                 except ValueError:
                     pass
-                # Examine 'manf#' to get the order.
+                # Examine 'manf#' and refs to get the order.
+                # Order by refs that have 'manf#' codes, that ones that don't have stay at the end of the group.
                 group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
-                if group_manf_list:
-                    sorted_groups = sorted(range(len(group_manf_list)), key=lambda k:(group_manf_list[k] is None,  group_manf_list[k]))
-                    if logger.isEnabledFor(DEBUG_OBSESSIVE):
-                        print(group_manf_list,' > order: ', sorted_groups)
-                    component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
+                group_refs_list = [new_component_groups[h].refs for h in component_groups_ref_match]
+                sorted_groups = sorted(range(len(group_refs_list)), key=lambda k:(group_manf_list[k] is None,  group_refs_list[k]))
+                if logger.isEnabledFor(DEBUG_OBSESSIVE):
+                    print(group_manf_list,' > order: ', sorted_groups)
+                component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
                 component_groups_order_new += component_groups_ref_match
             else:
                 try:

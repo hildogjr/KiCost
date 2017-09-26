@@ -552,6 +552,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
+    # Collapse de references.
+    for part in parts:
+        part.refs = collapse_refs(part.refs)
+
     # Sort the founded groups by BOM_ORDER definition.
     parts = groups_sort(parts)
 
@@ -805,7 +809,7 @@ def collapse_refs(refs):
                                                                      num))
 
                 # Return the collapsed par references.
-    return collapsed_refs
+    return ','.join(collapsed_refs)
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
@@ -940,7 +944,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
 
         # Enter part references.
         wks.write_string(row, start_col + columns['refs']['col'],
-                         ','.join(collapse_refs(part.refs)))
+                         part.refs)
 
         # Enter more static data for the part.
         for field in list(columns.keys()):
