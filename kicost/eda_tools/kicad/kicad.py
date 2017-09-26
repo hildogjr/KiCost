@@ -38,7 +38,8 @@ import re
 from bs4 import BeautifulSoup
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...kicost import SEPRTR
-from ...kicost import field_name_translations
+from ...kicost import distributors
+from ..eda_tools import field_name_translations
 from ..eda_tools import subpart_split, groups_sort
 
 

@@ -84,63 +84,11 @@ DEBUG_OBSESSIVE = logging.DEBUG-2
 from . import distributors as distributor_imports
 distributors = distributor_imports.distributors
 
-# Generate a dictionary to translate all the different ways people might want
-# to refer to part numbers, vendor numbers, and such.
-field_name_translations = {
-    'mpn': 'manf#',
-    'pn': 'manf#',
-    'manf_num': 'manf#',
-    'manf-num': 'manf#',
-    'mfg_num': 'manf#',
-    'mfg-num': 'manf#',
-    'mfg#': 'manf#',
-    'man_num': 'manf#',
-    'man-num': 'manf#',
-    'man#': 'manf#',
-    'mnf_num': 'manf#',
-    'mnf-num': 'manf#',
-    'mnf#': 'manf#',
-    'mfr_num': 'manf#',
-    'mfr-num': 'manf#',
-    'mfr#': 'manf#',
-    'part-num': 'manf#',
-    'part_num': 'manf#',
-    'p#': 'manf#',
-    'part#': 'manf#',
-}
-for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
-    for dist in distributors:
-        field_name_translations[dist + stub] = dist + '#'
-        field_name_translations[dist + '_' + stub] = dist + '#'
-        field_name_translations[dist + '-' + stub] = dist + '#'
-field_name_translations.update(
-    {
-        'manf': 'manf',
-        'manufacturer': 'manf',
-        'mnf': 'manf',
-        'man': 'manf',
-        'mfg': 'manf',
-        'mfr': 'manf',
-    }
-)
-field_name_translations.update(
-    {
-        'variant': 'variant',
-        'version': 'variant',
-    }
-)
-field_name_translations.update(
-    {
-        'dnp': 'dnp',
-        'nopop': 'dnp',
-    }
-)
-
 # Import import functions for various EDA tools.
 from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
 subpart_qty = eda_tools_imports.subpart_qty
-
+from .eda_tools.eda_tools import SUB_SEPRTR
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         eda_tool_name, exclude_dist_list, include_dist_list):
@@ -497,17 +445,34 @@ def collapse_refs(refs):
     def convert_to_ranges(nums):
         # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
         # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
-        nums.sort()  # Sort all the numbers.
+
+        def get_refnum(refnum):
+            return int(re.match('\d+', refnum).group(0))
+
+        def to_int(n):
+            try:
+                return int(n)
+            except ValueError:
+                return n
+
+        nums.sort(key=get_refnum)  # Sort all the numbers.
+        nums = [to_int(n) for n in nums]  # Convert strings to ints if possible.
         num_ranges = []  # No ranges found yet since we just started.
         range_start = 0  # First possible range is at the start of the list of numbers.
 
         # Go through the list of numbers looking for 3 or more sequential numbers.
         while range_start < len(nums):
-            num_range = nums[range_start
-                             ]  # Current range starts off as a single number.
+            num_range = nums[range_start]  # Current range starts off as a single number.
             next_range_start = range_start + 1  # The next possible start of a range.
+            # Part references with subparts are never included in ref ranges.
+            if not isinstance(num_range, int):
+                num_ranges.append(num_range)
+                range_start = next_range_start
+                continue
             # Look for sequences of three or more sequential numbers.
             for range_end in range(range_start + 2, len(nums)):
+                if not isinstance(nums[range_end], int):
+                    break  # Ref with subpart, so can't be in a ref range.
                 if range_end - range_start != nums[range_end] - nums[range_start]:
                     break  # Non-sequential numbers found, so break out of loop.
                 # Otherwise, extend the current range.
@@ -523,41 +488,36 @@ def collapse_refs(refs):
 
     # Regular expression for detecting part references consisting of a
     # prefix of non-digits followed by a sequence of digits, such as 'LED10'.
-    ref_re = re.compile('(?P<prefix>\D+)(?P<num>\d+)', re.IGNORECASE)
+    ref_re = re.compile('(?P<prefix>\D+)(?P<num>\d+({}\d+)?)'.format(SUB_SEPRTR), re.IGNORECASE)
 
     prefix_nums = {}  # Contains a list of numbers for each distinct prefix.
     for ref in refs:
         # Partition each part reference into its beginning part prefix and ending number.
         match = re.search(ref_re, ref)
         prefix = match.group('prefix')
-        num = int(match.group('num'))
+        num = match.group('num')
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
-        try:
-            prefix_nums[prefix].append(num)
-        except KeyError:
-            prefix_nums[prefix] = [num]
+        prefix_nums.setdefault(prefix, []).append(num)
 
-            # Convert the list of numbers for each prefix into ranges.
+    # Convert the list of numbers for each ref prefix into ranges.
     for prefix in list(prefix_nums.keys()):
         prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
 
-        # Combine the prefixes and number ranges back into part references.
+    # Combine the prefixes and number ranges back into part references.
     collapsed_refs = []
     for prefix, nums in list(prefix_nums.items()):
         for num in nums:
-            if type(num) == list:
+            if isinstance(num, list):
                 # Convert a range list into a collapsed part reference:
                 # e.g., 'R10-R15' from 'R':[10,15].
-                collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0],
-                                                             num[-1]))
-            elif type(num) == int:
+                collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0], num[-1]))
+            elif isinstance(num, (int, type(''))):
                 # Convert a single number into a simple part reference: e.g., 'R10'.
                 collapsed_refs.append('{}{}'.format(prefix, num))
             else:
-                raise Exception('Unknown part reference {}{}'.format(prefix,
-                                                                     num))
+                raise Exception('Unknown part reference {}{}'.format(prefix, num))
 
                 # Return the collapsed par references.
     return collapsed_refs

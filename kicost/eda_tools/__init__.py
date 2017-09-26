@@ -49,4 +49,4 @@ for module in os.listdir(os.path.dirname(__file__)):
     # Import the module.
     __import__(module, globals(), locals(), [], level=1)
 
-from .eda_tools import * # Subparts and sub quantities rotines.
+from .eda_tools import * # Subparts and sub quantities routines.

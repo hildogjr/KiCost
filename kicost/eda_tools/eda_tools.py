@@ -33,15 +33,64 @@ __company__ = 'University of Campinas - Brazil'
 
 __all__ = ['groups_sort','subpart_split','subpart_qty']
 
-QTY_SSTR = '[\:]' # String that separate the subpart quantity and the
-                # manufacture/distributor code.
-PART_SSTR = '[\;\,]' # String that separate the part (manufacture/
-                     # distributor code) in the list.
-SUB_SSTR = ''#'.' # String to separete the subpart in the new reference create.
+QTY_SEPRTR = '[\:]' # Separator for the subpart quantity and the part number.
+PART_SEPRTR = '[\;\,]' # Separator for the part numbers in a list.
+SUB_SEPRTR = '#' # Subpart separator for a part reference.
 
-# Reference string order to the spreadsheet. Use this to
-# group the elements in sequencial rows.
+# Reference order for grouping parts in a spreadsheet.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
+
+# Generate a dictionary to translate all the different ways people might want
+# to refer to part numbers, vendor numbers, and such.
+field_name_translations = {
+    'mpn': 'manf#',
+    'pn': 'manf#',
+    'manf_num': 'manf#',
+    'manf-num': 'manf#',
+    'mfg_num': 'manf#',
+    'mfg-num': 'manf#',
+    'mfg#': 'manf#',
+    'man_num': 'manf#',
+    'man-num': 'manf#',
+    'man#': 'manf#',
+    'mnf_num': 'manf#',
+    'mnf-num': 'manf#',
+    'mnf#': 'manf#',
+    'mfr_num': 'manf#',
+    'mfr-num': 'manf#',
+    'mfr#': 'manf#',
+    'part-num': 'manf#',
+    'part_num': 'manf#',
+    'p#': 'manf#',
+    'part#': 'manf#',
+}
+for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
+    for dist in distributors:
+        field_name_translations[dist + stub] = dist + '#'
+        field_name_translations[dist + '_' + stub] = dist + '#'
+        field_name_translations[dist + '-' + stub] = dist + '#'
+field_name_translations.update(
+    {
+        'manf': 'manf',
+        'manufacturer': 'manf',
+        'mnf': 'manf',
+        'man': 'manf',
+        'mfg': 'manf',
+        'mfr': 'manf',
+    }
+)
+field_name_translations.update(
+    {
+        'variant': 'variant',
+        'version': 'variant',
+    }
+)
+field_name_translations.update(
+    {
+        'dnp': 'dnp',
+        'nopop': 'dnp',
+    }
+)
 
 
 # ------------------ Public functions
@@ -164,7 +213,7 @@ def subpart_split(components):
                                 print(subpart_actual)
                         except IndexError:
                             pass
-                    ref = designator[parts_index] + SUB_SSTR + str(subparts_index + 1)
+                    ref = designator[parts_index] + SUB_SEPRTR + str(subparts_index + 1)
                     components.update({ref:subpart_actual.copy()})
         except KeyError:
             continue
@@ -202,9 +251,9 @@ def subpart_list(part):
     # Get the list f sub parts manufacture / distributor code
     # numbers striping the spaces and keeping the sub part
     # quantity information, these have to be separated by
-    # PART_SSTR definition.
-    return re.split('(?<![\W\*\/])\s*' + PART_SSTR +
-        '\s*|\s*' + PART_SSTR + '\s*(?![\W\*\/])',
+    # PART_SEPRTR definition.
+    return re.split('(?<![\W\*\/])\s*' + PART_SEPRTR +
+        '\s*|\s*' + PART_SEPRTR + '\s*(?![\W\*\/])',
                 part.strip())
 
 
@@ -212,14 +261,14 @@ def subpart_qtypart(subpart):
     # Get the quantity and the part code of the sub part
     # manufacture / distributor. Test if was pre or post
     # multiplied by a constant.
-    # Setting QTY_SSTR as '\:', we have
+    # Setting QTY_SEPRTR as '\:', we have
     # ' 4.5 : ADUM3150BRSZ-RL7' -> ('4.5', 'ADUM3150BRSZ-RL7')
     # '4/5  : ADUM3150BRSZ-RL7' -> ('4/5', 'ADUM3150BRSZ-RL7')
     # '7:ADUM3150BRSZ-RL7' -> ('7', 'ADUM3150BRSZ-RL7')
     # 'ADUM3150BRSZ-RL7 :   7' -> ('7', 'ADUM3150BRSZ-RL7')
     # 'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
     # 'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
-    strings = re.split('\s*' + QTY_SSTR + '\s*', subpart)
+    strings = re.split('\s*' + QTY_SEPRTR + '\s*', subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
         num_format = re.compile("^\s*[\-\+]?\s*[0-9]*\s*[\.\/]*\s*?[0-9]*\s*$")
