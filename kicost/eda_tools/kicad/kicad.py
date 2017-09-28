@@ -40,7 +40,7 @@ from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...kicost import SEPRTR
 from ...kicost import distributors
 from ..eda_tools import field_name_translations
-from ..eda_tools import subpart_split, groups_sort
+from ..eda_tools import subpart_split
 
 
 # Temporary class for storing part group information.
@@ -61,7 +61,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             for f in part.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
                 # Remove case of field name along with leading/trailing whitespace.
-                name = str(f['name'].lower().strip())
+                name = str(f['name']).lower().strip()
                 if name in ign_fields:
                     continue  # Ignore fields in the ignore list.
                 elif SEPRTR not in name: # No separator, so get global field value.
@@ -98,9 +98,9 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
     prj_info = dict()
-    prj_info['title'] = title.find_all('title')[0].string
-    prj_info['company'] = title.find_all('company')[0].string
-    prj_info['date'] = title.find_all('date')[0].string
+    prj_info['title'] = str(title.find_all('title')[0].string)
+    prj_info['company'] = str(title.find_all('company')[0].string)
+    prj_info['date'] = str(title.find_all('date')[0].string)
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
@@ -113,12 +113,12 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
-        libparts[str(p['lib'] + SEPRTR + p['part'])] = fields
+        libparts[str(p['lib']) + SEPRTR + str(p['part'])] = fields
 
         # Also have to store the fields under any part aliases.
         try:
             for alias in p.find('aliases').find_all('alias'):
-                libparts[str(p['lib'] + SEPRTR + alias.string)] = fields
+                libparts[str(p['lib']) + SEPRTR + str(alias.string)] = fields
         except AttributeError:
             pass  # No aliases for this part.
 
@@ -133,7 +133,8 @@ def get_part_groups(in_file, ignore_fields, variant):
         libsource = c.find('libsource')
 
         # Create the key to look up the part in the libparts dict.
-        libpart = str(libsource['lib'] + SEPRTR + libsource['part'])
+        #libpart = str(libsource['lib'] + SEPRTR + libsource['part'])
+        libpart = str(libsource['lib']) + SEPRTR + str(libsource['part'])
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
@@ -279,9 +280,6 @@ def get_part_groups(in_file, ignore_fields, variant):
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
-
-    # Sort the founded groups by BOM_ORDER definition.
-    new_component_groups = groups_sort(new_component_groups)
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info

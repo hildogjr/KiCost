@@ -74,7 +74,7 @@ class PartHtmlError(Exception):
 __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
-                          
+
 logger = logging.getLogger('kicost')
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
@@ -89,6 +89,12 @@ from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
 subpart_qty = eda_tools_imports.subpart_qty
 from .eda_tools.eda_tools import SUB_SEPRTR
+
+# Regular expression for detecting part reference ids consisting of a
+# prefix of letters followed by a sequence of digits, such as 'LED10'
+# or a sequence of digits followed by a subpart number like 'CONN1#3'.
+# There can even be an interposer character so 'LED-10' is also OK.
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>\d+({}(\d+))?)'.format(SUB_SEPRTR), re.IGNORECASE)
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         eda_tool_name, exclude_dist_list, include_dist_list):
@@ -486,14 +492,10 @@ def collapse_refs(refs):
 
         return num_ranges
 
-    # Regular expression for detecting part references consisting of a
-    # prefix of non-digits followed by a sequence of digits, such as 'LED10'.
-    ref_re = re.compile('(?P<prefix>\D+)(?P<num>\d+({}\d+)?)'.format(SUB_SEPRTR), re.IGNORECASE)
-
     prefix_nums = {}  # Contains a list of numbers for each distinct prefix.
     for ref in refs:
         # Partition each part reference into its beginning part prefix and ending number.
-        match = re.search(ref_re, ref)
+        match = re.search(PART_REF_REGEX, ref)
         prefix = match.group('prefix')
         num = match.group('num')
 
@@ -513,13 +515,11 @@ def collapse_refs(refs):
                 # Convert a range list into a collapsed part reference:
                 # e.g., 'R10-R15' from 'R':[10,15].
                 collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0], num[-1]))
-            elif isinstance(num, (int, type(''))):
+            else:
                 # Convert a single number into a simple part reference: e.g., 'R10'.
                 collapsed_refs.append('{}{}'.format(prefix, num))
-            else:
-                raise Exception('Unknown part reference {}{}'.format(prefix, num))
 
-                # Return the collapsed par references.
+    # Return the collapsed par references.
     return collapsed_refs
 
 
@@ -651,11 +651,23 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
     # Add global data for each part.
+    # First, collapse the part references.
+    for part in parts:
+        part.collapsed_refs = ','.join(collapse_refs(part.refs))
+
+    # Then, order the part references in natural order (ignoring any subparts).
+    def get_ref_key(part):
+        match = re.match(PART_REF_REGEX, part.collapsed_refs)
+        # Remove any subpart from the part reference id.
+        num = re.sub('{}\d+'.format(SUB_SEPRTR), '', match.group('num'))
+        return [match.group('prefix'), int(num)]
+    parts.sort(key=get_ref_key)
+
+    # Add the global part data to the spreadsheet.
     for part in parts:
 
         # Enter part references.
-        wks.write_string(row, start_col + columns['refs']['col'],
-                         ','.join(collapse_refs(part.refs)))
+        wks.write_string(row, start_col + columns['refs']['col'], part.collapsed_refs)
 
         # Enter more static data for the part.
         for field in list(columns.keys()):
