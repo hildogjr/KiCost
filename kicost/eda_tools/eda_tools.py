@@ -22,7 +22,6 @@
 
 # Libraries.
 import re # Regular expression parser.
-#from ..kicost import distributors
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ..distributors import distributors # Distributors name to use as field.
 
@@ -92,21 +91,24 @@ field_name_translations.update(
 
 # ------------------ Public functions
 
-# Definitions to parse the manufacturer / distributor code to allow
-# sub parts and diferent quantities (even fraction) in these.
+# Functions to parse the manufacturer / distributor code to allow parts
+# composed of subparts with different part codes.
 
 
 def subpart_split(components):
-    # Take each part and the all manufacture/distributors combination
-    # possibility to split in subpart the components part that have
-    # more than one manufacture/distributors code.
-    # For each designator...
-    logger.log(DEBUG_OVERVIEW, 'Search for subpart in the designed parts...')
-    designator = list(components.keys())
+    '''
+    Take each part and the all manufacture/distributors combination
+    possibility to split in subpart the components part that have
+    more than one manufacture/distributors code.
+    For each designator...
+    '''
+    logger.log(DEBUG_OVERVIEW, 'Search for subparts within parts...')
+
     dist = [d+'#' for d in distributors]
     dist.append('manf#')
-    for parts_index in range(len(designator)):
-        part = components[designator[parts_index]]
+
+    split_components = {}
+    for part_ref, part in components.items():
         try:
             # Divide the subparts in diferent parts keeping the other fields
             # (reference, description, ...).
@@ -123,22 +125,25 @@ def subpart_split(components):
                     founded_fields += [field_code]
                     subparts_manf[field_code] = subpart_list(part[field_code])
             if not founded_fields:
+                split_components[part_ref] = part
                 continue # If not manf/distributor code pass to next.
+
             if logger.isEnabledFor(DEBUG_DETAILED):
-                print(designator,'>>',founded_fields)
+                print(part_ref, '>>', founded_fields)
+
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
             # so on... Get the subpar
             if subparts_qty>1:
                 # Remove the actual part from the list.
-                part_actual = components.pop(designator[parts_index])
+                part_actual = part
                 part_actual_value = part_actual['value']
                 # Add the splited subparts.
-                for subparts_index in range(0,subparts_qty):
+                for subparts_index in range(subparts_qty):
                     # Create a sub component based on the main component with
-                    # the subparts. Modity the designator and the part. Create
+                    # the subparts. Modify the designator and the part. Create
                     # a sub quantity field.
-                    subpart_actual = part_actual
+                    subpart_actual = part_actual.copy()
                     for field_manf in founded_fields:
                         # For each manufacture/distributor code take the same order of
                         # the code list and split in each subpart. When not founded one
@@ -161,17 +166,21 @@ def subpart_split(components):
                                 print(subpart_actual)
                         except IndexError:
                             pass
-                    ref = designator[parts_index] + SUB_SEPRTR + str(subparts_index + 1)
-                    components.update({ref:subpart_actual.copy()})
+                    ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
+                    split_components[ref] = subpart_actual
+            else:
+                split_components[part_ref] = part
         except KeyError:
             continue
-    return components
+    return split_components
     
 
 def subpart_qty(component):
-    # Calculate the string of the quantity of the item parsing the
-    # referente (design) quantity and the sub quantity (in case that
-    # was a sub part of a manufacture/distributor code).
+    '''
+    Calculate the string of the quantity of the item parsing the
+    referente (design) quantity and the sub quantity (in case that
+    was a sub part of a manufacture/distributor code).
+    '''
     try:
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',
@@ -196,7 +205,7 @@ def subpart_qty(component):
 # ------------------ Private functions
 
 def subpart_list(part):
-    # Get the list f sub parts manufacture / distributor code
+    # Get the list of sub parts manufacture / distributor code
     # numbers striping the spaces and keeping the sub part
     # quantity information, these have to be separated by
     # PART_SEPRTR definition.
