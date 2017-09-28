@@ -186,6 +186,7 @@ def subpart_qty(component):
             print('Qty>>',component.refs,'>>',
                 component.fields.get('manf#_subqty'), '*',
                 	component.fields.get('manf#'))
+
         subqty = component.fields.get('manf#_subqty')
         string = '={{}}*{qty}'.format(qty=len(component.refs))
         if subqty != '1' and subqty != None:
@@ -206,7 +207,7 @@ def subpart_qty(component):
 
 def subpart_list(part):
     # Get the list of sub parts manufacture / distributor code
-    # numbers striping the spaces and keeping the sub part
+    # numbers stripping the spaces and keeping the sub part
     # quantity information, these have to be separated by
     # PART_SEPRTR definition.
     return re.split('(?<![\W\*\/])\s*' + PART_SEPRTR +
