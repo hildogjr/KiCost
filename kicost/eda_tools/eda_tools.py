@@ -22,7 +22,6 @@
 
 # Libraries.
 import re # Regular expression parser.
-#from ..kicost import distributors
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ..distributors import distributors # Distributors name to use as field.
 
@@ -31,84 +30,81 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-__all__ = ['groups_sort','subpart_split','subpart_qty']
+__all__ = ['subpart_split','subpart_qty']
 
-QTY_SSTR = '[\:]' # String that separate the subpart quantity and the
-                # manufacture/distributor code.
-PART_SSTR = '[\;\,]' # String that separate the part (manufacture/
-                     # distributor code) in the list.
-SUB_SSTR = ''#'.' # String to separete the subpart in the new reference create.
+QTY_SEPRTR = '[\:]' # Separator for the subpart quantity and the part number.
+PART_SEPRTR = '[\;\,]' # Separator for the part numbers in a list.
+SUB_SEPRTR = '#' # Subpart separator for a part reference.
 
-# Reference string order to the spreadsheet. Use this to
-# group the elements in sequencial rows.
-BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
+# Generate a dictionary to translate all the different ways people might want
+# to refer to part numbers, vendor numbers, and such.
+field_name_translations = {
+    'mpn': 'manf#',
+    'pn': 'manf#',
+    'manf_num': 'manf#',
+    'manf-num': 'manf#',
+    'mfg_num': 'manf#',
+    'mfg-num': 'manf#',
+    'mfg#': 'manf#',
+    'man_num': 'manf#',
+    'man-num': 'manf#',
+    'man#': 'manf#',
+    'mnf_num': 'manf#',
+    'mnf-num': 'manf#',
+    'mnf#': 'manf#',
+    'mfr_num': 'manf#',
+    'mfr-num': 'manf#',
+    'mfr#': 'manf#',
+    'part-num': 'manf#',
+    'part_num': 'manf#',
+    'p#': 'manf#',
+    'part#': 'manf#',
+}
+for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
+    for dist in distributors:
+        field_name_translations[dist + stub] = dist + '#'
+        field_name_translations[dist + '_' + stub] = dist + '#'
+        field_name_translations[dist + '-' + stub] = dist + '#'
+field_name_translations.update(
+    {
+        'manf': 'manf',
+        'manufacturer': 'manf',
+        'mnf': 'manf',
+        'man': 'manf',
+        'mfg': 'manf',
+        'mfr': 'manf',
+    }
+)
+field_name_translations.update(
+    {
+        'variant': 'variant',
+        'version': 'variant',
+    }
+)
+field_name_translations.update(
+    {
+        'dnp': 'dnp',
+        'nopop': 'dnp',
+    }
+)
 
 
 # ------------------ Public functions
 
-def groups_sort(new_component_groups):
-# Put the components groups in the spreadsheet rows in a spefic order
-    # using the reference string of the components. The order is defined
-    # by BOM_ORDER.
-    ref_identifiers = re.split('(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
-                BOM_ORDER, flags=re.IGNORECASE)
-    component_groups_order_old = list( range(0,len(new_component_groups)) )
-    component_groups_order_new = list()
-    component_groups_refs = [new_component_groups[g].fields.get('reference') for g in component_groups_order_old]
-    if logger.isEnabledFor(DEBUG_OBSESSIVE):
-        print('All ref identifier: ', ref_identifiers)
-        print(len(component_groups_order_old), 'groups of components')
-        print('Identifiers founded', component_groups_refs)
-    for ref_identifier in ref_identifiers:
-        component_groups_ref_match = [i for i in range(0,len(component_groups_refs)) if ref_identifier==component_groups_refs[i].lower()]
-        if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Identifier: ', ref_identifier, ' in ', component_groups_ref_match)
-        if len(component_groups_ref_match)>0:
-            # If found more than one group with the reference, use the 'manf#'
-            # as second order criterian.
-            if len(component_groups_ref_match)>1:
-                try:
-                    for item in component_groups_ref_match:
-                        component_groups_order_old.remove(item)
-                except ValueError:
-                    pass
-                # Examine 'manf#' and refs to get the order.
-                # Order by refs that have 'manf#' codes, that ones that don't have stay at the end of the group.
-                group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
-                group_refs_list = [new_component_groups[h].refs for h in component_groups_ref_match]
-                sorted_groups = sorted(range(len(group_refs_list)), key=lambda k:(group_manf_list[k] is None,  group_refs_list[k]))
-                if logger.isEnabledFor(DEBUG_OBSESSIVE):
-                    print(group_manf_list,' > order: ', sorted_groups)
-                component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
-                component_groups_order_new += component_groups_ref_match
-            else:
-                try:
-                    component_groups_order_old.remove(component_groups_ref_match[0])
-                except ValueError:
-                    pass
-                component_groups_order_new += component_groups_ref_match
-    # The new order is the found refs firt and at the last the not referenced in BOM_ORDER.
-    component_groups_order_new += component_groups_order_old # Add the missing references groups.
-    new_component_groups = [new_component_groups[i] for i in component_groups_order_new]
-    return new_component_groups
-
-
-
-# Definitions to parse the manufature / distributor code to allow
-# sub parts and diferent quantities (even fraction) in these.
-
-
 def subpart_split(components):
-    # Take each part and the all manufacture/distributors combination
-    # possibility to split in subpart the components part that have
-    # more than one manufacture/distributors code.
-    # For each designator...
-    logger.log(DEBUG_OVERVIEW, 'Search for subpart in the designed parts...')
-    designator = list(components.keys())
+    '''
+    Take each part and the all manufacture/distributors combination
+    possibility to split in subpart the components part that have
+    more than one manufacture/distributors code.
+    For each designator...
+    '''
+    logger.log(DEBUG_OVERVIEW, 'Search for subparts within parts...')
+
     dist = [d+'#' for d in distributors]
     dist.append('manf#')
-    for parts_index in range(len(designator)):
-        part = components[designator[parts_index]]
+
+    split_components = {}
+    for part_ref, part in components.items():
         try:
             # Divide the subparts in diferent parts keeping the other fields
             # (reference, description, ...).
@@ -125,22 +121,25 @@ def subpart_split(components):
                     founded_fields += [field_code]
                     subparts_manf[field_code] = subpart_list(part[field_code])
             if not founded_fields:
+                split_components[part_ref] = part
                 continue # If not manf/distributor code pass to next.
+
             if logger.isEnabledFor(DEBUG_DETAILED):
-                print(designator,'>>',founded_fields)
+                print(part_ref, '>>', founded_fields)
+
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
             # so on... Get the subpar
             if subparts_qty>1:
                 # Remove the actual part from the list.
-                part_actual = components.pop(designator[parts_index])
+                part_actual = part
                 part_actual_value = part_actual['value']
                 # Add the splited subparts.
-                for subparts_index in range(0,subparts_qty):
+                for subparts_index in range(subparts_qty):
                     # Create a sub component based on the main component with
-                    # the subparts. Modity the designator and the part. Create
+                    # the subparts. Modify the designator and the part. Create
                     # a sub quantity field.
-                    subpart_actual = part_actual
+                    subpart_actual = part_actual.copy()
                     for field_manf in founded_fields:
                         # For each manufacture/distributor code take the same order of
                         # the code list and split in each subpart. When not founded one
@@ -163,22 +162,27 @@ def subpart_split(components):
                                 print(subpart_actual)
                         except IndexError:
                             pass
-                    ref = designator[parts_index] + SUB_SSTR + str(subparts_index + 1)
-                    components.update({ref:subpart_actual.copy()})
+                    ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
+                    split_components[ref] = subpart_actual
+            else:
+                split_components[part_ref] = part
         except KeyError:
             continue
-    return components
+    return split_components
     
 
 def subpart_qty(component):
-    # Calculate the string of the quantity of the item parsing the
-    # referente (design) quantity and the sub quantity (in case that
-    # was a sub part of a manufacture/distributor code).
+    '''
+    Calculate the string of the quantity of the item parsing the
+    referente (design) quantity and the sub quantity (in case that
+    was a sub part of a manufacture/distributor code).
+    '''
     try:
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',
                 component.fields.get('manf#_subqty'), '*',
                 	component.fields.get('manf#'))
+
         subqty = component.fields.get('manf#_subqty')
         string = '={{}}*{qty}'.format(qty=len(component.refs))
         if subqty != '1' and subqty != None:
@@ -198,12 +202,12 @@ def subpart_qty(component):
 # ------------------ Private functions
 
 def subpart_list(part):
-    # Get the list f sub parts manufacture / distributor code
-    # numbers striping the spaces and keeping the sub part
+    # Get the list of sub parts manufacture / distributor code
+    # numbers stripping the spaces and keeping the sub part
     # quantity information, these have to be separated by
-    # PART_SSTR definition.
-    return re.split('(?<![\W\*\/])\s*' + PART_SSTR +
-        '\s*|\s*' + PART_SSTR + '\s*(?![\W\*\/])',
+    # PART_SEPRTR definition.
+    return re.split('(?<![\W\*\/])\s*' + PART_SEPRTR +
+        '\s*|\s*' + PART_SEPRTR + '\s*(?![\W\*\/])',
                 part.strip())
 
 
@@ -211,14 +215,14 @@ def subpart_qtypart(subpart):
     # Get the quantity and the part code of the sub part
     # manufacture / distributor. Test if was pre or post
     # multiplied by a constant.
-    # Setting QTY_SSTR as '\:', we have
+    # Setting QTY_SEPRTR as '\:', we have
     # ' 4.5 : ADUM3150BRSZ-RL7' -> ('4.5', 'ADUM3150BRSZ-RL7')
     # '4/5  : ADUM3150BRSZ-RL7' -> ('4/5', 'ADUM3150BRSZ-RL7')
     # '7:ADUM3150BRSZ-RL7' -> ('7', 'ADUM3150BRSZ-RL7')
     # 'ADUM3150BRSZ-RL7 :   7' -> ('7', 'ADUM3150BRSZ-RL7')
     # 'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
     # 'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
-    strings = re.split('\s*' + QTY_SSTR + '\s*', subpart)
+    strings = re.split('\s*' + QTY_SEPRTR + '\s*', subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
         num_format = re.compile("^\s*[\-\+]?\s*[0-9]*\s*[\.\/]*\s*?[0-9]*\s*$")

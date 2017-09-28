@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+# Automatic test macro for KiCad.
+# Use this script in linux to generate the spreadsheet based on the XML files of this folder after changes in the KiCost python module. Use to validate and check erros.
+# Written by Hildo Guillardi Júnior
+# Use in Linux or Microsoft Windows with bash capability
+
 # MIT license
 #
 # Copyright (C) 2015 by XESS Corporation
@@ -21,32 +25,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Author information.
-__author__ = 'Hildo Guillardi Junior'
-__webpage__ = 'https://github.com/hildogjr/'
-__company__ = 'University of Campinas - Brazil'
+echo 'This macro test all the xml files BOM in this folder'
+BOMs=$(find *.xml)
+echo $(echo "$var" | wc -l)" recognized files"
+echo "$BOMs"
+for eachBOM in $BOMs; do
+    echo "############ Testing file $eachBoM"
+    kicost -i $eachBOM --overwrite
+done
 
-# The global dictionary of supported EDA tools starts out empty.
-eda_tools = {}
-
-import os
-
-# The EDA tool directories will be found in this directory.
-directory = os.path.dirname(__file__)
-
-# Search for the EDA tool modules and import them.
-for module in os.listdir(os.path.dirname(__file__)):
-
-    # Avoid importing non-directories.
-    abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
-        continue
-
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-
-    # Import the module.
-    __import__(module, globals(), locals(), [], level=1)
-
-from .eda_tools import * # Subparts and sub quantities routines.
+echo "If you see this message all BOMs spreadsheet was created without error"
