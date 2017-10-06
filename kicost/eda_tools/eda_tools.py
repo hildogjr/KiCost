@@ -30,11 +30,14 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-__all__ = ['subpart_split','subpart_qty']
+__all__ = ['subpart_split','subpart_qty','groups_sort']
 
 QTY_SEPRTR = '[\:]' # Separator for the subpart quantity and the part number.
 PART_SEPRTR = '[\;\,]' # Separator for the part numbers in a list.
 SUB_SEPRTR = '#' # Subpart separator for a part reference.
+# Reference string order to the spreadsheet. Use this to
+# group the elements in sequencial rows.
+BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -90,6 +93,55 @@ field_name_translations.update(
 
 
 # ------------------ Public functions
+
+def groups_sort(new_component_groups):
+    '''
+    Put the components groups in the spreadsheet rows in a spefic order
+    using the reference string of the components. The order is defined
+    by BOM_ORDER.
+    '''
+    ref_identifiers = re.split('(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
+                BOM_ORDER, flags=re.IGNORECASE)
+    component_groups_order_old = list( range(0,len(new_component_groups)) )
+    component_groups_order_new = list()
+    component_groups_refs = [new_component_groups[g].fields.get('reference') for g in component_groups_order_old]
+    if logger.isEnabledFor(DEBUG_OBSESSIVE):
+        print('All ref identifier: ', ref_identifiers)
+        print(len(component_groups_order_old), 'groups of components')
+        print('Identifiers founded', component_groups_refs)
+    for ref_identifier in ref_identifiers:
+        component_groups_ref_match = [i for i in range(0,len(component_groups_refs)) if ref_identifier==component_groups_refs[i].lower()]
+        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+            print('Identifier: ', ref_identifier, ' in ', component_groups_ref_match)
+        if len(component_groups_ref_match)>0:
+            # If found more than one group with the reference, use the 'manf#'
+            # as second order criterian.
+            if len(component_groups_ref_match)>1:
+                try:
+                    for item in component_groups_ref_match:
+                        component_groups_order_old.remove(item)
+                except ValueError:
+                    pass
+                # Examine 'manf#' and refs to get the order.
+                # Order by refs that have 'manf#' codes, that ones that don't have stay at the end of the group.
+                group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
+                group_refs_list = [new_component_groups[h].refs for h in component_groups_ref_match]
+                sorted_groups = sorted(range(len(group_refs_list)), key=lambda k:(group_manf_list[k] is None,  group_refs_list[k]))
+                if logger.isEnabledFor(DEBUG_OBSESSIVE):
+                    print(group_manf_list,' > order: ', sorted_groups)
+                component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
+                component_groups_order_new += component_groups_ref_match
+            else:
+                try:
+                    component_groups_order_old.remove(component_groups_ref_match[0])
+                except ValueError:
+                    pass
+                component_groups_order_new += component_groups_ref_match
+    # The new order is the found refs firt and at the last the not referenced in BOM_ORDER.
+    component_groups_order_new += component_groups_order_old # Add the missing references groups.
+    new_component_groups = [new_component_groups[i] for i in component_groups_order_new]
+    return new_component_groups
+
 
 def subpart_split(components):
     '''
@@ -181,16 +233,16 @@ def subpart_qty(component):
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',
                 component.fields.get('manf#_subqty'), '*',
-                	component.fields.get('manf#'))
+                    component.fields.get('manf#'))
 
         subqty = component.fields.get('manf#_subqty')
         string = '={{}}*{qty}'.format(qty=len(component.refs))
         if subqty != '1' and subqty != None:
-        	string = '=CEILING({{}}*({subqty})*{qty},1)'.format(
+            string = '=CEILING({{}}*({subqty})*{qty},1)'.format(
                             subqty=subqty,
                             qty=len(component.refs))
         else:
-        	string = '={{}}*{qty}'.format(qty=len(component.refs))
+            string = '={{}}*{qty}'.format(qty=len(component.refs))
     except (KeyError, TypeError):
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',len(component.refs))
@@ -202,26 +254,30 @@ def subpart_qty(component):
 # ------------------ Private functions
 
 def subpart_list(part):
-    # Get the list of sub parts manufacture / distributor code
-    # numbers stripping the spaces and keeping the sub part
-    # quantity information, these have to be separated by
-    # PART_SEPRTR definition.
+    '''
+    Get the list of sub parts manufacture / distributor code
+    numbers stripping the spaces and keeping the sub part
+    quantity information, these have to be separated by
+    PART_SEPRTR definition.
+    '''
     return re.split('(?<![\W\*\/])\s*' + PART_SEPRTR +
         '\s*|\s*' + PART_SEPRTR + '\s*(?![\W\*\/])',
                 part.strip())
 
 
 def subpart_qtypart(subpart):
-    # Get the quantity and the part code of the sub part
-    # manufacture / distributor. Test if was pre or post
-    # multiplied by a constant.
-    # Setting QTY_SEPRTR as '\:', we have
-    # ' 4.5 : ADUM3150BRSZ-RL7' -> ('4.5', 'ADUM3150BRSZ-RL7')
-    # '4/5  : ADUM3150BRSZ-RL7' -> ('4/5', 'ADUM3150BRSZ-RL7')
-    # '7:ADUM3150BRSZ-RL7' -> ('7', 'ADUM3150BRSZ-RL7')
-    # 'ADUM3150BRSZ-RL7 :   7' -> ('7', 'ADUM3150BRSZ-RL7')
-    # 'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
-    # 'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
+    '''
+    Get the quantity and the part code of the sub part
+    manufacture / distributor. Test if was pre or post
+    multiplied by a constant.
+    Setting QTY_SEPRTR as '\:', we have
+    ' 4.5 : ADUM3150BRSZ-RL7' -> ('4.5', 'ADUM3150BRSZ-RL7')
+    '4/5  : ADUM3150BRSZ-RL7' -> ('4/5', 'ADUM3150BRSZ-RL7')
+    '7:ADUM3150BRSZ-RL7' -> ('7', 'ADUM3150BRSZ-RL7')
+    'ADUM3150BRSZ-RL7 :   7' -> ('7', 'ADUM3150BRSZ-RL7')
+    'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
+    'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
+    '''
     strings = re.split('\s*' + QTY_SEPRTR + '\s*', subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
