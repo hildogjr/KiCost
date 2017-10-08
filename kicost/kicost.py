@@ -88,6 +88,7 @@ distributors = distributor_imports.distributors
 from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
 subpart_qty = eda_tools_imports.subpart_qty
+groups_sort = eda_tools_imports.groups_sort
 from .eda_tools.eda_tools import SUB_SEPRTR
 
 # Regular expression for detecting part reference ids consisting of a
@@ -263,6 +264,13 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
+
+    # Collapse de references.
+    for part in parts:
+        part.refs = collapse_refs(part.refs)
+
+    # Sort the founded groups by BOM_ORDER definition.
+    #parts = groups_sort(parts)
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.

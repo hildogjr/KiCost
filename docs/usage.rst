@@ -120,7 +120,7 @@ That can be prevented in two ways:
 Multiple Parts
 ------------------------
 
-KiCost allow use of multiple parts with diferent quantities to one designator, an userfull resource to list parts to assembly conectors and so on. To use, the subparts have to be separeted by comma or semicolon and the quantity (optional, default is 1) separeted by ":".
+KiCost (not Altium yet) allow use of multiple parts with diferent quantities to one designator, an userfull resource to list parts to assembly conectors and so on. To use, the subparts have to be separeted by comma or semicolon and the quantity (optional, default is 1) separeted by ":".
 
 E.g., em maf# field of KiCad:
 
@@ -249,8 +249,10 @@ Command-Line Options
                             Declare part fields to ignore when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
-      -a, --altium          Allows parsing of an Altium Designer .xml BOM file
-                            specified as input.
+      --eda_tool ['kicad', 'altium', ...]
+                            Allows parsing of an Altium Designer .xml BOM file
+                            specified as input (or other sub module in 'eda_tools'
+                            folder) instead of KiCad.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
