@@ -88,14 +88,13 @@ distributors = distributor_imports.distributors
 from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
 subpart_qty = eda_tools_imports.subpart_qty
-groups_sort = eda_tools_imports.groups_sort
 from .eda_tools.eda_tools import SUB_SEPRTR
 
 # Regular expression for detecting part reference ids consisting of a
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
 # There can even be an interposer character so 'LED-10' is also OK.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>\d+({}(\d+))?)'.format(SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         eda_tool_name, exclude_dist_list, include_dist_list):
@@ -264,13 +263,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
-
-    # Collapse de references.
-    for part in parts:
-        part.refs = collapse_refs(part.refs)
-
-    # Sort the founded groups by BOM_ORDER definition.
-    #parts = groups_sort(parts)
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
@@ -658,17 +650,15 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     PART_INFO_FIRST_ROW = row  # Starting row of part info.
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
-    # Add global data for each part.
-    # First, collapse the part references.
+    # Add data for each part to the spreadsheet.
+    # First, collapse the part references: e.g. J1, J2, J3 => J1-J3.
     for part in parts:
         part.collapsed_refs = ','.join(collapse_refs(part.refs))
 
-    # Then, order the part references in natural order (ignoring any subparts).
+    # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
         match = re.match(PART_REF_REGEX, part.collapsed_refs)
-        # Remove any subpart from the part reference id.
-        num = re.sub('{}\d+'.format(SUB_SEPRTR), '', match.group('num'))
-        return [match.group('prefix'), int(num)]
+        return [match.group('prefix'), match.group('ref_num'), match.group('subpart_num')]
     parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.
