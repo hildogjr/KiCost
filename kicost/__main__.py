@@ -115,6 +115,10 @@ def main():
                         nargs='+', type=str, default='',
                         metavar = 'dist',
                         help='Includes only the given distributor(s) in the scraping process.')
+    parser.add_argument('--retries',
+                        nargs='?', type=int, default=2,
+                        metavar = 'num_retries',
+                        help='Specify the number of attempts to retrieve part data from a website.')
 
 
     args = parser.parse_args()
@@ -169,7 +173,8 @@ def main():
     kicost(in_file=args.input, out_filename=args.output,
         user_fields=args.fields, ignore_fields=args.ignore_fields, 
         variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
-        exclude_dist_list=args.exclude, include_dist_list=args.include)
+        exclude_dist_list=args.exclude, include_dist_list=args.include,
+        scrape_retries=args.retries)
 
 ###############################################################################
 # Main entrypoint.

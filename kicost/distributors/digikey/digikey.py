@@ -39,7 +39,6 @@ import difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import HTML_RESPONSE_RETRIES
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
 from ...kicost import PartHtmlError
@@ -111,8 +110,9 @@ def get_qty_avail(html_tree):
             return 0
 
 
-def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None, scrape_retries=2):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
+    print('retries =', scrape_retries)
 
     def merge_price_tiers(main_tree, alt_tree):
         '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
@@ -151,7 +151,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
-    for _ in range(HTML_RESPONSE_RETRIES):
+    for _ in range(scrape_retries):
         try:
             response = urlopen(req)
             html = response.read()
@@ -204,7 +204,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                 ap_trees_and_urls = []  # Initialize as empty in case no alternate packagings are found.
                 try:
                     ap_trees_and_urls = [get_part_html_tree(dist, pn, 
-                                     extra_search_terms, ap_url, descend=0)
+                                     extra_search_terms, ap_url, descend=0, scrape_retries=scrape_retries)
                                      for ap_url in ap_urls]
                 except Exception:
                     logger.log(DEBUG_OBSESSIVE,'Failed to find alternate packagings for {} from {}'.format(pn, dist))
@@ -273,8 +273,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
                     return get_part_html_tree(dist, pn, extra_search_terms,
-                                                      url=l['href'],
-                                                      descend=descend - 1)
+                                              url=l['href'],
+                                              descend=descend - 1, 
+                                              scrape_retries=scrape_retries)
 
     # If the HTML contains a list of part categories, then give up.
     if tree.find('form', id='keywordSearchForm') is not None:

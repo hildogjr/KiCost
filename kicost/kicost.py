@@ -97,7 +97,7 @@ from .eda_tools.eda_tools import SUB_SEPRTR
 PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
-        eda_tool_name, exclude_dist_list, include_dist_list):
+        eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Only keep distributors in the included list and not in the excluded list.
@@ -126,7 +126,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html, logger.getEffectiveLevel())
+            args = (i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel())
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
             parts[id].url = url
@@ -138,7 +138,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         pool = Pool(num_processes)
 
         # Package part data for passing to each process.
-        args = [(i, parts[i], distributors, local_part_html, logger.getEffectiveLevel()) for i in range(len(parts))]
+        args = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
 
         # Create a list to store the output from each process.
         results = list(range(len(args)))
@@ -1161,7 +1161,7 @@ Orange -> Too little quantity available.'''
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
 
 
-def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, logger):
+def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_retries, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
@@ -1173,7 +1173,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, logger):
             #    2) the manufacturer's part number.
             for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
                 if key in part.fields:
-                    return get_html_tree_func(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
+                    return get_html_tree_func(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html, scrape_retries=scrape_retries)
             # No distributor or manufacturer number, so give up.
             else:
                 logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
@@ -1191,7 +1191,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, logger):
 def scrape_part(args):
     '''Scrape the data for a part from each distributor website or local HTML.'''
 
-    id, part, distributor_dict, local_part_html, log_level = args # Unpack the arguments.
+    id, part, distributor_dict, local_part_html, scrape_retries, log_level = args # Unpack the arguments.
 
     if multiprocessing.current_process().name == "MainProcess":
         scrape_logger = logging.getLogger('kicost')
@@ -1216,7 +1216,7 @@ def scrape_part(args):
             dist_module = getattr(distributor_imports, distributor_dict[d]['module'])
 
         # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, dist_module.get_part_html_tree, local_part_html, scrape_logger)
+        html_tree, url[d] = get_part_html_tree(part, d, dist_module.get_part_html_tree, local_part_html, scrape_retries, scrape_logger)
 
         # Call the functions that extract the data from the HTML tree.
         part_num[d] = dist_module.get_part_num(html_tree)
