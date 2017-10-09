@@ -16,9 +16,10 @@ circuit boards developed with KiCad. Typical use is as follows:
         manf_num     manf-num     manf#  
         man_num      man-num      man# 
         mfg_num      mfg-num      mfg#  
-        mfr_num      mfr-num      mfr#  
+        mfr_num      mfr-num      mfr# 
+        mnf_num      mnf-num      mnf# 
 
-2. Output a BOM from your KiCad schematic. This will be an XML file. For this example, say it is ``schem.xml``.
+2. Output a BOM from your KiCad schematic. This will be an XML file such as ``schem.xml``.
 3. Process the XML file with KiCost to create a part-cost spreadsheet named ``schem.xlsx`` like this::
 
      python kicost -i schem.xml
@@ -31,8 +32,8 @@ circuit boards developed with KiCad. Typical use is as follows:
    each distributor.
    The spreadsheet also shows the current inventory of each part from each distributor so you can tell
    if there's a problem finding something and an alternate part may be needed.
-5. Enter the quantity of each part in your schematic that you want to purchase from each distributor.
-   Lists of part numbers and quantities will appear in formats that you can cut-and-paste
+5. Enter the quantity of each part that you want to purchase from each distributor.
+   Lists of part numbers and quantities will appear that you can cut-and-paste
    directly into the website ordering page of each distributor.
 
 ------------------------
@@ -117,17 +118,28 @@ That can be prevented in two ways:
    field because it is in a different namespace.
 
 ------------------------
-Multiple Parts
+Parts With Subparts
 ------------------------
 
-KiCost (not Altium yet) allow use of multiple parts with diferent quantities to one designator, an userfull resource to list parts to assembly conectors and so on. To use, the subparts have to be separeted by comma or semicolon and the quantity (optional, default is 1) separeted by ":".
+Some parts consist of two or more subparts.
+For example, a two-pin jumper might have an associated shunt.
+This is represented by placing the part number for each subpart into the ``manf#`` field, separated
+by a ";" like so: ``JMP1A45;SH3QQ5``.
+Each subpart will be placed on a separate row of the spreadsheet with its associated part number
+and a part reference formed from the original part reference with an added "#" and a number. 
+For example, if the two-pin jumper had a part reference of ``JP6``, then there
+would be two rows in the spreadsheet containing data like this:
 
-E.g., em maf# field of KiCad:
+::
 
-    ' 5 : PART1;PART2   , PART3:0.5 , 1/2:PARTE4'
-    'CONNECTOR , 1/2: PINBAR , CABLE :  5'
+    JP6#1  ...  JMP1A45
+    JP6#2  ...  SH3QQ5
 
-It is allowed decimal and fractional subquantities. In the spreadsheet the total part is ceiled to the next interger.
+You can also specify multipliers for each subpart by either prepending or appending
+the subpart part number with a multiplier separated by a ":".
+To illustrate, a 2x2 jumper paired with two shunts would have a part number of
+``JMP2B26; SH3QQ5:2``.
+The multiplier can be either an integer or float.
 
 ------------------------
 Schematic Variants
@@ -193,6 +205,24 @@ of the spreadsheet::
 
     kicost -i schematic.xml --fields fld1 fld2
 
+--------------------------------
+Visual Cues in the Spreadsheet
+--------------------------------
+
+In addition to the part cost information, the spreadsheet output by KiCost
+provides additional cues:
+
+#. The ``Qty`` cell is colored to show the availability of a given part:
+       * Red if the part is unavailable at any of the distributors.
+       * Orange if the part is available, but not in sufficient quantity.
+       * Yellow if there is enough of th part available, but not enough has been ordered.
+#. The ``Avail`` cell is colored to show the availability of a given part
+   at a particular distributor:
+       * Red if the part is unavailable.
+       * Orange if there is not sufficient quantity of the part available.
+#. The ``Unit$`` cell is colored green to indicate the lowest price found
+   across all the distributors.
+
 -----------------------
 Parallel Web Scraping
 -----------------------
@@ -221,8 +251,9 @@ Command-Line Options
 
     usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]] [-f name [name ...]]
                   [-var [VARIANT]] [-w] [-s] [-q] [-np [NUM_PROCESSES]]
-                  [-ign name [name ...]] [-d [LEVEL]] [-a] [-e dist [dist ...]]
-                  [--include dist [dist ...]]
+                  [-ign name [name ...]] [-d [LEVEL]] [--eda_tool {kicad,altium}]
+                  [-e dist [dist ...]] [--include dist [dist ...]]
+                  [--retries [num_retries]]
 
     Build cost spreadsheet for a KiCAD project.
 
@@ -249,16 +280,18 @@ Command-Line Options
                             Declare part fields to ignore when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
-      --eda_tool ['kicad', 'altium', ...]
-                            Allows parsing of an Altium Designer .xml BOM file
-                            specified as input (or other sub module in 'eda_tools'
-                            folder) instead of KiCad.
+      --eda_tool {kicad,altium}
+                            Choose EDA tool from which the .XML BOM file
+                            originated.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
       --include dist [dist ...]
                             Includes only the given distributor(s) in the scraping
                             process.
+      --retries [num_retries]
+                            Specify the number of attempts to retrieve part data
+                            from a website.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
