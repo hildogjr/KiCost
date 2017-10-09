@@ -827,7 +827,7 @@ Orange -> Too little quantity available.'''
             'level': 2,
             'label': 'Cat#',
             'width': 15,
-            'comment': 'Distributor-assigned part number for each part and link to its web page (click).'
+            'comment': 'Distributor-assigned catalog number for each part and link to its web page (ctrl-click).'
         },
     }
     num_cols = len(list(columns.keys()))

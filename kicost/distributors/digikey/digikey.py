@@ -112,7 +112,6 @@ def get_qty_avail(html_tree):
 
 def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None, scrape_retries=2):
     '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
-    print('retries =', scrape_retries)
 
     def merge_price_tiers(main_tree, alt_tree):
         '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
