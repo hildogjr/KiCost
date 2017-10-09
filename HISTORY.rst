@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.38 (2017-10-09)
+______________________
+
+* Fixed webscrape retry error in TME distributor module.
+
+
 0.1.37 (2017-10-09)
 ______________________
 
