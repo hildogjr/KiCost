@@ -45,6 +45,8 @@ from .. import FakeBrowser
 from ...kicost import PartHtmlError
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
+HTML_RESPONSE_RETRIES = 2
+
 def __ajax_details(pn):
     '''Load part details from TME using XMLHttpRequest'''
     data = urlencode({
@@ -141,6 +143,9 @@ def get_qty_avail(html_tree):
 
 def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None, scrape_retries=2):
     '''Find the TME HTML page for a part number and return the URL and parse tree.'''
+
+    global HTML_RESPONSE_RETRIES
+    HTML_RESPONSE_RETRIES = scrape_retries
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
