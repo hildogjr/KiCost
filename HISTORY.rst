@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.39 (2017-10-10)
+______________________
+
+* Part number separator characters can now be escaped with backslashes in case they are actually part of part numbers.
+
+
 0.1.38 (2017-10-09)
 ______________________
 
