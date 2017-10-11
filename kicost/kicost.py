@@ -88,17 +88,16 @@ distributors = distributor_imports.distributors
 from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
 subpart_qty = eda_tools_imports.subpart_qty
-groups_sort = eda_tools_imports.groups_sort
 from .eda_tools.eda_tools import SUB_SEPRTR
 
 # Regular expression for detecting part reference ids consisting of a
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
 # There can even be an interposer character so 'LED-10' is also OK.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>\d+({}(\d+))?)'.format(SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
-        eda_tool_name, exclude_dist_list, include_dist_list):
+        eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Only keep distributors in the included list and not in the excluded list.
@@ -127,7 +126,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html, logger.getEffectiveLevel())
+            args = (i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel())
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
             parts[id].url = url
@@ -139,7 +138,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         pool = Pool(num_processes)
 
         # Package part data for passing to each process.
-        args = [(i, parts[i], distributors, local_part_html, logger.getEffectiveLevel()) for i in range(len(parts))]
+        args = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
 
         # Create a list to store the output from each process.
         results = list(range(len(args)))
@@ -264,13 +263,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
-
-    # Collapse de references.
-    for part in parts:
-        part.refs = collapse_refs(part.refs)
-
-    # Sort the founded groups by BOM_ORDER definition.
-    #parts = groups_sort(parts)
 
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
@@ -658,17 +650,15 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     PART_INFO_FIRST_ROW = row  # Starting row of part info.
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
-    # Add global data for each part.
-    # First, collapse the part references.
+    # Add data for each part to the spreadsheet.
+    # First, collapse the part references: e.g. J1, J2, J3 => J1-J3.
     for part in parts:
         part.collapsed_refs = ','.join(collapse_refs(part.refs))
 
-    # Then, order the part references in natural order (ignoring any subparts).
+    # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
         match = re.match(PART_REF_REGEX, part.collapsed_refs)
-        # Remove any subpart from the part reference id.
-        num = re.sub('{}\d+'.format(SUB_SEPRTR), '', match.group('num'))
-        return [match.group('prefix'), int(num)]
+        return [match.group('prefix'), match.group('ref_num'), match.group('subpart_num')]
     parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.
@@ -837,7 +827,7 @@ Orange -> Too little quantity available.'''
             'level': 2,
             'label': 'Cat#',
             'width': 15,
-            'comment': 'Distributor-assigned part number for each part and link to its web page (click).'
+            'comment': 'Distributor-assigned catalog number for each part and link to its web page (ctrl-click).'
         },
     }
     num_cols = len(list(columns.keys()))
@@ -1171,7 +1161,7 @@ Orange -> Too little quantity available.'''
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
 
 
-def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, logger):
+def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_retries, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
@@ -1183,7 +1173,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, logger):
             #    2) the manufacturer's part number.
             for key in (dist+'#', dist+SEPRTR+'cat#', 'manf#'):
                 if key in part.fields:
-                    return get_html_tree_func(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html)
+                    return get_html_tree_func(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html, scrape_retries=scrape_retries)
             # No distributor or manufacturer number, so give up.
             else:
                 logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
@@ -1201,7 +1191,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, logger):
 def scrape_part(args):
     '''Scrape the data for a part from each distributor website or local HTML.'''
 
-    id, part, distributor_dict, local_part_html, log_level = args # Unpack the arguments.
+    id, part, distributor_dict, local_part_html, scrape_retries, log_level = args # Unpack the arguments.
 
     if multiprocessing.current_process().name == "MainProcess":
         scrape_logger = logging.getLogger('kicost')
@@ -1226,7 +1216,7 @@ def scrape_part(args):
             dist_module = getattr(distributor_imports, distributor_dict[d]['module'])
 
         # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, dist_module.get_part_html_tree, local_part_html, scrape_logger)
+        html_tree, url[d] = get_part_html_tree(part, d, dist_module.get_part_html_tree, local_part_html, scrape_retries, scrape_logger)
 
         # Call the functions that extract the data from the HTML tree.
         part_num[d] = dist_module.get_part_num(html_tree)

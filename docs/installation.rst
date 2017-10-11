@@ -2,14 +2,21 @@
 Installation
 ============
 
-At the command line::
+This is a Python package, so you'll need to have Python installed to use it.
+If you're using linux, you probably already have Python.
+If you're on Windows, you can download a Python installer from
+`Anaconda <https://www.continuum.io/downloads#windows>`_ ,
+`Active State <https://www.activestate.com/activepython/downloads>`_ , or even
+`WinPython <http://winpython.github.io/#releases>`_ .
 
-    $ easy_install kicost
+Once you have Python, you can install this package by opening a terminal
+window and typing the command::
 
-Or, if you have virtualenvwrapper installed::
+    $ easy_install kipart
 
-    $ mkvirtualenv kicost
-    $ pip install kicost
+Or::
+
+    $ pip install kipart
     
 Note that if you install KiCost using ``pip`` on a Windows system running Python 2.7,
 using the default option that web scrapes with parallel processes may cause
