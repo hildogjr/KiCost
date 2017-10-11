@@ -284,7 +284,7 @@ Command-Line Options
                             Declare part fields to ignore when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
-      --eda_tool {kicad,altium} [ead1 ead2 ...]
+      -eda {kicad,altium} [ead1 ead2 ...], --eda_tool {kicad,altium} [ead1 ead2 ...]
                             Choose EDA tool from which the .XML BOM file
                             originated, in the order of file input, if informat
                             just one, is assumed the same for all files.
@@ -294,7 +294,7 @@ Command-Line Options
       --include dist [dist ...]
                             Includes only the given distributor(s) in the scraping
                             process.
-      --retries [num_retries]
+      --rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.
 
