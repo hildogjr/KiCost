@@ -3,15 +3,31 @@
 History
 -------
 
-0.1.37 (2017-08-15)
+0.1.39 (2017-10-10)
 ______________________
 
-* Fixed problem where "kicost:dnp" field was not recognized.
+* Part number separator characters can now be escaped with backslashes in case they are actually part of part numbers.
+
+
+0.1.38 (2017-10-09)
+______________________
+
+* Fixed webscrape retry error in TME distributor module.
+
+
+0.1.37 (2017-10-09)
+______________________
+
+* A part manf# field can now contain multiple subpart numbers. Each part number can be
+  assigned a multiplier to indicate the quantity of the subpart needed for each part.
 * Unit price cells for parts now show complete Qty/Price table as a cell comment.
-* Non-stocked parts are indicated.
+* Part quantity cells are now color-coded to indicate parts with insufficient availability.
+* Part quantity cells are now color-coded to indicate parts for which insufficient quantity has been ordered.
 * Project name, company, and date are now shown in the spreadsheet.
 * New distributor can now be added just by creating a submodule in ``distributors``.
 * Added distributor TME.
+* Added ``--retries`` option to set the number of attempts at loading a distributor webpage.
+* Fixed problem where "kicost:dnp" field was not recognized.
 
 
 0.1.36 (2017-08-14)

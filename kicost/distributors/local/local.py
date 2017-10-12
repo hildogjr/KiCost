@@ -39,7 +39,6 @@ import difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import HTML_RESPONSE_RETRIES
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
 from ...kicost import PartHtmlError
@@ -89,7 +88,7 @@ def get_qty_avail(html_tree):
         return 0
 
 
-def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=None, local_part_html=None):
+def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=None, local_part_html=None, scrape_retries=2):
     '''Extract the HTML tree from the HTML page for local parts.'''
 
     # Extract the HTML tree from the local part HTML page.

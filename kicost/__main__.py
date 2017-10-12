@@ -37,7 +37,8 @@ import time
 from .kicost import *
 from . import __version__
 
-NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
+NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
+HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
 
 logger = logging.getLogger('kicost')
 
@@ -53,7 +54,7 @@ def main():
                         action='version',
                         version='KiCost ' + __version__)
     parser.add_argument('-i', '--input',
-                        nargs='?',
+                        nargs='*',
                         type=str,
                         metavar='file.xml',
                         help='Schematic BOM XML file.')
@@ -71,7 +72,7 @@ def main():
                             extract and insert in the global data section of 
                             the spreadsheet.''')
     parser.add_argument('-var', '--variant',
-                        nargs='?',
+                        nargs='*',
                         type=str,
                         default=' ', # Default variant is a space.
                         help='schematic variant name filter')
@@ -104,7 +105,8 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('--eda_tool', choices=['kicad', 'altium'],
+    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium'],
+                        nargs='*',
                         default='kicad',
                         help='Choose EDA tool from which the .XML BOM file originated.')
     parser.add_argument('-e', '--exclude',
@@ -115,6 +117,12 @@ def main():
                         nargs='+', type=str, default='',
                         metavar = 'dist',
                         help='Includes only the given distributor(s) in the scraping process.')
+    parser.add_argument('-rt', '--retries',
+                        nargs='?',
+                        type=int,
+                        default=HTML_RESPONSE_RETRIES,
+                        metavar = 'num_retries',
+                        help='Specify the number of attempts to retrieve part data from a website.')
 
 
     args = parser.parse_args()
@@ -136,7 +144,14 @@ def main():
         # If no output file is given...
         if args.input != None:
             # Send output to spreadsheet with name of input file.
-            args.output = os.path.splitext(args.input)[0] + '.xlsx'
+            if len(args.input)>1:
+            	# Compose a name with the multiple BOM input file names,
+            	# limiting to the first 5 caracheters of each name (avoid
+            	# huge names). THis is dynamic if the number of input
+            	# files passed.
+                args.output = '-'.join( [ os.path.splitext(args.input[i][:max(int(20/len(args.input)),5)])[0] for i in range(len(args.input))] ) + '.xlsx'
+            else:
+                args.output = os.path.splitext(args.input[0])[0] + '.xlsx'
         else:
             # Send output to spreadsheet with name of this application.
             args.output = os.path.splitext(sys.argv[0])[0] + '.xlsx'
@@ -157,8 +172,12 @@ def main():
         args.input = sys.stdin
     else:
         # Otherwise get XML from the given file.
-        args.input = os.path.splitext(args.input)[0] + '.xml'
-        args.input = open(args.input)
+        for i in range(len(args.input)):
+            # Set '.xml' as the default file extension, treating this exception
+            # allow (future) other files extension and formats.
+            if os.path.splitext(args.input[i])[1] == '':
+                args.input[i] += '.xml'
+            args.input[i] = open(args.input[i])
 
     # Set number of processes to use for web scraping.
     if args.serial:
@@ -169,7 +188,8 @@ def main():
     kicost(in_file=args.input, out_filename=args.output,
         user_fields=args.fields, ignore_fields=args.ignore_fields, 
         variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
-        exclude_dist_list=args.exclude, include_dist_list=args.include)
+        exclude_dist_list=args.exclude, include_dist_list=args.include,
+        scrape_retries=args.retries)
 
 ###############################################################################
 # Main entrypoint.
