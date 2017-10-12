@@ -132,10 +132,10 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i])
         p, info = eda_tool_module.get_part_groups(in_file[i], ignore_fields, variant[i])
         # Add the project indentifier in the references.
-        if len(in_file)>1:
-            for i_g in range(len(p)):
-                for i_p in range(len(p[i_g].refs)):
-                    p[i_g].refs[i_p] =  'f' + str(i) + PRJ_SEPRTR + p[i_g].refs[i_p]
+#        if len(in_file)>1: # TODO removed to test, nedd improvement in the `collapse_refs()`
+#            for i_g in range(len(p)):
+#                for i_p in range(len(p[i_g].refs)):
+#                    p[i_g].refs[i_p] =  'f' + str(i) + PRJ_SEPRTR + p[i_g].refs[i_p]
         parts += p
         prj_info.append( info.copy() )
 
@@ -387,7 +387,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         wks = workbook.add_worksheet(WORKSHEET_NAME)
 
         # Set the row & column for entering the part information in the sheet.
-        START_ROW = 3 * len(prj_info) + 4
+        START_ROW = 3 * len(prj_info) + 1
         START_COL = 0
         LABEL_ROW = START_ROW + 1
         COL_HDR_ROW = LABEL_ROW + 1
@@ -418,21 +418,23 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                    'Proj{}:'.format(str(i_prj)) if len(prj_info)>1 else 'Proj:',
                     wrk_formats['proj_info_field'])
             wks.write(BOARD_QTY_ROW, START_COL+1, prj_info[i_prj]['title'], wrk_formats['proj_info'])
-            wks.write(TOTAL_COST_ROW, START_COL, 'Co.:', wrk_formats['proj_info_field'])
-            wks.write(TOTAL_COST_ROW, START_COL+1, prj_info[i_prj]['company'], wrk_formats['proj_info'])
-            wks.write(UNIT_COST_ROW, START_COL, 'Date:', wrk_formats['proj_info_field'])
-            wks.write(UNIT_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
+            wks.write(UNIT_COST_ROW, START_COL, 'Co.:', wrk_formats['proj_info_field'])
+            wks.write(UNIT_COST_ROW, START_COL+1, prj_info[i_prj]['company'], wrk_formats['proj_info'])
+            wks.write(TOTAL_COST_ROW, START_COL, 'Date:', wrk_formats['proj_info_field'])
+            wks.write(TOTAL_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
 
             # Create the cell where the quantity of boards to assemble is entered.
             # Place the board qty cells near the right side of the global info.
-            wks.write(BOARD_QTY_ROW, next_col - 2, 'Board Qty:',
+            wks.write(BOARD_QTY_ROW, next_col - 2,
+                      'Board{} Qty:'.format(str(i_prj)) if len(prj_info)>1 else 'Board Qty:',
                       wrk_formats['board_qty'])
             wks.write(BOARD_QTY_ROW, next_col - 1, DEFAULT_BUILD_QTY,
                       wrk_formats['board_qty'])  # Set initial board quantity.
             # Define the named cell where the total board quantity can be found.
-            workbook.define_name('BoardQty', '={wks_name}!{cell_ref}'.format(
-                wks_name="'" + WORKSHEET_NAME + "'",
-                cell_ref=xl_rowcol_to_cell(BOARD_QTY_ROW, next_col - 1,
+            workbook.define_name('Board{}Qty'.format(str(i_prj)),
+                    '={wks_name}!{cell_ref}'.format(
+                        wks_name="'" + WORKSHEET_NAME + "'",
+                        cell_ref=xl_rowcol_to_cell(BOARD_QTY_ROW, next_col - 1,
                                            row_abs=True,
                                            col_abs=True)))
 
@@ -441,15 +443,17 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                       'Sub Cost:' if len(prj_info)>1 else 'Total Cost:' ,
                       wrk_formats['total_cost_label'])
             # Define the named cell where the total cost can be found.
-            workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(
-                wks_name="'" + WORKSHEET_NAME + "'",
-                cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
+            workbook.define_name('Total{}Cost'.format(str(i_prj)),
+                   '={wks_name}!{cell_ref}'.format(
+                          wks_name="'" + WORKSHEET_NAME + "'",
+                          cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
                                            row_abs=True,
                                            col_abs=True)))
             # Create the row to show unit cost of board parts.
             wks.write(UNIT_COST_ROW, next_col - 2, 'Unit Cost:',
                       wrk_formats['unit_cost_label'])
-            wks.write(UNIT_COST_ROW, next_col - 1, "=TotalCost/BoardQty",
+            wks.write(UNIT_COST_ROW, next_col - 1,
+                      "=Total{}Cost/Board{}Qty".format(str(i_prj),str(i_prj)),
                       wrk_formats['unit_cost_currency'])#TODO
 
         # Freeze view of the global information and the column headers, but
@@ -713,7 +717,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         try:
             part_qty = subpart_qty(part);
             wks.write(row, start_col + columns['qty']['col'],
-                       part_qty.format('BoardQty') )
+                       part_qty.format('Board0Qty') )
             #          '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
