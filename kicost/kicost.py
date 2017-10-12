@@ -90,7 +90,7 @@ distributors = distributor_imports.distributors
 # Import import functions for various EDA tools.
 from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
-subpart_qty = eda_tools_imports.subpart_qty
+part_qty = eda_tools_imports.part_qty
 from .eda_tools.eda_tools import SUB_SEPRTR
 
 # Regular expression for detecting part reference ids consisting of a
@@ -128,14 +128,18 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     # Get groups of identical parts.
     parts = list()
     prj_info = list()
-    for i in range(len(in_file)):
-        eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i])
-        p, info = eda_tool_module.get_part_groups(in_file[i], ignore_fields, variant[i])
+    for i_prj in range(len(in_file)):
+        eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i_prj])
+        p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         # Add the project indentifier in the references.
-#        if len(in_file)>1: # TODO removed to test, nedd improvement in the `collapse_refs()`
-#            for i_g in range(len(p)):
-#                for i_p in range(len(p[i_g].refs)):
-#                    p[i_g].refs[i_p] =  'f' + str(i) + PRJ_SEPRTR + p[i_g].refs[i_p]
+        if len(in_file)>1:
+            for i_g in range(len(p)):
+                p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
+                #for i_p in range(len(p[i_g].refs)):
+                #    p[i_g].refs[i_p] =  'f' + str(i) + PRJ_SEPRTR + p[i_g].refs[i_p] # TODO removed to test, need improvement in the `collapse_refs()`
+                #     p[i_g].refs[i_p]['qty'] = 'Board{}Qty'.format(i_prj) #TODO 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
+                #     print(p[i_g].refs[i_p])
+                #     print('Board{}'.format(i_prj))
         parts += p
         prj_info.append( info.copy() )
 
@@ -421,7 +425,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             wks.write(UNIT_COST_ROW, START_COL, 'Co.:', wrk_formats['proj_info_field'])
             wks.write(UNIT_COST_ROW, START_COL+1, prj_info[i_prj]['company'], wrk_formats['proj_info'])
             wks.write(TOTAL_COST_ROW, START_COL, 'Date:', wrk_formats['proj_info_field'])
-            wks.write(TOTAL_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
+            wks.write(TOTAL_COST_ROW, START_COL+1, prj_info[i_prj]['date'], wrk_formats['proj_info'])
 
             # Create the cell where the quantity of boards to assemble is entered.
             # Place the board qty cells near the right side of the global info.
@@ -455,6 +459,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
             wks.write(UNIT_COST_ROW, next_col - 1,
                       "=Total{}Cost/Board{}Qty".format(str(i_prj),str(i_prj)),
                       wrk_formats['unit_cost_currency'])#TODO
+
+        # Add the data of the prices.
+        wks.write(TOTAL_COST_ROW+1, START_COL, '$ date:', wrk_formats['proj_info_field'])
+        wks.write(TOTAL_COST_ROW+1, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
 
         # Freeze view of the global information and the column headers, but
         # allow the distributor-specific part info to scroll.
@@ -554,7 +562,7 @@ def collapse_refs(refs):
                 collapsed_refs.append('{}{}'.format(prefix, num))
 
     # Return the collapsed par references.
-    return collapsed_refs
+    return ','.join(collapsed_refs)
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
@@ -687,7 +695,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     # Add data for each part to the spreadsheet.
     # First, collapse the part references: e.g. J1, J2, J3 => J1-J3.
     for part in parts:
-        part.collapsed_refs = ','.join(collapse_refs(part.refs))
+        part.collapsed_refs = collapse_refs(part.refs)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
@@ -715,10 +723,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
 
         # Enter total part quantity needed.
         try:
-            part_qty = subpart_qty(part);
-            wks.write(row, start_col + columns['qty']['col'],
-                       part_qty.format('Board0Qty') )
-            #          '=BoardQty*{}'.format(len(part.refs)))
+            wks.write(row, start_col + columns['qty']['col'], part_qty(part))
         except KeyError:
             pass
 
