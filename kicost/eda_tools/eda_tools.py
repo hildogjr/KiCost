@@ -248,7 +248,6 @@ def part_qty(component):
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',len(component.refs))
         string = '={{}}*{qty}'.format(qty=len(component.refs))
-    print('DDD>>',component.qty)
     return string.format(component.qty)
 
 
