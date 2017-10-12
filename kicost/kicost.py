@@ -132,14 +132,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i_prj])
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         # Add the project indentifier in the references.
-        if len(in_file)>1:
-            for i_g in range(len(p)):
-                p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
-                #for i_p in range(len(p[i_g].refs)):
-                #    p[i_g].refs[i_p] =  'f' + str(i) + PRJ_SEPRTR + p[i_g].refs[i_p] # TODO removed to test, need improvement in the `collapse_refs()`
-                #     p[i_g].refs[i_p]['qty'] = 'Board{}Qty'.format(i_prj) #TODO 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
-                #     print(p[i_g].refs[i_p])
-                #     print('Board{}'.format(i_prj))
+        for i_g in range(len(p)):
+            p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
         parts += p
         prj_info.append( info.copy() )
 
@@ -402,7 +396,9 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         # next_col = the column immediately to the right of the global data.
         # qty_col = the column where the quantity needed of each part is stored.
         next_col, refs_col, qty_col = add_globals_to_worksheet(
-            wks, wrk_formats, START_ROW, START_COL, START_ROW, parts, user_fields)
+            wks, wrk_formats, START_ROW, START_COL,
+            [(i+1)*3-2 for i in range(len(prj_info))] if len(prj_info)>1 else [START_ROW -3], # All lines with sub totals.
+            parts, user_fields)
         # Create a defined range for the global data.
         workbook.define_name(
             'global_part_data', '={wks_name}!{data_range}'.format(
@@ -442,27 +438,38 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                                            row_abs=True,
                                            col_abs=True)))
 
-            # Create the row to show total cost of board parts for each distributor.
-            wks.write(TOTAL_COST_ROW, next_col - 2,
-                      'Sub Cost:' if len(prj_info)>1 else 'Total Cost:' ,
-                      wrk_formats['total_cost_label'])
             # Define the named cell where the total cost can be found.
-            workbook.define_name('Total{}Cost'.format(str(i_prj)),
+            workbook.define_name('Unit{}Cost'.format(str(i_prj)),
+                   '={wks_name}!{cell_ref}'.format(
+                          wks_name="'" + WORKSHEET_NAME + "'",
+                          cell_ref=xl_rowcol_to_cell(UNIT_COST_ROW, next_col - 1,
+                                           row_abs=True, col_abs=True)))
+            workbook.define_name('Prj{}Cost'.format(str(i_prj)),
                    '={wks_name}!{cell_ref}'.format(
                           wks_name="'" + WORKSHEET_NAME + "'",
                           cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
-                                           row_abs=True,
-                                           col_abs=True)))
+                                           row_abs=True, col_abs=True)))
             # Create the row to show unit cost of board parts.
             wks.write(UNIT_COST_ROW, next_col - 2, 'Unit Cost:',
                       wrk_formats['unit_cost_label'])
-            wks.write(UNIT_COST_ROW, next_col - 1,
-                      "=Total{}Cost/Board{}Qty".format(str(i_prj),str(i_prj)),
-                      wrk_formats['unit_cost_currency'])#TODO
+            # Create the row to show total cost of boards parts for each distributor.
+            wks.write(TOTAL_COST_ROW, next_col - 2,
+                      'Sub Cost:' if len(prj_info)>1 else 'Total Cost:' ,
+                      wrk_formats['total_cost_label'])
+            wks.write(TOTAL_COST_ROW, next_col - 1,
+                      "=Unit{}Cost*Board{}Qty".format(str(i_prj),str(i_prj)),
+                      wrk_formats['total_cost_currency'])
 
         # Add the data of the prices.
-        wks.write(TOTAL_COST_ROW+1, START_COL, '$ date:', wrk_formats['proj_info_field'])
+        wks.write(TOTAL_COST_ROW+1, START_COL, '$ Date:', wrk_formats['proj_info_field'])
         wks.write(TOTAL_COST_ROW+1, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
+        if len(prj_info)>1:
+            wks.write(TOTAL_COST_ROW+1, next_col - 2, 'Total Cost:', wrk_formats['proj_info_field'])
+            wks.write(TOTAL_COST_ROW+1, next_col - 1,
+                    '=' + '+'.join(
+                            ['Prj{}Cost'.format(i) for i in range(len(prj_info))]
+                        ),
+                    wrk_formats['total_cost_currency'])
 
         # Freeze view of the global information and the column headers, but
         # allow the distributor-specific part info to scroll.
@@ -566,7 +573,7 @@ def collapse_refs(refs):
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
-                             total_cost_row, parts, user_fields):
+                             unit_cost_row, parts, user_fields):
     '''Add global part data to the spreadsheet.'''
 
     # Columns for the various types of global part data.
@@ -811,11 +818,18 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         row += 1  # Go to next row.
 
     # Sum the extended prices for all the parts to get the total minimum cost.
-    total_cost_col = start_col + columns['ext_price']['col']
-    wks.write(total_cost_row, total_cost_col, '=sum({sum_range})'.format(
-        sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
-                           PART_INFO_LAST_ROW, total_cost_col)),
-              wrk_formats['total_cost_currency'])
+    for prj_unitcost_row in unit_cost_row:
+        #parts.qty == 'Board{}Qty'.format(i_part)
+        total_cost_col = start_col + columns['ext_price']['col']
+        cost_formula = '=sumproduct({range1},{range2})'.format( #TODO FIX THE QTY CALCULATION
+                 range1=xl_range(PART_INFO_FIRST_ROW, total_cost_col-1,
+                               PART_INFO_LAST_ROW, total_cost_col-1),
+                 range2=xl_range(PART_INFO_FIRST_ROW, total_cost_col-2,
+                               PART_INFO_LAST_ROW, total_cost_col-2)
+            )
+        wks.write(prj_unitcost_row, total_cost_col,
+                  cost_formula,
+                  wrk_formats['unit_cost_currency'])
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.
