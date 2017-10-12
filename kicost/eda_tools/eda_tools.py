@@ -30,7 +30,7 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-__all__ = ['subpart_split','subpart_qty','groups_sort']
+__all__ = ['subpart_split','part_qty','groups_sort']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)[:]'  # Separator for the subpart quantity and the part number.
@@ -224,7 +224,7 @@ def subpart_split(components):
     return split_components
     
 
-def subpart_qty(component):
+def part_qty(component):
     '''
     Calculate the string of the quantity of the item parsing the
     referente (design) quantity and the sub quantity (in case that
@@ -248,7 +248,8 @@ def subpart_qty(component):
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',len(component.refs))
         string = '={{}}*{qty}'.format(qty=len(component.refs))
-    return string
+    print('DDD>>',component.qty)
+    return string.format(component.qty)
 
 
 
