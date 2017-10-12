@@ -38,6 +38,7 @@ import sys
 import pprint
 import copy
 import re # Regular expression parser.
+import types # To check variable types.
 import difflib
 import logging
 import tqdm
@@ -74,6 +75,8 @@ class PartHtmlError(Exception):
 __all__ = ['kicost']  # Only export this routine for use by the outside world.
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
+PRJ_SEPRTR  = '@' # Project separator for a part reference, used in
+                  # the multiple BOM files input case.
 
 logger = logging.getLogger('kicost')
 DEBUG_OVERVIEW = logging.DEBUG
@@ -109,9 +112,33 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     for dist in rmv_dist:
         distributors.pop(dist, None)
 
+    # Deal with some code exception (only one EDA tool or variant
+    # informed in the multiple BOM files input).
+    if  not isinstance(in_file,list):
+        in_file = [in_file]
+    if not isinstance(variant,list):
+        variant = [variant] * len(in_file)
+    elif len(variant) != len(in_file):
+        variant = [variant[0]] * len(in_file) #Assume the first as default.
+    if not isinstance(eda_tool_name,list):
+        eda_tool_name = [eda_tool_name] * len(in_file)
+    elif len(eda_tool_name) != len(in_file):
+        eda_tool_name = [eda_tool_name[0]] * len(in_file) #Assume the first as default.
+
     # Get groups of identical parts.
-    eda_tool_module = getattr(eda_tools_imports, eda_tool_name)
-    parts, prj_info = eda_tool_module.get_part_groups(in_file, ignore_fields, variant)
+    parts = list()
+    prj_info = list()
+    for i in range(len(in_file)):
+        eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i])
+        p, info = eda_tool_module.get_part_groups(in_file[i], ignore_fields, variant[i])
+        parts.append(p)
+        prj_info.append(info)
+        # Add the project indentifier in the references.
+        if len(in_file)>1:
+        	parts[i].set( 'f' + str(i) + PRJ_SEPRTR + parts[i].get( 'refs' ) )
+    print(parts)
+    print(prj_info)
+    return 0
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
