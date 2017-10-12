@@ -390,7 +390,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         LABEL_ROW = START_ROW + 1
         COL_HDR_ROW = LABEL_ROW + 1
         FIRST_PART_ROW = COL_HDR_ROW + 1
-        LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
+        LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1        
 
         # Load the global part information (not distributor-specific) into the sheet.
         # next_col = the column immediately to the right of the global data.
@@ -822,10 +822,9 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         #parts.qty == 'Board{}Qty'.format(i_part)
         total_cost_col = start_col + columns['ext_price']['col']
         cost_formula = '=sumproduct({range1},{range2})'.format( #TODO FIX THE QTY CALCULATION
-                 range1=xl_range(PART_INFO_FIRST_ROW, total_cost_col-1,
-                               PART_INFO_LAST_ROW, total_cost_col-1),
-                 range2=xl_range(PART_INFO_FIRST_ROW, total_cost_col-2,
-                               PART_INFO_LAST_ROW, total_cost_col-2)
+                 range1=xl_range(PART_INFO_FIRST_ROW, total_cost_col-2,
+                               PART_INFO_LAST_ROW, total_cost_col-2),
+                 range2='{' + ','.join([ parts[i].qty for i in range(num_parts) ]) + '}'
             )
         wks.write(prj_unitcost_row, total_cost_col,
                   cost_formula,
