@@ -136,11 +136,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
             for i_g in range(len(p)):
                 for i_p in range(len(p[i_g].refs)):
                     p[i_g].refs[i_p] =  'f' + str(i) + PRJ_SEPRTR + p[i_g].refs[i_p]
-                print(p[i_g].refs)
-        parts.append(p)
-        prj_info.append(info)
-    #return 0
-    
+        parts += p
+        prj_info.append( info.copy() )
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
@@ -198,7 +195,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     del scraping_progress
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, user_fields, variant)
+    create_spreadsheet(parts, prj_info, out_filename, user_fields,
+             '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):
@@ -388,69 +386,71 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
 
+        # Set the row & column for entering the part information in the sheet.
+        START_ROW = 3 * len(prj_info) + 4
+        START_COL = 0
+        LABEL_ROW = START_ROW + 1
+        COL_HDR_ROW = LABEL_ROW + 1
+        FIRST_PART_ROW = COL_HDR_ROW + 1
+        LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
+
+        # Load the global part information (not distributor-specific) into the sheet.
+        # next_col = the column immediately to the right of the global data.
+        # qty_col = the column where the quantity needed of each part is stored.
+        next_col, refs_col, qty_col = add_globals_to_worksheet(
+            wks, wrk_formats, START_ROW, START_COL, START_ROW, parts, user_fields)
+        # Create a defined range for the global data.
+        workbook.define_name(
+            'global_part_data', '={wks_name}!{data_range}'.format(
+                wks_name= "'" + WORKSHEET_NAME + "'",
+                data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
+                                        next_col - 1)))
+
         for i_prj in range(len(prj_info)):
-		    # Set the row & column for entering the part information in the sheet.
-		    START_COL = 0
-		    BOARD_QTY_ROW = 3 * i_prj
-		    UNIT_COST_ROW = BOARD_QTY_ROW + 1
-		    TOTAL_COST_ROW =  TOTAL_COST_ROW + 1
-		    START_ROW = 4
-		    LABEL_ROW = START_ROW + 1
-		    COL_HDR_ROW = LABEL_ROW + 1
-		    FIRST_PART_ROW = COL_HDR_ROW + 1
-		    LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
+            # Set the row & column for entering the part information in the sheet.
+            BOARD_QTY_ROW = 3 * i_prj
+            UNIT_COST_ROW = BOARD_QTY_ROW + 1
+            TOTAL_COST_ROW =  BOARD_QTY_ROW + 2
 
-		    # Load the global part information (not distributor-specific) into the sheet.
-		    # next_col = the column immediately to the right of the global data.
-		    # qty_col = the column where the quantity needed of each part is stored.
-		    next_col, refs_col, qty_col = add_globals_to_worksheet(
-		        wks, wrk_formats, START_ROW, START_COL, TOTAL_COST_ROW, parts, user_fields)
-		    # Create a defined range for the global data.
-		    workbook.define_name(
-		        'global_part_data', '={wks_name}!{data_range}'.format(
-		            wks_name= "'" + WORKSHEET_NAME + "'",
-		            data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
-		                                    next_col - 1)))
+            # Add project information to track the project (in a printed version
+            # of the BOM) and the date because of price variations.
+            wks.write(BOARD_QTY_ROW, START_COL,
+                   'Proj{}:'.format(str(i_prj)) if len(prj_info)>1 else 'Proj:',
+                    wrk_formats['proj_info_field'])
+            wks.write(BOARD_QTY_ROW, START_COL+1, prj_info[i_prj]['title'], wrk_formats['proj_info'])
+            wks.write(TOTAL_COST_ROW, START_COL, 'Co.:', wrk_formats['proj_info_field'])
+            wks.write(TOTAL_COST_ROW, START_COL+1, prj_info[i_prj]['company'], wrk_formats['proj_info'])
+            wks.write(UNIT_COST_ROW, START_COL, 'Date:', wrk_formats['proj_info_field'])
+            wks.write(UNIT_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
 
-		    # Add project information to track the project (in a printed version
-		    # of the BOM) and the date because of price variations.
-		    prj_str = len(prj_info)>1 if 'Proj{}:'.format(string(i_prj)) else 'Proj:'
-		    wks.write(BOARD_QTY_ROW, START_COL, prj_str, wrk_formats['proj_info_field'])
-		    wks.write(BOARD_QTY_ROW, START_COL+1, prj_info[i_prj]['title'], wrk_formats['proj_info'])
-		    wks.write(TOTAL_COST_ROW, START_COL, 'Co.:', wrk_formats['proj_info_field'])
-		    wks.write(TOTAL_COST_ROW, START_COL+1, prj_info[i_prj]['company'], wrk_formats['proj_info'])
-		    wks.write(UNIT_COST_ROW, START_COL, 'Date:', wrk_formats['proj_info_field'])
-		    wks.write(UNIT_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
+            # Create the cell where the quantity of boards to assemble is entered.
+            # Place the board qty cells near the right side of the global info.
+            wks.write(BOARD_QTY_ROW, next_col - 2, 'Board Qty:',
+                      wrk_formats['board_qty'])
+            wks.write(BOARD_QTY_ROW, next_col - 1, DEFAULT_BUILD_QTY,
+                      wrk_formats['board_qty'])  # Set initial board quantity.
+            # Define the named cell where the total board quantity can be found.
+            workbook.define_name('BoardQty', '={wks_name}!{cell_ref}'.format(
+                wks_name="'" + WORKSHEET_NAME + "'",
+                cell_ref=xl_rowcol_to_cell(BOARD_QTY_ROW, next_col - 1,
+                                           row_abs=True,
+                                           col_abs=True)))
 
-		    # Create the cell where the quantity of boards to assemble is entered.
-		    # Place the board qty cells near the right side of the global info.
-		    wks.write(BOARD_QTY_ROW, next_col - 2, 'Board Qty:',
-		              wrk_formats['board_qty'])
-		    wks.write(BOARD_QTY_ROW, next_col - 1, DEFAULT_BUILD_QTY,
-		              wrk_formats['board_qty'])  # Set initial board quantity.
-		    # Define the named cell where the total board quantity can be found.
-		    workbook.define_name('BoardQty', '={wks_name}!{cell_ref}'.format(
-		        wks_name="'" + WORKSHEET_NAME + "'",
-		        cell_ref=xl_rowcol_to_cell(BOARD_QTY_ROW, next_col - 1,
-		                                   row_abs=True,
-		                                   col_abs=True)))
-
-		    # Create the row to show total cost of board parts for each distributor.
-		    wks.write(TOTAL_COST_ROW, next_col - 2, 'Total Cost:',
-		              wrk_formats['total_cost_label'])
-
-		    # Define the named cell where the total cost can be found.
-		    workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(
-		        wks_name="'" + WORKSHEET_NAME + "'",
-		        cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
-		                                   row_abs=True,
-		                                   col_abs=True)))
-
-		    # Create the row to show unit cost of board parts.
-		    wks.write(UNIT_COST_ROW, next_col - 2, 'Unit Cost:',
-		              wrk_formats['unit_cost_label'])
-		    wks.write(UNIT_COST_ROW, next_col - 1, "=TotalCost/BoardQty",
-		              wrk_formats['unit_cost_currency'])#TODO
+            # Create the row to show total cost of board parts for each distributor.
+            wks.write(TOTAL_COST_ROW, next_col - 2,
+                      'Sub Cost:' if len(prj_info)>1 else 'Total Cost:' ,
+                      wrk_formats['total_cost_label'])
+            # Define the named cell where the total cost can be found.
+            workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(
+                wks_name="'" + WORKSHEET_NAME + "'",
+                cell_ref=xl_rowcol_to_cell(TOTAL_COST_ROW, next_col - 1,
+                                           row_abs=True,
+                                           col_abs=True)))
+            # Create the row to show unit cost of board parts.
+            wks.write(UNIT_COST_ROW, next_col - 2, 'Unit Cost:',
+                      wrk_formats['unit_cost_label'])
+            wks.write(UNIT_COST_ROW, next_col - 1, "=TotalCost/BoardQty",
+                      wrk_formats['unit_cost_currency'])#TODO
 
         # Freeze view of the global information and the column headers, but
         # allow the distributor-specific part info to scroll.
