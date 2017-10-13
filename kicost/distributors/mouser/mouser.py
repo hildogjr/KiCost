@@ -183,7 +183,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
                     return get_part_html_tree(dist, pn, extra_search_terms,
-                                url=l['href'], descend=descend-1, scrape_retries=scrape_retries)
+                                              url=l.get('href', ''),
+                                              descend=descend-1,
+                                              scrape_retries=scrape_retries)
 
     # I don't know what happened here, so give up.
     logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))
