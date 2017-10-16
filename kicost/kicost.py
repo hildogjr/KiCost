@@ -289,6 +289,9 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
 
+    MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 caracheters longer
+                                # string for the worksheet name, Google
+                                #SpreadSheet 100 and LibreOffice Calc have no limit.
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
 
@@ -296,8 +299,13 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         # Append an indication of the variant to the worksheet title.
         # Remove any special characters that might be illegal in a 
         # worksheet name since the variant might be a regular expression.
-        WORKSHEET_NAME = WORKSHEET_NAME + '.' + re.sub(
-                                '[\[\]\\\/\|\?\*\:\(\)]','_',variant)
+        # Fix the maximum worksheet name, priorize the variant string cutting
+        # the board project.
+        variant = re.sub('[\[\]\\\/\|\?\*\:\(\)]','_',
+                            variant[:(MAX_LEN_WORKSHEET_NAME)])
+        WORKSHEET_NAME += '.'
+        WORKSHEET_NAME = WORKSHEET_NAME[:(MAX_LEN_WORKSHEET_NAME-len(variant))]
+        WORKSHEET_NAME += variant
 
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
