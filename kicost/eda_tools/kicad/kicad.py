@@ -97,9 +97,10 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
-    def title_find_all(s):
+    def title_find_all(field):
+        '''Helper function for finding title info, especially if it is absent.'''
         try:
-            return str(title.find_all(s)[0].string)
+            return str(title.find_all(field)[0].string)
         except (AttributeError, IndexError):
             return ''
     prj_info = dict()
@@ -144,8 +145,8 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
-        fields = libparts.get(libpart, dict()).copy()
-        #fields = libparts[libpart].copy()  # Make a copy! Don't use reference!
+        # (Use an empty dict if no part exists in the library.)
+        fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
 
         # Store the part key and its value.
         fields['libpart'] = libpart
