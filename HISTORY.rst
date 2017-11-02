@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.40 (2017-11-02)
+______________________
+
+* Fixed exceptions caused by .xml files without a title block or part library section.
+
+
 0.1.39 (2017-10-10)
 ______________________
 
