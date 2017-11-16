@@ -3,6 +3,12 @@
 History
 -------
 
+0.1.41 (2017-11-16)
+______________________
+
+* Fixed exception caused by missing 'href' key in product links extracted by TME module.
+
+
 0.1.40 (2017-11-02)
 ______________________
 
