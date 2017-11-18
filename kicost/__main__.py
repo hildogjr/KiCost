@@ -105,10 +105,10 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium'],
+    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium','generic','csv'],
                         nargs='*',
                         default='kicad',
-                        help='Choose EDA tool from which the .XML BOM file originated.')
+                        help='Choose EDA tool from which the .XML BOM file originated or generic/csv to hand made components list.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
@@ -178,6 +178,8 @@ def main():
             if os.path.splitext(args.input[i])[1] == '':
                 args.input[i] += '.xml'
             args.input[i] = open(args.input[i])
+        if args.eda_tool == 'csv' || args.eda_tool == 'generic'
+            args.eda_tool = 'generic_csv'
 
     # Set number of processes to use for web scraping.
     if args.serial:
@@ -199,3 +201,4 @@ if __name__ == '__main__':
     main()
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
+

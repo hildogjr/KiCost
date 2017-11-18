@@ -12,18 +12,13 @@ standard_library.install_aliases()
 
 import future
 
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup # To Read XML files.
 import logging
-
-logger = logging.getLogger('kicost')
-
-DEBUG_OVERVIEW = logging.DEBUG
-DEBUG_DETAILED = logging.DEBUG-1
-DEBUG_OBSESSIVE = logging.DEBUG-2
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 import sys
 
-SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
+SEPRTR = ':' # Delimiter between library:component, distributor:field, etc.
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
@@ -36,8 +31,8 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
     
 
     def extract_fields(part, variant):
-        '''Extract XML fields from the part in a library or schematic.'''        
-
+        '''Extract XML fields from the part in a library or schematic.'''
+        
         fields = {}
         
         if sys.version[0]=='2':
@@ -46,13 +41,13 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
             fields['value']=part['value3'].encode('ascii', 'ignore')
             fields['reference']=part['comment1'].encode('ascii', 'ignore')
             fields['manf#']=part['manufacturer_part_number_11'].encode('ascii', 'ignore')
-        else:            
+        else:
             fields['footprint']=part['footprint1']
             fields['libpart']=part['libref1']
             fields['value']=part['value3']
             fields['reference']=part['comment1']
             fields['manf#']=part['manufacturer_part_number_11']
-                
+            
         return fields
 
     # Read-in the schematic XML file to get a tree and get its root.
@@ -66,10 +61,10 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
     component_groups = {}
     
     for p in root.find('rows').find_all('row'):
-					
+        
         # Get the values for the fields in each library part (if any).
         fields = extract_fields(p, variant)
-
+        
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
         #~ libparts[str(fields['libpart'] + SEPRTR + fields['reference'])] = fields
@@ -133,8 +128,8 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
     return new_component_groups, prj_info
 
 if __name__=='__main__':
-	
-	file_handle=open('meacs.xml')
-	#~ file_handle=open('wiSensAFE.xml')
-	
-	get_part_groups_altium(file_handle,'','')
+    
+    file_handle=open('meacs.xml')
+    #~ file_handle=open('wiSensAFE.xml')
+    
+    get_part_groups_altium(file_handle,'','')
