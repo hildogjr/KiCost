@@ -37,6 +37,19 @@ circuit boards developed with KiCad. Typical use is as follows:
    directly into the website ordering page of each distributor.
 
 ------------------------
+Custom BOM list
+------------------------
+
+KiCost acept also CSV custom BOM list (also the format for some other EDA softwares). This is a way to get the up to date price of a hand made list or older projects. It is interpreted as CSV `,` `;` or `\t` separeted format, even the number of columns is dinamic.
+
+1. For just one column all lines are interpret as `manf#`;
+2. For two `manf#` and `refs`;
+3. For three `qty`, `manf#` and `refs`;
+4. For more information is needed to use a CSV header in the first line of the file (the road map is interpret also if the firsts line have some prject information such as author or company, but not now).
+
+Each of this columns can be ignored the module set the default value. E.g. to case 3 use `3,PART-CODE,` for one list without reference strings.
+
+------------------------
 Custom Part Data
 ------------------------
 
