@@ -105,10 +105,10 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium','generic','csv'],
+    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium'],
                         nargs='*',
                         default='kicad',
-                        help='Choose EDA tool from which the .XML BOM file originated or generic/csv to hand made components list.')
+                        help='Choose EDA tool from which the .XML BOM file originated.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
@@ -177,9 +177,9 @@ def main():
             # allow (future) other files extension and formats.
             if os.path.splitext(args.input[i])[1] == '':
                 args.input[i] += '.xml'
+            elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv' or args.eda_tool[i] == 'generic':
+                args.eda_tool = 'generic_csv'
             args.input[i] = open(args.input[i])
-        if args.eda_tool == 'csv' or args.eda_tool == 'generic':
-            args.eda_tool = 'generic_csv'
 
     # Set number of processes to use for web scraping.
     if args.serial:

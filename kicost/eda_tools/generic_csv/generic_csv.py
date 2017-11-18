@@ -31,17 +31,10 @@ import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
 
-field_name_translations = dict()
-logger = logging.getLogger('kicost')
-DEBUG_OVERVIEW = logging.DEBUG
-DEBUG_DETAILED = logging.DEBUG-1
-DEBUG_OBSESSIVE = logging.DEBUG-2
-SEPRTR=':'
-
-#from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-#from ...kicost import distributors
-#from ..eda_tools import field_name_translations
-#from ..eda_tools import subpart_split
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...kicost import distributors, SEPRTR
+from ..eda_tools import field_name_translations
+from ..eda_tools import subpart_split
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
@@ -55,9 +48,9 @@ field_name_translations.update(
         'mfr. no': 'manf#',
         'quantity': 'qty',
         'order qty': 'qty',
-        'references': 'reference',
-        'ref':'reference',
-        'customer no': 'reference',
+        'references': 'refs',
+        'ref': 'refs',
+        'customer no': 'refs',
         'value': 'value'
     }
 )
@@ -67,9 +60,10 @@ field_name_translations.update(
 class IdenticalComponents(object):
     pass
 
-def get_part_groups_generic_csv(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
-    # No variant of ignore field is used in this function, the input is just kept by compatibily.
+    # No `variant` of ignore field is used in this function, the input is just kept by compatibily.
+    # Enven not `ignore_filds` to be ignored.
     
     logger.log(DEBUG_OVERVIEW, 'Get schematic CSV...')
     content = in_file.read()
@@ -121,8 +115,7 @@ def get_part_groups_generic_csv(in_file, ignore_fields, variant):
     for row in content:
         # Get the values for the fields in each library part (if any).
         fields = extract_fields(row)
-        
-        print('   >>>>   ', fields)
+        print('<<<<<',fields)
         
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
