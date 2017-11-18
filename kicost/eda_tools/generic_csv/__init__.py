@@ -26,4 +26,4 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .csv_generic import get_part_groups_csv
+from .generic_csv import get_part_groups_generic_csv

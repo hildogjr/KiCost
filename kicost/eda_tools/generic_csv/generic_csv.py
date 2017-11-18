@@ -181,7 +181,7 @@ def get_part_groups_generic_csv(in_file, ignore_fields, variant):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)
     
-    prj_info = {'title':'No title','company':'No company founded'} # Information not avaliable.
+    prj_info = {'title':'No title','company':'Not avaliable','date':'Not avaliable'} # Information not avaliable.
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info

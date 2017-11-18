@@ -109,9 +109,30 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     for dist in rmv_dist:
         distributors.pop(dist, None)
 
+    # Deal with some code exception (only one EDA tool or variant
+    # informed in the multiple BOM files input).
+    if  not isinstance(in_file,list):
+        in_file = [in_file]
+    if not isinstance(variant,list):
+        variant = [variant] * len(in_file)
+    elif len(variant) != len(in_file):
+        variant = [variant[0]] * len(in_file) #Assume the first as default.
+    if not isinstance(eda_tool_name,list):
+        eda_tool_name = [eda_tool_name] * len(in_file)
+    elif len(eda_tool_name) != len(in_file):
+        eda_tool_name = [eda_tool_name[0]] * len(in_file) #Assume the first as default.
+
     # Get groups of identical parts.
-    eda_tool_module = getattr(eda_tools_imports, eda_tool_name)
-    parts, prj_info = eda_tool_module.get_part_groups(in_file[0], ignore_fields[0], variant[0])
+    parts = list()
+    prj_info = list()
+    for i_prj in range(len(in_file)):
+        eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i_prj])
+        p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
+        # Add the project indentifier in the references.
+        for i_g in range(len(p)):
+            p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
+        parts += p
+        prj_info.append( info.copy() )
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts)
@@ -169,7 +190,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     del scraping_progress
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, user_fields, variant)
+    create_spreadsheet(parts, prj_info, out_filename, user_fields,
+                       '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):
@@ -261,22 +283,30 @@ def create_local_part_html(parts):
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
-
+    
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
-
+    
+    MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 caracheters longer
+                                # string for the worksheet name, Google
+                                #SpreadSheet 100 and LibreOffice Calc have no limit.
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
-
+    
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
         # Remove any special characters that might be illegal in a 
         # worksheet name since the variant might be a regular expression.
-        WORKSHEET_NAME = WORKSHEET_NAME + '.' + re.sub(
-                                '[\[\]\\\/\|\?\*\:\(\)]','_',variant)
-
+        # Fix the maximum worksheet name, priorize the variant string cutting
+        # the board project.
+        variant = re.sub('[\[\]\\\/\|\?\*\:\(\)]','_',
+                            variant[:(MAX_LEN_WORKSHEET_NAME)])
+        WORKSHEET_NAME += '.'
+        WORKSHEET_NAME = WORKSHEET_NAME[:(MAX_LEN_WORKSHEET_NAME-len(variant))]
+        WORKSHEET_NAME += variant
+    
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
-
+    
         # Create the various format styles used by various spreadsheet items.
         wrk_formats = {
             'global': workbook.add_format({
@@ -384,12 +414,24 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
         # Add project information to track the project (in a printed version
         # of the BOM) and the date because of price variations.
-        wks.write(BOARD_QTY_ROW, START_COL, 'Proj:', wrk_formats['proj_info_field'])
-        wks.write(BOARD_QTY_ROW, START_COL+1, prj_info['title'], wrk_formats['proj_info'])
-        wks.write(TOTAL_COST_ROW, START_COL, 'Co.:', wrk_formats['proj_info_field'])
-        wks.write(TOTAL_COST_ROW, START_COL+1, prj_info['company'], wrk_formats['proj_info'])
-        wks.write(UNIT_COST_ROW, START_COL, 'Date:', wrk_formats['proj_info_field'])
-        wks.write(UNIT_COST_ROW, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
+        i_prj = 0 # WILL BE USED AT ISSUE #73
+        wks.write(BOARD_QTY_ROW, START_COL,
+                   'Proj{}:'.format(str(i_prj)) if len(prj_info)>1 else 'Proj:',
+                    wrk_formats['proj_info_field'])
+        wks.write(BOARD_QTY_ROW, START_COL+1,
+                  prj_info[i_prj]['title'], wrk_formats['proj_info'])
+        wks.write(TOTAL_COST_ROW, START_COL, 'Co.:',
+                  wrk_formats['proj_info_field'])
+        wks.write(TOTAL_COST_ROW, START_COL+1,
+                  prj_info[i_prj]['company'], wrk_formats['proj_info'])
+        wks.write(UNIT_COST_ROW, START_COL,
+                  'Prj date:', wrk_formats['proj_info_field'])
+        wks.write(UNIT_COST_ROW, START_COL+1,
+                  prj_info[i_prj]['date'], wrk_formats['proj_info'])
+        wks.write(UNIT_COST_ROW+1, START_COL,
+                  '$ date:', wrk_formats['proj_info_field'])
+        wks.write(UNIT_COST_ROW+1, START_COL+1,
+                  datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
 
         # Create the cell where the quantity of boards to assemble is entered.
         # Place the board qty cells near the right side of the global info.
