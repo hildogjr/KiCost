@@ -49,6 +49,7 @@ field_name_translations.update(
         'quantity': 'qty',
         'order qty': 'qty',
         'references': 'refs',
+        'reference': 'refs',
         'ref': 'refs',
         'customer no': 'refs',
         'value': 'value'
@@ -92,18 +93,25 @@ def get_part_groups(in_file, ignore_fields, variant):
             header[idx] = field_name_translations.get(title,title)
     
     # Loval function defined to get the conrrespondence fileds from the CSV file.
+    
     def extract_fields(text):
         '''Extract the correspondence fields in the CSV lines.'''
-        values = next(csv.reader([text.replace("'",'"')],delimiter=dialect.delimiter))
+        extract_fields.count_generic_ref += 1 # Counter of the generics reference.
         fields = {}
+        values = next(csv.reader([text.replace("'",'"')],delimiter=dialect.delimiter))
         # Default text to some fields needed for KiCost.
-        fields['footprint']='Fooprint'
-        fields['libpart']='Lib'
-        fields['value']='Not assined'
-        fields['reference']='generic'
+        fields['footprint'] = 'Fooprint'
+        fields['libpart'] = 'Lib'
+        fields['value'] = 'Not assined'
+        fields['reference'] = 'None'
+        fields['refs'] = 'generic{}'.format(extract_fields.count_generic_ref)
         for iV in range(len(values)):
-            fields[header[iV]] = values[iV]
+            if header[iV] != 'refs':
+                fields[header[iV]] = values[iV]
+            else:
+                fields[header[iV]] = split_refs(values[iV])
         return fields
+    extract_fields.count_generic_ref = 0
     
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
@@ -115,7 +123,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     for row in content:
         # Get the values for the fields in each library part (if any).
         fields = extract_fields(row)
-        print('<<<<<',fields)
         
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
@@ -178,6 +185,35 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
+
+
+# --------------- Local functions.
+
+def split_refs(text):
+    '''Split string grouped references into a unique designator.'''
+    # 'C17/18/19/20' --> ['C17','C18','C19','C20']
+    # 'C17\18\19\20' --> ['C17','C18','C19','C20']
+    # 'D33-D36' --> ['D33','D34','D35','D36']
+    # 'D33-36' --> ['D33','D34','D35','D36']
+    # Also ignore some caracheters as '.' or ':' used in some cases of references.
+    partial_ref = re.split('[,;]', text)
+    refs = []
+    for ref in partial_ref:
+        if re.search('-', ref):
+            designator_name = re.findall('^\D+', ref)[0]
+            splitted_nums = re.split('-', ref)
+            designator_name += ''.join( re.findall('^d*\W', splitted_nums[0] ) )
+            splitted_nums = [re.sub(designator_name,'',splitted_nums[i]) for i in range(len(splitted_nums))]
+            splitted = list( range( int(splitted_nums[0]), int(splitted_nums[1])+1 ) )
+            splitted = [designator_name+str(splitted[i]) for i in range(len(splitted)) ]
+            refs += splitted
+        elif re.search('[/\\\]', ref):
+            designator_name = re.findall('^\D+',ref)[0]
+            splitted_nums = re.split('[/\\]',ref)
+            refs += designator_name.join(splitted_nums)
+        else:
+            refs += [ref]
+    return refs
 
 if __name__=='__main__':
     print('\n\n\n############## File 1\n')
