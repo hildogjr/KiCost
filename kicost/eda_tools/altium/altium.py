@@ -15,10 +15,9 @@ import future
 from bs4 import BeautifulSoup # To Read XML files.
 import logging
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...kicost import SEPRTR # Delimiter between library:component, distributor:field, etc.
 
 import sys
-
-SEPRTR = ':' # Delimiter between library:component, distributor:field, etc.
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
