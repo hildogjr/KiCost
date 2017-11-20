@@ -15,16 +15,15 @@ import future
 from bs4 import BeautifulSoup # To Read XML files.
 import logging
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...kicost import SEPRTR # Delimiter between library:component, distributor:field, etc.
 
 import sys
-
-SEPRTR = ':' # Delimiter between library:component, distributor:field, etc.
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     pass
 
-def get_part_groups_altium(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
