@@ -14,22 +14,16 @@ import future
 
 from bs4 import BeautifulSoup
 import logging
-
-logger = logging.getLogger('kicost')
-
-DEBUG_OVERVIEW = logging.DEBUG
-DEBUG_DETAILED = logging.DEBUG-1
-DEBUG_OBSESSIVE = logging.DEBUG-2
-
 import sys
 
-SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...kicost import SEPRTR
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     pass
 
-def get_part_groups_altium(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
@@ -66,7 +60,7 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
     component_groups = {}
     
     for p in root.find('rows').find_all('row'):
-					
+                    
         # Get the values for the fields in each library part (if any).
         fields = extract_fields(p, variant)
 
@@ -133,8 +127,8 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
     return new_component_groups, prj_info
 
 if __name__=='__main__':
-	
-	file_handle=open('meacs.xml')
-	#~ file_handle=open('wiSensAFE.xml')
-	
-	get_part_groups_altium(file_handle,'','')
+    
+    file_handle=open('meacs.xml')
+    #~ file_handle=open('wiSensAFE.xml')
+    
+    get_part_groups_altium(file_handle,'','')
