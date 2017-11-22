@@ -5,7 +5,6 @@ __email__ = 'info@xess.com'
 
 from random import randint
 
-# Global constants for distributor site scraping.
 import http.client # For web scraping exceptions.
 try:
     from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
@@ -15,7 +14,8 @@ except ImportError:
     from urlparse import quote as urlquote, urlsplit, urlunsplit
     from urllib import urlencode
     from urllib2 import urlopen, Request
-HTML_RESPONSE_RETRIES = 2 # Num of retries for getting part data web page.
+
+# Global constants for distributor site scraping.
 WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
 
 

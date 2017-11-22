@@ -132,9 +132,6 @@ def get_part_groups_altium(in_file, ignore_fields, variant):
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
 
-    # Now return a list of the groups without their hash keys.
-    return list(new_component_groups.values()), prj_info
-
 if __name__=='__main__':
 	
 	file_handle=open('meacs.xml')

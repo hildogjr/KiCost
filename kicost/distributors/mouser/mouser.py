@@ -39,7 +39,6 @@ import difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import HTML_RESPONSE_RETRIES
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
 from ...kicost import PartHtmlError
@@ -111,7 +110,7 @@ def get_qty_avail(html_tree):
         return None
 
 
-def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None, scrape_retries=2):
     '''Find the Mouser HTML page for a part number and return the URL and parse tree.'''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
@@ -127,7 +126,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
     req.add_header('Cookie', 'preferences=ps=www2&pl=en-US&pc_www2=USDe')
-    for _ in range(HTML_RESPONSE_RETRIES):
+    for _ in range(scrape_retries):
         try:
             response = urlopen(req)
             html = response.read()
@@ -184,7 +183,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
                     return get_part_html_tree(dist, pn, extra_search_terms,
-                                url=l['href'], descend=descend-1)
+                                url=l['href'], descend=descend-1, scrape_retries=scrape_retries)
 
     # I don't know what happened here, so give up.
     logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))

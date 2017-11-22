@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2015 by XESS Corporation
@@ -21,32 +20,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Author information.
-__author__ = 'Hildo Guillardi Junior'
-__webpage__ = 'https://github.com/hildogjr/'
-__company__ = 'University of Campinas - Brazil'
-
-# The global dictionary of supported EDA tools starts out empty.
-eda_tools = {}
-
-import os
-
-# The EDA tool directories will be found in this directory.
-directory = os.path.dirname(__file__)
-
-# Search for the EDA tool modules and import them.
-for module in os.listdir(os.path.dirname(__file__)):
-
-    # Avoid importing non-directories.
-    abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
-        continue
-
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-
-    # Import the module.
-    __import__(module, globals(), locals(), [], level=1)
-
-from .eda_tools import * # Subparts and sub quantities routines.
+from .kicad import *
