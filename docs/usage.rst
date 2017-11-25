@@ -40,7 +40,7 @@ circuit boards developed with KiCad. Typical use is as follows:
 Custom BOM list
 ------------------------
 
-KiCost acept also CSV custom BOM list (also the format for some other EDA softwares). This is a way to get the up to date price of a hand made list or older projects. It is interpreted as CSV `,` `;` or `\t` separeted format, even the number of columns is dinamic.
+KiCost acept also CSV custom BOM list (also the format for some other EDA softwares). This is a way to get the up to date price of a hand made list or older projects. It is interpreted as CSV `,` `;` or `\t` (using multiple '\t' to align the columns) separeted format, even the number of columns is dinamic.
 
 1. For just one column all lines are interpret as `manf#`;
 2. For two `manf#` and `refs`;
