@@ -19,14 +19,12 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 # Inserted by Pasteurize tool.
 #from __future__ import print_function
 #from __future__ import unicode_literals
 #from __future__ import division
 #from __future__ import absolute_import
 #import future
-
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
@@ -56,6 +54,7 @@ field_name_translations.update(
     }
 )
 
+GENERIC_REF = 'generic' # Generic text reference to components.
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
@@ -107,14 +106,35 @@ def get_part_groups(in_file, ignore_fields, variant):
         fields['footprint'] = 'Cat:Fooprint'
         fields['value'] = 'Not assined' # Value of the component.
         fields['refs'] = 'generic' # Letter used to identify groups of components.
-        refs = 'generic{}'.format(extract_fields.count_generic_ref)
+        refs = GENERIC_REF + '{}'.format(extract_fields.count_generic_ref)
         fields['refs'] =  'generic'
         for iV in range(len(values)):
-            if header[iV] != 'refs':
-                fields[header[iV]] = values[iV]
-            else:
-                refs = split_refs(values[iV])
+            if header[iV] == 'refs':
+                ref = values[iV]
+                if ref=='':
+                    # Enunciated the reference but empty.
+                    fields['refs'] = GENERIC_REF
+                    refs = split_refs (GENERIC_REF + 
+                                       '{1}-{2}'.format(
+                                          extract_fields.count_generic_ref,
+                                          extract_fields.count_generic_ref+values['qty']-1
+                                       )
+                                      )
+                    extract_fields.count_generic_ref += values['qty'] -1
+                refs = split_refs(ref)
                 fields['refs'] = re.findall('^\D+', refs[0])[0] # Recognize the letter(s) of the grups.
+            elif header[iV] == 'qty' and not 'refs' in header:
+                # Enunciated the quantity but not the references.
+                fields['refs'] = GENERIC_REF
+                refs = split_refs (GENERIC_REF + 
+                                   '{1}-{2}'.format(
+                                      extract_fields.count_generic_ref,
+                                      extract_fields.count_generic_ref+values['qty']-1
+                                   )
+                                  )
+                extract_fields.count_generic_ref += values['qty'] -1
+            else:
+                fields[header[iV]] = values[iV]
         return refs, fields
     extract_fields.count_generic_ref = 0
     
@@ -134,6 +154,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     
     # Replace the component list with the list of accepted parts.
     components = subpart_split(accepted_components)
+    print(components)
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
@@ -239,7 +260,7 @@ def split_refs(text):
     for ref in partial_ref:
         # Remove invalid characters.
         ref = re.sub('\+$', 'p', ref) # Finishin "+".
-        ref = re.sub('[\+\s\_\.\(\)]', '', ref) # Generic special caracheters.
+        ref = re.sub('[\+\s\_\.\(\)\$\*]', '', ref) # Generic special caracheters.
         ref = re.sub('\-+', '-', ref) # Double "-".
         ref = re.sub('^\-', '', ref) # Stating "-".
         ref = re.sub('\-$', 'n', ref) # Finishin "-".
