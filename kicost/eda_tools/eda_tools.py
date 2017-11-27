@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2017 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -33,8 +33,8 @@ __company__ = 'University of Campinas - Brazil'
 __all__ = ['subpart_split','subpart_qty','groups_sort']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
-QTY_SEPRTR  = r'(?<!\\)[:]'  # Separator for the subpart quantity and the part number.
-PART_SEPRTR = r'(?<!\\)[;,]' # Separator for the part numbers in a list.
+QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
+PART_SEPRTR = r'(?<!\\)\s*[;,]\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 SUB_SEPRTR  = '#' # Subpart separator for a part reference.
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
@@ -215,6 +215,7 @@ def subpart_split(components):
                                 print(subpart_actual)
                         except IndexError:
                             pass
+                    # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     split_components[ref] = subpart_actual
             else:
@@ -261,7 +262,8 @@ def subpart_list(part):
     quantity information, these have to be separated by
     PART_SEPRTR definition.
     '''
-    return re.split(PART_SEPRTR, re.sub('\s','',part))
+    # Split by PART_SEPRTR and remove accidental initial and finishing spaces typed by the user.
+    return re.split(PART_SEPRTR, re.sub('\s+$', '', re.sub('^\s+', '', part)))
 
 
 def subpart_qtypart(subpart):
@@ -277,7 +279,7 @@ def subpart_qtypart(subpart):
     'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
     'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
     '''
-    strings = re.split('\s*' + QTY_SEPRTR + '\s*', subpart)
+    strings = re.split(QTY_SEPRTR, subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
         num_format = re.compile("^\s*[\-\+]?\s*[0-9]*\s*[\.\/]*\s*?[0-9]*\s*$")
@@ -310,3 +312,4 @@ def subpart_qtypart(subpart):
     if logger.isEnabledFor(DEBUG_OBSESSIVE):
         print('part/qty>>', subpart, '\t\tpart>>', part, '\tqty>>', qty)
     return qty, part
+
