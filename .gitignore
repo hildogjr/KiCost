@@ -1,4 +1,7 @@
+# Python chache
 *.py[cod]
+*.pyc
+__pychache__/
 
 # C extensions
 *.so
