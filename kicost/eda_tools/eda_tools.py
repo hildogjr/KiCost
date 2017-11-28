@@ -36,6 +36,7 @@ __all__ = ['subpart_split','subpart_qty','groups_sort']
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
 PART_SEPRTR = r'(?<!\\)\s*[;,]\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 SUB_SEPRTR  = '#' # Subpart separator for a part reference.
+REPPLY_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
@@ -166,16 +167,25 @@ def subpart_split(components):
             # manufacture/distributor codes in list.
             founded_fields = []
             subparts_qty = 0
-            subparts_manf = dict()
+            subparts_manf_code = dict()
             for field_code in dist:
                 if field_code in part:
                     subparts_qty = max(subparts_qty, 
                             len( subpart_list(part[field_code]) ) ) # Quantity of sub parts.
                     founded_fields += [field_code]
-                    subparts_manf[field_code] = subpart_list(part[field_code])
+                    subparts_manf_code[field_code] = subpart_list(part[field_code])
             if not founded_fields:
                 split_components[part_ref] = part
                 continue # If not manf/distributor code pass to next.
+            # Divide the `manf` manufacture name.
+            try:
+                subparts_manf = subpart_list(part['manf'])
+                if len(subparts_manf)!=subparts_qty:
+                    # Exception `manf` and `manf#` length doesn't macth, fill with '' at the end.
+                    subparts_manf += [ ['']*(subparts_qty-len(subparts_manf)) ]
+            except KeyError:
+                subparts_manf = ['']*subparts_qty
+                pass
 
             if logger.isEnabledFor(DEBUG_DETAILED):
                 print(part_ref, '>>', founded_fields)
@@ -193,7 +203,7 @@ def subpart_split(components):
                     # the subparts. Modify the designator and the part. Create
                     # a sub quantity field.
                     subpart_actual = part_actual.copy()
-                    for field_manf in founded_fields:
+                    for field_manf_dist_code in founded_fields:
                         # For each manufacture/distributor code take the same order of
                         # the code list and split in each subpart. When not founded one
                         # part, do not add.
@@ -203,18 +213,28 @@ def subpart_split(components):
                         # U1.2:{'manf#':'PARTG2', 'mouser#':'PARTM2'}
                         # U1.3:{'manf#':'PARTG3'}
                         try:
-                            p_manf = subparts_manf[field_manf][subparts_index]
-                            subpart_qty, subpart_part = subpart_qtypart(p_manf)
+                            p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
+                            subpart_qty, subpart_part = subpart_qtypart(p_manf_code)
                             subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
                                             v=part_actual_value,
                                             idx=subparts_index+1,
                                             total=subparts_qty)
-                            subpart_actual[field_manf] = subpart_part
-                            subpart_actual[field_manf+'_subqty'] = subpart_qty
+                            subpart_actual[field_manf_dist_code] = subpart_part
+                            subpart_actual[field_manf_dist_code+'_subqty'] = subpart_qty
                             if logger.isEnabledFor(DEBUG_OBSESSIVE):
                                 print(subpart_actual)
                         except IndexError:
                             pass
+                    # Update the splitted `manf`(manufactures names).
+                    try:
+                        if subparts_manf[subparts_index]==REPPLY_MANF:
+                            # If the actual manufacture name is the definition `REPPLY_MANF`
+                            # replicate the last one.
+                            subpart_actual['manf'] = subparts_manf[subparts_index-1]
+                        else:
+                            subpart_actual['manf'] = subparts_manf[subparts_index]
+                    except KeyError:
+                        pass
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     split_components[ref] = subpart_actual
@@ -263,7 +283,7 @@ def subpart_list(part):
     PART_SEPRTR definition.
     '''
     # Split by PART_SEPRTR and remove accidental initial and finishing spaces typed by the user.
-    return re.split(PART_SEPRTR, re.sub('\s+$', '', re.sub('^\s+', '', part)))
+    return re.split(PART_SEPRTR, part.strip())
 
 
 def subpart_qtypart(subpart):
