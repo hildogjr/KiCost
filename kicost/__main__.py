@@ -177,6 +177,8 @@ def main():
             # allow (future) other files extension and formats.
             if os.path.splitext(args.input[i])[1] == '':
                 args.input[i] += '.xml'
+            elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv' or args.eda_tool[i] == 'generic':
+                args.eda_tool = 'generic_csv'
             args.input[i] = open(args.input[i])
 
     # Set number of processes to use for web scraping.
@@ -199,3 +201,4 @@ if __name__ == '__main__':
     main()
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
+
