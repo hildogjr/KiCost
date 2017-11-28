@@ -97,30 +97,37 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
+    def title_find_all(field):
+        '''Helper function for finding title info, especially if it is absent.'''
+        try:
+            return str(title.find_all(field)[0].string)
+        except (AttributeError, IndexError):
+            return ''
     prj_info = dict()
-    prj_info['title'] = str(title.find_all('title')[0].string)
-    prj_info['company'] = str(title.find_all('company')[0].string)
-    prj_info['date'] = str(title.find_all('date')[0].string)
+    prj_info['title'] = title_find_all('title')
+    prj_info['company'] = title_find_all('company')
+    prj_info['date'] = title_find_all('date')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts library...')
     libparts = {}
-    for p in root.find('libparts').find_all('libpart'):
+    if root.find('libparts'):
+        for p in root.find('libparts').find_all('libpart'):
 
-        # Get the values for the fields in each library part (if any).
-        fields = extract_fields(p, variant)
+            # Get the values for the fields in each library part (if any).
+            fields = extract_fields(p, variant)
 
-        # Store the field dict under the key made from the
-        # concatenation of the library and part names.
-        libparts[str(p['lib']) + SEPRTR + str(p['part'])] = fields
+            # Store the field dict under the key made from the
+            # concatenation of the library and part names.
+            libparts[str(p['lib']) + SEPRTR + str(p['part'])] = fields
 
-        # Also have to store the fields under any part aliases.
-        try:
-            for alias in p.find('aliases').find_all('alias'):
-                libparts[str(p['lib']) + SEPRTR + str(alias.string)] = fields
-        except AttributeError:
-            pass  # No aliases for this part.
+            # Also have to store the fields under any part aliases.
+            try:
+                for alias in p.find('aliases').find_all('alias'):
+                    libparts[str(p['lib']) + SEPRTR + str(alias.string)] = fields
+            except AttributeError:
+                pass  # No aliases for this part.
 
     # Find the components used in the schematic and elaborate
     # them with global values from the libraries and local values
@@ -138,7 +145,8 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
-        fields = libparts[libpart].copy()  # Make a copy! Don't use reference!
+        # (Use an empty dict if no part exists in the library.)
+        fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
 
         # Store the part key and its value.
         fields['libpart'] = libpart

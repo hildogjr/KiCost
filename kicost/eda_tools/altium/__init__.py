@@ -26,4 +26,4 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .altium import get_part_groups_altium
+from .altium import get_part_groups

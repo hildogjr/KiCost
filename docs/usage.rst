@@ -139,7 +139,8 @@ You can also specify multipliers for each subpart by either prepending or append
 the subpart part number with a multiplier separated by a ":".
 To illustrate, a 2x2 jumper paired with two shunts would have a part number of
 ``JMP2B26; SH3QQ5:2``.
-The multiplier can be either an integer or float.
+The multiplier can be either an integer, float or fraction and it can be used
+previous or succeding the part code, e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``.
 
 ------------------------
 Schematic Variants
@@ -249,7 +250,7 @@ Command-Line Options
 
 ::
 
-    usage: kicost [-h] [-v] [-i [file.xml]] [-o [file.xlsx]] [-f name [name ...]]
+    usage: kicost [-h] [-v] [-i [files.xml]] [-o [file.xlsx]] [-f name [name ...]]
                   [-var [VARIANT]] [-w] [-s] [-q] [-np [NUM_PROCESSES]]
                   [-ign name [name ...]] [-d [LEVEL]] [--eda_tool {kicad,altium}]
                   [-e dist [dist ...]] [--include dist [dist ...]]
@@ -260,16 +261,19 @@ Command-Line Options
     optional arguments:
       -h, --help            show this help message and exit
       -v, --version         show program's version number and exit
-      -i [file.xml], --input [file.xml]
+      -i [file1.xml file2.xml ...], --input [file1.xml file2.xml ...]
                             Schematic BOM XML file.
       -o [file.xlsx], --output [file.xlsx]
-                            Generated cost spreadsheet.
+                            Generated cost spreadsheet. If not used is assumed the
+                            same as the input file or combination of them.
       -f name [name ...], --fields name [name ...]
                             Specify the names of additional part fields to extract
                             and insert in the global data section of the
                             spreadsheet.
-      -var [VARIANT], --variant [VARIANT]
-                            schematic variant name filter
+      -var [VARIANT1 VARIANT2 ...], --variant [VARIANT1 VARIANT2]
+                            schematic variant name filter. VARIANT by file input
+                            order, if used just one is assumed the same for all input
+                            files.
       -w, --overwrite       Allow overwriting of an existing spreadsheet.
       -s, --serial          Do web scraping of part data using a single process.
       -q, --quiet           Enable quiet mode with no warnings.
@@ -280,18 +284,28 @@ Command-Line Options
                             Declare part fields to ignore when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
-      --eda_tool {kicad,altium}
+      -eda {kicad,altium} [ead1 ead2 ...], --eda_tool {kicad,altium} [ead1 ead2 ...]
                             Choose EDA tool from which the .XML BOM file
-                            originated.
+                            originated, in the order of file input, if informat
+                            just one, is assumed the same for all files.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
       --include dist [dist ...]
                             Includes only the given distributor(s) in the scraping
                             process.
-      --retries [num_retries]
+      --rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.
+
+----------------------------
+Using KiCost direct in KiCad
+----------------------------
+
+In the Bill of Material window use the the command
+
+    kicost - i %1 -w -q
+
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
