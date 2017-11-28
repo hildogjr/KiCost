@@ -137,7 +137,7 @@ Parts With Subparts
 Some parts consist of two or more subparts.
 For example, a two-pin jumper might have an associated shunt.
 This is represented by placing the part number for each subpart into the ``manf#`` field, separated
-by a ";" like so: ``JMP1A45;SH3QQ5``.
+by a ";" like so: ``JMP1A45;SH3QQ5``. The ``manf`` (manufacture name) also allow this division, empty or replicate the last one (use "~" character to replicate the last one).
 Each subpart will be placed on a separate row of the spreadsheet with its associated part number
 and a part reference formed from the original part reference with an added "#" and a number. 
 For example, if the two-pin jumper had a part reference of ``JP6``, then there
