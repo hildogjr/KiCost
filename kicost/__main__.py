@@ -105,10 +105,10 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium'],
+    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium','csv'],
                         nargs='*',
                         default='kicad',
-                        help='Choose EDA tool from which the .XML BOM file originated.')
+                        help='Choose EDA tool from which the .XML BOM file originated or csv for .CSV files.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
