@@ -182,7 +182,7 @@ def subpart_split(components):
                 subparts_manf = subpart_list(part['manf'])
                 if len(subparts_manf)!=subparts_qty:
                     # Exception `manf` and `manf#` length doesn't macth, fill with '' at the end.
-                    subparts_manf += [ ['']*(subparts_qty-len(subparts_manf)) ]
+                    subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
             except KeyError:
                 subparts_manf = ['']*subparts_qty
                 pass
