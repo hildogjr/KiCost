@@ -7,12 +7,12 @@ from random import randint
 
 import http.client # For web scraping exceptions.
 try:
-    from urllib.parse import urlencode, quote as urlquote, urlsplit, urlunsplit
+    from urllib.parse import urlencode, quote_plus as urlquote, urlsplit, urlunsplit
     import urllib.request
     from urllib.request import urlopen, Request
 except ImportError:
-    from urlparse import quote as urlquote, urlsplit, urlunsplit
-    from urllib import urlencode
+    from urlparse import urlsplit, urlunsplit
+    from urllib import urlencode, quote_plus as urlquote
     from urllib2 import urlopen, Request
 
 # Global constants for distributor site scraping.

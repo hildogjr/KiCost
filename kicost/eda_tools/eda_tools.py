@@ -35,8 +35,9 @@ __all__ = ['subpart_split','subpart_qty','groups_sort']
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
 PART_SEPRTR = r'(?<!\\)\s*[;,]\s*' # Separator for the part numbers in a list, remove the lateral spaces.
+ESC_FIND = r'\\\s*([;,:])\s*'      # Used to remove backslash from escaped qty & manf# separators.
 SUB_SEPRTR  = '#' # Subpart separator for a part reference.
-REPPLY_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
+REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
@@ -225,10 +226,10 @@ def subpart_split(components):
                                 print(subpart_actual)
                         except IndexError:
                             pass
-                    # Update the splitted `manf`(manufactures names).
+                    # Update the split `manf`(manufactures names).
                     try:
-                        if subparts_manf[subparts_index]==REPPLY_MANF:
-                            # If the actual manufacture name is the definition `REPPLY_MANF`
+                        if subparts_manf[subparts_index]==REPLICATE_MANF:
+                            # If the actual manufacture name is the definition `REPLICATE_MANF`
                             # replicate the last one.
                             subpart_actual['manf'] = subparts_manf[subparts_index-1]
                         else:
@@ -242,6 +243,11 @@ def subpart_split(components):
                 split_components[part_ref] = part
         except KeyError:
             continue
+
+    # Remove any escape backslashes preceding PART_SEPRTR.
+    for c in split_components.values():
+        c['manf#'] = re.sub(ESC_FIND, r'\1', c['manf#'])
+
     return split_components
     
 
@@ -282,7 +288,6 @@ def subpart_list(part):
     quantity information, these have to be separated by
     PART_SEPRTR definition.
     '''
-    # Split by PART_SEPRTR and remove accidental initial and finishing spaces typed by the user.
     return re.split(PART_SEPRTR, part.strip())
 
 
