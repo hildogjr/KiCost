@@ -34,7 +34,7 @@ __all__ = ['subpart_split','subpart_qty','groups_sort']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
-PART_SEPRTR = r'(?<!\\)\s*[;,]\s*' # Separator for the part numbers in a list, remove the lateral spaces.
+PART_SEPRTR = r'(?<!\\)\s*[;]\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 SUB_SEPRTR  = '#' # Subpart separator for a part reference.
 REPPLY_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
 # Reference string order to the spreadsheet. Use this to

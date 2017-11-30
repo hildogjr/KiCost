@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/mblair/comma-test/comma-test.sch</source>
+    <date>Wed 29 Nov 2017 02:34:04 PM PST</date>
+    <tool>Eeschema 4.0.7-e2-6376~58~ubuntu14.04.1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>KiCost comma in part number test</title>
+        <company/>
+        <rev/>
+        <date/>
+        <source>comma-test.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="Q1">
+      <value>BSS138PW</value>
+      <footprint>Transistors:SC-70</footprint>
+      <fields>
+        <field name="manf">Nexperia</field>
+        <field name="manf#">BSS138PW,115</field>
+      </fields>
+      <libsource lib="comma-test" part="BSS138PW"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A1F35D6</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="comma-test" part="BSS138PW">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BSS138PW</field>
+        <field name="Footprint">Transistors:SC-70</field>
+        <field name="manf">Nexperia</field>
+        <field name="manf#">BSS138PW,115</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="passive"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="comma-test">
+      <uri>/home/mblair/comma-test/comma-test.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(Q1-Pad1)">
+      <node ref="Q1" pin="1"/>
+    </net>
+    <net code="2" name="Net-(Q1-Pad2)">
+      <node ref="Q1" pin="2"/>
+    </net>
+    <net code="3" name="Net-(Q1-Pad3)">
+      <node ref="Q1" pin="3"/>
+    </net>
+  </nets>
+</export>
