@@ -49,6 +49,7 @@ from yattag import Doc, indent  # For generating HTML page for local parts.
 import multiprocessing
 from multiprocessing import Pool # For running web scrapes in parallel.
 from datetime import datetime
+import time
 
 try:
     from urllib.parse import urlsplit, urlunsplit
@@ -173,17 +174,24 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         for i in range(len(args)):
             results[i] = pool.apply_async(scrape_part, [args[i]], callback=update)
 
-        # Wait for all the processes to complete.
+        # Wait for all the processes to start (waiting for the last job to end).
+        results[len(args)-1].wait()
+        # Wait for all processes to end (no new processes are started)
         pool.close()
         pool.join()
 
         # Get the data from each process result structure.
         for result in results:
-            id, url, part_num, price_tiers, qty_avail = result.get()
-            parts[id].part_num = part_num
-            parts[id].url = url
-            parts[id].price_tiers = price_tiers
-            parts[id].qty_avail = qty_avail
+            if result.successful():
+                pprint.pprint(result)
+                l = result.get()
+                id, url, part_num, price_tiers, qty_avail = l
+                parts[id].part_num = part_num
+                parts[id].url = url
+                parts[id].price_tiers = price_tiers
+                parts[id].qty_avail = qty_avail
+            else:
+                print("Result is not ready")
 
     # Done with the scraping progress bar so delete it or else we get an 
     # error when the program terminates.
@@ -720,6 +728,10 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                                  part.fields[field_name])
             except KeyError:
                 pass
+            except TypeError:
+                print("Type error on "+field_name) 
+                logger.warning("Type error when adding static data for field '%s'", field_name)
+                pass
 
         # Enter total part quantity needed.
         try:
@@ -898,14 +910,22 @@ Orange -> Too little quantity available.'''
 
     for part in parts:
 
+        dist_part_num=""
         # Get the distributor part number.
-        dist_part_num = part.part_num[dist]
+        try:
+            dist_part_num = part.part_num[dist]
+        except AttributeError:
+            logger.warning("No '%s#' part_num field", dist)
 
         # Extract price tiers from distributor HTML page tree.
-        price_tiers = part.price_tiers[dist]
+        price_tiers=[]
+        try:
+            price_tiers = part.price_tiers[dist]
+        except AttributeError:
+            logger.warning("No '%s#' prices", dist)
 
         # If the part number doesn't exist, just leave this row blank.
-        if len(dist_part_num) == 0:
+        if dist_part_num is None or len(dist_part_num) == 0:
             row += 1  # Skip this row and go to the next.
             continue
 
@@ -943,7 +963,7 @@ Orange -> Too little quantity available.'''
         wks.write(row, start_col + columns['purch']['col'], '', None)
 
         # Add pricing information if it exists.
-        if len(list(price_tiers)) > 0:
+        if price_tiers is not None and len(list(price_tiers)) > 0:
             # Add the price for a single unit if it doesn't already exist in the tiers.
             try:
                 min_qty = min(price_tiers.keys())
