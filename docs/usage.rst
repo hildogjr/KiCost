@@ -40,14 +40,13 @@ circuit boards developed with KiCad. Typical use is as follows:
 Custom BOM list
 ------------------------
 
-KiCost accept also CSV custom BOM list (also the format for some other EDA softwares). This is a way to get the up to date price of a hand made list or older projects. It is interpreted as CSV `,` `;` or `\t` (using multiple '\t' to align the columns) separeted format, even the number of columns is dinamic.
+In addition to XML files output by EDA tools, KiCost also accepts CSV files as a method
+for getting costs of preliminary designs or older projects.
+The format of the CSV file is as follows::
 
-1. For just one column all lines are interpret as `manf#`;
-2. For two `manf#` and `refs`;
-3. For three `qty`, `manf#` and `refs`;
-4. For more information is needed to use a CSV header in the first line of the file (the road map is interpret also if the firsts line have some prject information such as author or company, but not now).
-
-Each of this columns can be ignored the module set the default value. E.g. to case 3 use `3,PART-CODE,` for one list without reference strings.
+1. A single column is interpreted as containing manufacturer part numbers.
+2. Two columns are interpreted as the manufacturer's part number followed by the part reference (e.g., ``R4``).
+3. Three columns are interpreted as the quantity followed by the part number and reference.
 
 ------------------------
 Custom Part Data
@@ -263,30 +262,28 @@ Command-Line Options
 
 ::
 
-    usage: kicost [-h] [-v] [-i [files.xml]] [-o [file.xlsx]] [-f name [name ...]]
-                  [-var [VARIANT]] [-w] [-s] [-q] [-np [NUM_PROCESSES]]
-                  [-ign name [name ...]] [-d [LEVEL]] [--eda_tool {kicad,altium}]
+    usage: kicost [-h] [-v] [-i file.xml [file.xml ...]] [-o [file.xlsx]]
+                  [-f name [name ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
+                  [-np [NUM_PROCESSES]] [-ign name [name ...]] [-d [LEVEL]]
+                  [-eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
                   [-e dist [dist ...]] [--include dist [dist ...]]
-                  [--retries [num_retries]]
+                  [-rt [num_retries]]
 
     Build cost spreadsheet for a KiCAD project.
 
     optional arguments:
       -h, --help            show this help message and exit
       -v, --version         show program's version number and exit
-      -i [file1.xml file2.xml ...], --input [file1.xml file2.xml ...]
-                            Schematic BOM XML file.
+      -i file.xml [file.xml ...], --input file.xml [file.xml ...]
+                            One or more schematic BOM XML files.
       -o [file.xlsx], --output [file.xlsx]
-                            Generated cost spreadsheet. If not used is assumed the
-                            same as the input file or combination of them.
+                            Generated cost spreadsheet.
       -f name [name ...], --fields name [name ...]
                             Specify the names of additional part fields to extract
                             and insert in the global data section of the
                             spreadsheet.
-      -var [VARIANT1 VARIANT2 ...], --variant [VARIANT1 VARIANT2]
-                            schematic variant name filter. VARIANT by file input
-                            order, if used just one is assumed the same for all input
-                            files.
+      -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
+                            schematic variant name filter.
       -w, --overwrite       Allow overwriting of an existing spreadsheet.
       -s, --serial          Do web scraping of part data using a single process.
       -q, --quiet           Enable quiet mode with no warnings.
@@ -297,22 +294,21 @@ Command-Line Options
                             Declare part fields to ignore when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
-      -eda {kicad,altium,csv,generic} [ead1 ead2 ...], --eda_tool {kicad,altium,csv,generic} [ead1 ead2 ...]
-                            Choose EDA tool from which the .XML BOM file
-                            originated, in the order of file input, if informat
-                            just one, is assumed the same for all files.
+      -eda {kicad,altium,csv} [{kicad,altium,csv} ...], --eda_tool {kicad,altium,csv} [{kicad,altium,csv} ...]
+                            Choose EDA tool from which the XML BOM file
+                            originated, or use csv for .CSV files.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
       --include dist [dist ...]
                             Includes only the given distributor(s) in the scraping
                             process.
-      --rt [num_retries], --retries [num_retries]
+      -rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.
 
 ----------------------------
-Using KiCost direct in KiCad
+Using KiCost From Within KiCad
 ----------------------------
 
 In the Bill of Material window use the the command
