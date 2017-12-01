@@ -23,7 +23,7 @@ from ...kicost import SEPRTR # Delimiter between library:component, distributor:
 class IdenticalComponents(object):
     pass
 
-def get_part_groups(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant, user_fields):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]

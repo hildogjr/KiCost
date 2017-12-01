@@ -48,7 +48,7 @@ class IdenticalComponents(object):
     pass
 
 
-def get_part_groups(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant, user_fields):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
@@ -81,10 +81,12 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # If the field name isn't for a manufacturer's part
                         # number or a distributors catalog number, then add
                         # it to 'local' if it doesn't start with a distributor
-                        # name and colon.
+                        # name and colon and is not requested for inclusion
+                        # by the user.
                         if name not in ('manf#', 'manf') and name[:-1] not in distributors:
                             if SEPRTR not in name: # This field has no distributor.
-                                name = 'local:' + name # Assign it to a local distributor.
+                                if name not in user_fields: # This field was not requested
+                                    name = 'local:' + name # Assign it to a local distributor.
                         fields[name] = str(f.string)
 
         except AttributeError:

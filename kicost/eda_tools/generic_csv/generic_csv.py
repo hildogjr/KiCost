@@ -60,7 +60,7 @@ GENERIC_REF = 'generic' # Generic text reference to components.
 class IdenticalComponents(object):
     pass
 
-def get_part_groups(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant, user_fields):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
     # No `variant` of ignore field is used in this function, the input is just kept by compatibily.
     # Enven not `ignore_filds` to be ignored.
