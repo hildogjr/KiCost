@@ -159,10 +159,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         pool = Pool(num_processes)
 
         # Package part data for passing to each process.
-        args = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
-
-        # Create a list to store the output from each process.
-        results = list(range(len(args)))
+        arg_sets = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
         
         # Define a callback routine for updating the scraping progress bar.
         def update(x):
@@ -170,10 +167,12 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
             return x
 
         # Start the web scraping processes, one for each part.
-        for i in range(len(args)):
-            results[i] = pool.apply_async(scrape_part, [args[i]], callback=update)
+        results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
 
-        # Wait for all the processes to complete.
+        # Wait for all the processes to have results, then kill-off all the scraping processes.
+        for r in results:
+            while(not r.ready()):
+                pass
         pool.close()
         pool.join()
 
