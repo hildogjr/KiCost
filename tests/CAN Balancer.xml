@@ -1,0 +1,4360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/marcos/paltatech/projects/leov/CAN-Balancer/Hardware/design/CAN Balancer.sch</source>
+    <date>jue 10 ago 2017 17:31:30 ART</date>
+    <tool>Eeschema no-vcs-found-b8c621a~59~ubuntu16.04.1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date>12 sep 2014</date>
+        <source>CAN Balancer.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/MCU/" tstamps="/57830AB2/">
+      <title_block>
+        <title>Electrosmart</title>
+        <company>ECCOSUR</company>
+        <rev>D</rev>
+        <date>2016-07-06</date>
+        <source>STM32F072 - lqfp48.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/Diff6/" tstamps="/57832783/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>diff_amp.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/Diff5/" tstamps="/57833AB2/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>diff_amp.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="5" name="/Diff4/" tstamps="/57833FB5/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>diff_amp.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="6" name="/Diff3/" tstamps="/57833FBA/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>diff_amp.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="7" name="/Diff2/" tstamps="/57834469/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>diff_amp.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="8" name="/Diff1/" tstamps="/5783446E/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>diff_amp.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="9" name="/disconnect6/" tstamps="/594AE454/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>balancer_disconnect.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="10" name="/disconnect5/" tstamps="/594B7689/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>balancer_disconnect.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="11" name="/disconnect4/" tstamps="/594B8BD1/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>balancer_disconnect.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="12" name="/disconnect3/" tstamps="/594B9B43/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>balancer_disconnect.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="13" name="/disconnect2/" tstamps="/594BAAB4/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>balancer_disconnect.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="14" name="/disconnect1/" tstamps="/594BB5D8/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>balancer_disconnect.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="15" name="/disconnect7/" tstamps="/59805CB0/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>balancer_disconnect.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="16" name="/diff7/" tstamps="/59807709/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>diff_amp.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="Q1">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54127F2E</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54154E07</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54154E54</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>542382C4</tstamp>
+    </comp>
+    <comp ref="Q2">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54238778</tstamp>
+    </comp>
+    <comp ref="Q3">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5423877E</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54238784</tstamp>
+    </comp>
+    <comp ref="Q6">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54238D77</tstamp>
+    </comp>
+    <comp ref="D6">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54238D7D</tstamp>
+    </comp>
+    <comp ref="Q4">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54239047</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5423904D</tstamp>
+    </comp>
+    <comp ref="Q5">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>542395D3</tstamp>
+    </comp>
+    <comp ref="D5">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>542395D9</tstamp>
+    </comp>
+    <comp ref="P2">
+      <value>EXT-TMP</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x02</footprint>
+      <fields>
+        <field name="mfg#">NI</field>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="conn" part="CONN_01X02"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5426052D</tstamp>
+    </comp>
+    <comp ref="TH1">
+      <value>THERMISTOR</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">490-2436-1-ND</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="THERMISTOR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5425F997</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5437B3D2</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5437B41D</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5437B46D</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5437F684</tstamp>
+    </comp>
+    <comp ref="R25">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5437F68E</tstamp>
+    </comp>
+    <comp ref="R26">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5437F694</tstamp>
+    </comp>
+    <comp ref="R27">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5437F69A</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>543871C9</tstamp>
+    </comp>
+    <comp ref="R29">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>543871D1</tstamp>
+    </comp>
+    <comp ref="R30">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>543871D7</tstamp>
+    </comp>
+    <comp ref="R31">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>543871DD</tstamp>
+    </comp>
+    <comp ref="R32">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438A579</tstamp>
+    </comp>
+    <comp ref="R33">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438A581</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438A587</tstamp>
+    </comp>
+    <comp ref="R34">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438A58D</tstamp>
+    </comp>
+    <comp ref="R35">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438AD39</tstamp>
+    </comp>
+    <comp ref="R36">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438AD41</tstamp>
+    </comp>
+    <comp ref="R37">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438AD47</tstamp>
+    </comp>
+    <comp ref="R38">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438AD4D</tstamp>
+    </comp>
+    <comp ref="R39">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438FCBF</tstamp>
+    </comp>
+    <comp ref="R40">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438FCC7</tstamp>
+    </comp>
+    <comp ref="R41">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438FCCD</tstamp>
+    </comp>
+    <comp ref="R42">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5438FCD3</tstamp>
+    </comp>
+    <comp ref="U101">
+      <value>ISO1050</value>
+      <footprint>paltatech:SO8-ISO1050</footprint>
+      <fields>
+        <field name="mfg#">ISO1050DUBR</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="ISO1050"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57832989</tstamp>
+    </comp>
+    <comp ref="P101">
+      <value>CAN</value>
+      <footprint>w_conn_jst-ph:b4b-ph-kl</footprint>
+      <fields>
+        <field name="mfg#">B4B-PH-K-S(LF)(SN)</field>
+      </fields>
+      <libsource lib="conn" part="CONN_01X04"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57833CE5</tstamp>
+    </comp>
+    <comp ref="C101">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57834E09</tstamp>
+    </comp>
+    <comp ref="R102">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57837E5F</tstamp>
+    </comp>
+    <comp ref="C102">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57839A34</tstamp>
+    </comp>
+    <comp ref="D101">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5783D111</tstamp>
+    </comp>
+    <comp ref="R103">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5783E3F1</tstamp>
+    </comp>
+    <comp ref="D102">
+      <value>LED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">VLMW1300-GS08</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5783FF0E</tstamp>
+    </comp>
+    <comp ref="R104">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5783FF14</tstamp>
+    </comp>
+    <comp ref="D103">
+      <value>LED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">VLMW1300-GS08</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578400F9</tstamp>
+    </comp>
+    <comp ref="R105">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578400FF</tstamp>
+    </comp>
+    <comp ref="R107">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578397C0</tstamp>
+    </comp>
+    <comp ref="C104">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5783D935</tstamp>
+    </comp>
+    <comp ref="C105">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5783F049</tstamp>
+    </comp>
+    <comp ref="C103">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578412DD</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5426080C</tstamp>
+    </comp>
+    <comp ref="Q7">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57864152</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5786692A</tstamp>
+    </comp>
+    <comp ref="Q8">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="Exclude from BOM">0</field>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5786F3AF</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578701F4</tstamp>
+    </comp>
+    <comp ref="Q9">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57871B2D</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57872247</tstamp>
+    </comp>
+    <comp ref="Q10">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578737F7</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57873C03</tstamp>
+    </comp>
+    <comp ref="Q11">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57875BF4</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57876452</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57878300</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578794CE</tstamp>
+    </comp>
+    <comp ref="V1">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57882CD6</tstamp>
+    </comp>
+    <comp ref="V13">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884305</tstamp>
+    </comp>
+    <comp ref="V6">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578847B1</tstamp>
+    </comp>
+    <comp ref="V14">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>578847B7</tstamp>
+    </comp>
+    <comp ref="V7">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884A41</tstamp>
+    </comp>
+    <comp ref="V15">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884A47</tstamp>
+    </comp>
+    <comp ref="V8">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884A59</tstamp>
+    </comp>
+    <comp ref="V16">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884A5F</tstamp>
+    </comp>
+    <comp ref="V2">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884E79</tstamp>
+    </comp>
+    <comp ref="V9">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884E7F</tstamp>
+    </comp>
+    <comp ref="V3">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884E91</tstamp>
+    </comp>
+    <comp ref="V10">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884E97</tstamp>
+    </comp>
+    <comp ref="V4">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884EA9</tstamp>
+    </comp>
+    <comp ref="V11">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884EAF</tstamp>
+    </comp>
+    <comp ref="V5">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884EC1</tstamp>
+    </comp>
+    <comp ref="V12">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57884EC7</tstamp>
+    </comp>
+    <comp ref="R109">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">RC0603JR-0710KL</field>
+      </fields>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CD34AA</tstamp>
+    </comp>
+    <comp ref="F101">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDB71E</tstamp>
+    </comp>
+    <comp ref="F102">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDEA88</tstamp>
+    </comp>
+    <comp ref="F103">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDF4A2</tstamp>
+    </comp>
+    <comp ref="F104">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDF6F7</tstamp>
+    </comp>
+    <comp ref="F105">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDF94F</tstamp>
+    </comp>
+    <comp ref="F106">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDFBAA</tstamp>
+    </comp>
+    <comp ref="F107">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDFE08</tstamp>
+    </comp>
+    <comp ref="D107">
+      <value>TVS</value>
+      <footprint>Diodes_SMD:Diode-SMB_Standard</footprint>
+      <fields>
+        <field name="mfg#">SMBJ24A</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TVS"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CE08C3</tstamp>
+    </comp>
+    <comp ref="D106">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CE5067</tstamp>
+    </comp>
+    <comp ref="R101">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">RC0603JR-0710KL</field>
+      </fields>
+      <libsource lib="device" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDD2B8</tstamp>
+    </comp>
+    <comp ref="C106">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CDDD24</tstamp>
+    </comp>
+    <comp ref="TP107">
+      <value>TX</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CF29C2</tstamp>
+    </comp>
+    <comp ref="TP108">
+      <value>RX</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CF3201</tstamp>
+    </comp>
+    <comp ref="TP111">
+      <value>USB_DP</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CF43F0</tstamp>
+    </comp>
+    <comp ref="TP112">
+      <value>USB_DM</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CF510F</tstamp>
+    </comp>
+    <comp ref="TP103">
+      <value>C_6</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CF9655</tstamp>
+    </comp>
+    <comp ref="TP106">
+      <value>C_5</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CFB501</tstamp>
+    </comp>
+    <comp ref="TP109">
+      <value>C_4</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CFCCFB</tstamp>
+    </comp>
+    <comp ref="TP110">
+      <value>C_3</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CFDCFC</tstamp>
+    </comp>
+    <comp ref="TP113">
+      <value>C_2</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57CFEA00</tstamp>
+    </comp>
+    <comp ref="TP114">
+      <value>C_1</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57D00048</tstamp>
+    </comp>
+    <comp ref="TP101">
+      <value>VBATT</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57D034CC</tstamp>
+    </comp>
+    <comp ref="TP102">
+      <value>3.3v</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57D04593</tstamp>
+    </comp>
+    <comp ref="TP105">
+      <value>V_CAN</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57D05E9E</tstamp>
+    </comp>
+    <comp ref="R110">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">RC0603JR-0710KL</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57D094CD</tstamp>
+    </comp>
+    <comp ref="Q101">
+      <value>BSS84</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">BSS84</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57D162E9</tstamp>
+    </comp>
+    <comp ref="TP104">
+      <value>GND</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57D271A9</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54238D89</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>542395E5</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54239059</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>54238790</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>542382D0</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>541899DD</tstamp>
+    </comp>
+    <comp ref="Q102">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F53013</tstamp>
+    </comp>
+    <comp ref="R111">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F53F4F</tstamp>
+    </comp>
+    <comp ref="P102">
+      <value>switch</value>
+      <footprint>JST_SH_SM03B-SRSS-TB_03x1.00mm_Angled</footprint>
+      <fields>
+        <field name="mfg#">SM03B-SRSS-TB(LF)(SN)</field>
+      </fields>
+      <libsource lib="conn" part="CONN_01X03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F5C893</tstamp>
+    </comp>
+    <comp ref="V25">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F71290</tstamp>
+    </comp>
+    <comp ref="V26">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F71296</tstamp>
+    </comp>
+    <comp ref="V27">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F7129C</tstamp>
+    </comp>
+    <comp ref="V28">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712A2</tstamp>
+    </comp>
+    <comp ref="V29">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712A8</tstamp>
+    </comp>
+    <comp ref="V30">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712AE</tstamp>
+    </comp>
+    <comp ref="V31">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712B4</tstamp>
+    </comp>
+    <comp ref="V32">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712BA</tstamp>
+    </comp>
+    <comp ref="V17">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712C0</tstamp>
+    </comp>
+    <comp ref="V18">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712C6</tstamp>
+    </comp>
+    <comp ref="V19">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712CC</tstamp>
+    </comp>
+    <comp ref="V20">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712D2</tstamp>
+    </comp>
+    <comp ref="V21">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712D8</tstamp>
+    </comp>
+    <comp ref="V22">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712DE</tstamp>
+    </comp>
+    <comp ref="V23">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712E4</tstamp>
+    </comp>
+    <comp ref="V24">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F712EA</tstamp>
+    </comp>
+    <comp ref="V37">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F5710F</tstamp>
+    </comp>
+    <comp ref="V38">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F57115</tstamp>
+    </comp>
+    <comp ref="V39">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F5711B</tstamp>
+    </comp>
+    <comp ref="V40">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F57121</tstamp>
+    </comp>
+    <comp ref="V33">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F57127</tstamp>
+    </comp>
+    <comp ref="V34">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F5712D</tstamp>
+    </comp>
+    <comp ref="V35">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F57133</tstamp>
+    </comp>
+    <comp ref="V36">
+      <value>VIA</value>
+      <footprint>paltatech:GND_VIA_0.4mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="VIA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57F57139</tstamp>
+    </comp>
+    <comp ref="U102">
+      <value>AP2204</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">AP2204K-3.3TRG1</field>
+      </fields>
+      <libsource lib="CAN Balancer-rescue" part="APE8865U5-33-HF-3-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57FF1023</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>584C1A96</tstamp>
+    </comp>
+    <comp ref="Q12">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>597D5E8F</tstamp>
+    </comp>
+    <comp ref="Q20">
+      <value>SI2302</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">SI2302CDS-T1-E3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C53</tstamp>
+    </comp>
+    <comp ref="D13">
+      <value>LED_RED</value>
+      <footprint>LEDs:LED-0603</footprint>
+      <fields>
+        <field name="mfg#">SML-D12U1WT86</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C5B</tstamp>
+    </comp>
+    <comp ref="R46">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C63</tstamp>
+    </comp>
+    <comp ref="R47">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C6B</tstamp>
+    </comp>
+    <comp ref="R48">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C73</tstamp>
+    </comp>
+    <comp ref="R49">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_1206</footprint>
+      <fields>
+        <field name="mfg#">311-100FRCT-ND</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C7B</tstamp>
+    </comp>
+    <comp ref="Q19">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C84</tstamp>
+    </comp>
+    <comp ref="R51">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C92</tstamp>
+    </comp>
+    <comp ref="R52">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805C9A</tstamp>
+    </comp>
+    <comp ref="TP1">
+      <value>C_7</value>
+      <footprint>paltatech:testpoint_1mm</footprint>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="TESTPOINT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805CA2</tstamp>
+    </comp>
+    <comp ref="R50">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59805CAA</tstamp>
+    </comp>
+    <comp ref="F1">
+      <value>FUSE_0.35A</value>
+      <footprint>Resistors_SMD:R_0805</footprint>
+      <fields>
+        <field name="mfg#">0ZCK0035FF2G</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="F_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598170DA</tstamp>
+    </comp>
+    <comp ref="P1">
+      <value>CONN_01X08</value>
+      <fields>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="conn" part="CONN_01X08"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59817D2F</tstamp>
+    </comp>
+    <comp ref="P201">
+      <value>DEBUG</value>
+      <footprint>TC2030-NO-LEGS</footprint>
+      <fields>
+        <field name="mfg#">NI</field>
+        <field name="Exclude from BOM">1</field>
+      </fields>
+      <libsource lib="conn" part="CONN_01X06"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>4E3CD659</tstamp>
+    </comp>
+    <comp ref="C203">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>4DA92110</tstamp>
+    </comp>
+    <comp ref="C208">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>4DA91FEF</tstamp>
+    </comp>
+    <comp ref="C207">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>4DA91FE8</tstamp>
+    </comp>
+    <comp ref="C206">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>4DA91FE1</tstamp>
+    </comp>
+    <comp ref="C205">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>4DA91FD8</tstamp>
+    </comp>
+    <comp ref="U201">
+      <value>STM32F072CBT6</value>
+      <footprint>QFP48_0.5mm_7x7mm_SOT313_LPC1343</footprint>
+      <fields>
+        <field name="mfg#">STM32F072CBT6</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="STM32F103"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>4DA91C61</tstamp>
+    </comp>
+    <comp ref="X201">
+      <value>CRYSTAL_SMD</value>
+      <footprint>Crystals_Oscillators_SMD:crystal_FA238-TSX3225</footprint>
+      <fields>
+        <field name="mfg#">ABM8-16.000MHZ-7-1-U-T</field>
+        <field name="Replacement">FA-238 16.0000MB-C3</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="CRYSTAL_SMD"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>57D1C770</tstamp>
+    </comp>
+    <comp ref="C202">
+      <value>15pF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10C150JB8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>57D1C807</tstamp>
+    </comp>
+    <comp ref="C201">
+      <value>15pF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="mfg#">CL10C150JB8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>57D1C864</tstamp>
+    </comp>
+    <comp ref="R201">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/MCU/" tstamps="/57830AB2/"/>
+      <tstamp>57D1E0B5</tstamp>
+    </comp>
+    <comp ref="U301">
+      <value>OPA170</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">OPA170AIDBVT</field>
+        <field name="Spice_Primitive">X</field>
+        <field name="Spice_Model">AD8009</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="Spice_Lib_File">ad8009.lib</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>5783283A</tstamp>
+    </comp>
+    <comp ref="R301">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>578328E5</tstamp>
+    </comp>
+    <comp ref="R302">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>5783291E</tstamp>
+    </comp>
+    <comp ref="R303">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>57832A39</tstamp>
+    </comp>
+    <comp ref="R304">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>57832A92</tstamp>
+    </comp>
+    <comp ref="C301">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>57839669</tstamp>
+    </comp>
+    <comp ref="C302">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>578447A7</tstamp>
+    </comp>
+    <comp ref="R305">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>57CE71FA</tstamp>
+    </comp>
+    <comp ref="D301">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/Diff6/" tstamps="/57832783/"/>
+      <tstamp>57CCFB56</tstamp>
+    </comp>
+    <comp ref="U401">
+      <value>OPA170</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">OPA170AIDBVT</field>
+        <field name="Spice_Primitive">X</field>
+        <field name="Spice_Model">AD8009</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="Spice_Lib_File">ad8009.lib</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>5783283A</tstamp>
+    </comp>
+    <comp ref="R401">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>578328E5</tstamp>
+    </comp>
+    <comp ref="R402">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>5783291E</tstamp>
+    </comp>
+    <comp ref="R403">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>57832A39</tstamp>
+    </comp>
+    <comp ref="R404">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>57832A92</tstamp>
+    </comp>
+    <comp ref="C401">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>57839669</tstamp>
+    </comp>
+    <comp ref="C402">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>578447A7</tstamp>
+    </comp>
+    <comp ref="R405">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>57CE71FA</tstamp>
+    </comp>
+    <comp ref="D401">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/Diff5/" tstamps="/57833AB2/"/>
+      <tstamp>57CCFB56</tstamp>
+    </comp>
+    <comp ref="U501">
+      <value>OPA170</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">OPA170AIDBVT</field>
+        <field name="Spice_Primitive">X</field>
+        <field name="Spice_Model">AD8009</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="Spice_Lib_File">ad8009.lib</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>5783283A</tstamp>
+    </comp>
+    <comp ref="R501">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>578328E5</tstamp>
+    </comp>
+    <comp ref="R502">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>5783291E</tstamp>
+    </comp>
+    <comp ref="R503">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>57832A39</tstamp>
+    </comp>
+    <comp ref="R504">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>57832A92</tstamp>
+    </comp>
+    <comp ref="C501">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>57839669</tstamp>
+    </comp>
+    <comp ref="C502">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>578447A7</tstamp>
+    </comp>
+    <comp ref="R505">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>57CE71FA</tstamp>
+    </comp>
+    <comp ref="D501">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/Diff4/" tstamps="/57833FB5/"/>
+      <tstamp>57CCFB56</tstamp>
+    </comp>
+    <comp ref="U601">
+      <value>OPA170</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">OPA170AIDBVT</field>
+        <field name="Spice_Primitive">X</field>
+        <field name="Spice_Model">AD8009</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="Spice_Lib_File">ad8009.lib</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>5783283A</tstamp>
+    </comp>
+    <comp ref="R601">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>578328E5</tstamp>
+    </comp>
+    <comp ref="R602">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>5783291E</tstamp>
+    </comp>
+    <comp ref="R603">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>57832A39</tstamp>
+    </comp>
+    <comp ref="R604">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>57832A92</tstamp>
+    </comp>
+    <comp ref="C601">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>57839669</tstamp>
+    </comp>
+    <comp ref="C602">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>578447A7</tstamp>
+    </comp>
+    <comp ref="R605">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>57CE71FA</tstamp>
+    </comp>
+    <comp ref="D601">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/Diff3/" tstamps="/57833FBA/"/>
+      <tstamp>57CCFB56</tstamp>
+    </comp>
+    <comp ref="U701">
+      <value>OPA170</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">OPA170AIDBVT</field>
+        <field name="Spice_Primitive">X</field>
+        <field name="Spice_Model">AD8009</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="Spice_Lib_File">ad8009.lib</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>5783283A</tstamp>
+    </comp>
+    <comp ref="R701">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>578328E5</tstamp>
+    </comp>
+    <comp ref="R702">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>5783291E</tstamp>
+    </comp>
+    <comp ref="R703">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>57832A39</tstamp>
+    </comp>
+    <comp ref="R704">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>57832A92</tstamp>
+    </comp>
+    <comp ref="C701">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>57839669</tstamp>
+    </comp>
+    <comp ref="C702">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>578447A7</tstamp>
+    </comp>
+    <comp ref="R705">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>57CE71FA</tstamp>
+    </comp>
+    <comp ref="D701">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/Diff2/" tstamps="/57834469/"/>
+      <tstamp>57CCFB56</tstamp>
+    </comp>
+    <comp ref="U801">
+      <value>OPA170</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">OPA170AIDBVT</field>
+        <field name="Spice_Primitive">X</field>
+        <field name="Spice_Model">AD8009</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="Spice_Lib_File">ad8009.lib</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>5783283A</tstamp>
+    </comp>
+    <comp ref="R801">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>578328E5</tstamp>
+    </comp>
+    <comp ref="R802">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>5783291E</tstamp>
+    </comp>
+    <comp ref="R803">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>57832A39</tstamp>
+    </comp>
+    <comp ref="R804">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>57832A92</tstamp>
+    </comp>
+    <comp ref="C801">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>57839669</tstamp>
+    </comp>
+    <comp ref="C802">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>578447A7</tstamp>
+    </comp>
+    <comp ref="R805">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>57CE71FA</tstamp>
+    </comp>
+    <comp ref="D801">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/Diff1/" tstamps="/5783446E/"/>
+      <tstamp>57CCFB56</tstamp>
+    </comp>
+    <comp ref="Q13">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/disconnect6/" tstamps="/594AE454/"/>
+      <tstamp>594B2384</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/disconnect6/" tstamps="/594AE454/"/>
+      <tstamp>594B238C</tstamp>
+    </comp>
+    <comp ref="D7">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/disconnect6/" tstamps="/594AE454/"/>
+      <tstamp>597D4AB8</tstamp>
+    </comp>
+    <comp ref="Q14">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/disconnect5/" tstamps="/594B7689/"/>
+      <tstamp>594B2384</tstamp>
+    </comp>
+    <comp ref="R18">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/disconnect5/" tstamps="/594B7689/"/>
+      <tstamp>594B238C</tstamp>
+    </comp>
+    <comp ref="D8">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/disconnect5/" tstamps="/594B7689/"/>
+      <tstamp>597D4AB8</tstamp>
+    </comp>
+    <comp ref="Q15">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/disconnect4/" tstamps="/594B8BD1/"/>
+      <tstamp>594B2384</tstamp>
+    </comp>
+    <comp ref="R19">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/disconnect4/" tstamps="/594B8BD1/"/>
+      <tstamp>594B238C</tstamp>
+    </comp>
+    <comp ref="D9">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/disconnect4/" tstamps="/594B8BD1/"/>
+      <tstamp>597D4AB8</tstamp>
+    </comp>
+    <comp ref="Q16">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/disconnect3/" tstamps="/594B9B43/"/>
+      <tstamp>594B2384</tstamp>
+    </comp>
+    <comp ref="R43">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/disconnect3/" tstamps="/594B9B43/"/>
+      <tstamp>594B238C</tstamp>
+    </comp>
+    <comp ref="D10">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/disconnect3/" tstamps="/594B9B43/"/>
+      <tstamp>597D4AB8</tstamp>
+    </comp>
+    <comp ref="Q17">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/disconnect2/" tstamps="/594BAAB4/"/>
+      <tstamp>594B2384</tstamp>
+    </comp>
+    <comp ref="R44">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/disconnect2/" tstamps="/594BAAB4/"/>
+      <tstamp>594B238C</tstamp>
+    </comp>
+    <comp ref="D11">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/disconnect2/" tstamps="/594BAAB4/"/>
+      <tstamp>597D4AB8</tstamp>
+    </comp>
+    <comp ref="Q18">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/disconnect1/" tstamps="/594BB5D8/"/>
+      <tstamp>594B2384</tstamp>
+    </comp>
+    <comp ref="R45">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/disconnect1/" tstamps="/594BB5D8/"/>
+      <tstamp>594B238C</tstamp>
+    </comp>
+    <comp ref="D12">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/disconnect1/" tstamps="/594BB5D8/"/>
+      <tstamp>597D4AB8</tstamp>
+    </comp>
+    <comp ref="Q21">
+      <value>DMP3099</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23</footprint>
+      <fields>
+        <field name="mfg#">DMP3099L-7</field>
+      </fields>
+      <libsource lib="device" part="Q_PMOS_GSD"/>
+      <sheetpath names="/disconnect7/" tstamps="/59805CB0/"/>
+      <tstamp>594B2384</tstamp>
+    </comp>
+    <comp ref="R53">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Exclude from BOM">0</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/disconnect7/" tstamps="/59805CB0/"/>
+      <tstamp>594B238C</tstamp>
+    </comp>
+    <comp ref="D14">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/disconnect7/" tstamps="/59805CB0/"/>
+      <tstamp>597D4AB8</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>OPA170</value>
+      <footprint>Housings_SOT-23_SOT-143_TSOT-6:SOT-23-5</footprint>
+      <fields>
+        <field name="mfg#">OPA170AIDBVT</field>
+        <field name="Spice_Primitive">X</field>
+        <field name="Spice_Model">AD8009</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="Spice_Lib_File">ad8009.lib</field>
+      </fields>
+      <libsource lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>5783283A</tstamp>
+    </comp>
+    <comp ref="R54">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>578328E5</tstamp>
+    </comp>
+    <comp ref="R55">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>5783291E</tstamp>
+    </comp>
+    <comp ref="R56">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>57832A39</tstamp>
+    </comp>
+    <comp ref="R57">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603FR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">10k</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>57832A92</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>57839669</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>100nF</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Spice_Primitive">C</field>
+        <field name="Spice_Model">100n</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+        <field name="mfg#">CL10B104KA8NNNC</field>
+      </fields>
+      <libsource lib="device" part="C_Small"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>578447A7</tstamp>
+    </comp>
+    <comp ref="R58">
+      <value>60R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="mfg#">RC0603JR-0710KL</field>
+        <field name="Spice_Primitive">R</field>
+        <field name="Spice_Model">60</field>
+        <field name="Spice_Netlist_Enabled">Y</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>57CE71FA</tstamp>
+    </comp>
+    <comp ref="D15">
+      <value>D_Schottky</value>
+      <footprint>Diodes_SMD:SOD-123</footprint>
+      <fields>
+        <field name="mfg#">MBR0580S1-7</field>
+        <field name="Replacement">B0530W-7-F</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/diff7/" tstamps="/59807709/"/>
+      <tstamp>57CCFB56</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="CAN Balancer-rescue" part="APE8865U5-33-HF-3-RESCUE-CAN_Balancer">
+      <footprints>
+        <fp>SC*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">APE8865U5-33-HF-3-RESCUE-CAN_Balancer</field>
+        <field name="Footprint">SC-70-5</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VIN" type="input"/>
+        <pin num="2" name="GND" type="power_in"/>
+        <pin num="3" name="~SHDN~" type="input"/>
+        <pin num="4" name="BYP" type="input"/>
+        <pin num="5" name="VOUT" type="power_out"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="BSS138-RESCUE-CAN_Balancer">
+      <footprints>
+        <fp>SOT-23*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BSS138-RESCUE-CAN_Balancer</field>
+        <field name="Footprint">SOT-23</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="passive"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="C">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X02">
+      <description>Connector, single row, 01x02, pin header</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X*</fp>
+        <fp>Pin_Header_Angled_1X*</fp>
+        <fp>Socket_Strip_Straight_1X*</fp>
+        <fp>Socket_Strip_Angled_1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_01X02</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X03">
+      <description>Connector, single row, 01x03, pin header</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X*</fp>
+        <fp>Pin_Header_Angled_1X*</fp>
+        <fp>Socket_Strip_Straight_1X*</fp>
+        <fp>Socket_Strip_Angled_1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_01X03</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X04">
+      <description>Connector, single row, 01x04, pin header</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X*</fp>
+        <fp>Pin_Header_Angled_1X*</fp>
+        <fp>Socket_Strip_Straight_1X*</fp>
+        <fp>Socket_Strip_Angled_1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_01X04</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X06">
+      <description>Connector, single row, 01x06, pin header</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X*</fp>
+        <fp>Pin_Header_Angled_1X*</fp>
+        <fp>Socket_Strip_Straight_1X*</fp>
+        <fp>Socket_Strip_Angled_1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_01X06</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="CONN_01X08">
+      <description>Connector, single row, 01x08, pin header</description>
+      <footprints>
+        <fp>Pin_Header_Straight_1X*</fp>
+        <fp>Pin_Header_Angled_1X*</fp>
+        <fp>Socket_Strip_Straight_1X*</fp>
+        <fp>Socket_Strip_Angled_1X*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">CONN_01X08</field>
+      </fields>
+      <pins>
+        <pin num="1" name="P1" type="passive"/>
+        <pin num="2" name="P2" type="passive"/>
+        <pin num="3" name="P3" type="passive"/>
+        <pin num="4" name="P4" type="passive"/>
+        <pin num="5" name="P5" type="passive"/>
+        <pin num="6" name="P6" type="passive"/>
+        <pin num="7" name="P7" type="passive"/>
+        <pin num="8" name="P8" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="CRYSTAL_SMD">
+      <fields>
+        <field name="Reference">X</field>
+        <field name="Value">CRYSTAL_SMD</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="case" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="C_Small">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="D_Schottky">
+      <description>Schottky diode</description>
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Schottky</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="F_Small">
+      <footprints>
+        <fp>CP*</fp>
+        <fp>SM*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">F</field>
+        <field name="Value">F_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="ISO1050">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ISO1050</field>
+        <field name="Footprint">paltatech:SO8-ISO1050</field>
+        <field name="mfg#">ISO1050DUBR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC1" type="input"/>
+        <pin num="2" name="RXD" type="input"/>
+        <pin num="3" name="TXD" type="input"/>
+        <pin num="4" name="GND1" type="input"/>
+        <pin num="5" name="GND2" type="input"/>
+        <pin num="6" name="CANL" type="input"/>
+        <pin num="7" name="CANH" type="input"/>
+        <pin num="8" name="VCC2" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="OSBMS Balancer Rev1-rescue" part="LED-RESCUE-OSBMS_Balancer_Rev1">
+      <footprints>
+        <fp>LED-3MM</fp>
+        <fp>LED-5MM</fp>
+        <fp>LED-10MM</fp>
+        <fp>LED-0603</fp>
+        <fp>LED-0805</fp>
+        <fp>LED-1206</fp>
+        <fp>LEDV</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED-RESCUE-OSBMS_Balancer_Rev1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="MCP6001-RESCUE-CAN_Balancer">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MCP6001-RESCUE-CAN_Balancer</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="output"/>
+        <pin num="2" name="V-" type="input"/>
+        <pin num="3" name="+" type="input"/>
+        <pin num="4" name="-" type="input"/>
+        <pin num="5" name="V+" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="Q_PMOS_GSD">
+      <description>Transistor P-MOSFET with substrate diode (general)</description>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_PMOS_GSD</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="OSBMS Balancer Rev1-rescue" part="R-RESCUE-OSBMS_Balancer_Rev1">
+      <footprints>
+        <fp>R?</fp>
+        <fp>SM0603</fp>
+        <fp>SM0805</fp>
+        <fp>R?-*</fp>
+        <fp>SM1206</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R-RESCUE-OSBMS_Balancer_Rev1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R_Small">
+      <description>Resistor, small symbol</description>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="STM32F103">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">STM32F103</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VBAT" type="input"/>
+        <pin num="2" name="PC13-TAMPER-RTC" type="input"/>
+        <pin num="3" name="PC14-OSC32_IN" type="input"/>
+        <pin num="4" name="PC15-OSC32_OU" type="input"/>
+        <pin num="5" name="PD0-OSC_IN" type="input"/>
+        <pin num="6" name="PD1-OSC_OU" type="input"/>
+        <pin num="7" name="NRST" type="input"/>
+        <pin num="8" name="VSSA" type="input"/>
+        <pin num="9" name="VDDA" type="input"/>
+        <pin num="10" name="PA0-WKUP" type="input"/>
+        <pin num="11" name="PA1" type="input"/>
+        <pin num="12" name="PA2" type="input"/>
+        <pin num="13" name="PA3" type="input"/>
+        <pin num="14" name="PA4" type="input"/>
+        <pin num="15" name="PA5" type="input"/>
+        <pin num="16" name="PA6" type="input"/>
+        <pin num="17" name="PA7" type="input"/>
+        <pin num="18" name="PB0" type="input"/>
+        <pin num="19" name="PB1" type="input"/>
+        <pin num="20" name="PB2" type="input"/>
+        <pin num="21" name="PB10" type="input"/>
+        <pin num="22" name="PB11" type="input"/>
+        <pin num="23" name="VSS_1" type="input"/>
+        <pin num="24" name="VDD_1" type="input"/>
+        <pin num="25" name="PB12" type="input"/>
+        <pin num="26" name="PB13" type="input"/>
+        <pin num="27" name="PB14" type="input"/>
+        <pin num="28" name="PB15" type="input"/>
+        <pin num="29" name="PA8" type="input"/>
+        <pin num="30" name="PA9" type="input"/>
+        <pin num="31" name="PA10" type="input"/>
+        <pin num="32" name="PA11" type="input"/>
+        <pin num="33" name="PA12" type="input"/>
+        <pin num="34" name="PA13" type="input"/>
+        <pin num="35" name="VSS_2" type="input"/>
+        <pin num="36" name="VDD_2" type="input"/>
+        <pin num="37" name="PA14" type="input"/>
+        <pin num="38" name="PA15" type="input"/>
+        <pin num="39" name="PB3" type="input"/>
+        <pin num="40" name="PB4" type="input"/>
+        <pin num="41" name="PB5" type="input"/>
+        <pin num="42" name="PB6" type="input"/>
+        <pin num="43" name="PB7" type="input"/>
+        <pin num="44" name="BOOT0" type="input"/>
+        <pin num="45" name="PB8" type="input"/>
+        <pin num="46" name="PB9" type="input"/>
+        <pin num="47" name="VSS_3" type="input"/>
+        <pin num="48" name="VDD_3" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="TESTPOINT">
+      <footprints>
+        <fp>TEST</fp>
+        <fp>TEST-*</fp>
+        <fp>TEST*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TESTPOINT</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="THERMISTOR">
+      <footprints>
+        <fp>R?</fp>
+        <fp>SM0603</fp>
+        <fp>SM0805</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">TH</field>
+        <field name="Value">THERMISTOR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="TVS">
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">TVS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="CAN Balancer-cache" part="VIA">
+      <fields>
+        <field name="Reference">V</field>
+        <field name="Value">VIA</field>
+        <field name="Footprint">GND_VIA</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="conn">
+      <uri>/usr/share/kicad/library/conn.lib</uri>
+    </library>
+    <library logical="device">
+      <uri>/usr/share/kicad/library/device.lib</uri>
+    </library>
+    <library logical="OSBMS Balancer Rev1-rescue">
+      <uri>/home/marcos/paltatech/projects/leov/CAN-Balancer/Hardware/design/OSBMS Balancer Rev1-rescue.lib</uri>
+    </library>
+    <library logical="CAN Balancer-rescue">
+      <uri>/home/marcos/paltatech/projects/leov/CAN-Balancer/Hardware/design/CAN Balancer-rescue.lib</uri>
+    </library>
+    <library logical="CAN Balancer-cache">
+      <uri>/home/marcos/paltatech/projects/leov/CAN-Balancer/Hardware/design/CAN Balancer-cache.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="/MCU/CAN_RX">
+      <node ref="U101" pin="2"/>
+      <node ref="U201" pin="45"/>
+    </net>
+    <net code="2" name="Net-(D101-Pad1)">
+      <node ref="D101" pin="1"/>
+      <node ref="R103" pin="2"/>
+    </net>
+    <net code="3" name="Net-(D102-Pad1)">
+      <node ref="D102" pin="1"/>
+      <node ref="R104" pin="2"/>
+    </net>
+    <net code="4" name="Net-(D103-Pad1)">
+      <node ref="D103" pin="1"/>
+      <node ref="R105" pin="2"/>
+    </net>
+    <net code="5" name="/MCU/ADC1">
+      <node ref="R305" pin="1"/>
+      <node ref="D301" pin="2"/>
+      <node ref="U201" pin="11"/>
+    </net>
+    <net code="6" name="/MCU/ADC2">
+      <node ref="D401" pin="2"/>
+      <node ref="R405" pin="1"/>
+      <node ref="U201" pin="12"/>
+    </net>
+    <net code="7" name="/MCU/ADC3">
+      <node ref="R505" pin="1"/>
+      <node ref="D501" pin="2"/>
+      <node ref="U201" pin="13"/>
+    </net>
+    <net code="8" name="/MCU/ADC4">
+      <node ref="D601" pin="2"/>
+      <node ref="R605" pin="1"/>
+      <node ref="U201" pin="14"/>
+    </net>
+    <net code="9" name="/MCU/ADC5">
+      <node ref="U201" pin="15"/>
+      <node ref="D701" pin="2"/>
+      <node ref="R705" pin="1"/>
+    </net>
+    <net code="10" name="Net-(Q8-Pad1)">
+      <node ref="Q8" pin="1"/>
+      <node ref="R5" pin="2"/>
+      <node ref="R4" pin="1"/>
+    </net>
+    <net code="11" name="Net-(Q11-Pad1)">
+      <node ref="Q5" pin="3"/>
+      <node ref="Q11" pin="1"/>
+      <node ref="R15" pin="1"/>
+    </net>
+    <net code="12" name="Net-(F102-Pad1)">
+      <node ref="P1" pin="7"/>
+      <node ref="F102" pin="1"/>
+    </net>
+    <net code="13" name="Net-(F107-Pad1)">
+      <node ref="F107" pin="1"/>
+      <node ref="P1" pin="2"/>
+    </net>
+    <net code="14" name="Net-(F106-Pad1)">
+      <node ref="P1" pin="3"/>
+      <node ref="F106" pin="1"/>
+    </net>
+    <net code="15" name="Net-(F105-Pad1)">
+      <node ref="F105" pin="1"/>
+      <node ref="P1" pin="4"/>
+    </net>
+    <net code="16" name="Net-(F104-Pad1)">
+      <node ref="P1" pin="5"/>
+      <node ref="F104" pin="1"/>
+    </net>
+    <net code="17" name="Net-(F103-Pad1)">
+      <node ref="F103" pin="1"/>
+      <node ref="P1" pin="6"/>
+    </net>
+    <net code="18" name="Net-(F1-Pad1)">
+      <node ref="F101" pin="1"/>
+      <node ref="F1" pin="1"/>
+      <node ref="P1" pin="8"/>
+    </net>
+    <net code="19" name="/MCU/PA8">
+      <node ref="R103" pin="1"/>
+      <node ref="U201" pin="29"/>
+    </net>
+    <net code="20" name="/MCU/PB15">
+      <node ref="R104" pin="1"/>
+      <node ref="U201" pin="28"/>
+    </net>
+    <net code="21" name="/MCU/PB14">
+      <node ref="R105" pin="1"/>
+      <node ref="U201" pin="27"/>
+    </net>
+    <net code="22" name="Net-(Q7-Pad1)">
+      <node ref="Q7" pin="1"/>
+      <node ref="R1" pin="1"/>
+      <node ref="R3" pin="2"/>
+    </net>
+    <net code="23" name="Net-(Q3-Pad3)">
+      <node ref="Q3" pin="3"/>
+      <node ref="Q9" pin="1"/>
+      <node ref="R6" pin="1"/>
+    </net>
+    <net code="24" name="Net-(Q10-Pad1)">
+      <node ref="Q4" pin="3"/>
+      <node ref="Q10" pin="1"/>
+      <node ref="R14" pin="1"/>
+    </net>
+    <net code="25" name="DISCHARGE_1">
+      <node ref="U201" pin="26"/>
+      <node ref="Q6" pin="1"/>
+    </net>
+    <net code="26" name="/disconnect7/BALANCER">
+      <node ref="C1" pin="1"/>
+      <node ref="R46" pin="1"/>
+      <node ref="D13" pin="1"/>
+      <node ref="R47" pin="1"/>
+      <node ref="R49" pin="1"/>
+      <node ref="R48" pin="1"/>
+      <node ref="R54" pin="2"/>
+      <node ref="Q21" pin="3"/>
+    </net>
+    <net code="27" name="Net-(Q19-Pad1)">
+      <node ref="R51" pin="1"/>
+      <node ref="Q19" pin="1"/>
+      <node ref="R52" pin="2"/>
+    </net>
+    <net code="28" name="Net-(Q19-Pad2)">
+      <node ref="R47" pin="2"/>
+      <node ref="R48" pin="2"/>
+      <node ref="R49" pin="2"/>
+      <node ref="Q19" pin="2"/>
+      <node ref="R50" pin="1"/>
+      <node ref="R51" pin="2"/>
+      <node ref="R46" pin="2"/>
+    </net>
+    <net code="29" name="GND">
+      <node ref="D103" pin="2"/>
+      <node ref="C104" pin="2"/>
+      <node ref="D101" pin="2"/>
+      <node ref="C101" pin="1"/>
+      <node ref="D106" pin="2"/>
+      <node ref="D107" pin="2"/>
+      <node ref="V12" pin="1"/>
+      <node ref="C103" pin="2"/>
+      <node ref="P2" pin="1"/>
+      <node ref="D102" pin="2"/>
+      <node ref="V34" pin="1"/>
+      <node ref="Q1" pin="2"/>
+      <node ref="U102" pin="2"/>
+      <node ref="V36" pin="1"/>
+      <node ref="V35" pin="1"/>
+      <node ref="V20" pin="1"/>
+      <node ref="V21" pin="1"/>
+      <node ref="V22" pin="1"/>
+      <node ref="V23" pin="1"/>
+      <node ref="V33" pin="1"/>
+      <node ref="V40" pin="1"/>
+      <node ref="V24" pin="1"/>
+      <node ref="V39" pin="1"/>
+      <node ref="V38" pin="1"/>
+      <node ref="Q5" pin="2"/>
+      <node ref="V37" pin="1"/>
+      <node ref="U101" pin="4"/>
+      <node ref="TH1" pin="2"/>
+      <node ref="C105" pin="2"/>
+      <node ref="Q2" pin="2"/>
+      <node ref="Q3" pin="2"/>
+      <node ref="Q6" pin="2"/>
+      <node ref="Q4" pin="2"/>
+      <node ref="C402" pin="2"/>
+      <node ref="U401" pin="2"/>
+      <node ref="R403" pin="1"/>
+      <node ref="C502" pin="2"/>
+      <node ref="U501" pin="2"/>
+      <node ref="R503" pin="1"/>
+      <node ref="C203" pin="2"/>
+      <node ref="C206" pin="2"/>
+      <node ref="C205" pin="2"/>
+      <node ref="U201" pin="23"/>
+      <node ref="C207" pin="2"/>
+      <node ref="C208" pin="2"/>
+      <node ref="C602" pin="2"/>
+      <node ref="P201" pin="5"/>
+      <node ref="C302" pin="2"/>
+      <node ref="U301" pin="2"/>
+      <node ref="R303" pin="1"/>
+      <node ref="C801" pin="2"/>
+      <node ref="U801" pin="2"/>
+      <node ref="R802" pin="2"/>
+      <node ref="R803" pin="1"/>
+      <node ref="C802" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="U1" pin="2"/>
+      <node ref="R56" pin="1"/>
+      <node ref="C702" pin="2"/>
+      <node ref="U601" pin="2"/>
+      <node ref="R603" pin="1"/>
+      <node ref="U701" pin="2"/>
+      <node ref="R703" pin="1"/>
+      <node ref="V27" pin="1"/>
+      <node ref="P102" pin="3"/>
+      <node ref="Q102" pin="2"/>
+      <node ref="P102" pin="1"/>
+      <node ref="V25" pin="1"/>
+      <node ref="V26" pin="1"/>
+      <node ref="V5" pin="1"/>
+      <node ref="V28" pin="1"/>
+      <node ref="V29" pin="1"/>
+      <node ref="V30" pin="1"/>
+      <node ref="V31" pin="1"/>
+      <node ref="V32" pin="1"/>
+      <node ref="V17" pin="1"/>
+      <node ref="V19" pin="1"/>
+      <node ref="TP104" pin="1"/>
+      <node ref="V7" pin="1"/>
+      <node ref="V13" pin="1"/>
+      <node ref="V1" pin="1"/>
+      <node ref="V18" pin="1"/>
+      <node ref="V6" pin="1"/>
+      <node ref="V14" pin="1"/>
+      <node ref="V15" pin="1"/>
+      <node ref="V8" pin="1"/>
+      <node ref="V16" pin="1"/>
+      <node ref="V2" pin="1"/>
+      <node ref="V9" pin="1"/>
+      <node ref="V3" pin="1"/>
+      <node ref="V10" pin="1"/>
+      <node ref="V4" pin="1"/>
+      <node ref="V11" pin="1"/>
+      <node ref="X201" pin="3"/>
+      <node ref="U201" pin="44"/>
+      <node ref="U201" pin="8"/>
+      <node ref="U201" pin="47"/>
+      <node ref="U201" pin="35"/>
+      <node ref="C202" pin="2"/>
+      <node ref="C201" pin="1"/>
+      <node ref="Q12" pin="2"/>
+      <node ref="Q20" pin="2"/>
+      <node ref="P1" pin="1"/>
+    </net>
+    <net code="30" name="Net-(Q20-Pad3)">
+      <node ref="R52" pin="1"/>
+      <node ref="Q20" pin="3"/>
+    </net>
+    <net code="31" name="/disconnect7/CELL">
+      <node ref="Q21" pin="2"/>
+      <node ref="F1" pin="2"/>
+      <node ref="R53" pin="2"/>
+      <node ref="TP1" pin="1"/>
+    </net>
+    <net code="32" name="Net-(D13-Pad2)">
+      <node ref="R50" pin="2"/>
+      <node ref="D13" pin="2"/>
+    </net>
+    <net code="33" name="DISCONNECT">
+      <node ref="D14" pin="1"/>
+      <node ref="D10" pin="1"/>
+      <node ref="D9" pin="1"/>
+      <node ref="D8" pin="1"/>
+      <node ref="D7" pin="1"/>
+      <node ref="Q12" pin="3"/>
+      <node ref="D12" pin="1"/>
+      <node ref="D11" pin="1"/>
+    </net>
+    <net code="34" name="DISCONNECT_G">
+      <node ref="U201" pin="41"/>
+      <node ref="Q12" pin="1"/>
+    </net>
+    <net code="35" name="DISCHARGE_7">
+      <node ref="Q20" pin="1"/>
+      <node ref="U201" pin="18"/>
+    </net>
+    <net code="36" name="/MCU/ADC0">
+      <node ref="D15" pin="2"/>
+      <node ref="U201" pin="10"/>
+      <node ref="R58" pin="1"/>
+    </net>
+    <net code="37" name="Net-(P102-Pad2)">
+      <node ref="P102" pin="2"/>
+      <node ref="R111" pin="1"/>
+      <node ref="Q102" pin="3"/>
+    </net>
+    <net code="38" name="3.3v">
+      <node ref="U201" pin="1"/>
+      <node ref="U201" pin="36"/>
+      <node ref="D501" pin="1"/>
+      <node ref="D401" pin="1"/>
+      <node ref="U201" pin="48"/>
+      <node ref="Q101" pin="2"/>
+      <node ref="TP102" pin="1"/>
+      <node ref="D601" pin="1"/>
+      <node ref="D15" pin="1"/>
+      <node ref="C207" pin="1"/>
+      <node ref="C205" pin="1"/>
+      <node ref="U201" pin="9"/>
+      <node ref="U201" pin="24"/>
+      <node ref="C206" pin="1"/>
+      <node ref="P201" pin="1"/>
+      <node ref="C208" pin="1"/>
+      <node ref="R16" pin="1"/>
+      <node ref="U102" pin="5"/>
+      <node ref="D301" pin="1"/>
+      <node ref="C105" pin="1"/>
+      <node ref="R102" pin="2"/>
+      <node ref="R2" pin="1"/>
+      <node ref="D801" pin="1"/>
+      <node ref="D701" pin="1"/>
+    </net>
+    <net code="39" name="/MCU/PB6">
+      <node ref="U201" pin="42"/>
+      <node ref="Q102" pin="1"/>
+    </net>
+    <net code="40" name="/MCU/ADC6">
+      <node ref="R110" pin="2"/>
+      <node ref="R805" pin="1"/>
+      <node ref="D801" pin="2"/>
+      <node ref="U201" pin="16"/>
+    </net>
+    <net code="41" name="/MCU/USART1_RX">
+      <node ref="U201" pin="31"/>
+      <node ref="TP108" pin="1"/>
+    </net>
+    <net code="42" name="Net-(C106-Pad2)">
+      <node ref="R109" pin="2"/>
+      <node ref="R101" pin="1"/>
+      <node ref="C106" pin="2"/>
+    </net>
+    <net code="43" name="/MCU/USART1_TX">
+      <node ref="U201" pin="30"/>
+      <node ref="TP107" pin="1"/>
+    </net>
+    <net code="44" name="/MCU/USB_DM">
+      <node ref="U201" pin="32"/>
+      <node ref="TP112" pin="1"/>
+    </net>
+    <net code="45" name="/disconnect6/CELL">
+      <node ref="R17" pin="2"/>
+      <node ref="F102" pin="2"/>
+      <node ref="TP103" pin="1"/>
+      <node ref="Q13" pin="2"/>
+    </net>
+    <net code="46" name="/disconnect5/CELL">
+      <node ref="Q14" pin="2"/>
+      <node ref="F103" pin="2"/>
+      <node ref="R18" pin="2"/>
+      <node ref="TP106" pin="1"/>
+    </net>
+    <net code="47" name="/disconnect4/CELL">
+      <node ref="F104" pin="2"/>
+      <node ref="Q15" pin="2"/>
+      <node ref="R19" pin="2"/>
+      <node ref="TP109" pin="1"/>
+    </net>
+    <net code="48" name="/disconnect2/CELL">
+      <node ref="TP113" pin="1"/>
+      <node ref="R44" pin="2"/>
+      <node ref="Q17" pin="2"/>
+      <node ref="F106" pin="2"/>
+    </net>
+    <net code="49" name="/disconnect1/CELL">
+      <node ref="F107" pin="2"/>
+      <node ref="TP114" pin="1"/>
+      <node ref="Q18" pin="2"/>
+      <node ref="R45" pin="2"/>
+    </net>
+    <net code="50" name="/MCU/CAN_TX">
+      <node ref="U101" pin="3"/>
+      <node ref="R107" pin="1"/>
+      <node ref="U201" pin="46"/>
+    </net>
+    <net code="51" name="Net-(C101-Pad2)">
+      <node ref="Q101" pin="3"/>
+      <node ref="TP105" pin="1"/>
+      <node ref="R107" pin="2"/>
+      <node ref="C101" pin="2"/>
+      <node ref="U101" pin="1"/>
+    </net>
+    <net code="52" name="/disconnect3/CELL">
+      <node ref="Q16" pin="2"/>
+      <node ref="TP110" pin="1"/>
+      <node ref="F105" pin="2"/>
+      <node ref="R43" pin="2"/>
+    </net>
+    <net code="53" name="VPACK">
+      <node ref="TP101" pin="1"/>
+      <node ref="U701" pin="5"/>
+      <node ref="C502" pin="1"/>
+      <node ref="C802" pin="1"/>
+      <node ref="U501" pin="5"/>
+      <node ref="C602" pin="1"/>
+      <node ref="C702" pin="1"/>
+      <node ref="U601" pin="5"/>
+      <node ref="U801" pin="5"/>
+      <node ref="C2" pin="1"/>
+      <node ref="C302" pin="1"/>
+      <node ref="U1" pin="5"/>
+      <node ref="U301" pin="5"/>
+      <node ref="C402" pin="1"/>
+      <node ref="U401" pin="5"/>
+      <node ref="C103" pin="1"/>
+      <node ref="F101" pin="2"/>
+      <node ref="D106" pin="1"/>
+      <node ref="C104" pin="1"/>
+      <node ref="U102" pin="3"/>
+      <node ref="D107" pin="1"/>
+      <node ref="R111" pin="2"/>
+      <node ref="U102" pin="1"/>
+    </net>
+    <net code="54" name="/MCU/USB_DP">
+      <node ref="R16" pin="2"/>
+      <node ref="TP111" pin="1"/>
+      <node ref="U201" pin="33"/>
+    </net>
+    <net code="55" name="/MCU/PB7">
+      <node ref="R102" pin="1"/>
+      <node ref="U201" pin="43"/>
+      <node ref="Q101" pin="1"/>
+    </net>
+    <net code="56" name="/5v_ISO">
+      <node ref="U101" pin="8"/>
+      <node ref="C102" pin="2"/>
+      <node ref="P101" pin="4"/>
+    </net>
+    <net code="57" name="/GND_ISO">
+      <node ref="C102" pin="1"/>
+      <node ref="C106" pin="1"/>
+      <node ref="P101" pin="1"/>
+      <node ref="U101" pin="5"/>
+    </net>
+    <net code="58" name="/CANH">
+      <node ref="P101" pin="3"/>
+      <node ref="R109" pin="1"/>
+      <node ref="U101" pin="7"/>
+    </net>
+    <net code="59" name="/CANL">
+      <node ref="P101" pin="2"/>
+      <node ref="U101" pin="6"/>
+      <node ref="R101" pin="2"/>
+    </net>
+    <net code="60" name="Net-(D5-Pad2)">
+      <node ref="D5" pin="2"/>
+      <node ref="R8" pin="2"/>
+    </net>
+    <net code="61" name="/MCU/ADC7">
+      <node ref="P2" pin="2"/>
+      <node ref="TH1" pin="1"/>
+      <node ref="R2" pin="2"/>
+      <node ref="U201" pin="17"/>
+    </net>
+    <net code="62" name="Net-(Q7-Pad2)">
+      <node ref="R12" pin="1"/>
+      <node ref="R23" pin="2"/>
+      <node ref="R22" pin="2"/>
+      <node ref="R21" pin="2"/>
+      <node ref="R20" pin="2"/>
+      <node ref="R1" pin="2"/>
+      <node ref="Q7" pin="2"/>
+    </net>
+    <net code="63" name="/disconnect6/BALANCER">
+      <node ref="R23" pin="1"/>
+      <node ref="D1" pin="1"/>
+      <node ref="C301" pin="1"/>
+      <node ref="Q19" pin="3"/>
+      <node ref="C1" pin="2"/>
+      <node ref="Q13" pin="3"/>
+      <node ref="R301" pin="2"/>
+      <node ref="R55" pin="2"/>
+      <node ref="R20" pin="1"/>
+      <node ref="R21" pin="1"/>
+      <node ref="R22" pin="1"/>
+    </net>
+    <net code="64" name="Net-(Q8-Pad2)">
+      <node ref="R24" pin="2"/>
+      <node ref="R27" pin="2"/>
+      <node ref="R25" pin="2"/>
+      <node ref="R26" pin="2"/>
+      <node ref="R4" pin="2"/>
+      <node ref="Q8" pin="2"/>
+      <node ref="R11" pin="1"/>
+    </net>
+    <net code="65" name="/disconnect5/BALANCER">
+      <node ref="R302" pin="2"/>
+      <node ref="C401" pin="1"/>
+      <node ref="C301" pin="2"/>
+      <node ref="R401" pin="2"/>
+      <node ref="R27" pin="1"/>
+      <node ref="R26" pin="1"/>
+      <node ref="R25" pin="1"/>
+      <node ref="D2" pin="1"/>
+      <node ref="R24" pin="1"/>
+      <node ref="Q7" pin="3"/>
+      <node ref="Q14" pin="3"/>
+    </net>
+    <net code="66" name="DISCHARGE_6">
+      <node ref="Q1" pin="1"/>
+      <node ref="U201" pin="19"/>
+    </net>
+    <net code="67" name="Net-(Q1-Pad3)">
+      <node ref="R3" pin="1"/>
+      <node ref="Q1" pin="3"/>
+    </net>
+    <net code="68" name="Net-(D1-Pad2)">
+      <node ref="D1" pin="2"/>
+      <node ref="R12" pin="2"/>
+    </net>
+    <net code="69" name="Net-(D2-Pad2)">
+      <node ref="R11" pin="2"/>
+      <node ref="D2" pin="2"/>
+    </net>
+    <net code="70" name="DISCHARGE_5">
+      <node ref="Q2" pin="1"/>
+      <node ref="U201" pin="20"/>
+    </net>
+    <net code="71" name="Net-(Q2-Pad3)">
+      <node ref="R5" pin="1"/>
+      <node ref="Q2" pin="3"/>
+    </net>
+    <net code="72" name="DISCHARGE_4">
+      <node ref="U201" pin="21"/>
+      <node ref="Q3" pin="1"/>
+    </net>
+    <net code="73" name="Net-(D3-Pad2)">
+      <node ref="D3" pin="2"/>
+      <node ref="R10" pin="2"/>
+    </net>
+    <net code="74" name="Net-(D6-Pad2)">
+      <node ref="D6" pin="2"/>
+      <node ref="R7" pin="2"/>
+    </net>
+    <net code="75" name="DISCHARGE_3">
+      <node ref="U201" pin="22"/>
+      <node ref="Q4" pin="1"/>
+    </net>
+    <net code="76" name="Net-(D4-Pad2)">
+      <node ref="R9" pin="2"/>
+      <node ref="D4" pin="2"/>
+    </net>
+    <net code="77" name="DISCHARGE_2">
+      <node ref="Q5" pin="1"/>
+      <node ref="U201" pin="25"/>
+    </net>
+    <net code="78" name="Net-(Q9-Pad2)">
+      <node ref="R31" pin="2"/>
+      <node ref="R10" pin="1"/>
+      <node ref="R30" pin="2"/>
+      <node ref="R29" pin="2"/>
+      <node ref="R28" pin="2"/>
+      <node ref="R6" pin="2"/>
+      <node ref="Q9" pin="2"/>
+    </net>
+    <net code="79" name="/disconnect4/BALANCER">
+      <node ref="Q15" pin="3"/>
+      <node ref="C501" pin="1"/>
+      <node ref="Q8" pin="3"/>
+      <node ref="R31" pin="1"/>
+      <node ref="D3" pin="1"/>
+      <node ref="R30" pin="1"/>
+      <node ref="R29" pin="1"/>
+      <node ref="R28" pin="1"/>
+      <node ref="R501" pin="2"/>
+      <node ref="C401" pin="2"/>
+      <node ref="R402" pin="2"/>
+    </net>
+    <net code="80" name="Net-(Q6-Pad3)">
+      <node ref="R41" pin="2"/>
+      <node ref="R40" pin="2"/>
+      <node ref="R7" pin="1"/>
+      <node ref="Q6" pin="3"/>
+      <node ref="R42" pin="2"/>
+      <node ref="R39" pin="2"/>
+    </net>
+    <net code="81" name="/disconnect1/BALANCER">
+      <node ref="R40" pin="1"/>
+      <node ref="R41" pin="1"/>
+      <node ref="R42" pin="1"/>
+      <node ref="R39" pin="1"/>
+      <node ref="R801" pin="2"/>
+      <node ref="R110" pin="1"/>
+      <node ref="Q11" pin="3"/>
+      <node ref="D6" pin="1"/>
+      <node ref="Q18" pin="3"/>
+      <node ref="R702" pin="2"/>
+      <node ref="C701" pin="2"/>
+      <node ref="C801" pin="1"/>
+    </net>
+    <net code="82" name="Net-(Q10-Pad2)">
+      <node ref="R34" pin="2"/>
+      <node ref="R32" pin="2"/>
+      <node ref="R13" pin="2"/>
+      <node ref="R33" pin="2"/>
+      <node ref="Q10" pin="2"/>
+      <node ref="R14" pin="2"/>
+      <node ref="R9" pin="1"/>
+    </net>
+    <net code="83" name="Net-(U102-Pad4)">
+      <node ref="U102" pin="4"/>
+    </net>
+    <net code="84" name="/disconnect3/BALANCER">
+      <node ref="R33" pin="1"/>
+      <node ref="R32" pin="1"/>
+      <node ref="R13" pin="1"/>
+      <node ref="D4" pin="1"/>
+      <node ref="Q16" pin="3"/>
+      <node ref="Q9" pin="3"/>
+      <node ref="R601" pin="2"/>
+      <node ref="C501" pin="2"/>
+      <node ref="R34" pin="1"/>
+      <node ref="R502" pin="2"/>
+      <node ref="C601" pin="1"/>
+    </net>
+    <net code="85" name="/disconnect2/BALANCER">
+      <node ref="D5" pin="1"/>
+      <node ref="Q10" pin="3"/>
+      <node ref="R36" pin="1"/>
+      <node ref="R37" pin="1"/>
+      <node ref="C601" pin="2"/>
+      <node ref="C701" pin="1"/>
+      <node ref="R701" pin="2"/>
+      <node ref="R38" pin="1"/>
+      <node ref="R602" pin="2"/>
+      <node ref="R35" pin="1"/>
+      <node ref="Q17" pin="3"/>
+    </net>
+    <net code="86" name="Net-(Q11-Pad2)">
+      <node ref="R8" pin="1"/>
+      <node ref="Q11" pin="2"/>
+      <node ref="R15" pin="2"/>
+      <node ref="R35" pin="2"/>
+      <node ref="R38" pin="2"/>
+      <node ref="R37" pin="2"/>
+      <node ref="R36" pin="2"/>
+    </net>
+    <net code="87" name="Net-(U201-Pad4)">
+      <node ref="U201" pin="4"/>
+    </net>
+    <net code="88" name="Net-(U201-Pad38)">
+      <node ref="U201" pin="38"/>
+    </net>
+    <net code="89" name="Net-(U201-Pad39)">
+      <node ref="U201" pin="39"/>
+    </net>
+    <net code="90" name="Net-(U201-Pad2)">
+      <node ref="U201" pin="2"/>
+    </net>
+    <net code="91" name="Net-(U201-Pad3)">
+      <node ref="U201" pin="3"/>
+    </net>
+    <net code="92" name="Net-(C202-Pad1)">
+      <node ref="C202" pin="1"/>
+      <node ref="X201" pin="2"/>
+      <node ref="R201" pin="2"/>
+    </net>
+    <net code="93" name="Net-(C201-Pad2)">
+      <node ref="C201" pin="2"/>
+      <node ref="U201" pin="5"/>
+      <node ref="X201" pin="1"/>
+    </net>
+    <net code="94" name="Net-(R201-Pad1)">
+      <node ref="U201" pin="6"/>
+      <node ref="R201" pin="1"/>
+    </net>
+    <net code="95" name="Net-(P201-Pad6)">
+      <node ref="P201" pin="6"/>
+    </net>
+    <net code="96" name="Net-(U201-Pad40)">
+      <node ref="U201" pin="40"/>
+    </net>
+    <net code="97" name="/MCU/JTMS/SWDIO">
+      <node ref="U201" pin="34"/>
+      <node ref="P201" pin="2"/>
+    </net>
+    <net code="98" name="/MCU/JTCK/SWCLK">
+      <node ref="P201" pin="4"/>
+      <node ref="U201" pin="37"/>
+    </net>
+    <net code="99" name="/MCU/nRST">
+      <node ref="U201" pin="7"/>
+      <node ref="C203" pin="1"/>
+      <node ref="P201" pin="3"/>
+    </net>
+    <net code="100" name="Net-(R304-Pad2)">
+      <node ref="U301" pin="1"/>
+      <node ref="R304" pin="2"/>
+      <node ref="R305" pin="2"/>
+    </net>
+    <net code="101" name="Net-(R301-Pad1)">
+      <node ref="R303" pin="2"/>
+      <node ref="R301" pin="1"/>
+      <node ref="U301" pin="3"/>
+    </net>
+    <net code="102" name="Net-(R302-Pad1)">
+      <node ref="U301" pin="4"/>
+      <node ref="R302" pin="1"/>
+      <node ref="R304" pin="1"/>
+    </net>
+    <net code="103" name="Net-(R404-Pad2)">
+      <node ref="U401" pin="1"/>
+      <node ref="R404" pin="2"/>
+      <node ref="R405" pin="2"/>
+    </net>
+    <net code="104" name="Net-(R401-Pad1)">
+      <node ref="R401" pin="1"/>
+      <node ref="U401" pin="3"/>
+      <node ref="R403" pin="2"/>
+    </net>
+    <net code="105" name="Net-(R402-Pad1)">
+      <node ref="U401" pin="4"/>
+      <node ref="R404" pin="1"/>
+      <node ref="R402" pin="1"/>
+    </net>
+    <net code="106" name="Net-(R501-Pad1)">
+      <node ref="R501" pin="1"/>
+      <node ref="R503" pin="2"/>
+      <node ref="U501" pin="3"/>
+    </net>
+    <net code="107" name="Net-(R504-Pad2)">
+      <node ref="R505" pin="2"/>
+      <node ref="R504" pin="2"/>
+      <node ref="U501" pin="1"/>
+    </net>
+    <net code="108" name="Net-(R502-Pad1)">
+      <node ref="R502" pin="1"/>
+      <node ref="R504" pin="1"/>
+      <node ref="U501" pin="4"/>
+    </net>
+    <net code="109" name="Net-(R604-Pad2)">
+      <node ref="U601" pin="1"/>
+      <node ref="R605" pin="2"/>
+      <node ref="R604" pin="2"/>
+    </net>
+    <net code="110" name="Net-(R601-Pad1)">
+      <node ref="U601" pin="3"/>
+      <node ref="R601" pin="1"/>
+      <node ref="R603" pin="2"/>
+    </net>
+    <net code="111" name="Net-(R602-Pad1)">
+      <node ref="U601" pin="4"/>
+      <node ref="R604" pin="1"/>
+      <node ref="R602" pin="1"/>
+    </net>
+    <net code="112" name="Net-(R704-Pad2)">
+      <node ref="U701" pin="1"/>
+      <node ref="R704" pin="2"/>
+      <node ref="R705" pin="2"/>
+    </net>
+    <net code="113" name="Net-(R701-Pad1)">
+      <node ref="R703" pin="2"/>
+      <node ref="R701" pin="1"/>
+      <node ref="U701" pin="3"/>
+    </net>
+    <net code="114" name="Net-(R702-Pad1)">
+      <node ref="R702" pin="1"/>
+      <node ref="U701" pin="4"/>
+      <node ref="R704" pin="1"/>
+    </net>
+    <net code="115" name="Net-(R804-Pad2)">
+      <node ref="R805" pin="2"/>
+      <node ref="R804" pin="2"/>
+      <node ref="U801" pin="1"/>
+    </net>
+    <net code="116" name="Net-(R801-Pad1)">
+      <node ref="R803" pin="2"/>
+      <node ref="R801" pin="1"/>
+      <node ref="U801" pin="3"/>
+    </net>
+    <net code="117" name="Net-(R802-Pad1)">
+      <node ref="R804" pin="1"/>
+      <node ref="R802" pin="1"/>
+      <node ref="U801" pin="4"/>
+    </net>
+    <net code="118" name="Net-(D7-Pad2)">
+      <node ref="Q13" pin="1"/>
+      <node ref="R17" pin="1"/>
+      <node ref="D7" pin="2"/>
+    </net>
+    <net code="119" name="Net-(D8-Pad2)">
+      <node ref="R18" pin="1"/>
+      <node ref="Q14" pin="1"/>
+      <node ref="D8" pin="2"/>
+    </net>
+    <net code="120" name="Net-(D9-Pad2)">
+      <node ref="R19" pin="1"/>
+      <node ref="Q15" pin="1"/>
+      <node ref="D9" pin="2"/>
+    </net>
+    <net code="121" name="Net-(D10-Pad2)">
+      <node ref="Q16" pin="1"/>
+      <node ref="D10" pin="2"/>
+      <node ref="R43" pin="1"/>
+    </net>
+    <net code="122" name="Net-(D11-Pad2)">
+      <node ref="R44" pin="1"/>
+      <node ref="D11" pin="2"/>
+      <node ref="Q17" pin="1"/>
+    </net>
+    <net code="123" name="Net-(D12-Pad2)">
+      <node ref="Q18" pin="1"/>
+      <node ref="R45" pin="1"/>
+      <node ref="D12" pin="2"/>
+    </net>
+    <net code="124" name="Net-(D14-Pad2)">
+      <node ref="R53" pin="1"/>
+      <node ref="Q21" pin="1"/>
+      <node ref="D14" pin="2"/>
+    </net>
+    <net code="125" name="Net-(R57-Pad2)">
+      <node ref="R58" pin="2"/>
+      <node ref="R57" pin="2"/>
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="126" name="Net-(R54-Pad1)">
+      <node ref="R56" pin="2"/>
+      <node ref="R54" pin="1"/>
+      <node ref="U1" pin="3"/>
+    </net>
+    <net code="127" name="Net-(R55-Pad1)">
+      <node ref="R57" pin="1"/>
+      <node ref="R55" pin="1"/>
+      <node ref="U1" pin="4"/>
+    </net>
+  </nets>
+</export>
