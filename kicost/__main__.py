@@ -109,6 +109,9 @@ def main():
                         nargs='+',
                         default='kicad',
                         help='Choose EDA tool from which the XML BOM file originated, or use csv for .CSV files.')
+    parser.add_argument('--show_dist_list',
+                        action='store_true',
+                        help='Show list of distributors that can be scraped for cost data, then exit.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
@@ -190,6 +193,7 @@ def main():
     kicost(in_file=args.input, out_filename=args.output,
         user_fields=args.fields, ignore_fields=args.ignore_fields, 
         variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
+        show_dist_list=args.show_dist_list,
         exclude_dist_list=args.exclude, include_dist_list=args.include,
         scrape_retries=args.retries)
 
