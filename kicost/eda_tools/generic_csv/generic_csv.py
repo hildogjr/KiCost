@@ -49,7 +49,8 @@ field_name_translations.update(
         'reference': 'refs',
         'ref': 'refs',
         'customer no': 'refs',
-        'value': 'value'
+        'value': 'value',
+        '': ''  # This is here because the header row may contain an empty field.
     }
 )
 
@@ -69,17 +70,46 @@ def get_part_groups(in_file, ignore_fields, variant):
     content = re.sub('\t+', '\t', content)
 
     # Determine the column delimiter used in the CSV file.
-    dialect = csv.Sniffer().sniff(content, [',',';','\t'])
+    try:
+        dialect = csv.Sniffer().sniff(content, [',',';','\t'])
+    except csv.Error:
+        # If the CSV file only has a single column of data, there may be no
+        # delimiter so just set the delimiter to a comma.
+        dialect = csv.Sniffer().sniff(',,,', [','])
     
     # The first line in the file must be the column header.
     content = content.splitlines()
     header = next(csv.reader(content,delimiter=dialect.delimiter))
-    content.pop(0) # Remove the header from the content.
+
+    # Examine the first line to see if it really is a header.
+    # If the first line contains a column header that is not in the list of
+    # allowable field names, then assume the first line is data and not a header.
+    field_names = field_name_translations.keys() + field_name_translations.values()
+    for col_hdr in header:
+        if col_hdr not in field_names:
+            print('no header')
+            # If a column header is not in the list of field names, then there is
+            # no header in the file. Therefore, create a header based on number of columns.
+ 
+            # header may have a '' at the end, so remove it.
+            if '' in header:
+                header.remove('')
+
+            num_cols = len(header)
+            if num_cols == 1:
+                header = ['manf#']
+            elif num_cols == 2:
+                header = ['manf#', 'refs']
+            else:
+                header = ['qty', 'manf#', 'refs']
+            break
+    else:
+        print('header')
+        # OK, the first line is a header, so remove it from the data.
+        content.pop(0) # Remove the header from the content.
+
     # Standardize the header titles.
-    header = [field_name_translations.get(title.lower(),title.lower()) for title in header]
-    
-    # Create some default project information.
-    prj_info = {'title':'No title', 'company':'Not avaliable', 'date':'Not avaliable'}
+    header = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
 
     def extract_fields(row):
         fields = {}
@@ -90,8 +120,8 @@ def get_part_groups(in_file, ignore_fields, variant):
         vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header, delimiter=dialect.delimiter))
 
         if 'refs' in vals:
-            ref_str = vals['ref']
-            qty = len(fields['refs'])
+            ref_str = vals['refs']
+            qty = len(vals['refs'])
         elif 'qty' in vals:
             qty = int(vals['qty'])
             ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr+qty-1, extract_fields.gen_cntr)
@@ -102,55 +132,12 @@ def get_part_groups(in_file, ignore_fields, variant):
             extract_fields.gen_cntr += qty
         refs = split_refs(ref_str)
         fields['qty'] = qty
-        fields['libpart'] = vals.get('libpart', 'Lib:???')
-        fields['footprint'] = vals.get('footprint', 'Foot:???')
-        fields['value'] = vals.get('value', '???')
-        fields['manf#'] = vals.get('manf#', '')
+        fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
+        fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
+        fields['value'] = vals.get('value', '???').decode('utf-8')
+        fields['manf#'] = vals.get('manf#', '').decode('utf-8')
         return refs, fields
     extract_fields.gen_cntr = 0
-    
-    # Local function defined to get the corresponding fields from the CSV file.
-    # def extract_fields(text):
-        # '''Extract the correspondence fields in the CSV lines.'''
-        # extract_fields.count_generic_ref += 1 # Counter of the generics reference.
-        # fields = {}
-        # values = next(csv.reader([text.replace("'",'"')],delimiter=dialect.delimiter))
-        # # Default text to some fields needed for KiCost.
-        # fields['libpart'] = 'Lib:Cat'
-        # fields['footprint'] = 'Cat:Fooprint'
-        # fields['value'] = 'Not assined' # Value of the component.
-        # fields['refs'] = 'generic' # Letter used to identify groups of components.
-        # refs = GENERIC_REF + '{}'.format(extract_fields.count_generic_ref)
-        # fields['refs'] =  'generic'
-        # for iV in range(len(values)):
-            # if header[iV] == 'refs':
-                # ref = values[iV]
-                # if ref=='':
-                    # # Enunciated the reference but empty.
-                    # fields['refs'] = GENERIC_REF
-                    # refs = split_refs (GENERIC_REF + 
-                                       # '{1}-{2}'.format(
-                                          # extract_fields.count_generic_ref,
-                                          # extract_fields.count_generic_ref+values['qty']-1
-                                       # )
-                                      # )
-                    # extract_fields.count_generic_ref += values['qty'] -1
-                # refs = split_refs(ref)
-                # fields['refs'] = re.findall('^\D+', refs[0])[0] # Recognize the letter(s) of the grups.
-            # elif header[iV] == 'qty' and not 'refs' in header:
-                # # Enunciated the quantity but not the references.
-                # fields['refs'] = GENERIC_REF
-                # refs = split_refs (GENERIC_REF + 
-                                   # '{1}-{2}'.format(
-                                      # extract_fields.count_generic_ref,
-                                      # extract_fields.count_generic_ref+values['qty']-1
-                                   # )
-                                  # )
-                # extract_fields.count_generic_ref += values['qty'] -1
-            # else:
-                # fields[header[iV]] = values[iV]
-        # return refs, fields
-    # extract_fields.count_generic_ref = 0
     
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
@@ -165,6 +152,9 @@ def get_part_groups(in_file, ignore_fields, variant):
         refs, fields = extract_fields(row)
         for ref in refs:
            accepted_components[ref] = fields
+    
+    # Create some default project information.
+    prj_info = {'title':'No title', 'company':'Not avaliable', 'date':'Not avaliable'}
 
     # Place identical parts in groups and return them.
     return group_parts(accepted_components), prj_info
