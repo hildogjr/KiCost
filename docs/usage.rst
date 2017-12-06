@@ -2,8 +2,8 @@
 Usage
 ========
 
-KiCost is mainly intended to be run as a script for generating part-cost spreadsheets for
-circuit boards developed with KiCad. Typical use is as follows:
+KiCost's main use is generating part-cost spreadsheets for
+circuit boards developed with KiCad as follows:
 
 1. For each part in your schematic, create a field called ``manf#`` and set the field value
    to the manufacturer's part number.
@@ -22,7 +22,7 @@ circuit boards developed with KiCad. Typical use is as follows:
 2. Output a BOM from your KiCad schematic. This will be an XML file such as ``schem.xml``.
 3. Process the XML file with KiCost to create a part-cost spreadsheet named ``schem.xlsx`` like this::
 
-     python kicost -i schem.xml
+     kicost -i schem.xml
 
 4. Open the ``schem.xlsx`` spreadsheet using Microsoft Excel, LibreOffice Calc, or Google Sheets.
    Then enter the number of boards that you need to build and see
@@ -37,16 +37,56 @@ circuit boards developed with KiCad. Typical use is as follows:
    directly into the website ordering page of each distributor.
 
 ------------------------
+Examples
+------------------------
+
+Most people just want some examples of using KiCost so they don't have to read a bunch
+of documentation, so here they are!
+
+To create a cost spreadsheet from an XML file exported from KiCad::
+
+    kicost -i schem.xml
+
+To place the spreadsheet in a file with a different name than the XML file::
+
+    kicost -i schem.xml -o new_file.xlsx
+
+To overwrite an existing spreadsheet::
+
+    kicost -i schem.xml -w
+
+To get costs from only a few distributors::
+
+    kicost -i schem.xml --include digikey mouser
+
+To exclude one or more distributors from the cost spreadsheet::
+
+    kicost -i schem.xml --exclude digikey farnell
+
+To include parts that are only used in a particular variant of a design::
+
+    kicost -i schem.xml --variant V1
+
+To create a cost spreadsheet from a CSV file of part data::
+
+    kicost -i schem.csv --eda_tool csv
+
+------------------------
 Custom BOM list
 ------------------------
 
 In addition to XML files output by EDA tools, KiCost also accepts CSV files as a method
 for getting costs of preliminary designs or older projects.
-The format of the CSV file is as follows::
+The format of the CSV file is as follows:
 
 1. A single column is interpreted as containing manufacturer part numbers.
 2. Two columns are interpreted as the manufacturer's part number followed by the part reference (e.g., ``R4``).
 3. Three columns are interpreted as the quantity followed by the part number and reference.
+
+You can also arrange the columns arbitrarily by placing a header in the first line 
+of the CSV file that labels the particular 
+columns as manufacturer's part numbers (``manf#``), quantities (``qty``), and
+part references (``refs``).
 
 ------------------------
 Custom Part Data
@@ -212,7 +252,7 @@ Showing Extra Part Data in the Spreadsheet
 
 Sometimes it is desirable to show additional data for the parts in the
 spreadsheet.
-To do this, use the ``-fields`` command-line option followed by the names of the
+To do this, use the ``--fields`` command-line option followed by the names of the
 additional part fields you want displayed in the global data section of the
 of the spreadsheet::
 
@@ -226,13 +266,17 @@ In addition to the part cost information, the spreadsheet output by KiCost
 provides additional cues:
 
 #. The ``Qty`` cell is colored to show the availability of a given part:
-       * Red if the part is unavailable at any of the distributors.
-       * Orange if the part is available, but not in sufficient quantity.
-       * Yellow if there is enough of th part available, but not enough has been ordered.
+
+   * Red if the part is unavailable at any of the distributors.
+   * Orange if the part is available, but not in sufficient quantity.
+   * Yellow if there is enough of the part available, but not enough has been ordered.
+
 #. The ``Avail`` cell is colored to show the availability of a given part
    at a particular distributor:
-       * Red if the part is unavailable.
-       * Orange if there is not sufficient quantity of the part available.
+
+   * Red if the part is unavailable.
+   * Orange if there is not sufficient quantity of the part available.
+
 #. The ``Unit$`` cell is colored green to indicate the lowest price found
    across all the distributors.
 
@@ -256,6 +300,24 @@ This is equivalent to using ``-num_processes 1``.
 (If you encounter problems running KiCost on a Windows PC with Python 2, then
 using this command may help.)
 
+---------------------------------
+Selecting Distributors to Scrape
+---------------------------------
+
+You can get the list of part distributors that KiCost scrapes for data like this::
+
+    kicost --show_dist_list
+    Distributor list: digikey farnell local_template mouser newark rs tme
+
+Since you may not have access to some of the distributors in that list,
+you can restrict scraping from only a subset of them as follows::
+
+    kicost -i schem.xml --include digikey mouser
+
+Or you can exclude some distributors and scrape the rest::
+
+    kicost -i schem.xml --exclude farnell newark
+
 ---------------------
 Command-Line Options
 ---------------------
@@ -266,8 +328,8 @@ Command-Line Options
                   [-f name [name ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
                   [-np [NUM_PROCESSES]] [-ign name [name ...]] [-d [LEVEL]]
                   [-eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
-                  [-e dist [dist ...]] [--include dist [dist ...]]
-                  [-rt [num_retries]]
+                  [--show_dist_list] [-e dist [dist ...]]
+                  [--include dist [dist ...]] [-rt [num_retries]]
 
     Build cost spreadsheet for a KiCAD project.
 
@@ -297,6 +359,8 @@ Command-Line Options
       -eda {kicad,altium,csv} [{kicad,altium,csv} ...], --eda_tool {kicad,altium,csv} [{kicad,altium,csv} ...]
                             Choose EDA tool from which the XML BOM file
                             originated, or use csv for .CSV files.
+      --show_dist_list      Show list of distributors that can be scraped for cost
+                            data, then exit.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
@@ -307,9 +371,9 @@ Command-Line Options
                             Specify the number of attempts to retrieve part data
                             from a website.
 
-----------------------------
+--------------------------------
 Using KiCost From Within KiCad
-----------------------------
+--------------------------------
 
 In the Bill of Material window use the the command
 
