@@ -114,6 +114,8 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
     for _ in range(scrape_retries):
         try:
             req = FakeBrowser(url)
+            req.add_header('Accept', 'text/html')
+            req.add_header('Cookie', '')
             response = urlopen(req)
             html = response.read()
             break
