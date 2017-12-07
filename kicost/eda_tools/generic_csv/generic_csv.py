@@ -84,10 +84,9 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Examine the first line to see if it really is a header.
     # If the first line contains a column header that is not in the list of
     # allowable field names, then assume the first line is data and not a header.
-    field_names = field_name_translations.keys() + field_name_translations.values()
+    field_names = list(field_name_translations.keys()) + list(field_name_translations.values())
     for col_hdr in header:
         if col_hdr not in field_names:
-            print('no header')
             # If a column header is not in the list of field names, then there is
             # no header in the file. Therefore, create a header based on number of columns.
  
@@ -104,7 +103,6 @@ def get_part_groups(in_file, ignore_fields, variant):
                 header = ['qty', 'manf#', 'refs']
             break
     else:
-        print('header')
         # OK, the first line is a header, so remove it from the data.
         content.pop(0) # Remove the header from the content.
 
@@ -132,10 +130,18 @@ def get_part_groups(in_file, ignore_fields, variant):
             extract_fields.gen_cntr += qty
         refs = split_refs(ref_str)
         fields['qty'] = qty
-        fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
-        fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
-        fields['value'] = vals.get('value', '???').decode('utf-8')
-        fields['manf#'] = vals.get('manf#', '').decode('utf-8')
+        try:
+            # For Python 2, create unicode versions of strings.
+            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
+            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
+            fields['value'] = vals.get('value', '???').decode('utf-8')
+            fields['manf#'] = vals.get('manf#', '').decode('utf-8')
+        except AttributeError:
+            # This is for Python 3 where the values are already unicode.
+            fields['libpart'] = vals.get('libpart', 'Lib:???')
+            fields['footprint'] = vals.get('footprint', 'Foot:???')
+            fields['value'] = vals.get('value', '???')
+            fields['manf#'] = vals.get('manf#', '')
         return refs, fields
     extract_fields.gen_cntr = 0
     
