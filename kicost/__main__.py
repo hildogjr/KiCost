@@ -142,6 +142,10 @@ def main():
     logger.addHandler(handler)
     logger.setLevel(log_level)
 
+    if args.show_dist_list:
+        print('Distributor list:', *sorted(list(distributors.keys())))
+        return
+
     # Set up spreadsheet output file.
     if args.output == None:
         # If no output file is given...
@@ -193,7 +197,6 @@ def main():
     kicost(in_file=args.input, out_filename=args.output,
         user_fields=args.fields, ignore_fields=args.ignore_fields, 
         variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
-        show_dist_list=args.show_dist_list,
         exclude_dist_list=args.exclude, include_dist_list=args.include,
         scrape_retries=args.retries)
 

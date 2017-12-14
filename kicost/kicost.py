@@ -71,7 +71,7 @@ class PartHtmlError(Exception):
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost']  # Only export this routine for use by the outside world.
+__all__ = ['kicost', 'distributors']  # Only export this routine for use by the outside world.
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
@@ -97,13 +97,8 @@ from .eda_tools.eda_tools import SUB_SEPRTR
 PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
-        eda_tool_name, show_dist_list, exclude_dist_list, include_dist_list, scrape_retries):
+        eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
-
-    # Show list of scrapable distributors and then exit.
-    if show_dist_list:
-        print('Distributor list:', *sorted(list(distributors.keys())))
-        return
 
     # Only keep distributors in the included list and not in the excluded list.
     if not include_dist_list:
