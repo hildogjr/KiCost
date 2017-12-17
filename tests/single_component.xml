@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:\Temp\kc-test\kc-test.sch</source>
+    <date>04/21/2017 4:03:40 PM</date>
+    <tool>Eeschema (2017-04-20 revision e53c3af)-master</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>single_component.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="X1">
+      <value>RESONATOR</value>
+      <fields>
+        <field name="Manf#">20021321-00024T4LF</field>
+      </fields>
+      <libsource lib="a_discrete" part="RESONATOR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58FA1148</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="a_discrete" part="RESONATOR">
+      <fields>
+        <field name="Reference">X</field>
+        <field name="Value">RESONATOR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="a_discrete">
+      <uri>C:\Cad\projects\a_libs\a_discrete.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+  </nets>
+</export>

@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:\Temp\kc-test\kc-test.sch</source>
+    <date>04/21/2017 4:03:40 PM</date>
+    <tool>Eeschema (2017-04-20 revision e53c3af)-master</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>kc-test.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="U1">
+      <value>MCP4822</value>
+      <fields>
+        <field name="Manf#">MCP4822-E/SN</field>
+      </fields>
+      <libsource lib="a_chips" part="MCP4822"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58FA1007</tstamp>
+    </comp>
+    <comp ref="U3">
+      <value>ADM3053</value>
+      <fields>
+        <field name="Manf#">ADM3053BRWZ</field>
+      </fields>
+      <libsource lib="a_chips" part="ADM3053"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58FA1094</tstamp>
+    </comp>
+    <comp ref="X1">
+      <value>RESONATOR</value>
+      <fields>
+        <field name="Manf#">CSTCE8M00G55Z-R0</field>
+      </fields>
+      <libsource lib="a_discrete" part="RESONATOR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58FA1148</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>OPA2347</value>
+      <fields>
+        <field name="Manf#">OPA2347EA/250</field>
+      </fields>
+      <libsource lib="a_chips" part="OPA2347"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58FA1168</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="a_chips" part="ADM3053">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ADM3053</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND1" type="passive"/>
+        <pin num="2" name="NC" type="NotConnected"/>
+        <pin num="3" name="GND1" type="passive"/>
+        <pin num="4" name="RXD" type="input"/>
+        <pin num="5" name="TXD" type="output"/>
+        <pin num="6" name="VIO" type="power_in"/>
+        <pin num="7" name="GND1" type="power_in"/>
+        <pin num="8" name="VCC" type="power_in"/>
+        <pin num="9" name="GND1" type="power_in"/>
+        <pin num="10" name="GND1" type="power_in"/>
+        <pin num="11" name="GND2" type="power_in"/>
+        <pin num="12" name="VISO" type="output"/>
+        <pin num="13" name="GND2" type="power_in"/>
+        <pin num="14" name="VREF" type="passive"/>
+        <pin num="15" name="CANL" type="passive"/>
+        <pin num="16" name="GND2" type="power_in"/>
+        <pin num="17" name="CANH" type="passive"/>
+        <pin num="18" name="RS" type="passive"/>
+        <pin num="19" name="VISI" type="passive"/>
+        <pin num="20" name="GND2" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="a_chips" part="MCP4822">
+      <footprints>
+        <fp>SO8</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">MCP4822</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VDD" type="power_in"/>
+        <pin num="2" name="~CS" type="input"/>
+        <pin num="3" name="SCK" type="input"/>
+        <pin num="4" name="SDI" type="input"/>
+        <pin num="5" name="~LDAC" type="passive"/>
+        <pin num="6" name="VOUTB" type="output"/>
+        <pin num="7" name="AVSS" type="power_in"/>
+        <pin num="8" name="VOUTA" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="a_chips" part="OPA2347">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">OPA2347</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="openCol"/>
+        <pin num="2" name="_" type="input"/>
+        <pin num="3" name="+" type="input"/>
+        <pin num="4" name="V-" type="power_in"/>
+        <pin num="5" name="+" type="input"/>
+        <pin num="6" name="_" type="input"/>
+        <pin num="7" name="~" type="openCol"/>
+        <pin num="8" name="V+" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="a_discrete" part="RESONATOR">
+      <fields>
+        <field name="Reference">X</field>
+        <field name="Value">RESONATOR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="a_chips">
+      <uri>C:\Cad\projects\a_libs\a_chips.lib</uri>
+    </library>
+    <library logical="a_discrete">
+      <uri>C:\Cad\projects\a_libs\a_discrete.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(U3-Pad19)">
+      <node ref="U3" pin="19"/>
+    </net>
+    <net code="2" name="Net-(U3-Pad11)">
+      <node ref="U3" pin="11"/>
+    </net>
+    <net code="3" name="Net-(U3-Pad12)">
+      <node ref="U3" pin="12"/>
+    </net>
+    <net code="4" name="Net-(U3-Pad13)">
+      <node ref="U3" pin="13"/>
+    </net>
+    <net code="5" name="Net-(U3-Pad14)">
+      <node ref="U3" pin="14"/>
+    </net>
+    <net code="6" name="Net-(U3-Pad15)">
+      <node ref="U3" pin="15"/>
+    </net>
+    <net code="7" name="Net-(U3-Pad16)">
+      <node ref="U3" pin="16"/>
+    </net>
+    <net code="8" name="Net-(U3-Pad17)">
+      <node ref="U3" pin="17"/>
+    </net>
+    <net code="9" name="Net-(U3-Pad18)">
+      <node ref="U3" pin="18"/>
+    </net>
+    <net code="10" name="Net-(U3-Pad20)">
+      <node ref="U3" pin="20"/>
+    </net>
+    <net code="11" name="Net-(X1-Pad1)">
+      <node ref="X1" pin="1"/>
+    </net>
+    <net code="12" name="Net-(X1-Pad2)">
+      <node ref="X1" pin="2"/>
+    </net>
+    <net code="13" name="Net-(X1-Pad3)">
+      <node ref="X1" pin="3"/>
+    </net>
+    <net code="14" name="Net-(U2-Pad1)">
+      <node ref="U2" pin="1"/>
+    </net>
+    <net code="15" name="Net-(U2-Pad2)">
+      <node ref="U2" pin="2"/>
+    </net>
+    <net code="16" name="Net-(U2-Pad3)">
+      <node ref="U2" pin="3"/>
+    </net>
+    <net code="17" name="Net-(U2-Pad4)">
+      <node ref="U2" pin="4"/>
+    </net>
+    <net code="18" name="Net-(U2-Pad8)">
+      <node ref="U2" pin="8"/>
+    </net>
+    <net code="19" name="Net-(U3-Pad2)">
+      <node ref="U3" pin="2"/>
+    </net>
+    <net code="20" name="Net-(U1-Pad2)">
+      <node ref="U1" pin="2"/>
+    </net>
+    <net code="21" name="Net-(U1-Pad3)">
+      <node ref="U1" pin="3"/>
+    </net>
+    <net code="22" name="Net-(U1-Pad4)">
+      <node ref="U1" pin="4"/>
+    </net>
+    <net code="23" name="Net-(U1-Pad5)">
+      <node ref="U1" pin="5"/>
+    </net>
+    <net code="24" name="Net-(U1-Pad6)">
+      <node ref="U1" pin="6"/>
+    </net>
+    <net code="25" name="Net-(U1-Pad7)">
+      <node ref="U1" pin="7"/>
+    </net>
+    <net code="26" name="Net-(U1-Pad8)">
+      <node ref="U1" pin="8"/>
+    </net>
+    <net code="27" name="Net-(U3-Pad1)">
+      <node ref="U3" pin="1"/>
+    </net>
+    <net code="28" name="Net-(U1-Pad1)">
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="29" name="Net-(U3-Pad3)">
+      <node ref="U3" pin="3"/>
+    </net>
+    <net code="30" name="Net-(U3-Pad4)">
+      <node ref="U3" pin="4"/>
+    </net>
+    <net code="31" name="Net-(U3-Pad5)">
+      <node ref="U3" pin="5"/>
+    </net>
+    <net code="32" name="Net-(U3-Pad6)">
+      <node ref="U3" pin="6"/>
+    </net>
+    <net code="33" name="Net-(U3-Pad7)">
+      <node ref="U3" pin="7"/>
+    </net>
+    <net code="34" name="Net-(U3-Pad8)">
+      <node ref="U3" pin="8"/>
+    </net>
+    <net code="35" name="Net-(U3-Pad9)">
+      <node ref="U3" pin="9"/>
+    </net>
+    <net code="36" name="Net-(U3-Pad10)">
+      <node ref="U3" pin="10"/>
+    </net>
+  </nets>
+</export>

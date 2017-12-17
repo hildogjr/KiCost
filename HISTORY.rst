@@ -3,6 +3,14 @@
 History
 -------
 
+0.1.42 (2017-12-07)
+______________________
+
+* Processing of CSV files containing part information is now supported.
+* Added ``show_dist_list`` option to display the list of distributors from which part cost data is available.
+* Added capability to process multiple XML and CSV files. 
+
+
 0.1.41 (2017-11-16)
 ______________________
 
