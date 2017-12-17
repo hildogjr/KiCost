@@ -71,7 +71,7 @@ class PartHtmlError(Exception):
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost']  # Only export this routine for use by the outside world.
+__all__ = ['kicost', 'distributors','eda_tools']  # Only export this routine for use by the outside world.
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
@@ -94,7 +94,8 @@ from .eda_tools.eda_tools import SUB_SEPRTR
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
 # There can even be an interposer character so 'LED-10' is also OK.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+#PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+from .eda_tools.eda_tools import PART_REF_REGEX
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries):
@@ -159,10 +160,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         pool = Pool(num_processes)
 
         # Package part data for passing to each process.
-        args = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
-
-        # Create a list to store the output from each process.
-        results = list(range(len(args)))
+        arg_sets = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
         
         # Define a callback routine for updating the scraping progress bar.
         def update(x):
@@ -170,10 +168,12 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
             return x
 
         # Start the web scraping processes, one for each part.
-        for i in range(len(args)):
-            results[i] = pool.apply_async(scrape_part, [args[i]], callback=update)
+        results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
 
-        # Wait for all the processes to complete.
+        # Wait for all the processes to have results, then kill-off all the scraping processes.
+        for r in results:
+            while(not r.ready()):
+                pass
         pool.close()
         pool.join()
 
