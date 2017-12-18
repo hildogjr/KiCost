@@ -375,13 +375,12 @@ def subpart_qty(component):
     was a sub part of a manufacture/distributor code).
     '''
     try:
+        subqty = component.fields.get('manf#_subqty')
+
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Qty>>',component.refs,'>>',
-                component.fields.get('manf#_subqty'), '*',
+            print('Qty>>',component.refs,'>>', subqty, '*',
                     component.fields.get('manf#'))
 
-        subqty = component.fields.get('manf#_subqty')
-        string = '={{}}*{qty}'.format(qty=len(component.refs))
         if subqty != '1' and subqty != None:
             string = '=CEILING({{}}*({subqty})*{qty},1)'.format(
                             subqty=subqty,
