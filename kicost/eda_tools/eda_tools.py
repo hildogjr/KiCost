@@ -421,7 +421,7 @@ def subpart_qtypart(subpart):
             # May be founded a just numeric manufacture/distributor part,
             # in this case, the quantity is a shortest string not
             #considering "." and "/" marks.
-            if len(re.sub('[\.\/]','',strings[0])) < re.sub('[\.\/]','',len(strings[1])):
+            if len(re.sub('[\.\/]','',strings[0])) < len(re.sub('[\.\/]','',strings[1])):
                 qty = strings[0].strip()
                 part = strings[1].strip()
             else:
