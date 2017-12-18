@@ -69,10 +69,14 @@ def __ajax_details(pn):
 
     try:
         r = r.decode('utf-8')  # Convert bytes to string in Python 3.
-        p = json.loads(r)['Products'][0]
-        html_tree = BeautifulSoup(p['PriceTpl'].replace("\n", ""), "lxml")
-        quantity = p['InStock']
-        return html_tree, quantity
+        p = json.loads(r).get('Products')
+        if p is not None and isinstance(p, list):
+            p = p[0]
+            html_tree = BeautifulSoup(p.get('PriceTpl', '').replace("\n", ""), "lxml")
+            quantity = p.get('InStock', '0')
+            return html_tree, quantity
+        else:
+            return None, None
     except (ValueError, KeyError, IndexError):
         logger.log(DEBUG_OBSESSIVE, 'Could not obtain AJAX data from TME!')
         return None, None
@@ -213,21 +217,26 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
 
             # Now look for the link that goes with the closest matching part number.
             for l in product_links:
-                if (not l['href'].startswith('./katalog')) and l.text == match:
-                    # Get the tree for the linked-to page and return that.
-                    logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
-                    # TODO: The current implementation does up to four HTTP
-                    # requests per part (search, part details page for TME P/N,
-                    # XHR for pricing information, and XHR for stock
-                    # availability). This is mainly for the compatibility with
-                    # other distributor implementations (html_tree gets passed
-                    # to all functions).
-                    # A modified implementation (which would pass JSON data
-                    # obtained by the XHR instead of the HTML DOM tree) might be
-                    # able to do the same with just two requests (search for TME
-                    # P/N, XHR for pricing and stock availability).
-                    return get_part_html_tree(dist, pn, extra_search_terms,
-                                              url=l['href'], descend=descend-1, scrape_retries=scrape_retries)
+                try:
+                    if (not l.get('href', '').startswith('./katalog')) and l.text == match:
+                        # Get the tree for the linked-to page and return that.
+                        logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
+                        # TODO: The current implementation does up to four HTTP
+                        # requests per part (search, part details page for TME P/N,
+                        # XHR for pricing information, and XHR for stock
+                        # availability). This is mainly for the compatibility with
+                        # other distributor implementations (html_tree gets passed
+                        # to all functions).
+                        # A modified implementation (which would pass JSON data
+                        # obtained by the XHR instead of the HTML DOM tree) might be
+                        # able to do the same with just two requests (search for TME
+                        # P/N, XHR for pricing and stock availability).
+                        return get_part_html_tree(dist, pn, extra_search_terms,
+                                                  url=l.get('href', ''),
+                                                  descend=descend-1,
+                                                  scrape_retries=scrape_retries)
+                except KeyError:
+                    pass    # This happens if there is no 'href' in the link, so just skip it.
 
     # I don't know what happened here, so give up.
     logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))

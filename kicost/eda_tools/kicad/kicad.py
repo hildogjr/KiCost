@@ -39,13 +39,7 @@ from bs4 import BeautifulSoup
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...kicost import SEPRTR
 from ...kicost import distributors
-from ..eda_tools import field_name_translations
-from ..eda_tools import subpart_split
-
-
-# Temporary class for storing part group information.
-class IdenticalComponents(object):
-    pass
+from ..eda_tools import field_name_translations, group_parts
 
 
 def get_part_groups(in_file, ignore_fields, variant):
@@ -97,30 +91,37 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
+    def title_find_all(field):
+        '''Helper function for finding title info, especially if it is absent.'''
+        try:
+            return str(title.find_all(field)[0].string)
+        except (AttributeError, IndexError):
+            return ''
     prj_info = dict()
-    prj_info['title'] = str(title.find_all('title')[0].string)
-    prj_info['company'] = str(title.find_all('company')[0].string)
-    prj_info['date'] = str(title.find_all('date')[0].string)
+    prj_info['title'] = title_find_all('title')
+    prj_info['company'] = title_find_all('company')
+    prj_info['date'] = title_find_all('date')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts library...')
     libparts = {}
-    for p in root.find('libparts').find_all('libpart'):
+    if root.find('libparts'):
+        for p in root.find('libparts').find_all('libpart'):
 
-        # Get the values for the fields in each library part (if any).
-        fields = extract_fields(p, variant)
+            # Get the values for the fields in each library part (if any).
+            fields = extract_fields(p, variant)
 
-        # Store the field dict under the key made from the
-        # concatenation of the library and part names.
-        libparts[str(p['lib']) + SEPRTR + str(p['part'])] = fields
+            # Store the field dict under the key made from the
+            # concatenation of the library and part names.
+            libparts[str(p['lib']) + SEPRTR + str(p['part'])] = fields
 
-        # Also have to store the fields under any part aliases.
-        try:
-            for alias in p.find('aliases').find_all('alias'):
-                libparts[str(p['lib']) + SEPRTR + str(alias.string)] = fields
-        except AttributeError:
-            pass  # No aliases for this part.
+            # Also have to store the fields under any part aliases.
+            try:
+                for alias in p.find('aliases').find_all('alias'):
+                    libparts[str(p['lib']) + SEPRTR + str(alias.string)] = fields
+            except AttributeError:
+                pass  # No aliases for this part.
 
     # Find the components used in the schematic and elaborate
     # them with global values from the libraries and local values
@@ -138,7 +139,8 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
-        fields = libparts[libpart].copy()  # Make a copy! Don't use reference!
+        # (Use an empty dict if no part exists in the library.)
+        fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
 
         # Store the part key and its value.
         fields['libpart'] = libpart
@@ -191,95 +193,5 @@ def get_part_groups(in_file, ignore_fields, variant):
         # The part was not removed, so add it to the list of accepted components.
         accepted_components[ref] = fields
 
-    #print('Removed parts:', set(components.keys())-set(accepted_components.keys()))
-
-    # Replace the component list with the list of accepted parts.
-    components = subpart_split(accepted_components)
-
-    # Now partition the parts into groups of like components.
-    # First, get groups of identical components but ignore any manufacturer's
-    # part numbers that may be assigned. Just collect those in a list for each group.
-    logger.log(DEBUG_OVERVIEW, 'Get groups of identical components...')
-    component_groups = {}
-    for ref, fields in list(components.items()): # part references and field values.
-
-        # Take the field keys and values of each part and create a hash.
-        # Use the hash as the key to a dictionary that stores lists of
-        # part references that have identical field values. The important fields
-        # are the reference prefix ('R', 'C', etc.), value, and footprint.
-        # Don't use the manufacturer's part number when calculating the hash!
-        # Also, don't use any fields with SEPRTR in the label because that indicates
-        # a field used by a specific tool (including kicost).
-        hash_fields = {k: fields[k] for k in fields if k not in ('manf#','manf') and SEPRTR not in k}
-        h = hash(tuple(sorted(hash_fields.items())))
-
-        # Now add the hashed component to the group with the matching hash
-        # or create a new group if the hash hasn't been seen before.
-        try:
-            # Add next ref for identical part to the list.
-            component_groups[h].refs.append(ref)
-            # Also add any manufacturer's part number (or None) to the group's list.
-            component_groups[h].manf_nums.add(fields.get('manf#'))
-        except KeyError:
-            # This happens if it is the first part in a group, so the group
-            # doesn't exist yet.
-            component_groups[h] = IdenticalComponents()  # Add empty structure.
-            component_groups[h].refs = [ref]  # Init list of refs with first ref.
-            # Now add the manf. part num (or None) for this part to the group set.
-            component_groups[h].manf_nums = set([fields.get('manf#')])
-
-    # Now we have groups of seemingly identical parts. But some of the parts
-    # within a group may have different manufacturer's part numbers, and these
-    # groups may need to be split into smaller groups of parts all having the
-    # same manufacturer's number. Here are the cases that need to be handled:
-    #   One manf# number: All parts have the same manf#. Don't split this group.
-    #   Two manf# numbers, but one is None: Some of the parts have no manf# but
-    #       are otherwise identical to the other parts in the group. Don't split
-    #       this group. Instead, propagate the non-None manf# to all the parts.
-    #   Two manf#, neither is None: All parts have non-None manf# numbers.
-    #       Split the group into two smaller groups of parts all having the same
-    #       manf#.
-    #   Three or more manf#: Split this group into smaller groups, each one with
-    #       parts having the same manf#, even if it's None. It's impossible to
-    #       determine which manf# the None parts should be assigned to, so leave
-    #       their manf# as None.
-    new_component_groups = [] # Copy new component groups into this.
-    for g, grp in list(component_groups.items()):
-        num_manf_nums = len(grp.manf_nums)
-        if num_manf_nums == 1:
-            new_component_groups.append(grp)
-            continue  # Single manf#. Don't split this group.
-        elif num_manf_nums == 2 and None in grp.manf_nums:
-            new_component_groups.append(grp)
-            continue  # Two manf#, but one of them is None. Don't split this group.
-        # Otherwise, split the group into subgroups, each with the same manf#.
-        for manf_num in grp.manf_nums:
-            sub_group = IdenticalComponents()
-            sub_group.manf_nums = [manf_num]
-            sub_group.refs = []
-
-            for ref in grp.refs:
-                # Use get() which returns None if the component has no manf# field.
-                # That will match if the group manf_num is also None.
-                if components[ref].get('manf#') == manf_num:
-                    sub_group.refs.append(ref)
-
-            new_component_groups.append(sub_group)
-
-    # Now get the values of all fields within the members of a group.
-    # These will become the field values for ALL members of that group.
-    for grp in new_component_groups:
-        grp_fields = {}
-        for ref in grp.refs:
-            for key, val in list(components[ref].items()):
-                if val is None: # Field with no value...
-                    continue # so ignore it.
-                if grp_fields.get(key): # This field has been seen before.
-                    if grp_fields[key] != val: # Flag if new field value not the same as old.
-                        raise Exception('field value mismatch: {} {} {}'.format(ref, key, val))
-                else: # First time this field has been seen in the group, so store it.
-                    grp_fields[key] = val
-        grp.fields = grp_fields
-
-    # Now return the list of identical part groups.
-    return new_component_groups, prj_info
+    # Place identical parts in groups and return them.
+    return group_parts(accepted_components), prj_info

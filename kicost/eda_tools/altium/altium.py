@@ -14,10 +14,10 @@ import future
 
 from bs4 import BeautifulSoup # To Read XML files.
 import logging
+import sys
+
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...kicost import SEPRTR # Delimiter between library:component, distributor:field, etc.
-
-import sys
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
@@ -60,7 +60,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     component_groups = {}
     
     for p in root.find('rows').find_all('row'):
-        
+
         # Get the values for the fields in each library part (if any).
         fields = extract_fields(p, variant)
         
