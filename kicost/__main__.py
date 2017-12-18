@@ -54,10 +54,10 @@ def main():
                         action='version',
                         version='KiCost ' + __version__)
     parser.add_argument('-i', '--input',
-                        nargs='*',
+                        nargs='+',
                         type=str,
                         metavar='file.xml',
-                        help='Schematic BOM XML file.')
+                        help='One or more schematic BOM XML files.')
     parser.add_argument('-o', '--output',
                         nargs='?',
                         type=str,
@@ -72,10 +72,10 @@ def main():
                             extract and insert in the global data section of 
                             the spreadsheet.''')
     parser.add_argument('-var', '--variant',
-                        nargs='*',
+                        nargs='+',
                         type=str,
                         default=' ', # Default variant is a space.
-                        help='schematic variant name filter')
+                        help='schematic variant name filter.')
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
                         help='Allow overwriting of an existing spreadsheet.')
@@ -105,10 +105,13 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium'],
-                        nargs='*',
+    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium', 'csv'],
+                        nargs='+',
                         default='kicad',
-                        help='Choose EDA tool from which the .XML BOM file originated.')
+                        help='Choose EDA tool from which the XML BOM file originated, or use csv for .CSV files.')
+    parser.add_argument('--show_dist_list',
+                        action='store_true',
+                        help='Show list of distributors that can be scraped for cost data, then exit.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
@@ -138,6 +141,10 @@ def main():
     handler.setLevel(log_level)
     logger.addHandler(handler)
     logger.setLevel(log_level)
+
+    if args.show_dist_list:
+        print('Distributor list:', *sorted(list(distributors.keys())))
+        return
 
     # Set up spreadsheet output file.
     if args.output == None:
@@ -177,6 +184,8 @@ def main():
             # allow (future) other files extension and formats.
             if os.path.splitext(args.input[i])[1] == '':
                 args.input[i] += '.xml'
+            elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv' or args.eda_tool[i] == 'generic':
+                args.eda_tool = 'generic_csv'
             args.input[i] = open(args.input[i])
 
     # Set number of processes to use for web scraping.
@@ -199,3 +208,4 @@ if __name__ == '__main__':
     main()
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
+
