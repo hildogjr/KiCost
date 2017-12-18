@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:/xesscorp/PRODUCTS/StickIt_2nd_gen/StickIt-RotaryEncoder/pcb/StickIt-RotaryEncoder.sch</source>
+    <date>05/28/2016 12:02:31 AM</date>
+    <tool>Eeschema (2016-05-20 BZR 6816, Git 1e0a72d)-product</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>StickIt-RotaryEncoder Module</title>
+        <company>XESS Corp.</company>
+        <rev>2.0</rev>
+        <date>2016-05-11</date>
+        <source>StickIt-RotaryEncoder.sch</source>
+        <comment number="1" value="(c) 2016"/>
+        <comment number="2" value="OSHW"/>
+        <comment number="3" value="CC BY 4.0"/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="STK1">
+      <value>STICKIT2_HDR</value>
+      <footprint>XESS:STICKIT2_HDR</footprint>
+      <fields>
+        <field name="kicost:pricing">1:0.09</field>
+        <field name="kicost:link">http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html</field>
+      </fields>
+      <libsource lib="xess" part="STICKIT2_HDR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5523634F</tstamp>
+    </comp>
+    <comp ref="JP1">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5524AC0C</tstamp>
+    </comp>
+    <comp ref="JP2">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57179D3C</tstamp>
+    </comp>
+    <comp ref="ROT1">
+      <value>ROT_ENC_SW</value>
+      <footprint>XESS:ROT_ENC_EC11E</footprint>
+      <fields>
+        <field name="manf#">PEC11R-4220F-S0024</field>
+        <field name="manf">Bourns</field>
+        <field name="kicost:pricing">1:0.372</field>
+      </fields>
+      <libsource lib="xess" part="ROT_ENC_SW"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>573223B3</tstamp>
+    </comp>
+    <comp ref="RN1">
+      <value>4K7</value>
+      <footprint>XESS:CTS_742C163</footprint>
+      <fields>
+        <field name="manf">OMRON</field>
+        <field name="manf#">B3U-1000P</field>
+      </fields>
+      <libsource lib="xess" part="RN8"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>573227AB</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57322853</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>573228BF</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57322964</tstamp>
+    </comp>
+    <comp ref="RN2">
+      <value>1K</value>
+      <footprint>XESS:CTS_742C163</footprint>
+      <libsource lib="xess" part="RN8"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57329B8B</tstamp>
+    </comp>
+    <comp ref="ROT2">
+      <value>ROT_ENC_SW</value>
+      <footprint>XESS:ROT_ENC_EC11E</footprint>
+      <libsource lib="xess" part="ROT_ENC_SW"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FEB3</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FEC5</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FECB</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FED1</tstamp>
+    </comp>
+    <comp ref="JP3">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57332D8A</tstamp>
+    </comp>
+    <comp ref="JP4">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57332D93</tstamp>
+    </comp>
+    <comp ref="PCB1">
+      <value>PCB</value>
+      <fields>
+        <field name="kicost:pricing">1:0.32</field>
+      </fields>
+      <libsource lib="xess" part="PCB"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57491612</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="xess" part="C-NONPOL">
+      <description>Nonpolarized capacitor</description>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C-NONPOL</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="JUMPER">
+      <fields>
+        <field name="Reference">JP</field>
+        <field name="Value">JUMPER</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="PCB">
+      <fields>
+        <field name="Reference">PCB</field>
+        <field name="Value">PCB</field>
+      </fields>
+    </libpart>
+    <libpart lib="xess" part="RN8">
+      <fields>
+        <field name="Reference">RN</field>
+        <field name="Value">RN8</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+        <pin num="4" name="~" type="passive"/>
+        <pin num="5" name="~" type="passive"/>
+        <pin num="6" name="~" type="passive"/>
+        <pin num="7" name="~" type="passive"/>
+        <pin num="8" name="~" type="passive"/>
+        <pin num="9" name="~" type="passive"/>
+        <pin num="10" name="~" type="passive"/>
+        <pin num="11" name="~" type="passive"/>
+        <pin num="12" name="~" type="passive"/>
+        <pin num="13" name="~" type="passive"/>
+        <pin num="14" name="~" type="passive"/>
+        <pin num="15" name="~" type="passive"/>
+        <pin num="16" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="ROT_ENC_SW">
+      <fields>
+        <field name="Reference">ROT</field>
+        <field name="Value">ROT_ENC_SW</field>
+      </fields>
+      <pins>
+        <pin num="A" name="A" type="output"/>
+        <pin num="B" name="B" type="output"/>
+        <pin num="C" name="C" type="input"/>
+        <pin num="D" name="D" type="passive"/>
+        <pin num="E" name="E" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="xess" part="STICKIT2_HDR">
+      <description>StickIt Header (2nd Gen)</description>
+      <fields>
+        <field name="Reference">STK</field>
+        <field name="Value">STICKIT2_HDR</field>
+      </fields>
+      <pins>
+        <pin num="D0" name="D0" type="passive"/>
+        <pin num="D1" name="D1" type="passive"/>
+        <pin num="D2" name="D2" type="passive"/>
+        <pin num="D3" name="D3" type="passive"/>
+        <pin num="D4" name="D4" type="passive"/>
+        <pin num="D5" name="D5" type="passive"/>
+        <pin num="D6" name="D6" type="passive"/>
+        <pin num="D7" name="D7" type="passive"/>
+        <pin num="GND" name="GND" type="passive"/>
+        <pin num="VCC" name="VCC" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>C:\Program Files\KiCad\share\kicad\library\device.lib</uri>
+    </library>
+    <library logical="xess">
+      <uri>C:\xesscorp\KiCad\libraries\xess.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="VCC">
+      <node ref="RN2" pin="9"/>
+      <node ref="RN2" pin="10"/>
+      <node ref="JP4" pin="1"/>
+      <node ref="JP4" pin="2"/>
+      <node ref="RN2" pin="12"/>
+      <node ref="RN2" pin="13"/>
+      <node ref="JP2" pin="1"/>
+      <node ref="JP2" pin="2"/>
+      <node ref="STK1" pin="VCC"/>
+      <node ref="RN2" pin="14"/>
+      <node ref="RN2" pin="15"/>
+      <node ref="RN2" pin="11"/>
+      <node ref="RN2" pin="16"/>
+    </net>
+    <net code="2" name="Net-(RN1-Pad10)">
+      <node ref="ROT2" pin="B"/>
+      <node ref="RN1" pin="10"/>
+      <node ref="RN2" pin="7"/>
+    </net>
+    <net code="3" name="Net-(RN1-Pad11)">
+      <node ref="ROT2" pin="D"/>
+      <node ref="RN1" pin="11"/>
+      <node ref="RN2" pin="6"/>
+    </net>
+    <net code="4" name="Net-(RN1-Pad9)">
+      <node ref="ROT2" pin="A"/>
+      <node ref="RN1" pin="9"/>
+      <node ref="RN2" pin="8"/>
+    </net>
+    <net code="5" name="Net-(STK1-PadD3)">
+      <node ref="STK1" pin="D3"/>
+    </net>
+    <net code="6" name="Net-(STK1-PadD5)">
+      <node ref="STK1" pin="D5"/>
+    </net>
+    <net code="7" name="Net-(RN2-Pad4)">
+      <node ref="RN2" pin="4"/>
+    </net>
+    <net code="8" name="Net-(RN2-Pad5)">
+      <node ref="RN2" pin="5"/>
+    </net>
+    <net code="9" name="1D">
+      <node ref="STK1" pin="D2"/>
+      <node ref="RN1" pin="3"/>
+      <node ref="C3" pin="1"/>
+    </net>
+    <net code="10" name="2D">
+      <node ref="RN1" pin="6"/>
+      <node ref="STK1" pin="D4"/>
+      <node ref="C4" pin="1"/>
+    </net>
+    <net code="11" name="2B">
+      <node ref="RN1" pin="7"/>
+      <node ref="STK1" pin="D7"/>
+      <node ref="C5" pin="1"/>
+    </net>
+    <net code="12" name="2A">
+      <node ref="RN1" pin="8"/>
+      <node ref="C6" pin="1"/>
+      <node ref="STK1" pin="D6"/>
+    </net>
+    <net code="13" name="Net-(RN1-Pad14)">
+      <node ref="ROT1" pin="D"/>
+      <node ref="RN2" pin="3"/>
+      <node ref="RN1" pin="14"/>
+    </net>
+    <net code="14" name="1A">
+      <node ref="RN1" pin="1"/>
+      <node ref="C1" pin="1"/>
+      <node ref="STK1" pin="D0"/>
+    </net>
+    <net code="15" name="GND">
+      <node ref="C3" pin="2"/>
+      <node ref="ROT2" pin="E"/>
+      <node ref="ROT2" pin="C"/>
+      <node ref="C4" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="JP3" pin="2"/>
+      <node ref="JP3" pin="1"/>
+      <node ref="C6" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="ROT1" pin="E"/>
+      <node ref="STK1" pin="GND"/>
+      <node ref="C1" pin="2"/>
+      <node ref="ROT1" pin="C"/>
+      <node ref="JP1" pin="1"/>
+      <node ref="JP1" pin="2"/>
+    </net>
+    <net code="16" name="Net-(RN1-Pad16)">
+      <node ref="ROT1" pin="A"/>
+      <node ref="RN1" pin="16"/>
+      <node ref="RN2" pin="1"/>
+    </net>
+    <net code="17" name="1B">
+      <node ref="STK1" pin="D1"/>
+      <node ref="RN1" pin="2"/>
+      <node ref="C2" pin="1"/>
+    </net>
+    <net code="18" name="Net-(RN1-Pad15)">
+      <node ref="RN1" pin="15"/>
+      <node ref="RN2" pin="2"/>
+      <node ref="ROT1" pin="B"/>
+    </net>
+  </nets>
+</export>

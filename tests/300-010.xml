@@ -1,0 +1,2395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:/Users/Craig.Gooding/Google Drive/Home/Utonomy/PSU/300-010/Current/REV1.2/300-010.sch</source>
+    <date>26/10/2017 07:31:06</date>
+    <tool>Eeschema 4.0.7</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Utonomy PSU</title>
+        <company>Aerohydro</company>
+        <rev>1.1</rev>
+        <date>2017-10-25</date>
+        <source>300-010.sch</source>
+        <comment number="1" value="Drawn by- Craig Gooding"/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="U3">
+      <value>LTC3807</value>
+      <footprint>Semiconductors:TSSOP20</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">Linear Technology</field>
+        <field name="manf#">LTC3807EFE#PBF</field>
+        <field name="Package">TSSOP-20</field>
+        <field name="Part Number">150-0026</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">246-1123</field>
+      </fields>
+      <libsource lib="150" part="LTC3807"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5989ED33</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>SI7850DP-T1-E3</value>
+      <footprint>Semiconductors:PowerPAK-8</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">150-0027</field>
+        <field name="Supplier Part Number">147-0136</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">SI7850DP-T1-E3</field>
+        <field name="Manufacturer">VISHAY</field>
+      </fields>
+      <libsource lib="150" part="SI7850DP-T1-E3"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5989ED36</tstamp>
+    </comp>
+    <comp ref="Q2">
+      <value>SI7850DP-T1-E3</value>
+      <footprint>Semiconductors:PowerPAK-8</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">150-0027</field>
+        <field name="Supplier Part Number">147-0136</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">SI7850DP-T1-E3</field>
+        <field name="Manufacturer">VISHAY</field>
+      </fields>
+      <libsource lib="150" part="SI7850DP-T1-E3"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5989ED37</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>2.2uF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0032</field>
+        <field name="Supplier Part Number">128-8262</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">C0805C225K4RACTU</field>
+        <field name="Manufacturer">Kemet</field>
+        <field name="Voltage">16V</field>
+        <field name="Capacitance">2.2uF</field>
+        <field name="Package">0805</field>
+      </fields>
+      <libsource lib="110" part="2.2uF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5989ED40</tstamp>
+    </comp>
+    <comp ref="D9">
+      <value>MBRS1100T3G</value>
+      <footprint>Diodes:DO214</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">120-0013</field>
+        <field name="Supplier Part Number">955-5862</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">MBRS1100T3G</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <libsource lib="120" part="MBRS1100T3G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5989ED44</tstamp>
+    </comp>
+    <comp ref="TP1">
+      <value>TestPointTHT</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPointTHT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5989ED50</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>MSS2P2HM3_A/H</value>
+      <footprint>Diodes:MSS1P5</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">120-0018</field>
+        <field name="Supplier Part Number">157-0034</field>
+        <field name="Supplier">Mouser</field>
+        <field name="manf#">78-MSS2P2HM3_A/H</field>
+        <field name="Manufacturer">VISHAY</field>
+      </fields>
+      <libsource lib="120" part="MSS2P2HM3_A/H"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5989ED58</tstamp>
+    </comp>
+    <comp ref="D5">
+      <value>ESD5Z5.0T1G</value>
+      <footprint>Diodes:SOD523</footprint>
+      <fields>
+        <field name="Part Number">120-0010</field>
+        <field name="Supplier Part Number">863-ESD5Z5.0T1G</field>
+        <field name="manf#">ESD5Z5.0T1G</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <libsource lib="120" part="ESD5Z5.0T1G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FACBF</tstamp>
+    </comp>
+    <comp ref="Q3">
+      <value>BSS138BK</value>
+      <footprint>Semiconductors:SOT23</footprint>
+      <fields>
+        <field name="Part Number">150-0006</field>
+        <field name="Supplier Part Number">205-3833</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">BSS138BK</field>
+        <field name="Manufacturer">NXP</field>
+      </fields>
+      <libsource lib="150" part="BSS138BK"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FACD7</tstamp>
+    </comp>
+    <comp ref="D10">
+      <value>ESD5Z5.0T1G</value>
+      <footprint>Diodes:SOD523</footprint>
+      <fields>
+        <field name="Part Number">120-0010</field>
+        <field name="Supplier Part Number">863-ESD5Z5.0T1G</field>
+        <field name="manf#">ESD5Z5.0T1G</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <libsource lib="120" part="ESD5Z5.0T1G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAD33</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>ESD5Z5.0T1G</value>
+      <footprint>Diodes:SOD523</footprint>
+      <fields>
+        <field name="Part Number">120-0010</field>
+        <field name="Supplier Part Number">863-ESD5Z5.0T1G</field>
+        <field name="manf#">ESD5Z5.0T1G</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <libsource lib="120" part="ESD5Z5.0T1G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAD49</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>TPS22810</value>
+      <footprint>Semiconductors:SOT23-6</footprint>
+      <fields>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="manf#">TPS22810DBVR</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier Part Number">595-TPS22810DBVR</field>
+        <field name="Part Number">150-0037</field>
+      </fields>
+      <libsource lib="150" part="TPS22810"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAD89</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>TPS22810</value>
+      <footprint>Semiconductors:SOT23-6</footprint>
+      <fields>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="manf#">TPS22810DBVR</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier Part Number">595-TPS22810DBVR</field>
+        <field name="Part Number">150-0037</field>
+      </fields>
+      <libsource lib="150" part="TPS22810"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAD9A</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>418217270902A</value>
+      <footprint>Switches:418217270902A</footprint>
+      <fields>
+        <field name="Manufacturer">Wurth Electronics</field>
+        <field name="manf#">418217270902A</field>
+        <field name="Part Number">190-0006</field>
+      </fields>
+      <libsource lib="190" part="418217270902A"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAE47</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>ESD5Z5.0T1G</value>
+      <footprint>Diodes:SOD523</footprint>
+      <fields>
+        <field name="Part Number">120-0010</field>
+        <field name="Supplier Part Number">863-ESD5Z5.0T1G</field>
+        <field name="manf#">ESD5Z5.0T1G</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <libsource lib="120" part="ESD5Z5.0T1G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAE8F</tstamp>
+    </comp>
+    <comp ref="F1">
+      <value>290mA_PTTC</value>
+      <footprint>Fuses:TRF250-145</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Supplier Part Number">134-5981</field>
+        <field name="Part Number">220-0002</field>
+        <field name="manf#">TRF250-145</field>
+        <field name="Package">THT</field>
+        <field name="Manufacturer">LITTLEFUSE</field>
+        <field name="Supplier">Farnell</field>
+      </fields>
+      <libsource lib="220" part="290mA_Ressetable_Fuse"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAEB6</tstamp>
+    </comp>
+    <comp ref="F2">
+      <value>290mA_PTTC</value>
+      <footprint>Fuses:TRF250-145</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Supplier Part Number">134-5981</field>
+        <field name="Part Number">220-0002</field>
+        <field name="manf#">TRF250-145</field>
+        <field name="Package">THT</field>
+        <field name="Manufacturer">LITTLEFUSE</field>
+        <field name="Supplier">Farnell</field>
+      </fields>
+      <libsource lib="220" part="290mA_Ressetable_Fuse"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>598FAEC3</tstamp>
+    </comp>
+    <comp ref="Q4">
+      <value>BSS138BK</value>
+      <footprint>Semiconductors:SOT23</footprint>
+      <fields>
+        <field name="Part Number">150-0006</field>
+        <field name="Supplier Part Number">205-3833</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">BSS138BK</field>
+        <field name="Manufacturer">NXP</field>
+      </fields>
+      <libsource lib="150" part="BSS138BK"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599098A0</tstamp>
+    </comp>
+    <comp ref="D11">
+      <value>ESD5Z5.0T1G</value>
+      <footprint>Diodes:SOD523</footprint>
+      <fields>
+        <field name="Part Number">120-0010</field>
+        <field name="Supplier Part Number">863-ESD5Z5.0T1G</field>
+        <field name="manf#">ESD5Z5.0T1G</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <libsource lib="120" part="ESD5Z5.0T1G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5992249F</tstamp>
+    </comp>
+    <comp ref="D6">
+      <value>ESD5Z5.0T1G</value>
+      <footprint>Diodes:SOD523</footprint>
+      <fields>
+        <field name="Part Number">120-0010</field>
+        <field name="Supplier Part Number">863-ESD5Z5.0T1G</field>
+        <field name="manf#">ESD5Z5.0T1G</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <libsource lib="120" part="ESD5Z5.0T1G"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599276AE</tstamp>
+    </comp>
+    <comp ref="TP2">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5993E8CD</tstamp>
+    </comp>
+    <comp ref="TP16">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5993FFC1</tstamp>
+    </comp>
+    <comp ref="TP3">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59941E29</tstamp>
+    </comp>
+    <comp ref="TP4">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599435D8</tstamp>
+    </comp>
+    <comp ref="TP5">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599448A6</tstamp>
+    </comp>
+    <comp ref="TP6">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59945379</tstamp>
+    </comp>
+    <comp ref="TP12">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599465AC</tstamp>
+    </comp>
+    <comp ref="TP13">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59946F62</tstamp>
+    </comp>
+    <comp ref="TP9">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59947D6E</tstamp>
+    </comp>
+    <comp ref="TP10">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59948A9F</tstamp>
+    </comp>
+    <comp ref="TP15">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59949F0F</tstamp>
+    </comp>
+    <comp ref="TP14">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5994A289</tstamp>
+    </comp>
+    <comp ref="TP11">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5994C888</tstamp>
+    </comp>
+    <comp ref="TP8">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59950788</tstamp>
+    </comp>
+    <comp ref="TP7">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59950D10</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>SMBJ24CA_DO-214AA</value>
+      <footprint>Diodes:DO-214AA</footprint>
+      <fields>
+        <field name="Part Number">120-0021</field>
+        <field name="Supplier Part Number">1827614</field>
+        <field name="manf#">SMBJ24CA</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Manufacturer">Littlefuse</field>
+      </fields>
+      <libsource lib="120" part="SMBJ24CA_DO-214AA"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5996016E</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>20K_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0002</field>
+        <field name="Resistance">20K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJ6ENF2002V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">205-7640</field>
+      </fields>
+      <libsource lib="100" part="20K_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5996815B</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>20K_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0002</field>
+        <field name="Resistance">20K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJ6ENF2002V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">205-7640</field>
+      </fields>
+      <libsource lib="100" part="20K_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599693E1</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>196k_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0058</field>
+        <field name="Resistance">196K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">230-3792</field>
+        <field name="manf#">ERJ6ENF1963V</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="196k_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5996F9C8</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>27K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0063</field>
+        <field name="Resistance">27K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">214-5496</field>
+        <field name="manf#">ERJU06F2702V</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="27K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59971679</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>15K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJU06F1502V</field>
+        <field name="Part Number">100-0045</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">214-5462</field>
+        <field name="Resistance">15K</field>
+        <field name="Package">0805</field>
+      </fields>
+      <libsource lib="100" part="15K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599731BA</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>4.7nF_0805_50V_5%</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0047</field>
+        <field name="Supplier Part Number">252-2478</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">C0805C472J5RACTU</field>
+        <field name="Manufacturer">KEMET</field>
+        <field name="Voltage">50V</field>
+        <field name="Capacitance">4.7nF</field>
+        <field name="Package">0805</field>
+        <field name="Tolerance">5%</field>
+      </fields>
+      <libsource lib="110" part="4.7nF_0805_50V_5%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5997486A</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599756B5</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599789A5</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>560K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="manf#">ERJ6ENF5603V</field>
+        <field name="Supplier Part Number">230-3848</field>
+        <field name="Part Number">100-0066</field>
+        <field name="Resistance">560K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="560K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5997ED62</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>560K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="manf#">ERJ6ENF5603V</field>
+        <field name="Supplier Part Number">230-3848</field>
+        <field name="Part Number">100-0066</field>
+        <field name="Resistance">560K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="560K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5997FEB0</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>560K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="manf#">ERJ6ENF5603V</field>
+        <field name="Supplier Part Number">230-3848</field>
+        <field name="Part Number">100-0066</field>
+        <field name="Resistance">560K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="560K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59980A9E</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>560K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="manf#">ERJ6ENF5603V</field>
+        <field name="Supplier Part Number">230-3848</field>
+        <field name="Part Number">100-0066</field>
+        <field name="Resistance">560K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="560K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599817AC</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59983285</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599841F9</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>0_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Supplier Part Number">146-9846</field>
+        <field name="Part Number">100-0067</field>
+        <field name="manf#">CRCW08050000Z0EA</field>
+        <field name="Resistance">0R</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="0_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5998A13C</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>0_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Supplier Part Number">146-9846</field>
+        <field name="Part Number">100-0067</field>
+        <field name="manf#">CRCW08050000Z0EA</field>
+        <field name="Resistance">0R</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="0_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5998BBC3</tstamp>
+    </comp>
+    <comp ref="L1">
+      <value>ACM4520V-142-2P-T-1A</value>
+      <footprint>Inductors:ACM4520V-142-2P-T</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">130-0013</field>
+        <field name="Supplier Part Number">245-5200</field>
+        <field name="manf#">ACM4520V-142-2P-T</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Manufacturer">TDK</field>
+      </fields>
+      <libsource lib="130" part="ACM4520V-142-2P-T-1A"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5999A7DE</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599A4536</tstamp>
+    </comp>
+    <comp ref="SW2">
+      <value>KSL0V311LFT-SPST</value>
+      <footprint>Switches:KSL0V311LFT</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">C&amp;K</field>
+        <field name="manf#">KSL0V311LFT</field>
+        <field name="Supplier">RS</field>
+        <field name="Supplier Part Number">793-1670</field>
+        <field name="Part Number">190-0008</field>
+      </fields>
+      <libsource lib="190" part="KSL0V311LFT-SPST"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599A73AF</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278377</value>
+      <footprint>Connectors:1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278377</footprint>
+      <fields>
+        <field name="Part Number">160-0021</field>
+        <field name="Supplier Part Number">651-2278377</field>
+        <field name="manf#">2278377</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">Phoenix Contact</field>
+      </fields>
+      <libsource lib="160" part="1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278377"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599C605B</tstamp>
+    </comp>
+    <comp ref="J2">
+      <value>1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278364</value>
+      <footprint>Connectors:PhoenixContact-2278364</footprint>
+      <fields>
+        <field name="Part Number">160-0022</field>
+        <field name="Supplier Part Number">651-2278364</field>
+        <field name="manf#">2278364</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">Phoenix Contact</field>
+      </fields>
+      <libsource lib="160" part="1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278364"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599E15A5</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>0R01_2512_1%</value>
+      <footprint>Resistors:R_2512</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0070</field>
+        <field name="Resistance">0R01</field>
+        <field name="Package">2512</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJM1WSF10MU</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">157-7582</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="0R01_2512_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59951D5E</tstamp>
+    </comp>
+    <comp ref="TP17">
+      <value>TestPoint</value>
+      <footprint>MountingHoles:TESTPOINT_SMD_2MM</footprint>
+      <fields>
+        <field name="Description">Value</field>
+      </fields>
+      <libsource lib="Schema" part="TestPoint"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59964D9E</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>200k_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0071</field>
+        <field name="Resistance">200K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">214-5481</field>
+        <field name="manf#">ERJU06F2003V</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="200k_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59975908</tstamp>
+    </comp>
+    <comp ref="R18">
+      <value>28k_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0072</field>
+        <field name="Resistance">28K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">230-3697</field>
+        <field name="manf#">ERJ6ENF2802V</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="28k_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59977AF7</tstamp>
+    </comp>
+    <comp ref="C13">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599C0417</tstamp>
+    </comp>
+    <comp ref="L2">
+      <value>47uH_INDUCTOR</value>
+      <footprint>Inductors:SDE0805A-470K</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">BOURNS</field>
+        <field name="manf#">SDE0805A-470K</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">245-4982</field>
+        <field name="Part Number">130-0015</field>
+      </fields>
+      <libsource lib="130" part="47uH_INDUCTOR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599D5EE9</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>150uF_63V_THT</value>
+      <footprint>Capacitors:16MM_5MM_PITCH_CAPACITOR_HOR</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0051</field>
+        <field name="Supplier Part Number">261-4106</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">A759MW157M1JAAE048</field>
+        <field name="Manufacturer">KEMET</field>
+        <field name="Voltage">63V</field>
+        <field name="Capacitance">150uF</field>
+      </fields>
+      <libsource lib="110" part="150uF_63V_THT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599F61C0</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>150uF_63V_THT</value>
+      <footprint>Capacitors:16MM_5MM_PITCH_CAPACITOR_HOR</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0051</field>
+        <field name="Supplier Part Number">261-4106</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">A759MW157M1JAAE048</field>
+        <field name="Manufacturer">KEMET</field>
+        <field name="Voltage">63V</field>
+        <field name="Capacitance">150uF</field>
+      </fields>
+      <libsource lib="110" part="150uF_63V_THT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599F858B</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>68uF_25V_THT</value>
+      <footprint>Capacitors:8MM_3.5MMPITCH_VERTICAL</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0052</field>
+        <field name="Supplier Part Number">246-6534</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">870025574003</field>
+        <field name="Manufacturer">Wurth</field>
+        <field name="Voltage">50V</field>
+        <field name="Capacitance">68uF</field>
+      </fields>
+      <libsource lib="110" part="68uF_25V_THT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599FD46D</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>47uF_50V_THT</value>
+      <footprint>Capacitors:12.5MM_5MMPITCH_HORIZONTAL</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0053</field>
+        <field name="Supplier Part Number">246-6555</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">870055775005</field>
+        <field name="Manufacturer">Wurth</field>
+        <field name="Voltage">50V</field>
+        <field name="Capacitance">47uF</field>
+      </fields>
+      <libsource lib="110" part="47uF_50V_THT"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59A01C5D</tstamp>
+    </comp>
+    <comp ref="C12">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5996AF70</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599DB514</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>100nF_0805_50V</value>
+      <footprint>Capacitors:C_0805</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Tolerance">5%</field>
+        <field name="Capacitance">100nF</field>
+      </fields>
+      <libsource lib="110" part="100nF_0805_50V"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>599DD3CB</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>1K_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0005</field>
+        <field name="Resistance">1K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="manf#">CRCW08051K00F</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">165-2936</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="1K_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F0D802</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>1K_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0005</field>
+        <field name="Resistance">1K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="manf#">CRCW08051K00F</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">165-2936</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="1K_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F0FF0B</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>11.5K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0091</field>
+        <field name="Resistance">11.5K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ6ENF1152V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">230-3659</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="11.5K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F111EE</tstamp>
+    </comp>
+    <comp ref="R19">
+      <value>11.5K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0091</field>
+        <field name="Resistance">11.5K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ6ENF1152V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">230-3659</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="11.5K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F15EB2</tstamp>
+    </comp>
+    <comp ref="D8">
+      <value>LGQ396-PS-35-GREEN</value>
+      <footprint>Diodes:LED_0603</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">Osram</field>
+        <field name="manf#">LGQ396-PS-35</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">257-5345</field>
+        <field name="Package">0603</field>
+        <field name="Part Number">120-0020</field>
+      </fields>
+      <libsource lib="120" part="LGQ396-PS-35-GREEN"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F31280</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>412R_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0068</field>
+        <field name="Resistance">410R</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJ6ENF4120V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+        <field name="Supplier Part Number">230-3508</field>
+      </fields>
+      <libsource lib="100" part="412R_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F3128E</tstamp>
+    </comp>
+    <comp ref="Q5">
+      <value>BSS138BK</value>
+      <footprint>Semiconductors:SOT23</footprint>
+      <fields>
+        <field name="Part Number">150-0006</field>
+        <field name="Supplier Part Number">205-3833</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">BSS138BK</field>
+        <field name="Manufacturer">NXP</field>
+      </fields>
+      <libsource lib="150" part="BSS138BK"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F31299</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>1K_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0005</field>
+        <field name="Resistance">1K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="manf#">CRCW08051K00F</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">165-2936</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="1K_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F312AD</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>11.5K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0091</field>
+        <field name="Resistance">11.5K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ6ENF1152V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">230-3659</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="11.5K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F312BB</tstamp>
+    </comp>
+    <comp ref="D7">
+      <value>LGQ396-PS-35-GREEN</value>
+      <footprint>Diodes:LED_0603</footprint>
+      <fields>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">Osram</field>
+        <field name="manf#">LGQ396-PS-35</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">257-5345</field>
+        <field name="Package">0603</field>
+        <field name="Part Number">120-0020</field>
+      </fields>
+      <libsource lib="120" part="LGQ396-PS-35-GREEN"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F35632</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>412R_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0068</field>
+        <field name="Resistance">410R</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJ6ENF4120V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+        <field name="Supplier Part Number">230-3508</field>
+      </fields>
+      <libsource lib="100" part="412R_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F35640</tstamp>
+    </comp>
+    <comp ref="Q6">
+      <value>BSS138BK</value>
+      <footprint>Semiconductors:SOT23</footprint>
+      <fields>
+        <field name="Part Number">150-0006</field>
+        <field name="Supplier Part Number">205-3833</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">BSS138BK</field>
+        <field name="Manufacturer">NXP</field>
+      </fields>
+      <libsource lib="150" part="BSS138BK"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F3564B</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>1K_0805</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0005</field>
+        <field name="Resistance">1K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="manf#">CRCW08051K00F</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">165-2936</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="1K_0805"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F3565F</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>11.5K_0805_1%</value>
+      <footprint>Resistors:R_0805</footprint>
+      <fields>
+        <field name="Part Number">100-0091</field>
+        <field name="Resistance">11.5K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ6ENF1152V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">230-3659</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <libsource lib="100" part="11.5K_0805_1%"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>59F3566D</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="100" part="0R01_2512_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">0R01_2512_1%</field>
+        <field name="Footprint">Resistors:R_2512</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0070</field>
+        <field name="Resistance">0R01</field>
+        <field name="Package">2512</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJM1WSF10MU</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">157-7582</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="0_0805">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">0_0805</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Supplier Part Number">146-9846</field>
+        <field name="Part Number">100-0067</field>
+        <field name="manf#">CRCW08050000Z0EA</field>
+        <field name="Resistance">0R</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="110" part="100nF_0805_50V">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">100nF_0805_50V</field>
+        <field name="Footprint">Capacitors:C_0805</field>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">AVX</field>
+        <field name="manf#">08055F104KAT2A</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Supplier Part Number">130-1790</field>
+        <field name="Package">0805</field>
+        <field name="Voltage">50V</field>
+        <field name="Part Number">110-0005</field>
+        <field name="Capacitance">100nF</field>
+        <field name="Tolerance">5%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="11.5K_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">11.5K_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Part Number">100-0091</field>
+        <field name="Resistance">11.5K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ6ENF1152V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">230-3659</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="110" part="150uF_63V_THT">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">150uF_63V_THT</field>
+        <field name="Footprint">Capacitors:16MM_5MM_PITCH_CAPACITOR_HOR</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0051</field>
+        <field name="Supplier Part Number">261-4106</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">A759MW157M1JAAE048</field>
+        <field name="Manufacturer">KEMET</field>
+        <field name="Voltage">63V</field>
+        <field name="Capacitance">150uF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="15K_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">15K_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJU06F1502V</field>
+        <field name="Part Number">100-0045</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">214-5462</field>
+        <field name="Resistance">15K</field>
+        <field name="Package">0805</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="196k_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">196k_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0058</field>
+        <field name="Resistance">196K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">230-3792</field>
+        <field name="manf#">ERJ6ENF1963V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="1K_0805">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">1K_0805</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Part Number">100-0005</field>
+        <field name="Resistance">1K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">VISHAY</field>
+        <field name="manf#">CRCW08051K00F</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">165-2936</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="160" part="1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278364">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278364</field>
+        <field name="Part Number">160-0022</field>
+        <field name="Supplier Part Number">651-2278364</field>
+        <field name="manf#">2278364</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">Phoenix Contact</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="input"/>
+        <pin num="4" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="160" part="1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278377">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">1ROW4WAY_WIRE_TO_BOARD-Phoenix-2278377</field>
+        <field name="Part Number">160-0021</field>
+        <field name="Supplier Part Number">651-2278377</field>
+        <field name="manf#">2278377</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">Phoenix Contact</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="input"/>
+        <pin num="4" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="110" part="2.2uF_0805_50V">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">2.2uF_0805_50V</field>
+        <field name="Footprint">Capacitors:C_0805</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0032</field>
+        <field name="Supplier Part Number">1288262</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">C0805C225K4RACTU</field>
+        <field name="Manufacturer">Kemet</field>
+        <field name="Voltage">16V</field>
+        <field name="Capacitance">2.2uF</field>
+        <field name="Package">0805</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="200k_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">200k_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0071</field>
+        <field name="Resistance">200K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">214-5481</field>
+        <field name="manf#">ERJU06F2003V</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="20K_0805">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">20K_0805</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Part Number">100-0002</field>
+        <field name="Resistance">20K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJ6ENF2002V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">205-7640</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="27K_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">27K_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0063</field>
+        <field name="Resistance">27K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">214-5496</field>
+        <field name="manf#">ERJU06F2702V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="28k_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">28k_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">100-0072</field>
+        <field name="Resistance">28K</field>
+        <field name="Package">0805</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier Part Number">230-3697</field>
+        <field name="manf#">ERJ6ENF2802V</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="220" part="290mA_Ressetable_Fuse">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">F</field>
+        <field name="Value">290mA_Ressetable_Fuse</field>
+        <field name="Footprint">Fuses:TRF250-145</field>
+        <field name="Description">Value</field>
+        <field name="Supplier Part Number">134-5981</field>
+        <field name="Part Number">220-0002</field>
+        <field name="manf#">TRF250-145</field>
+        <field name="Package">THT</field>
+        <field name="Manufacturer">LITTLEFUSE</field>
+        <field name="Supplier">Farnell</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="110" part="4.7nF_0805_50V_5%">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">4.7nF_0805_50V_5%</field>
+        <field name="Footprint">Capacitors:C_0805</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0047</field>
+        <field name="Supplier Part Number">252-2478</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">C0805C472J5RACTU</field>
+        <field name="Manufacturer">KEMET</field>
+        <field name="Voltage">50V</field>
+        <field name="Capacitance">4.7nF</field>
+        <field name="Package">0805</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="412R_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">412R_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="Part Number">100-0068</field>
+        <field name="Resistance">410R</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="manf#">ERJ6ENF4120V</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+        <field name="Supplier Part Number">230-3508</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="190" part="418217270902A">
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">418217270902A</field>
+        <field name="Footprint">Switches:418217270902A</field>
+        <field name="Manufacturer">Wurth Electronics</field>
+        <field name="manf#">418217270902A</field>
+        <field name="Part Number">190-0006</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+        <pin num="2" name="~" type="input"/>
+        <pin num="3" name="~" type="input"/>
+        <pin num="4" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="110" part="47uF_50V_THT">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">47uF_50V_THT</field>
+        <field name="Footprint">Capacitors:12.5MM_5MMPITCH_HORIZONTAL</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0053</field>
+        <field name="Supplier Part Number">246-6555</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">870055775005</field>
+        <field name="Manufacturer">Wurth</field>
+        <field name="Voltage">50V</field>
+        <field name="Capacitance">47uF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="130" part="47uH_INDUCTOR">
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">47uH_INDUCTOR</field>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">BOURNS</field>
+        <field name="manf#">SDE0805A-470K</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">245-4982</field>
+        <field name="Part Number">130-0015</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="100" part="560K_0805_1%">
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">560K_0805_1%</field>
+        <field name="Footprint">Resistors:R_0805</field>
+        <field name="manf#">ERJ6ENF5603V</field>
+        <field name="Supplier Part Number">230-3848</field>
+        <field name="Part Number">100-0066</field>
+        <field name="Resistance">560K</field>
+        <field name="Package">0805</field>
+        <field name="Manufacturer">PANASONIC</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Tolerance">1%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="110" part="68uF_25V_THT">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">68uF_25V_THT</field>
+        <field name="Footprint">Capacitors:8MM_3.5MMPITCH_VERTICAL</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">110-0052</field>
+        <field name="Supplier Part Number">246-6534</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">870025574003</field>
+        <field name="Manufacturer">Wurth</field>
+        <field name="Voltage">50V</field>
+        <field name="Capacitance">68uF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="130" part="ACM4520V-142-2P-T-1A">
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">ACM4520V-142-2P-T-1A</field>
+        <field name="Footprint">Inductors:ACM4520V-142-2P-T</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">130-0013</field>
+        <field name="Supplier Part Number">245-5200</field>
+        <field name="manf#">ACM4520V-142-2P-T</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Manufacturer">TDK</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="~" type="input"/>
+        <pin num="3" name="~" type="input"/>
+        <pin num="4" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="150" part="BSS138BK">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BSS138BK</field>
+        <field name="Footprint">Semiconductors:SOT23</field>
+        <field name="Part Number">150-0006</field>
+        <field name="Supplier Part Number">205-3833</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">BSS138BK</field>
+        <field name="Manufacturer">NXP</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="passive"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="120" part="ESD5Z5.0T1G">
+      <footprints>
+        <fp>D?</fp>
+        <fp>S*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">ESD5Z5.0T1G</field>
+        <field name="Footprint">Diodes:SOD523</field>
+        <field name="Part Number">120-0010</field>
+        <field name="Supplier Part Number">863-ESD5Z5.0T1G</field>
+        <field name="manf#">ESD5Z5.0T1G</field>
+        <field name="Supplier">MOUSER</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="2.3" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="190" part="KSL0V311LFT-SPST">
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">KSL0V311LFT-SPST</field>
+        <field name="Footprint">Switches:KSL0V311LFT</field>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">C&amp;K</field>
+        <field name="manf#">KSL0V311LFT</field>
+        <field name="Supplier">RS</field>
+        <field name="Supplier Part Number">793-1670</field>
+        <field name="Part Number">190-0008</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+        <pin num="2" name="~" type="input"/>
+        <pin num="3" name="~" type="input"/>
+        <pin num="4" name="~" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="120" part="LGQ396-PS-35-GREEN">
+      <footprints>
+        <fp>LED-3MM</fp>
+        <fp>LED-5MM</fp>
+        <fp>LED-10MM</fp>
+        <fp>LED-0603</fp>
+        <fp>LED-0805</fp>
+        <fp>LED-1206</fp>
+        <fp>LEDV</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LGQ396-PS-35-GREEN</field>
+        <field name="Footprint">Diodes:LED_0603</field>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">Osram</field>
+        <field name="manf#">LGQ396-PS-35</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">257-5345</field>
+        <field name="Package">0603</field>
+        <field name="Part Number">120-0020</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="150" part="LTC3807">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LTC3807</field>
+        <field name="Footprint">Semiconductors:TSSOP20</field>
+        <field name="Description">Value</field>
+        <field name="Manufacturer">Linear Technology</field>
+        <field name="manf#">LTC3807EFE#PBF</field>
+        <field name="Package">TSSOP-20</field>
+        <field name="Part Number">150-0026</field>
+        <field name="Supplier">Farnell</field>
+        <field name="Supplier Part Number">246-1123</field>
+      </fields>
+      <pins>
+        <pin num="1" name="TRACK/SS" type="input"/>
+        <pin num="2" name="FREQ" type="input"/>
+        <pin num="3" name="PLLIN/MODE" type="input"/>
+        <pin num="4" name="SGND" type="input"/>
+        <pin num="5" name="SGND" type="input"/>
+        <pin num="6" name="RUN" type="input"/>
+        <pin num="7" name="SENSE-" type="input"/>
+        <pin num="8" name="SENSE+" type="input"/>
+        <pin num="9" name="VFB" type="input"/>
+        <pin num="10" name="ITH" type="input"/>
+        <pin num="11" name="PGOOD" type="input"/>
+        <pin num="12" name="TG" type="input"/>
+        <pin num="13" name="SW" type="input"/>
+        <pin num="14" name="BOOST" type="input"/>
+        <pin num="15" name="BG" type="input"/>
+        <pin num="16" name="INTVCC" type="input"/>
+        <pin num="17" name="EXTVCC" type="input"/>
+        <pin num="18" name="PGND" type="input"/>
+        <pin num="19" name="VIN" type="input"/>
+        <pin num="20" name="ILIM" type="input"/>
+        <pin num="21" name="SGND" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="120" part="MBRS1100T3G">
+      <footprints>
+        <fp>D?</fp>
+        <fp>S*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">MBRS1100T3G</field>
+        <field name="Footprint">Diodes:DO-214AA</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">120-0013</field>
+        <field name="Supplier Part Number">955-5862</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">MBRS1100T3G</field>
+        <field name="Manufacturer">On Semiconductor</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="120" part="MSS2P2HM3_A/H">
+      <footprints>
+        <fp>D?</fp>
+        <fp>S*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">MSS2P2HM3_A/H</field>
+        <field name="Footprint">Diodes:MSS1P5</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">120-0018</field>
+        <field name="Supplier Part Number">157-0034</field>
+        <field name="Supplier">Mouser</field>
+        <field name="manf#">78-MSS2P2HM3_A/H</field>
+        <field name="Manufacturer">VISHAY</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="150" part="SI7850DP-T1-E3">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">SI7850DP-T1-E3</field>
+        <field name="Footprint">Semiconductors:PowerPAK-8</field>
+        <field name="Description">Value</field>
+        <field name="Part Number">150-0027</field>
+        <field name="Supplier Part Number">147-0136</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="manf#">SI7850DP-T1-E3</field>
+        <field name="Manufacturer">VISHAY</field>
+      </fields>
+      <pins>
+        <pin num="1" name="S" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+        <pin num="4" name="G" type="passive"/>
+        <pin num="5" name="D" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="120" part="SMBJ24CA_DO-214AA">
+      <footprints>
+        <fp>D?</fp>
+        <fp>S*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">SMBJ24CA_DO-214AA</field>
+        <field name="Footprint">Diodes:DO-214AA</field>
+        <field name="Part Number">120-0021</field>
+        <field name="Supplier Part Number">1827614</field>
+        <field name="manf#">SMBJ24CA</field>
+        <field name="Supplier">FARNELL</field>
+        <field name="Manufacturer">Littlefuse</field>
+      </fields>
+      <pins>
+        <pin num="1" name="2.3" type="passive"/>
+        <pin num="2" name="K" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="150" part="TPS22810">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TPS22810</field>
+        <field name="Footprint">Semiconductors:SOT23-6</field>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="manf#">TPS22810DBVR</field>
+        <field name="Supplier">Mouser</field>
+        <field name="Supplier Part Number">595-TPS22810DBVR</field>
+        <field name="Part Number">150-0037</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VIN" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="EN/UVLO" type="input"/>
+        <pin num="4" name="CT" type="input"/>
+        <pin num="5" name="QOD" type="input"/>
+        <pin num="6" name="VOUT" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="Schema" part="TestPoint">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TestPoint</field>
+        <field name="Footprint">MountingHoles:TestPointSMD_1MM</field>
+        <field name="Description">Value</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Schema" part="TestPointTHT">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">TestPointTHT</field>
+        <field name="Footprint">MountingHoles:1mm</field>
+        <field name="Description">Value</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="100">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Resistors\100.lib</uri>
+    </library>
+    <library logical="120">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Diodes\120.lib</uri>
+    </library>
+    <library logical="150">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Semiconductors\150.lib</uri>
+    </library>
+    <library logical="110">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Capacitors\110.lib</uri>
+    </library>
+    <library logical="130">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Inductors\130.lib</uri>
+    </library>
+    <library logical="Schema">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Schema\Schema.lib</uri>
+    </library>
+    <library logical="160">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Connectors\160.lib</uri>
+    </library>
+    <library logical="220">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Fuses\220.lib</uri>
+    </library>
+    <library logical="190">
+      <uri>C:\Users\Craig.Gooding\Google Drive\Home\cLib.git\trunk\Switches\190.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(C5-Pad1)">
+      <node ref="U1" pin="4"/>
+      <node ref="C5" pin="1"/>
+    </net>
+    <net code="2" name="Net-(R8-Pad2)">
+      <node ref="R8" pin="2"/>
+      <node ref="U2" pin="5"/>
+    </net>
+    <net code="3" name="Net-(R9-Pad2)">
+      <node ref="U1" pin="5"/>
+      <node ref="R9" pin="2"/>
+    </net>
+    <net code="4" name="Net-(C6-Pad1)">
+      <node ref="U2" pin="4"/>
+      <node ref="C6" pin="1"/>
+    </net>
+    <net code="5" name="0V">
+      <node ref="U2" pin="2"/>
+      <node ref="U1" pin="2"/>
+      <node ref="Q4" pin="2"/>
+      <node ref="D4" pin="2"/>
+      <node ref="SW1" pin="3"/>
+      <node ref="Q2" pin="3"/>
+      <node ref="Q2" pin="2"/>
+      <node ref="Q2" pin="1"/>
+      <node ref="U3" pin="18"/>
+      <node ref="R6" pin="2"/>
+      <node ref="D6" pin="2"/>
+      <node ref="D11" pin="2"/>
+      <node ref="TP17" pin="1"/>
+      <node ref="J2" pin="3"/>
+      <node ref="SW1" pin="1"/>
+      <node ref="U3" pin="5"/>
+      <node ref="J2" pin="2"/>
+      <node ref="R12" pin="1"/>
+      <node ref="C15" pin="2"/>
+      <node ref="C4" pin="2"/>
+      <node ref="C13" pin="2"/>
+      <node ref="R18" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="R2" pin="2"/>
+      <node ref="R4" pin="2"/>
+      <node ref="C14" pin="2"/>
+      <node ref="C3" pin="2"/>
+      <node ref="SW2" pin="4"/>
+      <node ref="SW2" pin="3"/>
+      <node ref="SW2" pin="1"/>
+      <node ref="C6" pin="2"/>
+      <node ref="L1" pin="2"/>
+      <node ref="C11" pin="2"/>
+      <node ref="Q3" pin="2"/>
+      <node ref="D3" pin="2"/>
+      <node ref="D10" pin="2"/>
+      <node ref="D5" pin="2"/>
+      <node ref="U3" pin="17"/>
+      <node ref="U3" pin="21"/>
+      <node ref="U3" pin="4"/>
+      <node ref="U3" pin="3"/>
+      <node ref="U3" pin="2"/>
+      <node ref="C12" pin="2"/>
+      <node ref="C2" pin="2"/>
+      <node ref="C10" pin="2"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C1" pin="2"/>
+      <node ref="R13" pin="1"/>
+      <node ref="C7" pin="2"/>
+    </net>
+    <net code="6" name="Net-(Q3-Pad3)">
+      <node ref="R14" pin="2"/>
+      <node ref="Q3" pin="3"/>
+    </net>
+    <net code="7" name="Net-(C3-Pad1)">
+      <node ref="R7" pin="2"/>
+      <node ref="C3" pin="1"/>
+    </net>
+    <net code="8" name="Net-(F2-Pad2)">
+      <node ref="F2" pin="2"/>
+      <node ref="TP10" pin="1"/>
+      <node ref="U2" pin="6"/>
+      <node ref="R8" pin="1"/>
+    </net>
+    <net code="9" name="Net-(D4-Pad1)">
+      <node ref="U2" pin="3"/>
+      <node ref="SW1" pin="4"/>
+      <node ref="D4" pin="1"/>
+      <node ref="R4" pin="1"/>
+      <node ref="R3" pin="2"/>
+      <node ref="TP6" pin="1"/>
+      <node ref="TP4" pin="1"/>
+    </net>
+    <net code="10" name="Net-(F1-Pad2)">
+      <node ref="R9" pin="1"/>
+      <node ref="U1" pin="6"/>
+      <node ref="F1" pin="2"/>
+      <node ref="TP9" pin="1"/>
+    </net>
+    <net code="11" name="Net-(D3-Pad1)">
+      <node ref="TP5" pin="1"/>
+      <node ref="R2" pin="1"/>
+      <node ref="TP3" pin="1"/>
+      <node ref="R1" pin="2"/>
+      <node ref="SW1" pin="2"/>
+      <node ref="U1" pin="3"/>
+      <node ref="D3" pin="1"/>
+    </net>
+    <net code="12" name="Net-(Q4-Pad1)">
+      <node ref="Q4" pin="1"/>
+      <node ref="R13" pin="2"/>
+      <node ref="R19" pin="1"/>
+    </net>
+    <net code="13" name="/P_GOOD_1">
+      <node ref="TP14" pin="1"/>
+      <node ref="D11" pin="1"/>
+      <node ref="R15" pin="1"/>
+      <node ref="J1" pin="4"/>
+    </net>
+    <net code="14" name="Net-(Q4-Pad3)">
+      <node ref="R15" pin="2"/>
+      <node ref="Q4" pin="3"/>
+    </net>
+    <net code="15" name="Net-(D8-Pad1)">
+      <node ref="D8" pin="1"/>
+      <node ref="Q5" pin="3"/>
+    </net>
+    <net code="16" name="/6V5">
+      <node ref="R3" pin="1"/>
+      <node ref="U2" pin="1"/>
+      <node ref="TP7" pin="1"/>
+      <node ref="TP8" pin="1"/>
+      <node ref="R10" pin="2"/>
+      <node ref="TP16" pin="1"/>
+      <node ref="R17" pin="1"/>
+      <node ref="R1" pin="1"/>
+      <node ref="C11" pin="1"/>
+      <node ref="U3" pin="7"/>
+      <node ref="R11" pin="2"/>
+      <node ref="C10" pin="1"/>
+      <node ref="C9" pin="1"/>
+      <node ref="C14" pin="1"/>
+      <node ref="R16" pin="2"/>
+      <node ref="C15" pin="1"/>
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="17" name="Net-(D8-Pad2)">
+      <node ref="R11" pin="1"/>
+      <node ref="D8" pin="2"/>
+    </net>
+    <net code="18" name="Net-(Q5-Pad1)">
+      <node ref="Q5" pin="1"/>
+      <node ref="R21" pin="1"/>
+      <node ref="R23" pin="2"/>
+    </net>
+    <net code="19" name="Net-(D1-Pad1)">
+      <node ref="D2" pin="1"/>
+      <node ref="L1" pin="4"/>
+      <node ref="D1" pin="1"/>
+      <node ref="TP2" pin="1"/>
+    </net>
+    <net code="20" name="Net-(Q6-Pad1)">
+      <node ref="R22" pin="1"/>
+      <node ref="Q6" pin="1"/>
+      <node ref="R24" pin="2"/>
+    </net>
+    <net code="21" name="/~STATUS">
+      <node ref="SW2" pin="2"/>
+      <node ref="TP11" pin="1"/>
+      <node ref="Q6" pin="2"/>
+      <node ref="R24" pin="1"/>
+      <node ref="Q5" pin="2"/>
+      <node ref="R23" pin="1"/>
+    </net>
+    <net code="22" name="/P_GOOD_0">
+      <node ref="J1" pin="3"/>
+      <node ref="R14" pin="1"/>
+      <node ref="D10" pin="1"/>
+      <node ref="TP15" pin="1"/>
+    </net>
+    <net code="23" name="Net-(D7-Pad2)">
+      <node ref="D7" pin="2"/>
+      <node ref="R10" pin="1"/>
+    </net>
+    <net code="24" name="Net-(D7-Pad1)">
+      <node ref="Q6" pin="3"/>
+      <node ref="D7" pin="1"/>
+    </net>
+    <net code="25" name="Net-(U3-Pad11)">
+      <node ref="U3" pin="11"/>
+    </net>
+    <net code="26" name="Net-(U3-Pad20)">
+      <node ref="U3" pin="20"/>
+    </net>
+    <net code="27" name="Net-(Q3-Pad1)">
+      <node ref="Q3" pin="1"/>
+      <node ref="R20" pin="1"/>
+      <node ref="R12" pin="2"/>
+    </net>
+    <net code="28" name="/PWR_1">
+      <node ref="R19" pin="2"/>
+      <node ref="R21" pin="2"/>
+      <node ref="J2" pin="4"/>
+      <node ref="F2" pin="1"/>
+      <node ref="TP13" pin="1"/>
+      <node ref="D6" pin="1"/>
+    </net>
+    <net code="29" name="/PWR_0">
+      <node ref="F1" pin="1"/>
+      <node ref="TP12" pin="1"/>
+      <node ref="R22" pin="2"/>
+      <node ref="D5" pin="1"/>
+      <node ref="J2" pin="1"/>
+      <node ref="R20" pin="2"/>
+    </net>
+    <net code="30" name="/VIN+">
+      <node ref="J1" pin="1"/>
+      <node ref="D1" pin="2"/>
+    </net>
+    <net code="31" name="/VIN-">
+      <node ref="TP1" pin="1"/>
+      <node ref="D2" pin="2"/>
+      <node ref="J1" pin="2"/>
+      <node ref="L1" pin="3"/>
+    </net>
+    <net code="32" name="/TG">
+      <node ref="Q1" pin="4"/>
+      <node ref="U3" pin="12"/>
+    </net>
+    <net code="33" name="/INTVCC">
+      <node ref="D9" pin="2"/>
+      <node ref="U3" pin="16"/>
+      <node ref="C7" pin="1"/>
+    </net>
+    <net code="34" name="/TRACK/SS">
+      <node ref="C4" pin="1"/>
+      <node ref="U3" pin="1"/>
+    </net>
+    <net code="35" name="/ITH">
+      <node ref="U3" pin="10"/>
+      <node ref="R7" pin="1"/>
+    </net>
+    <net code="36" name="/RUN">
+      <node ref="R5" pin="2"/>
+      <node ref="R6" pin="1"/>
+      <node ref="U3" pin="6"/>
+    </net>
+    <net code="37" name="/VIN">
+      <node ref="U3" pin="19"/>
+      <node ref="L1" pin="1"/>
+      <node ref="Q1" pin="5"/>
+      <node ref="C13" pin="1"/>
+      <node ref="C12" pin="1"/>
+      <node ref="C2" pin="1"/>
+      <node ref="R5" pin="1"/>
+      <node ref="C1" pin="1"/>
+    </net>
+    <net code="38" name="/BOOST">
+      <node ref="C8" pin="1"/>
+      <node ref="U3" pin="14"/>
+      <node ref="D9" pin="1"/>
+    </net>
+    <net code="39" name="/VFB">
+      <node ref="R17" pin="2"/>
+      <node ref="U3" pin="9"/>
+      <node ref="R18" pin="1"/>
+    </net>
+    <net code="40" name="/SENSE+">
+      <node ref="U3" pin="8"/>
+      <node ref="L2" pin="2"/>
+      <node ref="R16" pin="1"/>
+    </net>
+    <net code="41" name="/BG">
+      <node ref="Q2" pin="4"/>
+      <node ref="U3" pin="15"/>
+    </net>
+    <net code="42" name="/SW">
+      <node ref="L2" pin="1"/>
+      <node ref="C8" pin="2"/>
+      <node ref="Q1" pin="1"/>
+      <node ref="Q1" pin="2"/>
+      <node ref="Q1" pin="3"/>
+      <node ref="Q2" pin="5"/>
+      <node ref="U3" pin="13"/>
+    </net>
+  </nets>
+</export>
