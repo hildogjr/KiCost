@@ -140,8 +140,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts from hand made list...')
-    libparts = {}
-    component_groups = {}
     
     # Read the each line content.
     accepted_components = {}
