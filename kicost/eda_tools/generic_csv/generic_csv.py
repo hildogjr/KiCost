@@ -53,13 +53,12 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
-    # No `variant` of ignore field is used in this function, the input is just kept by compatibily.
-    # Enven not `ignore_filds` to be ignored.
+    # No `variant` or `ignore_fields` are used in this function, the input is just kept by compatibily.
 
     logger.log(DEBUG_OVERVIEW, 'Get schematic CSV...')
     content = in_file.read()
     in_file.close()
-    
+
     # Collapse multiple, consecutive tabs.
     content = re.sub('\t+', '\t', content)
 
@@ -70,16 +69,22 @@ def get_part_groups(in_file, ignore_fields, variant):
         # If the CSV file only has a single column of data, there may be no
         # delimiter so just set the delimiter to a comma.
         dialect = csv.Sniffer().sniff(',,,', [','])
-    
+
     # The first line in the file must be the column header.
     content = content.splitlines()
     header = next(csv.reader(content,delimiter=dialect.delimiter))
+
+    # Standardize the header titles.
+    header = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
 
     # Examine the first line to see if it really is a header.
     # If the first line contains a column header that is not in the list of
     # allowable field names, then assume the first line is data and not a header.
     field_names = list(field_name_translations.keys()) + list(field_name_translations.values())
-    if not any(col_hdr.lower() in field_names for col_hdr in header):
+    if not 'manf#' in header:
+        if any(col_hdr.lower() in field_names for col_hdr in header):
+            content.pop(0) # It was a header by the user not identify the 'manf#' column.
+
         # If a column header is not in the list of field names, then there is
         # no header in the file. Therefore, create a header based on number of columns.
 
@@ -98,9 +103,6 @@ def get_part_groups(in_file, ignore_fields, variant):
         # OK, the first line is a header, so remove it from the data.
         content.pop(0) # Remove the header from the content.
 
-    # Standardize the header titles.
-    header = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
-
     def extract_fields(row):
         fields = {}
         fields['libpart'] = 'NA'
@@ -114,14 +116,19 @@ def get_part_groups(in_file, ignore_fields, variant):
             qty = len(vals['refs'])
         elif 'qty' in vals:
             qty = int(vals['qty'])
-            ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr+qty-1, extract_fields.gen_cntr)
+            if qty>1:
+                ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr, extract_fields.gen_cntr+qty-1)
+            else:
+                ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
+            fields['qty'] = qty
         else:
             qty = 1
             ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
+            fields['qty'] = qty
         refs = split_refs(ref_str)
-        fields['qty'] = qty
+
         try:
             # For Python 2, create unicode versions of strings.
             fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
@@ -140,7 +147,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts from hand made list...')
-    
+
     # Read the each line content.
     accepted_components = {}
     for row in content:
