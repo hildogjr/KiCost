@@ -350,14 +350,7 @@ def subpart_split(components):
                 split_components[part_ref] = part
         except KeyError:
             continue
-
-    # Remove any escape backslashes preceding PART_SEPRTR.
-    for c in split_components.values():
-        try:
-            c['manf#'] = re.sub(ESC_FIND, r'\1', c['manf#'])
-        except KeyError:
-            pass
-
+    
     return split_components
     
 
@@ -411,6 +404,7 @@ def subpart_qtypart(subpart):
     'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
     'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
     '''
+    subpart = re.sub(ESC_FIND, r'\1', subpart) # Remove any escape backslashes preceding PART_SEPRTR.
     strings = re.split(QTY_SEPRTR, subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
