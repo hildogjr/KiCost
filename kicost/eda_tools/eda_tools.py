@@ -302,7 +302,7 @@ def subpart_split(components):
 
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
-            # so on... Get the subpar
+            # so on... Get the subpart.
             if subparts_qty>1:
                 # Remove the actual part from the list.
                 part_actual = part
@@ -345,23 +345,24 @@ def subpart_split(components):
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     splitted_components[ref] = subpart_actual
             else:
+                part_actual = part.copy()
                 for field_manf_dist_code in founded_fields:
                     # When one "single subpart" also use the logic of quantity.
                     try:
                         p_manf_code = subparts_manf_code[field_manf_dist_code][0]
                         part_qty, part_part = manf_code_qtypart(p_manf_code)
-                        part[field_manf_dist_code] = part_part
-                        part[field_manf_dist_code+'_subqty'] = part_qty
+                        part_actual[field_manf_dist_code] = part_part
+                        part_actual[field_manf_dist_code+'_subqty'] = part_qty
                         if logger.isEnabledFor(DEBUG_OBSESSIVE):
                             print(part)
-                        splitted_components[part_ref] = part
+                        splitted_components[part_ref] = part_actual
                     except IndexError:
                         pass
         except KeyError:
             continue
-    
-    return split_components
-    
+
+    return splitted_components
+
 
 def subpart_qty(component):
     '''
