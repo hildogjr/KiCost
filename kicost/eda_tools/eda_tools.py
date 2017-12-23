@@ -307,6 +307,8 @@ def subpart_split(components):
                 # Remove the actual part from the list.
                 part_actual = part
                 part_actual_value = part_actual['value']
+                subpart_part = ''
+                subpart_qty = ''
                 # Add the splited subparts.
                 for subparts_index in range(subparts_qty):
                     # Create a sub component based on the main component with
@@ -324,27 +326,21 @@ def subpart_split(components):
                         # U1.3:{'manf#':'PARTG3'}
                         try:
                             p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
-                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
                                             v=part_actual_value,
                                             idx=subparts_index+1,
                                             total=subparts_qty)
+                            # Update the splitted `manf`(manufactures names).
+                            if p_manf_code!=REPLICATE_MANF:
+                                # If the actual manufacture name is the definition `REPLICATE_MANF`
+                                # replicate the last one.
+                                subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual[field_manf_dist_code] = subpart_part
                             subpart_actual[field_manf_dist_code+'_subqty'] = subpart_qty
                             if logger.isEnabledFor(DEBUG_OBSESSIVE):
                                 print(subpart_actual)
                         except IndexError:
                             pass
-                    # Update the split `manf`(manufactures names).
-                    try:
-                        if subparts_manf[subparts_index]==REPLICATE_MANF:
-                            # If the actual manufacture name is the definition `REPLICATE_MANF`
-                            # replicate the last one.
-                            subpart_actual['manf'] = subparts_manf[subparts_index-1]
-                        else:
-                            subpart_actual['manf'] = subparts_manf[subparts_index]
-                    except KeyError:
-                        pass
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     splitted_components[ref] = subpart_actual
