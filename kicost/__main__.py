@@ -29,13 +29,14 @@ from builtins import open
 from future import standard_library
 standard_library.install_aliases()
 
-import argparse as ap
+import argparse as ap # Command argument parser.
+from .kicost_gui import * # User guide.
 import os
 import sys
 import logging
 import time
-from .kicost import *
-from . import __version__
+from .kicost import * # kicost core functions.
+from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
@@ -112,6 +113,9 @@ def main():
     parser.add_argument('--show_dist_list',
                         action='store_true',
                         help='Show list of distributors that can be scraped for cost data, then exit.')
+    parser.add_argument('--show_eda_list',
+                        action='store_true',
+                        help='Show list of eda softwares that KiCost can read, then exit.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
@@ -145,6 +149,9 @@ def main():
     if args.show_dist_list:
         print('Distributor list:', *sorted(list(distributors.keys())))
         return
+    if args.show_eda_list:
+        print('EDA list:', *sorted(list(eda_tools.keys())))
+        return
 
     # Set up spreadsheet output file.
     if args.output == None:
@@ -152,10 +159,10 @@ def main():
         if args.input != None:
             # Send output to spreadsheet with name of input file.
             if len(args.input)>1:
-            	# Compose a name with the multiple BOM input file names,
-            	# limiting to the first 5 caracheters of each name (avoid
-            	# huge names). THis is dynamic if the number of input
-            	# files passed.
+                # Compose a name with the multiple BOM input file names,
+                # limiting to the first 5 caracheters of each name (avoid
+                # huge names). THis is dynamic if the number of input
+                # files passed.
                 args.output = '-'.join( [ os.path.splitext(args.input[i][:max(int(20/len(args.input)),5)])[0] for i in range(len(args.input))] ) + '.xlsx'
             else:
                 args.output = os.path.splitext(args.input[0])[0] + '.xlsx'
@@ -176,7 +183,9 @@ def main():
     # Set XML input source.
     if args.input == None:
         # Get XML from the STDIN if no input file is given.
-        args.input = sys.stdin
+        kicost_gui()
+        return
+        #args.input = sys.stdin
     else:
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
