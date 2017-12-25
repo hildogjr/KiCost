@@ -23,7 +23,9 @@
 
 # Libraries.
 import wx # wxWidgets for Python.
-import os
+import os # To access OS commands.
+import platform # To check the system platform when open the XLS file.
+import re # Regular expression parser.
 from . import __version__ # Version control by @xesscorp.
 from .kicost import distributors, eda_tools # List of the distributos and EDA supported.
 
@@ -43,13 +45,15 @@ WILDCARD = "BoM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
 class MyForm(wx.Frame):
 	#----------------------------------------------------------------------
 	def __init__(self):
-		wx.Frame.__init__(self, None, wx.ID_ANY, "KiCost v"+__version__)
+		wx.Frame.__init__(self, None, wx.ID_ANY, "KiCost v" + __version__)
+		self.Bind(wx.EVT_CLOSE, self._when_closed)
 		
 		self.currentDirectory = os.getcwd()
 		
 		self.notebook_1 = wx.Notebook(self, wx.ID_ANY)
 		
-		##
+		
+		## First tab.
 		self.notebook_1_pane_1 = wx.Panel(self.notebook_1, wx.ID_ANY)
 		self.combobox_files = wx.ComboBox(self.notebook_1_pane_1, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
 		
@@ -58,16 +62,19 @@ class MyForm(wx.Frame):
 		
 		# Create a check box to each distributor.
 		self.distributors_list = [*sorted(list(distributors.keys()))]
-		for dist in self.distributors_list:
-			print(dist)
 		self.checklistbox_dist = wx.CheckListBox(self.notebook_1_pane_1, wx.ID_ANY, choices=self.distributors_list)
 		
+		#self.eda_list = [*sorted(list(eda_tools.keys()))]
+		#for eda in self.eda_list:
+		#	print(eda)
 		self.listbox_eda = wx.ListBox(self.notebook_1_pane_1, wx.ID_ANY, choices=["nada"])
 		
 		self.button_run = wx.Button(self.notebook_1_pane_1, wx.ID_ANY, "KiCost it!")
 		self.button_run.Bind(wx.EVT_BUTTON, self.run)
+		self.checkbox_openspreadsheet = wx.CheckBox(self.notebook_1_pane_1, wx.ID_ANY, "Open XLSX at the end")
 		
-		##
+		
+		## Second tab.
 		self.notebook_1_pane_2 = wx.Panel(self.notebook_1, wx.ID_ANY)
 		self.label_2 = wx.StaticText(self.notebook_1_pane_2, wx.ID_ANY, "Parallels process")
 		self.label_3 = wx.StaticText(self.notebook_1_pane_2, wx.ID_ANY, "Scrap retries")
@@ -76,14 +83,46 @@ class MyForm(wx.Frame):
 		self.checkbox_overwrite = wx.CheckBox(self.notebook_1_pane_2, wx.ID_ANY, "--overwrite")
 		self.checkbox_quiet = wx.CheckBox(self.notebook_1_pane_2, wx.ID_ANY, "--quiet")
 		
-		##
+		
+		## Thirth tab.
 		self.notebook_1_pane_3 = wx.Panel(self.notebook_1, wx.ID_ANY)
-		self.label_1 = wx.StaticText(self.notebook_1_pane_3, wx.ID_ANY, "Get AUTHOR and CONTRIBUTORS information from `AUTHOR.rst`")
+		
+		try:
+			credits_file = open(self.currentDirectory + '/../AUTHOR.rst')
+			credits = credits_file.read()
+			credits_file.close()
+		except:
+			credits = '=======\nCredits\n=======\nDevelopment Lead\n----------------\n' + '''
+			* XESS Corporation <info@xess.com>
+			
+			Contributors
+			------------
+			* Oliver Martin: https://github.com/oliviermartin
+			* Timo Alho: https://github.com/timoalho
+			* Steven Johnson: https://github.com/stevenj
+			* Diorcet Yann: https://github.com/diorcety
+			* Giacinto Luigi Cerone https://github.com/glcerone
+			* Hildo Guillardi Júnior https://github.com/hildogjr
+			* Adam Heinrich https://github.com/adamheinrich
+			'''
+			credits = re.sub('\t*','',credits)
+		
+		self.label_1 = wx.StaticText(self.notebook_1_pane_3, wx.ID_ANY, 
+			'KiCost v.' + __version__ + '\n\n'
+			+ credits # This text above have to be dinamic replaced by `AUTHOR.rst`.
+			+ '\nGraphical interface by Hildo G Jr')
 		
 		self.__set_properties()
 		self.__do_layout()
 		# end wxGlade
-		
+
+
+	#----------------------------------------------------------------------
+	def _when_closed(self, event):
+		''' When the application is closed '''
+		self.__save_properties() # Save the current configuration before close.
+		#self.Close()
+		self.Destroy()
 
 
 	#----------------------------------------------------------------------
@@ -104,9 +143,12 @@ class MyForm(wx.Frame):
 			self.combobox_files.SetValue( ' '.join(['"' + file + '"' for file in paths]) )
 		dlg.Destroy()
 
+
 	#----------------------------------------------------------------------
 	def run(self, event):
 		''' Run KiCost '''
+		
+		self.__save_properties() # Save the current graphical configuration before call the KiCost motor.
 		
 		choisen_dist = list(self.checklistbox_dist.GetCheckedItems())
 		if choisen_dist:
@@ -124,20 +166,41 @@ class MyForm(wx.Frame):
 			+ choisen_dist
 			)
 		print("Running: ", command)
-		os.system(command)
+		os.system(command) # Could call directly the `kicost.py`, which is better? Missing put the process bar here!
+		
+		if self.checkbox_openspreadsheet.GetValue():
+			spreadsheet_file = os.path.splitext( self.combobox_files.GetValue() ) + '.xlsx'
+			print('Opening output file: ', spreadsheet_file)
+			if platform.system()=='Linux':
+				os.system('xdg-open ' + '"' + spreadsheet_file + '"')
+			elif platform.system()=='Windows':
+				print('Do know the Windows command')
+			elif platform.system()=='Darwin':
+				print('Do know the MAC-OS command')
+			else: # Not tested
+				print('Not recognized OS.')
+
+
 
 	#----------------------------------------------------------------------
 	def __set_properties(self):
+		''' Set the initial proprieties of the graphical elements '''
 		# begin wxGlade: MyFrame.__set_properties
-		self.SetTitle("frame_1")
 		self.checklistbox_dist.SetSelection(0)
 		self.listbox_eda.SetSelection(0)
 		self.checkbox_overwrite.SetValue(1)
 		self.checkbox_quiet.SetValue(1)
 		# end wxGlade
 
+
+	#----------------------------------------------------------------------
+	def __save_properties(self):
+		''' Save the current proprieties of the graphical elements '''
+
+
 	#----------------------------------------------------------------------
 	def __do_layout(self):
+		''' Place the graphical components in the correct place '''
 		# begin wxGlade: MyFrame.__do_layout
 		sizer_1 = wx.BoxSizer(wx.VERTICAL)
 		sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
@@ -152,6 +215,7 @@ class MyForm(wx.Frame):
 		sizer_5.Add(self.checklistbox_dist, 0, wx.EXPAND, 0)
 		sizer_6.Add(self.listbox_eda, 0, wx.EXPAND, 0)
 		sizer_6.Add(self.button_run, 0, 0, 0)
+		sizer_6.Add(self.checkbox_openspreadsheet, 0, 0, 0)
 		sizer_5.Add(sizer_6, 1, 0, 0)
 		sizer_3.Add(sizer_5, 1, 0, 0)
 		self.notebook_1_pane_1.SetSizer(sizer_3)
@@ -172,6 +236,8 @@ class MyForm(wx.Frame):
 		sizer_1.Fit(self)
 		self.Layout()
 		# end wxGlade
+
+
 
 
 
