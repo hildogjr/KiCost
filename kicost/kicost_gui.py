@@ -88,11 +88,17 @@ class MyForm(wx.Frame):
 		self.notebook_1_pane_3 = wx.Panel(self.notebook_1, wx.ID_ANY)
 		
 		try:
-			credits_file = open(self.currentDirectory + '/../AUTHOR.rst')
+			credits_file = open(self.currentDirectory + '/../kicost-' + __version__ + '.dist-info/AUTHOR.rst')
 			credits = credits_file.read()
 			credits_file.close()
 		except:
-			credits = '=======\nCredits\n=======\nDevelopment Lead\n----------------\n' + '''
+			credits = '''
+			=======
+			Credits
+			=======
+			
+			Development Lead
+			----------------
 			* XESS Corporation <info@xess.com>
 			
 			Contributors
@@ -108,7 +114,7 @@ class MyForm(wx.Frame):
 			credits = re.sub('\t*','',credits)
 		
 		self.label_1 = wx.StaticText(self.notebook_1_pane_3, wx.ID_ANY, 
-			'KiCost v.' + __version__ + '\n\n'
+			'KiCost version ' + __version__ + '\n\n'
 			+ credits # This text above have to be dinamic replaced by `AUTHOR.rst`.
 			+ '\nGraphical interface by Hildo G Jr')
 		
