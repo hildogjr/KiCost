@@ -253,13 +253,15 @@ def subpart_split(components):
     possibility to split in subpart the components part that have
     more than one manufacture/distributors code.
     For each designator...
+    For designator with a "single subpart" check with the quantity
+    is more than one.
     '''
     logger.log(DEBUG_OVERVIEW, 'Search for subparts within parts...')
 
     dist = [d+'#' for d in distributors]
     dist.append('manf#')
 
-    split_components = {}
+    splitted_components = {}
     for part_ref, part in components.items():
         try:
             # Divide the subparts in diferent parts keeping the other fields
@@ -277,7 +279,7 @@ def subpart_split(components):
                     founded_fields += [field_code]
                     subparts_manf_code[field_code] = subpart_list(part[field_code])
             if not founded_fields:
-                split_components[part_ref] = part
+                splitted_components[part_ref] = part
                 continue # If not manf/distributor code pass to next.
             # Divide the `manf` manufacture name.
             try:
@@ -316,7 +318,7 @@ def subpart_split(components):
                         # U1.3:{'manf#':'PARTG3'}
                         try:
                             p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
-                            subpart_qty, subpart_part = subpart_qtypart(p_manf_code)
+                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
                                             v=part_actual_value,
                                             idx=subparts_index+1,
@@ -339,20 +341,24 @@ def subpart_split(components):
                         pass
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
-                    split_components[ref] = subpart_actual
+                    splitted_components[ref] = subpart_actual
             else:
-                split_components[part_ref] = part
+                for field_manf_dist_code in founded_fields:
+                    # When one "single subpart" also use the logic of quantity.
+                    try:
+                        p_manf_code = subparts_manf_code[field_manf_dist_code][0]
+                        part_qty, part_part = manf_code_qtypart(p_manf_code)
+                        part[field_manf_dist_code] = part_part
+                        part[field_manf_dist_code+'_subqty'] = part_qty
+                        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+                            print(part)
+                        splitted_components[part_ref] = part
+                    except IndexError:
+                        pass
         except KeyError:
             continue
-
-    # Remove any escape backslashes preceding PART_SEPRTR.
-    for c in split_components.values():
-        try:
-            c['manf#'] = re.sub(ESC_FIND, r'\1', c['manf#'])
-        except KeyError:
-            pass
-
-    return split_components
+    
+    return splitted_components
     
 
 def subpart_qty(component):
@@ -362,13 +368,12 @@ def subpart_qty(component):
     was a sub part of a manufacture/distributor code).
     '''
     try:
+        subqty = component.fields.get('manf#_subqty')
+
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Qty>>',component.refs,'>>',
-                component.fields.get('manf#_subqty'), '*',
+            print('Qty>>',component.refs,'>>', subqty, '*',
                     component.fields.get('manf#'))
 
-        subqty = component.fields.get('manf#_subqty')
-        string = '={{}}*{qty}'.format(qty=len(component.refs))
         if subqty != '1' and subqty != None:
             string = '=CEILING({{}}*({subqty})*{qty},1)'.format(
                             subqty=subqty,
@@ -392,7 +397,7 @@ def subpart_list(part):
     return re.split(PART_SEPRTR, part.strip())
 
 
-def subpart_qtypart(subpart):
+def manf_code_qtypart(subpart):
     '''
     Get the quantity and the part code of the sub part
     manufacture / distributor. Test if was pre or post
@@ -421,7 +426,7 @@ def subpart_qtypart(subpart):
             # May be founded a just numeric manufacture/distributor part,
             # in this case, the quantity is a shortest string not
             #considering "." and "/" marks.
-            if len(re.sub('[\.\/]','',strings[0])) < re.sub('[\.\/]','',len(strings[1])):
+            if len(re.sub('[\.\/]','',strings[0])) < len(re.sub('[\.\/]','',strings[1])):
                 qty = strings[0].strip()
                 part = strings[1].strip()
             else:

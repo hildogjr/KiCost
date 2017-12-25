@@ -3,6 +3,26 @@
 History
 -------
 
+0.1.42 (2017-12-07)
+______________________
+
+* Processing of CSV files containing part information is now supported.
+* Added ``show_dist_list`` option to display the list of distributors from which part cost data is available.
+* Added capability to process multiple XML and CSV files. 
+
+
+0.1.41 (2017-11-16)
+______________________
+
+* Fixed exception caused by missing 'href' key in product links extracted by TME module.
+
+
+0.1.40 (2017-11-02)
+______________________
+
+* Fixed exceptions caused by .xml files without a title block or part library section.
+
+
 0.1.39 (2017-10-10)
 ______________________
 
