@@ -172,17 +172,17 @@ class MyForm(wx.Frame):
 			+ choisen_dist
 			)
 		print("Running: ", command)
-		os.system(command) # Could call directly the `kicost.py`, which is better? Missing put the process bar here!
+		os.system(command + '&') # Could call directly the `kicost.py`, which is better? Missing put the process bar here!
 		
 		if self.checkbox_openspreadsheet.GetValue():
 			spreadsheet_file = os.path.splitext( self.combobox_files.GetValue() ) + '.xlsx'
 			print('Opening output file: ', spreadsheet_file)
 			if platform.system()=='Linux':
-				os.system('xdg-open ' + '"' + spreadsheet_file + '"')
+				os.system('xdg-open ' + '"' + spreadsheet_file + '"&')
 			elif platform.system()=='Windows':
-				print('Do know the Windows command')
-			elif platform.system()=='Darwin':
-				print('Do know the MAC-OS command')
+				os.system('explorer ' + '"' + spreadsheet_file + '"&')
+			elif platform.system()=='Darwin': # Mac-OS
+				os.system('open -n ' + '"' + spreadsheet_file + '"&')
 			else: # Not tested
 				print('Not recognized OS.')
 
