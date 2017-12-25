@@ -36,7 +36,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 
-WILDCARD = "BoM compatible formatc (*.xml,*.csv)|*.xml;*.csv|"\
+WILDCARD = "BoM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
 			"KiCad/Altium BoM file (*.xml)|*.xml|" \
 			"Proteus/Generic BoM file (*.csv)|*.csv"
 
@@ -44,29 +44,47 @@ class MyForm(wx.Frame):
 	#----------------------------------------------------------------------
 	def __init__(self):
 		wx.Frame.__init__(self, None, wx.ID_ANY, "KiCost v"+__version__)
-		panel = wx.Panel(self, wx.ID_ANY)
+		
 		self.currentDirectory = os.getcwd()
-
-		# Select file button.
-		openFileDlgBtn = wx.Button(panel, label="Open BoM files")
-		openFileDlgBtn.Bind(wx.EVT_BUTTON, self.onOpenFile)
-		sizer = wx.BoxSizer(wx.VERTICAL)
-		sizer.Add(openFileDlgBtn, 0, wx.ALIGN_RIGHT, 5) # Put the buttons in a sizer.
+		
+		self.notebook_1 = wx.Notebook(self, wx.ID_ANY)
+		
+		##
+		self.notebook_1_pane_1 = wx.Panel(self.notebook_1, wx.ID_ANY)
+		self.combobox_files = wx.ComboBox(self.notebook_1_pane_1, wx.ID_ANY, choices=[], style=wx.CB_DROPDOWN)
+		
+		self.button_openFile = wx.Button(self.notebook_1_pane_1, wx.ID_ANY, "Open BOM")
+		self.button_openFile.Bind(wx.EVT_BUTTON, self.onOpenFile)
 		
 		# Create a check box to each distributor.
-		distributorsList = [*sorted(list(distributors.keys()))]
-		for dist in distributorsList:
+		self.distributors_list = [*sorted(list(distributors.keys()))]
+		for dist in self.distributors_list:
 			print(dist)
-			#distCheck = wx.CheckBox(panel, label=dist, pos=wx.Point(40, 150))
-			#sizer.Add(distCheck, 0, wx.ALL|wx.CENTER, 5)
+		self.checklistbox_dist = wx.CheckListBox(self.notebook_1_pane_1, wx.ID_ANY, choices=self.distributors_list)
 		
-		# Create a combox with the file recognized formats (EDA tools).
-		#print('EDA list:', *sorted(list(eda_tools.keys())))
-#		edaComboBox = wx.ComboBox(self, -1, value='dsadas', pos=wx.Point(40, 130),
-#			size=wx.Size(100, 42), choices=['1','2'])
-		#sizer.Add(edaComboBox, 0, wx.ALL|wx.CENTER, 5)
+		self.listbox_eda = wx.ListBox(self.notebook_1_pane_1, wx.ID_ANY, choices=["nada"])
 		
-		panel.SetSizer(sizer)
+		self.button_run = wx.Button(self.notebook_1_pane_1, wx.ID_ANY, "KiCost it!")
+		self.button_run.Bind(wx.EVT_BUTTON, self.run)
+		
+		##
+		self.notebook_1_pane_2 = wx.Panel(self.notebook_1, wx.ID_ANY)
+		self.label_2 = wx.StaticText(self.notebook_1_pane_2, wx.ID_ANY, "Parallels process")
+		self.label_3 = wx.StaticText(self.notebook_1_pane_2, wx.ID_ANY, "Scrap retries")
+		self.spinctrl_np = wx.SpinCtrl(self.notebook_1_pane_2, wx.ID_ANY, "", min=1, max=30)
+		self.spinctrl_retries = wx.SpinCtrl(self.notebook_1_pane_2, wx.ID_ANY, "", min=4, max=100)
+		self.checkbox_overwrite = wx.CheckBox(self.notebook_1_pane_2, wx.ID_ANY, "--overwrite")
+		self.checkbox_quiet = wx.CheckBox(self.notebook_1_pane_2, wx.ID_ANY, "--quiet")
+		
+		##
+		self.notebook_1_pane_3 = wx.Panel(self.notebook_1, wx.ID_ANY)
+		self.label_1 = wx.StaticText(self.notebook_1_pane_3, wx.ID_ANY, "Get AUTHOR and CONTRIBUTORS information from `AUTHOR.rst`")
+		
+		self.__set_properties()
+		self.__do_layout()
+		# end wxGlade
+		
+
 
 	#----------------------------------------------------------------------
 	def onOpenFile(self, event):
@@ -83,11 +101,81 @@ class MyForm(wx.Frame):
 			print("You chose the following file(s):")
 			for path in paths:
 				print(path)
+			self.combobox_files.SetValue( ' '.join(['"' + file + '"' for file in paths]) )
 		dlg.Destroy()
 
+	#----------------------------------------------------------------------
+	def run(self, event):
+		''' Run KiCost '''
+		
+		choisen_dist = list(self.checklistbox_dist.GetCheckedItems())
+		if choisen_dist:
+			choisen_dist = [self.distributors_list[idx] for idx in choisen_dist]
+			choisen_dist = ' --include ' + ' '.join(choisen_dist)
+		else:
+			choisen_dist = ''
+		
+		command = ("kicost"
+			+ " -i " + self.combobox_files.GetValue()
+			+ " -np " + str(self.spinctrl_np.GetValue()) # Parallels process scrapping.
+			+ " -rt " + str(self.spinctrl_retries.GetValue()) # Retry time in the scraps
+			+ " -w" * self.checkbox_overwrite.GetValue()
+			+ " -q" * self.checkbox_quiet.GetValue()
+			+ choisen_dist
+			)
+		print("Running: ", command)
+		os.system(command)
+
+	#----------------------------------------------------------------------
+	def __set_properties(self):
+		# begin wxGlade: MyFrame.__set_properties
+		self.SetTitle("frame_1")
+		self.checklistbox_dist.SetSelection(0)
+		self.listbox_eda.SetSelection(0)
+		self.checkbox_overwrite.SetValue(1)
+		self.checkbox_quiet.SetValue(1)
+		# end wxGlade
+
+	#----------------------------------------------------------------------
+	def __do_layout(self):
+		# begin wxGlade: MyFrame.__do_layout
+		sizer_1 = wx.BoxSizer(wx.VERTICAL)
+		sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
+		grid_sizer_1 = wx.GridSizer(3, 2, 0, 1)
+		sizer_3 = wx.BoxSizer(wx.VERTICAL)
+		sizer_5 = wx.BoxSizer(wx.HORIZONTAL)
+		sizer_6 = wx.BoxSizer(wx.VERTICAL)
+		sizer_4 = wx.BoxSizer(wx.HORIZONTAL)
+		sizer_4.Add(self.combobox_files, 0, wx.FIXED_MINSIZE, 0)
+		sizer_4.Add(self.button_openFile, 0, 0, 0)
+		sizer_3.Add(sizer_4, 1, 0, 0)
+		sizer_5.Add(self.checklistbox_dist, 0, wx.EXPAND, 0)
+		sizer_6.Add(self.listbox_eda, 0, wx.EXPAND, 0)
+		sizer_6.Add(self.button_run, 0, 0, 0)
+		sizer_5.Add(sizer_6, 1, 0, 0)
+		sizer_3.Add(sizer_5, 1, 0, 0)
+		self.notebook_1_pane_1.SetSizer(sizer_3)
+		grid_sizer_1.Add(self.label_2, 0, 0, 0)
+		grid_sizer_1.Add(self.label_3, 0, 0, 0)
+		grid_sizer_1.Add(self.spinctrl_np, 0, 0, 0)
+		grid_sizer_1.Add(self.spinctrl_retries, 0, 0, 0)
+		grid_sizer_1.Add(self.checkbox_overwrite, 0, 0, 0)
+		grid_sizer_1.Add(self.checkbox_quiet, 0, 0, 0)
+		self.notebook_1_pane_2.SetSizer(grid_sizer_1)
+		sizer_2.Add(self.label_1, 0, wx.ALIGN_CENTER | wx.EXPAND, 0)
+		self.notebook_1_pane_3.SetSizer(sizer_2)
+		self.notebook_1.AddPage(self.notebook_1_pane_1, "BoM")
+		self.notebook_1.AddPage(self.notebook_1_pane_2, "Config")
+		self.notebook_1.AddPage(self.notebook_1_pane_3, "About")
+		sizer_1.Add(self.notebook_1, 1, wx.ALIGN_CENTER | wx.EXPAND, 0)
+		self.SetSizer(sizer_1)
+		sizer_1.Fit(self)
+		self.Layout()
+		# end wxGlade
 
 
 
+#######################################################################
 
 def kicost_gui():
 	app = wx.App(redirect=False)
