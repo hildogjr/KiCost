@@ -325,7 +325,7 @@
                                                     <property name="style"></property>
                                                     <property name="subclass">; forward_declare</property>
                                                     <property name="toolbar_pane">0</property>
-                                                    <property name="tooltip"></property>
+                                                    <property name="tooltip">BoM file(s) to scrape.</property>
                                                     <property name="validator_data_type"></property>
                                                     <property name="validator_style">wxFILTER_NONE</property>
                                                     <property name="validator_type">wxDefaultValidator</property>
@@ -418,7 +418,7 @@
                                                     <property name="style"></property>
                                                     <property name="subclass">; forward_declare</property>
                                                     <property name="toolbar_pane">0</property>
-                                                    <property name="tooltip"></property>
+                                                    <property name="tooltip">Open a BoM file.</property>
                                                     <property name="validator_data_type"></property>
                                                     <property name="validator_style">wxFILTER_NONE</property>
                                                     <property name="validator_type">wxDefaultValidator</property>
@@ -529,7 +529,7 @@
                                                             <property name="style"></property>
                                                             <property name="subclass">; forward_declare</property>
                                                             <property name="toolbar_pane">0</property>
-                                                            <property name="tooltip"></property>
+                                                            <property name="tooltip">Web distributor (or local) to scrape the prices.</property>
                                                             <property name="validator_data_type"></property>
                                                             <property name="validator_style">wxFILTER_NONE</property>
                                                             <property name="validator_type">wxDefaultValidator</property>
@@ -641,7 +641,7 @@
                                                                     <property name="style">wxRA_SPECIFY_COLS</property>
                                                                     <property name="subclass">; forward_declare</property>
                                                                     <property name="toolbar_pane">0</property>
-                                                                    <property name="tooltip"></property>
+                                                                    <property name="tooltip">Choose EDA tool from which the XML BOM file originated, or use csv for .CSV files.</property>
                                                                     <property name="validator_data_type"></property>
                                                                     <property name="validator_style">wxFILTER_NONE</property>
                                                                     <property name="validator_type">wxDefaultValidator</property>
@@ -738,7 +738,7 @@
                                                                             <property name="style"></property>
                                                                             <property name="subclass">; forward_declare</property>
                                                                             <property name="toolbar_pane">0</property>
-                                                                            <property name="tooltip"></property>
+                                                                            <property name="tooltip">Rum KiCost.</property>
                                                                             <property name="validator_data_type"></property>
                                                                             <property name="validator_style">wxFILTER_NONE</property>
                                                                             <property name="validator_type">wxDefaultValidator</property>
@@ -826,7 +826,7 @@
                                                                             <property name="style"></property>
                                                                             <property name="subclass">; forward_declare</property>
                                                                             <property name="toolbar_pane">0</property>
-                                                                            <property name="tooltip"></property>
+                                                                            <property name="tooltip">Open the spreadsheet after finish the KiCost process.</property>
                                                                             <property name="validator_data_type"></property>
                                                                             <property name="validator_style">wxFILTER_NONE</property>
                                                                             <property name="validator_type">wxDefaultValidator</property>
@@ -1110,7 +1110,7 @@
                                                             <property name="style">wxSP_ARROW_KEYS</property>
                                                             <property name="subclass">; forward_declare</property>
                                                             <property name="toolbar_pane">0</property>
-                                                            <property name="tooltip"></property>
+                                                            <property name="tooltip">Set the number of parallel processes used for web scraping part data.</property>
                                                             <property name="value"></property>
                                                             <property name="window_extra_style"></property>
                                                             <property name="window_name"></property>
@@ -1197,7 +1197,7 @@
                                                             <property name="style"></property>
                                                             <property name="subclass">; forward_declare</property>
                                                             <property name="toolbar_pane">0</property>
-                                                            <property name="tooltip"></property>
+                                                            <property name="tooltip">Allow overwriting of an existing spreadsheet.</property>
                                                             <property name="validator_data_type"></property>
                                                             <property name="validator_style">wxFILTER_NONE</property>
                                                             <property name="validator_type">wxDefaultValidator</property>
@@ -1380,7 +1380,7 @@
                                                             <property name="style">wxSP_ARROW_KEYS</property>
                                                             <property name="subclass">; forward_declare</property>
                                                             <property name="toolbar_pane">0</property>
-                                                            <property name="tooltip"></property>
+                                                            <property name="tooltip">Specify the number of attempts to retrieve part data from a website.</property>
                                                             <property name="value"></property>
                                                             <property name="window_extra_style"></property>
                                                             <property name="window_name"></property>
@@ -1467,7 +1467,7 @@
                                                             <property name="style"></property>
                                                             <property name="subclass">; forward_declare</property>
                                                             <property name="toolbar_pane">0</property>
-                                                            <property name="tooltip"></property>
+                                                            <property name="tooltip">Enable quiet mode with no warnings.</property>
                                                             <property name="validator_data_type"></property>
                                                             <property name="validator_style">wxFILTER_NONE</property>
                                                             <property name="validator_type">wxDefaultValidator</property>
@@ -1641,7 +1641,7 @@
                                             <property name="style"></property>
                                             <property name="subclass">; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
-                                            <property name="tooltip"></property>
+                                            <property name="tooltip"> Here use the kicost extra commands. In the terminal/command type`kicost --help` to check the list.</property>
                                             <property name="validator_data_type"></property>
                                             <property name="validator_style">wxFILTER_NONE</property>
                                             <property name="validator_type">wxDefaultValidator</property>
