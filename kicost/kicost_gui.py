@@ -325,12 +325,10 @@ class MyForm ( wx.Frame ):
 			credits = '''
 			=======
 			Credits
-			=======
-			
+			=======\n
 			Development Lead
 			----------------
-			* XESS Corporation <info@xess.com>
-			
+			* XESS Corporation <info@xess.com>\n
 			Contributors
 			------------
 			* Oliver Martin: https://github.com/oliviermartin
@@ -341,7 +339,7 @@ class MyForm ( wx.Frame ):
 			* Hildo Guillardi Júnior https://github.com/hildogjr
 			* Adam Heinrich https://github.com/adamheinrich
 			'''
-			credits = re.sub('\t*','',credits)
+			credits = re.sub('[\t*, +]','',credits)
 		self.m_staticText_credits.SetLabel( 
 			'KiCost version ' + __version__ + '\n\n'
 			+ credits + '\nGraphical interface by ' + __author__ )
