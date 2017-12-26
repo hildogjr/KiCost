@@ -61,9 +61,13 @@ class MyForm ( wx.Frame ):
 		
 		m_comboBox_filesChoices = []
 		self.m_comboBox_files = wx.ComboBox( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Files", wx.DefaultPosition, wx.DefaultSize, m_comboBox_filesChoices, 0 )
+		self.m_comboBox_files.SetToolTip( u"BoM file(s) to scrape." )
+		
 		sbSizer2.Add( self.m_comboBox_files, 1, wx.ALL, 5 )
 		
 		self.m_button_openfile = wx.Button( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Chooose BoM", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button_openfile.SetToolTip( u"Open a BoM file." )
+		
 		sbSizer2.Add( self.m_button_openfile, 0, wx.ALL, 5 )
 		
 		
@@ -75,6 +79,8 @@ class MyForm ( wx.Frame ):
 		
 		m_checkList_distChoices = [wx.EmptyString]
 		self.m_checkList_dist = wx.CheckListBox( sbSizer3.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_checkList_distChoices, 0 )
+		self.m_checkList_dist.SetToolTip( u"Web distributor (or local) to scrape the prices." )
+		
 		sbSizer3.Add( self.m_checkList_dist, 1, wx.ALL|wx.EXPAND, 5 )
 		
 		
@@ -87,14 +93,20 @@ class MyForm ( wx.Frame ):
 		m_radioBox_edatoolChoices = [ wx.EmptyString ]
 		self.m_radioBox_edatool = wx.RadioBox( self.m_panel1, wx.ID_ANY, u"EDA tool", wx.DefaultPosition, wx.DefaultSize, m_radioBox_edatoolChoices, 1, wx.RA_SPECIFY_COLS )
 		self.m_radioBox_edatool.SetSelection( 0 )
+		self.m_radioBox_edatool.SetToolTip( u"Choose EDA tool from which the XML BOM file originated, or use csv for .CSV files." )
+		
 		bSizer6.Add( self.m_radioBox_edatool, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		bSizer7 = wx.BoxSizer( wx.VERTICAL )
 		
 		self.m_button_run = wx.Button( self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button_run.SetToolTip( u"Rum KiCost." )
+		
 		bSizer7.Add( self.m_button_run, 0, wx.ALL, 5 )
 		
 		self.m_checkBox_openXLS = wx.CheckBox( self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_checkBox_openXLS.SetToolTip( u"Open the spreadsheet after finish the KiCost process." )
+		
 		bSizer7.Add( self.m_checkBox_openXLS, 0, wx.ALL, 5 )
 		
 		
@@ -126,10 +138,14 @@ class MyForm ( wx.Frame ):
 		bSizer9.Add( self.m_staticText2, 0, wx.ALL, 5 )
 		
 		self.m_spinCtrl_np = wx.SpinCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 30, 0 )
+		self.m_spinCtrl_np.SetToolTip( u"Set the number of parallel processes used for web scraping part data." )
+		
 		bSizer9.Add( self.m_spinCtrl_np, 0, wx.ALL, 5 )
 		
 		self.m_checkBox_overwrite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"--overwrite", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_checkBox_overwrite.SetValue(True) 
+		self.m_checkBox_overwrite.SetToolTip( u"Allow overwriting of an existing spreadsheet." )
+		
 		bSizer9.Add( self.m_checkBox_overwrite, 0, wx.ALL, 5 )
 		
 		
@@ -142,10 +158,14 @@ class MyForm ( wx.Frame ):
 		bSizer11.Add( self.m_staticText3, 0, wx.ALL, 5 )
 		
 		self.m_spinCtrl_retries = wx.SpinCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 4, 200, 0 )
+		self.m_spinCtrl_retries.SetToolTip( u"Specify the number of attempts to retrieve part data from a website." )
+		
 		bSizer11.Add( self.m_spinCtrl_retries, 0, wx.ALL, 5 )
 		
 		self.m_checkBox_quite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"--quite", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_checkBox_quite.SetValue(True) 
+		self.m_checkBox_quite.SetToolTip( u"Enable quiet mode with no warnings." )
+		
 		bSizer11.Add( self.m_checkBox_quite, 0, wx.ALL, 5 )
 		
 		
@@ -159,6 +179,8 @@ class MyForm ( wx.Frame ):
 		bSizer8.Add( self.m_staticText4, 0, wx.ALL, 5 )
 		
 		self.m_textCtrlextracmd = wx.TextCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_textCtrlextracmd.SetToolTip( u" Here use the kicost extra commands. In the terminal/command type`kicost --help` to check the list." )
+		
 		bSizer8.Add( self.m_textCtrlextracmd, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		
