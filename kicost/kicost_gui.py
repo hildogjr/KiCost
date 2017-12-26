@@ -116,7 +116,7 @@ class MyForm(wx.Frame):
 		self.label_1 = wx.StaticText(self.notebook_1_pane_3, wx.ID_ANY, 
 			'KiCost version ' + __version__ + '\n\n'
 			+ credits # This text above have to be dinamic replaced by `AUTHOR.rst`.
-			+ '\nGraphical interface by Hildo G Jr')
+			+ '\nGraphical interface by ' + __author__)
 		
 		self.__set_properties()
 		self.__do_layout()
