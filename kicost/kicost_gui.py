@@ -301,8 +301,11 @@ class MyForm ( wx.Frame ):
 	def restore_properties(self):
 		''' Restore the current proprieties of the graphical elements '''
 		
+		actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
+		
 		# Set the aplication windows title and configurations
 		self.SetTitle('KiCost v.' + __version__)
+		self.SetIcon(wx.Icon(actualDir + '/kicost.ico', wx.BITMAP_TYPE_ICO))
 		
 		# Recovery the last configurations used (found the folder of the file by the OS).
 		if platform.system()=='Linux':
@@ -339,8 +342,7 @@ class MyForm ( wx.Frame ):
 		
 		# Credits, search by `AUTHOR.rst` file.
 		try:
-			credits_file = open( os.path.dirname(os.path.abspath(__file__)) \
-				 + '/../kicost-' + __version__ + '.dist-info/AUTHOR.rst')
+			credits_file = open(actualDir + '/../kicost-' + __version__ + '.dist-info/AUTHOR.rst')
 			credits = credits_file.read()
 			credits_file.close()
 		except:
