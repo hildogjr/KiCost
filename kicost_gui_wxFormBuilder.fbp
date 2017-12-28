@@ -2016,7 +2016,7 @@
                                                             <event name="OnLeaveWindow"></event>
                                                             <event name="OnLeftDClick"></event>
                                                             <event name="OnLeftDown"></event>
-                                                            <event name="OnLeftUp">m_staticText_update_click</event>
+                                                            <event name="OnLeftUp"></event>
                                                             <event name="OnMiddleDClick"></event>
                                                             <event name="OnMiddleDown"></event>
                                                             <event name="OnMiddleUp"></event>
