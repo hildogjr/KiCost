@@ -112,6 +112,9 @@ def main():
     parser.add_argument('--show_dist_list',
                         action='store_true',
                         help='Show list of distributors that can be scraped for cost data, then exit.')
+    parser.add_argument('--show_eda_list',
+                        action='store_true',
+                        help='Show list of eda softwares that KiCost can read, then exit.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'dist',
@@ -144,6 +147,9 @@ def main():
 
     if args.show_dist_list:
         print('Distributor list:', *sorted(list(distributors.keys())))
+        return
+    if args.show_eda_list:
+        print('EDA list:', *sorted(list(eda_tools.keys())))
         return
 
     # Set up spreadsheet output file.

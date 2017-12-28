@@ -22,7 +22,7 @@
 
 # Libraries.
 import re # Regular expression parser.
-from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
 from ..kicost import distributors, SEPRTR
 
@@ -42,6 +42,12 @@ REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`m
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
+
+# Regular expression for detecting part reference ids consisting of a
+# prefix of letters followed by a sequence of digits, such as 'LED10'
+# or a sequence of digits followed by a subpart number like 'CONN1#3'.
+# There can even be an interposer character so 'LED-10' is also OK.
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -296,11 +302,13 @@ def subpart_split(components):
 
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
-            # so on... Get the subpar
+            # so on... Get the subpart.
             if subparts_qty>1:
                 # Remove the actual part from the list.
                 part_actual = part
                 part_actual_value = part_actual['value']
+                subpart_part = ''
+                subpart_qty = ''
                 # Add the splited subparts.
                 for subparts_index in range(subparts_qty):
                     # Create a sub component based on the main component with
@@ -318,55 +326,43 @@ def subpart_split(components):
                         # U1.3:{'manf#':'PARTG3'}
                         try:
                             p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
-                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
                                             v=part_actual_value,
                                             idx=subparts_index+1,
                                             total=subparts_qty)
+                            # Update the splitted `manf`(manufactures names).
+                            if p_manf_code!=REPLICATE_MANF:
+                                # If the actual manufacture name is the definition `REPLICATE_MANF`
+                                # replicate the last one.
+                                subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual[field_manf_dist_code] = subpart_part
                             subpart_actual[field_manf_dist_code+'_subqty'] = subpart_qty
                             if logger.isEnabledFor(DEBUG_OBSESSIVE):
                                 print(subpart_actual)
                         except IndexError:
                             pass
-                    # Update the split `manf`(manufactures names).
-                    try:
-                        if subparts_manf[subparts_index]==REPLICATE_MANF:
-                            # If the actual manufacture name is the definition `REPLICATE_MANF`
-                            # replicate the last one.
-                            subpart_actual['manf'] = subparts_manf[subparts_index-1]
-                        else:
-                            subpart_actual['manf'] = subparts_manf[subparts_index]
-                    except KeyError:
-                        pass
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     splitted_components[ref] = subpart_actual
             else:
+                part_actual = part.copy()
                 for field_manf_dist_code in founded_fields:
                     # When one "single subpart" also use the logic of quantity.
                     try:
                         p_manf_code = subparts_manf_code[field_manf_dist_code][0]
                         part_qty, part_part = manf_code_qtypart(p_manf_code)
-                        part[field_manf_dist_code] = part_part
-                        part[field_manf_dist_code+'_subqty'] = part_qty
+                        part_actual[field_manf_dist_code] = part_part
+                        part_actual[field_manf_dist_code+'_subqty'] = part_qty
                         if logger.isEnabledFor(DEBUG_OBSESSIVE):
                             print(part)
-                        splitted_components[part_ref] = part
+                        splitted_components[part_ref] = part_actual
                     except IndexError:
                         pass
         except KeyError:
             continue
 
-    # Remove any escape backslashes preceding PART_SEPRTR.
-    for c in splitted_components.values():
-        try:
-            c['manf#'] = re.sub(ESC_FIND, r'\1', c['manf#'])
-        except KeyError:
-            pass
-
     return splitted_components
-    
+
 
 def subpart_qty(component):
     '''
@@ -417,6 +413,7 @@ def manf_code_qtypart(subpart):
     'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
     'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
     '''
+    subpart = re.sub(ESC_FIND, r'\1', subpart) # Remove any escape backslashes preceding PART_SEPRTR.
     strings = re.split(QTY_SEPRTR, subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
@@ -488,5 +485,9 @@ def split_refs(text):
             # "\", "/" or "-" ir part of the name. This characters have
             # to be removed.
             ref = re.sub('[\-\/\\\]', '', ref)
+            if not re.search(PART_REF_REGEX, ref):
+                # Add a '0' number at the end to be compatible with KiCad/KiCost
+                # ref strings. This may be missing in the hand made BoM.
+                ref += '0'
             refs += [ref]
     return refs

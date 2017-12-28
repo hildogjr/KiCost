@@ -71,7 +71,7 @@ class PartHtmlError(Exception):
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost', 'distributors']  # Only export this routine for use by the outside world.
+__all__ = ['kicost', 'distributors','eda_tools']  # Only export this routine for use by the outside world.
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
@@ -94,7 +94,8 @@ from .eda_tools.eda_tools import SUB_SEPRTR
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
 # There can even be an interposer character so 'LED-10' is also OK.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+#PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+from .eda_tools.eda_tools import PART_REF_REGEX
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
         eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries):
