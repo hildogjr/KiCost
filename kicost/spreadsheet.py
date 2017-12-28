@@ -133,6 +133,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'vcenter'
             }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
+            'not_manf_codes': workbook.add_format({'bg_color': '#888888'}),
             'not_available': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'order_too_much': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
@@ -307,6 +308,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'label': 'Qty',
             'width': None,
             'comment': '''Total number of each part needed to assemble the board.
+Gray -> Not manf# codes.
 Red -> No parts available.
 Orange -> Parts available, but not enough.
 Yellow -> Enough parts available, but haven't purchased enough.''',
@@ -416,6 +418,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         dist_unit_prices = []
         dist_qty_avail = []
         dist_qty_purchased = []
+        dist_code_avail = []
         for dist in list(distributors.keys()):
 
             # Get the name of the data range for this distributor.
@@ -434,6 +437,10 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             dist_qty_avail.append(
                 'INDIRECT(ADDRESS(ROW(),COLUMN({})+0))'.format(dist_data_rng))
 
+            # Get the contents of the manfacuture and distributors codes.
+            dist_code_avail.append(
+                'ISBLANK(INDIRECT(ADDRESS(ROW(),COLUMN({})+4)))'.format(dist_data_rng))
+
         # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
         wks.write_formula(
             row, start_col + columns['unit_price']['col'],
@@ -449,6 +456,20 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                 unit_price = xl_rowcol_to_cell(row, start_col + columns['unit_price']['col'])
             ),
             wrk_formats['currency']
+        )
+
+        # If part do not have manf# code or distributor codes, color quantity cell gray.
+        wks.conditional_format(
+            row, start_col + columns['qty']['col'],
+            row, start_col + columns['qty']['col'],
+            {
+                'type': 'formula',
+                'criteria': '=AND(ISBLANK({g}),{d})'.format(
+                    g=xl_range(row,5,row,5), # Manf# code also have to be blank.
+                    d=','.join(dist_code_avail)
+                 ),
+                'format': wrk_formats['not_manf_codes']
+            }
         )
 
         # If part is unavailable from all distributors, color quantity cell red.

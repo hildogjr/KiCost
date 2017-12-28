@@ -217,4 +217,3 @@ if __name__ == '__main__':
     main()
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
-
