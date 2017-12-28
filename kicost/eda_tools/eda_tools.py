@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2017 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 
 # Libraries.
 import re # Regular expression parser.
-from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
 from ..kicost import distributors, SEPRTR
 
@@ -31,7 +31,7 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-__all__ = ['subpart_split','subpart_qty','groups_sort']
+__all__ = ['subpart_split','subpart_qty','groups_sort','collapse_refs']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -42,6 +42,12 @@ REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`m
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
+
+# Regular expression for detecting part reference ids consisting of a
+# prefix of letters followed by a sequence of digits, such as 'LED10'
+# or a sequence of digits followed by a subpart number like 'CONN1#3'.
+# There can even be an interposer character so 'LED-10' is also OK.
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -96,12 +102,10 @@ field_name_translations.update(
 )
 
 
-# ------------------ Public functions
-
-
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     pass
+
 
 def group_parts(components):
     '''Group common parts after preprocessing from XML or CSV files.'''
@@ -296,11 +300,13 @@ def subpart_split(components):
 
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
-            # so on... Get the subpar
+            # so on... Get the subpart.
             if subparts_qty>1:
                 # Remove the actual part from the list.
                 part_actual = part
                 part_actual_value = part_actual['value']
+                subpart_part = ''
+                subpart_qty = ''
                 # Add the splited subparts.
                 for subparts_index in range(subparts_qty):
                     # Create a sub component based on the main component with
@@ -318,48 +324,43 @@ def subpart_split(components):
                         # U1.3:{'manf#':'PARTG3'}
                         try:
                             p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
-                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
                                             v=part_actual_value,
                                             idx=subparts_index+1,
                                             total=subparts_qty)
+                            # Update the splitted `manf`(manufactures names).
+                            if p_manf_code!=REPLICATE_MANF:
+                                # If the actual manufacture name is the definition `REPLICATE_MANF`
+                                # replicate the last one.
+                                subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual[field_manf_dist_code] = subpart_part
                             subpart_actual[field_manf_dist_code+'_subqty'] = subpart_qty
                             if logger.isEnabledFor(DEBUG_OBSESSIVE):
                                 print(subpart_actual)
                         except IndexError:
                             pass
-                    # Update the split `manf`(manufactures names).
-                    try:
-                        if subparts_manf[subparts_index]==REPLICATE_MANF:
-                            # If the actual manufacture name is the definition `REPLICATE_MANF`
-                            # replicate the last one.
-                            subpart_actual['manf'] = subparts_manf[subparts_index-1]
-                        else:
-                            subpart_actual['manf'] = subparts_manf[subparts_index]
-                    except KeyError:
-                        pass
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     splitted_components[ref] = subpart_actual
             else:
+                part_actual = part.copy()
                 for field_manf_dist_code in founded_fields:
                     # When one "single subpart" also use the logic of quantity.
                     try:
                         p_manf_code = subparts_manf_code[field_manf_dist_code][0]
                         part_qty, part_part = manf_code_qtypart(p_manf_code)
-                        part[field_manf_dist_code] = part_part
-                        part[field_manf_dist_code+'_subqty'] = part_qty
+                        part_actual[field_manf_dist_code] = part_part
+                        part_actual[field_manf_dist_code+'_subqty'] = part_qty
                         if logger.isEnabledFor(DEBUG_OBSESSIVE):
                             print(part)
-                        splitted_components[part_ref] = part
+                        splitted_components[part_ref] = part_actual
                     except IndexError:
                         pass
         except KeyError:
             continue
-    
+
     return splitted_components
-    
+
 
 def subpart_qty(component):
     '''
@@ -410,6 +411,7 @@ def manf_code_qtypart(subpart):
     'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
     'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
     '''
+    subpart = re.sub(ESC_FIND, r'\1', subpart) # Remove any escape backslashes preceding PART_SEPRTR.
     strings = re.split(QTY_SEPRTR, subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
@@ -443,6 +445,84 @@ def manf_code_qtypart(subpart):
     if logger.isEnabledFor(DEBUG_OBSESSIVE):
         print('part/qty>>', subpart, '\t\tpart>>', part, '\tqty>>', qty)
     return qty, part
+
+
+def collapse_refs(refs):
+    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
+
+    def convert_to_ranges(nums):
+        # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
+        # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
+
+        def get_refnum(refnum):
+            return int(re.match('\d+', refnum).group(0))
+
+        def to_int(n):
+            try:
+                return int(n)
+            except ValueError:
+                return n
+
+        nums.sort(key=get_refnum)  # Sort all the numbers.
+        nums = [to_int(n) for n in nums]  # Convert strings to ints if possible.
+        num_ranges = []  # No ranges found yet since we just started.
+        range_start = 0  # First possible range is at the start of the list of numbers.
+
+        # Go through the list of numbers looking for 3 or more sequential numbers.
+        while range_start < len(nums):
+            num_range = nums[range_start]  # Current range starts off as a single number.
+            next_range_start = range_start + 1  # The next possible start of a range.
+            # Part references with subparts are never included in ref ranges.
+            if not isinstance(num_range, int):
+                num_ranges.append(num_range)
+                range_start = next_range_start
+                continue
+            # Look for sequences of three or more sequential numbers.
+            for range_end in range(range_start + 2, len(nums)):
+                if not isinstance(nums[range_end], int):
+                    break  # Ref with subpart, so can't be in a ref range.
+                if range_end - range_start != nums[range_end] - nums[range_start]:
+                    break  # Non-sequential numbers found, so break out of loop.
+                # Otherwise, extend the current range.
+                num_range = [nums[range_start], nums[range_end]]
+                # 3 or more sequential numbers found, so next possible range must start after this one.
+                next_range_start = range_end + 1
+            # Append the range (or single number) just found to the list of range.
+            num_ranges.append(num_range)
+            # Point to the start of the next possible range and keep looking.
+            range_start = next_range_start
+
+        return num_ranges
+
+    prefix_nums = {}  # Contains a list of numbers for each distinct prefix.
+    for ref in refs:
+        # Partition each part reference into its beginning part prefix and ending number.
+        match = re.search(PART_REF_REGEX, ref)
+        prefix = match.group('prefix')
+        num = match.group('num')
+
+        # Append the number to the list of numbers for this prefix, or create a list
+        # with a single number if this is the first time a particular prefix was encountered.
+        prefix_nums.setdefault(prefix, []).append(num)
+
+    # Convert the list of numbers for each ref prefix into ranges.
+    for prefix in list(prefix_nums.keys()):
+        prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
+
+    # Combine the prefixes and number ranges back into part references.
+    collapsed_refs = []
+    for prefix, nums in list(prefix_nums.items()):
+        for num in nums:
+            if isinstance(num, list):
+                # Convert a range list into a collapsed part reference:
+                # e.g., 'R10-R15' from 'R':[10,15].
+                collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0], num[-1]))
+            else:
+                # Convert a single number into a simple part reference: e.g., 'R10'.
+                collapsed_refs.append('{}{}'.format(prefix, num))
+
+    # Return the collapsed par references.
+    return collapsed_refs
 
 
 def split_refs(text):
@@ -481,5 +561,9 @@ def split_refs(text):
             # "\", "/" or "-" ir part of the name. This characters have
             # to be removed.
             ref = re.sub('[\-\/\\\]', '', ref)
+            if not re.search(PART_REF_REGEX, ref):
+                # Add a '0' number at the end to be compatible with KiCad/KiCost
+                # ref strings. This may be missing in the hand made BoM.
+                ref += '0'
             refs += [ref]
     return refs

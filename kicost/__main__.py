@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -30,12 +30,13 @@ from future import standard_library
 standard_library.install_aliases()
 
 import argparse as ap # Command argument parser.
-from .kicost_gui import * # User guide.
 import os
 import sys
 import logging
 import time
+import inspect # To get the internal module and informations of a module/class.
 from .kicost import * # kicost core functions.
+from .kicost_gui import * # User guide.
 from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
@@ -150,7 +151,8 @@ def main():
         print('Distributor list:', *sorted(list(distributors.keys())))
         return
     if args.show_eda_list:
-        print('EDA list:', *sorted(list(eda_tools.keys())))
+        eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+        print('EDA supported list:', eda_names)
         return
 
     # Set up spreadsheet output file.
@@ -161,7 +163,7 @@ def main():
             if len(args.input)>1:
                 # Compose a name with the multiple BOM input file names,
                 # limiting to the first 5 caracheters of each name (avoid
-                # huge names). THis is dynamic if the number of input
+                # huge names). This is dynamic if the number of input
                 # files passed.
                 args.output = '-'.join( [ os.path.splitext(args.input[i][:max(int(20/len(args.input)),5)])[0] for i in range(len(args.input))] ) + '.xlsx'
             else:
@@ -182,10 +184,8 @@ def main():
 
     # Set XML input source.
     if args.input == None:
-        # Get XML from the STDIN if no input file is given.
-        kicost_gui()
+        kicost_gui() # Use the user guide.
         return
-        #args.input = sys.stdin
     else:
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
@@ -194,7 +194,7 @@ def main():
             if os.path.splitext(args.input[i])[1] == '':
                 args.input[i] += '.xml'
             elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv' or args.eda_tool[i] == 'generic':
-                args.eda_tool = 'generic_csv'
+                args.eda_tool = 'csv'
             args.input[i] = open(args.input[i])
 
     # Set number of processes to use for web scraping.
