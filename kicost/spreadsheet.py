@@ -36,7 +36,7 @@ import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 # KiCost libriries.
 from .kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from .kicost import distributors # Distributors names and definitions to use in the spreasheet.
+from .distributors import distributors # Distributors names and definitions to use in the spreasheet.
 from .eda_tools.eda_tools import subpart_qty, collapse_refs, PART_REF_REGEX
 from . import __version__ # Version control by @xesscorp.
 
@@ -516,18 +516,18 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
 
         row += 1  # Go to next row.
 
-    # Add the KiCost package inormation at the end of the spreadsheet to debug
-    # information at the forum and "advertising".
-    wks.write(PART_INFO_LAST_ROW+2, start_col,
-        'Distributors scraped by KiCost\N{REGISTERED SIGN} v.' + __version__,
-            wrk_formats['proj_info'])
-  
     # Sum the extended prices for all the parts to get the total minimum cost.
     total_cost_col = start_col + columns['ext_price']['col']
     wks.write(total_cost_row, total_cost_col, '=sum({sum_range})'.format(
         sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
+
+    # Add the KiCost package inormation at the end of the spreadsheet to debug
+    # information at the forum and "advertising".
+    wks.write(PART_INFO_LAST_ROW+2, start_col,
+        'Distributors scraped by KiCost\N{REGISTERED SIGN} v.' + __version__,
+            wrk_formats['proj_info'])
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.

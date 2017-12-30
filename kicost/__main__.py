@@ -35,8 +35,10 @@ import sys
 import logging
 import time
 import inspect # To get the internal module and informations of a module/class.
-from .kicost import * # kicost core functions.
+from .kicost import kicost # kicost core functions.
 from .kicost_gui import * # User guide.
+from .distributors import distributors
+from . import eda_tools as eda_tools_imports
 from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
@@ -153,6 +155,7 @@ def main():
     if args.show_eda_list:
         eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
         print('EDA supported list:', eda_names)
+        return
 
     # Set up spreadsheet output file.
     if args.output == None:

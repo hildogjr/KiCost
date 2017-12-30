@@ -49,6 +49,7 @@ WILDCARD = "BoM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
 PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last official version.
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
+CONFIG_FILE = 'kicost.dat'
 
 class MyForm ( wx.Frame ):
 	
@@ -376,9 +377,9 @@ class MyForm ( wx.Frame ):
 		
 		# Recovery the last configurations used (found the folder of the file by the OS).
 		if platform.system()=='Linux':
-			self.configFile =  str(os.path.expanduser('~')) + '/kicost.config'
+			self.configFile =  str(os.path.expanduser('~')) + '/' + CONFIG_FILE
 		elif platform.system()=='Windows':
-			self.configFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + '\\kicost.config'
+			self.configFile = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + '\\' + CONFIG_FILE
 		elif platform.system()=='Darwin': # Mac-OS
 			self.configFile = '??'
 		else:
