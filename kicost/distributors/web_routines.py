@@ -20,6 +20,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Author information.
+__author__ = 'Hildo Guillardi Junior'
+__webpage__ = 'https://github.com/hildogjr/'
+__company__ = 'University of Campinas - Brazil'
+
 # Libraries.
 import sys
 from bs4 import BeautifulSoup # XML file interpreter.
@@ -29,11 +34,6 @@ import logging
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..kicost import SEPRTR
 #from . import distributors
-
-# Author information.
-__author__ = 'Hildo Guillardi Junior'
-__webpage__ = 'https://github.com/hildogjr/'
-__company__ = 'University of Campinas - Brazil'
 
 __all__ = ['scrape_part', 'get_part_html_tree', 'create_local_part_html']
 

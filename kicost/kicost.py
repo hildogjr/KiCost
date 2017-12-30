@@ -59,7 +59,7 @@ class PartHtmlError(Exception):
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost', 'distributors','eda_tools_imports']  # Only export this routine for use by the outside world.
+__all__ = ['kicost']  # Only export this routine for use by the outside world.
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 

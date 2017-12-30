@@ -19,18 +19,19 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-import csv # CSV file reader.
-import re # Regular expression parser.
-import logging
-
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ...kicost import distributors, SEPRTR
-from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
+
+# Libraries.
+import csv # CSV file reader.
+import re # Regular expression parser.
+import logging
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ...kicost import distributors, SEPRTR
+from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(

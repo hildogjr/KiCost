@@ -20,16 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Libraries.
-import re # Regular expression parser.
-from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..distributors import distributors # Distributors name to use as field.
-from ..kicost import distributors, SEPRTR
-
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
+
+# Libraries.
+import re # Regular expression parser.
+import sys # Exit in the error.
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..distributors import distributors # Distributors name to use as field.
+from ..kicost import distributors, SEPRTR
 
 __all__ = ['subpart_split','subpart_qty','groups_sort','collapse_refs']
 
@@ -498,8 +499,15 @@ def collapse_refs(refs):
     for ref in refs:
         # Partition each part reference into its beginning part prefix and ending number.
         match = re.search(PART_REF_REGEX, ref)
-        prefix = match.group('prefix')
-        num = match.group('num')
+        if match:
+            prefix = match.group('prefix')
+            num = match.group('num')
+        else:
+            # The not `match` happens when the user schematic disegner use
+            # not recognized characters by the `PART_REF_REGEX` definition
+            # into the components references.
+            print('Not recognized characters used in <' + ref + '> reference.\nUnsuceful finish.')
+            sys.exit(1) # Exit with error.
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
