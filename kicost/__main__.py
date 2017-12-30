@@ -153,7 +153,6 @@ def main():
     if args.show_eda_list:
         eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
         print('EDA supported list:', eda_names)
-        return
 
     # Set up spreadsheet output file.
     if args.output == None:
