@@ -1,14 +1,14 @@
-1. Use a simple and clear title;
-2. Describe your issue clearly, do not be long-winded;
+- Use a simple and clear title.
 
-# Issue / Problem report
+#### Issue / Problem report
 Add:
 1. Terminal error report
 2. The call command used (or the graphical interface config);
-3. One BoM to reproduce the error (with the EDA version);
+3. One BoM to reproduce the error (with the EDA version).
 
-# Doubts
+#### Doubts
 
-# Feature / Enhancement request
+#### Feature / Enhancement request
+- Explain it will help the other users.
 
 The team thanks your contribution.
