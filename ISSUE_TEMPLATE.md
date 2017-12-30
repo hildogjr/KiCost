@@ -2,8 +2,10 @@
 2. Describe your issue clearly, do not be long-winded;
 
 # Issue / Problem report
-1. Add the terminal error report, the call command used (or the graphical interface config);
-2. Add one BoM to reproduce the error (other if your is a "classified" project).
+Add:
+1. Terminal error report
+2. The call command used (or the graphical interface config);
+3. One BoM to reproduce the error (with the EDA version);
 
 # Doubts
 
