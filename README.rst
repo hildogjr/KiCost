@@ -32,8 +32,3 @@ Features
   directly into the website ordering page of each distributor.
 
 .. image:: block_diag.png
-
-New graphical interface
---------
-
-.. image:: guide.png
