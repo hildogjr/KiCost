@@ -75,6 +75,10 @@ To create a cost spreadsheet from a CSV file of part data::
 
     kicost -i schem.csv --eda_tool csv
 
+Now, a friendly user graphical interface was created. To load it, just use `kicost` command without parameters.
+
+.. image:: guide_screen.png
+
 ------------------------
 Custom BOM list
 ------------------------
