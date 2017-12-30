@@ -379,15 +379,6 @@ Command-Line Options
                             Specify the number of attempts to retrieve part data
                             from a website.
 
---------------------------------
-Using KiCost From Within KiCad
---------------------------------
-
-In the Bill of Material window use the the command
-
-    kicost - i %1 -w -q
-
-
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
 -------------------------------------------------
