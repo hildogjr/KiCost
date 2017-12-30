@@ -21,8 +21,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-__all__ = ['create_spreadsheet']
-
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
@@ -40,6 +38,7 @@ from .distributors import distributors # Distributors names and definitions to u
 from .eda_tools.eda_tools import subpart_qty, collapse_refs, PART_REF_REGEX
 from . import __version__ # Version control by @xesscorp.
 
+__all__ = ['create_spreadsheet']
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
