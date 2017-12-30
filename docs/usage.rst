@@ -47,6 +47,10 @@ To create a cost spreadsheet from an XML file exported from KiCad::
 
     kicost -i schem.xml
 
+To create a cost scpredsheet direct from the KiCad `Bill of Material" wizard (use as command line):
+
+    kicost -i %I
+
 To place the spreadsheet in a file with a different name than the XML file::
 
     kicost -i schem.xml -o new_file.xlsx

@@ -1,7 +1,7 @@
-# Python chache
+# Byte-compiled / optimized / DLL files
 *.py[cod]
-*.pyc
-__pycache__
+__pycache__/
+__pycache__/*
 
 # C extensions
 *.so
