@@ -539,7 +539,7 @@ def kicost_gui_run(fileName):
 	''' Execute the `fileName`under KiCost loading the graphical interface '''
 	app = wx.App(redirect=False)
 	frame = MyForm(None)
-	frame.Show()
+	#frame.Show()
 	frame.m_comboBox_files.SetValue('"' + '", "'.join(fileName) + '"')
 	frame.run()
 	#app.MainLoop()
