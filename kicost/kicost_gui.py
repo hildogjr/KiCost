@@ -38,7 +38,7 @@ from . import __version__ # Version control by @xesscorp.
 from .kicost import distributors, eda_tools_imports # List of the distributos and EDA supported.
 from .distributors import FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
 
-__all__ = ['kicost_gui']
+__all__ = ['kicost_gui', 'kicost_gui_run']
 
 # Guide definitions.
 FILE_HIST_QTY = 10
@@ -329,7 +329,10 @@ class MyForm ( wx.Frame ):
 		event.Skip()
 		
 		self.save_properties() # Save the current graphical configuration before call the KiCost motor.
-		
+		self.run() # Run KiCost.
+
+	#----------------------------------------------------------------------
+	def run( self ):
 		# Get the current distributors to scrape.
 		choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
 		if choisen_dist:
@@ -526,7 +529,17 @@ class MyForm ( wx.Frame ):
 #######################################################################
 
 def kicost_gui():
+	''' Load the graphical interface '''
 	app = wx.App(redirect=False)
 	frame = MyForm(None)
 	frame.Show()
 	app.MainLoop()
+
+def kicost_gui_run(fileName):
+	''' Execute the `fileName`under KiCost loading the graphical interface '''
+	app = wx.App(redirect=False)
+	frame = MyForm(None)
+	frame.Show()
+	frame.m_comboBox_files.SetValue('"' + '", "'.join(fileName) + '"')
+	frame.run()
+	#app.MainLoop()

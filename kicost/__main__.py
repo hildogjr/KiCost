@@ -133,6 +133,9 @@ def main():
                         default=HTML_RESPONSE_RETRIES,
                         metavar = 'num_retries',
                         help='Specify the number of attempts to retrieve part data from a website.')
+    parser.add_argument('--user',
+                        action='store_true',
+                        help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
 
 
     args = parser.parse_args()
@@ -176,6 +179,12 @@ def main():
     else:
         # Output file was given. Make sure it has spreadsheet extension.
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
+
+    # Call the KiCost interface to alredy run KiCost, this is just to use the
+    # saved user configurations of the graphical interface.
+    if args.user:
+        kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
+        return
 
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
