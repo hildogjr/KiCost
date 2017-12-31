@@ -51,6 +51,10 @@ To create a cost scpredsheet direct from the KiCad `Bill of Material" wizard (us
 
     kicost -i %I
 
+To create a cost scpredsheet direct from the KiCad using the user definitions (by graphical interface last runned):
+
+    kicost -i %I --user
+
 To place the spreadsheet in a file with a different name than the XML file::
 
     kicost -i schem.xml -o new_file.xlsx
@@ -378,6 +382,9 @@ Command-Line Options
       -rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.
+      --user
+                            Start the user guide to run KiCost passing the file
+                            parameter give by "--input", all others parameters are ignored.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
