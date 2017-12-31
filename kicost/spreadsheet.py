@@ -345,14 +345,13 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                 if columns[h]['col']>columns[name]['col']:
                     columns[h]['col'] -= 1
             del columns[name]
-        try:
-            for part in parts:
+        for part in parts:
+            try:
                 if part.fields[code]:
-                    break
-            else:
-                remove_column(code) # All 'manf' are empty.
-        except KeyError: # Not any 'manf' information in the parts.
-            remove_column(code)
+                    return
+            except KeyError:
+                pass
+        remove_column(code) # All 'manf' are empty.
     remove_col_not_exist_parts('manf')
     remove_col_not_exist_parts('desc')
 

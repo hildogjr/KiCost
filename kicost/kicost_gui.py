@@ -21,6 +21,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Author information.
+__author__ = 'Hildo Guillardi Junior'
+__webpage__ = 'https://github.com/hildogjr/'
+__company__ = 'University of Campinas - Brazil'
+
 # Libraries.
 import wx # wxWidgets for Python.
 import webbrowser
@@ -34,13 +39,6 @@ from .kicost import distributors, eda_tools_imports # List of the distributos an
 from .distributors import FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
 
 __all__ = ['kicost_gui']
-
-
-# Author information.
-__author__ = 'Hildo Guillardi Junior'
-__webpage__ = 'https://github.com/hildogjr/'
-__company__ = 'University of Campinas - Brazil'
-
 
 # Guide definitions.
 FILE_HIST_QTY = 10

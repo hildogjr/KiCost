@@ -141,13 +141,15 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
             fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
             fields['value'] = vals.get('value', '???').decode('utf-8')
-            fields['manf#'] = vals.get('manf#', '').decode('utf-8')
+            for h in header:
+                fields[h] = vals.get(h, '').decode('utf-8')
         except AttributeError:
             # This is for Python 3 where the values are already unicode.
             fields['libpart'] = vals.get('libpart', 'Lib:???')
             fields['footprint'] = vals.get('footprint', 'Foot:???')
             fields['value'] = vals.get('value', '???')
-            fields['manf#'] = vals.get('manf#', '')
+            for h in header:
+                fields[h] = vals.get(h, '')
         return refs, fields
     extract_fields.gen_cntr = 0
 
