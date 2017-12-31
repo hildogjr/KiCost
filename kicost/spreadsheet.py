@@ -246,6 +246,12 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                     data_range=xl_range_abs(START_ROW, dist_start_col,
                                             LAST_PART_ROW, next_col - 1)))
 
+        # Add the KiCost package inormation at the end of the spreadsheet to debug
+        # information at the forum and "advertising".
+        wks.write(START_ROW+len(parts)+3, START_COL,
+            'Distributors scraped by KiCost\N{REGISTERED SIGN} v.' + __version__,
+                wrk_formats['proj_info'])
+
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields):
@@ -330,6 +336,25 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             'static': False,
         },
     }
+
+    # Remove not used columns by the field not founded in ALL the parts. This give
+    # better visualization on notebooks (small screens) and optimizaiton to print.
+    def remove_col_not_exist_parts(code):
+        def remove_column(name):
+            for h in columns:
+                if columns[h]['col']>columns[name]['col']:
+                    columns[h]['col'] -= 1
+            del columns[name]
+        try:
+            for part in parts:
+                if part.fields[code]:
+                    break
+            else:
+                remove_column(code) # All 'manf' are empty.
+        except KeyError: # Not any 'manf' information in the parts.
+            remove_column(code)
+    remove_col_not_exist_parts('manf')
+    remove_col_not_exist_parts('desc')
 
     # Enter user-defined fields into the global part data columns structure.
     for user_field in list(reversed(user_fields)):
@@ -521,12 +546,6 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
-
-    # Add the KiCost package inormation at the end of the spreadsheet to debug
-    # information at the forum and "advertising".
-    wks.write(PART_INFO_LAST_ROW+2, start_col,
-        'Distributors scraped by KiCost\N{REGISTERED SIGN} v.' + __version__,
-            wrk_formats['proj_info'])
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.
