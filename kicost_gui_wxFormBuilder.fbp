@@ -335,7 +335,7 @@
                                                     <property name="window_name"></property>
                                                     <property name="window_style"></property>
                                                     <event name="OnChar"></event>
-                                                    <event name="OnCombobox"></event>
+                                                    <event name="OnCombobox">m_comboBox_files_selectohist</event>
                                                     <event name="OnComboboxCloseup"></event>
                                                     <event name="OnComboboxDropdown"></event>
                                                     <event name="OnEnterWindow"></event>
