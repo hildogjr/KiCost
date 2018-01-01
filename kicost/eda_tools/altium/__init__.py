@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,3 +27,19 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 from .altium import get_part_groups
+
+# Place information about this EDA into the eda_tool dictionary.
+from .. import eda_tool
+eda_tool.update(
+    {
+        'altium': {
+            'module': 'altium', # The directory name containing this file.
+            'desc': 'Altium Limited (formerly known as Protel until 2001).',
+            # Formatting file match .
+            'file': {
+                'extension': '.xml', # File extension.
+                'content': '\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>' # Regular expression content match.
+            }
+        }
+    }
+)

@@ -33,10 +33,11 @@ import os, subprocess # To access OS commands and run in the shell.
 import platform # To check the system platform when open the XLS file.
 from distutils.version import StrictVersion # To comparasion of versions.
 import re # Regular expression parser.
-import inspect # To get the internal module and informations of a module/class.
+#import inspect # To get the internal module and informations of a module/class.
 from . import __version__ # Version control by @xesscorp.
-from .kicost import distributors, eda_tools_imports # List of the distributos and EDA supported.
-from .distributors import FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
+from .kicost import *  # kicost core functions.
+from .distributors import distributors, FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
+from .eda_tools import eda_tool, file_eda_match #from . import eda_tools as eda_tools_imports
 
 __all__ = ['kicost_gui', 'kicost_gui_run']
 
@@ -237,6 +238,7 @@ class MyForm ( wx.Frame ):
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.app_close )
 		self.m_notebook1.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.wxPanel_change )
+		self.m_comboBox_files.Bind( wx.EVT_COMBOBOX, self.m_comboBox_files_selecthist )
 		self.m_button_openfile.Bind( wx.EVT_BUTTON, self.button_openfile )
 		self.m_button_run.Bind( wx.EVT_BUTTON, self.button_run )
 		self.m_bitmap_icon.Bind( wx.EVT_LEFT_DOWN, self.m_bitmap_icon_click )
@@ -266,6 +268,30 @@ class MyForm ( wx.Frame ):
 		event.Skip()
 		if event.GetSelection()==2: # Is the last page (about page).
 			self.checkUpdate()
+
+	#----------------------------------------------------------------------
+	def m_comboBox_files_selecthist( self, event):
+		event.Skip()
+		self.updateEDAselection()
+
+	#----------------------------------------------------------------------
+	def updateEDAselection( self ):
+		''' Update the EDA selection in the listBox based on the comboBox actual text '''
+		fileNames = re.split('" "', self.m_comboBox_files.GetValue()[1:-1])
+		if len(fileNames)==1:
+			eda = file_eda_match(fileNames[0])
+			if eda:
+				self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda) )
+		elif len(fileNames)>1:
+			# Check if all the EDA are the same. For different ones,
+			# the guide is not able now to deal, need improvement
+			# on `self.m_listBox_edatool`.
+			eda = file_eda_match(fileNames[0])
+			for fName in fileNames[1:]:
+				if file_eda_match(fName) != eda:
+					return
+			if eda:
+				self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda) )
 
 	#----------------------------------------------------------------------
 	def checkUpdate( self ):
@@ -321,13 +347,13 @@ class MyForm ( wx.Frame ):
 				self.m_comboBox_files.Delete(FILE_HIST_QTY-1) # Keep 10 files on history.
 			except:
 				pass
+			self.updateEDAselection()
 		dlg.Destroy()
 
 	#----------------------------------------------------------------------
 	def button_run( self, event ):
 		''' Run KiCost '''
 		event.Skip()
-		
 		self.save_properties() # Save the current graphical configuration before call the KiCost motor.
 		self.run() # Run KiCost.
 
@@ -386,7 +412,8 @@ class MyForm ( wx.Frame ):
 			self.m_checkList_dist.Check(idx,True) # All start checked (after is modifed by the configuration file).
 		
 		# Current EDA tools module recoginized.
-		eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+		#eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+		eda_names = [*sorted(list(eda_tool.keys()))]
 		self.m_listBox_edatool.Clear()
 		self.m_listBox_edatool.Append(eda_names)
 		
@@ -539,7 +566,8 @@ def kicost_gui_run(fileName):
 	''' Execute the `fileName`under KiCost loading the graphical interface '''
 	app = wx.App(redirect=False)
 	frame = MyForm(None)
-	#frame.Show()
+#	frame.Show()
 	frame.m_comboBox_files.SetValue('"' + '", "'.join(fileName) + '"')
+	frame.updateEDAselection()
 	frame.run()
-	#app.MainLoop()
+#	app.MainLoop()

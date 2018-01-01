@@ -26,13 +26,14 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-import re # Regular expression parser.
+import re, os # Regular expression parser and matches.
 import sys # Exit in the error.
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
 from ..kicost import distributors, SEPRTR
+from . import eda_tool # EDA dictionary with the features.
 
-__all__ = ['subpart_split','subpart_qty','groups_sort','collapse_refs']
+__all__ = ['file_eda_match', 'subpart_split', 'subpart_qty', 'groups_sort', 'collapse_refs']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -101,6 +102,23 @@ field_name_translations.update(
         'nopop': 'dnp',
     }
 )
+
+
+def file_eda_match(file_name):
+    '''Verify with which EDA the file matches.'''
+    # Return the EDA name with the file matches or `None` if not founded.
+    file_handle = open(file_name, 'r')
+    content = file_handle.read()
+    extension = os.path.splitext(file_name)[1]
+    for name, defs in eda_tool.items():
+        #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
+        if re.search(defs['file']['content'], content, re.IGNORECASE)\
+            and extension==defs['file']['extension']:
+                file_handle.close()
+                return name
+    file_handle.close()
+    return None
+
 
 
 # Temporary class for storing part group information.
