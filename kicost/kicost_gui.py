@@ -376,7 +376,7 @@ class MyForm ( wx.Frame ):
 		
 		# Set the aplication windows title and configurations
 		self.SetTitle('KiCost v.' + __version__)
-		self.SetIcon(wx.Icon(actualDir + '/kicost.ico', wx.BITMAP_TYPE_ICO))
+		self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 		
 		# Current distrubutors module recognized.
 		distributors_list = [*sorted(list(distributors.keys()))]
@@ -392,9 +392,9 @@ class MyForm ( wx.Frame ):
 		
 		# Credits and other informations, search by `AUTHOR.rst` file.
 		self.m_staticText_version.SetLabel( 'KiCost version ' + __version__ )
-		self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + '/kicost.ico', wx.BITMAP_TYPE_ICO))
+		self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 		try:
-			credits_file = open(actualDir + '/../kicost-' + __version__ + '.dist-info/AUTHOR.rst')
+			credits_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.dist-info' + os.sep + 'AUTHOR.rst')
 			credits = credits_file.read()
 			credits_file.close()
 		except:
