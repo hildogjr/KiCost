@@ -37,6 +37,11 @@ from ..kicost import SEPRTR
 
 __all__ = ['scrape_part', 'get_part_html_tree', 'create_local_part_html']
 
+# Extra informations to by got by each part in the distributors.
+EXTRA_INFO = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
+              'datasheet', 'image' # Links.
+             ]
+
 def create_local_part_html(parts):
     '''Create HTML page containing info for local (non-webscraped) parts.'''
 
