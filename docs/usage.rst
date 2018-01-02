@@ -304,7 +304,7 @@ This can be too much for some computers, so you can decrease the load
 using the ``--num_processes`` command-line option with the number of
 processes you want to spawn::
 
-    kicost -i schematic.xml -num_processes 10
+    kicost -i schematic.xml --num_processes 10
 
 In addition, you can use the ``--serial`` command-line option to force KiCost
 into single-threaded operation.
