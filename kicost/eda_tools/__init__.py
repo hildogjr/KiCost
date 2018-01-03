@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2017 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # The global dictionary of supported EDA tools starts out empty.
-eda_tools = {}
+eda_tool = {}
 
 import os
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,3 +27,19 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 from .generic_csv import get_part_groups
+
+# Place information about this EDA into the eda_tool dictionary.
+from .. import eda_tool
+eda_tool.update(
+    {
+        'csv': {
+            'module': 'csv', # The directory name containing this file.
+            'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus, Eagle.',
+            # Formatting file match.
+            'file': {
+                'extension': '.csv', # File extension.
+                'content': '.' # Regular expression content match.
+                }
+        }
+    }
+)

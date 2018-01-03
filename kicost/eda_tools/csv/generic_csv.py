@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2017 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,8 @@
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
+# This module is intended to work with "generic hand made CSV" and the softwares:
+# Proteus ISIS-ARES and AutoDesk EAGLE.
 
 # Libraries.
 import csv # CSV file reader.
@@ -44,7 +46,11 @@ field_name_translations.update(
         'reference': 'refs',
         'ref': 'refs',
         'customer no': 'refs',
+        'parts': 'refs',
+        'part': 'refs',
         'value': 'value',
+        'package': 'footprint',
+        'pcb package': 'footprint',
         '': ''  # This is here because the header row may contain an empty field.
     }
 )
@@ -135,13 +141,15 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
             fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
             fields['value'] = vals.get('value', '???').decode('utf-8')
-            fields['manf#'] = vals.get('manf#', '').decode('utf-8')
+            for h in header:
+                fields[h] = vals.get(h, '').decode('utf-8')
         except AttributeError:
             # This is for Python 3 where the values are already unicode.
             fields['libpart'] = vals.get('libpart', 'Lib:???')
             fields['footprint'] = vals.get('footprint', 'Foot:???')
             fields['value'] = vals.get('value', '???')
-            fields['manf#'] = vals.get('manf#', '')
+            for h in header:
+                fields[h] = vals.get(h, '')
         return refs, fields
     extract_fields.gen_cntr = 0
 

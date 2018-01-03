@@ -33,12 +33,13 @@ import os, subprocess # To access OS commands and run in the shell.
 import platform # To check the system platform when open the XLS file.
 from distutils.version import StrictVersion # To comparasion of versions.
 import re # Regular expression parser.
-import inspect # To get the internal module and informations of a module/class.
+#import inspect # To get the internal module and informations of a module/class.
 from . import __version__ # Version control by @xesscorp.
-from .kicost import distributors, eda_tools_imports # List of the distributos and EDA supported.
-from .distributors import FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
+from .kicost import *  # kicost core functions.
+from .distributors import distributors, FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
+from .eda_tools import eda_tool, file_eda_match #from . import eda_tools as eda_tools_imports
 
-__all__ = ['kicost_gui']
+__all__ = ['kicost_gui', 'kicost_gui_run']
 
 # Guide definitions.
 FILE_HIST_QTY = 10
@@ -101,13 +102,15 @@ class MyForm ( wx.Frame ):
 		
 		m_listBox_edatoolChoices = []
 		self.m_listBox_edatool = wx.ListBox( sbSizer31.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_listBox_edatoolChoices, 0 )
+		self.m_listBox_edatool.SetToolTip( u"EDA files supported by KiCost (automacally selected when file is opened)." )
+		
 		sbSizer31.Add( self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5 )
 		
 		
 		bSizer6.Add( sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5 )
 		
 		self.m_button_run = wx.Button( self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.m_button_run.SetToolTip( u"Rum KiCost." )
+		self.m_button_run.SetToolTip( u"Rum KiCost as a terminal." )
 		
 		bSizer6.Add( self.m_button_run, 0, wx.ALL, 5 )
 		
@@ -146,7 +149,7 @@ class MyForm ( wx.Frame ):
 		
 		bSizer9.Add( self.m_spinCtrl_np, 0, wx.ALL, 5 )
 		
-		self.m_checkBox_overwrite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"--overwrite", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_checkBox_overwrite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"Overwrite file", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_checkBox_overwrite.SetValue(True) 
 		self.m_checkBox_overwrite.SetToolTip( u"Allow overwriting of an existing spreadsheet." )
 		
@@ -166,7 +169,7 @@ class MyForm ( wx.Frame ):
 		
 		bSizer11.Add( self.m_spinCtrl_retries, 0, wx.ALL, 5 )
 		
-		self.m_checkBox_quite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"--quite", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_checkBox_quite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"Quiet mode", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_checkBox_quite.SetValue(True) 
 		self.m_checkBox_quite.SetToolTip( u"Enable quiet mode with no warnings." )
 		
@@ -237,6 +240,7 @@ class MyForm ( wx.Frame ):
 		# Connect Events
 		self.Bind( wx.EVT_CLOSE, self.app_close )
 		self.m_notebook1.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.wxPanel_change )
+		self.m_comboBox_files.Bind( wx.EVT_COMBOBOX, self.m_comboBox_files_selecthist )
 		self.m_button_openfile.Bind( wx.EVT_BUTTON, self.button_openfile )
 		self.m_button_run.Bind( wx.EVT_BUTTON, self.button_run )
 		self.m_bitmap_icon.Bind( wx.EVT_LEFT_DOWN, self.m_bitmap_icon_click )
@@ -266,6 +270,30 @@ class MyForm ( wx.Frame ):
 		event.Skip()
 		if event.GetSelection()==2: # Is the last page (about page).
 			self.checkUpdate()
+
+	#----------------------------------------------------------------------
+	def m_comboBox_files_selecthist( self, event):
+		event.Skip()
+		self.updateEDAselection()
+
+	#----------------------------------------------------------------------
+	def updateEDAselection( self ):
+		''' Update the EDA selection in the listBox based on the comboBox actual text '''
+		fileNames = re.split('" "', self.m_comboBox_files.GetValue()[1:-1])
+		if len(fileNames)==1:
+			eda = file_eda_match(fileNames[0])
+			if eda:
+				self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda) )
+		elif len(fileNames)>1:
+			# Check if all the EDA are the same. For different ones,
+			# the guide is not able now to deal, need improvement
+			# on `self.m_listBox_edatool`.
+			eda = file_eda_match(fileNames[0])
+			for fName in fileNames[1:]:
+				if file_eda_match(fName) != eda:
+					return
+			if eda:
+				self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda) )
 
 	#----------------------------------------------------------------------
 	def checkUpdate( self ):
@@ -321,15 +349,18 @@ class MyForm ( wx.Frame ):
 				self.m_comboBox_files.Delete(FILE_HIST_QTY-1) # Keep 10 files on history.
 			except:
 				pass
+			self.updateEDAselection()
 		dlg.Destroy()
 
 	#----------------------------------------------------------------------
 	def button_run( self, event ):
 		''' Run KiCost '''
 		event.Skip()
-		
 		self.save_properties() # Save the current graphical configuration before call the KiCost motor.
-		
+		self.run() # Run KiCost.
+
+	#----------------------------------------------------------------------
+	def run( self ):
 		# Get the current distributors to scrape.
 		choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
 		if choisen_dist:
@@ -373,7 +404,7 @@ class MyForm ( wx.Frame ):
 		
 		# Set the aplication windows title and configurations
 		self.SetTitle('KiCost v.' + __version__)
-		self.SetIcon(wx.Icon(actualDir + '/kicost.ico', wx.BITMAP_TYPE_ICO))
+		self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 		
 		# Current distrubutors module recognized.
 		distributors_list = [*sorted(list(distributors.keys()))]
@@ -383,15 +414,16 @@ class MyForm ( wx.Frame ):
 			self.m_checkList_dist.Check(idx,True) # All start checked (after is modifed by the configuration file).
 		
 		# Current EDA tools module recoginized.
-		eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+		#eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+		eda_names = [*sorted(list(eda_tool.keys()))]
 		self.m_listBox_edatool.Clear()
 		self.m_listBox_edatool.Append(eda_names)
 		
 		# Credits and other informations, search by `AUTHOR.rst` file.
 		self.m_staticText_version.SetLabel( 'KiCost version ' + __version__ )
-		self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + '/kicost.ico', wx.BITMAP_TYPE_ICO))
+		self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 		try:
-			credits_file = open(actualDir + '/../kicost-' + __version__ + '.dist-info/AUTHOR.rst')
+			credits_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.dist-info' + os.sep + 'AUTHOR.rst')
 			credits = credits_file.read()
 			credits_file.close()
 		except:
@@ -526,7 +558,18 @@ class MyForm ( wx.Frame ):
 #######################################################################
 
 def kicost_gui():
+	''' Load the graphical interface '''
 	app = wx.App(redirect=False)
 	frame = MyForm(None)
 	frame.Show()
 	app.MainLoop()
+
+def kicost_gui_run(fileName):
+	''' Execute the `fileName`under KiCost loading the graphical interface '''
+	app = wx.App(redirect=False)
+	frame = MyForm(None)
+#	frame.Show()
+	frame.m_comboBox_files.SetValue('"' + '", "'.join(fileName) + '"')
+	frame.updateEDAselection()
+	frame.run()
+#	app.MainLoop()

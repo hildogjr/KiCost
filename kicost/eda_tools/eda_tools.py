@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo G Jr
@@ -26,13 +27,14 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-import re # Regular expression parser.
+import re, os # Regular expression parser and matches.
 import sys # Exit in the error.
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
 from ..kicost import distributors, SEPRTR
+from . import eda_tool # EDA dictionary with the features.
 
-__all__ = ['subpart_split','subpart_qty','groups_sort','collapse_refs']
+__all__ = ['file_eda_match', 'subpart_split', 'subpart_qty', 'groups_sort', 'collapse_refs']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -47,8 +49,10 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # Regular expression for detecting part reference ids consisting of a
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
-# There can even be an interposer character so 'LED-10' is also OK.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+# There can even be an interposer character so 'LED.10', 'LED_10',
+# 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
+# References with numbers at the end are allowed by some EDAs.
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z\.\_\-\+(\&amp;)\d]*[a-z\.\_\-\+(\&amp;)])(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?)?)'.format(SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -101,6 +105,23 @@ field_name_translations.update(
         'nopop': 'dnp',
     }
 )
+
+
+def file_eda_match(file_name):
+    '''Verify with which EDA the file matches.'''
+    # Return the EDA name with the file matches or `None` if not founded.
+    file_handle = open(file_name, 'r')
+    content = file_handle.read()
+    extension = os.path.splitext(file_name)[1]
+    for name, defs in eda_tool.items():
+        #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
+        if re.search(defs['file']['content'], content, re.IGNORECASE)\
+            and extension==defs['file']['extension']:
+                file_handle.close()
+                return name
+    file_handle.close()
+    return None
+
 
 
 # Temporary class for storing part group information.
@@ -548,7 +569,7 @@ def split_refs(text):
         ref = re.sub('[\+\s\_\.\(\)\$\*]', '', ref) # Generic special caracheters.
         ref = re.sub('\-+', '-', ref) # Double "-".
         ref = re.sub('^\-', '', ref) # Stating "-".
-        ref = re.sub('\-$', 'n', ref) # Finishin "-".
+        ref = re.sub('\-$', 'n', ref) # Finishing "-".
         if re.search('^\w+\d', ref):
             if re.search('-', ref):
                 designator_name = re.findall('^\D+', ref)[0]

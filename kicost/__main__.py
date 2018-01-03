@@ -34,11 +34,11 @@ import os
 import sys
 import logging
 import time
-import inspect # To get the internal module and informations of a module/class.
+#import inspect # To get the internal module and informations of a module/class.
 from .kicost import kicost # kicost core functions.
 from .kicost_gui import * # User guide.
 from .distributors import distributors
-from . import eda_tools as eda_tools_imports
+from .eda_tools import eda_tool #from . import eda_tools as eda_tools_imports
 from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
@@ -133,6 +133,9 @@ def main():
                         default=HTML_RESPONSE_RETRIES,
                         metavar = 'num_retries',
                         help='Specify the number of attempts to retrieve part data from a website.')
+    parser.add_argument('--user',
+                        action='store_true',
+                        help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
 
 
     args = parser.parse_args()
@@ -153,8 +156,9 @@ def main():
         print('Distributor list:', *sorted(list(distributors.keys())))
         return
     if args.show_eda_list:
-        eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
-        print('EDA supported list:', ', '.join(eda_names))
+        #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+        #print('EDA supported list:', ', '.join(eda_names))
+        print('EDA supported list:', *sorted(list(eda_tool.keys())))
         return
 
     # Set up spreadsheet output file.
@@ -176,6 +180,12 @@ def main():
     else:
         # Output file was given. Make sure it has spreadsheet extension.
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
+
+    # Call the KiCost interface to alredy run KiCost, this is just to use the
+    # saved user configurations of the graphical interface.
+    if args.user:
+        kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
+        return
 
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
