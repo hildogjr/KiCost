@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2017 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,18 +21,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Libraries.
-import re # Regular expression parser.
-from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..distributors import distributors # Distributors name to use as field.
-from ..kicost import distributors, SEPRTR
-
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-__all__ = ['subpart_split','subpart_qty','groups_sort']
+# Libraries.
+import re, os # Regular expression parser and matches.
+import sys # Exit in the error.
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..distributors import distributors # Distributors name to use as field.
+from ..kicost import distributors, SEPRTR
+from . import eda_tool # EDA dictionary with the features.
+
+__all__ = ['file_eda_match', 'subpart_split', 'subpart_qty', 'groups_sort', 'collapse_refs']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -46,8 +49,10 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # Regular expression for detecting part reference ids consisting of a
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
-# There can even be an interposer character so 'LED-10' is also OK.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+# There can even be an interposer character so 'LED.10', 'LED_10',
+# 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
+# References with numbers at the end are allowed by some EDAs.
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z\.\_\-\+(\&amp;)\d]*[a-z\.\_\-\+(\&amp;)])(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?)?)'.format(SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -102,12 +107,28 @@ field_name_translations.update(
 )
 
 
-# ------------------ Public functions
+def file_eda_match(file_name):
+    '''Verify with which EDA the file matches.'''
+    # Return the EDA name with the file matches or `None` if not founded.
+    file_handle = open(file_name, 'r')
+    content = file_handle.read()
+    print(content)
+    extension = os.path.splitext(file_name)[1]
+    for name, defs in eda_tool.items():
+        #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
+        if re.search(defs['file']['content'], content, re.IGNORECASE)\
+            and extension==defs['file']['extension']:
+                file_handle.close()
+                return name
+    file_handle.close()
+    return None
+
 
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     pass
+
 
 def group_parts(components):
     '''Group common parts after preprocessing from XML or CSV files.'''
@@ -447,6 +468,91 @@ def manf_code_qtypart(subpart):
     if logger.isEnabledFor(DEBUG_OBSESSIVE):
         print('part/qty>>', subpart, '\t\tpart>>', part, '\tqty>>', qty)
     return qty, part
+
+
+def collapse_refs(refs):
+    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
+
+    def convert_to_ranges(nums):
+        # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
+        # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
+
+        def get_refnum(refnum):
+            return int(re.match('\d+', refnum).group(0))
+
+        def to_int(n):
+            try:
+                return int(n)
+            except ValueError:
+                return n
+
+        nums.sort(key=get_refnum)  # Sort all the numbers.
+        nums = [to_int(n) for n in nums]  # Convert strings to ints if possible.
+        num_ranges = []  # No ranges found yet since we just started.
+        range_start = 0  # First possible range is at the start of the list of numbers.
+
+        # Go through the list of numbers looking for 3 or more sequential numbers.
+        while range_start < len(nums):
+            num_range = nums[range_start]  # Current range starts off as a single number.
+            next_range_start = range_start + 1  # The next possible start of a range.
+            # Part references with subparts are never included in ref ranges.
+            if not isinstance(num_range, int):
+                num_ranges.append(num_range)
+                range_start = next_range_start
+                continue
+            # Look for sequences of three or more sequential numbers.
+            for range_end in range(range_start + 2, len(nums)):
+                if not isinstance(nums[range_end], int):
+                    break  # Ref with subpart, so can't be in a ref range.
+                if range_end - range_start != nums[range_end] - nums[range_start]:
+                    break  # Non-sequential numbers found, so break out of loop.
+                # Otherwise, extend the current range.
+                num_range = [nums[range_start], nums[range_end]]
+                # 3 or more sequential numbers found, so next possible range must start after this one.
+                next_range_start = range_end + 1
+            # Append the range (or single number) just found to the list of range.
+            num_ranges.append(num_range)
+            # Point to the start of the next possible range and keep looking.
+            range_start = next_range_start
+
+        return num_ranges
+
+    prefix_nums = {}  # Contains a list of numbers for each distinct prefix.
+    for ref in refs:
+        # Partition each part reference into its beginning part prefix and ending number.
+        match = re.search(PART_REF_REGEX, ref)
+        if match:
+            prefix = match.group('prefix')
+            num = match.group('num')
+        else:
+            # The not `match` happens when the user schematic disegner use
+            # not recognized characters by the `PART_REF_REGEX` definition
+            # into the components references.
+            print('Not recognized characters used in <' + ref + '> reference.\nUnsuceful finish.')
+            sys.exit(1) # Exit with error.
+
+        # Append the number to the list of numbers for this prefix, or create a list
+        # with a single number if this is the first time a particular prefix was encountered.
+        prefix_nums.setdefault(prefix, []).append(num)
+
+    # Convert the list of numbers for each ref prefix into ranges.
+    for prefix in list(prefix_nums.keys()):
+        prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
+
+    # Combine the prefixes and number ranges back into part references.
+    collapsed_refs = []
+    for prefix, nums in list(prefix_nums.items()):
+        for num in nums:
+            if isinstance(num, list):
+                # Convert a range list into a collapsed part reference:
+                # e.g., 'R10-R15' from 'R':[10,15].
+                collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0], num[-1]))
+            else:
+                # Convert a single number into a simple part reference: e.g., 'R10'.
+                collapsed_refs.append('{}{}'.format(prefix, num))
+
+    # Return the collapsed par references.
+    return collapsed_refs
 
 
 def split_refs(text):

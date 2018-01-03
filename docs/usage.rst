@@ -51,6 +51,10 @@ To create a cost scpredsheet direct from the KiCad `Bill of Material" wizard (us
 
     kicost -i %I
 
+To create a cost scpredsheet direct from the KiCad using the user definitions (by graphical interface last runned):
+
+    kicost -i %I --user
+
 To place the spreadsheet in a file with a different name than the XML file::
 
     kicost -i schem.xml -o new_file.xlsx
@@ -74,6 +78,10 @@ To include parts that are only used in a particular variant of a design::
 To create a cost spreadsheet from a CSV file of part data::
 
     kicost -i schem.csv --eda_tool csv
+
+Now, a friendly user graphical interface was created. To load it, just use `kicost` command without parameters.
+
+.. image:: guide_screen.png
 
 ------------------------
 Custom BOM list
@@ -274,6 +282,7 @@ provides additional cues:
    * Red if the part is unavailable at any of the distributors.
    * Orange if the part is available, but not in sufficient quantity.
    * Yellow if there is enough of the part available, but not enough has been ordered.
+   * Gray not informed any ``manf#`` or distributor code in the BOM file.
 
 #. The ``Avail`` cell is colored to show the availability of a given part
    at a particular distributor:
@@ -296,7 +305,7 @@ This can be too much for some computers, so you can decrease the load
 using the ``--num_processes`` command-line option with the number of
 processes you want to spawn::
 
-    kicost -i schematic.xml -num_processes 10
+    kicost -i schematic.xml --num_processes 10
 
 In addition, you can use the ``--serial`` command-line option to force KiCost
 into single-threaded operation.
@@ -374,15 +383,9 @@ Command-Line Options
       -rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.
-
---------------------------------
-Using KiCost From Within KiCad
---------------------------------
-
-In the Bill of Material window use the the command
-
-    kicost - i %1 -w -q
-
+      --user
+                            Start the user guide to run KiCost passing the file
+                            parameter give by "--input", all others parameters are ignored.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)

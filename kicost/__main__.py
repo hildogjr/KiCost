@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,17 @@ from builtins import open
 from future import standard_library
 standard_library.install_aliases()
 
-import argparse as ap
+import argparse as ap # Command argument parser.
 import os
 import sys
 import logging
 import time
-from .kicost import *
-from . import __version__
+#import inspect # To get the internal module and informations of a module/class.
+from .kicost import kicost # kicost core functions.
+from .kicost_gui import * # User guide.
+from .distributors import distributors
+from .eda_tools import eda_tool #from . import eda_tools as eda_tools_imports
+from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
@@ -129,6 +133,9 @@ def main():
                         default=HTML_RESPONSE_RETRIES,
                         metavar = 'num_retries',
                         help='Specify the number of attempts to retrieve part data from a website.')
+    parser.add_argument('--user',
+                        action='store_true',
+                        help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
 
 
     args = parser.parse_args()
@@ -149,7 +156,9 @@ def main():
         print('Distributor list:', *sorted(list(distributors.keys())))
         return
     if args.show_eda_list:
-        print('EDA list:', *sorted(list(eda_tools.keys())))
+        #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+        #print('EDA supported list:', ', '.join(eda_names))
+        print('EDA supported list:', *sorted(list(eda_tool.keys())))
         return
 
     # Set up spreadsheet output file.
@@ -158,10 +167,10 @@ def main():
         if args.input != None:
             # Send output to spreadsheet with name of input file.
             if len(args.input)>1:
-            	# Compose a name with the multiple BOM input file names,
-            	# limiting to the first 5 caracheters of each name (avoid
-            	# huge names). THis is dynamic if the number of input
-            	# files passed.
+                # Compose a name with the multiple BOM input file names,
+                # limiting to the first 5 caracheters of each name (avoid
+                # huge names). This is dynamic if the number of input
+                # files passed.
                 args.output = '-'.join( [ os.path.splitext(args.input[i][:max(int(20/len(args.input)),5)])[0] for i in range(len(args.input))] ) + '.xlsx'
             else:
                 args.output = os.path.splitext(args.input[0])[0] + '.xlsx'
@@ -172,6 +181,12 @@ def main():
         # Output file was given. Make sure it has spreadsheet extension.
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
 
+    # Call the KiCost interface to alredy run KiCost, this is just to use the
+    # saved user configurations of the graphical interface.
+    if args.user:
+        kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
+        return
+
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
         if not args.overwrite:
@@ -181,8 +196,8 @@ def main():
 
     # Set XML input source.
     if args.input == None:
-        # Get XML from the STDIN if no input file is given.
-        args.input = sys.stdin
+        kicost_gui() # Use the user guide.
+        return
     else:
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
@@ -191,7 +206,7 @@ def main():
             if os.path.splitext(args.input[i])[1] == '':
                 args.input[i] += '.xml'
             elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv' or args.eda_tool[i] == 'generic':
-                args.eda_tool = 'generic_csv'
+                args.eda_tool = 'csv'
             args.input[i] = open(args.input[i])
 
     # Set number of processes to use for web scraping.
@@ -214,4 +229,3 @@ if __name__ == '__main__':
     main()
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
-
