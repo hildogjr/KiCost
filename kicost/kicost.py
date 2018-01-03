@@ -78,7 +78,6 @@ scrape_part = distributor_imports.scrape_part
 from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
 from .eda_tools.eda_tools import SUB_SEPRTR
-
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
