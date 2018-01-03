@@ -282,6 +282,7 @@ provides additional cues:
    * Red if the part is unavailable at any of the distributors.
    * Orange if the part is available, but not in sufficient quantity.
    * Yellow if there is enough of the part available, but not enough has been ordered.
+   * Gray not informed any ``manf#`` or distributor code in the BOM file.
 
 #. The ``Avail`` cell is colored to show the availability of a given part
    at a particular distributor:
