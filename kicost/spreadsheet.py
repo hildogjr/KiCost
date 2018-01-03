@@ -132,7 +132,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'vcenter'
             }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
-            'not_manf_codes': workbook.add_format({'bg_color': '#888888'}),
+            'not_manf_codes': workbook.add_format({'bg_color': '#AAAAAA'}),
             'not_available': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'order_too_much': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
@@ -488,7 +488,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             {
                 'type': 'formula',
                 'criteria': '=AND(ISBLANK({g}),{d})'.format(
-                    g=xl_range(row,5,row,5), # Manf# code also have to be blank.
+                    g=xl_rowcol_to_cell(row,start_col + columns['manf#']['col']), # Manf# column also have to be blank.
                     d=','.join(dist_code_avail)
                  ),
                 'format': wrk_formats['not_manf_codes']

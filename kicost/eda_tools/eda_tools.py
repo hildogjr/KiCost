@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo G Jr
@@ -48,8 +49,10 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # Regular expression for detecting part reference ids consisting of a
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
-# There can even be an interposer character so 'LED-10' is also OK.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+# There can even be an interposer character so 'LED.10', 'LED_10',
+# 'LED_BLUE-10' or 'TEST&PIN+2' is also OK.
+#PART_REF_REGEX = re.compile('(?P<prefix>[\da-z\.\_\-\+\&]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z\.\_\-\+(\&amp;)]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -109,6 +112,7 @@ def file_eda_match(file_name):
     # Return the EDA name with the file matches or `None` if not founded.
     file_handle = open(file_name, 'r')
     content = file_handle.read()
+    print(content)
     extension = os.path.splitext(file_name)[1]
     for name, defs in eda_tool.items():
         #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
