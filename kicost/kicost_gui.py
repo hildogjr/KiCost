@@ -31,7 +31,6 @@ import wx # wxWidgets for Python.
 import webbrowser
 import os, subprocess # To access OS commands and run in the shell.
 import platform # To check the system platform when open the XLS file.
-from threading import Thread as ThreadProcess # To run the update check without freeze the application.
 from distutils.version import StrictVersion # To comparasion of versions.
 import re # Regular expression parser.
 #import inspect # To get the internal module and informations of a module/class.
@@ -270,10 +269,7 @@ class MyForm ( wx.Frame ):
 	def wxPanel_change( self, event ):
 		event.Skip()
 		if event.GetSelection()==2: # Is the last page (about page).
-			#return
-			update_thread = ThreadProcess(target = self.checkUpdate )
-			update_thread.start()
-			update_thread.join()
+			wx.CallLater(1, self.checkUpdate)
 
 	#----------------------------------------------------------------------
 	def m_comboBox_files_selecthist( self, event):
