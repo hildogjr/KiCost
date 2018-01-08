@@ -52,7 +52,8 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # There can even be an interposer character so 'LED.10', 'LED_10',
 # 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
 # References with numbers at the end are allowed by some EDAs.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z\.\_\-\+(\&amp;)\d]*[a-z\.\_\-\+(\&amp;)])(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?)?)'.format(SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&(\&amp;)'
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -112,7 +113,6 @@ def file_eda_match(file_name):
     # Return the EDA name with the file matches or `None` if not founded.
     file_handle = open(file_name, 'r')
     content = file_handle.read()
-    print(content)
     extension = os.path.splitext(file_name)[1]
     for name, defs in eda_tool.items():
         #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
@@ -312,8 +312,12 @@ def subpart_split(components):
             try:
                 subparts_manf = subpart_list(part['manf'])
                 if len(subparts_manf)!=subparts_qty:
-                    # Exception `manf` and `manf#` length doesn't macth, fill with '' at the end.
-                    subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
+                    if len(subparts_manf)==1:
+                        # If just one `manf`assumes that is for all.
+                        subparts_manf = [subparts_manf[0]]*subparts_qty
+                    else:
+                        # Exception `manf` and `manf#` length doesn't macth, fill with '' at the end.
+                        subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
             except KeyError:
                 subparts_manf = ['']*subparts_qty
                 pass
@@ -351,17 +355,19 @@ def subpart_split(components):
                                             v=part_actual_value,
                                             idx=subparts_index+1,
                                             total=subparts_qty)
-                            # Update the splitted `manf`(manufactures names).
-                            if p_manf_code!=REPLICATE_MANF:
-                                # If the actual manufacture name is the definition `REPLICATE_MANF`
-                                # replicate the last one.
-                                subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
+                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual[field_manf_dist_code] = subpart_part
-                            subpart_actual[field_manf_dist_code+'_subqty'] = subpart_qty
+                            subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
                             if logger.isEnabledFor(DEBUG_OBSESSIVE):
                                 print(subpart_actual)
                         except IndexError:
                             pass
+                    # Update the splitted `manf`(manufactures names).
+                    if subparts_manf[subparts_index]!=REPLICATE_MANF:
+                        # If the actual manufacture name is the defined as `REPLICATE_MANF`
+                        # replicate the last one.
+                        p_manf = subparts_manf[subparts_index]
+                    subpart_actual['manf'] = p_manf
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     splitted_components[ref] = subpart_actual
@@ -373,7 +379,7 @@ def subpart_split(components):
                         p_manf_code = subparts_manf_code[field_manf_dist_code][0]
                         part_qty, part_part = manf_code_qtypart(p_manf_code)
                         part_actual[field_manf_dist_code] = part_part
-                        part_actual[field_manf_dist_code+'_subqty'] = part_qty
+                        part_actual[field_manf_dist_code+'_qty'] = part_qty
                         if logger.isEnabledFor(DEBUG_OBSESSIVE):
                             print(part)
                         splitted_components[part_ref] = part_actual
@@ -392,7 +398,7 @@ def subpart_qty(component):
     was a sub part of a manufacture/distributor code).
     '''
     try:
-        subqty = component.fields.get('manf#_subqty')
+        subqty = component.fields.get('manf#_qty')
 
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>', subqty, '*',
@@ -565,12 +571,12 @@ def split_refs(text):
     partial_ref = re.split('[,;]', text)
     refs = []
     for ref in partial_ref:
-        # Remove invalid characters.
-        ref = re.sub('\+$', 'p', ref) # Finishin "+".
-        ref = re.sub('[\+\s\_\.\(\)\$\*]', '', ref) # Generic special caracheters.
-        ref = re.sub('\-+', '-', ref) # Double "-".
-        ref = re.sub('^\-', '', ref) # Stating "-".
-        ref = re.sub('\-$', 'n', ref) # Finishin "-".
+        # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.
+        #ref = re.sub('\+$', 'p', ref) # Finishing "+".
+        #ref = re.sub('[\+\s\_\.\(\)\$\*]', '', ref) # Generic special caracheters.
+        #ref = re.sub('\-+', '-', ref) # Double "-".
+        #ref = re.sub('^\-', '', ref) # Starting "-".
+        #ref = re.sub('\-$', 'n', ref) # Finishing "-".
         if re.search('^\w+\d', ref):
             if re.search('-', ref):
                 designator_name = re.findall('^\D+', ref)[0]
