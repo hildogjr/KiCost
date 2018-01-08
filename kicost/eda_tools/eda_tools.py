@@ -342,7 +342,7 @@ def subpart_split(components):
                     subpart_actual = part_actual.copy()
                     for field_manf_dist_code in founded_fields:
                         # For each manufacture/distributor code take the same order of
-                      # the code list and split in each subpart. When not founded one
+                        # the code list and split in each subpart. When not founded one
                         # part, do not add.
                         # e.g. U1:{'manf#':'PARTG1;PARTG2;PARTG3', 'mouser#''PARTM1;PARTM2'}
                         # result:
