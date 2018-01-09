@@ -571,6 +571,3 @@ def kicost_gui_run(fileName):
 	frame.updateEDAselection()
 	frame.run()
 #	app.MainLoop()
-
-def kicost_gui_dependencesinstall():
-	print('GUI dependences are not installed')
