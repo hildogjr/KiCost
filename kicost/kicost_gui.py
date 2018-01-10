@@ -283,6 +283,8 @@ class MyForm ( wx.Frame ):
 		if all(os.path.isfile(f) for f in re.split(SEP_FILES, fileNames) ):
 			self.m_comboBox_files.Insert( fileNames, 0 )
 			self.updateEDAselection() # Auto-select the EDA module.
+		else:
+			self.m_comboBox_files.SetValue( '' )
 
 	#----------------------------------------------------------------------
 	def updateEDAselection( self ):
@@ -431,7 +433,7 @@ class MyForm ( wx.Frame ):
 		self.m_staticText_version.SetLabel( 'KiCost version ' + __version__ )
 		self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 		try:
-			credits_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.dist-info' + os.sep + 'AUTHOR.rst')
+			credits_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.egg-info' + os.sep + 'AUTHOR.rst')
 			credits = credits_file.read()
 			credits_file.close()
 		except:

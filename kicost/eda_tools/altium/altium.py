@@ -49,10 +49,6 @@ field_name_translations.update(
 ALTIUM_NONE = '[NoParam]' # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 
-#TODO
-# - No geral, executar `group_parts` no arquivo `kicost.py`, depois do lo, op de ler vários arquivos. Isso agruparão partes entre eles (retirar a chamada e comentário de dentro de `kicad.py`e `generic_csv.py`
-# - Mover funções de web para fora de `kicost.py`
-
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
@@ -69,24 +65,39 @@ def get_part_groups(in_file, ignore_fields, variant):
         except KeyError:
             return None
 
-    def extract_fields_row(part, variant):
+    def extract_fields_row(row, variant):
         '''Extract XML fields from the part in a library or schematic.'''
-        fields = {}
-        for hdr in header:
+        
+        # First get the references and the quantities of elementes in each rwo group.
+        header_translated = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
+        hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"][0]
+        refs = extract_field(row, header[hdr_refs].lower())
+        header_valid = header
+        header_valid.remove(header[hdr_refs])
+        try:
+            hdr_qty = [i for i, x in enumerate(header_translated) if x == "qty"][0]
+            qty = int( extract_field(row, header[hdr_qty].lower()) )
+            header_valid.remove(header[hdr_qty])
+        except:
+            qty = len(refs)
+        
+        # After the others fields.
+        fields = [dict() for x in range(qty)]
+        for hdr in header_valid:
             # Extract each information, by the the header given, for each
             # row part, spliting it in a list.
-            value = extract_field(part, hdr.lower())
+            value = extract_field(row, hdr.lower())
             value = re.split(ALTIUM_PART_SEPRTR, value)
-            
             if not hdr.lower() in ign_fields:
-                for v in value:
-                    if field_name_translations.get(hdr.lower(),hdr.lower()) != 'refs':
-                        refs = value
+                for i in range(qty):
+                    if len(value)==qty:
+                        v = value[i]
                     else:
-                        # Do not create empty fields. This is userfull
-                        # when used more than one `manf#` alias in one designator.
-                        if v and v!=ALTIUM_NONE:
-                            fields[field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
+                        v = value[0] # Footprint is just one for group.
+                    # Do not create empty fields. This is userfull
+                    # when used more than one `manf#` alias in one designator.
+                    if v and v!=ALTIUM_NONE:
+                        fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
         return refs, fields
 
     # Read-in the schematic XML file to get a tree and get its root.
@@ -103,14 +114,12 @@ def get_part_groups(in_file, ignore_fields, variant):
     # to get all the informations in the file.
     header = [ extract_field(entry, 'name') for entry in root.find('columns').find_all('column') ]
     
-    for p in root.find('rows').find_all('row'):
+    for row in root.find('rows').find_all('row'):
 
         # Get the values for the fields in each library part (if any).
-        fields = extract_fields_row(p, variant)
-        
-        refs, fields = extract_fields(row)
-        for ref in refs:
-           accepted_components[ref] = fields
+        refs, fields = extract_fields_row(row, variant)
+        #for i in range(len(refs)):
+        #   accepted_components[refs[i]] = fields[i]
 
     # Altium XML file don't have project general information.
     prj_info = {'title':'No title','company':'Not avaliable','date':'Not avaliable'}
