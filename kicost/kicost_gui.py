@@ -74,7 +74,7 @@ class MyForm ( wx.Frame ):
 		
 		sbSizer2.Add( self.m_comboBox_files, 1, wx.ALL, 5 )
 		
-		self.m_button_openfile = wx.Button( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Chooose BoM", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_button_openfile = wx.Button( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Choose BoM", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_button_openfile.SetToolTip( u"Open a BoM file." )
 		
 		sbSizer2.Add( self.m_button_openfile, 0, wx.ALL, 5 )

@@ -59,7 +59,10 @@ def get_part_groups(in_file, ignore_fields, variant):
                     continue  # Ignore fields in the ignore list.
                 elif SEPRTR not in name: # No separator, so get global field value.
                     name = field_name_translations.get(name, name)
-                    fields[name] = str(f.string)
+                    value = str(f.string)
+                    if value:
+                        fields[name] = value # Do not create empty fields. This is userfull
+                                             # when used more than one `manf#` alias in one designator.
                 else:
                     # Now look for fields that start with 'kicost' and possibly
                     # another dot-separated variant field and store their values.
@@ -78,7 +81,9 @@ def get_part_groups(in_file, ignore_fields, variant):
                         if name not in ('manf#', 'manf') and name[:-1] not in distributors:
                             if SEPRTR not in name: # This field has no distributor.
                                 name = 'local:' + name # Assign it to a local distributor.
-                        fields[name] = str(f.string)
+                        value = str(f.string)
+                        if value:
+                            fields[name] = value
 
         except AttributeError:
             pass  # No fields found for this part.

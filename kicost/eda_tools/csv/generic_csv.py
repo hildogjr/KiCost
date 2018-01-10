@@ -62,7 +62,9 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
-    # No `variant` or `ignore_fields` are used in this function, the input is just kept by compatibily.
+    # No `variant` are used in this function, the input is just kept by compatibily.
+
+    ign_fields = [str(f.lower()) for f in ignore_fields]
 
     logger.log(DEBUG_OVERVIEW, 'Get schematic CSV...')
     content = in_file.read()
@@ -144,14 +146,20 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['footprint'] = vals.get('footprint', 'Foot:???')
             fields['value'] = vals.get('value', '???')
             for h in header:
-                fields[h] = vals.get(h, '')
+                if not h.lower() in ign_fields:
+                    value = vals.get(h, '')
+                    if value:
+                        fields[h] = value
         else:
             # For Python 2, create unicode versions of strings.
             fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
             fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
             fields['value'] = vals.get('value', '???').decode('utf-8')
             for h in header:
-                fields[h] = vals.get(h, '').decode('utf-8')
+                if not h in ign_fields:
+                    value = vals.get(h, '').decode('utf-8')
+                    if value:
+                        fields[h] = value
         return refs, fields
     extract_fields.gen_cntr = 0
 
