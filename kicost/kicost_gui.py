@@ -43,6 +43,7 @@ __all__ = ['kicost_gui', 'kicost_gui_run']
 
 # Guide definitions.
 FILE_HIST_QTY = 10
+SEP_FILES = '\n' # File separator in the comboBox.
 WILDCARD = "BoM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
 			"KiCad/Altium BoM file (*.xml)|*.xml|" \
 			"Proteus/Generic BoM file (*.csv)|*.csv"
@@ -68,7 +69,7 @@ class MyForm ( wx.Frame ):
 		sbSizer2 = wx.StaticBoxSizer( wx.StaticBox( self.m_panel1, wx.ID_ANY, u"Files" ), wx.HORIZONTAL )
 		
 		m_comboBox_filesChoices = []
-		self.m_comboBox_files = wx.ComboBox( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Files", wx.DefaultPosition, wx.DefaultSize, m_comboBox_filesChoices, 0 )
+		self.m_comboBox_files = wx.ComboBox( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Not selected files", wx.DefaultPosition, wx.DefaultSize, m_comboBox_filesChoices, 0 )
 		self.m_comboBox_files.SetToolTip( u"BoM file(s) to scrape." )
 		
 		sbSizer2.Add( self.m_comboBox_files, 1, wx.ALL, 5 )
@@ -102,6 +103,8 @@ class MyForm ( wx.Frame ):
 		
 		m_listBox_edatoolChoices = []
 		self.m_listBox_edatool = wx.ListBox( sbSizer31.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_listBox_edatoolChoices, 0 )
+		self.m_listBox_edatool.SetToolTip( u"EDA software/module corresponding to the file." )
+		
 		sbSizer31.Add( self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5 )
 		
 		
@@ -207,7 +210,7 @@ class MyForm ( wx.Frame ):
 		self.m_staticText_version.Wrap( -1 )
 		bSizer111.Add( self.m_staticText_version, 1, wx.ALL, 5 )
 		
-		self.m_staticText_update = wx.StaticText( self.m_panel3, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.m_staticText_update = wx.StaticText( self.m_panel3, wx.ID_ANY, u"Update info", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.m_staticText_update.Wrap( -1 )
 		bSizer111.Add( self.m_staticText_update, 0, wx.ALL, 5 )
 		
@@ -272,12 +275,19 @@ class MyForm ( wx.Frame ):
 	#----------------------------------------------------------------------
 	def m_comboBox_files_selecthist( self, event):
 		event.Skip()
-		self.updateEDAselection()
+		# Check if the file in the file name exist and
+		# update the history sequence, if don't, remove it.
+		histSelected = event.GetSelection()
+		fileNames = event.GetString()
+		self.m_comboBox_files.Delete(histSelected)
+		if all(os.path.isfile(f) for f in re.split(SEP_FILES, fileNames) ):
+			self.m_comboBox_files.Insert( fileNames, 0 )
+			self.updateEDAselection() # Auto-select the EDA module.
 
 	#----------------------------------------------------------------------
 	def updateEDAselection( self ):
 		''' Update the EDA selection in the listBox based on the comboBox actual text '''
-		fileNames = re.split('" "', self.m_comboBox_files.GetValue()[1:-1])
+		fileNames = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
 		if len(fileNames)==1:
 			eda = file_eda_match(fileNames[0])
 			if eda:
@@ -339,7 +349,7 @@ class MyForm ( wx.Frame ):
 			)
 		if dlg.ShowModal() == wx.ID_OK:
 			paths = dlg.GetPaths()
-			fileBOM = ' '.join(['"' + file + '"' for file in paths])
+			fileBOM = SEP_FILES.join( sorted(paths, key=str.lower) ) # Add the files sorted.
 			if self.m_comboBox_files.FindString(fileBOM)==wx.NOT_FOUND:
 				self.m_comboBox_files.Insert( fileBOM, 0 )
 			self.m_comboBox_files.SetValue( fileBOM )
@@ -367,7 +377,7 @@ class MyForm ( wx.Frame ):
 		else:
 			choisen_dist = ''
 		command = ("kicost"
-			+ " -i " + self.m_comboBox_files.GetValue()
+			+ " -i " + ' '.join(['"'+fileN+'"' for fileN in re.split(SEP_FILES, self.m_comboBox_files.GetValue())])
 			+ " -np " + str(self.m_spinCtrl_np.GetValue()) # Parallels process scrapping.
 			+ " -rt " + str(self.m_spinCtrl_retries.GetValue()) # Retry time in the scraps.
 			+ " -w" * self.m_checkBox_overwrite.GetValue()

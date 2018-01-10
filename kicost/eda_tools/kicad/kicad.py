@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,8 @@ import future
 import re
 from bs4 import BeautifulSoup
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...kicost import SEPRTR
-from ...kicost import distributors
-from ..eda_tools import field_name_translations, group_parts
+from ...kicost import SEPRTR, distributors
+from ..eda_tools import field_name_translations
 
 
 def get_part_groups(in_file, ignore_fields, variant):
@@ -193,5 +192,4 @@ def get_part_groups(in_file, ignore_fields, variant):
         # The part was not removed, so add it to the list of accepted components.
         accepted_components[ref] = fields
 
-    # Place identical parts in groups and return them.
-    return group_parts(accepted_components), prj_info
+    return accepted_components, prj_info

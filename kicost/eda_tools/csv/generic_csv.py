@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +29,13 @@ __company__ = 'University of Campinas - Brazil'
 # Proteus ISIS-ARES and AutoDesk EAGLE.
 
 # Libraries.
+from sys import version_info as python_version
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ...kicost import distributors, SEPRTR
-from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
+from ...kicost import SEPRTR, distributors
+from ..eda_tools import field_name_translations, split_refs
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
@@ -136,20 +138,20 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['qty'] = qty
         refs = split_refs(ref_str)
 
-        try:
-            # For Python 2, create unicode versions of strings.
-            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
-            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
-            fields['value'] = vals.get('value', '???').decode('utf-8')
-            for h in header:
-                fields[h] = vals.get(h, '').decode('utf-8')
-        except AttributeError:
+        if python_version >= (3,0):
             # This is for Python 3 where the values are already unicode.
             fields['libpart'] = vals.get('libpart', 'Lib:???')
             fields['footprint'] = vals.get('footprint', 'Foot:???')
             fields['value'] = vals.get('value', '???')
             for h in header:
                 fields[h] = vals.get(h, '')
+        else:
+            # For Python 2, create unicode versions of strings.
+            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
+            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
+            fields['value'] = vals.get('value', '???').decode('utf-8')
+            for h in header:
+                fields[h] = vals.get(h, '').decode('utf-8')
         return refs, fields
     extract_fields.gen_cntr = 0
 
@@ -168,5 +170,4 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Create some default project information.
     prj_info = {'title':'No title', 'company':'Not avaliable', 'date':'Not avaliable'}
 
-    # Place identical parts in groups and return them.
-    return group_parts(accepted_components), prj_info
+    return accepted_components, prj_info

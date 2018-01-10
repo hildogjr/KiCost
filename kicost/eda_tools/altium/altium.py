@@ -1,27 +1,58 @@
-# Inserted by Pasteurize tool.
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
-from builtins import zip
-from builtins import range
-from builtins import int
-from builtins import str
-from future import standard_library
-standard_library.install_aliases()
+# -*- coding: utf-8 -*-
+# MIT license
+#
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
-import future
+# Author information.
+__author__ = 'Hildo Guillardi Junior'
+__webpage__ = 'https://github.com/hildogjr/'
+__company__ = 'University of Campinas - Brazil'
+# This module is intended to work with Altium XML files.
 
+# Libraries.
+from sys import version_info as python_version
 from bs4 import BeautifulSoup # To Read XML files.
+import re # Regular expression parser.
 import logging
-import sys
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ...kicost import distributors, SEPRTR
+from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
 
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...kicost import SEPRTR # Delimiter between library:component, distributor:field, etc.
+# Add to deal with the fileds of Altium and WEB tools.
+field_name_translations.update(
+    {
+        'designator': 'refs',
+        'quantity': 'qty',
+        'manufacturer name': 'manf', # Used for some web site tools to part generator in Altium.
+        'manufacturer part number': 'manf#'
+    }
+)
 
-# Temporary class for storing part group information.
-class IdenticalComponents(object):
-    pass
+ALTIUM_NONE = '[NoParam]' # Value of Altium to a not setted param.
+ALTIUM_PART_SEPRTR = r'(?<!\\)\s*[,]\s*' # Separator for the part numbers in a list, remove the lateral spaces.
+
+#TODO
+# - No geral, executar `group_parts` no arquivo `kicost.py`, depois do loop de ler vários arquivos. Isso agruparão partes entre eles (retirar a chamada e comentário de dentro de `kicad.py`e `generic_csv.py`
+# - Mover funções de web para fora de `kicost.py`
+
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
@@ -29,24 +60,23 @@ def get_part_groups(in_file, ignore_fields, variant):
     ign_fields = [str(f.lower()) for f in ignore_fields]
     
 
+    def extract_field(xml_entry, field_name):
+        '''Extract XML fields from XML entry given.'''
+        try:
+            if python_version>=(3,0):
+                return xml_entry[field_name]
+            else:
+                return xml_entry[field_name].encode('ascii', 'ignore')
+        except KeyError:
+            return None
+
     def extract_fields(part, variant):
         '''Extract XML fields from the part in a library or schematic.'''
-        
         fields = {}
-        
-        if sys.version[0]=='2':
-            fields['footprint']=part['footprint1'].encode('ascii', 'ignore')
-            fields['libpart']=part['libref1'].encode('ascii', 'ignore')
-            fields['value']=part['value3'].encode('ascii', 'ignore')
-            fields['reference']=part['comment1'].encode('ascii', 'ignore')
-            fields['manf#']=part['manufacturer_part_number_11'].encode('ascii', 'ignore')
-        else:
-            fields['footprint']=part['footprint1']
-            fields['libpart']=part['libref1']
-            fields['value']=part['value3']
-            fields['reference']=part['comment1']
-            fields['manf#']=part['manufacturer_part_number_11']
-            
+        for h in header:
+            value = extract_field(part, h)
+            if value and value!=ALTIUM_NONE:
+                fields[field_name_translations.get(hdr.lower(),hdr.lower())] = value
         return fields
 
     # Read-in the schematic XML file to get a tree and get its root.
@@ -59,10 +89,16 @@ def get_part_groups(in_file, ignore_fields, variant):
     libparts = {}
     component_groups = {}
     
+    # Get the header of the XML file of Altium, so KiCost is able to to
+    # to get all the informations in the file.
+    header = [ extract_field(entry, 'name') for entry in root.find('columns').find_all('column') ]
+    
     for p in root.find('rows').find_all('row'):
 
         # Get the values for the fields in each library part (if any).
         fields = extract_fields(p, variant)
+        
+        print(fileds)
         
         # Store the field dict under the key made from the
         # concatenation of the library and part names.
@@ -121,14 +157,8 @@ def get_part_groups(in_file, ignore_fields, variant):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)
 
-    prj_info = {'title':'No title','company':'Not avaliable','date':'Not avaliable'} # Not implemented yet.
+    # Altium XML file don't have project general information.
+    prj_info = {'title':'No title','company':'Not avaliable','date':'Not avaliable'}
 
     # Now return the list of identical part groups.
     return new_component_groups, prj_info
-
-if __name__=='__main__':
-    
-    file_handle=open('meacs.xml')
-    #~ file_handle=open('wiSensAFE.xml')
-    
-    get_part_groups_altium(file_handle,'','')
