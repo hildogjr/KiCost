@@ -28,7 +28,7 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re, os # Regular expression parser and matches.
-import sys # Exit in the error.
+from sys import exit # Exit in the error.
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
 from ..kicost import distributors, SEPRTR
@@ -534,8 +534,7 @@ def collapse_refs(refs):
             # The not `match` happens when the user schematic disegner use
             # not recognized characters by the `PART_REF_REGEX` definition
             # into the components references.
-            print('Not recognized characters used in <' + ref + '> reference.\nUnsuceful finish.')
-            sys.exit(1) # Exit with error.
+            exit('Not recognized characters used in <' + ref + '> reference. Adivise: edit it in your BOM/Schematic.')
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
@@ -573,7 +572,7 @@ def split_refs(text):
     for ref in partial_ref:
         # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.
         #ref = re.sub('\+$', 'p', ref) # Finishing "+".
-        ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed.
+        ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed. To work around #ISSUE #89.
         #ref = re.sub('\-+', '-', ref) # Double "-".
         #ref = re.sub('^\-', '', ref) # Starting "-".
         #ref = re.sub('\-$', 'n', ref) # Finishing "-".

@@ -28,13 +28,14 @@ __company__ = 'University of Campinas - Brazil'
 # This module is intended to work with Altium XML files.
 
 # Libraries.
-from sys import version_info as python_version
+import sys, os, time
 from bs4 import BeautifulSoup # To Read XML files.
 import re # Regular expression parser.
 import logging
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ...kicost import distributors, SEPRTR
 from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
+from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED #ISSUE
 
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(
@@ -58,7 +59,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     def extract_field(xml_entry, field_name):
         '''Extract XML fields from XML entry given.'''
         try:
-            if python_version>=(3,0):
+            if sys.version_info>=(3,0):
                 return xml_entry[field_name]
             else:
                 return xml_entry[field_name].encode('ascii', 'ignore')
@@ -70,14 +71,20 @@ def get_part_groups(in_file, ignore_fields, variant):
         
         # First get the references and the quantities of elementes in each rwo group.
         header_translated = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
-        hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"][0]
-        refs = extract_field(row, header[hdr_refs].lower())
-        header_valid = header
+        hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
+        if not hdr_refs:
+            sys.exit('Not founded the part designators/references in the BOM.\nTry to generate the file again at Altium.')
+        else:
+            hdr_refs = hdr_refs[0]
+        refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()) )
+        header_valid = header.copy()
         header_valid.remove(header[hdr_refs])
         try:
             hdr_qty = [i for i, x in enumerate(header_translated) if x == "qty"][0]
             qty = int( extract_field(row, header[hdr_qty].lower()) )
             header_valid.remove(header[hdr_qty])
+            if qty!=len(refs):
+                sys.exit('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, ` to `,` or better, use `;` instead `,`.')
         except:
             qty = len(refs)
         
@@ -102,27 +109,41 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, 'Get schematic XML...')
-    root = BeautifulSoup(in_file, 'lxml')
-    
+    file_h = open(in_file)
+    root = BeautifulSoup(file_h, 'lxml')
+    file_h.close()
+
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts library...')
     libparts = {}
     component_groups = {}
-    
+
     # Get the header of the XML file of Altium, so KiCost is able to to
     # to get all the informations in the file.
     header = [ extract_field(entry, 'name') for entry in root.find('columns').find_all('column') ]
-    
+
+    accepted_components = {}
     for row in root.find('rows').find_all('row'):
 
         # Get the values for the fields in each library part (if any).
         refs, fields = extract_fields_row(row, variant)
-        #for i in range(len(refs)):
-        #   accepted_components[refs[i]] = fields[i]
+        for i in range(len(refs)):
+            ref = refs[i]
+            ref = re.sub('\+$', 'p', ref) # Finishing "+".
+            ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed. To work around #ISSUE #89.
+            ref = re.sub('\-+', '-', ref) # Double "-".
+            ref = re.sub('^\-', '', ref) # Starting "-".
+            ref = re.sub('\-$', 'n', ref) # Finishing "-".
+            if not re.search('\d$', ref):
+                ref += '0'
+            accepted_components[ re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) ] = fields[i]
 
-    # Altium XML file don't have project general information.
-    prj_info = {'title':'No title','company':'Not avaliable','date':'Not avaliable'}
+    # Not founded project information at the file content.
+    prj_info = {'title': os.path.basename( in_file ),
+                'company': None,
+                'date': time.ctime(os.path.getmtime(in_file)) + ' (file)'}
 
-    # Now return the list of identical part groups.
+    #print(accepted_components)
+    #exit(1)
     return accepted_components, prj_info

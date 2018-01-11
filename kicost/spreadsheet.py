@@ -174,7 +174,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
         # Add project information to track the project (in a printed version
         # of the BOM) and the date because of price variations.
-        i_prj = 0 # WILL BE USED AT ISSUE #73 #TODO
+        i_prj = 0 # WILL BE USED AT ISSUE #73 #ISSUE
         wks.write(BOARD_QTY_ROW, START_COL,
                    'Proj{}:'.format(str(i_prj)) if len(prj_info)>1 else 'Proj:',
                     wrk_formats['proj_info_field'])

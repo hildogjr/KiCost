@@ -34,6 +34,7 @@ standard_library.install_aliases()
 
 import future
 
+import sys, os, time
 import re
 from bs4 import BeautifulSoup
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
@@ -91,20 +92,22 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, 'Get schematic XML...')
-    root = BeautifulSoup(in_file, 'lxml')
+    file_h = open(in_file)
+    root = BeautifulSoup(file_h, 'lxml')
+    file_h.close()
 
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
-    def title_find_all(field):
+    def title_find_all(data, field):
         '''Helper function for finding title info, especially if it is absent.'''
         try:
-            return str(title.find_all(field)[0].string)
+            return data.find_all(field)[0].string
         except (AttributeError, IndexError):
-            return ''
+            return None
     prj_info = dict()
-    prj_info['title'] = title_find_all('title')
-    prj_info['company'] = title_find_all('company')
-    prj_info['date'] = title_find_all('date')
+    prj_info['title'] = title_find_all(title, 'title') or os.path.basename( in_file )
+    prj_info['company'] = title_find_all(title, 'company')
+    prj_info['date'] = title_find_all(root, 'date') or (time.ctime(os.path.getmtime(in_file)) + ' (file)')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.

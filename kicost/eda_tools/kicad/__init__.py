@@ -23,7 +23,7 @@
 __author__ = 'XESS Corporation' # Improved by Hildo G Jr
 __email__ = 'info@xess.com'
 
-from .kicad import *
+from .kicad import get_part_groups
 
 # Place information about this EDA into the eda_tool dictionary.
 from .. import eda_tool

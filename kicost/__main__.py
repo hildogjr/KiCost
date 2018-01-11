@@ -222,7 +222,6 @@ def main():
                     args.eda_tool = 'csv'
             except IndexError:
                 pass
-            args.input[i] = open(args.input[i])
 
     # Set number of processes to use for web scraping.
     if args.serial:
