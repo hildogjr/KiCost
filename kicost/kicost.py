@@ -28,17 +28,14 @@ from __future__ import absolute_import
 from builtins import zip, range, int, str
 from future import standard_library
 standard_library.install_aliases()
-
 import future
 
 import sys
-import pprint
 import copy
-import logging
-import tqdm
+import logging, pprint
 from bs4 import BeautifulSoup # XML file interpreter.
 from yattag import Doc, indent  # For generating HTML page for local parts.
-import multiprocessing
+import multiprocessing, tqdm
 from multiprocessing import Pool # For running web scrapes in parallel.
 
 try:
@@ -78,6 +75,7 @@ distributors = distributor_imports.distributors
 # Import import functions for various EDA tools.
 from . import eda_tools as eda_tools_imports
 eda_tools = eda_tools_imports.eda_tools
+group_parts = eda_tools_imports.group_parts
 from .eda_tools.eda_tools import SUB_SEPRTR
 
 # Regular expression for detecting part reference ids consisting of a
@@ -104,7 +102,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
 
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
-    if  not isinstance(in_file,list):
+    if not isinstance(in_file,list):
         in_file = [in_file]
     if not isinstance(variant,list):
         variant = [variant] * len(in_file)
@@ -121,6 +119,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     for i_prj in range(len(in_file)):
         eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i_prj])
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
+        # Group part out of the module to merge diferent project lists, ignore some filed to merge, issue #131 and #102 (in the future) #ISSUE.
+        p = group_parts(p)
         # Add the project indentifier in the references.
         for i_g in range(len(p)):
             p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.

@@ -214,12 +214,14 @@ def main():
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
             # Set '.xml' as the default file extension, treating this exception
-            # allow (future) other files extension and formats.
-            if os.path.splitext(args.input[i])[1] == '':
-                args.input[i] += '.xml'
-            elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv' or args.eda_tool[i] == 'generic':
-                args.eda_tool = 'csv'
-            args.input[i] = open(args.input[i])
+            # allow other files extension and formats.
+            try:
+                if os.path.splitext(args.input[i])[1] == '':
+                    args.input[i] += '.xml'
+                elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv':
+                    args.eda_tool = 'csv'
+            except IndexError:
+                pass
 
     # Set number of processes to use for web scraping.
     if args.serial:

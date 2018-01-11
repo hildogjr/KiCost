@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,12 +29,13 @@ __company__ = 'University of Campinas - Brazil'
 # Proteus ISIS-ARES and AutoDesk EAGLE.
 
 # Libraries.
+import sys, os, time
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ...kicost import distributors, SEPRTR
-from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
+from ...kicost import SEPRTR, distributors
+from ..eda_tools import field_name_translations, split_refs
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
@@ -60,11 +62,14 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
-    # No `variant` or `ignore_fields` are used in this function, the input is just kept by compatibily.
+    # No `variant` are used in this function, the input is just kept by compatibily.
+
+    ign_fields = [str(f.lower()) for f in ignore_fields]
 
     logger.log(DEBUG_OVERVIEW, 'Get schematic CSV...')
-    content = in_file.read()
-    in_file.close()
+    file_h = open(in_file)
+    content = file_h.read()
+    file_h.close()
 
     # Collapse multiple, consecutive tabs.
     content = re.sub('\t+', '\t', content)
@@ -136,20 +141,27 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['qty'] = qty
         refs = split_refs(ref_str)
 
-        try:
-            # For Python 2, create unicode versions of strings.
-            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
-            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
-            fields['value'] = vals.get('value', '???').decode('utf-8')
-            for h in header:
-                fields[h] = vals.get(h, '').decode('utf-8')
-        except AttributeError:
+        if sys.version_info >= (3,0):
             # This is for Python 3 where the values are already unicode.
             fields['libpart'] = vals.get('libpart', 'Lib:???')
             fields['footprint'] = vals.get('footprint', 'Foot:???')
             fields['value'] = vals.get('value', '???')
             for h in header:
-                fields[h] = vals.get(h, '')
+                if not h.lower() in ign_fields:
+                    value = vals.get(h, '')
+                    if value:
+                        fields[h] = value
+        else:
+            # For Python 2, create unicode versions of strings.
+            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
+            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
+            fields['value'] = vals.get('value', '???').decode('utf-8')
+            for h in header:
+                if not h in ign_fields:
+                    value = vals.get(h, '').decode('utf-8')
+                    if value:
+                        fields[h] = value
+
         return refs, fields
     extract_fields.gen_cntr = 0
 
@@ -165,8 +177,9 @@ def get_part_groups(in_file, ignore_fields, variant):
         for ref in refs:
            accepted_components[ref] = fields
 
-    # Create some default project information.
-    prj_info = {'title':'No title', 'company':'Not avaliable', 'date':'Not avaliable'}
+    # Not founded project information at the file content.
+    prj_info = {'title': os.path.basename( in_file ),
+                'company': None,
+                'date': time.ctime(os.path.getmtime(in_file)) + ' (file)'}
 
-    # Place identical parts in groups and return them.
-    return group_parts(accepted_components), prj_info
+    return accepted_components, prj_info

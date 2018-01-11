@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,13 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re, os # Regular expression parser and matches.
-import sys # Exit in the error.
+from sys import exit # Exit in the error.
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
 from ..kicost import distributors, SEPRTR
 from . import eda_tool # EDA dictionary with the features.
 
-__all__ = ['file_eda_match', 'subpart_split', 'subpart_qty', 'groups_sort', 'collapse_refs']
+__all__ = ['file_eda_match', 'subpart_qty', 'groups_sort', 'collapse_refs', 'group_parts']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -52,7 +52,8 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # There can even be an interposer character so 'LED.10', 'LED_10',
 # 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
 # References with numbers at the end are allowed by some EDAs.
-PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&(\&amp;)'
+PART_REF_REGEX_NOT_ALLOWED = '[\+\.\(\)\*]'
+PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&'
 PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
@@ -128,7 +129,6 @@ def file_eda_match(file_name):
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     pass
-
 
 def group_parts(components):
     '''Group common parts after preprocessing from XML or CSV files.'''
@@ -534,8 +534,7 @@ def collapse_refs(refs):
             # The not `match` happens when the user schematic disegner use
             # not recognized characters by the `PART_REF_REGEX` definition
             # into the components references.
-            print('Not recognized characters used in <' + ref + '> reference.\nUnsuceful finish.')
-            sys.exit(1) # Exit with error.
+            exit('Not recognized characters used in <' + ref + '> reference. Adivise: edit it in your BOM/Schematic.')
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
@@ -558,7 +557,7 @@ def collapse_refs(refs):
                 collapsed_refs.append('{}{}'.format(prefix, num))
 
     # Return the collapsed par references.
-    return collapsed_refs
+    return ','.join(collapsed_refs)
 
 
 def split_refs(text):
@@ -573,7 +572,7 @@ def split_refs(text):
     for ref in partial_ref:
         # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.
         #ref = re.sub('\+$', 'p', ref) # Finishing "+".
-        #ref = re.sub('[\+\s\_\.\(\)\$\*]', '', ref) # Generic special caracheters.
+        ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed. To work around #ISSUE #89.
         #ref = re.sub('\-+', '-', ref) # Double "-".
         #ref = re.sub('^\-', '', ref) # Starting "-".
         #ref = re.sub('\-$', 'n', ref) # Finishing "-".
@@ -594,10 +593,10 @@ def split_refs(text):
                 refs += [ref]
         else:
             # The designator name is not for a group of components and 
-            # "\", "/" or "-" ir part of the name. This characters have
+            # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
             ref = re.sub('[\-\/\\\]', '', ref)
-            if not re.search(PART_REF_REGEX, ref):
+            if not re.search(PART_REF_REGEX, ref).group('num'):
                 # Add a '0' number at the end to be compatible with KiCad/KiCost
                 # ref strings. This may be missing in the hand made BoM.
                 ref += '0'

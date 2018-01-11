@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -33,10 +33,10 @@ import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 # KiCost libriries.
+from . import __version__ # Version control by @xesscorp.
 from .kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors import distributors # Distributors names and definitions to use in the spreasheet.
 from .eda_tools.eda_tools import subpart_qty, collapse_refs, PART_REF_REGEX
-from . import __version__ # Version control by @xesscorp.
 
 __all__ = ['create_spreadsheet']
 
@@ -174,7 +174,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
         # Add project information to track the project (in a printed version
         # of the BOM) and the date because of price variations.
-        i_prj = 0 # WILL BE USED AT ISSUE #73
+        i_prj = 0 # WILL BE USED AT ISSUE #73 #ISSUE
         wks.write(BOARD_QTY_ROW, START_COL,
                    'Proj{}:'.format(str(i_prj)) if len(prj_info)>1 else 'Proj:',
                     wrk_formats['proj_info_field'])
@@ -400,9 +400,9 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
     # Add data for each part to the spreadsheet.
-    # First, collapse the part references: e.g. J1, J2, J3 => J1-J3.
+    # First, collapse the part references: e.g. J1, J2, J3, J6 => J1-J3, J6.
     for part in parts:
-        part.collapsed_refs = ','.join(collapse_refs(part.refs))
+        part.collapsed_refs = collapse_refs(part.refs)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
