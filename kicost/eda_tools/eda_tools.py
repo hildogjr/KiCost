@@ -99,12 +99,9 @@ field_name_translations.update(
     {
         'variant': 'variant',
         'version': 'variant',
-    }
-)
-field_name_translations.update(
-    {
         'dnp': 'dnp',
         'nopop': 'dnp',
+        'description': 'desc',
     }
 )
 
