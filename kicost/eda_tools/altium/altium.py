@@ -95,7 +95,9 @@ def get_part_groups(in_file, ignore_fields, variant):
             # row part, spliting it in a list.
             value = extract_field(row, hdr.lower())
             value = re.split(ALTIUM_PART_SEPRTR, value)
-            if not hdr.lower() in ign_fields:
+            if hdr.lower() in ign_fields:
+                continue
+            elif not SEPRTR in hdr.lower():
                 for i in range(qty):
                     if len(value)==qty:
                         v = value[i]
@@ -105,6 +107,33 @@ def get_part_groups(in_file, ignore_fields, variant):
                     # when used more than one `manf#` alias in one designator.
                     if v and v!=ALTIUM_NONE:
                         fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
+            else:
+                # Now look for fields that start with 'kicost' and possibly
+                # another dot-separated variant field and store their values.
+                # Anything else is in a non-kicost namespace.
+                key_re = 'kicost(\.{})?:(?P<name>.*)'.format(variant)
+                mtch = re.match(key_re, name, flags=re.IGNORECASE)
+                if mtch:
+                    # The field name is anything that came after the leading
+                    # 'kicost' and variant field.
+                    name = mtch.group('name')
+                    name = field_name_translations.get(name, name)
+                    # If the field name isn't for a manufacturer's part
+                    # number or a distributors catalog number, then add
+                    # it to 'local' if it doesn't start with a distributor
+                    # name and colon.
+                    if name not in ('manf#', 'manf') and name[:-1] not in distributors:
+                        if SEPRTR not in name: # This field has no distributor.
+                            name = 'local:' + name # Assign it to a local distributor.
+                    for i in range(qty):
+                        if len(value)==qty:
+                            v = value[i]
+                        else:
+                            v = value[0] # Footprint is just one for group.
+                        # Do not create empty fields. This is userfull
+                        # when used more than one `manf#` alias in one designator.
+                        if v and v!=ALTIUM_NONE:
+                            fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
         return refs, fields
 
     # Read-in the schematic XML file to get a tree and get its root.
