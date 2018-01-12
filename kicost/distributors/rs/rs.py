@@ -59,7 +59,7 @@ def get_part_num(html_tree):
         pn = re.sub('[^0-9\-]','', pn_str)
         return pn
     except KeyError:
-        return '' # No catalogue number found in page.
+        return '' # No catalog number found in page.
     except AttributeError:
         return '' # No ProductDescription found in page.
 

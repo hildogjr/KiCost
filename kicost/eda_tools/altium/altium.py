@@ -119,7 +119,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                     name = mtch.group('name')
                     name = field_name_translations.get(name, name)
                     # If the field name isn't for a manufacturer's part
-                    # number or a distributors catalogue number, then add
+                    # number or a distributors catalog number, then add
                     # it to 'local' if it doesn't start with a distributor
                     # name and colon.
                     if name not in ('manf#', 'manf') and name[:-1] not in distributors:
