@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -19,24 +20,22 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-# Inserted by Pasteurize tool.
-#from __future__ import print_function
-#from __future__ import unicode_literals
-#from __future__ import division
-#from __future__ import absolute_import
-#import future
-import csv # CSV file reader.
-import re # Regular expression parser.
-import logging
-
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...kicost import distributors, SEPRTR
-from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
+# This module is intended to work with "generic hand made CSV" and the softwares:
+# Proteus ISIS-ARES and AutoDesk EAGLE.
+
+# Libraries.
+import sys, os, time
+import csv # CSV file reader.
+import re # Regular expression parser.
+import logging
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ...kicost import SEPRTR, distributors
+from ..eda_tools import field_name_translations, split_refs
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
@@ -49,7 +48,11 @@ field_name_translations.update(
         'reference': 'refs',
         'ref': 'refs',
         'customer no': 'refs',
+        'parts': 'refs',
+        'part': 'refs',
         'value': 'value',
+        'package': 'footprint',
+        'pcb package': 'footprint',
         '': ''  # This is here because the header row may contain an empty field.
     }
 )
@@ -59,13 +62,15 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
-    # No `variant` of ignore field is used in this function, the input is just kept by compatibily.
-    # Enven not `ignore_filds` to be ignored.
-    
+    # No `variant` are used in this function, the input is just kept by compatibily.
+
+    ign_fields = [str(f.lower()) for f in ignore_fields]
+
     logger.log(DEBUG_OVERVIEW, 'Get schematic CSV...')
-    content = in_file.read()
-    in_file.close()
-    
+    file_h = open(in_file)
+    content = file_h.read()
+    file_h.close()
+
     # Collapse multiple, consecutive tabs.
     content = re.sub('\t+', '\t', content)
 
@@ -76,38 +81,39 @@ def get_part_groups(in_file, ignore_fields, variant):
         # If the CSV file only has a single column of data, there may be no
         # delimiter so just set the delimiter to a comma.
         dialect = csv.Sniffer().sniff(',,,', [','])
-    
+
     # The first line in the file must be the column header.
     content = content.splitlines()
     header = next(csv.reader(content,delimiter=dialect.delimiter))
+
+    # Standardize the header titles.
+    header = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
 
     # Examine the first line to see if it really is a header.
     # If the first line contains a column header that is not in the list of
     # allowable field names, then assume the first line is data and not a header.
     field_names = list(field_name_translations.keys()) + list(field_name_translations.values())
-    for col_hdr in header:
-        if col_hdr not in field_names:
-            # If a column header is not in the list of field names, then there is
-            # no header in the file. Therefore, create a header based on number of columns.
- 
-            # header may have a '' at the end, so remove it.
-            if '' in header:
-                header.remove('')
+    if not 'manf#' in header:
+        if any(col_hdr.lower() in field_names for col_hdr in header):
+            content.pop(0) # It was a header by the user not identify the 'manf#' column.
 
-            num_cols = len(header)
-            if num_cols == 1:
-                header = ['manf#']
-            elif num_cols == 2:
-                header = ['manf#', 'refs']
-            else:
-                header = ['qty', 'manf#', 'refs']
-            break
+        # If a column header is not in the list of field names, then there is
+        # no header in the file. Therefore, create a header based on number of columns.
+
+        # header may have a '' at the end, so remove it.
+        if '' in header:
+            header.remove('')
+
+        num_cols = len(header)
+        if num_cols == 1:
+            header = ['manf#']
+        elif num_cols == 2:
+            header = ['manf#', 'refs']
+        else:
+            header = ['qty', 'manf#', 'refs']
     else:
         # OK, the first line is a header, so remove it from the data.
         content.pop(0) # Remove the header from the content.
-
-    # Standardize the header titles.
-    header = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
 
     def extract_fields(row):
         fields = {}
@@ -122,35 +128,47 @@ def get_part_groups(in_file, ignore_fields, variant):
             qty = len(vals['refs'])
         elif 'qty' in vals:
             qty = int(vals['qty'])
-            ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr+qty-1, extract_fields.gen_cntr)
+            if qty>1:
+                ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr, extract_fields.gen_cntr+qty-1)
+            else:
+                ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
+            fields['qty'] = qty
         else:
             qty = 1
             ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
+            fields['qty'] = qty
         refs = split_refs(ref_str)
-        fields['qty'] = qty
-        try:
-            # For Python 2, create unicode versions of strings.
-            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
-            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
-            fields['value'] = vals.get('value', '???').decode('utf-8')
-            fields['manf#'] = vals.get('manf#', '').decode('utf-8')
-        except AttributeError:
+
+        if sys.version_info >= (3,0):
             # This is for Python 3 where the values are already unicode.
             fields['libpart'] = vals.get('libpart', 'Lib:???')
             fields['footprint'] = vals.get('footprint', 'Foot:???')
             fields['value'] = vals.get('value', '???')
-            fields['manf#'] = vals.get('manf#', '')
+            for h in header:
+                if not h.lower() in ign_fields:
+                    value = vals.get(h, '')
+                    if value:
+                        fields[h] = value
+        else:
+            # For Python 2, create unicode versions of strings.
+            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
+            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
+            fields['value'] = vals.get('value', '???').decode('utf-8')
+            for h in header:
+                if not h in ign_fields:
+                    value = vals.get(h, '').decode('utf-8')
+                    if value:
+                        fields[h] = value
+
         return refs, fields
     extract_fields.gen_cntr = 0
-    
+
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts from hand made list...')
-    libparts = {}
-    component_groups = {}
-    
+
     # Read the each line content.
     accepted_components = {}
     for row in content:
@@ -158,9 +176,10 @@ def get_part_groups(in_file, ignore_fields, variant):
         refs, fields = extract_fields(row)
         for ref in refs:
            accepted_components[ref] = fields
-    
-    # Create some default project information.
-    prj_info = {'title':'No title', 'company':'Not avaliable', 'date':'Not avaliable'}
 
-    # Place identical parts in groups and return them.
-    return group_parts(accepted_components), prj_info
+    # Not founded project information at the file content.
+    prj_info = {'title': os.path.basename( in_file ),
+                'company': None,
+                'date': time.ctime(os.path.getmtime(in_file)) + ' (file)'}
+
+    return accepted_components, prj_info

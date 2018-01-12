@@ -20,23 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-__author__ = 'XESS Corporation' # Improved by Hildo G Jr
-__email__ = 'info@xess.com'
+# Author information.
+__author__ = 'Hildo Guillardi Junior'
+__webpage__ = 'https://github.com/hildogjr/'
+__company__ = 'University of Campinas - Brazil'
 
-from .kicad import get_part_groups
+# Libraries.
+from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 
-# Place information about this EDA into the eda_tool dictionary.
-from .. import eda_tool
-eda_tool.update(
-    {
-        'kicad': {
-            'module': 'kicad', # The directory name containing this file.
-            'desc': 'KiCad open source EDA.',
-            # Formatting file match.
-            'file': {
-                'extension': '.xml', # File extension.
-                'content': '<tool\>Eeschema.*\<\/tool\>' # Regular expression content match.
-                }
-        }
-    }
-)
+#__all__ = ['']
+
+# Organazing the functions...

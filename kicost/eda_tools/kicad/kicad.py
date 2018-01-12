@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -34,12 +34,12 @@ standard_library.install_aliases()
 
 import future
 
+import sys, os, time
 import re
 from bs4 import BeautifulSoup
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...kicost import SEPRTR
-from ...kicost import distributors
-from ..eda_tools import field_name_translations, group_parts
+from ...kicost import SEPRTR, distributors
+from ..eda_tools import field_name_translations
 
 
 def get_part_groups(in_file, ignore_fields, variant):
@@ -60,7 +60,10 @@ def get_part_groups(in_file, ignore_fields, variant):
                     continue  # Ignore fields in the ignore list.
                 elif SEPRTR not in name: # No separator, so get global field value.
                     name = field_name_translations.get(name, name)
-                    fields[name] = str(f.string)
+                    value = str(f.string)
+                    if value:
+                        fields[name] = value # Do not create empty fields. This is userfull
+                                             # when used more than one `manf#` alias in one designator.
                 else:
                     # Now look for fields that start with 'kicost' and possibly
                     # another dot-separated variant field and store their values.
@@ -79,7 +82,9 @@ def get_part_groups(in_file, ignore_fields, variant):
                         if name not in ('manf#', 'manf') and name[:-1] not in distributors:
                             if SEPRTR not in name: # This field has no distributor.
                                 name = 'local:' + name # Assign it to a local distributor.
-                        fields[name] = str(f.string)
+                        value = str(f.string)
+                        if value:
+                            fields[name] = value
 
         except AttributeError:
             pass  # No fields found for this part.
@@ -87,20 +92,22 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, 'Get schematic XML...')
-    root = BeautifulSoup(in_file, 'lxml')
+    file_h = open(in_file)
+    root = BeautifulSoup(file_h, 'lxml')
+    file_h.close()
 
     # Get the general information of the project BoM XML file.
     title = root.find('title_block')
-    def title_find_all(field):
+    def title_find_all(data, field):
         '''Helper function for finding title info, especially if it is absent.'''
         try:
-            return str(title.find_all(field)[0].string)
+            return data.find_all(field)[0].string
         except (AttributeError, IndexError):
-            return ''
+            return None
     prj_info = dict()
-    prj_info['title'] = title_find_all('title')
-    prj_info['company'] = title_find_all('company')
-    prj_info['date'] = title_find_all('date')
+    prj_info['title'] = title_find_all(title, 'title') or os.path.basename( in_file )
+    prj_info['company'] = title_find_all(title, 'company')
+    prj_info['date'] = title_find_all(root, 'date') or (time.ctime(os.path.getmtime(in_file)) + ' (file)')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
@@ -193,5 +200,4 @@ def get_part_groups(in_file, ignore_fields, variant):
         # The part was not removed, so add it to the list of accepted components.
         accepted_components[ref] = fields
 
-    # Place identical parts in groups and return them.
-    return group_parts(accepted_components), prj_info
+    return accepted_components, prj_info

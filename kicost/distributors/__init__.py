@@ -150,3 +150,5 @@ for module in os.listdir(os.path.dirname(__file__)):
 
     # Import the module.
     __import__(module, globals(), locals(), [], level=1)
+
+from .web_routines import * # FakeBrowser, scrap routine, ...
