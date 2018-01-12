@@ -63,7 +63,7 @@ def get_price_tiers(html_tree):
 def get_part_num(html_tree):
     '''Get the part number from the farnell product page.'''
     try:
-        # farnell catalog number is stored in a description list, so get
+        # farnell catalogue number is stored in a description list, so get
         # all the list terms and descriptions, strip all the spaces from those,
         # and pair them up.
         div = html_tree.find('div', class_='productDescription').find('dl')
@@ -73,7 +73,7 @@ def get_part_num(html_tree):
 #        return dtdd.get('farnellPartNo.:', '')
         return dtdd.get('CodiceProdotto', '')
     except KeyError:
-        return '' # No catalog number found in page.
+        return '' # No catalogue number found in page.
     except AttributeError:
         return '' # No ProductDescription found in page.
 

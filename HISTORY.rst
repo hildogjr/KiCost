@@ -9,13 +9,14 @@ ______________________
 * Added ``show_eda_list`` option to display the list of EDA tools supported by KiCost.
 * CSV now accept files from Proteus and Eagle EDA.
 * Clear up the python importations not used and better placed function into files (spreasheet creation files are now in ``spreadsheet.py``).
-* Created a graphical user interface based on wxWidgets.
+* Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if them are not inside it.
+* Fixed issues related to user visualization in the spreadsheet (added gray formated conditioning and the "exclude desc and manf columns").
+* Added "user errors" and software scape in the case of not recognized references characters given the message of how to solve.
+* Support for multiple quantity for a single manufacture code (before just worked when used multiple/sub-parts).
+* Fixed the Altium EDA module.
+* Created a graphical user interface based on wxWidgets (the dependence is asked to be installed at the first use).
 * Add the ``--user``: allow to use just ``kicost --user -i %file`` and others parameters will be got by the last configuration in the graphical interface (that save the user configurations).
 * Automatic recognize of the files of each EDA software (for the graphical interface).
-* Added a KiCost stamp version at the end of the spreadsheet.
-* Fixed issues related to user visualization in the spreadsheet (added gray formated conditioning and the "exclude desc and manf columns").
-* Add an "user error" and software scape in the case of not recognized references characters.
-* Support for multiple quantity for a single manufacture code (before just worked when used multiple/sub-parts).
 
 
 0.1.42 (2017-12-07)
