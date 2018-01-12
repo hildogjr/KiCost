@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,13 +28,13 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re, os # Regular expression parser and matches.
-import sys # Exit in the error.
+from sys import exit # Exit in the error.
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
 from ..kicost import distributors, SEPRTR
 from . import eda_tool # EDA dictionary with the features.
 
-__all__ = ['file_eda_match', 'subpart_split', 'subpart_qty', 'groups_sort', 'collapse_refs']
+__all__ = ['file_eda_match', 'subpart_qty', 'groups_sort', 'collapse_refs', 'group_parts']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -52,7 +52,9 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # There can even be an interposer character so 'LED.10', 'LED_10',
 # 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
 # References with numbers at the end are allowed by some EDAs.
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z\.\_\-\+(\&amp;)\d]*[a-z\.\_\-\+(\&amp;)])(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?)?)'.format(SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX_NOT_ALLOWED = '[\+\.\(\)\*]'
+PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&'
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -97,12 +99,9 @@ field_name_translations.update(
     {
         'variant': 'variant',
         'version': 'variant',
-    }
-)
-field_name_translations.update(
-    {
         'dnp': 'dnp',
         'nopop': 'dnp',
+        'description': 'desc',
     }
 )
 
@@ -127,7 +126,6 @@ def file_eda_match(file_name):
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     pass
-
 
 def group_parts(components):
     '''Group common parts after preprocessing from XML or CSV files.'''
@@ -311,8 +309,12 @@ def subpart_split(components):
             try:
                 subparts_manf = subpart_list(part['manf'])
                 if len(subparts_manf)!=subparts_qty:
-                    # Exception `manf` and `manf#` length doesn't macth, fill with '' at the end.
-                    subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
+                    if len(subparts_manf)==1:
+                        # If just one `manf`assumes that is for all.
+                        subparts_manf = [subparts_manf[0]]*subparts_qty
+                    else:
+                        # Exception `manf` and `manf#` length doesn't macth, fill with '' at the end.
+                        subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
             except KeyError:
                 subparts_manf = ['']*subparts_qty
                 pass
@@ -350,17 +352,19 @@ def subpart_split(components):
                                             v=part_actual_value,
                                             idx=subparts_index+1,
                                             total=subparts_qty)
-                            # Update the splitted `manf`(manufactures names).
-                            if p_manf_code!=REPLICATE_MANF:
-                                # If the actual manufacture name is the definition `REPLICATE_MANF`
-                                # replicate the last one.
-                                subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
+                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual[field_manf_dist_code] = subpart_part
-                            subpart_actual[field_manf_dist_code+'_subqty'] = subpart_qty
+                            subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
                             if logger.isEnabledFor(DEBUG_OBSESSIVE):
                                 print(subpart_actual)
                         except IndexError:
                             pass
+                    # Update the splitted `manf`(manufactures names).
+                    if subparts_manf[subparts_index]!=REPLICATE_MANF:
+                        # If the actual manufacture name is the defined as `REPLICATE_MANF`
+                        # replicate the last one.
+                        p_manf = subparts_manf[subparts_index]
+                    subpart_actual['manf'] = p_manf
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                     splitted_components[ref] = subpart_actual
@@ -372,7 +376,7 @@ def subpart_split(components):
                         p_manf_code = subparts_manf_code[field_manf_dist_code][0]
                         part_qty, part_part = manf_code_qtypart(p_manf_code)
                         part_actual[field_manf_dist_code] = part_part
-                        part_actual[field_manf_dist_code+'_subqty'] = part_qty
+                        part_actual[field_manf_dist_code+'_qty'] = part_qty
                         if logger.isEnabledFor(DEBUG_OBSESSIVE):
                             print(part)
                         splitted_components[part_ref] = part_actual
@@ -391,7 +395,7 @@ def subpart_qty(component):
     was a sub part of a manufacture/distributor code).
     '''
     try:
-        subqty = component.fields.get('manf#_subqty')
+        subqty = component.fields.get('manf#_qty')
 
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>', subqty, '*',
@@ -527,8 +531,7 @@ def collapse_refs(refs):
             # The not `match` happens when the user schematic disegner use
             # not recognized characters by the `PART_REF_REGEX` definition
             # into the components references.
-            print('Not recognized characters used in <' + ref + '> reference.\nUnsuceful finish.')
-            sys.exit(1) # Exit with error.
+            exit('Not recognized characters used in <' + ref + '> reference. Adivise: edit it in your BOM/Schematic.')
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
@@ -551,7 +554,7 @@ def collapse_refs(refs):
                 collapsed_refs.append('{}{}'.format(prefix, num))
 
     # Return the collapsed par references.
-    return collapsed_refs
+    return ','.join(collapsed_refs)
 
 
 def split_refs(text):
@@ -564,12 +567,12 @@ def split_refs(text):
     partial_ref = re.split('[,;]', text)
     refs = []
     for ref in partial_ref:
-        # Remove invalid characters.
-        ref = re.sub('\+$', 'p', ref) # Finishin "+".
-        ref = re.sub('[\+\s\_\.\(\)\$\*]', '', ref) # Generic special caracheters.
-        ref = re.sub('\-+', '-', ref) # Double "-".
-        ref = re.sub('^\-', '', ref) # Stating "-".
-        ref = re.sub('\-$', 'n', ref) # Finishing "-".
+        # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.
+        #ref = re.sub('\+$', 'p', ref) # Finishing "+".
+        ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed. To work around #ISSUE #89.
+        #ref = re.sub('\-+', '-', ref) # Double "-".
+        #ref = re.sub('^\-', '', ref) # Starting "-".
+        #ref = re.sub('\-$', 'n', ref) # Finishing "-".
         if re.search('^\w+\d', ref):
             if re.search('-', ref):
                 designator_name = re.findall('^\D+', ref)[0]
@@ -587,10 +590,10 @@ def split_refs(text):
                 refs += [ref]
         else:
             # The designator name is not for a group of components and 
-            # "\", "/" or "-" ir part of the name. This characters have
+            # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
             ref = re.sub('[\-\/\\\]', '', ref)
-            if not re.search(PART_REF_REGEX, ref):
+            if not re.search(PART_REF_REGEX, ref).group('num'):
                 # Add a '0' number at the end to be compatible with KiCad/KiCost
                 # ref strings. This may be missing in the hand made BoM.
                 ref += '0'

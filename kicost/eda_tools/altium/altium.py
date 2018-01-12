@@ -1,134 +1,178 @@
-# Inserted by Pasteurize tool.
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
-from builtins import zip
-from builtins import range
-from builtins import int
-from builtins import str
-from future import standard_library
-standard_library.install_aliases()
+# -*- coding: utf-8 -*-
+# MIT license
+#
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
-import future
+# Author information.
+__author__ = 'Hildo Guillardi Junior'
+__webpage__ = 'https://github.com/hildogjr/'
+__company__ = 'University of Campinas - Brazil'
+# This module is intended to work with Altium XML files.
 
+# Libraries.
+import sys, os, time
 from bs4 import BeautifulSoup # To Read XML files.
+import re # Regular expression parser.
 import logging
-import sys
+from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ...kicost import distributors, SEPRTR
+from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
+from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED #ISSUE
 
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...kicost import SEPRTR # Delimiter between library:component, distributor:field, etc.
+# Add to deal with the fileds of Altium and WEB tools.
+field_name_translations.update(
+    {
+        'designator': 'refs',
+        'quantity': 'qty',
+        'manufacturer name': 'manf', # Used for some web site tools to part generator in Altium.
+        'manufacturer part number': 'manf#'
+    }
+)
 
-# Temporary class for storing part group information.
-class IdenticalComponents(object):
-    pass
+ALTIUM_NONE = '[NoParam]' # Value of Altium to `None`.
+ALTIUM_PART_SEPRTR = r'(?<!\\),\s*' # Separator for the part numbers in a list, remove the lateral spaces.
+
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.'''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
-    
 
-    def extract_fields(part, variant):
+    def extract_field(xml_entry, field_name):
+        '''Extract XML fields from XML entry given.'''
+        try:
+            if sys.version_info>=(3,0):
+                return xml_entry[field_name]
+            else:
+                return xml_entry[field_name].encode('ascii', 'ignore')
+        except KeyError:
+            return None
+
+    def extract_fields_row(row, variant):
         '''Extract XML fields from the part in a library or schematic.'''
         
-        fields = {}
-        
-        if sys.version[0]=='2':
-            fields['footprint']=part['footprint1'].encode('ascii', 'ignore')
-            fields['libpart']=part['libref1'].encode('ascii', 'ignore')
-            fields['value']=part['value3'].encode('ascii', 'ignore')
-            fields['reference']=part['comment1'].encode('ascii', 'ignore')
-            fields['manf#']=part['manufacturer_part_number_11'].encode('ascii', 'ignore')
+        # First get the references and the quantities of elementes in each rwo group.
+        header_translated = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
+        hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
+        if not hdr_refs:
+            sys.exit('Not founded the part designators/references in the BOM.\nTry to generate the file again at Altium.')
         else:
-            fields['footprint']=part['footprint1']
-            fields['libpart']=part['libref1']
-            fields['value']=part['value3']
-            fields['reference']=part['comment1']
-            fields['manf#']=part['manufacturer_part_number_11']
-            
-        return fields
+            hdr_refs = hdr_refs[0]
+        refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()) )
+        header_valid = header.copy()
+        header_valid.remove(header[hdr_refs])
+        try:
+            hdr_qty = [i for i, x in enumerate(header_translated) if x == "qty"][0]
+            qty = int( extract_field(row, header[hdr_qty].lower()) )
+            header_valid.remove(header[hdr_qty])
+            if qty!=len(refs):
+                sys.exit('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, ` to `,` or better, use `;` instead `,`.')
+        except:
+            qty = len(refs)
+        
+        # After the others fields.
+        fields = [dict() for x in range(qty)]
+        for hdr in header_valid:
+            # Extract each information, by the the header given, for each
+            # row part, spliting it in a list.
+            value = extract_field(row, hdr.lower())
+            value = re.split(ALTIUM_PART_SEPRTR, value)
+            if hdr.lower() in ign_fields:
+                continue
+            elif not SEPRTR in hdr.lower():
+                for i in range(qty):
+                    if len(value)==qty:
+                        v = value[i]
+                    else:
+                        v = value[0] # Footprint is just one for group.
+                    # Do not create empty fields. This is userfull
+                    # when used more than one `manf#` alias in one designator.
+                    if v and v!=ALTIUM_NONE:
+                        fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
+            else:
+                # Now look for fields that start with 'kicost' and possibly
+                # another dot-separated variant field and store their values.
+                # Anything else is in a non-kicost namespace.
+                key_re = 'kicost(\.{})?:(?P<name>.*)'.format(variant)
+                mtch = re.match(key_re, name, flags=re.IGNORECASE)
+                if mtch:
+                    # The field name is anything that came after the leading
+                    # 'kicost' and variant field.
+                    name = mtch.group('name')
+                    name = field_name_translations.get(name, name)
+                    # If the field name isn't for a manufacturer's part
+                    # number or a distributors catalog number, then add
+                    # it to 'local' if it doesn't start with a distributor
+                    # name and colon.
+                    if name not in ('manf#', 'manf') and name[:-1] not in distributors:
+                        if SEPRTR not in name: # This field has no distributor.
+                            name = 'local:' + name # Assign it to a local distributor.
+                    for i in range(qty):
+                        if len(value)==qty:
+                            v = value[i]
+                        else:
+                            v = value[0] # Footprint is just one for group.
+                        # Do not create empty fields. This is userfull
+                        # when used more than one `manf#` alias in one designator.
+                        if v and v!=ALTIUM_NONE:
+                            fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
+        return refs, fields
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, 'Get schematic XML...')
-    root = BeautifulSoup(in_file, 'lxml')
-    
+    file_h = open(in_file)
+    root = BeautifulSoup(file_h, 'lxml')
+    file_h.close()
+
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Get parts library...')
     libparts = {}
     component_groups = {}
-    
-    for p in root.find('rows').find_all('row'):
+
+    # Get the header of the XML file of Altium, so KiCost is able to to
+    # to get all the informations in the file.
+    header = [ extract_field(entry, 'name') for entry in root.find('columns').find_all('column') ]
+
+    accepted_components = {}
+    for row in root.find('rows').find_all('row'):
 
         # Get the values for the fields in each library part (if any).
-        fields = extract_fields(p, variant)
-        
-        # Store the field dict under the key made from the
-        # concatenation of the library and part names.
-        #~ libparts[str(fields['libpart'] + SEPRTR + fields['reference'])] = fields
-        libparts[fields['libpart'] + SEPRTR + fields['reference']] = fields
-        
-        # Also have to store the fields under any part aliases.
-        try:
-            for alias in p.find('aliases').find_all('alias'):
-                libparts[str(fields['libpart'] + SEPRTR + alias.string)] = fields
-        except AttributeError:
-            pass  # No aliases for this part.
-        
-        hash_fields = {k: fields[k] for k in fields if k not in ('manf#','manf') and SEPRTR not in k}
-        h = hash(tuple(sorted(hash_fields.items())))
-        
-        component_groups[h] = IdenticalComponents()  # Add empty structure.
-        component_groups[h].fields = fields
-        component_groups[h].refs = p['designator1'].replace(' ','').split(',')  # Init list of refs with first ref.
-        # Now add the manf. part num (or None) for this part to the group set.
-        component_groups[h].manf_nums = set([fields.get('manf#')])
-        
-    # Now we have groups of seemingly identical parts. But some of the parts
-    # within a group may have different manufacturer's part numbers, and these
-    # groups may need to be split into smaller groups of parts all having the
-    # same manufacturer's number. Here are the cases that need to be handled:
-    #   One manf# number: All parts have the same manf#. Don't split this group.
-    #   Two manf# numbers, but one is None: Some of the parts have no manf# but
-    #       are otherwise identical to the other parts in the group. Don't split
-    #       this group. Instead, propagate the non-None manf# to all the parts.
-    #   Two manf#, neither is None: All parts have non-None manf# numbers.
-    #       Split the group into two smaller groups of parts all having the same
-    #       manf#.
-    #   Three or more manf#: Split this group into smaller groups, each one with
-    #       parts having the same manf#, even if it's None. It's impossible to
-    #       determine which manf# the None parts should be assigned to, so leave
-    #       their manf# as None.
-    new_component_groups = [] # Copy new component groups into this.
-    for g, grp in list(component_groups.items()):
-        num_manf_nums = len(grp.manf_nums)
-        if num_manf_nums == 1:
-            new_component_groups.append(grp)
-            continue  # Single manf#. Don't split this group.
-        elif num_manf_nums == 2 and None in grp.manf_nums:
-            new_component_groups.append(grp)
-            continue  # Two manf#, but one of them is None. Don't split this group.
-        # Otherwise, split the group into subgroups, each with the same manf#.
-        for manf_num in grp.manf_nums:
-            sub_group = IdenticalComponents()
-            sub_group.manf_nums = [manf_num]
-            sub_group.refs = []
-            for ref in grp.refs:
-                # Use get() which returns None if the component has no manf# field.
-                # That will match if the group manf_num is also None.
-                if components[ref].get('manf#') == manf_num:
-                    sub_group.refs.append(ref)
-            new_component_groups.append(sub_group)
+        refs, fields = extract_fields_row(row, variant)
+        for i in range(len(refs)):
+            ref = refs[i]
+            ref = re.sub('\+$', 'p', ref) # Finishing "+".
+            ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed. To work around #ISSUE #89.
+            ref = re.sub('\-+', '-', ref) # Double "-".
+            ref = re.sub('^\-', '', ref) # Starting "-".
+            ref = re.sub('\-$', 'n', ref) # Finishing "-".
+            if not re.search('\d$', ref):
+                ref += '0'
+            accepted_components[ re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) ] = fields[i]
 
-    prj_info = {'title':'No title','company':'Not avaliable','date':'Not avaliable'} # Not implemented yet.
+    # Not founded project information at the file content.
+    prj_info = {'title': os.path.basename( in_file ),
+                'company': None,
+                'date': time.ctime(os.path.getmtime(in_file)) + ' (file)'}
 
-    # Now return the list of identical part groups.
-    return new_component_groups, prj_info
-
-if __name__=='__main__':
-    
-    file_handle=open('meacs.xml')
-    #~ file_handle=open('wiSensAFE.xml')
-    
-    get_part_groups_altium(file_handle,'','')
+    #print(accepted_components)
+    #exit(1)
+    return accepted_components, prj_info

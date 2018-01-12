@@ -36,7 +36,11 @@ import logging
 import time
 #import inspect # To get the internal module and informations of a module/class.
 from .kicost import kicost # kicost core functions.
-from .kicost_gui import * # User guide.
+try:
+    from .kicost_gui import * # User guide.
+except ImportError:
+    pass # If the wxPython dependences are not installed and
+         # the user just want the KiCost CLI.
 from .distributors import distributors
 from .eda_tools import eda_tool #from . import eda_tools as eda_tools_imports
 from . import __version__ # Version control by @xesscorp.
@@ -184,7 +188,11 @@ def main():
     # Call the KiCost interface to alredy run KiCost, this is just to use the
     # saved user configurations of the graphical interface.
     if args.user:
-        kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
+        try:
+            kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
+        except NameError:
+            kicost_gui_notdependences()
+            #kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
         return
 
     # Handle case where output is going into an existing spreadsheet file.
@@ -196,18 +204,24 @@ def main():
 
     # Set XML input source.
     if args.input == None:
-        kicost_gui() # Use the user guide.
+        try:
+            kicost_gui() # Use the user guide.
+        except NameError:
+            kicost_gui_notdependences()
+            #kicost_gui()
         return
     else:
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
             # Set '.xml' as the default file extension, treating this exception
-            # allow (future) other files extension and formats.
-            if os.path.splitext(args.input[i])[1] == '':
-                args.input[i] += '.xml'
-            elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv' or args.eda_tool[i] == 'generic':
-                args.eda_tool = 'csv'
-            args.input[i] = open(args.input[i])
+            # allow other files extension and formats.
+            try:
+                if os.path.splitext(args.input[i])[1] == '':
+                    args.input[i] += '.xml'
+                elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv':
+                    args.eda_tool = 'csv'
+            except IndexError:
+                pass
 
     # Set number of processes to use for web scraping.
     if args.serial:
@@ -229,3 +243,15 @@ if __name__ == '__main__':
     main()
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
+
+
+###############################################################################
+# Additional functions
+###############################################################################
+
+def kicost_gui_notdependences():
+    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
+    print('pip install wxPython # For python 2.5')
+    print('pip3 install wxPython # For python 3.0+')
+    print('Or download from last version from <https://wxpython.org/>')
+    sys.exit(1)
