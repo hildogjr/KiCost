@@ -437,12 +437,14 @@ class MyForm ( wx.Frame ):
 			credits = credits_file.read()
 			credits_file.close()
 		except:
-			credits = '''=======
+			credits = r'''=======
 			Credits
-			=======\n
+			=======
+
 			Development Lead
 			----------------
-			* XESS Corporation <info@xess.com>\n
+			* XESS Corporation <info@xess.com>
+
 			Contributors
 			------------
 			* Oliver Martin: https://github.com/oliviermartin
@@ -452,10 +454,11 @@ class MyForm ( wx.Frame ):
 			* Giacinto Luigi Cerone https://github.com/glcerone
 			* Hildo Guillardi Júnior https://github.com/hildogjr
 			* Adam Heinrich https://github.com/adamheinrich
+
+            GUI by Hildo Guillardi Júnior
 			'''
-			credits = re.sub('[\t, ]+', '', credits)
-		self.m_staticText_credits.SetLabel( credits
-			+ '\nGraphical interface by ' + __author__ )
+			credits = re.sub(r'\n[\t ]+', '\n', credits)  # Remove leading whitespace
+		self.m_staticText_credits.SetLabel(credits)
 		
 		# Recovery the last configurations used (found the folder of the file by the OS).
 		self.restore_properties()
