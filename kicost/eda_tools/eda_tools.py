@@ -51,7 +51,7 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
 # There can even be an interposer character so 'LED.10', 'LED_10',
-# 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
+# 'LED_BLUE-10', 'TEST&PIN+2', 'TEST+SUPPLY' or 'R4.10' is also OK.
 # References with numbers at the end are allowed by some EDAs.
 PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*]'
 PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&'
