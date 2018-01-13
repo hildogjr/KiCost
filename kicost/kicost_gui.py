@@ -417,7 +417,7 @@ class MyForm ( wx.Frame ):
 		self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 		
 		# Current distrubutors module recognized.
-		distributors_list = [*sorted(list(distributors.keys()))]
+		distributors_list = sorted(list(distributors.keys()))
 		self.m_checkList_dist.Clear()
 		self.m_checkList_dist.Append(distributors_list)
 		for idx in range(len(distributors_list)):
@@ -425,7 +425,7 @@ class MyForm ( wx.Frame ):
 		
 		# Current EDA tools module recoginized.
 		#eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
-		eda_names = [*sorted(list(eda_tool.keys()))]
+		eda_names = sorted(list(eda_tool.keys()))
 		self.m_listBox_edatool.Clear()
 		self.m_listBox_edatool.Append(eda_names)
 		
