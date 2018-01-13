@@ -114,12 +114,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'num_format': '$#,##0.00',
                 'valign': 'vcenter'
             }),
-            'found_part_pct': workbook.add_format({
-                'font_size': 12,
-                'bold': True,
-                'italic': True,
-                'valign': 'vcenter'
-            }),
             'proj_info_field': workbook.add_format({
                 'font_size': 13,
                 'bold': True,
@@ -131,15 +125,23 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'align': 'left',
                 'valign': 'vcenter'
             }),
+            'part_format': workbook.add_format({
+                'valign': 'vcenter'
+            }),
+            'found_part_pct': workbook.add_format({
+                'font_size': 12,
+                'bold': True,
+                'italic': True,
+                'valign': 'vcenter'
+            }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
             'not_manf_codes': workbook.add_format({'bg_color': '#AAAAAA'}),
             'not_available': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'order_too_much': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
             'too_few_purchased': workbook.add_format({'bg_color': '#FFFF00'}),
-            'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right' }),
-            'currency': workbook.add_format({'num_format': '$#,##0.00'}),
-            'centered_text': workbook.add_format({'align': 'center'}),
+            'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'}),
+            'currency': workbook.add_format({'num_format': '$#,##0.00', 'valign': 'vcenter'}),
         }
 
         # Add the distinctive header format for each distributor to the dict of formats.
@@ -414,7 +416,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     for part in parts:
 
         # Enter part references.
-        wks.write_string(row, start_col + columns['refs']['col'], part.collapsed_refs)
+        wks.write_string(row, start_col + columns['refs']['col'], part.collapsed_refs, wrk_formats['part_format'])
 
         # Enter more static data for the part.
         for field in list(columns.keys()):
@@ -424,7 +426,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                 # Fields found in the XML are lower-cased, so do the same for the column key.
                 field_name = field.lower().strip()
                 wks.write_string(row, start_col + columns[field]['col'],
-                                 part.fields[field_name])
+                                 part.fields[field_name], wrk_formats['part_format'])
             except KeyError:
                 pass
 
@@ -432,7 +434,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         try:
             part_qty = subpart_qty(part);
             wks.write(row, start_col + columns['qty']['col'],
-                       part_qty.format('BoardQty') )
+                       part_qty.format('BoardQty'), wrk_formats['part_format'])
             #          '=BoardQty*{}'.format(len(part.refs)))
         except KeyError:
             pass
@@ -641,7 +643,7 @@ Orange -> Too little quantity available.'''
 
         # Enter distributor part number for ordering purposes.
         if dist_part_num:
-            wks.write(row, start_col + columns['part_num']['col'], dist_part_num, None)
+            wks.write(row, start_col + columns['part_num']['col'], dist_part_num, wrk_formats['part_format'])
         else:
             dist_part_num = 'Link' # To use as text for the link.
 
@@ -658,7 +660,7 @@ Orange -> Too little quantity available.'''
         # which means the part is not stocked.
         if part.qty_avail[dist]:
             wks.write(row, start_col + columns['avail']['col'],
-                  part.qty_avail[dist], None)
+                  part.qty_avail[dist], wrk_formats['part_format'])
         else:
             wks.write(row, start_col + columns['avail']['col'],
                 'NonStk', wrk_formats['not_stocked'])

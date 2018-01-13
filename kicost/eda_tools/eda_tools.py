@@ -42,6 +42,7 @@ PART_SEPRTR = r'(?<!\\)\s*[;,]\s*' # Separator for the part numbers in a list, r
 ESC_FIND = r'\\\s*([;,:])\s*'      # Used to remove backslash from escaped qty & manf# separators.
 SUB_SEPRTR  = '#' # Subpart separator for a part reference.
 REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
+SGROUP_SEPRTR = '\n' # Separator of the semi identical parts groups (parts that have the filed ignored to group).
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
@@ -127,11 +128,19 @@ def file_eda_match(file_name):
 class IdenticalComponents(object):
     pass
 
-def group_parts(components):
+def group_parts(components, fields_merge):
     '''Group common parts after preprocessing from XML or CSV files.'''
     
     # Split multi-components into individual subparts.
     components = subpart_split(components)
+    
+    # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
+    # other ones as `desc` and even `value` and `footprint`may be merged due
+    # the different typed (1uF and 1u) or footprint library names to the same one.
+    fields_merge = [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge]
+    for c in (['manf#', 'manf', 'refs'] + [d + '#' for d in distributors]):
+        if c in fields_merge:
+             sys.exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
@@ -164,6 +173,8 @@ def group_parts(components):
             component_groups[h].refs = [ref]  # Init list of refs with first ref.
             # Now add the manf. part num (or None) for this part to the group set.
             component_groups[h].manf_nums = set([fields.get('manf#')])
+
+    #SGROUP_SEPRTR #TODO #ISSUE #102 after, remove the `ignore_fileds` of the EDA submodules
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these

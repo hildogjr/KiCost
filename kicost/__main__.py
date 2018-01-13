@@ -250,8 +250,7 @@ if __name__ == '__main__':
 ###############################################################################
 
 def kicost_gui_notdependences():
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip install wxPython # For python 2.5')
-    print('pip3 install wxPython # For python 3.0+')
-    print('Or download from last version from <https://wxpython.org/>')
-    sys.exit(1)
+    sys.exit('''You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:\
+        pip install wxPython # For python 2.5\
+        pip3 install wxPython # For python 3.0+\
+        Or download from last version from <https://wxpython.org/>''')
