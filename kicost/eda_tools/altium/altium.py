@@ -35,7 +35,7 @@ import logging
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ...kicost import distributors, SEPRTR
 from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
-from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED #ISSUE
+from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED #ISSUE 89 #TODO
 
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(

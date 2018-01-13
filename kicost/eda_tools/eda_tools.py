@@ -53,9 +53,9 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # There can even be an interposer character so 'LED.10', 'LED_10',
 # 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
 # References with numbers at the end are allowed by some EDAs.
-PART_REF_REGEX_NOT_ALLOWED = '[\+\.\(\)\*]'
+PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*]'
 PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&'
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -137,7 +137,7 @@ def group_parts(components, fields_merge):
     # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
     # other ones as `desc` and even `value` and `footprint`may be merged due
     # the different typed (1uF and 1u) or footprint library names to the same one.
-    fields_merge = [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge]
+    fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
     for c in (['manf#', 'manf', 'refs'] + [d + '#' for d in distributors]):
         if c in fields_merge:
              sys.exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
@@ -156,7 +156,7 @@ def group_parts(components, fields_merge):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including kicost).
-        hash_fields = {k: fields[k] for k in fields if k not in ('manf#','manf') and SEPRTR not in k}
+        hash_fields = {k: fields[k] for k in fields if k not in ['manf#','manf']+fields_merge and SEPRTR not in k}
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
