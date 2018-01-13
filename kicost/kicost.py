@@ -97,8 +97,9 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     rmv_dist = set(exclude_dist_list)
     rmv_dist |= set(list(distributors.keys())) - set(include_dist_list)
     rmv_dist -= set(['local_template'])  # We need this later for creating non-web distributors.
+    distributors_use = distributors.copy()
     for dist in rmv_dist:
-        distributors.pop(dist, None)
+        distributors_use.pop(dist, None)
 
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
@@ -131,7 +132,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     local_part_html = create_local_part_html(parts)
     
     if logger.isEnabledFor(DEBUG_DETAILED):
-        pprint.pprint(distributors)
+        pprint.pprint(distributors_use)
 
     # Get the distributor product page for each part and scrape the part data.
     logger.log(DEBUG_OVERVIEW, 'Scrape part data for each component group...')
@@ -140,7 +141,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if num_processes <= 1:
         # Scrape data, one part at a time.
         for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel())
+            args = (i, parts[i], distributors_use, local_part_html, scrape_retries, logger.getEffectiveLevel())
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
             parts[id].url = url
@@ -152,7 +153,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         pool = Pool(num_processes)
 
         # Package part data for passing to each process.
-        arg_sets = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
+        arg_sets = [(i, parts[i], distributors_use, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
         
         # Define a callback routine for updating the scraping progress bar.
         def update(x):
@@ -182,7 +183,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     del scraping_progress
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, user_fields,
+    create_spreadsheet(parts, prj_info, out_filename, distributors_use, user_fields,
                        '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.

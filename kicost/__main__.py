@@ -42,7 +42,7 @@ except ImportError:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
 from .distributors import distributors
-from .eda_tools import eda_tool #from . import eda_tools as eda_tools_imports
+from .eda_tools import eda_tool
 from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..

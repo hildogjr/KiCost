@@ -31,7 +31,7 @@ import re, os # Regular expression parser and matches.
 from sys import exit # Exit in the error.
 from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..distributors import distributors # Distributors name to use as field.
-from ..kicost import distributors, SEPRTR
+from ..kicost import SEPRTR
 from . import eda_tool # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'subpart_qty', 'groups_sort', 'collapse_refs', 'group_parts']
@@ -133,12 +133,17 @@ def group_parts(components, fields_merge):
     
     # Split multi-components into individual subparts.
     components = subpart_split(components)
-    
+
+    # Calculated all the fileds that never have to be used to create the hash keys.
+    # These include all the manufacture company and codes, distributors codes 
+    # recognized by the insalled modules and, quantity and sub quantity of the part.
+    FIELDS_MANF = (['manf#', 'manf#_qty', 'manf', 'refs'] + [d + '#' for d in distributors])
+
     # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
     # other ones as `desc` and even `value` and `footprint`may be merged due
     # the different typed (1uF and 1u) or footprint library names to the same one.
     fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
-    for c in (['manf#', 'manf', 'refs'] + [d + '#' for d in distributors]):
+    for c in FIELDS_MANF:
         if c in fields_merge:
              sys.exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
 
@@ -156,7 +161,7 @@ def group_parts(components, fields_merge):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including kicost).
-        hash_fields = {k: fields[k] for k in fields if k not in ['manf#','manf']+fields_merge and SEPRTR not in k}
+        hash_fields = {k: fields[k] for k in fields if k not in FIELDS_MANF+fields_merge and SEPRTR not in k}
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
