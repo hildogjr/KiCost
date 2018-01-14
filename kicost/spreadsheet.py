@@ -231,12 +231,9 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, distributors_use, 
         wks.freeze_panes(COL_HDR_ROW, next_col)
 
         # Make a list of alphabetically-ordered distributors with web distributors before locals.
-        print('----',distributors_use)
-        #distributors_use = ['digikey', 'mouser', 'rs']
         web_dists = sorted([d for d in distributors_use if distributors_use[d]['scrape'] != 'local'])
         local_dists = sorted([d for d in distributors_use if distributors_use[d]['scrape'] == 'local'])
         distributors_use = web_dists + local_dists
-        print('>>>>>>>>',distributors_use)
 
         # Load the part information from each distributor into the sheet.
         for dist in distributors_use:

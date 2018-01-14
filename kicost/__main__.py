@@ -42,7 +42,7 @@ except ImportError:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
 from .distributors import distributors
-from .eda_tools import eda_tool
+from .eda_tools import eda_tool #from . import eda_tools as eda_tools_imports
 from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
@@ -64,18 +64,18 @@ def main():
     parser.add_argument('-i', '--input',
                         nargs='+',
                         type=str,
-                        metavar='file.xml',
+                        metavar='FILE.XML',
                         help='One or more schematic BOM XML files.')
     parser.add_argument('-o', '--output',
                         nargs='?',
                         type=str,
-                        metavar='file.xlsx',
+                        metavar='FILE.XLSX',
                         help='Generated cost spreadsheet.')
     parser.add_argument('-f', '--fields',
                         nargs='+',
                         type=str,
                         default=[],
-                        metavar='name',
+                        metavar='NAME',
                         help='''Specify the names of additional part fields to 
                             extract and insert in the global data section of 
                             the spreadsheet.''')
@@ -105,7 +105,7 @@ def main():
                         nargs='+',
                         default=[],
                         help='Declare part fields to ignore when grouping parts.',
-                        metavar='name',
+                        metavar='NAME',
                         type=str)
     parser.add_argument('-d', '--debug',
                         nargs='?',
@@ -125,18 +125,22 @@ def main():
                         help='Show list of eda softwares that KiCost can read, then exit.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
-                        metavar = 'dist',
+                        metavar = 'DIST',
                         help='Excludes the given distributor(s) from the scraping process.')
     parser.add_argument('--include',
                         nargs='+', type=str, default='',
-                        metavar = 'dist',
+                        metavar = 'DIST',
                         help='Includes only the given distributor(s) in the scraping process.')
     parser.add_argument('-rt', '--retries',
                         nargs='?',
                         type=int,
                         default=HTML_RESPONSE_RETRIES,
-                        metavar = 'num_retries',
+                        metavar = 'NUM_RETRIES',
                         help='Specify the number of attempts to retrieve part data from a website.')
+    parser.add_argument('--throttling_delay',
+                        nargs='?', type=float, default=0.0,
+                        metavar='DELAY',
+                        help="Specify minimum delay (in seconds) between successive accesses to a distributor's website.")
     parser.add_argument('--user',
                         action='store_true',
                         help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
@@ -233,7 +237,7 @@ def main():
         user_fields=args.fields, ignore_fields=args.ignore_fields, 
         variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
         exclude_dist_list=args.exclude, include_dist_list=args.include,
-        scrape_retries=args.retries)
+        scrape_retries=args.retries, throttling_delay=args.throttling_delay)
 
 ###############################################################################
 # Main entrypoint.
@@ -250,7 +254,8 @@ if __name__ == '__main__':
 ###############################################################################
 
 def kicost_gui_notdependences():
-    sys.exit('''You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:\
-        pip install wxPython # For python 2.5\
-        pip3 install wxPython # For python 3.0+\
-        Or download from last version from <https://wxpython.org/>''')
+    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
+    print('pip install wxPython # For python 2.5')
+    print('pip3 install wxPython # For python 3.0+')
+    print('Or download from last version from <https://wxpython.org/>')
+    sys.exit(1)

@@ -179,7 +179,7 @@ def group_parts(components, fields_merge):
             # Now add the manf. part num (or None) for this part to the group set.
             component_groups[h].manf_nums = set([fields.get('manf#')])
 
-    #SGROUP_SEPRTR #TODO #ISSUE #102 after, remove the `ignore_fileds` of the EDA submodules
+    #SGROUP_SEPRTR #ISSUE #102 after, remove the `ignore_fileds` of the EDA submodules
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
