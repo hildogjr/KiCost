@@ -35,8 +35,10 @@ import copy
 import logging, pprint
 from bs4 import BeautifulSoup # XML file interpreter.
 from yattag import Doc, indent  # For generating HTML page for local parts.
+from random import choice
+from time import time
 import multiprocessing, tqdm
-from multiprocessing import Pool # For running web scrapes in parallel.
+from multiprocessing import Pool, Lock, Manager # For running web scrapes in parallel.
 
 try:
     from urllib.parse import urlsplit, urlunsplit
@@ -78,17 +80,11 @@ eda_tools = eda_tools_imports.eda_tools
 group_parts = eda_tools_imports.group_parts
 from .eda_tools.eda_tools import SUB_SEPRTR
 
-# Regular expression for detecting part reference ids consisting of a
-# prefix of letters followed by a sequence of digits, such as 'LED10'
-# or a sequence of digits followed by a subpart number like 'CONN1#3'.
-# There can even be an interposer character so 'LED-10' is also OK.
-#PART_REF_REGEX = re.compile('(?P<prefix>[a-z]+\W?)(?P<num>((?P<ref_num>\d+)({}(?P<subpart_num>\d+))?))'.format(SUB_SEPRTR), re.IGNORECASE)
-#from .eda_tools.eda_tools import PART_REF_REGEX
-
 from .spreadsheet import *
 
+
 def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_processes, 
-        eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries):
+        eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries, throttling_delay=0.0):
     '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
 
     # Only keep distributors in the included list and not in the excluded list.
@@ -119,9 +115,9 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     for i_prj in range(len(in_file)):
         eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i_prj])
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
-        # Group part out of the module to merge diferent project lists, ignore some filed to merge, issue #131 and #102 (in the future) #ISSUE.
+        # Group part out of the module to merge different project lists, ignore some filed to merge, issue #131 and #102 (in the future) #ISSUE.
         p = group_parts(p)
-        # Add the project indentifier in the references.
+        # Add the project identifier in the references.
         for i_g in range(len(p)):
             p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
         parts += p
@@ -133,14 +129,37 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributors)
 
+    # Set the throttling delay for each distributor.
+    for d in distributors:
+        distributors[d]['throttling_delay'] = throttling_delay
+
     # Get the distributor product page for each part and scrape the part data.
     logger.log(DEBUG_OVERVIEW, 'Scrape part data for each component group...')
+
     global scraping_progress
     scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
+
     if num_processes <= 1:
-        # Scrape data, one part at a time.
+        # Scrape data, one part at a time using single processing.
+
+        class DummyLock:
+            """Dummy synchronization lock used when single processing."""
+            def __init__(self):
+                pass
+            def acquire(*args, **kwargs):
+                return True  # Lock can ALWAYS be acquired when just one process is running.
+            def release(*args, **kwargs):
+                pass
+
+        # Create sync lock and timeouts to control the rate at which distributor
+        # websites are scraped.
+        throttle_lock = DummyLock()
+        throttle_timeouts = dict()
+        throttle_timeouts = {d:time() for d in distributors}
+
         for i in range(len(parts)):
-            args = (i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel())
+            args = (i, parts[i], distributors, local_part_html, scrape_retries,
+                    logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)
             id, url, part_num, price_tiers, qty_avail = scrape_part(args)
             parts[id].part_num = part_num
             parts[id].url = url
@@ -148,11 +167,22 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
             parts[id].qty_avail = qty_avail
             scraping_progress.update(1)
     else:
+        # Scrape data, multiple parts at a time using multiprocessing.
+
+        # Create sync lock and timeouts to control the rate at which distributor
+        # websites are scraped.
+        throttle_manager = Manager()  # Manages shared lock and dict.
+        throttle_lock = throttle_manager.Lock()
+        throttle_timeouts = throttle_manager.dict()
+        for d in distributors:
+            throttle_timeouts[d] = time()
+
         # Create pool of processes to scrape data for multiple parts simultaneously.
         pool = Pool(num_processes)
 
         # Package part data for passing to each process.
-        arg_sets = [(i, parts[i], distributors, local_part_html, scrape_retries, logger.getEffectiveLevel()) for i in range(len(parts))]
+        arg_sets = [(i, parts[i], distributors, local_part_html, scrape_retries, 
+                    logger.getEffectiveLevel(), throttle_lock, throttle_timeouts) for i in range(len(parts))]
         
         # Define a callback routine for updating the scraping progress bar.
         def update(x):
@@ -305,7 +335,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_r
 def scrape_part(args):
     '''Scrape the data for a part from each distributor website or local HTML.'''
 
-    id, part, distributor_dict, local_part_html, scrape_retries, log_level = args # Unpack the arguments.
+    id, part, distributor_dict, local_part_html, scrape_retries, log_level, throttle_lock, throttle_timeouts = args # Unpack the arguments.
 
     if multiprocessing.current_process().name == "MainProcess":
         scrape_logger = logging.getLogger('kicost')
@@ -323,19 +353,46 @@ def scrape_part(args):
     qty_avail = {}
 
     # Scrape the part data from each distributor website or the local HTML.
-    for d in distributor_dict:
+    # Create a list of the distributor keys and randomly choose one of the
+    # keys to scrape. After scraping, remove the distributor key.
+    # Do this until all the distributors have been scraped.
+    distributors = list(distributor_dict.keys())
+    while distributors:
+
+        d = choice(distributors)  # Randomly choose one of the available distributors.
+
         try:
             dist_module = getattr(distributor_imports, d)
         except AttributeError:
             dist_module = getattr(distributor_imports, distributor_dict[d]['module'])
 
-        # Get the HTML tree for the part.
-        html_tree, url[d] = get_part_html_tree(part, d, dist_module.get_part_html_tree, local_part_html, scrape_retries, scrape_logger)
+        # Try to access the list of distributor throttling timeouts.
+        # Abort if some other process is already using the timeouts.
+        if throttle_lock.acquire(blocking=False):
 
-        # Call the functions that extract the data from the HTML tree.
-        part_num[d] = dist_module.get_part_num(html_tree)
-        qty_avail[d] = dist_module.get_qty_avail(html_tree)
-        price_tiers[d] = dist_module.get_price_tiers(html_tree)
+            # Check the throttling timeout for the chosen distributor to see if
+            # another access to its website is allowed.
+            if throttle_timeouts[d] <= time():
+
+                # Update the timeout for this distributor website and release the sync. lock.
+                throttle_timeouts[d] = time() + distributor_dict[d]['throttling_delay']
+                throttle_lock.release()
+
+                # Get the HTML tree for the part.
+                html_tree, url[d] = get_part_html_tree(part, d, dist_module.get_part_html_tree, local_part_html, scrape_retries, scrape_logger)
+
+                # Call the functions that extract the data from the HTML tree.
+                part_num[d] = dist_module.get_part_num(html_tree)
+                qty_avail[d] = dist_module.get_qty_avail(html_tree)
+                price_tiers[d] = dist_module.get_price_tiers(html_tree)
+
+                # The part data has been scraped from this distributor, so remove it from the list.
+                distributors.remove(d)
+
+            # If the timeout for this distributor has not expired, then release
+            # the sync. lock and try another distributor.
+            else:
+                throttle_lock.release()
 
     # Return the part data.
     return id, url, part_num, price_tiers, qty_avail
