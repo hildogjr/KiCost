@@ -5,8 +5,8 @@ __author__='Giacinto Luigi Cerone'
 from .farnell import *
 
 # Place information about this distributor into the distributor dictionary.
-from .. import distributors
-distributors.update(
+from .. import distributor_dict
+distributor_dict.update(
     {
         'farnell': {
             'module': 'farnell', # The directory name containing this file.
