@@ -595,8 +595,17 @@ def split_refs(text):
                 splitted_nums = re.split('-', ref)
                 designator_name += ''.join( re.findall('^d*\W', splitted_nums[0] ) )
                 splitted_nums = [re.sub(designator_name,'',splitted_nums[i]) for i in range(len(splitted_nums))]
+                
+                # Some EDAs may use some separator in the reference numeric parts, as
+                # Altium that use "." (or even other) e.g. "R2.1,R2.2" to the same "R2"
+                # replicated between schametics / rooms.
+                base_splitted_nums = ''.join( re.findall('^\d+\D', splitted_nums[0]) )
+                splitted_nums = [''.join( re.findall('\D*(\d+)$', n) ) for n in splitted_nums]
+                
                 splitted = list( range( int(splitted_nums[0]), int(splitted_nums[1])+1 ) )
-                splitted = [designator_name+str(splitted[i]) for i in range(len(splitted)) ]
+                #splitted = [designator_name+str(splitted[i]) for i in range(len(splitted)) ]
+                splitted = [designator_name +base_splitted_nums+str(splitted[i]) for i in range(len(splitted)) ]
+                
                 refs += splitted
             elif re.search('[/\\\]', ref):
                 designator_name = re.findall('^\D+',ref)[0]
