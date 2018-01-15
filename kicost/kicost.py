@@ -92,9 +92,10 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         include_dist_list = list(distributors.keys())
     rmv_dist = set(exclude_dist_list)
     rmv_dist |= set(list(distributors.keys())) - set(include_dist_list)
-    rmv_dist -= set(['local_template'])  # We need this later for creating non-web distributors.
+    #rmv_dist -= set(['local_template'])  # We need this later for creating non-web distributors.
+    distributors_use = distributors.copy()
     for dist in rmv_dist:
-        distributors.pop(dist, None)
+        distributors_use.pop(dist, None)
 
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
@@ -115,8 +116,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     for i_prj in range(len(in_file)):
         eda_tool_module = getattr(eda_tools_imports, eda_tool_name[i_prj])
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
-        # Group part out of the module to merge different project lists, ignore some filed to merge, issue #131 and #102 (in the future) #ISSUE.
-        p = group_parts(p)
+        # Group part out of the module to merge different project lists, ignore some filed to merge, issue #131 and #102 (in the future). Next step, move the call of the function out of this loop and finish #73 implementation, remove `ignore_fields` of the call in the function above. #ISSUE.
+        p = group_parts(p, ignore_fields)
         # Add the project identifier in the references.
         for i_g in range(len(p)):
             p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
@@ -212,8 +213,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
     del scraping_progress
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, user_fields,
-                       '-'.join(variant) if len(variant)>1 else variant[0])
+    create_spreadsheet(parts, prj_info, out_filename, distributors_use,
+                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):

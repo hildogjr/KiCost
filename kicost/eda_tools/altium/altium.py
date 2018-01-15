@@ -35,7 +35,7 @@ import logging
 from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ...kicost import distributors, SEPRTR
 from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
-from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED #ISSUE
+from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED
 
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(
@@ -69,7 +69,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     def extract_fields_row(row, variant):
         '''Extract XML fields from the part in a library or schematic.'''
         
-        # First get the references and the quantities of elementes in each rwo group.
+        # First get the references and the quantities of elements in each rwo group.
         header_translated = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
         hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
         if not hdr_refs:
@@ -103,7 +103,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                         v = value[i]
                     else:
                         v = value[0] # Footprint is just one for group.
-                    # Do not create empty fields. This is userfull
+                    # Do not create empty fields. This is useful
                     # when used more than one `manf#` alias in one designator.
                     if v and v!=ALTIUM_NONE:
                         fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
@@ -130,7 +130,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                             v = value[i]
                         else:
                             v = value[0] # Footprint is just one for group.
-                        # Do not create empty fields. This is userfull
+                        # Do not create empty fields. This is useful
                         # when used more than one `manf#` alias in one designator.
                         if v and v!=ALTIUM_NONE:
                             fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
@@ -160,7 +160,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         for i in range(len(refs)):
             ref = refs[i]
             ref = re.sub('\+$', 'p', ref) # Finishing "+".
-            ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed. To work around #ISSUE #89.
+            ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special characters not allowed. To work around #ISSUE #89.
             ref = re.sub('\-+', '-', ref) # Double "-".
             ref = re.sub('^\-', '', ref) # Starting "-".
             ref = re.sub('\-$', 'n', ref) # Finishing "-".
