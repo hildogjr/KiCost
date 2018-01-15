@@ -42,6 +42,7 @@ PART_SEPRTR = r'(?<!\\)\s*[;,]\s*' # Separator for the part numbers in a list, r
 ESC_FIND = r'\\\s*([;,:])\s*'      # Used to remove backslash from escaped qty & manf# separators.
 SUB_SEPRTR  = '#' # Subpart separator for a part reference.
 REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
+SGROUP_SEPRTR = '\n' # Separator of the semi identical parts groups (parts that have the filed ignored to group).
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequencial rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
@@ -50,11 +51,11 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
 # There can even be an interposer character so 'LED.10', 'LED_10',
-# 'LED_BLUE-10', 'TEST&PIN+2' or 'TEST+SUPPLY' is also OK.
+# 'LED_BLUE-10', 'TEST&PIN+2', 'TEST+SUPPLY' or 'R4.10' is also OK.
 # References with numbers at the end are allowed by some EDAs.
-PART_REF_REGEX_NOT_ALLOWED = '[\+\.\(\)\*]'
+PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*]'
 PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&'
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, and such.
@@ -130,11 +131,24 @@ def file_eda_match(file_name):
 class IdenticalComponents(object):
     pass
 
-def group_parts(components):
+def group_parts(components, fields_merge):
     '''Group common parts after preprocessing from XML or CSV files.'''
     
     # Split multi-components into individual subparts.
     components = subpart_split(components)
+
+    # Calculated all the fileds that never have to be used to create the hash keys.
+    # These include all the manufacture company and codes, distributors codes 
+    # recognized by the insalled modules and, quantity and sub quantity of the part.
+    FIELDS_MANF = (['manf#', 'manf#_qty', 'manf', 'refs'] + [d + '#' for d in distributor_dict])
+
+    # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
+    # other ones as `desc` and even `value` and `footprint`may be merged due
+    # the different typed (1uF and 1u) or footprint library names to the same one.
+    fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
+    for c in FIELDS_MANF:
+        if c in fields_merge:
+             sys.exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
@@ -150,7 +164,7 @@ def group_parts(components):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including kicost).
-        hash_fields = {k: fields[k] for k in fields if k not in ('manf#','manf') and SEPRTR not in k}
+        hash_fields = {k: fields[k] for k in fields if k not in FIELDS_MANF+fields_merge and SEPRTR not in k}
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
@@ -167,6 +181,8 @@ def group_parts(components):
             component_groups[h].refs = [ref]  # Init list of refs with first ref.
             # Now add the manf. part num (or None) for this part to the group set.
             component_groups[h].manf_nums = set([fields.get('manf#')])
+
+    #SGROUP_SEPRTR #ISSUE #102 after, remove the `ignore_fileds` of the EDA submodules
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
@@ -582,8 +598,17 @@ def split_refs(text):
                 splitted_nums = re.split('-', ref)
                 designator_name += ''.join( re.findall('^d*\W', splitted_nums[0] ) )
                 splitted_nums = [re.sub(designator_name,'',splitted_nums[i]) for i in range(len(splitted_nums))]
+                
+                # Some EDAs may use some separator in the reference numeric parts, as
+                # Altium that use "." (or even other) e.g. "R2.1,R2.2" to the same "R2"
+                # replicated between schametics / rooms.
+                base_splitted_nums = ''.join( re.findall('^\d+\D', splitted_nums[0]) )
+                splitted_nums = [''.join( re.findall('\D*(\d+)$', n) ) for n in splitted_nums]
+                
                 splitted = list( range( int(splitted_nums[0]), int(splitted_nums[1])+1 ) )
-                splitted = [designator_name+str(splitted[i]) for i in range(len(splitted)) ]
+                #splitted = [designator_name+str(splitted[i]) for i in range(len(splitted)) ]
+                splitted = [designator_name +base_splitted_nums+str(splitted[i]) for i in range(len(splitted)) ]
+                
                 refs += splitted
             elif re.search('[/\\\]', ref):
                 designator_name = re.findall('^\D+',ref)[0]

@@ -96,8 +96,8 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         #eda_tool_module = getattr(eda_tools, eda_tool_name[i_prj])
         eda_tool_module = eda_modules[eda_tool_name[i_prj]]
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
-        # Group part out of the module to merge different project lists, ignore some filed to merge, issue #131 and #102 (in the future) #ISSUE.
-        p = group_parts(p)
+        # Group part out of the module to merge different project lists, ignore some filed to merge, issue #131 and #102 (in the future). Next step, move the call of the function out of this loop and finish #73 implementation, remove `ignore_fields` of the call in the function above. #ISSUE.
+        p = group_parts(p, ignore_fields)
         # Add the project identifier in the references.
         for i_g in range(len(p)):
             p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.

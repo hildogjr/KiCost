@@ -25,7 +25,7 @@
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
-# This module is intended to work with "generic hand made CSV" and the softwares:
+# This module is intended to work with "generic hand made CSV" and the software:
 # Proteus ISIS-ARES and AutoDesk EAGLE.
 
 # Libraries.
@@ -61,7 +61,7 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
-    # No `variant` are used in this function, the input is just kept by compatibily.
+    # No `variant` are used in this function, the input is just kept by compatibility.
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 

@@ -6,6 +6,7 @@ History
 0.1.43 (to be defined by @xesscorp)
 ______________________
 
+* Added capability to throttle accesses to distributor websites ``--throttling_delay``. 
 * Added ``show_eda_list`` option to display the list of EDA tools supported by KiCost.
 * CSV now accept files from Proteus and Eagle EDA.
 * Clear up the python importations not used and better placed function into files (spreasheet creation files are now in ``spreadsheet.py``).
