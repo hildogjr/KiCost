@@ -7,16 +7,18 @@ from random import choice
 
 import http.client # For web scraping exceptions.
 try:
+    # This is for Python 3
     from urllib.parse import urlencode, quote_plus as urlquote, urlsplit, urlunsplit
-    import urllib.request
     from urllib.request import urlopen, Request
+    import urllib.error
+    WEB_SCRAPE_EXCEPTIONS = (urllib.error.URLError, http.client.HTTPException)
 except ImportError:
+    # This is for Python 2
     from urlparse import urlsplit, urlunsplit
     from urllib import urlencode, quote_plus as urlquote
     from urllib2 import urlopen, Request
-
-# Global constants for distributor site scraping.
-WEB_SCRAPE_EXCEPTIONS = (urllib.request.URLError, http.client.HTTPException)
+    import urllib2
+    WEB_SCRAPE_EXCEPTIONS = (urllib2.URLError, http.client.HTTPException)
 
 
 def get_user_agent():
@@ -129,26 +131,4 @@ def FakeBrowser(url):
 
 
 # The global dictionary of distributor information starts out empty.
-distributors = {}
-
-import os
-
-# The distributor module directories will be found in this directory.
-directory = os.path.dirname(__file__)
-
-# Search for the distributor modules and import them.
-for module in os.listdir(os.path.dirname(__file__)):
-
-    # Avoid importing non-directories.
-    abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
-        continue
-
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-
-    # Import the module.
-    __import__(module, globals(), locals(), [], level=1)
-
-from .web_routines import * # FakeBrowser, scrap routine, ...
+distributor_dict = {}

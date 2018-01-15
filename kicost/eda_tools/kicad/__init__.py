@@ -26,8 +26,8 @@ __email__ = 'info@xess.com'
 from .kicad import get_part_groups
 
 # Place information about this EDA into the eda_tool dictionary.
-from .. import eda_tool
-eda_tool.update(
+from .. import eda_tool_dict
+eda_tool_dict.update(
     {
         'kicad': {
             'module': 'kicad', # The directory name containing this file.

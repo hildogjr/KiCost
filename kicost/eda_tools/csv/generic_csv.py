@@ -33,8 +33,7 @@ import sys, os, time
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ...kicost import SEPRTR, distributors
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..eda_tools import field_name_translations, split_refs
 
 # Add to deal with the generic CSV header purchase list.

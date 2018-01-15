@@ -19,8 +19,8 @@ import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
-from ...kicost import PartHtmlError
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...globals import PartHtmlError
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from currency_converter import CurrencyConverter
 currency = CurrencyConverter()
 
