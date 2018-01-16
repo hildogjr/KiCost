@@ -226,7 +226,7 @@
                                 <property name="size"></property>
                                 <property name="subclass">; forward_declare</property>
                                 <property name="toolbar_pane">0</property>
-                                <property name="tooltip"></property>
+                                <property name="tooltip">Basic controls, BoM selection and supported distributors.</property>
                                 <property name="window_extra_style"></property>
                                 <property name="window_name"></property>
                                 <property name="window_style">wxTAB_TRAVERSAL</property>
@@ -578,7 +578,7 @@
                                                     <property name="permission">none</property>
                                                     <object class="sizeritem" expanded="1">
                                                         <property name="border">5</property>
-                                                        <property name="flag">wxEXPAND|wxRIGHT</property>
+                                                        <property name="flag">wxRIGHT|wxEXPAND</property>
                                                         <property name="proportion">1</property>
                                                         <object class="wxBoxSizer" expanded="1">
                                                             <property name="minimum_size"></property>
@@ -1007,7 +1007,7 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxHSCROLL|wxTE_MULTILINE</property>
+                                            <property name="style">wxHSCROLL|wxTE_MULTILINE|wxTE_READONLY</property>
                                             <property name="subclass">; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip">Process messages and warnings.</property>
@@ -1102,7 +1102,7 @@
                                 <property name="size"></property>
                                 <property name="subclass">; forward_declare</property>
                                 <property name="toolbar_pane">0</property>
-                                <property name="tooltip"></property>
+                                <property name="tooltip">KICost general configurations tab.</property>
                                 <property name="window_extra_style"></property>
                                 <property name="window_name"></property>
                                 <property name="window_style">wxTAB_TRAVERSAL</property>
@@ -2083,7 +2083,7 @@
                                 <property name="size"></property>
                                 <property name="subclass">; forward_declare</property>
                                 <property name="toolbar_pane">0</property>
-                                <property name="tooltip"></property>
+                                <property name="tooltip">About the software, version installation and update found.</property>
                                 <property name="window_extra_style"></property>
                                 <property name="window_name"></property>
                                 <property name="window_style">wxTAB_TRAVERSAL</property>

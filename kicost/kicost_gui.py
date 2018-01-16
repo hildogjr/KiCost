@@ -68,6 +68,8 @@ class MyForm ( wx.Frame ):
         
         self.m_notebook1 = wx.Notebook( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_panel1 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        self.m_panel1.SetToolTip( u"Basic controls, BoM selection and supported distributors." )
+        
         bSizer3 = wx.BoxSizer( wx.VERTICAL )
         
         sbSizer2 = wx.StaticBoxSizer( wx.StaticBox( self.m_panel1, wx.ID_ANY, u"Files" ), wx.HORIZONTAL )
@@ -139,7 +141,7 @@ class MyForm ( wx.Frame ):
         
         bSizer3.Add( bSizer4, 1, wx.EXPAND, 5 )
         
-        self.m_textCtrlMessages = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.TE_MULTILINE )
+        self.m_textCtrlMessages = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY )
         self.m_textCtrlMessages.SetToolTip( u"Process messages and warnings." )
         
         bSizer3.Add( self.m_textCtrlMessages, 0, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
@@ -150,6 +152,8 @@ class MyForm ( wx.Frame ):
         bSizer3.Fit( self.m_panel1 )
         self.m_notebook1.AddPage( self.m_panel1, u"BoM", True )
         self.m_panel2 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        self.m_panel2.SetToolTip( u"KICost general configurations tab." )
+        
         bSizer8 = wx.BoxSizer( wx.VERTICAL )
         
         wSizer2 = wx.WrapSizer( wx.HORIZONTAL )
@@ -221,6 +225,8 @@ class MyForm ( wx.Frame ):
         bSizer8.Fit( self.m_panel2 )
         self.m_notebook1.AddPage( self.m_panel2, u"KiCost config", False )
         self.m_panel3 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
+        self.m_panel3.SetToolTip( u"About the software, version installation and update found." )
+        
         bSizer2 = wx.BoxSizer( wx.VERTICAL )
         
         bSizer10 = wx.BoxSizer( wx.HORIZONTAL )
@@ -395,6 +401,21 @@ class MyForm ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def run( self ):
+    #TODO
+    # Messages and process bar on the GUI without CLI, remove the `runTerminal` call here.
+    # Add the debug lebvel control on the GUI interface, a salve on TXT the log with the rigth click or just open external (in the editor software).
+    # Quiet move start OFF
+    #TODO `runTerminal`
+    # Keep this for `--user` parameter, if passed aditional ones, overwrite the saved to execute KiCost.
+        self.m_gaugeProcess.SetValue(0)
+        
+        self.runTerminal()
+        
+        self.m_gaugeProcess.SetValue(50)
+        return
+
+    #----------------------------------------------------------------------
+    def runTerminal( self ):
         # Get the current distributors to scrape.
         choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
         if choisen_dist:
@@ -403,9 +424,10 @@ class MyForm ( wx.Frame ):
         else:
             choisen_dist = ''
         command = ("kicost"
-            + " -i " + ' '.join(['"'+fileN+'"' for fileN in re.split(SEP_FILES, self.m_comboBox_files.GetValue())])
-            + " -np " + str(self.m_spinCtrl_np.GetValue()) # Parallels process scrapping.
-            + " -rt " + str(self.m_spinCtrl_retries.GetValue()) # Retry time in the scraps.
+            + " --input " + ' '.join(['"'+fileN+'"' for fileN in re.split(SEP_FILES, self.m_comboBox_files.GetValue())])
+            + " --num_processes " + str(self.m_spinCtrl_np.GetValue()) # Parallels process scrapping.
+            + " --retries " + str(self.m_spinCtrl_retries.GetValue()) # Retry time in the scraps.
+            + " --throttling " + str(self.m_spinCtrlDouble_throttling.GetValue()) # Delay between consecutive scrapes.
             + " -w" * self.m_checkBox_overwrite.GetValue()
             + " -q" * self.m_checkBox_quite.GetValue()
             + choisen_dist
@@ -428,7 +450,7 @@ class MyForm ( wx.Frame ):
         
         command += '&' # Run as other process.
         print("Running: ", command)
-        subprocess.call(command, shell=True) # `os.system`not accept the "&&"
+        #subprocess.call(command, shell=True) # `os.system`not accept the "&&"
 
     #----------------------------------------------------------------------
     def set_properties(self):
@@ -609,5 +631,5 @@ def kicost_gui_run(fileName):
 #    frame.Show()
     frame.m_comboBox_files.SetValue('"' + '", "'.join(fileName) + '"')
     frame.updateEDAselection()
-    frame.run()
+    frame.runTerminal()
 #    app.MainLoop()
