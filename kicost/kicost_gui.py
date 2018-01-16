@@ -27,7 +27,10 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-import wx # wxWidgets for Python.
+try:
+    import wx # wxWidgets for Python.
+except ImportError:
+    raise ImportError('wxPython package not recognised.')
 import webbrowser
 import os, subprocess # To access OS commands and run in the shell.
 import platform # To check the system platform when open the XLS file.
@@ -36,8 +39,9 @@ import re # Regular expression parser.
 #import inspect # To get the internal module and informations of a module/class.
 from . import __version__ # Version control by @xesscorp.
 from .kicost import *  # kicost core functions.
-from .distributors import distributors, FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
-from .eda_tools import eda_tool, file_eda_match #from . import eda_tools as eda_tools_imports
+from .distributors import distributor_dict, FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
+from .eda_tools import eda_tool_dict
+from .eda_tools.eda_tools import file_eda_match
 
 __all__ = ['kicost_gui', 'kicost_gui_run']
 
@@ -70,12 +74,12 @@ class MyForm ( wx.Frame ):
         
         m_comboBox_filesChoices = []
         self.m_comboBox_files = wx.ComboBox( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Not selected files", wx.DefaultPosition, wx.DefaultSize, m_comboBox_filesChoices, 0 )
-        self.m_comboBox_files.SetToolTip( u"BoM file(s) to scrape." )
+        self.m_comboBox_files.SetToolTip( u"BoM(s) file(s) to scrape.\nClick on the arrow to see/select one of the history files." )
         
         sbSizer2.Add( self.m_comboBox_files, 1, wx.ALL, 5 )
         
         self.m_button_openfile = wx.Button( sbSizer2.GetStaticBox(), wx.ID_ANY, u"Choose BoM", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_button_openfile.SetToolTip( u"Open a BoM file." )
+        self.m_button_openfile.SetToolTip( u"Click to choose the BoM(s) file(s)." )
         
         sbSizer2.Add( self.m_button_openfile, 0, wx.ALL, 5 )
         
@@ -88,7 +92,7 @@ class MyForm ( wx.Frame ):
         
         m_checkList_distChoices = [wx.EmptyString]
         self.m_checkList_dist = wx.CheckListBox( sbSizer3.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_checkList_distChoices, 0 )
-        self.m_checkList_dist.SetToolTip( u"Web distributor (or local) to scrape the prices." )
+        self.m_checkList_dist.SetToolTip( u"Select the web distributor (or local) that will be used to scrape the prices." )
         
         sbSizer3.Add( self.m_checkList_dist, 1, wx.ALL|wx.EXPAND, 5 )
         
@@ -103,7 +107,7 @@ class MyForm ( wx.Frame ):
         
         m_listBox_edatoolChoices = []
         self.m_listBox_edatool = wx.ListBox( sbSizer31.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_listBox_edatoolChoices, 0 )
-        self.m_listBox_edatool.SetToolTip( u"EDA software/module corresponding to the file." )
+        self.m_listBox_edatool.SetToolTip( u"Choose the correct EDA software corresponding to the BoM file." )
         
         sbSizer31.Add( self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5 )
         
@@ -111,14 +115,20 @@ class MyForm ( wx.Frame ):
         bSizer6.Add( sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5 )
         
         self.m_button_run = wx.Button( self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_button_run.SetToolTip( u"Rum KiCost." )
+        self.m_button_run.SetToolTip( u"Click to run KiCost." )
         
         bSizer6.Add( self.m_button_run, 0, wx.ALL, 5 )
         
         self.m_checkBox_openXLS = wx.CheckBox( self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_checkBox_openXLS.SetToolTip( u"Open the spreadsheet after finish the KiCost process." )
+        self.m_checkBox_openXLS.SetToolTip( u"Open the spreadsheet after finish the KiCost scrape." )
         
         bSizer6.Add( self.m_checkBox_openXLS, 0, wx.ALL, 5 )
+        
+        self.m_gaugeProcess = wx.Gauge( self.m_panel1, wx.ID_ANY, 100, wx.DefaultPosition, wx.DefaultSize, wx.GA_HORIZONTAL )
+        self.m_gaugeProcess.SetValue( 0 ) 
+        self.m_gaugeProcess.SetToolTip( u"Percentage of the scrape process elapsed." )
+        
+        bSizer6.Add( self.m_gaugeProcess, 0, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
         
         
         wSizer1.Add( bSizer6, 1, wx.EXPAND|wx.RIGHT, 5 )
@@ -128,6 +138,11 @@ class MyForm ( wx.Frame ):
         
         
         bSizer3.Add( bSizer4, 1, wx.EXPAND, 5 )
+        
+        self.m_textCtrlMessages = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.TE_MULTILINE )
+        self.m_textCtrlMessages.SetToolTip( u"Process messages and warnings." )
+        
+        bSizer3.Add( self.m_textCtrlMessages, 0, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
         
         
         self.m_panel1.SetSizer( bSizer3 )
@@ -145,32 +160,41 @@ class MyForm ( wx.Frame ):
         self.m_staticText2.Wrap( -1 )
         bSizer9.Add( self.m_staticText2, 0, wx.ALL, 5 )
         
-        self.m_spinCtrl_np = wx.SpinCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 30, 0 )
-        self.m_spinCtrl_np.SetToolTip( u"Set the number of parallel processes used for web scraping part data." )
+        self.m_spinCtrl_np = wx.SpinCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 30, 6 )
+        self.m_spinCtrl_np.SetToolTip( u"Set the number of parallel processes used for web scraping the parts data." )
         
         bSizer9.Add( self.m_spinCtrl_np, 0, wx.ALL, 5 )
         
-        self.m_checkBox_overwrite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"--overwrite", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_checkBox_overwrite.SetValue(True) 
-        self.m_checkBox_overwrite.SetToolTip( u"Allow overwriting of an existing spreadsheet." )
+        self.m_staticText3 = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Scrap retries", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText3.Wrap( -1 )
+        bSizer9.Add( self.m_staticText3, 0, wx.ALL, 5 )
         
-        bSizer9.Add( self.m_checkBox_overwrite, 0, wx.ALL, 5 )
+        self.m_spinCtrl_retries = wx.SpinCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 4, 200, 0 )
+        self.m_spinCtrl_retries.SetToolTip( u"Specify the number of attempts to retrieve part data from a website." )
+        
+        bSizer9.Add( self.m_spinCtrl_retries, 0, wx.ALL, 5 )
+        
+        self.m_staticText7 = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Throttling delay (s)", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText7.Wrap( -1 )
+        bSizer9.Add( self.m_staticText7, 0, wx.ALL, 5 )
+        
+        self.m_spinCtrlDouble_throttling = wx.SpinCtrlDouble( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 5, 0, 0.1 )
+        self.m_spinCtrlDouble_throttling.SetToolTip( u"Specify minimum delay (in seconds) between successive accesses to a distributor's website.\nUsed when the websites not accept successive accesses." )
+        
+        bSizer9.Add( self.m_spinCtrlDouble_throttling, 0, wx.ALL, 5 )
         
         
         wSizer2.Add( bSizer9, 1, wx.TOP|wx.LEFT, 5 )
         
         bSizer11 = wx.BoxSizer( wx.VERTICAL )
         
-        self.m_staticText3 = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Scrap retries", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_staticText3.Wrap( -1 )
-        bSizer11.Add( self.m_staticText3, 0, wx.ALL, 5 )
+        self.m_checkBox_overwrite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"Overwrite file", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_checkBox_overwrite.SetValue(True) 
+        self.m_checkBox_overwrite.SetToolTip( u"Allow overwriting of an existing spreadsheet." )
         
-        self.m_spinCtrl_retries = wx.SpinCtrl( self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 4, 200, 0 )
-        self.m_spinCtrl_retries.SetToolTip( u"Specify the number of attempts to retrieve part data from a website." )
+        bSizer11.Add( self.m_checkBox_overwrite, 0, wx.ALL, 5 )
         
-        bSizer11.Add( self.m_spinCtrl_retries, 0, wx.ALL, 5 )
-        
-        self.m_checkBox_quite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"--quite", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_checkBox_quite = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"Quiet mode", wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_checkBox_quite.SetValue(True) 
         self.m_checkBox_quite.SetToolTip( u"Enable quiet mode with no warnings." )
         
@@ -417,7 +441,7 @@ class MyForm ( wx.Frame ):
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
         
         # Current distrubutors module recognized.
-        distributors_list = [*sorted(list(distributors.keys()))]
+        distributors_list = sorted(list(distributor_dict.keys()))
         self.m_checkList_dist.Clear()
         self.m_checkList_dist.Append(distributors_list)
         for idx in range(len(distributors_list)):
@@ -425,7 +449,7 @@ class MyForm ( wx.Frame ):
         
         # Current EDA tools module recognized.
         #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
-        eda_names = [*sorted(list(eda_tool.keys()))]
+        eda_names = sorted(list(eda_tool_dict.keys()))
         self.m_listBox_edatool.Clear()
         self.m_listBox_edatool.Append(eda_names)
         
@@ -452,10 +476,11 @@ class MyForm ( wx.Frame ):
             * Giacinto Luigi Cerone https://github.com/glcerone
             * Hildo Guillardi Júnior https://github.com/hildogjr
             * Adam Heinrich https://github.com/adamheinrich
+
+            GUI by Hildo Guillardi Júnior
             '''
-            credits = re.sub('[\t, ]+', '', credits)
-        self.m_staticText_credits.SetLabel( credits
-            + '\nGraphical interface by ' + __author__ )
+            credits = re.sub(r'\n[\t ]+', '\n', credits)  # Remove leading whitespace
+        self.m_staticText_credits.SetLabel(credits)
         
         # Recovery the last configurations used (found the folder of the file by the OS).
         self.restore_properties()
@@ -497,6 +522,8 @@ class MyForm ( wx.Frame ):
                                 wxElement_handle.Check(idx, True)
                     elif isinstance(wxElement_handle, wx._core.SpinCtrl):
                         wxElement_handle.SetValue( int(configHandle.Read(entry)) )
+                    elif isinstance(wxElement_handle, wx._core.SpinCtrlDouble):
+                        wxElement_handle.SetValue( float(configHandle.Read(entry)) )
                     elif isinstance(wxElement_handle, wx._core.ComboBox):
                         value = re.split(',', configHandle.Read(entry) )
                         for element in value:
@@ -532,14 +559,15 @@ class MyForm ( wx.Frame ):
                 try:
                     # Each wxPython object have a specific parameter value
                     # to be saved and restored in the software initialization.
-                    if isinstance(wxElement_handle, wx._core.TextCtrl):
+                    if isinstance(wxElement_handle, wx._core.TextCtrl) and wxElement_name != 'm_textCtrlMessages':
+                        # Save each TextCtrl (TextBox) that is not the status messages.
                         configHandle.Write(wxElement_name, wxElement_handle.GetValue() )
                     elif isinstance(wxElement_handle, wx._core.CheckBox):
                         configHandle.Write(wxElement_name, ('True' if wxElement_handle.GetValue() else 'False') )
                     elif isinstance(wxElement_handle, wx._core.CheckListBox):
                         value = [wxElement_handle.GetString(idx) for idx in wxElement_handle.GetCheckedItems()]
                         configHandle.Write(wxElement_name, ','.join(value) )
-                    elif isinstance(wxElement_handle, wx._core.SpinCtrl):
+                    elif isinstance(wxElement_handle, wx._core.SpinCtrl) or isinstance(wxElement_handle, wx._core.SpinCtrlDouble):
                         configHandle.Write(wxElement_name, str(wxElement_handle.GetValue()) )
                     elif isinstance(wxElement_handle, wx._core.ComboBox):
                         value = [wxElement_handle.GetString(idx) for idx in range(wxElement_handle.GetCount())]
@@ -559,7 +587,7 @@ class MyForm ( wx.Frame ):
             
             del configHandle # Close the file / Windows registry sock.
         except:
-            print('Configurations not salved.')
+            print('Configurations not saved.')
 
 
 

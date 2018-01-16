@@ -6,8 +6,8 @@ __email__ = 'info@xess.com'
 from .digikey import *
 
 # Place information about this distributor into the distributor dictionary.
-from .. import distributors
-distributors.update(
+from .. import distributor_dict
+distributor_dict.update(
     {
         'digikey': {
             'module': 'digikey', # The directory name containing this file.

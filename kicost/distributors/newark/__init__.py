@@ -6,8 +6,8 @@ __email__ = 'info@xess.com'
 from .newark import *
 
 # Place information about this distributor into the distributor dictionary.
-from .. import distributors
-distributors.update(
+from .. import distributor_dict
+distributor_dict.update(
     {
         'newark': {
             'module': 'newark', # The directory name containing this file.

@@ -34,13 +34,13 @@ import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 # KiCost libriries.
 from . import __version__ # Version control by @xesscorp.
-from .kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from .distributors import distributors # Distributors names and definitions to use in the spreasheet.
+from .globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from .distributors import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .eda_tools.eda_tools import subpart_qty, collapse_refs, PART_REF_REGEX
 
 __all__ = ['create_spreadsheet']
 
-def create_spreadsheet(parts, prj_info, spreadsheet_filename, distributors_use, user_fields, variant):
+def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
@@ -145,8 +145,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, distributors_use, 
         }
 
         # Add the distinctive header format for each distributor to the dict of formats.
-        for d in distributors_use:
-            wrk_formats[d] = workbook.add_format(distributors_use[d]['wrk_hdr_format'])
+        for d in distributor_dict:
+            wrk_formats[d] = workbook.add_format(distributor_dict[d]['wrk_hdr_format'])
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
@@ -166,7 +166,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, distributors_use, 
         # next_col = the column immediately to the right of the global data.
         # qty_col = the column where the quantity needed of each part is stored.
         next_col, refs_col, qty_col = add_globals_to_worksheet(
-            wks, wrk_formats, distributors_use, START_ROW, START_COL, TOTAL_COST_ROW, parts, user_fields)
+            wks, wrk_formats, START_ROW, START_COL, TOTAL_COST_ROW, parts, user_fields)
         # Create a defined range for the global data.
         workbook.define_name(
             'global_part_data', '={wks_name}!{data_range}'.format(
@@ -231,12 +231,12 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, distributors_use, 
         wks.freeze_panes(COL_HDR_ROW, next_col)
 
         # Make a list of alphabetically-ordered distributors with web distributors before locals.
-        web_dists = sorted([d for d in distributors_use if distributors_use[d]['scrape'] != 'local'])
-        local_dists = sorted([d for d in distributors_use if distributors_use[d]['scrape'] == 'local'])
-        distributors_use = web_dists + local_dists
+        web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] != 'local'])
+        local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] == 'local'])
+        dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
-        for dist in distributors_use:
+        for dist in distributor_dict:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
                                              dist_start_col, UNIT_COST_ROW, TOTAL_COST_ROW,
@@ -255,8 +255,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, distributors_use, 
                 wrk_formats['proj_info'])
 
 
-def add_globals_to_worksheet(wks, wrk_formats, distributors_use,
-                             start_row, start_col,
+def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields):
     '''Add global part data to the spreadsheet.'''
 
@@ -445,7 +444,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         dist_qty_avail = []
         dist_qty_purchased = []
         dist_code_avail = []
-        for dist in list(distributors_use): #TODO
+        for dist in list(distributor_dict.keys()):
 
             # Get the name of the data range for this distributor.
             dist_data_rng = '{}_part_data'.format(dist)
@@ -607,7 +606,7 @@ Orange -> Too little quantity available.'''
 
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-            distributors[dist]['label'].title(), wrk_formats[dist])
+            distributor_dict[dist]['label'].title(), wrk_formats[dist])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -804,15 +803,15 @@ Orange -> Too little quantity available.'''
     order_col_numeric = {}
     order_delimiter = {}
     dist_col = {}
-    for position, col_tag in enumerate(distributors[dist]['order_cols']):
+    for position, col_tag in enumerate(distributor_dict[dist]['order_cols']):
         order_col[col_tag] = ORDER_START_COL + position  # Column for this order info.
         order_col_numeric[col_tag] = (col_tag ==
                                       'purch')  # Is this order info numeric?
-        order_delimiter[col_tag] = distributors[dist][
+        order_delimiter[col_tag] = distributor_dict[dist][
             'order_delimiter'
         ]  # Delimiter btwn order columns.
         # For the last column of order info, the delimiter is blanked.
-        if position + 1 == len(distributors[dist]['order_cols']):
+        if position + 1 == len(distributor_dict[dist]['order_cols']):
             order_delimiter[col_tag] = ''
         # If the column tag doesn't exist in the list of distributor columns,
         # then assume its for the part reference column in the global data section

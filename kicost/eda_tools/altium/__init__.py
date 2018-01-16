@@ -29,8 +29,8 @@ __company__ = 'University of Campinas - Brazil'
 from .altium import get_part_groups
 
 # Place information about this EDA into the eda_tool dictionary.
-from .. import eda_tool
-eda_tool.update(
+from .. import eda_tool_dict
+eda_tool_dict.update(
     {
         'altium': {
             'module': 'altium', # The directory name containing this file.

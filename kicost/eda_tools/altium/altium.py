@@ -32,8 +32,9 @@ import sys, os, time
 from bs4 import BeautifulSoup # To Read XML files.
 import re # Regular expression parser.
 import logging
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ...kicost import distributors, SEPRTR
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ...globals import SEPRTR
+from ...kicost import distributor_dict
 from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
 from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED
 
@@ -122,7 +123,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                     # number or a distributors catalog number, then add
                     # it to 'local' if it doesn't start with a distributor
                     # name and colon.
-                    if name not in ('manf#', 'manf') and name[:-1] not in distributors:
+                    if name not in ('manf#', 'manf') and name[:-1] not in distributor_dict:
                         if SEPRTR not in name: # This field has no distributor.
                             name = 'local:' + name # Assign it to a local distributor.
                     for i in range(qty):

@@ -37,8 +37,9 @@ import future
 import sys, os, time
 import re
 from bs4 import BeautifulSoup
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...kicost import SEPRTR, distributors
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...globals import SEPRTR
+from ...kicost import distributor_dict
 from ..eda_tools import field_name_translations
 
 
@@ -79,7 +80,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # number or a distributors catalog number, then add
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
-                        if name not in ('manf#', 'manf') and name[:-1] not in distributors:
+                        if name not in ('manf#', 'manf') and name[:-1] not in distributor_dict:
                             if SEPRTR not in name: # This field has no distributor.
                                 name = 'local:' + name # Assign it to a local distributor.
                         value = str(f.string)

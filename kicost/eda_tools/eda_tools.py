@@ -29,10 +29,10 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import re, os # Regular expression parser and matches.
 from sys import exit # Exit in the error.
-from ..kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..distributors import distributors # Distributors name to use as field.
-from ..kicost import SEPRTR
-from . import eda_tool # EDA dictionary with the features.
+from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..globals import SEPRTR
+from ..kicost import distributor_dict
+from . import eda_tool_dict # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'subpart_qty', 'groups_sort', 'collapse_refs', 'group_parts']
 
@@ -81,11 +81,13 @@ field_name_translations = {
     'p#': 'manf#',
     'part#': 'manf#',
 }
+
 for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
-    for dist in distributors:
+    for dist in distributor_dict:
         field_name_translations[dist + stub] = dist + '#'
         field_name_translations[dist + '_' + stub] = dist + '#'
         field_name_translations[dist + '-' + stub] = dist + '#'
+
 field_name_translations.update(
     {
         'manf': 'manf',
@@ -96,6 +98,7 @@ field_name_translations.update(
         'mfr': 'manf',
     }
 )
+
 field_name_translations.update(
     {
         'variant': 'variant',
@@ -113,7 +116,7 @@ def file_eda_match(file_name):
     file_handle = open(file_name, 'r')
     content = file_handle.read()
     extension = os.path.splitext(file_name)[1]
-    for name, defs in eda_tool.items():
+    for name, defs in eda_tool_dict.items():
         #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
         if re.search(defs['file']['content'], content, re.IGNORECASE)\
             and extension==defs['file']['extension']:
@@ -137,7 +140,7 @@ def group_parts(components, fields_merge):
     # Calculated all the fileds that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes 
     # recognized by the insalled modules and, quantity and sub quantity of the part.
-    FIELDS_MANF = (['manf#', 'manf#_qty', 'manf', 'refs'] + [d + '#' for d in distributors])
+    FIELDS_MANF = (['manf#', 'manf#_qty', 'manf', 'refs'] + [d + '#' for d in distributor_dict])
 
     # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
     # other ones as `desc` and even `value` and `footprint`may be merged due
@@ -298,7 +301,7 @@ def subpart_split(components):
     '''
     logger.log(DEBUG_OVERVIEW, 'Search for subparts within parts...')
 
-    dist = [d+'#' for d in distributors]
+    dist = [d+'#' for d in distributor_dict]
     dist.append('manf#')
 
     splitted_components = {}

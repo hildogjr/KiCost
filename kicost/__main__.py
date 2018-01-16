@@ -36,13 +36,14 @@ import logging
 import time
 #import inspect # To get the internal module and informations of a module/class.
 from .kicost import kicost # kicost core functions.
-try:
-    from .kicost_gui import * # User guide.
-except ImportError:
-    pass # If the wxPython dependences are not installed and
+from .kicost_gui import * # User guide.
+#try:
+#    from .kicost_gui import * # User guide.
+#except ImportError:
+#    pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
-from .distributors import distributors
-from .eda_tools import eda_tool #from . import eda_tools as eda_tools_imports
+from .distributors import distributor_dict
+from .eda_tools import eda_tool_dict
 from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes..
@@ -161,12 +162,12 @@ def main():
     logger.setLevel(log_level)
 
     if args.show_dist_list:
-        print('Distributor list:', *sorted(list(distributors.keys())))
+        print('Distributor list:', *sorted(list(distributor_dict.keys())))
         return
     if args.show_eda_list:
         #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
         #print('EDA supported list:', ', '.join(eda_names))
-        print('EDA supported list:', *sorted(list(eda_tool.keys())))
+        print('EDA supported list:', *sorted(list(eda_tool_dict.keys())))
         return
 
     # Set up spreadsheet output file.
@@ -194,7 +195,7 @@ def main():
     if args.user:
         try:
             kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
-        except NameError:
+        except ImportError:
             kicost_gui_notdependences()
             #kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
         return
@@ -210,7 +211,7 @@ def main():
     if args.input == None:
         try:
             kicost_gui() # Use the user guide.
-        except NameError:
+        except ImportError:
             kicost_gui_notdependences()
             #kicost_gui()
         return
