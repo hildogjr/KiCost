@@ -545,11 +545,11 @@ class formKiCost ( wx.Frame ):
     # Messages and process bar on the GUI without CLI, remove the `runTerminal` call here.
     #TODO `runTerminal`
     # Keep this for `--user` parameter, if passed aditional ones, overwrite the saved to execute KiCost.
-        self.m_gaugeProcess.SetValue(0)
+        self.m_gauge_process.SetValue(0)
         
         self.runTerminal()
         
-        self.m_gaugeProcess.SetValue(50)
+        self.m_gauge_process.SetValue(50)
         return
 
     #----------------------------------------------------------------------
