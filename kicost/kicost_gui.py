@@ -34,6 +34,7 @@ except ImportError:
 import webbrowser
 import os, subprocess # To access OS commands and run in the shell.
 import platform # To check the system platform when open the XLS file.
+import tempfile
 from datetime import datetime
 from distutils.version import StrictVersion # To comparasion of versions.
 import re # Regular expression parser.
@@ -58,7 +59,7 @@ PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last officia
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
 
 
-class FileDropTarget(wx.FileDropTarget):
+class FileDropTarget( wx.FileDropTarget ):
     ''' This object implements Drop Target functionality for Files '''
     def __init__(self, obj):
         wx.FileDropTarget.__init__(self)
@@ -69,7 +70,7 @@ class FileDropTarget(wx.FileDropTarget):
         self.obj.addFile(filenames)
         return True # No error.
 
-class menuMessages( wx.Menu):
+class menuMessages( wx.Menu ):
     ''' Menu of the messages text
     '''
     def __init__( self, parent ):
@@ -114,6 +115,12 @@ class menuMessages( wx.Menu):
     def openMessages( self, event ):
         event.Skip()
         self.parent.m_textCtrlMessages.SetValue('This is just test message')
+        self.parent.m_textCtrlMessages.SetValue('This is just test message')
+        new_file, filename = tempfile.mkstemp(prefix='KiCost', suffix='.log')
+        os.open(new_file)
+        os.write(new_file, self.parent.m_textCtrlMessages.GetValue() )
+        os.close(new_file)
+        os.startfile(filename)
 
 
 
@@ -488,6 +495,7 @@ class formKiCost ( wx.Frame ):
     def run( self ):
     #TODO
     # Messages and process bar on the GUI without CLI, remove the `runTerminal` call here.
+    # Open the log as tempprary file
     #TODO `runTerminal`
     # Keep this for `--user` parameter, if passed aditional ones, overwrite the saved to execute KiCost.
         self.m_gaugeProcess.SetValue(0)
@@ -512,7 +520,7 @@ class formKiCost ( wx.Frame ):
             + " --retries " + str(self.m_spinCtrl_retries.GetValue()) # Retry time in the scraps.
             + " --throttling " + str(self.m_spinCtrlDouble_throttling.GetValue()) # Delay between consecutive scrapes.
             + " --overwrite" * self.m_checkBox_overwrite.GetValue()
-            + (" -- debug " + str(self.m_spinCtrl_debugLvl.GetValue()) if self.m_spinCtrl_debugLvl.GetValue() > 0 else "") # Degub level opiton.
+            + (" --debug " + str(self.m_spinCtrl_debugLvl.GetValue()) if self.m_spinCtrl_debugLvl.GetValue() > 0 else "") # Degub level opiton.
             + " --quiet" * self.m_checkBox_quite.GetValue()
             + choisen_dist
             )
@@ -534,7 +542,7 @@ class formKiCost ( wx.Frame ):
         
         command += '&' # Run as other process.
         print("Running: ", command)
-        #subprocess.call(command, shell=True) # `os.system`not accept the "&&"
+        subprocess.call(command, shell=True) # `os.system`not accept the "&&"
 
     #----------------------------------------------------------------------
     def set_properties(self):
