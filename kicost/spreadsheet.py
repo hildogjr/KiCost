@@ -751,7 +751,7 @@ Orange -> Too little quantity available.'''
             wks.conditional_format(row, unit_price_col, row, unit_price_col, {
                 'type': 'cell',
                 'criteria': '<=',
-                'value': xl_rowcol_to_cell(row, 7),
+                'value': xl_rowcol_to_cell(row, part_qty_col+1),
                 # This is the global data cell holding the minimum unit price for this part.
                 'format': wrk_formats['best_price']
             })
@@ -769,7 +769,7 @@ Orange -> Too little quantity available.'''
             wks.conditional_format(row, ext_price_col, row, ext_price_col, {
                 'type': 'cell',
                 'criteria': '<=',
-                'value': xl_rowcol_to_cell(row, 8),
+                'value': xl_rowcol_to_cell(row, part_qty_col+2),
                 # This is the global data cell holding the minimum extended price for this part.
                 'format': wrk_formats['best_price']
             })
