@@ -35,6 +35,7 @@ standard_library.install_aliases()
 import future
 
 import sys, os, time
+from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
@@ -108,7 +109,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     prj_info = dict()
     prj_info['title'] = title_find_all(title, 'title') or os.path.basename( in_file )
     prj_info['company'] = title_find_all(title, 'company')
-    prj_info['date'] = title_find_all(root, 'date') or (time.ctime(os.path.getmtime(in_file)) + ' (file)')
+    prj_info['date'] = title_find_all(root, 'date') or (datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.

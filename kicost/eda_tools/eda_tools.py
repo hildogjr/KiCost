@@ -243,14 +243,15 @@ def group_parts(components, fields_merge):
     if fields_merge:#TODO
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in re.split('\s', fields_merge[0])]
         for f in fields_merge:
-            x = grp_fields.get(f)
-            ocurrences = {y:[ grp_fields.refs[i] for i,j in enumerate(x) if j == y] for y in Counter(x)}
-            if len(ocurrences)>1:
-                print(ocurrences)
-                value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences] )
-                print(value)
-                for grp in new_component_groups:
-                    grp.fields[f] = value
+            for grp in new_component_groups:
+                x = grp_fields.get(f)
+                ocurrences = {y:[ grp_fields.refs[i] for i,j in enumerate(x) if j == y] for y in Counter(x)}
+                if len(ocurrences)>1:
+                    print(ocurrences)
+                    value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences] )
+                    print(value)
+                    for key, val in list(components[ref].items()):
+                        grp.fields[f] = value
     
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
@@ -273,7 +274,7 @@ def group_parts(components, fields_merge):
         print(grp.refs)
         print(grp.manf_nums)
         print(grp.fields)
-    exit(1)
+    #exit(1)
 
     # Now return the list of identical part groups.
     return new_component_groups

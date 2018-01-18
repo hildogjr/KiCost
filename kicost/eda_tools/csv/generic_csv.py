@@ -30,6 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import sys, os, time
+from datetime import datetime
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
@@ -179,6 +180,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Not founded project information at the file content.
     prj_info = {'title': os.path.basename( in_file ),
                 'company': None,
-                'date': time.ctime(os.path.getmtime(in_file)) + ' (file)'}
+                'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 
     return accepted_components, prj_info
