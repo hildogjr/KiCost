@@ -236,7 +236,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
-        for dist in distributor_dict:
+        for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
                                              dist_start_col, UNIT_COST_ROW, TOTAL_COST_ROW,
