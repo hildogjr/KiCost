@@ -43,7 +43,7 @@ __all__ = ['create_spreadsheet']
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
-    logger.log(DEBUG_OVERVIEW, 'Create spreadsheet...')
+    logger.log(DEBUG_OVERVIEW, 'Creating the spreadsheet...')
     
     MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 caracheters longer
                                 # string for the worksheet name, Google
@@ -231,11 +231,13 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         wks.freeze_panes(COL_HDR_ROW, next_col)
 
         # Make a list of alphabetically-ordered distributors with web distributors before locals.
+        logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
         web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] != 'local'])
         local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] == 'local'])
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
+        logger.log(DEBUG_OVERVIEW, 'Writting the distributors parts informations...')
         for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
@@ -258,6 +260,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields):
     '''Add global part data to the spreadsheet.'''
+
+    logger.log(DEBUG_OVERVIEW, 'Writting the global parts informations...')
 
     # Columns for the various types of global part data.
     columns = {

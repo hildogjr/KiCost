@@ -93,7 +93,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         return fields
 
     # Read-in the schematic XML file to get a tree and get its root.
-    logger.log(DEBUG_OVERVIEW, 'Get schematic XML...')
+    logger.log(DEBUG_OVERVIEW, 'Getting from XML KiCad BoM...')
     file_h = open(in_file)
     root = BeautifulSoup(file_h, 'lxml')
     file_h.close()
@@ -113,7 +113,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
-    logger.log(DEBUG_OVERVIEW, 'Get parts library...')
+    logger.log(DEBUG_OVERVIEW, 'Getting parts library...')
     libparts = {}
     if root.find('libparts'):
         for p in root.find('libparts').find_all('libpart'):

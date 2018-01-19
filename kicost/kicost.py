@@ -115,7 +115,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, variant, num_proce
         distributor_dict[d]['throttling_delay'] = throttling_delay
 
     # Get the distributor product page for each part and scrape the part data.
-    logger.log(DEBUG_OVERVIEW, 'Scrape part data for each component group...')
+    logger.log(DEBUG_OVERVIEW, 'Scraping part data for each component group...')
 
     global scraping_progress
     scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)

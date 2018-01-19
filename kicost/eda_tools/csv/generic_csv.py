@@ -66,7 +66,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
-    logger.log(DEBUG_OVERVIEW, 'Get schematic CSV...')
+    logger.log(DEBUG_OVERVIEW, 'Getting from CSV BoM...')
     file_h = open(in_file)
     content = file_h.read()
     file_h.close()
@@ -167,7 +167,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
-    logger.log(DEBUG_OVERVIEW, 'Get parts from hand made list...')
+    logger.log(DEBUG_OVERVIEW, 'Getting parts...')
 
     # Read the each line content.
     accepted_components = {}

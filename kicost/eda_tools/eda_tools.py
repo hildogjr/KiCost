@@ -162,7 +162,7 @@ def group_parts(components, fields_merge):
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
-    logger.log(DEBUG_OVERVIEW, 'Get groups of identical components...')
+    logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
     component_groups = {}
     for ref, fields in list(components.items()): # part references and field values.
 
@@ -191,13 +191,6 @@ def group_parts(components, fields_merge):
             # Now add the manf. part num (or None) for this part to the group set.
             component_groups[h].manf_nums = set([fields.get('manf#')])
 
-    
-    for g, grp in list(component_groups.items()):#TODO
-        print(g)
-        print(grp.refs)
-        print(grp.manf_nums)
-    #exit(1)
-
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
     # groups may need to be split into smaller groups of parts all having the
@@ -213,6 +206,7 @@ def group_parts(components, fields_merge):
     #       parts having the same manf#, even if it's None. It's impossible to
     #       determine which manf# the None parts should be assigned to, so leave
     #       their manf# as None.
+    logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
         num_manf_nums = len(grp.manf_nums)
@@ -240,21 +234,49 @@ def group_parts(components, fields_merge):
     # so replace this field with a string composed line-by-line with the
     # ocorrences (definition `SGROUP_SEPRTR`) preceded with the refs
     # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
-    if fields_merge:#TODO
+    #for g, grp in list(component_groups.items()):#TODO
+    #    #print(g)#TODO
+    #    print(grp.refs)#TODO
+    #    print(grp.manf_nums)#TODO
+    #    print(components[grp.refs[0]].items())#TODO
+    #    print(components[grp.refs[0]].get('value'))#TODO
+    print('----------')#TODO
+    #print(components)#TODO
+    #exit(1)
+    logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
+    if fields_merge:
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in re.split('\s', fields_merge[0])]
-        for f in fields_merge:
-            for grp in new_component_groups:
-                x = grp_fields.get(f)
-                ocurrences = {y:[ grp_fields.refs[i] for i,j in enumerate(x) if j == y] for y in Counter(x)}
-                if len(ocurrences)>1:
-                    print(ocurrences)
-                    value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences] )
-                    print(value)
-                    for key, val in list(components[ref].items()):
-                        grp.fields[f] = value
-    
+        for grp in new_component_groups:
+            #print(grp.refs)#TODO
+            components_grp = dict()
+            components_grp = {i:components[i] for i in grp.refs}
+            for f in fields_merge:
+                #print([k+' '+v for k,v in components_grp.items()])
+                for k,v in components_grp.items():
+                    #print('--->>',k,v)#TODO
+                    ocurrences = Counter(v.get(f) for k,v in components_grp.items())
+                    #print('===>>', ocurrences)#TODO
+                    #ocurrences = {v:[ grp_fields.refs[r] for r,v_r in enumerate(components[].get(f)) if j == v] for v in Counter(components[].get(f))}
+                #print(dir(ocurrences))#TODO
+                #print(ocurrences)#TODO
+                #print(ocurrences.elements())#TODO
+                #print(ocurrences.values())#TODO
+                print( ocurrences.keys() )
+                print( '--'.join(ocurrences.keys()) )
+                
+                
+                #if len(ocurrences)>1:
+                #    print(ocurrences)
+                #    value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences] )
+                #    print(value)
+                #    for key, val in list(components[ref].items()):
+                #        grp.fields[f] = value
+        print(components_grp)
+    exit(1)
+
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
+    logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
         for ref in grp.refs:
@@ -267,14 +289,14 @@ def group_parts(components, fields_merge):
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
-    
+
     print('---------------------------------------')#TODO
     for grp in new_component_groups:#TODO
         print(g)
         print(grp.refs)
         print(grp.manf_nums)
         print(grp.fields)
-    #exit(1)
+    exit(1)
 
     # Now return the list of identical part groups.
     return new_component_groups
@@ -289,6 +311,9 @@ def groups_sort(new_component_groups):
     @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
     @return Same as input.
     '''
+
+    logger.log(DEBUG_OVERVIEW, 'Sorting the groups for better visualization...')
+
     ref_identifiers = re.split('(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
                 BOM_ORDER, flags=re.IGNORECASE)
     component_groups_order_old = list( range(0,len(new_component_groups)) )
@@ -344,7 +369,7 @@ def subpart_split(components):
     @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
     @return Same as the input.
     '''
-    logger.log(DEBUG_OVERVIEW, 'Search for subparts within parts...')
+    logger.log(DEBUG_OVERVIEW, 'Spliting subparts in the manufacture / distributors codes...')
 
     dist = [d+'#' for d in distributor_dict]
     dist.append('manf#')
