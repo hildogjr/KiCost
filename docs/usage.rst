@@ -366,7 +366,9 @@ Command-Line Options
                             Set the number of parallel processes used for web
                             scraping part data.
       -ign name [name ...], --ignore_fields name [name ...]
-                            Declare part fields to ignore when grouping parts.
+                            Declare part fields to ignore when reading the BoM file.
+      -grp name [name ...], --group_fileds name [name ...]
+                            Declare part fields to merge when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
       -eda {kicad,altium,csv} [{kicad,altium,csv} ...], --eda_tool {kicad,altium,csv} [{kicad,altium,csv} ...]
@@ -383,8 +385,7 @@ Command-Line Options
       -rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.
-      --user
-                            Start the user guide to run KiCost passing the file
+      --user                Start the user guide to run KiCost passing the file
                             parameter give by "--input", all others parameters are ignored.
 
 -------------------------------------------------

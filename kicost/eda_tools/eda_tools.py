@@ -29,6 +29,7 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import re, os # Regular expression parser and matches.
 from sys import exit # Exit in the error.
+from collections import Counter # For check of different values to same field, used on the ISSUE #102.
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
 from ..kicost import distributor_dict
@@ -111,7 +112,10 @@ field_name_translations.update(
 
 
 def file_eda_match(file_name):
-    '''Verify with which EDA the file matches.'''
+    '''@brief Verify with which EDA the file matches.
+       @param file_name File `str` name.
+       @return Name of the module correponding to read the file or `None`to not recognized.
+    '''
     # Return the EDA name with the file matches or `None` if not founded.
     file_handle = open(file_name, 'r')
     content = file_handle.read()
@@ -129,10 +133,15 @@ def file_eda_match(file_name):
 
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
+    '''@brief Class to group components.'''
     pass
 
 def group_parts(components, fields_merge):
-    '''Group common parts after preprocessing from XML or CSV files.'''
+    '''@brief Group common parts after preprocessing from XML or CSV files.
+       @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
+       @param fileds_merge Data fields of the `dict()` variable to be merged and ignored to make the identical components group (before be scraped in the distributors web site).
+       @return `list()` of `dict()`
+    '''
     
     # Split multi-components into individual subparts.
     components = subpart_split(components)
@@ -148,12 +157,12 @@ def group_parts(components, fields_merge):
     fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
     for c in FIELDS_MANF:
         if c in fields_merge:
-             sys.exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
+             exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
-    logger.log(DEBUG_OVERVIEW, 'Get groups of identical components...')
+    logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
     component_groups = {}
     for ref, fields in list(components.items()): # part references and field values.
 
@@ -182,8 +191,6 @@ def group_parts(components, fields_merge):
             # Now add the manf. part num (or None) for this part to the group set.
             component_groups[h].manf_nums = set([fields.get('manf#')])
 
-    #SGROUP_SEPRTR #ISSUE #102 after, remove the `ignore_fileds` of the EDA submodules
-
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
     # groups may need to be split into smaller groups of parts all having the
@@ -199,6 +206,7 @@ def group_parts(components, fields_merge):
     #       parts having the same manf#, even if it's None. It's impossible to
     #       determine which manf# the None parts should be assigned to, so leave
     #       their manf# as None.
+    logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
         num_manf_nums = len(grp.manf_nums)
@@ -222,8 +230,32 @@ def group_parts(components, fields_merge):
 
             new_component_groups.append(sub_group)
 
+    # If the identical components grouped have diference in the `fields_merge`
+    # so replace this field with a string composed line-by-line with the
+    # ocorrences (definition `SGROUP_SEPRTR`) preceded with the refs
+    # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
+    logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
+    if fields_merge:
+        fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in re.split('\s', fields_merge[0])]
+        for grp in new_component_groups:
+            components_grp = dict()
+            components_grp = {i:components[i] for i in grp.refs}
+            for f in fields_merge:
+                values_field = [v.get(f) or '' for k,v in components_grp.items()]
+                ocurrences = Counter(values_field)
+                ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f) == v_g] for v_g in Counter(values_field)}
+                if len(ocurrences)>1:
+                    value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
+                    for r in grp.refs:
+                        components[r][f] = value
+    #for grp in new_component_groups:
+    #    print(grp.refs)
+    #    for r in grp.refs:
+    #        print(r, components[r])
+
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
+    logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
         for ref in grp.refs:
@@ -232,7 +264,7 @@ def group_parts(components, fields_merge):
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
-                        raise Exception('field value mismatch: {} {} {}'.format(ref, key, val))
+                        exit('Field value mismatch: ref={} field={} value=\'{}\' group=\'{}\''.format(ref, key, val, grp_fields[key]))
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
@@ -243,10 +275,16 @@ def group_parts(components, fields_merge):
 
 def groups_sort(new_component_groups):
     '''
+    @brief Order the groups in a alphabetical way.
     Put the components groups in the spreadsheet rows in a spefic order
     using the reference string of the components. The order is defined
     by BOM_ORDER.
+    @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
+    @return Same as input.
     '''
+
+    logger.log(DEBUG_OVERVIEW, 'Sorting the groups for better visualization...')
+
     ref_identifiers = re.split('(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
                 BOM_ORDER, flags=re.IGNORECASE)
     component_groups_order_old = list( range(0,len(new_component_groups)) )
@@ -292,14 +330,17 @@ def groups_sort(new_component_groups):
 
 def subpart_split(components):
     '''
+    @brief Split the components with subparts in different components.
     Take each part and the all manufacture/distributors combination
     possibility to split in subpart the components part that have
     more than one manufacture/distributors code.
     For each designator...
     For designator with a "single subpart" check with the quantity
     is more than one.
+    @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
+    @return Same as the input.
     '''
-    logger.log(DEBUG_OVERVIEW, 'Search for subparts within parts...')
+    logger.log(DEBUG_OVERVIEW, 'Spliting subparts in the manufacture / distributors codes...')
 
     dist = [d+'#' for d in distributor_dict]
     dist.append('manf#')
@@ -409,9 +450,12 @@ def subpart_split(components):
 
 def subpart_qty(component):
     '''
+    @brief Take the components quantity.
     Calculate the string of the quantity of the item parsing the
     referente (design) quantity and the sub quantity (in case that
     was a sub part of a manufacture/distributor code).
+    @param components Part component `dict()`, format given by the EDA modules.
+    @return Quantity of the manf# part used.
     '''
     try:
         subqty = component.fields.get('manf#_qty')
@@ -435,19 +479,23 @@ def subpart_qty(component):
 
 def subpart_list(part):
     '''
+    @brief Split the subpart by the `PART_SEPRTR`definition.
     Get the list of sub parts manufacture / distributor code
     numbers stripping the spaces and keeping the sub part
     quantity information, these have to be separated by
     PART_SEPRTR definition.
+    @param part Manufacture code part `str`.
+    @return List of manufacture code parts.
     '''
     return re.split(PART_SEPRTR, part.strip())
 
 
 def manf_code_qtypart(subpart):
     '''
-    Get the quantity and the part code of the sub part
+    @brief Get the quantity and the part code of the sub part
     manufacture / distributor. Test if was pre or post
     multiplied by a constant.
+    
     Setting QTY_SEPRTR as '\:', we have
     ' 4.5 : ADUM3150BRSZ-RL7' -> ('4.5', 'ADUM3150BRSZ-RL7')
     '4/5  : ADUM3150BRSZ-RL7' -> ('4/5', 'ADUM3150BRSZ-RL7')
@@ -455,6 +503,9 @@ def manf_code_qtypart(subpart):
     'ADUM3150BRSZ-RL7 :   7' -> ('7', 'ADUM3150BRSZ-RL7')
     'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
     'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
+    
+    @param Part that way have different than ONE quantity. Intended as one element of the list of `subpart_list()`.
+    @return (qty, manf#) Quantity and the manufacture code.
     '''
     subpart = re.sub(ESC_FIND, r'\1', subpart) # Remove any escape backslashes preceding PART_SEPRTR.
     strings = re.split(QTY_SEPRTR, subpart)
@@ -493,7 +544,11 @@ def manf_code_qtypart(subpart):
 
 
 def collapse_refs(refs):
-    '''Collapse list of part references into a sorted, comma-separated list of hyphenated ranges.'''
+    '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as oposite of `split_refs()`
+       @param refs Designator/references `list()`.
+       @return References in a organized view way.
+    '''
+    ''''''
 
     def convert_to_ranges(nums):
         # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
@@ -577,7 +632,10 @@ def collapse_refs(refs):
 
 
 def split_refs(text):
-    '''Split string grouped references into a unique designator.'''
+    '''@brief Split string grouped references into a unique designator. This is intended as oposite of `collapse_refs()`
+       @param text Designator/references worn by a group of parts.
+       @return Designator/references `list()` splited.
+    '''
     # 'C17/18/19/20' --> ['C17','C18','C19','C20']
     # 'C17\18\19\20' --> ['C17','C18','C19','C20']
     # 'D33-D36' --> ['D33','D34','D35','D36']
