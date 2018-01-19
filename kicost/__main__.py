@@ -105,7 +105,13 @@ def main():
     parser.add_argument('-ign', '--ignore_fields',
                         nargs='+',
                         default=[],
-                        help='Declare part fields to ignore when grouping parts.',
+                        help='Declare part fields to ignore when reading the BoM file.',
+                        metavar='NAME',
+                        type=str)
+    parser.add_argument('-grp', '--group_fields',
+                        nargs='+',
+                        default=[],
+                        help='Declare part fields to merge when grouping parts.',
                         metavar='NAME',
                         type=str)
     parser.add_argument('-d', '--debug',
@@ -235,7 +241,7 @@ def main():
         num_processes = args.num_processes
 
     kicost(in_file=args.input, out_filename=args.output,
-        user_fields=args.fields, ignore_fields=args.ignore_fields, 
+        user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
         variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
         exclude_dist_list=args.exclude, include_dist_list=args.include,
         scrape_retries=args.retries, throttling_delay=args.throttling_delay)

@@ -234,45 +234,24 @@ def group_parts(components, fields_merge):
     # so replace this field with a string composed line-by-line with the
     # ocorrences (definition `SGROUP_SEPRTR`) preceded with the refs
     # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
-    #for g, grp in list(component_groups.items()):#TODO
-    #    #print(g)#TODO
-    #    print(grp.refs)#TODO
-    #    print(grp.manf_nums)#TODO
-    #    print(components[grp.refs[0]].items())#TODO
-    #    print(components[grp.refs[0]].get('value'))#TODO
-    print('----------')#TODO
-    #print(components)#TODO
-    #exit(1)
     logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
     if fields_merge:
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in re.split('\s', fields_merge[0])]
         for grp in new_component_groups:
-            #print(grp.refs)#TODO
             components_grp = dict()
             components_grp = {i:components[i] for i in grp.refs}
             for f in fields_merge:
-                #print([k+' '+v for k,v in components_grp.items()])
-                for k,v in components_grp.items():
-                    #print('--->>',k,v)#TODO
-                    ocurrences = Counter(v.get(f) for k,v in components_grp.items())
-                    #print('===>>', ocurrences)#TODO
-                    #ocurrences = {v:[ grp_fields.refs[r] for r,v_r in enumerate(components[].get(f)) if j == v] for v in Counter(components[].get(f))}
-                #print(dir(ocurrences))#TODO
-                #print(ocurrences)#TODO
-                #print(ocurrences.elements())#TODO
-                #print(ocurrences.values())#TODO
-                print( ocurrences.keys() )
-                print( '--'.join(ocurrences.keys()) )
-                
-                
-                #if len(ocurrences)>1:
-                #    print(ocurrences)
-                #    value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences] )
-                #    print(value)
-                #    for key, val in list(components[ref].items()):
-                #        grp.fields[f] = value
-        print(components_grp)
-    exit(1)
+                values_field = [v.get(f) or '' for k,v in components_grp.items()]
+                ocurrences = Counter(values_field)
+                ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f) == v_g] for v_g in Counter(values_field)}
+                if len(ocurrences)>1:
+                    value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
+                    for r in grp.refs:
+                        components[r][f] = value
+    #for grp in new_component_groups:
+    #    print(grp.refs)
+    #    for r in grp.refs:
+    #        print(r, components[r])
 
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
@@ -289,14 +268,6 @@ def group_parts(components, fields_merge):
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
-
-    print('---------------------------------------')#TODO
-    for grp in new_component_groups:#TODO
-        print(g)
-        print(grp.refs)
-        print(grp.manf_nums)
-        print(grp.fields)
-    exit(1)
 
     # Now return the list of identical part groups.
     return new_component_groups
