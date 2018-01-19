@@ -236,7 +236,7 @@ def group_parts(components, fields_merge):
     # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
     logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
     if fields_merge:
-        fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in re.split('\s', fields_merge[0])]
+        fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in fields_merge]
         for grp in new_component_groups:
             components_grp = dict()
             components_grp = {i:components[i] for i in grp.refs}
