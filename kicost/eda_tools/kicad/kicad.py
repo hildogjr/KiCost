@@ -41,7 +41,7 @@ from bs4 import BeautifulSoup
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...globals import SEPRTR
 from ...kicost import distributor_dict
-from ..eda_tools import field_name_translations
+from ..eda_tools import field_name_translations, remove_dnp_parts
 
 
 def get_part_groups(in_file, ignore_fields, variant):
@@ -149,7 +149,8 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
         # (Use an empty dict if no part exists in the library.)
-        fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
+        #fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
+        fields = dict()#TODO
 
         # Store the part key and its value.
         fields['libpart'] = libpart
@@ -169,37 +170,4 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Store the fields for the part using the reference identifier as the key.
         components[str(c['ref'])] = fields
 
-    # Remove components that are assigned to a variant that is not the current variant,
-    # or which are "do not popoulate" (DNP). (Any component that does not have a variant
-    # is assigned the current variant so it will not be removed unless it is also DNP.)
-    accepted_components = {}
-    for ref, fields in components.items():
-        # Remove DNPs.
-        dnp = fields.get('local:dnp', fields.get('dnp', 0))
-        try:
-            dnp = float(dnp)
-        except ValueError:
-            pass  # The field value must have been a string.
-        if dnp:
-            continue
-
-        # Get part variant. Prioritize local variants over global ones.
-        variants = fields.get('local:variant', fields.get('variant', None))
-
-        # Remove parts that are not assigned to the current variant.
-        # If a part is not assigned to any variant, then it is never removed.
-        if variants:
-            # A part can be assigned to multiple variants. The part will not
-            # be removed if any of its variants match the current variant.
-            # Split the variants apart and abort the loop if any of them match.
-            for v in re.split('[,;/ ]', variants):
-                if re.match(variant, v, flags=re.IGNORECASE):
-                    break
-            else:
-                # None of the variants matched, so skip/remove this part.
-                continue
-
-        # The part was not removed, so add it to the list of accepted components.
-        accepted_components[ref] = fields
-
-    return accepted_components, prj_info
+    return remove_dnp_parts(components, variant), prj_info

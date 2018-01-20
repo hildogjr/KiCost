@@ -36,7 +36,7 @@ import logging
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ...globals import SEPRTR
 from ...kicost import distributor_dict
-from ..eda_tools import field_name_translations, subpart_split, group_parts, split_refs
+from ..eda_tools import field_name_translations, remove_dnp_parts
 from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED
 
 # Add to deal with the fileds of Altium and WEB tools.
@@ -175,6 +175,4 @@ def get_part_groups(in_file, ignore_fields, variant):
                 'company': None,
                 'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 
-    #print(accepted_components)
-    #exit(1)
-    return accepted_components, prj_info
+    return remove_dnp_parts(accepted_components, variant), prj_info
