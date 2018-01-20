@@ -31,14 +31,13 @@ try:
     import wx # wxWidgets for Python.
 except ImportError:
     raise ImportError('wxPython package not recognised.')
-import webbrowser
+import webbrowser # To update informations.
 import os, subprocess # To access OS commands and run in the shell.
 import platform # To check the system platform when open the XLS file.
 import tempfile # To create the temporary log file.
-from datetime import datetime
+from datetime import datetime # To create the log name, when asked to save.
 from distutils.version import StrictVersion # To comparasion of versions.
 import re # Regular expression parser.
-#import inspect # To get the internal module and informations of a module/class.
 
 from . import __version__ # Version control by @xesscorp.
 from .kicost import *  # kicost core functions.
@@ -454,19 +453,19 @@ class formKiCost ( wx.Frame ):
         ''' @brief Update the EDA selection in the listBox based on the comboBox actual text '''
         fileNames = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
         if len(fileNames)==1:
-            eda = file_eda_match(fileNames[0])
-            if eda:
-                self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda) )
+            eda_module = file_eda_match(fileNames[0])
+            if eda_module:
+                self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda_tool_dict[eda_module]['label']) )
         elif len(fileNames)>1:
             # Check if all the EDA are the same. For different ones,
             # the guide is not able now to deal, need improvement
             # on `self.m_listBox_edatool`.
-            eda = file_eda_match(fileNames[0])
+            eda_module = file_eda_match(fileNames[0])
             for fName in fileNames[1:]:
-                if file_eda_match(fName) != eda:
+                if file_eda_match(fName) != eda_module:
                     return
-            if eda:
-                self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda) )
+            if eda_module:
+                self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda_tool_dict[eda_module]['label']) )
 
     #----------------------------------------------------------------------
     def checkUpdate( self ):
@@ -555,13 +554,23 @@ class formKiCost ( wx.Frame ):
     #----------------------------------------------------------------------
     def runTerminal( self ):
         ''' @brief Run KiCost in CLI interface using the GUI settings. '''
+        
         # Get the current distributors to scrape.
         choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
         if choisen_dist:
-            choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
-            choisen_dist = ' --include ' + ' '.join(choisen_dist)
+            dist_list = ' --include'
+            #choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
+            for idx in choisen_dist:
+                label = self.m_checkList_dist.GetString(idx)
+                for k,v in distributor_dict.items():
+                    if v['label']==label:
+                        print(label,v['module'])
+                        dist_list += ' ' + v['module']
+                        break
+            #choisen_dist = ' --include ' + ' '.join(choisen_dist)
         else:
-            choisen_dist = ''
+            dist_list = ''
+        
         command = ("kicost"
             + " --input " + ' '.join(['"'+fileN+'"' for fileN in re.split(SEP_FILES, self.m_comboBox_files.GetValue())])
             + " --num_processes " + str(self.m_spinCtrl_np.GetValue()) # Parallels process scrapping.
@@ -570,10 +579,17 @@ class formKiCost ( wx.Frame ):
             + " --overwrite" * self.m_checkBox_overwrite.GetValue()
             + (" --debug " + str(self.m_spinCtrl_debugLvl.GetValue()) if self.m_spinCtrl_debugLvl.GetValue() > 0 else "") # Degub level opiton.
             + " --quiet" * self.m_checkBox_quite.GetValue()
-            + choisen_dist
+            + dist_list
             )
+        
         if self.m_listBox_edatool.GetStringSelection():
-            command += " -eda " + self.m_listBox_edatool.GetStringSelection()
+            for k,v in eda_tool_dict.items():
+               if v['label']==self.m_listBox_edatool.GetStringSelection():
+                  eda_module = v['module']
+                  break
+            command += " -eda " + eda_module
+            print(command)
+        
         if self.m_textCtrlextracmd.GetValue():
             command += ' ' + self.m_textCtrlextracmd.GetValue()
         
@@ -602,15 +618,14 @@ class formKiCost ( wx.Frame ):
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
         
         # Current distrubutors module recognized.
-        distributors_list = sorted(list(distributor_dict.keys()))
+        distributors_list = sorted( [ distributor_dict[d]['label'] for d in distributor_dict.keys() ] )
         self.m_checkList_dist.Clear()
         self.m_checkList_dist.Append(distributors_list)
         for idx in range(len(distributors_list)):
             self.m_checkList_dist.Check(idx,True) # All start checked (after is modifed by the configuration file).
         
         # Current EDA tools module recognized.
-        #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
-        eda_names = sorted(list(eda_tool_dict.keys()))
+        eda_names = sorted( [ eda_tool_dict[eda]['label'] for eda in eda_tool_dict.keys() ] )
         self.m_listBox_edatool.Clear()
         self.m_listBox_edatool.Append(eda_names)
         

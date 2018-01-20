@@ -34,6 +34,7 @@ eda_tool_dict.update(
     {
         'altium': {
             'module': 'altium', # The directory name containing this file.
+            'label': 'Altium file', # Label used on the GUI.
             'desc': 'Altium Limited (formerly known as Protel until 2001).',
             # Formatting file match .
             'file': {
