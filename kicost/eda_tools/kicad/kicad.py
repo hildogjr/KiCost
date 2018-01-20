@@ -149,8 +149,12 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
         # (Use an empty dict if no part exists in the library.)
-        #fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
-        fields = dict()#TODO
+        fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
+        try:
+            del fields['refs'] # Delete this entry that was creating problem
+                               # to group parts of differents sheets ISSUE #97.
+        except KeyError:
+            pass
 
         # Store the part key and its value.
         fields['libpart'] = libpart
