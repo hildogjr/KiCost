@@ -58,7 +58,7 @@ from .distributors.web_routines import scrape_part, create_local_part_html
 
 # Import information for various EDA tools.
 from .eda_tools import eda_modules
-from .eda_tools.eda_tools import group_parts
+from .eda_tools.eda_tools import organize_parts
 
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
@@ -97,7 +97,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
         eda_tool_module = eda_modules[eda_tool_name[i_prj]]
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         # Group part out of the module to merge different project lists, ignore some filed to merge, issue #131 and #102 (in the future). Next step, move the call of the function out of this loop and finish #73 implementation, remove `ignore_fields` of the call in the function above. #ISSUE.
-        p = group_parts(p, group_fields)
+        p = organize_parts(p, group_fields)
         # Add the project identifier in the references.
         for i_g in range(len(p)):
             p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.

@@ -35,7 +35,7 @@ import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..eda_tools import field_name_translations, split_refs
+from ..eda_tools import field_name_translations, remove_dnp_parts, split_refs
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
@@ -147,7 +147,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['footprint'] = vals.get('footprint', 'Foot:???')
             fields['value'] = vals.get('value', '???')
             for h in header:
-                if not h.lower() in ign_fields:
+                if not h in (ign_fields + ['refs', 'qty']):
                     value = vals.get(h, '')
                     if value:
                         fields[h] = value
@@ -157,7 +157,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
             fields['value'] = vals.get('value', '???').decode('utf-8')
             for h in header:
-                if not h in ign_fields:
+                if not h in (ign_fields + ['refs', 'qty']):
                     value = vals.get(h, '').decode('utf-8')
                     if value:
                         fields[h] = value
@@ -182,4 +182,4 @@ def get_part_groups(in_file, ignore_fields, variant):
                 'company': None,
                 'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 
-    return accepted_components, prj_info
+    return remove_dnp_parts(accepted_components, variant), prj_info
