@@ -34,6 +34,7 @@ eda_tool_dict.update(
     {
         'csv': {
             'module': 'csv', # The directory name containing this file.
+            'label': 'CSV file', # Label used on the GUI.
             'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus, Eagle.',
             # Formatting file match.
             'file': {

@@ -31,6 +31,7 @@ eda_tool_dict.update(
     {
         'kicad': {
             'module': 'kicad', # The directory name containing this file.
+            'label': 'KiCad file', # Label used on the GUI.
             'desc': 'KiCad open source EDA.',
             # Formatting file match.
             'file': {
