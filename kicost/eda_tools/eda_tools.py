@@ -278,6 +278,7 @@ def group_parts(components, fields_merge):
                     value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
                     for r in grp.refs:
                         components[r][f] = value
+    #print('++++++++++++++',len(new_component_groups))
     #for grp in new_component_groups:
     #    print(grp.refs)
     #    for r in grp.refs:
@@ -288,10 +289,16 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
+        qty = []
         for ref in grp.refs:
             for key, val in list(components[ref].items()):
                 if key == 'manf#_qty':
-                    #grp_fields['manf#_qty'] #TODO
+                    try:
+                        for i in range(len(val)):
+                            grp_fields['manf#_qty'][i] += '+' + val[i] # DUMMY way and need improvement to realy do arithmetic and not string cat. #TODO
+                            val[i] = grp_fields['manf#_qty'][i] # Make the firt values take also equal.
+                    except:
+                        grp_fields['manf#_qty'] = val
                     continue
                 if val is None: # Field with no value...
                     continue # so ignore it.
@@ -306,6 +313,8 @@ def group_parts(components, fields_merge):
     #print('------------')
     #for grp in new_component_groups:
     #    print(grp.refs)
+    #    for r in grp.refs:
+    #        print(r, components[r])
     #exit(1)
     return new_component_groups
 
