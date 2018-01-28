@@ -161,6 +161,16 @@ class IdenticalComponents(object):
 
 def group_parts(components, fields_merge):
     '''@brief Group common parts after preprocessing from XML or CSV files.
+       
+       Group commum parts looking in the existent files that could be merged
+       by the use of `fields_merge`. First group all designed parts without
+       llok the manufacture/distributors codes, after see if any will be
+       propagated (designed part with out information and same values,
+       footprint and so on that other that have manufacture part, receive
+       this code).
+       Count the quantities of each part designed using the 'manf#_qty'
+       field, this is important to merge subparts of different parts and
+       parts of different BOMs (in the mode of multifiles).
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @param fileds_merge Data fields of the `dict()` variable to be merged and ignored to make the identical components group (before be scraped in the distributors web site).
        @return `list()` of `dict()`
@@ -280,6 +290,9 @@ def group_parts(components, fields_merge):
         grp_fields = {}
         for ref in grp.refs:
             for key, val in list(components[ref].items()):
+                if key == 'manf#_qty':
+                    #grp_fields['manf#_qty'] #TODO
+                    continue
                 if val is None: # Field with no value...
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
@@ -410,8 +423,8 @@ def subpartqty_split(components):
     '''
     logger.log(DEBUG_OVERVIEW, 'Spliting subparts in the manufacture / distributors codes...')
 
-    dist = [d+'#' for d in distributor_dict]
-    dist.append('manf#')
+    FIELDS_MANF = [d+'#' for d in distributor_dict]
+    FIELDS_MANF.append('manf#')
 
     splitted_components = {}
     for part_ref, part in components.items():
@@ -424,7 +437,7 @@ def subpartqty_split(components):
             founded_fields = []
             subparts_qty = 0
             subparts_manf_code = dict()
-            for field_code in dist:
+            for field_code in FIELDS_MANF:
                 if field_code in part:
                     subparts_qty = max(subparts_qty, 
                             len( subpart_list(part[field_code]) ) ) # Quantity of sub parts.

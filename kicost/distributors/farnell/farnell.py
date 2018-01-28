@@ -28,7 +28,10 @@ __author__='Giacinto Luigi Cerone'
 
 
 def get_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the farnell product page.'''
+    '''@brief Get the pricing tiers from the parsed tree of the farnell product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `dict()` price breaks, the keys are the quantities breaks.
+    '''
     price_tiers = {}
     try:
         qty_strs = []
@@ -61,7 +64,10 @@ def get_price_tiers(html_tree):
     return price_tiers
     
 def get_part_num(html_tree):
-    '''Get the part number from the farnell product page.'''
+    '''@brief Get the part number from the farnell product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `list()`of the parts that match.
+    '''
     try:
         # farnell catalog number is stored in a description list, so get
         # all the list terms and descriptions, strip all the spaces from those,
@@ -78,7 +84,10 @@ def get_part_num(html_tree):
         return '' # No ProductDescription found in page.
 
 def get_qty_avail(html_tree):
-    '''Get the available quantity of the part from the farnell product page.'''
+    '''@brief Get the available quantity of the part from the farnell product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `int` avaliable quantity.
+    '''
     try:
         qty_str = html_tree.find('p', class_='availabilityHeading').text
     except (AttributeError, ValueError):
@@ -94,7 +103,16 @@ def get_qty_avail(html_tree):
         return None
 
 def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None, scrape_retries=2):
-    '''Find the farnell HTML page for a part number and return the URL and parse tree.'''
+    '''@brief Find the farnell HTML page for a part number and return the URL and parse tree.
+       @param dist
+       @param pn Part number `str()`.
+       @param extra_search_terms
+       @param url
+       @param descend
+       @param local_part_html
+       @param scrape_retries `int` Quantity of retries in case of fail.
+       @return (html `str()` of the page, url)
+    '''
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:

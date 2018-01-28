@@ -46,7 +46,10 @@ from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 
 def get_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the Digikey product page.'''
+    '''@brief Get the pricing tiers from the parsed tree of the Digikey product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `dict()` price breaks, the keys are the quantities breaks.
+    '''
     price_tiers = {}
     try:
         for tr in html_tree.find('table', id='product-dollars').find_all('tr'):
@@ -65,7 +68,10 @@ def get_price_tiers(html_tree):
 
 
 def part_is_reeled(html_tree):
-    '''Returns True if this Digi-Key part is reeled or Digi-reeled.'''
+    '''@brief Returns True if this Digi-Key part is reeled or Digi-reeled.
+       @param html_tree `str()` html of the distributor part page.
+       @return `True` or `False`.
+    '''
     qty_tiers = list(get_price_tiers(html_tree).keys())
     if len(qty_tiers) > 0 and min(qty_tiers) >= 100:
         return True
@@ -76,7 +82,10 @@ def part_is_reeled(html_tree):
 
 
 def get_part_num(html_tree):
-    '''Get the part number from the Digikey product page.'''
+    '''@brief Get the part number from the Digikey product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `list()`of the parts that match.
+    '''
     try:
         return re.sub('\s', '', html_tree.find('td',
                                                id='reportPartNumber').text)
@@ -86,7 +95,10 @@ def get_part_num(html_tree):
 
 
 def get_qty_avail(html_tree):
-    '''Get the available quantity of the part from the Digikey product page.'''
+    '''@brief Get the available quantity of the part from the Digikey product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `int` avaliable quantity.
+    '''
     try:
         qty_tree = html_tree.find('td', id='quantityAvailable').find('span', id='dkQty')
         qty_str = qty_tree.text
@@ -111,7 +123,16 @@ def get_qty_avail(html_tree):
 
 
 def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None, scrape_retries=2):
-    '''Find the Digikey HTML page for a part number and return the URL and parse tree.'''
+    '''@brief Find the Digikey HTML page for a part number and return the URL and parse tree.
+       @param dist
+       @param pn Part number `str()`.
+       @param extra_search_terms
+       @param url
+       @param descend
+       @param local_part_html
+       @param scrape_retries `int` Quantity of retries in case of fail.
+       @return (html `str()` of the page, url)
+    '''
 
     def merge_price_tiers(main_tree, alt_tree):
         '''Merge the price tiers from the alternate-packaging tree into the main tree.'''

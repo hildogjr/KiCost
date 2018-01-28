@@ -54,7 +54,12 @@ ALTIUM_PART_SEPRTR = r'(?<!\\),\s*' # Separator for the part numbers in a list, 
 
 
 def get_part_groups(in_file, ignore_fields, variant):
-    '''Get groups of identical parts from an XML file and return them as a dictionary.'''
+    '''@brief Get groups of identical parts from an XML file and return them as a dictionary.
+       @param in_file `str()` with the file name.
+       @param ignore_fields `list()` fields do be ignored on the read action.
+       @param variant `str()` in regular expression to match with the design version of the BOM.
+       @return `dict()` of the parts designed. The keys are the componentes references.
+    '''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 

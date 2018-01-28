@@ -58,7 +58,7 @@ from .distributors.web_routines import scrape_part, create_local_part_html
 
 # Import information for various EDA tools.
 from .eda_tools import eda_modules
-from .eda_tools.eda_tools import subpart_split, group_parts
+from .eda_tools.eda_tools import subpartqty_split, group_parts
 
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
@@ -103,9 +103,9 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
         # groups with elements of same 'manf#' that came for different
         # projects.
         if len(in_file)>1:
+            logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project indentificator to references...')
             qty_base = ['0'] * len(in_file) # Base zero quantity vetor.
             for p_ref in list(p.keys()):
-                print(p[p_ref]['manf#_qty'])
                 try:
                     qty_base[i_prj] = p[p_ref]['manf#_qty']
                 except:
@@ -117,7 +117,6 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
     # Group part out of the module to merge different project lists,
     # ignore some field to merge.
     parts = group_parts(parts, group_fields)
-    #parts = organize_parts(parts, group_fields)
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts, distributor_dict)
@@ -243,6 +242,7 @@ FILE_OUTPUT_MIN_INPUT = 5 # Minimum length of characters to use of the input fil
 FILE_OUTPUT_INPUT_SEP = '-' # Separator in the name of the output spreadsheet file
                             # when used multiple input file to generate automatically
                             # the name.
+# Here because is used at `__main__.py` and `kicost_gui.py`.
 def output_filename_multipleinputs(files_input):
     ''' @brief Compose a name with the multiple BOM input file names.
     
