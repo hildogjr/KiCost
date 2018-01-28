@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,4 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from .kicad import *
+__author__ = 'XESS Corporation' # Improved by Hildo G Jr
+__email__ = 'info@xess.com'
+
+from .kicad import get_part_groups
+
+# Place information about this EDA into the eda_tool dictionary.
+from .. import eda_tool_dict
+eda_tool_dict.update(
+    {
+        'kicad': {
+            'module': 'kicad', # The directory name containing this file.
+            'label': 'KiCad file', # Label used on the GUI.
+            'desc': 'KiCad open source EDA.',
+            # Formatting file match.
+            'file': {
+                'extension': '.xml', # File extension.
+                'content': '<tool\>Eeschema.*\<\/tool\>' # Regular expression content match.
+                }
+        }
+    }
+)

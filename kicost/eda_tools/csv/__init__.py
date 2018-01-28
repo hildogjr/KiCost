@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
+# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -26,21 +26,21 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .altium import get_part_groups
+from .generic_csv import get_part_groups
 
 # Place information about this EDA into the eda_tool dictionary.
 from .. import eda_tool_dict
 eda_tool_dict.update(
     {
-        'altium': {
-            'module': 'altium', # The directory name containing this file.
-            'label': 'Altium file', # Label used on the GUI.
-            'desc': 'Altium Limited (formerly known as Protel until 2001).',
-            # Formatting file match .
+        'csv': {
+            'module': 'csv', # The directory name containing this file.
+            'label': 'CSV file', # Label used on the GUI.
+            'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus, Eagle.',
+            # Formatting file match.
             'file': {
-                'extension': '.xml', # File extension.
-                'content': '\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>' # Regular expression content match.
-            }
+                'extension': '.csv', # File extension.
+                'content': '.' # Regular expression content match.
+                }
         }
     }
 )

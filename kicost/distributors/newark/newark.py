@@ -41,8 +41,8 @@ import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
-from ...kicost import PartHtmlError
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...globals import PartHtmlError
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 
 def get_price_tiers(html_tree):
@@ -88,7 +88,7 @@ def get_part_num(html_tree):
         dt = [re.sub('\s','',d.text) for d in div.find_all('dt')]
         dd = [re.sub('\s','',d.text) for d in div.find_all('dd')]
         dtdd = {k:v for k,v in zip(dt,dd)}  # Pair terms with descriptions.
-        return dtdd['NewarkPartNo.:']
+        return dtdd.get('NewarkPartNo.:', '')
     except KeyError:
         logger.log(DEBUG_OBSESSIVE, 'No Newark catalog number found!')
         return '' # No catalog number found in page.
@@ -194,7 +194,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
                     return get_part_html_tree(dist, pn, extra_search_terms,
-                                url=l['href'], descend=descend-1, scrape_retries=scrape_retries)
+                                url=l.get('href', ''),
+                                descend=descend-1,
+                                scrape_retries=scrape_retries)
 
     # I don't know what happened here, so give up.
     logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))

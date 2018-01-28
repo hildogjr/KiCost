@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo G Jr
@@ -21,31 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Author information.
-__author__ = 'Hildo Guillardi Junior'
-__webpage__ = 'https://github.com/hildogjr/'
-__company__ = 'University of Campinas - Brazil'
+"""Stuff that everybody else needs to know about."""
 
-# The global dictionary of supported EDA tools starts out empty.
-eda_tool_dict = {}
+import logging
 
-import os
+logger = logging.getLogger('kicost')
+DEBUG_OVERVIEW = logging.DEBUG
+DEBUG_DETAILED = logging.DEBUG-1
+DEBUG_OBSESSIVE = logging.DEBUG-2
 
-# The EDA tool directories will be found in this directory.
-directory = os.path.dirname(__file__)
+SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
-# Search for the EDA tool modules and import them.
-eda_modules = {}
-for module in os.listdir(directory):
 
-    # Avoid importing non-directories.
-    abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
-        continue
-
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-
-    # Import the module.
-    eda_modules[module] = __import__(module, globals(), locals(), [], level=1)
+class PartHtmlError(Exception):
+    '''Exception for failed retrieval of an HTML parse tree for a part.'''
+    pass

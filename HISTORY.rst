@@ -3,6 +3,43 @@
 History
 -------
 
+0.1.43 (to be defined by @xesscorp)
+______________________
+
+* Added capability to throttle accesses to distributor websites ``--throttling_delay``. 
+* Added ``show_eda_list`` option to display the list of EDA tools supported by KiCost.
+* CSV now accept files from Proteus and Eagle EDA.
+* Clear up the python importations not used and better placed function into files (spreasheet creation files are now in ``spreadsheet.py``).
+* Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if them are not inside it.
+* Fixed issues related to user visualization in the spreadsheet (added gray formated conditioning and the "exclude desc and manf columns").
+* Added "user errors" and software scape in the case of not recognized references characters given the message of how to solve.
+* Support for multiple quantity for a single manufacture code (before just worked when used multiple/sub-parts).
+* Fixed the Altium EDA module.
+* Created a graphical user interface based on wxWidgets (the dependence is asked to be installed at the first use).
+* Add the ``--user``: allow to use just ``kicost --user -i %file`` and others parameters will be got by the last configuration in the graphical interface (that save the user configurations).
+* Automatic recognize of the files of each EDA software (for the graphical interface).
+
+
+0.1.42 (2017-12-07)
+______________________
+
+* Processing of CSV files containing part information is now supported.
+* Added ``show_dist_list`` option to display the list of distributors from which part cost data is available.
+* Added capability to process multiple XML and CSV files. 
+
+
+0.1.41 (2017-11-16)
+______________________
+
+* Fixed exception caused by missing 'href' key in product links extracted by TME module.
+
+
+0.1.40 (2017-11-02)
+______________________
+
+* Fixed exceptions caused by .xml files without a title block or part library section.
+
+
 0.1.39 (2017-10-10)
 ______________________
 

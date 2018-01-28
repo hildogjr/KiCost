@@ -41,14 +41,23 @@ import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
-from ...kicost import PartHtmlError
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...globals import PartHtmlError
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 
 def get_price_tiers(html_tree):
     '''Get the pricing tiers from the parsed tree of the Mouser product page.'''
     price_tiers = {}
     try:
+        pricing_tbl_tree = html_tree.find('div', class_='pdp-pricing-table')
+        price_row_trees = pricing_tbl_tree.find_all('div', class_='div-table-row')
+        for row_tree in price_row_trees:
+            qty_tree, unit_price_tree, _ = row_tree.find('div', class_='row').find_all('div', class_='col-xs-4')
+            qty = int(re.sub('[^0-9]', '', qty_tree.text))
+            unit_price = float(re.sub('[^0-9.]', '', unit_price_tree.text))
+            price_tiers[qty] = unit_price
+        return price_tiers
+
         qty_strs = []
         for qty in html_tree.find('div',
                                   class_='PriceBreaks').find_all(
@@ -79,8 +88,10 @@ def get_price_tiers(html_tree):
 def get_part_num(html_tree):
     '''Get the part number from the Mouser product page.'''
     try:
-        return re.sub('\n', '', html_tree.find('div',
-                                               id='divMouserPartNum').text)
+        partnum = html_tree.find(
+                        'span', id='spnMouserPartNumFormattedForProdInfo'
+                        ).text
+        return partnum.strip()
     except AttributeError:
         logger.log(DEBUG_OBSESSIVE, 'No Mouser part number found!')
         return ''
@@ -89,12 +100,10 @@ def get_part_num(html_tree):
 def get_qty_avail(html_tree):
     '''Get the available quantity of the part from the Mouser product page.'''
     try:
-        qty_str = html_tree.find('div',
-                                 id='availability').find(
-                                     'div',
-                                     class_='av-row').find(
-                                         'div',
-                                         class_='av-col2').text
+        qty_str = html_tree.find(
+                                'div', class_='pdp-product-availability').find(
+                                'div', class_='row').find(
+                                'div', class_='col-xs-8').find('div').text
     except AttributeError as e:
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
@@ -115,13 +124,13 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-        url = 'http://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(
+        url = 'https://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(
             pn + ' ' + extra_search_terms,
             safe='')
     elif url[0] == '/':
-        url = 'http://www.mouser.com' + url
+        url = 'https://www.mouser.com' + url
     elif url.startswith('..'):
-        url = 'http://www.mouser.com/Search/' + url
+        url = 'https://www.mouser.com/Search/' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)
@@ -151,11 +160,11 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
         raise PartHtmlError
 
     # If the tree contains the tag for a product page, then just return it.
-    if tree.find('div', id='product-details') is not None:
+    if tree.find('div', id='pdpPricingAvailability') is not None:
         return tree, url
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
-    if tree.find('table', class_='SearchResultsTable') is not None:
+    if tree.find('div', id='searchResultsTbl') is not None:
         logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
         if descend <= 0:
             logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, dist))
@@ -183,7 +192,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                     # Get the tree for the linked-to page and return that.
                     logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
                     return get_part_html_tree(dist, pn, extra_search_terms,
-                                url=l['href'], descend=descend-1, scrape_retries=scrape_retries)
+                                              url=l.get('href', ''),
+                                              descend=descend-1,
+                                              scrape_retries=scrape_retries)
 
     # I don't know what happened here, so give up.
     logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))

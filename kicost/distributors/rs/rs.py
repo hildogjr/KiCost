@@ -19,8 +19,8 @@ import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
-from ...kicost import PartHtmlError
-from ...kicost import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...globals import PartHtmlError
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from currency_converter import CurrencyConverter
 currency = CurrencyConverter()
 
@@ -137,9 +137,14 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
             product_links= []
             for p in products:
                 try:
-                    product_links.append(p.find('a',class_='primarySearchLink')['href'])
-                    # Up to now get the first url found in the list. i.e. do not choose the url based on the stock type (e.g. single unit, reel etc.)
-                    return get_part_html_tree(dist, pn, extra_search_terms,url=product_links[0], descend=descend-1, scrape_retries=scrape_retries)
+                    link = p.find('a',class_='primarySearchLink').get('href')
+                    if link is not None:
+                        product_links.append(link)
+                        # Up to now get the first url found in the list. i.e. do not choose the url based on the stock type (e.g. single unit, reel etc.)
+                        return get_part_html_tree(dist, pn, extra_search_terms,
+                                                  url=product_links[0],
+                                                  descend=descend-1,
+                                                  scrape_retries=scrape_retries)
                 except AttributeError:
                     continue
                 except TypeError:
