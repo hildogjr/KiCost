@@ -58,7 +58,7 @@ from .distributors.web_routines import scrape_part, create_local_part_html
 
 # Import information for various EDA tools.
 from .eda_tools import eda_modules
-from .eda_tools.eda_tools import organize_parts
+from .eda_tools.eda_tools import subpart_split, group_parts
 
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
@@ -94,15 +94,30 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
     for i_prj in range(len(in_file)):
         eda_tool_module = eda_modules[eda_tool_name[i_prj]]
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
-        # Add the project identifier in the references, when multi projects.
+        p = subpartqty_split(p)
+        # In the case of multiple BOM files, add the project prefix
+        # identifier to each reference/designator. Use the field
+        # 'manf#_qty' to control each quantity goes to each project
+        # creating a `list()` with length of number of BOM files.
+        # This vector will be used in the `group_parts()` to create
+        # groups with elements of same 'manf#' that came for different
+        # projects.
         if len(in_file)>1:
+            qty_base = ['0'] * len(in_file) # Base zero quantity vetor.
             for p_ref in list(p.keys()):
-                p[ 'prj' + str(i_prj) + p_ref] = p.pop(p_ref)
-        parts.update(p)
+                print(p[p_ref]['manf#_qty'])
+                try:
+                    qty_base[i_prj] = p[p_ref]['manf#_qty']
+                except:
+                    qty_base[i_prj] = '1'
+                p[p_ref]['manf#_qty'] = qty_base.copy()
+                p[ 'prj' + str(i_prj) + SEPRTR + p_ref] = p.pop(p_ref)
+        parts.update( p.copy() )
         prj_info.append( info.copy() )
     # Group part out of the module to merge different project lists,
     # ignore some field to merge.
-    parts = organize_parts(parts, group_fields)
+    parts = group_parts(parts, group_fields)
+    #parts = organize_parts(parts, group_fields)
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts, distributor_dict)
