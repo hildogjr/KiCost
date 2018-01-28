@@ -57,6 +57,7 @@ BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*]'
 PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&'
 PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
+#PART_REF_REGEX = re.compile('(?P<prefix>((?P<prj>prj\d?){p_sp}?)(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_sp=SEPRTR, sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, manufacture name and such.

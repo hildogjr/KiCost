@@ -564,7 +564,6 @@ class formKiCost ( wx.Frame ):
                 label = self.m_checkList_dist.GetString(idx)
                 for k,v in distributor_dict.items():
                     if v['label']==label:
-                        print(label,v['module'])
                         dist_list += ' ' + v['module']
                         break
             #choisen_dist = ' --include ' + ' '.join(choisen_dist)
@@ -588,13 +587,17 @@ class formKiCost ( wx.Frame ):
                   eda_module = v['module']
                   break
             command += " -eda " + eda_module
-            print(command)
         
         if self.m_textCtrlextracmd.GetValue():
             command += ' ' + self.m_textCtrlextracmd.GetValue()
         
         if self.m_checkBox_openXLS.GetValue():
-            spreadsheet_file = os.path.splitext( re.sub('"', '', self.m_comboBox_files.GetValue()) )[0] + '.xlsx'
+            spreadsheet_file = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
+            if len(spreadsheet_file)==1:
+                spreadsheet_file = os.path.splitext( spreadsheet_file[0] )[0] + '.xlsx'
+            else:
+                spreadsheet_file = output_filename_multipleinputs( spreadsheet_file )
+            
             if platform.system()=='Linux':
                 command += ' && xdg-open ' + '"' + spreadsheet_file + '"'
             elif platform.system()=='Windows':
@@ -637,12 +640,12 @@ class formKiCost ( wx.Frame ):
             credits = credits_file.read()
             credits_file.close()
         except:
-            credits = '''=======
+            credits = r'''=======
             Credits
-            =======\n
+            =======
             Development Lead
             ----------------
-            * XESS Corporation <info@xess.com>\n
+            * XESS Corporation <info@xess.com>
             Contributors
             ------------
             * Oliver Martin: https://github.com/oliviermartin
@@ -652,7 +655,7 @@ class formKiCost ( wx.Frame ):
             * Giacinto Luigi Cerone https://github.com/glcerone
             * Hildo Guillardi Júnior https://github.com/hildogjr
             * Adam Heinrich https://github.com/adamheinrich
-
+            ------------
             GUI by Hildo Guillardi Júnior
             '''
             credits = re.sub(r'\n[\t ]+', '\n', credits)  # Remove leading whitespace

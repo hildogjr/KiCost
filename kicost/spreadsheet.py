@@ -178,7 +178,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         # of the BOM) and the date because of price variations.
         i_prj = 0 # WILL BE USED AT ISSUE #73 #ISSUE
         wks.write(BOARD_QTY_ROW, START_COL,
-                   'Proj{}:'.format(str(i_prj)) if len(prj_info)>1 else 'Proj:',
+                   'Prj{}:'.format(str(i_prj)) if len(prj_info)>1 else 'Prj:',
                     wrk_formats['proj_info_field'])
         wks.write(BOARD_QTY_ROW, START_COL+1,
                   prj_info[i_prj]['title'], wrk_formats['proj_info'])
