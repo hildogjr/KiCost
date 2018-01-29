@@ -36,7 +36,7 @@ from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from . import __version__ # Version control by @xesscorp.
 from .globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors import distributor_dict # Distributors names and definitions to use in the spreadsheet.
-from .eda_tools.eda_tools import subpart_qty, collapse_refs, PART_REF_REGEX
+from .eda_tools.eda_tools import partgroup_qty, collapse_refs, PART_REF_REGEX
 
 __all__ = ['create_spreadsheet']
 
@@ -331,7 +331,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Qty',
             'width': None,
-            'comment': '''Total number of each part needed to assemble the board.
+            'comment': '''Total number of each part needed to assemble the board(s).
 Gray -> Not manf# codes.
 Red -> No parts available.
 Orange -> Parts available, but not enough.
@@ -379,15 +379,27 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     # of BOM files read, see the length of p[?]['manf#_qty'].
     prj_len = max([len(part.fields.get('manf#_qty',[])) for part in parts])
     if prj_len>1:
-        def add_col(name, base, number):
-            # Add one column with the `name`, based on the format `format` as the column `number`.
-            columns[name] = columns[base]
+        def add_col(name, base, number, comment):
+            # Add one column with the `name`, based on the format `format` as
+            # the column `number` and shift right all the columns necessary
+            # to this inclusion.
+            columns[name] = base.copy()
             columns[name]['col'] = number
-            for col in columns:
-                if col['col']>=number:
-                    col['col'] += 1
+            columns[name]['label'] = name
+            if comment:
+                columns[name]['comment'] = comment
+            else:
+                try:
+                    del columns[name]['comment']
+                except:
+                    pass
+            for k,f in columns.items():
+                if f['col']>=number and k!=name:
+                    f['col'] += 1
         for i_prj in range(prj_len):
-            add_col('Qty.Prj{}'.format(i_prj), columns['qty'], columns['qty']['col']+i_prj)
+            add_col('Qty.Prj{}'.format(i_prj),
+                    columns['qty'], columns['qty']['col'],
+                    'Total number of each part needed to assemble the project {}.'.format(i_prj))
 
     # Enter user-defined fields into the global part data columns structure.
     for user_field in list(reversed(user_fields)):
@@ -464,10 +476,27 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
 
         # Enter total part quantity needed.
         try:
-            part_qty = subpart_qty(part);
-            wks.write(row, start_col + columns['qty']['col'],
-                       part_qty.format('BoardQty'), wrk_formats['part_format'])
-            #          '=BoardQty*{}'.format(len(part.refs)))
+            qty = partgroup_qty(part);
+            print('----',qty)#TODO
+            if isinstance(qty, list):
+                # Multifiles BOM case, write each quantity and after,
+                # in the 'qty' column the total quantity as ceil of
+                # the total quantity (to ceil use a Microsoftt Excel
+                # compatible function.
+                for i_prj in range(len(qty)):
+                    wks.write(row,
+                          start_col + columns['Qty.Prj{}'.format(i_prj)]['col'],
+                          qty[i_prj].format('BoardQty{}'.format(i_prj)),
+                          wrk_formats['part_format'])
+                wks.write_formula(row, start_col + columns['qty']['col'],
+                    '=CEILING(SUM({}:{}),1)'.format(
+                        xl_rowcol_to_cell(row, start_col + columns['Qty.Prj0']['col']),
+                        xl_rowcol_to_cell(row, start_col + columns['qty']['col']-1)
+                    ),
+                    wrk_formats['part_format'])
+            else:
+                wks.write(row, start_col + columns['qty']['col'],
+                          qty.format('BoardQty'), wrk_formats['part_format'])
         except KeyError:
             pass
 

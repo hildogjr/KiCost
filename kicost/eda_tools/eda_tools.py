@@ -35,7 +35,7 @@ from ..globals import SEPRTR
 from ..kicost import distributor_dict
 from . import eda_tool_dict # EDA dictionary with the features.
 
-__all__ = ['file_eda_match', 'subpart_qty', 'groups_sort', 'collapse_refs', 'subpartqty_split', 'group_parts']
+__all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'collapse_refs', 'subpartqty_split', 'group_parts']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -538,29 +538,39 @@ def subpartqty_split(components):
     return splitted_components
 
 
-def subpart_qty(component):
-    '''@brief Take the components quantity.
+def partgroup_qty(component):
+    '''@brief Take the components grouped quantity.
        
-       Calculate the string of the quantity of the item parsing the
+       Calculate the string of the quantity of the group parsing the
        referente (design) quantity and the sub quantity (in case that
        was a sub part of a manufacture/distributor code).
+       In the case of the multifiles BOM (and futere revision of the
+       code) just use the 'manf#_qty' field that in `group_parts()`
+       recorded the quantities used in each project.
        
        @param components Part component `dict()`, format given by the EDA modules.
        @return Quantity of the manf# part used.
     '''
     try:
-        subqty = component.fields.get('manf#_qty')
+        qty = component.fields.get('manf#_qty')
 
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Qty>>',component.refs,'>>', subqty, '*',
+            print('Qty>>',component.refs,'>>', qty, '*',
                     component.fields.get('manf#'))
 
-        if subqty != '1' and subqty != None:
-            string = '=CEILING({{}}*({subqty})*{qty},1)'.format(
-                            subqty=subqty,
-                            qty=len(component.refs))
+        if isinstance(qty, list):
+            # Multifiles BOM case, the quantities in the list represent
+            # each project read by the order. Do not `CEILING` because
+            # this is will be made in the total columns that sum all
+            # the quantities needed in all projects BOMs.
+            string = ['={{}}*({qp})'.format(qp=i) for i in qty]
         else:
-            string = '={{}}*{qty}'.format(qty=len(component.refs))
+            if qty != '1' and qty != None:
+                string = '=CEILING({{}}*({q})*{qty},1)'.format(
+                                q=qty,
+                                qty=len(component.refs))
+            else:
+                string = '={{}}*{qty}'.format(qty=len(component.refs))
     except (KeyError, TypeError):
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',len(component.refs))
