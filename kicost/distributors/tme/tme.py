@@ -48,7 +48,10 @@ from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 HTML_RESPONSE_RETRIES = 2
 
 def __ajax_details(pn):
-    '''Load part details from TME using XMLHttpRequest'''
+    '''@brief Load part details from TME using XMLHttpRequest.
+       @param pn `str()` part number
+       @return (html, quantity avaliable)
+    '''
     data = urlencode({
         'symbol': pn,
         'currency': 'USD'
@@ -82,7 +85,10 @@ def __ajax_details(pn):
         return None, None
 
 def get_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the TME product page.'''
+    '''@brief Get the pricing tiers from the parsed tree of the TME product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `dict()` price breaks, the keys are the quantities breaks.
+    '''
     price_tiers = {}
     try:
         pn = get_part_num(html_tree)
@@ -117,7 +123,10 @@ def get_price_tiers(html_tree):
 
 
 def get_part_num(html_tree):
-    '''Get the part number from the TME product page.'''
+    '''@brief Get the part number from the TME product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `list()`of the parts that match.
+    '''
     try:
         return html_tree.find('td', class_="pip-product-symbol").text
     except AttributeError:
@@ -126,7 +135,10 @@ def get_part_num(html_tree):
 
 
 def get_qty_avail(html_tree):
-    '''Get the available quantity of the part from the TME product page.'''
+    '''@brief Get the available quantity of the part from the TME product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `int` avaliable quantity.
+    '''
     pn = get_part_num(html_tree)
     if pn == '':
         logger.log(DEBUG_OBSESSIVE, 'No TME part quantity found!')
@@ -146,7 +158,16 @@ def get_qty_avail(html_tree):
 
 
 def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, local_part_html=None, scrape_retries=2):
-    '''Find the TME HTML page for a part number and return the URL and parse tree.'''
+    '''@brief Find the TME HTML page for a part number and return the URL and parse tree.
+       @param dist
+       @param pn Part number `str()`.
+       @param extra_search_terms
+       @param url
+       @param descend
+       @param local_part_html
+       @param scrape_retries `int` Quantity of retries in case of fail.
+       @return (html `str()` of the page, url)
+    '''
 
     global HTML_RESPONSE_RETRIES
     HTML_RESPONSE_RETRIES = scrape_retries

@@ -47,7 +47,10 @@ from ...globals import SEPRTR
 
 
 def get_price_tiers(html_tree):
-    '''Get the pricing tiers from the parsed tree of the local product page.'''
+    '''@brief Get the pricing tiers from the parsed tree of the local product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `dict()` price breaks, the keys are the quantities breaks.
+    '''
     price_tiers = {}
     try:
         pricing = html_tree.find('div', class_='pricing').text
@@ -63,7 +66,10 @@ def get_price_tiers(html_tree):
 
 
 def get_part_num(html_tree):
-    '''Get the part number from the local product page.'''
+    '''@brief Get the part number from the local product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `list()`of the parts that match.
+    '''
     try:
         part_num_str = html_tree.find('div', class_='cat#').text
         return part_num_str
@@ -72,7 +78,10 @@ def get_part_num(html_tree):
 
 
 def get_qty_avail(html_tree):
-    '''Get the available quantity of the part from the local product page.'''
+    '''@brief Get the available quantity of the part from the local product page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `int` avaliable quantity.
+    '''
     try:
         qty_str = html_tree.find('div', class_='quantity').text
     except (AttributeError, ValueError):
@@ -89,7 +98,16 @@ def get_qty_avail(html_tree):
 
 
 def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=None, local_part_html=None, scrape_retries=2):
-    '''Extract the HTML tree from the HTML page for local parts.'''
+    '''Extract the HTML tree from the HTML page for local parts.
+       @param dist
+       @param pn Part number `str()`.
+       @param extra_search_terms
+       @param url
+       @param descend
+       @param local_part_html
+       @param scrape_retries `int` Quantity of retries in case of fail.
+       @return (html `str()` of the page, `None`) The second argument is always `None` bacause there is not url to return.
+    '''
 
     # Extract the HTML tree from the local part HTML page.
     try:

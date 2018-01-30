@@ -61,8 +61,13 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 
 
 def get_part_groups(in_file, ignore_fields, variant):
-    '''Get groups of identical parts from an generic CSV file and return them as a dictionary.'''
-    # No `variant` are used in this function, the input is just kept by compatibility.
+    '''Get groups of identical parts from an generic CSV file and return them as a dictionary.
+       @param in_file `str()` with the file name.
+       @param ignore_fields `list()` fields do be ignored on the read action.
+       @param variant `str()` in regular expression to match with the design version of the BOM.
+       For now, `variant`is not used on CSV read, just kept to compatibility with the other EDA submodules.
+       @return `dict()` of the parts designed. The keys are the componentes references.
+    '''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
