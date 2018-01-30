@@ -35,7 +35,7 @@ from ..globals import SEPRTR
 from ..kicost import distributor_dict
 from . import eda_tool_dict # EDA dictionary with the features.
 
-__all__ = ['file_eda_match', 'subpart_qty', 'groups_sort', 'collapse_refs', 'organize_parts']
+__all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'collapse_refs', 'subpartqty_split', 'group_parts']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -48,15 +48,21 @@ SGROUP_SEPRTR = '\n' # Separator of the semi identical parts groups (parts that 
 # group the elements in sequencial rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 
+# Characters removed from references when read the files.
+PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*\{}]'.format(SEPRTR)
 # Regular expression for detecting part reference ids consisting of a
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
-# There can even be an interposer character so 'LED.10', 'LED_10',
-# 'LED_BLUE-10', 'TEST&PIN+2', 'TEST+SUPPLY' or 'R4.10' is also OK.
-# References with numbers at the end are allowed by some EDAs.
-PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*]'
-PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&'
-PART_REF_REGEX = re.compile('(?P<prefix>[a-z{sc}\d]*[a-z{sc}])(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
+# There can even be an interposer alphabetical and some special
+# characters so 'LED.10', 'LED_10', 'LED_BLUE-10', 'TEST&PIN+2',
+# 'TEST+SUPPLY' or 'R4.10' is also OK.
+# Also references with numbers at the end, just if the interlocutor,
+# part are allowed by some EDAs or manual edition in KiCad.
+# In the case of multiple project BOM files, the references are
+# mofified by adding tha project number identificador followed
+# by `SEPRTR` definition.
+PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&' # Used in next defition only (because repeat).
+PART_REF_REGEX = re.compile('(?P<prefix>([a-z]*(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_sp=SEPRTR, sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, manufacture name and such.
@@ -88,7 +94,7 @@ field_name_translations = {
     'mfg': 'manf',
     'mfr': 'manf',
 }
-# Crete the fields tranlate for each distributor submodule.
+# Create the fields translate for each distributor submodule.
 for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
     for dist in distributor_dict:
         field_name_translations[dist + stub] = dist + '#'
@@ -142,7 +148,7 @@ def organize_parts(components, fields_merge):
     # Remove the Not Populate Parts.
     ##components = remove_dnp_parts(components, variant) # Do this inside each EDA submodule because of the ISSUE #73.
     # Split multi-components into individual subparts.
-    components = subpart_split(components)
+    components = subpartqty_split(components)
     # Group the components in group in the same characteristics (fields).
     components = group_parts(components, fields_merge)
     return components
@@ -155,6 +161,16 @@ class IdenticalComponents(object):
 
 def group_parts(components, fields_merge):
     '''@brief Group common parts after preprocessing from XML or CSV files.
+       
+       Group commum parts looking in the existent files that could be merged
+       by the use of `fields_merge`. First group all designed parts without
+       llok the manufacture/distributors codes, after see if any will be
+       propagated (designed part with out information and same values,
+       footprint and so on that other that have manufacture part, receive
+       this code).
+       Count the quantities of each part designed using the 'manf#_qty'
+       field, this is important to merge subparts of different parts and
+       parts of different BOMs (in the mode of multifiles).
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @param fileds_merge Data fields of the `dict()` variable to be merged and ignored to make the identical components group (before be scraped in the distributors web site).
        @return `list()` of `dict()`
@@ -262,6 +278,7 @@ def group_parts(components, fields_merge):
                     value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
                     for r in grp.refs:
                         components[r][f] = value
+    #print('++++++++++++++',len(new_component_groups))
     #for grp in new_component_groups:
     #    print(grp.refs)
     #    for r in grp.refs:
@@ -272,8 +289,17 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
+        qty = []
         for ref in grp.refs:
             for key, val in list(components[ref].items()):
+                if key == 'manf#_qty':
+                    try:
+                        for i in range(len(val)):
+                            grp_fields['manf#_qty'][i] += '+' + val[i] # DUMMY way and need improvement to realy do arithmetic and not string cat. #TODO
+                            val[i] = grp_fields['manf#_qty'][i] # Make the firt values take also equal.
+                    except:
+                        grp_fields['manf#_qty'] = val
+                    continue
                 if val is None: # Field with no value...
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
@@ -287,6 +313,8 @@ def group_parts(components, fields_merge):
     #print('------------')
     #for grp in new_component_groups:
     #    print(grp.refs)
+    #    for r in grp.refs:
+    #        print(r, components[r])
     #exit(1)
     return new_component_groups
 
@@ -389,7 +417,7 @@ def groups_sort(new_component_groups):
     return new_component_groups
 
 
-def subpart_split(components):
+def subpartqty_split(components):
     '''@brief Split the components with subparts in different components.
        
        Take each part and the all manufacture/distributors combination
@@ -404,8 +432,8 @@ def subpart_split(components):
     '''
     logger.log(DEBUG_OVERVIEW, 'Spliting subparts in the manufacture / distributors codes...')
 
-    dist = [d+'#' for d in distributor_dict]
-    dist.append('manf#')
+    FIELDS_MANF = [d+'#' for d in distributor_dict]
+    FIELDS_MANF.append('manf#')
 
     splitted_components = {}
     for part_ref, part in components.items():
@@ -418,7 +446,7 @@ def subpart_split(components):
             founded_fields = []
             subparts_qty = 0
             subparts_manf_code = dict()
-            for field_code in dist:
+            for field_code in FIELDS_MANF:
                 if field_code in part:
                     subparts_qty = max(subparts_qty, 
                             len( subpart_list(part[field_code]) ) ) # Quantity of sub parts.
@@ -510,29 +538,39 @@ def subpart_split(components):
     return splitted_components
 
 
-def subpart_qty(component):
-    '''@brief Take the components quantity.
+def partgroup_qty(component):
+    '''@brief Take the components grouped quantity.
        
-       Calculate the string of the quantity of the item parsing the
+       Calculate the string of the quantity of the group parsing the
        referente (design) quantity and the sub quantity (in case that
        was a sub part of a manufacture/distributor code).
+       In the case of the multifiles BOM (and futere revision of the
+       code) just use the 'manf#_qty' field that in `group_parts()`
+       recorded the quantities used in each project.
        
        @param components Part component `dict()`, format given by the EDA modules.
        @return Quantity of the manf# part used.
     '''
     try:
-        subqty = component.fields.get('manf#_qty')
+        qty = component.fields.get('manf#_qty')
 
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Qty>>',component.refs,'>>', subqty, '*',
+            print('Qty>>',component.refs,'>>', qty, '*',
                     component.fields.get('manf#'))
 
-        if subqty != '1' and subqty != None:
-            string = '=CEILING({{}}*({subqty})*{qty},1)'.format(
-                            subqty=subqty,
-                            qty=len(component.refs))
+        if isinstance(qty, list):
+            # Multifiles BOM case, the quantities in the list represent
+            # each project read by the order. Do not `CEILING` because
+            # this is will be made in the total columns that sum all
+            # the quantities needed in all projects BOMs.
+            string = ['={{}}*({qp})'.format(qp=i) for i in qty]
         else:
-            string = '={{}}*{qty}'.format(qty=len(component.refs))
+            if qty != '1' and qty != None:
+                string = '=CEILING({{}}*({q})*{qty},1)'.format(
+                                q=qty,
+                                qty=len(component.refs))
+            else:
+                string = '={{}}*{qty}'.format(qty=len(component.refs))
     except (KeyError, TypeError):
         if logger.isEnabledFor(DEBUG_OBSESSIVE):
             print('Qty>>',component.refs,'>>',len(component.refs))

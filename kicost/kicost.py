@@ -30,7 +30,7 @@ from future import standard_library
 standard_library.install_aliases()
 import future
 
-import sys
+import sys, os
 import pprint
 import tqdm
 from time import time
@@ -48,7 +48,7 @@ except NameError:
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost']  # Only export this routine for use by the outside world.
+__all__ = ['kicost','output_filename_multipleinputs']  # Only export this routine for use by the outside world.
 
 from .globals import *
 
@@ -58,10 +58,9 @@ from .distributors.web_routines import scrape_part, create_local_part_html
 
 # Import information for various EDA tools.
 from .eda_tools import eda_modules
-from .eda_tools.eda_tools import organize_parts
+from .eda_tools.eda_tools import subpartqty_split, group_parts
 
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
-
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, variant, num_processes, 
         eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries, throttling_delay=0.0):
@@ -90,19 +89,34 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
         eda_tool_name = [eda_tool_name[0]] * len(in_file) #Assume the first as default.
 
     # Get groups of identical parts.
-    parts = list()
+    parts = dict()
     prj_info = list()
     for i_prj in range(len(in_file)):
-        #eda_tool_module = getattr(eda_tools, eda_tool_name[i_prj])
         eda_tool_module = eda_modules[eda_tool_name[i_prj]]
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
-        # Group part out of the module to merge different project lists, ignore some filed to merge, issue #131 and #102 (in the future). Next step, move the call of the function out of this loop and finish #73 implementation, remove `ignore_fields` of the call in the function above. #ISSUE.
-        p = organize_parts(p, group_fields)
-        # Add the project identifier in the references.
-        for i_g in range(len(p)):
-            p[i_g].qty = 'Board{}Qty'.format(i_prj) # 'Board{}Qty' string is used to put name quantity cells of the spreadsheet.
-        parts += p
+        p = subpartqty_split(p)
+        # In the case of multiple BOM files, add the project prefix
+        # identifier to each reference/designator. Use the field
+        # 'manf#_qty' to control each quantity goes to each project
+        # creating a `list()` with length of number of BOM files.
+        # This vector will be used in the `group_parts()` to create
+        # groups with elements of same 'manf#' that came for different
+        # projects.
+        if len(in_file)>1:
+            logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project indentificator to references...')
+            qty_base = ['0'] * len(in_file) # Base zero quantity vetor.
+            for p_ref in list(p.keys()):
+                try:
+                    qty_base[i_prj] = p[p_ref]['manf#_qty']
+                except:
+                    qty_base[i_prj] = '1'
+                p[p_ref]['manf#_qty'] = qty_base.copy()
+                p[ 'prj' + str(i_prj) + SEPRTR + p_ref] = p.pop(p_ref)
+        parts.update( p.copy() )
         prj_info.append( info.copy() )
+    # Group part out of the module to merge different project lists,
+    # ignore some field to merge.
+    parts = group_parts(parts, group_fields)
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts, distributor_dict)
@@ -214,3 +228,32 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
                     except KeyError:
                         pass
             print()
+
+
+
+
+FILE_OUTPUT_MAX_NAME = 10 # Maximum length of the name of the spreadsheet output
+                          # generate, this is used in the multifiles to limit the
+                          # automatic name generation.
+FILE_OUTPUT_MIN_INPUT = 5 # Minimum length of characters to use of the input files
+                          # to create the name of the spreadsheet output file. This
+                          # is used in the multifile BoM and have priorite in the
+                          # `FILE_OUTPUT_MAX_NAME` definition.
+FILE_OUTPUT_INPUT_SEP = '-' # Separator in the name of the output spreadsheet file
+                            # when used multiple input file to generate automatically
+                            # the name.
+# Here because is used at `__main__.py` and `kicost_gui.py`.
+def output_filename_multipleinputs(files_input):
+    ''' @brief Compose a name with the multiple BOM input file names.
+    
+    Compose a name with the multiple BOM input file names, limiting to,
+    at least, the first `FILE_OUTPUT_MIN_INPUT` caracheters of each name
+    (avoid huge names by `FILE_OUTPUT_MAX_NAME`definition). Join the names
+    of the input files by `FILE_OUTPUT_INPUT_SEP` definition.
+    The output folder is the folder of the firt file.
+    @param files_input `list()`of the input file names.
+    @return `str()` file name for the spreadsheet.
+    '''
+    file_output = os.path.dirname(files_input[0]) + os.path.sep
+    file_output += FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] ) + '.xlsx'
+    return file_output

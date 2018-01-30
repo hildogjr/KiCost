@@ -35,7 +35,7 @@ import sys
 import logging
 import time
 #import inspect # To get the internal module and informations of a module/class.
-from .kicost import kicost # kicost core functions.
+from .kicost import * # kicost core functions.
 from .kicost_gui import * # User guide.
 #try:
 #    from .kicost_gui import * # User guide.
@@ -182,11 +182,8 @@ def main():
         if args.input != None:
             # Send output to spreadsheet with name of input file.
             if len(args.input)>1:
-                # Compose a name with the multiple BOM input file names,
-                # limiting to the first 5 caracheters of each name (avoid
-                # huge names). This is dynamic if the number of input
-                # files passed.
-                args.output = '-'.join( [ os.path.splitext(args.input[i][:max(int(20/len(args.input)),5)])[0] for i in range(len(args.input))] ) + '.xlsx'
+                # Compose a name with the multiple BOM input file names.
+                args.output = output_filename_multipleinputs(args.input)
             else:
                 args.output = os.path.splitext(args.input[0])[0] + '.xlsx'
         else:
