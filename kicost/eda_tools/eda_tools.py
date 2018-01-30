@@ -60,7 +60,7 @@ PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*\{}]'.format(SEPRTR)
 # part are allowed by some EDAs or manual edition in KiCad.
 # In the case of multiple project BOM files, the references are
 # mofified by adding tha project number identificador followed
-# by `SEPRTR`definition.
+# by `SEPRTR` definition.
 PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&' # Used in next defition only (because repeat).
 PART_REF_REGEX = re.compile('(?P<prefix>([a-z]*(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_sp=SEPRTR, sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
@@ -94,7 +94,7 @@ field_name_translations = {
     'mfg': 'manf',
     'mfr': 'manf',
 }
-# Create the fields tranlate for each distributor submodule.
+# Create the fields translate for each distributor submodule.
 for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
     for dist in distributor_dict:
         field_name_translations[dist + stub] = dist + '#'

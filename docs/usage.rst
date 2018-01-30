@@ -2,8 +2,8 @@
 Usage
 ========
 
-KiCost is mainly intended to be run as a script for generating part-cost spreadsheets for
-circuit boards developed with KiCad. Typical use is as follows:
+KiCost's main use is generating part-cost spreadsheets for
+circuit boards developed with KiCad as follows:
 
 1. For each part in your schematic, create a field called ``manf#`` and set the field value
    to the manufacturer's part number.
@@ -22,7 +22,7 @@ circuit boards developed with KiCad. Typical use is as follows:
 2. Output a BOM from your KiCad schematic. This will be an XML file such as ``schem.xml``.
 3. Process the XML file with KiCost to create a part-cost spreadsheet named ``schem.xlsx`` like this::
 
-     python kicost -i schem.xml
+     kicost -i schem.xml
 
 4. Open the ``schem.xlsx`` spreadsheet using Microsoft Excel, LibreOffice Calc, or Google Sheets.
    Then enter the number of boards that you need to build and see
@@ -35,6 +35,70 @@ circuit boards developed with KiCad. Typical use is as follows:
 5. Enter the quantity of each part that you want to purchase from each distributor.
    Lists of part numbers and quantities will appear that you can cut-and-paste
    directly into the website ordering page of each distributor.
+
+------------------------
+Examples
+------------------------
+
+Most people just want some examples of using KiCost so they don't have to read a bunch
+of documentation, so here they are!
+
+To create a cost spreadsheet from an XML file exported from KiCad::
+
+    kicost -i schem.xml
+
+To create a cost scpredsheet direct from the KiCad `Bill of Material" wizard (use as command line):
+
+    kicost -i %I
+
+To create a cost scpredsheet direct from the KiCad using the user definitions (by graphical interface last runned):
+
+    kicost -i %I --user
+
+To place the spreadsheet in a file with a different name than the XML file::
+
+    kicost -i schem.xml -o new_file.xlsx
+
+To overwrite an existing spreadsheet::
+
+    kicost -i schem.xml -w
+
+To get costs from only a few distributors::
+
+    kicost -i schem.xml --include digikey mouser
+
+To exclude one or more distributors from the cost spreadsheet::
+
+    kicost -i schem.xml --exclude digikey farnell
+
+To include parts that are only used in a particular variant of a design::
+
+    kicost -i schem.xml --variant V1
+
+To create a cost spreadsheet from a CSV file of part data::
+
+    kicost -i schem.csv --eda_tool csv
+
+Now, a friendly user graphical interface was created. To load it, just use `kicost` command without parameters.
+
+.. image:: guide_screen.png
+
+------------------------
+Custom BOM list
+------------------------
+
+In addition to XML files output by EDA tools, KiCost also accepts CSV files as a method
+for getting costs of preliminary designs or older projects.
+The format of the CSV file is as follows:
+
+1. A single column is interpreted as containing manufacturer part numbers.
+2. Two columns are interpreted as the manufacturer's part number followed by the part reference (e.g., ``R4``).
+3. Three columns are interpreted as the quantity followed by the part number and reference.
+
+You can also arrange the columns arbitrarily by placing a header in the first line 
+of the CSV file that labels the particular 
+columns as manufacturer's part numbers (``manf#``), quantities (``qty``), and
+part references (``refs``).
 
 ------------------------
 Custom Part Data
@@ -124,7 +188,7 @@ Parts With Subparts
 Some parts consist of two or more subparts.
 For example, a two-pin jumper might have an associated shunt.
 This is represented by placing the part number for each subpart into the ``manf#`` field, separated
-by a ";" like so: ``JMP1A45;SH3QQ5``.
+by a ";" like so: ``JMP1A45;SH3QQ5``. The ``manf`` (manufacture name) also allow this division, empty or replicate the last one (use "~" character to replicate the last one).
 Each subpart will be placed on a separate row of the spreadsheet with its associated part number
 and a part reference formed from the original part reference with an added "#" and a number. 
 For example, if the two-pin jumper had a part reference of ``JP6``, then there
@@ -200,7 +264,7 @@ Showing Extra Part Data in the Spreadsheet
 
 Sometimes it is desirable to show additional data for the parts in the
 spreadsheet.
-To do this, use the ``-fields`` command-line option followed by the names of the
+To do this, use the ``--fields`` command-line option followed by the names of the
 additional part fields you want displayed in the global data section of the
 of the spreadsheet::
 
@@ -214,13 +278,18 @@ In addition to the part cost information, the spreadsheet output by KiCost
 provides additional cues:
 
 #. The ``Qty`` cell is colored to show the availability of a given part:
-       * Red if the part is unavailable at any of the distributors.
-       * Orange if the part is available, but not in sufficient quantity.
-       * Yellow if there is enough of th part available, but not enough has been ordered.
+
+   * Red if the part is unavailable at any of the distributors.
+   * Orange if the part is available, but not in sufficient quantity.
+   * Yellow if there is enough of the part available, but not enough has been ordered.
+   * Gray not informed any ``manf#`` or distributor code in the BOM file.
+
 #. The ``Avail`` cell is colored to show the availability of a given part
    at a particular distributor:
-       * Red if the part is unavailable.
-       * Orange if there is not sufficient quantity of the part available.
+
+   * Red if the part is unavailable.
+   * Orange if there is not sufficient quantity of the part available.
+
 #. The ``Unit$`` cell is colored green to indicate the lowest price found
    across all the distributors.
 
@@ -236,7 +305,7 @@ This can be too much for some computers, so you can decrease the load
 using the ``--num_processes`` command-line option with the number of
 processes you want to spawn::
 
-    kicost -i schematic.xml -num_processes 10
+    kicost -i schematic.xml --num_processes 10
 
 In addition, you can use the ``--serial`` command-line option to force KiCost
 into single-threaded operation.
@@ -244,36 +313,52 @@ This is equivalent to using ``-num_processes 1``.
 (If you encounter problems running KiCost on a Windows PC with Python 2, then
 using this command may help.)
 
+---------------------------------
+Selecting Distributors to Scrape
+---------------------------------
+
+You can get the list of part distributors that KiCost scrapes for data like this::
+
+    kicost --show_dist_list
+    Distributor list: digikey farnell local_template mouser newark rs tme
+
+Since you may not have access to some of the distributors in that list,
+you can restrict scraping from only a subset of them as follows::
+
+    kicost -i schem.xml --include digikey mouser
+
+Or you can exclude some distributors and scrape the rest::
+
+    kicost -i schem.xml --exclude farnell newark
+
 ---------------------
 Command-Line Options
 ---------------------
 
 ::
 
-    usage: kicost [-h] [-v] [-i [files.xml]] [-o [file.xlsx]] [-f name [name ...]]
-                  [-var [VARIANT]] [-w] [-s] [-q] [-np [NUM_PROCESSES]]
-                  [-ign name [name ...]] [-d [LEVEL]] [--eda_tool {kicad,altium}]
-                  [-e dist [dist ...]] [--include dist [dist ...]]
-                  [--retries [num_retries]]
+    usage: kicost [-h] [-v] [-i file.xml [file.xml ...]] [-o [file.xlsx]]
+                  [-f name [name ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
+                  [-np [NUM_PROCESSES]] [-ign name [name ...]] [-d [LEVEL]]
+                  [-eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
+                  [--show_dist_list] [-e dist [dist ...]]
+                  [--include dist [dist ...]] [-rt [num_retries]]
 
     Build cost spreadsheet for a KiCAD project.
 
     optional arguments:
       -h, --help            show this help message and exit
       -v, --version         show program's version number and exit
-      -i [file1.xml file2.xml ...], --input [file1.xml file2.xml ...]
-                            Schematic BOM XML file.
+      -i file.xml [file.xml ...], --input file.xml [file.xml ...]
+                            One or more schematic BOM XML files.
       -o [file.xlsx], --output [file.xlsx]
-                            Generated cost spreadsheet. If not used is assumed the
-                            same as the input file or combination of them.
+                            Generated cost spreadsheet.
       -f name [name ...], --fields name [name ...]
                             Specify the names of additional part fields to extract
                             and insert in the global data section of the
                             spreadsheet.
-      -var [VARIANT1 VARIANT2 ...], --variant [VARIANT1 VARIANT2]
-                            schematic variant name filter. VARIANT by file input
-                            order, if used just one is assumed the same for all input
-                            files.
+      -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
+                            schematic variant name filter.
       -w, --overwrite       Allow overwriting of an existing spreadsheet.
       -s, --serial          Do web scraping of part data using a single process.
       -q, --quiet           Enable quiet mode with no warnings.
@@ -281,31 +366,27 @@ Command-Line Options
                             Set the number of parallel processes used for web
                             scraping part data.
       -ign name [name ...], --ignore_fields name [name ...]
-                            Declare part fields to ignore when grouping parts.
+                            Declare part fields to ignore when reading the BoM file.
+      -grp name [name ...], --group_fileds name [name ...]
+                            Declare part fields to merge when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
-      -eda {kicad,altium} [ead1 ead2 ...], --eda_tool {kicad,altium} [ead1 ead2 ...]
-                            Choose EDA tool from which the .XML BOM file
-                            originated, in the order of file input, if informat
-                            just one, is assumed the same for all files.
+      -eda {kicad,altium,csv} [{kicad,altium,csv} ...], --eda_tool {kicad,altium,csv} [{kicad,altium,csv} ...]
+                            Choose EDA tool from which the XML BOM file
+                            originated, or use csv for .CSV files.
+      --show_dist_list      Show list of distributors that can be scraped for cost
+                            data, then exit.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
       --include dist [dist ...]
                             Includes only the given distributor(s) in the scraping
                             process.
-      --rt [num_retries], --retries [num_retries]
+      -rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.
-
-----------------------------
-Using KiCost direct in KiCad
-----------------------------
-
-In the Bill of Material window use the the command
-
-    kicost - i %1 -w -q
-
+      --user                Start the user guide to run KiCost passing the file
+                            parameter give by "--input", all others parameters are ignored.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)

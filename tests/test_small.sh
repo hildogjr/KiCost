@@ -25,13 +25,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-echo 'This macro test all the xml files BOM in this folder'
-BOMs=$(find *.xml)
-#echo $(echo "$var" | wc -l)" recognized files"
-#echo "$BOMs"
+BOMs="part_list_small.csv Indium_X2.xml multipart.xml NF6X_Testboard.xml StickIt-Hat.xml"
 for eachBOM in $BOMs; do
     echo "############ Testing file $eachBOM"
-    kicost -i $eachBOM -wq
+    kicost -i $eachBOM -wq --inc digikey mouser
     echo ""
 done
 

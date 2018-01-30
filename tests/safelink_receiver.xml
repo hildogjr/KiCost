@@ -1,0 +1,2117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/michele/Downloads/safelink/safelink_receiver (copy)/rev 2/safelink_receiver.sch</source>
+    <date>Mon 05 Jun 2017 19:55:00 BST</date>
+    <tool>Eeschema 4.0.6-e0-6349~53~ubuntu14.04.1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev>2</rev>
+        <date/>
+        <source>safelink_receiver.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="2" name="/safelink receiver supply/" tstamps="/57C32764/">
+      <title_block>
+        <title>Safelink</title>
+        <company/>
+        <rev>2</rev>
+        <date/>
+        <source>safelink_receiver_supply.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="3" name="/safelink_receiver_DAC/" tstamps="/57E96BCF/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev>2</rev>
+        <date/>
+        <source>safelink_receiver_DAC.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+    <sheet number="4" name="/Guitar connection/" tstamps="/5910A7A2/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>Guitar connection.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="U3">
+      <value>TPS61070DDCR</value>
+      <footprint>safelink:SOT23-6L</footprint>
+      <fields>
+        <field name="Supplier 1 ">Farnell</field>
+        <field name="Supplier 1 PN">1461062</field>
+      </fields>
+      <libsource lib="safelink" part="TPS61070DDCR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>57C5CD12</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>57C5CD2B</tstamp>
+    </comp>
+    <comp ref="C9">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>57C5CD43</tstamp>
+    </comp>
+    <comp ref="R8">
+      <value>180k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1803V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303247</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>57C5CD56</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>1M</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1004V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303325</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>57C5CD6C</tstamp>
+    </comp>
+    <comp ref="R11">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>57F13EA5</tstamp>
+    </comp>
+    <comp ref="L1">
+      <value>10u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408105</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-103MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5907CDC5</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>ZHCS1000</value>
+      <footprint>Diodes_SMD:D_SOT-23_ANK</footprint>
+      <fields>
+        <field name="Manufacturer">DIODES</field>
+        <field name="manf#">ZHCS1000</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9526773</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5908DE41</tstamp>
+    </comp>
+    <comp ref="BT1">
+      <value>Battery</value>
+      <footprint>safelink:ACC-AANEG-5201</footprint>
+      <libsource lib="safelink_transmitter-rescue" part="Battery-RESCUE-safelink_transmitter"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5908F4D6</tstamp>
+    </comp>
+    <comp ref="U2">
+      <value>NC7SZ74K8X</value>
+      <footprint>safelink:US8</footprint>
+      <fields>
+        <field name="Manufacturer">Fairchild</field>
+        <field name="manf#">NC7SZ74K8X</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1417652</field>
+      </fields>
+      <libsource lib="safelink" part="NC7SZ74K8X"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59092667</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59092D95</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1002V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303192</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5909605A</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>180k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1803V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303247</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59096DB1</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>1u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71H105KA12L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1735541</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59098173</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>1u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71H105KA12L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1735541</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>590983AA</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>180k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1803V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303247</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5909881F</tstamp>
+    </comp>
+    <comp ref="D4">
+      <value>LED</value>
+      <footprint>LEDs:LED_D3.0mm_Horizontal_O1.27mm_Z6.0mm</footprint>
+      <fields>
+        <field name="Manufacturer">Avago</field>
+        <field name="manf#">HLMP-K150</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1003206</field>
+      </fields>
+      <libsource lib="safelink_transmitter-rescue" part="LED-RESCUE-safelink_transmitter"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59099AF1</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>3K3</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06033K30FKEA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469793</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5909AD08</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>SKHHLQA010</value>
+      <footprint>safelink:SKHHLQA010</footprint>
+      <fields>
+        <field name="Manufacturer">ALPS</field>
+        <field name="manf#">SKHHLQA010</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2056827</field>
+      </fields>
+      <libsource lib="safelink" part="FSM4JSMA"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5909BBAF</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>AP3211KTR-G1</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-23-6</footprint>
+      <fields>
+        <field name="Manufacturer">DIODES</field>
+        <field name="manf#">AP3211KTR-G1</field>
+        <field name="Supplier 1 ">RS</field>
+        <field name="Supplier 1 PN">828-7457</field>
+        <field name="Supplier 2">Mouser</field>
+        <field name="Supplier 2 PN">621-AP3211KTR-G1</field>
+      </fields>
+      <libsource lib="safelink" part="AP3211KTR-G1"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5910647E</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>591077BC</tstamp>
+    </comp>
+    <comp ref="L3">
+      <value>10u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408105</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-103MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>591086DA</tstamp>
+    </comp>
+    <comp ref="D5">
+      <value>ZHCS1000</value>
+      <footprint>Diodes_SMD:D_SOT-23_ANK</footprint>
+      <fields>
+        <field name="Manufacturer">DIODES</field>
+        <field name="manf#">ZHCS1000</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9526773</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5910B95C</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>47K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">YAGEO</field>
+        <field name="manf#">RC0603FR-0747KL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238689</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5910C3FA</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>ZHCS1000</value>
+      <footprint>Diodes_SMD:D_SOT-23_ANK</footprint>
+      <fields>
+        <field name="Manufacturer">DIODES</field>
+        <field name="manf#">ZHCS1000</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9526773</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5910C532</tstamp>
+    </comp>
+    <comp ref="C8">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59108880</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>15K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-0715K0L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238620</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5910CFBB</tstamp>
+    </comp>
+    <comp ref="C7">
+      <value>10n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Kemet</field>
+        <field name="manf#">C0603C103K5RACTU</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1414609</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5910B189</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>LM2611BMF/NOPB</value>
+      <footprint>safelink:SOT23-5</footprint>
+      <fields>
+        <field name="Supplier 1 ">Farnell</field>
+        <field name="Supplier 1 PN">2115112</field>
+        <field name="manf#">LM2611BMF/NOPB</field>
+      </fields>
+      <libsource lib="safelink" part="LM2611BMF/NOPB"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F77A</tstamp>
+    </comp>
+    <comp ref="C14">
+      <value>1u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71H105KA12L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1735541</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F79B</tstamp>
+    </comp>
+    <comp ref="C16">
+      <value>22u</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM188R61A226ME15D</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2426957</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F7C3</tstamp>
+    </comp>
+    <comp ref="R13">
+      <value>249k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF2493V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2059513</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F7D6</tstamp>
+    </comp>
+    <comp ref="R14">
+      <value>100k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1003V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303232</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F7E1</tstamp>
+    </comp>
+    <comp ref="C15">
+      <value>33p</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Kemet</field>
+        <field name="manf#">C0603C330J5GACTU</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1414633</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F7F6</tstamp>
+    </comp>
+    <comp ref="C11">
+      <value>22u</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM188R61A226ME15D</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2426957</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F806</tstamp>
+    </comp>
+    <comp ref="R15">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F82C</tstamp>
+    </comp>
+    <comp ref="L8">
+      <value>10u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408105</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-103MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59293493</tstamp>
+    </comp>
+    <comp ref="L5">
+      <value>10u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408105</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-103MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59296CF5</tstamp>
+    </comp>
+    <comp ref="U4">
+      <value>TPS61070DDCR</value>
+      <footprint>safelink:SOT23-6L</footprint>
+      <fields>
+        <field name="Supplier 1 ">Farnell</field>
+        <field name="Supplier 1 PN">1461062</field>
+        <field name="manf#">TPS61070DDCR</field>
+      </fields>
+      <libsource lib="safelink" part="TPS61070DDCR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59296D0D</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59296D26</tstamp>
+    </comp>
+    <comp ref="R10">
+      <value>200k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF2003V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2059509</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59296D3E</tstamp>
+    </comp>
+    <comp ref="R9">
+      <value>1M8</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-071M8L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238875</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59296D54</tstamp>
+    </comp>
+    <comp ref="C10">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59296E16</tstamp>
+    </comp>
+    <comp ref="R12">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>59296E2D</tstamp>
+    </comp>
+    <comp ref="L2">
+      <value>10u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408105</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-103MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>592991A8</tstamp>
+    </comp>
+    <comp ref="L7">
+      <value>47u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408111</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-473MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F790</tstamp>
+    </comp>
+    <comp ref="L6">
+      <value>15u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408106</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-153MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5928F785</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>ZHCS1000</value>
+      <footprint>Diodes_SMD:D_SOT-23_ANK</footprint>
+      <fields>
+        <field name="Manufacturer">DIODES</field>
+        <field name="manf#">ZHCS1000</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9526773</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5929DFE8</tstamp>
+    </comp>
+    <comp ref="D6">
+      <value>ZHCS1000</value>
+      <footprint>Diodes_SMD:D_SOT-23_ANK</footprint>
+      <fields>
+        <field name="Manufacturer">DIODES</field>
+        <field name="manf#">ZHCS1000</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9526773</field>
+      </fields>
+      <libsource lib="device" part="D_Schottky"/>
+      <sheetpath names="/safelink receiver supply/" tstamps="/57C32764/"/>
+      <tstamp>5929E9D8</tstamp>
+    </comp>
+    <comp ref="R35">
+      <value>10R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-0710RL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238247</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59275FA9</tstamp>
+    </comp>
+    <comp ref="R33">
+      <value>1K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-071KL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238484</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59276A4B</tstamp>
+    </comp>
+    <comp ref="C35">
+      <value>1n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603N102J500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496882</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592778A8</tstamp>
+    </comp>
+    <comp ref="R31">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1002V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303192</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59278163</tstamp>
+    </comp>
+    <comp ref="R29">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1002V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303192</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59278382</tstamp>
+    </comp>
+    <comp ref="C31">
+      <value>220p</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM1885C1H221JA01D</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">8819882</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59278EB3</tstamp>
+    </comp>
+    <comp ref="R36">
+      <value>10R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-0710RL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238247</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5927C82D</tstamp>
+    </comp>
+    <comp ref="R34">
+      <value>1K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-071KL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238484</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5927C837</tstamp>
+    </comp>
+    <comp ref="C36">
+      <value>1n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603N102J500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496882</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5927C841</tstamp>
+    </comp>
+    <comp ref="R32">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1002V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303192</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5927C84B</tstamp>
+    </comp>
+    <comp ref="R30">
+      <value>10K</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJ3EKF1002V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2303192</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5927C855</tstamp>
+    </comp>
+    <comp ref="C32">
+      <value>220p</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM1885C1H221JA01D</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">8819882</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5927C85F</tstamp>
+    </comp>
+    <comp ref="K1">
+      <value>Tiny XLR3</value>
+      <footprint>Connectors_Molex:Molex_SPOX-5267_22-03-5035_03x2.54mm_Straight</footprint>
+      <fields>
+        <field name="Manufacturer">Rean</field>
+        <field name="manf#">RT3MPR</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2383452</field>
+      </fields>
+      <libsource lib="conn" part="XLR3"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5927F51B</tstamp>
+    </comp>
+    <comp ref="C26">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59281B3B</tstamp>
+    </comp>
+    <comp ref="C28">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59281B45</tstamp>
+    </comp>
+    <comp ref="C25">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59285111</tstamp>
+    </comp>
+    <comp ref="C27">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5928511B</tstamp>
+    </comp>
+    <comp ref="C23">
+      <value>2u2</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM188R61H225KE11D</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2611925</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5928783A</tstamp>
+    </comp>
+    <comp ref="C24">
+      <value>2u2</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM188R61H225KE11D</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2611925</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5928A601</tstamp>
+    </comp>
+    <comp ref="C21">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5928AF66</tstamp>
+    </comp>
+    <comp ref="C22">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5928AF70</tstamp>
+    </comp>
+    <comp ref="C19">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5928B517</tstamp>
+    </comp>
+    <comp ref="C20">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5928B521</tstamp>
+    </comp>
+    <comp ref="R27">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5929510F</tstamp>
+    </comp>
+    <comp ref="R26">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592952F5</tstamp>
+    </comp>
+    <comp ref="R23">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>59296667</tstamp>
+    </comp>
+    <comp ref="R24">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5929A342</tstamp>
+    </comp>
+    <comp ref="R28">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>5929E353</tstamp>
+    </comp>
+    <comp ref="C34">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A4CC1</tstamp>
+    </comp>
+    <comp ref="C33">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A52F3</tstamp>
+    </comp>
+    <comp ref="C29">
+      <value>10u</value>
+      <footprint>Capacitors_SMD:C_0805</footprint>
+      <fields>
+        <field name="Manufacturer">Murata</field>
+        <field name="manf#">GRM21BR71A106KE51L</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1828828</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A6C1D</tstamp>
+    </comp>
+    <comp ref="C30">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A6E55</tstamp>
+    </comp>
+    <comp ref="D8">
+      <value>TPD4S009DCKR</value>
+      <footprint>safelink:SC70-6</footprint>
+      <fields>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="manf#">TPD4S009DCKR</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2335456</field>
+      </fields>
+      <libsource lib="safelink" part="TPD4S009DCKR"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A8525</tstamp>
+    </comp>
+    <comp ref="CN1">
+      <value>2041126-1</value>
+      <footprint>safelink:TE2041126-1</footprint>
+      <fields>
+        <field name="Supplier 1">Mouser</field>
+        <field name="Supplier 1 PN">571-2041126-1</field>
+        <field name="Manufacturer">TE Connectivity</field>
+        <field name="manf">TE Connectivity</field>
+        <field name="manf#">2041126-1</field>
+        <field name="mouser#">571-2041126-1</field>
+      </fields>
+      <libsource lib="safelink" part="2041126-1"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A8530</tstamp>
+    </comp>
+    <comp ref="C18">
+      <value>100n</value>
+      <footprint>Capacitors_SMD:C_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Walsin</field>
+        <field name="manf#">0603B104K500CT</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2496834</field>
+      </fields>
+      <libsource lib="device" part="C"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A8547</tstamp>
+    </comp>
+    <comp ref="D9">
+      <value>TPD4S009DCKR</value>
+      <footprint>safelink:SC70-6</footprint>
+      <fields>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="manf#">TPD4S009DCKR</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2335456</field>
+      </fields>
+      <libsource lib="safelink" part="TPD4S009DCKR"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A855B</tstamp>
+    </comp>
+    <comp ref="D7">
+      <value>SMAJ18A-TR</value>
+      <footprint>Diodes_SMD:D_SMA</footprint>
+      <fields>
+        <field name="Manufacturer">ST Microelectronics</field>
+        <field name="manf#">SMAJ18A-TR</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1749305</field>
+      </fields>
+      <libsource lib="safelink_transmitter-cache" part="D_Zener"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A857F</tstamp>
+    </comp>
+    <comp ref="R16">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-07100RL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238360</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A85BB</tstamp>
+    </comp>
+    <comp ref="R17">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-07100RL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238360</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A85C6</tstamp>
+    </comp>
+    <comp ref="R18">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-07100RL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238360</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A85D1</tstamp>
+    </comp>
+    <comp ref="R19">
+      <value>100R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Yageo</field>
+        <field name="manf#">RC0603FR-07100RL</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">9238360</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A85DC</tstamp>
+    </comp>
+    <comp ref="R20">
+      <value>47R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJP03F47R0V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1750655</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A8607</tstamp>
+    </comp>
+    <comp ref="R21">
+      <value>47R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJP03F47R0V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1750655</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A8612</tstamp>
+    </comp>
+    <comp ref="R22">
+      <value>47R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Panasonic</field>
+        <field name="manf#">ERJP03F47R0V</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1750655</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A861D</tstamp>
+    </comp>
+    <comp ref="R25">
+      <value>0R</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Manufacturer">Vishay</field>
+        <field name="manf#">CRCW06030000Z0EA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1469739</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A862B</tstamp>
+    </comp>
+    <comp ref="P1">
+      <value>USB_MICRO_B_RECEPTACLE</value>
+      <footprint>Connect:USB_Micro-B_10103594-0001LF</footprint>
+      <fields>
+        <field name="Manufacturer">AMPHENOL FCI</field>
+        <field name="manf#">10103594-0001LF</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2293752</field>
+      </fields>
+      <libsource lib="conn" part="USB_OTG"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592A8646</tstamp>
+    </comp>
+    <comp ref="L4">
+      <value>10u</value>
+      <footprint>safelink:LPS4018</footprint>
+      <fields>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2408105</field>
+        <field name="Manufacturer">Coilcraft</field>
+        <field name="manf#">LPS4018-103MRB</field>
+      </fields>
+      <libsource lib="device" part="INDUCTOR"/>
+      <sheetpath names="/safelink_receiver_DAC/" tstamps="/57E96BCF/"/>
+      <tstamp>592B11E4</tstamp>
+    </comp>
+    <comp ref="CON2">
+      <value>RT3FC-B</value>
+      <fields>
+        <field name="manf">Rean</field>
+        <field name="manf#">RT3FC-B</field>
+        <field name="farnell#">1813715</field>
+        <field name="mouser#">568-RT3FC-B</field>
+        <field name="rs#">694-9374</field>
+      </fields>
+      <libsource lib="safelink" part="RT3FC-B"/>
+      <sheetpath names="/Guitar connection/" tstamps="/5910A7A2/"/>
+      <tstamp>59341179</tstamp>
+    </comp>
+    <comp ref="CON3">
+      <value>BRT-L</value>
+      <fields>
+        <field name="manf">Rean</field>
+        <field name="manf#">BRT-L</field>
+        <field name="farnell#">2383458</field>
+        <field name="mouser#">568-BRT-L</field>
+      </fields>
+      <libsource lib="safelink" part="BRT-L"/>
+      <sheetpath names="/Guitar connection/" tstamps="/5910A7A2/"/>
+      <tstamp>593411F3</tstamp>
+    </comp>
+    <comp ref="CON1">
+      <value>NP2X</value>
+      <fields>
+        <field name="manf">NEUTRIK</field>
+        <field name="manf#">NP2X</field>
+        <field name="mouser#">568-NP2X</field>
+        <field name="farnell#">8314535</field>
+        <field name="rs#">166-327</field>
+      </fields>
+      <libsource lib="safelink" part="NP2X"/>
+      <sheetpath names="/Guitar connection/" tstamps="/5910A7A2/"/>
+      <tstamp>5934123A</tstamp>
+    </comp>
+    <comp ref="ENC1">
+      <value>S3A-361413</value>
+      <fields>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">S3A-361413</field>
+        <field name="mouser#">789-S3A-361413</field>
+      </fields>
+      <libsource lib="safelink" part="S3A-361413"/>
+      <sheetpath names="/Guitar connection/" tstamps="/5910A7A2/"/>
+      <tstamp>59345CB5</tstamp>
+    </comp>
+    <comp ref="BTCNT1">
+      <value>ACC-AANEG-5201</value>
+      <fields>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">ACC-AANEG-5201</field>
+        <field name="mouser#">789-ACC-AANEG-5201</field>
+      </fields>
+      <libsource lib="safelink" part="ACC-AANEG-5201"/>
+      <sheetpath names="/Guitar connection/" tstamps="/5910A7A2/"/>
+      <tstamp>59346113</tstamp>
+    </comp>
+    <comp ref="BTCNT2">
+      <value>ACC-AAPOS-5223</value>
+      <fields>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">ACC-AAPOS-5223</field>
+        <field name="mouser#">789-ACC-AAPOS-5223</field>
+      </fields>
+      <libsource lib="safelink" part="ACC-AAPOS-5223"/>
+      <sheetpath names="/Guitar connection/" tstamps="/5910A7A2/"/>
+      <tstamp>59346496</tstamp>
+    </comp>
+    <comp ref="BTCNT3">
+      <value>ACC-AADBL-5212</value>
+      <fields>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">ACC-AADBL-5212</field>
+        <field name="mouser#">789-ACC-AADBL-5212</field>
+      </fields>
+      <libsource lib="safelink" part="ACC-AADBL-5212"/>
+      <sheetpath names="/Guitar connection/" tstamps="/5910A7A2/"/>
+      <tstamp>5934688C</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="safelink" part="2041126-1">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">2041126-1</field>
+        <field name="Footprint">safelink:TE2041126-1</field>
+        <field name="Supplier 1">Mouser</field>
+        <field name="Supplier 1 PN">571-2041126-1</field>
+        <field name="Manufacturer">TE Connectivity</field>
+        <field name="Manufacturer PN">2041126-1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+        <pin num="4" name="~" type="passive"/>
+        <pin num="5" name="~" type="passive"/>
+        <pin num="6" name="~" type="passive"/>
+        <pin num="7" name="~" type="passive"/>
+        <pin num="8" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="ACC-AADBL-5212">
+      <fields>
+        <field name="Reference">BTCNT</field>
+        <field name="Value">ACC-AADBL-5212</field>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">ACC-AADBL-5212</field>
+        <field name="mouser#">789-ACC-AADBL-5212</field>
+      </fields>
+    </libpart>
+    <libpart lib="safelink" part="ACC-AANEG-5201">
+      <fields>
+        <field name="Reference">BTCNT</field>
+        <field name="Value">ACC-AANEG-5201</field>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">ACC-AANEG-5201</field>
+        <field name="mouser#">789-ACC-AANEG-5201</field>
+      </fields>
+    </libpart>
+    <libpart lib="safelink" part="ACC-AAPOS-5223">
+      <fields>
+        <field name="Reference">BTCNT</field>
+        <field name="Value">ACC-AAPOS-5223</field>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">ACC-AAPOS-5223</field>
+        <field name="mouser#">789-ACC-AAPOS-5223</field>
+      </fields>
+    </libpart>
+    <libpart lib="safelink" part="AP3211KTR-G1">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">AP3211KTR-G1</field>
+        <field name="Footprint">TO_SOT_Packages_SMD:SOT-23-6</field>
+        <field name="Manufacturer">DIODES</field>
+        <field name="Manufacturer PN">AP3211KTR-G1</field>
+        <field name="Supplier 1 ">RS</field>
+        <field name="Supplier 1 PN">828-7457</field>
+        <field name="Supplier 2">Mouser</field>
+        <field name="Supplier 2 PN">621-AP3211KTR-G1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="BS" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="FB" type="input"/>
+        <pin num="4" name="EN" type="input"/>
+        <pin num="5" name="VIN" type="input"/>
+        <pin num="6" name="SW" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="BRT-L">
+      <fields>
+        <field name="Reference">CON</field>
+        <field name="Value">BRT-L</field>
+        <field name="manf">Rean</field>
+        <field name="manf#">BRT-L</field>
+        <field name="farnell#">2383458</field>
+        <field name="mouser#">568-BRT-L</field>
+      </fields>
+    </libpart>
+    <libpart lib="safelink_transmitter-rescue" part="Battery-RESCUE-safelink_transmitter">
+      <fields>
+        <field name="Reference">BT</field>
+        <field name="Value">Battery-RESCUE-safelink_transmitter</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="C">
+      <description>Unpolarized capacitor</description>
+      <footprints>
+        <fp>C?</fp>
+        <fp>C_????_*</fp>
+        <fp>C_????</fp>
+        <fp>SMD*_c</fp>
+        <fp>Capacitor*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="D_Schottky">
+      <description>Diode schottky</description>
+      <footprints>
+        <fp>D-Pak_TO252AA</fp>
+        <fp>Diode_*</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>*_Diode_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Schottky</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink_transmitter-cache" part="D_Zener">
+      <footprints>
+        <fp>TO-???*</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*_Diode_*</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>D_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">D_Zener</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="FSM4JSMA">
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">FSM4JSMA</field>
+        <field name="Footprint">FSM4JSMA</field>
+        <field name="Manufacturer">TE Connectivity</field>
+        <field name="Manufacturer PN">FSM4JSMA</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">3801305</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="INDUCTOR">
+      <fields>
+        <field name="Reference">L</field>
+        <field name="Value">INDUCTOR</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink_transmitter-rescue" part="LED-RESCUE-safelink_transmitter">
+      <footprints>
+        <fp>LED-3MM</fp>
+        <fp>LED-5MM</fp>
+        <fp>LED-10MM</fp>
+        <fp>LED-0603</fp>
+        <fp>LED-0805</fp>
+        <fp>LED-1206</fp>
+        <fp>LEDV</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED-RESCUE-safelink_transmitter</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="LM2611BMF/NOPB">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LM2611BMF/NOPB</field>
+        <field name="Footprint">safelink:SOT23-5</field>
+        <field name="Supplier 1 ">Farnell</field>
+        <field name="Supplier 1 PN">2115112</field>
+      </fields>
+      <pins>
+        <pin num="1" name="SW" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="NFB" type="input"/>
+        <pin num="4" name="~SHDN" type="input"/>
+        <pin num="5" name="VIN" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="NC7SZ74K8X">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">NC7SZ74K8X</field>
+        <field name="Footprint">safelink:US8</field>
+        <field name="Manufacturer">Fairchild</field>
+        <field name="Manufacturer PN">NC7SZ74K8X</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">1417652</field>
+      </fields>
+      <pins>
+        <pin num="1" name="CK" type="input"/>
+        <pin num="2" name="D" type="input"/>
+        <pin num="3" name="~Q" type="input"/>
+        <pin num="4" name="GND" type="input"/>
+        <pin num="5" name="Q" type="input"/>
+        <pin num="6" name="~CLR" type="input"/>
+        <pin num="7" name="~PR" type="input"/>
+        <pin num="8" name="VCC" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="NP2X">
+      <fields>
+        <field name="Reference">CON</field>
+        <field name="Value">NP2X</field>
+        <field name="manf">NEUTRIK</field>
+        <field name="manf#">NP2X</field>
+        <field name="mouser#">568-NP2X</field>
+        <field name="farnell#">8314535</field>
+        <field name="rs#">166-327</field>
+      </fields>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="RT3FC-B">
+      <fields>
+        <field name="Reference">CON</field>
+        <field name="Value">RT3FC-B</field>
+        <field name="manf">Rean</field>
+        <field name="manf#">RT3FC-B</field>
+        <field name="farnell#">1813715</field>
+        <field name="mouser#">568-RT3FC-B</field>
+        <field name="rs#">694-9374</field>
+      </fields>
+    </libpart>
+    <libpart lib="safelink" part="S3A-361413">
+      <fields>
+        <field name="Reference">ENC</field>
+        <field name="Value">S3A-361413</field>
+        <field name="manf">New Age Enclosures</field>
+        <field name="manf#">S3A-361413</field>
+        <field name="mouser#">789-S3A-361413</field>
+      </fields>
+    </libpart>
+    <libpart lib="safelink" part="TPD4S009DCKR">
+      <footprints>
+        <fp>Diode_*</fp>
+        <fp>D-Pak_TO252AA</fp>
+        <fp>*SingleDiode</fp>
+        <fp>*SingleDiode*</fp>
+        <fp>*_Diode_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">TPD4S009DCKR</field>
+        <field name="Footprint">safelink:SC70-6</field>
+        <field name="Manufacturer">Texas Instruments</field>
+        <field name="Manufacturer PN">TPD4S009DCKR</field>
+        <field name="Supplier 1">Farnell</field>
+        <field name="Supplier 1 PN">2335456</field>
+      </fields>
+      <pins>
+        <pin num="1" name="D1+" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+        <pin num="3" name="D2+" type="passive"/>
+        <pin num="4" name="D2-" type="passive"/>
+        <pin num="5" name="VCC" type="passive"/>
+        <pin num="6" name="D1-" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="safelink" part="TPS61070DDCR">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">TPS61070DDCR</field>
+        <field name="Footprint">safelink:SOT23-6L</field>
+        <field name="Supplier 1 ">Farnell</field>
+        <field name="Supplier 1 PN">1461062</field>
+      </fields>
+      <pins>
+        <pin num="1" name="SW" type="input"/>
+        <pin num="2" name="GND" type="input"/>
+        <pin num="3" name="EN" type="input"/>
+        <pin num="4" name="FB" type="input"/>
+        <pin num="5" name="VOUT" type="input"/>
+        <pin num="6" name="VBAT" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="USB_OTG">
+      <description>micro/mini connector</description>
+      <footprints>
+        <fp>USB*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">USB_OTG</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC" type="power_out"/>
+        <pin num="2" name="D-" type="passive"/>
+        <pin num="3" name="D+" type="passive"/>
+        <pin num="4" name="ID" type="power_in"/>
+        <pin num="5" name="GND" type="power_in"/>
+        <pin num="6" name="shield" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="conn" part="XLR3">
+      <description>3 pins</description>
+      <fields>
+        <field name="Reference">K</field>
+        <field name="Value">XLR3</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+        <pin num="3" name="~" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="safelink_transmitter-rescue">
+      <uri>/home/michele/Downloads/safelink/safelink_receiver (copy)/rev 2/safelink_transmitter-rescue.lib</uri>
+    </library>
+    <library logical="device">
+      <uri>/usr/local/share/kicad/library/device.lib</uri>
+    </library>
+    <library logical="conn">
+      <uri>/usr/local/share/kicad/library/conn.lib</uri>
+    </library>
+    <library logical="safelink">
+      <uri>/home/michele/Downloads/safelink/kicad_libraries/safelink.lib</uri>
+    </library>
+    <library logical="safelink_transmitter-cache">
+      <uri>/home/michele/Downloads/safelink/safelink_receiver (copy)/rev 2/safelink_transmitter-cache.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(D4-Pad2)">
+      <node ref="D4" pin="2"/>
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="2" name="Net-(R1-Pad1)">
+      <node ref="R1" pin="1"/>
+      <node ref="SW1" pin="2"/>
+    </net>
+    <net code="3" name="Net-(C2-Pad1)">
+      <node ref="R1" pin="2"/>
+      <node ref="R2" pin="1"/>
+      <node ref="C2" pin="1"/>
+      <node ref="U2" pin="1"/>
+    </net>
+    <net code="4" name="Net-(C3-Pad1)">
+      <node ref="R3" pin="2"/>
+      <node ref="C3" pin="1"/>
+      <node ref="U2" pin="6"/>
+      <node ref="D1" pin="2"/>
+    </net>
+    <net code="5" name="Net-(C7-Pad2)">
+      <node ref="D3" pin="1"/>
+      <node ref="L3" pin="2"/>
+      <node ref="U1" pin="6"/>
+      <node ref="C7" pin="2"/>
+    </net>
+    <net code="6" name="VBAT">
+      <node ref="U2" pin="8"/>
+      <node ref="D5" pin="1"/>
+      <node ref="C5" pin="1"/>
+      <node ref="D1" pin="1"/>
+      <node ref="U4" pin="6"/>
+      <node ref="L1" pin="2"/>
+      <node ref="R4" pin="1"/>
+      <node ref="SW1" pin="1"/>
+      <node ref="D2" pin="1"/>
+      <node ref="C4" pin="1"/>
+      <node ref="U3" pin="6"/>
+      <node ref="U2" pin="7"/>
+      <node ref="R3" pin="1"/>
+      <node ref="L2" pin="2"/>
+      <node ref="C6" pin="1"/>
+    </net>
+    <net code="7" name="VBATBUS">
+      <node ref="P1" pin="1"/>
+      <node ref="U1" pin="4"/>
+      <node ref="U1" pin="5"/>
+      <node ref="D7" pin="1"/>
+      <node ref="C1" pin="1"/>
+      <node ref="CN1" pin="8"/>
+    </net>
+    <net code="8" name="Net-(C7-Pad1)">
+      <node ref="C7" pin="1"/>
+      <node ref="U1" pin="1"/>
+    </net>
+    <net code="9" name="Net-(R7-Pad2)">
+      <node ref="U3" pin="4"/>
+      <node ref="R8" pin="1"/>
+      <node ref="R7" pin="2"/>
+    </net>
+    <net code="10" name="Net-(L1-Pad1)">
+      <node ref="U3" pin="1"/>
+      <node ref="L1" pin="1"/>
+    </net>
+    <net code="11" name="Net-(L2-Pad1)">
+      <node ref="L2" pin="1"/>
+      <node ref="U4" pin="1"/>
+    </net>
+    <net code="12" name="GNDPWR">
+      <node ref="P1" pin="5"/>
+      <node ref="C11" pin="2"/>
+      <node ref="C9" pin="2"/>
+      <node ref="C5" pin="2"/>
+      <node ref="U4" pin="2"/>
+      <node ref="D7" pin="2"/>
+      <node ref="R10" pin="2"/>
+      <node ref="U1" pin="2"/>
+      <node ref="P1" pin="6"/>
+      <node ref="C10" pin="2"/>
+      <node ref="R8" pin="2"/>
+      <node ref="CN1" pin="7"/>
+      <node ref="R2" pin="2"/>
+      <node ref="C6" pin="2"/>
+      <node ref="C8" pin="2"/>
+      <node ref="BT1" pin="2"/>
+      <node ref="D3" pin="2"/>
+      <node ref="U2" pin="4"/>
+      <node ref="R14" pin="2"/>
+      <node ref="C1" pin="2"/>
+      <node ref="C16" pin="2"/>
+      <node ref="U5" pin="2"/>
+      <node ref="U3" pin="2"/>
+      <node ref="R6" pin="2"/>
+      <node ref="C4" pin="2"/>
+      <node ref="D6" pin="1"/>
+      <node ref="C2" pin="2"/>
+      <node ref="R25" pin="2"/>
+      <node ref="C3" pin="2"/>
+    </net>
+    <net code="13" name="Net-(BT1-Pad1)">
+      <node ref="D2" pin="2"/>
+      <node ref="BT1" pin="1"/>
+    </net>
+    <net code="14" name="Net-(C9-Pad1)">
+      <node ref="R7" pin="1"/>
+      <node ref="C9" pin="1"/>
+      <node ref="U3" pin="5"/>
+      <node ref="R11" pin="2"/>
+    </net>
+    <net code="15" name="Net-(R10-Pad1)">
+      <node ref="R10" pin="1"/>
+      <node ref="U4" pin="4"/>
+      <node ref="R9" pin="2"/>
+    </net>
+    <net code="16" name="+5V">
+      <node ref="C34" pin="1"/>
+      <node ref="C33" pin="2"/>
+      <node ref="R12" pin="1"/>
+    </net>
+    <net code="17" name="Net-(U2-Pad5)">
+      <node ref="U4" pin="3"/>
+      <node ref="U3" pin="3"/>
+      <node ref="U2" pin="5"/>
+    </net>
+    <net code="18" name="-5V">
+      <node ref="C30" pin="1"/>
+      <node ref="C29" pin="2"/>
+      <node ref="R15" pin="1"/>
+    </net>
+    <net code="19" name="Net-(L8-Pad1)">
+      <node ref="L8" pin="1"/>
+      <node ref="R15" pin="2"/>
+    </net>
+    <net code="20" name="+3V3">
+      <node ref="C22" pin="2"/>
+      <node ref="D9" pin="5"/>
+      <node ref="D8" pin="5"/>
+      <node ref="R27" pin="2"/>
+      <node ref="L4" pin="2"/>
+      <node ref="C21" pin="1"/>
+      <node ref="R11" pin="1"/>
+      <node ref="C18" pin="2"/>
+    </net>
+    <net code="21" name="Net-(D4-Pad1)">
+      <node ref="D4" pin="1"/>
+      <node ref="U2" pin="3"/>
+      <node ref="U2" pin="2"/>
+    </net>
+    <net code="22" name="Net-(L5-Pad1)">
+      <node ref="L5" pin="1"/>
+      <node ref="R12" pin="2"/>
+    </net>
+    <net code="23" name="Net-(C14-Pad2)">
+      <node ref="C14" pin="2"/>
+      <node ref="L7" pin="2"/>
+      <node ref="D6" pin="2"/>
+    </net>
+    <net code="24" name="Net-(R5-Pad2)">
+      <node ref="U1" pin="3"/>
+      <node ref="R5" pin="2"/>
+      <node ref="R6" pin="1"/>
+    </net>
+    <net code="25" name="Net-(C8-Pad1)">
+      <node ref="D5" pin="2"/>
+      <node ref="R5" pin="1"/>
+      <node ref="L3" pin="1"/>
+      <node ref="C8" pin="1"/>
+    </net>
+    <net code="26" name="Net-(C10-Pad1)">
+      <node ref="C10" pin="1"/>
+      <node ref="R9" pin="1"/>
+      <node ref="U4" pin="5"/>
+      <node ref="L5" pin="2"/>
+      <node ref="L6" pin="2"/>
+      <node ref="C11" pin="1"/>
+      <node ref="U5" pin="4"/>
+      <node ref="U5" pin="5"/>
+    </net>
+    <net code="27" name="Net-(C14-Pad1)">
+      <node ref="U5" pin="1"/>
+      <node ref="C14" pin="1"/>
+      <node ref="L6" pin="1"/>
+    </net>
+    <net code="28" name="Net-(C15-Pad1)">
+      <node ref="L8" pin="2"/>
+      <node ref="C16" pin="1"/>
+      <node ref="R13" pin="1"/>
+      <node ref="L7" pin="1"/>
+      <node ref="C15" pin="1"/>
+    </net>
+    <net code="29" name="Net-(C15-Pad2)">
+      <node ref="U5" pin="3"/>
+      <node ref="C15" pin="2"/>
+      <node ref="R13" pin="2"/>
+      <node ref="R14" pin="1"/>
+    </net>
+    <net code="30" name="Net-(D9-Pad3)">
+      <node ref="D9" pin="3"/>
+    </net>
+    <net code="31" name="Net-(D9-Pad4)">
+      <node ref="D9" pin="4"/>
+    </net>
+    <net code="32" name="LRCK">
+      <node ref="R22" pin="1"/>
+    </net>
+    <net code="33" name="BCK">
+      <node ref="R20" pin="1"/>
+    </net>
+    <net code="34" name="DIN">
+      <node ref="R21" pin="1"/>
+    </net>
+    <net code="35" name="GNDD">
+      <node ref="C22" pin="1"/>
+      <node ref="C20" pin="2"/>
+      <node ref="C19" pin="1"/>
+      <node ref="C21" pin="2"/>
+      <node ref="R23" pin="2"/>
+      <node ref="R25" pin="1"/>
+      <node ref="R26" pin="1"/>
+      <node ref="D9" pin="2"/>
+      <node ref="R24" pin="2"/>
+      <node ref="C18" pin="1"/>
+      <node ref="D8" pin="2"/>
+      <node ref="R28" pin="1"/>
+    </net>
+    <net code="36" name="GNDA">
+      <node ref="R32" pin="2"/>
+      <node ref="C32" pin="1"/>
+      <node ref="C31" pin="1"/>
+      <node ref="C24" pin="1"/>
+      <node ref="R28" pin="2"/>
+      <node ref="C26" pin="2"/>
+      <node ref="K1" pin="1"/>
+      <node ref="C25" pin="2"/>
+      <node ref="C27" pin="1"/>
+      <node ref="C28" pin="1"/>
+      <node ref="R31" pin="2"/>
+      <node ref="C34" pin="2"/>
+      <node ref="C33" pin="1"/>
+      <node ref="C29" pin="1"/>
+      <node ref="C30" pin="2"/>
+    </net>
+    <net code="37" name="/safelink_receiver_DAC/DIN+">
+      <node ref="D8" pin="3"/>
+      <node ref="R17" pin="2"/>
+      <node ref="CN1" pin="6"/>
+    </net>
+    <net code="38" name="/safelink_receiver_DAC/BCK-">
+      <node ref="CN1" pin="5"/>
+      <node ref="R19" pin="1"/>
+      <node ref="D8" pin="1"/>
+    </net>
+    <net code="39" name="/safelink_receiver_DAC/BCK+">
+      <node ref="D8" pin="6"/>
+      <node ref="R19" pin="2"/>
+      <node ref="CN1" pin="4"/>
+    </net>
+    <net code="40" name="/safelink_receiver_DAC/DIN-">
+      <node ref="D8" pin="4"/>
+      <node ref="R17" pin="1"/>
+      <node ref="CN1" pin="3"/>
+    </net>
+    <net code="41" name="/safelink_receiver_DAC/LRCK+">
+      <node ref="D9" pin="1"/>
+      <node ref="R18" pin="2"/>
+      <node ref="CN1" pin="2"/>
+    </net>
+    <net code="42" name="/safelink_receiver_DAC/LRCK-">
+      <node ref="CN1" pin="1"/>
+      <node ref="R18" pin="1"/>
+      <node ref="D9" pin="6"/>
+    </net>
+    <net code="43" name="Net-(P1-Pad4)">
+      <node ref="P1" pin="4"/>
+    </net>
+    <net code="44" name="Net-(P1-Pad3)">
+      <node ref="P1" pin="3"/>
+    </net>
+    <net code="45" name="Net-(P1-Pad2)">
+      <node ref="P1" pin="2"/>
+    </net>
+    <net code="46" name="Net-(R22-Pad2)">
+      <node ref="R22" pin="2"/>
+    </net>
+    <net code="47" name="Net-(R21-Pad2)">
+      <node ref="R21" pin="2"/>
+    </net>
+    <net code="48" name="Net-(R20-Pad2)">
+      <node ref="R20" pin="2"/>
+    </net>
+    <net code="49" name="+3V3A">
+      <node ref="L4" pin="1"/>
+      <node ref="C28" pin="2"/>
+      <node ref="C25" pin="1"/>
+      <node ref="C26" pin="1"/>
+      <node ref="C27" pin="2"/>
+    </net>
+    <net code="50" name="Net-(R16-Pad2)">
+      <node ref="R16" pin="2"/>
+    </net>
+    <net code="51" name="Net-(R16-Pad1)">
+      <node ref="R16" pin="1"/>
+    </net>
+    <net code="53" name="Net-(K1-Pad2)">
+      <node ref="R33" pin="1"/>
+      <node ref="R35" pin="1"/>
+      <node ref="K1" pin="2"/>
+    </net>
+    <net code="54" name="Net-(C35-Pad1)">
+      <node ref="C35" pin="1"/>
+      <node ref="R35" pin="2"/>
+    </net>
+    <net code="55" name="Net-(C31-Pad2)">
+      <node ref="R31" pin="1"/>
+      <node ref="R29" pin="1"/>
+      <node ref="C31" pin="2"/>
+    </net>
+    <net code="56" name="Net-(C19-Pad2)">
+      <node ref="C19" pin="2"/>
+      <node ref="C20" pin="1"/>
+    </net>
+    <net code="57" name="Net-(C24-Pad2)">
+      <node ref="C24" pin="2"/>
+    </net>
+    <net code="58" name="Net-(C36-Pad1)">
+      <node ref="C36" pin="1"/>
+      <node ref="R36" pin="2"/>
+    </net>
+    <net code="59" name="Net-(C32-Pad2)">
+      <node ref="R32" pin="1"/>
+      <node ref="R30" pin="1"/>
+      <node ref="C32" pin="2"/>
+    </net>
+    <net code="60" name="Net-(K1-Pad3)">
+      <node ref="K1" pin="3"/>
+      <node ref="R34" pin="1"/>
+      <node ref="R36" pin="1"/>
+    </net>
+    <net code="61" name="Net-(C23-Pad2)">
+      <node ref="C23" pin="2"/>
+    </net>
+    <net code="62" name="Net-(C35-Pad2)">
+      <node ref="R33" pin="2"/>
+      <node ref="C35" pin="2"/>
+    </net>
+    <net code="63" name="Net-(R30-Pad2)">
+      <node ref="R30" pin="2"/>
+    </net>
+    <net code="64" name="Net-(C36-Pad2)">
+      <node ref="R34" pin="2"/>
+      <node ref="C36" pin="2"/>
+    </net>
+    <net code="65" name="Net-(C23-Pad1)">
+      <node ref="C23" pin="1"/>
+    </net>
+    <net code="66" name="Net-(R23-Pad1)">
+      <node ref="R23" pin="1"/>
+    </net>
+    <net code="67" name="Net-(R26-Pad2)">
+      <node ref="R27" pin="1"/>
+      <node ref="R26" pin="2"/>
+    </net>
+    <net code="68" name="Net-(R24-Pad1)">
+      <node ref="R24" pin="1"/>
+    </net>
+    <net code="69" name="Net-(R29-Pad2)">
+      <node ref="R29" pin="2"/>
+    </net>
+  </nets>
+</export>
