@@ -8,6 +8,8 @@ ______________________
 
 * Added capability to throttle accesses to distributor websites ``--throttling_delay``. 
 * Added ``show_eda_list`` option to display the list of EDA tools supported by KiCost.
+* Added capability to read more than one BOM file and merge in the spreadsheet.
+* ``--ignore_fields`` ignore the filed on read, added ``--group_fields`` to ignore differences in fileds of the components and group them.
 * CSV now accept files from Proteus and Eagle EDA.
 * Clear up the python importations not used and better placed function into files (spreasheet creation files are now in ``spreadsheet.py``).
 * Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if them are not inside it.

@@ -47,11 +47,11 @@ To create a cost spreadsheet from an XML file exported from KiCad::
 
     kicost -i schem.xml
 
-To create a cost scpredsheet direct from the KiCad `Bill of Material" wizard (use as command line):
+To create a cost spreadsheet direct from the KiCad `Bill of Material" wizard (use as command line):
 
     kicost -i %I
 
-To create a cost scpredsheet direct from the KiCad using the user definitions (by graphical interface last runned):
+To create a cost spreadsheet direct from the KiCad using the user definitions (by graphical interface last runned):
 
     kicost -i %I --user
 
@@ -79,6 +79,10 @@ To create a cost spreadsheet from a CSV file of part data::
 
     kicost -i schem.csv --eda_tool csv
 
+To read and merge different projects BOMs (it is allowed different EDAs)::
+
+    kicost -i bom1.xml bom2.xml bom3.csv -eda kicad altium csv
+
 Now, a friendly user graphical interface was created. To load it, just use `kicost` command without parameters.
 
 .. image:: guide_screen.png
@@ -87,8 +91,7 @@ Now, a friendly user graphical interface was created. To load it, just use `kico
 Custom BOM list
 ------------------------
 
-In addition to XML files output by EDA tools, KiCost also accepts CSV files as a method
-for getting costs of preliminary designs or older projects.
+In addition to XML files output by EDA tools, KiCost also accepts CSV files as a method for getting costs of preliminary designs or older projects.
 The format of the CSV file is as follows:
 
 1. A single column is interpreted as containing manufacturer part numbers.
@@ -173,10 +176,19 @@ For example, you might store information about a part in a "notes" field,
 but that shouldn't exclude the part from a group that had none or different notes.
 That can be prevented in two ways:
 
-#. Use the ``-ignore_fields`` command-line option to make KiCost ignore part fields
+#. Use the ``--ignore_fields`` command-line option to make KiCost ignore part fields
    with certain names::
 
-     kicost -i schematic.xml -ignore_fields notes
+     kicost -i schematic.xml --ignore_fields notes
+
+# Use the ``--group_fields`` to ignore field to group the components. This fields will be
+ignore to group but displayed in the spreadsheet (as a multiline cell)::
+
+     kicost -i schematic.xml --group_fields footprint
+     \# Ignore the footprint to merge, interesting option to multifiles
+     \# BOMs, when each one came from different EDA software or merge
+     \# subparts (e.g. pins of different connector that, for you are of
+     \# the same family).
 
 #. Precede the field name with a ":" such as ``:note``. This makes KiCost ignore the
    field because it is in a different namespace.
@@ -199,12 +211,12 @@ would be two rows in the spreadsheet containing data like this:
     JP6#1  ...  JMP1A45
     JP6#2  ...  SH3QQ5
 
-You can also specify multipliers for each subpart by either prepending or appending
+You can also specify multipliers for each subpart by either appending
 the subpart part number with a multiplier separated by a ":".
 To illustrate, a 2x2 jumper paired with two shunts would have a part number of
 ``JMP2B26; SH3QQ5:2``.
-The multiplier can be either an integer, float or fraction and it can be used
-previous or succeding the part code, e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``.
+The multiplier can be either an integer, float or fraction (e.g. to cable meter)
+and it can be used previous or succeeding the part code, e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``.
 
 ------------------------
 Schematic Variants
@@ -290,8 +302,8 @@ provides additional cues:
    * Red if the part is unavailable.
    * Orange if there is not sufficient quantity of the part available.
 
-#. The ``Unit$`` cell is colored green to indicate the lowest price found
-   across all the distributors.
+#. The ``Unit$`` and ``Ext$`` in each distributor cell is colored green
+to indicate the lowest price found across all the distributors.
 
 -----------------------
 Parallel Web Scraping
@@ -309,9 +321,15 @@ processes you want to spawn::
 
 In addition, you can use the ``--serial`` command-line option to force KiCost
 into single-threaded operation.
-This is equivalent to using ``-num_processes 1``.
+This is equivalent to using ``--num_processes 1``.
 (If you encounter problems running KiCost on a Windows PC with Python 2, then
 using this command may help.)
+
+Some distributors may block sequential access, to workaround this each new scrape
+can be made after a delay by ``--throttling_delay``. In the follow example after
+100ms.
+
+    kicost -i schematic.xml --num_processes 10 --throttling_delay 0.1
 
 ---------------------------------
 Selecting Distributors to Scrape
@@ -365,6 +383,9 @@ Command-Line Options
       -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
                             Set the number of parallel processes used for web
                             scraping part data.
+      --throttling_delay [DELAY_SECONDS]
+                            Specify minimum delay (in seconds) between successive
+                            accesses to a distributor's website.
       -ign name [name ...], --ignore_fields name [name ...]
                             Declare part fields to ignore when reading the BoM file.
       -grp name [name ...], --group_fileds name [name ...]
@@ -376,6 +397,7 @@ Command-Line Options
                             originated, or use csv for .CSV files.
       --show_dist_list      Show list of distributors that can be scraped for cost
                             data, then exit.
+      --show_eda_list       Show list of EDA softwares that KiCost can read, then exit.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
@@ -387,6 +409,7 @@ Command-Line Options
                             from a website.
       --user                Start the user guide to run KiCost passing the file
                             parameter give by "--input", all others parameters are ignored.
+
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)

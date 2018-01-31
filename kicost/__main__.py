@@ -129,7 +129,7 @@ def main():
                         help='Show list of distributors that can be scraped for cost data, then exit.')
     parser.add_argument('--show_eda_list',
                         action='store_true',
-                        help='Show list of eda softwares that KiCost can read, then exit.')
+                        help='Show list of EDA softwares that KiCost can read, then exit.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'DIST',
