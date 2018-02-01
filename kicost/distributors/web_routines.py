@@ -30,6 +30,7 @@ import sys
 from bs4 import BeautifulSoup # XML file interpreter.
 import multiprocessing # To deal with the parallel scrape.
 import logging
+import copy
 from time import time
 from random import choice
 from yattag import Doc, indent  # For generating HTML page for local parts.
