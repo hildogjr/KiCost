@@ -126,7 +126,13 @@ def get_part_groups(in_file, ignore_fields, variant):
         fields['footprint'] = 'NA'
         fields['value'] = 'NA'
 
-        vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header, delimiter=dialect.delimiter))
+        try:
+            vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header, delimiter=dialect.delimiter))
+        except:
+            # If had a error when tryed to read a line maybe a 'EmptyLine',
+            # normally at the end of the file or after the header and before
+            # the first part.
+            raise Exception('EmptyLine')
 
         if 'refs' in vals:
             ref_str = vals['refs']
@@ -178,7 +184,11 @@ def get_part_groups(in_file, ignore_fields, variant):
     accepted_components = {}
     for row in content:
         # Get the values for the fields in each library part (if any).
-        refs, fields = extract_fields(row)
+        try:
+            refs, fields = extract_fields(row)
+        except:
+            # If error in one line, try get the part proprieties in last one.
+            continue
         for ref in refs:
            accepted_components[ref] = fields
 
