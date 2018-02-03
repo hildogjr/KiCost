@@ -36,12 +36,14 @@ import re # Regular expression parser.
 import logging
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..eda_tools import field_name_translations, remove_dnp_parts, split_refs
+from ...kicost import distributor_dict
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
     {
         'stock code': 'manf#',
         'mfr. no': 'manf#',
+        'manpartno': 'manf#',
         'quantity': 'qty',
         'order qty': 'qty',
         'references': 'refs',
@@ -91,14 +93,15 @@ def get_part_groups(in_file, ignore_fields, variant):
     content = content.splitlines()
     header = next(csv.reader(content,delimiter=dialect.delimiter))
 
-    # Standardize the header titles.
-    header = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
+    # Standardize the header titles and remove the spaces before
+    # and after, striping the text imrpove the user experience.
+    header = [field_name_translations.get(hdr.strip().lower(),hdr.strip().lower()) for hdr in header]
 
     # Examine the first line to see if it really is a header.
     # If the first line contains a column header that is not in the list of
     # allowable field names, then assume the first line is data and not a header.
     field_names = list(field_name_translations.keys()) + list(field_name_translations.values())
-    if not 'manf#' in header:
+    if not any([code in header for code in (['manf#']+ [d+'#' for d in distributor_dict])]):
         if any(col_hdr.lower() in field_names for col_hdr in header):
             content.pop(0) # It was a header by the user not identify the 'manf#' column.
 
@@ -122,9 +125,6 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     def extract_fields(row):
         fields = {}
-        fields['libpart'] = 'NA'
-        fields['footprint'] = 'NA'
-        fields['value'] = 'NA'
 
         try:
             vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header, delimiter=dialect.delimiter))
