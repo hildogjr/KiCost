@@ -304,7 +304,7 @@ def group_parts(components, fields_merge):
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
-                        exit('Field value mismatch: ref={} field={} value=\'{}\' group=\'{}\''.format(ref, key, val, grp_fields[key]))
+                        exit('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'.format(ref, key, val, grp_fields[key], grp.refs))
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
