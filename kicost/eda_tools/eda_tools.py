@@ -304,7 +304,7 @@ def group_parts(components, fields_merge):
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
-                        exit('Field value mismatch: ref={} field={} value=\'{}\' group=\'{}\''.format(ref, key, val, grp_fields[key]))
+                        exit('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'.format(ref, key, val, grp_fields[key], grp.refs))
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
@@ -735,6 +735,10 @@ def collapse_refs(refs):
 def split_refs(text):
     '''@brief Split string grouped references into a unique designator. This is intended as oposite of `collapse_refs()`
        
+       Example:
+       'J1,J2 , J3' --> ['J1','J2','J3']
+       'J1;J2 ; J3' --> ['J1','J2','J3']
+       'T1 T2  T3' --> ['T1','T2','T3']
        'C17/18/19/20' --> ['C17','C18','C19','C20']
        'C17\18\19\20' --> ['C17','C18','C19','C20']
        'D33-D36' --> ['D33','D34','D35','D36']
@@ -744,7 +748,7 @@ def split_refs(text):
        @param text Designator/references worn by a group of parts.
        @return Designator/references `list()` splited.
     '''
-    partial_ref = re.split('[,;]', text)
+    partial_ref = re.split(' *[,; ] *', text) # Split ignoring the spaces.
     refs = []
     for ref in partial_ref:
         # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.

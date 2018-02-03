@@ -71,7 +71,7 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
         include_dist_list = list(distributor_dict.keys())
     rmv_dist = set(exclude_dist_list)
     rmv_dist |= set(list(distributor_dict.keys())) - set(include_dist_list)
-    rmv_dist -= set(['local_template'])  # Needed later for creating non-web distributors.
+    rmv_dist -= set(['local_template']) # Needed later for creating non-web distributors.
     for dist in rmv_dist:
         distributor_dict.pop(dist, None)
 
@@ -117,6 +117,24 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
     # Group part out of the module to merge different project lists,
     # ignore some field to merge.
     parts = group_parts(parts, group_fields)
+
+    # If do not have the manufacture code 'manf#' and just distributors codes,
+    # check if is asked to scrap a distributor that do not have any code in the
+    # parts so, exclude this distributors for the scrap list. This decrease the
+    # warning messages given during the process.
+    all_fields = []
+    for p in parts:
+        all_fields += list(p.fields.keys())
+    all_fields = set(all_fields)
+    if not 'manf#' in all_fields:
+        dist_not_rmv = [d for d in distributor_dict.keys() if d+'#' in all_fields]
+        dist_not_rmv += ['local_template'] # Needed later for creating non-web distributors.
+        #distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}
+        distributors = distributor_dict.copy().keys()
+        for d in distributors:
+            if not d in dist_not_rmv:
+                logger.warning("No 'manf#' and '%s#' field in any part: distributor '%s' will be not scraped.", d, distributor_dict[d]['label'])
+                distributor_dict.pop(d, None)
 
     # Create an HTML page containing all the local part information.
     local_part_html = create_local_part_html(parts, distributor_dict)

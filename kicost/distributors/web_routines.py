@@ -45,6 +45,7 @@ except ImportError:
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
 from ..globals import PartHtmlError
+#from ..eda_tools.eda_tools import collapse_refs
 
 import os
 
@@ -158,7 +159,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_r
                         return get_html_tree_func(dist, part.fields[key], extra_search_terms, local_part_html=local_part_html, scrape_retries=scrape_retries)
             # No distributor or manufacturer number, so give up.
             else:
-                logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s", dist, part.refs, dist)
+                logger.warning("No '%s#' or 'manf#' field: cannot lookup part %s at %s.", dist, part.refs, dist)
                 return BeautifulSoup('<html></html>', 'lxml'), ''
                 #raise PartHtmlError
         except PartHtmlError:
