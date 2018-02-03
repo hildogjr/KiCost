@@ -135,7 +135,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             raise Exception('EmptyLine')
 
         if 'refs' in vals:
-            ref_str = vals['refs']
+            ref_str = vals['refs'].strip()
             qty = len(vals['refs'])
         elif 'qty' in vals:
             qty = int(vals['qty'])
@@ -144,12 +144,12 @@ def get_part_groups(in_file, ignore_fields, variant):
             else:
                 ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
-            fields['qty'] = qty
+            fields['qty'] = qty.strip()
         else:
             qty = 1
             ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
-            fields['qty'] = qty
+            fields['qty'] = qty.strip()
         refs = split_refs(ref_str)
 
         if sys.version_info >= (3,0):
