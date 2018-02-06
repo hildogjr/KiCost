@@ -306,7 +306,7 @@ def group_parts(components, fields_merge):
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
-                        exit('Field value mismatch: ref={} field={} value=\'{}\' group=\'{}\''.format(ref, key, val, grp_fields[key]))
+                        exit('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'.format(ref, key, val, grp_fields[key], grp.refs))
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
@@ -746,7 +746,7 @@ def split_refs(text):
        @param text Designator/references worn by a group of parts.
        @return Designator/references `list()` splited.
     '''
-    partial_ref = re.split('[,;]', text)
+    partial_ref = re.split(' *[,; ] *', text) # Split ignoring the spaces.
     refs = []
     for ref in partial_ref:
         # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.
@@ -778,12 +778,12 @@ def split_refs(text):
                 splitted_nums = [re.sub('^'+designator_name, '', i) for i in re.split('[/\\\]',ref)]
                 refs += [designator_name+i for i in splitted_nums]
             else:
-                refs += [ref]
+                refs += [ref.strip()]
         else:
             # The designator name is not for a group of components and 
             # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
-            ref = re.sub('[\-\/\\\]', '', ref)
+            ref = re.sub('[\-\/\\\]', '', ref.strip())
             if not re.search(PART_REF_REGEX, ref).group('num'):
                 # Add a '0' number at the end to be compatible with KiCad/KiCost
                 # ref strings. This may be missing in the hand made BoM.
