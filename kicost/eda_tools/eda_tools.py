@@ -215,8 +215,10 @@ def group_parts(components, fields_merge):
             component_groups[h].refs.append(ref)
             # Also add any manufacturer's part number (or None) and each distributor
             # stock catologue code to the group's list.
-            for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f].add(fields.get(f))
+            #for f in FIELDS_MANFCAT:#TODO
+            #    component_groups[h].manfcat_codes[f].add(fields.get(f))
+            
+            component_groups[h].manfcat_codes.add(fields.get('manf#'))
         except KeyError:
             # This happens if it is the first part in a group, so the group
             # doesn't exist yet.
@@ -225,8 +227,9 @@ def group_parts(components, fields_merge):
             # Now add the manf. part code (or None) and each distributor stock
             # catologue code for this part to the group set.
             component_groups[h].manfcat_codes = {}
-            for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f] = set([fields.get(f)])
+            #for f in FIELDS_MANFCAT:#TODO
+            #    component_groups[h].manfcat_codes[f] = set([fields.get(f)])
+            component_groups[h].manfcat_codes = set([fields.get('manf#')])
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
@@ -246,19 +249,23 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
-        num_manfcat_codes = {}
-        for f in FIELDS_MANFCAT:
-            num_manfcat_codes[f] = len(grp.manfcat_codes[f])
-        if all([num_manfcat_codes[f]==1 for f in FIELDS_MANFCAT]):
+        #num_manfcat_codes = {}#TODO
+        #for f in FIELDS_MANFCAT:
+        #    num_manfcat_codes[f] = len(grp.manfcat_codes[f])
+        num_manfcat_codes = len(grp.manfcat_codes)
+        #if all([num_manfcat_codes[f]==1 for f in FIELDS_MANFCAT]):#TODO
+        if num_manfcat_codes==1:
             new_component_groups.append(grp)
             continue  # Single manf#. Don't split this group.
-        elif all([(num_manfcat_codes[f]==1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
+        #elif all([(num_manfcat_codes[f]==1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):#TODO
+        elif num_manfcat_codes==1 and None in grp.manfcat_codes:
             new_component_groups.append(grp)
             continue  # Two manf#, but one of them is None. Don't split this group.
                       # `None` will be replaced with the propagated manufacture /
                       # distributor catalogue code.
         # Otherwise, split the group into subgroups, each with the same manf#.
         for manf_num in grp.manfcat_codes:
+            print('-------',manf_num)#TODO
             sub_group = IdenticalComponents()
             sub_group.manfcat_codes = [manf_num]
             sub_group.refs = []
