@@ -12,11 +12,11 @@ If you're on Windows, you can download a Python installer from
 Once you have Python, you can install this package by opening a terminal
 window and typing the command::
 
-    $ easy_install kipart
+    $ easy_install kicost
 
 Or::
 
-    $ pip install kipart
+    $ pip install kicost
     
 Note that if you install KiCost using ``pip`` on a Windows system running Python 2.7,
 using the default option that web scrapes with parallel processes may cause
@@ -24,3 +24,7 @@ using the default option that web scrapes with parallel processes may cause
 
 * using ``easy_install`` to install KiCost, or
 * use the ``-s`` KiCost option to serialize the web scraping.
+
+On Linux, to install KiCost on python3, use
+
+    $ pip3 install kicost
