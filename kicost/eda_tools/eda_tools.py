@@ -179,15 +179,17 @@ def group_parts(components, fields_merge):
     # Calculated all the fileds that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes 
     # recognized by the insalled modules and, quantity and sub quantity of the part.
-    FIELDS_MANF = (['manf#', 'manf#_qty', 'manf'] + [d + '#' for d in distributor_dict] + [d + '#_qty' for d in distributor_dict])
+    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#']) # All codes to scrape.
+    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
 
     # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
     # other ones as `desc` and even `value` and `footprint`may be merged due
     # the different typed (1uF and 1u) or footprint library names to the same one.
     fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
-    for c in FIELDS_MANF:
+    for c in FIELDS_NOT_HASH:
         if c in fields_merge:
              exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
+    FIELDS_NOT_HASH = FIELDS_NOT_HASH + fields_merge # Not use the fields do merge to create the hash.
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
@@ -203,7 +205,7 @@ def group_parts(components, fields_merge):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including kicost).
-        hash_fields = {k: fields[k] for k in fields if k not in FIELDS_MANF+fields_merge and SEPRTR not in k}
+        hash_fields = {k: fields[k] for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k}
         h = hash(tuple(sorted(hash_fields.items())))
 
         # Now add the hashed component to the group with the matching hash
@@ -212,14 +214,14 @@ def group_parts(components, fields_merge):
             # Add next ref for identical part to the list.
             component_groups[h].refs.append(ref)
             # Also add any manufacturer's part number (or None) to the group's list.
-            component_groups[h].manf_nums.add(fields.get('manf#'))
+            component_groups[h].manfcat_nums.add(fields.get('manf#'))
         except KeyError:
             # This happens if it is the first part in a group, so the group
             # doesn't exist yet.
             component_groups[h] = IdenticalComponents()  # Add empty structure.
             component_groups[h].refs = [ref]  # Init list of refs with first ref.
             # Now add the manf. part num (or None) for this part to the group set.
-            component_groups[h].manf_nums = set([fields.get('manf#')])
+            component_groups[h].manfcat_nums = set([fields.get('manf#')])
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
@@ -239,17 +241,17 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
-        num_manf_nums = len(grp.manf_nums)
-        if num_manf_nums == 1:
+        num_manfcat_nums = len(grp.manfcat_nums)
+        if num_manfcat_nums == 1:
             new_component_groups.append(grp)
             continue  # Single manf#. Don't split this group.
-        elif num_manf_nums == 2 and None in grp.manf_nums:
+        elif num_manfcat_nums == 2 and None in grp.manfcat_nums:
             new_component_groups.append(grp)
             continue  # Two manf#, but one of them is None. Don't split this group.
         # Otherwise, split the group into subgroups, each with the same manf#.
-        for manf_num in grp.manf_nums:
+        for manf_num in grp.manfcat_nums:
             sub_group = IdenticalComponents()
-            sub_group.manf_nums = [manf_num]
+            sub_group.manfcat_nums = [manf_num]
             sub_group.refs = []
 
             for ref in grp.refs:
@@ -304,7 +306,7 @@ def group_parts(components, fields_merge):
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
-                        exit('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'.format(ref, key, val, grp_fields[key], grp.refs))
+                        exit('Field value mismatch: ref={} field={} value=\'{}\' group=\'{}\''.format(ref, key, val, grp_fields[key]))
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
@@ -735,10 +737,6 @@ def collapse_refs(refs):
 def split_refs(text):
     '''@brief Split string grouped references into a unique designator. This is intended as oposite of `collapse_refs()`
        
-       Example:
-       'J1,J2 , J3' --> ['J1','J2','J3']
-       'J1;J2 ; J3' --> ['J1','J2','J3']
-       'T1 T2  T3' --> ['T1','T2','T3']
        'C17/18/19/20' --> ['C17','C18','C19','C20']
        'C17\18\19\20' --> ['C17','C18','C19','C20']
        'D33-D36' --> ['D33','D34','D35','D36']
@@ -748,7 +746,7 @@ def split_refs(text):
        @param text Designator/references worn by a group of parts.
        @return Designator/references `list()` splited.
     '''
-    partial_ref = re.split(' *[,; ] *', text) # Split ignoring the spaces.
+    partial_ref = re.split('[,;]', text)
     refs = []
     for ref in partial_ref:
         # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.
@@ -780,12 +778,12 @@ def split_refs(text):
                 splitted_nums = [re.sub('^'+designator_name, '', i) for i in re.split('[/\\\]',ref)]
                 refs += [designator_name+i for i in splitted_nums]
             else:
-                refs += [ref.strip()]
+                refs += [ref]
         else:
             # The designator name is not for a group of components and 
             # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
-            ref = re.sub('[\-\/\\\]', '', ref.strip())
+            ref = re.sub('[\-\/\\\]', '', ref)
             if not re.search(PART_REF_REGEX, ref).group('num'):
                 # Add a '0' number at the end to be compatible with KiCad/KiCost
                 # ref strings. This may be missing in the hand made BoM.
