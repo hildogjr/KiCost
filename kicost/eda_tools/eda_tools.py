@@ -179,7 +179,7 @@ def group_parts(components, fields_merge):
     # Calculated all the fileds that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes 
     # recognized by the insalled modules and, quantity and sub quantity of the part.
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#']) # All codes to scrape.
+    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#']) # All codes to scrape, do not include code field name of distributors that will not be scraped.
     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
 
     # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
