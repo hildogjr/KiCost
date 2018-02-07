@@ -235,17 +235,21 @@ def group_parts(components, fields_merge):
     # within a group may have different manufacturer's part numbers, and these
     # groups may need to be split into smaller groups of parts all having the
     # same manufacturer's number. Here are the cases that need to be handled:
-    #   One manf# number: All parts have the same manf#. Don't split this group.
-    #   Two manf# numbers, but one is None: Some of the parts have no manf# but
-    #       are otherwise identical to the other parts in the group. Don't split
-    #       this group. Instead, propagate the non-None manf# to all the parts.
-    #   Two manf#, neither is None: All parts have non-None manf# numbers.
-    #       Split the group into two smaller groups of parts all having the same
-    #       manf#.
-    #   Three or more manf#: Split this group into smaller groups, each one with
-    #       parts having the same manf#, even if it's None. It's impossible to
-    #       determine which manf# the None parts should be assigned to, so leave
-    #       their manf# as None.
+    #   One manf# number (and one cat# for each distributor):
+    #       All parts have the same manf#. Don't split this group.
+    #   Two manf# numbers (or cat# distributor code), but one is `None`:
+    #       Some of the parts have no manf# or distributor# but are otherwise
+    #       identical to the other parts in the group. Don't split this group.
+    #       Instead, propagate the non-None manf# to all the parts.
+    #   Two manf# (or two cat# distributor code), neither is `None`:
+    #       All parts have non-`None` manf# and distributor# numbers. Split
+    #       the group into two smaller groups of parts all having the same
+    #       manf# and distributor#.
+    #   Three or more manf# (or distributor#):
+    #       Split this group into smaller groups, each one with parts having
+    #       the same manf# and distributor#, even if it's `None`. It's
+    #       impossible to determine which manf# the `None` parts should be
+    #       assigned to, so leave their manf# as `None`.
     logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
@@ -271,11 +275,10 @@ def group_parts(components, fields_merge):
                 except IndexError:
                     # If not have more code in the set list, is because just
                     # exist one. So use this as general.
-                    manfcat_num[f] = grp.manfcat_codes.get(f)
+                    manfcat_num[f] = list(grp.manfcat_codes.get(f))[0]
             sub_group = IdenticalComponents()
             sub_group.manfcat_codes = [manfcat_num]
             sub_group.refs = []
-            print('++++++',grp.refs)#TODO
             for ref in grp.refs:
                 print('\t\t',ref,manfcat_num[f],components[ref].get(f))
                 # Use get() which returns `None` if the component has no
@@ -283,7 +286,6 @@ def group_parts(components, fields_merge):
                 # group manf_num is also None. So append the par to the group.
                 if all([components[ref].get(f)==manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
-                    print('++','SIM')#TODO
             new_component_groups.append(sub_group) # Append one part of the splited group.
 
     # If the identical components grouped have diference in the `fields_merge`
