@@ -176,10 +176,13 @@ def group_parts(components, fields_merge):
        @return `list()` of `dict()`
     '''
 
+    # All codes to scrape, do not include code field name of distributors
+    # that will not be scraped. This definition is used to create and check
+    # the identical groups or subsplit the eemingly identical parts.
+    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
     # Calculated all the fileds that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes 
     # recognized by the insalled modules and, quantity and sub quantity of the part.
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#']) # All codes to scrape, do not include code field name of distributors that will not be scraped.
     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
 
     # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
@@ -215,10 +218,8 @@ def group_parts(components, fields_merge):
             component_groups[h].refs.append(ref)
             # Also add any manufacturer's part number (or None) and each distributor
             # stock catologue code to the group's list.
-            #for f in FIELDS_MANFCAT:#TODO
-            #    component_groups[h].manfcat_codes[f].add(fields.get(f))
-            
-            component_groups[h].manfcat_codes.add(fields.get('manf#'))
+            for f in FIELDS_MANFCAT:
+                component_groups[h].manfcat_codes[f].add(fields.get(f))
         except KeyError:
             # This happens if it is the first part in a group, so the group
             # doesn't exist yet.
@@ -227,9 +228,8 @@ def group_parts(components, fields_merge):
             # Now add the manf. part code (or None) and each distributor stock
             # catologue code for this part to the group set.
             component_groups[h].manfcat_codes = {}
-            #for f in FIELDS_MANFCAT:#TODO
-            #    component_groups[h].manfcat_codes[f] = set([fields.get(f)])
-            component_groups[h].manfcat_codes = set([fields.get('manf#')])
+            for f in FIELDS_MANFCAT:
+                component_groups[h].manfcat_codes[f] = set([fields.get(f)])
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
@@ -249,34 +249,42 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
-        #num_manfcat_codes = {}#TODO
-        #for f in FIELDS_MANFCAT:
-        #    num_manfcat_codes[f] = len(grp.manfcat_codes[f])
-        num_manfcat_codes = len(grp.manfcat_codes)
-        #if all([num_manfcat_codes[f]==1 for f in FIELDS_MANFCAT]):#TODO
-        if num_manfcat_codes==1:
+        num_manfcat_codes = {}
+        for f in FIELDS_MANFCAT:
+            num_manfcat_codes[f] = len(grp.manfcat_codes[f])
+        if all([num_manfcat_codes[f]==1 for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
-            continue  # Single manf#. Don't split this group.
-        #elif all([(num_manfcat_codes[f]==1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):#TODO
-        elif num_manfcat_codes==1 and None in grp.manfcat_codes:
+            continue  # Single manf# and distributor catalogue. Don't split this group.
+        elif all([(num_manfcat_codes[f]==1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
-            continue  # Two manf#, but one of them is None. Don't split this group.
-                      # `None` will be replaced with the propagated manufacture /
-                      # distributor catalogue code.
-        # Otherwise, split the group into subgroups, each with the same manf#.
-        for manf_num in grp.manfcat_codes:
-            print('-------',manf_num)#TODO
+            continue  # Two manf# or cat#, but one of them is None. Don't split
+                      # this group. `None` will be replaced with the propagated
+                      # manufacture / distributor catalogue code.
+        # Otherwise, split the group into subgroups, each with the
+        # same manf# and distributors catalogue codes (for that one
+        # that will be scraped, the other ones are not considered).
+        for i_manfcat in range(max([len(grp.manfcat_codes.get(f)) for f in FIELDS_MANFCAT])):
+            manfcat_num = {}
+            for f in FIELDS_MANFCAT:
+                try:
+                    manfcat_num[f] = list(grp.manfcat_codes.get(f))[i_manfcat]
+                except IndexError:
+                    # If not have more code in the set list, is because just
+                    # exist one. So use this as general.
+                    manfcat_num[f] = grp.manfcat_codes.get(f)
             sub_group = IdenticalComponents()
-            sub_group.manfcat_codes = [manf_num]
+            sub_group.manfcat_codes = [manfcat_num]
             sub_group.refs = []
-
+            print('++++++',grp.refs)#TODO
             for ref in grp.refs:
-                # Use get() which returns None if the component has no manf# field.
-                # That will match if the group manf_num is also None.
-                if components[ref].get('manf#') == manf_num:
+                print('\t\t',ref,manfcat_num[f],components[ref].get(f))
+                # Use get() which returns `None` if the component has no
+                # manf# or distributor# field. That will match if the
+                # group manf_num is also None. So append the par to the group.
+                if all([components[ref].get(f)==manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
-
-            new_component_groups.append(sub_group)
+                    print('++','SIM')#TODO
+            new_component_groups.append(sub_group) # Append one part of the splited group.
 
     # If the identical components grouped have diference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
