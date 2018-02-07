@@ -210,18 +210,14 @@ class formKiCost ( wx.Frame ):
         
         sbSizer31.Add( self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5 )
         
-        
-        bSizer6.Add( sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5 )
-        
-        self.m_button_run = wx.Button( self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_button_run.SetToolTip( u"Click to run KiCost." )
-        
-        bSizer6.Add( self.m_button_run, 0, wx.ALL, 5 )
-        
-        self.m_checkBox_openXLS = wx.CheckBox( self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_checkBox_openXLS = wx.CheckBox( sbSizer31.GetStaticBox(), wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_checkBox_openXLS.SetValue(True) 
         self.m_checkBox_openXLS.SetToolTip( u"Open the spreadsheet after finish the KiCost scrape." )
         
-        bSizer6.Add( self.m_checkBox_openXLS, 0, wx.ALL, 5 )
+        sbSizer31.Add( self.m_checkBox_openXLS, 0, wx.ALL, 5 )
+        
+        
+        bSizer6.Add( sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5 )
         
         
         wSizer1.Add( bSizer6, 1, wx.RIGHT|wx.EXPAND, 5 )
@@ -232,7 +228,7 @@ class formKiCost ( wx.Frame ):
         
         bSizer3.Add( bSizer4, 1, wx.EXPAND, 5 )
         
-        fgSizer1 = wx.FlexGridSizer( 0, 2, 0, 0 )
+        fgSizer1 = wx.FlexGridSizer( 0, 4, 0, 0 )
         fgSizer1.SetFlexibleDirection( wx.BOTH )
         fgSizer1.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
         
@@ -246,7 +242,12 @@ class formKiCost ( wx.Frame ):
         self.m_staticText_progressInfo.Wrap( -1 )
         self.m_staticText_progressInfo.SetToolTip( u"Progress infromation." )
         
-        fgSizer1.Add( self.m_staticText_progressInfo, 0, wx.ALL, 5 )
+        fgSizer1.Add( self.m_staticText_progressInfo, 1, wx.ALL|wx.EXPAND, 5 )
+        
+        self.m_button_run = wx.Button( self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_button_run.SetToolTip( u"Click to run KiCost." )
+        
+        fgSizer1.Add( self.m_button_run, 0, wx.ALL, 5 )
         
         
         bSizer3.Add( fgSizer1, 0, wx.EXPAND, 5 )
@@ -255,10 +256,11 @@ class formKiCost ( wx.Frame ):
         self.m_staticText9.Wrap( -1 )
         bSizer3.Add( self.m_staticText9, 0, wx.ALL|wx.EXPAND, 5 )
         
-        self.m_textCtrlMessages = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY )
+        self.m_textCtrlMessages = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,4 ), wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY )
         self.m_textCtrlMessages.SetToolTip( u"Process messages and warnings.\nClick right to copy or save the log." )
+        self.m_textCtrlMessages.SetMinSize( wx.Size( -1,4 ) )
         
-        bSizer3.Add( self.m_textCtrlMessages, 0, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+        bSizer3.Add( self.m_textCtrlMessages, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
         
         
         self.m_panel1.SetSizer( bSizer3 )

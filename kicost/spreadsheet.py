@@ -380,8 +380,8 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     remove_col_not_exist_parts('manf')
     remove_col_not_exist_parts('desc')
 
-    # Add quantity columns to deal with diferent quantities in the BOM files. The
-    # original quntity column will be the total of each item. For check the number
+    # Add quantity columns to deal with different quantities in the BOM files. The
+    # original quantity column will be the total of each item. For check the number
     # of BOM files read, see the length of p[?]['manf#_qty'].
     prj_len = max([len(part.fields.get('manf#_qty',[])) for part in parts])
     if prj_len>1:
