@@ -280,7 +280,6 @@ def group_parts(components, fields_merge):
             sub_group.manfcat_codes = [manfcat_num]
             sub_group.refs = []
             for ref in grp.refs:
-                print('\t\t',ref,manfcat_num[f],components[ref].get(f))
                 # Use get() which returns `None` if the component has no
                 # manf# or distributor# field. That will match if the
                 # group manf_num is also None. So append the par to the group.
