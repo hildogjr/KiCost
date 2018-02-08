@@ -129,7 +129,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
                 'valign': 'vcenter'
             }),
             'found_part_pct': workbook.add_format({
-                'font_size': 12,
+                'font_size': 10,
                 'bold': True,
                 'italic': True,
                 'valign': 'vcenter'
@@ -383,8 +383,8 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     # Add quantity columns to deal with different quantities in the BOM files. The
     # original quantity column will be the total of each item. For check the number
     # of BOM files read, see the length of p[?]['manf#_qty'].
-    prj_len = max([len(part.fields.get('manf#_qty',[])) for part in parts])
-    if prj_len>1:
+    num_prj = max([len(part.fields.get('manf#_qty',[])) for part in parts])
+    if num_prj>1:
         def add_qty_proj_col(i_proj):
             # Add one column to quantify the quantity for each project.
             name = 'qty_prj{}'.format(i_proj)
@@ -396,7 +396,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             for k,f in columns.items():
                 if f['col']>=col and k!=name:
                     f['col'] += 1
-        for i_prj in range(prj_len):
+        for i_prj in range(num_prj):
             add_qty_proj_col(i_prj)
 
     # Enter user-defined fields into the global part data columns structure.
@@ -697,6 +697,7 @@ Orange -> Too little quantity available.'''
     row += 1  # Go to next row.
 
     num_parts = len(parts)
+    num_prj = max([len(part.fields.get('manf#_qty',[])) for part in parts])
 
     # Add distributor data for each part.
     PART_INFO_FIRST_ROW = row  # Starting row of part info.
@@ -855,20 +856,48 @@ Orange -> Too little quantity available.'''
         # Finished processing distributor data for this part.
         row += 1  # Go to next row.
 
-    # Sum the extended prices for all the parts to get the total cost from this distributor.
     total_cost_col = start_col + columns['ext_price']['col']
-    wks.write(total_cost_row, total_cost_col, '=sum({sum_range})'.format(
+    unit_cost_col = start_col + columns['unit_price']['col']
+    
+    # If more than one file (multifiles mode) show how many
+    # parts of each BOM as found at this distributor and
+    # the correspondent total price.
+    if num_prj>1:
+        for i_prj in range(num_prj):
+            # Sum the extended prices (unit multiplied by quantity) for each file/BOM.
+            qty_prj_col = part_qty_col - (num_prj - i_prj)
+            row = total_cost_row + i_prj * 3
+            wks.write(row, total_cost_col,
+                      '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
+                            qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
+                                            PART_INFO_LAST_ROW, qty_prj_col),
+                            unit_price_range=xl_range(PART_INFO_FIRST_ROW, unit_cost_col,
+                                            PART_INFO_LAST_ROW, unit_cost_col)),
+                      wrk_formats['total_cost_currency'])
+            # Show how many parts were found at this distributor.
+            wks.write(row, total_cost_col+1,
+                '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",{qty_range},"<>")&" parts found"'.format(
+                price_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
+                                     PART_INFO_LAST_ROW, total_cost_col),
+                qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
+                                   PART_INFO_LAST_ROW, qty_prj_col)),
+                wrk_formats['found_part_pct'])
+            wks.write_comment(row, total_cost_col+1, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
+        total_cost_row = PART_INFO_FIRST_ROW - 3 # Shift the total price in this distributor.
+    
+    # Sum the extended prices for all the parts to get the total cost from this distributor.
+    wks.write(total_cost_row, total_cost_col, '=SUM({sum_range})'.format(
         sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
-
     # Show how many parts were found at this distributor.
-    wks.write(unit_cost_row, total_cost_col,
+    wks.write(total_cost_row, total_cost_col+1,
         '=(ROWS({count_range})-COUNTBLANK({count_range}))&" of "&ROWS({count_range})&" parts found"'.format(
-        count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
-                           PART_INFO_LAST_ROW, total_cost_col)),
-              wrk_formats['found_part_pct'])
-    wks.write_comment(unit_cost_row, total_cost_col, 'Number of parts found at this distributor.')
+        #'=COUNTIF({count_range},"<>")&" of "&ROWS({count_range})&" parts found"'.format(
+            count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
+                                 PART_INFO_LAST_ROW, total_cost_col)),
+            wrk_formats['found_part_pct'])
+    wks.write_comment(total_cost_row, total_cost_col+1, 'Number of parts found at this distributor.')
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
     ORDER_START_COL = start_col + 1
