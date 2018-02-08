@@ -144,12 +144,12 @@ def get_part_groups(in_file, ignore_fields, variant):
             else:
                 ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
-            fields['qty'] = qty.strip()
+            fields['qty'] = qty
         else:
             qty = 1
             ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
             extract_fields.gen_cntr += qty
-            fields['qty'] = qty.strip()
+            fields['qty'] = qty
         refs = split_refs(ref_str)
 
         if sys.version_info >= (3,0):
