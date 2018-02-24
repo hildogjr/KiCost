@@ -64,7 +64,23 @@ from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
 def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, variant, num_processes, 
         eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries, throttling_delay=0.0):
-    '''Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.'''
+    ''' @brief Run KiCost.
+    
+    Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
+    
+    @param in_file `list(str())` List of the names of the input BOM files.
+    @param out_filename `str()` XLSX output file name.
+    @param user_fields `list()` of the user fields to be included on the spreadsheet global part.
+    @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
+    @param group_fields `list()` of the fields to be groupd/merged on the function group parts that are not grouped by default.
+    @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
+    @param num_processes `int()` Number of parallel processes used for web scraping part data. Use 1 for serial mode.
+    @param eda_tool_name `list(str())` of the EDA modules to be used to open the `in_file`list.
+    @param exclude_dist_list `list(str())` ditributors to be not scraped.
+    @param include_dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules.
+    @param scrape_retries `int()` Number of attempts to retrieve part data from a website..
+    @param throttling_delay `float()` Minimum delay (in seconds) between successive accesses to a distributor's website.
+    '''
 
     # Only keep distributors in the included list and not in the excluded list.
     if not include_dist_list:
