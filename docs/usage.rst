@@ -185,10 +185,10 @@ That can be prevented in two ways:
 ignore to group but displayed in the spreadsheet (as a multiline cell)::
 
      kicost -i schematic.xml --group_fields footprint
-     \# Ignore the footprint to merge, interesting option to multifiles
-     \# BOMs, when each one came from different EDA software or merge
-     \# subparts (e.g. pins of different connector that, for you are of
-     \# the same family).
+     # Ignore the footprint to merge, interesting option to multifiles
+     # BOMs, when each one came from different EDA software or merge
+     # subparts (e.g. pins of different connector that, for you are of
+     # the same family).
 
 #. Precede the field name with a ":" such as ``:note``. This makes KiCost ignore the
    field because it is in a different namespace.
@@ -388,7 +388,7 @@ Command-Line Options
                             accesses to a distributor's website.
       -ign name [name ...], --ignore_fields name [name ...]
                             Declare part fields to ignore when reading the BoM file.
-      -grp name [name ...], --group_fileds name [name ...]
+      -grp name [name ...], --group_fields name [name ...]
                             Declare part fields to merge when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
