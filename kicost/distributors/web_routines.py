@@ -79,7 +79,7 @@ EXTRA_INFO = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 
 def create_local_part_html(parts, distributors):
     '''Create HTML page containing info for local (non-webscraped) parts.'''
     
-    logger.log(DEBUG_OVERVIEW, 'Creating HTML page for parts with custom pricing...')
+    logger.log(DEBUG_OVERVIEW, 'Create HTML page for parts with custom pricing...')
     
     doc, tag, text = Doc().tagtext()
     with tag('html'):
@@ -138,7 +138,6 @@ def create_local_part_html(parts, distributors):
 
     html = doc.getvalue()
     if logger.isEnabledFor(DEBUG_OBSESSIVE):
-        print('Custom price page HTML:')
         print(indent(html))
     return html
 

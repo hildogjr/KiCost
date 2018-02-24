@@ -548,9 +548,64 @@ class formKiCost ( wx.Frame ):
     # Keep this for `--user` parameter, if passed aditional ones, overwrite the saved to execute KiCost.
         self.m_gauge_process.SetValue(0)
         
-        self.runTerminal()
         
-        self.m_gauge_process.SetValue(50)
+        args.input = ['"'+fileN+'"' for fileN in re.split(SEP_FILES, self.m_comboBox_files.GetValue())]
+        
+        spreadsheet_file = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
+        if len(spreadsheet_file)==1:
+            spreadsheet_file = os.path.splitext( spreadsheet_file[0] )[0] + '.xlsx'
+        else:
+            spreadsheet_file = output_filename_multipleinputs( spreadsheet_file )
+        args.output = spreadsheet_file
+        
+        if self.m_textCtrlextracmd.GetValue():
+            extra_commands = ' ' + self.m_textCtrlextracmd.GetValue()
+        else:
+            extra_commands = []
+        args.fields = re.findall('--fields (.+)', extra_commands) or re.findall('-f (.+)', extra_commands)
+        args.ignore_fields = re.findall('--ignore_fields (.+)', extra_commands) or re.findall('-ign (.+)', extra_commands)
+        args.group_fields = re.findall('--group_fields (.+)', extra_commands) or re.findall('-grp (.+)', extra_commands)
+        args.variant = re.findall('--variant (.+)', extra_commands) or re.findall('-var (.+)', extra_commands)
+        
+        num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
+        args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
+        args.throttling_delay = self.m_spinCtrlDouble_throttling.GetValue() # Delay between consecutive scrapes.
+        
+        if self.m_listBox_edatool.GetStringSelection():
+            for k,v in eda_tool_dict.items():
+               if v['label']==self.m_listBox_edatool.GetStringSelection():
+                  eda_module = v['module']
+                  break
+        args.eda_tool = eda_module
+        
+        # Get the current distributors to scrape.
+        choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
+        if choisen_dist:
+            dist_list = ' --include'
+            #choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
+            for idx in choisen_dist:
+                label = self.m_checkList_dist.GetString(idx)
+                for k,v in distributor_dict.items():
+                    if v['label']==label:
+                        dist_list += ' ' + v['module']
+                        break
+        args.include = dist_list
+        args.exclude = []
+        
+        kicost(in_file=args.input, out_filename=args.output,
+            user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
+            variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
+            exclude_dist_list=args.exclude, include_dist_list=args.include,
+            scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+        
+        
+        #self.runTerminal()
+        
+        self.m_gauge_process.SetValue(100)
+        
+        if self.m_checkBox_openXLS.GetValue():
+            print(spreadsheet_file)
+        
         return
 
     #----------------------------------------------------------------------
