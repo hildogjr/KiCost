@@ -289,7 +289,7 @@ class formKiCost ( wx.Frame ):
         bSizer3.Fit( self.m_panel1 )
         self.m_notebook1.AddPage( self.m_panel1, u"BoM", True )
         self.m_panel2 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-        self.m_panel2.SetToolTip( u"KICost general configurations tab." )
+        self.m_panel2.SetToolTip( u"KiCost general configurations tab." )
         
         bSizer8 = wx.BoxSizer( wx.VERTICAL )
         
