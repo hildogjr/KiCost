@@ -32,7 +32,7 @@ try:
 except ImportError:
     raise ImportError('wxPython package not recognised.')
 import webbrowser # To update informations.
-import os, subprocess # To access OS commands and run in the shell.
+import sys, os, subprocess # To access OS commands and run in the shell.
 import platform # To check the system platform when open the XLS file.
 import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
@@ -57,6 +57,21 @@ CONFIG_FILE = 'KiCost' # Config file for Linux and Windows registry key for KiCo
 PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last official version.
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
+
+
+
+def open_file(filepath):
+    '''@brief Open a file with the default application by yht different OS.
+       @param filepath str() file name.
+    '''
+    if sys.platform.startswith('darwin'): # Mac-OS.
+        subprocess.call(('open', filepath))
+    elif sys.platform.startswith('windows'): # Windows.
+        os.startfile(filepath)
+    elif sys.platform.startswith('linux'): # Linux.
+        subprocess.call(('xdg-open', filepath))
+    else:
+        print('Not recognized OS.')
 
 
 class FileDropTarget( wx.FileDropTarget ):
@@ -84,7 +99,9 @@ class menuMessages( wx.Menu ):
         
         mmi = wx.MenuItem(self, wx.NewId(), '&Purge')
         self.Append(mmi)
-        self.Bind(wx.EVT_MENU, self.clearMessages, mmi)
+        self.Bind(wx.EVT_MENU, self.purgeMessages, mmi)
+        
+        self.AppendSeparator()
         
         mmi = wx.MenuItem(self, wx.NewId(), '&Copy to clipboard')
         self.Append(mmi)
@@ -94,9 +111,14 @@ class menuMessages( wx.Menu ):
         self.Append(mmi)
         self.Bind(wx.EVT_MENU, self.saveMessages, mmi)
         
+        mmi = wx.MenuItem(self, wx.NewId(), 'S&ave and clear')
+        self.Append(mmi)
+        self.Bind(wx.EVT_MENU, self.saveClearMessages, mmi)
+        
         mmi = wx.MenuItem(self, wx.NewId(), '&Open externally')
         self.Append(mmi)
         self.Bind(wx.EVT_MENU, self.openMessages, mmi)
+        
     
     def copyMessages( self, event ):
         ''' @brief Copy the warning/error/log messages to clipboard. '''
@@ -107,10 +129,10 @@ class menuMessages( wx.Menu ):
         wx.TheClipboard.SetData(clipdata)
         wx.TheClipboard.Close()
     
-    def clearMessages( self, event ):
+    def purgeMessages( self, event ):
         ''' @brief Clear message box. '''
         event.Skip()
-        self.parent.m_textCtrlMessages.SetValue('')
+        self.parent.m_textCtrlMessages.Clear()
     
     def saveMessages( self, event ):
         ''' @brief Save the messages as a text "KiCost*.log" file. '''
@@ -132,20 +154,19 @@ class menuMessages( wx.Menu ):
             wx.MessageBox('The log file as saved.', 'Info', wx.OK | wx.ICON_INFORMATION)
         dlg.Destroy()
     
+    def saveClearMessages( self, event ):
+        '''@brief Save the messages and clear the log in the guide.'''
+        self.saveMessages(event)
+        self.purgeMessages(event)
+    
     def openMessages( self, event ):
         ''' @brief Save the messages in a temporary file and open it in the default text editor before sytem deletation. '''
         event.Skip()
-        self.parent.m_textCtrlMessages.SetValue('This is just test message')
-        with tempfile.NamedTemporaryFile(prefix='KiCost_', suffix='.log', delete=True, mode='w+t') as temp:
+        
+        self.parent.m_textCtrlMessages.AppendText('\naqui\nhjhk')
+        with tempfile.NamedTemporaryFile(prefix='KiCost_', suffix='.log', delete=True, mode='w') as temp:
             temp.write( self.parent.m_textCtrlMessages.GetValue() )
-            if platform.system()=='Linux':
-                os.system( 'xdg-open ' + '"' + temp.name + '"' )
-            elif platform.system()=='Windows':
-                os.system( 'start ' + '"' + temp.name + '"' )
-            elif platform.system()=='Darwin': # Mac-OS
-                os.system( 'open -n ' + '"' + temp.name + '"' )
-            else:
-                print('Not recognized OS.')
+            open_file(temp.name)
             temp.close()
 
 
@@ -448,11 +469,11 @@ class formKiCost ( wx.Frame ):
             self.m_comboBox_files.Insert( fileNames, 0 )
             self.updateEDAselection() # Auto-select the EDA module.
         else:
-            self.m_comboBox_files.SetValue( '' )
+            self.m_comboBox_files.SetValue('')
 
     #----------------------------------------------------------------------
     def updateEDAselection( self ):
-        ''' @brief Update the EDA selection in the listBox based on the comboBox actual text '''
+        ''' @brief Update the EDA selection in the listBox based on the comboBox actual text. '''
         fileNames = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
         if len(fileNames)==1:
             eda_module = file_eda_match(fileNames[0])
@@ -542,15 +563,87 @@ class formKiCost ( wx.Frame ):
     #----------------------------------------------------------------------
     def run( self ):
         ''' @brief Run KiCost in the GUI interface updating the process bar and messages. '''
-    #TODO
-    # Messages and process bar on the GUI without CLI, remove the `runTerminal` call here.
-    #TODO `runTerminal`
-    # Keep this for `--user` parameter, if passed aditional ones, overwrite the saved to execute KiCost.
         self.m_gauge_process.SetValue(0)
+        self.m_textCtrlMessages.Clear()
         
-        self.runTerminal()
+        class argments:
+            pass
+        args = argments()
         
-        self.m_gauge_process.SetValue(50)
+        args.input = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
+        
+        spreadsheet_file = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
+        if len(spreadsheet_file)==1:
+            spreadsheet_file = os.path.splitext( spreadsheet_file[0] )[0] + '.xlsx'
+        else:
+            spreadsheet_file = output_filename_multipleinputs( spreadsheet_file )
+        # Handle case where output is going into an existing spreadsheet file.
+        if os.path.isfile(spreadsheet_file):
+            if not self.m_checkBox_overwrite.GetValue():
+                dlg = wx.MessageDialog(self, 
+                    "The file output \'{}\' already exit, do you wnat overwrite?".format(
+                                os.path.basename(spreadsheet_file)
+                            ),
+                    "Confirm Overwrite", wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION|wx.STAY_ON_TOP|wx.CENTER)
+                result = dlg.ShowModal()
+                dlg.Destroy()
+                if result==wx.ID_NO:
+                    self.m_textCtrlMessages.AppendText('\nNot able to overwrite \'{}\'...'.format(
+                                os.path.basename(spreadsheet_file)
+                            )
+                        )
+                    return
+        args.output = spreadsheet_file
+        
+        if self.m_textCtrlextracmd.GetValue():
+            extra_commands = ' ' + self.m_textCtrlextracmd.GetValue()
+        else:
+            extra_commands = []
+        args.fields = ''.join( re.findall('--fields (.+)', extra_commands) or re.findall('-f (.+)', extra_commands) ).split()
+        args.ignore_fields = ''.join( re.findall('--ignore_fields (.+)', extra_commands) or re.findall('-ign (.+)', extra_commands) ).split()
+        args.group_fields = ''.join( re.findall('--group_fields (.+)', extra_commands) or re.findall('-grp (.+)', extra_commands) ).split()
+        args.variant = ''.join( re.findall('--variant (.+)', extra_commands) or re.findall('-var (.+)', extra_commands) )
+        
+        num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
+        args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
+        args.throttling_delay = self.m_spinCtrlDouble_throttling.GetValue() # Delay between consecutive scrapes.
+        
+        if self.m_listBox_edatool.GetStringSelection():
+            for k,v in eda_tool_dict.items():
+               if v['label']==self.m_listBox_edatool.GetStringSelection():
+                  eda_module = v['module']
+                  break
+        args.eda_tool = eda_module
+        
+        # Get the current distributors to scrape.
+        choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
+        if choisen_dist:
+            dist_list = []
+            #choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
+            for idx in choisen_dist:
+                label = self.m_checkList_dist.GetString(idx)
+                for k,v in distributor_dict.items():
+                    if v['label']==label:
+                        dist_list.append( v['module'] )
+                        break
+        args.include = dist_list
+        args.exclude = []
+        
+        kicost(in_file=args.input, out_filename=args.output,
+            user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
+            variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
+            exclude_dist_list=args.exclude, include_dist_list=args.include,
+            scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+        
+        self.m_gauge_process.SetValue(100)
+        
+        if self.m_checkBox_openXLS.GetValue():
+            self.m_textCtrlMessages.AppendText('\nOpening the output file \'{}\'...'.format(
+                                os.path.basename(spreadsheet_file)
+                            )
+                        )
+            open_file(spreadsheet_file)
+        
         return
 
     #----------------------------------------------------------------------

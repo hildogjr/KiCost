@@ -203,16 +203,19 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
             return x
 
         # Start the web scraping processes, one for each part.
+        logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
         results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
 
         # Wait for all the processes to have results, then kill-off all the scraping processes.
         for r in results:
             while(not r.ready()):
                 pass
+        logger.log(DEBUG_OVERVIEW, 'All parallels process finished with success.')
         pool.close()
         pool.join()
 
         # Get the data from each process result structure.
+        logger.log(DEBUG_OVERVIEW, 'Getting the part scraped informations...')
         for result in results:
             id, url, part_num, price_tiers, qty_avail = result.get()
             parts[id].part_num = part_num

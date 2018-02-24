@@ -176,6 +176,8 @@ def group_parts(components, fields_merge):
        @return `list()` of `dict()`
     '''
 
+    logger.log(DEBUG_OVERVIEW, 'Grouping parts...')
+
     # All codes to scrape, do not include code field name of distributors
     # that will not be scraped. This definition is used to create and check
     # the identical groups or subsplit the eemingly identical parts.
@@ -197,7 +199,7 @@ def group_parts(components, fields_merge):
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
-    logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
+    logger.log(DEBUG_OVERVIEW, '\tGetting groups of identical components...')
     component_groups = {}
     for ref, fields in list(components.items()): # part references and field values.
 
@@ -250,7 +252,7 @@ def group_parts(components, fields_merge):
     #       the same manf# and distributor#, even if it's `None`. It's
     #       impossible to determine which manf# the `None` parts should be
     #       assigned to, so leave their manf# as `None`.
-    logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
+    logger.log(DEBUG_OVERVIEW, '\tChecking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
         num_manfcat_codes = {}
@@ -291,7 +293,7 @@ def group_parts(components, fields_merge):
     # so replace this field with a string composed line-by-line with the
     # ocorrences (definition `SGROUP_SEPRTR`) preceded with the refs
     # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
-    logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
+    logger.log(DEBUG_OVERVIEW, '\tMerging field asked in the identical components groups...')
     if fields_merge:
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in fields_merge]
         for grp in new_component_groups:
@@ -313,7 +315,7 @@ def group_parts(components, fields_merge):
 
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
-    logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
+    logger.log(DEBUG_OVERVIEW, '\tPropagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
         qty = []
@@ -350,12 +352,15 @@ def remove_dnp_parts(components, variant):
     '''@brief Remove the DNP parts or not assigned to the current variant.
        
        Remove components that are assigned to a variant that is not the current variant,
-       or which are "do not popoulate" (DNP). (Any component that does not have a variant
+       or which are "do not populate" (DNP). (Any component that does not have a variant
        is assigned the current variant so it will not be removed unless it is also DNP.)
        
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @return `list()` of `dict()`.
     '''
+
+    logger.log(DEBUG_OVERVIEW, '\tRemoving do not populate parts...')
+
     accepted_components = {}
     for ref, fields in components.items():
         # Remove DNPs.
