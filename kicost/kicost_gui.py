@@ -66,9 +66,9 @@ def open_file(filepath):
     '''
     if sys.platform.startswith('darwin'): # Mac-OS.
         subprocess.call(('open', filepath))
-    elif os.name == 'nt': # Windows.
+    elif sys.platform.startswith('windows'): # Windows.
         os.startfile(filepath)
-    elif os.name == 'posix': # Linux.
+    elif sys.platform.startswith('linux'): # Linux.
         subprocess.call(('xdg-open', filepath))
     else:
         print('Not recognized OS.')
