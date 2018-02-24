@@ -43,8 +43,7 @@ __all__ = ['create_spreadsheet']
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
-    logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
-                                    os.path.basename(spreadsheet_filename)) )
+    logger.log(DEBUG_OVERVIEW, 'Creating the spreadsheet...')
     
     MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 caracheters longer
                                 # string for the worksheet name, Google
@@ -636,8 +635,6 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                           unit_cost_row, total_cost_row, part_ref_col, part_qty_col,
                           dist, parts):
     '''Add distributor-specific part data to the spreadsheet.'''
-
-    logger.log(DEBUG_OVERVIEW, '\tWritting {}'.format(distributor_dict[dist]['label']))
 
     # Columns for the various types of distributor-specific part data.
     columns = {
