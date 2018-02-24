@@ -237,8 +237,6 @@ def main():
     else:
         num_processes = args.num_processes
 
-    print(args)
-    sys.exit(1)
     kicost(in_file=args.input, out_filename=args.output,
         user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
         variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
