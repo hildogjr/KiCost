@@ -134,7 +134,10 @@ def create_local_part_html(parts, distributors):
 
     # Remove the local distributor template so it won't be processed later on.
     # It has served its purpose.
-    del distributors['local_template']
+    try:
+        del distributors['local_template']
+    except:
+        pass
 
     html = doc.getvalue()
     if logger.isEnabledFor(DEBUG_OBSESSIVE):

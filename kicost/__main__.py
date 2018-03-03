@@ -242,15 +242,22 @@ def main():
         num_processes = args.num_processes
 
     # Remove all the distributor from the list for not scrape any web site.
-    #if args.no_scrape:
-        #TODO
+    if args.no_scrape:
+        dist_list = None
+    else:
+        if not args.include:
+            dist_list = list(distributor_dict.keys())
+        else:
+            dist_list = args.include
+        for d in args.exclude:
+            dist_list.remove(d)
 
     kicost(in_file=args.input, eda_tool_name=args.eda_tool,
-        out_filename=args.output, collapse_refs=arg.collapse_refs,
+        out_filename=args.output, collapse_refs=not args.no_collapse,
         user_fields=args.fields, ignore_fields=args.ignore_fields,
         group_fields=args.group_fields, variant=args.variant,
-        exclude_dist_list=args.exclude, include_dist_list=args.include,
-        num_processes=num_processes, scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+        dist_list=dist_list, num_processes=num_processes,
+        scrape_retries=args.retries, throttling_delay=args.throttling_delay)
 
 ###############################################################################
 # Main entrypoint.

@@ -706,12 +706,6 @@ class formKiCost ( wx.Frame ):
                         dist_list.append( v['module'] )
                         break
         args.include = dist_list
-        args.exclude = []
-        
-        def update_process_bar(i,n):
-            return
-        def update_label_info(t):
-            return
         
         # Run KiCost main function and print in the log the elapsed time.
         #TODO run as subprocess.
@@ -719,10 +713,10 @@ class formKiCost ( wx.Frame ):
         start_time = time.time()
         kicost(in_file=args.input, eda_tool_name=args.eda_tool,
             out_filename=args.output, collapse_refs=args.collapse_refs,
-            user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
-            variant=args.variant,
-            exclude_dist_list=args.exclude, include_dist_list=args.include,
-            num_processes=num_processes, scrape_retries=args.retries, throttling_delay=args.throttling_delay,
+            user_fields=args.fields, ignore_fields=args.ignore_fields,
+            group_fields=args.group_fields, variant=args.variant,
+            dist_list=args.include, num_processes=num_processes,
+            scrape_retries=args.retries, throttling_delay=args.throttling_delay,
             )
         self.m_textCtrl_messages.AppendText('\nElapsed time: {} seconds'.format(time.time() - start_time) )
         self.m_gauge_process.SetValue(100)
