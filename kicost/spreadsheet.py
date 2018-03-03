@@ -36,11 +36,11 @@ from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from . import __version__ # Version control by @xesscorp.
 from .globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors import distributor_dict # Distributors names and definitions to use in the spreadsheet.
-from .eda_tools.eda_tools import partgroup_qty, collapse_refs, PART_REF_REGEX
+from .eda_tools.eda_tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 __all__ = ['create_spreadsheet']
 
-def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, variant):
+def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
@@ -168,7 +168,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
         # next_col = the column immediately to the right of the global data.
         # qty_col = the column where the quantity needed of each part is stored.
         next_col, refs_col, qty_col = add_globals_to_worksheet(
-            wks, wrk_formats, START_ROW, START_COL, TOTAL_COST_ROW, parts, user_fields)
+            wks, wrk_formats, START_ROW, START_COL, TOTAL_COST_ROW,
+            parts, user_fields, collapse_refs)
         # Create a defined range for the global data.
         workbook.define_name(
             'global_part_data', '={wks_name}!{data_range}'.format(
@@ -278,7 +279,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, user_fields, varia
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
-                             total_cost_row, parts, user_fields):
+                             total_cost_row, parts, user_fields, collapse_refs):
     '''Add global part data to the spreadsheet.'''
 
     logger.log(DEBUG_OVERVIEW, 'Writting the global parts informations...')
@@ -445,9 +446,11 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
 
     # Add data for each part to the spreadsheet.
-    # First, collapse the part references: e.g. J1, J2, J3, J6 => J1-J3, J6.
+    # Order the references and collapse, if asked:
+    # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
+    # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        part.collapsed_refs = collapse_refs(part.refs)
+        part.collapsed_refs = order_refs(part.refs, collapse=collapse_refs)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):

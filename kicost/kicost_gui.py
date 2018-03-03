@@ -33,6 +33,7 @@ except ImportError:
     raise ImportError('wxPython package not recognised.')
 import webbrowser # To update informations.
 import sys, os, subprocess # To access OS commands and run in the shell.
+import time # To elapse time.
 import platform # To check the system platform when open the XLS file.
 import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
@@ -60,6 +61,7 @@ PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last officia
 
 
 
+#======================================================================
 def open_file(filepath):
     '''@brief Open a file with the default application by yht different OS.
        @param filepath str() file name.
@@ -74,12 +76,13 @@ def open_file(filepath):
         print('Not recognized OS.')
 
 
+#======================================================================
 class FileDropTarget( wx.FileDropTarget ):
     ''' This object implements Drop Target functionality for Files.
         @param Window handle.
     '''
     def __init__(self, obj):
-        ''' @brief Constructor. '''
+        ''' @brief Constructor.'''
         wx.FileDropTarget.__init__(self)
         self.obj = obj
     
@@ -88,12 +91,60 @@ class FileDropTarget( wx.FileDropTarget ):
         self.obj.addFile(filenames)
         return True # No error.
 
+
+#======================================================================
+class menuDistributors( wx.Menu ):
+    ''' @brief Menu of the istributor checkbox list. Provide select all, unselect and toggle hotkey.
+        @param TextBox handle.
+    '''
+    def __init__( self, parent ):
+        ''' @brief Constructor.'''
+        super(menuDistributors, self).__init__()
+        self.parent = parent
+        
+        mmi = wx.MenuItem(self, wx.NewId(), 'Select &all')
+        self.Append(mmi)
+        self.Bind(wx.EVT_MENU, self.selectAll, mmi)
+        
+        mmi = wx.MenuItem(self, wx.NewId(), '&Unselect all')
+        self.Append(mmi)
+        self.Bind(wx.EVT_MENU, self.unselectAll, mmi)
+        
+        mmi = wx.MenuItem(self, wx.NewId(), '&Toggle')
+        self.Append(mmi)
+        self.Bind(wx.EVT_MENU, self.toggleAll, mmi)
+    
+    def selectAll( self, event ):
+        ''' @brief Select all distributor that exist.'''
+        event.Skip()
+        for idx in range(self.parent.m_checkList_dist.GetCount()):
+            if not self.parent.m_checkList_dist.IsChecked(idx):
+                self.parent.m_checkList_dist.Check(idx)
+    
+    def unselectAll( self, event ):
+        ''' @brief Unselect all distributor that exist.'''
+        event.Skip()
+        for idx in range(self.parent.m_checkList_dist.GetCount()):
+            if self.parent.m_checkList_dist.IsChecked(idx):
+                self.parent.m_checkList_dist.Check(idx, False)
+    
+    def toggleAll( self, event ):
+        ''' @brief Toggle all distributor that exist.'''
+        event.Skip()
+        for idx in range(self.parent.m_checkList_dist.GetCount()):
+            if self.parent.m_checkList_dist.IsChecked(idx):
+                self.parent.m_checkList_dist.Check(idx, False)
+            else:
+                self.parent.m_checkList_dist.Check(idx)
+
+
+#======================================================================
 class menuMessages( wx.Menu ):
     ''' @brief Menu of the messages text. Provide copy and save options.
         @param TextBox handle.
     '''
     def __init__( self, parent ):
-        ''' @brief Constructor. '''
+        ''' @brief Constructor.'''
         super(menuMessages, self).__init__()
         self.parent = parent
         
@@ -106,6 +157,10 @@ class menuMessages( wx.Menu ):
         mmi = wx.MenuItem(self, wx.NewId(), '&Copy to clipboard')
         self.Append(mmi)
         self.Bind(wx.EVT_MENU, self.copyMessages, mmi)
+        
+        mmi = wx.MenuItem(self, wx.NewId(), 'Cut to clipboard')
+        self.Append(mmi)
+        self.Bind(wx.EVT_MENU, self.cutMessages, mmi)
         
         mmi = wx.MenuItem(self, wx.NewId(), '&Save')
         self.Append(mmi)
@@ -121,21 +176,27 @@ class menuMessages( wx.Menu ):
         
     
     def copyMessages( self, event ):
-        ''' @brief Copy the warning/error/log messages to clipboard. '''
+        ''' @brief Copy the warning/error/log messages to clipboard.'''
         event.Skip()
         clipdata = wx.TextDataObject()
-        clipdata.SetText( self.parent.m_textCtrlMessages.GetValue() )
+        clipdata.SetText( self.parent.m_textCtrl_messages.GetValue() )
         wx.TheClipboard.Open()
         wx.TheClipboard.SetData(clipdata)
         wx.TheClipboard.Close()
     
-    def purgeMessages( self, event ):
-        ''' @brief Clear message box. '''
+    def cutMessages( self, event ):
+        ''' @brief Cut the warning/error/log messages to clipboard.'''
         event.Skip()
-        self.parent.m_textCtrlMessages.Clear()
+        self.purgeMessages(event)
+        self.copyMessages(event)
+    
+    def purgeMessages( self, event ):
+        ''' @brief Clear message box.'''
+        event.Skip()
+        self.parent.m_textCtrl_messages.Clear()
     
     def saveMessages( self, event ):
-        ''' @brief Save the messages as a text "KiCost*.log" file. '''
+        ''' @brief Save the messages as a text "KiCost*.log" file.'''
         event.Skip()
         actualDir = (os.getcwd() if self.parent.m_comboBox_files.GetValue() else \
             os.path.dirname(os.path.abspath( self.parent.m_comboBox_files.GetValue() )) )
@@ -149,34 +210,34 @@ class menuMessages( wx.Menu ):
         dlg.SetFilterIndex(0)
         if dlg.ShowModal() == wx.ID_OK:
             f = open( dlg.GetPath() , 'w')
-            f.write( self.parent.m_textCtrlMessages.GetValue() )
+            f.write( self.parent.m_textCtrl_messages.GetValue() )
             f.close()
             wx.MessageBox('The log file as saved.', 'Info', wx.OK | wx.ICON_INFORMATION)
         dlg.Destroy()
     
     def saveClearMessages( self, event ):
         '''@brief Save the messages and clear the log in the guide.'''
+        event.Skip()
         self.saveMessages(event)
         self.purgeMessages(event)
     
     def openMessages( self, event ):
-        ''' @brief Save the messages in a temporary file and open it in the default text editor before sytem deletation. '''
+        ''' @brief Save the messages in a temporary file and open it in the default text editor before sytem deletation.'''
         event.Skip()
-        
-        self.parent.m_textCtrlMessages.AppendText('\naqui\nhjhk')
+        #TODO - not working on Ubuntu
+        #self.parent.m_textCtrl_messages.AppendText('\naqui\nhjhk')
         with tempfile.NamedTemporaryFile(prefix='KiCost_', suffix='.log', delete=True, mode='w') as temp:
-            temp.write( self.parent.m_textCtrlMessages.GetValue() )
+            temp.write( self.parent.m_textCtrl_messages.GetValue() )
             open_file(temp.name)
             temp.close()
 
 
-
+#======================================================================
 class formKiCost ( wx.Frame ):
-    ''' @brief Main frame / form of KiCost GUI.
-    '''
+    ''' @brief Main frame / form of KiCost GUI.'''
     
     def __init__( self, parent ):
-        ''' @brief Constructor, code generated by wxFormBuilder tool. '''
+        ''' @brief Constructor, code generated by wxFormBuilder tool.'''
         #### **  Begin of the guide code generated by wxFormBulilder software, available in <https://github.com/wxFormBuilder/wxFormBuilder/>  ** ####
         wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"KiCost", pos = wx.DefaultPosition, size = wx.Size( 446,351 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
         
@@ -212,7 +273,7 @@ class formKiCost ( wx.Frame ):
         
         m_checkList_distChoices = [wx.EmptyString]
         self.m_checkList_dist = wx.CheckListBox( sbSizer3.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_checkList_distChoices, 0 )
-        self.m_checkList_dist.SetToolTip( u"Select the web distributor (or local) that will be used to scrape the prices." )
+        self.m_checkList_dist.SetToolTip( u"Select the web distributor (or local) that will be used to scrape the prices.\nClick rigth to hot option." )
         
         sbSizer3.Add( self.m_checkList_dist, 1, wx.ALL|wx.EXPAND, 5 )
         
@@ -277,11 +338,11 @@ class formKiCost ( wx.Frame ):
         self.m_staticText9.Wrap( -1 )
         bSizer3.Add( self.m_staticText9, 0, wx.ALL|wx.EXPAND, 5 )
         
-        self.m_textCtrlMessages = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,4 ), wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY )
-        self.m_textCtrlMessages.SetToolTip( u"Process messages and warnings.\nClick right to copy or save the log." )
-        self.m_textCtrlMessages.SetMinSize( wx.Size( -1,4 ) )
+        self.m_textCtrl_messages = wx.TextCtrl( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size( -1,4 ), wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY )
+        self.m_textCtrl_messages.SetToolTip( u"Process messages and warnings.\nClick right to copy or save the log." )
+        self.m_textCtrl_messages.SetMinSize( wx.Size( -1,4 ) )
         
-        bSizer3.Add( self.m_textCtrlMessages, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+        bSizer3.Add( self.m_textCtrl_messages, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
         
         
         self.m_panel1.SetSizer( bSizer3 )
@@ -328,6 +389,12 @@ class formKiCost ( wx.Frame ):
         wSizer2.Add( bSizer9, 1, wx.TOP|wx.LEFT, 5 )
         
         bSizer11 = wx.BoxSizer( wx.VERTICAL )
+        
+        self.m_checkBox_collapseRefs = wx.CheckBox( self.m_panel2, wx.ID_ANY, u"Collapse refs", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_checkBox_collapseRefs.SetValue(True) 
+        self.m_checkBox_collapseRefs.SetToolTip( u"Collapse the references in the spreadsheet.\n'R1,R2,R3,R4,R9' become 'R1-R4,R9' with checked." )
+        
+        bSizer11.Add( self.m_checkBox_collapseRefs, 0, wx.ALL, 5 )
         
         self.m_staticText8 = wx.StaticText( self.m_panel2, wx.ID_ANY, u"Debug level", wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_staticText8.Wrap( -1 )
@@ -416,8 +483,9 @@ class formKiCost ( wx.Frame ):
         self.m_notebook1.Bind( wx.EVT_NOTEBOOK_PAGE_CHANGED, self.wxPanel_change )
         self.m_comboBox_files.Bind( wx.EVT_COMBOBOX, self.m_comboBox_files_selecthist )
         self.m_button_openfile.Bind( wx.EVT_BUTTON, self.button_openfile )
+        self.m_checkList_dist.Bind( wx.EVT_RIGHT_DOWN, self.m_textCtrl_distributors_rClick )
         self.m_button_run.Bind( wx.EVT_BUTTON, self.button_run )
-        self.m_textCtrlMessages.Bind( wx.EVT_RIGHT_DOWN, self.m_textCtrlMessages_rClick )
+        self.m_textCtrl_messages.Bind( wx.EVT_RIGHT_DOWN, self.m_textCtrl_messages_rClick )
         self.m_bitmap_icon.Bind( wx.EVT_LEFT_DOWN, self.m_bitmap_icon_click )
         
         #### **  End of the guide code generated by wxFormBulilder software, available in <https://github.com/wxFormBuilder/wxFormBuilder/>  ** ####
@@ -433,32 +501,38 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def app_close( self, event ):
-        ''' @brief Close event, used to call the save settings. '''
+        ''' @brief Close event, used to call the save settings.'''
         event.Skip()
         self.save_properties()
 
     #----------------------------------------------------------------------
     def m_bitmap_icon_click( self, event ):
-        ''' @brief Open the official software web page in the default browser. '''
+        ''' @brief Open the official software web page in the default browser.'''
         event.Skip()
         webbrowser.open(PAGE_OFFICIAL)
 
     #----------------------------------------------------------------------
     def wxPanel_change( self, event ):
-        ''' @brief Check version to update if the "About" tab. '''
+        ''' @brief Check version to update if the "About" tab.'''
         event.Skip()
         if event.GetSelection()==2: # Is the last page (about page).
             self.checkUpdate()
 
     #----------------------------------------------------------------------
-    def m_textCtrlMessages_rClick( self, event ):
-        ''' @brief Open the context menu with save log options. '''
+    def m_textCtrl_messages_rClick( self, event ):
+        ''' @brief Open the context menu with save log options.'''
         event.Skip()
         self.PopupMenu(menuMessages(self), event.GetPosition())
 
     #----------------------------------------------------------------------
+    def m_textCtrl_distributors_rClick( self, event ):
+        ''' @brief Open the context menu with distributors options.'''
+        event.Skip()
+        self.PopupMenu(menuDistributors(self), event.GetPosition())
+
+    #----------------------------------------------------------------------
     def m_comboBox_files_selecthist( self, event):
-        ''' @brief Update the select EDA module tool when changed the file selected in the history, update the order and delete if file not existent. '''
+        ''' @brief Update the select EDA module tool when changed the file selected in the history, update the order and delete if file not existent.'''
         event.Skip()
         # Check if the file in the file name exist and
         # update the history sequence, if don't, remove it.
@@ -473,7 +547,7 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def updateEDAselection( self ):
-        ''' @brief Update the EDA selection in the listBox based on the comboBox actual text. '''
+        ''' @brief Update the EDA selection in the listBox based on the comboBox actual text.'''
         fileNames = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
         if len(fileNames)==1:
             eda_module = file_eda_match(fileNames[0])
@@ -492,7 +566,7 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def checkUpdate( self ):
-        ''' @brief Check for updates. '''
+        ''' @brief Check for updates.'''
         if not self.updatedChecked:
             self.m_staticText_update.SetLabel('Checking by updates...')
             
@@ -515,7 +589,7 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def m_staticText_update_click( self, event ):
-        ''' @brief Open the page to download the last version. '''
+        ''' @brief Open the page to download the last version.'''
         event.Skip()
         #print('Download the update and install -- missing, running manually')
         webbrowser.open(PAGE_UPDATE)
@@ -542,7 +616,7 @@ class formKiCost ( wx.Frame ):
     
     #----------------------------------------------------------------------
     def addFile( self, filesName ):
-        ''' @brief Add the file(s) to the history, updating it (and delete the too old) '''
+        ''' @brief Add the file(s) to the history, updating it (and delete the too old).'''
         fileBOM = SEP_FILES.join( sorted(filesName, key=str.lower) ) # Add the files sorted.
         if self.m_comboBox_files.FindString(fileBOM)==wx.NOT_FOUND:
             self.m_comboBox_files.Insert( fileBOM, 0 )
@@ -555,22 +629,26 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def button_run( self, event ):
-        ''' @brief Call to run KiCost. '''
+        ''' @brief Call to run KiCost.'''
         event.Skip()
         self.save_properties() # Save the current graphical configuration before call the KiCost motor.
         self.run() # Run KiCost.
 
     #----------------------------------------------------------------------
     def run( self ):
-        ''' @brief Run KiCost in the GUI interface updating the process bar and messages. '''
+        ''' @brief Run KiCost in the GUI interface updating the process bar and messages.'''
         self.m_gauge_process.SetValue(0)
-        self.m_textCtrlMessages.Clear()
+        self.m_textCtrl_messages.Clear() # Clear the messages to appear just the last run.
         
         class argments:
             pass
         args = argments()
         
         args.input = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
+        for f in args.input:
+            if not os.path.isfile(f):
+                self.m_textCtrl_messages.AppendText('\nNo valid file(s) selected.')
+                return # Not a valid file(s).
         
         spreadsheet_file = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
         if len(spreadsheet_file)==1:
@@ -588,7 +666,7 @@ class formKiCost ( wx.Frame ):
                 result = dlg.ShowModal()
                 dlg.Destroy()
                 if result==wx.ID_NO:
-                    self.m_textCtrlMessages.AppendText('\nNot able to overwrite \'{}\'...'.format(
+                    self.m_textCtrl_messages.AppendText('\nNot able to overwrite \'{}\'...'.format(
                                 os.path.basename(spreadsheet_file)
                             )
                         )
@@ -607,6 +685,7 @@ class formKiCost ( wx.Frame ):
         num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
         args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
         args.throttling_delay = self.m_spinCtrlDouble_throttling.GetValue() # Delay between consecutive scrapes.
+        args.collapse_refs = self.m_checkBox_collapseRefs.GetValue() # Collapse refs in the spreadsheet.
         
         if self.m_listBox_edatool.GetStringSelection():
             for k,v in eda_tool_dict.items():
@@ -629,16 +708,27 @@ class formKiCost ( wx.Frame ):
         args.include = dist_list
         args.exclude = []
         
-        kicost(in_file=args.input, out_filename=args.output,
-            user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
-            variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
-            exclude_dist_list=args.exclude, include_dist_list=args.include,
-            scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+        def update_process_bar(i,n):
+            return
+        def update_label_info(t):
+            return
         
+        # Run KiCost main function and print in the log the elapsed time.
+        #TODO run as subprocess.
+        #TODO #ISSUE after run KiCost by the GUI one time, distributors_dict delete some, this cause error in the second run.
+        start_time = time.time()
+        kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+            out_filename=args.output, collapse_refs=args.collapse_refs,
+            user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
+            variant=args.variant,
+            exclude_dist_list=args.exclude, include_dist_list=args.include,
+            num_processes=num_processes, scrape_retries=args.retries, throttling_delay=args.throttling_delay,
+            )
+        self.m_textCtrl_messages.AppendText('\nElapsed time: {} seconds'.format(time.time() - start_time) )
         self.m_gauge_process.SetValue(100)
         
         if self.m_checkBox_openXLS.GetValue():
-            self.m_textCtrlMessages.AppendText('\nOpening the output file \'{}\'...'.format(
+            self.m_textCtrl_messages.AppendText('\nOpening the output file \'{}\'...'.format(
                                 os.path.basename(spreadsheet_file)
                             )
                         )
@@ -648,7 +738,7 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def runTerminal( self ):
-        ''' @brief Run KiCost in CLI interface using the GUI settings. '''
+        ''' @brief Run KiCost in CLI interface using the GUI settings.'''
         
         # Get the current distributors to scrape.
         choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
@@ -671,6 +761,7 @@ class formKiCost ( wx.Frame ):
             + " --retries " + str(self.m_spinCtrl_retries.GetValue()) # Retry time in the scraps.
             + " --throttling " + str(self.m_spinCtrlDouble_throttling.GetValue()) # Delay between consecutive scrapes.
             + " --overwrite" * self.m_checkBox_overwrite.GetValue()
+            + " --no_collpase" * ( not self.m_checkBox_collapseRefs.GetValue() )
             + (" --debug " + str(self.m_spinCtrl_debugLvl.GetValue()) if self.m_spinCtrl_debugLvl.GetValue() > 0 else "") # Degub level opiton.
             + " --quiet" * self.m_checkBox_quite.GetValue()
             + dist_list
@@ -708,7 +799,7 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def set_properties(self):
-        ''' @brief Set the current proprieties of the graphical elements. '''
+        ''' @brief Set the current proprieties of the graphical elements.'''
         actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
         
         # Set the aplication windows title and configurations
@@ -765,7 +856,7 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def restore_properties(self):
-        ''' @brief Restore the current proprieties of the graphical elements. '''
+        ''' @brief Restore the current proprieties of the graphical elements.'''
         try:
             configHandle = wx.Config(CONFIG_FILE)
             
@@ -823,7 +914,7 @@ class formKiCost ( wx.Frame ):
 
     #----------------------------------------------------------------------
     def save_properties(self):
-        ''' @brief Save the current proprieties of the graphical elements. '''
+        ''' @brief Save the current proprieties of the graphical elements.'''
         try:
             configHandle = wx.Config(CONFIG_FILE)
             
@@ -833,7 +924,7 @@ class formKiCost ( wx.Frame ):
                 try:
                     # Each wxPython object have a specific parameter value
                     # to be saved and restored in the software initialization.
-                    if isinstance(wxElement_handle, wx._core.TextCtrl) and wxElement_name != 'm_textCtrlMessages':
+                    if isinstance(wxElement_handle, wx._core.TextCtrl) and wxElement_name != 'm_textCtrl_messages':
                         # Save each TextCtrl (TextBox) that is not the status messages.
                         configHandle.Write(wxElement_name, wxElement_handle.GetValue() )
                     elif isinstance(wxElement_handle, wx._core.CheckBox):
@@ -870,7 +961,7 @@ class formKiCost ( wx.Frame ):
 #######################################################################
 
 def kicost_gui():
-    ''' @brief Load the graphical interface. '''
+    ''' @brief Load the graphical interface.'''
     app = wx.App(redirect=False)
     frame = formKiCost(None)
     frame.Show()
