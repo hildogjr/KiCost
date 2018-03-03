@@ -62,34 +62,41 @@ from .eda_tools.eda_tools import subpartqty_split, group_parts
 
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
-def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, variant, num_processes, 
-        eda_tool_name, exclude_dist_list, include_dist_list, scrape_retries, throttling_delay=0.0):
+def kicost(in_file, eda_tool_name, out_filename,
+        user_fields, ignore_fields, group_fields, variant,
+        dist_list=list(distributor_dict.keys()),
+        num_processes=4, scrape_retries=5, throttling_delay=0.0, collapse_refs=True):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
     
     @param in_file `list(str())` List of the names of the input BOM files.
+    @param eda_tool_name `list(str())` of the EDA modules to be used to open the `in_file`list.
     @param out_filename `str()` XLSX output file name.
     @param user_fields `list()` of the user fields to be included on the spreadsheet global part.
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
     @param group_fields `list()` of the fields to be groupd/merged on the function group parts that are not grouped by default.
     @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
+    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules.
     @param num_processes `int()` Number of parallel processes used for web scraping part data. Use 1 for serial mode.
-    @param eda_tool_name `list(str())` of the EDA modules to be used to open the `in_file`list.
-    @param exclude_dist_list `list(str())` ditributors to be not scraped.
-    @param include_dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules.
     @param scrape_retries `int()` Number of attempts to retrieve part data from a website..
     @param throttling_delay `float()` Minimum delay (in seconds) between successive accesses to a distributor's website.
+    @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet. Default `True`.
     '''
 
     # Only keep distributors in the included list and not in the excluded list.
-    if not include_dist_list:
-        include_dist_list = list(distributor_dict.keys())
-    rmv_dist = set(exclude_dist_list)
-    rmv_dist |= set(list(distributor_dict.keys())) - set(include_dist_list)
-    rmv_dist -= set(['local_template']) # Needed later for creating non-web distributors.
-    for dist in rmv_dist:
-        distributor_dict.pop(dist, None)
+    if dist_list!=None:
+        if not dist_list:
+            print('YES')
+            dist_list = list(distributor_dict.keys())
+        if not 'local_template' in dist_list:
+            dist_list += ['local_template'] # Needed later for creating non-web distributors.
+        for d in list(distributor_dict.keys()):
+            if not d in dist_list:
+                distributor_dict.pop(d, None)
+    else:
+        for d in list(distributor_dict.keys()):
+            distributor_dict.pop(d, None)
 
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
@@ -163,60 +170,61 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
         distributor_dict[d]['throttling_delay'] = throttling_delay
 
     # Get the distributor product page for each part and scrape the part data.
-    logger.log(DEBUG_OVERVIEW, 'Scraping part data for each component group...')
+    if dist_list:
+        logger.log(DEBUG_OVERVIEW, 'Scraping part data for each component group...')
 
-    global scraping_progress
-    scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
+        global scraping_progress
+        scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
 
-    if num_processes <= 1:
-        # Scrape data, one part at a time using single processing.
+        if num_processes <= 1:
+            # Scrape data, one part at a time using single processing.
 
-        class DummyLock:
-            """Dummy synchronization lock used when single processing."""
-            def __init__(self):
-                pass
-            def acquire(*args, **kwargs):
-                return True  # Lock can ALWAYS be acquired when just one process is running.
-            def release(*args, **kwargs):
-                pass
+            class DummyLock:
+                """Dummy synchronization lock used when single processing."""
+                def __init__(self):
+                    pass
+                def acquire(*args, **kwargs):
+                    return True  # Lock can ALWAYS be acquired when just one process is running.
+                def release(*args, **kwargs):
+                    pass
 
-        # Create sync lock and timeouts to control the rate at which distributor
-        # websites are scraped.
-        throttle_lock = DummyLock()
-        throttle_timeouts = dict()
-        throttle_timeouts = {d:time() for d in distributor_dict}
+            # Create sync lock and timeouts to control the rate at which distributor
+            # websites are scraped.
+            throttle_lock = DummyLock()
+            throttle_timeouts = dict()
+            throttle_timeouts = {d:time() for d in distributor_dict}
 
-        for i in range(len(parts)):
-            args = (i, parts[i], distributor_dict, local_part_html, scrape_retries,
-                    logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)
-            id, url, part_num, price_tiers, qty_avail = scrape_part(args)
-            parts[id].part_num = part_num
-            parts[id].url = url
-            parts[id].price_tiers = price_tiers
-            parts[id].qty_avail = qty_avail
-            scraping_progress.update(1)
-    else:
-        # Scrape data, multiple parts at a time using multiprocessing.
+            for i in range(len(parts)):
+                args = (i, parts[i], distributor_dict, local_part_html, scrape_retries,
+                        logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)
+                id, url, part_num, price_tiers, qty_avail = scrape_part(args)
+                parts[id].part_num = part_num
+                parts[id].url = url
+                parts[id].price_tiers = price_tiers
+                parts[id].qty_avail = qty_avail
+                scraping_progress.update(1)
+        else:
+            # Scrape data, multiple parts at a time using multiprocessing.
 
-        # Create sync lock and timeouts to control the rate at which distributor
-        # websites are scraped.
-        throttle_manager = Manager()  # Manages shared lock and dict.
-        throttle_lock = throttle_manager.Lock()
-        throttle_timeouts = throttle_manager.dict()
-        for d in distributor_dict:
-            throttle_timeouts[d] = time()
+            # Create sync lock and timeouts to control the rate at which distributor
+            # websites are scraped.
+            throttle_manager = Manager()  # Manages shared lock and dict.
+            throttle_lock = throttle_manager.Lock()
+            throttle_timeouts = throttle_manager.dict()
+            for d in distributor_dict:
+                throttle_timeouts[d] = time()
 
-        # Create pool of processes to scrape data for multiple parts simultaneously.
-        pool = Pool(num_processes)
+            # Create pool of processes to scrape data for multiple parts simultaneously.
+            pool = Pool(num_processes)
 
-        # Package part data for passing to each process.
-        arg_sets = [(i, parts[i], distributor_dict, local_part_html, scrape_retries, 
-                    logger.getEffectiveLevel(), throttle_lock, throttle_timeouts) for i in range(len(parts))]
-        
-        # Define a callback routine for updating the scraping progress bar.
-        def update(x):
-            scraping_progress.update(1)
-            return x
+            # Package part data for passing to each process.
+            arg_sets = [(i, parts[i], distributor_dict, local_part_html, scrape_retries, 
+                        logger.getEffectiveLevel(), throttle_lock, throttle_timeouts) for i in range(len(parts))]
+            
+            # Define a callback routine for updating the scraping progress bar.
+            def update(x):
+                scraping_progress.update(1)
+                return x
 
         # Start the web scraping processes, one for each part.
         logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
@@ -239,13 +247,13 @@ def kicost(in_file, out_filename, user_fields, ignore_fields, group_fields, vari
             parts[id].price_tiers = price_tiers
             parts[id].qty_avail = qty_avail
 
-    # Done with the scraping progress bar so delete it or else we get an 
-    # error when the program terminates.
-    del scraping_progress
+        # Done with the scraping progress bar so delete it or else we get an 
+        # error when the program terminates.
+        del scraping_progress
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, user_fields,
-                       '-'.join(variant) if len(variant)>1 else variant[0])
+    create_spreadsheet(parts, prj_info, out_filename, collapse_refs,
+                      user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):

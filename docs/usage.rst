@@ -398,12 +398,15 @@ Command-Line Options
       --show_dist_list      Show list of distributors that can be scraped for cost
                             data, then exit.
       --show_eda_list       Show list of EDA softwares that KiCost can read, then exit.
+      --no_collapse         Not collaps the designator references in the spreadsheet.
       -e dist [dist ...], --exclude dist [dist ...]
                             Excludes the given distributor(s) from the scraping
                             process.
       --include dist [dist ...]
                             Includes only the given distributor(s) in the scraping
                             process.
+      --no_scrape           Not scrape the distributor pages, used just to generate a
+                            pretty-printing spreadsheet.
       -rt [num_retries], --retries [num_retries]
                             Specify the number of attempts to retrieve part data
                             from a website.

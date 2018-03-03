@@ -30,10 +30,8 @@ from future import standard_library
 standard_library.install_aliases()
 
 import argparse as ap # Command argument parser.
-import os
-import sys
-import logging
-import time
+import os, sys
+import logging, time
 #import inspect # To get the internal module and informations of a module/class.
 from .kicost import * # kicost core functions.
 from .kicost_gui import * # User guide.
@@ -130,6 +128,9 @@ def main():
     parser.add_argument('--show_eda_list',
                         action='store_true',
                         help='Show list of EDA softwares that KiCost can read, then exit.')
+    parser.add_argument('--no_collapse',
+                        action='store_true',
+                        help='Not collaps the designator references in the spreadsheet.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'DIST',
@@ -138,6 +139,9 @@ def main():
                         nargs='+', type=str, default='',
                         metavar = 'DIST',
                         help='Includes only the given distributor(s) in the scraping process.')
+    parser.add_argument('--no_scrape',
+                        action='store_true',
+                        help='Not scrape the distributor pages, used just to generate a pretty-printing spreadsheet.')
     parser.add_argument('-rt', '--retries',
                         nargs='?',
                         type=int,
@@ -237,10 +241,22 @@ def main():
     else:
         num_processes = args.num_processes
 
-    kicost(in_file=args.input, out_filename=args.output,
-        user_fields=args.fields, ignore_fields=args.ignore_fields, group_fields=args.group_fields,
-        variant=args.variant, num_processes=num_processes, eda_tool_name=args.eda_tool,
-        exclude_dist_list=args.exclude, include_dist_list=args.include,
+    # Remove all the distributor from the list for not scrape any web site.
+    if args.no_scrape:
+        dist_list = None
+    else:
+        if not args.include:
+            dist_list = list(distributor_dict.keys())
+        else:
+            dist_list = args.include
+        for d in args.exclude:
+            dist_list.remove(d)
+
+    kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+        out_filename=args.output, collapse_refs=not args.no_collapse,
+        user_fields=args.fields, ignore_fields=args.ignore_fields,
+        group_fields=args.group_fields, variant=args.variant,
+        dist_list=dist_list, num_processes=num_processes,
         scrape_retries=args.retries, throttling_delay=args.throttling_delay)
 
 ###############################################################################

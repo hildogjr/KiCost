@@ -6,8 +6,10 @@ History
 0.1.43 (to be defined by @xesscorp)
 ______________________
 
+* Added ``--no_scrape`` to not scrape any distributor, just create a pretty-printable spreadsheet.
+* Added ``--no_collapse`` to not collapse the designator references in the spreadsheet.
 * Added capability to throttle accesses to distributor websites ``--throttling_delay``. 
-* Added ``show_eda_list`` option to display the list of EDA tools supported by KiCost.
+* Added ``--show_eda_list`` option to display the list of EDA tools supported by KiCost.
 * Added capability to read more than one BOM file and merge in the spreadsheet.
 * ``--ignore_fields`` ignore the filed on read, added ``--group_fields`` to ignore differences in fileds of the components and group them.
 * Fixed the not ungroupping issue when 'manf#' equal ``None``.

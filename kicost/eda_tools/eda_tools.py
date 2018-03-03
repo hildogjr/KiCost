@@ -35,7 +35,7 @@ from ..globals import SEPRTR
 from ..kicost import distributor_dict
 from . import eda_tool_dict # EDA dictionary with the features.
 
-__all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'collapse_refs', 'subpartqty_split', 'group_parts']
+__all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -304,7 +304,7 @@ def group_parts(components, fields_merge):
                 ocurrences = Counter(values_field)
                 ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f) == v_g] for v_g in Counter(values_field)}
                 if len(ocurrences)>1:
-                    value = SGROUP_SEPRTR.join( [collapse_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
+                    value = SGROUP_SEPRTR.join( [order_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
                     for r in grp.refs:
                         components[r][f] = value
     #print('++++++++++++++',len(new_component_groups))
@@ -677,7 +677,7 @@ def manf_code_qtypart(subpart):
     return qty, part
 
 
-def collapse_refs(refs):
+def order_refs(refs, collapse=True):
     '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as oposite of `split_refs()`
        @param refs Designator/references `list()`.
        @return References in a organized view way.
@@ -745,8 +745,12 @@ def collapse_refs(refs):
         prefix_nums.setdefault(prefix, []).append(num)
 
     # Convert the list of numbers for each ref prefix into ranges.
-    for prefix in list(prefix_nums.keys()):
-        prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
+    if collapse:
+        for prefix in list(prefix_nums.keys()):
+            prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
+    else:
+        for prefix in list(prefix_nums.keys()):
+            prefix_nums[prefix].sort()
 
     # Combine the prefixes and number ranges back into part references.
     collapsed_refs = []
@@ -765,7 +769,7 @@ def collapse_refs(refs):
 
 
 def split_refs(text):
-    '''@brief Split string grouped references into a unique designator. This is intended as oposite of `collapse_refs()`
+    '''@brief Split string grouped references into a unique designator. This is intended as oposite of `order_refs(?, collapse=True)`
        
        'C17/18/19/20' --> ['C17','C18','C19','C20']
        'C17\18\19\20' --> ['C17','C18','C19','C20']
