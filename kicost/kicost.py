@@ -226,26 +226,26 @@ def kicost(in_file, eda_tool_name, out_filename,
                 scraping_progress.update(1)
                 return x
 
-        # Start the web scraping processes, one for each part.
-        logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
-        results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
+            # Start the web scraping processes, one for each part.
+            logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
+            results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
 
-        # Wait for all the processes to have results, then kill-off all the scraping processes.
-        for r in results:
-            while(not r.ready()):
-                pass
-        logger.log(DEBUG_OVERVIEW, 'All parallels process finished with success.')
-        pool.close()
-        pool.join()
+            # Wait for all the processes to have results, then kill-off all the scraping processes.
+            for r in results:
+                while(not r.ready()):
+                    pass
+            logger.log(DEBUG_OVERVIEW, 'All parallels process finished with success.')
+            pool.close()
+            pool.join()
 
-        # Get the data from each process result structure.
-        logger.log(DEBUG_OVERVIEW, 'Getting the part scraped informations...')
-        for result in results:
-            id, url, part_num, price_tiers, qty_avail = result.get()
-            parts[id].part_num = part_num
-            parts[id].url = url
-            parts[id].price_tiers = price_tiers
-            parts[id].qty_avail = qty_avail
+            # Get the data from each process result structure.
+            logger.log(DEBUG_OVERVIEW, 'Getting the part scraped informations...')
+            for result in results:
+                id, url, part_num, price_tiers, qty_avail = result.get()
+                parts[id].part_num = part_num
+                parts[id].url = url
+                parts[id].price_tiers = price_tiers
+                parts[id].qty_avail = qty_avail
 
         # Done with the scraping progress bar so delete it or else we get an 
         # error when the program terminates.
