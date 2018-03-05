@@ -77,7 +77,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
     @param group_fields `list()` of the fields to be groupd/merged on the function group parts that are not grouped by default.
     @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
-    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules.
+    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules. If `None`, no web/local distributors will be scraped.
     @param num_processes `int()` Number of parallel processes used for web scraping part data. Use 1 for serial mode.
     @param scrape_retries `int()` Number of attempts to retrieve part data from a website..
     @param throttling_delay `float()` Minimum delay (in seconds) between successive accesses to a distributor's website.
@@ -226,26 +226,26 @@ def kicost(in_file, eda_tool_name, out_filename,
                 scraping_progress.update(1)
                 return x
 
-        # Start the web scraping processes, one for each part.
-        logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
-        results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
+            # Start the web scraping processes, one for each part.
+            logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
+            results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
 
-        # Wait for all the processes to have results, then kill-off all the scraping processes.
-        for r in results:
-            while(not r.ready()):
-                pass
-        logger.log(DEBUG_OVERVIEW, 'All parallels process finished with success.')
-        pool.close()
-        pool.join()
+            # Wait for all the processes to have results, then kill-off all the scraping processes.
+            for r in results:
+                while(not r.ready()):
+                    pass
+            logger.log(DEBUG_OVERVIEW, 'All parallels process finished with success.')
+            pool.close()
+            pool.join()
 
-        # Get the data from each process result structure.
-        logger.log(DEBUG_OVERVIEW, 'Getting the part scraped informations...')
-        for result in results:
-            id, url, part_num, price_tiers, qty_avail = result.get()
-            parts[id].part_num = part_num
-            parts[id].url = url
-            parts[id].price_tiers = price_tiers
-            parts[id].qty_avail = qty_avail
+            # Get the data from each process result structure.
+            logger.log(DEBUG_OVERVIEW, 'Getting the part scraped informations...')
+            for result in results:
+                id, url, part_num, price_tiers, qty_avail = result.get()
+                parts[id].part_num = part_num
+                parts[id].url = url
+                parts[id].price_tiers = price_tiers
+                parts[id].qty_avail = qty_avail
 
         # Done with the scraping progress bar so delete it or else we get an 
         # error when the program terminates.
