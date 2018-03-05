@@ -30,10 +30,8 @@ import sys
 from bs4 import BeautifulSoup # XML file interpreter.
 import multiprocessing # To deal with the parallel scrape.
 import logging
-import copy
 from time import time
 from random import choice
-from yattag import Doc, indent  # For generating HTML page for local parts.
 
 try:
     # This is for Python 3.
@@ -68,81 +66,12 @@ for module in os.listdir(directory):
     # Import the module.
     dist_modules[module] = __import__(module, globals(), locals(), [], level=1)
 
-__all__ = ['scrape_part', 'create_local_part_html']
+__all__ = ['scrape_part']
 
 # Extra informations to by got by each part in the distributors.
 EXTRA_INFO = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
               'datasheet', 'image' # Links.
              ]
-
-
-def create_local_part_html(parts, distributors):
-    '''Create HTML page containing info for local (non-webscraped) parts.'''
-    
-    logger.log(DEBUG_OVERVIEW, 'Create HTML page for parts with custom pricing...')
-    
-    doc, tag, text = Doc().tagtext()
-    with tag('html'):
-        with tag('body'):
-            for p in parts:
-                # Find the manufacturer's part number if it exists.
-                pn = p.fields.get('manf#') # Returns None if no manf# field.
-
-                # Find the various distributors for this part by
-                # looking for leading fields terminated by SEPRTR.
-                for key in p.fields:
-                    try:
-                        dist = key[:key.index(SEPRTR)]
-                    except ValueError:
-                        continue
-
-                    # If the distributor is not in the list of web-scrapable distributors,
-                    # then it's a local distributor. Copy the local distributor template
-                    # and add it to the table of distributors.
-                    if dist not in distributors:
-                        distributors[dist] = copy.copy(distributors['local_template'])
-                        distributors[dist]['label'] = dist  # Set dist name for spreadsheet header.
-
-                # Now look for catalog number, price list and webpage link for this part.
-                for dist in distributors:
-                    cat_num = p.fields.get(dist+':cat#')
-                    pricing = p.fields.get(dist+':pricing')
-                    link = p.fields.get(dist+':link')
-                    if cat_num is None and pricing is None and link is None:
-                        continue
-
-                    def make_random_catalog_number(p):
-                        hash_fields = {k: p.fields[k] for k in p.fields}
-                        hash_fields['dist'] = dist
-                        return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
-
-                    cat_num = cat_num or pn or make_random_catalog_number(p)
-                    p.fields[dist+':cat#'] = cat_num # Store generated cat#.
-                    with tag('div', klass=dist+SEPRTR+cat_num):
-                        with tag('div', klass='cat#'):
-                            text(cat_num)
-                        if pricing is not None:
-                            with tag('div', klass='pricing'):
-                                text(pricing)
-                        if link is not None:
-                            url_parts = list(urlsplit(link))
-                            if url_parts[0] == '':
-                                url_parts[0] = u'http'
-                            link = urlunsplit(url_parts)
-                            with tag('div', klass='link'):
-                                text(link)
-
-    # Remove the local distributor template so it won't be processed later on.
-    # It has served its purpose.
-    try:
-        del distributors['local_template']
-    except:
-        pass
-
-    html = doc.getvalue()
-    if logger.isEnabledFor(DEBUG_OBSESSIVE):
-        print(indent(html))
-    return html
 
 
 def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_retries, logger):
