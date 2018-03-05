@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,25 +25,96 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import division
 from __future__ import absolute_import
-from builtins import zip
-from builtins import range
-from builtins import int
-from builtins import str
+from builtins import zip, range, int, str
 from future import standard_library
 standard_library.install_aliases()
 
 import future
 
-import re
-import difflib
+import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
+from yattag import Doc, indent # For generating HTML page for local parts.
+import copy # To be possible create more than one local distributor.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...globals import SEPRTR
+
+
+def create_part_html(parts, distributors):
+    '''@brief Create HTML page containing info for local (non-webscraped) parts.
+    @param parts `list()` of parts.
+    @parm `list()`of the distributors to check each one is local.
+    @return `str()` of the HTML page to be read by `get_part_html_tree()`
+    '''
+    
+    logger.log(DEBUG_OVERVIEW, 'Create HTML page for parts with custom pricing...')
+    
+    doc, tag, text = Doc().tagtext()
+    with tag('html'):
+        with tag('body'):
+            for p in parts:
+                # Find the manufacturer's part number if it exists.
+                pn = p.fields.get('manf#') # Returns None if no manf# field.
+
+                # Find the various distributors for this part by
+                # looking for leading fields terminated by SEPRTR.
+                for key in p.fields:
+                    try:
+                        dist = key[:key.index(SEPRTR)]
+                    except ValueError:
+                        continue
+
+                    # If the distributor is not in the list of web-scrapable distributors,
+                    # then it's a local distributor. Copy the local distributor template
+                    # and add it to the table of distributors.
+                    if dist not in distributors:
+                        distributors[dist] = copy.copy(distributors['local_template'])
+                        distributors[dist]['label'] = dist  # Set dist name for spreadsheet header.
+
+                # Now look for catalog number, price list and webpage link for this part.
+                for dist in distributors:
+                    cat_num = p.fields.get(dist+':cat#')
+                    pricing = p.fields.get(dist+':pricing')
+                    link = p.fields.get(dist+':link')
+                    if cat_num is None and pricing is None and link is None:
+                        continue
+
+                    def make_random_catalog_number(p):
+                        hash_fields = {k: p.fields[k] for k in p.fields}
+                        hash_fields['dist'] = dist
+                        return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
+
+                    cat_num = cat_num or pn or make_random_catalog_number(p)
+                    p.fields[dist+':cat#'] = cat_num # Store generated cat#.
+                    with tag('div', klass=dist+SEPRTR+cat_num):
+                        with tag('div', klass='cat#'):
+                            text(cat_num)
+                        if pricing is not None:
+                            with tag('div', klass='pricing'):
+                                text(pricing)
+                        if link is not None:
+                            url_parts = list(urlsplit(link))
+                            if url_parts[0] == '':
+                                url_parts[0] = u'http'
+                            link = urlunsplit(url_parts)
+                            with tag('div', klass='link'):
+                                text(link)
+
+    # Remove the local distributor template so it won't be processed later on.
+    # It has served its purpose.
+    try:
+        del distributors['local_template']
+    except:
+        pass
+
+    html = doc.getvalue()
+    if logger.isEnabledFor(DEBUG_OBSESSIVE):
+        print(indent(html))
+    return html
 
 
 def get_price_tiers(html_tree):

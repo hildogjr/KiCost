@@ -54,7 +54,8 @@ from .globals import *
 
 # Import information about various distributors.
 from .distributors import distributor_dict
-from .distributors.web_routines import scrape_part, create_local_part_html
+from .distributors.web_routines import scrape_part
+from .distributors.local.local import create_part_html as create_local_part_html
 
 # Import information for various EDA tools.
 from .eda_tools import eda_modules
@@ -75,13 +76,18 @@ def kicost(in_file, eda_tool_name, out_filename,
     @param out_filename `str()` XLSX output file name.
     @param user_fields `list()` of the user fields to be included on the spreadsheet global part.
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
-    @param group_fields `list()` of the fields to be groupd/merged on the function group parts that are not grouped by default.
+    @param group_fields `list()` of the fields to be groupd/merged on the function group parts that
+    are not grouped by default.
     @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
-    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules. If `None`, no web/local distributors will be scraped.
-    @param num_processes `int()` Number of parallel processes used for web scraping part data. Use 1 for serial mode.
+    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors
+    modules. If `None`, no web/local distributors will be scraped.
+    @param num_processes `int()` Number of parallel processes used for web scraping part data. Use
+    1 for serial mode.
     @param scrape_retries `int()` Number of attempts to retrieve part data from a website..
-    @param throttling_delay `float()` Minimum delay (in seconds) between successive accesses to a distributor's website.
-    @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet. Default `True`.
+    @param throttling_delay `float()` Minimum delay (in seconds) between successive accesses to a
+    distributor's website.
+    @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
+    Default `True`.
     '''
 
     # Only keep distributors in the included list and not in the excluded list.
