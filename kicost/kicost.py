@@ -77,7 +77,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
     @param group_fields `list()` of the fields to be groupd/merged on the function group parts that are not grouped by default.
     @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
-    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules.
+    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors modules. If `None`, no web/local distributors will be scraped.
     @param num_processes `int()` Number of parallel processes used for web scraping part data. Use 1 for serial mode.
     @param scrape_retries `int()` Number of attempts to retrieve part data from a website..
     @param throttling_delay `float()` Minimum delay (in seconds) between successive accesses to a distributor's website.
