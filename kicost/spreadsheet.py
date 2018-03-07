@@ -63,6 +63,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
         WORKSHEET_NAME += '.'
         WORKSHEET_NAME = WORKSHEET_NAME[:(MAX_LEN_WORKSHEET_NAME-len(variant))]
         WORKSHEET_NAME += variant
+    else:
+        WORKSHEET_NAME = WORKSHEET_NAME[:MAX_LEN_WORKSHEET_NAME]
     
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
