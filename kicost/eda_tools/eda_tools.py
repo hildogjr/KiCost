@@ -120,8 +120,13 @@ def file_eda_match(file_name):
        @param file_name File `str` name.
        @return Name of the module correponding to read the file or `None`to not recognized.
     '''
-    file_handle = open(file_name, 'r')
-    content = file_handle.read()
+    try:
+        file_handle = open(file_name, 'r')
+        content = file_handle.read()
+    except UnicodeDecodeError: # It happens with some Windows CSV files on Python 3.
+        file_handle.close()
+        file_handle = open(file_name, 'r', encoding ='ISO-8859-1')
+        content = file_handle.read()
     extension = os.path.splitext(file_name)[1]
     for name, defs in eda_tool_dict.items():
         #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))

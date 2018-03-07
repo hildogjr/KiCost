@@ -75,8 +75,13 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     logger.log(DEBUG_OVERVIEW, 'Getting from CSV \'{}\' BoM...'.format(
                                     os.path.basename(in_file)) )
-    file_h = open(in_file)
-    content = file_h.read()
+    try:
+        file_h = open(in_file, 'r')
+        content = file_h.read()
+    except UnicodeDecodeError: # It happens with some Windows CSV files on Python 3.
+        file_h.close()
+        file_h = open(in_file, 'r', encoding='ISO-8859-1')
+        content = file_h.read()
     file_h.close()
 
     # Collapse multiple, consecutive tabs.
