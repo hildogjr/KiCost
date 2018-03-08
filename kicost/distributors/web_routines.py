@@ -135,7 +135,7 @@ def scrape_part(args):
         try:
             #dist_module = getattr(THIS_MODULE, d)
             dist_module = dist_modules[d]
-        except AttributeError:
+        except KeyError: # When use local distributor with personalized name.
             dist_module = dist_modules[distributor_dict[d]['module']]
 
         # Try to access the list of distributor throttling timeouts.
