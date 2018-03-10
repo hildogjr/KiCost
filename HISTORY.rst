@@ -6,6 +6,7 @@ History
 0.1.43 (to be defined by @xesscorp)
 ______________________
 
+* Fixed RS scrape module.
 * Added ``--no_scrape`` to not scrape any distributor, just create a pretty-printable spreadsheet.
 * Added ``--no_collapse`` to not collapse the designator references in the spreadsheet.
 * Added capability to throttle accesses to distributor websites ``--throttling_delay``. 

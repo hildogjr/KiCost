@@ -1,3 +1,25 @@
+# MIT license
+#
+# Copyright (C) 2018 by XESS Corporation / Hildo Guilardi Júnior
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 # Inserted by Pasteurize tool.
 from __future__ import print_function
 from __future__ import unicode_literals
@@ -29,21 +51,16 @@ def get_price_tiers(html_tree):
     price_tiers = {}
     
     try:
-        qty_strs = []
-        for qty in html_tree.find_all('div',class_='breakRangeWithoutUnit', itemprop='eligibleQuantity'):
-            qty_strs.append(qty.text)
-        price_strs = []
-        for price in html_tree.find_all('div', class_='unitPrice'):
-            if price.text is not u'':
-                price_strs.append(price.text)
-        qtys_prices = list(zip(qty_strs, price_strs))
-        for qty_str, price_str in qtys_prices:
+        for row in html_tree.find_all('div', class_='table-row value-row'):
+            qty = row.find('div',
+                        class_='breakRangeWithoutUnit col-xs-4').text
+            price = row.find('div',
+                        class_='unitPrice col-xs-4').text
             try:
-                qty = re.search('(\s*)([0-9,]+)', qty_str).group(2)
-                qty = int(re.sub('[^0-9]', '', qty))
-                price_str=price_str.replace(',','.')
-                price_tiers[qty] = float(re.sub('[^0-9\.]', '', price_str))
-                price_tiers[qty] = currency.convert(price_tiers[qty], 'EUR', 'USD')
+                qty = int( re.findall('\s*([0-9\,]+)', qty)[0] )
+                price = re.sub('[^0-9\.]', '', price.replace(',','.') )
+                price = currency.convert(float(price), 'EUR', 'USD')
+                price_tiers[qty] = price
             except (TypeError, AttributeError, ValueError):
                 continue
     except AttributeError:
@@ -57,7 +74,7 @@ def get_part_num(html_tree):
        @return `dict()` price breaks, the keys are the quantities breaks.
     '''
     try:
-        pn_str = html_tree.find('span', class_='keyValue bold', itemprop='sku').text
+        pn_str = html_tree.find('span', class_='keyValue').text
         pn = re.sub('[^0-9\-]','', pn_str)
         return pn
     except KeyError:
@@ -73,7 +90,7 @@ def get_qty_avail(html_tree):
         
     try:
         # Note that 'availability' is misspelled in the container class name!        
-        qty_str = html_tree.find('div', class_='floatLeft stockMessaging availMessageDiv bottom5').text
+        qty_str = html_tree.find('span', class_=('stock-msg-content', 'table-cell')).text
     except (AttributeError, ValueError):
         # No quantity found (not even 0) so this is probably a non-stocked part.
         # Return None so the part won't show in the spreadsheet for this dist.
@@ -134,94 +151,39 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
         raise PartHtmlError
         
     # If the tree contains the tag for a product page, then just return it.
-    if tree.find('div', class_='specTableContainer') is not None:
+    if tree.find('div', class_='advLineLevelContainer'):
         return tree, url
 
     # If the tree is for a list of products, then examine the links to try to find the part number.
-    if tree.find('div', class_='srtnPageContainer') is not None:
+    if tree.find('div', class_=('resultsTable','results-table-container')) is not None:
         logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
         if descend <= 0:
             logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, dist))
             raise PartHtmlError
         else:
             # Look for the table of products.
-            products = tree.find_all('tr', class_='resultRow')
+            products = tree.find('table', id='results-table').find_all(
+                    'tr', class_='resultRow')
 
             # Extract the product links for the part numbers from the table.
-            product_links= []
-            for p in products:
-                try:
-                    link = p.find('a',class_='primarySearchLink').get('href')
-                    if link is not None:
-                        product_links.append(link)
-                        # Up to now get the first url found in the list. i.e. do not choose the url based on the stock type (e.g. single unit, reel etc.)
-                        return get_part_html_tree(dist, pn, extra_search_terms,
-                                                  url=product_links[0],
-                                                  descend=descend-1,
-                                                  scrape_retries=scrape_retries)
-                except AttributeError:
-                    continue
-                except TypeError:
-                    #~ print('****************dist:',dist,'pn:**************************',pn)
-                    continue
-            
-            
+            product_links = [p.find('a', class_='product-name').get('href') for p in products]
 
-    #~ # If the tree is for a list of products, then examine the links to try to find the part number.
-    #~ if tree.find('div', class_='srtnPageContainer') is not None:
-        #~ if descend <= 0:
-            #~ raise PartHtmlError
-        #~ else:
-            #~ # Look for the table of products.
-            #~ products = tree.find('table',
-                                 #~ class_='productLister',
-                                 #~ id='sProdList').find_all('tr',
-                                                          #~ class_='altRow')
+            # Extract all the part numbers from the text portion of the links.
+            part_numbers = [p.find('span', class_='text-contents').get_text() for p in products]
 
-            #~ # Extract the product links for the part numbers from the table.
-            #~ product_links = []
-            #~ for p in products:
-                #~ try:
-                    #~ product_links.append(
-                        #~ p.find('td',
-                               #~ class_='mftrPart').find('p',
-                                                       #~ class_='wordBreak').a)
-                #~ except AttributeError:
-                    #~ continue
+            # Look for the part number in the list that most closely matches the requested part number.
+            match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
 
-            #~ # Extract all the part numbers from the text portion of the links.
-            #~ part_numbers = [l.text for l in product_links]
-
-            #~ # Look for the part number in the list that most closely matches the requested part number.
-            #~ match = difflib.get_close_matches(pn, part_numbers, 1, 0.0)[0]
-
-            #~ # Now look for the link that goes with the closest matching part number.
-            #~ for l in product_links:
-                #~ if l.text == match:
-                    #~ # Get the tree for the linked-to page and return that.
-                    #~ return get_part_html_tree(dist, pn, extra_search_terms,
-                                #~ url=l['href'], descend=descend-1, scrape_retries=scrape_retries)
+            # Now look for the link that goes with the closest matching part number.
+            for i in range(len(product_links)):
+                if part_numbers[i] == match:
+                    # Get the tree for the linked-to page and return that.
+                    logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(part_numbers[i], pn, dist))
+                    return get_part_html_tree(dist, pn, extra_search_terms,
+                                              url=product_links[i],
+                                              descend=descend-1,
+                                              scrape_retries=scrape_retries)
 
     # I don't know what happened here, so give up.
     logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))
     raise PartHtmlError
-
-if __name__=='__main__':
-	
-	#~ html_tree=get_part_html_tree(dist='rs',pn='MSP430F5438AIPZ')
-	#~ html_tree=get_part_html_tree(dist='rs',pn='CC3200-LAUNCHXL')
-    #~ html_tree=get_part_html_tree(dist='rs',pn='LM358PW')
-    html_tree=get_part_html_tree(dist='rs',pn='MCP1252-33X50I/MS')
-    
-    pt=get_price_tiers(html_tree[0])
-    qt=get_qty_avail(html_tree[0])
-    pn=get_part_num(html_tree[0])
-    print('****************')
-    print(pt)
-    print('****************')
-    print(qt)
-    print('****************')
-    print(pn)
-    print('****************')
-    
-    
