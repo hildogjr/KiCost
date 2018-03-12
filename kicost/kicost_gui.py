@@ -705,6 +705,8 @@ class formKiCost ( wx.Frame ):
                     if v['label']==label:
                         dist_list.append( v['module'] )
                         break
+        else:
+            dist_list = None
         args.include = dist_list
         
         # Run KiCost main function and print in the log the elapsed time.
