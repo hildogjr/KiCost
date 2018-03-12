@@ -530,22 +530,6 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             dist_code_avail.append(
                 'ISBLANK(INDIRECT(ADDRESS(ROW(),COLUMN({})+4)))'.format(dist_data_rng))
 
-        # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
-        wks.write_formula(
-            row, start_col + columns['unit_price']['col'],
-            '=MINA({})'.format(','.join(dist_unit_prices)),
-            wrk_formats['currency']
-        )
-
-        # Enter the spreadsheet formula for calculating the minimum extended price.
-        wks.write_formula(
-            row, start_col + columns['ext_price']['col'],
-            '=iferror({qty}*{unit_price},"")'.format(
-                qty        = xl_rowcol_to_cell(row, start_col + columns['qty']['col']),
-                unit_price = xl_rowcol_to_cell(row, start_col + columns['unit_price']['col'])
-            ),
-            wrk_formats['currency']
-        )
 
         # If part do not have manf# code or distributor codes, color quantity cell gray.
         wks.conditional_format(
@@ -555,46 +539,65 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                 'type': 'formula',
                 'criteria': '=AND(ISBLANK({g}),{d})'.format(
                     g=xl_rowcol_to_cell(row,start_col + columns['manf#']['col']), # Manf# column also have to be blank.
-                    d=','.join(dist_code_avail)
+                    d=(','.join(dist_code_avail) if dist_code_avail else 'TRUE()')
                  ),
                 'format': wrk_formats['not_manf_codes']
             }
         )
 
-        # If part is unavailable from all distributors, color quantity cell red.
-        wks.conditional_format(
-            row, start_col + columns['qty']['col'],
-            row, start_col + columns['qty']['col'],
-            {
-                'type': 'formula',
-                'criteria': '=IF(SUM({})=0,1,0)'.format(','.join(dist_qty_avail)),
-                'format': wrk_formats['not_available']
-            }
+        # Enter the spreadsheet formula for calculating the minimum extended price (based on the unit price found on next formula).
+        wks.write_formula(
+            row, start_col + columns['ext_price']['col'],
+            '=iferror({qty}*{unit_price},"")'.format(
+                qty        = xl_rowcol_to_cell(row, start_col + columns['qty']['col']),
+                unit_price = xl_rowcol_to_cell(row, start_col + columns['unit_price']['col'])
+            ),
+            wrk_formats['currency']
         )
 
-        # If total available part quantity is less than needed quantity, color cell orange. 
-        wks.conditional_format(
-            row, start_col + columns['qty']['col'],
-            row, start_col + columns['qty']['col'],
-            {
-                'type': 'cell',
-                'criteria': '>',
-                'value': '=SUM({})'.format(','.join(dist_qty_avail)),
-                'format': wrk_formats['too_few_available']
-            }
-        )
+        # If not asked to scrape, to correlate the prices and available quantities.
+        if distributor_dict.keys():
+            # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
+            wks.write_formula(
+                row, start_col + columns['unit_price']['col'],
+                '=MINA({})'.format(','.join(dist_unit_prices)),
+                wrk_formats['currency']
+            )
 
-        # If total purchased part quantity is less than needed quantity, color cell yellow. 
-        wks.conditional_format(
-            row, start_col + columns['qty']['col'],
-            row, start_col + columns['qty']['col'],
-            {
-                'type': 'cell',
-                'criteria': '>',
-                'value': '=SUM({})'.format(','.join(dist_qty_purchased)),
-                'format': wrk_formats['too_few_purchased'],
-            }
-        )
+            # If part is unavailable from all distributors, color quantity cell red.
+            wks.conditional_format(
+                row, start_col + columns['qty']['col'],
+                row, start_col + columns['qty']['col'],
+                {
+                    'type': 'formula',
+                    'criteria': '=IF(SUM({})=0,1,0)'.format(','.join(dist_qty_avail)),
+                    'format': wrk_formats['not_available']
+                }
+            )
+
+            # If total available part quantity is less than needed quantity, color cell orange. 
+            wks.conditional_format(
+                row, start_col + columns['qty']['col'],
+                row, start_col + columns['qty']['col'],
+                {
+                    'type': 'cell',
+                    'criteria': '>',
+                    'value': '=SUM({})'.format(','.join(dist_qty_avail)),
+                    'format': wrk_formats['too_few_available']
+                }
+            )
+
+            # If total purchased part quantity is less than needed quantity, color cell yellow. 
+            wks.conditional_format(
+                row, start_col + columns['qty']['col'],
+                row, start_col + columns['qty']['col'],
+                {
+                    'type': 'cell',
+                    'criteria': '>',
+                    'value': '=SUM({})'.format(','.join(dist_qty_purchased)),
+                    'format': wrk_formats['too_few_purchased'],
+                }
+            )
 
         # Enter part shortage quantity.
         try:
