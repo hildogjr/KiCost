@@ -127,10 +127,10 @@ def main():
                         help='Show list of distributors that can be scraped for cost data, then exit.')
     parser.add_argument('--show_eda_list',
                         action='store_true',
-                        help='Show list of EDA softwares that KiCost can read, then exit.')
+                        help='Show list of EDA tools whose files KiCost can read, then exit.')
     parser.add_argument('--no_collapse',
                         action='store_true',
-                        help='Not collaps the designator references in the spreadsheet.')
+                        help='Do not collapse the part references in the spreadsheet.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'DIST',
@@ -141,7 +141,7 @@ def main():
                         help='Includes only the given distributor(s) in the scraping process.')
     parser.add_argument('--no_scrape',
                         action='store_true',
-                        help='Not scrape the distributor pages, used just to generate a pretty-printing spreadsheet.')
+                        help='Create a spreadsheet without scraping part data from distributor websites.')
     parser.add_argument('-rt', '--retries',
                         nargs='?',
                         type=int,

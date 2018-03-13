@@ -47,11 +47,16 @@ To create a cost spreadsheet from an XML file exported from KiCad::
 
     kicost -i schem.xml
 
-To create a cost spreadsheet direct from the KiCad `Bill of Material" wizard (use as command line):
+To create a cost spreadsheet from within KiCad, use the
+``Tools`` => ``Generate Bill of Materials...`` menu item and then enter the
+following in the `Command line` field::
 
     kicost -i %I
 
 To create a cost spreadsheet direct from the KiCad using the user definitions (by graphical interface last runned):
+To create a cost spreadsheet from within KiCad using the previous, use the
+``Tools`` => ``Generate Bill of Materials...`` menu item and then enter the
+following in the ``Command line`` field::
 
     kicost -i %I --user
 
@@ -79,11 +84,12 @@ To create a cost spreadsheet from a CSV file of part data::
 
     kicost -i schem.csv --eda_tool csv
 
-To read and merge different projects BOMs (it is allowed different EDAs)::
+To read and merge different projects BOMs, even those from different EDA tools::
 
     kicost -i bom1.xml bom2.xml bom3.csv -eda kicad altium csv
 
-Now, a friendly user graphical interface was created. To load it, just use `kicost` command without parameters.
+To access KiCost through a graphical user interface, just use the `kicost`
+command without parameters.
 
 .. image:: guide_screen.png
 
@@ -91,7 +97,8 @@ Now, a friendly user graphical interface was created. To load it, just use `kico
 Custom BOM list
 ------------------------
 
-In addition to XML files output by EDA tools, KiCost also accepts CSV files as a method for getting costs of preliminary designs or older projects.
+In addition to XML files output by EDA tools, KiCost also accepts CSV files
+as a method for getting costs of preliminary designs or older projects.
 The format of the CSV file is as follows:
 
 1. A single column is interpreted as containing manufacturer part numbers.
@@ -173,22 +180,21 @@ There are several cases that are considered when propagating part data:
 It is possible that there are identical parts in your schematic that have differing data
 and, hence, wouldn't be grouped together.
 For example, you might store information about a part in a "notes" field,
-but that shouldn't exclude the part from a group that had none or different notes.
-That can be prevented in two ways:
+but that shouldn't exclude the part from a group that has none or different notes.
+There are three ways to prevent this:
 
 #. Use the ``--ignore_fields`` command-line option to make KiCost ignore part fields
    with certain names::
 
      kicost -i schematic.xml --ignore_fields notes
 
-# Use the ``--group_fields`` to ignore field to group the components. This fields will be
-ignore to group but displayed in the spreadsheet (as a multiline cell)::
+#. Use the ``--group_fields`` option to allow grouping of parts even if they
+   have different field values, but then display the parts separately in the
+   spreadsheet using a multiline cell.
+   The following example will group parts that are identical except for having
+   different footprints, but will display them individually::
 
      kicost -i schematic.xml --group_fields footprint
-     # Ignore the footprint to merge, interesting option to multifiles
-     # BOMs, when each one came from different EDA software or merge
-     # subparts (e.g. pins of different connector that, for you are of
-     # the same family).
 
 #. Precede the field name with a ":" such as ``:note``. This makes KiCost ignore the
    field because it is in a different namespace.
@@ -211,12 +217,12 @@ would be two rows in the spreadsheet containing data like this:
     JP6#1  ...  JMP1A45
     JP6#2  ...  SH3QQ5
 
-You can also specify multipliers for each subpart by either appending
+You can also specify multipliers for each subpart by either prepending or appending
 the subpart part number with a multiplier separated by a ":".
 To illustrate, a 2x2 jumper paired with two shunts would have a part number of
 ``JMP2B26; SH3QQ5:2``.
-The multiplier can be either an integer, float or fraction (e.g. to cable meter)
-and it can be used previous or succeeding the part code, e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``.
+The multiplier can be either an integer, float or fraction
+and it can precede or follow the part code (e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``).
 
 ------------------------
 Schematic Variants
@@ -294,7 +300,7 @@ provides additional cues:
    * Red if the part is unavailable at any of the distributors.
    * Orange if the part is available, but not in sufficient quantity.
    * Yellow if there is enough of the part available, but not enough has been ordered.
-   * Gray not informed any ``manf#`` or distributor code in the BOM file.
+   * Gray if no manufacturer or distributor part number was found in the BOM file.
 
 #. The ``Avail`` cell is colored to show the availability of a given part
    at a particular distributor:
@@ -303,7 +309,7 @@ provides additional cues:
    * Orange if there is not sufficient quantity of the part available.
 
 #. The ``Unit$`` and ``Ext$`` in each distributor cell is colored green
-to indicate the lowest price found across all the distributors.
+   to indicate the lowest price found across all the distributors.
 
 -----------------------
 Parallel Web Scraping
@@ -325,9 +331,12 @@ This is equivalent to using ``--num_processes 1``.
 (If you encounter problems running KiCost on a Windows PC with Python 2, then
 using this command may help.)
 
-Some distributors may block sequential access, to workaround this each new scrape
-can be made after a delay by ``--throttling_delay``. In the follow example after
-100ms.
+Some distributor may block multiple accesses of their websites such as those
+made by KiCost when scraping part information.
+To workaround this, each new scrape can be delayed by a time interval
+using the ``--throttling_delay`` option.
+In the follow example, each scrape of a website is only initiated
+after waiting for 100 milliseconds::
 
     kicost -i schematic.xml --num_processes 10 --throttling_delay 0.1
 

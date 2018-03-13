@@ -3,27 +3,27 @@
 History
 -------
 
-0.1.43 (to be defined by @xesscorp)
+0.1.43
 ______________________
 
 * Fixed RS scrape module.
-* Added ``--no_scrape`` to not scrape any distributor, just create a pretty-printable spreadsheet.
-* Added ``--no_collapse`` to not collapse the designator references in the spreadsheet.
-* Added capability to throttle accesses to distributor websites ``--throttling_delay``. 
+* Added ``--no_scrape`` option to create spreadsheets without information from distributor websites.
+* Added ``--no_collapse`` option to prevent collapsing part references in the spreadsheet.
+* Added ``--throttling_delay`` option to add delay between accesses to distributor websites. 
 * Added ``--show_eda_list`` option to display the list of EDA tools supported by KiCost.
-* Added capability to read more than one BOM file and merge in the spreadsheet.
-* ``--ignore_fields`` ignore the field on read, added ``--group_fields`` to ignore differences in fields of the components and group them.
-* Fixed the not ungroupping issue when 'manf#' equal ``None``.
-* CSV now accept files from Proteus and Eagle EDA.
-* Clear up the python importations not used and better placed function into files (spreasheet creation files are now in ``spreadsheet.py``).
-* Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if them are not inside it.
-* Fixed issues related to user visualization in the spreadsheet (added gray formated conditioning and the "exclude desc and manf columns").
+* Added capability to read multiple BOM files and merge them into the spreadsheet.
+* Added ``--group_fields`` option to ignore differences in fields of the components and group them.
+* Fixed the not ungrouping issue when ``manf#`` equal ``None``.
+* CSV now accepts files from Proteus and Eagle EDA tools.
+* Cleared up unused Python imports and better placed functions into files (spreasheet creation files are now in ``spreadsheet.py``).
+* Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if they are not inside it.
+* Fixed issues related to user visualization in the spreadsheet (added gray formatted conditioning and the "exclude desc and manf columns").
 * Added "user errors" and software scape in the case of not recognized references characters given the message of how to solve.
-* Support for multiple quantity for a single manufacture code (before just worked when used multiple/sub-parts).
+* Support for multiple quantity for a single manufacture code (before just worked when using multiple/sub-parts).
 * Fixed the Altium EDA module.
 * Created a graphical user interface based on wxWidgets (the dependence is asked to be installed at the first use).
-* Add the ``--user``: allow to use just ``kicost --user -i %file`` and others parameters will be got by the last configuration in the graphical interface (that save the user configurations).
-* Automatic recognize of the files of each EDA software (for the graphical interface).
+* Added the ``--user`` option allow to use just ``kicost --user -i %file`` and others parameters will be got by the last configuration in the graphical interface (that save the user configurations).
+* Added automatic recognition of the files of each EDA tool (for the graphical interface).
 
 
 0.1.42 (2017-12-07)
