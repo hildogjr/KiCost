@@ -237,6 +237,12 @@ def group_parts(components, fields_merge):
             component_groups[h].manfcat_codes = {}
             for f in FIELDS_MANFCAT:
                 component_groups[h].manfcat_codes[f] = set([fields.get(f)])
+    #print('\n\n\n1++++++++++++++',len(component_groups))
+    #for g,grp in list(component_groups.items()):
+    #    print('\n', grp.refs)
+    #    for r in grp.refs:
+    #        print(r, components[r])
+
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
@@ -260,17 +266,21 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, '\tChecking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
-        num_manfcat_codes = {}
-        for f in FIELDS_MANFCAT:
-            num_manfcat_codes[f] = len(grp.manfcat_codes[f])
-        if all([num_manfcat_codes[f]==1 for f in FIELDS_MANFCAT]):
+        num_manfcat_codes = {f:len(grp.manfcat_codes[f]) for f in FIELDS_MANFCAT}
+        if all([num_manfcat_codes[f]==1 or (num_manfcat_codes[f]==2 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
-            continue  # Single manf# and distributor catalogue. Don't split this group.
-        elif all([(num_manfcat_codes[f]==1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
+            continue  # CASE ONE and TWO:
+                      # Single manf# and distributor catalogue. Or a seemingly
+                      # idential groupt with just one valid manf# or cat# code,
+                      # the other one is `None`.Don't split this group. `None`
+                      # will be replaced with the propagated manufacture /
+                      # distributor catalogue code.
+        elif all([(num_manfcat_codes[f]==1 and grp.manfcat_codes[f]==None) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
-            continue  # Two manf# or cat#, but one of them is None. Don't split
-                      # this group. `None` will be replaced with the propagated
-                      # manufacture / distributor catalogue code.
+            continue  # CASE THREE:
+                      # One manf# or cat# that is `None`. Don't split this
+                      # group. These parts are not intended to bepurchased.
+        # CASE FOUR:
         # Otherwise, split the group into subgroups, each with the
         # same manf# and distributors catalogue codes (for that one
         # that will be scraped, the other ones are not considered).
@@ -293,6 +303,11 @@ def group_parts(components, fields_merge):
                 if all([components[ref].get(f)==manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group) # Append one part of the splited group.
+    #print('\n\n\n2++++++++++++++',len(new_component_groups))
+    #for grp in new_component_groups:
+    #    print('\n', grp.refs)
+    #    for r in grp.refs:
+    #        print(r, components[r])
 
     # If the identical components grouped have diference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
@@ -307,12 +322,12 @@ def group_parts(components, fields_merge):
             for f in fields_merge:
                 values_field = [v.get(f) or '' for k,v in components_grp.items()]
                 ocurrences = Counter(values_field)
-                ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f) == v_g] for v_g in Counter(values_field)}
+                ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f,'') == v_g] for v_g in Counter(values_field)}
                 if len(ocurrences)>1:
                     value = SGROUP_SEPRTR.join( [order_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
                     for r in grp.refs:
                         components[r][f] = value
-    #print('++++++++++++++',len(new_component_groups))
+    #print('\n\n\n3++++++++++++++',len(new_component_groups))
     #for grp in new_component_groups:
     #    print(grp.refs)
     #    for r in grp.refs:
@@ -344,12 +359,11 @@ def group_parts(components, fields_merge):
         grp.fields = grp_fields
 
     # Now return the list of identical part groups.
-    #print('------------')
+    #print('\n\n\n------------')
     #for grp in new_component_groups:
     #    print(grp.refs)
     #    for r in grp.refs:
     #        print(r, components[r])
-    #exit(1)
     return new_component_groups
 
 
