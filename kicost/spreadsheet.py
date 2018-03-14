@@ -386,8 +386,9 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
 
     # Add quantity columns to deal with different quantities in the BOM files. The
     # original quantity column will be the total of each item. For check the number
-    # of BOM files read, see the length of p[?]['manf#_qty'].
-    num_prj = max([len(part.fields.get('manf#_qty',[])) for part in parts])
+    # of BOM files read, see the length of p[?]['manf#_qty'], if it is a `list()`
+    # instance, if don't, the lenth is always `1`.
+    num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
     if num_prj>1:
         def add_qty_proj_col(i_proj):
             # Add one column to quantify the quantity for each project.
@@ -708,7 +709,9 @@ Orange -> Too little quantity available.'''
     row += 1  # Go to next row.
 
     num_parts = len(parts)
-    num_prj = max([len(part.fields.get('manf#_qty',[])) for part in parts])
+    # For check the number of BOM files read, see the length of p[?]['manf#_qty'],
+    # if it is a `list()` instance, if don't, the lenth is always `1`.
+    num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
 
     # Add distributor data for each part.
     PART_INFO_FIRST_ROW = row  # Starting row of part info.
