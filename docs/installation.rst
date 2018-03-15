@@ -25,6 +25,6 @@ using the default option that web scrapes with parallel processes may cause
 * using ``easy_install`` to install KiCost, or
 * use the ``-s`` KiCost option to serialize the web scraping.
 
-On Linux, to install KiCost on python3, use
+On Linux, to install KiCost on python3, use::
 
     $ pip3 install kicost

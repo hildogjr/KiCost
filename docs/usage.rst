@@ -364,23 +364,25 @@ Command-Line Options
 
 ::
 
-    usage: kicost [-h] [-v] [-i file.xml [file.xml ...]] [-o [file.xlsx]]
-                  [-f name [name ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
-                  [-np [NUM_PROCESSES]] [-ign name [name ...]] [-d [LEVEL]]
+    usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
+                  [-f NAME [NAME ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
+                  [-np [NUM_PROCESSES]] [-ign NAME [NAME ...]]
+                  [-grp NAME [NAME ...]] [-d [LEVEL]]
                   [-eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
-                  [--show_dist_list] [-e dist [dist ...]]
-                  [--include dist [dist ...]] [-rt [num_retries]]
+                  [--show_dist_list] [--show_eda_list] [--no_collapse]
+                  [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_scrape]
+                  [-rt [NUM_RETRIES]] [--throttling_delay [DELAY]] [--user]
 
     Build cost spreadsheet for a KiCAD project.
 
     optional arguments:
       -h, --help            show this help message and exit
       -v, --version         show program's version number and exit
-      -i file.xml [file.xml ...], --input file.xml [file.xml ...]
+      -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
                             One or more schematic BOM XML files.
-      -o [file.xlsx], --output [file.xlsx]
+      -o [FILE.XLSX], --output [FILE.XLSX]
                             Generated cost spreadsheet.
-      -f name [name ...], --fields name [name ...]
+      -f NAME [NAME ...], --fields NAME [NAME ...]
                             Specify the names of additional part fields to extract
                             and insert in the global data section of the
                             spreadsheet.
@@ -392,12 +394,10 @@ Command-Line Options
       -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
                             Set the number of parallel processes used for web
                             scraping part data.
-      --throttling_delay [DELAY_SECONDS]
-                            Specify minimum delay (in seconds) between successive
-                            accesses to a distributor's website.
-      -ign name [name ...], --ignore_fields name [name ...]
-                            Declare part fields to ignore when reading the BoM file.
-      -grp name [name ...], --group_fields name [name ...]
+      -ign NAME [NAME ...], --ignore_fields NAME [NAME ...]
+                            Declare part fields to ignore when reading the BoM
+                            file.
+      -grp NAME [NAME ...], --group_fields NAME [NAME ...]
                             Declare part fields to merge when grouping parts.
       -d [LEVEL], --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
@@ -406,22 +406,27 @@ Command-Line Options
                             originated, or use csv for .CSV files.
       --show_dist_list      Show list of distributors that can be scraped for cost
                             data, then exit.
-      --show_eda_list       Show list of EDA softwares that KiCost can read, then exit.
-      --no_collapse         Not collaps the designator references in the spreadsheet.
-      -e dist [dist ...], --exclude dist [dist ...]
+      --show_eda_list       Show list of EDA tools whose files KiCost can read,
+                            then exit.
+      --no_collapse         Do not collapse the part references in the
+                            spreadsheet.
+      -e DIST [DIST ...], --exclude DIST [DIST ...]
                             Excludes the given distributor(s) from the scraping
                             process.
-      --include dist [dist ...]
+      --include DIST [DIST ...]
                             Includes only the given distributor(s) in the scraping
                             process.
-      --no_scrape           Not scrape the distributor pages, used just to generate a
-                            pretty-printing spreadsheet.
-      -rt [num_retries], --retries [num_retries]
+      --no_scrape           Create a spreadsheet without scraping part data from
+                            distributor websites.
+      -rt [NUM_RETRIES], --retries [NUM_RETRIES]
                             Specify the number of attempts to retrieve part data
                             from a website.
+      --throttling_delay [DELAY]
+                            Specify minimum delay (in seconds) between successive
+                            accesses to a distributor's website.
       --user                Start the user guide to run KiCost passing the file
-                            parameter give by "--input", all others parameters are ignored.
-
+                            parameter give by "--input", all others parameters are
+                            ignored.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
