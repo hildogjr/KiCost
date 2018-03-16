@@ -34,11 +34,11 @@ import os, sys
 import logging, time
 #import inspect # To get the internal module and informations of a module/class.
 from .kicost import * # kicost core functions.
-from .kicost_gui import * # User guide.
-#try:
-#    from .kicost_gui import * # User guide.
-#except ImportError:
-#    pass # If the wxPython dependences are not installed and
+#from .kicost_gui import * # User guide.
+try:
+    from .kicost_gui import * # User guide.
+except ImportError:
+    pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
 from .distributors import distributor_dict
 from .eda_tools import eda_tool_dict
@@ -202,7 +202,7 @@ def main():
     if args.user:
         try:
             kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
-        except ImportError:
+        except (ImportError,NameError):
             kicost_gui_notdependences()
             #kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
         return
@@ -218,7 +218,7 @@ def main():
     if args.input == None:
         try:
             kicost_gui() # Use the user guide.
-        except ImportError:
+        except (ImportError,NameError):
             kicost_gui_notdependences()
             #kicost_gui()
         return
