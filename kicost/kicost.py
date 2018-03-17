@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -145,8 +145,15 @@ def kicost(in_file, eda_tool_name, out_filename,
 
     # Group part out of the module to be possible to merge different
     # project lists, ignore some field to merge given in the `group_fields`.
+    for ref, fields in list(parts.items()):
+        for f in fields:
+            # Merge all extra fields that read on the files that will
+            # not be displayed (Needed to check `user_fields`).
+            if not f in ['refs', 'value', 'desc', 'footprint', 'manf', 'manf#'] + user_fields:
+                group_fields += f
+    # Some fields to be merged on specific EDA are enrolled bellow.
     if 'kicad' in eda_tool_name:
-        group_fields += ['libpart']
+        group_fields += ['libpart'] # This field may be a mess on multiple sheet designs.
     if len(set(eda_tool_name))>2:
         # If more than one EDA software was used, ignore the 'footprint'
         # field, because they could have different libraries names.
