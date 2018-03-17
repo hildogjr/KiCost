@@ -40,6 +40,10 @@ from .eda_tools.eda_tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 __all__ = ['create_spreadsheet']
 
+# Regular expression to the link for one datasheet.
+DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
+
+
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
@@ -333,7 +337,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part.',
+            'comment': 'Manufacturer number for each part and link to its datasheet (ctrl-click).',
             'static': True,
         },
         'qty': {
@@ -390,7 +394,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     # instance, if don't, the lenth is always `1`.
     num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
     if num_prj>1:
-        def add_qty_proj_col(i_proj):
+        for i_prj in range(num_prj):
             # Add one column to quantify the quantity for each project.
             name = 'qty_prj{}'.format(i_proj)
             col = columns['qty']['col']
@@ -401,8 +405,6 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             for k,f in columns.items():
                 if f['col']>=col and k!=name:
                     f['col'] += 1
-        for i_prj in range(num_prj):
-            add_qty_proj_col(i_prj)
 
     # Enter user-defined fields into the global part data columns structure.
     for user_field in list(reversed(user_fields)):
@@ -474,7 +476,23 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             try:
                 # Fields found in the XML are lower-cased, so do the same for the column key.
                 field_name = field.lower().strip()
-                wks.write_string(row, start_col + columns[field]['col'],
+                if field_name=='manf#':
+                    try:
+                        string = part.fields['manf#']
+                        link  = part.fields['datasheet']
+                        if re.match(DATASHEET_LINK_REGEX, link):
+                            # Just put the link if is valid.
+                            wks.write_url(row, start_col + columns['manf#']['col'],
+                                 link, string=string)
+                        else:
+                            wks.write_string(row, start_col + columns[field]['col'],
+                                 part.fields[field_name], wrk_formats['part_format'])
+                    except KeyError:
+                        wks.write_string(row, start_col + columns[field]['col'],
+                                 part.fields[field_name], wrk_formats['part_format'])
+                        pass
+                else:
+                    wks.write_string(row, start_col + columns[field]['col'],
                                  part.fields[field_name], wrk_formats['part_format'])
             except KeyError:
                 pass
