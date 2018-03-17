@@ -10,6 +10,7 @@ ______________________
 * Fixed wxPython exception import.
 * Use the datasheet link information from KiCad and other EDAs, given by 'datasheet' field.
 * Now automatically merge 'description' and other fields to create the groups.
+* GUI save last position and size.
 
 
 0.1.43 (2018-03-15)
