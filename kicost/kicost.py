@@ -192,6 +192,22 @@ def kicost(in_file, eda_tool_name, out_filename,
         global scraping_progress
         scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
 
+        # Change the logging print channel to tqdm to keep the process bar to the end of terminal.
+        class TqdmLoggingHandler(logging.Handler):
+            '''Overload the class to write the logging through the tqdm.'''
+            def __init__(self, level = logging.NOTSET):
+                super(self.__class__, self).__init__(level)
+            def emit(self, record):
+                try:
+                    msg = self.format(record)
+                    tqdm.tqdm.write(msg)
+                    self.flush()
+                except (KeyboardInterrupt, SystemExit):
+                    raise
+                except:
+                    self.handleError(record)
+        logger.addHandler(TqdmLoggingHandler())
+
         if num_processes <= 1:
             # Scrape data, one part at a time using single processing.
 
@@ -265,6 +281,7 @@ def kicost(in_file, eda_tool_name, out_filename,
 
         # Done with the scraping progress bar so delete it or else we get an 
         # error when the program terminates.
+        logger.removeHandler(TqdmLoggingHandler()) # Return the print channel of the logging.
         del scraping_progress
 
     # Create the part pricing spreadsheet.

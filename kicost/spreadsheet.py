@@ -337,7 +337,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part and link to its datasheet (ctrl-click).',
+            'comment': 'Manufacturer number for each part and link to it\'s datasheet (ctrl-click).',
             'static': True,
         },
         'qty': {
@@ -705,7 +705,7 @@ Orange -> Too little quantity available.'''
             'level': 2,
             'label': 'Cat#',
             'width': 15,
-            'comment': 'Distributor-assigned catalog number for each part and link to its web page (ctrl-click).'
+            'comment': 'Distributor-assigned catalog number for each part and link to it\'s web page (ctrl-click).'
         },
     }
     num_cols = len(list(columns.keys()))

@@ -34,7 +34,6 @@ import os, sys
 import logging, time
 #import inspect # To get the internal module and informations of a module/class.
 from .kicost import * # kicost core functions.
-#from .kicost_gui import * # User guide.
 try:
     from .kicost_gui import * # User guide.
 except ImportError:
