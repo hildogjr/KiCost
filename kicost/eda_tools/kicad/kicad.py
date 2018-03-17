@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -170,6 +170,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Get the footprint for the part (if any) from the schematic.
         try:
             fields['footprint'] = str(c.find('footprint').string)
+            fields['datasheet'] = str(c.find('datasheet').string)
         except AttributeError:
             pass
 
