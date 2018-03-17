@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -55,6 +55,8 @@ WILDCARD = "BoM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
             "KiCad/Altium BoM file (*.xml)|*.xml|" \
             "Proteus/Generic BoM file (*.csv)|*.csv"
 CONFIG_FILE = 'KiCost' # Config file for Linux and Windows registry key for KiCost configurations.
+GUI_SIZE_ENTRY = 'GUI_size'
+GUI_POSITION_ENTRY = 'GUI_position'
 PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last official version.
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
@@ -677,10 +679,22 @@ class formKiCost ( wx.Frame ):
             extra_commands = ' ' + self.m_textCtrlextracmd.GetValue()
         else:
             extra_commands = []
-        args.fields = ''.join( re.findall('--fields (.+)', extra_commands) or re.findall('-f (.+)', extra_commands) ).split()
-        args.ignore_fields = ''.join( re.findall('--ignore_fields (.+)', extra_commands) or re.findall('-ign (.+)', extra_commands) ).split()
-        args.group_fields = ''.join( re.findall('--group_fields (.+)', extra_commands) or re.findall('-grp (.+)', extra_commands) ).split()
-        args.variant = ''.join( re.findall('--variant (.+)', extra_commands) or re.findall('-var (.+)', extra_commands) )
+        
+        def str_to_arg(commands):
+            try:
+                for c in commands:
+                    try:
+                        return ''.join( re.findall(c+' (.+)', extra_commands))
+                    except:
+                        continue
+            except:
+                pass
+            finally:
+                return ''
+        args.fields = str_to_arg(['--fields', '-f']).split()
+        args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
+        args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
+        args.variant = str_to_arg(['--variant', '-var'])
         
         num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
         args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
@@ -856,6 +870,15 @@ class formKiCost ( wx.Frame ):
         try:
             configHandle = wx.Config(CONFIG_FILE)
             
+            def str_to_wxpoint(s):
+                '''Convert a string tuple into a  wxPoint'''
+                p = re.findall('\d+', s)
+                return wx.Point(int(p[0]), int(p[1]))
+            def str_to_wxsize(s):
+                '''Convert a string tuple into a  wxRect'''
+                p = re.findall('\d+', s)
+                return wx.Size(int(p[0]), int(p[1]))
+            
             entryCount = 0
             while True:
                 entry = configHandle.GetNextEntry(entryCount)
@@ -863,6 +886,15 @@ class formKiCost ( wx.Frame ):
                     break
                 entryCount+=1 #Count the entry numbers and go to next one in next iteration.
                 entry = entry[1]
+                entry_value = configHandle.Read(entry)
+                
+                # Resize and reposition the window frame.
+                if entry==GUI_POSITION_ENTRY:
+                    self.SetPosition(str_to_wxpoint(entry_value))
+                    continue
+                elif entry==GUI_SIZE_ENTRY:
+                    self.SetSize(str_to_wxsize(entry_value))
+                    continue
                 
                 try:
                     # Find the wxPython element handle to access the methods.
@@ -870,11 +902,11 @@ class formKiCost ( wx.Frame ):
                     # Each wxPython object have a specific parameter value
                     # to be saved and restored in the software initialization.
                     if isinstance(wxElement_handle, wx._core.TextCtrl):
-                        wxElement_handle.SetValue( configHandle.Read(entry) )
+                        wxElement_handle.SetValue( entry_value )
                     elif isinstance(wxElement_handle, wx._core.CheckBox):
-                        wxElement_handle.SetValue( (True if configHandle.Read(entry)=='True' else False) )
+                        wxElement_handle.SetValue( (True if entry_value=='True' else False) )
                     elif isinstance(wxElement_handle, wx._core.CheckListBox):
-                        value = re.split(',', configHandle.Read(entry) )
+                        value = re.split(',', entry_value )
                         for idx in range(wxElement_handle.GetCount()): # Reset all checked.
                             wxElement_handle.Check(idx, False)
                         for dist_checked in value: # Check only the founded names.
@@ -882,18 +914,18 @@ class formKiCost ( wx.Frame ):
                             if idx!=wx.NOT_FOUND:
                                 wxElement_handle.Check(idx, True)
                     elif isinstance(wxElement_handle, wx._core.SpinCtrl):
-                        wxElement_handle.SetValue( int(configHandle.Read(entry)) )
+                        wxElement_handle.SetValue( int(entry_value) )
                     elif isinstance(wxElement_handle, wx._core.SpinCtrlDouble):
-                        wxElement_handle.SetValue( float(configHandle.Read(entry)) )
+                        wxElement_handle.SetValue( float(entry_value) )
                     elif isinstance(wxElement_handle, wx._core.ComboBox):
-                        value = re.split(',', configHandle.Read(entry) )
+                        value = re.split(',', entry_value)
                         for element in value:
                             if element:
                                 wxElement_handle.Append( element )
                     elif isinstance(wxElement_handle, wx._core.ListBox):
-                        wxElement_handle.SetSelection( wxElement_handle.FindString( configHandle.Read(entry) ) )
+                        wxElement_handle.SetSelection( wxElement_handle.FindString( entry_value ) )
                     elif isinstance(wxElement_handle, wx._core.Notebook):
-                        wxElement_handle.SetSelection( int(configHandle.Read(entry)) )
+                        wxElement_handle.SetSelection( int(entry_value) )
                     # Others wxWidgets graphical elements with not saved configurations.
                     #elif isinstance(wxElement_handle, wx._core.):
                     #elif isinstance(wxElement_handle, wx._core.):configHandle
@@ -905,14 +937,18 @@ class formKiCost ( wx.Frame ):
                     continue
                 
             del configHandle # Close the file / Windows registry sock.
-        except:
-            print('Configurations not recovered.')
+        except Exception as e:
+            self.m_textCtrl_messages.AppendText('Configurations not recovered: <'+str(e)+'>.')
 
     #----------------------------------------------------------------------
     def save_properties(self):
         ''' @brief Save the current proprieties of the graphical elements.'''
         try:
             configHandle = wx.Config(CONFIG_FILE)
+            
+            # Save position and size.
+            configHandle.Write(GUI_POSITION_ENTRY, str(self.GetPosition()))
+            configHandle.Write(GUI_SIZE_ENTRY, str(self.GetSize()))
             
             # Sweep all elements in `self()` to find the grafical ones
             # instance of the wxPython and salve the specific configuration.
@@ -947,8 +983,8 @@ class formKiCost ( wx.Frame ):
                     continue
             
             del configHandle # Close the file / Windows registry sock.
-        except:
-            print('Configurations not saved.')
+        except Exception as e:
+            self.m_textCtrl_messages.AppendText('Configurations not saved: <'+str(e)+'>.')
 
 
 
