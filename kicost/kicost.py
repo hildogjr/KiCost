@@ -93,7 +93,6 @@ def kicost(in_file, eda_tool_name, out_filename,
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list!=None:
         if not dist_list:
-            print('YES')
             dist_list = list(distributor_dict.keys())
         if not 'local_template' in dist_list:
             dist_list += ['local_template'] # Needed later for creating non-web distributors.
@@ -143,8 +142,19 @@ def kicost(in_file, eda_tool_name, out_filename,
                 p[ 'prj' + str(i_prj) + SEPRTR + p_ref] = p.pop(p_ref)
         parts.update( p.copy() )
         prj_info.append( info.copy() )
-    # Group part out of the module to merge different project lists,
-    # ignore some field to merge.
+
+    # Group part out of the module to be possible to merge different
+    # project lists, ignore some field to merge given in the `group_fields`.
+    if 'kicad' in eda_tool_name:
+        group_fields += ['libpart']
+    if len(set(eda_tool_name))>2:
+        # If more than one EDA software was used, ignore the 'footprint'
+        # field, because they could have different libraries names.
+        group_fields += ['footprint']
+    group_fields += ['desc', 'var'] # Always ignore 'desc' ('description')
+                                    # and 'var' ('variant') fields, merging
+                                    # the components in groups.
+    group_fields = set(group_fields)
     parts = group_parts(parts, group_fields)
 
     # If do not have the manufacture code 'manf#' and just distributors codes,
