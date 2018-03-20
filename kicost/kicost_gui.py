@@ -495,6 +495,7 @@ class formKiCost ( wx.Frame ):
         self.set_properties()
         self.updatedChecked = False 
         self.SetDropTarget( FileDropTarget(self) ) # Start the drop file in all the window.
+        self.m_textCtrl_messages.AppendText( 'Loaded KiCost v.' + __version__ )
     
     def __del__( self ):
         pass
@@ -633,14 +634,31 @@ class formKiCost ( wx.Frame ):
     def button_run( self, event ):
         ''' @brief Call to run KiCost.'''
         event.Skip()
+        #TODO run as subprocess.
+        class GUILoggingHandler(object):
+            def __init__(self, widget):
+                #super(self.__class__, self).__init__()
+                self.widget = widget
+            def write(self, msg):
+                try:
+                    self.widget.AppendText( msg )
+                except:
+                    sys.__stdout__(msg)
+        sys.stdout = GUILoggingHandler(self.m_textCtrl_messages)
+        sys.errout = GUILoggingHandler(self.m_textCtrl_messages)
+        
         self.save_properties() # Save the current graphical configuration before call the KiCost motor.
         self.run() # Run KiCost.
+        
+        # Restore the channel print output to terminal.
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
 
     #----------------------------------------------------------------------
     def run( self ):
         ''' @brief Run KiCost in the GUI interface updating the process bar and messages.'''
         self.m_gauge_process.SetValue(0)
-        self.m_textCtrl_messages.Clear() # Clear the messages to appear just the last run.
+        #self.m_textCtrl_messages.Clear() # Clear the messages to appear just the last run.
         
         class argments:
             pass
@@ -649,7 +667,7 @@ class formKiCost ( wx.Frame ):
         args.input = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
         for f in args.input:
             if not os.path.isfile(f):
-                self.m_textCtrl_messages.AppendText('\nNo valid file(s) selected.')
+                print('No valid file(s) selected.')
                 return # Not a valid file(s).
         
         spreadsheet_file = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
@@ -668,7 +686,7 @@ class formKiCost ( wx.Frame ):
                 result = dlg.ShowModal()
                 dlg.Destroy()
                 if result==wx.ID_NO:
-                    self.m_textCtrl_messages.AppendText('\nNot able to overwrite \'{}\'...'.format(
+                    print('Not able to overwrite \'{}\'...'.format(
                                 os.path.basename(spreadsheet_file)
                             )
                         )
@@ -724,8 +742,6 @@ class formKiCost ( wx.Frame ):
         args.include = dist_list
         
         # Run KiCost main function and print in the log the elapsed time.
-        #TODO run as subprocess.
-        #TODO #ISSUE after run KiCost by the GUI one time, distributors_dict delete some, this cause error in the second run.
         start_time = time.time()
         kicost(in_file=args.input, eda_tool_name=args.eda_tool,
             out_filename=args.output, collapse_refs=args.collapse_refs,
@@ -734,11 +750,11 @@ class formKiCost ( wx.Frame ):
             dist_list=args.include, num_processes=num_processes,
             scrape_retries=args.retries, throttling_delay=args.throttling_delay,
             )
-        self.m_textCtrl_messages.AppendText('\nElapsed time: {} seconds'.format(time.time() - start_time) )
+        print('Elapsed time: {} seconds'.format(time.time() - start_time) )
         self.m_gauge_process.SetValue(100)
         
         if self.m_checkBox_openXLS.GetValue():
-            self.m_textCtrl_messages.AppendText('\nOpening the output file \'{}\'...'.format(
+            print('Opening the output file \'{}\'...'.format(
                                 os.path.basename(spreadsheet_file)
                             )
                         )
