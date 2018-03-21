@@ -251,12 +251,15 @@ def main():
         for d in args.exclude:
             dist_list.remove(d)
 
-    kicost(in_file=args.input, eda_tool_name=args.eda_tool,
-        out_filename=args.output, collapse_refs=not args.no_collapse,
-        user_fields=args.fields, ignore_fields=args.ignore_fields,
-        group_fields=args.group_fields, variant=args.variant,
-        dist_list=dist_list, num_processes=num_processes,
-        scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+    try:
+        kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+            out_filename=args.output, collapse_refs=not args.no_collapse,
+            user_fields=args.fields, ignore_fields=args.ignore_fields,
+            group_fields=args.group_fields, variant=args.variant,
+            dist_list=dist_list, num_processes=num_processes,
+            scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+    except Exception as e:
+        sys.exit(e)
 
 ###############################################################################
 # Main entrypoint.

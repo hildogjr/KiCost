@@ -743,13 +743,16 @@ class formKiCost ( wx.Frame ):
         
         # Run KiCost main function and print in the log the elapsed time.
         start_time = time.time()
-        kicost(in_file=args.input, eda_tool_name=args.eda_tool,
-            out_filename=args.output, collapse_refs=args.collapse_refs,
-            user_fields=args.fields, ignore_fields=args.ignore_fields,
-            group_fields=args.group_fields, variant=args.variant,
-            dist_list=args.include, num_processes=num_processes,
-            scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-            )
+        try:
+            kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+                out_filename=args.output, collapse_refs=args.collapse_refs,
+                user_fields=args.fields, ignore_fields=args.ignore_fields,
+                group_fields=args.group_fields, variant=args.variant,
+                dist_list=args.include, num_processes=num_processes,
+                scrape_retries=args.retries, throttling_delay=args.throttling_delay,
+                )
+        except Exception as e:
+            print(e)
         print('Elapsed time: {} seconds'.format(time.time() - start_time) )
         self.m_gauge_process.SetValue(100)
         

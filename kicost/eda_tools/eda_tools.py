@@ -28,7 +28,6 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re, os # Regular expression parser and matches.
-from sys import exit # Exit in the error.
 from collections import Counter # For check of different values to same field, used on the ISSUE #102.
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
@@ -198,7 +197,7 @@ def group_parts(components, fields_merge):
     fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
     for c in FIELDS_NOT_HASH:
         if c in fields_merge:
-             exit('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
+             raise ValueError('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
     FIELDS_NOT_HASH = FIELDS_NOT_HASH + fields_merge # Not use the fields do merge to create the hash.
 
     # Now partition the parts into groups of like components.
@@ -353,7 +352,7 @@ def group_parts(components, fields_merge):
                     continue # so ignore it.
                 if grp_fields.get(key): # This field has been seen before.
                     if grp_fields[key] != val: # Flag if new field value not the same as old.
-                        exit('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'.format(ref, key, val, grp_fields[key], grp.refs))
+                        raise ValueError('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'.format(ref, key, val, grp_fields[key], grp.refs))
                 else: # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
@@ -757,7 +756,7 @@ def order_refs(refs, collapse=True):
             # The not `match` happens when the user schematic disegner use
             # not recognized characters by the `PART_REF_REGEX` definition
             # into the components references.
-            exit('Not recognized characters used in <' + ref + '> reference. Adivise: edit it in your BOM/Schematic.')
+            raise ValueError('Not recognized characters used in <' + ref + '> reference. Adivise: edit it in your BOM/Schematic.')
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
