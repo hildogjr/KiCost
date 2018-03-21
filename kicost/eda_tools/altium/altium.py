@@ -80,7 +80,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         header_translated = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
         hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
         if not hdr_refs:
-            sys.exit('Not founded the part designators/references in the BOM.\nTry to generate the file again at Altium.')
+            raise ValueError('Not founded the part designators/references in the BOM.\nTry to generate the file again at Altium.')
         else:
             hdr_refs = hdr_refs[0]
         refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()) )
@@ -91,7 +91,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             qty = int( extract_field(row, header[hdr_qty].lower()) )
             header_valid.remove(header[hdr_qty])
             if qty!=len(refs):
-                sys.exit('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, ` to `,` or better, use `;` instead `,`.')
+                raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, ` to `,` or better, use `;` instead `,`.')
         except:
             qty = len(refs)
         
