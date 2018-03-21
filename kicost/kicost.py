@@ -145,12 +145,16 @@ def kicost(in_file, eda_tool_name, out_filename,
 
     # Group part out of the module to be possible to merge different
     # project lists, ignore some field to merge given in the `group_fields`.
+    FIELDS_SPREADSHEET = ['refs', 'value', 'desc', 'footprint', 'manf', 'manf#']
+    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
+    FIELDS_MANFQTY = ([d + '#_qty' for d in distributor_dict] + ['manf#_qty'])
+    FIELDS_IGNORE = FIELDS_SPREADSHEET + FIELDS_MANFCAT + FIELDS_MANFQTY + user_fields
     for ref, fields in list(parts.items()):
         for f in fields:
             # Merge all extra fields that read on the files that will
             # not be displayed (Needed to check `user_fields`).
-            if not f in ['refs', 'value', 'desc', 'footprint', 'manf', 'manf#'] + user_fields:
-                group_fields += f
+            if not f in FIELDS_IGNORE:
+                group_fields += [f]
     # Some fields to be merged on specific EDA are enrolled bellow.
     if 'kicad' in eda_tool_name:
         group_fields += ['libpart'] # This field may be a mess on multiple sheet designs.
