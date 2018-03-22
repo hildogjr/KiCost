@@ -4,19 +4,18 @@
 import setuptools
 import kicost
 
-
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
-
+# Update the information files that stay in the computer.
 with open('README.rst') as readme_file:
     readme = readme_file.read()
-
 with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
+# KiCost Python packages requirements to run-time.
 requirements = [
     'beautifulsoup4 >= 4.3.2',
     'XlsxWriter >= 0.7.3',
@@ -25,12 +24,18 @@ requirements = [
     'yattag >= 1.5.2',
     'tqdm >= 4.4.0',
     'CurrencyConverter >= 0.5',
-#    'wxPython >= 4.0',
+#    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
 
+# KiCost Python packages requirements to debug and tests.
 test_requirements = [
     # TODO: put package test requirements here
 ]
+
+# Extra files needed by KiCost
+data_files=[
+    ('', ['kicost/kicost.ico']), # Icon to the user guide.
+],
 
 setup(
     name='kicost',
@@ -49,6 +54,7 @@ setup(
     package_dir={'kicost':'kicost'},
     include_package_data=True,
     package_data={'kicost': ['*.gif', '*.png']},
+    data_files=data_files,
     scripts=[],
     install_requires=requirements,
     license="MIT",
