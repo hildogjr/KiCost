@@ -34,7 +34,7 @@ test_requirements = [
 
 # Extra files needed by KiCost.
 data_files=[
-    ('', ['kicost.ico']), # Icon to the user guide.
+    ('kicost', ['kicost\kicost.ico']), # Icon to the user guide.
 ],
 
 setup(
