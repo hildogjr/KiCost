@@ -28,7 +28,6 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re, os # Regular expression parser and matches.
-from collections import Counter # For check of different values to same field, used on the ISSUE #102.
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
 from ..kicost import distributor_dict
@@ -319,11 +318,13 @@ def group_parts(components, fields_merge):
             components_grp = dict()
             components_grp = {i:components[i] for i in grp.refs}
             for f in fields_merge:
-                values_field = [v.get(f) or '' for k,v in components_grp.items()]
-                ocurrences = Counter(values_field)
-                ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f,'') == v_g] for v_g in Counter(values_field)}
+                values_field = [v.get(f, '') for k,v in components_grp.items()]
+                ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f,'') == v_g] for v_g in set(values_field)}
                 if len(ocurrences)>1:
-                    value = SGROUP_SEPRTR.join( [order_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
+                    if f=='desc' and len(ocurrences)==2 and '' in ocurrences.keys():
+                        value = ''.join(list(ocurrences.keys()))
+                    else:
+                        value = SGROUP_SEPRTR.join( [order_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
                     for r in grp.refs:
                         components[r][f] = value
     #print('\n\n\n3++++++++++++++',len(new_component_groups))
@@ -768,7 +769,9 @@ def order_refs(refs, collapse=True):
             prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
     else:
         for prefix in list(prefix_nums.keys()):
-            prefix_nums[prefix].sort()
+            def get_refnum(refnum):
+                return int(re.match('\d+', refnum).group(0))
+            prefix_nums[prefix].sort(key=get_refnum)
 
     # Combine the prefixes and number ranges back into part references.
     collapsed_refs = []

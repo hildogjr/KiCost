@@ -408,8 +408,8 @@ Command-Line Options
                             data, then exit.
       --show_eda_list       Show list of EDA tools whose files KiCost can read,
                             then exit.
-      --no_collapse         Do not collapse the part references in the
-                            spreadsheet.
+      --no_collapse         Do not collapse the part references like C1,C2,C3 into C1-C3
+                            in the spreadsheet.
       -e DIST [DIST ...], --exclude DIST [DIST ...]
                             Excludes the given distributor(s) from the scraping
                             process.
