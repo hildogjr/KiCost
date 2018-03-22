@@ -34,7 +34,7 @@ test_requirements = [
 
 # Extra files needed by KiCost.
 data_files=[
-    ('kicost', ['kicost/kicost.ico']), # Icon to the user guide.
+    #('kicost', ['kicost/kicost.ico']), # Icon to the user guide. Added via `MANIFEST.in`
 ],
 
 setup(
@@ -54,7 +54,7 @@ setup(
     package_dir={'kicost':'kicost'},
     include_package_data=True,
     package_data={'kicost': ['*.gif', '*.png']},
-    #data_files=data_files,
+    data_files=data_files,
     scripts=[],
     install_requires=requirements,
     license="MIT",
