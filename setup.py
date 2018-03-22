@@ -54,7 +54,7 @@ setup(
     package_dir={'kicost':'kicost'},
     include_package_data=True,
     package_data={'kicost': ['*.gif', '*.png']},
-    data_files=data_files,
+    #data_files=data_files,
     scripts=[],
     install_requires=requirements,
     license="MIT",
