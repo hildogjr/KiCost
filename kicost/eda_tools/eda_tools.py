@@ -318,7 +318,7 @@ def group_parts(components, fields_merge):
             components_grp = dict()
             components_grp = {i:components[i] for i in grp.refs}
             for f in fields_merge:
-                values_field = [v.get(f) or '' for k,v in components_grp.items()]
+                values_field = [v.get(f, '') for k,v in components_grp.items()]
                 ocurrences = {v_g:[ r for r in grp.refs if components[r].get(f,'') == v_g] for v_g in set(values_field)}
                 if len(ocurrences)>1:
                     if f=='desc' and len(ocurrences)==2 and '' in ocurrences.keys():
