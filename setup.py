@@ -32,9 +32,9 @@ test_requirements = [
     # TODO: put package test requirements here
 ]
 
-# Extra files needed by KiCost
+# Extra files needed by KiCost.
 data_files=[
-    ('', ['kicost/kicost.ico']), # Icon to the user guide.
+    ('', ['kicost.ico']), # Icon to the user guide.
 ],
 
 setup(
