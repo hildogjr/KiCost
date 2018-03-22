@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
@@ -37,6 +37,13 @@ from . import __version__ # Version control by @xesscorp.
 from .globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .eda_tools.eda_tools import partgroup_qty, order_refs, PART_REF_REGEX
+import locale
+
+locale.setlocale(locale.LC_ALL, '')
+conv = locale.localeconv()
+curr_sym = '{currency_symbol}'.format(**conv)
+num_format = curr_sym + '#,##0.00'
+
 
 __all__ = ['create_spreadsheet']
 
@@ -46,19 +53,19 @@ DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, user_fields, variant):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
-    
+
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
                                     os.path.basename(spreadsheet_filename)) )
-    
+
     MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 caracheters longer
                                 # string for the worksheet name, Google
                                 #SpreadSheet 100 and LibreOffice Calc have no limit.
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
-    
+
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
-        # Remove any special characters that might be illegal in a 
+        # Remove any special characters that might be illegal in a
         # worksheet name since the variant might be a regular expression.
         # Fix the maximum worksheet name, priorize the variant string cutting
         # the board project.
@@ -69,10 +76,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
         WORKSHEET_NAME += variant
     else:
         WORKSHEET_NAME = WORKSHEET_NAME[:MAX_LEN_WORKSHEET_NAME]
-    
+
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
-    
+
         # Create the various format styles used by various spreadsheet items.
         wrk_formats = {
             'global': workbook.add_format({
@@ -111,14 +118,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
                 'font_size': 13,
                 'font_color': 'red',
                 'bold': True,
-                'num_format': '$#,##0.00',
+                'num_format': num_format,
                 'valign': 'vcenter'
             }),
             'unit_cost_currency': workbook.add_format({
                 'font_size': 13,
                 'font_color': 'green',
                 'bold': True,
-                'num_format': '$#,##0.00',
+                'num_format': num_format,
                 'valign': 'vcenter'
             }),
             'proj_info_field': workbook.add_format({
@@ -148,7 +155,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
             'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
             'too_few_purchased': workbook.add_format({'bg_color': '#FFFF00'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'}),
-            'currency': workbook.add_format({'num_format': '$#,##0.00', 'valign': 'vcenter'}),
+            'currency': workbook.add_format({'num_format': num_format, 'valign': 'vcenter'}),
         }
 
         # Add the distinctive header format for each distributor to the dict of formats.
@@ -214,7 +221,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
                     cell_ref=xl_rowcol_to_cell(next_row, next_col - 1,
                                            row_abs=True,
                                            col_abs=True)))
-            
+
             # Create the cell to show total cost of board parts for each distributor.
             wks.write(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str),
                       wrk_formats['total_cost_label'])
@@ -355,7 +362,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         'unit_price': {
             'col': 7,
             'level': 0,
-            'label': 'Unit$',
+            'label': 'Unit' + curr_sym,
             'width': None,
             'comment': 'Minimum unit price for each part across all distributors.',
             'static': False,
@@ -363,7 +370,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         'ext_price': {
             'col': 8,
             'level': 0,
-            'label': 'Ext$',
+            'label': 'Ext' + curr_sym,
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment': 'Minimum extended price for each part across all distributors.',
             'static': False,
@@ -412,7 +419,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
         col_ids = list(columns.keys())
         user_field_id = user_field.lower()
         if user_field_id not in col_ids:
-            # Put user fields immediately to right of the 'desc' column. 
+            # Put user fields immediately to right of the 'desc' column.
             desc_col = columns['desc']['col']
             # Push all existing fields to right of 'desc' over by one column.
             for id in col_ids:
@@ -594,7 +601,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                 }
             )
 
-            # If total available part quantity is less than needed quantity, color cell orange. 
+            # If total available part quantity is less than needed quantity, color cell orange.
             wks.conditional_format(
                 row, start_col + columns['qty']['col'],
                 row, start_col + columns['qty']['col'],
@@ -606,7 +613,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                 }
             )
 
-            # If total purchased part quantity is less than needed quantity, color cell yellow. 
+            # If total purchased part quantity is less than needed quantity, color cell yellow.
             wks.conditional_format(
                 row, start_col + columns['qty']['col'],
                 row, start_col + columns['qty']['col'],
@@ -688,14 +695,14 @@ Orange -> Too little quantity available.'''
         'unit_price': {
             'col': 2,
             'level': 2,
-            'label': 'Unit$',
+            'label': 'Unit'+ curr_sym,
             'width': None,
             'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price.'
         },
         'ext_price': {
             'col': 3,
             'level': 0,
-            'label': 'Ext$',
+            'label': 'Ext' + curr_sym,
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment':
             '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> Next price break is cheaper.\nGreen -> Cheapest supplier.'
@@ -775,7 +782,7 @@ Orange -> Too little quantity available.'''
         else:
             wks.write(row, start_col + columns['avail']['col'],
                 'NonStk', wrk_formats['not_stocked'])
-            wks.write_comment(row, start_col + columns['avail']['col'], 
+            wks.write_comment(row, start_col + columns['avail']['col'],
                 'This part is listed but is not normally stocked.')
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
@@ -824,7 +831,7 @@ Orange -> Too little quantity available.'''
 
             # Conditional format to show no quantity is available.
             wks.conditional_format(
-                row, start_col + columns['avail']['col'], 
+                row, start_col + columns['avail']['col'],
                 row, start_col + columns['avail']['col'],
                 {
                     'type': 'cell',
@@ -836,7 +843,7 @@ Orange -> Too little quantity available.'''
 
             # Conditional format to show the avaliable quantity is less than required.
             wks.conditional_format(
-                row, start_col + columns['avail']['col'], 
+                row, start_col + columns['avail']['col'],
                 row, start_col + columns['avail']['col'],
                 {
                     'type': 'cell',
@@ -848,7 +855,7 @@ Orange -> Too little quantity available.'''
 
             # Conditional format to show the purchase quantity is more than what is available.
             wks.conditional_format(
-                row, start_col + columns['purch']['col'], 
+                row, start_col + columns['purch']['col'],
                 row, start_col + columns['purch']['col'],
                 {
                     'type': 'cell',
@@ -890,7 +897,7 @@ Orange -> Too little quantity available.'''
 
     total_cost_col = start_col + columns['ext_price']['col']
     unit_cost_col = start_col + columns['unit_price']['col']
-    
+
     # If more than one file (multifiles mode) show how many
     # parts of each BOM as found at this distributor and
     # the correspondent total price.
@@ -916,7 +923,7 @@ Orange -> Too little quantity available.'''
                 wrk_formats['found_part_pct'])
             wks.write_comment(row, total_cost_col+1, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
         total_cost_row = PART_INFO_FIRST_ROW - 3 # Shift the total price in this distributor.
-    
+
     # Sum the extended prices for all the parts to get the total cost from this distributor.
     wks.write(total_cost_row, total_cost_col, '=SUM({sum_range})'.format(
         sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
