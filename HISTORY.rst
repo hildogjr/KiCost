@@ -12,6 +12,7 @@ ______________________
 * Now automatically merge 'description' and other fields to create the groups.
 * Fixed the sort method in when used ``--no_collapse``.
 * GUI save last position and size.
+* Fixed the missing icon on guide in install.
 
 
 0.1.43 (2018-03-15)
