@@ -68,11 +68,6 @@ for module in os.listdir(directory):
 
 __all__ = ['scrape_part']
 
-# Extra informations to by got by each part in the distributors.
-EXTRA_INFO = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
-              'datasheet', 'image' # Links.
-             ]
-
 
 def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_retries, logger):
     '''Get the HTML tree for a part from the given distributor website or local HTML.'''
@@ -104,7 +99,21 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_r
 
 
 def scrape_part(args):
-    '''Scrape the data for a part from each distributor website or local HTML.'''
+    '''@brief Scrape the data for a part from each distributor website or local HTML.
+    
+    Use distributors submodules to scrape each distributor part page and get
+    informations such as price, quantity avaliable and others;
+    
+    @param `int` Count of the main loop.
+    @param `str`String with the part number / distributor stock.
+    @param `dict`
+    @param `str`
+    @param `int`Number of scrape retries.
+    @param logger.getEffectiveLevel()
+    @param throttle_lock
+    @param throttle_tim
+    @return id, url, `str` distributor stock part number, `dict` price tiers, `int` qty avail, `dict` extrainfo dist
+    '''
 
     id, part, distributor_dict, local_part_html, scrape_retries, log_level, throttle_lock, throttle_timeouts = args # Unpack the arguments.
 
@@ -122,6 +131,7 @@ def scrape_part(args):
     part_num = {}
     price_tiers = {}
     qty_avail = {}
+    info_dist = {}
 
     # Scrape the part data from each distributor website or the local HTML.
     # Create a list of the distributor keys and randomly choose one of the
@@ -157,6 +167,15 @@ def scrape_part(args):
                 part_num[d] = dist_module.get_part_num(html_tree)
                 qty_avail[d] = dist_module.get_qty_avail(html_tree)
                 price_tiers[d] = dist_module.get_price_tiers(html_tree)
+                
+                try:
+                    # Get extra characeristics of the part in the web page.
+                    # This will be use to comment in the 'cat#' column of the
+                    # spreadsheet and some validations (in the future implementaions)
+                    info_dist[d] = dist_module.get_extra_info(html_tree)
+                except:
+                    info_dist[d] = {}
+                    pass
 
                 # The part data has been scraped from this distributor, so remove it from the list.
                 distributors.remove(d)
@@ -167,4 +186,4 @@ def scrape_part(args):
                 throttle_lock.release()
 
     # Return the part data.
-    return id, url, part_num, price_tiers, qty_avail
+    return id, url, part_num, price_tiers, qty_avail, info_dist

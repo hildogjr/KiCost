@@ -129,6 +129,22 @@ def FakeBrowser(url):
     req.add_header('User-agent', get_user_agent())
     return req
 
+# Extra informations to by got by each part in the distributors.
+EXTRA_INFO = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
+              'size', 'op temp'
+              'datasheet', 'image', # Links.
+             ]
+extra_info_name_translations = {
+    'resistance': 'value',
+    'inductance': 'value',
+    'capacitance': 'value',
+    'manufacturer': 'manf',
+    'package': 'footprint',
+    'datasheets': 'datasheet',
+    'dimension': 'size',
+    'size / dimension': 'size',
+    'operating temperature': 'op temp',
+}
 
 # The global dictionary of distributor information starts out empty.
 distributor_dict = {}

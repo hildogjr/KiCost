@@ -240,11 +240,12 @@ def kicost(in_file, eda_tool_name, out_filename,
             for i in range(len(parts)):
                 args = (i, parts[i], distributor_dict, local_part_html, scrape_retries,
                         logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)
-                id, url, part_num, price_tiers, qty_avail = scrape_part(args)
+                id, url, part_num, price_tiers, qty_avail, info_dist = scrape_part(args)
                 parts[id].part_num = part_num
                 parts[id].url = url
                 parts[id].price_tiers = price_tiers
                 parts[id].qty_avail = qty_avail
+                parts[id].info_dist = info_dist # Extra distributor web page.
                 scraping_progress.update(1)
         else:
             # Scrape data, multiple parts at a time using multiprocessing.
@@ -284,11 +285,12 @@ def kicost(in_file, eda_tool_name, out_filename,
             # Get the data from each process result structure.
             logger.log(DEBUG_OVERVIEW, 'Getting the part scraped informations...')
             for result in results:
-                id, url, part_num, price_tiers, qty_avail = result.get()
+                id, url, part_num, price_tiers, qty_avail, info_dist = result.get()
                 parts[id].part_num = part_num
                 parts[id].url = url
                 parts[id].price_tiers = price_tiers
                 parts[id].qty_avail = qty_avail
+                parts[id].info_dist = info_dist # Extra distributor web page.
 
         # Done with the scraping progress bar so delete it or else we get an 
         # error when the program terminates.

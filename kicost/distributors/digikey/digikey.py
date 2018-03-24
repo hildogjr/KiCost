@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2015 by XESS Corporation
+# Copyright (C) 2015 by XESS Corporation / Hildo Guillardi Junior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -41,8 +41,32 @@ import http.client # For web scraping exceptions.
 from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import WEB_SCRAPE_EXCEPTIONS
 from .. import FakeBrowser
+from .. import EXTRA_INFO, extra_info_name_translations
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+
+
+def get_extra_info(html_tree):
+    '''@brief Get the extra characteristics from the part web page.
+       @param html_tree `str()` html of the distributor part page.
+       @return `dict()` keys as characteristics names.
+    '''
+    info = {}
+    try:
+        table =  html_tree.find('table', id='prod-att-table')
+        for row in table.find_all('tr', id=None): # `None`to ignore the header row.
+            try:
+                k = row.find('th').text.strip().lower()
+                v = row.find('td').text.strip()
+                k = extra_info_name_translations.get(k, k)
+                if k in EXTRA_INFO:
+                    info[k] = v
+            except:
+                continue
+    except AttributeError:
+        # This happens when no pricing info is found in the tree.
+        logger.log(DEBUG_OBSESSIVE, 'No Digikey pricing information found!')
+    return info
 
 
 def get_price_tiers(html_tree):
@@ -63,7 +87,6 @@ def get_price_tiers(html_tree):
     except AttributeError:
         # This happens when no pricing info is found in the tree.
         logger.log(DEBUG_OBSESSIVE, 'No Digikey pricing information found!')
-        return price_tiers  # Return empty price tiers.
     return price_tiers
 
 
