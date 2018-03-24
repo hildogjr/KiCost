@@ -34,6 +34,7 @@ import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 # KiCost libriries.
 from . import __version__ # Version control by @xesscorp.
+from .globals import SEPRTR
 from .globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .eda_tools.eda_tools import partgroup_qty, order_refs, PART_REF_REGEX
@@ -42,6 +43,9 @@ __all__ = ['create_spreadsheet']
 
 # Regular expression to the link for one datasheet.
 DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
+
+# Extra information characteristcs of the components gotten in the page that will be displayed as comment in the 'cat#' column.
+EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, user_fields, variant):
@@ -757,6 +761,13 @@ Orange -> Too little quantity available.'''
             wks.write(row, start_col + columns['part_num']['col'], dist_part_num, wrk_formats['part_format'])
         else:
             dist_part_num = 'Link' # To use as text for the link.
+        try:
+            # Add a comment in the 'cat#' column with extra informations gotten in the distributor web page.
+            comment = '\n'.join(sorted([ k.capitalize()+SEPRTR+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
+            if comment:
+                wks.write_comment(row, start_col + columns['part_num']['col'], comment)
+        except:
+            pass
 
         # Enter a link to the distributor webpage for this part, even if there
         # is no valid quantity or pricing for the part (see next conditional).

@@ -11,6 +11,7 @@ ______________________
 * Use the datasheet link information from KiCad and other EDAs, given by 'datasheet' field.
 * Now automatically merge 'description' and other fields to create the groups.
 * GUI save last position and size and others improvements.
+* Displa additional information from the web page distributors and use as comment in the ``cat#`` column (just implemented on DigiKey yet).
 
 
 0.1.43 (2018-03-15)

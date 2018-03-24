@@ -277,7 +277,8 @@ if __name__ == '__main__':
 
 def kicost_gui_notdependences():
     print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip install wxPython # For python 2.5')
-    print('pip3 install wxPython # For python 3.0+')
-    print('Or download from last version from <https://wxpython.org/>')
+    print('pip3 install -U wxPython # For Windows & macOS')
+
+    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
     sys.exit(1)
