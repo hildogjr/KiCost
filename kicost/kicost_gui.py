@@ -304,6 +304,11 @@ class formKiCost ( wx.Frame ):
         
         bSizer6.Add( sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5 )
         
+        self.m_button_run = wx.Button( self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_button_run.SetToolTip( u"Click to run KiCost." )
+        
+        bSizer6.Add( self.m_button_run, 0, wx.ALL, 5 )
+        
         
         wSizer1.Add( bSizer6, 1, wx.RIGHT|wx.EXPAND, 5 )
         
@@ -321,18 +326,13 @@ class formKiCost ( wx.Frame ):
         self.m_gauge_process.SetValue( 0 ) 
         self.m_gauge_process.SetToolTip( u"Percentage of the scrape process elapsed." )
         
-        fgSizer1.Add( self.m_gauge_process, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5 )
+        fgSizer1.Add( self.m_gauge_process, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL|wx.ALIGN_CENTER_VERTICAL, 5 )
         
         self.m_staticText_progressInfo = wx.StaticText( self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_staticText_progressInfo.Wrap( -1 )
         self.m_staticText_progressInfo.SetToolTip( u"Progress infromation." )
         
-        fgSizer1.Add( self.m_staticText_progressInfo, 1, wx.ALL|wx.EXPAND, 5 )
-        
-        self.m_button_run = wx.Button( self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0 )
-        self.m_button_run.SetToolTip( u"Click to run KiCost." )
-        
-        fgSizer1.Add( self.m_button_run, 0, wx.ALL, 5 )
+        fgSizer1.Add( self.m_staticText_progressInfo, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_VERTICAL, 5 )
         
         
         bSizer3.Add( fgSizer1, 0, wx.EXPAND, 5 )
@@ -546,7 +546,7 @@ class formKiCost ( wx.Frame ):
                     finally:
                         self.updateChecked = True
             
-            threading.Thread(target=checkUpdate).start()
+            wx.CallLater(50, checkUpdate) # Thread optimized for graphical elements change.
 
     #----------------------------------------------------------------------
     def m_textCtrl_messages_rClick( self, event ):
@@ -639,6 +639,24 @@ class formKiCost ( wx.Frame ):
         ''' @brief Call to run KiCost.'''
         event.Skip()
         def run_kicost_guide():
+            class EtaStream(object):
+                def __init__(self, widget):
+                    #super(self.__class__, self).__init__()
+                    pass
+                def write(self, bar):
+                    sys.stderr.write(bar)
+                    try:
+                        #Progress:   3%|█                               | 3/90 [00:13<19:42, 13.59s/part]
+                        print('-------', bar)
+                        #perc = re.findall('(\d)\%\|')[0]
+                        #desc = re.findall('\| (.+)$')[0]
+                        #print('---', perc, desc)#TODO
+                        #self.m_gauge_process.SetValue(perc)
+                        #self.m_staticText_progressInfo.SetLabel(desc)
+                    except:
+                        pass
+                    def flush(self):
+                        sys.stderr.flush()
             class GUILoggingHandler(object):
                 def __init__(self, widget):
                     #super(self.__class__, self).__init__()
@@ -648,6 +666,8 @@ class formKiCost ( wx.Frame ):
                         self.widget.AppendText( msg )
                     except:
                         sys.__stdout__(msg)
+                def flush(self):#TODO
+                    sys.stderr.flush()
             self.m_button_openfile.Enable( False )
             #sys.stdout = GUILoggingHandler(self.m_textCtrl_messages)
             #sys.errout = GUILoggingHandler(self.m_textCtrl_messages)
@@ -660,14 +680,18 @@ class formKiCost ( wx.Frame ):
             sys.stderr = sys.__stderr__
             
             self.m_button_openfile.Enable( True )
-        kicost_motor_thread = threading.Thread(target=run_kicost_guide)
-        kicost_motor_thread.start()
+        def run_kicost_guide2():
+            '''Run the as a Thread out of the box wxPython'''
+            self.m_gauge_process.SetValue(0)
+            kicost_motor_thread = threading.Thread(target=run_kicost_guide)
+            kicost_motor_thread.start()
+        wx.CallLater(10, run_kicost_guide2) # Necessary to not '(core dumped)' with wxPython.
 
     #----------------------------------------------------------------------
     def run( self ):
         ''' @brief Run KiCost.
             Run KiCost in the GUI interface updating the process bar and messages.'''
-        self.m_gauge_process.SetValue(0)
+        #self.m_gauge_process.SetValue(0)
         #self.m_textCtrl_messages.Clear() # Clear the messages to appear just the last run.
         
         class argments:
@@ -759,19 +783,17 @@ class formKiCost ( wx.Frame ):
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
                 group_fields=args.group_fields, variant=args.variant,
                 dist_list=args.include, num_processes=num_processes,
-                scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-                )
+                scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+            if self.m_checkBox_openXLS.GetValue():
+                print('Opening the output file \'{}\'...'.format(
+                                    os.path.basename(spreadsheet_file)
+                                )
+                            )
+                open_file(spreadsheet_file)
         except Exception as e:
             print(e)
         print('Elapsed time: {} seconds'.format(time.time() - start_time) )
-        self.m_gauge_process.SetValue(100)
-        
-        if self.m_checkBox_openXLS.GetValue():
-            print('Opening the output file \'{}\'...'.format(
-                                os.path.basename(spreadsheet_file)
-                            )
-                        )
-            open_file(spreadsheet_file)
+        #self.m_gauge_process.SetValue(100)
         
         return
 
