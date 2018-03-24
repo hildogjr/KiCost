@@ -33,6 +33,7 @@ except ImportError:
     raise ImportError('wxPython package not recognised.')
 import webbrowser # To update informations.
 import sys, os, subprocess # To access OS commands and run in the shell.
+import threading
 import time # To elapse time.
 import platform # To check the system platform when open the XLS file.
 import tempfile # To create the temporary log file.
@@ -634,29 +635,35 @@ class formKiCost ( wx.Frame ):
     def button_run( self, event ):
         ''' @brief Call to run KiCost.'''
         event.Skip()
-        #TODO run as subprocess.
-        class GUILoggingHandler(object):
-            def __init__(self, widget):
-                #super(self.__class__, self).__init__()
-                self.widget = widget
-            def write(self, msg):
-                try:
-                    self.widget.AppendText( msg )
-                except:
-                    sys.__stdout__(msg)
-        sys.stdout = GUILoggingHandler(self.m_textCtrl_messages)
-        sys.errout = GUILoggingHandler(self.m_textCtrl_messages)
-        
-        self.save_properties() # Save the current graphical configuration before call the KiCost motor.
-        self.run() # Run KiCost.
-        
-        # Restore the channel print output to terminal.
-        sys.stdout = sys.__stdout__
-        sys.stderr = sys.__stderr__
+        def run_kicost_guide():
+            class GUILoggingHandler(object):
+                def __init__(self, widget):
+                    #super(self.__class__, self).__init__()
+                    self.widget = widget
+                def write(self, msg):
+                    try:
+                        self.widget.AppendText( msg )
+                    except:
+                        sys.__stdout__(msg)
+            self.m_button_openfile.Enable( False )
+            #sys.stdout = GUILoggingHandler(self.m_textCtrl_messages)
+            #sys.errout = GUILoggingHandler(self.m_textCtrl_messages)
+            
+            self.save_properties() # Save the current graphical configuration before call the KiCost motor.
+            self.run() # Run KiCost.
+            
+            # Restore the channel print output to terminal.
+            sys.stdout = sys.__stdout__
+            sys.stderr = sys.__stderr__
+            
+            self.m_button_openfile.Enable( True )
+        kicost_motor_thread = threading.Thread(target=run_kicost_guide)
+        kicost_motor_thread.start()
 
     #----------------------------------------------------------------------
     def run( self ):
-        ''' @brief Run KiCost in the GUI interface updating the process bar and messages.'''
+        ''' @brief Run KiCost.
+            Run KiCost in the GUI interface updating the process bar and messages.'''
         self.m_gauge_process.SetValue(0)
         #self.m_textCtrl_messages.Clear() # Clear the messages to appear just the last run.
         
