@@ -10,9 +10,7 @@ ______________________
 * Fixed wxPython exception import.
 * Use the datasheet link information from KiCad and other EDAs, given by 'datasheet' field.
 * Now automatically merge 'description' and other fields to create the groups.
-* Fixed the sort method in when used ``--no_collapse``.
-* GUI save last position and size.
-* Fixed the missing icon on guide in install.
+* GUI save last position and size and others improvements.
 
 
 0.1.43 (2018-03-15)
