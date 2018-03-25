@@ -428,8 +428,10 @@ Command-Line Options
                             Define the priority locale/country and currency on the
                             scrape. Use the ISO4217 for currency and ISO3166:2 for
                             country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`.
-                            Currency is priritized over the locale/country. Default:
-                            `USD`.
+                            Currency is priritized over the locale/country. If give
+                            country with more than one currency, it will be chosen,
+                            in the sequence, `USD`, `EUR` or alphabetical order.
+                            Default: `USD`.
       --user                Start the user guide to run KiCost passing the file
                             parameter give by "--input", all others parameters are
                             ignored.
