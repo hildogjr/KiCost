@@ -59,9 +59,12 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
     url = 'https://www.digikey.com/en/resources/international'
     print('####',currency_iso)
     try:
-        distributor_dict['digikey']['site']['url'] =0
-        distributor_dict['digikey']['site']['currency'] =0
-        distributor_dict['digikey']['site']['locale'] =0
+        if locale_iso:
+            country = iso3166.countries.get(locale_iso).name
+        
+        distributor_dict['digikey']['site']['url'] = 'https://www.digikey.com',
+        distributor_dict['digikey']['site']['currency'] = 'USD'
+        distributor_dict['digikey']['site']['locale'] = 'US'
     except:
         logger.log(DEBUG_OVERVIEW, 'Keept the last configuration {}, {} on {}'.format(
                 distributor_dict['digikey']['site']['locale'],

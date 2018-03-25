@@ -107,6 +107,7 @@ field_name_translations.update(
         'dnp': 'dnp',
         'nopop': 'dnp',
         'description': 'desc',
+        'pdf': 'datasheet',
     }
 )
 
