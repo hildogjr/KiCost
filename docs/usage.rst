@@ -408,8 +408,8 @@ Command-Line Options
                             data, then exit.
       --show_eda_list       Show list of EDA tools whose files KiCost can read,
                             then exit.
-      --no_collapse         Do not collapse the part references like C1,C2,C3 into C1-C3
-                            in the spreadsheet.
+      --no_collapse         Do not collapse the part references like C1,C2,C3 into
+                            C1-C3 in the spreadsheet.
       -e DIST [DIST ...], --exclude DIST [DIST ...]
                             Excludes the given distributor(s) from the scraping
                             process.
@@ -424,6 +424,12 @@ Command-Line Options
       --throttling_delay [DELAY]
                             Specify minimum delay (in seconds) between successive
                             accesses to a distributor's website.
+      --currency [CURRENCY-LOCALE], '--locale' [CURRENCY-LOCALE]
+                            Define the priority locale/country and currency on the
+                            scrape. Use the ISO4217 for currency and ISO3166:2 for
+                            country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`.
+                            Currency is priritized over the locale/country. Default:
+                            `USD`.
       --user                Start the user guide to run KiCost passing the file
                             parameter give by "--input", all others parameters are
                             ignored.
@@ -457,5 +463,12 @@ To do this:
    For example, the command value I use is::
 
       C:\winpython3\python-3.4.3\scripts\kicost -w -i "%1"
+
+# If you have the GUIDE dependences insalled, it could be used:
+
+      path_to_kicost --user -i "%1"
+
+   So, KiCost will use the last preferences setted on the GUI to scrape, including
+   which distributors to use, currency and others definitions.
 
 #. Close the registry. KiCost should now appear when you right-click on an XML file.
