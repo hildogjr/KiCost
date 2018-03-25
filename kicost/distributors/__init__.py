@@ -131,10 +131,11 @@ def FakeBrowser(url):
 
 # Extra informations to by got by each part in the distributors.
 EXTRA_INFO = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
-              'size', 'op temp'
+              'size', 'op temp', 'orientation', 'color',
               'datasheet', 'image', # Links.
              ]
 extra_info_name_translations = {
+    #TODO it will need to put here language translation after implementation of ISSUE #65?
     'resistance': 'value',
     'inductance': 'value',
     'capacitance': 'value',
@@ -144,6 +145,10 @@ extra_info_name_translations = {
     'dimension': 'size',
     'size / dimension': 'size',
     'operating temperature': 'op temp',
+    'voltage - rated': 'voltage',
+    'Mating Orientation': 'orientation',
+    'coulor': 'color',
+    'wire gauge': 'wire',
 }
 
 # The global dictionary of distributor information starts out empty.

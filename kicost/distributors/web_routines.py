@@ -45,7 +45,7 @@ from ..globals import SEPRTR
 from ..globals import PartHtmlError
 #from ..eda_tools.eda_tools import collapse_refs
 
-import os
+import os, re
 
 # The distributor module directories will be found in this directory.
 directory = os.path.dirname(__file__)
@@ -66,11 +66,47 @@ for module in os.listdir(directory):
     # Import the module.
     dist_modules[module] = __import__(module, globals(), locals(), [], level=1)
 
-__all__ = ['scrape_part']
+__all__ = ['scrape_part', 'config_distributor']
+
+def config_distributor(dist_name, locale_currency='USD'):
+    '''@brief Configure the distributor for some locale/country and
+    currency second ISO3166 and ISO4217
+    
+    @param `str` dist Distributor to configure.
+    @param `str` Alpha 2 country or alpha 3 currency or even one slash other.'''
+    locale_currency = re.findall('\w{2,}', locale_currency)
+    locale = None
+    currency = None
+    for alpha in locale_currency:
+        if len(alpha)==2:
+            locale = alpha
+        elif len(alpha)==3:
+            currency = alpha
+    
+    try:
+        dist_module = distributor_dict[dist_name]
+    except KeyError: # When use local distributor with personalized name.
+        dist_module = distributor_dict[distributor_dict[dist_name]['module']]
+    try:
+        if distributor_dict[d]['scrape']=='web':
+            # Not make sense to configurate a local machine distributor.
+            dist_module.define_locale_currency(locale_iso=locale, currency_iso=currency)
+    except:
+        logger.warning('No currency/country configuration for {}'.format(distributor_dict[d][label]))
+        pass
 
 
 def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_retries, logger):
-    '''Get the HTML tree for a part from the given distributor website or local HTML.'''
+    '''@brief Get the HTML tree for a part.
+    
+    Get the HTML tree for a part from the given distributor website or local HTML.
+    @param `str` part Part manufactor code or distributor stock code.
+    @param `str` dist Distributor do scrape.
+    @param `str` get_html_tree_func
+    @param `str` local_part_html
+    @param `int` scrape_retries Maximum times of web ritries.
+    @param logger Logger handle.
+    @return `str` with the HTML webpage.'''
 
     logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
 

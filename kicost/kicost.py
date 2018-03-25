@@ -54,7 +54,7 @@ from .globals import *
 
 # Import information about various distributors.
 from .distributors import distributor_dict
-from .distributors.web_routines import scrape_part
+from .distributors.web_routines import scrape_part, config_distributor
 from .distributors.local.local import create_part_html as create_local_part_html
 
 # Import information for various EDA tools.
@@ -66,7 +66,9 @@ from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 def kicost(in_file, eda_tool_name, out_filename,
         user_fields, ignore_fields, group_fields, variant,
         dist_list=list(distributor_dict.keys()),
-        num_processes=4, scrape_retries=5, throttling_delay=0.0, collapse_refs=True):
+        num_processes=4, scrape_retries=5, throttling_delay=0.0,
+        collapse_refs=True,
+        local_currency='USD'):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -198,6 +200,20 @@ def kicost(in_file, eda_tool_name, out_filename,
 
     # Get the distributor product page for each part and scrape the part data.
     if dist_list:
+
+        if local_currency:
+            print('-----',local_currency)
+            logger.log(DEBUG_OVERVIEW, 'Configuring the distributors locate and currency...')
+            if num_processes <= 1:
+                for d in distributor_dict:
+                    config_distributor(distributor_dict[d]['module'], local_currency)
+            else:
+                pool = Pool(num_processes)
+                for d in distributor_dict:
+                    args = [distributor_dict[d]['module'], local_currency]
+                    pool.apply_async(config_distributor, [args])
+                pool.close()
+
         logger.log(DEBUG_OVERVIEW, 'Scraping part data for each component group...')
 
         global scraping_progress
@@ -237,6 +253,7 @@ def kicost(in_file, eda_tool_name, out_filename,
             throttle_timeouts = dict()
             throttle_timeouts = {d:time() for d in distributor_dict}
 
+            logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
             for i in range(len(parts)):
                 args = (i, parts[i], distributor_dict, local_part_html, scrape_retries,
                         logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)

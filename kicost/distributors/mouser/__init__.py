@@ -23,7 +23,13 @@ distributor_dict.update(
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#004A85'  # Mouser blue.
-            }
+            },
+            # Web site defitions.
+            'site': {
+                'url': 'https://www.mouser.com/',
+                'currency': 'USD',
+                'locale': 'US'
+            },
         }
     }
 )

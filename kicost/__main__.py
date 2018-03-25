@@ -151,6 +151,11 @@ def main():
                         nargs='?', type=float, default=0.0,
                         metavar='DELAY',
                         help="Specify minimum delay (in seconds) between successive accesses to a distributor's website.")
+    parser.add_argument('--currency', '--locale',
+                        nargs='?',
+                        type=str,
+                        metavar='USD',
+                        help='Define the priority locale/country and currency on the scrape. Use the ISO4217 for currency and ISO3166:2 for country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`. Currency is priritized over the locale/country. Default: `USD`.')
     parser.add_argument('--user',
                         action='store_true',
                         help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
@@ -257,7 +262,8 @@ def main():
             user_fields=args.fields, ignore_fields=args.ignore_fields,
             group_fields=args.group_fields, variant=args.variant,
             dist_list=dist_list, num_processes=num_processes,
-            scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+            scrape_retries=args.retries, throttling_delay=args.throttling_delay,
+            local_currency=args.currency)
     except Exception as e:
         sys.exit(e)
 

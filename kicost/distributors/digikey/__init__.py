@@ -23,8 +23,13 @@ distributor_dict.update(
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#CC0000'  # Digi-Key red.
-            }
+            },
+            # Web site defitions.
+            'site': {
+                'url': 'https://www.digikey.com',
+                'currency': 'USD',
+                'locale': 'US'
+            },
         }
     }
 )
-

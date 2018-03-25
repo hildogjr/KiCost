@@ -38,12 +38,36 @@ import re
 import difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import WEB_SCRAPE_EXCEPTIONS
-from .. import FakeBrowser
+from .. import WEB_SCRAPE_EXCEPTIONS, FakeBrowser, urlquote, urlsplit, urlunsplit, urlopen, Request
 from .. import EXTRA_INFO, extra_info_name_translations
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+
+from .. import distributor_dict
+import iso3166, iso4217
+
+def define_locale_currency(locale_iso=None, currency_iso=None):
+    '''@brief Configure the distributor for the country and currency intended.
+    
+    Scrape the configuration page and define the base URL of DigiKey for the
+    currency and locale chosen.
+    The currency is predominant over the locale/country and the defauld are
+    currency='USD' and locale='US' for DigiKey.
+    
+    @param locale_iso `str` Country in ISO3166 alpha 2 standard.
+    @param currency_iso `str` Currency in ISO4217 alpha 3 standard.'''
+    url = 'https://www.digikey.com/en/resources/international'
+    try:
+        distributor_dict['digikey']['site']['url'] =0
+        distributor_dict['digikey']['site']['currency'] =0
+        distributor_dict['digikey']['site']['locale'] =0
+    except:
+        logger.log(DEBUG_OVERVIEW, 'Keept the last configuration {}, {} on {}'.format(
+                distributor_dict['digikey']['site']['locale'],
+                iso4217.Currency(distributor_dict['digikey']['site']['currency']).currency_name,
+                iso3166.countries.get(distributor_dict['digikey']['site']['url']).name
+            )) 
+        return # Keep the current configuration.
 
 
 def get_extra_info(html_tree):
@@ -185,12 +209,12 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-        url = 'http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=' + urlquote(
+        url = distributor_dict['digikey']['site']['url'] + '/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=' + urlquote(
             pn + ' ' + extra_search_terms,
             safe='')
-        #url = 'http://www.digikey.com/product-search/en?KeyWords=' + urlquote(pn,safe='') + '&WT.z_header=search_go'
+        #url = distributor_dict['digikey']['site']['url'] + '/product-search/en?KeyWords=' + urlquote(pn,safe='') + '&WT.z_header=search_go'
     elif url[0] == '/':
-        url = 'http://www.digikey.com' + url
+        url = distributor_dict['digikey']['site']['url'] + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
     req = FakeBrowser(url)

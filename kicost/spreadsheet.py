@@ -709,7 +709,7 @@ Orange -> Too little quantity available.'''
             'level': 2,
             'label': 'Cat#',
             'width': 15,
-            'comment': 'Distributor-assigned catalog number for each part and link to it\'s web page (ctrl-click).'
+            'comment': 'Distributor-assigned catalog number for each part and link to it\'s web page (ctrl-click). Extra distributor data is shown as comment.'
         },
     }
     num_cols = len(list(columns.keys()))
@@ -763,7 +763,7 @@ Orange -> Too little quantity available.'''
             dist_part_num = 'Link' # To use as text for the link.
         try:
             # Add a comment in the 'cat#' column with extra informations gotten in the distributor web page.
-            comment = '\n'.join(sorted([ k.capitalize()+SEPRTR+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
+            comment = '\n'.join(sorted([ k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
             if comment:
                 wks.write_comment(row, start_col + columns['part_num']['col'], comment)
         except:

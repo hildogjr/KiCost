@@ -23,7 +23,7 @@ distributor_dict.update(
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#008000'  # Darker green.
-            }
+            },
         }
     }
 )
