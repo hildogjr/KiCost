@@ -464,7 +464,7 @@ To do this:
 
       C:\winpython3\python-3.4.3\scripts\kicost -w -i "%1"
 
-# If you have the GUIDE dependences insalled, it could be used:
+#. If you have the GUIDE dependences insalled, it could be used::
 
       path_to_kicost --user -i "%1"
 
