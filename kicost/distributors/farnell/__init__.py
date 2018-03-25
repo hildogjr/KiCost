@@ -22,7 +22,13 @@ distributor_dict.update(
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#FF6600'  # Farnell/E14 orange.
-            }
+            },
+            # Web site defitions.
+            'site': {
+                'url': 'http://farnell.com/',
+                'currency': 'USD',
+                'locale': 'US'
+            },
         }
     }
 )

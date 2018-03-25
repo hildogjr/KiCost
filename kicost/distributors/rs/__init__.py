@@ -22,7 +22,13 @@ distributor_dict.update(
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#FF0000'  # RS Components red.
-            }
+            },
+            # Web site defitions.
+            'site': {
+                'url': 'http://rs-online.com/',
+                'currency': 'USD',
+                'locale': 'UK'
+            },
         }
     }
 )

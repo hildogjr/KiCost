@@ -23,7 +23,13 @@ distributor_dict.update(
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#0C4DA1'  # TME blue
-            }
+            },
+            # Web site defitions.
+            'site': {
+            'url': 'https://www.tme.eu/en/',
+            'currency': 'USD',
+            'locale': 'UK'
+            },
         }
     }
 )

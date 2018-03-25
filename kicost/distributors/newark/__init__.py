@@ -23,7 +23,13 @@ distributor_dict.update(
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#A2AE06'  # Newark/E14 olive green.
-            }
+            },
+            # Web site defitions.
+            'site': {
+                'url': 'http://www.newark.com/',
+                'currency': 'USD',
+                'locale': 'US'
+            },
         }
     }
 )
