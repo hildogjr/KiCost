@@ -23,7 +23,9 @@ requirements = [
     'lxml >= 3.7.2',
     'yattag >= 1.5.2',
     'tqdm >= 4.4.0',
-    'CurrencyConverter >= 0.5',
+    'CurrencyConverter >= 0.5', # It will be decreped on next release!
+    'iso4217 >= 1.5', # Currency 3 letters standard.
+    'iso3166 >= 0.8', # Country 2 letters standard.
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
 
