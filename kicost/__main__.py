@@ -154,7 +154,7 @@ def main():
     parser.add_argument('--currency', '--locale',
                         nargs='?',
                         type=str,
-                        metavar='USD',
+                        default='USD',
                         help='Define the priority locale/country and currency on the scrape. Use the ISO4217 for currency and ISO3166:2 for country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`. Currency is priritized over the locale/country. If give country with more than one currency, it will be chosen, in the sequence, `USD`, `EUR` or alphabetical order. Default: `USD`.')
     parser.add_argument('--user',
                         action='store_true',

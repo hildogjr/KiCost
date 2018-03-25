@@ -43,7 +43,7 @@ except ImportError:
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
 from ..globals import PartHtmlError
-#from ..eda_tools.eda_tools import collapse_refs
+from . import distributor_dict
 
 import os, re
 
@@ -82,17 +82,17 @@ def config_distributor(dist_name, locale_currency='USD'):
             locale = alpha
         elif len(alpha)==3:
             currency = alpha
-    
+    print('+++',locale_currency, locale, currency, dist_name, distributor_dict[dist_name]['scrape'])
     try:
         dist_module = distributor_dict[dist_name]
     except KeyError: # When use local distributor with personalized name.
         dist_module = distributor_dict[distributor_dict[dist_name]['module']]
     try:
-        if distributor_dict[d]['scrape']=='web':
+        if distributor_dict[dist_name]['scrape']=='web':
             # Not make sense to configurate a local machine distributor.
             dist_module.define_locale_currency(locale_iso=locale, currency_iso=currency)
     except:
-        logger.warning('No currency/country configuration for {}'.format(distributor_dict[d][label]))
+        logger.warning('\tNo currency/country configuration for {}'.format(distributor_dict[d][label]))
         pass
 
 

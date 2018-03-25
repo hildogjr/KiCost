@@ -57,6 +57,7 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
     @param locale_iso `str` Country in ISO3166 alpha 2 standard.
     @param currency_iso `str` Currency in ISO4217 alpha 3 standard.'''
     url = 'https://www.digikey.com/en/resources/international'
+    print('####',currency_iso)
     try:
         distributor_dict['digikey']['site']['url'] =0
         distributor_dict['digikey']['site']['currency'] =0

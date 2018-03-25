@@ -194,27 +194,26 @@ def kicost(in_file, eda_tool_name, out_filename,
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributor_dict)
 
-    # Set the throttling delay for each distributor.
-    for d in distributor_dict:
-        distributor_dict[d]['throttling_delay'] = throttling_delay
-
     # Get the distributor product page for each part and scrape the part data.
     if dist_list:
 
         if local_currency:
-            print('-----',local_currency)
             logger.log(DEBUG_OVERVIEW, 'Configuring the distributors locate and currency...')
             if num_processes <= 1:
                 for d in distributor_dict:
                     config_distributor(distributor_dict[d]['module'], local_currency)
             else:
+                logger.log(DEBUG_OVERVIEW, '\tUsing {} simultaneos access...'.format(min(len(distributor_dict), num_processes)))
                 pool = Pool(num_processes)
                 for d in distributor_dict:
                     args = [distributor_dict[d]['module'], local_currency]
-                    pool.apply_async(config_distributor, [args])
+                    pool.apply_async(config_distributor, args)
                 pool.close()
 
         logger.log(DEBUG_OVERVIEW, 'Scraping part data for each component group...')
+        # Set the throttling delay for each distributor.
+        for d in distributor_dict:
+            distributor_dict[d]['throttling_delay'] = throttling_delay
 
         global scraping_progress
         scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
@@ -253,7 +252,7 @@ def kicost(in_file, eda_tool_name, out_filename,
             throttle_timeouts = dict()
             throttle_timeouts = {d:time() for d in distributor_dict}
 
-            logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
+            logger.log(DEBUG_OVERVIEW, '\tStarting {} parallels process...'.format(num_processes))
             for i in range(len(parts)):
                 args = (i, parts[i], distributor_dict, local_part_html, scrape_retries,
                         logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)
