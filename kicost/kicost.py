@@ -90,6 +90,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     distributor's website.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
+    @param local_currency `str()` Local/country in ISO3166:2 and currency in ISO4217. Default 'USD'.
     '''
 
     # Only keep distributors in the included list and not in the excluded list.
