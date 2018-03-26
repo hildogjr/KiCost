@@ -24,8 +24,7 @@ requirements = [
     'yattag >= 1.5.2',
     'tqdm >= 4.4.0',
     'CurrencyConverter >= 0.5', # It will be decreped on next release!
-    'iso4217 >= 1.5', # Currency 3 letters standard.
-    'iso3166 >= 0.8', # Country 2 letters standard.
+    'pycountry >= 18.2', # ISO4117, ISO3166 country and currency definitons from Debian’s pkg-isocodes.
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
 
