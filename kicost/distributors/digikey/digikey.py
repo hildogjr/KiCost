@@ -44,7 +44,7 @@ from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
 from .. import distributor_dict
-import iso3166, iso4217
+import pycountry
 
 def define_locale_currency(locale_iso=None, currency_iso=None):
     '''@brief Configure the distributor for the country and currency intended.
@@ -59,8 +59,8 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
     url = 'https://www.digikey.com/en/resources/international'
     print('####',currency_iso)
     try:
-        if locale_iso:
-            country = iso3166.countries.get(locale_iso).name
+        #if locale_iso:
+        #    country = iso3166.countries.get(locale_iso).name
         
         distributor_dict['digikey']['site']['url'] = 'https://www.digikey.com',
         distributor_dict['digikey']['site']['currency'] = 'USD'
