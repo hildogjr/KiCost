@@ -56,7 +56,6 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
     @param locale_iso `str` Country in ISO3166 alpha 2 standard.
     @param currency_iso `str` Currency in ISO4217 alpha 3 standard.'''
     url = 'https://www.digikey.com/en/resources/international'
-    print('####',currency_iso, url, '\n\n') #TODO
     req = FakeBrowser(url)
     for _ in range(4):
         try:
@@ -68,8 +67,9 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
     else: # Couldn't get a good read from the website.
         logger.log(DEBUG_OBSESSIVE,'No HTML page for DigiKey configuration')
         raise PartHtmlError
-    
+    html = BeautifulSoup(html, 'lxml')
     try:
+        print(currency_iso, locale_iso)
         if currency_iso and not locale_iso:
             money = pycountry.currencies.get(alpha_3=currency_iso.upper())
             locale_iso = pycountry.countries.get(numeric=money.numeric).alpha_2
