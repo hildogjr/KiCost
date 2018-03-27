@@ -34,12 +34,11 @@ standard_library.install_aliases()
 
 import future
 
-import re
-import difflib
+import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
 from .. import WEB_SCRAPE_EXCEPTIONS, FakeBrowser, urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import EXTRA_INFO, extra_info_name_translations
+from .. import EXTRA_INFO_DIST, extra_info_dist_name_translations
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
@@ -57,14 +56,33 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
     @param locale_iso `str` Country in ISO3166 alpha 2 standard.
     @param currency_iso `str` Currency in ISO4217 alpha 3 standard.'''
     url = 'https://www.digikey.com/en/resources/international'
-    print('####',currency_iso)
+    print('####',currency_iso, url, '\n\n') #TODO
+    req = FakeBrowser(url)
+    for _ in range(4):
+        try:
+            response = urlopen(req)
+            html = response.read()
+            break
+        except WEB_SCRAPE_EXCEPTIONS:
+            logger.log(DEBUG_DETAILED,'Exception while web-scraping DigiKey conofiguration')
+    else: # Couldn't get a good read from the website.
+        logger.log(DEBUG_OBSESSIVE,'No HTML page for DigiKey configuration')
+        raise PartHtmlError
+    
     try:
-        #if locale_iso:
-        #    country = iso3166.countries.get(locale_iso).name
-        
-        distributor_dict['digikey']['site']['url'] = 'https://www.digikey.com',
-        distributor_dict['digikey']['site']['currency'] = 'USD'
-        distributor_dict['digikey']['site']['locale'] = 'US'
+        if currency_iso and not locale_iso:
+            money = pycountry.currencies.get(alpha_3=currency_iso.upper())
+            locale_iso = pycountry.countries.get(numeric=money.numeric).alpha_2
+        if locale_iso:
+            locale_iso = locale_iso.upper()
+            country = pycountry.countries.get(alpha_2=locale_iso.upper()).name
+            html = html.find('li', text=re.compile(country, re.IGNORECASE))
+            url = html.find('a', id='linkcolor').get('href')
+            
+            distributor_dict['digikey']['site']['url'] = url
+            distributor_dict['digikey']['site']['currency'] = pycountry.currencies.get(numeric=country.numeric).alpha_3
+            distributor_dict['digikey']['site']['locale'] = locale_iso
+            return
     except:
         logger.log(DEBUG_OVERVIEW, 'Keept the last configuration {}, {} on {}'.format(
                 distributor_dict['digikey']['site']['locale'],
@@ -75,7 +93,7 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
 
 
 def get_extra_info(html_tree):
-    '''@brief Get the extra characteristics from the part web page.
+    '''@brief Get the extra characteristics `EXTRA_INFO_DIST` from the part web page.
        @param html_tree `str()` html of the distributor part page.
        @return `dict()` keys as characteristics names.
     '''
@@ -86,11 +104,25 @@ def get_extra_info(html_tree):
             try:
                 k = row.find('th').text.strip().lower()
                 v = row.find('td').text.strip()
-                k = extra_info_name_translations.get(k, k)
-                if k in EXTRA_INFO:
+                k = extra_info_dist_name_translations.get(k, k)
+                if k in EXTRA_INFO_DIST:
                     info[k] = v
             except:
                 continue
+        if 'datasheet' in EXTRA_INFO_DIST:
+            try:
+                info['datasheet'] = html_tree.find('a', href=True, target='_blank').get('href')
+                if info['datasheet'][0:2]=='//':
+                    info['datasheet'] = 'https:' + info['datasheet'] # Digikey missing definitions.
+            except:
+                pass
+        if 'image' in EXTRA_INFO_DIST:
+            try:
+                info['image'] = html_tree.find('img', itemprop="image").get('src')
+                if info['image'][0:2]=='//':
+                    info['image'] = 'https:' + info['image'] # Digikey missing definitions.
+            except:
+                pass
     except AttributeError:
         # This happens when no pricing info is found in the tree.
         logger.log(DEBUG_OBSESSIVE, 'No Digikey pricing information found!')
