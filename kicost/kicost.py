@@ -33,7 +33,7 @@ import future
 import sys, os
 import pprint
 import tqdm
-from time import time
+from time import time, sleep
 from multiprocessing import Pool, Manager, Lock
 
 # Stops UnicodeDecodeError exceptions.

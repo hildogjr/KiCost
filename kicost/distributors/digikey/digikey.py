@@ -69,7 +69,6 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
         raise PartHtmlError
     html = BeautifulSoup(html, 'lxml')
     try:
-        print(currency_iso, locale_iso)
         if currency_iso and not locale_iso:
             money = pycountry.currencies.get(alpha_3=currency_iso.upper())
             locale_iso = pycountry.countries.get(numeric=money.numeric).alpha_2
@@ -82,14 +81,13 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
             distributor_dict['digikey']['site']['url'] = url
             distributor_dict['digikey']['site']['currency'] = pycountry.currencies.get(numeric=country.numeric).alpha_3
             distributor_dict['digikey']['site']['locale'] = locale_iso
-            return
     except:
         logger.log(DEBUG_OVERVIEW, 'Keept the last configuration {}, {} on {}'.format(
-                distributor_dict['digikey']['site']['locale'],
-                iso4217.Currency(distributor_dict['digikey']['site']['currency']).currency_name,
-                iso3166.countries.get(distributor_dict['digikey']['site']['url']).name
-            )) 
-        return # Keep the current configuration.
+                pycountry.currencies.get(alpha_3=distributor_dict['digikey']['site']['currency']).name,
+                pycountry.countries.get(alpha_2=distributor_dict['digikey']['site']['locale']).name,
+                distributor_dict['digikey']['site']['url']
+            )) # Keep the current configuration.
+    return
 
 
 def get_extra_info(html_tree):
@@ -291,7 +289,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
     # If the tree contains the tag for a product page, then return it.
     if tree.find('div', class_='product-top-section') is not None:
 
-        # Digikey separates cut-tape and reel packaging, so we need to examine more pages
+        # Digikey separprint(ates cut-tape and reel packaging, so we need to examine more pages
         # to get all the pricing info. But don't descend any further if limit has been reached.
         if descend > 0:
             try:
