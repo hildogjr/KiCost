@@ -210,6 +210,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                     args = [distributor_dict[d]['module'], local_currency]
                     pool.apply_async(config_distributor, args)
                 pool.close()
+                pool.join()
 
         logger.log(DEBUG_OVERVIEW, 'Scraping part data for each component group...')
         # Set the throttling delay for each distributor.
