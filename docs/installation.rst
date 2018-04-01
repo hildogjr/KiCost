@@ -28,3 +28,8 @@ using the default option that web scrapes with parallel processes may cause
 On Linux, to install KiCost on python3, use::
 
     $ pip3 install kicost
+
+If you desire to test the new code version, putting you hands on new (beta) feature,
+you could install KiCost by:
+
+    $ pip install git+https://github.com/xesscorp/KiCost.git
