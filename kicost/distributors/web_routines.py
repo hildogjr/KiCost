@@ -91,7 +91,7 @@ def config_distributor(dist_name, locale_currency='USD'):
             # Not make sense to configurate a local machine distributor.
             dist_module.define_locale_currency(locale_iso=locale, currency_iso=currency)
     except AttributeError:
-        logger.warning('\tNo currency/country configuration for {}'.format(distributor_dict[dist_name][label]))
+        logger.warning('\tNo currency/country configuration for {}'.format(distributor_dict[dist_name]['label']))
         pass
 
 
