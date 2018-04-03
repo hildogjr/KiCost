@@ -30,7 +30,7 @@ from future import standard_library
 standard_library.install_aliases()
 
 import argparse as ap # Command argument parser.
-import os, sys
+import os, sys, platform
 import logging, time
 #import inspect # To get the internal module and informations of a module/class.
 from .kicost import * # kicost core functions.
@@ -46,6 +46,7 @@ from . import __version__ # Version control by @xesscorp.
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
 
+from .globals import *
 logger = logging.getLogger('kicost')
 
 ###############################################################################
@@ -256,6 +257,14 @@ def main():
         for d in args.exclude:
             dist_list.remove(d)
 
+    logger.log(DEBUG_OBSESSIVE, 'Started KiCost v.{} on {}({}) Python {}.{}.{}'.format(
+                                              __version__,
+                                              platform.platform(),
+                                              platform.architecture()[0],
+                                              sys.version_info.major,
+                                              sys.version_info.minor,
+                                              sys.version_info.micro)
+                                          )
     try:
         kicost(in_file=args.input, eda_tool_name=args.eda_tool,
             out_filename=args.output, collapse_refs=not args.no_collapse,
