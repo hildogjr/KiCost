@@ -12,7 +12,7 @@ ______________________
 * Now automatically merge 'description' and other fields to create the groups.
 * GUI save last position and size and others improvements.
 * Display additional information from the web page distributors and use as comment in the ``cat#`` column (just implemented on DigiKey yet).
-* Now is possible to specify country/currency to be priorizede on the distributors scrapes (just implemented on DigiKy yet).
+* Now is possible to specify country/currency to be priorized on the distributors scrapes (just implemented on DigiKey yet).
 
 
 0.1.43 (2018-03-15)
