@@ -56,9 +56,12 @@ def get_price_tiers(html_tree):
         price_row_trees = pricing_tbl_tree.find_all('div', class_='div-table-row')
         for row_tree in price_row_trees:
             qty_tree, unit_price_tree, _ = row_tree.find('div', class_='row').find_all('div', class_='col-xs-4')
-            qty = int(re.sub('[^0-9]', '', qty_tree.text))
-            unit_price = float(re.sub('[^0-9.]', '', unit_price_tree.text))
-            price_tiers[qty] = unit_price
+            try:
+                qty = int(re.sub('[^0-9]', '', qty_tree.text))
+                unit_price = float(re.sub('[^0-9.]', '', unit_price_tree.text))
+                price_tiers[qty] = unit_price
+            except ValueError:
+                pass # In case of "quote price", ignore and pass to next (check pn STM32F411RCT6).
         return price_tiers
 
         qty_strs = []

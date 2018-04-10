@@ -7,6 +7,7 @@ History
 0.1.44 (2018-04-??)
 ______________________
 
+* Fixed Mouser "quote price" exception in the price tiers.
 * Fixed wxPython exception import.
 * Use the datasheet link information from KiCad and other EDAs, given by 'datasheet' field.
 * Now automatically merge 'description' and other fields to create the groups.

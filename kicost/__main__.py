@@ -265,16 +265,16 @@ def main():
                                               sys.version_info.minor,
                                               sys.version_info.micro)
                                           )
-    try:
-        kicost(in_file=args.input, eda_tool_name=args.eda_tool,
-            out_filename=args.output, collapse_refs=not args.no_collapse,
-            user_fields=args.fields, ignore_fields=args.ignore_fields,
-            group_fields=args.group_fields, variant=args.variant,
-            dist_list=dist_list, num_processes=num_processes,
-            scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-            local_currency=args.currency)
-    except Exception as e:
-        sys.exit(e)
+    #try:
+    kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+        out_filename=args.output, collapse_refs=not args.no_collapse,
+        user_fields=args.fields, ignore_fields=args.ignore_fields,
+        group_fields=args.group_fields, variant=args.variant,
+        dist_list=dist_list, num_processes=num_processes,
+        scrape_retries=args.retries, throttling_delay=args.throttling_delay,
+        local_currency=args.currency)
+    #except Exception as e:
+    #    sys.exit(e)
 
 ###############################################################################
 # Main entrypoint.
