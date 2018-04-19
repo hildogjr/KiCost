@@ -7,6 +7,7 @@ History
 0.1.44 (2018-04-??)
 ______________________
 
+* Add Upverter CSV compatibility.
 * Fixed Mouser "quote price" exception in the price tiers.
 * Fixed wxPython exception import.
 * Use the datasheet link information from KiCad and other EDAs, given by 'datasheet' field.
