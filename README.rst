@@ -21,7 +21,7 @@ Features
   scraping the web sites of several popular distributors for price and inventory data.
   (You can also enter your own quantity-adjusted pricing data for specialized parts or those
   not found at the supported distributors.);
-* Processes also BOM files from Altium, Proteus, Eagle and hand made CSVs;
+* Processes also BOM files from Altium, Proteus, Eagle, Upverter and hand made CSVs;
 * The spreadsheet contains quantity-adjusted pricing from each distributor for 
   individual parts and the total board;
 * Enter the number of boards to be built in a spreadsheet cell and all the pricing
