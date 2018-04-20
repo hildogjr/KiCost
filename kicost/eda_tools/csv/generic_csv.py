@@ -138,13 +138,13 @@ def get_part_groups(in_file, ignore_fields, variant):
         content.pop(0) # Remove the header from the content.
 
     def corresponent_header_value(key, vals):
-        # Get the correpondent first valid value of `vals` look from a key
+        # Get the correspondent first valid value of `vals` look from a key
         # in `header`, but using `header_file` to access `vals`. Used to get
         # the designator reference `refs` and quantity `qty`.
         idx = [i for i, x in enumerate(header) if x==key]
         value = None
         for i in idx:
-            if i>0 and value!=vals[ header_file[i] ]:
+            if len(idx)>1 and value!=None and value!=vals[ header_file[i] ]:
                 logger.warning('Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
                     key, value, vals[ header_file[i] ])
                     )
