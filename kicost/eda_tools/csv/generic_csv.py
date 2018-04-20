@@ -54,8 +54,13 @@ field_name_translations.update(
         'part': 'refs',
         'value': 'value',
         'package': 'footprint',
-        'pcb package': 'footprint',
-        '': ''  # This is here because the header row may contain an empty field.
+        'pcb package': 'footprint', # Used at Proteus.
+        '': '',  # This is here because the header row may contain an empty field.
+        # Use on `http://upverter.com/`.
+        'manufacturer part number': 'manf#',
+        'pcb footprint': 'footprint',
+        'reference designator': 'refs',
+        'part reference': 'refs',
     }
 )
 
@@ -98,11 +103,13 @@ def get_part_groups(in_file, ignore_fields, variant):
     # The first line in the file must be the column header.
     content = content.splitlines()
     logger.log(DEBUG_OVERVIEW, '\tGetting CSV header...')
-    header = next(csv.reader(content,delimiter=dialect.delimiter))
+    header_file = next(csv.reader(content,delimiter=dialect.delimiter))
+    if len(set(header_file))<len(header_file):
+         logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
 
     # Standardize the header titles and remove the spaces before
     # and after, striping the text imrpove the user experience.
-    header = [field_name_translations.get(hdr.strip().lower(),hdr.strip().lower()) for hdr in header]
+    header = [field_name_translations.get(hdr.strip().lower(),hdr.strip().lower()) for hdr in header_file]
 
     # Examine the first line to see if it really is a header.
     # If the first line contains a column header that is not in the list of
@@ -130,22 +137,38 @@ def get_part_groups(in_file, ignore_fields, variant):
         # OK, the first line is a header, so remove it from the data.
         content.pop(0) # Remove the header from the content.
 
+    def corresponent_header_value(key, vals):
+        # Get the correpondent first valid value of `vals` look from a key
+        # in `header`, but using `header_file` to access `vals`. Used to get
+        # the designator reference `refs` and quantity `qty`.
+        idx = [i for i, x in enumerate(header) if x==key]
+        value = None
+        for i in idx:
+            if i>0 and value!=vals[ header_file[i] ]:
+                logger.warning('Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
+                    key, value, vals[ header_file[i] ])
+                    )
+            value = vals[ header_file[i] ]
+            if value:
+                break
+        return value
+
     def extract_fields(row):
         fields = {}
 
         try:
-            vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header, delimiter=dialect.delimiter))
+            vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header_file, delimiter=dialect.delimiter))
         except:
             # If had a error when tryed to read a line maybe a 'EmptyLine',
             # normally at the end of the file or after the header and before
             # the first part.
             raise Exception('EmptyLine')
 
-        if 'refs' in vals:
-            ref_str = vals['refs'].strip()
-            qty = len(vals['refs'])
-        elif 'qty' in vals:
-            qty = int(vals['qty'])
+        if 'refs' in header:
+            ref_str = corresponent_header_value('refs', vals).strip()
+            qty = len(ref_str)
+        elif 'qty' in header:
+            qty = int( corresponent_header_value('qty', vals) )
             if qty>1:
                 ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr, extract_fields.gen_cntr+qty-1)
             else:
@@ -159,26 +182,34 @@ def get_part_groups(in_file, ignore_fields, variant):
             fields['qty'] = qty
         refs = split_refs(ref_str)
 
-        if sys.version_info >= (3,0):
-            # This is for Python 3 where the values are already unicode.
-            fields['libpart'] = vals.get('libpart', 'Lib:???')
-            fields['footprint'] = vals.get('footprint', 'Foot:???')
-            fields['value'] = vals.get('value', '???')
-            for h in header:
-                if not h in (ign_fields + ['refs', 'qty']):
-                    value = vals.get(h, '')
-                    if value:
-                        fields[h] = value
-        else:
-            # For Python 2, create unicode versions of strings.
-            fields['libpart'] = vals.get('libpart', 'Lib:???').decode('utf-8')
-            fields['footprint'] = vals.get('footprint', 'Foot:???').decode('utf-8')
-            fields['value'] = vals.get('value', '???').decode('utf-8')
-            for h in header:
-                if not h in (ign_fields + ['refs', 'qty']):
-                    value = vals.get(h, '').decode('utf-8')
-                    if value:
-                        fields[h] = value
+        # Extract each value.
+        for (h_file, h) in zip(header_file, header):
+            if h not in (ign_fields + ['refs', 'qty']):
+                if sys.version_info >= (3,0):
+                    # This is for Python 3 where the values are already unicode.
+                    value = vals.get(h_file)
+                else:
+                    # For Python 2, create unicode versions of strings.
+                    value = vals.get(h_file, '').decode('utf-8')
+                if value:
+                    try:
+                        if fields[h] != value:
+                            logger.warning('Found different duplicated information for {} in the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'.format(
+                                    refs, h, h_file, fields[h], value, value)
+                                )
+                    except:
+                        pass
+                    finally:
+                        fields[h] = value # Use the translated header title, this is used to deal
+                                          # with duplicated information that could be found by
+                                          # translating header titles that are the same for KiCost.
+
+        # Set some key with default values, needed for KiCost.
+        # Have to be created after the loop above because of the
+        # warning in the case of trying to re-write a key.
+        if 'libpart' not in fields: fields['libpart'] = 'Lib:???'
+        if 'footprint' not in fields: fields['footprint'] = 'Foot:???'
+        if 'value' not in fields: fields['value'] = '???'
 
         return refs, fields
     extract_fields.gen_cntr = 0
