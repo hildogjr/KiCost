@@ -189,7 +189,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
             for l in product_links:
                 if l.text == match:
                     # Get the tree for the linked-to page and return that.
-                    logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text, pn, dist))
+                    logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(l.text.strip(), pn, dist))
                     return get_part_html_tree(dist, pn, extra_search_terms,
                                               url=l.get('href', ''),
                                               descend=descend-1,
