@@ -400,11 +400,11 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     if num_prj>1:
         for i_prj in range(num_prj):
             # Add one column to quantify the quantity for each project.
-            name = 'qty_prj{}'.format(i_prj)
+            name = 'qty_prj{}'.format(i_proj)
             col = columns['qty']['col']
             columns[name] = columns['qty'].copy()
             columns[name]['col'] = col
-            columns[name]['label'] = 'Qty.Prj{}'.format(i_prj)
+            columns[name]['label'] = 'Qty.Prj{}'.format(i_proj)
             columns[name]['comment'] = 'Total number of each part needed to assembly the project {}.'.format(i_prj)
             for k,f in columns.items():
                 if f['col']>=col and k!=name:
