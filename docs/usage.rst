@@ -91,7 +91,7 @@ To read and merge different projects BOMs, even those from different EDA tools::
 To access KiCost through a graphical user interface, just use the `kicost`
 command without parameters.
 
-.. image:: guide_screen.png
+.. image:: https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png
 
 ------------------------
 Custom BOM list
