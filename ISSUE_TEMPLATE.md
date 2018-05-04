@@ -1,9 +1,11 @@
 - Use a simple and clear title.
+- Does not mak as "ISSUE", "FEATURE" on title, this will be taged by the programming group.
 
 #### Issue / Problem report
 Add:
-1. Terminal error report
-2. The call command used (or the graphical interface config);
+1. Terminal error report / txt;
+2. Use ``--debug`` option on KiCost call;
+2. Write the command used to call KiCost (or the graphical interface configuration);
 3. One BoM to reproduce the error (with the EDA version).
 
 #### Doubts
