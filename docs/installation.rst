@@ -25,11 +25,20 @@ using the default option that web scrapes with parallel processes may cause
 * using ``easy_install`` to install KiCost, or
 * use the ``-s`` KiCost option to serialize the web scraping.
 
-On Linux, to install KiCost on python3, use::
+On Linux, for a full install procedure on Python3, use (for Python2, replace ``pip3`` for ``pip`` on each command)::
 
-    $ pip3 install kicost
+    $ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
+    $ sudo -H pip3 install -U pip # Upgrade the PIP version.
+    $ sudo -H pip3 install kicost # Install KiCost from PyPI.
 
-If you desire to test the new code version, putting you hands on new (beta) feature,
-you could install KiCost by:
+For install the graphical dependence used by KiCost GUI::
 
-    $ pip install git+https://github.com/xesscorp/KiCost.git
+    $ sudo -H pip3 install wxpython
+    or
+    $ sudo -H pip3 install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Ubuntu 16.04
+    $ kicost # Execute KiCost without input arguments to initialize the GUI.
+
+For install the last code version from GitHub, use::
+
+    $ sudo apt-get install git # It's necessary to have Git installed.
+    $ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
