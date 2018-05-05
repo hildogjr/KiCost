@@ -431,14 +431,12 @@ def groups_sort(new_component_groups):
     component_groups_order_old = list( range(0,len(new_component_groups)) )
     component_groups_order_new = list()
     component_groups_refs = [new_component_groups[g].fields.get('reference') for g in component_groups_order_old]
-    if logger.isEnabledFor(DEBUG_OBSESSIVE):
-        print('All ref identifier: ', ref_identifiers)
-        print(len(component_groups_order_old), 'groups of components')
-        print('Identifiers founded', component_groups_refs)
+    logger.log(DEBUG_OBSESSIVE, 'All ref identifier: {}'.format(ref_identifiers) )
+    logger.log(DEBUG_OBSESSIVE, '{} groups of components.'.format(len(component_groups_order_old)) )
+    logger.log(DEBUG_OBSESSIVE, 'Identifiers founded {}.'.format(component_groups_refs) )
     for ref_identifier in ref_identifiers:
         component_groups_ref_match = [i for i in range(0,len(component_groups_refs)) if ref_identifier==component_groups_refs[i].lower()]
-        if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Identifier: ', ref_identifier, ' in ', component_groups_ref_match)
+        logger.log(DEBUG_OBSESSIVE, 'Identifier: {} in {}.'.format(ref_identifier, component_groups_ref_match) )
         if len(component_groups_ref_match)>0:
             # If found more than one group with the reference, use the 'manf#'
             # as second order criteria.
@@ -453,8 +451,7 @@ def groups_sort(new_component_groups):
                 group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
                 group_refs_list = [new_component_groups[h].refs for h in component_groups_ref_match]
                 sorted_groups = sorted(range(len(group_refs_list)), key=lambda k:(group_manf_list[k] is None,  group_refs_list[k]))
-                if logger.isEnabledFor(DEBUG_OBSESSIVE):
-                    print(group_manf_list,' > order: ', sorted_groups)
+                logger.log(DEBUG_OBSESSIVE, '{} > order: {}'.format( group_manf_list, sorted_groups) )
                 component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
                 component_groups_order_new += component_groups_ref_match
             else:
@@ -521,8 +518,7 @@ def subpartqty_split(components):
                 subparts_manf = ['']*subparts_qty
                 pass
 
-            if logger.isEnabledFor(DEBUG_DETAILED):
-                print(part_ref, '>>', founded_fields)
+            logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, founded_fields) )
 
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
@@ -557,8 +553,7 @@ def subpartqty_split(components):
                             subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                             subpart_actual[field_manf_dist_code] = subpart_part
                             subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
-                            if logger.isEnabledFor(DEBUG_OBSESSIVE):
-                                print(subpart_actual)
+                            logger.log(DEBUG_OBSESSIVE, subpart_actual)
                         except IndexError:
                             pass
                     # Update the splitted `manf`(manufactures names).
@@ -579,8 +574,7 @@ def subpartqty_split(components):
                         part_qty, part_part = manf_code_qtypart(p_manf_code)
                         part_actual[field_manf_dist_code] = part_part
                         part_actual[field_manf_dist_code+'_qty'] = part_qty
-                        if logger.isEnabledFor(DEBUG_OBSESSIVE):
-                            print(part)
+                        logger.log(DEBUG_OBSESSIVE, part)
                         splitted_components[part_ref] = part_actual
                     except IndexError:
                         pass
@@ -606,9 +600,7 @@ def partgroup_qty(component):
     try:
         qty = component.fields.get('manf#_qty')
 
-        if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Qty>>',component.refs,'>>', qty, '*',
-                    component.fields.get('manf#'))
+        logger.log(DEBUG_OBSESSIVE, 'Qty>> {}\t {}*{}'.format(component.refs, qty, component.fields.get('manf#')) )
 
         if isinstance(qty, list):
             # Multifiles BOM case, the quantities in the list represent
@@ -624,8 +616,7 @@ def partgroup_qty(component):
             else:
                 string = '={{}}*{qty}'.format(qty=len(component.refs))
     except (KeyError, TypeError):
-        if logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print('Qty>>',component.refs,'>>',len(component.refs))
+        logger.log(DEBUG_OBSESSIVE, 'Qty>> {} \t {}'.format(component.refs, len(component.refs)) )
         string = '={{}}*{qty}'.format(qty=len(component.refs))
     return string
 
@@ -692,8 +683,7 @@ def manf_code_qtypart(subpart):
     else:
         qty = '1'
         part = ''.join(strings)
-    if logger.isEnabledFor(DEBUG_OBSESSIVE):
-        print('part/qty>>', subpart, '\t\tpart>>', part, '\tqty>>', qty)
+    logger.log(DEBUG_OBSESSIVE, 'part/qty>> {}\t\tpart>>{}\tqty>>'.format(subpart, part, qty) )
     return qty, part
 
 

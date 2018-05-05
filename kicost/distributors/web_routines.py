@@ -74,21 +74,21 @@ def config_distributor(dist_name, locale_currency='USD'):
     
     @param `str` dist Distributor to configure.
     @param `str` Alpha 2 country or alpha 3 currency or even one slash other.'''
-    locale_currency = re.findall('\w{2,}', locale_currency)
-    locale = None
-    currency = None
-    for alpha in locale_currency:
-        if len(alpha)==2:
-            locale = alpha
-        elif len(alpha)==3:
-            currency = alpha
     try:
         dist_module = dist_modules[dist_name]
     except KeyError: # When use local distributor with personalized name.
         dist_module = dist_modules[distributor_dict[dist_name]['module']]
     try:
         if distributor_dict[dist_name]['scrape']=='web':
-            # Not make sense to configurate a local machine distributor.
+            # Not make sense to configurate a local distributor (yet).
+            locale_currency = re.findall('\w{2,}', locale_currency)
+            locale = None
+            currency = None
+            for alpha in locale_currency:
+                if len(alpha)==2:
+                    locale = alpha
+                elif len(alpha)==3:
+                    currency = alpha
             dist_module.define_locale_currency(locale_iso=locale, currency_iso=currency)
     except AttributeError:
         logger.warning('No currency/country configuration for {}.'.format(distributor_dict[dist_name]['label']))

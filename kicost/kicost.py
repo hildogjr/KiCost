@@ -40,7 +40,7 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-# ghost library allows scraping pages that have Javascript challenge pages that
+# ghost library allows scraping pages that have JavaScript challenge pages that
 # screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
@@ -75,7 +75,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     @param out_filename `str()` XLSX output file name.
     @param user_fields `list()` of the user fields to be included on the spreadsheet global part.
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
-    @param group_fields `list()` of the fields to be groupd/merged on the function group parts that
+    @param group_fields `list()` of the fields to be grouped/merged on the function group parts that
     are not grouped by default.
     @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
     @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors
@@ -130,8 +130,8 @@ def kicost(in_file, eda_tool_name, out_filename,
         # to create groups with elements of same 'manf#' that came for different
         # projects.
         if len(in_file)>1:
-            logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project indentificator to references...')
-            qty_base = ['0'] * len(in_file) # Base zero quantity vetor.
+            logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
+            qty_base = ['0'] * len(in_file) # Base zero quantity vector.
             for p_ref in list(p.keys()):
                 try:
                     qty_base[i_prj] = p[p_ref]['manf#_qty']
@@ -195,12 +195,12 @@ def kicost(in_file, eda_tool_name, out_filename,
     if dist_list:
 
         if local_currency:
-            logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locate and currency...')
+            logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
             if num_processes <= 1:
                 for d in distributor_dict:
                     config_distributor(distributor_dict[d]['module'], local_currency)
             else:
-                logger.log(DEBUG_OVERVIEW, 'Using {} simultaneos access...'.format(min(len(distributor_dict), num_processes)))
+                logger.log(DEBUG_OBSESSIVE, 'Using {} simultaneous access...'.format(min(len(distributor_dict), num_processes)))
                 pool = Pool(num_processes)
                 for d in distributor_dict:
                     args = [distributor_dict[d]['module'], local_currency]
@@ -265,7 +265,7 @@ def kicost(in_file, eda_tool_name, out_filename,
 
             # Create sync lock and timeouts to control the rate at which distributor
             # websites are scraped.
-            throttle_manager = Manager()  # Manages shared lock and dict.
+            throttle_manager = Manager()  # Manages shared lock and `dict`.
             throttle_lock = throttle_manager.Lock()
             throttle_timeouts = throttle_manager.dict()
             for d in distributor_dict:
@@ -284,7 +284,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                 return x
 
             # Start the web scraping processes, one for each part.
-            logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process to scrap parts...'.format(num_processes))
+            logger.log(DEBUG_OBSESSIVE, 'Starting {} parallels process to scrap parts...'.format(num_processes))
             results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
 
             # Wait for all the processes to have results, then kill-off all the scraping processes.
@@ -326,7 +326,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                     try:
                         pprint.pprint(part.__dict__[f])
                     except TypeError:
-                        # Pyton 2.7 pprint has some problem ordering None and strings.
+                        # Python 2.7 pprint has some problem ordering None and strings.
                         print(part.__dict__[f])
                     except KeyError:
                         pass
@@ -350,7 +350,7 @@ def output_filename_multipleinputs(files_input):
     ''' @brief Compose a name with the multiple BOM input file names.
     
     Compose a name with the multiple BOM input file names, limiting to,
-    at least, the first `FILE_OUTPUT_MIN_INPUT` caracheters of each name
+    at least, the first `FILE_OUTPUT_MIN_INPUT` characters of each name
     (avoid huge names by `FILE_OUTPUT_MAX_NAME`definition). Join the names
     of the input files by `FILE_OUTPUT_INPUT_SEP` definition.
     The output folder is the folder of the firt file.
