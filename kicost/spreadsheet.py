@@ -32,7 +32,7 @@ from datetime import datetime
 import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
-# KiCost libriries.
+# KiCost libraries.
 from . import __version__ # Version control by @xesscorp.
 from .globals import SEPRTR
 from .globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
@@ -44,7 +44,7 @@ __all__ = ['create_spreadsheet']
 # Regular expression to the link for one datasheet.
 DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
 
-# Extra information characteristcs of the components gotten in the page that will be displayed as comment in the 'cat#' column.
+# Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
 EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
 
 
@@ -54,9 +54,9 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
                                     os.path.basename(spreadsheet_filename)) )
     
-    MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 caracheters longer
+    MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 characters longer
                                 # string for the worksheet name, Google
-                                #SpreadSheet 100 and LibreOffice Calc have no limit.
+                                #Spreadsheet 100 and LibreOffice Calc have no limit.
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
     
@@ -155,7 +155,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
             'currency': workbook.add_format({'num_format': '$#,##0.00', 'valign': 'vcenter'}),
         }
 
-        # Add the distinctive header format for each distributor to the dict of formats.
+        # Add the distinctive header format for each distributor to the `dict` of formats.
         for d in distributor_dict:
             wrk_formats[d] = workbook.add_format(distributor_dict[d]['wrk_hdr_format'])
 
@@ -239,12 +239,12 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
 
             next_row += 3
 
-        # Add geral information of the scrap to track price modifications.
+        # Add general information of the scrap to track price modifications.
         wks.write(next_row, START_COL,
                   '$ date:', wrk_formats['proj_info_field'])
         wks.write(next_row, START_COL+1,
                   datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
-        # Add the total cost of all projcts together.
+        # Add the total cost of all projects together.
         if len(prj_info)>1:
             # Create the row to show total cost of board parts for each distributor.
             wks.write(next_row, next_col - 2, 'Total Prjs Cost:',
@@ -268,7 +268,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
-        logger.log(DEBUG_OVERVIEW, 'Writting the distributors parts informations...')
+        logger.log(DEBUG_OVERVIEW, 'Writing the distributors parts informations...')
         for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
@@ -281,7 +281,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
                     data_range=xl_range_abs(START_ROW, dist_start_col,
                                             LAST_PART_ROW, next_col - 1)))
 
-        # Add the KiCost package inormation at the end of the spreadsheet to debug
+        # Add the KiCost package information at the end of the spreadsheet to debug
         # information at the forum and "advertising".
         wks.write(START_ROW+len(parts)+3, START_COL,
             'Distributors scraped by KiCost\N{REGISTERED SIGN} v.' + __version__,
@@ -292,7 +292,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields, collapse_refs):
     '''Add global part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, 'Writting the global parts informations...')
+    logger.log(DEBUG_OVERVIEW, 'Writing the global parts informations...')
 
     # Columns for the various types of global part data.
     columns = {
@@ -375,7 +375,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     }
 
     # Remove not used columns by the field not founded in ALL the parts. This give
-    # better visualization on notebooks (small screens) and optimizaiton to print.
+    # better visualization on notebooks (small screens) and optimization to print.
     def remove_col_not_exist_parts(code):
         def remove_column(name):
             for h in columns:
@@ -395,7 +395,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     # Add quantity columns to deal with different quantities in the BOM files. The
     # original quantity column will be the total of each item. For check the number
     # of BOM files read, see the length of p[?]['manf#_qty'], if it is a `list()`
-    # instance, if don't, the lenth is always `1`.
+    # instance, if don't, the length is always `1`.
     num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
     if num_prj>1:
         for i_prj in range(num_prj):
@@ -507,7 +507,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             if isinstance(qty, list):
                 # Multifiles BOM case, write each quantity and after,
                 # in the 'qty' column the total quantity as ceil of
-                # the total quantity (to ceil use a Microsoftt Excel
+                # the total quantity (to ceil use a Microsoft Excel
                 # compatible function.
                 for i_prj in range(len(qty)):
                     wks.write(row,
@@ -549,7 +549,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
             dist_qty_avail.append(
                 'INDIRECT(ADDRESS(ROW(),COLUMN({})+0))'.format(dist_data_rng))
 
-            # Get the contents of the manfacuture and distributors codes.
+            # Get the contents of the manufacture and distributors codes.
             dist_code_avail.append(
                 'ISBLANK(INDIRECT(ADDRESS(ROW(),COLUMN({})+4)))'.format(dist_data_rng))
 
@@ -649,7 +649,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
                                 PART_INFO_LAST_ROW, qty_col)),
                       wrk_formats['total_cost_currency'])
         # Add total of the spreadsheet, this can be equal or bigger than
-        # than the sum of the above totals, because, in the case of parcial
+        # than the sum of the above totals, because, in the case of partial
         # or fractional quantity of one part or subpart, the total quantity
         # column 'qty' will be the ceil of the sum of the other ones.
         total_cost_row = start_row -1 # Change the position of the total price cell.
@@ -668,7 +668,7 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
                           dist, parts):
     '''Add distributor-specific part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, '\tWritting {}'.format(distributor_dict[dist]['label']))
+    logger.log(DEBUG_OVERVIEW, '# Writing {}'.format(distributor_dict[dist]['label']))
 
     # Columns for the various types of distributor-specific part data.
     columns = {
@@ -845,7 +845,7 @@ Orange -> Too little quantity available.'''
                 }
             )
 
-            # Conditional format to show the avaliable quantity is less than required.
+            # Conditional format to show the available quantity is less than required.
             wks.conditional_format(
                 row, start_col + columns['avail']['col'], 
                 row, start_col + columns['avail']['col'],
@@ -869,15 +869,6 @@ Orange -> Too little quantity available.'''
                 }
             )
 
-            # Conditionally format the unit price cell that contains the best price.
-            wks.conditional_format(row, unit_price_col, row, unit_price_col, {
-                'type': 'cell',
-                'criteria': '<=',
-                'value': xl_rowcol_to_cell(row, part_qty_col+1),
-                # This is the global data cell holding the minimum unit price for this part.
-                'format': wrk_formats['best_price']
-            })
-
             # Enter the formula for the extended price = purch qty * unit price.
             wks.write_formula(
                 row, ext_price_col,
@@ -887,14 +878,23 @@ Orange -> Too little quantity available.'''
                     unit_price=xl_rowcol_to_cell(row, unit_price_col)),
                 wrk_formats['currency'])
 
-            # Conditionally format the extended price cell that contains the best price.
-            wks.conditional_format(row, ext_price_col, row, ext_price_col, {
-                'type': 'cell',
-                'criteria': '<=',
-                'value': xl_rowcol_to_cell(row, part_qty_col+2),
-                # This is the global data cell holding the minimum extended price for this part.
-                'format': wrk_formats['best_price']
-            })
+            if len(distributor_dict)>1: # Just use the best price highlight if more than one distributor.
+                # Conditionally format the extended price cell that contains the best price.
+                wks.conditional_format(row, ext_price_col, row, ext_price_col, {
+                    'type': 'cell',
+                    'criteria': '<=',
+                    'value': xl_rowcol_to_cell(row, part_qty_col+2),
+                    # This is the global data cell holding the minimum extended price for this part.
+                    'format': wrk_formats['best_price']
+                })
+                # Conditionally format the unit price cell that contains the best price.
+                wks.conditional_format(row, unit_price_col, row, unit_price_col, {
+                    'type': 'cell',
+                    'criteria': '<=',
+                    'value': xl_rowcol_to_cell(row, part_qty_col+1),
+                    # This is the global data cell holding the minimum unit price for this part.
+                    'format': wrk_formats['best_price']
+                })
 
         # Finished processing distributor data for this part.
         row += 1  # Go to next row.
@@ -977,7 +977,7 @@ Orange -> Too little quantity available.'''
         # of the order.
 
         # This very complicated spreadsheet function does the following:
-        # 1) Computes the set of row indices in the part data that have
+        # 1) Computes the set of row index in the part data that have
         #    non-empty cells in sel_range1 and sel_range2. (Innermost
         #    nested IF and ROW commands.) sel_range1 and sel_range2 are
         #    the part's catalog number and purchase quantity.

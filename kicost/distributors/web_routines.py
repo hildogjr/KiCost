@@ -91,7 +91,7 @@ def config_distributor(dist_name, locale_currency='USD'):
             # Not make sense to configurate a local machine distributor.
             dist_module.define_locale_currency(locale_iso=locale, currency_iso=currency)
     except AttributeError:
-        logger.warning('\tNo currency/country configuration for {}'.format(distributor_dict[dist_name]['label']))
+        logger.warning('No currency/country configuration for {}.'.format(distributor_dict[dist_name]['label']))
         pass
 
 
@@ -128,7 +128,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_r
             pass
         except AttributeError:
             break
-    logger.warning("Part %s not found at %s", part.refs, dist)
+    logger.warning("Part %s not found at %s.", part.refs, dist)
     # If no HTML page was found, then return a tree for an empty page.
     return BeautifulSoup('<html></html>', 'lxml'), ''
 

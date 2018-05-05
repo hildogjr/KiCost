@@ -82,7 +82,7 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
             distributor_dict['digikey']['site']['currency'] = pycountry.currencies.get(numeric=country.numeric).alpha_3
             distributor_dict['digikey']['site']['locale'] = locale_iso
     except:
-        logger.log(DEBUG_OVERVIEW, 'Keept the last configuration {}, {} on {}'.format(
+        logger.log(DEBUG_OVERVIEW, 'Kept the last configuration {}, {} on {}.'.format(
                 pycountry.currencies.get(alpha_3=distributor_dict['digikey']['site']['currency']).name,
                 pycountry.countries.get(alpha_2=distributor_dict['digikey']['site']['locale']).name,
                 distributor_dict['digikey']['site']['url']

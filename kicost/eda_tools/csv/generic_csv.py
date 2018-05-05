@@ -78,7 +78,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
-    logger.log(DEBUG_OVERVIEW, 'Getting from CSV \'{}\' BoM...'.format(
+    logger.log(DEBUG_OVERVIEW, '# Getting from CSV \'{}\' BoM...'.format(
                                     os.path.basename(in_file)) )
     try:
         file_h = open(in_file, 'r')
@@ -102,7 +102,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # The first line in the file must be the column header.
     content = content.splitlines()
-    logger.log(DEBUG_OVERVIEW, '\tGetting CSV header...')
+    logger.log(DEBUG_OVERVIEW, 'Getting CSV header...')
     header_file = next(csv.reader(content,delimiter=dialect.delimiter))
     if len(set(header_file))<len(header_file):
          logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
@@ -216,7 +216,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
-    logger.log(DEBUG_OVERVIEW, '\tGetting parts...')
+    logger.log(DEBUG_OVERVIEW, 'Getting parts...')
 
     # Read the each line content.
     accepted_components = {}

@@ -21,10 +21,7 @@
 # THE SOFTWARE.
 
 # Inserted by Pasteurize tool.
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
+from __future__ import print_function, unicode_literals, division, absolute_import
 from builtins import zip, range, int, str
 from future import standard_library
 standard_library.install_aliases()
@@ -126,12 +123,11 @@ def kicost(in_file, eda_tool_name, out_filename,
         eda_tool_module = eda_modules[eda_tool_name[i_prj]]
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         p = subpartqty_split(p)
-        # In the case of multiple BOM files, add the project prefix
-        # identifier to each reference/designator. Use the field
-        # 'manf#_qty' to control each quantity goes to each project
-        # creating a `list()` with length of number of BOM files.
-        # This vector will be used in the `group_parts()` to create
-        # groups with elements of same 'manf#' that came for different
+        # In the case of multiple BOM files, add the project prefix identifier
+        # to each reference/designator. Use the field 'manf#_qty' to control
+        # each quantity goes to each project creating a `list()` with length
+        # of number of BOM files. This vector will be used in the `group_parts()`
+        # to create groups with elements of same 'manf#' that came for different
         # projects.
         if len(in_file)>1:
             logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project indentificator to references...')
@@ -199,12 +195,12 @@ def kicost(in_file, eda_tool_name, out_filename,
     if dist_list:
 
         if local_currency:
-            logger.log(DEBUG_OVERVIEW, 'Configuring the distributors locate and currency...')
+            logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locate and currency...')
             if num_processes <= 1:
                 for d in distributor_dict:
                     config_distributor(distributor_dict[d]['module'], local_currency)
             else:
-                logger.log(DEBUG_OVERVIEW, '\tUsing {} simultaneos access...'.format(min(len(distributor_dict), num_processes)))
+                logger.log(DEBUG_OVERVIEW, 'Using {} simultaneos access...'.format(min(len(distributor_dict), num_processes)))
                 pool = Pool(num_processes)
                 for d in distributor_dict:
                     args = [distributor_dict[d]['module'], local_currency]
@@ -212,7 +208,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                 pool.close()
                 pool.join()
 
-        logger.log(DEBUG_OVERVIEW, 'Scraping part data for each component group...')
+        logger.log(DEBUG_OVERVIEW, '# Scraping part data for each component group...')
         # Set the throttling delay for each distributor.
         for d in distributor_dict:
             distributor_dict[d]['throttling_delay'] = throttling_delay
@@ -254,7 +250,6 @@ def kicost(in_file, eda_tool_name, out_filename,
             throttle_timeouts = dict()
             throttle_timeouts = {d:time() for d in distributor_dict}
 
-            logger.log(DEBUG_OVERVIEW, '\tStarting {} parallels process...'.format(num_processes))
             for i in range(len(parts)):
                 args = (i, parts[i], distributor_dict, local_part_html, scrape_retries,
                         logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)
@@ -289,7 +284,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                 return x
 
             # Start the web scraping processes, one for each part.
-            logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process...'.format(num_processes))
+            logger.log(DEBUG_OVERVIEW, 'Starting {} parallels process to scrap parts...'.format(num_processes))
             results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
 
             # Wait for all the processes to have results, then kill-off all the scraping processes.
@@ -301,7 +296,6 @@ def kicost(in_file, eda_tool_name, out_filename,
             pool.join()
 
             # Get the data from each process result structure.
-            logger.log(DEBUG_OVERVIEW, 'Getting the part scraped informations...')
             for result in results:
                 id, url, part_num, price_tiers, qty_avail, info_dist = result.get()
                 parts[id].part_num = part_num
