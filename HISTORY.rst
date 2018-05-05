@@ -7,6 +7,8 @@ History
 0.1.44 (2018-04-??)
 ______________________
 
+* Improve the `spreadsheet.py` to a lighter file when use just one distributor.
+* Improved log messages to better comunity debug.
 * Add Upverter CSV compatibility.
 * Fixed Mouser "quote price" exception in the price tiers.
 * Fixed wxPython exception import.

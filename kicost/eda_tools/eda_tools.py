@@ -43,7 +43,7 @@ SUB_SEPRTR  = '#' # Subpart separator for a part reference.
 REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
 SGROUP_SEPRTR = '\n' # Separator of the semi identical parts groups (parts that have the filed ignored to group).
 # Reference string order to the spreadsheet. Use this to
-# group the elements in sequencial rows.
+# group the elements in sequential rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 
 # Characters removed from references when read the files.
@@ -57,9 +57,9 @@ PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*\{}]'.format(SEPRTR)
 # Also references with numbers at the end, just if the interlocutor,
 # part are allowed by some EDAs or manual edition in KiCad.
 # In the case of multiple project BOM files, the references are
-# mofified by adding tha project number identificador followed
+# modified by adding the project number identification followed
 # by `SEPRTR` definition.
-PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&' # Used in next defition only (because repeat).
+PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&' # Used in next definition only (because repeat).
 PART_REF_REGEX = re.compile('(?P<prefix>([a-z]*(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_sp=SEPRTR, sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
@@ -117,7 +117,7 @@ def file_eda_match(file_name):
        
        Return the EDA name with the file matches or `None` if not founded.
        @param file_name File `str` name.
-       @return Name of the module correponding to read the file or `None`to not recognized.
+       @return Name of the module corresponding to read the file or `None`to not recognized.
     '''
     try:
         file_handle = open(file_name, 'r')
@@ -166,9 +166,9 @@ class IdenticalComponents(object):
 def group_parts(components, fields_merge):
     '''@brief Group common parts after preprocessing from XML or CSV files.
        
-       Group commum parts looking in the existent files that could be merged
+       Group common parts looking in the existent files that could be merged
        by the use of `fields_merge`. First group all designed parts without
-       llok the manufacture/distributors codes, after see if any will be
+       look the manufacture/distributors codes, after see if any will be
        propagated (designed part with out information and same values,
        footprint and so on that other that have manufacture part, receive
        this code).
@@ -180,11 +180,11 @@ def group_parts(components, fields_merge):
        @return `list()` of `dict()`
     '''
 
-    logger.log(DEBUG_OVERVIEW, 'Grouping parts...')
+    logger.log(DEBUG_OVERVIEW, '# Grouping parts...')
 
     # All codes to scrape, do not include code field name of distributors
     # that will not be scraped. This definition is used to create and check
-    # the identical groups or subsplit the eemingly identical parts.
+    # the identical groups or subsplit the seemingly identical parts.
     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
     # Calculated all the fileds that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes 
@@ -197,13 +197,13 @@ def group_parts(components, fields_merge):
     fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
     for c in FIELDS_NOT_HASH:
         if c in fields_merge:
-             raise ValueError('Manufactutor/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
+             raise ValueError('Manufacturer/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
     FIELDS_NOT_HASH = FIELDS_NOT_HASH + fields_merge # Not use the fields do merge to create the hash.
 
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
-    logger.log(DEBUG_OVERVIEW, '\tGetting groups of identical components...')
+    logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
     component_groups = {}
     for ref, fields in list(components.items()): # part references and field values.
 
@@ -262,7 +262,7 @@ def group_parts(components, fields_merge):
     #       the same manf# and distributor#, even if it's `None`. It's
     #       impossible to determine which manf# the `None` parts should be
     #       assigned to, so leave their manf# as `None`.
-    logger.log(DEBUG_OVERVIEW, '\tChecking the seemingly identical parts group...')
+    logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = [] # Copy new component groups into this.
     for g, grp in list(component_groups.items()):
         num_manfcat_codes = {f:len(grp.manfcat_codes[f]) for f in FIELDS_MANFCAT}
@@ -270,7 +270,7 @@ def group_parts(components, fields_merge):
             new_component_groups.append(grp)
             continue  # CASE ONE and TWO:
                       # Single manf# and distributor catalogue. Or a seemingly
-                      # idential groupt with just one valid manf# or cat# code,
+                      # identical groupt with just one valid manf# or cat# code,
                       # the other one is `None`.Don't split this group. `None`
                       # will be replaced with the propagated manufacture /
                       # distributor catalogue code.
@@ -278,7 +278,7 @@ def group_parts(components, fields_merge):
             new_component_groups.append(grp)
             continue  # CASE THREE:
                       # One manf# or cat# that is `None`. Don't split this
-                      # group. These parts are not intended to bepurchased.
+                      # group. These parts are not intended to be purchased.
         # CASE FOUR:
         # Otherwise, split the group into subgroups, each with the
         # same manf# and distributors catalogue codes (for that one
@@ -308,11 +308,11 @@ def group_parts(components, fields_merge):
     #    for r in grp.refs:
     #        print(r, components[r])
 
-    # If the identical components grouped have diference in the `fields_merge`
+    # If the identical components grouped have difference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
     # ocorrences (definition `SGROUP_SEPRTR`) preceded with the refs
     # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
-    logger.log(DEBUG_OVERVIEW, '\tMerging field asked in the identical components groups...')
+    logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
     if fields_merge:
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in fields_merge]
         for grp in new_component_groups:
@@ -336,7 +336,7 @@ def group_parts(components, fields_merge):
 
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
-    logger.log(DEBUG_OVERVIEW, '\tPropagating field values to identical components...')
+    logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
         qty = []
@@ -345,8 +345,8 @@ def group_parts(components, fields_merge):
                 if key == 'manf#_qty':
                     try:
                         for i in range(len(val)):
-                            grp_fields['manf#_qty'][i] += '+' + val[i] # DUMMY way and need improvement to realy do arithmetic and not string cat. #TODO
-                            val[i] = grp_fields['manf#_qty'][i] # Make the firt values take also equal.
+                            grp_fields['manf#_qty'][i] += '+' + val[i] # DUMMY way and need improvement to really do arithmetic and not string cat. #TODO
+                            val[i] = grp_fields['manf#_qty'][i] # Make the first values take also equal.
                     except:
                         grp_fields['manf#_qty'] = val
                     continue
@@ -379,7 +379,7 @@ def remove_dnp_parts(components, variant):
        @return `list()` of `dict()`.
     '''
 
-    logger.log(DEBUG_OVERVIEW, '\tRemoving do not populate parts...')
+    logger.log(DEBUG_OVERVIEW, '# Removing do not populate parts...')
 
     accepted_components = {}
     for ref, fields in components.items():
@@ -417,7 +417,7 @@ def remove_dnp_parts(components, variant):
 def groups_sort(new_component_groups):
     '''@brief Order the groups in a alphabetical way.
        
-       Put the components groups in the spreadsheet rows in a spefic order
+       Put the components groups in the spreadsheet rows in a specific order
        using the reference string of the components. The order is defined
        by BOM_ORDER.
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
@@ -441,7 +441,7 @@ def groups_sort(new_component_groups):
             print('Identifier: ', ref_identifier, ' in ', component_groups_ref_match)
         if len(component_groups_ref_match)>0:
             # If found more than one group with the reference, use the 'manf#'
-            # as second order criterian.
+            # as second order criteria.
             if len(component_groups_ref_match)>1:
                 try:
                     for item in component_groups_ref_match:
@@ -482,7 +482,7 @@ def subpartqty_split(components):
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @return Same as the input.
     '''
-    logger.log(DEBUG_OVERVIEW, 'Spliting subparts in the manufacture / distributors codes...')
+    logger.log(DEBUG_OVERVIEW, 'Splitting subparts in the manufacture / distributors codes...')
 
     FIELDS_MANF = [d+'#' for d in distributor_dict]
     FIELDS_MANF.append('manf#')
@@ -490,7 +490,7 @@ def subpartqty_split(components):
     splitted_components = {}
     for part_ref, part in components.items():
         try:
-            # Divide the subparts in diferent parts keeping the other fields
+            # Divide the subparts in different parts keeping the other fields
             # (reference, description, ...).
             # First search for the used filed to manufacture/distributor numbers
             # and how many subparts are in them. Use the loop also to extract the
@@ -594,9 +594,9 @@ def partgroup_qty(component):
     '''@brief Take the components grouped quantity.
        
        Calculate the string of the quantity of the group parsing the
-       referente (design) quantity and the sub quantity (in case that
+       reference (design) quantity and the sub quantity (in case that
        was a sub part of a manufacture/distributor code).
-       In the case of the multifiles BOM (and futere revision of the
+       In the case of the multifiles BOM (and future revision of the
        code) just use the 'manf#_qty' field that in `group_parts()`
        recorded the quantities used in each project.
        
@@ -717,7 +717,7 @@ def order_refs(refs, collapse=True):
                 return n
 
         nums.sort(key=get_refnum)  # Sort all the numbers.
-        nums = [to_int(n) for n in nums]  # Convert strings to ints if possible.
+        nums = [to_int(n) for n in nums]  # Convert strings to `int` if possible.
         num_ranges = []  # No ranges found yet since we just started.
         range_start = 0  # First possible range is at the start of the list of numbers.
 
@@ -755,10 +755,10 @@ def order_refs(refs, collapse=True):
             prefix = match.group('prefix')
             num = match.group('num')
         else:
-            # The not `match` happens when the user schematic disegner use
+            # The not `match` happens when the user schematic designer use
             # not recognized characters by the `PART_REF_REGEX` definition
             # into the components references.
-            raise ValueError('Not recognized characters used in <' + ref + '> reference. Adivise: edit it in your BOM/Schematic.')
+            raise ValueError('Not recognized characters used in <' + ref + '> reference. Advise: edit it in your BOM/Schematic.')
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
@@ -791,23 +791,23 @@ def order_refs(refs, collapse=True):
 
 
 def split_refs(text):
-    '''@brief Split string grouped references into a unique designator. This is intended as oposite of `order_refs(?, collapse=True)`
+    '''@brief Split string grouped references into a unique designator. This is intended as opposite of `order_refs(?, collapse=True)`
        
        'C17/18/19/20' --> ['C17','C18','C19','C20']
        'C17\18\19\20' --> ['C17','C18','C19','C20']
        'D33-D36' --> ['D33','D34','D35','D36']
        'D33-36' --> ['D33','D34','D35','D36']
-       Also ignore some caracheters as '.' or ':' used in some cases of references.
+       Also ignore some characters as '.' or ':' used in some cases of references.
        
        @param text Designator/references worn by a group of parts.
-       @return Designator/references `list()` splited.
+       @return Designator/references `list()` splitted.
     '''
     partial_ref = re.split(' *[,; ] *', text) # Split ignoring the spaces.
     refs = []
     for ref in partial_ref:
-        # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definiton and allowed special characters.
+        # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definition and allowed special characters.
         #ref = re.sub('\+$', 'p', ref) # Finishing "+".
-        ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special caracheters not allowed. To work around #ISSUE #89.
+        ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special characters not allowed. To work around #ISSUE #89.
         #ref = re.sub('\-+', '-', ref) # Double "-".
         #ref = re.sub('^\-', '', ref) # Starting "-".
         #ref = re.sub('\-$', 'n', ref) # Finishing "-".
@@ -820,7 +820,7 @@ def split_refs(text):
                 
                 # Some EDAs may use some separator in the reference numeric parts, as
                 # Altium that use "." (or even other) e.g. "R2.1,R2.2" to the same "R2"
-                # replicated between schametics / rooms.
+                # replicated between schematics / rooms.
                 base_splitted_nums = ''.join( re.findall('^\d+\D', splitted_nums[0]) )
                 splitted_nums = [''.join( re.findall('\D*(\d+)$', n) ) for n in splitted_nums]
                 

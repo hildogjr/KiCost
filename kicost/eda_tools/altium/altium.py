@@ -144,7 +144,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         return refs, fields
 
     # Read-in the schematic XML file to get a tree and get its root.
-    logger.log(DEBUG_OVERVIEW, 'Getting from XML \'{}\' Altium BoM...'.format(
+    logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' Altium BoM...'.format(
                                     os.path.basename(in_file)) )
     file_h = open(in_file)
     root = BeautifulSoup(file_h, 'lxml')
@@ -152,10 +152,10 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Get the header of the XML file of Altium, so KiCost is able to to
     # to get all the informations in the file.
-    logger.log(DEBUG_OVERVIEW, '\tGetting the XML table header...')
+    logger.log(DEBUG_OVERVIEW, 'Getting the XML table header...')
     header = [ extract_field(entry, 'name') for entry in root.find('columns').find_all('column') ]
 
-    logger.log(DEBUG_OVERVIEW, '\tGetting components...')
+    logger.log(DEBUG_OVERVIEW, 'Getting components...')
     accepted_components = {}
     for row in root.find('rows').find_all('row'):
 
