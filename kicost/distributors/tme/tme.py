@@ -39,9 +39,8 @@ import difflib
 import json
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from .. import urlencode, urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import WEB_SCRAPE_EXCEPTIONS
-from .. import FakeBrowser
+from .. import urlencode, urlquote, urlsplit, urlunsplit
+from .. import fake_browser
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
@@ -56,18 +55,11 @@ def __ajax_details(pn):
         'symbol': pn,
         'currency': 'USD'
     }).encode("utf-8")
-    req = FakeBrowser('https://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html')
-    req.add_header('X-Requested-With', 'XMLHttpRequest')
-    for _ in range(HTML_RESPONSE_RETRIES):
-        try:
-            response = urlopen(req, data)
-            r = response.read()
-            break
-        except WEB_SCRAPE_EXCEPTIONS:
-            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
-            pass
-    else: # Couldn't get a good read from the website.
-        logger.log(DEBUG_OBSESSIVE,'No AJAX data for {} from {}'.format(pn, dist))
+    
+    try:
+        html = fake_browser('https://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html', 4, ('X-Requested-With', 'XMLHttpRequest') )
+    except: # Couldn't get a good read from the website.
+        logger.log(DEBUG_OBSESSIVE,'No AJAX data for {} from {}'.format(pn, 'TME'))
         return None, None
 
     try:
@@ -181,16 +173,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
         url = 'https://www.tme.eu' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
-    req = FakeBrowser(url)
-    for _ in range(scrape_retries):
-        try:
-            response = urlopen(req)
-            html = response.read()
-            break
-        except WEB_SCRAPE_EXCEPTIONS:
-            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
-            pass
-    else: # Couldn't get a good read from the website.
+    try:
+        html = fake_browser(url, scrape_retries)
+    except:
         logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
 
