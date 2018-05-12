@@ -99,7 +99,7 @@ for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
         field_name_translations[dist + '_' + stub] = dist + '#'
         field_name_translations[dist + '-' + stub] = dist + '#'
 
-# Others fileds used by KiCost and that have to be standardized.
+# Others fields used by KiCost and that have to be standardized.
 field_name_translations.update(
     {
         'variant': 'variant',
@@ -213,7 +213,7 @@ def group_parts(components, fields_merge):
         # are the reference prefix ('R', 'C', etc.), value, and footprint.
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
-        # a field used by a specific tool (including kicost).
+        # a field used by a specific tool (including KiCost).
         hash_fields = {k: fields[k] for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k}
         h = hash(tuple(sorted(hash_fields.items())))
 
@@ -325,7 +325,7 @@ def group_parts(components, fields_merge):
                     if f=='desc' and len(ocurrences)==2 and '' in ocurrences.keys():
                         value = ''.join(list(ocurrences.keys()))
                     else:
-                        value = SGROUP_SEPRTR.join( [order_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
+                        value = SGROUP_SEPRTR.join( [','.join( order_refs(r) ) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
                     for r in grp.refs:
                         components[r][f] = value
     #print('\n\n\n3++++++++++++++',len(new_component_groups))
@@ -688,7 +688,7 @@ def manf_code_qtypart(subpart):
 
 
 def order_refs(refs, collapse=True):
-    '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as oposite of `split_refs()`
+    '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as opposite of `split_refs()`
        @param refs Designator/references `list()`.
        @return References in a organized view way.
     '''
@@ -776,8 +776,7 @@ def order_refs(refs, collapse=True):
                 # Convert a single number into a simple part reference: e.g., 'R10'.
                 collapsed_refs.append('{}{}'.format(prefix, num))
 
-    # Return the collapsed par references.
-    return ','.join(collapsed_refs)
+    return collapsed_refs # Return the collapsed par references.
 
 
 def split_refs(text):

@@ -171,9 +171,9 @@ def main():
         log_level = logging.ERROR
     else:
         log_level = logging.WARNING
-    handler = logging.StreamHandler(sys.stdout)
-    handler.setLevel(log_level)
-    logger.addHandler(handler)
+    #handler = logging.StreamHandler(sys.stdout)
+    #handler.setLevel(log_level)
+    #logger.addHandler(handler) # It's not necessary to add a handle here, the default is already `sys.stdout` and adding twice it creates the BUG #193, doesn't allowing to use correctly the `tqdm` (process bar) print handle.
     logger.setLevel(log_level)
 
     if args.show_dist_list:
