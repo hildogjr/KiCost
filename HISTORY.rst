@@ -4,9 +4,10 @@ History
 -------
 
 
-0.1.44 (2018-04-??)
+0.1.44 (2018-05-??)
 ______________________
 
+* Fixed `logging` messages when using `tqdm`(process bar) for sequencial scrape, missing fex for multithreads scrape.
 * Improve the `spreadsheet.py` to a lighter file when use just one distributor.
 * Improved log messages to better comunity debug.
 * Add Upverter CSV compatibility.
@@ -17,6 +18,7 @@ ______________________
 * GUI save last position and size and others improvements.
 * Display additional information from the web page distributors and use as comment in the ``cat#`` column (just implemented on DigiKey yet).
 * Now is possible to specify country/currency to be priorized on the distributors scrapes (just implemented on DigiKey yet).
+* Minor improvements.
 
 
 0.1.43 (2018-03-15)

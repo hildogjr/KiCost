@@ -32,6 +32,7 @@ import multiprocessing # To deal with the parallel scrape.
 import logging
 from time import time
 from random import choice
+from ..eda_tools.eda_tools import order_refs # To better print the warnings about the parts.
 
 try:
     # This is for Python 3.
@@ -107,7 +108,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_r
     @param logger Logger handle.
     @return `str` with the HTML webpage.'''
 
-    logger.log(DEBUG_OBSESSIVE, '%s %s', dist, str(part.refs))
+    logger.log(DEBUG_OBSESSIVE, 'Looking in %s by %s:', distributor_dict[dist]['label'], order_refs(part.refs, True))
 
     for extra_search_terms in set([part.fields.get('manf', ''), '']):
         try:
@@ -128,7 +129,7 @@ def get_part_html_tree(part, dist, get_html_tree_func, local_part_html, scrape_r
             pass
         except AttributeError:
             break
-    logger.warning("Part %s not found at %s.", part.refs, dist)
+    logger.warning("Part %s not found at %s.", order_refs(part.refs, False), distributor_dict[dist]['label'])
     # If no HTML page was found, then return a tree for an empty page.
     return BeautifulSoup('<html></html>', 'lxml'), ''
 

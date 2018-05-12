@@ -459,7 +459,7 @@ Yellow -> Enough parts available, but haven't purchased enough.''',
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
     # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        part.collapsed_refs = order_refs(part.refs, collapse=collapse_refs)
+        part.collapsed_refs = ','.join( order_refs(part.refs, collapse=collapse_refs) )
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
@@ -701,8 +701,7 @@ Orange -> Too little quantity available.'''
             'level': 0,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
-            'comment':
-            '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> Next price break is cheaper.\nGreen -> Cheapest supplier.'
+            'comment': '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> Next price break is cheaper.\nGreen -> Cheapest supplier.'
         },
         'part_num': {
             'col': 4,
@@ -902,7 +901,7 @@ Orange -> Too little quantity available.'''
     total_cost_col = start_col + columns['ext_price']['col']
     unit_cost_col = start_col + columns['unit_price']['col']
     
-    # If more than one file (multifiles mode) show how many
+    # If more than one file (multi-files mode) show how many
     # parts of each BOM as found at this distributor and
     # the correspondent total price.
     if num_prj>1:

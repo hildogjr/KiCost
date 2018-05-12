@@ -216,9 +216,9 @@ def kicost(in_file, eda_tool_name, out_filename,
         global scraping_progress
         scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
 
-        # Change the logging print channel to tqdm to keep the process bar to the end of terminal.
+        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         class TqdmLoggingHandler(logging.Handler):
-            '''Overload the class to write the logging through the tqdm.'''
+            '''Overload the class to write the logging through the `tqdm`.'''
             def __init__(self, level = logging.NOTSET):
                 super(self.__class__, self).__init__(level)
             def emit(self, record):
