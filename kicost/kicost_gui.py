@@ -43,7 +43,7 @@ import re # Regular expression parser.
 
 from . import __version__ # Version control by @xesscorp.
 from .kicost import *  # kicost core functions.
-from .distributors import distributor_dict, FakeBrowser,urlopen # Use the configurations alredy made to get KiCost last version.
+from .distributors import distributor_dict, fake_browser # Use the configurations alredy made to get KiCost last version.
 from .eda_tools import eda_tool_dict
 from .eda_tools.eda_tools import file_eda_match
 
@@ -530,9 +530,7 @@ class formKiCost ( wx.Frame ):
                 if not updateChecked:
                     self.m_staticText_update.SetLabel('Checking by updates...')
                     try:
-                        req = FakeBrowser(PAGE_UPDATE)
-                        response = urlopen(req)
-                        html = response.read()
+                        html = fake_browser(PAGE_UPDATE)
                         offical_last_version = re.findall('kicost (\d+\.\d+\.\d+)', str(html), flags=re.IGNORECASE)[0]
                         if StrictVersion(offical_last_version) > StrictVersion(__version__):
                             self.m_staticText_update.SetLabel('New version (v.'

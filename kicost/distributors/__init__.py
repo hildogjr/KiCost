@@ -1,4 +1,25 @@
 # -*- coding: utf-8 -*-
+# MIT license
+#
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
@@ -22,8 +43,10 @@ except ImportError:
 
 
 def get_user_agent():
-    # The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
-    # You can find more user agent strings at https://techblog.willshouse.com/2012/01/03/most-common-user-agents/.
+    ''' The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
+      You can find more user agent strings at https://techblog.willshouse.com/2012/01/03/most-common-user-agents/.
+      Used for the function `fake_browser(url, retries)`
+    '''
     user_agent_list = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36",
         "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36",
@@ -121,13 +144,28 @@ def get_user_agent():
     ]
     return choice(user_agent_list)
 
-def FakeBrowser(url):
-    req = Request(url)
-    req.add_header('Accept-Language', 'en-US')
-    req.add_header('Accept', 'text/html')
-    req.add_header('Cookie', 'foo=bar')
-    req.add_header('User-agent', get_user_agent())
-    return req
+
+# Open the URL, read the HTML from it, and parse it into a tree structure.
+    
+def fake_browser(url, scrape_retries=4, add_header=None):
+    for _ in range(scrape_retries):
+        try:
+            req = Request(url)
+            if add_header:
+                req.add_header(add_header)
+            req.add_header('Accept-Language', 'en-US')
+            req.add_header('Accept', 'text/html')
+            req.add_header('Cookie', 'foo=bar')
+            req.add_header('User-agent', get_user_agent())
+            response = urlopen(req)
+            html = response.read()
+            break
+        except WEB_SCRAPE_EXCEPTIONS:
+            logger.log(DEBUG_DETAILED,'Exception while web-scraping {}'.format(url))
+            pass
+    else:
+        raise ValueError('No page')
+    return html
 
 # Extra informations to by got by each part in the distributors.
 EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',

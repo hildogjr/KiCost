@@ -33,12 +33,9 @@ import future
 
 import re, difflib
 from bs4 import BeautifulSoup
-import http.client # For web scraping exceptions.
 from yattag import Doc, indent # For generating HTML page for local parts.
 import copy # To be possible create more than one local distributor.
-from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import WEB_SCRAPE_EXCEPTIONS
-from .. import FakeBrowser
+from .. import urlsplit, urlunsplit
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...globals import SEPRTR

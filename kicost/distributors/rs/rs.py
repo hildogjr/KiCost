@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo Guilardi Júnior
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -34,9 +34,8 @@ import future
 import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from .. import urlquote, urlsplit, urlunsplit, urlopen, Request
-from .. import WEB_SCRAPE_EXCEPTIONS
-from .. import FakeBrowser
+from .. import urlencode, urlquote, urlsplit, urlunsplit
+from .. import fake_browser
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from currency_converter import CurrencyConverter
@@ -125,16 +124,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
         url = 'http://it.rs-online.com/Search/' + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
-    for _ in range(scrape_retries):
-        try:
-            req = FakeBrowser(url)
-            response = urlopen(req)
-            html = response.read()
-            break
-        except WEB_SCRAPE_EXCEPTIONS:
-            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
-            pass
-    else: # Couldn't get a good read from the website.
+    try:
+        html = fake_browser(url, scrape_retries)
+    except:
         logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
 

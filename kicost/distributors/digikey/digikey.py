@@ -37,7 +37,8 @@ import future
 import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from .. import WEB_SCRAPE_EXCEPTIONS, FakeBrowser, urlquote, urlsplit, urlunsplit, urlopen, Request
+from .. import urlencode, urlquote, urlsplit, urlunsplit
+from .. import fake_browser
 from .. import EXTRA_INFO_DIST, extra_info_dist_name_translations
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
@@ -56,16 +57,11 @@ def define_locale_currency(locale_iso=None, currency_iso=None):
     @param locale_iso `str` Country in ISO3166 alpha 2 standard.
     @param currency_iso `str` Currency in ISO4217 alpha 3 standard.'''
     url = 'https://www.digikey.com/en/resources/international'
-    req = FakeBrowser(url)
-    for _ in range(4):
-        try:
-            response = urlopen(req)
-            html = response.read()
-            break
-        except WEB_SCRAPE_EXCEPTIONS:
-            logger.log(DEBUG_DETAILED,'Exception while web-scraping DigiKey conofiguration')
-    else: # Couldn't get a good read from the website.
-        logger.log(DEBUG_OBSESSIVE,'No HTML page for DigiKey configuration')
+    
+    try:
+        html = fake_browser(url, 4)
+    except: # Could not get a good read from the website.
+        logger.log(DEBUG_OBSESSIVE,'No HTML page for DigiKey configuration.')
         raise PartHtmlError
     html = BeautifulSoup(html, 'lxml')
     try:
@@ -252,16 +248,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
         url = distributor_dict['digikey']['site']['url'] + url
 
     # Open the URL, read the HTML from it, and parse it into a tree structure.
-    req = FakeBrowser(url)
-    for _ in range(scrape_retries):
-        try:
-            response = urlopen(req)
-            html = response.read()
-            break
-        except WEB_SCRAPE_EXCEPTIONS:
-            logger.log(DEBUG_DETAILED,'Exception while web-scraping {} from {}'.format(pn, dist))
-
-    else: # Couldn't get a good read from the website.
+    try:
+        html = fake_browser(url, scrape_retries)
+    except:
         logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
         raise PartHtmlError
 
