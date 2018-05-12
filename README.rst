@@ -13,6 +13,7 @@ circuit boards developed with KiCad.
 
 * Free software: MIT license
 * Documentation: https://xesscorp.github.io/KiCost.
+* Quick start: https://www.youtube.com/watch?v=AeccxROpDfY.
 
 Features
 --------
