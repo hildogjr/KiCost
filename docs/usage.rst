@@ -19,6 +19,10 @@ circuit boards developed with KiCad as follows:
         mfr_num      mfr-num      mfr# 
         mnf_num      mnf-num      mnf# 
 
+Be careful if the part have a ``manf#`` or distributor code with the ``,``, ``;`` or ``\`` characters,
+these have specific propose as shown in *Parts With Subparts*. They have to be preceded by ``\``,
+example, for the ``NUP1301,215`` code, use ``NUP1301\,215``.
+
 2. Output a BOM from your KiCad schematic. This will be an XML file such as ``schem.xml``.
 3. Process the XML file with KiCost to create a part-cost spreadsheet named ``schem.xlsx`` like this::
 
