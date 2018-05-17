@@ -72,6 +72,7 @@ field_name_translations = {
     'mfg_num': 'manf#',
     'mfg-num': 'manf#',
     'mfg#': 'manf#',
+    'mfg part#': 'manf#',
     'man_num': 'manf#',
     'man-num': 'manf#',
     'man#': 'manf#',
