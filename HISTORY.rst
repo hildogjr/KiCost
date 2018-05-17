@@ -7,7 +7,7 @@ History
 0.1.44 (2018-05-??)
 ______________________
 
-* Fixed `logging` messages when using `tqdm`(process bar) for sequencial scrape, missing fex for multithreads scrape.
+* Fixed `logging` messages when using `tqdm`(process bar) for sequencial scrape, missing fix for multithreads scrape.
 * Improve the `spreadsheet.py` to a lighter file when use just one distributor.
 * Improved log messages to better comunity debug.
 * Add Upverter CSV compatibility.
