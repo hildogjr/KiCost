@@ -43,6 +43,7 @@ setup(
     version=kicost.__version__,
     description="Build cost spreadsheet for a KiCad project.",
     long_description=readme + '\n\n' + history,
+    long_description_content_type="text/markdown",
     author=kicost.__author__,
     author_email=kicost.__email__,
     url='https://xesscorp.github.io/KiCost',
