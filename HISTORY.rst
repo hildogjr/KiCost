@@ -4,7 +4,7 @@ History
 -------
 
 
-0.1.44 (2018-05-??)
+0.1.44 (2018-05-28)
 ______________________
 
 * Fixed `logging` messages when using `tqdm`(process bar) for sequencial scrape, missing fix for multithreads scrape.
