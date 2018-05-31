@@ -187,6 +187,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                     product_links.append(p.find('td', class_='mftrPart').find('a'))
                 except AttributeError:
                     continue
+            print('>>>  ',pn,products,product_liks)#TODO
 
             # Extract all the part numbers from the text portion of the links.
             part_numbers = [l.text for l in product_links]
