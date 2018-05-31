@@ -137,13 +137,9 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
 
     # Use the part number to lookup the part using the site search function, unless a starting url was given.
     if url is None:
-#        url = 'http://www.farnell.com/webapp/wcs/stores/servlet/Search?catalogId=15003&langId=-1&storeId=10194&gs=true&st=' + urlquote(
-#            pn + ' ' + extra_search_terms,
-#            safe='')
-        url = 'http://it.farnell.com/webapp/wcs/stores/servlet/Search?catalogId=15001&langId=-4&storeId=10165&gs=true&st=' + urlquote(
+        url = 'http://it.farnell.com/Search?catalogId=15001&langId=-4&storeId=10165&gs=true&st=' + urlquote(
             pn + ' ' + extra_search_terms,
             safe='')
-
     elif url[0] == '/':
         url = 'http://www.farnell.com' + url
     elif url.startswith('..'):
@@ -181,8 +177,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
         else:
             # Look for the table of products.
             products = tree.find('table',
-                                 class_='productLister',
-                                 id='sProdList').find_all('tr',
+                                 class_='productLister').find_all('tr',
                                                           class_='altRow')
 
             # Extract the product links for the part numbers from the table.
@@ -192,6 +187,7 @@ def get_part_html_tree(dist, pn, extra_search_terms='', url=None, descend=2, loc
                     product_links.append(p.find('td', class_='mftrPart').find('a'))
                 except AttributeError:
                     continue
+            print('>>>  ',pn,products,product_liks)#TODO
 
             # Extract all the part numbers from the text portion of the links.
             part_numbers = [l.text for l in product_links]
