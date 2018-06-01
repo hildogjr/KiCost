@@ -27,7 +27,7 @@ __email__ = 'info@xess.com'
 from random import choice
 
 import http.client # For web scraping exceptions.
-import http.cookiejar
+import requests
 
 from ..globals import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
@@ -155,61 +155,40 @@ class fake_browser:
            @param logger
            @param scrape_retries `int` Quantity of retries in case of fail.
         '''
-        self.cookiejar = http.cookiejar.CookieJar()
+        
         self.userAgent = get_user_agent()
-        self.opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(self.cookiejar))
+
+        # Use "requests" instead of "urllib" because "urllib" does not allow
+        # to remove "Connection: close" header which causes problems with some servers.
+        self.session = requests.session()
+        self.session.headers["User-Agent"] = self.userAgent
+
         self.scrape_retries = scrape_retries
         self.logger = logger
 
     def show_cookies(self, name):
-        for x in self.cookiejar:
-            # TODO: use logger
-            self.logger.log(DEBUG_OBSESSIVE,"%s Cookie %s" % (name, x.name))
-            print("%s Cookie %s" % (name, x.name))
+        for x in self.session.cookies:
+            self.logger.log(DEBUG_OBSESSIVE,"%s Cookie %s" % (x.domain, x.name))
 
     def add_cookie(self, domain, name, value):
-        self.cookiejar.set_cookie(http.cookiejar.Cookie(
-            version=0, 
-            name=name, 
-            value=value,
-            port=None, 
-            port_specified=False,
-            domain=domain, 
-            domain_specified=True, 
-            domain_initial_dot=False,
-            path="/", 
-            path_specified=False,
-            secure=False,
-            expires=None,
-            discard=False,
-            comment=None,
-            comment_url=None,
-            rest=None))
+        self.session.cookies.set(name, value, domain=domain)
 
-    def scrape_URL(self, url, add_header=None):
+    def scrape_URL(self, url, add_header=[]):
+        headers = self.session.headers
+        for header in add_header:
+            self.session.headers[header[1]] = header[2]
+
         for _ in range(self.scrape_retries):
             try:
-                req = Request(url)
-                if add_header:
-                    req.add_header(add_header)
-                req.add_header('User-agent', self.userAgent)
-                req.add_header('Accept', 'text/html')
-                req.add_header('Accept-Language', 'en-US')
-                req.add_header('Accept-Encoding', 'identity')
-                response = self.opener.open(req, timeout=10)
-                html = response.read()
+                html = self.session.get(url, timeout=5).text
                 break
-            #except WEB_SCRAPE_EXCEPTIONS:
             except Exception as ex:
-                # TODO: remove print
-                print('Exception of type "%s" while web-scraping %s' \
-                    % (type(ex).__name__, format(url)))
                 self.logger.log(DEBUG_DETAILED,'Exception of type "%s" while web-scraping %s' \
                     % (type(ex).__name__, format(url)))
                 pass
         else:
-            # TODO: remove print
-            print('No page')
+            self.session.headers = headers
             raise ValueError('No page')
+        self.session.headers = headers
         return html
 
