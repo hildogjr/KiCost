@@ -210,6 +210,10 @@ def kicost(in_file, eda_tool_name, out_filename,
     # Create an HTML page containing all the local part information.
     dist_local.create_part_html(parts, distributor_dict, logger)
 
+    num_processes = min(num_processes, len(distributor_dict))
+    logger.log(DEBUG_OBSESSIVE, "Initialising scraper with %d processes" % num_processes)
+    logger.log(DEBUG_OBSESSIVE, "throttling_delay=%d" % throttling_delay)
+
     # Get the distributor product page for each part and scrape the part data.
     if dist_list:
         # Instanciate distributors
@@ -261,10 +265,12 @@ def kicost(in_file, eda_tool_name, out_filename,
             part.qty_avail = {}
             part.info_dist = {}
 
+        num_processes = min(num_processes, len(distributor_dict))
+
         if num_processes <= 1:
             # Scrape data, one part at a time using single processing.
             for d in distributor_dict:
-                logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
+                logger.log(DEBUG_OVERVIEW, "Scraping "+ distributor_dict[d]['instance'].name)
                 for i in range(len(parts)):
                     id, dist, url, part_num, price_tiers, qty_avail, info_dist = \
                         scrape_result = distributor_dict[d]['instance'].scrape_part(i, parts[i])
