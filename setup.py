@@ -17,13 +17,13 @@ with open('HISTORY.rst') as history_file:
 
 # KiCost Python packages requirements to run-time.
 requirements = [
-    'beautifulsoup4 >= 4.3.2',
+    'beautifulsoup4 >= 4.3.2', # HTML tag deal.
     'XlsxWriter >= 0.7.3',
     'future >= 0.15.0',
     'lxml >= 3.7.2',
     'yattag >= 1.5.2',
     'tqdm >= 4.4.0',
-    'CurrencyConverter >= 0.5', # It will be decreped on next release!
+    'CurrencyConverter >= 0.5', # Used to convert price to a not avaiable currecy in one distributor.
     'pycountry >= 18.2', # ISO4117, ISO3166 country and currency definitons from Debian’s pkg-isocodes.
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
