@@ -47,7 +47,6 @@ NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
 
 from .globals import *
-logger = logging.getLogger('kicost')
 
 ###############################################################################
 # Command-line interface.
@@ -174,7 +173,7 @@ def main():
     #handler = logging.StreamHandler(sys.stdout)
     #handler.setLevel(log_level)
     #logger.addHandler(handler) # It's not necessary to add a handle here, the default is already `sys.stdout` and adding twice it creates the BUG #193, doesn't allowing to use correctly the `tqdm` (process bar) print handle.
-    logger.setLevel(log_level)
+    logging.basicConfig(level=log_level, format='%(message)s')
 
     if args.show_dist_list:
         print('Distributor list:', *sorted(list(distributor_dict.keys())))
