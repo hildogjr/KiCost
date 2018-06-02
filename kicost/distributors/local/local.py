@@ -183,8 +183,6 @@ class dist_local(distributor.distributor):
 
         # Extract the HTML tree from the local part HTML page.
         try:
-            print("dist_local.html")
-            print(dist_local.html)
             tree = BeautifulSoup(dist_local.html, 'lxml')
         except Exception:
             raise PartHtmlError

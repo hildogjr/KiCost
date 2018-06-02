@@ -42,7 +42,7 @@ import http.client # For web scraping exceptions.
 #from .. import urlencode, urlquote, urlsplit, urlunsplit
 from .. import fake_browser
 from ...globals import PartHtmlError
-from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
 
 from .. import distributor, distributor_dict
 
@@ -249,4 +249,5 @@ class dist_tme(distributor.distributor):
 
         # I don't know what happened here, so give up.
         self.logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, self.name))
+        self.logger.log(DEBUG_HTTP_RESPONSES,'Response was %s' % html)
         raise PartHtmlError

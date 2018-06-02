@@ -41,7 +41,7 @@ import http.client # For web scraping exceptions.
 #from .. import urlencode, urlquote, urlsplit, urlunsplit
 from .. import fake_browser
 from ...globals import PartHtmlError
-from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
 from currency_converter import CurrencyConverter
 currency = CurrencyConverter()
 
@@ -196,7 +196,7 @@ class dist_farnell(distributor.distributor):
                         product_links.append(p.find('td', class_='mftrPart').find('a'))
                     except AttributeError:
                         continue
-                print('>>>  ',pn,products,product_links)#TODO
+                #print('>>>  ',pn,products,product_links)#TODO
 
                 # Extract all the part numbers from the text portion of the links.
                 part_numbers = [l.text for l in product_links]
@@ -215,5 +215,5 @@ class dist_farnell(distributor.distributor):
 
         # I don't know what happened here, so give up.
         self.logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, self.name))
-        self.logger.log(DEBUG_OBSESSIVE,'Response was %s' % html)
+        self.logger.log(DEBUG_HTTP_RESPONSES,'Response was %s' % html)
         raise PartHtmlError

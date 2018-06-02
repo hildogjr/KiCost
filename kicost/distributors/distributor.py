@@ -58,6 +58,7 @@ from . import distributor_dict
 import os, re
 
 class distributor:
+    start_time = time.time()
     def __init__(self, name, scrape_retries, log_level, throttle_delay):
         self.name = name
         self.page_accessed = False
@@ -189,6 +190,8 @@ class distributor:
                     if key in part.fields:
                         if part.fields[key]:
                             self.page_accessed = True
+                            self.logger.log(DEBUG_OBSESSIVE, "%s: scrape timing: %.2f" \
+                                % (self.name, time.time() - distributor.start_time))
                             return self.dist_get_part_html_tree(part.fields[key], extra_search_terms)
                 # No distributor or manufacturer number, so give up.
                 else:
