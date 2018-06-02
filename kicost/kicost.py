@@ -204,32 +204,28 @@ def kicost(in_file, eda_tool_name, out_filename,
                 logger.warning("No 'manf#' and '%s#' field in any part: distributor '%s' will be not scraped.", d, distributor_dict[d]['label'])
                 distributor_dict.pop(d, None)
 
-    # Create an HTML page containing all the local part information.
-    local_distributor = dist_local(scrape_retries, 5, throttling_delay) # TODO: log level
-    local_part_html = local_distributor.create_part_html(parts, distributor_dict)
-    
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributor_dict)
 
+    # Create an HTML page containing all the local part information.
+    dist_local.create_part_html(parts, distributor_dict, logger)
+
     # Get the distributor product page for each part and scrape the part data.
     if dist_list:
-
         # Instanciate distributors
         for d in list(distributor_dict.keys()):
             try:
-                ctor = globals()["dist_"+d]
-                # TODO: use logger, not print
-                # TODO: logger does not print anything
                 logger.log(DEBUG_OVERVIEW, "Initialising %s" % d)
-                print("Initialising %s" % d)
-                # TODO: farnell does not respond
-                distributor_dict[d]['instance'] = ctor(scrape_retries, 5, throttling_delay) # TODO: log level
-            except:
-                logger.log(DEBUG_OVERVIEW, "Initialising %s failed, exculding this distributor..." % d)
+                if distributor_dict[d]['scrape'] == 'local':
+                    ctor = globals()['dist_local']
+                else:
+                    ctor = globals()['dist_'+d]
+                distributor_dict[d]['instance'] = ctor(d, scrape_retries, 5, throttling_delay) # TODO: log level
+            except Exception as ex:
+                logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, exculding this distributor..." \
+                    % (d, type(ex).__name__))
                 distributor_dict.pop(d, None)
                 pass
-
-	# TODO: multithreaded init, use another pool
 
         if local_currency:
             logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
@@ -259,23 +255,19 @@ def kicost(in_file, eda_tool_name, out_filename,
 
         # Init part info dictionaries
         for part in parts:
-            pprint.pprint(vars(part))
             part.part_num = {}
             part.url = {}
             part.price_tiers = {}
             part.qty_avail = {}
             part.info_dist = {}
-        #partsByDist = partListByDistributors(parts)
 
         if num_processes <= 1:
             # Scrape data, one part at a time using single processing.
             for d in distributor_dict:
-                print("Dist loop d=%s" % d)
+                logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
                 for i in range(len(parts)):
-                    print("Part loop i=%d" % i)
                     id, dist, url, part_num, price_tiers, qty_avail, info_dist = \
-                        scrape_result = distributor_dict[d]['instance'].scrape_part \
-                        (i, parts[i], local_part_html)
+                        scrape_result = distributor_dict[d]['instance'].scrape_part(i, parts[i])
 
                     parts[id].part_num[dist] = part_num
                     parts[id].url[dist] = url
@@ -293,12 +285,13 @@ def kicost(in_file, eda_tool_name, out_filename,
 
             # Package part data for passing to each process.
             arg_sets = [(distributor_dict[d]['instance'], parts, \
-                local_part_html, scraping_progress) for d in distributor_dict]
+                scraping_progress) for d in distributor_dict]
 
-            def mt_scrape_part(inst, parts, local_part_html, scraping_progress):
+            def mt_scrape_part(inst, parts, scraping_progress):
+                logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
                 retval = list()
                 for i in range(len(parts)):
-                    retval.append(inst.scrape_part(i, parts[i], local_part_html))
+                    retval.append(inst.scrape_part(i, parts[i]))
                     scraping_progress.update(1)
                 return retval
 

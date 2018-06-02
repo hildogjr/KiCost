@@ -58,8 +58,8 @@ from . import distributor_dict
 import os, re
 
 class distributor:
-    def __init__(self, scrape_retries, log_level, throttle_delay):
-        self.name = None
+    def __init__(self, name, scrape_retries, log_level, throttle_delay):
+        self.name = name
         self.page_accessed = False
         self.scrape_retries = scrape_retries
         self.logger = logger
@@ -109,7 +109,7 @@ class distributor:
             logger.warning('No currency/country configuration for {}.'.format(self.name))
             pass
 
-    def scrape_part(self, id, part, local_part_html):
+    def scrape_part(self, id, part):
         '''@brief Scrape the data for a part from each distributor website or local HTML.
         
         Use distributors submodules to scrape each distributor part page and get
@@ -117,7 +117,6 @@ class distributor:
         
         @param `int` Count of the main loop.
         @param `str` String with the part number / distributor stock.
-        @param `str` Local part HTML
         @return id, distributor_name, url, `str` distributor stock part number,
             `dict` price tiers, `int` qty avail, `dict` extrainfo dist
         '''
@@ -153,7 +152,7 @@ class distributor:
                 % (self.name, distributor_dict[self.name]['scrape']))
 
         # Get the HTML tree for the part.
-        html_tree, url = self.get_part_html_tree(part, local_part_html=local_part_html)
+        html_tree, url = self.get_part_html_tree(part)
 
         # Call the functions that extract the data from the HTML tree.
         part_num = self.dist_get_part_num(html_tree)
@@ -172,12 +171,11 @@ class distributor:
         # Return the part data.
         return id, self.name, url, part_num, price_tiers, qty_avail, info_dist
 
-    def get_part_html_tree(self, part, local_part_html):
+    def get_part_html_tree(self, part):
         '''@brief Get the HTML tree for a part.
         
         Get the HTML tree for a part from the given distributor website or local HTML.
         @param `str` part Part manufactor code or distributor stock code.
-        @param `str` local_part_html
         @return `str` with the HTML webpage.'''
 
         self.logger.log(DEBUG_OBSESSIVE, 'Looking in %s by %s:', self.name, order_refs(part.refs, True))
@@ -191,8 +189,7 @@ class distributor:
                     if key in part.fields:
                         if part.fields[key]:
                             self.page_accessed = True
-                            return self.dist_get_part_html_tree \
-                                (part.fields[key], extra_search_terms, local_part_html=local_part_html)
+                            return self.dist_get_part_html_tree(part.fields[key], extra_search_terms)
                 # No distributor or manufacturer number, so give up.
                 else:
                     self.page_accessed = False

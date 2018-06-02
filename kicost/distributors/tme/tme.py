@@ -49,9 +49,8 @@ from .. import distributor, distributor_dict
 from urllib.parse import quote_plus as urlquote, urlencode
 
 class dist_tme(distributor.distributor):
-    def __init__(self, scrape_retries, log_level, throttle_delay):
-        super(dist_tme, self).__init__(scrape_retries, log_level, throttle_delay)
-        self.name = 'tme'
+    def __init__(self, name, scrape_retries, log_level, throttle_delay):
+        super(dist_tme, self).__init__(name, scrape_retries, log_level, throttle_delay)
         self.domain = distributor_dict[self.name]['site']['url']
 
         self.browser.scrape_URL(self.domain)
@@ -160,13 +159,12 @@ class dist_tme(distributor.distributor):
             return None
 
 
-    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=2):
         '''@brief Find the TME HTML page for a part number and return the URL and parse tree.
            @param pn Part number `str()`.
            @param extra_search_terms
            @param url
            @param descend
-           @param local_part_html
            @return (html `str()` of the page, url)
         '''
 

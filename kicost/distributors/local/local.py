@@ -44,18 +44,20 @@ from .. import distributor
 from urllib.parse import urlsplit, urlunsplit
 
 class dist_local(distributor.distributor):
-    def __init__(self, scrape_retries, log_level, throttle_delay):
-        super(dist_local, self).__init__(scrape_retries, log_level, throttle_delay)
-        self.name = 'local'
+    # Static variable which contains local part html.
+    html = None
 
-    def create_part_html(self, parts, distributors):
+    def __init__(self, name, scrape_retries, log_level, throttle_delay):
+        super(dist_local, self).__init__(name, scrape_retries, log_level, throttle_delay)
+
+    def create_part_html(parts, distributors, logger):
         '''@brief Create HTML page containing info for local (non-webscraped) parts.
         @param parts `list()` of parts.
         @parm `list()`of the distributors to check each one is local.
-        @return `str()` of the HTML page to be read by `get_part_html_tree()`
+        @param logger
         '''
         
-        self.logger.log(DEBUG_OVERVIEW, 'Create HTML page for parts with custom pricing...')
+        logger.log(DEBUG_OVERVIEW, 'Create HTML page for parts with custom pricing...')
         
         doc, tag, text = Doc().tagtext()
         with tag('html'):
@@ -115,10 +117,9 @@ class dist_local(distributor.distributor):
         except:
             pass
 
-        html = doc.getvalue()
-        if self.logger.isEnabledFor(DEBUG_OBSESSIVE):
-            print(indent(html))
-        return html
+        dist_local.html = doc.getvalue()
+        if logger.isEnabledFor(DEBUG_OBSESSIVE):
+            print(indent(dist_local.html))
 
 
     def dist_get_price_tiers(self, html_tree):
@@ -171,20 +172,20 @@ class dist_local(distributor.distributor):
             self.logger.log(DEBUG_OBSESSIVE, 'No local part quantity found!')
             return 0
 
-    # TODO: dist param
-    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=None, local_part_html=None):
+    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=None):
         '''Extract the HTML tree from the HTML page for local parts.
            @param pn Part number `str()`.
            @param extra_search_terms
            @param url
            @param descend
-           @param local_part_html
            @return (html `str()` of the page, `None`) The second argument is always `None` bacause there is not url to return.
         '''
 
         # Extract the HTML tree from the local part HTML page.
         try:
-            tree = BeautifulSoup(local_part_html, 'lxml')
+            print("dist_local.html")
+            print(dist_local.html)
+            tree = BeautifulSoup(dist_local.html, 'lxml')
         except Exception:
             raise PartHtmlError
 

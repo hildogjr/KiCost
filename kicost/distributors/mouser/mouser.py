@@ -48,9 +48,8 @@ from .. import distributor, distributor_dict
 from urllib.parse import quote_plus as urlquote
 
 class dist_mouser(distributor.distributor):
-    def __init__(self, scrape_retries, log_level, throttle_delay):
-        super(dist_mouser, self).__init__(scrape_retries, log_level, throttle_delay)
-        self.name = 'mouser'
+    def __init__(self, name, scrape_retries, log_level, throttle_delay):
+        super(dist_mouser, self).__init__(name, scrape_retries, log_level, throttle_delay)
         self.domain = distributor_dict[self.name]['site']['url']
         self.browser.add_cookie('.mouser.com', 'preferences', 'ps=www2&pl=en-US&pc_www2=USDe')
 
@@ -140,13 +139,12 @@ class dist_mouser(distributor.distributor):
             self.logger.log(DEBUG_OBSESSIVE, 'No Mouser part quantity found!')
             return None
 
-    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=2):
         '''@brief Find the Mouser HTML page for a part number and return the URL and parse tree.
            @param pn Part number `str()`.
            @param extra_search_terms
            @param url
            @param descend
-           @param local_part_html
            @return (html `str()` of the page, url)
         '''
 

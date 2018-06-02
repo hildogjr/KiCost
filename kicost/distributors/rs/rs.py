@@ -46,9 +46,8 @@ from .. import distributor, distributor_dict
 from urllib.parse import quote_plus as urlquote
 
 class dist_rs(distributor.distributor):
-    def __init__(self, scrape_retries, log_level, throttle_delay):
-        super(dist_rs, self).__init__(scrape_retries, log_level, throttle_delay)
-        self.name = 'rs'
+    def __init__(self, name, scrape_retries, log_level, throttle_delay):
+        super(dist_rs, self).__init__(name, scrape_retries, log_level, throttle_delay)
         self.domain = distributor_dict[self.name]['site']['url']
 
         self.browser.scrape_URL(self.domain)
@@ -114,13 +113,12 @@ class dist_rs(distributor.distributor):
             # Return None so the part won't show in the spreadsheet for this dist.
             return None
 
-    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=2, local_part_html=None):
+    def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=2):
         '''@brief Find the RS Components HTML page for a part number and return the URL and parse tree.
            @param pn Part number `str()`.
            @param extra_search_terms
            @param url
            @param descend
-           @param local_part_html
            @return (html `str()` of the page, url)
         '''
                 
