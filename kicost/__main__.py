@@ -148,7 +148,7 @@ def main():
                         metavar = 'NUM_RETRIES',
                         help='Specify the number of attempts to retrieve part data from a website.')
     parser.add_argument('--throttling_delay',
-                        nargs='?', type=float, default=0.0,
+                        nargs='?', type=float, default=5.0,
                         metavar='DELAY',
                         help="Specify minimum delay (in seconds) between successive accesses to a distributor's website.")
     parser.add_argument('--currency', '--locale',
