@@ -211,34 +211,56 @@ def kicost(in_file, eda_tool_name, out_filename,
     dist_local.create_part_html(parts, distributor_dict, logger)
 
     num_processes = min(num_processes, len(distributor_dict))
-    logger.log(DEBUG_OBSESSIVE, "Initialising scraper with %d processes" % num_processes)
+    logger.log(DEBUG_OBSESSIVE, "Initialising scraper with %d threads" % num_processes)
     logger.log(DEBUG_OBSESSIVE, "throttling_delay=%d" % throttling_delay)
 
     # Get the distributor product page for each part and scrape the part data.
     if dist_list:
-        # Instanciate distributors
-        for d in list(distributor_dict.keys()):
+
+        # Create thread pool to init multiple distributors simultaneously.
+        pool = ThreadPool(num_processes)
+
+        # Package part data for passing to each process.
+        arg_sets = [(d, distributor_dict[d]['scrape']) for d in distributor_dict]
+
+        def mt_init_dist(d, scrape):
+            instance = None
             try:
                 logger.log(DEBUG_OVERVIEW, "Initialising %s" % d)
-                if distributor_dict[d]['scrape'] == 'local':
+                if scrape == 'local':
                     ctor = globals()['dist_local']
                 else:
                     ctor = globals()['dist_'+d]
-                distributor_dict[d]['instance'] = ctor(d, scrape_retries, 5, throttling_delay) # TODO: log level
+                instance = ctor(d, scrape_retries, 5, throttling_delay) # TODO: log level
             except Exception as ex:
                 logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, exculding this distributor..." \
                     % (d, type(ex).__name__))
-                distributor_dict.pop(d, None)
-                pass
+                return (d, None)
 
-        if local_currency:
-            logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
-            for d in distributor_dict:
-                distributor_dict[d]['instance'].define_locale_currency(local_currency)
+            if local_currency:
+                logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
+                instance.define_locale_currency(local_currency)
+            return (d, instance)
+
+        logger.log(DEBUG_OBSESSIVE, 'Starting {} threads to init distributors...'.format(num_processes))
+        pprint.pprint(arg_sets)
+        results = [pool.apply_async(mt_init_dist, args) for args in arg_sets]
+
+        # Wait for all the processes to have results.
+        pool.close()
+        pool.join()
+
+        # Get the data from each process result structure.
+        for result in results:
+            d, instance = result.get()
+            # Distributor initialisation failed, remove it from distributor_dict.
+            if instance == None:
+                distributor_dict.pop(d, None)
+            # Distributor initialised successfully, add instance to distributor_dict.
+            else:
+                distributor_dict[d]['instance'] = instance
 
         logger.log(DEBUG_OVERVIEW, '# Scraping part data for each component group...')
-
-        global scraping_progress
         scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts)*len(distributor_dict), unit='part', miniters=1)
 
         # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
@@ -285,15 +307,16 @@ def kicost(in_file, eda_tool_name, out_filename,
             # Scrape data, multiple parts at a time using multiprocessing.
 
             # Create thread pool to scrape data for multiple distributors simultaneously.
-            # PYthon threads are time-sliced but they work in our I/O limited scenario
+            # Python threads are time-sliced but they work in our I/O limited scenario
             # and avoid all kinds of pickle issues.
             pool = ThreadPool(num_processes)
 
             # Package part data for passing to each process.
-            arg_sets = [(distributor_dict[d]['instance'], parts, \
-                scraping_progress) for d in distributor_dict]
+            # pool.async_apply needs at least two arguments per function so add dummy argument
+            # (otherwise it fails with "arguments after * must be an iterable, not ...")
+            arg_sets = [(distributor_dict[d]['instance'], None) for d in distributor_dict]
 
-            def mt_scrape_part(inst, parts, scraping_progress):
+            def mt_scrape_part(inst, dummy):
                 logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
                 retval = list()
                 for i in range(len(parts)):
@@ -302,13 +325,13 @@ def kicost(in_file, eda_tool_name, out_filename,
                 return retval
 
             # Start the web scraping processes, one for each part.
-            logger.log(DEBUG_OBSESSIVE, 'Starting {} parallels process to scrap parts...'.format(num_processes))
+            logger.log(DEBUG_OBSESSIVE, 'Starting {} parallel threads to scrap parts...'.format(num_processes))
             results = [pool.apply_async(mt_scrape_part, args) for args in arg_sets]
 
             # Wait for all the processes to have results, then kill-off all the scraping processes.
             pool.close()
             pool.join()
-            logger.log(DEBUG_OVERVIEW, 'All parallels process finished with success.')
+            logger.log(DEBUG_OVERVIEW, 'All parallel threads finished with success.')
 
             # Get the data from each process result structure.
             for res_proc in results:
