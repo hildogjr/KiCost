@@ -61,14 +61,11 @@ class distributor:
     start_time = time.time()
     def __init__(self, name, scrape_retries, log_level, throttle_delay):
         self.name = name
-        self.page_accessed = False
         self.scrape_retries = scrape_retries
         self.logger = logger
         self.log_level = log_level
-        self.throttle_delay = throttle_delay
-        self.throttle_timeout = time.time()
         self.domain = None
-        self.browser = fake_browser.fake_browser(self.logger, self.scrape_retries)
+        self.browser = fake_browser.fake_browser(self.logger, self.scrape_retries, throttle_delay)
 
     # Abstract methods, implemented in distributor specific modules
     def dist_get_part_html_tree(self, pn, extra_search_terms, url, descend):
@@ -138,20 +135,6 @@ class distributor:
         price_tiers = {}
         info_dist = {}
 
-        if distributor_dict[self.name]['scrape']=='web':
-            if self.page_accessed == True:
-                # Check the throttling timeout for the chosen distributor to see if
-                # another access to its website is allowed.
-                if self.throttle_timeout > time.time():
-                    time.sleep(self.throttle_timeout - time.time())
-
-            # Update the timeout for this distributor website and release the sync. lock.
-            self.throttle_timeout = time.time() + self.throttle_delay
-            # Founded manufacturer / distributor code valid (not empty).
-        else:
-            self.logger.log(DEBUG_OBSESSIVE,'No delay for %s, type=%s' \
-                % (self.name, distributor_dict[self.name]['scrape']))
-
         # Get the HTML tree for the part.
         html_tree, url = self.get_part_html_tree(part)
 
@@ -189,7 +172,6 @@ class distributor:
                 for key in (self.name+'#', self.name+SEPRTR+'cat#', 'manf#'):
                     if key in part.fields:
                         if part.fields[key]:
-                            self.page_accessed = True
                             self.logger.log(DEBUG_OBSESSIVE, "%s: scrape timing: %.2f" \
                                 % (self.name, time.time() - distributor.start_time))
                             return self.dist_get_part_html_tree(part.fields[key], extra_search_terms)

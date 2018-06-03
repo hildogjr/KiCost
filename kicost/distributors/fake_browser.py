@@ -25,6 +25,7 @@ __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
 from random import choice
+import time
 
 import http.client # For web scraping exceptions.
 import requests
@@ -150,7 +151,7 @@ def get_user_agent():
 
 # Open the URL, read the HTML from it, and parse it into a tree structure.
 class fake_browser:
-    def __init__(self, logger, scrape_retries):
+    def __init__(self, logger, scrape_retries, throttle_delay):
         '''@brief fake_browser
            @param logger
            @param scrape_retries `int` Quantity of retries in case of fail.
@@ -162,6 +163,9 @@ class fake_browser:
         # to remove "Connection: close" header which causes problems with some servers.
         self.session = requests.session()
         self.session.headers["User-Agent"] = self.userAgent
+
+        self.throttle_delay = throttle_delay
+        self.throttle_timeout = time.time()
 
         self.scrape_retries = scrape_retries
         self.logger = logger
@@ -180,6 +184,18 @@ class fake_browser:
 
         for _ in range(self.scrape_retries):
             try:
+                # Check the throttling timeout of this browser to see if
+                # another access to its website is allowed.
+
+                sleepTime = self.throttle_timeout - time.time()
+                self.logger.log(DEBUG_OBSESSIVE, "browser: time=%.2f, timeout=%.2f, sleep=%.2f" \
+                    % (time.time(), self.throttle_timeout, sleepTime))
+                if sleepTime > 0:
+                    time.sleep(sleepTime)
+
+                # Update the timeout for this browser.
+                self.throttle_timeout = time.time() + self.throttle_delay
+
                 html = self.session.get(url, timeout=5).text
                 break
             except Exception as ex:
