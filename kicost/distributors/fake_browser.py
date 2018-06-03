@@ -24,6 +24,7 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
+import sys
 from random import choice
 import time
 
@@ -32,13 +33,13 @@ import requests
 
 from ..globals import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 
-try:
+if sys.version_info>=(3,0):
     # This is for Python 3
     from urllib.parse import urlencode, quote_plus as urlquote, urlsplit, urlunsplit
     from urllib.request import urlopen, Request
     import urllib.error
     WEB_SCRAPE_EXCEPTIONS = (urllib.error.URLError, http.client.HTTPException)
-except ImportError:
+else:
     # This is for Python 2
     from urlparse import urlsplit, urlunsplit
     from urllib import urlencode, quote_plus as urlquote
