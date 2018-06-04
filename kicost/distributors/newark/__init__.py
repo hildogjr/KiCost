@@ -26,7 +26,7 @@ distributor_dict.update(
             },
             # Web site defitions.
             'site': {
-                'url': 'http://www.newark.com/',
+                'url': 'https://www.newark.com/',
                 'currency': 'USD',
                 'locale': 'US'
             },
