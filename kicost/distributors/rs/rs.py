@@ -134,19 +134,19 @@ class dist_rs(distributor.distributor):
         try:
             html = self.browser.scrape_URL(url)
         except:
-            self.logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, dist))
+            self.logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, self.name))
             raise PartHtmlError
 
         try:
             tree = BeautifulSoup(html, 'lxml')
         except Exception:
-            self.logger.log(DEBUG_OBSESSIVE,'No HTML tree for {} from {}'.format(pn, dist))
+            self.logger.log(DEBUG_OBSESSIVE,'No HTML tree for {} from {}'.format(pn, self.name))
             raise PartHtmlError
 
         # Abort if the part number isn't in the HTML somewhere.
         # (Only use the numbers and letters to compare PN to HTML.)
         if re.sub('[\W_]','',str.lower(pn)) not in re.sub('[\W_]','',str.lower(str(html))):
-            self.logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {}'.format(pn, dist))
+            self.logger.log(DEBUG_OBSESSIVE,'No part number {} in HTML page from {}'.format(pn, self.name))
             raise PartHtmlError
             
         # If the tree contains the tag for a product page, then just return it.
@@ -155,9 +155,9 @@ class dist_rs(distributor.distributor):
 
         # If the tree is for a list of products, then examine the links to try to find the part number.
         if tree.find('div', class_=('resultsTable','results-table-container')) is not None:
-            self.logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, dist))
+            self.logger.log(DEBUG_OBSESSIVE,'Found product table for {} from {}'.format(pn, self.name))
             if descend <= 0:
-                self.logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, dist))
+                self.logger.log(DEBUG_OBSESSIVE,'Passed descent limit for {} from {}'.format(pn, self.name))
                 raise PartHtmlError
             else:
                 # Look for the table of products.
@@ -177,12 +177,12 @@ class dist_rs(distributor.distributor):
                 for i in range(len(product_links)):
                     if part_numbers[i] == match:
                         # Get the tree for the linked-to page and return that.
-                        self.logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(part_numbers[i], pn, dist))
+                        self.logger.log(DEBUG_OBSESSIVE,'Selecting {} from product table for {} from {}'.format(part_numbers[i], pn, self.name))
                         return self.dist_get_part_html_tree(pn, extra_search_terms,
                                                   url=product_links[i],
                                                   descend=descend-1)
 
         # I don't know what happened here, so give up.
-        self.logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, dist))
+        self.logger.log(DEBUG_OBSESSIVE,'Unknown error for {} from {}'.format(pn, self.name))
         self.logger.log(DEBUG_HTTP_RESPONSES,'Response was %s' % html)
         raise PartHtmlError
