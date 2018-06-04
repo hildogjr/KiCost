@@ -38,8 +38,7 @@ import http.client # For web scraping exceptions.
 from .. import fake_browser
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
-from currency_converter import CurrencyConverter
-currency = CurrencyConverter()
+from ...globals import currency
 
 from .. import distributor, distributor_dict
 

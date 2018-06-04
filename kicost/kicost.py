@@ -109,6 +109,8 @@ def kicost(in_file, eda_tool_name, out_filename,
     @param local_currency `str()` Local/country in ISO3166:2 and currency in ISO4217. Default 'USD'.
     '''
 
+    logger.log(DEBUG_OVERVIEW, 'Exchange rate: 1 EUR = %.2f USD' % currency.convert(1, 'EUR', 'USD'))
+
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list!=None:
         if not dist_list:
