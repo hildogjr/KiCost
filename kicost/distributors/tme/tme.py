@@ -21,25 +21,16 @@
 # THE SOFTWARE.
 
 # Inserted by Pasteurize tool.
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
-from builtins import zip
-from builtins import range
-from builtins import int
-from builtins import str
+from __future__ import print_function, unicode_literals, division, absolute_import
+from builtins import zip, range, int, str
 from future import standard_library
 standard_library.install_aliases()
-
 import future
 
-import re
-import difflib
+import re, difflib
 import json
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-#from .. import urlencode, urlquote, urlsplit, urlunsplit
 from .. import fake_browser
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
@@ -73,8 +64,7 @@ class dist_tme(distributor.distributor):
             return None, None
 
         try:
-            r = r.decode('utf-8')  # Convert bytes to string in Python 3.
-            p = json.loads(r).get('Products')
+            p = json.loads(html).get('Products')
             if p is not None and isinstance(p, list):
                 p = p[0]
                 html_tree = BeautifulSoup(p.get('PriceTpl', '').replace("\n", ""), "lxml")

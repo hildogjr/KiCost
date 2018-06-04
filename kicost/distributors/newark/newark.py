@@ -21,24 +21,15 @@
 # THE SOFTWARE.
 
 # Inserted by Pasteurize tool.
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
-from builtins import zip
-from builtins import range
-from builtins import int
-from builtins import str
+from __future__ import print_function, unicode_literals, division, absolute_import
+from builtins import zip, range, int, str
 from future import standard_library
 standard_library.install_aliases()
-
 import future
 
-import re
-import difflib
+import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-#from .. import urlencode, urlquote, urlsplit, urlunsplit
 from .. import fake_browser
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
