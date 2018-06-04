@@ -34,8 +34,6 @@ standard_library.install_aliases()
 
 import future
 
-# TODO: not working yet ?
-
 import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
@@ -219,9 +217,9 @@ class dist_digikey(distributor.distributor):
 
         # Open the URL, read the HTML from it, and parse it into a tree structure.
         try:
-            html = fake_browser(url, scrape_retries)
-        except:
-            self.logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}'.format(pn, self.name))
+            html = self.browser.scrape_URL(url)
+        except Exception as ex:
+            self.logger.log(DEBUG_OBSESSIVE,'No HTML page for {} from {}, ex: {}'.format(pn, self.name, type(ex).__name__))
             raise PartHtmlError
 
         # Abort if the part number isn't in the HTML somewhere.
@@ -274,9 +272,9 @@ class dist_digikey(distributor.distributor):
                     # the entire list for one that's non-reeled. Use this as the
                     # main page for the part.
                     ap_trees_and_urls.append((tree, url))
-                    if part_is_reeled(tree):
+                    if self.part_is_reeled(tree):
                         for ap_tree, ap_url in ap_trees_and_urls:
-                            if not part_is_reeled(ap_tree):
+                            if not self.part_is_reeled(ap_tree):
                                 # Found a non-reeled part, so use it as the main page.
                                 tree = ap_tree
                                 url = ap_url
@@ -290,9 +288,9 @@ class dist_digikey(distributor.distributor):
                         try:
                             # Merge the pricing info from that into the main parse tree to make
                             # a single, unified set of price tiers...
-                            merge_price_tiers(tree, ap_tree)
+                            self.merge_price_tiers(tree, ap_tree)
                             # and merge available quantity, using the maximum found.
-                            merge_qty_avail(tree, ap_tree)
+                            self.merge_qty_avail(tree, ap_tree)
                         except AttributeError:
                             self.logger.log(DEBUG_OBSESSIVE,'Problem merging price/qty for {} from {}'.format(pn, self.name))
                             continue
@@ -352,7 +350,7 @@ class dist_digikey(distributor.distributor):
            @param html_tree `str()` html of the distributor part page.
            @return `True` or `False`.
         '''
-        qty_tiers = list(get_price_tiers(html_tree).keys())
+        qty_tiers = list(self.dist_get_price_tiers(html_tree).keys())
         if len(qty_tiers) > 0 and min(qty_tiers) >= 100:
             return True
         if html_tree.find('table',
@@ -372,8 +370,8 @@ class dist_digikey(distributor.distributor):
     def merge_qty_avail(self, main_tree, alt_tree):
         '''Merge the quantities from the alternate-packaging tree into the main tree.'''
         try:
-            main_qty = get_qty_avail(main_tree)
-            alt_qty = get_qty_avail(alt_tree)
+            main_qty = self.dist_get_qty_avail(main_tree)
+            alt_qty = self.dist_get_qty_avail(alt_tree)
             if main_qty is None:
                 merged_qty = alt_qty
             elif alt_qty is None:
