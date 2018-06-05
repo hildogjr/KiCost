@@ -254,8 +254,8 @@ class dist_digikey(distributor.distributor):
                     self.logger.log(DEBUG_OBSESSIVE,'Found {} alternate packagings for {} from {}'.format(len(ap_urls), pn, self.name))
                     ap_trees_and_urls = []  # Initialize as empty in case no alternate packagings are found.
                     try:
-                        ap_trees_and_urls = [get_part_html_tree(self.name, pn, 
-                                         extra_search_terms, ap_url, descend=0, scrape_retries=scrape_retries)
+                        ap_trees_and_urls = [self.dist_get_part_html_tree(pn, 
+                                         extra_search_terms, ap_url, descend=0)
                                          for ap_url in ap_urls]
                     except Exception:
                         self.logger.log(DEBUG_OBSESSIVE,'Failed to find alternate packagings for {} from {}'.format(pn, self.name))
