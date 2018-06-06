@@ -31,7 +31,7 @@ import time
 import http.client # For web scraping exceptions.
 import requests
 
-from ..globals import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ..globals import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
 
 if sys.version_info>=(3,0):
     # This is for Python 3
@@ -152,12 +152,23 @@ def get_user_agent():
 
 # Open the URL, read the HTML from it, and parse it into a tree structure.
 class fake_browser:
-    def __init__(self, logger, scrape_retries, throttle_delay):
+    def __init__(self, domain, logger, scrape_retries, throttle_delay):
         '''@brief fake_browser
            @param logger
            @param scrape_retries `int` Quantity of retries in case of fail.
         '''
-        
+
+        self.config_cookies = list()
+        self.domain = domain
+        self.throttle_delay = throttle_delay
+        self.throttle_timeout = time.time()
+
+        self.scrape_retries = scrape_retries
+        self.logger = logger
+
+        self.start_new_session()
+
+    def start_new_session(self):
         self.userAgent = get_user_agent()
 
         # Use "requests" instead of "urllib" because "urllib" does not allow
@@ -165,25 +176,31 @@ class fake_browser:
         self.session = requests.session()
         self.session.headers["User-Agent"] = self.userAgent
 
-        self.throttle_delay = throttle_delay
-        self.throttle_timeout = time.time()
+        # Restore configuration cookies from previous session.
+        for c in self.config_cookies:
+            print("Restore cookie: %s", c)
+            self.session.cookies.set(c[1], c[2], domain=c[0])
 
-        self.scrape_retries = scrape_retries
-        self.logger = logger
+        self.scrape_URL(self.domain, retry=False)
+        self.show_cookies()
 
-    def show_cookies(self, name):
+    def show_cookies(self):
         for x in self.session.cookies:
             self.logger.log(DEBUG_OBSESSIVE,"%s Cookie %s" % (x.domain, x.name))
 
     def add_cookie(self, domain, name, value):
         self.session.cookies.set(name, value, domain=domain)
+        self.config_cookies.append((domain, name, value))
 
-    def scrape_URL(self, url, add_header=[]):
+    def scrape_URL(self, url, add_header=[], retry=True):
         headers = self.session.headers
         for header in add_header:
             self.session.headers[header[1]] = header[2]
 
-        for _ in range(self.scrape_retries):
+        retries = self.scrape_retries
+        if retry == False:
+            retries = 1
+        for _ in range(retries):
             try:
                 # Check the throttling timeout of this browser to see if
                 # another access to its website is allowed.
@@ -197,7 +214,26 @@ class fake_browser:
                 # Update the timeout for this browser.
                 self.throttle_timeout = time.time() + self.throttle_delay
 
-                html = self.session.get(url, timeout=5).text
+                resp = self.session.get(url, timeout=5)
+                self.logger.log(DEBUG_HTTP_HEADERS, "Request headers: %s" % resp.request.headers)
+                self.logger.log(DEBUG_HTTP_HEADERS, "Response headers: %s" % resp.headers)
+
+                # Uncomment this to dump received HTML to file.
+                #if self.logger.isEnabledFor(DEBUG_HTTP_RESPONSES):
+                #    f = open("debug-page.html", "w")
+                #    f.write(resp.text)
+                #    f.close()
+                #    input("Received page dumped, Press enter to continue.")
+
+                # start new session if we are detected (received 403)
+                # TODO: add detection logic for captchas and javascript only pages as well
+                if resp.status_code == 403:
+                    self.start_new_session()
+                    self.logger.warning("Received 403, scraper possibly detected:" \
+                        " Starting new session for %s" % self.domain)
+                    continue
+
+                html = resp.text
                 break
             except Exception as ex:
                 self.logger.log(DEBUG_DETAILED,'Exception of type "%s" while web-scraping %s' \

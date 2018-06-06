@@ -59,13 +59,17 @@ import os, re
 
 class distributor:
     start_time = time.time()
-    def __init__(self, name, scrape_retries, log_level, throttle_delay):
+    def __init__(self, name, domain, scrape_retries, log_level, throttle_delay):
         self.name = name
         self.scrape_retries = scrape_retries
         self.logger = logger
         self.log_level = log_level
-        self.domain = None
-        self.browser = fake_browser.fake_browser(self.logger, self.scrape_retries, throttle_delay)
+        self.domain = domain
+
+        # Don't create fake_browser for "local" distributor.
+        if self.domain != None:
+            self.browser = fake_browser.fake_browser \
+                (self.domain, self.logger, self.scrape_retries, throttle_delay)
 
     # Abstract methods, implemented in distributor specific modules
     def dist_get_part_html_tree(self, pn, extra_search_terms, url, descend):

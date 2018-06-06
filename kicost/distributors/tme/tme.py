@@ -41,11 +41,8 @@ from urllib.parse import quote_plus as urlquote, urlencode
 
 class dist_tme(distributor.distributor):
     def __init__(self, name, scrape_retries, log_level, throttle_delay):
-        super(dist_tme, self).__init__(name, scrape_retries, log_level, throttle_delay)
-        self.domain = distributor_dict[self.name]['site']['url']
-
-        self.browser.scrape_URL(self.domain)
-        self.browser.show_cookies(self.name)
+        super(dist_tme, self).__init__(name, distributor_dict[name]['site']['url'],
+            scrape_retries, log_level, throttle_delay)
 
     def __ajax_details(self, pn):
         '''@brief Load part details from TME using XMLHttpRequest.

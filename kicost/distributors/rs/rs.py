@@ -41,11 +41,8 @@ from urllib.parse import quote_plus as urlquote
 
 class dist_rs(distributor.distributor):
     def __init__(self, name, scrape_retries, log_level, throttle_delay):
-        super(dist_rs, self).__init__(name, scrape_retries, log_level, throttle_delay)
-        self.domain = distributor_dict[self.name]['site']['url']
-
-        self.browser.scrape_URL(self.domain)
-        self.browser.show_cookies(self.name)
+        super(dist_rs, self).__init__(name, distributor_dict[name]['site']['url'],
+            scrape_retries, log_level, throttle_delay)
 
     def dist_get_price_tiers(self, html_tree):
         '''@brief Get the pricing tiers from the parsed tree of the RS Components product page.

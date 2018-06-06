@@ -40,12 +40,9 @@ from urllib.parse import quote_plus as urlquote
 
 class dist_mouser(distributor.distributor):
     def __init__(self, name, scrape_retries, log_level, throttle_delay):
-        super(dist_mouser, self).__init__(name, scrape_retries, log_level, throttle_delay)
-        self.domain = distributor_dict[self.name]['site']['url']
+        super(dist_mouser, self).__init__(name, distributor_dict[name]['site']['url'],
+            scrape_retries, log_level, throttle_delay)
         self.browser.add_cookie('.mouser.com', 'preferences', 'ps=www2&pl=en-US&pc_www2=USDe')
-
-        self.browser.scrape_URL(self.domain)
-        self.browser.show_cookies(self.name)
 
     def dist_get_price_tiers(self, html_tree):
         '''@brief Get the pricing tiers from the parsed tree of the Mouser product page.

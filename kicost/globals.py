@@ -29,7 +29,8 @@ logger = logging.getLogger('kicost')
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
-DEBUG_HTTP_RESPONSES = logging.DEBUG-3
+DEBUG_HTTP_HEADERS = logging.DEBUG-3
+DEBUG_HTTP_RESPONSES = logging.DEBUG-4
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
