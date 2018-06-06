@@ -233,7 +233,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                     ctor = globals()['dist_local']
                 else:
                     ctor = globals()['dist_'+d]
-                instance = ctor(d, scrape_retries, 5, throttling_delay) # TODO: log level
+                instance = ctor(d, scrape_retries, throttling_delay)
             except Exception as ex:
                 logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, exculding this distributor..." \
                     % (d, type(ex).__name__))

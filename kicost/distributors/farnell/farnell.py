@@ -42,9 +42,9 @@ from urllib.parse import quote_plus as urlquote
 __author__='Giacinto Luigi Cerone'
 
 class dist_farnell(distributor.distributor):
-    def __init__(self, name, scrape_retries, log_level, throttle_delay):
+    def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_farnell, self).__init__(name, distributor_dict[name]['site']['url'],
-            scrape_retries, log_level, throttle_delay)
+            scrape_retries, throttle_delay)
 
     def dist_get_price_tiers(self, html_tree):
         '''@brief Get the pricing tiers from the parsed tree of the farnell product page.

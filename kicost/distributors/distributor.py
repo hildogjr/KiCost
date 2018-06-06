@@ -59,11 +59,10 @@ import os, re
 
 class distributor:
     start_time = time.time()
-    def __init__(self, name, domain, scrape_retries, log_level, throttle_delay):
+    def __init__(self, name, domain, scrape_retries, throttle_delay):
         self.name = name
         self.scrape_retries = scrape_retries
         self.logger = logger
-        self.log_level = log_level
         self.domain = domain
 
         # Don't create fake_browser for "local" distributor.
@@ -128,9 +127,9 @@ class distributor:
         else:
             self.logger = multiprocessing.get_logger()
             handler = logging.StreamHandler(sys.stdout)
-            handler.setLevel(self.log_level)
+            handler.setLevel(1)
             self.logger.addHandler(handler)
-            self.logger.setLevel(self.log_level)
+            self.logger.setLevel(1)
             self.browser.logger = self.logger
 
         url = {}
