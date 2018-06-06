@@ -130,10 +130,11 @@ class dist_digikey(distributor.distributor):
                 locale_iso = pycountry.countries.get(numeric=money.numeric).alpha_2
             if locale_iso:
                 locale_iso = locale_iso.upper()
-                country = pycountry.countries.get(alpha_2=locale_iso.upper()).name
-                html = html.find('li', text=re.compile(country, re.IGNORECASE))
+                country = pycountry.countries.get(alpha_2=locale_iso.upper())
+                html = html.find('li', text=re.compile(country.name, re.IGNORECASE))
                 url = html.find('a', id='linkcolor').get('href')
-                
+
+                # Store new localized url in distributor_dict.
                 distributor_dict[self.name]['site']['url'] = url
                 distributor_dict[self.name]['site']['currency'] = pycountry.currencies.get(numeric=country.numeric).alpha_3
                 distributor_dict[self.name]['site']['locale'] = locale_iso

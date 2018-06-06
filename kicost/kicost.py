@@ -245,7 +245,6 @@ def kicost(in_file, eda_tool_name, out_filename,
             return (d, instance)
 
         logger.log(DEBUG_OBSESSIVE, 'Starting {} threads to init distributors...'.format(num_processes))
-        pprint.pprint(arg_sets)
         results = [pool.apply_async(mt_init_dist, args) for args in arg_sets]
 
         # Wait for all the processes to have results.
