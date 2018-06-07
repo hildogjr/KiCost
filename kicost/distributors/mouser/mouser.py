@@ -138,9 +138,9 @@ class dist_mouser(distributor.distributor):
 
         # Use the part number to lookup the part using the site search function, unless a starting url was given.
         if url is None:
-            url = 'https://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(
-                pn + ' ' + extra_search_terms,
-                safe='')
+            url = 'https://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(pn, safe='')
+            if extra_search_terms:
+                url = url + urlquote(' ' + extra_search_terms, safe='')
         elif url[0] == '/':
             url = 'https://www.mouser.com' + url
         elif url.startswith('..'):

@@ -197,11 +197,9 @@ class dist_digikey(distributor.distributor):
 
         # Use the part number to lookup the part using the site search function, unless a starting url was given.
         if url is None:
-            url = distributor_dict['digikey']['site']['url'] + '/products/en?keywords=' + urlquote(
-            #'/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=' + urlquote(
-                pn + ' ' + extra_search_terms,
-                safe='')
-            #url = distributor_dict['digikey']['site']['url'] + '/product-search/en?KeyWords=' + urlquote(pn,safe='') + '&WT.z_header=search_go'
+            url = distributor_dict['digikey']['site']['url'] + '/products/en?keywords=' + urlquote(pn, safe='')
+            if extra_search_terms:
+                url = url + urlquote(' ' + extra_search_terms, safe='')
         elif url[0] == '/':
             url = distributor_dict['digikey']['site']['url'] + url
 

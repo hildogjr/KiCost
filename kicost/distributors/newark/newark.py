@@ -133,9 +133,10 @@ class dist_newark(distributor.distributor):
 
         # Use the part number to lookup the part using the site search function, unless a starting url was given.
         if url is None:
-            url = 'http://www.newark.com/webapp/wcs/stores/servlet/Search?catalogId=15003&langId=-1&storeId=10194&gs=true&st=' + urlquote(
-                pn + ' ' + extra_search_terms,
-                safe='')
+            url = 'http://www.newark.com/webapp/wcs/stores/servlet/Search?catalogId=15003&langId=-1&storeId=10194&gs=true&st=' \
+                + urlquote(pn, safe='')
+            if extra_search_terms:
+                url = url + urlquote(' ' + extra_search_terms, safe='')
         elif url[0] == '/':
             url = 'http://www.newark.com' + url
         elif url.startswith('..'):

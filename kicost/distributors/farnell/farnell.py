@@ -132,10 +132,10 @@ class dist_farnell(distributor.distributor):
 
         # Use the part number to lookup the part using the site search function, unless a starting url was given.
         if url is None:
-            url = 'http://it.farnell.com/Search?storeId=10165&catalogId=15001&categoryName=&selectedCategoryId=&langId=-4&categoryIdBox=&st=' + urlquote(
-                pn + ' ' + extra_search_terms,
-                safe='')
-
+            url = 'http://it.farnell.com/Search?storeId=10165&catalogId=15001&categoryName=&selectedCategoryId=&langId=-4&categoryIdBox=&st=' \
+                + urlquote(pn, safe='')
+            if extra_search_terms:
+                url = url + urlquote(' ' + extra_search_terms, safe='')
         elif url[0] == '/':
             url = 'http://www.farnell.com' + url
         elif url.startswith('..'):
