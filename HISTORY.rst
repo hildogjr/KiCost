@@ -10,6 +10,8 @@ ______________________
 * Fixed TME `fake_browser` migration.
 * Re-factored the distributors modules to class kind and improved the scrape sequence to decrease probability of ban.
 * Fixed the multi-threading configuration.
+* Fixed Mac-OS hang when parallel scraping.
+
 
 0.1.44 (2018-05-28)
 ______________________
