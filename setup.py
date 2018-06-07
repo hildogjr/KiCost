@@ -23,6 +23,7 @@ requirements = [
     'lxml >= 3.7.2',
     'yattag >= 1.5.2',
     'tqdm >= 4.4.0',
+    'requests >= 2.18.4',
     'CurrencyConverter >= 0.5', # Used to convert price to a not avaiable currecy in one distributor.
     'pycountry >= 18.2', # ISO4117, ISO3166 country and currency definitons from Debian’s pkg-isocodes.
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.

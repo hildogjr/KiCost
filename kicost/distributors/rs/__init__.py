@@ -25,7 +25,7 @@ distributor_dict.update(
             },
             # Web site defitions.
             'site': {
-                'url': 'http://rs-online.com/',
+                'url': 'https://it.rs-online.com/',
                 'currency': 'USD',
                 'locale': 'UK'
             },

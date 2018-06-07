@@ -25,7 +25,7 @@ distributor_dict.update(
             },
             # Web site defitions.
             'site': {
-                'url': 'http://farnell.com/',
+                'url': 'https://it.farnell.com/',
                 'currency': 'USD',
                 'locale': 'US'
             },

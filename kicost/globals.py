@@ -23,14 +23,19 @@
 """Stuff that everybody else needs to know about."""
 
 import logging
+from currency_converter import CurrencyConverter
 
 logger = logging.getLogger('kicost')
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
+DEBUG_HTTP_HEADERS = logging.DEBUG-3
+DEBUG_HTTP_RESPONSES = logging.DEBUG-4
+# Minimum possible log level is logging.DEBUG-9 !
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
+currency = CurrencyConverter()
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
