@@ -53,9 +53,8 @@ class dist_tme(distributor.distributor):
             'symbol': pn,
             'currency': 'USD'
         }).encode("utf-8")
-        
         try:
-            html = self.browser.scrape_URL('https://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html', ('X-Requested-With', 'XMLHttpRequest'))
+            html = self.browser.ajax_request('https://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html', data=data)
         except: # Couldn't get a good read from the website.
             self.logger.log(DEBUG_OBSESSIVE,'No AJAX data for {} from {}'.format(pn, 'TME'))
             return None, None

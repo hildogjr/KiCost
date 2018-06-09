@@ -245,3 +245,33 @@ class fake_browser:
         self.session.headers = headers
         return html
 
+    def ajax_request(self, url, add_header=[], retry=True, data=None):
+        req = Request(url)
+        req.add_header('Accept-Language', 'en-US')
+        req.add_header('Accept', 'text/html')
+        req.add_header('Cookie', 'foo=bar')
+        req.add_header('User-agent', get_user_agent())
+        req.add_header('X-Requested-With', 'XMLHttpRequest')
+
+        for header in add_header:
+            req.add_header(header[1], header[2])
+
+        html = ''
+        retries = self.scrape_retries
+        if retry == False:
+            retries = 1
+
+        for _ in range(retries):
+            try:
+                response = urlopen(req, data)
+                r = response.read()
+                html = r.decode('utf-8') # Convert bytes to string in Python 3
+                break
+            except Exception as ex:
+                self.logger.log(DEBUG_DETAILED,'Exception of type "%s" while AJAX request to %s' \
+                    % (type(ex).__name__, format(url)))
+                pass
+        else:
+            raise ValueError('No page')
+
+        return html
