@@ -29,6 +29,8 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import sys, os, time
+if sys.version_info < (3,0):
+    import copy # Necessary because Py2 doesn't have copy in list.
 from datetime import datetime
 from bs4 import BeautifulSoup # To Read XML files.
 import re # Regular expression parser.
@@ -73,7 +75,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         except KeyError:
             return None
 
-    def extract_fields_row(row, variant):
+    def extract_fields_row(row, variant, header):
         '''Extract XML fields from the part in a library or schematic.'''
         
         # First get the references and the quantities of elements in each rwo group.
@@ -84,7 +86,10 @@ def get_part_groups(in_file, ignore_fields, variant):
         else:
             hdr_refs = hdr_refs[0]
         refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()) )
-        header_valid = header.copy()
+        if sys.version_info >= (3,0):
+            header_valid = header.copy()
+        else:
+            header_valid = copy.copy(header)
         header_valid.remove(header[hdr_refs])
         try:
             hdr_qty = [i for i, x in enumerate(header_translated) if x == "qty"][0]
@@ -160,7 +165,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     for row in root.find('rows').find_all('row'):
 
         # Get the values for the fields in each library part (if any).
-        refs, fields = extract_fields_row(row, variant)
+        refs, fields = extract_fields_row(row, variant, header)
         for i in range(len(refs)):
             ref = refs[i]
             ref = re.sub('\+$', 'p', ref) # Finishing "+".
