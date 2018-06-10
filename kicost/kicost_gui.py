@@ -622,7 +622,11 @@ class formKiCost ( wx.Frame ):
     #----------------------------------------------------------------------
     def addFile( self, filesName ):
         ''' @brief Add the file(s) to the history, updating it (and delete the too old).'''
-        fileBOM = SEP_FILES.join( sorted(filesName, key=str.lower) ) # Add the files sorted.
+        if sys.version_info >= (3,0):
+            sorted_files = sorted(filesName, key=str.lower)
+        else:
+            sorted_files = sorted(filesName, key=unicode.lower)
+        fileBOM = SEP_FILES.join( sorted_files ) # Add the files sorted.
         if self.m_comboBox_files.FindString(fileBOM)==wx.NOT_FOUND:
             self.m_comboBox_files.Insert( fileBOM, 0 )
         self.m_comboBox_files.SetValue( fileBOM )
