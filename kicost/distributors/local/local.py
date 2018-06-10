@@ -46,6 +46,7 @@ class dist_local(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_local, self).__init__(name, None, scrape_retries, throttle_delay)
 
+    @staticmethod
     def create_part_html(parts, distributors, logger):
         '''@brief Create HTML page containing info for local (non-webscraped) parts.
         @param parts `list()` of parts.

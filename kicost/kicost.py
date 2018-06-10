@@ -315,14 +315,14 @@ def kicost(in_file, eda_tool_name, out_filename,
             # Package part data for passing to each process.
             # pool.async_apply needs at least two arguments per function so add dummy argument
             # (otherwise it fails with "arguments after * must be an iterable, not ...")
-            arg_sets = [(distributor_dict[d]['instance'], None) for d in distributor_dict]
+            arg_sets = [(distributor_dict[d]['instance'], scraping_progress) for d in distributor_dict]
 
-            def mt_scrape_part(inst, dummy):
+            def mt_scrape_part(inst, progress):
                 logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
                 retval = list()
                 for i in range(len(parts)):
                     retval.append(inst.scrape_part(i, parts[i]))
-                    scraping_progress.update(1)
+                    progress.update(1)
                 return retval
 
             # Start the web scraping processes, one for each part.

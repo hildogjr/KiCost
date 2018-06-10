@@ -1,3 +1,4 @@
+# vim: set fileencoding=utf8 :
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
