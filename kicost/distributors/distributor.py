@@ -57,7 +57,7 @@ from . import distributor_dict
 
 import os, re
 
-class distributor:
+class distributor(object):
     start_time = time.time()
     def __init__(self, name, domain, scrape_retries, throttle_delay):
         self.name = name
