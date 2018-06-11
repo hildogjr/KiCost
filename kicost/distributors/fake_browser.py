@@ -192,11 +192,7 @@ class fake_browser:
         self.session.cookies.set(name, value, domain=domain)
         self.config_cookies.append((domain, name, value))
 
-    def scrape_URL(self, url, add_header=[], retry=True):
-        headers = self.session.headers
-        for header in add_header:
-            self.session.headers[header[1]] = header[2]
-
+    def scrape_URL(self, url, retry=True, postData=None):
         retries = self.scrape_retries
         if retry == False:
             retries = 1
@@ -214,7 +210,11 @@ class fake_browser:
                 # Update the timeout for this browser.
                 self.throttle_timeout = time.time() + self.throttle_delay
 
-                resp = self.session.get(url, timeout=5)
+                if postData != None:
+                    resp = self.session.post(url, timeout=5, data=postData)
+                else:
+                    resp = self.session.get(url, timeout=5)
+
                 self.logger.log(DEBUG_HTTP_HEADERS, "Request headers: %s" % resp.request.headers)
                 self.logger.log(DEBUG_HTTP_HEADERS, "Response headers: %s" % resp.headers)
 
@@ -240,38 +240,12 @@ class fake_browser:
                     % (type(ex).__name__, format(url)))
                 pass
         else:
-            self.session.headers = headers
             raise ValueError('No page')
-        self.session.headers = headers
         return html
 
-    def ajax_request(self, url, add_header=[], retry=True, data=None):
-        req = Request(url)
-        req.add_header('Accept-Language', 'en-US')
-        req.add_header('Accept', 'text/html')
-        req.add_header('Cookie', 'foo=bar')
-        req.add_header('User-agent', get_user_agent())
-        req.add_header('X-Requested-With', 'XMLHttpRequest')
+    def ajax_request(self, url, data=None, retry=True):
+        self.session.headers['X-Requested-With'] = 'XMLHttpRequest'
+        retval = self.scrape_URL(url, retry=retry, postData=data)
+        del self.session.headers['X-Requested-With']
+        return retval
 
-        for header in add_header:
-            req.add_header(header[1], header[2])
-
-        html = ''
-        retries = self.scrape_retries
-        if retry == False:
-            retries = 1
-
-        for _ in range(retries):
-            try:
-                response = urlopen(req, data)
-                r = response.read()
-                html = r.decode('utf-8') # Convert bytes to string in Python 3
-                break
-            except Exception as ex:
-                self.logger.log(DEBUG_DETAILED,'Exception of type "%s" while AJAX request to %s' \
-                    % (type(ex).__name__, format(url)))
-                pass
-        else:
-            raise ValueError('No page')
-
-        return html
