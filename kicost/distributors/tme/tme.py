@@ -37,7 +37,7 @@ from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, 
 
 from .. import distributor, distributor_dict
 
-from urllib.parse import quote_plus as urlquote, urlencode
+from urllib.parse import quote_plus as urlquote
 
 class dist_tme(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):

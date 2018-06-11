@@ -33,21 +33,6 @@ import requests
 
 from ..globals import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
 
-if sys.version_info>=(3,0):
-    # This is for Python 3
-    from urllib.parse import urlencode, quote_plus as urlquote, urlsplit, urlunsplit
-    from urllib.request import urlopen, Request
-    import urllib.error
-    WEB_SCRAPE_EXCEPTIONS = (urllib.error.URLError, http.client.HTTPException)
-else:
-    # This is for Python 2
-    from urlparse import urlsplit, urlunsplit
-    from urllib import urlencode, quote_plus as urlquote
-    from urllib2 import urlopen, Request
-    import urllib2
-    WEB_SCRAPE_EXCEPTIONS = (urllib2.URLError, http.client.HTTPException)
-
-
 def get_user_agent():
     ''' The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.
       You can find more user agent strings at https://techblog.willshouse.com/2012/01/03/most-common-user-agents/.
