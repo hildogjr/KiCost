@@ -37,7 +37,7 @@ from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, 
 
 from .. import distributor, distributor_dict
 
-from urllib.parse import quote_plus as urlquote, urlencode
+from urllib.parse import quote_plus as urlquote
 
 class dist_tme(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):
@@ -49,12 +49,9 @@ class dist_tme(distributor.distributor):
            @param pn `str()` part number
            @return (html, quantity avaliable)
         '''
-        data = urlencode({
-            'symbol': pn,
-            'currency': 'USD'
-        }).encode("utf-8")
+        data = { 'symbol': pn, 'currency': 'USD'}
         try:
-            html = self.browser.ajax_request('https://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html', data=data)
+            html = self.browser.ajax_request('https://www.tme.eu/en/_ajax/ProductInformationPage/_getStocks.html', data)
         except: # Couldn't get a good read from the website.
             self.logger.log(DEBUG_OBSESSIVE,'No AJAX data for {} from {}'.format(pn, 'TME'))
             return None, None

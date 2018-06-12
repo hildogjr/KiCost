@@ -36,19 +36,6 @@ from ..eda_tools.eda_tools import order_refs # To better print the warnings abou
 from . import fake_browser
 
 import http.client # For web scraping exceptions.
-if sys.version_info>=(3,0):
-    # This is for Python 3.
-    from urllib.parse import urlencode, quote_plus as urlquote, urlsplit, urlunsplit
-    from urllib.request import urlopen, Request
-    import urllib.error
-    WEB_SCRAPE_EXCEPTIONS = (urllib.error.URLError, http.client.HTTPException)
-else:
-    # This is for Python 2.
-    from urlparse import urlsplit, urlunsplit
-    from urllib import urlencode, quote_plus as urlquote
-    from urllib2 import urlopen, Request
-    import urllib2
-    WEB_SCRAPE_EXCEPTIONS = (urllib2.URLError, http.client.HTTPException)
 
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
