@@ -3,7 +3,7 @@
 History
 -------
 
-0.1.45 (2018-06-??)
+0.1.45 (2018-06-12)
 ______________________
 
 * Changed Farnell link and table result format.
