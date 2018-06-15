@@ -49,6 +49,18 @@ HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a webs
 from .globals import *
 
 ###############################################################################
+# Additional functions
+###############################################################################
+
+def kicost_gui_notdependences():
+    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
+    print('pip3 install -U wxPython # For Windows & macOS')
+
+    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
+    sys.exit(1)
+
+###############################################################################
 # Command-line interface.
 ###############################################################################
 
@@ -284,15 +296,3 @@ if __name__ == '__main__':
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
 
-
-###############################################################################
-# Additional functions
-###############################################################################
-
-def kicost_gui_notdependences():
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip3 install -U wxPython # For Windows & macOS')
-
-    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
-    sys.exit(1)
