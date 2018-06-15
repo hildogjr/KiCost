@@ -21,39 +21,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-__author__ = 'XESS Corporation'
-__email__ = 'info@xess.com'
+# The global dictionary of distributor information starts out empty.
+distributor_dict = {}
 
-import os
-
-# The distributor module directories will be found in this directory.
-directory = os.path.dirname(__file__)
-
-# Search for the distributor modules and import them.
-for module in os.listdir(directory):
-
-    # Avoid importing non-directories.
-    abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
-        continue
-
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-
-    # Import the module.
-    tmp = __import__(module, globals(), locals(), [], level=1)
-    tmp_mod = getattr(tmp, module);
-    globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
-
-from .global_vars import distributor_dict
-
-def init_distributor_dict():
-    # Clear distributor_dict, then let all distributor modules recreate their entries.
-    distributor_dict = {}
-    for x in globals():
-        if x.startswith("dist_"):
-            globals()[x].dist_init_distributor_dict()
-
-# Init distirbutor dict during import.
-init_distributor_dict()
+# Extra informations to by got by each part in the distributors.
+EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
+              'size', 'op temp', 'orientation', 'color',
+              'datasheet', 'image', # Links.
+             ]
+extra_info_dist_name_translations = {
+    #TODO it will need to put here language translation after implementation of ISSUE #65?
+    'resistance': 'value',
+    'inductance': 'value',
+    'capacitance': 'value',
+    'manufacturer': 'manf',
+    'package': 'footprint',
+    'package / case': 'footprint',
+    'datasheets': 'datasheet',
+    'dimension': 'size',
+    'size / dimension': 'size',
+    'operating temperature': 'op temp',
+    'voltage - rated': 'voltage',
+    'Mating Orientation': 'orientation',
+    'coulor': 'color',
+    'wire gauge': 'wire',
+}

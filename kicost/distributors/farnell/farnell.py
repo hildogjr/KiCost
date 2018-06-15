@@ -30,12 +30,13 @@ import future
 import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from .. import fake_browser
 from ...globals import PartHtmlError
 from ...globals import currency
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
 
-from .. import distributor, distributor_dict
+from .. import fake_browser
+from .. import distributor
+from ..global_vars import distributor_dict
 
 from urllib.parse import quote_plus as urlquote
 
@@ -45,6 +46,34 @@ class dist_farnell(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_farnell, self).__init__(name, distributor_dict[name]['site']['url'],
             scrape_retries, throttle_delay)
+
+    @staticmethod
+    def dist_init_distributor_dict():
+        distributor_dict.update(
+        {
+            'farnell': {
+                'module': 'farnell', # The directory name containing this file.
+                'scrape': 'web',     # Allowable values: 'web' or 'local'.
+                'label': 'Farnell',  # Distributor label used in spreadsheet columns.
+                'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+                'order_delimiter': ' ',  # Delimiter for online orders.
+                # Formatting for distributor header in worksheet.
+                'wrk_hdr_format': {
+                    'font_size': 14,
+                    'font_color': 'white',
+                    'bold': True,
+                    'align': 'center',
+                    'valign': 'vcenter',
+                    'bg_color': '#FF6600'  # Farnell/E14 orange.
+                },
+                # Web site defitions.
+                'site': {
+                    'url': 'https://it.farnell.com/',
+                    'currency': 'USD',
+                    'locale': 'US'
+                },
+            }
+        })
 
     def dist_get_price_tiers(self, html_tree):
         '''@brief Get the pricing tiers from the parsed tree of the farnell product page.

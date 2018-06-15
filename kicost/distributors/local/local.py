@@ -36,6 +36,7 @@ from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ...globals import SEPRTR as SEPRTR
 
 from .. import distributor
+from ..global_vars import distributor_dict
 
 from urllib.parse import urlsplit, urlunsplit
 
@@ -45,6 +46,28 @@ class dist_local(distributor.distributor):
 
     def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_local, self).__init__(name, None, scrape_retries, throttle_delay)
+
+    @staticmethod
+    def dist_init_distributor_dict():
+        distributor_dict.update(
+        {
+            'local_template': {
+                'module': 'local', # The directory name containing this file.
+                'scrape': 'local', # Allowable values: 'web' or 'local'.
+                'label': 'Local',  # Distributor label used in spreadsheet columns.
+                'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+                'order_delimiter': ' ',  # Delimiter for online orders.
+                # Formatting for distributor header in worksheet.
+                'wrk_hdr_format': {
+                    'font_size': 14,
+                    'font_color': 'white',
+                    'bold': True,
+                    'align': 'center',
+                    'valign': 'vcenter',
+                    'bg_color': '#008000'  # Darker green.
+                },
+            }
+        })
 
     @staticmethod
     def create_part_html(parts, distributors, logger):

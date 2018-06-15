@@ -30,7 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 import re, os # Regular expression parser and matches.
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
-from ..kicost import distributor_dict
+from ..distributors.global_vars import distributor_dict
 from . import eda_tool_dict # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']

@@ -39,7 +39,7 @@ try:
 except ImportError:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
-from .distributors import distributor_dict
+from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from . import __version__ # Version control by @xesscorp.
 
@@ -47,6 +47,18 @@ NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
 
 from .globals import *
+
+###############################################################################
+# Additional functions
+###############################################################################
+
+def kicost_gui_notdependences():
+    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
+    print('pip3 install -U wxPython # For Windows & macOS')
+
+    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
+    sys.exit(1)
 
 ###############################################################################
 # Command-line interface.
@@ -284,15 +296,3 @@ if __name__ == '__main__':
     logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
 
-
-###############################################################################
-# Additional functions
-###############################################################################
-
-def kicost_gui_notdependences():
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip3 install -U wxPython # For Windows & macOS')
-
-    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
-    sys.exit(1)
