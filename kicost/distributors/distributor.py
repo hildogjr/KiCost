@@ -59,6 +59,10 @@ class distributor(object):
                 (self.domain, self.logger, self.scrape_retries, throttle_delay)
 
     # Abstract methods, implemented in distributor specific modules
+    @staticmethod
+    def dist_init_distributor_dict():
+        raise NotImplementedError()
+
     def dist_get_part_html_tree(self, pn, extra_search_terms, url, descend):
         raise NotImplementedError()
 

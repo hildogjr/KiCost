@@ -45,6 +45,34 @@ class dist_tme(distributor.distributor):
         super(dist_tme, self).__init__(name, distributor_dict[name]['site']['url'],
             scrape_retries, throttle_delay)
 
+    @staticmethod
+    def dist_init_distributor_dict():
+        distributor_dict.update(
+        {
+            'tme': {
+                'module': 'tme', # The directory name containing this file.
+                'scrape': 'web',     # Allowable values: 'web' or 'local'.
+                'label': 'TME',  # Distributor label used in spreadsheet columns.
+                'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+                'order_delimiter': ' ',  # Delimiter for online orders.
+                # Formatting for distributor header in worksheet.
+                'wrk_hdr_format': {
+                    'font_size': 14,
+                    'font_color': 'white',
+                    'bold': True,
+                    'align': 'center',
+                    'valign': 'vcenter',
+                    'bg_color': '#0C4DA1'  # TME blue
+                },
+                # Web site defitions.
+                'site': {
+                'url': 'https://www.tme.eu/en/',
+                'currency': 'USD',
+                'locale': 'UK'
+                },
+            }
+        })
+
     def __ajax_details(self, pn):
         '''@brief Load part details from TME using XMLHttpRequest.
            @param pn `str()` part number

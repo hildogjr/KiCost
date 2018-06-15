@@ -47,3 +47,13 @@ for module in os.listdir(directory):
     globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
 
 from .global_vars import distributor_dict
+
+def init_distributor_dict():
+    # Clear distributor_dict, then let all distributor modules recreate their entries.
+    distributor_dict = {}
+    for x in globals():
+        if x.startswith("dist_"):
+            globals()[x].dist_init_distributor_dict()
+
+# Init distirbutor dict during import.
+init_distributor_dict()
