@@ -30,12 +30,12 @@ import future
 import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from .. import fake_browser
-from .. import EXTRA_INFO_DIST, extra_info_dist_name_translations
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
 
-from .. import distributor, distributor_dict
+from .. import fake_browser
+from .. import distributor
+from ..global_vars import distributor_dict, EXTRA_INFO_DIST, extra_info_dist_name_translations
 
 from urllib.parse import quote_plus as urlquote
 

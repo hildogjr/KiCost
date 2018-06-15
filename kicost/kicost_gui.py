@@ -43,7 +43,8 @@ import re # Regular expression parser.
 
 from . import __version__ # Version control by @xesscorp.
 from .kicost import *  # kicost core functions.
-from .distributors import distributor_dict, fake_browser # Use the configurations alredy made to get KiCost last version.
+from .distributors import fake_browser # Use the configurations alredy made to get KiCost last version.
+from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from .eda_tools.eda_tools import file_eda_match
 

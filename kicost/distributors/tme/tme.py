@@ -35,7 +35,8 @@ from .. import fake_browser
 from ...globals import PartHtmlError
 from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
 
-from .. import distributor, distributor_dict
+from .. import distributor
+from ..global_vars import distributor_dict
 
 from urllib.parse import quote_plus as urlquote
 

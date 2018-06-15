@@ -31,16 +31,17 @@ import multiprocessing # To deal with the parallel scrape.
 import logging
 import time
 from random import choice
-from ..eda_tools.eda_tools import order_refs # To better print the warnings about the parts.
 
+from .global_vars import distributor_dict
 from . import fake_browser
+
+from ..eda_tools.eda_tools import order_refs # To better print the warnings about the parts.
 
 import http.client # For web scraping exceptions.
 
 from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..globals import SEPRTR
 from ..globals import PartHtmlError
-from . import distributor_dict
 
 import os, re
 

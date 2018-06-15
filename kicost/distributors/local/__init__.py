@@ -6,7 +6,7 @@ __email__ = 'info@xess.com'
 from .local import *
 
 # Place information about this distributor into the distributor dictionary.
-from .. import distributor_dict
+from ..global_vars import distributor_dict
 distributor_dict.update(
     {
         'local_template': {

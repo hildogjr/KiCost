@@ -50,28 +50,8 @@ __all__ = ['kicost','output_filename_multipleinputs']  # Only export this routin
 from .globals import *
 
 # Import information about various distributors.
-from .distributors import distributor_dict
-from .distributors import distributor, fake_browser
-
-# The distributor module directories will be found in this directory.
-directory = os.path.dirname(__file__) + "/distributors"
-
-# Search for the distributor modules and import them.
-for module in os.listdir(directory):
-
-    # Avoid importing non-directories.
-    abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
-        continue
-
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-
-    # Import the module.
-    tmp = __import__("distributors."+module, globals(), locals(), [], level=1)
-    tmp_mod = getattr(tmp, module);
-    globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
+from .distributors import *
+from .distributors.global_vars import distributor_dict
 
 # Import information for various EDA tools.
 from .eda_tools import eda_modules

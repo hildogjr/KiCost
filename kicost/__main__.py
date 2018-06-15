@@ -39,7 +39,7 @@ try:
 except ImportError:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
-from .distributors import distributor_dict
+from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from . import __version__ # Version control by @xesscorp.
 
