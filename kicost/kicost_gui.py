@@ -44,6 +44,7 @@ import re # Regular expression parser.
 from . import __version__ # Version control by @xesscorp.
 from .kicost import *  # kicost core functions.
 from .distributors import fake_browser # Use the configurations alredy made to get KiCost last version.
+from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from .eda_tools.eda_tools import file_eda_match
@@ -796,6 +797,7 @@ class formKiCost ( wx.Frame ):
         except Exception as e:
             print(e)
         print('Elapsed time: {} seconds'.format(time.time() - start_time) )
+        init_distributor_dict()
         #self.m_gauge_process.SetValue(100)
         
         return
