@@ -39,13 +39,12 @@ from ..global_vars import distributor_dict
 
 from urllib.parse import quote_plus as urlquote
 
+import pycountry
+
 class dist_mouser(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_mouser, self).__init__(name, distributor_dict[name]['site']['url'],
             scrape_retries, throttle_delay)
-
-        self.browser.add_cookie('.mouser.com', 'preferences', \
-            'pl=en-GB&pc_eu=USDe&pc_www=USDe&pc_www2=USDe&&s=')
         self.browser.start_new_session()
 
     @staticmethod
@@ -159,6 +158,80 @@ class dist_mouser(distributor.distributor):
             self.logger.log(DEBUG_OBSESSIVE, 'No Mouser part quantity found!')
             return None
 
+    def dist_define_locale_currency(self, locale_iso=None, currency_iso=None):
+        '''@brief Configure the distributor for the country and currency intended.
+
+        Scrape the configuration page and define the base URL of Mouser for the
+        currency and locale chosen.
+        The currency is predominant over the locale/country and the default
+        settings depend on your location.
+
+        @param locale_iso `str` Country in ISO3166 alpha 2 standard.
+        @param currency_iso `str` Currency in ISO4217 alpha 3 standard.'''
+
+        # Configuring mouser locale and currency is difficult because
+        # Mouser automatically selects locale, currency and used Mouser
+        # (sub)domain based on your IP address! All override attempts of
+        # this behaviour within a session seems to be ignored so far
+        # (you will be 302 redirected to your regional domain).
+
+        # TODO:
+        #   Switch locale via the following URL ignores currency settings!
+        #   Switch to regions far away from your location is rejected!
+        #   url = 'https://www.mouser.com/localsites.aspx'
+
+        # The following approach works for selecting currency:
+        # - Access "www.mouser.com" (done in constructor) and store local redirect URL.
+        # - Manually set currency preference for your regional URL.
+        # - Completely restart fake_browser session to apply currency settings.
+        # Switching locale seems to be not possible yet.
+        try:
+            if currency_iso and not locale_iso:
+                money = pycountry.currencies.get(alpha_3=currency_iso.upper())
+                locale_iso = pycountry.countries.get(numeric=money.numeric).alpha_2
+            if locale_iso:
+                currency_iso = currency_iso.upper()
+                country = pycountry.countries.get(alpha_2=locale_iso.upper())
+
+                # TODO: Mouser uses either "USDe" or "USDu" to select USD as
+                #   currency, depending on your location.
+                if currency_iso == "USD":
+                    currency_iso = "USDe"
+
+                # Some mouser regions are subdomains from mouser.com, other
+                # regions user their own top level domains, e.g. mouser.eu.
+                # Extract the region specific part and suffix it to
+                # the preferences cookie.
+                local_domains = re.search("https://(.+)\.mouser\.(.+)/", self.browser.ret_url)
+                if local_domains[1].startswith("www"):
+                    domain = local_domains[2]
+                else:
+                    domain = local_domains[1]
+
+                # Store currency perference (pc_%localdomain)
+                # for your regional domain.
+                self.browser.add_cookie('.mouser.%s' % local_domains[2], \
+                    'preferences', 'pc_%s=%s' % (domain, currency_iso))
+
+                # Store new localized url in distributor_dict.
+                distributor_dict[self.name]['site']['url'] = self.browser.ret_url.rstrip('/')
+                distributor_dict[self.name]['site']['currency'] = pycountry.currencies.get(numeric=country.numeric).alpha_3
+                distributor_dict[self.name]['site']['locale'] = locale_iso
+
+                # Restarting complete session is required to apply
+                # new locale and currency settings.
+                self.browser.domain = distributor_dict[self.name]['site']['url']
+                self.browser.start_new_session()
+
+        except Exception as ex:
+            self.logger.log(DEBUG_OBSESSIVE, "Exception was %s" % type(ex).__name__)
+            self.logger.log(DEBUG_OVERVIEW, 'Kept the last configuration {}, {} on {}.'.format(
+                    pycountry.currencies.get(alpha_3=distributor_dict[self.name]['site']['currency']).name,
+                    pycountry.countries.get(alpha_2=distributor_dict[self.name]['site']['locale']).name,
+                    distributor_dict[self.name]['site']['url']
+                )) # Keep the current configuration.
+        return
+
     def dist_get_part_html_tree(self, pn, extra_search_terms='', url=None, descend=2):
         '''@brief Find the Mouser HTML page for a part number and return the URL and parse tree.
            @param pn Part number `str()`.
@@ -170,13 +243,14 @@ class dist_mouser(distributor.distributor):
 
         # Use the part number to lookup the part using the site search function, unless a starting url was given.
         if url is None:
-            url = 'https://www.mouser.com/Search/Refine.aspx?Keyword=' + urlquote(pn, safe='')
+            url = distributor_dict[self.name]['site']['url'] + \
+                '/Search/Refine.aspx?Keyword=' + urlquote(pn, safe='')
             if extra_search_terms:
                 url = url + urlquote(' ' + extra_search_terms, safe='')
         elif url[0] == '/':
-            url = 'https://www.mouser.com' + url
+            url = distributor_dict[self.name]['site']['url']  + url
         elif url.startswith('..'):
-            url = 'https://www.mouser.com/Search/' + url
+            url = distributor_dict[self.name]['site']['url']  + '/Search/' + url
 
         # Open the URL, read the HTML from it, and parse it into a tree structure.
         try:

@@ -150,6 +150,7 @@ class fake_browser:
 
         self.scrape_retries = scrape_retries
         self.logger = logger
+        self.ret_url = None
 
         self.start_new_session(False)
 
@@ -219,6 +220,8 @@ class fake_browser:
                         " Starting new session for %s" % self.domain)
                     continue
 
+                # Store last accessed URL to allow check for regional redirect.
+                self.ret_url = resp.url
                 html = resp.text
                 break
             except Exception as ex:
