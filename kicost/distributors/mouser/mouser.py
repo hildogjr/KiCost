@@ -43,7 +43,10 @@ class dist_mouser(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_mouser, self).__init__(name, distributor_dict[name]['site']['url'],
             scrape_retries, throttle_delay)
-        self.browser.add_cookie('.mouser.com', 'preferences', 'ps=www2&pl=en-US&pc_www2=USDe')
+
+        self.browser.add_cookie('.mouser.com', 'preferences', \
+            'pl=en-GB&pc_eu=USDe&pc_www=USDe&pc_www2=USDe&&s=')
+        self.browser.start_new_session()
 
     @staticmethod
     def dist_init_distributor_dict():

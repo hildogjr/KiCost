@@ -45,6 +45,7 @@ class dist_digikey(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_digikey, self).__init__(name, distributor_dict[name]['site']['url'],
             scrape_retries, throttle_delay)
+        self.browser.start_new_session()
 
     @staticmethod
     def dist_init_distributor_dict():
