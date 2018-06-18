@@ -150,10 +150,11 @@ class fake_browser:
 
         self.scrape_retries = scrape_retries
         self.logger = logger
+        self.ret_url = None
 
-        self.start_new_session()
+        self.start_new_session(False)
 
-    def start_new_session(self):
+    def start_new_session(self, scrape_base_url=True):
         self.userAgent = get_user_agent()
 
         # Use "requests" instead of "urllib" because "urllib" does not allow
@@ -163,11 +164,12 @@ class fake_browser:
 
         # Restore configuration cookies from previous session.
         for c in self.config_cookies:
-            print("Restore cookie: %s", c)
+            self.logger.log(DEBUG_OBSESSIVE, "Restore cookie: %s", c)
             self.session.cookies.set(c[1], c[2], domain=c[0])
 
-        self.scrape_URL(self.domain, retry=False)
-        self.show_cookies()
+        if scrape_base_url:
+            self.scrape_URL(self.domain, retry=False)
+            self.show_cookies()
 
     def show_cookies(self):
         for x in self.session.cookies:
@@ -218,6 +220,8 @@ class fake_browser:
                         " Starting new session for %s" % self.domain)
                     continue
 
+                # Store last accessed URL to allow check for regional redirect.
+                self.ret_url = resp.url
                 html = resp.text
                 break
             except Exception as ex:
