@@ -198,9 +198,9 @@ class fake_browser:
                 self.throttle_timeout = time.time() + self.throttle_delay
 
                 if postData != None:
-                    resp = self.session.post(url, timeout=5, data=postData)
+                    resp = self.session.post(url, timeout=15, data=postData)
                 else:
-                    resp = self.session.get(url, timeout=5)
+                    resp = self.session.get(url, timeout=15)
 
                 self.logger.log(DEBUG_HTTP_HEADERS, "Request headers: %s" % resp.request.headers)
                 self.logger.log(DEBUG_HTTP_HEADERS, "Response headers: %s" % resp.headers)
