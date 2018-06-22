@@ -114,15 +114,8 @@ class distributor(object):
             `dict` price tiers, `int` qty avail, `dict` extrainfo dist
         '''
 
-        if multiprocessing.current_process().name == "MainProcess":
-            self.logger = logging.getLogger('kicost')
-        else:
-            self.logger = multiprocessing.get_logger()
-            handler = logging.StreamHandler(sys.stdout)
-            handler.setLevel(1)
-            self.logger.addHandler(handler)
-            self.logger.setLevel(1)
-            self.browser.logger = self.logger
+        # Python loggers are already thread safe (but not multiprocess safe).
+        self.logger = logging.getLogger('kicost')
 
         url = {}
         part_num = {}
