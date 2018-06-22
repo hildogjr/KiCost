@@ -31,7 +31,7 @@ import time
 import http.client # For web scraping exceptions.
 import requests
 
-from ..globals import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
 
 def get_user_agent():
     ''' The default user_agent_list comprises chrome, IE, firefox, Mozilla, opera, netscape.

@@ -46,7 +46,7 @@ from . import __version__ # Version control by @xesscorp.
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
 
-from .globals import *
+from .global_vars import *
 
 ###############################################################################
 # Additional functions

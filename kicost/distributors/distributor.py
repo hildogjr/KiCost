@@ -39,9 +39,9 @@ from ..eda_tools.eda_tools import order_refs # To better print the warnings abou
 
 import http.client # For web scraping exceptions.
 
-from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..globals import SEPRTR
-from ..globals import PartHtmlError
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..global_vars import SEPRTR
+from ..global_vars import PartHtmlError
 
 import os, re
 

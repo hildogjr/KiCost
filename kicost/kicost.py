@@ -47,7 +47,7 @@ except NameError:
 
 __all__ = ['kicost','output_filename_multipleinputs']  # Only export this routine for use by the outside world.
 
-from .globals import *
+from .global_vars import *
 
 # Import information about various distributors.
 from .distributors import *
