@@ -25,7 +25,10 @@
 import logging
 from currency_converter import CurrencyConverter
 
-logger = logging.getLogger('kicost')
+# The root logger of the application. This has to be the root logger to catch
+# output from libraries (e.g. requests) as well.
+logger = logging.getLogger('')
+
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
