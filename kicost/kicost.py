@@ -47,7 +47,7 @@ except NameError:
 
 __all__ = ['kicost','output_filename_multipleinputs']  # Only export this routine for use by the outside world.
 
-from .globals import *
+from .global_vars import *
 
 # Import information about various distributors.
 from .distributors import *
@@ -199,6 +199,33 @@ def kicost(in_file, eda_tool_name, out_filename,
     # Get the distributor product page for each part and scrape the part data.
     if dist_list:
 
+        scraping_progress = tqdm.tqdm(desc='Progress', \
+            total=len(parts)*len(distributor_dict), unit='part', miniters=1)
+
+        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
+        class TqdmLoggingHandler(logging.Handler):
+            '''Overload the class to write the logging through the `tqdm`.'''
+            def __init__(self, level = logging.NOTSET):
+                super(self.__class__, self).__init__(level)
+            def emit(self, record):
+                try:
+                    msg = self.format(record)
+                    tqdm.tqdm.write(msg)
+                    self.flush()
+                except (KeyboardInterrupt, SystemExit):
+                    raise
+                except:
+                    self.handleError(record)
+                pass
+        # Get handles to default sys.stdout logging handler and the
+        # new "tqdm" logging handler.
+        logDefaultHandler = logger.handlers[0]
+        logTqdmHandler = TqdmLoggingHandler()
+
+        # Replace default handler with "tqdm" handler.
+        logger.addHandler(logTqdmHandler)
+        logger.removeHandler(logDefaultHandler)
+
         # Create thread pool to init multiple distributors simultaneously.
         pool = ThreadPool(num_processes)
 
@@ -242,23 +269,6 @@ def kicost(in_file, eda_tool_name, out_filename,
                 distributor_dict[d]['instance'] = instance
 
         logger.log(DEBUG_OVERVIEW, '# Scraping part data for each component group...')
-        scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts)*len(distributor_dict), unit='part', miniters=1)
-
-        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
-        class TqdmLoggingHandler(logging.Handler):
-            '''Overload the class to write the logging through the `tqdm`.'''
-            def __init__(self, level = logging.NOTSET):
-                super(self.__class__, self).__init__(level)
-            def emit(self, record):
-                try:
-                    msg = self.format(record)
-                    tqdm.tqdm.write(msg)
-                    self.flush()
-                except (KeyboardInterrupt, SystemExit):
-                    raise
-                except:
-                    self.handleError(record)
-        logger.addHandler(TqdmLoggingHandler())
 
         # Init part info dictionaries
         for part in parts:
@@ -325,9 +335,12 @@ def kicost(in_file, eda_tool_name, out_filename,
                     parts[id].qty_avail[dist] = qty_avail
                     parts[id].info_dist[dist] = info_dist # Extra distributor web page.
 
+        # Return the print channel of the logging.
+        logger.addHandler(logDefaultHandler)
+        logger.removeHandler(logTqdmHandler)
+
         # Done with the scraping progress bar so delete it or else we get an 
         # error when the program terminates.
-        logger.removeHandler(TqdmLoggingHandler()) # Return the print channel of the logging.
         del scraping_progress
 
     # Create the part pricing spreadsheet.

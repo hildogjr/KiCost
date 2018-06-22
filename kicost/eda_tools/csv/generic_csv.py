@@ -34,7 +34,7 @@ from datetime import datetime
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
-from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..eda_tools import field_name_translations, remove_dnp_parts, split_refs
 from ...distributors.global_vars import distributor_dict
 

@@ -30,9 +30,9 @@ import future
 import re, difflib
 from bs4 import BeautifulSoup
 import http.client # For web scraping exceptions.
-from ...globals import PartHtmlError
-from ...globals import currency
-from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
+from ...global_vars import PartHtmlError
+from ...global_vars import currency
+from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, DEBUG_HTTP_RESPONSES
 
 from .. import fake_browser
 from .. import distributor

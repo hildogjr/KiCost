@@ -31,9 +31,9 @@ import re, difflib
 from bs4 import BeautifulSoup
 from yattag import Doc, indent # For generating HTML page for local parts.
 import copy # To be possible create more than one local distributor.
-from ...globals import PartHtmlError
-from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...globals import SEPRTR as SEPRTR
+from ...global_vars import PartHtmlError
+from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...global_vars import SEPRTR as SEPRTR
 
 from .. import distributor
 from ..global_vars import distributor_dict

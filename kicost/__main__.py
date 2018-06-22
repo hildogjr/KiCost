@@ -46,7 +46,7 @@ from . import __version__ # Version control by @xesscorp.
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
 
-from .globals import *
+from .global_vars import *
 
 ###############################################################################
 # Additional functions
@@ -182,9 +182,6 @@ def main():
         log_level = logging.ERROR
     else:
         log_level = logging.WARNING
-    #handler = logging.StreamHandler(sys.stdout)
-    #handler.setLevel(log_level)
-    #logger.addHandler(handler) # It's not necessary to add a handle here, the default is already `sys.stdout` and adding twice it creates the BUG #193, doesn't allowing to use correctly the `tqdm` (process bar) print handle.
     logging.basicConfig(level=log_level, format='%(message)s')
 
     if args.show_dist_list:
@@ -293,6 +290,5 @@ def main():
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
 
