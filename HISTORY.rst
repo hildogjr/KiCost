@@ -7,7 +7,8 @@ ______________________
 
 * More improvements on scrape classes.
 * Now TME ajax post scrape method repect the `fake_browser`.
-* Fix some Python 2 incompatibility of the GUI and Altium module.
+* Fixed some Python 2 incompatibility of the GUI and Altium module.
+* Fixed the tqdm print channel. Now the process bar is kept at the end.
 
 
 0.1.45 (2018-06-12)
