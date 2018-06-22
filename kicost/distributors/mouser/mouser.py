@@ -203,14 +203,14 @@ class dist_mouser(distributor.distributor):
                 # Extract the region specific part and suffix it to
                 # the preferences cookie.
                 local_domains = re.search("https://(.+)\.mouser\.(.+)/", self.browser.ret_url)
-                if local_domains[1].startswith("www"):
-                    domain = local_domains[2]
+                if local_domains.group(1).startswith("www"):
+                    domain = local_domains.group(2)
                 else:
-                    domain = local_domains[1]
+                    domain = local_domains.group(1)
 
                 # Store currency perference (pc_%localdomain)
                 # for your regional domain.
-                self.browser.add_cookie('.mouser.%s' % local_domains[2], \
+                self.browser.add_cookie('.mouser.%s' % local_domains.group(2), \
                     'preferences', 'pc_%s=%s' % (domain, currency_iso))
 
                 # Store new localized url in distributor_dict.
