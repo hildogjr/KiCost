@@ -2,6 +2,13 @@
 
 History
 -------
+0.1.46 (2018-07-??)
+______________________
+
+* More improvements on scrape classes.
+* Now TME ajax post scrape method repect the `fake_browser`.
+* Fix some Python 2 incompatibility of the GUI and Altium module.
+
 
 0.1.45 (2018-06-12)
 ______________________
