@@ -31,9 +31,9 @@ import sys, os, time
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
-from ...globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...globals import SEPRTR
-from ...kicost import distributor_dict
+from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ...global_vars import SEPRTR
+from ...distributors.global_vars import distributor_dict
 from ..eda_tools import field_name_translations, remove_dnp_parts
 
 

@@ -39,15 +39,26 @@ try:
 except ImportError:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
-from .distributors import distributor_dict
+from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from . import __version__ # Version control by @xesscorp.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
 
-from .globals import *
-logger = logging.getLogger('kicost')
+from .global_vars import *
+
+###############################################################################
+# Additional functions
+###############################################################################
+
+def kicost_gui_notdependences():
+    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
+    print('pip3 install -U wxPython # For Windows & macOS')
+
+    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
+    sys.exit(1)
 
 ###############################################################################
 # Command-line interface.
@@ -149,7 +160,7 @@ def main():
                         metavar = 'NUM_RETRIES',
                         help='Specify the number of attempts to retrieve part data from a website.')
     parser.add_argument('--throttling_delay',
-                        nargs='?', type=float, default=0.0,
+                        nargs='?', type=float, default=5.0,
                         metavar='DELAY',
                         help="Specify minimum delay (in seconds) between successive accesses to a distributor's website.")
     parser.add_argument('--currency', '--locale',
@@ -171,10 +182,7 @@ def main():
         log_level = logging.ERROR
     else:
         log_level = logging.WARNING
-    #handler = logging.StreamHandler(sys.stdout)
-    #handler.setLevel(log_level)
-    #logger.addHandler(handler) # It's not necessary to add a handle here, the default is already `sys.stdout` and adding twice it creates the BUG #193, doesn't allowing to use correctly the `tqdm` (process bar) print handle.
-    logger.setLevel(log_level)
+    logging.basicConfig(level=log_level, format='%(message)s')
 
     if args.show_dist_list:
         print('Distributor list:', *sorted(list(distributor_dict.keys())))
@@ -225,7 +233,6 @@ def main():
             kicost_gui() # Use the user guide.
         except (ImportError,NameError):
             kicost_gui_notdependences()
-            #kicost_gui()
         return
     else:
         # Otherwise get XML from the given file.
@@ -282,18 +289,5 @@ def main():
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    logger = logging.getLogger('kicost')
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
 
-
-###############################################################################
-# Additional functions
-###############################################################################
-
-def kicost_gui_notdependences():
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip3 install -U wxPython # For Windows & macOS')
-
-    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
-    sys.exit(1)

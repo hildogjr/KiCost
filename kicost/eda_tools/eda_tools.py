@@ -28,9 +28,9 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re, os # Regular expression parser and matches.
-from ..globals import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..globals import SEPRTR
-from ..kicost import distributor_dict
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..global_vars import SEPRTR
+from ..distributors.global_vars import distributor_dict
 from . import eda_tool_dict # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
@@ -177,7 +177,7 @@ def group_parts(components, fields_merge):
        field, this is important to merge subparts of different parts and
        parts of different BOMs (in the mode of multifiles).
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
-       @param fileds_merge Data fields of the `dict()` variable to be merged and ignored to make the identical components group (before be scraped in the distributors web site).
+       @param fields_merge Data fields of the `dict()` variable to be merged and ignored to make the identical components group (before be scraped in the distributors web site).
        @return `list()` of `dict()`
     '''
 
@@ -187,13 +187,13 @@ def group_parts(components, fields_merge):
     # that will not be scraped. This definition is used to create and check
     # the identical groups or subsplit the seemingly identical parts.
     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
-    # Calculated all the fileds that never have to be used to create the hash keys.
+    # Calculated all the fields that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes 
-    # recognized by the insalled modules and, quantity and sub quantity of the part.
+    # recognized by the installed modules and, quantity and sub quantity of the part.
     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
 
-    # Check if was asked to merge some not allowed fiels (as `manf`, `manf# ...
-    # other ones as `desc` and even `value` and `footprint`may be merged due
+    # Check if was asked to merge some not allowed fields (as `manf`, `manf# ...
+    # other ones as `desc` and even `value` and `footprint` may be merged due
     # the different typed (1uF and 1u) or footprint library names to the same one.
     fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
     for c in FIELDS_NOT_HASH:
@@ -271,7 +271,7 @@ def group_parts(components, fields_merge):
             new_component_groups.append(grp)
             continue  # CASE ONE and TWO:
                       # Single manf# and distributor catalogue. Or a seemingly
-                      # identical groupt with just one valid manf# or cat# code,
+                      # identical group with just one valid manf# or cat# code,
                       # the other one is `None`.Don't split this group. `None`
                       # will be replaced with the propagated manufacture /
                       # distributor catalogue code.
@@ -302,7 +302,7 @@ def group_parts(components, fields_merge):
                 # group manf_num is also None. So append the par to the group.
                 if all([components[ref].get(f)==manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
-            new_component_groups.append(sub_group) # Append one part of the splited group.
+            new_component_groups.append(sub_group) # Append one part of the split group.
     #print('\n\n\n2++++++++++++++',len(new_component_groups))
     #for grp in new_component_groups:
     #    print('\n', grp.refs)
@@ -311,7 +311,7 @@ def group_parts(components, fields_merge):
 
     # If the identical components grouped have difference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
-    # ocorrences (definition `SGROUP_SEPRTR`) preceded with the refs
+    # occurrences (definition `SGROUP_SEPRTR`) preceded with the refs
     # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
     logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
     if fields_merge:
@@ -461,7 +461,7 @@ def groups_sort(new_component_groups):
                 except ValueError:
                     pass
                 component_groups_order_new += component_groups_ref_match
-    # The new order is the found refs firt and at the last the not referenced in BOM_ORDER.
+    # The new order is the found refs first and at the last the not referenced in BOM_ORDER.
     component_groups_order_new += component_groups_order_old # Add the missing references groups.
     new_component_groups = [new_component_groups[i] for i in component_groups_order_new]
     return new_component_groups
@@ -485,7 +485,7 @@ def subpartqty_split(components):
     FIELDS_MANF = [d+'#' for d in distributor_dict]
     FIELDS_MANF.append('manf#')
 
-    splitted_components = {}
+    split_components = {}
     for part_ref, part in components.items():
         try:
             # Divide the subparts in different parts keeping the other fields
@@ -503,7 +503,7 @@ def subpartqty_split(components):
                     founded_fields += [field_code]
                     subparts_manf_code[field_code] = subpart_list(part[field_code])
             if not founded_fields:
-                splitted_components[part_ref] = part
+                split_components[part_ref] = part
                 continue # If not manf/distributor code pass to next.
             # Divide the `manf` manufacture name.
             try:
@@ -513,7 +513,7 @@ def subpartqty_split(components):
                         # If just one `manf`assumes that is for all.
                         subparts_manf = [subparts_manf[0]]*subparts_qty
                     else:
-                        # Exception `manf` and `manf#` length doesn't macth, fill with '' at the end.
+                        # Exception `manf` and `manf#` length doesn't match, fill with '' at the end.
                         subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
             except KeyError:
                 subparts_manf = ['']*subparts_qty
@@ -557,7 +557,7 @@ def subpartqty_split(components):
                             logger.log(DEBUG_OBSESSIVE, subpart_actual)
                         except IndexError:
                             pass
-                    # Update the splitted `manf`(manufactures names).
+                    # Update the split `manf`(manufactures names).
                     if subparts_manf[subparts_index]!=REPLICATE_MANF:
                         # If the actual manufacture name is the defined as `REPLICATE_MANF`
                         # replicate the last one.
@@ -565,7 +565,7 @@ def subpartqty_split(components):
                     subpart_actual['manf'] = p_manf
                     # Update the description and reference of the part.
                     ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
-                    splitted_components[ref] = subpart_actual
+                    split_components[ref] = subpart_actual
             else:
                 part_actual = part.copy()
                 for field_manf_dist_code in founded_fields:
@@ -576,13 +576,13 @@ def subpartqty_split(components):
                         part_actual[field_manf_dist_code] = part_part
                         part_actual[field_manf_dist_code+'_qty'] = part_qty
                         logger.log(DEBUG_OBSESSIVE, part)
-                        splitted_components[part_ref] = part_actual
+                        split_components[part_ref] = part_actual
                     except IndexError:
                         pass
         except KeyError:
             continue
 
-    return splitted_components
+    return split_components
 
 
 def partgroup_qty(component):
@@ -790,7 +790,7 @@ def split_refs(text):
        Also ignore some characters as '.' or ':' used in some cases of references.
        
        @param text Designator/references worn by a group of parts.
-       @return Designator/references `list()` splitted.
+       @return Designator/references `list()` split.
     '''
     partial_ref = re.split(' *[,; ] *', text) # Split ignoring the spaces.
     refs = []
@@ -804,25 +804,25 @@ def split_refs(text):
         if re.search('^\w+\d', ref):
             if re.search('-', ref):
                 designator_name = re.findall('^\D+', ref)[0]
-                splitted_nums = re.split('-', ref)
-                designator_name += ''.join( re.findall('^d*\W', splitted_nums[0] ) )
-                splitted_nums = [re.sub(designator_name,'',splitted_nums[i]) for i in range(len(splitted_nums))]
+                split_nums = re.split('-', ref)
+                designator_name += ''.join( re.findall('^d*\W', split_nums[0] ) )
+                split_nums = [re.sub(designator_name,'',split_nums[i]) for i in range(len(split_nums))]
                 
                 # Some EDAs may use some separator in the reference numeric parts, as
                 # Altium that use "." (or even other) e.g. "R2.1,R2.2" to the same "R2"
                 # replicated between schematics / rooms.
-                base_splitted_nums = ''.join( re.findall('^\d+\D', splitted_nums[0]) )
-                splitted_nums = [''.join( re.findall('\D*(\d+)$', n) ) for n in splitted_nums]
+                base_split_nums = ''.join( re.findall('^\d+\D', split_nums[0]) )
+                split_nums = [''.join( re.findall('\D*(\d+)$', n) ) for n in split_nums]
                 
-                splitted = list( range( int(splitted_nums[0]), int(splitted_nums[1])+1 ) )
-                #splitted = [designator_name+str(splitted[i]) for i in range(len(splitted)) ]
-                splitted = [designator_name +base_splitted_nums+str(splitted[i]) for i in range(len(splitted)) ]
+                split = list( range( int(split_nums[0]), int(split_nums[1])+1 ) )
+                #split = [designator_name+str(split[i]) for i in range(len(split)) ]
+                split = [designator_name +base_split_nums+str(split[i]) for i in range(len(split)) ]
                 
-                refs += splitted
+                refs += split
             elif re.search('[/\\\]', ref):
                 designator_name = re.findall('^\D+',ref)[0]
-                splitted_nums = [re.sub('^'+designator_name, '', i) for i in re.split('[/\\\]',ref)]
-                refs += [designator_name+i for i in splitted_nums]
+                split_nums = [re.sub('^'+designator_name, '', i) for i in re.split('[/\\\]',ref)]
+                refs += [designator_name+i for i in split_nums]
             else:
                 refs += [ref.strip()]
         else:

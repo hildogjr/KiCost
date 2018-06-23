@@ -31,7 +31,7 @@ import sys, os
 import pprint
 import tqdm
 from time import time
-from multiprocessing import Pool, Manager, Lock
+from multiprocessing.pool import ThreadPool
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -47,12 +47,11 @@ except NameError:
 
 __all__ = ['kicost','output_filename_multipleinputs']  # Only export this routine for use by the outside world.
 
-from .globals import *
+from .global_vars import *
 
 # Import information about various distributors.
-from .distributors import distributor_dict
-from .distributors.web_routines import scrape_part, config_distributor
-from .distributors.local.local import create_part_html as create_local_part_html
+from .distributors import *
+from .distributors.global_vars import distributor_dict
 
 # Import information for various EDA tools.
 from .eda_tools import eda_modules
@@ -63,7 +62,7 @@ from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 def kicost(in_file, eda_tool_name, out_filename,
         user_fields, ignore_fields, group_fields, variant,
         dist_list=list(distributor_dict.keys()),
-        num_processes=4, scrape_retries=5, throttling_delay=0.0,
+        num_processes=4, scrape_retries=5, throttling_delay=5.0,
         collapse_refs=True,
         local_currency='USD'):
     ''' @brief Run KiCost.
@@ -89,6 +88,8 @@ def kicost(in_file, eda_tool_name, out_filename,
     Default `True`.
     @param local_currency `str()` Local/country in ISO3166:2 and currency in ISO4217. Default 'USD'.
     '''
+
+    logger.log(DEBUG_OVERVIEW, 'Exchange rate: 1 EUR = %.2f USD' % currency.convert(1, 'EUR', 'USD'))
 
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list!=None:
@@ -185,36 +186,21 @@ def kicost(in_file, eda_tool_name, out_filename,
                 logger.warning("No 'manf#' and '%s#' field in any part: distributor '%s' will be not scraped.", d, distributor_dict[d]['label'])
                 distributor_dict.pop(d, None)
 
-    # Create an HTML page containing all the local part information.
-    local_part_html = create_local_part_html(parts, distributor_dict)
-    
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributor_dict)
+
+    # Create an HTML page containing all the local part information.
+    dist_local.create_part_html(parts, distributor_dict, logger)
+
+    num_processes = min(num_processes, len(distributor_dict))
+    logger.log(DEBUG_OBSESSIVE, "Initialising scraper with %d threads" % num_processes)
+    logger.log(DEBUG_OBSESSIVE, "throttling_delay=%d" % throttling_delay)
 
     # Get the distributor product page for each part and scrape the part data.
     if dist_list:
 
-        if local_currency:
-            logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
-            if num_processes <= 1:
-                for d in distributor_dict:
-                    config_distributor(distributor_dict[d]['module'], local_currency)
-            else:
-                logger.log(DEBUG_OBSESSIVE, 'Using {} simultaneous access...'.format(min(len(distributor_dict), num_processes)))
-                pool = Pool(num_processes)
-                for d in distributor_dict:
-                    args = [distributor_dict[d]['module'], local_currency]
-                    pool.apply_async(config_distributor, args)
-                pool.close()
-                pool.join()
-
-        logger.log(DEBUG_OVERVIEW, '# Scraping part data for each component group...')
-        # Set the throttling delay for each distributor.
-        for d in distributor_dict:
-            distributor_dict[d]['throttling_delay'] = throttling_delay
-
-        global scraping_progress
-        scraping_progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
+        scraping_progress = tqdm.tqdm(desc='Progress', \
+            total=len(parts)*len(distributor_dict), unit='part', miniters=1)
 
         # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         class TqdmLoggingHandler(logging.Handler):
@@ -230,83 +216,131 @@ def kicost(in_file, eda_tool_name, out_filename,
                     raise
                 except:
                     self.handleError(record)
-        logger.addHandler(TqdmLoggingHandler())
+                pass
+        # Get handles to default sys.stdout logging handler and the
+        # new "tqdm" logging handler.
+        logDefaultHandler = logger.handlers[0]
+        logTqdmHandler = TqdmLoggingHandler()
+
+        # Replace default handler with "tqdm" handler.
+        logger.addHandler(logTqdmHandler)
+        logger.removeHandler(logDefaultHandler)
+
+        # Create thread pool to init multiple distributors simultaneously.
+        pool = ThreadPool(num_processes)
+
+        # Package part data for passing to each process.
+        arg_sets = [(d, distributor_dict[d]['scrape']) for d in distributor_dict]
+
+        def mt_init_dist(d, scrape):
+            instance = None
+            try:
+                logger.log(DEBUG_OVERVIEW, "Initialising %s" % d)
+                if scrape == 'local':
+                    ctor = globals()['dist_local']
+                else:
+                    ctor = globals()['dist_'+d]
+                instance = ctor(d, scrape_retries, throttling_delay)
+            except Exception as ex:
+                logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, exculding this distributor..." \
+                    % (d, type(ex).__name__))
+                return (d, None)
+
+            if local_currency:
+                logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
+                instance.define_locale_currency(local_currency)
+            return (d, instance)
+
+        logger.log(DEBUG_OBSESSIVE, 'Starting {} threads to init distributors...'.format(num_processes))
+        results = [pool.apply_async(mt_init_dist, args) for args in arg_sets]
+
+        # Wait for all the processes to have results.
+        pool.close()
+        pool.join()
+
+        # Get the data from each process result structure.
+        for result in results:
+            d, instance = result.get()
+            # Distributor initialisation failed, remove it from distributor_dict.
+            if instance == None:
+                distributor_dict.pop(d, None)
+            # Distributor initialised successfully, add instance to distributor_dict.
+            else:
+                distributor_dict[d]['instance'] = instance
+
+        logger.log(DEBUG_OVERVIEW, '# Scraping part data for each component group...')
+
+        # Init part info dictionaries
+        for part in parts:
+            part.part_num = {}
+            part.url = {}
+            part.price_tiers = {}
+            part.qty_avail = {}
+            part.info_dist = {}
+
+        num_processes = min(num_processes, len(distributor_dict))
 
         if num_processes <= 1:
             # Scrape data, one part at a time using single processing.
+            for d in distributor_dict:
+                logger.log(DEBUG_OVERVIEW, "Scraping "+ distributor_dict[d]['instance'].name)
+                for i in range(len(parts)):
+                    id, dist, url, part_num, price_tiers, qty_avail, info_dist = \
+                        scrape_result = distributor_dict[d]['instance'].scrape_part(i, parts[i])
 
-            class DummyLock:
-                """Dummy synchronization lock used when single processing."""
-                def __init__(self):
-                    pass
-                def acquire(*args, **kwargs):
-                    return True  # Lock can ALWAYS be acquired when just one process is running.
-                def release(*args, **kwargs):
-                    pass
-
-            # Create sync lock and timeouts to control the rate at which distributor
-            # websites are scraped.
-            throttle_lock = DummyLock()
-            throttle_timeouts = dict()
-            throttle_timeouts = {d:time() for d in distributor_dict}
-
-            for i in range(len(parts)):
-                args = (i, parts[i], distributor_dict, local_part_html, scrape_retries,
-                        logger.getEffectiveLevel(), throttle_lock, throttle_timeouts)
-                id, url, part_num, price_tiers, qty_avail, info_dist = scrape_part(args)
-                parts[id].part_num = part_num
-                parts[id].url = url
-                parts[id].price_tiers = price_tiers
-                parts[id].qty_avail = qty_avail
-                parts[id].info_dist = info_dist # Extra distributor web page.
-                scraping_progress.update(1)
+                    parts[id].part_num[dist] = part_num
+                    parts[id].url[dist] = url
+                    parts[id].price_tiers[dist] = price_tiers
+                    parts[id].qty_avail[dist] = qty_avail
+                    parts[id].info_dist[dist] = info_dist # Extra distributor web page.
+                    scraping_progress.update(1)
         else:
             # Scrape data, multiple parts at a time using multiprocessing.
 
-            # Create sync lock and timeouts to control the rate at which distributor
-            # websites are scraped.
-            throttle_manager = Manager()  # Manages shared lock and `dict`.
-            throttle_lock = throttle_manager.Lock()
-            throttle_timeouts = throttle_manager.dict()
-            for d in distributor_dict:
-                throttle_timeouts[d] = time()
-
-            # Create pool of processes to scrape data for multiple parts simultaneously.
-            pool = Pool(num_processes)
+            # Create thread pool to scrape data for multiple distributors simultaneously.
+            # Python threads are time-sliced but they work in our I/O limited scenario
+            # and avoid all kinds of pickle issues.
+            pool = ThreadPool(num_processes)
 
             # Package part data for passing to each process.
-            arg_sets = [(i, parts[i], distributor_dict, local_part_html, scrape_retries, 
-                        logger.getEffectiveLevel(), throttle_lock, throttle_timeouts) for i in range(len(parts))]
-            
-            # Define a callback routine for updating the scraping progress bar.
-            def update(x):
-                scraping_progress.update(1)
-                return x
+            # pool.async_apply needs at least two arguments per function so add dummy argument
+            # (otherwise it fails with "arguments after * must be an iterable, not ...")
+            arg_sets = [(distributor_dict[d]['instance'], scraping_progress) for d in distributor_dict]
+
+            def mt_scrape_part(inst, progress):
+                logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
+                retval = list()
+                for i in range(len(parts)):
+                    retval.append(inst.scrape_part(i, parts[i]))
+                    progress.update(1)
+                return retval
 
             # Start the web scraping processes, one for each part.
-            logger.log(DEBUG_OBSESSIVE, 'Starting {} parallels process to scrap parts...'.format(num_processes))
-            results = [pool.apply_async(scrape_part, [args], callback=update) for args in arg_sets]
+            logger.log(DEBUG_OBSESSIVE, 'Starting {} parallel threads to scrap parts...'.format(num_processes))
+            results = [pool.apply_async(mt_scrape_part, args) for args in arg_sets]
 
             # Wait for all the processes to have results, then kill-off all the scraping processes.
-            for r in results:
-                while(not r.ready()):
-                    pass
-            logger.log(DEBUG_OVERVIEW, 'All parallels process finished with success.')
             pool.close()
             pool.join()
+            logger.log(DEBUG_OVERVIEW, 'All parallel threads finished with success.')
 
             # Get the data from each process result structure.
-            for result in results:
-                id, url, part_num, price_tiers, qty_avail, info_dist = result.get()
-                parts[id].part_num = part_num
-                parts[id].url = url
-                parts[id].price_tiers = price_tiers
-                parts[id].qty_avail = qty_avail
-                parts[id].info_dist = info_dist # Extra distributor web page.
+            for res_proc in results:
+                res_dist = res_proc.get()
+                for res_part in res_dist:
+                    id, dist, url, part_num, price_tiers, qty_avail, info_dist = res_part
+                    parts[id].part_num[dist] = part_num
+                    parts[id].url[dist] = url
+                    parts[id].price_tiers[dist] = price_tiers
+                    parts[id].qty_avail[dist] = qty_avail
+                    parts[id].info_dist[dist] = info_dist # Extra distributor web page.
+
+        # Return the print channel of the logging.
+        logger.addHandler(logDefaultHandler)
+        logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an 
         # error when the program terminates.
-        logger.removeHandler(TqdmLoggingHandler()) # Return the print channel of the logging.
         del scraping_progress
 
     # Create the part pricing spreadsheet.

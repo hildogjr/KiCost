@@ -43,7 +43,9 @@ import re # Regular expression parser.
 
 from . import __version__ # Version control by @xesscorp.
 from .kicost import *  # kicost core functions.
-from .distributors import distributor_dict, fake_browser # Use the configurations alredy made to get KiCost last version.
+from .distributors import fake_browser # Use the configurations alredy made to get KiCost last version.
+from .distributors import init_distributor_dict
+from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from .eda_tools.eda_tools import file_eda_match
 
@@ -61,12 +63,13 @@ GUI_POSITION_ENTRY = 'GUI_position'
 PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last official version.
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
+PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
 
 
 
 #======================================================================
 def open_file(filepath):
-    '''@brief Open a file with the default application by yht different OS.
+    '''@brief Open a file with the default application in different OSs.
        @param filepath str() file name.
     '''
     if sys.platform.startswith('darwin'): # Mac-OS.
@@ -97,7 +100,7 @@ class FileDropTarget( wx.FileDropTarget ):
 
 #======================================================================
 class menuDistributors( wx.Menu ):
-    ''' @brief Menu of the istributor checkbox list. Provide select all, unselect and toggle hotkey.
+    ''' @brief Menu of the distributor checkbox list. Provide select all, unselect and toggle hotkey.
         @param TextBox handle.
     '''
     def __init__( self, parent ):
@@ -176,7 +179,6 @@ class menuMessages( wx.Menu ):
         mmi = wx.MenuItem(self, wx.NewId(), '&Open externally')
         self.Append(mmi)
         self.Bind(wx.EVT_MENU, self.openMessages, mmi)
-        
     
     def copyMessages( self, event ):
         ''' @brief Copy the warning/error/log messages to clipboard.'''
@@ -225,10 +227,9 @@ class menuMessages( wx.Menu ):
         self.purgeMessages(event)
     
     def openMessages( self, event ):
-        ''' @brief Save the messages in a temporary file and open it in the default text editor before sytem deletation.'''
+        ''' @brief Save the messages in a temporary file and open it in the default text editor before system delete.'''
         event.Skip()
         #TODO - not working on Ubuntu
-        #self.parent.m_textCtrl_messages.AppendText('\naqui\nhjhk')
         with tempfile.NamedTemporaryFile(prefix='KiCost_', suffix='.log', delete=True, mode='w') as temp:
             temp.write( self.parent.m_textCtrl_messages.GetValue() )
             open_file(temp.name)
@@ -351,7 +352,7 @@ class formKiCost ( wx.Frame ):
         self.m_panel1.SetSizer( bSizer3 )
         self.m_panel1.Layout()
         bSizer3.Fit( self.m_panel1 )
-        self.m_notebook1.AddPage( self.m_panel1, u"BoM", True )
+        self.m_notebook1.AddPage( self.m_panel1, u"BoM", False )
         self.m_panel2 = wx.Panel( self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
         self.m_panel2.SetToolTip( u"KiCost general configurations tab." )
         
@@ -445,6 +446,8 @@ class formKiCost ( wx.Frame ):
         bSizer10 = wx.BoxSizer( wx.HORIZONTAL )
         
         self.m_bitmap_icon = wx.StaticBitmap( self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_bitmap_icon.SetToolTip( u"Click for official web page user manual." )
+        
         bSizer10.Add( self.m_bitmap_icon, 0, wx.ALL, 5 )
         
         bSizer111 = wx.BoxSizer( wx.VERTICAL )
@@ -455,6 +458,8 @@ class formKiCost ( wx.Frame ):
         
         self.m_staticText_update = wx.StaticText( self.m_panel3, wx.ID_ANY, u"Update info", wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_staticText_update.Wrap( -1 )
+        self.m_staticText_update.SetToolTip( u"Click for PyPI download page." )
+        
         bSizer111.Add( self.m_staticText_update, 0, wx.ALL, 5 )
         
         
@@ -465,13 +470,15 @@ class formKiCost ( wx.Frame ):
         
         self.m_staticText_credits = wx.StaticText( self.m_panel3, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_staticText_credits.Wrap( -1 )
+        self.m_staticText_credits.SetToolTip( u"Click for BUG page report and development information." )
+        
         bSizer2.Add( self.m_staticText_credits, 1, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.EXPAND, 5 )
         
         
         self.m_panel3.SetSizer( bSizer2 )
         self.m_panel3.Layout()
         bSizer2.Fit( self.m_panel3 )
-        self.m_notebook1.AddPage( self.m_panel3, u"About", False )
+        self.m_notebook1.AddPage( self.m_panel3, u"About", True )
         
         bSizer1.Add( self.m_notebook1, 1, wx.EXPAND |wx.ALL, 5 )
         
@@ -490,6 +497,8 @@ class formKiCost ( wx.Frame ):
         self.m_button_run.Bind( wx.EVT_BUTTON, self.button_run )
         self.m_textCtrl_messages.Bind( wx.EVT_RIGHT_DOWN, self.m_textCtrl_messages_rClick )
         self.m_bitmap_icon.Bind( wx.EVT_LEFT_DOWN, self.m_bitmap_icon_click )
+        self.m_staticText_update.Bind( wx.EVT_LEFT_DOWN, self.m_staticText_update_click )
+        self.m_staticText_credits.Bind( wx.EVT_LEFT_DOWN, self.m_staticText_credits_click )
         
         #### **  End of the guide code generated by wxFormBulilder software, available in <https://github.com/wxFormBuilder/wxFormBuilder/>  ** ####
         
@@ -510,10 +519,20 @@ class formKiCost ( wx.Frame ):
         self.save_properties()
 
     #----------------------------------------------------------------------
+    '''About page, report and official informations.'''
     def m_bitmap_icon_click( self, event ):
         ''' @brief Open the official software web page in the default browser.'''
         event.Skip()
         webbrowser.open(PAGE_OFFICIAL)
+    def m_staticText_credits_click( self, event ):
+        ''' @brief Open the official software web page in the default browser.'''
+        event.Skip()
+        webbrowser.open(PAGE_DEV)
+    def m_staticText_update_click( self, event ):
+        ''' @brief Open the page to download the last version.'''
+        event.Skip()
+        #TODO create a procedure to update KiCost from here and restart it instead open the page (ask for confirmation for installation).
+        webbrowser.open(PAGE_UPDATE)
 
     #----------------------------------------------------------------------
     def wxPanel_change( self, event ):
@@ -530,7 +549,8 @@ class formKiCost ( wx.Frame ):
                 if not updateChecked:
                     self.m_staticText_update.SetLabel('Checking by updates...')
                     try:
-                        html = fake_browser(PAGE_UPDATE)
+                        fake_browser.start_new_session()
+                        html = distributorbrowser.scrape_URL(PAGE_UPDATE)
                         offical_last_version = re.findall('kicost (\d+\.\d+\.\d+)', str(html), flags=re.IGNORECASE)[0]
                         if StrictVersion(offical_last_version) > StrictVersion(__version__):
                             self.m_staticText_update.SetLabel('New version (v.'
@@ -547,12 +567,11 @@ class formKiCost ( wx.Frame ):
             wx.CallLater(50, checkUpdate) # Thread optimized for graphical elements change.
 
     #----------------------------------------------------------------------
+    '''Pop-up menus on main tab.'''
     def m_textCtrl_messages_rClick( self, event ):
         ''' @brief Open the context menu with save log options.'''
         event.Skip()
         self.PopupMenu(menuMessages(self), event.GetPosition())
-
-    #----------------------------------------------------------------------
     def m_textCtrl_distributors_rClick( self, event ):
         ''' @brief Open the context menu with distributors options.'''
         event.Skip()
@@ -591,13 +610,6 @@ class formKiCost ( wx.Frame ):
                     return
             if eda_module:
                 self.m_listBox_edatool.SetSelection( self.m_listBox_edatool.FindString(eda_tool_dict[eda_module]['label']) )
-
-    #----------------------------------------------------------------------
-    def m_staticText_update_click( self, event ):
-        ''' @brief Open the page to download the last version.'''
-        event.Skip()
-        #print('Download the update and install -- missing, running manually')
-        webbrowser.open(PAGE_UPDATE)
 
     #----------------------------------------------------------------------
     def button_openfile( self, event ):
@@ -641,53 +653,18 @@ class formKiCost ( wx.Frame ):
         ''' @brief Call to run KiCost.'''
         event.Skip()
         def run_kicost_guide():
-            class EtaStream(object):
-                def __init__(self, widget):
-                    #super(self.__class__, self).__init__()
-                    pass
-                def write(self, bar):
-                    sys.stderr.write(bar)
-                    try:
-                        #Progress:   3%|█                               | 3/90 [00:13<19:42, 13.59s/part]
-                        print('-------', bar)
-                        #perc = re.findall('(\d)\%\|')[0]
-                        #desc = re.findall('\| (.+)$')[0]
-                        #print('---', perc, desc)#TODO
-                        #self.m_gauge_process.SetValue(perc)
-                        #self.m_staticText_progressInfo.SetLabel(desc)
-                    except:
-                        pass
-                    def flush(self):
-                        sys.stderr.flush()
-            class GUILoggingHandler(object):
-                def __init__(self, widget):
-                    #super(self.__class__, self).__init__()
-                    self.widget = widget
-                def write(self, msg):
-                    try:
-                        self.widget.AppendText( msg )
-                    except:
-                        sys.__stdout__(msg)
-                def flush(self):#TODO
-                    sys.stderr.flush()
-            self.m_button_openfile.Enable( False )
-            #sys.stdout = GUILoggingHandler(self.m_textCtrl_messages)
-            #sys.errout = GUILoggingHandler(self.m_textCtrl_messages)
-            
-            self.save_properties() # Save the current graphical configuration before call the KiCost motor.
-            self.run() # Run KiCost.
-            
-            # Restore the channel print output to terminal.
-            sys.stdout = sys.__stdout__
-            sys.stderr = sys.__stderr__
-            
-            self.m_button_openfile.Enable( True )
-        def run_kicost_guide2():
             '''Run the as a Thread out of the box wxPython'''
             self.m_gauge_process.SetValue(0)
+            self.m_button_openfile.Enable( False )
+            self.save_properties() # Save the current graphical configuration before call the KiCost motor.
+            self.run() # Run KiCost.
+            init_distributor_dict() # Restore distributors removed during the execution of KiCost motor.
+            self.m_button_openfile.Enable( True )
+        
+        def run_kicost_guide_action():
             kicost_motor_thread = threading.Thread(target=run_kicost_guide)
             kicost_motor_thread.start()
-        wx.CallLater(10, run_kicost_guide2) # Necessary to not '(core dumped)' with wxPython.
+        wx.CallLater(10, run_kicost_guide_action) # Necessary to not '(core dumped)' with wxPython.
 
     #----------------------------------------------------------------------
     def run( self ):
@@ -749,6 +726,7 @@ class formKiCost ( wx.Frame ):
         args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
         args.variant = str_to_arg(['--variant', '-var'])
+        args.locale = str_to_arg(['--locale', '--currency']).split()
         
         num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
         args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
@@ -785,7 +763,8 @@ class formKiCost ( wx.Frame ):
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
                 group_fields=args.group_fields, variant=args.variant,
                 dist_list=args.include, num_processes=num_processes,
-                scrape_retries=args.retries, throttling_delay=args.throttling_delay)
+                scrape_retries=args.retries, throttling_delay=args.throttling_delay,
+                local_currency=args.locale)
             if self.m_checkBox_openXLS.GetValue():
                 print('Opening the output file \'{}\'...'.format(
                                     os.path.basename(spreadsheet_file)
@@ -865,7 +844,7 @@ class formKiCost ( wx.Frame ):
         ''' @brief Set the current proprieties of the graphical elements.'''
         actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
         
-        # Set the aplication windows title and configurations
+        # Set the application windows title and configurations.
         self.SetTitle('KiCost v.' + __version__)
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
         
@@ -892,11 +871,15 @@ class formKiCost ( wx.Frame ):
             credits = r'''=======
             Credits
             =======
-            Development Lead
+            Report issues at: https://github.com/xesscorp/KiCost/issues
             ----------------
+            Development Lead:
             * XESS Corporation <info@xess.com>
-            Contributors
             ------------
+            Collaborators:
+            * Hildo Guillardi Júnior https://github.com/hildogjr
+            ------------
+            Contributors:
             * Oliver Martin: https://github.com/oliviermartin
             * Timo Alho: https://github.com/timoalho
             * Steven Johnson: https://github.com/stevenj
@@ -924,11 +907,11 @@ class formKiCost ( wx.Frame ):
             configHandle = wx.Config(CONFIG_FILE)
             
             def str_to_wxpoint(s):
-                '''Convert a string tuple into a  wxPoint'''
+                '''Convert a string tuple into a  wxPoint.'''
                 p = re.findall('\d+', s)
                 return wx.Point(int(p[0]), int(p[1]))
             def str_to_wxsize(s):
-                '''Convert a string tuple into a  wxRect'''
+                '''Convert a string tuple into a  wxRect.'''
                 p = re.findall('\d+', s)
                 return wx.Size(int(p[0]), int(p[1]))
             
@@ -1003,7 +986,7 @@ class formKiCost ( wx.Frame ):
             configHandle.Write(GUI_POSITION_ENTRY, str(self.GetPosition()))
             configHandle.Write(GUI_SIZE_ENTRY, str(self.GetSize()))
             
-            # Sweep all elements in `self()` to find the grafical ones
+            # Sweep all elements in `self()` to find the graphical ones
             # instance of the wxPython and salve the specific configuration.
             for wxElement_name, wxElement_handle in self.__dict__.items():
                 try:
@@ -1049,12 +1032,41 @@ def kicost_gui():
     ''' @brief Load the graphical interface.'''
     app = wx.App(redirect=False)
     frame = formKiCost(None)
+    
+    class GUILoggerHandler(object):
+        def __init__(self, aWxTextCtrl):
+            #super(self.__class__, self).__init__()
+            self.area = aWxTextCtrl
+        def write(self, msg):
+            try:
+                self.area.AppendText(msg)
+            except:
+                # In case of freeze GUI, print on terminal to allow debug.
+                sys.__stdout__.write(msg)
+        def flush(self):
+            sys.__stdout__.flush
+    
+    # Redirect the logger to the GUI area a
+    sys.stdout = GUILoggerHandler(formKiCost.m_textCtrl_messages)
+    #TODO when the above works, change all print and `m_textCtrl_messages.Append` on GUI to logging.
+    
     frame.Show()
     app.MainLoop()
+    
+    # Restore the channel print output to terminal.
+    # Necessary if KiCost was called by other software? Normal execution ends here.
+    sys.stdout = sys.__stdout__
+    sys.stdout = sys.__stderr__
+
 
 def kicost_gui_run(fileName):
-    ''' @brief Execute the `fileName`under KiCost loading the graphical interface.
-        @param LIst of the file name.
+    ''' @brief Execute the `fileName` under KiCost loading the
+        graphical interface.
+        
+        The difference of the normal execution is that the log and
+        process bar is not redirected to the GUI, staying on terminal.
+        
+        @param List of the file name.
     '''
     app = wx.App(redirect=False)
     frame = formKiCost(None)
