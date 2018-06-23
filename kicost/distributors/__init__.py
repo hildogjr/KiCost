@@ -55,5 +55,5 @@ def init_distributor_dict():
         if x.startswith("dist_"):
             globals()[x].dist_init_distributor_dict()
 
-# Init distirbutor dict during import.
+# Init distributor dict during import.
 init_distributor_dict()

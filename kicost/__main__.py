@@ -233,7 +233,6 @@ def main():
             kicost_gui() # Use the user guide.
         except (ImportError,NameError):
             kicost_gui_notdependences()
-            #kicost_gui()
         return
     else:
         # Otherwise get XML from the given file.

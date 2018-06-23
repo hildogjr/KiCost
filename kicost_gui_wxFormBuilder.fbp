@@ -14,6 +14,7 @@
         <property name="file"></property>
         <property name="first_id">1000</property>
         <property name="help_provider">none</property>
+        <property name="indent_with_spaces"></property>
         <property name="internationalize">0</property>
         <property name="name">KiCost_guide</property>
         <property name="namespace"></property>
@@ -44,7 +45,7 @@
             <property name="minimum_size"></property>
             <property name="name">MyForm</property>
             <property name="pos"></property>
-            <property name="size">446,351</property>
+            <property name="size">446,429</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass">; forward_declare</property>
             <property name="title">KiCost</property>
@@ -2619,7 +2620,7 @@
                                                     <property name="size"></property>
                                                     <property name="subclass">; forward_declare</property>
                                                     <property name="toolbar_pane">0</property>
-                                                    <property name="tooltip"></property>
+                                                    <property name="tooltip">Click for official web page user manual.</property>
                                                     <property name="window_extra_style"></property>
                                                     <property name="window_name"></property>
                                                     <property name="window_style"></property>
@@ -2793,7 +2794,7 @@
                                                             <property name="style"></property>
                                                             <property name="subclass">; forward_declare</property>
                                                             <property name="toolbar_pane">0</property>
-                                                            <property name="tooltip"></property>
+                                                            <property name="tooltip">Click for PyPI download page.</property>
                                                             <property name="window_extra_style"></property>
                                                             <property name="window_name"></property>
                                                             <property name="window_style"></property>
@@ -2806,7 +2807,7 @@
                                                             <event name="OnKillFocus"></event>
                                                             <event name="OnLeaveWindow"></event>
                                                             <event name="OnLeftDClick"></event>
-                                                            <event name="OnLeftDown"></event>
+                                                            <event name="OnLeftDown">m_staticText_update_click</event>
                                                             <event name="OnLeftUp"></event>
                                                             <event name="OnMiddleDClick"></event>
                                                             <event name="OnMiddleDown"></event>
@@ -2880,7 +2881,7 @@
                                             <property name="style"></property>
                                             <property name="subclass">; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
-                                            <property name="tooltip"></property>
+                                            <property name="tooltip">Click for BUG page report and development information.</property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
@@ -2893,7 +2894,7 @@
                                             <event name="OnKillFocus"></event>
                                             <event name="OnLeaveWindow"></event>
                                             <event name="OnLeftDClick"></event>
-                                            <event name="OnLeftDown"></event>
+                                            <event name="OnLeftDown">m_staticText_credits_click</event>
                                             <event name="OnLeftUp"></event>
                                             <event name="OnMiddleDClick"></event>
                                             <event name="OnMiddleDown"></event>

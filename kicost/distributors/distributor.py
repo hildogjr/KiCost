@@ -58,7 +58,7 @@ class distributor(object):
             self.browser = fake_browser.fake_browser \
                 (self.domain, self.logger, self.scrape_retries, throttle_delay)
 
-    # Abstract methods, implemented in distributor specific modules
+    # Abstract methods, implemented in distributor specific modules.
     @staticmethod
     def dist_init_distributor_dict():
         raise NotImplementedError()
@@ -83,12 +83,13 @@ class distributor(object):
 
     def define_locale_currency(self, locale_currency='USD'):
         '''@brief Configure the distributor for some locale/country and
-        currency second ISO3166 and ISO4217
+        currency second ISO3166 and ISO4217.
         
         @param `str` Alpha 2 country or alpha 3 currency or even one slash other.'''
         try:
             if distributor_dict[self.name]['scrape'] == 'web':
                 # Not make sense to configurate a local distributor (yet).
+                #TODO in the future may be possible to use the currency package and convert the local prices? Even use the same package to provide currency not exist on each distributor? This will have to be show in the spreadsheet through a comment in the distributor cell title.
                 locale_currency = re.findall('\w{2,}', locale_currency)
                 locale = None
                 currency = None
@@ -106,12 +107,12 @@ class distributor(object):
         '''@brief Scrape the data for a part from each distributor website or local HTML.
         
         Use distributors submodules to scrape each distributor part page and get
-        informations such as price, quantity avaliable and others;
+        informations such as price, quantity available and others.
         
         @param `int` Count of the main loop.
         @param `str` String with the part number / distributor stock.
         @return id, distributor_name, url, `str` distributor stock part number,
-            `dict` price tiers, `int` qty avail, `dict` extrainfo dist
+            `dict` price tiers, `int` qty avail, `dict` extra info dist.
         '''
 
         # Python loggers are already thread safe (but not multiprocess safe).
@@ -132,9 +133,9 @@ class distributor(object):
         price_tiers = self.dist_get_price_tiers(html_tree)
         
         try:
-            # Get extra characeristics of the part in the web page.
+            # Get extra characteristics of the part in the web page.
             # This will be use to comment in the 'cat#' column of the
-            # spreadsheet and some validations (in the future implementaions)
+            # spreadsheet and some validations (in the future implementations).
             info_dist = self.dist_get_extra_info(html_tree)
         except:
             info_dist = {}
@@ -147,7 +148,7 @@ class distributor(object):
         '''@brief Get the HTML tree for a part.
         
         Get the HTML tree for a part from the given distributor website or local HTML.
-        @param `str` part Part manufactor code or distributor stock code.
+        @param `str` part Part manufacture code or distributor stock code.
         @return `str` with the HTML webpage.'''
 
         self.logger.log(DEBUG_OBSESSIVE, 'Looking in %s by %s:', self.name, order_refs(part.refs, True))
@@ -177,5 +178,3 @@ class distributor(object):
         self.logger.warning("Part %s not found at %s.", order_refs(part.refs, False), self.name)
         # If no HTML page was found, then return a tree for an empty page.
         return BeautifulSoup('<html></html>', 'lxml'), ''
-
-
