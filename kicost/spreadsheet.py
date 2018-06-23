@@ -33,7 +33,7 @@ import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 # KiCost libraries.
-from . import __version__ # Version control by @xesscorp.
+from . import __version__ # Version control by @xesscorp and collaborator.
 from .global_vars import SEPRTR
 from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.

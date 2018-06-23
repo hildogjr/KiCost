@@ -41,7 +41,7 @@ except ImportError:
          # the user just want the KiCost CLI.
 from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
-from . import __version__ # Version control by @xesscorp.
+from . import __version__ # Version control by @xesscorp and collaborator.
 
 NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
 HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
