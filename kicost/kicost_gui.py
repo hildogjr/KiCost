@@ -41,7 +41,9 @@ from datetime import datetime # To create the log name, when asked to save.
 from distutils.version import StrictVersion # To comparasion of versions.
 import re # Regular expression parser.
 
-from . import __version__ # Version control by @xesscorp.
+from . import __version__ # Version control by @xesscorp and collaborator.
+import logging
+from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from .kicost import *  # kicost core functions.
 from .distributors import fake_browser # Use the configurations alredy made to get KiCost last version.
 from .distributors import init_distributor_dict
@@ -1041,14 +1043,18 @@ def kicost_gui():
         def write(self, msg):
             try:
                 self.area.AppendText(msg)
+                sys.__stdout__.flush()
             except:
                 # In case of freeze GUI, print on terminal to allow debug.
                 sys.__stdout__.write(msg)
-        def flush(self):
-            sys.__stdout__.flush
+            #finally:
+            #    self.flush()
+        #def flush(self):
+        #    sys.__stdout__.flush
     
-    # Redirect the logger to the GUI area a
-    sys.stdout = GUILoggerHandler(formKiCost.m_textCtrl_messages)
+    # Redirect the logger to the GUI area.
+    #sys.stdout = GUILoggerHandler(frame.m_textCtrl_messages)
+    #sys.stderr = GUILoggerHandler(frame.m_textCtrl_messages)
     #TODO when the above works, change all print and `m_textCtrl_messages.Append` on GUI to logging.
     
     frame.Show()
