@@ -17,3 +17,4 @@ Contributors
 * Giacinto Luigi Cerone https://github.com/glcerone
 * Hildo Guillardi Júnior https://github.com/hildogjr
 * Adam Heinrich https://github.com/adamheinrich
+* Max Maisel https://github.com/mmmaisel

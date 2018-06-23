@@ -135,7 +135,7 @@ class distributor(object):
         try:
             # Get extra characteristics of the part in the web page.
             # This will be use to comment in the 'cat#' column of the
-            # spreadsheet and some validations (in the future implementations)
+            # spreadsheet and some validations (in the future implementations).
             info_dist = self.dist_get_extra_info(html_tree)
         except:
             info_dist = {}
@@ -178,4 +178,3 @@ class distributor(object):
         self.logger.warning("Part %s not found at %s.", order_refs(part.refs, False), self.name)
         # If no HTML page was found, then return a tree for an empty page.
         return BeautifulSoup('<html></html>', 'lxml'), ''
-

@@ -2,19 +2,31 @@
 
 History
 -------
+0.1.46 (2018-07-??)
+______________________
 
-0.1.45 (2018-06-??)
+* More improvements on scrape classes.
+* Now TME ajax post scrape method repect the `fake_browser`.
+* Fixed some Python 2 incompatibility of the GUI and Altium module.
+* Fixed the tqdm print channel. Now the process bar is kept at the end.
+
+
+0.1.45 (2018-06-12)
 ______________________
 
 * Changed Farnell link and table result format.
+* Fixed TME `fake_browser` migration.
+* Re-factored the distributors modules to class kind and improved the scrape sequence to decrease probability of ban.
+* Fixed the multi-threading configuration.
+* Fixed Mac-OS hang when parallel scraping.
 
 
 0.1.44 (2018-05-28)
 ______________________
 
-* Fixed `logging` messages when using `tqdm`(process bar) for sequencial scrape, missing fix for multithreads scrape.
-* Improve the `spreadsheet.py` to a lighter file when use just one distributor.
-* Improved log messages to better comunity debug.
+* Fixed ``logging`` messages when using ``tqdm``(process bar) for sequential scrape, missing fix for multithreads scrape.
+* Improve the ``spreadsheet.py`` to a lighter file when use just one distributor.
+* Improved log messages to better community debug.
 * Add Upverter CSV compatibility.
 * Fixed Mouser "quote price" exception in the price tiers.
 * Fixed wxPython exception import.
@@ -38,7 +50,7 @@ ______________________
 * Added ``--group_fields`` option to ignore differences in fields of the components and group them.
 * Fixed the not ungrouping issue when ``manf#`` equal ``None``.
 * CSV now accepts files from Proteus and Eagle EDA tools.
-* Cleared up unused Python imports and better placed functions into files (spreasheet creation files are now in ``spreadsheet.py``).
+* Cleared up unused Python imports and better placed functions into files (spreadsheet creation files are now in ``spreadsheet.py``).
 * Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if they are not inside it.
 * Fixed issues related to user visualization in the spreadsheet (added gray formatted conditioning and the "exclude desc and manf columns").
 * Added "user errors" and software scape in the case of not recognized references characters given the message of how to solve.

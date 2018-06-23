@@ -774,6 +774,7 @@ class formKiCost ( wx.Frame ):
         except Exception as e:
             print(e)
         print('Elapsed time: {} seconds'.format(time.time() - start_time) )
+        init_distributor_dict()
         #self.m_gauge_process.SetValue(100)
         
         return
