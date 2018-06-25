@@ -51,6 +51,8 @@ from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from .eda_tools.eda_tools import file_eda_match
 
+from .global_vars import *
+
 __all__ = ['kicost_gui', 'kicost_gui_run']
 
 # Guide definitions.
@@ -554,7 +556,8 @@ class formKiCost ( wx.Frame ):
             '''Check for updates.'''
             self.m_staticText_update.SetLabel('Checking for updates...')
             try:
-                html = fake_browser(PAGE_UPDATE)
+                browser = fake_browser.fake_browser("", logger, 1, 0)
+                html = browser.scrape_URL(PAGE_UPDATE)
                 offical_last_version = re.findall('kicost (\d+\.\d+\.\d+)', str(html), flags=re.IGNORECASE)[0]
                 if StrictVersion(offical_last_version) > StrictVersion(__version__):
                     self.m_staticText_update.SetLabel('New version (v.'
