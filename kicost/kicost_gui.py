@@ -454,9 +454,13 @@ class formKiCost ( wx.Frame ):
         self.m_bitmap_icon = wx.StaticBitmap( self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
         bSizer101.Add( self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5 )
 
-        self.m_button_open_webpage = wx.Button( self.m_panel3, wx.ID_ANY, u"Open KiCost Webpage", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_button_open_webpage = wx.Button( self.m_panel3, wx.ID_ANY, u"Open online manual", wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_button_open_webpage.SetToolTip( u"Click for official web page user manual." )
         bSizer101.Add( self.m_button_open_webpage, 0, wx.CENTER | wx.ALL, 5 )
+
+        self.m_button_open_issuepage = wx.Button( self.m_panel3, wx.ID_ANY, u"Report issue (opens browser)", \
+            wx.DefaultPosition, wx.DefaultSize, 0 )
+        bSizer101.Add( self.m_button_open_issuepage, 0, wx.ALL, 5 )
 
         bSizer111 = wx.BoxSizer( wx.VERTICAL )
         
@@ -467,12 +471,15 @@ class formKiCost ( wx.Frame ):
         self.m_staticText_update = wx.StaticText( self.m_panel3, wx.ID_ANY, u"Not checked for updates yet", \
             wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_staticText_update.Wrap( -1 )
-        self.m_staticText_update.SetToolTip( u"Click for PyPI download page." )
 
         bSizer111.Add( self.m_staticText_update, 1, wx.ALL, 5 )
 
         self.m_button_check_updates = wx.Button( self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0 )
         bSizer111.Add( self.m_button_check_updates, 0, wx.ALL, 5 )
+
+        self.m_button_open_updatepage = wx.Button( self.m_panel3, wx.ID_ANY, u"Open PyPI download page", \
+            wx.DefaultPosition, wx.DefaultSize, 0 )
+        bSizer111.Add( self.m_button_open_updatepage, 0, wx.ALL, 5 )
 
 
         bSizer10.Add( bSizer101, 1, wx.EXPAND, 5 )
@@ -508,8 +515,8 @@ class formKiCost ( wx.Frame ):
         self.m_checkList_dist.Bind( wx.EVT_RIGHT_DOWN, self.m_textCtrl_distributors_rClick )
         self.m_button_run.Bind( wx.EVT_BUTTON, self.button_run )
         self.m_textCtrl_messages.Bind( wx.EVT_RIGHT_DOWN, self.m_textCtrl_messages_rClick )
-        self.m_staticText_update.Bind( wx.EVT_LEFT_DOWN, self.m_staticText_update_click )
-        self.m_staticText_credits.Bind( wx.EVT_LEFT_DOWN, self.m_staticText_credits_click )
+        self.m_button_open_updatepage.Bind( wx.EVT_LEFT_DOWN, self.open_updatepage_click )
+        self.m_button_open_issuepage.Bind( wx.EVT_LEFT_DOWN, self.open_issuepage_click )
         self.m_button_open_webpage.Bind( wx.EVT_LEFT_DOWN, self.open_webpage_click )
         self.m_button_check_updates.Bind( wx.EVT_BUTTON, self.check_updates_click )
         
@@ -537,11 +544,11 @@ class formKiCost ( wx.Frame ):
         ''' @brief Open the official software web page in the default browser.'''
         event.Skip()
         webbrowser.open(PAGE_OFFICIAL)
-    def m_staticText_credits_click( self, event ):
+    def open_issuepage_click( self, event ):
         ''' @brief Open the official software web page in the default browser.'''
         event.Skip()
         webbrowser.open(PAGE_DEV)
-    def m_staticText_update_click( self, event ):
+    def open_updatepage_click( self, event ):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
         #TODO create a procedure to update KiCost from here and restart it instead open the page (ask for confirmation for installation).
@@ -877,8 +884,6 @@ class formKiCost ( wx.Frame ):
             credits = r'''=======
             Credits
             =======
-            Report issues at: https://github.com/xesscorp/KiCost/issues
-            ----------------
             Development Lead:
             * XESS Corporation <info@xess.com>
             ------------
@@ -893,6 +898,7 @@ class formKiCost ( wx.Frame ):
             * Giacinto Luigi Cerone https://github.com/glcerone
             * Hildo Guillardi Júnior https://github.com/hildogjr
             * Adam Heinrich https://github.com/adamheinrich
+            * Max Maisel https://github.com/mmmaisel
             ------------
             GUI by Hildo Guillardi Júnior
             '''
