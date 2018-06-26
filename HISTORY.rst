@@ -5,10 +5,11 @@ History
 0.1.46 (2018-07-??)
 ______________________
 
-* More improvements on scrape classes.
-* Now TME ajax post scrape method repect the `fake_browser`.
 * Fixed some Python 2 incompatibility of the GUI and Altium module.
 * Fixed the tqdm print channel. Now the process bar is kept at the end.
+* Fixed GUI problem caused by distributors re-factore and other UI improvements.
+* More improvements on scrape classes.
+* Now TME ajax post scrape method repect the `fake_browser`.
 
 
 0.1.45 (2018-06-12)
