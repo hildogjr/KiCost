@@ -167,7 +167,7 @@ class fake_browser:
             self.logger.log(DEBUG_OBSESSIVE, "Restore cookie: %s", c)
             self.session.cookies.set(c[1], c[2], domain=c[0])
 
-        if scrape_base_url:
+        if scrape_base_url and self.domain:
             self.scrape_URL(self.domain, retry=False)
             self.show_cookies()
 
