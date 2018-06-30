@@ -110,7 +110,7 @@ class menuDistributors( wx.Menu ):
     def __init__( self, parent ):
         ''' @brief Constructor.'''
         super(menuDistributors, self).__init__()
-        self.parent = parent
+        self.list = parent
         
         mmi = wx.MenuItem(self, wx.NewId(), 'Select &all')
         self.Append(mmi)
@@ -127,25 +127,25 @@ class menuDistributors( wx.Menu ):
     def selectAll( self, event ):
         ''' @brief Select all distributor that exist.'''
         event.Skip()
-        for idx in range(self.parent.m_checkList_dist.GetCount()):
-            if not self.parent.m_checkList_dist.IsChecked(idx):
-                self.parent.m_checkList_dist.Check(idx)
+        for idx in range(self.list.GetCount()):
+            if not self.list.IsChecked(idx):
+                self.list.Check(idx)
     
     def unselectAll( self, event ):
         ''' @brief Unselect all distributor that exist.'''
         event.Skip()
-        for idx in range(self.parent.m_checkList_dist.GetCount()):
-            if self.parent.m_checkList_dist.IsChecked(idx):
-                self.parent.m_checkList_dist.Check(idx, False)
+        for idx in range(self.list.GetCount()):
+            if self.list.IsChecked(idx):
+                self.list.Check(idx, False)
     
     def toggleAll( self, event ):
         ''' @brief Toggle all distributor that exist.'''
         event.Skip()
-        for idx in range(self.parent.m_checkList_dist.GetCount()):
-            if self.parent.m_checkList_dist.IsChecked(idx):
-                self.parent.m_checkList_dist.Check(idx, False)
+        for idx in range(self.list.GetCount()):
+            if self.list.IsChecked(idx):
+                self.list.Check(idx, False)
             else:
-                self.parent.m_checkList_dist.Check(idx)
+                self.list.Check(idx)
 
 
 #======================================================================
@@ -587,7 +587,7 @@ class formKiCost ( wx.Frame ):
     def m_textCtrl_distributors_rClick( self, event ):
         ''' @brief Open the context menu with distributors options.'''
         event.Skip()
-        self.PopupMenu(menuDistributors(self), event.GetPosition())
+        self.PopupMenu(menuDistributors(self.m_checkList_dist), event.GetPosition())
 
     #----------------------------------------------------------------------
     def m_comboBox_files_selecthist( self, event):
