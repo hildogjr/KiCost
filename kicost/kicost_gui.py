@@ -527,7 +527,7 @@ class formKiCost ( wx.Frame ):
         self.updateChecked = False 
         self.set_properties()
         self.SetDropTarget( FileDropTarget(self) ) # Start the drop file in all the window.
-        self.m_textCtrl_messages.AppendText( 'Loaded KiCost v.' + __version__ )
+        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__ )
     
     def __del__( self ):
         pass
@@ -988,7 +988,7 @@ class formKiCost ( wx.Frame ):
                 
             del configHandle # Close the file / Windows registry sock.
         except Exception as e:
-            self.m_textCtrl_messages.AppendText('Configurations not recovered: <'+str(e)+'>.')
+            logger.log(DEBUG_OVERVIEW, 'Configurations not recovered: <'+str(e)+'>.')
 
     #----------------------------------------------------------------------
     def save_properties(self):
@@ -1034,7 +1034,7 @@ class formKiCost ( wx.Frame ):
             
             del configHandle # Close the file / Windows registry sock.
         except Exception as e:
-            self.m_textCtrl_messages.AppendText('Configurations not saved: <'+str(e)+'>.')
+            logger.log(DEBUG_OVERVIEW, 'Configurations not saved: <'+str(e)+'>.')
 
 
 
@@ -1042,8 +1042,11 @@ class formKiCost ( wx.Frame ):
 
 #######################################################################
 
-def kicost_gui():
-    ''' @brief Load the graphical interface.'''
+def kicost_gui(files=None):
+    ''' @brief Load the graphical interface.
+        @param String file file names or list.
+        (it will be used for plugin implementation on future KiCad6-Eeschema).
+    '''
     app = wx.App(redirect=False)
     frame = formKiCost(None)
     
@@ -1057,9 +1060,30 @@ def kicost_gui():
             # because of the KiCost threads.
             wx.CallAfter(self.area.AppendText, msg)
     
+    class GUIetaHandler(object):
+        def __init__(self):
+            pass
+        def write(self, msg):
+            try:
+                # Try to read a process bar model, with error, is really a error message.
+                # Model:
+                #Progress: 100%|███████████████████████████████| 24/24 [00:26<00:00,  1.56s/part]
+                # Second https://github.com/tqdm/tqdm/issues/172 is necessary this work around,
+                # until they finish the v5.
+                wx.CallAfter(frame.m_gauge_process.SetValue,
+                    int(re.findall('^.*\s(\d+)\%', msg)[0]) ) # Perceptual.
+                wx.CallAfter(frame.m_staticText_progressInfo.SetLabel,
+                    re.findall('\|+?\s(.*)$', msg)[0] ) # Eta.
+            except:
+                sys.__stderr__.write(msg)
+    
     # Redirect the logger to the GUI area.
     sys.stdout = GUILoggerHandler(frame.m_textCtrl_messages)
-    #sys.stderr = GUILoggerHandler(frame.m_textCtrl_messages)
+    sys.stderr = GUIetaHandler()
+    
+    
+    #if files:
+        #TODO future implementation to use Eeschema plug-in.
     
     frame.Show()
     app.MainLoop()
@@ -1067,7 +1091,7 @@ def kicost_gui():
     # Restore the channel print output to terminal.
     # Necessary if KiCost was called by other software?
     sys.stdout = sys.__stdout__
-    sys.stdout = sys.__stderr__
+    sys.stderr = sys.__stderr__
 
 
 def kicost_gui_run(fileName):
