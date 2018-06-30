@@ -1050,7 +1050,7 @@ def kicost_gui(files=None):
     app = wx.App(redirect=False)
     frame = formKiCost(None)
     
-    class GUILoggerHandler(object):
+    class GUI_LoggerHandler(object):
         def __init__(self, aWxTextCtrl):
             #super(self.__class__, self).__init__()
             self.area = aWxTextCtrl
@@ -1059,8 +1059,10 @@ def kicost_gui(files=None):
             # Necessary the call bellow and not above
             # because of the KiCost threads.
             wx.CallAfter(self.area.AppendText, msg)
+        def flush(self):
+            sys.__stdout__.flush()
     
-    class GUIetaHandler(object):
+    class GUI_ETAHandler(object):
         def __init__(self):
             pass
         def write(self, msg):
@@ -1076,10 +1078,12 @@ def kicost_gui(files=None):
                     re.findall('\|+?\s(.*)$', msg)[0] ) # Eta.
             except:
                 sys.__stderr__.write(msg)
+        def flush(self):
+            sys.__stderr__.flush()
     
     # Redirect the logger to the GUI area.
-    sys.stdout = GUILoggerHandler(frame.m_textCtrl_messages)
-    sys.stderr = GUIetaHandler()
+    sys.stdout = GUI_LoggerHandler(frame.m_textCtrl_messages)
+    sys.stderr = GUI_ETAHandler()
     
     
     #if files:
