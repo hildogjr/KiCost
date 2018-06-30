@@ -103,13 +103,13 @@ class FileDropTarget( wx.FileDropTarget ):
 
 
 #======================================================================
-class menuDistributors( wx.Menu ):
+class menuSelection( wx.Menu ):
     ''' @brief Menu of the distributor checkbox list. Provide select all, unselect and toggle hotkey.
         @param TextBox handle.
     '''
     def __init__( self, parent ):
         ''' @brief Constructor.'''
-        super(menuDistributors, self).__init__()
+        super(menuSelection, self).__init__()
         self.list = parent
         
         mmi = wx.MenuItem(self, wx.NewId(), 'Select &all')
@@ -437,7 +437,6 @@ class formKiCost ( wx.Frame ):
         
         bSizer8.Add( self.m_textCtrlextracmd, 0, wx.ALL|wx.EXPAND, 5 )
         
-        
         self.m_panel2.SetSizer( bSizer8 )
         self.m_panel2.Layout()
         bSizer8.Fit( self.m_panel2 )
@@ -454,12 +453,13 @@ class formKiCost ( wx.Frame ):
         self.m_bitmap_icon = wx.StaticBitmap( self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.DefaultSize, 0 )
         bSizer101.Add( self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5 )
 
-        self.m_button_open_webpage = wx.Button( self.m_panel3, wx.ID_ANY, u"Open online manual", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_button_open_webpage = wx.Button( self.m_panel3, wx.ID_ANY, u"Online manual", wx.DefaultPosition, wx.DefaultSize, 0 )
         self.m_button_open_webpage.SetToolTip( u"Click for official web page user manual." )
         bSizer101.Add( self.m_button_open_webpage, 0, wx.CENTER | wx.ALL, 5 )
 
-        self.m_button_open_issuepage = wx.Button( self.m_panel3, wx.ID_ANY, u"Report issue (opens browser)", \
+        self.m_button_open_issuepage = wx.Button( self.m_panel3, wx.ID_ANY, u"Report issue page", \
             wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_button_open_issuepage.SetToolTip( u"Open KiCost project ISSUE report page on GitHub." )
         bSizer101.Add( self.m_button_open_issuepage, 0, wx.ALL, 5 )
 
         bSizer111 = wx.BoxSizer( wx.VERTICAL )
@@ -470,17 +470,19 @@ class formKiCost ( wx.Frame ):
 
         self.m_staticText_update = wx.StaticText( self.m_panel3, wx.ID_ANY, u"Not checked for updates yet", \
             wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_update.SetToolTip( u"Check with you have the most recent released version." )
         self.m_staticText_update.Wrap( -1 )
 
         bSizer111.Add( self.m_staticText_update, 1, wx.ALL, 5 )
 
         self.m_button_check_updates = wx.Button( self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_staticText_update.SetToolTip( u"Click for compare you version with the most recent released." )
         bSizer111.Add( self.m_button_check_updates, 0, wx.ALL, 5 )
 
-        self.m_button_open_updatepage = wx.Button( self.m_panel3, wx.ID_ANY, u"Open PyPI download page", \
+        self.m_button_open_updatepage = wx.Button( self.m_panel3, wx.ID_ANY, u"Open PyPI page", \
             wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.m_button_open_updatepage.SetToolTip( u"Open PyPI page with the most recent KiCost version." )
         bSizer111.Add( self.m_button_open_updatepage, 0, wx.ALL, 5 )
-
 
         bSizer10.Add( bSizer101, 1, wx.EXPAND, 5 )
         bSizer10.Add( bSizer111, 1, wx.EXPAND, 5 )
@@ -587,7 +589,7 @@ class formKiCost ( wx.Frame ):
     def m_textCtrl_distributors_rClick( self, event ):
         ''' @brief Open the context menu with distributors options.'''
         event.Skip()
-        self.PopupMenu(menuDistributors(self.m_checkList_dist), event.GetPosition())
+        self.PopupMenu(menuSelection(self.m_checkList_dist), event.GetPosition())
 
     #----------------------------------------------------------------------
     def m_comboBox_files_selecthist( self, event):
