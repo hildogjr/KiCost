@@ -1052,27 +1052,20 @@ def kicost_gui():
             #super(self.__class__, self).__init__()
             self.area = aWxTextCtrl
         def write(self, msg):
-            try:
-                self.area.AppendText(msg)
-                sys.__stdout__.flush()
-            except:
-                # In case of freeze GUI, print on terminal to allow debug.
-                sys.__stdout__.write(msg)
-            #finally:
-            #    self.flush()
-        #def flush(self):
-        #    sys.__stdout__.flush
+            #self.area.AppendText(msg)
+            # Necessary the call bellow and not above
+            # because of the KiCost threads.
+            wx.CallAfter(self.area.AppendText, msg)
     
     # Redirect the logger to the GUI area.
-    #sys.stdout = GUILoggerHandler(frame.m_textCtrl_messages)
+    sys.stdout = GUILoggerHandler(frame.m_textCtrl_messages)
     #sys.stderr = GUILoggerHandler(frame.m_textCtrl_messages)
-    #TODO when the above works, change all print and `m_textCtrl_messages.Append` on GUI to logging.
     
     frame.Show()
     app.MainLoop()
     
     # Restore the channel print output to terminal.
-    # Necessary if KiCost was called by other software? Normal execution ends here.
+    # Necessary if KiCost was called by other software?
     sys.stdout = sys.__stdout__
     sys.stdout = sys.__stderr__
 

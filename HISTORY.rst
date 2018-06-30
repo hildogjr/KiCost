@@ -7,6 +7,7 @@ ______________________
 
 * Fixed some Python 2 incompatibility of the GUI and Altium module.
 * Fixed the tqdm print channel. Now the process bar is kept at the end.
+* Fixed the output messages when used the GUI.
 * Fixed GUI problem caused by distributors re-factore and other UI improvements.
 * More improvements on scrape classes.
 * Now TME ajax post scrape method repect the `fake_browser`.
