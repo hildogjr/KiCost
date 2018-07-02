@@ -26,7 +26,7 @@ ______________________
 0.1.44 (2018-05-28)
 ______________________
 
-* Fixed ``logging`` messages when using ``tqdm``(process bar) for sequential scrape, missing fix for multithreads scrape.
+* Fixed ``logging`` messages when using ``tqdm`` (process bar) for sequential scrape, missing fix for multithreads scrape.
 * Improve the ``spreadsheet.py`` to a lighter file when use just one distributor.
 * Improved log messages to better community debug.
 * Add Upverter CSV compatibility.
