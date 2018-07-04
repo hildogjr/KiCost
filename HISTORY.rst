@@ -2,7 +2,7 @@
 
 History
 -------
-0.1.46 (2018-07-??)
+0.1.46 (2018-07-04)
 ______________________
 
 * Fixed some Python 2 incompatibility of the GUI and Altium module.
@@ -10,14 +10,14 @@ ______________________
 * Fixed the output messages when used the GUI.
 * Fixed GUI problem caused by distributors re-factore and other UI improvements.
 * More improvements on scrape classes.
-* Now TME ajax post scrape method repect the `fake_browser`.
+* Now TME ajax post scrape method repect the ``fake_browser``.
 
 
 0.1.45 (2018-06-12)
 ______________________
 
 * Changed Farnell link and table result format.
-* Fixed TME `fake_browser` migration.
+* Fixed TME ``fake_browser`` migration.
 * Re-factored the distributors modules to class kind and improved the scrape sequence to decrease probability of ban.
 * Fixed the multi-threading configuration.
 * Fixed Mac-OS hang when parallel scraping.
