@@ -3,7 +3,7 @@
 History
 -------
 
-0.1.46 (2018-07-04)
+0.1.47 (2018-07-??)
 ______________________
 
 * Fixed Digikey distributor module logger problem raise on refacture.
