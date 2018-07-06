@@ -2,7 +2,15 @@
 
 History
 -------
-0.1.46 (2018-07-??)
+
+0.1.47 (2018-07-??)
+______________________
+
+* Fixed Digikey distributor module logger problem raise on refacture.
+* Added GUI compatibility with wxPython 3.x.x.
+
+
+0.1.46 (2018-07-04)
 ______________________
 
 * Fixed some Python 2 incompatibility of the GUI and Altium module.
@@ -10,14 +18,14 @@ ______________________
 * Fixed the output messages when used the GUI.
 * Fixed GUI problem caused by distributors re-factore and other UI improvements.
 * More improvements on scrape classes.
-* Now TME ajax post scrape method repect the `fake_browser`.
+* Now TME ajax post scrape method repect the ``fake_browser``.
 
 
 0.1.45 (2018-06-12)
 ______________________
 
 * Changed Farnell link and table result format.
-* Fixed TME `fake_browser` migration.
+* Fixed TME ``fake_browser`` migration.
 * Re-factored the distributors modules to class kind and improved the scrape sequence to decrease probability of ban.
 * Fixed the multi-threading configuration.
 * Fixed Mac-OS hang when parallel scraping.
@@ -26,7 +34,7 @@ ______________________
 0.1.44 (2018-05-28)
 ______________________
 
-* Fixed ``logging`` messages when using ``tqdm``(process bar) for sequential scrape, missing fix for multithreads scrape.
+* Fixed ``logging`` messages when using ``tqdm`` (process bar) for sequential scrape, missing fix for multithreads scrape.
 * Improve the ``spreadsheet.py`` to a lighter file when use just one distributor.
 * Improved log messages to better community debug.
 * Add Upverter CSV compatibility.
@@ -331,7 +339,7 @@ ______________________
 0.1.5 (2015-07-25)
 ______________________
 
-* Corrected entrypoint in __main__.py.
+* Corrected entrypoint in ``__main__.py``.
 
 0.1.4 (2015-07-09)
 ______________________
