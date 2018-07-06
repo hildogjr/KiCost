@@ -305,14 +305,14 @@ class dist_digikey(distributor.distributor):
                         try:
                             # Merge the pricing info from that into the main parse tree to make
                             # a single, unified set of price tiers...
-                            self.merge_price_tiers(tree, ap_tree)
+                            self.merge_price_tiers(tree, ap_tree, pn)
                             # and merge available quantity, using the maximum found.
-                            self.merge_qty_avail(tree, ap_tree)
+                            self.merge_qty_avail(tree, ap_tree, pn)
                         except AttributeError:
-                            self.logger.log(DEBUG_OBSESSIVE,'Problem merging price/qty for {} from {}'.format(pn, self.name))
+                            self.logger.log(DEBUG_OVERVIEW,'Problem merging price/qty for {} from {}'.format(pn, self.name))
                             continue
                 except AttributeError as e:
-                    self.logger.log(DEBUG_OBSESSIVE,'Problem parsing URLs from product page for {} from {}'.format(pn, self.name))
+                    self.logger.log(DEBUG_OVERVIEW,'Problem parsing URLs from product page for {} from {}'.format(pn, self.name))
 
             return tree, url  # Return the parse tree and the URL where it came from.
 
@@ -375,16 +375,16 @@ class dist_digikey(distributor.distributor):
             return True
         return False
 
-    def merge_price_tiers(self, main_tree, alt_tree):
+    def merge_price_tiers(self, main_tree, alt_tree, pn):
         '''Merge the price tiers from the alternate-packaging tree into the main tree.'''
         try:
             insertion_point = main_tree.find('table', id='product-dollars').find('tr')
             for tr in alt_tree.find('table', id='product-dollars').find_all('tr'):
                 insertion_point.insert_after(tr)
         except AttributeError:
-            self.logger.log(DEBUG_OBSESSIVE, 'Problem merging price tiers for Digikey part {} with alternate packaging!'.format(pn))
+            self.logger.log(DEBUG_OVERVIEW, 'Problem merging price tiers for Digikey part {} with alternate packaging!'.format(pn))
 
-    def merge_qty_avail(self, main_tree, alt_tree):
+    def merge_qty_avail(self, main_tree, alt_tree, pn):
         '''Merge the quantities from the alternate-packaging tree into the main tree.'''
         try:
             main_qty = self.dist_get_qty_avail(main_tree)
@@ -399,6 +399,4 @@ class dist_digikey(distributor.distributor):
                 insertion_point = main_tree.find('td', id='quantityAvailable').find('span', id='dkQty')
                 insertion_point.string = '{}'.format(merged_qty)
         except AttributeError:
-            self.logger.log(DEBUG_OBSESSIVE, 'Problem merging available quantities for Digikey part {} with alternate packaging!'.format(pn))
-
-
+            self.logger.log(DEBUG_OVERVIEW, 'Problem merging available quantities for Digikey part {} with alternate packaging!'.format(pn))
