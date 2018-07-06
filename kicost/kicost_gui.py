@@ -30,7 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 try:
     import wx # wxWidgets for Python.
 except ImportError:
-    raise ImportError('wxPython package not recognised.')
+    raise ImportError('wxPython package not recognized.')
 import webbrowser # To update informations.
 import sys, os, subprocess # To access OS commands and run in the shell.
 import threading
@@ -38,20 +38,18 @@ import time # To elapse time.
 import platform # To check the system platform when open the XLS file.
 import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
-from distutils.version import StrictVersion # To comparasion of versions.
+from distutils.version import StrictVersion # To comparative of versions.
 import re # Regular expression parser.
 
 from . import __version__ # Version control by @xesscorp and collaborator.
 import logging
 from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from .kicost import *  # kicost core functions.
-from .distributors import fake_browser # Use the configurations alredy made to get KiCost last version.
+from .distributors import fake_browser # Use the configurations already made to get KiCost last version.
 from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from .eda_tools.eda_tools import file_eda_match
-
-from .global_vars import *
 
 __all__ = ['kicost_gui', 'kicost_gui_run']
 
@@ -732,7 +730,8 @@ class formKiCost( wx.Frame ):
         args.eda_tool = eda_module
 
         # Get the current distributors to scrape.
-        choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
+        #choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
+        choisen_dist = [i for i in range(self.m_checkList_dist.GetCount()) if self.m_checkList_dist.IsChecked(i)]
         if choisen_dist:
             dist_list = []
             #choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
@@ -775,7 +774,8 @@ class formKiCost( wx.Frame ):
         ''' @brief Run KiCost in CLI interface using the GUI settings.'''
 
         # Get the current distributors to scrape.
-        choisen_dist = list(self.m_checkList_dist.GetCheckedItems())
+        #choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
+        choisen_dist = [i for i in range(self.m_checkList_dist.GetCount()) if self.m_checkList_dist.IsChecked(i)]
         if choisen_dist:
             dist_list = ' --include'
             #choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
