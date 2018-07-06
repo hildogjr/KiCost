@@ -112,16 +112,13 @@ class menuSelection( wx.Menu ):
         super(menuSelection, self).__init__()
         self.list = parent
 
-        mmi = wx.MenuItem(self, wx.NewId(), 'Select &all')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), 'Select &all')
         self.Bind(wx.EVT_MENU, self.selectAll, mmi)
 
-        mmi = wx.MenuItem(self, wx.NewId(), '&Unselect all')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), '&Unselect all')
         self.Bind(wx.EVT_MENU, self.unselectAll, mmi)
 
-        mmi = wx.MenuItem(self, wx.NewId(), '&Toggle')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), '&Toggle')
         self.Bind(wx.EVT_MENU, self.toggleAll, mmi)
 
     def selectAll( self, event ):
@@ -158,30 +155,24 @@ class menuMessages( wx.Menu ):
         super(menuMessages, self).__init__()
         self.parent = parent
 
-        mmi = wx.MenuItem(self, wx.NewId(), '&Purge')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), '&Purge')
         self.Bind(wx.EVT_MENU, self.purgeMessages, mmi)
 
         self.AppendSeparator()
 
-        mmi = wx.MenuItem(self, wx.NewId(), '&Copy to clipboard')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), '&Copy to clipboard')
         self.Bind(wx.EVT_MENU, self.copyMessages, mmi)
 
-        mmi = wx.MenuItem(self, wx.NewId(), 'Cut to clipboard')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), 'Cut to clip&board')
         self.Bind(wx.EVT_MENU, self.cutMessages, mmi)
 
-        mmi = wx.MenuItem(self, wx.NewId(), '&Save')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), '&Save')
         self.Bind(wx.EVT_MENU, self.saveMessages, mmi)
 
-        mmi = wx.MenuItem(self, wx.NewId(), 'S&ave and clear')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), 'S&ave and clear')
         self.Bind(wx.EVT_MENU, self.saveClearMessages, mmi)
 
-        mmi = wx.MenuItem(self, wx.NewId(), '&Open externally')
-        self.Append(mmi)
+        mmi = self.Append(wx.NewId(), '&Open externally')
         self.Bind(wx.EVT_MENU, self.openMessages, mmi)
 
     def copyMessages( self, event ):
