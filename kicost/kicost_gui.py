@@ -796,7 +796,7 @@ class formKiCost( wx.Frame ):
             + " --throttling " + str(self.m_spinCtrlDouble_throttling.GetValue()) # Delay between consecutive scrapes.
             + " --overwrite" * self.m_checkBox_overwrite.GetValue()
             + " --no_collpase" * ( not self.m_checkBox_collapseRefs.GetValue() )
-            + (" --debug " + str(self.m_spinCtrl_debugLvl.GetValue()) if self.m_spinCtrl_debugLvl.GetValue() > 0 else "") # Degub level opiton.
+            + (" --debug " + str(self.m_spinCtrl_debugLvl.GetValue()) if self.m_spinCtrl_debugLvl.GetValue() > 0 else "") # Debug level option.
             + " --quiet" * self.m_checkBox_quite.GetValue()
             + dist_list
             )
