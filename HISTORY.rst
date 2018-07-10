@@ -7,6 +7,7 @@ History
 ______________________
 
 * Fixed Digikey distributor module logger problem raise on refacture.
+* Added GUI compatibility with wxPython 3.x.x.
 
 
 0.1.46 (2018-07-04)
@@ -338,7 +339,7 @@ ______________________
 0.1.5 (2015-07-25)
 ______________________
 
-* Corrected entrypoint in __main__.py.
+* Corrected entrypoint in ``__main__.py``.
 
 0.1.4 (2015-07-09)
 ______________________
