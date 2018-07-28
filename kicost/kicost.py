@@ -402,8 +402,7 @@ def output_filename(files_input):
         dir_output = os.path.dirname(files_input[0]) + os.path.sep
         for dir_idx in range(len(files_input)):
             if os.path.dirname(files_input[dir_idx])!=dir_output:
-                dir_output = os.path.splitext(sys.argv[0])[0]
-                dir_output = os.path.dirname(os.path.realpath(__file__))
+                dir_output = os.getcwd()
 
     file_output = dir_output + FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] ) + '.xlsx'
     return file_output
