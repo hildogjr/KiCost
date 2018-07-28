@@ -195,9 +195,7 @@ class dist_mouser(distributor.distributor):
 
                 # TODO: Mouser uses either "USDe" or "USDu" to select USD as
                 #   currency, depending on your location.
-                if currency_iso == "USD" and locale_iso == "US":
-                    currency_iso = "USDu"
-                else:
+                if currency_iso == "USD":
                     currency_iso = "USDe"
 
                 # Some mouser regions are subdomains from mouser.com, other

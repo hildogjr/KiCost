@@ -168,10 +168,12 @@ def main():
                         type=str,
                         default='USD',
                         help='Define the priority locale/country and currency on the scrape. Use the ISO4217 for currency and ISO3166:2 for country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`. Currency is priritized over the locale/country. If give country with more than one currency, it will be chosen, in the sequence, `USD`, `EUR` or alphabetical order. Default: `USD`.')
-    parser.add_argument('--user',
+    parser.add_argument('--guide', '-gui',
                         action='store_true',
                         help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
-
+    parser.add_argument('--user', '-u',
+                        action='store_true',
+                        help='Run KiCost using the parameters in the guide memory, all passed parameters from terminal take priority.')
 
     args = parser.parse_args()
 
@@ -211,10 +213,9 @@ def main():
     # saved user configurations of the graphical interface.
     if args.user:
         try:
-            kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
+            kicost_gui_runterminal(args)
         except (ImportError,NameError):
             kicost_gui_notdependences()
-            #kicost_gui_run([os.path.abspath(fileName) for fileName in args.input])
         return
 
     # Handle case where output is going into an existing spreadsheet file.
@@ -228,7 +229,7 @@ def main():
     if args.input == None:
         try:
             kicost_gui() # Use the user guide.
-        except (ImportError,NameError):
+        except (ImportError, NameError):
             kicost_gui_notdependences()
         return
     else:
@@ -269,15 +270,21 @@ def main():
                                               sys.version_info.minor,
                                               sys.version_info.micro)
                                           )
-    #try:
-    kicost(in_file=args.input, eda_tool_name=args.eda_tool,
-        out_filename=args.output, collapse_refs=not args.no_collapse,
-        user_fields=args.fields, ignore_fields=args.ignore_fields,
-        group_fields=args.group_fields, variant=args.variant,
-        dist_list=dist_list, num_processes=num_processes,
-        scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-        local_currency=args.currency)
-    #except Exception as e:
+    if args.guide:
+        try:
+            kicost_gui([os.path.abspath(fileName) for fileName in args.input])
+        except (ImportError, NameError):
+            kicost_gui_notdependences()
+    else:
+        #try:
+        kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+            out_filename=args.output, collapse_refs=not args.no_collapse,
+            user_fields=args.fields, ignore_fields=args.ignore_fields,
+            group_fields=args.group_fields, variant=args.variant,
+            dist_list=dist_list, num_processes=num_processes,
+            scrape_retries=args.retries, throttling_delay=args.throttling_delay,
+            local_currency=args.currency)
+        #except Exception as e:
     #    sys.exit(e)
 
 ###############################################################################
@@ -287,3 +294,4 @@ if __name__ == '__main__':
     start_time = time.time()
     main()
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
+
