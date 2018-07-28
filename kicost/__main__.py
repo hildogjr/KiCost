@@ -198,11 +198,8 @@ def main():
         # If no output file is given...
         if args.input != None:
             # Send output to spreadsheet with name of input file.
-            if len(args.input)>1:
-                # Compose a name with the multiple BOM input file names.
-                args.output = output_filename_multipleinputs(args.input)
-            else:
-                args.output = os.path.splitext(args.input[0])[0] + '.xlsx'
+            # Compose a name with the multiple BOM input file names.
+            args.output = output_filename(args.input)
         else:
             # Send output to spreadsheet with name of this application.
             args.output = os.path.splitext(sys.argv[0])[0] + '.xlsx'
@@ -290,4 +287,3 @@ if __name__ == '__main__':
     start_time = time.time()
     main()
     logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
-

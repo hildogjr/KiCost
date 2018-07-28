@@ -45,7 +45,7 @@ except NameError:
 # Also requires installation of Qt4.8 (not 5!) and pyside.
 #from ghost import Ghost
 
-__all__ = ['kicost','output_filename_multipleinputs']  # Only export this routine for use by the outside world.
+__all__ = ['kicost','output_filename']  # Only export this routine for use by the outside world.
 
 from .global_vars import *
 
@@ -374,23 +374,35 @@ FILE_OUTPUT_MAX_NAME = 10 # Maximum length of the name of the spreadsheet output
                           # automatic name generation.
 FILE_OUTPUT_MIN_INPUT = 5 # Minimum length of characters to use of the input files
                           # to create the name of the spreadsheet output file. This
-                          # is used in the multifile BoM and have priorite in the
+                          # is used in the multifile BoM and have prioritize in the
                           # `FILE_OUTPUT_MAX_NAME` definition.
 FILE_OUTPUT_INPUT_SEP = '-' # Separator in the name of the output spreadsheet file
                             # when used multiple input file to generate automatically
                             # the name.
 # Here because is used at `__main__.py` and `kicost_gui.py`.
-def output_filename_multipleinputs(files_input):
+def output_filename(files_input):
     ''' @brief Compose a name with the multiple BOM input file names.
-    
+
     Compose a name with the multiple BOM input file names, limiting to,
     at least, the first `FILE_OUTPUT_MIN_INPUT` characters of each name
     (avoid huge names by `FILE_OUTPUT_MAX_NAME`definition). Join the names
     of the input files by `FILE_OUTPUT_INPUT_SEP` definition.
-    The output folder is the folder of the firt file.
+    The output folder is the folder of the first file.
     @param files_input `list()`of the input file names.
     @return `str()` file name for the spreadsheet.
     '''
-    file_output = os.path.dirname(files_input[0]) + os.path.sep
-    file_output += FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] ) + '.xlsx'
+
+    if len(files_input)==1:
+        # Use the folder of the project.
+        return os.path.splitext(files_input[0])[0] + '.xlsx'
+    else:
+        # If more the one file selected, check if they are in
+        # the same folder, if don't, output in the folder where
+        # `kicost` was called.
+        dir_output = os.path.dirname(files_input[0]) + os.path.sep
+        for dir_idx in range(len(files_input)):
+            if os.path.dirname(files_input[dir_idx])!=dir_output:
+                dir_output = os.getcwd()
+
+    file_output = dir_output + FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] ) + '.xlsx'
     return file_output

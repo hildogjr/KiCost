@@ -8,6 +8,8 @@ ______________________
 
 * Fixed Digikey distributor module logger problem raise on refacture.
 * Added GUI compatibility with wxPython 3.x.x.
+* Added convert to ODS option if recognized LibreOffice in the system.
+* Others GUI controls improvements.
 
 
 0.1.46 (2018-07-04)
