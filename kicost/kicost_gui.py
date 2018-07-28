@@ -282,8 +282,18 @@ class formKiCost(wx.Frame):
         sbSizer31.Add(self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5)
         bSizer6.Add(sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5)
 
+        try:
+            # Create a control to convert the XLSX to ODS quietly.
+            subprocess.check_output(['libreoffice', '--version'])
+            self._m_checkBox_XLSXtoODT = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Convert to ODT", wx.DefaultPosition, wx.DefaultSize, 0)
+            self._m_checkBox_XLSXtoODT.SetValue(True)
+            self._m_checkBox_XLSXtoODT.SetToolTip(wx.ToolTip(u"Convert the file output to ODT format quietly."))
+            bSizer6.Add(self._m_checkBox_XLSXtoODT, 0, wx.ALL, 5)
+        except OSError:
+            logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
+
         self.m_checkBox_openXLS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_checkBox_openXLS.SetValue(True) 
+        self.m_checkBox_openXLS.SetValue(True)
         self.m_checkBox_openXLS.SetToolTip(wx.ToolTip(u"Open the spreadsheet after finish the KiCost scrape."))
         bSizer6.Add(self.m_checkBox_openXLS, 0, wx.ALL, 5)
 
@@ -739,11 +749,15 @@ class formKiCost(wx.Frame):
                 dist_list=args.include, num_processes=num_processes,
                 scrape_retries=args.retries, throttling_delay=args.throttling_delay,
                 local_currency=args.locale)
+            if self._m_checkBox_XLSXtoODT.GetValue():
+                logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODT file...'.format(
+                                    os.path.basename(spreadsheet_file) ) )
+                subprocess.call(['libreoffice', '--headless', '--convert-to', 'ods', spreadsheet_file])
+                os.remove(spreadsheet_file) # Delete the older file.
+                spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
             if self.m_checkBox_openXLS.GetValue():
-                print('Opening the output file \'{}\'...'.format(
-                                    os.path.basename(spreadsheet_file)
-                               )
-                           )
+                logger.log(DEBUG_OVERVIEW, 'Opening the output file \'{}\'...'.format(
+                                    os.path.basename(spreadsheet_file) ) )
                 open_file(spreadsheet_file)
         except Exception as e:
             print(e)
