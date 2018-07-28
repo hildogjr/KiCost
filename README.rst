@@ -9,7 +9,8 @@ KiCost
         :target: https://pypi.python.org/pypi/kicost
 
 KiCost is intended to be run as a script for generating part-cost spreadsheets for
-circuit boards developed with KiCad.
+circuit boards developed with KiCad. KiCost also comes with a graphical user interface
+in addition to command line.
 
 * Free software: MIT license
 * Documentation: https://xesscorp.github.io/KiCost.
@@ -18,6 +19,7 @@ circuit boards developed with KiCad.
 Features
 --------
 
+* Easy installation via `pip` (see on documentation folder).
 * Processes the BOM XML file from your KiCad schematic to create a part-cost spreadsheet by
   scraping the web sites of several popular distributors for price and inventory data.
   (You can also enter your own quantity-adjusted pricing data for specialized parts or those
