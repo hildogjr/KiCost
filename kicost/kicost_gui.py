@@ -666,11 +666,7 @@ class formKiCost(wx.Frame):
                 print('No valid file(s) selected.')
                 return # Not a valid file(s).
 
-        spreadsheet_file = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
-        if len(spreadsheet_file)==1:
-            spreadsheet_file = os.path.splitext(spreadsheet_file[0])[0] + '.xlsx'
-        else:
-            spreadsheet_file = output_filename_multipleinputs(spreadsheet_file)
+        spreadsheet_file = output_filename(re.split(SEP_FILES, self.m_comboBox_files.GetValue()))
         # Handle case where output is going into an existing spreadsheet file.
         if os.path.isfile(spreadsheet_file):
             if not self.m_checkBox_overwrite.GetValue():
@@ -810,11 +806,7 @@ class formKiCost(wx.Frame):
             command += ' ' + self.m_textCtrlextracmd.GetValue()
 
         if self.m_checkBox_openXLS.GetValue():
-            spreadsheet_file = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
-            if len(spreadsheet_file)==1:
-                spreadsheet_file = os.path.splitext(spreadsheet_file[0])[0] + '.xlsx'
-            else:
-                spreadsheet_file = output_filename_multipleinputs(spreadsheet_file)
+            spreadsheet_file = output_filename(re.split(SEP_FILES, self.m_comboBox_files.GetValue()))
 
             if platform.system()=='Linux':
                 command += ' && xdg-open ' + '"' + spreadsheet_file + '"'
