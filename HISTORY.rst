@@ -7,6 +7,7 @@ History
 ______________________
 
 * Fixed Digikey distributor module logger problem raise on refacture.
+* Improved some GUI controls.
 
 
 0.1.46 (2018-07-04)
