@@ -86,9 +86,7 @@ field_name_translations = {
     'part_num': 'manf#',
     'p#': 'manf#',
     'part#': 'manf#',
-    'mfp': 'manf#',
     'manf': 'manf',
-    'mfn': 'manf',
     'manufacturer': 'manf',
     'mnf': 'manf',
     'man': 'manf',
@@ -695,13 +693,13 @@ def order_refs(refs, collapse=True):
        @param refs Designator/references `list()`.
        @return References in a organized view way.
     '''
-    
-    def get_refnum(refnum):
-        return int(re.match('\d+', refnum).group(0))
 
     def convert_to_ranges(nums):
         # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
         # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
+
+        def get_refnum(refnum):
+            return int(re.match('\d+', refnum).group(0))
 
         def to_int(n):
             try:
@@ -763,6 +761,8 @@ def order_refs(refs, collapse=True):
             prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
     else:
         for prefix in list(prefix_nums.keys()):
+            def get_refnum(refnum):
+                return int(re.match('\d+', refnum).group(0))
             prefix_nums[prefix].sort(key=get_refnum)
 
     # Combine the prefixes and number ranges back into part references.
