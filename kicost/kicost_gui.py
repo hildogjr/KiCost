@@ -283,10 +283,10 @@ class formKiCost(wx.Frame):
         try:
             # Create a control to convert the XLSX to ODS quietly.
             subprocess.check_output(['libreoffice', '--version'])
-            self._m_checkBox_XLSXtoODT = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Convert to ODT", wx.DefaultPosition, wx.DefaultSize, 0)
-            self._m_checkBox_XLSXtoODT.SetValue(True)
-            self._m_checkBox_XLSXtoODT.SetToolTip(wx.ToolTip(u"Convert the file output to ODT format quietly."))
-            bSizer6.Add(self._m_checkBox_XLSXtoODT, 0, wx.ALL, 5)
+            self._m_checkBox_XLSXtoODS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Convert to ODS", wx.DefaultPosition, wx.DefaultSize, 0)
+            self._m_checkBox_XLSXtoODS.SetValue(True)
+            self._m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
+            bSizer6.Add(self._m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
         except OSError:
             logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
 
@@ -760,12 +760,15 @@ class formKiCost(wx.Frame):
                 dist_list=args.include, num_processes=num_processes,
                 scrape_retries=args.retries, throttling_delay=args.throttling_delay,
                 local_currency=args.locale)
-            if self._m_checkBox_XLSXtoODT.GetValue():
-                logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODT file...'.format(
-                                    os.path.basename(spreadsheet_file) ) )
-                subprocess.call(['libreoffice', '--headless', '--convert-to', 'ods', spreadsheet_file])
-                os.remove(spreadsheet_file) # Delete the older file.
-                spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
+            try:
+                if self._m_checkBox_XLSXtoODS.GetValue():
+                    logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
+                                        os.path.basename(spreadsheet_file) ) )
+                    subprocess.call(['libreoffice', '--headless', '--convert-to', 'ods', spreadsheet_file])
+                    os.remove(spreadsheet_file) # Delete the older file.
+                    spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
+            except:
+                pass
             if self.m_checkBox_openXLS.GetValue():
                 logger.log(DEBUG_OVERVIEW, 'Opening the output file \'{}\'...'.format(
                                     os.path.basename(spreadsheet_file) ) )
@@ -1062,4 +1065,3 @@ def kicost_gui_runterminal(args):
 
     frame.updateEDAselection()
     frame.run()
-
