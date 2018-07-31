@@ -280,14 +280,16 @@ class formKiCost(wx.Frame):
         sbSizer31.Add(self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5)
         bSizer6.Add(sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5)
 
+        # Allow convert to XLSX to ODS quietly because this load more smoothly on LibreOffice.
+        self._m_checkBox_XLSXtoODS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Convert to ODS", wx.DefaultPosition, wx.DefaultSize, 0)
+        self._m_checkBox_XLSXtoODS.SetValue(False)
+        self._m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
+        bSizer6.Add(self._m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
         try:
             # Create a control to convert the XLSX to ODS quietly.
             subprocess.check_output(['libreoffice', '--version'])
-            self._m_checkBox_XLSXtoODS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Convert to ODS", wx.DefaultPosition, wx.DefaultSize, 0)
-            self._m_checkBox_XLSXtoODS.SetValue(True)
-            self._m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
-            bSizer6.Add(self._m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
         except OSError:
+            self._m_checkBox_XLSXtoODS.Enable(False) # Not recognized LibreOffice
             logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
 
         self.m_checkBox_openXLS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -760,24 +762,30 @@ class formKiCost(wx.Frame):
                 dist_list=args.include, num_processes=num_processes,
                 scrape_retries=args.retries, throttling_delay=args.throttling_delay,
                 local_currency=args.locale)
-            try:
-                if self._m_checkBox_XLSXtoODS.GetValue():
-                    logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
-                                        os.path.basename(spreadsheet_file) ) )
-                    subprocess.call(['libreoffice', '--headless', '--convert-to', 'ods', spreadsheet_file])
-                    os.remove(spreadsheet_file) # Delete the older file.
-                    spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
-            except:
-                pass
+        except Exception as e:
+            print(e)
+            return
+        finally:
+            init_distributor_dict()
+        print('Elapsed time: {} seconds'.format(time.time() - start_time))
+        #self.m_gauge_process.SetValue(100)
+        try:
+            if self._m_checkBox_XLSXtoODSe.GetValue():
+                logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
+                                    os.path.basename(spreadsheet_file) ) )
+                subprocess.call(['libreoffice', '--headless', '--convert-to', 'ods', spreadsheet_file])
+                os.remove(spreadsheet_file) # Delete the older file.
+                spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
+        except Exception as e:
+            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not converted to ODS: {}'.format(os.path.basename(spreadsheet_file), e) )
+            pass
+        try:
             if self.m_checkBox_openXLS.GetValue():
                 logger.log(DEBUG_OVERVIEW, 'Opening the output file \'{}\'...'.format(
                                     os.path.basename(spreadsheet_file) ) )
                 open_file(spreadsheet_file)
         except Exception as e:
-            print(e)
-        print('Elapsed time: {} seconds'.format(time.time() - start_time))
-        init_distributor_dict()
-        #self.m_gauge_process.SetValue(100)
+            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not opened: {}'.format(os.path.basename(spreadsheet_file), e) )
 
         return
 
@@ -878,8 +886,10 @@ class formKiCost(wx.Frame):
                     continue
 
                 try:
-                    # Find the wxPython element handle to access the methods.
                     wxElement_handle = self.__dict__[entry]
+                    if not wxElement_handle.IsEnabled():
+                        continue # Not enabled controls have not to have the values restored.
+                    # Find the wxPython element handle to access the methods.
                     # Each wxPython object have a specific parameter value
                     # to be saved and restored in the software initialization.
                     if isinstance(wxElement_handle, wx._core.TextCtrl):
