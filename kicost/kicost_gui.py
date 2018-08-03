@@ -56,9 +56,9 @@ __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 # Guide definitions.
 FILE_HIST_QTY_DEFAULT = 10
 SEP_FILES = '\n' # File separator in the comboBox.
-WILDCARD = "BoM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
-            "KiCad/Altium BoM file (*.xml)|*.xml|" \
-            "Proteus/Generic BoM file (*.csv)|*.csv"
+WILDCARD = "BOM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
+            "KiCad/Altium BOM file (*.xml)|*.xml|" \
+            "Proteus/Generic BOM file (*.csv)|*.csv"
 CONFIG_FILE = 'KiCost' # Config file for Linux and Windows registry key for KiCost configurations.
 GUI_SIZE_ENTRY = 'GUI_size'
 GUI_POSITION_ENTRY = 'GUI_position'
@@ -242,17 +242,19 @@ class formKiCost(wx.Frame):
 
         self.m_notebook1 = wx.Notebook(self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_panel1 = wx.Panel(self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
-        self.m_panel1.SetToolTip(wx.ToolTip(u"Basic controls, BoM selection and supported distributors."))
+        self.m_panel1.SetToolTip(wx.ToolTip(u"Basic controls, BOM selection and supported distributors."))
 
         bSizer3 = wx.BoxSizer(wx.VERTICAL)
 
         sbSizer = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"BOM input files"), wx.HORIZONTAL)
         m_comboBox_filesChoices = []
         self.m_comboBox_files = wx.ComboBox(sbSizer.GetStaticBox(), wx.ID_ANY, u"Not selected files", wx.DefaultPosition, wx.DefaultSize, m_comboBox_filesChoices, 0)
-        self.m_comboBox_files.SetToolTip(wx.ToolTip(u"BoM(s) file(s) to scrape.\nClick on the arrow to see/select one of the history files."))
+        self.m_comboBox_files.SetToolTip(wx.ToolTip(u"BOM(s) file(s) to scrape.\nClick on the arrow to see/select one of the history files."))
         sbSizer.Add(self.m_comboBox_files, 1, wx.ALL, 5)
-        self.m_button_openfile = wx.Button(sbSizer.GetStaticBox(), wx.ID_ANY, u"Choose BoM", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_button_openfile.SetToolTip(wx.ToolTip(u"Click to choose the BoM(s) file(s)."))
+        self.m_comboBox_files.Bind(wx.EVT_COMBOBOX, self.m_comboBox_files_selecthist)
+        self.m_button_openfile = wx.Button(sbSizer.GetStaticBox(), wx.ID_ANY, u"Choose BOM", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_button_openfile.SetToolTip(wx.ToolTip(u"Click to choose the BOM(s) file(s)."))
+        self.m_button_openfile.Bind(wx.EVT_BUTTON, self.button_openfile)
         sbSizer.Add(self.m_button_openfile, 0, wx.ALL, 5)
         bSizer3.Add(sbSizer, 0, wx.EXPAND|wx.TOP, 5)
 
@@ -267,6 +269,7 @@ class formKiCost(wx.Frame):
         self.m_checkList_dist = wx.CheckListBox(sbSizer3.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_checkList_distChoices, 0)
         self.m_checkList_dist.SetToolTip(wx.ToolTip(u"Select the web distributor (or local) that will be used to scrape the prices.\nClick right to hot option."))
         sbSizer3.Add(self.m_checkList_dist, 1, wx.ALL|wx.EXPAND, 5)
+        self.m_checkList_dist.Bind(wx.EVT_RIGHT_DOWN, self.m_textCtrl_distributors_rClick)
         bSizer4.Add(sbSizer3, 1, wx.EXPAND|wx.TOP|wx.LEFT, 5)
 
         wSizer1 = wx.WrapSizer(wx.VERTICAL)
@@ -276,7 +279,7 @@ class formKiCost(wx.Frame):
         sbSizer31 = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"EDAs"), wx.VERTICAL)
         m_listBox_edatoolChoices = []
         self.m_listBox_edatool = wx.ListBox(sbSizer31.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_listBox_edatoolChoices, 0)
-        self.m_listBox_edatool.SetToolTip(wx.ToolTip(u"Choose the correct EDA software corresponding to the BoM file."))
+        self.m_listBox_edatool.SetToolTip(wx.ToolTip(u"Choose the correct EDA software corresponding to the BOM file."))
         sbSizer31.Add(self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5)
         bSizer6.Add(sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5)
 
@@ -299,6 +302,7 @@ class formKiCost(wx.Frame):
 
         self.m_button_run = wx.Button(self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_run.SetToolTip(wx.ToolTip(u"Click to run KiCost."))
+        self.m_button_run.Bind(wx.EVT_BUTTON, self.button_run)
         bSizer6.Add(self.m_button_run, 0, wx.ALL, 5)
 
         wSizer1.Add(bSizer6, 1, wx.RIGHT|wx.EXPAND, 5)
@@ -330,14 +334,14 @@ class formKiCost(wx.Frame):
         self.m_textCtrl_messages = wx.TextCtrl(self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size(-1,4), wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY)
         self.m_textCtrl_messages.SetToolTip(wx.ToolTip(u"Process messages and warnings.\nClick right to copy or save the log."))
         self.m_textCtrl_messages.SetMinSize(wx.Size(-1,4))
-
+        self.m_textCtrl_messages.Bind(wx.EVT_RIGHT_DOWN, self.m_textCtrl_messages_rClick)
         bSizer3.Add(self.m_textCtrl_messages, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
 
         ## Configuration tab.
         self.m_panel1.SetSizer(bSizer3)
         self.m_panel1.Layout()
         bSizer3.Fit(self.m_panel1)
-        self.m_notebook1.AddPage(self.m_panel1, u"BoM", False)
+        self.m_notebook1.AddPage(self.m_panel1, u"BOM", False)
         self.m_panel2 = wx.Panel(self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.m_panel2.SetToolTip(wx.ToolTip(u"KiCost general configurations tab."))
 
@@ -452,12 +456,14 @@ class formKiCost(wx.Frame):
 
         self.m_button_open_webpage = wx.Button(self.m_panel3, wx.ID_ANY, u"Online manual", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_webpage.SetToolTip(wx.ToolTip(u"Click for official web page user manual."))
+        self.m_button_open_webpage.Bind(wx.EVT_LEFT_DOWN, self.open_webpage_click)
         bSizer101.Add(self.m_button_open_webpage, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_button_open_issuepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Report issue page", \
             wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_issuepage.SetToolTip(wx.ToolTip(u"Open KiCost project ISSUE report page on GitHub."))
         bSizer101.Add(self.m_button_open_issuepage, 0, wx.CENTER | wx.ALL, 5)
+        self.m_button_open_issuepage.Bind(wx.EVT_LEFT_DOWN, self.open_issuepage_click)
 
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
@@ -467,11 +473,13 @@ class formKiCost(wx.Frame):
 
         self.m_button_check_updates = wx.Button(self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_check_updates.SetToolTip(wx.ToolTip(u"Click for compare you version with the most recent released."))
+        self.m_button_check_updates.Bind(wx.EVT_BUTTON, self.check_updates_click)
         bSizer111.Add(self.m_button_check_updates, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_button_open_updatepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Open PyPI page", \
             wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_updatepage.SetToolTip(wx.ToolTip(u"Open PyPI page with the most recent KiCost version."))
+        self.m_button_open_updatepage.Bind(wx.EVT_LEFT_DOWN, self.open_updatepage_click)
         bSizer111.Add(self.m_button_open_updatepage, 0,  wx.CENTER | wx.ALL, 5)
 
         bSizer10.Add(bSizer101, 1, wx.EXPAND, 5)
@@ -492,25 +500,11 @@ class formKiCost(wx.Frame):
 
         self.SetSizer(bSizer1)
         self.Layout()
-
         self.Centre(wx.BOTH)
-
-        # Connect Events
         self.Bind(wx.EVT_CLOSE, self.app_close)
-        self.m_comboBox_files.Bind(wx.EVT_COMBOBOX, self.m_comboBox_files_selecthist)
-        self.m_button_openfile.Bind(wx.EVT_BUTTON, self.button_openfile)
-        self.m_checkList_dist.Bind(wx.EVT_RIGHT_DOWN, self.m_textCtrl_distributors_rClick)
-        self.m_button_run.Bind(wx.EVT_BUTTON, self.button_run)
-        self.m_textCtrl_messages.Bind(wx.EVT_RIGHT_DOWN, self.m_textCtrl_messages_rClick)
-        self.m_button_open_updatepage.Bind(wx.EVT_LEFT_DOWN, self.open_updatepage_click)
-        self.m_button_open_issuepage.Bind(wx.EVT_LEFT_DOWN, self.open_issuepage_click)
-        self.m_button_open_webpage.Bind(wx.EVT_LEFT_DOWN, self.open_webpage_click)
-        self.m_button_check_updates.Bind(wx.EVT_BUTTON, self.check_updates_click)
-
         self.Fit() # Set the window size to fit all controls, useful in first
                    # execution without the last size and position saved.
 
-        self.updateChecked = False 
         self.set_properties()
         self.SetDropTarget(FileDropTarget(self)) # Start the drop file in all the window.
         logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__)
@@ -618,7 +612,7 @@ class formKiCost(wx.Frame):
             os.path.dirname(os.path.abspath(self.m_comboBox_files.GetValue())))
 
         dlg = wx.FileDialog(
-            self, message = "Select BoM(s)",
+            self, message = "Select BOM(s)",
             defaultDir = actualDir, 
             defaultFile = "",
             wildcard = WILDCARD,
