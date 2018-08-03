@@ -436,11 +436,11 @@ Command-Line Options
                             country with more than one currency, it will be chosen,
                             in the sequence, `USD`, `EUR` or alphabetical order.
                             Default: `USD`.
-      --guide, -gui         Start the user guide to run KiCost passing the file
+      --guide               Start the user guide to run KiCost passing the file
                             parameter give by "--input", all others parameters are
                             ignored.
-      --user, -u            Run KiCost using the parameters in the guide memory,
-                            all passed parameters from terminal take priority.
+      --user, -u            Run KiCost in terminal using the parameters in the guide
+                            memory, all passed parameters from terminal take priority.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
