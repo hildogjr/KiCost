@@ -48,7 +48,7 @@ class kicost_kicadplugin(ActionPlugin):
         BOM_FILEEXTENSION = '.xml'
         bom_file = os.path.splitext( GetBoard().GetFileName() )[0] + BOM_FILEEXTENSION
         if not os.path.isfile(bom_file):
-            debug_dialog('The file \'{}\' not exist yet.\nReturn to Eeschma and update it.'.format(bom_file))
+            debug_dialog('The file \'{}\' not exist yet.\nReturn to Eeschma and update/generate it.'.format(bom_file))
         elif bom_file==BOM_FILEEXTENSION:
             debug_dialog('This boad have not BOM associated.')
             bom_file = ''
@@ -56,7 +56,7 @@ class kicost_kicadplugin(ActionPlugin):
             from kicost.kicost_gui import *
             kicost_gui(bom_file) # If KiCad and KiCost share the same Python installation.
         except ImportError:
-            subprocess.call(('kicost', '--guide', bom_file))
+            subprocess.call(('kicost', '--guide', bom_file), shell=True)
             #os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
             #os.system('eeschema')
             #subprocess.call('eeschema')
