@@ -33,31 +33,33 @@ import traceback, wx # For debug.
 
 def debug_dialog(msg, exception=None):
     if exception:
-        msg = '\n'.join((msg, str(exception), traceback.format.exc()))
+        msg = '\n'.join((msg, str(exception), traceback.format_exc()))
     dlg = wx.MessageDialog(None, msg, '', wx.OK)
     dlg.ShowModal()
     dlg.Destroy()
 
 class kicost_kicadplugin(ActionPlugin):
     def defaults(self):
-        self.name = "KiCad"
+        self.name = "KiCost"
         self.category = "BOM"
         self.description = "Create a Cost Bill of Materials spreadsheet using price information on web distributos."
 
     def Run(self):
-        bom_file = os.path.splitext(os.path.basename( GetBoard.GetFileName() ))[0] + '.net'
+        BOM_FILEEXTENSION = '.xml'
+        bom_file = os.path.splitext( GetBoard().GetFileName() )[0] + BOM_FILEEXTENSION
         if not os.path.isfile(bom_file):
-            debug_dialog('The file \'{}\' not exist yet. Return to Eeschma and update it.'.format(bom_file))
+            debug_dialog('The file \'{}\' not exist yet.\nReturn to Eeschma and update it.'.format(bom_file))
+        elif bom_file==BOM_FILEEXTENSION:
+            debug_dialog('This boad have not BOM associated.')
+            bom_file = ''
         try:
-            try:
-                from kicost.kicost_gui import *
-                try:
-                    import wx # Check if wxPython is installed.
-                except Exception as e:
-                    raise ImportError(e)
-                kicost_gui(bom_file)
-            except ImportError as e:
-                subprocess.call(('kicost', '--guide', bom_file))
+            from kicost.kicost_gui import *
+            kicost_gui(bom_file) # If KiCad and KiCost share the same Python installation.
+        except ImportError:
+            subprocess.call(('kicost', '--guide', bom_file))
+            #os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
+            #os.system('eeschema')
+            #subprocess.call('eeschema')
         except Exception as e:
             debug_dialog('Error trying to run KiCost as plugin or subprocess.', e)
         return True
