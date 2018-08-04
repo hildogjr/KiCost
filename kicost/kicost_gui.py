@@ -56,7 +56,7 @@ __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 # Guide definitions.
 FILE_HIST_QTY_DEFAULT = 10
 SEP_FILES = '\n' # File separator in the comboBox.
-WILDCARD = "BOM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
+WILDCARD_BOM = "BOM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
             "KiCad/Altium BOM file (*.xml)|*.xml|" \
             "Proteus/Generic BOM file (*.csv)|*.csv"
 CONFIG_FILE = 'KiCost' # Config file for Linux and Windows registry key for KiCost configurations.
@@ -246,7 +246,7 @@ class formKiCost(wx.Frame):
 
         bSizer3 = wx.BoxSizer(wx.VERTICAL)
 
-        sbSizer = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"BOM input files"), wx.HORIZONTAL)
+        sbSizer = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"BOM input files:"), wx.HORIZONTAL)
         m_comboBox_filesChoices = []
         self.m_comboBox_files = wx.ComboBox(sbSizer.GetStaticBox(), wx.ID_ANY, u"Not selected files", wx.DefaultPosition, wx.DefaultSize, m_comboBox_filesChoices, 0)
         self.m_comboBox_files.SetToolTip(wx.ToolTip(u"BOM(s) file(s) to scrape.\nClick on the arrow to see/select one of the history files."))
@@ -258,13 +258,19 @@ class formKiCost(wx.Frame):
         sbSizer.Add(self.m_button_openfile, 0, wx.ALL, 5)
         bSizer3.Add(sbSizer, 0, wx.EXPAND|wx.TOP, 5)
 
-        #sbSizer = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Spreadsheet output file"), wx.HORIZONTAL)
-        #TODO add here a text box for the oupput file.
-        #bSizer3.Add(sbSizer, 0, wx.EXPAND|wx.TOP, 5)
+        sbSizer = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Spreadsheet output file:"), wx.HORIZONTAL)
+        self.m_text_saveas = wx.TextCtrl(sbSizer.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY)
+        self.m_text_saveas.SetToolTip(wx.ToolTip(u"Output spreadsheet file name."))
+        sbSizer.Add(self.m_text_saveas, 1, wx.ALL, 5)
+        self.m_button_saveas = wx.Button(sbSizer.GetStaticBox(), wx.ID_ANY, u"Save as...", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_button_saveas.SetToolTip(wx.ToolTip(u"Click to change the output spreadsheet file name."))
+        self.m_button_saveas.Bind(wx.EVT_BUTTON, self.button_saveas)
+        sbSizer.Add(self.m_button_saveas, 0, wx.ALL, 5)
+        bSizer3.Add(sbSizer, 0, wx.EXPAND|wx.TOP, 5)
 
         bSizer4 = wx.BoxSizer(wx.HORIZONTAL)
 
-        sbSizer3 = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Distributors to scrape"), wx.VERTICAL)
+        sbSizer3 = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Distributors to scrape:"), wx.VERTICAL)
         m_checkList_distChoices = [wx.EmptyString]
         self.m_checkList_dist = wx.CheckListBox(sbSizer3.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_checkList_distChoices, 0)
         self.m_checkList_dist.SetToolTip(wx.ToolTip(u"Select the web distributor (or local) that will be used to scrape the prices.\nClick right to hot option."))
@@ -276,23 +282,24 @@ class formKiCost(wx.Frame):
 
         bSizer6 = wx.BoxSizer(wx.VERTICAL)
 
-        sbSizer31 = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"EDAs"), wx.VERTICAL)
+        sbSizer31 = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Recognized EDAs:"), wx.VERTICAL)
         m_listBox_edatoolChoices = []
         self.m_listBox_edatool = wx.ListBox(sbSizer31.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_listBox_edatoolChoices, 0)
-        self.m_listBox_edatool.SetToolTip(wx.ToolTip(u"Choose the correct EDA software corresponding to the BOM file."))
+        self.m_listBox_edatool.SetToolTip(wx.ToolTip(u"Choose the correct EDA software corresponding to the BOM file.\nCSVs files are used by the most of commercial software and to make the hand made BOM."))
         sbSizer31.Add(self.m_listBox_edatool, 1, wx.ALL|wx.EXPAND, 5)
         bSizer6.Add(sbSizer31, 1, wx.TOP|wx.RIGHT|wx.EXPAND, 5)
 
         # Allow convert to XLSX to ODS quietly because this load more smoothly on LibreOffice.
-        self._m_checkBox_XLSXtoODS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Convert to ODS", wx.DefaultPosition, wx.DefaultSize, 0)
-        self._m_checkBox_XLSXtoODS.SetValue(False)
-        self._m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
-        bSizer6.Add(self._m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
+        self.m_checkBox_XLSXtoODS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Convert to ODS", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_checkBox_XLSXtoODS.SetValue(False)
+        self.m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
+        self.m_checkBox_XLSXtoODS.Bind(wx.EVT_CHECKBOX, self.updateOutputFilename)
+        bSizer6.Add(self.m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
         try:
             # Create a control to convert the XLSX to ODS quietly.
             subprocess.check_output(['libreoffice', '--version'])
         except OSError:
-            self._m_checkBox_XLSXtoODS.Enable(False) # Not recognized LibreOffice
+            self.m_checkBox_XLSXtoODS.Enable(False) # Not recognized LibreOffice
             logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
 
         self.m_checkBox_openXLS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -341,7 +348,7 @@ class formKiCost(wx.Frame):
         self.m_panel1.SetSizer(bSizer3)
         self.m_panel1.Layout()
         bSizer3.Fit(self.m_panel1)
-        self.m_notebook1.AddPage(self.m_panel1, u"BOM", False)
+        self.m_notebook1.AddPage(self.m_panel1, u"Cost BOM creation", False)
         self.m_panel2 = wx.Panel(self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.m_panel2.SetToolTip(wx.ToolTip(u"KiCost general configurations tab."))
 
@@ -441,7 +448,7 @@ class formKiCost(wx.Frame):
         self.m_panel2.SetSizer(bSizer8)
         self.m_panel2.Layout()
         bSizer8.Fit(self.m_panel2)
-        self.m_notebook1.AddPage(self.m_panel2, u"KiCost config", False)
+        self.m_notebook1.AddPage(self.m_panel2, u"Configurations", False)
         self.m_panel3 = wx.Panel(self.m_notebook1, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL)
         self.m_panel3.SetToolTip(wx.ToolTip(u"About the software, version installation and update found."))
 
@@ -533,14 +540,12 @@ class formKiCost(wx.Frame):
     def open_updatepage_click(self, event):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
-        #TODO create a procedure to update KiCost from here and restart it instead open the page (ask for confirmation for installation).
         webbrowser.open(PAGE_UPDATE)
 
     #----------------------------------------------------------------------
     def check_updates_click(self, event):
         ''' @brief Check version to update if the "About" tab.'''
         event.Skip()
-
         def checkUpdate():
             '''Check for updates.'''
             self.m_button_check_updates.SetLabel(u"Checking for updates...")
@@ -555,7 +560,6 @@ class formKiCost(wx.Frame):
                     self.m_button_check_updates.SetLabel(u"KiCost is up to date")
             except:
                 self.m_button_check_updates.SetLabel(u"No information")
-
         wx.CallLater(50, checkUpdate) # Thread optimized for graphical elements change.
 
     #----------------------------------------------------------------------
@@ -581,8 +585,17 @@ class formKiCost(wx.Frame):
         if all(os.path.isfile(f) for f in re.split(SEP_FILES, fileNames)):
             self.m_comboBox_files.Insert(fileNames, 0)
             self.updateEDAselection() # Auto-select the EDA module.
+            self.updateOutputFilename() # Update the output file name on GUI text.
         else:
             self.m_comboBox_files.SetValue('')
+
+    #----------------------------------------------------------------------
+    def updateOutputFilename(self, event=None):
+        ''' @brief Update the output file name on the GUI.'''
+        spreadsheet_file = output_filename( re.split(SEP_FILES, self.m_comboBox_files.GetValue()) )
+        if self.m_checkBox_XLSXtoODS.GetValue():
+            spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
+        self.m_text_saveas.SetValue(spreadsheet_file)
 
     #----------------------------------------------------------------------
     def updateEDAselection(self):
@@ -605,22 +618,33 @@ class formKiCost(wx.Frame):
 
     #----------------------------------------------------------------------
     def button_openfile(self, event):
-        """ @brief Create and show the Open FileDialog """
+        """ @brief Create and show the Open FileDialog"""
         event.Skip()
-
         actualDir = (os.getcwd() if self.m_comboBox_files.GetValue() else \
             os.path.dirname(os.path.abspath(self.m_comboBox_files.GetValue())))
-
-        dlg = wx.FileDialog(
-            self, message = "Select BOM(s)",
-            defaultDir = actualDir, 
-            defaultFile = "",
-            wildcard = WILDCARD,
-            style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR
-           )
+        dlg = wx.FileDialog(self, message = "Select BOM(s)", defaultDir = actualDir, 
+            defaultFile = "", wildcard = WILDCARD_BOM,
+            style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
-            paths = dlg.GetPaths()
-            self.addFile(paths)
+            self.addFile(dlg.GetPaths())
+        dlg.Destroy()
+
+    #----------------------------------------------------------------------
+    def button_saveas(self, event):
+        """ @brief Create and show the Save As... FileDialog."""
+        event.Skip()
+        wildcard = ("Open format (*.ods)|*.ods" if self.m_checkBox_XLSXtoODS.GetValue()\
+            else "Microsoft Excel (*.xlsx)|*.xlsx")
+        actualFile = (os.getcwd() if self.m_text_saveas.GetValue() else \
+            os.path.dirname(os.path.abspath(self.m_text_saveas.GetValue())))
+        dlg = wx.FileDialog(self, message = "Save spreadsheet as...", defaultDir = actualFile, 
+            defaultFile = "", wildcard = wildcard,
+            style = wx.FD_SAVE | wx.FD_CHANGE_DIR)
+        if dlg.ShowModal() == wx.ID_OK:
+            spreadsheet_file = dlg.GetPaths()[0]
+            if not re.search('^.(xlsx|odt)$', os.path.splitext(spreadsheet_file)[1], re.IGNORECASE):
+                spreadsheet_file += ('.ods' if self.m_checkBox_XLSXtoODS.GetValue() else '.xlsx')
+            self.m_text_saveas.SetValue(spreadsheet_file)
         dlg.Destroy()
 
     #----------------------------------------------------------------------
@@ -677,7 +701,7 @@ class formKiCost(wx.Frame):
                 print('No valid file(s) selected.')
                 return # Not a valid file(s).
 
-        spreadsheet_file = output_filename(re.split(SEP_FILES, self.m_comboBox_files.GetValue()))
+        spreadsheet_file = self.m_text_saveas.GetValue()
         # Handle case where output is going into an existing spreadsheet file.
         if os.path.isfile(spreadsheet_file):
             if not self.m_checkBox_overwrite.GetValue():
@@ -694,6 +718,7 @@ class formKiCost(wx.Frame):
                            )
                        )
                     return
+        spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.xlsx' # Force the output (for the CLI interface) to be .XLSX.
         args.output = spreadsheet_file
 
         if self.m_textCtrl_extraCmd.GetValue():
@@ -726,9 +751,8 @@ class formKiCost(wx.Frame):
         if self.m_listBox_edatool.GetStringSelection():
             for k,v in eda_tool_dict.items():
                if v['label']==self.m_listBox_edatool.GetStringSelection():
-                  eda_module = v['module']
+                  args.eda_tool = v['module'] # The selected EDA module on GUI.
                   break
-        args.eda_tool = eda_module
 
         # Get the current distributors to scrape.
         #choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
@@ -759,12 +783,10 @@ class formKiCost(wx.Frame):
         except Exception as e:
             print(e)
             return
-        finally:
-            init_distributor_dict()
-        print('Elapsed time: {} seconds'.format(time.time() - start_time))
+        logger.log(DEBUG_OVERVIEW, 'Elapsed time: {} seconds'.format(time.time() - start_time))
         #self.m_gauge_process.SetValue(100)
         try:
-            if self._m_checkBox_XLSXtoODSe.GetValue():
+            if self.m_checkBox_XLSXtoODS.GetValue():
                 logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
                                     os.path.basename(spreadsheet_file) ) )
                 subprocess.call(['libreoffice', '--headless', '--convert-to', 'ods', spreadsheet_file])
@@ -944,7 +966,7 @@ class formKiCost(wx.Frame):
                 try:
                     # Each wxPython object have a specific parameter value
                     # to be saved and restored in the software initialization.
-                    if isinstance(wxElement_handle, wx._core.TextCtrl) and (wxElement_name != 'm_textCtrl_messages' and wxElement_name != 'm_text_credits'):
+                    if isinstance(wxElement_handle, wx._core.TextCtrl) and not wxElement_name in ['m_textCtrl_messages', 'm_text_credits', 'm_text_saveas']:
                         # Save each TextCtrl (TextBox) that is not the status messages or credits.
                         configHandle.Write(wxElement_name, wxElement_handle.GetValue())
                     elif isinstance(wxElement_handle, wx._core.CheckBox):
@@ -1026,6 +1048,7 @@ def kicost_gui(files=None):
 
     if files:
         frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
+        frame.updateOutputFilename()
 
     frame.Show()
     app.MainLoop()
@@ -1050,6 +1073,7 @@ def kicost_gui_runterminal(args):
 
     files = args.input
     frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
+    frame.updateOutputFilename()
 
     options_cmd=''
     for k_a in list(args.__dict__.keys()):
