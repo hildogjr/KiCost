@@ -259,7 +259,7 @@ class formKiCost(wx.Frame):
         bSizer3.Add(sbSizer, 0, wx.EXPAND|wx.TOP, 5)
 
         sbSizer = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Spreadsheet output file:"), wx.HORIZONTAL)
-        self.m_text_saveas = wx.TextCtrl(sbSizer.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY)
+        self.m_text_saveas = wx.TextCtrl(sbSizer.GetStaticBox(), wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_NOHIDESEL)
         self.m_text_saveas.SetToolTip(wx.ToolTip(u"Output spreadsheet file name."))
         sbSizer.Add(self.m_text_saveas, 1, wx.ALL, 5)
         self.m_button_saveas = wx.Button(sbSizer.GetStaticBox(), wx.ID_ANY, u"Save as...", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -295,17 +295,19 @@ class formKiCost(wx.Frame):
         self.m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
         self.m_checkBox_XLSXtoODS.Bind(wx.EVT_CHECKBOX, self.updateOutputFilename)
         bSizer6.Add(self.m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
+        self.m_checkBox_XLSXtoODS.Enable(False)
         try:
             # Create a control to convert the XLSX to ODS quietly.
             subprocess.check_output(['libreoffice', '--version'])
+            self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
         except OSError:
-            self.m_checkBox_XLSXtoODS.Enable(False) # Not recognized LibreOffice
             logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
+            self.m_checkBox_XLSXtoODS.SetValue(False)
 
-        self.m_checkBox_openXLS = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_checkBox_openXLS.SetValue(True)
-        self.m_checkBox_openXLS.SetToolTip(wx.ToolTip(u"Open the spreadsheet after finish the KiCost scrape."))
-        bSizer6.Add(self.m_checkBox_openXLS, 0, wx.ALL, 5)
+        self.m_checkBox_openSpreadsheet = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_checkBox_openSpreadsheet.SetValue(True)
+        self.m_checkBox_openSpreadsheet.SetToolTip(wx.ToolTip(u"Open the spreadsheet after finish the KiCost scrape."))
+        bSizer6.Add(self.m_checkBox_openSpreadsheet, 0, wx.ALL, 5)
 
         self.m_button_run = wx.Button(self.m_panel1, wx.ID_ANY, u"KiCost it!", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_run.SetToolTip(wx.ToolTip(u"Click to run KiCost."))
@@ -494,7 +496,7 @@ class formKiCost(wx.Frame):
 
         bSizer2.Add(bSizer10, 0, wx.ALL|wx.EXPAND, 5)
 
-        self.m_text_credits = wx.TextCtrl(self.m_panel3, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size(-1,4), wx.HSCROLL|wx.TE_MULTILINE|wx.TE_READONLY)
+        self.m_text_credits = wx.TextCtrl(self.m_panel3, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size(-1,4), wx.TE_READONLY|wx.TE_MULTILINE|wx.TE_AUTO_URL|wx.TE_BESTWRAP)
         bSizer2.Add(self.m_text_credits, 1, wx.ALL|wx.ALIGN_CENTER_HORIZONTAL|wx.EXPAND, 5)
         self.m_text_credits.SetValue('jkjtke')
 
@@ -671,16 +673,15 @@ class formKiCost(wx.Frame):
         def run_kicost_guide():
             '''Run the as a Thread out of the box wxPython'''
             self.m_gauge_process.SetValue(0)
-            self.m_button_openfile.Enable(False)
-            self.m_button_run.Enable(False)
+            self.m_button_run.Disable()
             self.save_properties() # Save the current graphical configuration before call the KiCost motor.
+            logger.log(DEBUG_OVERVIEW, 'Starting the KiCost scrape process.')
             self.run() # Run KiCost.
             init_distributor_dict() # Restore distributors removed during the execution of KiCost motor.
-            self.m_button_openfile.Enable(True)
-            self.m_button_run.Enable(True)
-
-        def run_kicost_guide_action():
+            self.m_button_run.Enable()
+        def run_kicost_guide_action(): # Necessary to not freeze the GUI application during the scrapes.
             kicost_motor_thread = threading.Thread(target=run_kicost_guide)
+            #kicost_motor_thread.setDaemon(1)
             kicost_motor_thread.start()
         wx.CallLater(10, run_kicost_guide_action) # Necessary to not '(core dumped)' with wxPython.
 
@@ -688,8 +689,6 @@ class formKiCost(wx.Frame):
     def run(self):
         ''' @brief Run KiCost.
             Run KiCost in the GUI interface updating the process bar and messages.'''
-        #self.m_gauge_process.SetValue(0)
-        #self.m_textCtrl_messages.Clear() # Clear the messages to appear just the last run.
 
         class argments:
             pass
@@ -784,19 +783,18 @@ class formKiCost(wx.Frame):
             print(e)
             return
         logger.log(DEBUG_OVERVIEW, 'Elapsed time: {} seconds'.format(time.time() - start_time))
-        #self.m_gauge_process.SetValue(100)
         try:
             if self.m_checkBox_XLSXtoODS.GetValue():
                 logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
                                     os.path.basename(spreadsheet_file) ) )
-                subprocess.call(['libreoffice', '--headless', '--convert-to', 'ods', spreadsheet_file])
-                os.remove(spreadsheet_file) # Delete the older file.
+                os.system('libreoffice  --headless --convert-to ods {i} --outdir {o}'.format(si=preadsheet_file, o=os.path.dirname(spreadsheet_file)))
+                #os.remove(spreadsheet_file) # Delete the older file.
                 spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, '\'{}\' could be not converted to ODS: {}'.format(os.path.basename(spreadsheet_file), e) )
             pass
         try:
-            if self.m_checkBox_openXLS.GetValue():
+            if self.m_checkBox_openSpreadsheet.GetValue():
                 logger.log(DEBUG_OVERVIEW, 'Opening the output file \'{}\'...'.format(
                                     os.path.basename(spreadsheet_file) ) )
                 open_file(spreadsheet_file)
