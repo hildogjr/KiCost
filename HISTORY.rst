@@ -3,10 +3,10 @@
 History
 -------
 
-0.1.47 (2018-08-??)
+0.1.47 (2018-08-16)
 ______________________
 
-* Created the KiCad plugin (now KiCost can be see on Pcbnew plugins).
+* Created the KiCad plugin (in beta).
 * Fixed Digikey distributor module logger problem raise on refacture.
 * Added GUI compatibility with wxPython 3.x.x.
 * Added convert to ODS option if recognized LibreOffice in the system.
