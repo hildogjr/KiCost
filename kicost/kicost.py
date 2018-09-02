@@ -28,6 +28,8 @@ standard_library.install_aliases()
 import future
 
 import sys, os
+import copy
+import re
 import pprint
 import tqdm
 from time import time
@@ -169,7 +171,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     parts = group_parts(parts, group_fields)
 
     # If do not have the manufacture code 'manf#' and just distributors codes,
-    # check if is asked to scrap a distributor that do not have any code in the
+    # check if is asked to scrape a distributor that do not have any code in the
     # parts so, exclude this distributors for the scrap list. This decrease the
     # warning messages given during the process.
     all_fields = []
@@ -189,8 +191,93 @@ def kicost(in_file, eda_tool_name, out_filename,
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributor_dict)
 
-    # Create an HTML page containing all the local part information.
-    dist_local.create_part_html(parts, distributor_dict, logger)
+    ##############################################################################
+    # Handle locally-sourced parts.
+    ##############################################################################
+
+    # This loops through all the parts and finds any that are sourced from 
+    # local distributors that are not normally searched and places them into 
+    # the distributor disctionary.
+    for part in parts:
+        # Find the various distributors for this part by
+        # looking for leading fields terminated by SEPRTR.
+        for key in part.fields:
+            try:
+                dist = key[:key.index(SEPRTR)]
+            except ValueError:
+                continue
+
+            # If the distributor is not in the list of web-scrapable distributors,
+            # then it's a local distributor. Copy the local distributor template
+            # and add it to the table of distributors.
+            if dist not in distributor_dict:
+                distributor_dict[dist] = copy.copy(distributor_dict['local_template'])
+                distributor_dict[dist]['label'] = dist  # Set dist name for spreadsheet header.
+
+    # Set part info to default values for all the distributors.
+    for part in parts:
+        part.part_num = {dist:'' for dist in distributor_dict}
+        part.url = {dist:'' for dist in distributor_dict}
+        part.price_tiers = {dist:{} for dist in distributor_dict}
+        part.qty_avail = {dist:None for dist in distributor_dict}
+        part.info_dist = {dist:{} for dist in distributor_dict}
+
+    # Loop through the parts looking for those sourced by local distributors
+    # that won't be found online. Place any user-added info for these parts
+    # (such as pricing) into the part dictionary.
+    for p in parts:
+        # Find the manufacturer's part number if it exists.
+        pn = p.fields.get('manf#') # Returns None if no manf# field.
+
+       # Now look for catalog number, price list and webpage link for this part.
+        for dist in distributor_dict:
+            cat_num = p.fields.get(dist+':cat#')
+            pricing = p.fields.get(dist+':pricing')
+            link = p.fields.get(dist+':link')
+            if cat_num is None and pricing is None and link is None:
+                continue
+
+            def make_random_catalog_number(p):
+                hash_fields = {k: p.fields[k] for k in p.fields}
+                hash_fields['dist'] = dist
+                return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
+
+            cat_num = cat_num or pn or make_random_catalog_number(p)
+            p.fields[dist+':cat#'] = cat_num # Store generated cat#.
+            p.part_num[dist] = cat_num
+
+            link = ''
+            try:
+                url_parts = list(urlsplit(link))
+                if url_parts[0] == '':
+                    url_parts[0] = u'http'
+                link = urlunsplit(url_parts)
+            except Exception:
+                # This happens when no part URL is found.
+                logger.log(DEBUG_OBSESSIVE, 'No local part URL found!')
+            p.url[dist] = link
+                
+            price_tiers = {}
+            try:
+                pricing = re.sub('[^0-9.;:]', '', pricing) # Keep only digits, decimals, delimiters.
+                for qty_price in pricing.split(';'):
+                    qty, price = qty_price.split(SEPRTR)
+                    price_tiers[int(qty)] = float(price)
+            except AttributeError:
+                # This happens when no pricing info is found.
+                logger.log(DEBUG_OBSESSIVE, 'No local pricing information found!')
+            p.price_tiers[dist] = price_tiers
+
+    # Remove the local distributor template so it won't be processed later on.
+    # It has served its purpose.
+    try:
+        del distributor_dict['local_template']
+    except:
+        pass
+
+    ##############################################################################
+    # Done handling locally-sourced parts.
+    ##############################################################################
 
     num_processes = min(num_processes, len(distributor_dict))
     logger.log(DEBUG_OBSESSIVE, "Initialising scraper with %d threads" % num_processes)
@@ -242,7 +329,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                     ctor = globals()['dist_'+d]
                 instance = ctor(d, scrape_retries, throttling_delay)
             except Exception as ex:
-                logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, exculding this distributor..." \
+                logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, excluding this distributor..." \
                     % (d, type(ex).__name__))
                 return (d, None)
 
@@ -268,72 +355,43 @@ def kicost(in_file, eda_tool_name, out_filename,
             else:
                 distributor_dict[d]['instance'] = instance
 
-        logger.log(DEBUG_OVERVIEW, '# Scraping part data for each component group...')
+        ##########################################################################
+        # Get part data from Octopart.
+        ##########################################################################
 
-        # Init part info dictionaries
-        for part in parts:
-            part.part_num = {}
-            part.url = {}
-            part.price_tiers = {}
-            part.qty_avail = {}
-            part.info_dist = {}
+        logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
-        num_processes = min(num_processes, len(distributor_dict))
+        octopart_query = []
+        for i, part in enumerate(parts):
+            try:
+                mpn = part.fields['manf#']
+            except KeyError:
+                continue
+            part_query = dict([('reference', i), ('mpn', mpn)])
+            octopart_query.append(part_query)
+        print('length of Octopart query:', len(octopart_query))
 
-        if num_processes <= 1:
-            # Scrape data, one part at a time using single processing.
-            for d in distributor_dict:
-                logger.log(DEBUG_OVERVIEW, "Scraping "+ distributor_dict[d]['instance'].name)
-                for i in range(len(parts)):
-                    id, dist, url, part_num, price_tiers, qty_avail, info_dist = \
-                        scrape_result = distributor_dict[d]['instance'].scrape_part(i, parts[i])
+        import json
+        import urllib
+        dist_xlate = {'Digi-Key':'digikey', 'Mouser':'mouser', 'Newark':'newark', 'element14 APAC':'farnell', 'TME':'TME'}
+        octopart_url = 'http://octopart.com/api/v3/parts/match?queries=%s' % urllib.quote(json.dumps(octopart_query))
+        octopart_url += '&apikey=96df69ba'
+        octopart_results = json.loads(urllib.urlopen(octopart_url).read())['results']
+        for result in octopart_results:
+            i = int(result['reference'])
+            for item in result['items']:
+                for offer in item['offers']:
+                    dist = dist_xlate.get(offer['seller']['name'], '')
+                    if dist in distributor_dict:
+                        parts[i].part_num[dist] = offer.get('_naive_id', '')
+                        parts[i].url[dist] = offer.get('product_url', '')
+                        parts[i].price_tiers[dist] = {qty:float(price) for qty, price in offer['prices'].values()[0]}
+                        parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None)
+                        parts[i].info_dist[dist] = {}
 
-                    parts[id].part_num[dist] = part_num
-                    parts[id].url[dist] = url
-                    parts[id].price_tiers[dist] = price_tiers
-                    parts[id].qty_avail[dist] = qty_avail
-                    parts[id].info_dist[dist] = info_dist # Extra distributor web page.
-                    scraping_progress.update(1)
-        else:
-            # Scrape data, multiple parts at a time using multiprocessing.
-
-            # Create thread pool to scrape data for multiple distributors simultaneously.
-            # Python threads are time-sliced but they work in our I/O limited scenario
-            # and avoid all kinds of pickle issues.
-            pool = ThreadPool(num_processes)
-
-            # Package part data for passing to each process.
-            # pool.async_apply needs at least two arguments per function so add dummy argument
-            # (otherwise it fails with "arguments after * must be an iterable, not ...")
-            arg_sets = [(distributor_dict[d]['instance'], scraping_progress) for d in distributor_dict]
-
-            def mt_scrape_part(inst, progress):
-                logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
-                retval = list()
-                for i in range(len(parts)):
-                    retval.append(inst.scrape_part(i, parts[i]))
-                    progress.update(1)
-                return retval
-
-            # Start the web scraping processes, one for each part.
-            logger.log(DEBUG_OBSESSIVE, 'Starting {} parallel threads to scrap parts...'.format(num_processes))
-            results = [pool.apply_async(mt_scrape_part, args) for args in arg_sets]
-
-            # Wait for all the processes to have results, then kill-off all the scraping processes.
-            pool.close()
-            pool.join()
-            logger.log(DEBUG_OVERVIEW, 'All parallel threads finished with success.')
-
-            # Get the data from each process result structure.
-            for res_proc in results:
-                res_dist = res_proc.get()
-                for res_part in res_dist:
-                    id, dist, url, part_num, price_tiers, qty_avail, info_dist = res_part
-                    parts[id].part_num[dist] = part_num
-                    parts[id].url[dist] = url
-                    parts[id].price_tiers[dist] = price_tiers
-                    parts[id].qty_avail[dist] = qty_avail
-                    parts[id].info_dist[dist] = info_dist # Extra distributor web page.
+        ##########################################################################
+        # Done with Octopart.
+        ##########################################################################
 
         # Return the print channel of the logging.
         logger.addHandler(logDefaultHandler)
