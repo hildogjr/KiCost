@@ -33,7 +33,9 @@ import re
 import pprint
 import tqdm
 from time import time
-from multiprocessing.pool import ThreadPool
+#from multiprocessing.pool import ThreadPool
+import json
+import requests
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -361,44 +363,61 @@ def kicost(in_file, eda_tool_name, out_filename,
 
         logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
-        import json
-        import urllib
-
+        # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = {'Digi-Key':'digikey', 'Mouser':'mouser', 'Newark':'newark', 'Farnell':'farnell', 'RS Components':'rs', 'TME':'tme'}
 
         def get_part_info(query, parts):
-            url = 'http://octopart.com/api/v3/parts/match?queries=%s' % urllib.quote(json.dumps(query))
-            url += '&apikey=96df69ba'
-            results = json.loads(urllib.urlopen(url).read())['results']
+            """Query Octopart for quantity/price info and place it into the parts list."""
+
+            # Create query URL for Octopart.
+            url = 'http://octopart.com/api/v3/parts/match'
+            payload = {'queries':json.dumps(query), 'apikey':'96df69ba'}
+            response = requests.get(url, params=payload)
+            results = json.loads(response.text)['results']
+
+            # Loop through the response to the query and enter part info into the parts list.
             for result in results:
-                i = int(result['reference'])
+                i = int(result['reference']) # Get the index into the part dictionary.
+
+                # Loop through the offers from various distributors for this particular part.
                 for item in result['items']:
                     for offer in item['offers']:
+
+                        # Get the distributor who made the offer and add their 
+                        # price/qty info to the parts list if its one of the accepted distributors.
                         dist = dist_xlate.get(offer['seller']['name'], '')
                         if dist in distributor_dict:
-                            parts[i].part_num[dist] = offer.get('_naive_id', '')
-                            parts[i].url[dist] = offer.get('product_url', '')
+                            parts[i].part_num[dist] = offer.get('_naive_id', '') # Get catalog number.
+                            parts[i].url[dist] = offer.get('product_url', '') # Get product page on dist. website.
+                            # Get pricing information from this distributor.
                             try:
-                                parts[i].price_tiers[dist] = {qty:float(price) for qty, price in offer['prices'].values()[0]}
+                                parts[i].price_tiers[dist] = {qty:float(price) for qty, price in list(offer['prices'].values())[0]}
                             except Exception as e:
                                 pass  # Price list is probably missing so leave empty default dict in place.
-                            parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None)
+                            parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None) # Get available quantity.
                             parts[i].info_dist[dist] = {}
-            
+
+        # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []
-        enumerated_parts = enumerate(parts)
         for i, part in enumerate(parts):
+
+            # Get manufacturer's part number for doing Octopart search.
             try:
                 mpn = part.fields['manf#']
             except KeyError:
-                continue
+                continue # No manf. part number, so don't add this part to the query.
+
+            # Add query for this part to the list of part queries.
             part_query = dict([('reference', i), ('mpn', mpn)])
             octopart_query.append(part_query)
-            if len(octopart_query) == 10:
+
+            # Once there are enough (but not too many) part queries, make a query request to Octopart.
+            if len(octopart_query) == 20:
                 get_part_info(octopart_query, parts)
                 scraping_progress.update(len(octopart_query))
-                octopart_query = []
+                octopart_query = [] # Clear list of queries to get ready for next batch.
 
+        # Query Octopart for the last batch of parts.
         if octopart_query:
             get_part_info(octopart_query, parts)
             scraping_progress.update(len(octopart_query))
