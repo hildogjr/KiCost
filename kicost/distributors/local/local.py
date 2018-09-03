@@ -110,7 +110,11 @@ class dist_local(distributor.distributor):
                             continue
 
                         def make_random_catalog_number(p):
-                            hash_fields = {k: p.fields[k] for k in p.fields}
+                            FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
+                            FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
+                            #TODO unify the `FIELDS_NOT_HASH` configuration (used also in `eda_tools.py`).
+                            
+                            hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                             hash_fields['dist'] = dist
                             return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
 
