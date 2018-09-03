@@ -287,7 +287,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     if dist_list:
 
         scraping_progress = tqdm.tqdm(desc='Progress', \
-            total=len(parts)*len(distributor_dict), unit='part', miniters=1)
+            total=len(parts), unit='part', miniters=1)
 
         # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         class TqdmLoggingHandler(logging.Handler):
@@ -313,47 +313,47 @@ def kicost(in_file, eda_tool_name, out_filename,
         logger.addHandler(logTqdmHandler)
         logger.removeHandler(logDefaultHandler)
 
-        # Create thread pool to init multiple distributors simultaneously.
-        pool = ThreadPool(num_processes)
+        # # Create thread pool to init multiple distributors simultaneously.
+        # pool = ThreadPool(num_processes)
 
-        # Package part data for passing to each process.
-        arg_sets = [(d, distributor_dict[d]['scrape']) for d in distributor_dict]
+        # # Package part data for passing to each process.
+        # arg_sets = [(d, distributor_dict[d]['scrape']) for d in distributor_dict]
 
-        def mt_init_dist(d, scrape):
-            instance = None
-            try:
-                logger.log(DEBUG_OVERVIEW, "Initialising %s" % d)
-                if scrape == 'local':
-                    ctor = globals()['dist_local']
-                else:
-                    ctor = globals()['dist_'+d]
-                instance = ctor(d, scrape_retries, throttling_delay)
-            except Exception as ex:
-                logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, excluding this distributor..." \
-                    % (d, type(ex).__name__))
-                return (d, None)
+        # def mt_init_dist(d, scrape):
+            # instance = None
+            # try:
+                # logger.log(DEBUG_OVERVIEW, "Initialising %s" % d)
+                # if scrape == 'local':
+                    # ctor = globals()['dist_local']
+                # else:
+                    # ctor = globals()['dist_'+d]
+                # instance = ctor(d, scrape_retries, throttling_delay)
+            # except Exception as ex:
+                # logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, excluding this distributor..." \
+                    # % (d, type(ex).__name__))
+                # return (d, None)
 
-            if local_currency:
-                logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
-                instance.define_locale_currency(local_currency)
-            return (d, instance)
+            # if local_currency:
+                # logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
+                # instance.define_locale_currency(local_currency)
+            # return (d, instance)
 
-        logger.log(DEBUG_OBSESSIVE, 'Starting {} threads to init distributors...'.format(num_processes))
-        results = [pool.apply_async(mt_init_dist, args) for args in arg_sets]
+        # logger.log(DEBUG_OBSESSIVE, 'Starting {} threads to init distributors...'.format(num_processes))
+        # results = [pool.apply_async(mt_init_dist, args) for args in arg_sets]
 
-        # Wait for all the processes to have results.
-        pool.close()
-        pool.join()
+        # # Wait for all the processes to have results.
+        # pool.close()
+        # pool.join()
 
-        # Get the data from each process result structure.
-        for result in results:
-            d, instance = result.get()
-            # Distributor initialisation failed, remove it from distributor_dict.
-            if instance == None:
-                distributor_dict.pop(d, None)
-            # Distributor initialised successfully, add instance to distributor_dict.
-            else:
-                distributor_dict[d]['instance'] = instance
+        # # Get the data from each process result structure.
+        # for result in results:
+            # d, instance = result.get()
+            # # Distributor initialisation failed, remove it from distributor_dict.
+            # if instance == None:
+                # distributor_dict.pop(d, None)
+            # # Distributor initialised successfully, add instance to distributor_dict.
+            # else:
+                # distributor_dict[d]['instance'] = instance
 
         ##########################################################################
         # Get part data from Octopart.
@@ -396,10 +396,12 @@ def kicost(in_file, eda_tool_name, out_filename,
             octopart_query.append(part_query)
             if len(octopart_query) == 10:
                 get_part_info(octopart_query, parts)
+                scraping_progress.update(len(octopart_query))
                 octopart_query = []
 
         if octopart_query:
             get_part_info(octopart_query, parts)
+            scraping_progress.update(len(octopart_query))
 
 
         ##########################################################################
