@@ -364,7 +364,7 @@ def kicost(in_file, eda_tool_name, out_filename,
         import json
         import urllib
 
-        dist_xlate = {'Digi-Key':'digikey', 'Mouser':'mouser', 'Newark':'newark', 'element14 APAC':'farnell', 'TME':'TME'}
+        dist_xlate = {'Digi-Key':'digikey', 'Mouser':'mouser', 'Newark':'newark', 'Farnell':'farnell', 'RS Components':'rs', 'TME':'tme'}
 
         def get_part_info(query, parts):
             url = 'http://octopart.com/api/v3/parts/match?queries=%s' % urllib.quote(json.dumps(query))
@@ -378,7 +378,10 @@ def kicost(in_file, eda_tool_name, out_filename,
                         if dist in distributor_dict:
                             parts[i].part_num[dist] = offer.get('_naive_id', '')
                             parts[i].url[dist] = offer.get('product_url', '')
-                            parts[i].price_tiers[dist] = {qty:float(price) for qty, price in offer['prices'].values()[0]}
+                            try:
+                                parts[i].price_tiers[dist] = {qty:float(price) for qty, price in offer['prices'].values()[0]}
+                            except Exception as e:
+                                pass  # Price list is probably missing so leave empty default dict in place.
                             parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None)
                             parts[i].info_dist[dist] = {}
             
@@ -391,7 +394,7 @@ def kicost(in_file, eda_tool_name, out_filename,
                 continue
             part_query = dict([('reference', i), ('mpn', mpn)])
             octopart_query.append(part_query)
-            if i%9 == 9:
+            if len(octopart_query) == 10:
                 get_part_info(octopart_query, parts)
                 octopart_query = []
 
