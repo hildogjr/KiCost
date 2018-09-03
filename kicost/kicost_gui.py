@@ -29,7 +29,6 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 try:
     import wx # wxWidgets for Python.
-    from .wxAnyThread import anythread # For correct use of the threads with the GUI in wxPython.
 except ImportError:
     raise ImportError('wxPython package not recognized.')
 import webbrowser # To update informations.
@@ -675,7 +674,6 @@ class formKiCost(wx.Frame):
         #wx.CallLater(10, self.run) # Necessary to not '(core dumped)' with wxPython.
 
     #----------------------------------------------------------------------
-    @anythread
     def run(self):
         ''' @brief Run KiCost.
             Run KiCost in the GUI interface updating the process bar and messages.'''
