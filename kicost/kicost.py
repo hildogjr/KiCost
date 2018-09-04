@@ -387,11 +387,18 @@ def kicost(in_file, eda_tool_name, out_filename,
                         # price/qty info to the parts list if its one of the accepted distributors.
                         dist = dist_xlate.get(offer['seller']['name'], '')
                         if dist in distributor_dict:
-                            parts[i].part_num[dist] = offer.get('_naive_id', '') # Get catalog number.
-                            parts[i].url[dist] = offer.get('product_url', '') # Get product page on dist. website.
+
+                            # Get catalog number for this part from this distributor
+                            # and remove the distributor ID prepended by Octopart.
+                            #parts[i].part_num[dist] = re.sub('^[0-9]+_', '', offer.get('_naive_id', ''))
+                            parts[i].part_num[dist] = offer.get('sku', '')
+
+                            # Get product page on dist. website.
+                            parts[i].url[dist] = offer.get('product_url', '')
+
                             # Get pricing information from this distributor.
                             try:
-                                parts[i].price_tiers[dist] = {qty:float(price) for qty, price in list(offer['prices'].values())[0]}
+                                parts[i].price_tiers[dist].update({qty:float(price) for qty, price in list(offer['prices'].values())[0]})
                             except Exception as e:
                                 pass  # Price list is probably missing so leave empty default dict in place.
                             parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None) # Get available quantity.
