@@ -222,6 +222,7 @@ def kicost(in_file, eda_tool_name, out_filename,
         part.url = {dist:'' for dist in distributor_dict}
         part.price_tiers = {dist:{} for dist in distributor_dict}
         part.qty_avail = {dist:None for dist in distributor_dict}
+        part.qty_increment = {dist:None for dist in distributor_dict}
         part.info_dist = {dist:{} for dist in distributor_dict}
 
     # Loop through the parts looking for those sourced by local distributors
@@ -388,20 +389,41 @@ def kicost(in_file, eda_tool_name, out_filename,
                         dist = dist_xlate.get(offer['seller']['name'], '')
                         if dist in distributor_dict:
 
-                            # Get catalog number for this part from this distributor
-                            # and remove the distributor ID prepended by Octopart.
-                            #parts[i].part_num[dist] = re.sub('^[0-9]+_', '', offer.get('_naive_id', ''))
-                            parts[i].part_num[dist] = offer.get('sku', '')
-
-                            # Get product page on dist. website.
-                            parts[i].url[dist] = offer.get('product_url', '')
-
                             # Get pricing information from this distributor.
                             try:
-                                parts[i].price_tiers[dist].update({qty:float(price) for qty, price in list(offer['prices'].values())[0]})
-                            except Exception as e:
+                                price_tiers = {} # Empty dict in case of exception.
+                                price_tiers = {qty:float(price) for qty, price in list(offer['prices'].values())[0]}
+                                # Combine price lists for multiple offers from the same distributor
+                                # to build a complete list of cut-tape and reeled components.
+                                parts[i].price_tiers[dist].update(price_tiers)
+                            except Exception:
                                 pass  # Price list is probably missing so leave empty default dict in place.
-                            parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None) # Get available quantity.
+
+                            # Compute the quantity increment between the lowest two prices.
+                            # This will be used to distinguish the cut-tape from the reeled components.
+                            try:
+                                part_break_qtys = sorted(price_tiers.keys())
+                                part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
+                            except Exception:
+                                pass
+
+                            # Use the qty increment to select the part SKU, web page, and available quantity.
+                            # Do this if this is the first part offer from this dist.
+                            if not parts[i].part_num[dist]:
+                                parts[i].part_num[dist] = offer.get('sku', '')
+                                parts[i].url[dist] = offer.get('product_url', '')
+                                parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None)
+                                parts[i].qty_increment[dist] = part_qty_increment
+                            # Otherwise, check qty increment and see if its the smallest for this part & dist.
+                            elif part_qty_increment < parts[i].qty_increment[dist]:
+                                    # This part looks more like a cut-tape version, so
+                                    # update the SKU, web page, and available quantity.
+                                    parts[i].part_num[dist] = offer.get('sku', '')
+                                    parts[i].url[dist] = offer.get('product_url', '')
+                                    parts[i].qty_avail[dist] = offer.get('in_stock_quantity', None)
+                                    parts[i].qty_increment[dist] = part_qty_increment
+
+                            # Don't bother with any extra info from the distributor.
                             parts[i].info_dist[dist] = {}
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
