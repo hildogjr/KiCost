@@ -39,7 +39,7 @@ from ..global_vars import distributor_dict
 
 from urllib.parse import quote_plus as urlquote
 
-class dist_newark(distributor.distributor):
+class dist_arrow(distributor.distributor):
     def __init__(self, name, scrape_retries, throttle_delay):
         super(dist_newark, self).__init__(name, distributor_dict[name]['site']['url'],
             scrape_retries, throttle_delay)
@@ -49,11 +49,11 @@ class dist_newark(distributor.distributor):
     def dist_init_distributor_dict():
         distributor_dict.update(
         {
-            'newark': {
-                'octopart_name': 'Newark',
-                'module': 'newark', # The directory name containing this file.
+            'arrow': {
+                'octopart_name': 'Arrow Electronics, Inc.',
+                'module': 'arrow', # The directory name containing this file.
                 'scrape': 'web',    # Allowable values: 'web' or 'local'.
-                'label': 'Newark',  # Distributor label used in spreadsheet columns.
+                'label': 'Arrow',  # Distributor label used in spreadsheet columns.
                 'order_cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
                 'order_delimiter': ',',  # Delimiter for online orders.
                 # Formatting for distributor header in worksheet.
@@ -63,9 +63,9 @@ class dist_newark(distributor.distributor):
                     'bold': True,
                     'align': 'center',
                     'valign': 'vcenter',
-                    'bg_color': '#A2AE06'  # Newark/E14 olive green.
+                    'bg_color': '#000000'  # Arrow black.
                 },
-                # Web site defitions.
+                # Web site definitions.
                 'site': {
                     'url': 'https://www.newark.com/',
                     'currency': 'USD',

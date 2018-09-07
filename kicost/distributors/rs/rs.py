@@ -52,6 +52,7 @@ class dist_rs(distributor.distributor):
         distributor_dict.update(
         {
             'rs': {
+                'octopart_name': 'RS Components',
                 'module': 'rs',           # The directory name containing this file.
                 'scrape': 'web',          # Allowable values: 'web' or 'local'.
                 'label': 'RS Components', # Distributor label used in spreadsheet columns.

@@ -52,6 +52,7 @@ class dist_local(distributor.distributor):
         distributor_dict.update(
         {
             'local_template': {
+                'octopart_name': '',
                 'module': 'local', # The directory name containing this file.
                 'scrape': 'local', # Allowable values: 'web' or 'local'.
                 'label': 'Local',  # Distributor label used in spreadsheet columns.

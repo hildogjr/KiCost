@@ -52,6 +52,7 @@ class dist_mouser(distributor.distributor):
         distributor_dict.update(
         {
             'mouser': {
+                'octopart_name': 'Mouser',
                 'module': 'mouser',  # The directory name containing this file.
                 'scrape': 'web',     # Allowable values: 'web' or 'local'.
                 'label': 'Mouser',   # Distributor label used in spreadsheet columns.

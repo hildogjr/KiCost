@@ -51,6 +51,7 @@ class dist_tme(distributor.distributor):
         distributor_dict.update(
         {
             'tme': {
+                'octopart_name': 'TME',
                 'module': 'tme', # The directory name containing this file.
                 'scrape': 'web',     # Allowable values: 'web' or 'local'.
                 'label': 'TME',  # Distributor label used in spreadsheet columns.

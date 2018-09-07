@@ -158,7 +158,7 @@ def query_octopart(parts, distributors):
     logger.removeHandler(logDefaultHandler)
 
     # Translate from Octopart distributor names to the names used internally by kicost.
-    dist_xlate = {'Digi-Key':'digikey', 'Mouser':'mouser', 'Newark':'newark', 'Farnell':'farnell', 'RS Components':'rs', 'TME':'tme'}
+    dist_xlate = {dist_value['octopart_name']:dist_key for dist_key, dist_value in distributors.items()}
 
     def get_part_info(query, parts):
         """Query Octopart for quantity/price info and place it into the parts list."""

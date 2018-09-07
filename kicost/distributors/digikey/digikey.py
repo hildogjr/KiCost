@@ -52,6 +52,7 @@ class dist_digikey(distributor.distributor):
         distributor_dict.update(
         {
             'digikey': {
+                'octopart_name': 'Digi-Key',
                 'module': 'digikey', # The directory name containing this file.
                 'scrape': 'web',     # Allowable values: 'web' or 'local'.
                 'label': 'Digi-Key', # Distributor label used in spreadsheet columns.

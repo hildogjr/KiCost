@@ -53,6 +53,7 @@ class dist_farnell(distributor.distributor):
         distributor_dict.update(
         {
             'farnell': {
+                'octopart_name': 'Farnell',
                 'module': 'farnell', # The directory name containing this file.
                 'scrape': 'web',     # Allowable values: 'web' or 'local'.
                 'label': 'Farnell',  # Distributor label used in spreadsheet columns.
