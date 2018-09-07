@@ -198,7 +198,10 @@ def query_octopart(parts, distributors):
                             part_break_qtys = sorted(price_tiers.keys())
                             part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
                         except Exception:
-                            pass
+                            # This will happen if there are not enough entries in the price/qty list.
+                            # As a stop-gap measure, just assign infinity to the part increment.
+                            # A better alternative may be to examine the packaging field of the offer.
+                            part_qty_increment = float("inf")
 
                         # Use the qty increment to select the part SKU, web page, and available quantity.
                         # Do this if this is the first part offer from this dist.
