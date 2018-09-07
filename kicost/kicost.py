@@ -159,6 +159,7 @@ def kicost(in_file, eda_tool_name, out_filename,
             # not be displayed (Needed to check `user_fields`).
             if f not in FIELDS_IGNORE and SEPRTR not in f and not f in group_fields: # Not include repetitive filed names or fields with the separator `:` defined on `SEPRTR`.
                 group_fields += [f]
+
     # Some fields to be merged on specific EDA are enrolled bellow.
     if 'kicad' in eda_tool_name:
         group_fields += ['libpart'] # This field may be a mess on multiple sheet designs.
@@ -197,86 +198,86 @@ def kicost(in_file, eda_tool_name, out_filename,
     # Handle locally-sourced parts.
     ##############################################################################
 
-    # This loops through all the parts and finds any that are sourced from 
-    # local distributors that are not normally searched and places them into 
-    # the distributor disctionary.
-    for part in parts:
-        # Find the various distributors for this part by
-        # looking for leading fields terminated by SEPRTR.
-        for key in part.fields:
-            try:
-                dist = key[:key.index(SEPRTR)]
-            except ValueError:
-                continue
+    # # This loops through all the parts and finds any that are sourced from 
+    # # local distributors that are not normally searched and places them into 
+    # # the distributor disctionary.
+    # for part in parts:
+        # # Find the various distributors for this part by
+        # # looking for leading fields terminated by SEPRTR.
+        # for key in part.fields:
+            # try:
+                # dist = key[:key.index(SEPRTR)]
+            # except ValueError:
+                # continue
 
-            # If the distributor is not in the list of web-scrapable distributors,
-            # then it's a local distributor. Copy the local distributor template
-            # and add it to the table of distributors.
-            if dist not in distributor_dict:
-                distributor_dict[dist] = copy.copy(distributor_dict['local_template'])
-                distributor_dict[dist]['label'] = dist  # Set dist name for spreadsheet header.
+            # # If the distributor is not in the list of web-scrapable distributors,
+            # # then it's a local distributor. Copy the local distributor template
+            # # and add it to the table of distributors.
+            # if dist not in distributor_dict:
+                # distributor_dict[dist] = copy.copy(distributor_dict['local_template'])
+                # distributor_dict[dist]['label'] = dist  # Set dist name for spreadsheet header.
 
-    # Set part info to default values for all the distributors.
-    for part in parts:
-        part.part_num = {dist:'' for dist in distributor_dict}
-        part.url = {dist:'' for dist in distributor_dict}
-        part.price_tiers = {dist:{} for dist in distributor_dict}
-        part.qty_avail = {dist:None for dist in distributor_dict}
-        part.qty_increment = {dist:None for dist in distributor_dict}
-        part.info_dist = {dist:{} for dist in distributor_dict}
+    # # Set part info to default values for all the distributors.
+    # for part in parts:
+        # part.part_num = {dist:'' for dist in distributor_dict}
+        # part.url = {dist:'' for dist in distributor_dict}
+        # part.price_tiers = {dist:{} for dist in distributor_dict}
+        # part.qty_avail = {dist:None for dist in distributor_dict}
+        # part.qty_increment = {dist:None for dist in distributor_dict}
+        # part.info_dist = {dist:{} for dist in distributor_dict}
 
-    # Loop through the parts looking for those sourced by local distributors
-    # that won't be found online. Place any user-added info for these parts
-    # (such as pricing) into the part dictionary.
-    for p in parts:
-        # Find the manufacturer's part number if it exists.
-        pn = p.fields.get('manf#') # Returns None if no manf# field.
+    # # Loop through the parts looking for those sourced by local distributors
+    # # that won't be found online. Place any user-added info for these parts
+    # # (such as pricing) into the part dictionary.
+    # for p in parts:
+        # # Find the manufacturer's part number if it exists.
+        # pn = p.fields.get('manf#') # Returns None if no manf# field.
 
-       # Now look for catalog number, price list and webpage link for this part.
-        for dist in distributor_dict:
-            cat_num = p.fields.get(dist+':cat#')
-            pricing = p.fields.get(dist+':pricing')
-            link = p.fields.get(dist+':link')
-            if cat_num is None and pricing is None and link is None:
-                continue
+       # # Now look for catalog number, price list and webpage link for this part.
+        # for dist in distributor_dict:
+            # cat_num = p.fields.get(dist+':cat#')
+            # pricing = p.fields.get(dist+':pricing')
+            # link = p.fields.get(dist+':link')
+            # if cat_num is None and pricing is None and link is None:
+                # continue
 
-            def make_random_catalog_number(p):
-                hash_fields = {k: p.fields[k] for k in p.fields}
-                hash_fields['dist'] = dist
-                return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
+            # def make_random_catalog_number(p):
+                # hash_fields = {k: p.fields[k] for k in p.fields}
+                # hash_fields['dist'] = dist
+                # return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
 
-            cat_num = cat_num or pn or make_random_catalog_number(p)
-            p.fields[dist+':cat#'] = cat_num # Store generated cat#.
-            p.part_num[dist] = cat_num
+            # cat_num = cat_num or pn or make_random_catalog_number(p)
+            # p.fields[dist+':cat#'] = cat_num # Store generated cat#.
+            # p.part_num[dist] = cat_num
 
-            link = ''
-            try:
-                url_parts = list(urlsplit(link))
-                if url_parts[0] == '':
-                    url_parts[0] = u'http'
-                link = urlunsplit(url_parts)
-            except Exception:
-                # This happens when no part URL is found.
-                logger.log(DEBUG_OBSESSIVE, 'No local part URL found!')
-            p.url[dist] = link
+            # link = ''
+            # try:
+                # url_parts = list(urlsplit(link))
+                # if url_parts[0] == '':
+                    # url_parts[0] = u'http'
+                # link = urlunsplit(url_parts)
+            # except Exception:
+                # # This happens when no part URL is found.
+                # logger.log(DEBUG_OBSESSIVE, 'No local part URL found!')
+            # p.url[dist] = link
                 
-            price_tiers = {}
-            try:
-                pricing = re.sub('[^0-9.;:]', '', pricing) # Keep only digits, decimals, delimiters.
-                for qty_price in pricing.split(';'):
-                    qty, price = qty_price.split(SEPRTR)
-                    price_tiers[int(qty)] = float(price)
-            except AttributeError:
-                # This happens when no pricing info is found.
-                logger.log(DEBUG_OBSESSIVE, 'No local pricing information found!')
-            p.price_tiers[dist] = price_tiers
+            # price_tiers = {}
+            # try:
+                # pricing = re.sub('[^0-9.;:]', '', pricing) # Keep only digits, decimals, delimiters.
+                # for qty_price in pricing.split(';'):
+                    # qty, price = qty_price.split(SEPRTR)
+                    # price_tiers[int(qty)] = float(price)
+            # except AttributeError:
+                # # This happens when no pricing info is found.
+                # logger.log(DEBUG_OBSESSIVE, 'No local pricing information found!')
+            # p.price_tiers[dist] = price_tiers
 
-    # Remove the local distributor template so it won't be processed later on.
-    # It has served its purpose.
-    try:
-        del distributor_dict['local_template']
-    except:
-        pass
+    # # Remove the local distributor template so it won't be processed later on.
+    # # It has served its purpose.
+    # try:
+        # del distributor_dict['local_template']
+    # except:
+        # pass
 
     ##############################################################################
     # Done handling locally-sourced parts.

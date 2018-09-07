@@ -29,11 +29,103 @@ import json
 import requests
 import logging
 import tqdm
+import copy
+import re
 
-from ..global_vars import logger, DEBUG_OVERVIEW # Debug configurations.
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE # Debug configurations.
+from ..global_vars import SEPRTR
+
+
+def handle_local_parts(parts, distributors):
+    """Fill-in part information for locally-sourced parts not handled by Octopart."""
+
+    # This loops through all the parts and finds any that are sourced from 
+    # local distributors that are not normally searched and places them into 
+    # the distributor disctionary.
+    for part in parts:
+        # Find the various distributors for this part by
+        # looking for leading fields terminated by SEPRTR.
+        for key in part.fields:
+            try:
+                dist = key[:key.index(SEPRTR)]
+            except ValueError:
+                continue
+
+            # If the distributor is not in the list of web-scrapable distributors,
+            # then it's a local distributor. Copy the local distributor template
+            # and add it to the table of distributors.
+            if dist not in distributors:
+                distributors[dist] = copy.copy(distributors['local_template'])
+                distributors[dist]['label'] = dist  # Set dist name for spreadsheet header.
+
+    # Set part info to default values for all the distributors.
+    for part in parts:
+        part.part_num = {dist:'' for dist in distributors}
+        part.url = {dist:'' for dist in distributors}
+        part.price_tiers = {dist:{} for dist in distributors}
+        part.qty_avail = {dist:None for dist in distributors}
+        part.qty_increment = {dist:None for dist in distributors}
+        part.info_dist = {dist:{} for dist in distributors}
+
+    # Loop through the parts looking for those sourced by local distributors
+    # that won't be found online. Place any user-added info for these parts
+    # (such as pricing) into the part dictionary.
+    for p in parts:
+        # Find the manufacturer's part number if it exists.
+        pn = p.fields.get('manf#') # Returns None if no manf# field.
+
+       # Now look for catalog number, price list and webpage link for this part.
+        for dist in distributors:
+            cat_num = p.fields.get(dist+':cat#')
+            pricing = p.fields.get(dist+':pricing')
+            link = p.fields.get(dist+':link')
+            if cat_num is None and pricing is None and link is None:
+                continue
+
+            def make_random_catalog_number(p):
+                hash_fields = {k: p.fields[k] for k in p.fields}
+                hash_fields['dist'] = dist
+                return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
+
+            cat_num = cat_num or pn or make_random_catalog_number(p)
+            p.fields[dist+':cat#'] = cat_num # Store generated cat#.
+            p.part_num[dist] = cat_num
+
+            link = ''
+            try:
+                url_parts = list(urlsplit(link))
+                if url_parts[0] == '':
+                    url_parts[0] = u'http'
+                link = urlunsplit(url_parts)
+            except Exception:
+                # This happens when no part URL is found.
+                logger.log(DEBUG_OBSESSIVE, 'No local part URL found!')
+            p.url[dist] = link
+                
+            price_tiers = {}
+            try:
+                pricing = re.sub('[^0-9.;:]', '', pricing) # Keep only digits, decimals, delimiters.
+                for qty_price in pricing.split(';'):
+                    qty, price = qty_price.split(SEPRTR)
+                    price_tiers[int(qty)] = float(price)
+            except AttributeError:
+                # This happens when no pricing info is found.
+                logger.log(DEBUG_OBSESSIVE, 'No local pricing information found!')
+            p.price_tiers[dist] = price_tiers
+
+    # Remove the local distributor template so it won't be processed later on.
+    # It has served its purpose.
+    try:
+        del distributors['local_template']
+    except:
+        pass
+
 
 def query_octopart(parts, distributors):
     """Fill-in the parts with price/qty/etc info from Octopart."""
+
+    # Fill-in info for any locally-sourced parts not handled by Octopart.
+    handle_local_parts(parts, distributors)
 
     logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
