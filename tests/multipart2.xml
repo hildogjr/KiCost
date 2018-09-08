@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>TestBoard.sch</source>
+    <date>Thu 11 Aug 2016 01:24:52 PM PDT</date>
+    <tool>Eeschema 4.0.3+e1-6302~38~ubuntu14.04.1-stable</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>TestBoard</title>
+        <company></company>
+        <rev>DRAFT</rev>
+        <date>2016-07-12</date>
+        <source>TestBoard.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="J2">
+      <value>DF12(5.0)-30DP-0.5V(86)</value>
+      <footprint>Connectors:Hirose_DF12-30DP-0.5V</footprint>
+      <fields>
+        <field name="manf">Hirose</field>
+        <field name="manf#">DF12(5.0)-30DP-0.5V(86)</field>
+      </fields>
+      <libsource lib="Connectors" part="DF12(5.0)-30DP-0.5V(86)"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57AA8A5F</tstamp>
+    </comp>
+    <comp ref="J3">
+      <value>BLE113_Debug_Header</value>
+      <footprint>Connectors:CNC-Tech_3220-10-0300-00</footprint>
+      <fields>
+        <field name="manf#">10:3220-10-0300-00</field>
+      </fields>
+      <libsource lib="Connectors" part="BLE113_Debug_Header"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57AA8AC8</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>ST-LINK_Debug_Header</value>
+      <footprint>Connectors:3M_30320-6002HB</footprint>
+      <fields>
+        <field name="manf">3M</field>
+        <field name="manf#">30320-6002HB</field>
+      </fields>
+      <libsource lib="Connectors" part="ST-LINK_Debug_Header"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57AB9C7A</tstamp>
+    </comp>
+    <comp ref="S1">
+      <value>Coto_CL-SB-22A-01T</value>
+      <footprint>Switches:Coto_CL-SB-22A</footprint>
+      <fields>
+        <field name="manf">Coto</field>
+        <field name="manf#">CL-SB-22A-01T</field>
+      </fields>
+      <libsource lib="Switches" part="Coto_CL-SB-22A-01T"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57AB9DE8</tstamp>
+    </comp>
+    <comp ref="S2">
+      <value>Coto_CL-SB-22A-01T</value>
+      <footprint>Switches:Coto_CL-SB-22A</footprint>
+      <fields>
+        <field name="manf">Coto</field>
+        <field name="manf#">CL-SB-22A-01T</field>
+      </fields>
+      <libsource lib="Switches" part="Coto_CL-SB-22A-01T"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABA691</tstamp>
+    </comp>
+    <comp ref="SW1">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABA77B</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>0</value>
+      <footprint>Resistors_SMD:R_0402</footprint>
+      <fields>
+        <field name="manf">Samsung</field>
+        <field name="manf#">RC1005J000CS</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABA8A1</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>DNI</value>
+      <footprint>Resistors_SMD:R_0402</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABA93A</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>0</value>
+      <footprint>Resistors_SMD:R_0402</footprint>
+      <fields>
+        <field name="manf">Samsung</field>
+        <field name="manf#">RC1005J000CS</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABAD23</tstamp>
+    </comp>
+    <comp ref="SW2">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABB9A0</tstamp>
+    </comp>
+    <comp ref="SW3">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABBD06</tstamp>
+    </comp>
+    <comp ref="SW4">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABBD62</tstamp>
+    </comp>
+    <comp ref="SW5">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABBDD2</tstamp>
+    </comp>
+    <comp ref="SW6">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABBDE6</tstamp>
+    </comp>
+    <comp ref="SW7">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABBFF4</tstamp>
+    </comp>
+    <comp ref="SW8">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABC008</tstamp>
+    </comp>
+    <comp ref="SW9">
+      <value>Wurth_431481031816</value>
+      <footprint>Switches:Wurth_431481031816</footprint>
+      <fields>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57ABC148</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connectors" part="BLE113_Debug_Header">
+      <description>Debug/program header for BLE113 module</description>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">BLE113_Debug_Header</field>
+        <field name="Footprint">Connectors:CNC-Tech_3220-10-0300-00</field>
+        <field name="PartNum">3220-10-0300-00</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="unspc"/>
+        <pin num="2" name="3V3" type="unspc"/>
+        <pin num="3" name="DC" type="unspc"/>
+        <pin num="4" name="DD" type="unspc"/>
+        <pin num="5" name="NC" type="NotConnected"/>
+        <pin num="6" name="NC" type="NotConnected"/>
+        <pin num="7" name="~RESET" type="unspc"/>
+        <pin num="8" name="NC" type="NotConnected"/>
+        <pin num="9" name="NC" type="NotConnected"/>
+        <pin num="10" name="NC" type="NotConnected"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switches" part="Coto_CL-SB-22A-01T">
+      <description>Slide switch, DPDT, ON-ON</description>
+      <fields>
+        <field name="Reference">S</field>
+        <field name="Value">Coto_CL-SB-22A-01T</field>
+        <field name="Footprint">Switches:Coto_CL-SB-22A</field>
+        <field name="manf">Coto</field>
+        <field name="manf#">CL-SB-22A-01T</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connectors" part="DF12(5.0)-30DP-0.5V(86)">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">DF12(5.0)-30DP-0.5V(86)</field>
+        <field name="Footprint">Connectors:Hirose_DF12-30DP-0.5V</field>
+        <field name="manf">Hirose</field>
+        <field name="manf#">DF12(5.0)-30DP-0.5V(86)</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="5" type="passive"/>
+        <pin num="6" name="6" type="passive"/>
+        <pin num="7" name="7" type="passive"/>
+        <pin num="8" name="8" type="passive"/>
+        <pin num="9" name="9" type="passive"/>
+        <pin num="10" name="10" type="passive"/>
+        <pin num="11" name="11" type="passive"/>
+        <pin num="12" name="12" type="passive"/>
+        <pin num="13" name="13" type="passive"/>
+        <pin num="14" name="14" type="passive"/>
+        <pin num="15" name="15" type="passive"/>
+        <pin num="16" name="16" type="passive"/>
+        <pin num="17" name="17" type="passive"/>
+        <pin num="18" name="18" type="passive"/>
+        <pin num="19" name="19" type="passive"/>
+        <pin num="20" name="20" type="passive"/>
+        <pin num="21" name="21" type="passive"/>
+        <pin num="22" name="22" type="passive"/>
+        <pin num="23" name="23" type="passive"/>
+        <pin num="24" name="24" type="passive"/>
+        <pin num="25" name="25" type="passive"/>
+        <pin num="26" name="26" type="passive"/>
+        <pin num="27" name="27" type="passive"/>
+        <pin num="28" name="28" type="passive"/>
+        <pin num="29" name="29" type="passive"/>
+        <pin num="30" name="30" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>Resistor_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Connectors" part="ST-LINK_Debug_Header">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">ST-LINK_Debug_Header</field>
+        <field name="Footprint">Connectors:3M_30320-6002HB</field>
+        <field name="manf">3M</field>
+        <field name="manf#">30320-6002HB</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VAPP[2]" type="passive"/>
+        <pin num="2" name="VAPP" type="passive"/>
+        <pin num="3" name="GND[11]" type="passive"/>
+        <pin num="4" name="GND" type="passive"/>
+        <pin num="5" name="GND" type="passive"/>
+        <pin num="6" name="GND" type="passive"/>
+        <pin num="7" name="SWDIO" type="passive"/>
+        <pin num="8" name="GND" type="passive"/>
+        <pin num="9" name="SWCLK" type="passive"/>
+        <pin num="10" name="GND" type="passive"/>
+        <pin num="13" name="TRACESWO" type="passive"/>
+        <pin num="14" name="GND" type="passive"/>
+        <pin num="15" name="NRST" type="passive"/>
+        <pin num="16" name="GND" type="passive"/>
+        <pin num="18" name="GND" type="passive"/>
+        <pin num="20" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Switches" part="Wurth_431481031816">
+      <description>Momentary SPST tactile button with ground</description>
+      <fields>
+        <field name="Reference">SW</field>
+        <field name="Value">Wurth_431481031816</field>
+        <field name="Footprint">Switches:Wurth_431481031816</field>
+        <field name="manf">Wurth Elektronik</field>
+        <field name="manf#">431481031816</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+        <pin num="4" name="4" type="passive"/>
+        <pin num="5" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connectors">
+      <uri>/home/mblair/lib/KiCad-Lib/library/Connectors.lib</uri>
+    </library>
+    <library logical="Switches">
+      <uri>/home/mblair/lib/KiCad-Lib/library/Switches.lib</uri>
+    </library>
+    <library logical="device">
+      <uri>/usr/share/kicad/library/device.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="POWER_BUTTON2">
+      <node ref="J2" pin="28"/>
+      <node ref="SW2" pin="4"/>
+      <node ref="SW2" pin="3"/>
+    </net>
+    <net code="2" name="GND">
+      <node ref="SW9" pin="5"/>
+      <node ref="SW9" pin="2"/>
+      <node ref="SW9" pin="1"/>
+      <node ref="SW5" pin="5"/>
+      <node ref="SW6" pin="1"/>
+      <node ref="SW6" pin="2"/>
+      <node ref="SW5" pin="2"/>
+      <node ref="SW5" pin="1"/>
+      <node ref="SW8" pin="5"/>
+      <node ref="SW8" pin="2"/>
+      <node ref="SW8" pin="1"/>
+      <node ref="S1" pin="6"/>
+      <node ref="J1" pin="20"/>
+      <node ref="J1" pin="8"/>
+      <node ref="J1" pin="6"/>
+      <node ref="J1" pin="5"/>
+      <node ref="J1" pin="4"/>
+      <node ref="J1" pin="3"/>
+      <node ref="SW1" pin="1"/>
+      <node ref="SW1" pin="5"/>
+      <node ref="J3" pin="1"/>
+      <node ref="J2" pin="29"/>
+      <node ref="SW7" pin="5"/>
+      <node ref="SW7" pin="2"/>
+      <node ref="SW7" pin="1"/>
+      <node ref="SW6" pin="5"/>
+      <node ref="J1" pin="10"/>
+      <node ref="SW1" pin="2"/>
+      <node ref="J1" pin="18"/>
+      <node ref="J1" pin="16"/>
+      <node ref="J1" pin="14"/>
+      <node ref="SW3" pin="2"/>
+      <node ref="SW3" pin="5"/>
+      <node ref="SW4" pin="1"/>
+      <node ref="SW4" pin="2"/>
+      <node ref="SW4" pin="5"/>
+      <node ref="SW3" pin="1"/>
+      <node ref="SW2" pin="5"/>
+    </net>
+    <net code="3" name="POWER_BUTTON1">
+      <node ref="SW2" pin="1"/>
+      <node ref="SW2" pin="2"/>
+      <node ref="J2" pin="26"/>
+    </net>
+    <net code="4" name="BLE113_DEBUG_RESETn">
+      <node ref="J3" pin="7"/>
+      <node ref="J2" pin="17"/>
+    </net>
+    <net code="5" name="BLE113_DEBUG_DC">
+      <node ref="J3" pin="3"/>
+      <node ref="J2" pin="13"/>
+    </net>
+    <net code="6" name="BLE113_DEBUG_DD">
+      <node ref="J2" pin="15"/>
+      <node ref="J3" pin="4"/>
+    </net>
+    <net code="7" name="BUTTON_FN1n">
+      <node ref="J2" pin="22"/>
+      <node ref="SW4" pin="4"/>
+      <node ref="SW4" pin="3"/>
+    </net>
+    <net code="8" name="BUTTON_READn">
+      <node ref="J2" pin="19"/>
+      <node ref="SW3" pin="4"/>
+      <node ref="SW3" pin="3"/>
+    </net>
+    <net code="9" name="+3V3D">
+      <node ref="S2" pin="6"/>
+      <node ref="J3" pin="2"/>
+      <node ref="J2" pin="2"/>
+      <node ref="J1" pin="2"/>
+      <node ref="J1" pin="1"/>
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="10" name="FORCE_ONn">
+      <node ref="R2" pin="1"/>
+      <node ref="J2" pin="20"/>
+    </net>
+    <net code="11" name="BOOT0">
+      <node ref="J2" pin="30"/>
+      <node ref="R3" pin="1"/>
+    </net>
+    <net code="12" name="SYS_JTMS-SWDIO">
+      <node ref="J1" pin="7"/>
+      <node ref="J2" pin="16"/>
+    </net>
+    <net code="13" name="NRST">
+      <node ref="SW1" pin="4"/>
+      <node ref="J1" pin="15"/>
+      <node ref="SW1" pin="3"/>
+      <node ref="J2" pin="18"/>
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="14" name="SYS_JTMS-SWCLK">
+      <node ref="J1" pin="9"/>
+      <node ref="J2" pin="14"/>
+    </net>
+    <net code="15" name="Net-(J1-Pad13)">
+      <node ref="J1" pin="13"/>
+    </net>
+    <net code="16" name="BUTTON_RIGHTn">
+      <node ref="SW8" pin="4"/>
+      <node ref="J2" pin="27"/>
+      <node ref="SW8" pin="3"/>
+    </net>
+    <net code="17" name="BUTTON_ENTERn">
+      <node ref="SW9" pin="4"/>
+      <node ref="SW9" pin="3"/>
+      <node ref="J2" pin="23"/>
+    </net>
+    <net code="18" name="BUTTON_DOWNn">
+      <node ref="SW6" pin="3"/>
+      <node ref="SW6" pin="4"/>
+      <node ref="J2" pin="25"/>
+    </net>
+    <net code="19" name="BUTTON_UPn">
+      <node ref="SW5" pin="4"/>
+      <node ref="SW5" pin="3"/>
+      <node ref="J2" pin="24"/>
+    </net>
+    <net code="20" name="BUTTON_LEFTn">
+      <node ref="SW7" pin="4"/>
+      <node ref="SW7" pin="3"/>
+      <node ref="J2" pin="21"/>
+    </net>
+    <net code="21" name="Net-(S1-Pad3)">
+      <node ref="S1" pin="3"/>
+    </net>
+    <net code="22" name="Net-(S1-Pad2)">
+      <node ref="S1" pin="2"/>
+    </net>
+    <net code="23" name="Net-(S1-Pad1)">
+      <node ref="S1" pin="1"/>
+    </net>
+    <net code="24" name="Net-(S1-Pad4)">
+      <node ref="S1" pin="4"/>
+    </net>
+    <net code="25" name="Net-(J3-Pad10)">
+      <node ref="J3" pin="10"/>
+    </net>
+    <net code="26" name="DEBUG_TIM_CH1">
+      <node ref="J2" pin="1"/>
+    </net>
+    <net code="27" name="Net-(R2-Pad2)">
+      <node ref="R2" pin="2"/>
+      <node ref="S1" pin="5"/>
+    </net>
+    <net code="28" name="DEBUG_SDA">
+      <node ref="J2" pin="11"/>
+    </net>
+    <net code="29" name="DEBUG_SCL">
+      <node ref="J2" pin="9"/>
+    </net>
+    <net code="30" name="DEBUG_DAC">
+      <node ref="J2" pin="7"/>
+    </net>
+    <net code="31" name="DEBUG_PD6">
+      <node ref="J2" pin="5"/>
+    </net>
+    <net code="32" name="DEBUG_PA15">
+      <node ref="J2" pin="3"/>
+    </net>
+    <net code="33" name="Net-(J3-Pad9)">
+      <node ref="J3" pin="9"/>
+    </net>
+    <net code="34" name="Net-(J3-Pad8)">
+      <node ref="J3" pin="8"/>
+    </net>
+    <net code="35" name="Net-(J3-Pad6)">
+      <node ref="J3" pin="6"/>
+    </net>
+    <net code="36" name="Net-(J3-Pad5)">
+      <node ref="J3" pin="5"/>
+    </net>
+    <net code="37" name="Net-(S2-Pad3)">
+      <node ref="S2" pin="3"/>
+    </net>
+    <net code="38" name="Net-(S2-Pad2)">
+      <node ref="S2" pin="2"/>
+    </net>
+    <net code="39" name="Net-(S2-Pad1)">
+      <node ref="S2" pin="1"/>
+    </net>
+    <net code="40" name="Net-(S2-Pad4)">
+      <node ref="S2" pin="4"/>
+    </net>
+    <net code="41" name="Net-(R3-Pad2)">
+      <node ref="R3" pin="2"/>
+      <node ref="S2" pin="5"/>
+    </net>
+    <net code="42" name="DEBUG_RX6">
+      <node ref="J2" pin="10"/>
+    </net>
+    <net code="43" name="DEBUG_TX1">
+      <node ref="J2" pin="8"/>
+    </net>
+    <net code="44" name="DEBUG_RX1">
+      <node ref="J2" pin="6"/>
+    </net>
+    <net code="45" name="DEBUG_TIM_CH2">
+      <node ref="J2" pin="4"/>
+    </net>
+    <net code="46" name="DEBUG_TX6">
+      <node ref="J2" pin="12"/>
+    </net>
+  </nets>
+</export>
