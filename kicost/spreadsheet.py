@@ -268,7 +268,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
-        logger.log(DEBUG_OVERVIEW, 'Writing the distributors parts informations...')
+        logger.log(DEBUG_OVERVIEW, 'Writing the distributor part information...')
         for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
@@ -292,7 +292,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields, collapse_refs):
     '''Add global part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, 'Writing the global parts informations...')
+    logger.log(DEBUG_OVERVIEW, 'Writing the global part information...')
 
     # Columns for the various types of global part data.
     columns = {
@@ -349,11 +349,11 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Qty',
             'width': None,
-            'comment': '''Total number of each part needed to assemble the board(s).
-Gray -> Not manf# codes.
+            'comment': '''Total number of each part needed.
+Gray -> No manf# provided.
 Red -> No parts available.
-Orange -> Parts available, but not enough.
-Yellow -> Enough parts available, but haven't purchased enough.''',
+Orange -> Not enough parts available.
+Yellow -> Parts available, but haven't purchased enough.''',
             'static': False,
         },
         'unit_price': {
