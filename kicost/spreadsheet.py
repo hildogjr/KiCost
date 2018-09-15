@@ -78,15 +78,16 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
     
         # Create the various format styles used by various spreadsheet items.
-        wrk_formats = {
-            'global': workbook.add_format({
+        WRK_HDR_FORMAT = {
                 'font_size': 14,
                 'font_color': 'white',
                 'bold': True,
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#303030'
-            }),
+            }
+        wrk_formats = {
+            'global': workbook.add_format(WRK_HDR_FORMAT),
             'header': workbook.add_format({
                 'font_size': 12,
                 'bold': True,
@@ -157,7 +158,9 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
 
         # Add the distinctive header format for each distributor to the `dict` of formats.
         for d in distributor_dict:
-            wrk_formats[d] = workbook.add_format(distributor_dict[d]['wrk_hdr_format'])
+            hdr_format = WRK_HDR_FORMAT.copy()
+            hdr_format.update(distributor_dict[d]['label']['format'])
+            wrk_formats[d] = workbook.add_format(hdr_format)
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
@@ -226,7 +229,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
             workbook.define_name('TotalCost{}'.format(i_prj_str),
                             '={wks_name}!{cell_ref}'.format(
                                 wks_name="'" + WORKSHEET_NAME + "'",
-                                cell_ref=xl_rowcol_to_cell(next_row + 2*(1+i_prj),
+                                cell_ref=xl_rowcol_to_cell(next_row + 2,
                                                            next_col - 1,
                                        row_abs=True, col_abs=True)) )
 
@@ -717,7 +720,7 @@ Orange -> Too little quantity available.'''
 
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-            distributor_dict[dist]['label'].title(), wrk_formats[dist])
+            distributor_dict[dist]['label']['name'].title(), wrk_formats[dist])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).

@@ -813,7 +813,7 @@ class formKiCost(wx.Frame):
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 
         # Current distributors module recognized.
-        distributors_list = sorted([ distributor_dict[d]['label'] for d in distributor_dict.keys() ])
+        distributors_list = sorted([ distributor_dict[d]['label']['name'] for d in distributor_dict.keys() ])
         self.m_checkList_dist.Clear()
         for d in distributors_list: # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)

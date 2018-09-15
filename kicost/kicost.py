@@ -236,7 +236,6 @@ FILE_OUTPUT_INPUT_SEP = '-' # Separator in the name of the output spreadsheet fi
 # Here because is used at `__main__.py` and `kicost_gui.py`.
 def output_filename(files_input):
     ''' @brief Compose a name with the multiple BOM input file names.
-
     Compose a name with the multiple BOM input file names, limiting to,
     at least, the first `FILE_OUTPUT_MIN_INPUT` characters of each name
     (avoid huge names by `FILE_OUTPUT_MAX_NAME`definition). Join the names
@@ -258,5 +257,6 @@ def output_filename(files_input):
             if os.path.dirname(files_input[dir_idx])!=dir_output:
                 dir_output = os.getcwd()
 
-    file_output = dir_output + FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] ) + '.xlsx'
+    file_name = FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] )
+    file_output = os.path.join(dir_output, file_name + '.xlsx')
     return file_output

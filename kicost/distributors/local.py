@@ -40,15 +40,15 @@ class dist_local(distributor.distributor):
                 'octopart_name': '',
                 'module': 'local', # The directory name containing this file.
                 'type': 'local', # Allowable values: 'api', 'scrape' or 'local'.
-                'label': 'Local',  # Distributor label used in spreadsheet columns.
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
                     'delimiter': ' '  # Delimiter for online orders.
                 },
-                # Formatting for distributor header in worksheet.
-                'wrk_hdr_format': {
-                    'font_size': 14, 'font_color': 'white', 'bold': True,
-                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#008000'  # Darker green.
+                'label': {
+                    'name': 'Local',  # Distributor label used in spreadsheet columns.
+                    # Formatting for distributor header in worksheet; bold, font and align are
+                    # `spreadsheet.py` defined but can by overload heve.
+                    'format': { 'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
                 },
             }
         })
