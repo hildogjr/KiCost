@@ -740,7 +740,7 @@ class formKiCost(wx.Frame):
         args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
         args.variant = str_to_arg(['--variant', '-var'])
-        args.locale = str_to_arg(['--locale', '--currency']).split()
+        args.locale = str_to_arg(['--currency']).split()
 
         num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
         args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
@@ -778,7 +778,7 @@ class formKiCost(wx.Frame):
                 group_fields=args.group_fields, variant=args.variant,
                 dist_list=args.include, num_processes=num_processes,
                 scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-                local_currency=args.locale)
+                currency=args.locale)
         except Exception as e:
             print(e)
             return

@@ -263,8 +263,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
 
         # Make a list of alphabetically-ordered distributors with web distributors before locals.
         logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
-        web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] != 'local'])
-        local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] == 'local'])
+        web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] != 'local'])
+        local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] == 'local'])
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
@@ -952,15 +952,13 @@ Orange -> Too little quantity available.'''
     order_col_numeric = {}
     order_delimiter = {}
     dist_col = {}
-    for position, col_tag in enumerate(distributor_dict[dist]['order_cols']):
+    for position, col_tag in enumerate(distributor_dict[dist]['order']['cols']):
         order_col[col_tag] = ORDER_START_COL + position  # Column for this order info.
         order_col_numeric[col_tag] = (col_tag ==
                                       'purch')  # Is this order info numeric?
-        order_delimiter[col_tag] = distributor_dict[dist][
-            'order_delimiter'
-        ]  # Delimiter btwn order columns.
+        order_delimiter[col_tag] = distributor_dict[dist]['order']['delimiter']  # Delimiter btwn order columns.
         # For the last column of order info, the delimiter is blanked.
-        if position + 1 == len(distributor_dict[dist]['order_cols']):
+        if position + 1 == len(distributor_dict[dist]['order']['cols']):
             order_delimiter[col_tag] = ''
         # If the column tag doesn't exist in the list of distributor columns,
         # then assume its for the part reference column in the global data section

@@ -55,5 +55,8 @@ def init_distributor_dict():
         if x.startswith("dist_"):
             globals()[x].dist_init_distributor_dict()
 
+from .octopart import dist_octopart
+from .local import dist_local
+
 # Init distributor dict during import.
 init_distributor_dict()

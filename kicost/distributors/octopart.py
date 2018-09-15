@@ -25,16 +25,126 @@ __author__ = 'XESS Corporation'
 __webpage__ = 'info@xess.com'
 
 # Libraries.
-import json
-import requests
+import json, requests
 import logging
 import tqdm
-import copy
-import re
+import copy, re
 from collections import Counter
 
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE  # Debug configurations.
 from ..global_vars import SEPRTR
+
+from future import standard_library
+standard_library.install_aliases()
+
+from . import distributor
+from .global_vars import distributor_dict
+
+class dist_octopart(distributor.distributor):
+
+    @staticmethod
+    def dist_init_distributor_dict():
+        distributor_dict.update({
+            'arrow': {
+                'octopart_name': 'Arrow Electronics, Inc.',
+                'module': 'arrow',   # The directory name containing this file.
+                'type': 'api',     # Allowable values: 'api', 'scrap' or 'local'.
+                'label': 'Arrow',  # Distributor label used in spreadsheet columns.
+                'order': {
+                    'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+                    'delimiter': ',', # Delimiter for online orders.
+                },
+                # Formatting for distributor header in worksheet.
+                'wrk_hdr_format': {
+                    'font_size': 14, 'font_color': 'white', 'bold': True,
+                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#000000'  # Arrow black.
+                },
+            },
+            'digikey': {
+                'octopart_name': 'Digi-Key',
+                'module': 'digikey',
+                'type': 'api',
+                'label': 'Digi-Key',
+                'order': {
+                    'cols': ['purch', 'part_num', 'refs'],
+                    'delimiter': ',', 
+                },
+                'wrk_hdr_format': {
+                    'font_size': 14, 'font_color': 'white', 'bold': True,
+                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#CC0000'  # Digi-Key red.
+                },
+            },
+            'farnell': {
+                'octopart_name': 'Farnell',
+                'module': 'farnell',
+                'type': 'api',
+                'label': 'Farnell',
+                'order': {
+                    'cols': ['part_num', 'purch', 'refs'],
+                    'delimiter': ' ', 
+                },
+                'wrk_hdr_format': {
+                    'font_size': 14, 'font_color': 'white', 'bold': True,
+                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#FF6600'  # Farnell/E14 orange.
+                },
+            },
+            'mouser': {
+                'octopart_name': 'Mouser',
+                'module': 'mouser', 
+                'type': 'api',
+                'label': 'Mouser', 
+                'order': {
+                    'cols': ['part_num', 'purch', 'refs'],
+                    'delimiter': ' ', 
+                },
+                'wrk_hdr_format': {
+                    'font_size': 14, 'font_color': 'white', 'bold': True,
+                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#004A85'  # Mouser blue.
+                },
+            },
+            'newark': {
+                'octopart_name': 'Newark',
+                'module': 'newark',
+                'type': 'api',
+                'label': 'Newark',
+                'order': {
+                    'cols': ['part_num', 'purch', 'refs'],
+                    'delimiter': ',', 
+                },
+                'wrk_hdr_format': {
+                    'font_size': 14, 'font_color': 'white', 'bold': True,
+                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#A2AE06'  # Newark/E14 olive green.
+                },
+            },
+            'rs': {
+                'octopart_name': 'RS Components',
+                'module': 'rs',
+                'type': 'api',
+                'label': 'RS Components',
+                'order': {
+                    'cols': ['part_num', 'purch', 'refs'],
+                    'delimiter': ' ', 
+                },
+                'wrk_hdr_format': {
+                    'font_size': 14, 'font_color': 'white', 'bold': True,
+                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#FF0000'  # RS Components red.
+                },
+            },
+            'tme': {
+                'octopart_name': 'TME',
+                'module': 'tme',
+                'type': 'api',
+                'label': 'TME',
+                'order': {
+                    'cols': ['part_num', 'purch', 'refs'],
+                    'delimiter': ' ', 
+                },
+                'wrk_hdr_format': {
+                    'font_size': 14, 'font_color': 'white', 'bold': True,
+                    'align': 'center', 'valign': 'vcenter', 'bg_color': '#0C4DA1'  # TME blue
+                },
+            },
+        })
 
 
 def handle_local_parts(parts, distributors):

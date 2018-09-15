@@ -51,7 +51,7 @@ __all__ = ['kicost','output_filename']  # Only export this routine for use by th
 
 from .global_vars import *
 
-from .distributors.octopart import query_part_info
+from .distributors.octopart import query_part_info, dist_octopart
 
 # Import information about various distributors.
 from .distributors import *
@@ -67,8 +67,7 @@ def kicost(in_file, eda_tool_name, out_filename,
         user_fields, ignore_fields, group_fields, variant,
         dist_list=list(distributor_dict.keys()),
         num_processes=4, scrape_retries=5, throttling_delay=5.0,
-        collapse_refs=True,
-        local_currency='USD'):
+        collapse_refs=True, currency='USD'):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -90,10 +89,10 @@ def kicost(in_file, eda_tool_name, out_filename,
     distributor's website.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
-    @param local_currency `str()` Local/country in ISO3166:2 and currency in ISO4217. Default 'USD'.
+    @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
-    logger.log(DEBUG_OVERVIEW, 'Exchange rate: 1 EUR = %.2f USD' % currency.convert(1, 'EUR', 'USD'))
+    #logger.log(DEBUG_OVERVIEW, 'Exchange rate: 1 EUR = %.2f USD' % currency.convert(1, 'EUR', 'USD'))
 
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list!=None:
