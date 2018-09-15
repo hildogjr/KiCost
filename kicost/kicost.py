@@ -28,10 +28,12 @@ standard_library.install_aliases()
 import future
 
 import sys, os
+import copy
+import re
 import pprint
 import tqdm
 from time import time
-from multiprocessing.pool import ThreadPool
+#from multiprocessing.pool import ThreadPool
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -49,6 +51,8 @@ __all__ = ['kicost','output_filename']  # Only export this routine for use by th
 
 from .global_vars import *
 
+from .distributors.octopart import query_part_info, dist_octopart
+
 # Import information about various distributors.
 from .distributors import *
 from .distributors.global_vars import distributor_dict
@@ -63,8 +67,7 @@ def kicost(in_file, eda_tool_name, out_filename,
         user_fields, ignore_fields, group_fields, variant,
         dist_list=list(distributor_dict.keys()),
         num_processes=4, scrape_retries=5, throttling_delay=5.0,
-        collapse_refs=True,
-        local_currency='USD'):
+        collapse_refs=True, currency='USD'):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -86,10 +89,10 @@ def kicost(in_file, eda_tool_name, out_filename,
     distributor's website.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
-    @param local_currency `str()` Local/country in ISO3166:2 and currency in ISO4217. Default 'USD'.
+    @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
-    logger.log(DEBUG_OVERVIEW, 'Exchange rate: 1 EUR = %.2f USD' % currency.convert(1, 'EUR', 'USD'))
+    #logger.log(DEBUG_OVERVIEW, 'Exchange rate: 1 EUR = %.2f USD' % currency.convert(1, 'EUR', 'USD'))
 
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list!=None:
@@ -155,6 +158,7 @@ def kicost(in_file, eda_tool_name, out_filename,
             # not be displayed (Needed to check `user_fields`).
             if f not in FIELDS_IGNORE and SEPRTR not in f and not f in group_fields: # Not include repetitive filed names or fields with the separator `:` defined on `SEPRTR`.
                 group_fields += [f]
+
     # Some fields to be merged on specific EDA are enrolled bellow.
     if 'kicad' in eda_tool_name:
         group_fields += ['libpart'] # This field may be a mess on multiple sheet designs.
@@ -169,7 +173,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     parts = group_parts(parts, group_fields)
 
     # If do not have the manufacture code 'manf#' and just distributors codes,
-    # check if is asked to scrap a distributor that do not have any code in the
+    # check if is asked to scrape a distributor that do not have any code in the
     # parts so, exclude this distributors for the scrap list. This decrease the
     # warning messages given during the process.
     all_fields = []
@@ -189,159 +193,9 @@ def kicost(in_file, eda_tool_name, out_filename,
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributor_dict)
 
-    # Create an HTML page containing all the local part information.
-    dist_local.create_part_html(parts, distributor_dict, logger)
-
-    num_processes = min(num_processes, len(distributor_dict))
-    logger.log(DEBUG_OBSESSIVE, "Initialising scraper with %d threads" % num_processes)
-    logger.log(DEBUG_OBSESSIVE, "throttling_delay=%d" % throttling_delay)
-
-    # Get the distributor product page for each part and scrape the part data.
+    # Get the distributor pricing/qty/etc for each part.
     if dist_list:
-
-        scraping_progress = tqdm.tqdm(desc='Progress', \
-            total=len(parts)*len(distributor_dict), unit='part', miniters=1)
-
-        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
-        class TqdmLoggingHandler(logging.Handler):
-            '''Overload the class to write the logging through the `tqdm`.'''
-            def __init__(self, level = logging.NOTSET):
-                super(self.__class__, self).__init__(level)
-            def emit(self, record):
-                try:
-                    msg = self.format(record)
-                    tqdm.tqdm.write(msg)
-                    self.flush()
-                except (KeyboardInterrupt, SystemExit):
-                    raise
-                except:
-                    self.handleError(record)
-                pass
-        # Get handles to default sys.stdout logging handler and the
-        # new "tqdm" logging handler.
-        logDefaultHandler = logger.handlers[0]
-        logTqdmHandler = TqdmLoggingHandler()
-
-        # Replace default handler with "tqdm" handler.
-        logger.addHandler(logTqdmHandler)
-        logger.removeHandler(logDefaultHandler)
-
-        # Create thread pool to init multiple distributors simultaneously.
-        pool = ThreadPool(num_processes)
-
-        # Package part data for passing to each process.
-        arg_sets = [(d, distributor_dict[d]['scrape']) for d in distributor_dict]
-
-        def mt_init_dist(d, scrape):
-            instance = None
-            try:
-                logger.log(DEBUG_OVERVIEW, "Initialising %s" % d)
-                if scrape == 'local':
-                    ctor = globals()['dist_local']
-                else:
-                    ctor = globals()['dist_'+d]
-                instance = ctor(d, scrape_retries, throttling_delay)
-            except Exception as ex:
-                logger.log(DEBUG_OVERVIEW, "Initialising %s failed with %s, exculding this distributor..." \
-                    % (d, type(ex).__name__))
-                return (d, None)
-
-            if local_currency:
-                logger.log(DEBUG_OVERVIEW, '# Configuring the distributors locale and currency...')
-                instance.define_locale_currency(local_currency)
-            return (d, instance)
-
-        logger.log(DEBUG_OBSESSIVE, 'Starting {} threads to init distributors...'.format(num_processes))
-        results = [pool.apply_async(mt_init_dist, args) for args in arg_sets]
-
-        # Wait for all the processes to have results.
-        pool.close()
-        pool.join()
-
-        # Get the data from each process result structure.
-        for result in results:
-            d, instance = result.get()
-            # Distributor initialisation failed, remove it from distributor_dict.
-            if instance == None:
-                distributor_dict.pop(d, None)
-            # Distributor initialised successfully, add instance to distributor_dict.
-            else:
-                distributor_dict[d]['instance'] = instance
-
-        logger.log(DEBUG_OVERVIEW, '# Scraping part data for each component group...')
-
-        # Init part info dictionaries
-        for part in parts:
-            part.part_num = {}
-            part.url = {}
-            part.price_tiers = {}
-            part.qty_avail = {}
-            part.info_dist = {}
-
-        num_processes = min(num_processes, len(distributor_dict))
-
-        if num_processes <= 1:
-            # Scrape data, one part at a time using single processing.
-            for d in distributor_dict:
-                logger.log(DEBUG_OVERVIEW, "Scraping "+ distributor_dict[d]['instance'].name)
-                for i in range(len(parts)):
-                    id, dist, url, part_num, price_tiers, qty_avail, info_dist = \
-                        scrape_result = distributor_dict[d]['instance'].scrape_part(i, parts[i])
-
-                    parts[id].part_num[dist] = part_num
-                    parts[id].url[dist] = url
-                    parts[id].price_tiers[dist] = price_tiers
-                    parts[id].qty_avail[dist] = qty_avail
-                    parts[id].info_dist[dist] = info_dist # Extra distributor web page.
-                    scraping_progress.update(1)
-        else:
-            # Scrape data, multiple parts at a time using multiprocessing.
-
-            # Create thread pool to scrape data for multiple distributors simultaneously.
-            # Python threads are time-sliced but they work in our I/O limited scenario
-            # and avoid all kinds of pickle issues.
-            pool = ThreadPool(num_processes)
-
-            # Package part data for passing to each process.
-            # pool.async_apply needs at least two arguments per function so add dummy argument
-            # (otherwise it fails with "arguments after * must be an iterable, not ...")
-            arg_sets = [(distributor_dict[d]['instance'], scraping_progress) for d in distributor_dict]
-
-            def mt_scrape_part(inst, progress):
-                logger.log(DEBUG_OVERVIEW, "Scraping "+ inst.name)
-                retval = list()
-                for i in range(len(parts)):
-                    retval.append(inst.scrape_part(i, parts[i]))
-                    progress.update(1)
-                return retval
-
-            # Start the web scraping processes, one for each part.
-            logger.log(DEBUG_OBSESSIVE, 'Starting {} parallel threads to scrap parts...'.format(num_processes))
-            results = [pool.apply_async(mt_scrape_part, args) for args in arg_sets]
-
-            # Wait for all the processes to have results, then kill-off all the scraping processes.
-            pool.close()
-            pool.join()
-            logger.log(DEBUG_OVERVIEW, 'All parallel threads finished with success.')
-
-            # Get the data from each process result structure.
-            for res_proc in results:
-                res_dist = res_proc.get()
-                for res_part in res_dist:
-                    id, dist, url, part_num, price_tiers, qty_avail, info_dist = res_part
-                    parts[id].part_num[dist] = part_num
-                    parts[id].url[dist] = url
-                    parts[id].price_tiers[dist] = price_tiers
-                    parts[id].qty_avail[dist] = qty_avail
-                    parts[id].info_dist[dist] = info_dist # Extra distributor web page.
-
-        # Return the print channel of the logging.
-        logger.addHandler(logDefaultHandler)
-        logger.removeHandler(logTqdmHandler)
-
-        # Done with the scraping progress bar so delete it or else we get an 
-        # error when the program terminates.
-        del scraping_progress
+        query_part_info(parts, distributor_dict)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, collapse_refs,
@@ -382,7 +236,6 @@ FILE_OUTPUT_INPUT_SEP = '-' # Separator in the name of the output spreadsheet fi
 # Here because is used at `__main__.py` and `kicost_gui.py`.
 def output_filename(files_input):
     ''' @brief Compose a name with the multiple BOM input file names.
-
     Compose a name with the multiple BOM input file names, limiting to,
     at least, the first `FILE_OUTPUT_MIN_INPUT` characters of each name
     (avoid huge names by `FILE_OUTPUT_MAX_NAME`definition). Join the names
