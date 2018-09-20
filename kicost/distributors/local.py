@@ -138,7 +138,7 @@ def handle_local_parts(parts, distributors, currency='USD'):
                     pricing)  # Keep only digits, decimals, delimiters.
                 for qty_price in pricing.split(';'):
                     qty, price = qty_price.split(SEPRTR)
-                    if local_currency:
+                    if local_currency and local_currency[0]!=currency.upper():
                         try:
                             price = currency_convert(price, local_currency[0], currency.upper())
                         except:
