@@ -393,7 +393,6 @@ Command-Line Options
       -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
                             schematic variant name filter.
       -w, --overwrite       Allow overwriting of an existing spreadsheet.
-      -s, --serial          Do web scraping of part data using a single process.
       -q, --quiet           Enable quiet mode with no warnings.
       -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
                             Set the number of parallel processes used for web
@@ -420,16 +419,9 @@ Command-Line Options
       --include DIST [DIST ...]
                             Includes only the given distributor(s) in the scraping
                             process.
-      --no_scrape           Create a spreadsheet without scraping part data from
+      --no_price            Create a spreadsheet without price part data from
                             distributor websites.
-      -rt [NUM_RETRIES], --retries [NUM_RETRIES]
-                            Specify the number of attempts to retrieve part data
-                            from a website.
-      --throttling_delay [DELAY]
-                            Specify minimum delay (in seconds) between successive
-                            accesses to a distributor's website.
-      --currency [CURRENCY-LOCALE], '--locale' [CURRENCY-LOCALE]
-                            Define the priority locale/country and currency on the
+      --currency [CURRENCY] Define the priority locale/country and currency on the
                             scrape. Use the ISO4217 for currency and ISO3166:2 for
                             country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`.
                             Currency is priritized over the locale/country. If give
