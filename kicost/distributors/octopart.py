@@ -269,8 +269,9 @@ def query_part_info(parts, distributors, currency='USD'):
                         # Get pricing information from this distributor.
                         try:
                             price_tiers = {} # Empty dict in case of exception.
+                            local_currency = list(offer['prices'].keys())
                             price_tiers = {
-                                qty: float(price)
+                                qty: float( currency_convert(price, local_currency[0], currency.upper()) )
                                 for qty, price in list(offer['prices']
                                                        .values())[0]
                             }
