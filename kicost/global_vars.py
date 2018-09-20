@@ -23,7 +23,6 @@
 """Stuff that everybody else needs to know about."""
 
 import logging
-from currency_converter import CurrencyConverter
 
 # The root logger of the application. This has to be the root logger to catch
 # output from libraries (e.g. requests) as well.
@@ -38,7 +37,6 @@ DEBUG_HTTP_RESPONSES = logging.DEBUG-4
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
-currency = CurrencyConverter()
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
