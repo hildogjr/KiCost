@@ -43,9 +43,6 @@ from .distributors.global_vars import distributor_dict
 from .eda_tools import eda_tool_dict
 from . import __version__ # Version control by @xesscorp and collaborator.
 
-NUM_PROCESSES = 30  # Maximum number of parallel web-scraping processes.
-HTML_RESPONSE_RETRIES = 2 # Number of attempts to retrieve part data from a website.
-
 from .global_vars import *
 
 ###############################################################################
@@ -97,20 +94,9 @@ def main():
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
                         help='Allow overwriting of an existing spreadsheet.')
-    parser.add_argument('-s', '--serial',
-                        action='store_true',
-                        help='Do web scraping of part data using a single process.')
     parser.add_argument('-q', '--quiet',
                         action='store_true',
                         help='Enable quiet mode with no warnings.')
-    parser.add_argument('-np', '--num_processes',
-                        nargs='?',
-                        type=int,
-                        default=NUM_PROCESSES,
-                        const=NUM_PROCESSES,
-                        metavar='NUM_PROCESSES',
-                        help='''Set the number of parallel 
-                            processes used for web scraping part data.''')
     parser.add_argument('-ign', '--ignore_fields',
                         nargs='+',
                         default=[],
@@ -150,19 +136,9 @@ def main():
                         nargs='+', type=str, default='',
                         metavar = 'DIST',
                         help='Includes only the given distributor(s) in the scraping process.')
-    parser.add_argument('--no_scrape',
+    parser.add_argument('--no_price',
                         action='store_true',
                         help='Create a spreadsheet without scraping part data from distributor websites.')
-    parser.add_argument('-rt', '--retries',
-                        nargs='?',
-                        type=int,
-                        default=HTML_RESPONSE_RETRIES,
-                        metavar = 'NUM_RETRIES',
-                        help='Specify the number of attempts to retrieve part data from a website.')
-    parser.add_argument('--throttling_delay',
-                        nargs='?', type=float, default=5.0,
-                        metavar='DELAY',
-                        help="Specify minimum delay (in seconds) between successive accesses to a distributor's website.")
     parser.add_argument('--currency',
                         nargs='?',
                         type=str,
@@ -253,14 +229,8 @@ def main():
             except IndexError:
                 pass
 
-    # Set number of processes to use for web scraping.
-    if args.serial:
-        num_processes = 1
-    else:
-        num_processes = args.num_processes
-
     # Remove all the distributor from the list for not scrape any web site.
-    if args.no_scrape:
+    if args.no_price:
         dist_list = None
     else:
         if not args.include:
@@ -284,9 +254,7 @@ def main():
         out_filename=args.output, collapse_refs=not args.no_collapse,
         user_fields=args.fields, ignore_fields=args.ignore_fields,
         group_fields=args.group_fields, variant=args.variant,
-        dist_list=dist_list, num_processes=num_processes,
-        scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-        currency=args.currency)
+        dist_list=dist_list, currency=args.currency)
     #except Exception as e:
     #    sys.exit(e)
 
