@@ -360,40 +360,12 @@ class formKiCost(wx.Frame):
 
         bSizer9 = wx.BoxSizer(wx.VERTICAL)
 
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Parallel process:", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_spinCtrl_np = wx.SpinCtrl(self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 30, 6)
-        self.m_spinCtrl_np.SetToolTip(wx.ToolTip(u"Set the number of parallel processes used for web scraping the parts data."))
-        bSizer9.Add(self.m_spinCtrl_np, 0, wx.ALL, 5)
-
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Scrap retries:", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_spinCtrl_retries = wx.SpinCtrl(self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 4, 200, 0)
-        self.m_spinCtrl_retries.SetToolTip(wx.ToolTip(u"Specify the number of attempts to retrieve part data from a website."))
-        bSizer9.Add(self.m_spinCtrl_retries, 0, wx.ALL, 5)
-
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Throttling delay (s):", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_spinCtrlDouble_throttling = wx.SpinCtrlDouble(self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 5, 0, 0.1)
-        self.m_spinCtrlDouble_throttling.SetToolTip(wx.ToolTip(u"Specify minimum delay (in seconds) between successive accesses to a distributor's website.\nUsed when the websites not accept successive accesses."))
-        bSizer9.Add(self.m_spinCtrlDouble_throttling, 0, wx.ALL, 5)
-
         m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Currency:", wx.DefaultPosition, wx.DefaultSize, 0)
         m_staticText.Wrap(-1)
         bSizer9.Add(m_staticText, 0, wx.ALL, 5)
         self.m_comboBox_currency = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
         self.m_comboBox_currency.SetToolTip(wx.ToolTip(u"Currency to be used to generate the Cost Bill of Materials.\nPrioritized on scrape/sever communication. In case of not available the actual is converted to it and highlighted on spread sheet."))
         bSizer9.Add(self.m_comboBox_currency, 0, wx.ALL, 5)
-
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Web language:", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_comboBox_webLanguage = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
-        self.m_comboBox_webLanguage.SetToolTip(wx.ToolTip(u"Language to use in to access web pages"))
-        bSizer9.Add(self.m_comboBox_webLanguage, 0, wx.ALL, 5)
 
         wSizer2.Add(bSizer9, 1, wx.TOP|wx.LEFT, 5)
 
@@ -742,9 +714,6 @@ class formKiCost(wx.Frame):
         args.variant = str_to_arg(['--variant', '-var'])
         args.locale = str_to_arg(['--currency']).split()
 
-        num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
-        args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
-        args.throttling_delay = self.m_spinCtrlDouble_throttling.GetValue() # Delay between consecutive scrapes.
         args.collapse_refs = self.m_checkBox_collapseRefs.GetValue() # Collapse refs in the spreadsheet.
 
         if self.m_listBox_edatool.GetStringSelection():
@@ -776,9 +745,7 @@ class formKiCost(wx.Frame):
                 out_filename=args.output, collapse_refs=args.collapse_refs,
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
                 group_fields=args.group_fields, variant=args.variant,
-                dist_list=args.include, num_processes=num_processes,
-                scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-                currency=args.locale)
+                dist_list=args.include, currency=args.locale)
         except Exception as e:
             print(e)
             return
