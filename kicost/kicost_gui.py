@@ -601,6 +601,7 @@ class formKiCost(wx.Frame):
             style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             self.addFile(dlg.GetPaths())
+            self.updateOutputFilename() # Update the output file name on GUI text.
         dlg.Destroy()
 
     #----------------------------------------------------------------------
