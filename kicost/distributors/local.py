@@ -80,7 +80,7 @@ def handle_local_parts(parts, distributors, currency='USD'):
             # then it's a local distributor. Copy the local distributor template
             # and add it to the table of distributors.
             if dist not in distributors:
-                distributors[dist] = copy.copy(distributors['local_template'])
+                distributors[dist] = copy.deepcopy(distributors['local_template'])
                 distributors[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
 
     # Set part info to default values for all the distributors.
