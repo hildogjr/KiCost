@@ -25,6 +25,7 @@ requirements = [
     'tqdm >= 4.4.0',
     'requests >= 2.18.4',
     'CurrencyConverter >= 0.5', # Used to convert price to a not avaiable currecy in one distributor.
+    'babel >= 2.6', # For currency format by the language in the spreadsheet.
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
 
