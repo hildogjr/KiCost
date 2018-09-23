@@ -32,14 +32,21 @@ from datetime import datetime
 import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
+from babel import numbers
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
-from .global_vars import SEPRTR
+from .global_vars import SEPRTR, DEFAULT_LANGUAGE
 from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .eda_tools.eda_tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 __all__ = ['create_spreadsheet']
+
+
+# Currency format and symbol definition.
+CURRENCY_SYMBOL = ''
+CURRENCY_FORMAT = ''
+
 
 # Regular expression to the link for one datasheet.
 DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
@@ -48,7 +55,8 @@ DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\
 EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
 
 
-def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, user_fields, variant):
+def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
+                       collapse_refs=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
@@ -59,7 +67,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
                                 #Spreadsheet 100 and LibreOffice Calc have no limit.
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
-    
+
+    global CURRENCY_SYMBOL
+    global CURRENCY_FORMAT
+    CURRENCY_SYMBOL = numbers.get_currency_symbol(
+                        currency.strip().upper(), locale=DEFAULT_LANGUAGE
+                        )
+    CURRENCY_FORMAT = CURRENCY_SYMBOL + '#,##0.00'
+
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
         # Remove any special characters that might be illegal in a 
@@ -116,14 +131,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
                 'font_size': 13,
                 'font_color': 'red',
                 'bold': True,
-                'num_format': '$#,##0.00',
+                'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
             'unit_cost_currency': workbook.add_format({
                 'font_size': 13,
                 'font_color': 'green',
                 'bold': True,
-                'num_format': '$#,##0.00',
+                'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
             'proj_info_field': workbook.add_format({
@@ -153,7 +168,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
             'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
             'too_few_purchased': workbook.add_format({'bg_color': '#FFFF00'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'}),
-            'currency': workbook.add_format({'num_format': '$#,##0.00', 'valign': 'vcenter'}),
+            'currency': workbook.add_format({'num_format': CURRENCY_FORMAT, 'valign': 'vcenter'}),
         }
 
         # Add the distinctive header format for each distributor to the `dict` of formats.
@@ -296,6 +311,9 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
     '''Add global part data to the spreadsheet.'''
 
     logger.log(DEBUG_OVERVIEW, 'Writing the global part information...')
+
+    global CURRENCY_SYMBOL
+    global CURRENCY_FORMAT
 
     # Columns for the various types of global part data.
     columns = {

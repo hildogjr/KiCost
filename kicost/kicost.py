@@ -192,7 +192,7 @@ def kicost(in_file, eda_tool_name, out_filename,
         query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, collapse_refs,
+    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,
                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.

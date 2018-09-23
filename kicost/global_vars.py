@@ -37,6 +37,8 @@ DEBUG_HTTP_RESPONSES = logging.DEBUG-4
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
+DEFAULT_LANGUAGE = 'en_US' # Default language used by GUI and spreadsheet
+                           # generation and number presentation.
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
