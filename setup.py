@@ -24,6 +24,7 @@ requirements = [
     'yattag >= 1.5.2',
     'tqdm >= 4.4.0',
     'CurrencyConverter >= 0.5',
+    'babel >= 2.6',
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
 
