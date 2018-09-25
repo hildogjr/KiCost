@@ -51,15 +51,16 @@ __all__ = ['kicost','output_filename']  # Only export this routine for use by th
 
 from .global_vars import *
 
-from .distributors.octopart import query_part_info
+#from .distributors.octopart import query_part_info
 
 # Import information about various distributors.
-from .distributors import *
+#from .distributors import *
+from .distributors.distributor import *
 from .distributors.global_vars import distributor_dict
 
 # Import information for various EDA tools.
-from .eda_tools import eda_modules
-from .eda_tools.eda_tools import subpartqty_split, group_parts
+from .edas import eda_modules
+from .edas.edas import subpartqty_split, group_parts
 
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
@@ -189,7 +190,7 @@ def kicost(in_file, eda_tool_name, out_filename,
 
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
-        query_part_info(parts, distributor_dict, currency)
+        distributor.get_dist_parts_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,

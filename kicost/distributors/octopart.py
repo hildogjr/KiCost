@@ -43,8 +43,6 @@ from .global_vars import distributor_dict
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
-from .local import handle_local_parts
-
 class dist_octopart(distributor.distributor):
 
     @staticmethod
@@ -146,212 +144,209 @@ class dist_octopart(distributor.distributor):
         })
 
 
-def query_octopart(query):
-    """Send query to Octopart and return results."""
+    def query_octopart(query):
+        """Send query to Octopart and return results."""
 
-    url = 'http://octopart.com/api/v3/parts/match'
-    payload = {'queries': json.dumps(query), 'apikey': '96df69ba'}
-    response = requests.get(url, params=payload)
-    results = json.loads(response.text).get('results')
-    return results
-
-
-def sku_to_mpn(sku):
-    """Find manufacturer part number associated with a distributor SKU."""
-    part_query = [{'reference': 1, 'sku': sku}]
-    results = query_octopart(part_query)
-    if not results:
-        return None
-    result = results[0]
-    mpns = [item['mpn'] for item in result['items']]
-    if not mpns:
-        return None
-    if len(mpns) == 1:
-        return mpns[0]
-    mpn_cnts = Counter(mpns)
-    return mpn_cnts.most_common(1)[0][0]  # Return the most common MPN.
+        url = 'http://octopart.com/api/v3/parts/match'
+        payload = {'queries': json.dumps(query), 'apikey': '96df69ba'}
+        response = requests.get(url, params=payload)
+        results = json.loads(response.text).get('results')
+        return results
 
 
-def skus_to_mpns(parts, distributors):
-    """Find manufaturer's part number for all parts with just distributor SKUs."""
-    for i, part in enumerate(parts):
-
-        # Skip parts that already have a manufacturer's part number.
-        if part.fields.get('manf#'):
-            continue
-
-        # Get all the SKUs for this part.
-        skus = list(
-            set([part.fields.get(dist + '#', '') for dist in distributors]))
-        skus = [sku for sku in skus
-                if sku not in ('', None)]  # Remove null SKUs.
-
-        # Skip this part if there are no SKUs.
-        if not skus:
-            continue
-
-        # Convert the SKUs to manf. part numbers.
-        mpns = [sku_to_mpn(sku) for sku in skus]
-        mpns = [mpn for mpn in mpns
-                if mpn not in ('', None)]  # Remove null manf#.
-
-        # Skip assigning manf. part number to this part if there aren't any to assign.
+    def sku_to_mpn(sku):
+        """Find manufacturer part number associated with a distributor SKU."""
+        part_query = [{'reference': 1, 'sku': sku}]
+        results = query_octopart(part_query)
+        if not results:
+            return None
+        result = results[0]
+        mpns = [item['mpn'] for item in result['items']]
         if not mpns:
-            continue
-
-        # Assign the most common manf. part number to this part.
+            return None
+        if len(mpns) == 1:
+            return mpns[0]
         mpn_cnts = Counter(mpns)
-        part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
+        return mpn_cnts.most_common(1)[0][0]  # Return the most common MPN.
 
 
-def query_part_info(parts, distributors, currency='USD'):
-    """Fill-in the parts with price/qty/etc info from Octopart."""
+    def skus_to_mpns(parts, distributors):
+        """Find manufaturer's part number for all parts with just distributor SKUs."""
+        for i, part in enumerate(parts):
 
-    # Fill-in info for any locally-sourced parts not handled by Octopart.
-    handle_local_parts(parts, distributors, currency)
-
-    logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
-
-    # Setup progress bar to track progress of Octopart queries.
-    progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
-
-    # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
-    class TqdmLoggingHandler(logging.Handler):
-        '''Overload the class to write the logging through the `tqdm`.'''
-
-        def __init__(self, level=logging.NOTSET):
-            super(self.__class__, self).__init__(level)
-
-        def emit(self, record):
-            try:
-                msg = self.format(record)
-                tqdm.tqdm.write(msg)
-                self.flush()
-            except (KeyboardInterrupt, SystemExit):
-                raise
-            except:
-                self.handleError(record)
-            pass
-
-    # Get handles to default sys.stdout logging handler and the
-    # new "tqdm" logging handler.
-    logDefaultHandler = logger.handlers[0]
-    logTqdmHandler = TqdmLoggingHandler()
-
-    # Replace default handler with "tqdm" handler.
-    logger.addHandler(logTqdmHandler)
-    logger.removeHandler(logDefaultHandler)
-
-    # Translate from Octopart distributor names to the names used internally by kicost.
-    dist_xlate = {
-        dist_value['octopart_name']: dist_key
-        for dist_key, dist_value in distributors.items()
-    }
-
-    def get_part_info(query, parts, currency='USD'):
-        """Query Octopart for quantity/price info and place it into the parts list."""
-
-        results = query_octopart(query)
-
-        # Loop through the response to the query and enter info into the parts list.
-        for result in results:
-            i = int(result['reference'])  # Get the index into the part dict.
-
-            # Loop through the offers from various dists for this particular part.
-            for item in result['items']:
-                for offer in item['offers']:
-
-                    # Get the distributor who made the offer and add their
-                    # price/qty info to the parts list if its one of the accepted distributors.
-                    dist = dist_xlate.get(offer['seller']['name'], '')
-                    if dist in distributors:
-
-                        # Get pricing information from this distributor.
-                        try:
-                            price_tiers = {} # Empty dict in case of exception.
-                            local_currency = list(offer['prices'].keys())
-                            price_tiers = {
-                                qty: float( currency_convert(price, local_currency[0], currency.upper()) )
-                                for qty, price in list(offer['prices']
-                                                       .values())[0]
-                            }
-                            # Combine price lists for multiple offers from the same distributor
-                            # to build a complete list of cut-tape and reeled components.
-                            parts[i].price_tiers[dist].update(price_tiers)
-                        except Exception:
-                            pass  # Price list is probably missing so leave empty default dict in place.
-
-                        # Compute the quantity increment between the lowest two prices.
-                        # This will be used to distinguish the cut-tape from the reeled components.
-                        try:
-                            part_break_qtys = sorted(price_tiers.keys())
-                            part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
-                        except Exception:
-                            # This will happen if there are not enough entries in the price/qty list.
-                            # As a stop-gap measure, just assign infinity to the part increment.
-                            # A better alternative may be to examine the packaging field of the offer.
-                            part_qty_increment = float("inf")
-
-                        # Use the qty increment to select the part SKU, web page, and available quantity.
-                        # Do this if this is the first part offer from this dist.
-                        if not parts[i].part_num[dist]:
-                            parts[i].part_num[dist] = offer.get('sku', '')
-                            parts[i].url[dist] = offer.get('product_url', '')
-                            parts[i].qty_avail[dist] = offer.get(
-                                'in_stock_quantity', None)
-                            parts[i].qty_increment[dist] = part_qty_increment
-                        # Otherwise, check qty increment and see if its the smallest for this part & dist.
-                        elif part_qty_increment < parts[i].qty_increment[dist]:
-                            # This part looks more like a cut-tape version, so
-                            # update the SKU, web page, and available quantity.
-                            parts[i].part_num[dist] = offer.get('sku', '')
-                            parts[i].url[dist] = offer.get('product_url', '')
-                            parts[i].qty_avail[dist] = offer.get(
-                                'in_stock_quantity', None)
-                            parts[i].qty_increment[dist] = part_qty_increment
-
-                        # Don't bother with any extra info from the distributor.
-                        parts[i].info_dist[dist] = {}
-
-    # Break list of parts into smaller pieces and get price/quantities from Octopart.
-    octopart_query = []
-    prev_i = 0 # Used to record index where parts query occurs.
-    for i, part in enumerate(parts):
-
-        # Creat an Octopart query using the manufacturer's part number or 
-        # distributor SKU.
-        try:
-            part_query = {'reference': i, 'mpn': part.fields['manf#']}
-        except KeyError:
-            # No MPN, so use the first distributor SKU that's found.
-            skus = set([part.fields.get(dist + '#', '') for dist in distributors])
-            skus = [sku for sku in skus if sku]
-            try:
-                # Create the part query using SKU matching.
-                part_query = {'reference': i, 'sku': skus[0]}
-            except IndexError:
-                # No MPN or SKU, so skip this part.
+            # Skip parts that already have a manufacturer's part number.
+            if part.fields.get('manf#'):
                 continue
 
-        # Add query for this part to the list of part queries.
-        octopart_query.append(part_query)
+            # Get all the SKUs for this part.
+            skus = list(
+                set([part.fields.get(dist + '#', '') for dist in distributors]))
+            skus = [sku for sku in skus
+                    if sku not in ('', None)]  # Remove null SKUs.
 
-        # Once there are enough (but not too many) part queries, make a query request to Octopart.
-        if len(octopart_query) == 20:
+            # Skip this part if there are no SKUs.
+            if not skus:
+                continue
+
+            # Convert the SKUs to manf. part numbers.
+            mpns = [sku_to_mpn(sku) for sku in skus]
+            mpns = [mpn for mpn in mpns
+                    if mpn not in ('', None)]  # Remove null manf#.
+
+            # Skip assigning manf. part number to this part if there aren't any to assign.
+            if not mpns:
+                continue
+
+            # Assign the most common manf. part number to this part.
+            mpn_cnts = Counter(mpns)
+            part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
+
+
+    def query_part_info(parts, distributors, currency='USD'):
+        """Fill-in the parts with price/qty/etc info from Octopart."""
+
+        logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
+
+        # Setup progress bar to track progress of Octopart queries.
+        progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
+
+        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
+        class TqdmLoggingHandler(logging.Handler):
+            '''Overload the class to write the logging through the `tqdm`.'''
+
+            def __init__(self, level=logging.NOTSET):
+                super(self.__class__, self).__init__(level)
+
+            def emit(self, record):
+                try:
+                    msg = self.format(record)
+                    tqdm.tqdm.write(msg)
+                    self.flush()
+                except (KeyboardInterrupt, SystemExit):
+                    raise
+                except:
+                    self.handleError(record)
+                pass
+
+        # Get handles to default sys.stdout logging handler and the
+        # new "tqdm" logging handler.
+        logDefaultHandler = logger.handlers[0]
+        logTqdmHandler = TqdmLoggingHandler()
+
+        # Replace default handler with "tqdm" handler.
+        logger.addHandler(logTqdmHandler)
+        logger.removeHandler(logDefaultHandler)
+
+        # Translate from Octopart distributor names to the names used internally by kicost.
+        dist_xlate = {
+            dist_value['octopart_name']: dist_key
+            for dist_key, dist_value in distributors.items()
+        }
+
+        def get_part_info(query, parts, currency='USD'):
+            """Query Octopart for quantity/price info and place it into the parts list."""
+
+            results = query_octopart(query)
+
+            # Loop through the response to the query and enter info into the parts list.
+            for result in results:
+                i = int(result['reference'])  # Get the index into the part dict.
+
+                # Loop through the offers from various dists for this particular part.
+                for item in result['items']:
+                    for offer in item['offers']:
+
+                        # Get the distributor who made the offer and add their
+                        # price/qty info to the parts list if its one of the accepted distributors.
+                        dist = dist_xlate.get(offer['seller']['name'], '')
+                        if dist in distributors:
+
+                            # Get pricing information from this distributor.
+                            try:
+                                price_tiers = {} # Empty dict in case of exception.
+                                local_currency = list(offer['prices'].keys())
+                                price_tiers = {
+                                    qty: float( currency_convert(price, local_currency[0], currency.upper()) )
+                                    for qty, price in list(offer['prices']
+                                                           .values())[0]
+                                }
+                                # Combine price lists for multiple offers from the same distributor
+                                # to build a complete list of cut-tape and reeled components.
+                                parts[i].price_tiers[dist].update(price_tiers)
+                            except Exception:
+                                pass  # Price list is probably missing so leave empty default dict in place.
+
+                            # Compute the quantity increment between the lowest two prices.
+                            # This will be used to distinguish the cut-tape from the reeled components.
+                            try:
+                                part_break_qtys = sorted(price_tiers.keys())
+                                part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
+                            except Exception:
+                                # This will happen if there are not enough entries in the price/qty list.
+                                # As a stop-gap measure, just assign infinity to the part increment.
+                                # A better alternative may be to examine the packaging field of the offer.
+                                part_qty_increment = float("inf")
+
+                            # Use the qty increment to select the part SKU, web page, and available quantity.
+                            # Do this if this is the first part offer from this dist.
+                            if not parts[i].part_num[dist]:
+                                parts[i].part_num[dist] = offer.get('sku', '')
+                                parts[i].url[dist] = offer.get('product_url', '')
+                                parts[i].qty_avail[dist] = offer.get(
+                                    'in_stock_quantity', None)
+                                parts[i].qty_increment[dist] = part_qty_increment
+                            # Otherwise, check qty increment and see if its the smallest for this part & dist.
+                            elif part_qty_increment < parts[i].qty_increment[dist]:
+                                # This part looks more like a cut-tape version, so
+                                # update the SKU, web page, and available quantity.
+                                parts[i].part_num[dist] = offer.get('sku', '')
+                                parts[i].url[dist] = offer.get('product_url', '')
+                                parts[i].qty_avail[dist] = offer.get(
+                                    'in_stock_quantity', None)
+                                parts[i].qty_increment[dist] = part_qty_increment
+
+                            # Don't bother with any extra info from the distributor.
+                            parts[i].info_dist[dist] = {}
+
+        # Break list of parts into smaller pieces and get price/quantities from Octopart.
+        octopart_query = []
+        prev_i = 0 # Used to record index where parts query occurs.
+        for i, part in enumerate(parts):
+
+            # Creat an Octopart query using the manufacturer's part number or 
+            # distributor SKU.
+            try:
+                part_query = {'reference': i, 'mpn': part.fields['manf#']}
+            except KeyError:
+                # No MPN, so use the first distributor SKU that's found.
+                skus = set([part.fields.get(dist + '#', '') for dist in distributors])
+                skus = [sku for sku in skus if sku]
+                try:
+                    # Create the part query using SKU matching.
+                    part_query = {'reference': i, 'sku': skus[0]}
+                except IndexError:
+                    # No MPN or SKU, so skip this part.
+                    continue
+
+            # Add query for this part to the list of part queries.
+            octopart_query.append(part_query)
+
+            # Once there are enough (but not too many) part queries, make a query request to Octopart.
+            if len(octopart_query) == 20:
+                get_part_info(octopart_query, parts)
+                progress.update(i - prev_i) # Update progress bar.
+                prev_i = i;
+                octopart_query = []  # Get ready for next batch.
+
+        # Query Octopart for the last batch of parts.
+        if octopart_query:
             get_part_info(octopart_query, parts)
-            progress.update(i - prev_i) # Update progress bar.
-            prev_i = i;
-            octopart_query = []  # Get ready for next batch.
+            progress.update(len(parts)-prev_i) # This will indicate final progress of 100%.
 
-    # Query Octopart for the last batch of parts.
-    if octopart_query:
-        get_part_info(octopart_query, parts)
-        progress.update(len(parts)-prev_i) # This will indicate final progress of 100%.
+        # Restore the logging print channel now that the progress bar is no longer needed.
+        logger.addHandler(logDefaultHandler)
+        logger.removeHandler(logTqdmHandler)
 
-    # Restore the logging print channel now that the progress bar is no longer needed.
-    logger.addHandler(logDefaultHandler)
-    logger.removeHandler(logTqdmHandler)
-
-    # Done with the scraping progress bar so delete it or else we get an
-    # error when the program terminates.
-    del progress
+        # Done with the scraping progress bar so delete it or else we get an
+        # error when the program terminates.
+        del progress

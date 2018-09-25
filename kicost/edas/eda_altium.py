@@ -55,6 +55,24 @@ ALTIUM_NONE = '[NoParam]' # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 
 
+
+# Place information about this EDA into the eda_tool dictionary.
+from . import eda_tool_dict
+eda_tool_dict.update(
+    {
+        'altium': {
+            'module': 'altium', # The directory name containing this file.
+            'label': 'Altium file', # Label used on the GUI.
+            'desc': 'Altium Limited (formerly known as Protel until 2001).',
+            # Formatting file match .
+            'file': {
+                'extension': '.xml', # File extension.
+                'content': '\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>' # Regular expression content match.
+            }
+        }
+    }
+)
+
 def get_part_groups(in_file, ignore_fields, variant):
     '''@brief Get groups of identical parts from an XML file and return them as a dictionary.
        @param in_file `str()` with the file name.

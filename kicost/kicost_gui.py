@@ -48,8 +48,8 @@ from .kicost import *  # kicost core functions.
 from .distributors import fake_browser # Use the configurations already made to get KiCost last version.
 from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
-from .eda_tools import eda_tool_dict
-from .eda_tools.eda_tools import file_eda_match
+from .edas import eda_tool_dict
+from .edas.edas import file_eda_match
 
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 

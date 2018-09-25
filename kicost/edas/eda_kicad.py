@@ -37,6 +37,21 @@ from ...distributors.global_vars import distributor_dict
 from ..eda_tools import field_name_translations, remove_dnp_parts
 
 
+eda_tool_dict.update(
+    {
+        'kicad': {
+            'module': 'kicad', # The directory name containing this file.
+            'label': 'KiCad file', # Label used on the GUI.
+            'desc': 'KiCad open source EDA.',
+            # Formatting file match.
+            'file': {
+                'extension': '.xml', # File extension.
+                'content': '<tool\>Eeschema.*\<\/tool\>' # Regular expression content match.
+                }
+        }
+    }
+)
+
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.
        @param in_file `str()` with the file name.

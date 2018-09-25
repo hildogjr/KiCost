@@ -67,6 +67,25 @@ field_name_translations.update(
 GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are present.
 
 
+
+# Place information about this EDA into the eda_tool dictionary.
+from .. import eda_tool_dict
+eda_tool_dict.update(
+    {
+        'csv': {
+            'module': 'csv', # The directory name containing this file.
+            'label': 'CSV file', # Label used on the GUI.
+            'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus, Eagle.',
+            # Formatting file match.
+            'file': {
+                'extension': '.csv', # File extension.
+                'content': '.' # Regular expression content match.
+                }
+        }
+    }
+)
+
+
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.
        @param in_file `str()` with the file name.
