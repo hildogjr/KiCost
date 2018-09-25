@@ -132,7 +132,9 @@ For these parts, you can manually enter price information as follows:
       1:$1.50; 10:$1.00; 25:$0.90; 100:$0.75
       
    (You can put spaces and currency symbols in the field value. KiCost will
-   strip everything except digits, decimal points, semicolons, and colons.)
+   strip everything except digits, decimal points, semicolons, and colons.
+   Others currency are acepted by use of the standardize ISO 4217 alpha3 format,
+   e.g. ``USD1.50``, ``EUR1.00``)
    
 You can also enter a link to documentation for the part using a field named ``kicost:link``.
 The value of this field will be a web address like::
