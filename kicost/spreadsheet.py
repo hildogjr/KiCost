@@ -263,12 +263,12 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
 
         # Make a list of alphabetically-ordered distributors with web distributors before locals.
         logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
-        web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] != 'local'])
-        local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] == 'local'])
+        web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] != 'local'])
+        local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] == 'local'])
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
-        logger.log(DEBUG_OVERVIEW, 'Writing the distributor part information...')
+        logger.log(DEBUG_OVERVIEW, 'Writing the distributors parts informations...')
         for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
@@ -292,7 +292,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields, collapse_refs):
     '''Add global part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, 'Writing the global part information...')
+    logger.log(DEBUG_OVERVIEW, 'Writing the global parts informations...')
 
     # Columns for the various types of global part data.
     columns = {
@@ -349,11 +349,11 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 0,
             'label': 'Qty',
             'width': None,
-            'comment': '''Total number of each part needed.
-Gray -> No manf# provided.
+            'comment': '''Total number of each part needed to assemble the board(s).
+Gray -> Not manf# codes.
 Red -> No parts available.
-Orange -> Not enough parts available.
-Yellow -> Parts available, but haven't purchased enough.''',
+Orange -> Parts available, but not enough.
+Yellow -> Enough parts available, but haven't purchased enough.''',
             'static': False,
         },
         'unit_price': {
@@ -952,13 +952,15 @@ Orange -> Too little quantity available.'''
     order_col_numeric = {}
     order_delimiter = {}
     dist_col = {}
-    for position, col_tag in enumerate(distributor_dict[dist]['order']['cols']):
+    for position, col_tag in enumerate(distributor_dict[dist]['order_cols']):
         order_col[col_tag] = ORDER_START_COL + position  # Column for this order info.
         order_col_numeric[col_tag] = (col_tag ==
                                       'purch')  # Is this order info numeric?
-        order_delimiter[col_tag] = distributor_dict[dist]['order']['delimiter']  # Delimiter btwn order columns.
+        order_delimiter[col_tag] = distributor_dict[dist][
+            'order_delimiter'
+        ]  # Delimiter btwn order columns.
         # For the last column of order info, the delimiter is blanked.
-        if position + 1 == len(distributor_dict[dist]['order']['cols']):
+        if position + 1 == len(distributor_dict[dist]['order_cols']):
             order_delimiter[col_tag] = ''
         # If the column tag doesn't exist in the list of distributor columns,
         # then assume its for the part reference column in the global data section
