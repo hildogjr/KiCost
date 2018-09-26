@@ -33,7 +33,7 @@ import logging
 #from ..global_vars import PartHtmlError
 # Kept this for future use.
 
-from ..edas.edas import order_refs # To better print the warnings about the parts.
+from ..edas.tools import order_refs # To better print the warnings about the parts.
 
 from .global_vars import distributor_dict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
@@ -41,16 +41,12 @@ from ..global_vars import SEPRTR
 
 from currency_converter import CurrencyConverter
 
-from .local import dist_local
-from .octopart import dist_octopart
-
 class distributor(object):
     start_time = time.time()
-    def __init__(self, name, domain, scrape_retries, throttle_delay):
+    def __init__(self, name, logger, output_currency='USD'):
         self.name = name
-        self.scrape_retries = scrape_retries
         self.logger = logger
-        self.domain = domain
+        self.currency = 'USD'
 
         # Don't create fake_browser for "local" distributor.
         #if self.domain != None:

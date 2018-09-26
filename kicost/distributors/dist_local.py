@@ -39,7 +39,7 @@ from .global_vars import distributor_dict
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
-class dist_local(distributor.distributor):
+class dist_local(distributor):
 
     @staticmethod
     def dist_init_distributor_dict():

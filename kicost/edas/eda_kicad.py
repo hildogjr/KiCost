@@ -31,13 +31,17 @@ import sys, os, time
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
-from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ...global_vars import SEPRTR
-from ...distributors.global_vars import distributor_dict
-from ..eda_tools import field_name_translations, remove_dnp_parts
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ..global_vars import SEPRTR
+from ..distributors.global_vars import distributor_dict
+from .tools import field_name_translations, remove_dnp_parts
 
 
-eda_tool_dict.update(
+__all__ = ['get_part_groups']
+
+from . import eda_dict
+
+eda_dict.update(
     {
         'kicad': {
             'module': 'kicad', # The directory name containing this file.

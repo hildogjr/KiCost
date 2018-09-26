@@ -60,11 +60,11 @@ from .distributors.global_vars import distributor_dict
 
 # Import information for various EDA tools.
 from .edas import eda_modules
-from .edas.edas import subpartqty_split, group_parts
+from .edas.tools import subpartqty_split, group_parts
 
 from .spreadsheet import * # Creation of the final XLSX spreadsheet.
 
-def kicost(in_file, eda_tool_name, out_filename,
+def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, variant,
         dist_list=list(distributor_dict.keys()),
         collapse_refs=True, currency='USD'):
@@ -73,7 +73,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
     
     @param in_file `list(str())` List of the names of the input BOM files.
-    @param eda_tool_name `list(str())` of the EDA modules to be used to open the `in_file`list.
+    @param eda_name `list(str())` of the EDA modules to be used to open the `in_file`list.
     @param out_filename `str()` XLSX output file name.
     @param user_fields `list()` of the user fields to be included on the spreadsheet global part.
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
@@ -110,16 +110,16 @@ def kicost(in_file, eda_tool_name, out_filename,
         variant = [variant] * len(in_file)
     elif len(variant) != len(in_file):
         variant = [variant[0]] * len(in_file) #Assume the first as default.
-    if not isinstance(eda_tool_name,list):
-        eda_tool_name = [eda_tool_name] * len(in_file)
-    elif len(eda_tool_name) != len(in_file):
-        eda_tool_name = [eda_tool_name[0]] * len(in_file) #Assume the first as default.
+    if not isinstance(eda_name,list):
+        eda_name = [eda_name] * len(in_file)
+    elif len(eda_name) != len(in_file):
+        eda_name = [eda_name[0]] * len(in_file) #Assume the first as default.
 
     # Get groups of identical parts.
     parts = dict()
     prj_info = list()
     for i_prj in range(len(in_file)):
-        eda_tool_module = eda_modules[eda_tool_name[i_prj]]
+        eda_tool_module = eda_modules[eda_name[i_prj]]
         p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         p = subpartqty_split(p)
         # In the case of multiple BOM files, add the project prefix identifier
@@ -155,9 +155,9 @@ def kicost(in_file, eda_tool_name, out_filename,
                 group_fields += [f]
 
     # Some fields to be merged on specific EDA are enrolled bellow.
-    if 'kicad' in eda_tool_name:
+    if 'kicad' in eda_name:
         group_fields += ['libpart'] # This field may be a mess on multiple sheet designs.
-    if len(set(eda_tool_name))>2:
+    if len(set(eda_name))>2:
         # If more than one EDA software was used, ignore the 'footprint'
         # field, because they could have different libraries names.
         group_fields += ['footprint']

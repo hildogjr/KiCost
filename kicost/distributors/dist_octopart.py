@@ -43,7 +43,7 @@ from .global_vars import distributor_dict
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
-class dist_octopart(distributor.distributor):
+class dist_octopart(distributor):
 
     @staticmethod
     def dist_init_distributor_dict():

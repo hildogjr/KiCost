@@ -35,11 +35,11 @@ from datetime import datetime
 from bs4 import BeautifulSoup # To Read XML files.
 import re # Regular expression parser.
 import logging
-from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ...global_vars import SEPRTR
-from ...distributors.global_vars import distributor_dict
-from ..eda_tools import field_name_translations, remove_dnp_parts
-from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..global_vars import SEPRTR
+from ..distributors.global_vars import distributor_dict
+from .tools import field_name_translations, remove_dnp_parts
+from .tools import PART_REF_REGEX_NOT_ALLOWED
 
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(
@@ -54,11 +54,13 @@ field_name_translations.update(
 ALTIUM_NONE = '[NoParam]' # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 
+__all__ = ['get_part_groups']
 
+from . import eda_dict
 
 # Place information about this EDA into the eda_tool dictionary.
-from . import eda_tool_dict
-eda_tool_dict.update(
+from . import eda_dict
+eda_dict.update(
     {
         'altium': {
             'module': 'altium', # The directory name containing this file.

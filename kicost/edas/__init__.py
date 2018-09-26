@@ -27,7 +27,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # The global dictionary of supported EDA tools starts out empty.
-eda_tool_dict = {}
+eda_dict = {}
 
 import os
 
@@ -38,11 +38,13 @@ directory = os.path.dirname(__file__)
 eda_modules = {}
 for module in os.listdir(directory):
 
-    # Avoid importing non-directories.
+    # Avoid importing non EDA class files.
+    # It should be placed at this folder and start with 'eda_'.
     abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
+    if os.path.isdir(abs_module):
         continue
-
+    if not os.path.basename(abs_module).startswith('eda_'):
+        continue
     # Avoid directories like __pycache__.
     if module.startswith('__'):
         continue

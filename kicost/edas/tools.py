@@ -31,7 +31,7 @@ import re, os # Regular expression parser and matches.
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..global_vars import SEPRTR
 from ..distributors.global_vars import distributor_dict
-from . import eda_tool_dict # EDA dictionary with the features.
+from . import eda_dict # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
 
@@ -128,7 +128,7 @@ def file_eda_match(file_name):
         file_handle = open(file_name, 'r', encoding ='ISO-8859-1')
         content = file_handle.read()
     extension = os.path.splitext(file_name)[1]
-    for name, defs in eda_tool_dict.items():
+    for name, defs in eda_dict.items():
         #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
         if re.search(defs['file']['content'], content, re.IGNORECASE)\
             and extension==defs['file']['extension']:

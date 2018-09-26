@@ -38,7 +38,7 @@ from . import __version__ # Version control by @xesscorp and collaborator.
 from .global_vars import SEPRTR, DEFAULT_LANGUAGE
 from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
-from .eda_tools.eda_tools import partgroup_qty, order_refs, PART_REF_REGEX
+from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 __all__ = ['create_spreadsheet']
 

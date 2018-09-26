@@ -40,7 +40,7 @@ except ImportError:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
 from .distributors.global_vars import distributor_dict
-from .eda_tools import eda_tool_dict
+from .edas import eda_dict
 from . import __version__ # Version control by @xesscorp and collaborator.
 
 from .global_vars import *
@@ -115,7 +115,7 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('-eda', '--eda_tool', choices=['kicad', 'altium', 'csv'],
+    parser.add_argument('--eda', choices=['kicad', 'altium', 'csv'],
                         nargs='+',
                         default='kicad',
                         help='Choose EDA tool from which the XML BOM file originated, or use csv for .CSV files.')
@@ -170,7 +170,7 @@ def main():
     if args.show_eda_list:
         #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
         #print('EDA supported list:', ', '.join(eda_names))
-        print('EDA supported list:', *sorted(list(eda_tool_dict.keys())))
+        print('EDA supported list:', *sorted(list(eda_dict.keys())))
         return
 
     # Set up spreadsheet output file.
@@ -224,7 +224,7 @@ def main():
             try:
                 if os.path.splitext(args.input[i])[1] == '':
                     args.input[i] += '.xml'
-                elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda_tool[i] == 'csv':
+                elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda[i] == 'csv':
                     args.eda_tool = 'csv'
             except IndexError:
                 pass
@@ -250,7 +250,7 @@ def main():
                                           )
 
     #try:
-    kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+    kicost(in_file=args.input, eda_name=args.eda,
         out_filename=args.output, collapse_refs=not args.no_collapse,
         user_fields=args.fields, ignore_fields=args.ignore_fields,
         group_fields=args.group_fields, variant=args.variant,
