@@ -43,4 +43,19 @@ for module in os.listdir(directory):
     if module.startswith('__'):
         continue
 
+    # Import the module.
+    tmp = __import__(module, globals(), locals(), [], level=1)
+    tmp_mod = getattr(tmp, module);
+    globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
 
+from .global_vars import distributor_dict
+
+def init_distributor_dict():
+    # Clear distributor_dict, then let all distributor modules recreate their entries.
+    distributor_dict = {}
+    for x in globals():
+        if x.startswith("dist_"):
+            globals()[x].dist_init_distributor_dict()
+
+# Init distributor dict during import.
+init_distributor_dict()
