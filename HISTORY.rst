@@ -3,6 +3,14 @@
 History
 -------
 
+?? (2018-??-??)
+______________________
+
+* Re-facture the KiCost motor, now use the Octopart API.
+* Added a full currency convert capability.
+* Fix some minor error with multi file projects.
+
+
 0.1.47 (2018-08-16)
 ______________________
 
