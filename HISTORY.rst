@@ -3,6 +3,21 @@
 History
 -------
 
+?? (2018-??-??)
+______________________
+
+* Complete re-facture of internal class structure, now ``distributors`` and ``edas`` follow a heritage model.
+* Add a ``post_setup`` function to configure shortcut and OS dependent settings.
+
+
+?? (2018-??-??)
+______________________
+
+* Re-facture the KiCost motor, now use the Octopart API.
+* Added a full currency convert capability.
+* Fix some minor error with multi file projects.
+
+
 0.1.47 (2018-08-16)
 ______________________
 
