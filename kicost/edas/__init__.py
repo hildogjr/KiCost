@@ -50,4 +50,10 @@ for module in os.listdir(directory):
         continue
 
     # Import the module.
-    eda_modules[module] = __import__(module, globals(), locals(), [], level=1)
+    #eda_modules[module] = __import__(module, globals(), locals(), [], level=1)
+
+#TODO this should go inside the loop above and the file bellow should be translate to classes.
+from .eda_kicad import *
+from .eda_altium import *
+from .eda_generic_csv import *
+eda_modules[module] = ['kicad', 'altium', 'csv']

@@ -41,6 +41,7 @@ __all__ = ['get_part_groups']
 
 from . import eda_dict
 
+# Place information about this EDA into the eda_tool dictionary.
 eda_dict.update(
     {
         'kicad': {

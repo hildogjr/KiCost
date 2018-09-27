@@ -42,11 +42,19 @@ for module in os.listdir(directory):
     # Avoid directories like __pycache__.
     if module.startswith('__'):
         continue
+    #TODO
+    if module.startswith('dist_octo') or module.startswith('dist_local'):
+        continue
 
     # Import the module.
+    print('--------',module)
     tmp = __import__(module, globals(), locals(), [], level=1)
     tmp_mod = getattr(tmp, module);
     globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
+
+from .dist_octopart import * #TODO this should be programmetic and go inside the for above
+from .dist_local import *
+
 
 from .global_vars import distributor_dict
 

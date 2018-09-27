@@ -33,7 +33,7 @@ __company__ = 'University of Campinas - Brazil'
 # Python libraries.
 import os, sys
 
-__all__ = ['post_setup', 'post_unsetup']
+__all__ = ['config_setup', 'config_unsetup']
 
 
 
@@ -42,7 +42,7 @@ __all__ = ['post_setup', 'post_unsetup']
 ###############################################################################
 
 
-def post_setup():
+def config_setup():
     '''Create all the configuration used by KiCost.'''
     # Check if KiCost really exist.
     try:
@@ -74,7 +74,7 @@ def post_setup():
     create_os_contex_menu(kicost_path)
 
 
-def post_unsetup():
+def config_unsetup():
     '''Create all the configuration used by KiCost.'''
     
     return

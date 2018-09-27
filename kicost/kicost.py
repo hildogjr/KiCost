@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -116,6 +116,7 @@ def kicost(in_file, eda_name, out_filename,
         eda_name = [eda_name[0]] * len(in_file) #Assume the first as default.
 
     # Get groups of identical parts.
+    print('---------------',eda_modules)
     parts = dict()
     prj_info = list()
     for i_prj in range(len(in_file)):

@@ -41,12 +41,12 @@ from ..global_vars import SEPRTR
 
 from currency_converter import CurrencyConverter
 
-class distributor(object):
+class distributor_class(object):
     start_time = time.time()
     def __init__(self, name, logger, output_currency='USD'):
         self.name = name
         self.logger = logger
-        self.currency = 'USD'
+        self.currency = output_currency
 
         # Don't create fake_browser for "local" distributor.
         #if self.domain != None:
@@ -54,8 +54,9 @@ class distributor(object):
         #        (self.domain, self.logger, self.scrape_retries, throttle_delay)
         # Kept this for future use.
 
-    # Get the pat info using the modules API/Scrape/Local.
+
     def get_dist_parts_info(parts, distributors, currency_dst='USD'):
+        ''' Get the parts info using the modules API/Scrape/Local.'''
 
         currency_dst = currency_dst.upper()
         def currency_converter_fun(value, currency):
@@ -75,8 +76,10 @@ class distributor(object):
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod
     def dist_init_distributor_dict():
+        ''' Initialize and update the dictionary of the registered distributors classes.'''
         raise NotImplementedError()
 
     @staticmethod
     def query_part_info():
+        ''' Get the parts info of one distributor class.'''
         raise NotImplementedError()

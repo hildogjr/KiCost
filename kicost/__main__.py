@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,18 +21,18 @@
 # THE SOFTWARE.
 
 # Inserted by Pasteurize tool.
-from __future__ import print_function
-from __future__ import unicode_literals
-from __future__ import division
-from __future__ import absolute_import
+from __future__ import print_function, unicode_literals, division, absolute_import
 from builtins import open
 from future import standard_library
 standard_library.install_aliases()
 
+#Libraries.
 import argparse as ap # Command argument parser.
 import os, sys, platform
 import logging, time
 #import inspect # To get the internal module and informations of a module/class.
+
+# KiCost definitions and modules/packages functions.
 from .kicost import * # kicost core functions.
 try:
     from .kicost_gui import * # User guide.
@@ -41,9 +41,8 @@ except ImportError:
          # the user just want the KiCost CLI.
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
-from . import __version__ # Version control by @xesscorp and collaborator.
-
 from .global_vars import *
+from . import __version__ # Version control by @xesscorp and collaborator.
 
 ###############################################################################
 # Additional functions
@@ -109,7 +108,7 @@ def main():
                         help='Declare part fields to merge when grouping parts.',
                         metavar='NAME',
                         type=str)
-    parser.add_argument('-d', '--debug',
+    parser.add_argument('--debug',
                         nargs='?',
                         type=int,
                         default=None,

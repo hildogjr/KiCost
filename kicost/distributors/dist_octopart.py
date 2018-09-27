@@ -24,26 +24,31 @@
 __author__ = 'XESS Corporation'
 __webpage__ = 'info@xess.com'
 
-# Libraries.
-import json, requests
-import logging
-import tqdm
-import copy, re
-from collections import Counter
-
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE  # Debug configurations.
-from ..global_vars import SEPRTR
-
+# Python2/3 compatibility.
+#from __future__ import (unicode_literals, print_function, division, absolute_import
 from future import standard_library
 standard_library.install_aliases()
 
-from . import distributor
+# Libraries.
+import json, requests
+import logging, tqdm
+import copy, re
+from collections import Counter
+
+# KiCost definitions.
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE  # Debug configurations.
+from ..global_vars import SEPRTR
+
+# Distributors definitions.
+from .distributor import distributor_class
 from .global_vars import distributor_dict
 
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
-class dist_octopart(distributor):
+__all__ = ['dist_octopart']
+
+class dist_octopart(distributor_class):
 
     @staticmethod
     def dist_init_distributor_dict():

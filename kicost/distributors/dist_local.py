@@ -20,26 +20,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import unicode_literals
-from __future__ import print_function
-from __future__ import division
-from __future__ import absolute_import
-
+# Python2/3 compatibility.
+#from __future__ import unicode_literals, print_function, division, absolute_import
 from future import standard_library
 standard_library.install_aliases()
 
+# Libraries.
 import copy, re
+import logging
 
+# KiCost definitions.
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE  # Debug configurations.
 from ..global_vars import SEPRTR
 
-from . import distributor
+# Distributors definitions.
+from .distributor import distributor_class
 from .global_vars import distributor_dict
 
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
-class dist_local(distributor):
+__all__ = ['dist_local']
+
+class dist_local(distributor_class):
 
     @staticmethod
     def dist_init_distributor_dict():
@@ -110,7 +113,7 @@ class dist_local(distributor):
                 def make_random_catalog_number(p):
                     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
                     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
-                    #TODO unify the `FIELDS_NOT_HASH` configuration (used also in `eda_tools.py`).
+                    #TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
                     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                     hash_fields['dist'] = dist
                     return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
