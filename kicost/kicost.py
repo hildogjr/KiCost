@@ -42,27 +42,23 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-# ghost library allows scraping pages that have JavaScript challenge pages that
-# screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
-# Also requires installation of Qt4.8 (not 5!) and pyside.
-#from ghost import Ghost
-
 __all__ = ['kicost','output_filename']  # Only export this routine for use by the outside world.
 
 from .global_vars import *
 
-#from .distributors.octopart import query_part_info
+# TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
+from .distributors.dist_octopart import dist_octopart
+from .distributors.dist_local import dist_local
 
-# Import information about various distributors.
-#from .distributors import *
-from .distributors.distributor import *
-from .distributors.global_vars import distributor_dict
-
+## Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts
-
-from .spreadsheet import * # Creation of the final XLSX spreadsheet.
+# Import information about various distributors.
+from .distributors.distributor import *
+from .distributors.global_vars import distributor_dict
+# Creation of the final XLSX spreadsheet.
+from .spreadsheet import *
 
 def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, variant,
@@ -116,12 +112,11 @@ def kicost(in_file, eda_name, out_filename,
         eda_name = [eda_name[0]] * len(in_file) #Assume the first as default.
 
     # Get groups of identical parts.
-    print('---------------',eda_modules)
     parts = dict()
     prj_info = list()
     for i_prj in range(len(in_file)):
-        eda_tool_module = eda_modules[eda_name[i_prj]]
-        p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
+        eda_module = eda_modules[eda_name[i_prj]]
+        p, info = eda_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         p = subpartqty_split(p)
         # In the case of multiple BOM files, add the project prefix identifier
         # to each reference/designator. Use the field 'manf#_qty' to control
@@ -191,7 +186,10 @@ def kicost(in_file, eda_name, out_filename,
 
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
-        distributor.get_dist_parts_info(parts, distributor_dict, currency)
+        #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
+        #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
+        dist_local.query_part_info(parts, distributor_dict, currency)
+        dist_octopart.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,

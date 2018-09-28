@@ -151,7 +151,6 @@ class dist_octopart(distributor_class):
 
     def query_octopart(query):
         """Send query to Octopart and return results."""
-
         url = 'http://octopart.com/api/v3/parts/match'
         payload = {'queries': json.dumps(query), 'apikey': '96df69ba'}
         response = requests.get(url, params=payload)
@@ -209,7 +208,6 @@ class dist_octopart(distributor_class):
 
     def query_part_info(parts, distributors, currency='USD'):
         """Fill-in the parts with price/qty/etc info from Octopart."""
-
         logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
         # Setup progress bar to track progress of Octopart queries.

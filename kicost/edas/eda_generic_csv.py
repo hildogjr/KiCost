@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 
 # Author information.
-__author__ = 'Hildo Guillardi Junior'
+__author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 # This module is intended to work with "generic hand made CSV" and the software:
@@ -76,7 +76,7 @@ eda_dict.update(
         'csv': {
             'module': 'csv', # The directory name containing this file.
             'label': 'CSV file', # Label used on the GUI.
-            'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus, Eagle.',
+            'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus and Eagle.',
             # Formatting file match.
             'file': {
                 'extension': '.csv', # File extension.

@@ -56,4 +56,6 @@ for module in os.listdir(directory):
 from .eda_kicad import *
 from .eda_altium import *
 from .eda_generic_csv import *
-eda_modules[module] = ['kicad', 'altium', 'csv']
+eda_modules['kicad'] = eda_kicad
+eda_modules['altium'] = eda_altium
+eda_modules['csv'] = eda_generic_csv

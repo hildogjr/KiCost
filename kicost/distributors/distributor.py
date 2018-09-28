@@ -55,7 +55,7 @@ class distributor_class(object):
         # Kept this for future use.
 
 
-    def get_dist_parts_info(parts, distributors, currency_dst='USD'):
+    def get_dist_parts_info(self, parts, distributors, currency_dst='USD'):
         ''' Get the parts info using the modules API/Scrape/Local.'''
 
         currency_dst = currency_dst.upper()
