@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Max Maisel
+# Copyright (C) 2018 by XESS Corporation / Max Maisel / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -149,7 +149,7 @@ class dist_octopart(distributor_class):
         })
 
 
-    def query_octopart(query):
+    def query(query):
         """Send query to Octopart and return results."""
         url = 'http://octopart.com/api/v3/parts/match'
         payload = {'queries': json.dumps(query), 'apikey': '96df69ba'}
@@ -161,7 +161,7 @@ class dist_octopart(distributor_class):
     def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
         part_query = [{'reference': 1, 'sku': sku}]
-        results = query_octopart(part_query)
+        results = dist_octopart.query(part_query)
         if not results:
             return None
         result = results[0]
@@ -193,7 +193,7 @@ class dist_octopart(distributor_class):
                 continue
 
             # Convert the SKUs to manf. part numbers.
-            mpns = [sku_to_mpn(sku) for sku in skus]
+            mpns = [dist_octopart.sku_to_mpn(sku) for sku in skus]
             mpns = [mpn for mpn in mpns
                     if mpn not in ('', None)]  # Remove null manf#.
 
@@ -249,7 +249,7 @@ class dist_octopart(distributor_class):
         def get_part_info(query, parts, currency='USD'):
             """Query Octopart for quantity/price info and place it into the parts list."""
 
-            results = query_octopart(query)
+            results = dist_octopart.query(query)
 
             # Loop through the response to the query and enter info into the parts list.
             for result in results:
