@@ -26,6 +26,8 @@ from builtins import open
 from future import standard_library
 standard_library.install_aliases()
 
+from .global_vars import * # Debug, language and default configurations.
+
 #Libraries.
 import argparse as ap # Command argument parser.
 import os, sys, platform
@@ -36,12 +38,11 @@ import logging, time
 from .kicost import * # kicost core functions.
 try:
     from .kicost_gui import * # User guide.
-except ImportError:
+except wxPythonNotPresent as e:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
-from .global_vars import *
 from . import __version__ # Version control by @xesscorp and collaborator.
 
 ###############################################################################

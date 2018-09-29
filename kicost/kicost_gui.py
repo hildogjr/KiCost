@@ -26,11 +26,13 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
+from .global_vars import * # Debug, language and default configurations.
+
 # Libraries.
 try:
     import wx # wxWidgets for Python.
 except ImportError:
-    raise ImportError('wxPython package not recognized.')
+    raise wxPythonNotPresent()
 import webbrowser # To update informations.
 import sys, os, subprocess # To access OS commands and run in the shell.
 import threading
@@ -40,16 +42,17 @@ import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
 from distutils.version import StrictVersion # To comparative of versions.
 import re # Regular expression parser.
-
-from . import __version__ # Version control by @xesscorp and collaborator.
+from babel import numbers # For currency presentation.
 import logging
-from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+
+# KiCost libraries.
+from . import __version__ # Version control by @xesscorp and collaborator.
 from .kicost import *  # kicost core functions.
 from .distributors import fake_browser # Use the configurations already made to get KiCost last version.
 from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
-from .edas.edas import file_eda_match
+from .edas.tools import file_eda_match
 
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 
@@ -360,7 +363,7 @@ class formKiCost(wx.Frame):
 
         bSizer9 = wx.BoxSizer(wx.VERTICAL)
 
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Currency:", wx.DefaultPosition, wx.DefaultSize, 0)
+        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Spreadsheet currency:", wx.DefaultPosition, wx.DefaultSize, 0)
         m_staticText.Wrap(-1)
         bSizer9.Add(m_staticText, 0, wx.ALL, 5)
         self.m_comboBox_currency = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
@@ -713,7 +716,7 @@ class formKiCost(wx.Frame):
         args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
         args.variant = str_to_arg(['--variant', '-var'])
-        args.locale = str_to_arg(['--currency']).split()
+        args.currency = str_to_arg(['--currency']).split()
 
         args.collapse_refs = self.m_checkBox_collapseRefs.GetValue() # Collapse refs in the spreadsheet.
 
@@ -746,7 +749,7 @@ class formKiCost(wx.Frame):
                 out_filename=args.output, collapse_refs=args.collapse_refs,
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
                 group_fields=args.group_fields, variant=args.variant,
-                dist_list=args.include, currency=args.locale)
+                dist_list=args.include, currency=args.currency)
         except Exception as e:
             print(e)
             return
@@ -795,6 +798,16 @@ class formKiCost(wx.Frame):
         for s in eda_names: # Make this for wxPy3 compatibility, not allow include a list.
             self.m_listBox_edatool.Append(s)
         #self.m_listBox_edatool.Append(eda_names)
+
+        # Get all the currencies present.
+        currencyList = sorted(list(numbers.list_currencies()))
+        for c in range(len(currencyList)):
+            currency = currencyList[c]
+            currencyList[c] = '({a} {s}) {n}'.format(a=currency,
+                                                  s=numbers.get_currency_symbol(currency),
+                                                  n=numbers.get_currency_name(currency)
+                                              )
+        self.m_comboBox_currency.Insert(currencyList, 0)
 
         # Credits and other informations, search by `AUTHOR.rst` file.
         self.m_staticText_version.SetLabel('KiCost version ' + __version__)

@@ -26,17 +26,18 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
+from .global_vars import * # Debug, language and default configurations.
+
 # Python libraries.
 import os
 from datetime import datetime
 import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
-from babel import numbers
+from babel import numbers # For currency presentation.
+
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
-from .global_vars import SEPRTR, DEFAULT_LANGUAGE
-from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
