@@ -42,6 +42,7 @@ import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
 from distutils.version import StrictVersion # To comparative of versions.
 import re # Regular expression parser.
+import babel # For language.
 from babel import numbers # For currency presentation.
 import logging
 
@@ -367,7 +368,7 @@ class formKiCost(wx.Frame):
         m_staticText.Wrap(-1)
         bSizer9.Add(m_staticText, 0, wx.ALL, 5)
         self.m_comboBox_currency = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
-        self.m_comboBox_currency.SetToolTip(wx.ToolTip(u"Currency to be used to generate the Cost Bill of Materials.\nPrioritized on scrape/sever communication. In case of not available the actual is converted to it and highlighted on spread sheet."))
+        self.m_comboBox_currency.SetToolTip(wx.ToolTip(u"Currency to be used to generate the Cost Bill of Materials.\nIn case of not available the current distributor (API/Scrape/...) is converted to and distributor column receive a comment."))
         bSizer9.Add(self.m_comboBox_currency, 0, wx.ALL, 5)
 
         wSizer2.Add(bSizer9, 1, wx.TOP|wx.LEFT, 5)
@@ -386,7 +387,7 @@ class formKiCost(wx.Frame):
         bSizer11.Add(self.m_spinCtrl_debugLvl, 0, wx.ALL, 5)
 
         self.m_checkBox_quite = wx.CheckBox(self.m_panel2, wx.ID_ANY, u"Quiet mode", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_checkBox_quite.SetToolTip(wx.ToolTip(u"Enable quiet mode with no warnings."))
+        self.m_checkBox_quite.SetToolTip(wx.ToolTip(u"Enable quiet mode with no warnings or messages at all."))
         bSizer11.Add(self.m_checkBox_quite, 0, wx.ALL, 5)
 
         self.m_checkBox_overwrite = wx.CheckBox(self.m_panel2, wx.ID_ANY, u"Overwrite file", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -406,9 +407,9 @@ class formKiCost(wx.Frame):
         m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"GUI language:", wx.DefaultPosition, wx.DefaultSize, 0)
         m_staticText.Wrap(-1)
         bSizer11.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_comboBox_guiLanguage = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
-        self.m_comboBox_guiLanguage.SetToolTip(wx.ToolTip(u"Setup the guide language (needs restart)."))
-        bSizer11.Add(self.m_comboBox_guiLanguage, 0, wx.ALL, 5)
+        self.m_comboBox_language = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
+        self.m_comboBox_language.SetToolTip(wx.ToolTip(u"Setup the guide language (needs restart)."))
+        bSizer11.Add(self.m_comboBox_language, 0, wx.ALL, 5)
 
         wSizer2.Add(bSizer11, 1, wx.TOP|wx.RIGHT, 5)
 
@@ -716,7 +717,7 @@ class formKiCost(wx.Frame):
         args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
         args.variant = str_to_arg(['--variant', '-var'])
-        args.currency = str_to_arg(['--currency']).split()
+        args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())
 
         args.collapse_refs = self.m_checkBox_collapseRefs.GetValue() # Collapse refs in the spreadsheet.
 
@@ -808,6 +809,12 @@ class formKiCost(wx.Frame):
                                                   n=numbers.get_currency_name(currency)
                                               )
         self.m_comboBox_currency.Insert(currencyList, 0)
+
+        # Get all languages possible.
+        languages = '{n} ({s})'.format(n=babel.Locale(DEFAULT_LANGUAGE).get_language_name(),
+                                      s=DEFAULT_LANGUAGE,
+                                  )
+        self.m_comboBox_language.Insert(languages, 0)
 
         # Credits and other informations, search by `AUTHOR.rst` file.
         self.m_staticText_version.SetLabel('KiCost version ' + __version__)
