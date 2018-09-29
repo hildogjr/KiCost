@@ -31,14 +31,22 @@ import os, subprocess#, threading, time
 
 import traceback, wx # For debug.
 
-def debug_dialog(msg, exception=None):
+def debug_dialog(msg, exception=None, kind=wx.OK):
+    '''Debug dialog.'''
     if exception:
         msg = '\n'.join((msg, str(exception), traceback.format_exc()))
-    dlg = wx.MessageDialog(None, msg, '', wx.OK)
+    dlg = wx.MessageDialog(None, msg, '', kind)
     dlg.ShowModal()
     dlg.Destroy()
 
+def install_kicost():
+    '''Install KiCost.'''
+    import pip
+    pip.main(['install', 'kicost'])
+    return
+
 class kicost_kicadplugin(ActionPlugin):
+    '''KiCad PcbNew action plugin.'''
     def defaults(self):
         self.name = "KiCost"
         self.category = "BOM"
@@ -53,15 +61,23 @@ class kicost_kicadplugin(ActionPlugin):
             debug_dialog('This boad have not BOM associated.')
             bom_file = ''
         try:
-            from kicost.kicost_gui import *
-            kicost_gui(bom_file) # If KiCad and KiCost share the same Python installation.
-        except ImportError:
-            subprocess.call(('kicost', '--guide', bom_file), shell=True)
-            #os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
-            #os.system('eeschema')
-            #subprocess.call('eeschema')
+            try:
+                from kicost.kicost_gui import *
+                kicost_gui(bom_file) # If KiCad and KiCost share the same Python installation.
+            except ImportError:
+                subprocess.call(('kicost', '--guide', bom_file), shell=True)
+                #os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
+                #os.system('eeschema')
+                #subprocess.call('eeschema')
         except Exception as e:
-            debug_dialog('Error trying to run KiCost as plugin or subprocess.', e)
+            dlg = debug_dialog('Error trying to run KiCost as plugin or subprocess,\n\
+                KiCost is not available or accessible.\n\
+                Do you want to try to install KiCost?', e, wx.YES_NO)
+            if dlg==wx.YES:
+                debug_dialog('YES')
+                return True
+            else:
+                return False
         return True
 
 # Start point.
