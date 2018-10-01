@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>kicost 0.1.43 documentation</title>
+    <title>kicost 0.1.47 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.43',
+        VERSION:     '0.1.47',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -28,7 +28,7 @@
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.43 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.47 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -46,19 +46,22 @@
 <a class="reference external image-reference" href="https://travis-ci.org/xesscorp/kicost"><img alt="https://img.shields.io/travis/xesscorp/kicost.svg" src="https://img.shields.io/travis/xesscorp/kicost.svg" /></a>
 <a class="reference external image-reference" href="https://pypi.python.org/pypi/kicost"><img alt="https://img.shields.io/pypi/v/kicost.svg" src="https://img.shields.io/pypi/v/kicost.svg" /></a>
 <p>KiCost is intended to be run as a script for generating part-cost spreadsheets for
-circuit boards developed with KiCad.</p>
+circuit boards developed with KiCad. KiCost also comes with a graphical user interface
+in addition to command line.</p>
 <ul class="simple">
 <li>Free software: MIT license</li>
 <li>Documentation: <a class="reference external" href="https://xesscorp.github.io/KiCost">https://xesscorp.github.io/KiCost</a>.</li>
+<li>Quick start: <a class="reference external" href="https://www.youtube.com/watch?v=AeccxROpDfY">https://www.youtube.com/watch?v=AeccxROpDfY</a>.</li>
 </ul>
 <div class="section" id="features">
 <h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
+<li>Easy installation via <cite>pip</cite> (see on documentation folder).</li>
 <li>Processes the BOM XML file from your KiCad schematic to create a part-cost spreadsheet by
 scraping the web sites of several popular distributors for price and inventory data.
 (You can also enter your own quantity-adjusted pricing data for specialized parts or those
 not found at the supported distributors.);</li>
-<li>Processes also BOM files from Altium, Proteus, Eagle and hand made CSVs;</li>
+<li>Processes also BOM files from Altium, Proteus, Eagle, Upverter and hand made CSVs;</li>
 <li>The spreadsheet contains quantity-adjusted pricing from each distributor for
 individual parts and the total board;</li>
 <li>Enter the number of boards to be built in a spreadsheet cell and all the pricing
@@ -95,8 +98,22 @@ using the default option that web scrapes with parallel processes may cause
 <li>using <code class="docutils literal"><span class="pre">easy_install</span></code> to install KiCost, or</li>
 <li>use the <code class="docutils literal"><span class="pre">-s</span></code> KiCost option to serialize the web scraping.</li>
 </ul>
-<p>On Linux, to install KiCost on python3, use:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>$ pip3 install kicost
+<p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal"><span class="pre">pip3</span></code> for <code class="docutils literal"><span class="pre">pip</span></code> on each command):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
+$ sudo -H pip3 install -U pip # Upgrade the PIP version.
+$ sudo -H pip3 install kicost # Install KiCost from PyPI.
+</pre></div>
+</div>
+<p>For install the graphical dependence used by KiCost GUI:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ sudo -H pip3 install wxpython
+or
+$ sudo -H pip3 install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Ubuntu 16.04
+$ kicost # Execute KiCost without input arguments to initialize the GUI.
+</pre></div>
+</div>
+<p>For install the last code version from GitHub, use:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>$ sudo apt-get install git # It&#39;s necessary to have Git installed.
+$ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
 </pre></div>
 </div>
 </div>
@@ -120,6 +137,11 @@ The allowable field names for part numbers are:</p>
 </pre></div>
 </div>
 </li>
+</ol>
+<p>Be careful if the part have a <code class="docutils literal"><span class="pre">manf#</span></code> or distributor code with the <code class="docutils literal"><span class="pre">,</span></code>, <code class="docutils literal"><span class="pre">;</span></code> or <code class="docutils literal"><span class="pre">\</span></code> characters,
+these have specific propose as shown in <em>Parts With Subparts</em>. They have to be preceded by <code class="docutils literal"><span class="pre">\</span></code>,
+example, for the <code class="docutils literal"><span class="pre">NUP1301,215</span></code> code, use <code class="docutils literal"><span class="pre">NUP1301\,215</span></code>.</p>
+<ol class="arabic" start="2">
 <li><p class="first">Output a BOM from your KiCad schematic. This will be an XML file such as <code class="docutils literal"><span class="pre">schem.xml</span></code>.</p>
 </li>
 <li><p class="first">Process the XML file with KiCost to create a part-cost spreadsheet named <code class="docutils literal"><span class="pre">schem.xlsx</span></code> like this:</p>
@@ -192,7 +214,7 @@ following in the <code class="docutils literal"><span class="pre">Command</span>
 </div>
 <p>To access KiCost through a graphical user interface, just use the <cite>kicost</cite>
 command without parameters.</p>
-<img alt="_images/guide_screen.png" src="_images/guide_screen.png" />
+<img alt="https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png" src="https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png" />
 </div>
 <div class="section" id="custom-bom-list">
 <h3>Custom BOM list<a class="headerlink" href="#custom-bom-list" title="Permalink to this headline">¶</a></h3>
@@ -226,7 +248,9 @@ are separated by colons like so:</p>
 </pre></div>
 </div>
 <p>(You can put spaces and currency symbols in the field value. KiCost will
-strip everything except digits, decimal points, semicolons, and colons.)</p>
+strip everything except digits, decimal points, semicolons, and colons.
+Others currency are acepted by use of the standardize ISO 4217 alpha3 format,
+e.g. <code class="docutils literal"><span class="pre">USD1.50</span></code>, <code class="docutils literal"><span class="pre">EUR1.00</span></code>)</p>
 </li>
 </ol>
 <p>You can also enter a link to documentation for the part using a field named <code class="docutils literal"><span class="pre">kicost:link</span></code>.
@@ -443,69 +467,71 @@ you can restrict scraping from only a subset of them as follows:</p>
 </div>
 <div class="section" id="command-line-options">
 <h3>Command-Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">kicost</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">FILE</span><span class="o">.</span><span class="n">XML</span> <span class="p">[</span><span class="n">FILE</span><span class="o">.</span><span class="n">XML</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="p">[</span><span class="n">FILE</span><span class="o">.</span><span class="n">XLSX</span><span class="p">]]</span>
-              <span class="p">[</span><span class="o">-</span><span class="n">f</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">var</span> <span class="n">VARIANT</span> <span class="p">[</span><span class="n">VARIANT</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">s</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">q</span><span class="p">]</span>
-              <span class="p">[</span><span class="o">-</span><span class="n">np</span> <span class="p">[</span><span class="n">NUM_PROCESSES</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">ign</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">]]</span>
-              <span class="p">[</span><span class="o">-</span><span class="n">grp</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="p">[</span><span class="n">LEVEL</span><span class="p">]]</span>
-              <span class="p">[</span><span class="o">-</span><span class="n">eda</span> <span class="p">{</span><span class="n">kicad</span><span class="p">,</span><span class="n">altium</span><span class="p">,</span><span class="n">csv</span><span class="p">}</span> <span class="p">[{</span><span class="n">kicad</span><span class="p">,</span><span class="n">altium</span><span class="p">,</span><span class="n">csv</span><span class="p">}</span> <span class="o">...</span><span class="p">]]</span>
-              <span class="p">[</span><span class="o">--</span><span class="n">show_dist_list</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">show_eda_list</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no_collapse</span><span class="p">]</span>
-              <span class="p">[</span><span class="o">-</span><span class="n">e</span> <span class="n">DIST</span> <span class="p">[</span><span class="n">DIST</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">include</span> <span class="n">DIST</span> <span class="p">[</span><span class="n">DIST</span> <span class="o">...</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">no_scrape</span><span class="p">]</span>
-              <span class="p">[</span><span class="o">-</span><span class="n">rt</span> <span class="p">[</span><span class="n">NUM_RETRIES</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">throttling_delay</span> <span class="p">[</span><span class="n">DELAY</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">user</span><span class="p">]</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span>usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
+              [-f NAME [NAME ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
+              [-np [NUM_PROCESSES]] [-ign NAME [NAME ...]]
+              [-grp NAME [NAME ...]] [-d [LEVEL]]
+              [-eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
+              [--show_dist_list] [--show_eda_list] [--no_collapse]
+              [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_scrape]
+              [-rt [NUM_RETRIES]] [--throttling_delay [DELAY]] [--user]
 
-<span class="n">Build</span> <span class="n">cost</span> <span class="n">spreadsheet</span> <span class="k">for</span> <span class="n">a</span> <span class="n">KiCAD</span> <span class="n">project</span><span class="o">.</span>
+Build cost spreadsheet for a KiCAD project.
 
-<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
-  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
-  <span class="o">-</span><span class="n">v</span><span class="p">,</span> <span class="o">--</span><span class="n">version</span>         <span class="n">show</span> <span class="n">program</span><span class="s1">&#39;s version number and exit</span>
-  <span class="o">-</span><span class="n">i</span> <span class="n">FILE</span><span class="o">.</span><span class="n">XML</span> <span class="p">[</span><span class="n">FILE</span><span class="o">.</span><span class="n">XML</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="nb">input</span> <span class="n">FILE</span><span class="o">.</span><span class="n">XML</span> <span class="p">[</span><span class="n">FILE</span><span class="o">.</span><span class="n">XML</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">One</span> <span class="ow">or</span> <span class="n">more</span> <span class="n">schematic</span> <span class="n">BOM</span> <span class="n">XML</span> <span class="n">files</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">o</span> <span class="p">[</span><span class="n">FILE</span><span class="o">.</span><span class="n">XLSX</span><span class="p">],</span> <span class="o">--</span><span class="n">output</span> <span class="p">[</span><span class="n">FILE</span><span class="o">.</span><span class="n">XLSX</span><span class="p">]</span>
-                        <span class="n">Generated</span> <span class="n">cost</span> <span class="n">spreadsheet</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">f</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">fields</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Specify</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">additional</span> <span class="n">part</span> <span class="n">fields</span> <span class="n">to</span> <span class="n">extract</span>
-                        <span class="ow">and</span> <span class="n">insert</span> <span class="ow">in</span> <span class="n">the</span> <span class="k">global</span> <span class="n">data</span> <span class="n">section</span> <span class="n">of</span> <span class="n">the</span>
-                        <span class="n">spreadsheet</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">var</span> <span class="n">VARIANT</span> <span class="p">[</span><span class="n">VARIANT</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">variant</span> <span class="n">VARIANT</span> <span class="p">[</span><span class="n">VARIANT</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">schematic</span> <span class="n">variant</span> <span class="n">name</span> <span class="nb">filter</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">w</span><span class="p">,</span> <span class="o">--</span><span class="n">overwrite</span>       <span class="n">Allow</span> <span class="n">overwriting</span> <span class="n">of</span> <span class="n">an</span> <span class="n">existing</span> <span class="n">spreadsheet</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">s</span><span class="p">,</span> <span class="o">--</span><span class="n">serial</span>          <span class="n">Do</span> <span class="n">web</span> <span class="n">scraping</span> <span class="n">of</span> <span class="n">part</span> <span class="n">data</span> <span class="n">using</span> <span class="n">a</span> <span class="n">single</span> <span class="n">process</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">q</span><span class="p">,</span> <span class="o">--</span><span class="n">quiet</span>           <span class="n">Enable</span> <span class="n">quiet</span> <span class="n">mode</span> <span class="k">with</span> <span class="n">no</span> <span class="n">warnings</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">np</span> <span class="p">[</span><span class="n">NUM_PROCESSES</span><span class="p">],</span> <span class="o">--</span><span class="n">num_processes</span> <span class="p">[</span><span class="n">NUM_PROCESSES</span><span class="p">]</span>
-                        <span class="n">Set</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">parallel</span> <span class="n">processes</span> <span class="n">used</span> <span class="k">for</span> <span class="n">web</span>
-                        <span class="n">scraping</span> <span class="n">part</span> <span class="n">data</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">ign</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">ignore_fields</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Declare</span> <span class="n">part</span> <span class="n">fields</span> <span class="n">to</span> <span class="n">ignore</span> <span class="n">when</span> <span class="n">reading</span> <span class="n">the</span> <span class="n">BoM</span>
-                        <span class="n">file</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">grp</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">group_fields</span> <span class="n">NAME</span> <span class="p">[</span><span class="n">NAME</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Declare</span> <span class="n">part</span> <span class="n">fields</span> <span class="n">to</span> <span class="n">merge</span> <span class="n">when</span> <span class="n">grouping</span> <span class="n">parts</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">d</span> <span class="p">[</span><span class="n">LEVEL</span><span class="p">],</span> <span class="o">--</span><span class="n">debug</span> <span class="p">[</span><span class="n">LEVEL</span><span class="p">]</span>
-                        <span class="n">Print</span> <span class="n">debugging</span> <span class="n">info</span><span class="o">.</span> <span class="p">(</span><span class="n">Larger</span> <span class="n">LEVEL</span> <span class="n">means</span> <span class="n">more</span> <span class="n">info</span><span class="o">.</span><span class="p">)</span>
-  <span class="o">-</span><span class="n">eda</span> <span class="p">{</span><span class="n">kicad</span><span class="p">,</span><span class="n">altium</span><span class="p">,</span><span class="n">csv</span><span class="p">}</span> <span class="p">[{</span><span class="n">kicad</span><span class="p">,</span><span class="n">altium</span><span class="p">,</span><span class="n">csv</span><span class="p">}</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">eda_tool</span> <span class="p">{</span><span class="n">kicad</span><span class="p">,</span><span class="n">altium</span><span class="p">,</span><span class="n">csv</span><span class="p">}</span> <span class="p">[{</span><span class="n">kicad</span><span class="p">,</span><span class="n">altium</span><span class="p">,</span><span class="n">csv</span><span class="p">}</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Choose</span> <span class="n">EDA</span> <span class="n">tool</span> <span class="kn">from</span> <span class="nn">which</span> <span class="n">the</span> <span class="n">XML</span> <span class="n">BOM</span> <span class="n">file</span>
-                        <span class="n">originated</span><span class="p">,</span> <span class="ow">or</span> <span class="n">use</span> <span class="n">csv</span> <span class="k">for</span> <span class="o">.</span><span class="n">CSV</span> <span class="n">files</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">show_dist_list</span>      <span class="n">Show</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">distributors</span> <span class="n">that</span> <span class="n">can</span> <span class="n">be</span> <span class="n">scraped</span> <span class="k">for</span> <span class="n">cost</span>
-                        <span class="n">data</span><span class="p">,</span> <span class="n">then</span> <span class="n">exit</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">show_eda_list</span>       <span class="n">Show</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">EDA</span> <span class="n">tools</span> <span class="n">whose</span> <span class="n">files</span> <span class="n">KiCost</span> <span class="n">can</span> <span class="n">read</span><span class="p">,</span>
-                        <span class="n">then</span> <span class="n">exit</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">no_collapse</span>         <span class="n">Do</span> <span class="ow">not</span> <span class="n">collapse</span> <span class="n">the</span> <span class="n">part</span> <span class="n">references</span> <span class="ow">in</span> <span class="n">the</span>
-                        <span class="n">spreadsheet</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">e</span> <span class="n">DIST</span> <span class="p">[</span><span class="n">DIST</span> <span class="o">...</span><span class="p">],</span> <span class="o">--</span><span class="n">exclude</span> <span class="n">DIST</span> <span class="p">[</span><span class="n">DIST</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Excludes</span> <span class="n">the</span> <span class="n">given</span> <span class="n">distributor</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">scraping</span>
-                        <span class="n">process</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">include</span> <span class="n">DIST</span> <span class="p">[</span><span class="n">DIST</span> <span class="o">...</span><span class="p">]</span>
-                        <span class="n">Includes</span> <span class="n">only</span> <span class="n">the</span> <span class="n">given</span> <span class="n">distributor</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">scraping</span>
-                        <span class="n">process</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">no_scrape</span>           <span class="n">Create</span> <span class="n">a</span> <span class="n">spreadsheet</span> <span class="n">without</span> <span class="n">scraping</span> <span class="n">part</span> <span class="n">data</span> <span class="kn">from</span>
-                        <span class="nn">distributor</span> <span class="n">websites</span><span class="o">.</span>
-  <span class="o">-</span><span class="n">rt</span> <span class="p">[</span><span class="n">NUM_RETRIES</span><span class="p">],</span> <span class="o">--</span><span class="n">retries</span> <span class="p">[</span><span class="n">NUM_RETRIES</span><span class="p">]</span>
-                        <span class="n">Specify</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">attempts</span> <span class="n">to</span> <span class="n">retrieve</span> <span class="n">part</span> <span class="n">data</span>
-                        <span class="kn">from</span> <span class="nn">a</span> <span class="n">website</span><span class="o">.</span>
-  <span class="o">--</span><span class="n">throttling_delay</span> <span class="p">[</span><span class="n">DELAY</span><span class="p">]</span>
-                        <span class="n">Specify</span> <span class="n">minimum</span> <span class="n">delay</span> <span class="p">(</span><span class="ow">in</span> <span class="n">seconds</span><span class="p">)</span> <span class="n">between</span> <span class="n">successive</span>
-                        <span class="n">accesses</span> <span class="n">to</span> <span class="n">a</span> <span class="n">distributor</span><span class="s1">&#39;s website.</span>
-  <span class="o">--</span><span class="n">user</span>                <span class="n">Start</span> <span class="n">the</span> <span class="n">user</span> <span class="n">guide</span> <span class="n">to</span> <span class="n">run</span> <span class="n">KiCost</span> <span class="n">passing</span> <span class="n">the</span> <span class="n">file</span>
-                        <span class="n">parameter</span> <span class="n">give</span> <span class="n">by</span> <span class="s2">&quot;--input&quot;</span><span class="p">,</span> <span class="nb">all</span> <span class="n">others</span> <span class="n">parameters</span> <span class="n">are</span>
-                        <span class="n">ignored</span><span class="o">.</span>
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program&#39;s version number and exit
+  -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
+                        One or more schematic BOM XML files.
+  -o [FILE.XLSX], --output [FILE.XLSX]
+                        Generated cost spreadsheet.
+  -f NAME [NAME ...], --fields NAME [NAME ...]
+                        Specify the names of additional part fields to extract
+                        and insert in the global data section of the
+                        spreadsheet.
+  -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
+                        schematic variant name filter.
+  -w, --overwrite       Allow overwriting of an existing spreadsheet.
+  -q, --quiet           Enable quiet mode with no warnings.
+  -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
+                        Set the number of parallel processes used for web
+                        scraping part data.
+  -ign NAME [NAME ...], --ignore_fields NAME [NAME ...]
+                        Declare part fields to ignore when reading the BoM
+                        file.
+  -grp NAME [NAME ...], --group_fields NAME [NAME ...]
+                        Declare part fields to merge when grouping parts.
+  -d [LEVEL], --debug [LEVEL]
+                        Print debugging info. (Larger LEVEL means more info.)
+  -eda {kicad,altium,csv} [{kicad,altium,csv} ...], --eda_tool {kicad,altium,csv} [{kicad,altium,csv} ...]
+                        Choose EDA tool from which the XML BOM file
+                        originated, or use csv for .CSV files.
+  --show_dist_list      Show list of distributors that can be scraped for cost
+                        data, then exit.
+  --show_eda_list       Show list of EDA tools whose files KiCost can read,
+                        then exit.
+  --no_collapse         Do not collapse the part references like C1,C2,C3 into
+                        C1-C3 in the spreadsheet.
+  -e DIST [DIST ...], --exclude DIST [DIST ...]
+                        Excludes the given distributor(s) from the scraping
+                        process.
+  --include DIST [DIST ...]
+                        Includes only the given distributor(s) in the scraping
+                        process.
+  --no_price            Create a spreadsheet without price part data from
+                        distributor websites.
+  --currency [CURRENCY] Define the priority locale/country and currency on the
+                        scrape. Use the ISO4217 for currency and ISO3166:2 for
+                        country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`.
+                        Currency is priritized over the locale/country. If give
+                        country with more than one currency, it will be chosen,
+                        in the sequence, `USD`, `EUR` or alphabetical order.
+                        Default: `USD`.
+  --guide               Start the user guide to run KiCost passing the file
+                        parameter give by &quot;--input&quot;, all others parameters are
+                        ignored.
+  --user, -u            Run KiCost in terminal using the parameters in the guide
+                        memory, all passed parameters from terminal take priority.
 </pre></div>
 </div>
 </div>
@@ -538,6 +564,13 @@ The resulting hierarchy of keys will look like this:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">winpython3</span>\<span class="n">python</span><span class="o">-</span><span class="mf">3.4</span><span class="o">.</span><span class="mi">3</span>\<span class="n">scripts</span>\<span class="n">kicost</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;%1&quot;</span>
 </pre></div>
 </div>
+</li>
+<li><p class="first">If you have the GUIDE dependences insalled, it could be used:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">path_to_kicost</span> <span class="o">--</span><span class="n">user</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;%1&quot;</span>
+</pre></div>
+</div>
+<p>So, KiCost will use the last preferences setted on the GUI to scrape, including
+which distributors to use, currency and others definitions.</p>
 </li>
 <li><p class="first">Close the registry. KiCost should now appear when you right-click on an XML file.</p>
 </li>
@@ -671,13 +704,70 @@ and make sure that the tests pass for all supported Python versions.</li>
 <li>Giacinto Luigi Cerone <a class="reference external" href="https://github.com/glcerone">https://github.com/glcerone</a></li>
 <li>Hildo Guillardi Júnior <a class="reference external" href="https://github.com/hildogjr">https://github.com/hildogjr</a></li>
 <li>Adam Heinrich <a class="reference external" href="https://github.com/adamheinrich">https://github.com/adamheinrich</a></li>
+<li>Max Maisel <a class="reference external" href="https://github.com/mmmaisel">https://github.com/mmmaisel</a></li>
 </ul>
 </div>
 </div>
 <span id="document-history"></span><div class="section" id="history">
 <h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
-<h3>0.1.43<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>?? (2018-??-??)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Re-facture the KiCost motor, now use the Octopart API.</li>
+<li>Added a full currency convert capability.</li>
+<li>Fix some minor error with multi file projects.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>0.1.47 (2018-08-16)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Created the KiCad plugin (in beta).</li>
+<li>Fixed Digikey distributor module logger problem raise on refacture.</li>
+<li>Added GUI compatibility with wxPython 3.x.x.</li>
+<li>Added convert to ODS option if recognized LibreOffice in the system.</li>
+<li>Others GUI controls improvements.</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>0.1.46 (2018-07-04)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed some Python 2 incompatibility of the GUI and Altium module.</li>
+<li>Fixed the tqdm print channel. Now the process bar is kept at the end.</li>
+<li>Fixed the output messages when used the GUI.</li>
+<li>Fixed GUI problem caused by distributors re-factore and other UI improvements.</li>
+<li>More improvements on scrape classes.</li>
+<li>Now TME ajax post scrape method repect the <code class="docutils literal"><span class="pre">fake_browser</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>0.1.45 (2018-06-12)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Changed Farnell link and table result format.</li>
+<li>Fixed TME <code class="docutils literal"><span class="pre">fake_browser</span></code> migration.</li>
+<li>Re-factored the distributors modules to class kind and improved the scrape sequence to decrease probability of ban.</li>
+<li>Fixed the multi-threading configuration.</li>
+<li>Fixed Mac-OS hang when parallel scraping.</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>0.1.44 (2018-05-28)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Fixed <code class="docutils literal"><span class="pre">logging</span></code> messages when using <code class="docutils literal"><span class="pre">tqdm</span></code> (process bar) for sequential scrape, missing fix for multithreads scrape.</li>
+<li>Improve the <code class="docutils literal"><span class="pre">spreadsheet.py</span></code> to a lighter file when use just one distributor.</li>
+<li>Improved log messages to better community debug.</li>
+<li>Add Upverter CSV compatibility.</li>
+<li>Fixed Mouser “quote price” exception in the price tiers.</li>
+<li>Fixed wxPython exception import.</li>
+<li>Use the datasheet link information from KiCad and other EDAs, given by ‘datasheet’ field.</li>
+<li>Now automatically merge ‘description’ and other fields to create the groups.</li>
+<li>GUI save last position and size and others improvements.</li>
+<li>Display additional information from the web page distributors and use as comment in the <code class="docutils literal"><span class="pre">cat#</span></code> column (just implemented on DigiKey yet).</li>
+<li>Now is possible to specify country/currency to be priorized on the distributors scrapes (just implemented on DigiKey yet).</li>
+<li>Minor improvements.</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>0.1.43 (2018-03-15)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed RS scrape module.</li>
 <li>Added <code class="docutils literal"><span class="pre">--no_scrape</span></code> option to create spreadsheets without information from distributor websites.</li>
@@ -688,7 +778,7 @@ and make sure that the tests pass for all supported Python versions.</li>
 <li>Added <code class="docutils literal"><span class="pre">--group_fields</span></code> option to ignore differences in fields of the components and group them.</li>
 <li>Fixed the not ungrouping issue when <code class="docutils literal"><span class="pre">manf#</span></code> equal <code class="docutils literal"><span class="pre">None</span></code>.</li>
 <li>CSV now accepts files from Proteus and Eagle EDA tools.</li>
-<li>Cleared up unused Python imports and better placed functions into files (spreasheet creation files are now in <code class="docutils literal"><span class="pre">spreadsheet.py</span></code>).</li>
+<li>Cleared up unused Python imports and better placed functions into files (spreadsheet creation files are now in <code class="docutils literal"><span class="pre">spreadsheet.py</span></code>).</li>
 <li>Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if they are not inside it.</li>
 <li>Fixed issues related to user visualization in the spreadsheet (added gray formatted conditioning and the “exclude desc and manf columns”).</li>
 <li>Added “user errors” and software scape in the case of not recognized references characters given the message of how to solve.</li>
@@ -699,40 +789,40 @@ and make sure that the tests pass for all supported Python versions.</li>
 <li>Added automatic recognition of the files of each EDA tool (for the graphical interface).</li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h3>0.1.42 (2017-12-07)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>0.1.42 (2017-12-07)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Processing of CSV files containing part information is now supported.</li>
 <li>Added <code class="docutils literal"><span class="pre">show_dist_list</span></code> option to display the list of distributors from which part cost data is available.</li>
 <li>Added capability to process multiple XML and CSV files.</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h3>0.1.41 (2017-11-16)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>0.1.41 (2017-11-16)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed exception caused by missing ‘href’ key in product links extracted by TME module.</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h3>0.1.40 (2017-11-02)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>0.1.40 (2017-11-02)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed exceptions caused by .xml files without a title block or part library section.</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h3>0.1.39 (2017-10-10)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>0.1.39 (2017-10-10)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Part number separator characters can now be escaped with backslashes in case they are actually part of part numbers.</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h3>0.1.38 (2017-10-09)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>0.1.38 (2017-10-09)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed webscrape retry error in TME distributor module.</li>
 </ul>
 </div>
-<div class="section" id="id7">
-<h3>0.1.37 (2017-10-09)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>0.1.37 (2017-10-09)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>A part manf# field can now contain multiple subpart numbers. Each part number can be
 assigned a multiplier to indicate the quantity of the subpart needed for each part.</li>
@@ -746,8 +836,8 @@ assigned a multiplier to indicate the quantity of the subpart needed for each pa
 <li>Fixed problem where “kicost:dnp” field was not recognized.</li>
 </ul>
 </div>
-<div class="section" id="id8">
-<h3>0.1.36 (2017-08-14)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>0.1.36 (2017-08-14)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Parts may now be assigned to a variant by giving them a <code class="docutils literal"><span class="pre">variant</span></code> field.</li>
 <li>Parts may now be assigned to multiple variants.</li>
@@ -755,29 +845,29 @@ assigned a multiplier to indicate the quantity of the subpart needed for each pa
 <li>DNP parts or parts not in the current variant will not appear in the cost spreadsheet.</li>
 </ul>
 </div>
-<div class="section" id="id9">
-<h3>0.1.35 (2017-04-24)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id14">
+<h3>0.1.35 (2017-04-24)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed bug in scraping RS website when a part search results in a list of matches instead of a single product page.</li>
 </ul>
 </div>
-<div class="section" id="id10">
-<h3>0.1.34 (2017-03-31)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>0.1.34 (2017-03-31)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed crash caused by uninitialized array in Digikey webscraping module.</li>
 <li>Place any available scraped part info into spreadsheet even if part is not available from a distributor.</li>
 <li>Removed unused imports from distributor modules.</li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>0.1.33 (2017-02-23)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h3>0.1.33 (2017-02-23)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Surround worksheet name with quotes in case it contains spreadsheet operators.</li>
 <li>Fixed extraction of product links from Farnell product tables.</li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>0.1.32 (2017-02-14)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>0.1.32 (2017-02-14)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added options for including or excluding distributors.</li>
 <li>Updated web scrapers for various distributors.</li>
@@ -785,83 +875,83 @@ assigned a multiplier to indicate the quantity of the subpart needed for each pa
 <li>Updated some of the package requirements.</li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>0.1.31 (2016-11-14)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>0.1.31 (2016-11-14)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Giacinto Luigi Cerone added support for distributors Farnell and RS.</li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>0.1.30 (2016-11-07)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h3>0.1.30 (2016-11-07)<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Manufacturer’s part number field can now be labeled as ‘manf#’, ‘mpn’, ‘pn’, ‘#’, etc. (See documentation.)</li>
 <li>Manufacturer field can now be labeled as ‘manf’ or ‘manufacturer’.</li>
 <li>Distributor part number fields can now be labeled as ‘digikey#’, ‘digikeypn’, digikey_pn’, ‘digikey-pn’, etc.</li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>0.1.29 (2016-08-27)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>0.1.29 (2016-08-27)<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>KiCost no longer fails if the &lt;libparts&gt;…&lt;/libparts&gt; section is missing from the XML file.</li>
 <li>Documentation moved to Github Pages.</li>
 </ul>
 </div>
-<div class="section" id="id16">
-<h3>0.1.28 (2016-08-18)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>0.1.28 (2016-08-18)<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed scraping of Digi-Key pages to correctly detect reeled parts and scrape alternate packaging options.</li>
 </ul>
 </div>
-<div class="section" id="id17">
-<h3>0.1.27 (2016-07-26)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h3>0.1.27 (2016-07-26)<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed scraping of Digi-Key pages to correctly extract available quantity of parts.</li>
 </ul>
 </div>
-<div class="section" id="id18">
-<h3>0.1.26 (2016-07-25)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>0.1.26 (2016-07-25)<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Progress bar is explicitly deleted to prevent an error from occurring when the program terminates.</li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>0.1.25 (2016-06-12)<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id24">
+<h3>0.1.25 (2016-06-12)<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Contents of “Desc” field in component/library were being ignored when generating spreadsheet.</li>
 </ul>
 </div>
-<div class="section" id="id20">
-<h3>0.1.24 (2016-05-28)<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id25">
+<h3>0.1.24 (2016-05-28)<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed part scraping from Newark website.</li>
 </ul>
 </div>
-<div class="section" id="id21">
-<h3>0.1.23 (2016-04-12)<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id26">
+<h3>0.1.23 (2016-04-12)<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added progress bar.</li>
 <li>Added quiet option to suppress warning messages.</li>
 <li>‘manf#’ and ‘manf’ fields are now both propagated to similar parts.</li>
 </ul>
 </div>
-<div class="section" id="id22">
-<h3>0.1.22 (2016-04-08)<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id27">
+<h3>0.1.22 (2016-04-08)<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Extra part data can now be shown in the global data section of the spreadsheet
 by using the new <code class="docutils literal"><span class="pre">--fields</span></code> command-line option. This commit implements
 issue #8.</li>
 </ul>
 </div>
-<div class="section" id="id23">
-<h3>0.1.21 (2016-03-20)<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id28">
+<h3>0.1.21 (2016-03-20)<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Parts with valid Digi-Key web pages were not appearing in the spreadsheet
 because they had strange quantity listings (e.g., input fields or ‘call for
 quantities’. This commit fixes #36.</li>
 </ul>
 </div>
-<div class="section" id="id24">
-<h3>0.1.20 (2016-03-20)<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id29">
+<h3>0.1.20 (2016-03-20)<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Prices of $0.00 were appearing in the spreadsheet for parts that were
 listed but not stocked. Parts having no pricing list no longer list a price
@@ -871,28 +961,28 @@ distributor websites. The manufacturer name was added to the search string
 to increase the probability of the search finding the correct part.</li>
 </ul>
 </div>
-<div class="section" id="id25">
-<h3>0.1.19 (2016-02-12)<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id30">
+<h3>0.1.19 (2016-02-12)<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Local parts weren’t showing up in spreadsheet because of previous fix to
 omit parts that had no quantity field (non-stocked; not even 0). Fixed.</li>
 </ul>
 </div>
-<div class="section" id="id26">
-<h3>0.1.18 (2016-02-10)<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id31">
+<h3>0.1.18 (2016-02-10)<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Made change to adapt to change in Digi-Key’s part quantity field of their webpages.</li>
 <li>Omit parts from the spreadsheet that are listed but not stocked at a distributor.</li>
 </ul>
 </div>
-<div class="section" id="id27">
-<h3>0.1.17 (2016-02-09)<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id32">
+<h3>0.1.17 (2016-02-09)<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Made changes to adapt to changes in Digi-Key’s webpage format.</li>
 </ul>
 </div>
-<div class="section" id="id28">
-<h3>0.1.16 (2016-01-26)<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id33">
+<h3>0.1.16 (2016-01-26)<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added <code class="docutils literal"><span class="pre">--variant</span></code> command-line option for costing different variants of a single schematic.</li>
 <li>Added <code class="docutils literal"><span class="pre">--num_processes</span></code> command-line option for setting the number of parallel
@@ -901,52 +991,52 @@ processes used to scrape part data from the distributor web sites.</li>
 prevent identical parts from being grouped together.</li>
 </ul>
 </div>
-<div class="section" id="id29">
-<h3>0.1.15 (2016-01-10)<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id34">
+<h3>0.1.15 (2016-01-10)<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed exception caused when indexing with ‘manf#’ on components that didn’t
 have that field defined.</li>
 <li>Replaced custom debug_print() with logging module.</li>
 </ul>
 </div>
-<div class="section" id="id30">
-<h3>0.1.14 (2015-12-31)<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id35">
+<h3>0.1.14 (2015-12-31)<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>When scraping a Digi-Key product list page, use both the manfufacturer’s AND
 Digi-Key’s number to select the closest match to the part number.</li>
 </ul>
 </div>
-<div class="section" id="id31">
-<h3>0.1.13 (2015-12-29)<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id36">
+<h3>0.1.13 (2015-12-29)<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>‘kicost:’ can be prepended to schematic field labels to distinguish them from other app fields.</li>
 <li>Custom prices and documentation links can now be added to parts in the schematic.</li>
 <li>Web-scraping for part data is sped up using parallel processes.</li>
 </ul>
 </div>
-<div class="section" id="id32">
-<h3>0.1.12 (2015-12-03)<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id37">
+<h3>0.1.12 (2015-12-03)<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Following the IP address mouser with redirect you to the nearest locale match,
 so the price will be in Euro if you are in Europe and the price decimal can be a comma.</li>
 </ul>
 </div>
-<div class="section" id="id33">
-<h3>0.1.11 (2015-12-02)<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id38">
+<h3>0.1.11 (2015-12-02)<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Changed BOARD_COST field to UNIT_COST.</li>
 <li>Changed formatting of UNIT_COST field to make use monetary units.</li>
 <li>Changed format of debug messages.</li>
 </ul>
 </div>
-<div class="section" id="id34">
-<h3>0.1.10 (2015-10-08)<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id39">
+<h3>0.1.10 (2015-10-08)<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Pushed lxml requirement back to 3.3.3 so linux mint would have fewer problems trying to install.</li>
 </ul>
 </div>
-<div class="section" id="id35">
-<h3>0.1.9 (2015-09-26)<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id40">
+<h3>0.1.9 (2015-09-26)<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed exception caused by Digi-Key part with ‘call’ as an entry in a part’s price list.</li>
 <li>Fixed extraction of part quantities in Mouser web pages.</li>
@@ -954,45 +1044,45 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 <li>Added ghost.py code for getting around Javascript challenge pages (currently inactive).</li>
 </ul>
 </div>
-<div class="section" id="id36">
-<h3>0.1.8 (2015-09-17)<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id41">
+<h3>0.1.8 (2015-09-17)<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added missing requirements for future and lxml packages.</li>
 </ul>
 </div>
-<div class="section" id="id37">
-<h3>0.1.7 (2015-08-26)<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id42">
+<h3>0.1.7 (2015-08-26)<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>KiCost now runs under both Python 2.7.6 and 3.4.</li>
 </ul>
 </div>
-<div class="section" id="id38">
-<h3>0.1.6 (2015-08-26)<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id43">
+<h3>0.1.6 (2015-08-26)<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Mouser changed their HTML page format, so I changed their web scraper.</li>
 </ul>
 </div>
-<div class="section" id="id39">
-<h3>0.1.5 (2015-07-25)<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id44">
+<h3>0.1.5 (2015-07-25)<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li>Corrected entrypoint in __main__.py.</li>
+<li>Corrected entrypoint in <code class="docutils literal"><span class="pre">__main__.py</span></code>.</li>
 </ul>
 </div>
-<div class="section" id="id40">
-<h3>0.1.4 (2015-07-09)<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id45">
+<h3>0.1.4 (2015-07-09)<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added conditional formatting to indicate which distributor had the best price for a particular part.</li>
 <li>Fixed calc of min unit price so it wouldn’t be affected if part rows were sorted.</li>
 </ul>
 </div>
-<div class="section" id="id41">
-<h3>0.1.3 (2015-07-07)<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id46">
+<h3>0.1.3 (2015-07-07)<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Added global part columns that show minimum unit and extended prices for all parts across all distributors.</li>
 </ul>
 </div>
-<div class="section" id="id42">
-<h3>0.1.2 (2015-07-04)<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id47">
+<h3>0.1.2 (2015-07-04)<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Refactoring.</li>
 <li>To reduce the effort in adding manufacturer’s part numbers to a schematic, one will now be assigned to a part if:<ol class="arabic">
@@ -1003,14 +1093,14 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 </li>
 </ul>
 </div>
-<div class="section" id="id43">
-<h3>0.1.1 (2015-07-02)<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id48">
+<h3>0.1.1 (2015-07-02)<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Fixed delimiter for Mouser online order cut-and-paste.</li>
 </ul>
 </div>
-<div class="section" id="id44">
-<h3>0.1.0 (2015-06-30)<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id49">
+<h3>0.1.0 (2015-06-30)<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>First release on PyPI.</li>
 </ul>
@@ -1069,50 +1159,55 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-history">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id1">0.1.43</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id2">0.1.42 (2017-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id3">0.1.41 (2017-11-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id4">0.1.40 (2017-11-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id5">0.1.39 (2017-10-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id6">0.1.38 (2017-10-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id7">0.1.37 (2017-10-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id8">0.1.36 (2017-08-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id9">0.1.35 (2017-04-24)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id10">0.1.34 (2017-03-31)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id11">0.1.33 (2017-02-23)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id12">0.1.32 (2017-02-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id13">0.1.31 (2016-11-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id14">0.1.30 (2016-11-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id15">0.1.29 (2016-08-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id16">0.1.28 (2016-08-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id17">0.1.27 (2016-07-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id18">0.1.26 (2016-07-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id19">0.1.25 (2016-06-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id20">0.1.24 (2016-05-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id21">0.1.23 (2016-04-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id22">0.1.22 (2016-04-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id23">0.1.21 (2016-03-20)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id24">0.1.20 (2016-03-20)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id25">0.1.19 (2016-02-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id26">0.1.18 (2016-02-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id27">0.1.17 (2016-02-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id28">0.1.16 (2016-01-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id29">0.1.15 (2016-01-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id30">0.1.14 (2015-12-31)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id31">0.1.13 (2015-12-29)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id32">0.1.12 (2015-12-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id33">0.1.11 (2015-12-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id34">0.1.10 (2015-10-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id35">0.1.9 (2015-09-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id36">0.1.8 (2015-09-17)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id37">0.1.7 (2015-08-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id38">0.1.6 (2015-08-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id39">0.1.5 (2015-07-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id40">0.1.4 (2015-07-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id41">0.1.3 (2015-07-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id42">0.1.2 (2015-07-04)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id43">0.1.1 (2015-07-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id44">0.1.0 (2015-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">?? (2018-??-??)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">0.1.47 (2018-08-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id3">0.1.46 (2018-07-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id4">0.1.45 (2018-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id5">0.1.44 (2018-05-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id6">0.1.43 (2018-03-15)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id7">0.1.42 (2017-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id8">0.1.41 (2017-11-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id9">0.1.40 (2017-11-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id10">0.1.39 (2017-10-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id11">0.1.38 (2017-10-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id12">0.1.37 (2017-10-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id13">0.1.36 (2017-08-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id14">0.1.35 (2017-04-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id15">0.1.34 (2017-03-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id16">0.1.33 (2017-02-23)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id17">0.1.32 (2017-02-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id18">0.1.31 (2016-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id19">0.1.30 (2016-11-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id20">0.1.29 (2016-08-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id21">0.1.28 (2016-08-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id22">0.1.27 (2016-07-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id23">0.1.26 (2016-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id24">0.1.25 (2016-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id25">0.1.24 (2016-05-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id26">0.1.23 (2016-04-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id27">0.1.22 (2016-04-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id28">0.1.21 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id29">0.1.20 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id30">0.1.19 (2016-02-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id31">0.1.18 (2016-02-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id32">0.1.17 (2016-02-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id33">0.1.16 (2016-01-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id34">0.1.15 (2016-01-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id35">0.1.14 (2015-12-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id36">0.1.13 (2015-12-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id37">0.1.12 (2015-12-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id38">0.1.11 (2015-12-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id39">0.1.10 (2015-10-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id40">0.1.9 (2015-09-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id41">0.1.8 (2015-09-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id42">0.1.7 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id43">0.1.6 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id44">0.1.5 (2015-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id45">0.1.4 (2015-07-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id46">0.1.3 (2015-07-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id47">0.1.2 (2015-07-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id48">0.1.1 (2015-07-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id49">0.1.0 (2015-06-30)</a></li>
 </ul>
 </li>
 </ul>
@@ -1124,7 +1219,7 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.43 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 0.1.47 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
