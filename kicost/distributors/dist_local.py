@@ -122,7 +122,6 @@ class dist_local(distributor_class):
                 p.fields[dist + ':cat#'] = cat_num  # Store generated cat#.
                 p.part_num[dist] = cat_num
 
-                link = ''
                 try:
                     url_parts = list(urlsplit(link))
                     if url_parts[0] == '':
