@@ -3,6 +3,7 @@
 History
 -------
 
+
 ?? (2018-??-??)
 ______________________
 
@@ -10,7 +11,7 @@ ______________________
 * Add a ``post_setup`` function to configure shortcut and OS dependent settings.
 
 
-?? (2018-??-??)
+1.0.0 (2018-10-03)
 ______________________
 
 * Re-facture the KiCost motor, now use the Octopart API.
