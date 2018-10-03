@@ -3,7 +3,7 @@
 History
 -------
 
-?? (2018-??-??)
+1.0.0 (2018-10-03)
 ______________________
 
 * Re-facture the KiCost motor, now use the Octopart API.
