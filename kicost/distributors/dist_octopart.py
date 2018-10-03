@@ -318,9 +318,10 @@ class dist_octopart(distributor_class):
 
             # Creat an Octopart query using the manufacturer's part number or 
             # distributor SKU.
-            try:
-                part_query = {'reference': i, 'mpn': part.fields['manf#']}
-            except KeyError:
+            manf_code = part.fields.get('manf#')
+            if manf_code:
+                part_query = {'reference': i, 'mpn': manf_code}
+            else:
                 # No MPN, so use the first distributor SKU that's found.
                 skus = set([part.fields.get(dist + '#', '') for dist in distributors])
                 skus = [sku for sku in skus if sku]
