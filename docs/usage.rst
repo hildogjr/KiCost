@@ -31,7 +31,7 @@ example, for the ``NUP1301,215`` code, use ``NUP1301\,215``.
 4. Open the ``schem.xlsx`` spreadsheet using Microsoft Excel, LibreOffice Calc, or Google Sheets.
    Then enter the number of boards that you need to build and see
    the prices for the total board and individual parts when purchased from 
-   several different distributors (KiCost currently supports Digi-Key, Mouser, Newark, Farnell, RS and TME).
+   several different distributors (KiCost currently supports Arrow, Digi-Key, Mouser, Newark, Farnell, RS and TME).
    All of the pricing information reflects the quantity discounts currently in effect at
    each distributor.
    The spreadsheet also shows the current inventory of each part from each distributor so you can tell
@@ -120,7 +120,7 @@ Custom Part Data
 
 The price breaks on some parts can't be obtained automatically because:
 
-* they're not offered by one of the distributors whose web pages KiCost can scrape, or
+* they're not offered by one of the distributors whose web pages KiCost can scrape/query, or
 * they're custom parts.
 
 For these parts, you can manually enter price information as follows:
@@ -132,7 +132,9 @@ For these parts, you can manually enter price information as follows:
       1:$1.50; 10:$1.00; 25:$0.90; 100:$0.75
       
    (You can put spaces and currency symbols in the field value. KiCost will
-   strip everything except digits, decimal points, semicolons, and colons.)
+   strip everything except digits, decimal points, semicolons, and colons.
+   Others currency are acepted by use of the standardize ISO 4217 alpha3 format,
+   e.g. ``USD1.50``, ``EUR1.00``)
    
 You can also enter a link to documentation for the part using a field named ``kicost:link``.
 The value of this field will be a web address like::
@@ -315,40 +317,11 @@ provides additional cues:
 #. The ``Unit$`` and ``Ext$`` in each distributor cell is colored green
    to indicate the lowest price found across all the distributors.
 
------------------------
-Parallel Web Scraping
------------------------
+--------------------------------------
+Selecting Distributors to Scrape/Query
+--------------------------------------
 
-KiCost spends most of its time scraping the part data from the distributor
-web sites.
-In order to speed this up, many of the web scrapes can be run in parallel.
-By default, KiCost uses 30 parallel processes to gather the part data.
-This can be too much for some computers, so you can decrease the load
-using the ``--num_processes`` command-line option with the number of
-processes you want to spawn::
-
-    kicost -i schematic.xml --num_processes 10
-
-In addition, you can use the ``--serial`` command-line option to force KiCost
-into single-threaded operation.
-This is equivalent to using ``--num_processes 1``.
-(If you encounter problems running KiCost on a Windows PC with Python 2, then
-using this command may help.)
-
-Some distributor may block multiple accesses of their websites such as those
-made by KiCost when scraping part information.
-To workaround this, each new scrape can be delayed by a time interval
-using the ``--throttling_delay`` option.
-In the follow example, each scrape of a website is only initiated
-after waiting for 100 milliseconds::
-
-    kicost -i schematic.xml --num_processes 10 --throttling_delay 0.1
-
----------------------------------
-Selecting Distributors to Scrape
----------------------------------
-
-You can get the list of part distributors that KiCost scrapes for data like this::
+You can get the list of part distributors that KiCost scrapes/query for data like this::
 
     kicost --show_dist_list
     Distributor list: digikey farnell local_template mouser newark rs tme
@@ -358,7 +331,7 @@ you can restrict scraping from only a subset of them as follows::
 
     kicost -i schem.xml --include digikey mouser
 
-Or you can exclude some distributors and scrape the rest::
+Or you can exclude some distributors require the price of the rest::
 
     kicost -i schem.xml --exclude farnell newark
 
@@ -370,12 +343,10 @@ Command-Line Options
 
     usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
                   [-f NAME [NAME ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
-                  [-np [NUM_PROCESSES]] [-ign NAME [NAME ...]]
-                  [-grp NAME [NAME ...]] [-d [LEVEL]]
+                  [-grp NAME [NAME ...]] [--debug [LEVEL]]
                   [-eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
                   [--show_dist_list] [--show_eda_list] [--no_collapse]
-                  [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_scrape]
-                  [-rt [NUM_RETRIES]] [--throttling_delay [DELAY]] [--user]
+                  [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_price] [--user]
 
     Build cost spreadsheet for a KiCAD project.
 
@@ -393,7 +364,6 @@ Command-Line Options
       -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
                             schematic variant name filter.
       -w, --overwrite       Allow overwriting of an existing spreadsheet.
-      -s, --serial          Do web scraping of part data using a single process.
       -q, --quiet           Enable quiet mode with no warnings.
       -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
                             Set the number of parallel processes used for web
@@ -403,13 +373,13 @@ Command-Line Options
                             file.
       -grp NAME [NAME ...], --group_fields NAME [NAME ...]
                             Declare part fields to merge when grouping parts.
-      -d [LEVEL], --debug [LEVEL]
+      --debug [LEVEL]
                             Print debugging info. (Larger LEVEL means more info.)
       -eda {kicad,altium,csv} [{kicad,altium,csv} ...], --eda_tool {kicad,altium,csv} [{kicad,altium,csv} ...]
                             Choose EDA tool from which the XML BOM file
                             originated, or use csv for .CSV files.
-      --show_dist_list      Show list of distributors that can be scraped for cost
-                            data, then exit.
+      --show_dist_list      Show list of distributors that can be scraped/queried
+                            for cost data, then exit.
       --show_eda_list       Show list of EDA tools whose files KiCost can read,
                             then exit.
       --no_collapse         Do not collapse the part references like C1,C2,C3 into
@@ -420,22 +390,10 @@ Command-Line Options
       --include DIST [DIST ...]
                             Includes only the given distributor(s) in the scraping
                             process.
-      --no_scrape           Create a spreadsheet without scraping part data from
+      --no_price            Create a spreadsheet without price part data from
                             distributor websites.
-      -rt [NUM_RETRIES], --retries [NUM_RETRIES]
-                            Specify the number of attempts to retrieve part data
-                            from a website.
-      --throttling_delay [DELAY]
-                            Specify minimum delay (in seconds) between successive
-                            accesses to a distributor's website.
-      --currency [CURRENCY-LOCALE], '--locale' [CURRENCY-LOCALE]
-                            Define the priority locale/country and currency on the
-                            scrape. Use the ISO4217 for currency and ISO3166:2 for
-                            country. Input e.g.: `US`, `USD`, `US-USD` or `EUR-US`.
-                            Currency is priritized over the locale/country. If give
-                            country with more than one currency, it will be chosen,
-                            in the sequence, `USD`, `EUR` or alphabetical order.
-                            Default: `USD`.
+      --currency [CURRENCY] Define the priority currency. Use the ISO4217 for
+                            currency (`USD`, `EUR`). Default: `USD`.
       --guide               Start the user guide to run KiCost passing the file
                             parameter give by "--input", all others parameters are
                             ignored.
@@ -476,7 +434,7 @@ To do this:
 
       path_to_kicost --user -i "%1"
 
-   So, KiCost will use the last preferences setted on the GUI to scrape, including
+   So, KiCost will use the last preferences setted on the GUI to scrape/query, including
    which distributors to use, currency and others definitions.
 
 #. Close the registry. KiCost should now appear when you right-click on an XML file.

@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 
 # Author information.
-__author__ = 'Hildo Guillardi Junior'
+__author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 # This module is intended to work with "generic hand made CSV" and the software:
@@ -34,9 +34,9 @@ from datetime import datetime
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
-from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..eda_tools import field_name_translations, remove_dnp_parts, split_refs
-from ...distributors.global_vars import distributor_dict
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from .tools import field_name_translations, remove_dnp_parts, split_refs
+from ..distributors.global_vars import distributor_dict
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
@@ -65,6 +65,26 @@ field_name_translations.update(
 )
 
 GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are present.
+
+__all__ = ['get_part_groups']
+
+from . import eda_dict
+
+# Place information about this EDA into the eda_tool dictionary.
+eda_dict.update(
+    {
+        'csv': {
+            'module': 'csv', # The directory name containing this file.
+            'label': 'CSV file', # Label used on the GUI.
+            'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus and Eagle.',
+            # Formatting file match.
+            'file': {
+                'extension': '.csv', # File extension.
+                'content': '.' # Regular expression content match.
+                }
+        }
+    }
+)
 
 
 def get_part_groups(in_file, ignore_fields, variant):

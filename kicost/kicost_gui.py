@@ -22,15 +22,17 @@
 # THE SOFTWARE.
 
 # Author information.
-__author__ = 'Hildo Guillardi Junior'
+__author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
+
+from .global_vars import * # Debug, language and default configurations.
 
 # Libraries.
 try:
     import wx # wxWidgets for Python.
 except ImportError:
-    raise ImportError('wxPython package not recognized.')
+    raise wxPythonNotPresent()
 import webbrowser # To update informations.
 import sys, os, subprocess # To access OS commands and run in the shell.
 import threading
@@ -40,16 +42,18 @@ import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
 from distutils.version import StrictVersion # To comparative of versions.
 import re # Regular expression parser.
-
-from . import __version__ # Version control by @xesscorp and collaborator.
+import babel # For language.
+from babel import numbers # For currency presentation.
 import logging
-from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+
+# KiCost libraries.
+from . import __version__ # Version control by @xesscorp and collaborator.
 from .kicost import *  # kicost core functions.
 from .distributors import fake_browser # Use the configurations already made to get KiCost last version.
 from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
-from .eda_tools import eda_tool_dict
-from .eda_tools.eda_tools import file_eda_match
+from .edas import eda_dict
+from .edas.tools import file_eda_match
 
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 
@@ -359,40 +363,12 @@ class formKiCost(wx.Frame):
 
         bSizer9 = wx.BoxSizer(wx.VERTICAL)
 
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Parallel process:", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_spinCtrl_np = wx.SpinCtrl(self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 1, 30, 6)
-        self.m_spinCtrl_np.SetToolTip(wx.ToolTip(u"Set the number of parallel processes used for web scraping the parts data."))
-        bSizer9.Add(self.m_spinCtrl_np, 0, wx.ALL, 5)
-
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Scrap retries:", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_spinCtrl_retries = wx.SpinCtrl(self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 4, 200, 0)
-        self.m_spinCtrl_retries.SetToolTip(wx.ToolTip(u"Specify the number of attempts to retrieve part data from a website."))
-        bSizer9.Add(self.m_spinCtrl_retries, 0, wx.ALL, 5)
-
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Throttling delay (s):", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_spinCtrlDouble_throttling = wx.SpinCtrlDouble(self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.SP_ARROW_KEYS, 0, 5, 0, 0.1)
-        self.m_spinCtrlDouble_throttling.SetToolTip(wx.ToolTip(u"Specify minimum delay (in seconds) between successive accesses to a distributor's website.\nUsed when the websites not accept successive accesses."))
-        bSizer9.Add(self.m_spinCtrlDouble_throttling, 0, wx.ALL, 5)
-
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Currency:", wx.DefaultPosition, wx.DefaultSize, 0)
+        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Spreadsheet currency:", wx.DefaultPosition, wx.DefaultSize, 0)
         m_staticText.Wrap(-1)
         bSizer9.Add(m_staticText, 0, wx.ALL, 5)
         self.m_comboBox_currency = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
-        self.m_comboBox_currency.SetToolTip(wx.ToolTip(u"Currency to be used to generate the Cost Bill of Materials.\nPrioritized on scrape/sever communication. In case of not available the actual is converted to it and highlighted on spread sheet."))
+        self.m_comboBox_currency.SetToolTip(wx.ToolTip(u"Currency to be used to generate the Cost Bill of Materials.\nIn case of not available the current distributor (API/Scrape/...) is converted to and distributor column receive a comment."))
         bSizer9.Add(self.m_comboBox_currency, 0, wx.ALL, 5)
-
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Web language:", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer9.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_comboBox_webLanguage = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
-        self.m_comboBox_webLanguage.SetToolTip(wx.ToolTip(u"Language to use in to access web pages"))
-        bSizer9.Add(self.m_comboBox_webLanguage, 0, wx.ALL, 5)
 
         wSizer2.Add(bSizer9, 1, wx.TOP|wx.LEFT, 5)
 
@@ -410,7 +386,7 @@ class formKiCost(wx.Frame):
         bSizer11.Add(self.m_spinCtrl_debugLvl, 0, wx.ALL, 5)
 
         self.m_checkBox_quite = wx.CheckBox(self.m_panel2, wx.ID_ANY, u"Quiet mode", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_checkBox_quite.SetToolTip(wx.ToolTip(u"Enable quiet mode with no warnings."))
+        self.m_checkBox_quite.SetToolTip(wx.ToolTip(u"Enable quiet mode with no warnings or messages at all."))
         bSizer11.Add(self.m_checkBox_quite, 0, wx.ALL, 5)
 
         self.m_checkBox_overwrite = wx.CheckBox(self.m_panel2, wx.ID_ANY, u"Overwrite file", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -430,9 +406,9 @@ class formKiCost(wx.Frame):
         m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"GUI language:", wx.DefaultPosition, wx.DefaultSize, 0)
         m_staticText.Wrap(-1)
         bSizer11.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_comboBox_guiLanguage = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
-        self.m_comboBox_guiLanguage.SetToolTip(wx.ToolTip(u"Setup the guide language (needs restart)."))
-        bSizer11.Add(self.m_comboBox_guiLanguage, 0, wx.ALL, 5)
+        self.m_comboBox_language = wx.ComboBox(self.m_panel2, wx.ID_ANY, u"", wx.DefaultPosition, wx.DefaultSize, [], 0)
+        self.m_comboBox_language.SetToolTip(wx.ToolTip(u"Setup the guide language (needs restart)."))
+        bSizer11.Add(self.m_comboBox_language, 0, wx.ALL, 5)
 
         wSizer2.Add(bSizer11, 1, wx.TOP|wx.RIGHT, 5)
 
@@ -606,7 +582,7 @@ class formKiCost(wx.Frame):
         if len(fileNames)==1:
             eda_module = file_eda_match(fileNames[0])
             if eda_module:
-                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(eda_tool_dict[eda_module]['label']))
+                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(eda_dict[eda_module]['label']))
         elif len(fileNames)>1:
             # Check if all the EDA are the same. For different ones,
             # the guide is not able now to deal, need improvement
@@ -616,7 +592,7 @@ class formKiCost(wx.Frame):
                 if file_eda_match(fName) != eda_module:
                     return
             if eda_module:
-                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(eda_tool_dict[eda_module]['label']))
+                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(eda_dict[eda_module]['label']))
 
     #----------------------------------------------------------------------
     def button_openfile(self, event):
@@ -629,6 +605,7 @@ class formKiCost(wx.Frame):
             style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             self.addFile(dlg.GetPaths())
+            self.updateOutputFilename() # Update the output file name on GUI text.
         dlg.Destroy()
 
     #----------------------------------------------------------------------
@@ -732,15 +709,12 @@ class formKiCost(wx.Frame):
         args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
         args.variant = str_to_arg(['--variant', '-var'])
-        args.locale = str_to_arg(['--locale', '--currency']).split()
+        args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())
 
-        num_processes = self.m_spinCtrl_np.GetValue() # Parallels process scrapping.
-        args.retries = self.m_spinCtrl_retries.GetValue() # Retry time in the scraps.
-        args.throttling_delay = self.m_spinCtrlDouble_throttling.GetValue() # Delay between consecutive scrapes.
         args.collapse_refs = self.m_checkBox_collapseRefs.GetValue() # Collapse refs in the spreadsheet.
 
         if self.m_listBox_edatool.GetStringSelection():
-            for k,v in eda_tool_dict.items():
+            for k,v in eda_dict.items():
                if v['label']==self.m_listBox_edatool.GetStringSelection():
                   args.eda_tool = v['module'] # The selected EDA module on GUI.
                   break
@@ -768,9 +742,7 @@ class formKiCost(wx.Frame):
                 out_filename=args.output, collapse_refs=args.collapse_refs,
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
                 group_fields=args.group_fields, variant=args.variant,
-                dist_list=args.include, num_processes=num_processes,
-                scrape_retries=args.retries, throttling_delay=args.throttling_delay,
-                local_currency=args.locale)
+                dist_list=args.include, currency=args.currency)
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, e)
             self.m_button_run.Enable()
@@ -810,7 +782,7 @@ class formKiCost(wx.Frame):
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 
         # Current distributors module recognized.
-        distributors_list = sorted([ distributor_dict[d]['label'] for d in distributor_dict.keys() ])
+        distributors_list = sorted([ distributor_dict[d]['label']['name'] for d in distributor_dict.keys() ])
         self.m_checkList_dist.Clear()
         for d in distributors_list: # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)
@@ -819,11 +791,27 @@ class formKiCost(wx.Frame):
             self.m_checkList_dist.Check(idx,True) # All start checked (after is modified by the configuration file).
 
         # Current EDA tools module recognized.
-        eda_names = sorted([ eda_tool_dict[eda]['label'] for eda in eda_tool_dict.keys() ])
+        eda_names = sorted([ eda_dict[eda]['label'] for eda in eda_dict.keys() ])
         self.m_listBox_edatool.Clear()
         for s in eda_names: # Make this for wxPy3 compatibility, not allow include a list.
             self.m_listBox_edatool.Append(s)
         #self.m_listBox_edatool.Append(eda_names)
+
+        # Get all the currencies present.
+        currencyList = sorted(list(numbers.list_currencies()))
+        for c in range(len(currencyList)):
+            currency = currencyList[c]
+            currencyList[c] = '({a} {s}) {n}'.format(a=currency,
+                                                  s=numbers.get_currency_symbol(currency),
+                                                  n=numbers.get_currency_name(currency)
+                                              )
+        self.m_comboBox_currency.Insert(currencyList, 0)
+
+        # Get all languages possible.
+        languages = '{n} ({s})'.format(n=babel.Locale(DEFAULT_LANGUAGE).get_language_name(),
+                                      s=DEFAULT_LANGUAGE,
+                                  )
+        self.m_comboBox_language.Insert(languages, 0)
 
         # Credits and other informations, search by `AUTHOR.rst` file.
         self.m_staticText_version.SetLabel('KiCost version ' + __version__)

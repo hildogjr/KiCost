@@ -26,20 +26,28 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
+from .global_vars import * # Debug, language and default configurations.
+
 # Python libraries.
 import os
 from datetime import datetime
 import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
+from babel import numbers # For currency presentation.
+
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
-from .global_vars import SEPRTR
-from .global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
-from .eda_tools.eda_tools import partgroup_qty, order_refs, PART_REF_REGEX
+from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 __all__ = ['create_spreadsheet']
+
+
+# Currency format and symbol definition.
+CURRENCY_SYMBOL = ''
+CURRENCY_FORMAT = ''
+
 
 # Regular expression to the link for one datasheet.
 DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
@@ -48,7 +56,8 @@ DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\
 EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
 
 
-def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, user_fields, variant):
+def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
+                       collapse_refs=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
@@ -59,7 +68,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
                                 #Spreadsheet 100 and LibreOffice Calc have no limit.
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
-    
+
+    global CURRENCY_SYMBOL
+    global CURRENCY_FORMAT
+    CURRENCY_SYMBOL = numbers.get_currency_symbol(
+                        currency.strip().upper(), locale=DEFAULT_LANGUAGE
+                        )
+    CURRENCY_FORMAT = CURRENCY_SYMBOL + '#,##0.00'
+
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
         # Remove any special characters that might be illegal in a 
@@ -78,15 +94,16 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
     
         # Create the various format styles used by various spreadsheet items.
-        wrk_formats = {
-            'global': workbook.add_format({
+        WRK_HDR_FORMAT = {
                 'font_size': 14,
                 'font_color': 'white',
                 'bold': True,
                 'align': 'center',
                 'valign': 'vcenter',
                 'bg_color': '#303030'
-            }),
+            }
+        wrk_formats = {
+            'global': workbook.add_format(WRK_HDR_FORMAT),
             'header': workbook.add_format({
                 'font_size': 12,
                 'bold': True,
@@ -115,14 +132,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
                 'font_size': 13,
                 'font_color': 'red',
                 'bold': True,
-                'num_format': '$#,##0.00',
+                'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
             'unit_cost_currency': workbook.add_format({
                 'font_size': 13,
                 'font_color': 'green',
                 'bold': True,
-                'num_format': '$#,##0.00',
+                'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
             'proj_info_field': workbook.add_format({
@@ -152,12 +169,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
             'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
             'too_few_purchased': workbook.add_format({'bg_color': '#FFFF00'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'}),
-            'currency': workbook.add_format({'num_format': '$#,##0.00', 'valign': 'vcenter'}),
+            'currency': workbook.add_format({'num_format': CURRENCY_FORMAT, 'valign': 'vcenter'}),
         }
 
         # Add the distinctive header format for each distributor to the `dict` of formats.
         for d in distributor_dict:
-            wrk_formats[d] = workbook.add_format(distributor_dict[d]['wrk_hdr_format'])
+            hdr_format = WRK_HDR_FORMAT.copy()
+            hdr_format.update(distributor_dict[d]['label']['format'])
+            wrk_formats[d] = workbook.add_format(hdr_format)
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
@@ -263,12 +282,12 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, collapse_refs, use
 
         # Make a list of alphabetically-ordered distributors with web distributors before locals.
         logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
-        web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] != 'local'])
-        local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['scrape'] == 'local'])
+        web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] != 'local'])
+        local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] == 'local'])
         dist_list = web_dists + local_dists
 
         # Load the part information from each distributor into the sheet.
-        logger.log(DEBUG_OVERVIEW, 'Writing the distributors parts informations...')
+        logger.log(DEBUG_OVERVIEW, 'Writing the distributor part information...')
         for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, START_ROW,
@@ -292,7 +311,10 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
                              total_cost_row, parts, user_fields, collapse_refs):
     '''Add global part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, 'Writing the global parts informations...')
+    logger.log(DEBUG_OVERVIEW, 'Writing the global part information...')
+
+    global CURRENCY_SYMBOL
+    global CURRENCY_FORMAT
 
     # Columns for the various types of global part data.
     columns = {
@@ -314,7 +336,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         },
         'desc': {
             'col': 2,
-            'level': 0,
+            'level': 2,
             'label': 'Desc',
             'width': None,
             'comment': 'Description of each part.',
@@ -322,7 +344,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         },
         'footprint': {
             'col': 3,
-            'level': 0,
+            'level': 2,
             'label': 'Footprint',
             'width': None,
             'comment': 'PCB footprint for each part.',
@@ -330,7 +352,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         },
         'manf': {
             'col': 4,
-            'level': 0,
+            'level': 1,
             'label': 'Manf',
             'width': None,
             'comment': 'Manufacturer of each part.',
@@ -338,7 +360,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         },
         'manf#': {
             'col': 5,
-            'level': 0,
+            'level': 1,
             'label': 'Manf#',
             'width': None,
             'comment': 'Manufacturer number for each part and link to it\'s datasheet (ctrl-click).',
@@ -346,14 +368,14 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
         },
         'qty': {
             'col': 6,
-            'level': 0,
+            'level': 1,
             'label': 'Qty',
             'width': None,
-            'comment': '''Total number of each part needed to assemble the board(s).
-Gray -> Not manf# codes.
+            'comment': '''Total number of each part needed.
+Gray -> No manf# provided.
 Red -> No parts available.
-Orange -> Parts available, but not enough.
-Yellow -> Enough parts available, but haven't purchased enough.''',
+Orange -> Not enough parts available.
+Yellow -> Parts available, but haven't purchased enough.''',
             'static': False,
         },
         'unit_price': {
@@ -717,7 +739,7 @@ Orange -> Too little quantity available.'''
 
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-            distributor_dict[dist]['label'].title(), wrk_formats[dist])
+            distributor_dict[dist]['label']['name'].title(), wrk_formats[dist])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -952,15 +974,13 @@ Orange -> Too little quantity available.'''
     order_col_numeric = {}
     order_delimiter = {}
     dist_col = {}
-    for position, col_tag in enumerate(distributor_dict[dist]['order_cols']):
+    for position, col_tag in enumerate(distributor_dict[dist]['order']['cols']):
         order_col[col_tag] = ORDER_START_COL + position  # Column for this order info.
         order_col_numeric[col_tag] = (col_tag ==
                                       'purch')  # Is this order info numeric?
-        order_delimiter[col_tag] = distributor_dict[dist][
-            'order_delimiter'
-        ]  # Delimiter btwn order columns.
+        order_delimiter[col_tag] = distributor_dict[dist]['order']['delimiter']  # Delimiter btwn order columns.
         # For the last column of order info, the delimiter is blanked.
-        if position + 1 == len(distributor_dict[dist]['order_cols']):
+        if position + 1 == len(distributor_dict[dist]['order']['cols']):
             order_delimiter[col_tag] = ''
         # If the column tag doesn't exist in the list of distributor columns,
         # then assume its for the part reference column in the global data section

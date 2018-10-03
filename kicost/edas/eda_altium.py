@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 
 # Author information.
-__author__ = 'Hildo Guillardi Junior'
+__author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 # This module is intended to work with Altium XML files.
@@ -35,11 +35,11 @@ from datetime import datetime
 from bs4 import BeautifulSoup # To Read XML files.
 import re # Regular expression parser.
 import logging
-from ...global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ...global_vars import SEPRTR
-from ...distributors.global_vars import distributor_dict
-from ..eda_tools import field_name_translations, remove_dnp_parts
-from ..eda_tools import PART_REF_REGEX_NOT_ALLOWED
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..global_vars import SEPRTR
+from ..distributors.global_vars import distributor_dict
+from .tools import field_name_translations, remove_dnp_parts
+from .tools import PART_REF_REGEX_NOT_ALLOWED
 
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(
@@ -54,6 +54,25 @@ field_name_translations.update(
 ALTIUM_NONE = '[NoParam]' # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 
+__all__ = ['get_part_groups']
+
+from . import eda_dict
+
+# Place information about this EDA into the eda_tool dictionary.
+eda_dict.update(
+    {
+        'altium': {
+            'module': 'altium', # The directory name containing this file.
+            'label': 'Altium file', # Label used on the GUI.
+            'desc': 'Altium Limited (formerly known as Protel until 2001).',
+            # Formatting file match .
+            'file': {
+                'extension': '.xml', # File extension.
+                'content': '\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>' # Regular expression content match.
+            }
+        }
+    }
+)
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''@brief Get groups of identical parts from an XML file and return them as a dictionary.

@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,6 @@
 """Stuff that everybody else needs to know about."""
 
 import logging
-from currency_converter import CurrencyConverter
 
 # The root logger of the application. This has to be the root logger to catch
 # output from libraries (e.g. requests) as well.
@@ -38,8 +37,13 @@ DEBUG_HTTP_RESPONSES = logging.DEBUG-4
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
-currency = CurrencyConverter()
+DEFAULT_LANGUAGE = 'en_US' # Default language used by GUI and spreadsheet
+                           # generation and number presentation.
 
 class PartHtmlError(Exception):
+    '''Exception for failed retrieval of an HTML parse tree for a part.'''
+    pass
+
+class wxPythonNotPresent(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
