@@ -2,7 +2,6 @@ KiCost
 ======
 
 [![image](https://img.shields.io/travis/xesscorp/kicost.svg)](https://travis-ci.org/xesscorp/kicost)
-
 [![image](https://img.shields.io/pypi/v/kicost.svg)](https://pypi.python.org/pypi/kicost)
 
 KiCost is intended to be run as a script for generating part-cost
@@ -18,8 +17,8 @@ Features
 
 -   Easy installation via pip (see on documentation folder).
 -   Processes the BOM XML file from your KiCad schematic to create a
-    part-cost spreadsheet by scraping the web sites of several popular
-    distributors for price and inventory data. (You can also enter your
+    part-cost spreadsheet by geetting the price and  inventory data
+    of several popular distributors web servers. (You can also enter your
     own quantity-adjusted pricing data for specialized parts or those
     not found at the supported distributors.);
 -   Processes also BOM files from Altium, Proteus, Eagle, Upverter and
