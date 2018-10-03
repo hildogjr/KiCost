@@ -319,13 +319,7 @@ class dist_octopart(distributor_class):
             # Creat an Octopart query using the manufacturer's part number or 
             # distributor SKU.
             try:
-                FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
-                #TODO unify the `FIELDS_MANFCAT` configuration (used also in `edas/tools.py` and `dist_local.py`).
-                for d in FIELDS_MANFCAT:
-                    manf_code = part.fields[d]
-                    if manf_code:
-                        break
-                part_query = {'reference': i, 'mpn': manf_code}
+                part_query = {'reference': i, 'mpn': part.fields['manf#']}
             except KeyError:
                 # No MPN, so use the first distributor SKU that's found.
                 skus = set([part.fields.get(dist + '#', '') for dist in distributors])
