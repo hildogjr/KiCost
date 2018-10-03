@@ -13,7 +13,11 @@ except ImportError:
 with open('README.md') as readme_file:
     readme = readme_file.read()
 with open('HISTORY.md') as history_file:
-    history = history_file.read().replace('.. :changelog:', '')
+    history = history_file.read()
+    try:
+        history = history.replace('.. :changelog:', '')
+    except:
+        pass
 
 # KiCost Python packages requirements to run-time.
 requirements = [
