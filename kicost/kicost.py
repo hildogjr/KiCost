@@ -1,6 +1,6 @@
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -42,28 +42,25 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-# ghost library allows scraping pages that have JavaScript challenge pages that
-# screen-out robots. Digi-Key stopped doing this, so it's not needed at the moment.
-# Also requires installation of Qt4.8 (not 5!) and pyside.
-#from ghost import Ghost
-
 __all__ = ['kicost','output_filename']  # Only export this routine for use by the outside world.
 
 from .global_vars import *
 
-from .distributors.octopart import query_part_info
+# TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
+from .distributors.dist_octopart import dist_octopart
+from .distributors.dist_local import dist_local
 
-# Import information about various distributors.
-from .distributors import *
-from .distributors.global_vars import distributor_dict
-
+## Import the KiCost libraries functions.
 # Import information for various EDA tools.
-from .eda_tools import eda_modules
-from .eda_tools.eda_tools import subpartqty_split, group_parts
+from .edas import eda_modules
+from .edas.tools import subpartqty_split, group_parts
+# Import information about various distributors.
+from .distributors.distributor import *
+from .distributors.global_vars import distributor_dict
+# Creation of the final XLSX spreadsheet.
+from .spreadsheet import *
 
-from .spreadsheet import * # Creation of the final XLSX spreadsheet.
-
-def kicost(in_file, eda_tool_name, out_filename,
+def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, variant,
         dist_list=list(distributor_dict.keys()),
         collapse_refs=True, currency='USD'):
@@ -72,7 +69,7 @@ def kicost(in_file, eda_tool_name, out_filename,
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
     
     @param in_file `list(str())` List of the names of the input BOM files.
-    @param eda_tool_name `list(str())` of the EDA modules to be used to open the `in_file`list.
+    @param eda_name `list(str())` of the EDA modules to be used to open the `in_file`list.
     @param out_filename `str()` XLSX output file name.
     @param user_fields `list()` of the user fields to be included on the spreadsheet global part.
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
@@ -109,17 +106,17 @@ def kicost(in_file, eda_tool_name, out_filename,
         variant = [variant] * len(in_file)
     elif len(variant) != len(in_file):
         variant = [variant[0]] * len(in_file) #Assume the first as default.
-    if not isinstance(eda_tool_name,list):
-        eda_tool_name = [eda_tool_name] * len(in_file)
-    elif len(eda_tool_name) != len(in_file):
-        eda_tool_name = [eda_tool_name[0]] * len(in_file) #Assume the first as default.
+    if not isinstance(eda_name,list):
+        eda_name = [eda_name] * len(in_file)
+    elif len(eda_name) != len(in_file):
+        eda_name = [eda_name[0]] * len(in_file) #Assume the first as default.
 
     # Get groups of identical parts.
     parts = dict()
     prj_info = list()
     for i_prj in range(len(in_file)):
-        eda_tool_module = eda_modules[eda_tool_name[i_prj]]
-        p, info = eda_tool_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
+        eda_module = eda_modules[eda_name[i_prj]]
+        p, info = eda_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         p = subpartqty_split(p)
         # In the case of multiple BOM files, add the project prefix identifier
         # to each reference/designator. Use the field 'manf#_qty' to control
@@ -154,9 +151,9 @@ def kicost(in_file, eda_tool_name, out_filename,
                 group_fields += [f]
 
     # Some fields to be merged on specific EDA are enrolled bellow.
-    if 'kicad' in eda_tool_name:
+    if 'kicad' in eda_name:
         group_fields += ['libpart'] # This field may be a mess on multiple sheet designs.
-    if len(set(eda_tool_name))>2:
+    if len(set(eda_name))>2:
         # If more than one EDA software was used, ignore the 'footprint'
         # field, because they could have different libraries names.
         group_fields += ['footprint']
@@ -189,7 +186,10 @@ def kicost(in_file, eda_tool_name, out_filename,
 
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
-        query_part_info(parts, distributor_dict, currency)
+        #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
+        #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
+        dist_local.query_part_info(parts, distributor_dict, currency)
+        dist_octopart.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,

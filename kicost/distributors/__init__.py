@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -32,19 +32,29 @@ directory = os.path.dirname(__file__)
 # Search for the distributor modules and import them.
 for module in os.listdir(directory):
 
-    # Avoid importing non-directories.
+    # Avoid importing non distributors modules.
+    # It should be placed at this folder and start with 'dist_'.
     abs_module = os.path.join(directory, module)
-    if not os.path.isdir(abs_module):
+    if os.path.isdir(abs_module):
         continue
-
+    if not os.path.basename(abs_module).startswith('dist_'):
+        continue
     # Avoid directories like __pycache__.
     if module.startswith('__'):
         continue
+    #TODO
+    if module.startswith('dist_octo') or module.startswith('dist_local'):
+        continue
 
     # Import the module.
+    print('--------',module)
     tmp = __import__(module, globals(), locals(), [], level=1)
     tmp_mod = getattr(tmp, module);
     globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
+
+from .dist_octopart import * #TODO this should be programmetic and go inside the for above
+from .dist_local import *
+
 
 from .global_vars import distributor_dict
 
@@ -54,9 +64,6 @@ def init_distributor_dict():
     for x in globals():
         if x.startswith("dist_"):
             globals()[x].dist_init_distributor_dict()
-
-from .octopart import dist_octopart
-from .local import dist_local
 
 # Init distributor dict during import.
 init_distributor_dict()

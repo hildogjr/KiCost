@@ -3,6 +3,14 @@
 History
 -------
 
+
+?? (2018-??-??)
+______________________
+
+* Complete re-facture of internal class structure, now ``distributors`` and ``edas`` follow a heritage model.
+* Add a ``post_setup`` function to configure shortcut and OS dependent settings.
+
+
 1.0.0 (2018-10-03)
 ______________________
 
