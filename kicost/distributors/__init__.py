@@ -53,7 +53,7 @@ for module in os.listdir(directory):
     globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
 
 from .dist_octopart import * #TODO this should be programmetic and go inside the for above
-from .dist_local import *
+from .dist_local_template import *
 
 
 from .global_vars import distributor_dict

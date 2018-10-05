@@ -311,6 +311,13 @@ class dist_octopart(distributor_class):
                             # Don't bother with any extra info from the distributor.
                             parts[i].info_dist[dist] = {}
 
+        # Get the valid distributors names used by them part catalog
+        # that may be index by Octopart. This is used to remove the
+        # local distributors and future not implemented in the Octopart
+        # definition.
+        distributors_octopart = [d for d in distributors if distributors[d]['type']=='api'
+                            and distributors[d].get('octopart_name')]
+
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []
         prev_i = 0 # Used to record index where parts query occurs.
@@ -323,11 +330,24 @@ class dist_octopart(distributor_class):
                 part_query = {'reference': i, 'mpn': manf_code}
             else:
                 # No MPN, so use the first distributor SKU that's found.
-                skus = set([part.fields.get(dist + '#', '') for dist in distributors])
-                skus = [sku for sku in skus if sku]
+                #skus = [part.fields.get(d + '#', '') for d in distributors_octopart
+                #            if part.fields.get(d + '#') ]
+                for octopart_dist_sku in distributors_octopart:
+                    sku = part.fields.get(octopart_dist_sku + '#', '')
+                    if sku:
+                        break
                 try:
                     # Create the part query using SKU matching.
-                    part_query = {'reference': i, 'sku': skus[0]}
+                    part_query = {'reference': i, 'sku': sku}
+                    
+                    # Because was used the distributor (enrolled at Octopart list)
+                    # despite the normal 'manf#' code, take the sub quantity as
+                    # general sub quantity of the current part.
+                    part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
+                    logger.warning("Associated")
+                    logger.warning("Associated %d quantity to '%s' (%s), parts '%s'.",
+                            part.fields[octopart_dist_sku + '#_qty'], octopart_dist_sku,
+                            part.fields[octopart_dist_sku+'#'], part.refs)
                 except IndexError:
                     # No MPN or SKU, so skip this part.
                     continue

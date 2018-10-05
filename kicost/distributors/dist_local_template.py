@@ -40,9 +40,9 @@ from .global_vars import distributor_dict
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
-__all__ = ['dist_local']
+__all__ = ['dist_local_template']
 
-class dist_local(distributor_class):
+class dist_local_template(distributor_class):
 
     @staticmethod
     def dist_init_distributor_dict():
