@@ -343,11 +343,13 @@ class dist_octopart(distributor_class):
                     # Because was used the distributor (enrolled at Octopart list)
                     # despite the normal 'manf#' code, take the sub quantity as
                     # general sub quantity of the current part.
-                    part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                    logger.warning("Associated")
-                    logger.warning("Associated %d quantity to '%s' (%s), parts '%s'.",
-                            part.fields[octopart_dist_sku + '#_qty'], octopart_dist_sku,
-                            part.fields[octopart_dist_sku+'#'], part.refs)
+                    try:
+                        part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
+                        logger.warning("Associated %d quantity to '%s' (%s), parts '%s'.",
+                                part.fields[octopart_dist_sku + '#_qty'], octopart_dist_sku,
+                                part.fields[octopart_dist_sku+'#'], part.refs)
+                    except:
+                        pass
                 except IndexError:
                     # No MPN or SKU, so skip this part.
                     continue
