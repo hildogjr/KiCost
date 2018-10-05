@@ -46,6 +46,8 @@ from .global_vars import distributor_dict
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
+OCTOPART_MAX_PARTBYQUERY = 20 # Maximum part list length to one single query.
+
 __all__ = ['dist_octopart']
 
 class dist_octopart(distributor_class):
@@ -329,14 +331,14 @@ class dist_octopart(distributor_class):
             if manf_code:
                 part_query = {'reference': i, 'mpn': manf_code}
             else:
-                # No MPN, so use the first distributor SKU that's found.
-                #skus = [part.fields.get(d + '#', '') for d in distributors_octopart
-                #            if part.fields.get(d + '#') ]
-                for octopart_dist_sku in distributors_octopart:
-                    sku = part.fields.get(octopart_dist_sku + '#', '')
-                    if sku:
-                        break
                 try:
+                    # No MPN, so use the first distributor SKU that's found.
+                    #skus = [part.fields.get(d + '#', '') for d in distributors_octopart
+                    #            if part.fields.get(d + '#') ]
+                    for octopart_dist_sku in distributors_octopart:
+                        sku = part.fields.get(octopart_dist_sku + '#', '')
+                        if sku:
+                            break
                     # Create the part query using SKU matching.
                     part_query = {'reference': i, 'sku': sku}
                     
@@ -358,7 +360,7 @@ class dist_octopart(distributor_class):
             octopart_query.append(part_query)
 
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
-            if len(octopart_query) == 20:
+            if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
                 get_part_info(octopart_query, parts)
                 progress.update(i - prev_i) # Update progress bar.
                 prev_i = i;
