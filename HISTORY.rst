@@ -4,11 +4,14 @@ History
 -------
 
 
-?? (2018-??-??)
+1.0.1 (2018-??-??)
 ______________________
 
 * Complete re-facture of internal class structure, now ``distributors`` and ``edas`` follow a heritage model.
 * Add a ``post_setup`` function to configure shortcut and OS dependent settings.
+* Fix some minor error with multi file projects.
+* Fix the Octopart response with part with ``manf#`` but with ``distributor#``.
+* Removed the limitation of subpart with empty ``manf#`` that doesn't respected the quantity.
 
 
 1.0.0 (2018-10-03)
