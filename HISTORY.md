@@ -2,7 +2,7 @@ History
 =======
 
 
-1.0.1 (2018-??-??)
+1.0.1 (2018-10-05)
 ---------------
 
 -   Complete re-facture of internal class structure, now ``distributors`` and ``edas`` follow a heritage model.
