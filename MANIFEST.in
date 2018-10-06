@@ -1,8 +1,10 @@
 include AUTHORS.rst
 include CONTRIBUTING.rst
 include HISTORY.md
+include HISTORY.rst
 include LICENSE
 include README.md
+include README.rst
 include kicost/kicost.ico
 
 recursive-include tests *
