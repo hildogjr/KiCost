@@ -647,8 +647,8 @@ class formKiCost(wx.Frame):
     def button_run(self, event):
         ''' @brief Call to run KiCost.'''
         event.Skip()
-        self.run()
-        #wx.CallLater(10, self.run) # Necessary to not '(core dumped)' with wxPython.
+        #self.run()
+        wx.CallLater(10, self.run) # Necessary to not '(core dumped)' with wxPython.
 
     #----------------------------------------------------------------------
     def run(self):
