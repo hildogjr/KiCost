@@ -10,9 +10,9 @@ except ImportError:
     from distutils.core import setup
 
 # Update the information files that stay in the computer.
-with open('README.md') as readme_file:
+with open('README.rst') as readme_file:
     readme = readme_file.read()
-with open('HISTORY.md') as history_file:
+with open('HISTORY.rst') as history_file:
     history = history_file.read()
     try:
         history = history.replace('.. :changelog:', '')
