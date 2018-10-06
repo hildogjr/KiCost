@@ -39,9 +39,15 @@ __all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subp
 QTY_SEPRTR  = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
 PART_SEPRTR = r'(?<!\\)\s*[;,]\s*' # Separator for the part numbers in a list, remove the lateral spaces.
 ESC_FIND = r'\\\s*([;,:])\s*'      # Used to remove backslash from escaped qty & manf# separators.
-SUB_SEPRTR  = '#' # Subpart separator for a part reference.
-REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multiparts.
+REPLICATE_MANF = '~' # Character used to replicate the last manufacture name (`manf` field) in multi-parts.
 SGROUP_SEPRTR = '\n' # Separator of the semi identical parts groups (parts that have the filed ignored to group).
+PRJ_STR_DECLARE = 'prj' # Project string declaration attached to the beginning of each reference correspondent to one project in the multi-project files case.
+PRJPART_SPRTR = SEPRTR # Separator between part designator and reference string. `PRJ_STR_DECLARE` + \d + `PRJPART_SPRTR` + ref
+# Control for the group-collapse presentation.
+PART_SEQ_SEPRTR  = '-' # Part separator for sequential grouping.
+PART_NSEQ_SEPRTR  = ',' # Part separator for non-sequential grouping.
+SUB_SEPRTR  = '#' # Subpart separator for a part reference.
+PRJ_SEPRTR = ';' # Separator between projects when collapsed and grouped the part references.
 # Reference string order to the spreadsheet. Use this to
 # group the elements in sequential rows.
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
@@ -60,7 +66,8 @@ PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*\{}]'.format(SEPRTR)
 # modified by adding the project number identification followed
 # by `SEPRTR` definition.
 PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&' # Used in next definition only (because repeat).
-PART_REF_REGEX = re.compile('(?P<prefix>([a-z]*(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_sp=SEPRTR, sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX = re.compile('(?P<prefix>({p_str}(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_str=PRJ_STR_DECLARE, p_sp=PRJPART_SPRTR,
+                                sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, manufacture name and such.
@@ -490,16 +497,27 @@ def subpartqty_split(components):
         try:
             # Divide the subparts in different parts keeping the other fields
             # (reference, description, ...).
-            # First search for the used filed to manufacture/distributor numbers
+            # First search for the used fields to manufacture/distributor numbers
             # and how many subparts are in them. Use the loop also to extract the
-            # manufacture/distributor codes in list.
+            # manufacture/distributor codes in list. Use the maximum of them.
             founded_fields = []
             subparts_qty = 0
             subparts_manf_code = dict()
             for field_code in FIELDS_MANF:
                 if field_code in part:
-                    subparts_qty = max(subparts_qty, 
-                            len( subpart_list(part[field_code]) ) ) # Quantity of sub parts.
+                    subparts_qty_field = len( subpart_list(part[field_code]) )
+                    subparts_qty = max(subparts_qty, subparts_qty_field) # Quantity of sub parts.
+                    # Print a warning and an user tip in the case of different subpart quantities
+                    # associated in different `manf#`/distributors# of the same component.
+                    if subparts_qty_field!=subparts_qty:
+                        problem_manf_code = (field_code if subparts_qty>subparts_qty_field else field_code_last)
+                        logger.warning('Found a different subpart quantity between the code fields {c} and {lc}.\n\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'.format(
+                                        c=field_code_last, lc=field_code, r=part_ref,
+                                        pc=problem_manf_code,
+                                        m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field))
+                                  ))
+                    field_code_last = field_code
+                    
                     founded_fields += [field_code]
                     subparts_manf_code[field_code] = subpart_list(part[field_code])
             if not founded_fields:
@@ -530,7 +548,7 @@ def subpartqty_split(components):
                 part_actual_value = part_actual['value']
                 subpart_part = ''
                 subpart_qty = ''
-                # Add the splited subparts.
+                # Add the split subparts.
                 for subparts_index in range(subparts_qty):
                     # Create a sub component based on the main component with
                     # the subparts. Modify the designator and the part. Create
@@ -772,11 +790,12 @@ def order_refs(refs, collapse=True):
             if isinstance(num, list):
                 # Convert a range list into a collapsed part reference:
                 # e.g., 'R10-R15' from 'R':[10,15].
-                collapsed_refs.append('{0}{1}-{0}{2}'.format(prefix, num[0], num[-1]))
+                collapsed_refs.append('{0}{1}{3}{0}{2}'.format(prefix, num[0], num[-1], PART_SEQ_SEPRTR))
             else:
                 # Convert a single number into a simple part reference: e.g., 'R10'.
                 collapsed_refs.append('{}{}'.format(prefix, num))
 
+    collapsed_refs = PART_NSEQ_SEPRTR.join( collapsed_refs )
     return collapsed_refs # Return the collapsed par references.
 
 

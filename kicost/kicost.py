@@ -53,7 +53,7 @@ from .distributors.dist_local_template import dist_local_template
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas import eda_modules
-from .edas.tools import subpartqty_split, group_parts
+from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
 # Import information about various distributors.
 from .distributors.distributor import *
 from .distributors.global_vars import distributor_dict
@@ -133,7 +133,7 @@ def kicost(in_file, eda_name, out_filename,
                 except:
                     qty_base[i_prj] = '1'
                 p[p_ref]['manf#_qty'] = qty_base.copy()
-                p[ 'prj' + str(i_prj) + SEPRTR + p_ref] = p.pop(p_ref)
+                p[ PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p.pop(p_ref)
         parts.update( p.copy() )
         prj_info.append( info.copy() )
 

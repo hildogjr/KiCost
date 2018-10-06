@@ -481,7 +481,8 @@ Yellow -> Parts available, but haven't purchased enough.''',
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
     # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        part.collapsed_refs = ','.join( order_refs(part.refs, collapse=collapse_refs) )
+        #part.collapsed_refs = ','.join( order_refs(part.refs, collapse=collapse_refs) )
+        part.collapsed_refs = order_refs(part.refs, collapse=collapse_refs)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
