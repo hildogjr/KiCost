@@ -667,6 +667,7 @@ class formKiCost(wx.Frame):
         for f in args.input:
             if not os.path.isfile(f):
                 print('No valid file(s) selected.')
+                self.m_button_run.Enable()
                 return # Not a valid file(s).
 
         spreadsheet_file = self.m_text_saveas.GetValue()
@@ -709,14 +710,14 @@ class formKiCost(wx.Frame):
         args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
         args.variant = str_to_arg(['--variant', '-var'])
-        args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())
+        args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())[0]
 
         args.collapse_refs = self.m_checkBox_collapseRefs.GetValue() # Collapse refs in the spreadsheet.
 
         if self.m_listBox_edatool.GetStringSelection():
             for k,v in eda_dict.items():
                if v['label']==self.m_listBox_edatool.GetStringSelection():
-                  args.eda_tool = v['module'] # The selected EDA module on GUI.
+                  args.eda_name = v['module'] # The selected EDA module on GUI.
                   break
 
         # Get the current distributors to scrape.
@@ -738,7 +739,9 @@ class formKiCost(wx.Frame):
         # Run KiCost main function and print in the log the elapsed time.
         start_time = time.time()
         try:
-            kicost(in_file=args.input, eda_tool_name=args.eda_tool,
+            #print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
+            #    '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
+            kicost(in_file=args.input, eda_name=args.eda_name,
                 out_filename=args.output, collapse_refs=args.collapse_refs,
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
                 group_fields=args.group_fields, variant=args.variant,
