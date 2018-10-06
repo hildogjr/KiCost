@@ -4,6 +4,12 @@ History
 -------
 
 
+1.0.2 (2018-10-06)
+______________________
+* Fix the *.md installation files.
+* Minor modifications into the new class model.
+
+
 1.0.1 (2018-10-05)
 ______________________
 
