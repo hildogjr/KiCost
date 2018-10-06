@@ -29,30 +29,9 @@ __company__ = 'University of Campinas - Brazil'
 # The global dictionary of supported EDA tools starts out empty.
 eda_dict = {}
 
-import os
-
-# The EDA tool directories will be found in this directory.
-directory = os.path.dirname(__file__)
-
-# Search for the EDA tool modules and import them.
+# The global EDA tool modules dictionary.
 eda_modules = {}
-for module in os.listdir(directory):
 
-    # Avoid importing non EDA class files.
-    # It should be placed at this folder and start with 'eda_'.
-    abs_module = os.path.join(directory, module)
-    if os.path.isdir(abs_module):
-        continue
-    if not os.path.basename(abs_module).startswith('eda_'):
-        continue
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-
-    # Import the module.
-    #eda_modules[module] = __import__(module, globals(), locals(), [], level=1)
-
-#TODO this should go inside the loop above and the file bellow should be translate to classes.
 from .eda_kicad import *
 from .eda_altium import *
 from .eda_generic_csv import *
