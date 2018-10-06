@@ -24,37 +24,8 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-import os
-
-# The distributor module directories will be found in this directory.
-directory = os.path.dirname(__file__)
-
-# Search for the distributor modules and import them.
-for module in os.listdir(directory):
-
-    # Avoid importing non distributors modules.
-    # It should be placed at this folder and start with 'dist_'.
-    abs_module = os.path.join(directory, module)
-    if os.path.isdir(abs_module):
-        continue
-    if not os.path.basename(abs_module).startswith('dist_'):
-        continue
-    # Avoid directories like __pycache__.
-    if module.startswith('__'):
-        continue
-    #TODO
-    if module.startswith('dist_octo') or module.startswith('dist_local'):
-        continue
-
-    # Import the module.
-    print('--------',module)
-    tmp = __import__(module, globals(), locals(), [], level=1)
-    tmp_mod = getattr(tmp, module);
-    globals()["dist_"+module] = getattr(tmp_mod, "dist_"+module)
-
-from .dist_octopart import * #TODO this should be programmetic and go inside the for above
+from .dist_octopart import *
 from .dist_local_template import *
-
 
 from .global_vars import distributor_dict
 

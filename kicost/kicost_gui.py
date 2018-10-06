@@ -45,11 +45,11 @@ import re # Regular expression parser.
 import babel # For language.
 from babel import numbers # For currency presentation.
 import logging
+import requests
 
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
 from .kicost import *  # kicost core functions.
-from .distributors import fake_browser # Use the configurations already made to get KiCost last version.
 from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
@@ -528,8 +528,8 @@ class formKiCost(wx.Frame):
             '''Check for updates.'''
             self.m_button_check_updates.SetLabel(u"Checking for updates...")
             try:
-                browser = fake_browser.fake_browser("", logger, 1, 0)
-                html = browser.scrape_URL(PAGE_UPDATE)
+                response = requests.get(PAGE_UPDATE)
+                html = response.text
                 offical_last_version = re.findall('kicost (\d+\.\d+\.\d+)', str(html), flags=re.IGNORECASE)[0]
                 if StrictVersion(offical_last_version) > StrictVersion(__version__):
                     self.m_button_check_updates.SetLabel(u"Found v{}.".format(offical_last_version) )
