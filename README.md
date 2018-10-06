@@ -34,4 +34,5 @@ Features
     formats that you can cut-and-paste directly into the website
     ordering page of each distributor.
 
-![image](https://xesscorp.github.io/KiCost/docs/_build/singlehtml/_images/block_diag.png)
+![image](block_diag.png)
+![image](gui.png)
