@@ -46,6 +46,7 @@ import babel # For language.
 from babel import numbers # For currency presentation.
 import logging
 import requests
+#from .wxAnyThread import anythread
 
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
@@ -273,7 +274,7 @@ class formKiCost(wx.Frame):
 
         bSizer4 = wx.BoxSizer(wx.HORIZONTAL)
 
-        sbSizer3 = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Distributors to scrape:"), wx.VERTICAL)
+        sbSizer3 = wx.StaticBoxSizer(wx.StaticBox(self.m_panel1, wx.ID_ANY, u"Distributors to get price:"), wx.VERTICAL)
         m_checkList_distChoices = [wx.EmptyString]
         self.m_checkList_dist = wx.CheckListBox(sbSizer3.GetStaticBox(), wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, m_checkList_distChoices, 0)
         self.m_checkList_dist.SetToolTip(wx.ToolTip(u"Select the web distributor (or local) that will be used to scrape the prices.\nClick right to hot option."))
@@ -651,6 +652,7 @@ class formKiCost(wx.Frame):
         wx.CallLater(10, self.run) # Necessary to not '(core dumped)' with wxPython.
 
     #----------------------------------------------------------------------
+    #@anythread
     def run(self):
         ''' @brief Run KiCost.
             Run KiCost in the GUI interface updating the process bar and messages.'''
@@ -729,7 +731,7 @@ class formKiCost(wx.Frame):
             for idx in choisen_dist:
                 label = self.m_checkList_dist.GetString(idx)
                 for k,v in distributor_dict.items():
-                    if v['label']==label:
+                    if v['label']['name']==label:
                         dist_list.append(v['module'])
                         break
         else:
@@ -785,7 +787,7 @@ class formKiCost(wx.Frame):
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 
         # Current distributors module recognized.
-        distributors_list = sorted([ distributor_dict[d]['label']['name'] for d in distributor_dict.keys() ])
+        distributors_list = sorted([ distributor_dict[d]['label']['name'] for d in distributor_dict.keys() if distributor_dict[d]['type']!='local'])
         self.m_checkList_dist.Clear()
         for d in distributors_list: # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)
