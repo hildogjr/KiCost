@@ -35,3 +35,4 @@ Features
   directly into the website ordering page of each distributor.
 
 .. image:: block_diag.png
+.. image:: gui.png
