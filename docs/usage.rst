@@ -230,6 +230,18 @@ To illustrate, a 2x2 jumper paired with two shunts would have a part number of
 The multiplier can be either an integer, float or fraction
 and it can precede or follow the part code (e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``).
 
+In the case of ``distributor#`` and ``manf#`` for one sub part only, the other should have a blank
+value discriminated. As exemple:
+
+::
+
+    manf#    =  0022232061;0022012067; 6: 08-50-0114;  LA 55-P; lv 25-P
+    digikey# =  ;;; 398-1010-ND; 398-1019-ND
+    rs#      =  ;;; 180-7357; 286-361
+
+See that just the last two ``manf#`` have a correspondent ``digikey#`` and ``rs#`` catalogue code.
+    
+
 ------------------------
 Schematic Variants
 ------------------------
