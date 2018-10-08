@@ -347,9 +347,9 @@ class dist_octopart(distributor_class):
                     # general sub quantity of the current part.
                     try:
                         part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                        logger.warning("Associated {} quantity to '{}' due \"{}#={}\".".format(
-                                part.fields[octopart_dist_sku + '#_qty'], part.refs,
-                                octopart_dist_sku, part.fields[octopart_dist_sku+'#']))
+                        logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                                q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
+                                f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                     except:
                         pass
                 except IndexError:
