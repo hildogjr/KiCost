@@ -151,10 +151,10 @@ class dist_octopart(distributor_class):
         })
 
 
-    def query(query):
+    def query(query, token='96df69ba'):
         """Send query to Octopart and return results."""
         url = 'http://octopart.com/api/v3/parts/match'
-        payload = {'queries': json.dumps(query), 'apikey': '96df69ba'}
+        payload = {'queries': json.dumps(query), 'include[]': 'specs', 'apikey': token}
         response = requests.get(url, params=payload)
         results = json.loads(response.text).get('results')
         return results
@@ -259,6 +259,14 @@ class dist_octopart(distributor_class):
 
                 # Loop through the offers from various dists for this particular part.
                 for item in result['items']:
+
+                    # Assign the lifecycle status 'obsolete' (others possible: 'active'
+                    # and 'not recommended for new designs') but not used.
+                    if 'lifecycle_status' in item['specs']:
+                        lifecycle_status = item['specs']['lifecycle_status']['value'][0]
+                        if lifecycle_status.lower() == 'obsolete':
+                            parts[i].lifecycle = lifecycle_status
+
                     for offer in item['offers']:
 
                         # Get the distributor who made the offer and add their
