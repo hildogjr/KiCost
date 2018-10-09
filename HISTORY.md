@@ -1,6 +1,11 @@
 History
 =======
 
+1.0.4 (2018-??-??)
+--------------
+- Added user warnings of bad ``manf`` format in case of multi-files of different quantities assigned on the catalogue codes.
+
+
 1.0.3 (2018-10-06)
 ---------------
 - Fix READ file on installtion.
