@@ -578,11 +578,11 @@ def subpartqty_split(components):
                             # and catalogue number of same part/subpart. Which may be a type error by
                             # the user.
                             if p_manf_code and p_manf_code_prior and subpart_qty_prior!=subpart_qty:
-                                logger.warning('Different quantities signed between {f}={c} and {fl}={cl} at {r}. Make sure that is right.'.format(
+                                logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
                                                     f=field_manf_dist_code, fl=field_manf_dist_code_prior,
                                                     c=p_manf_code, cl=p_manf_code_prior,
                                                     q=subpart_qty, ql=subpart_qty_prior,
-                                                    r=list(components.keys())
+                                                    r=order_refs(list(components.keys()))
                                                 ))
                             subpart_qty_prior = subpart_qty
                             p_manf_code_prior = p_manf_code
@@ -617,11 +617,11 @@ def subpartqty_split(components):
                         # and catalogue number of same part/subpart. Which may be a type error by
                         # the user.
                         if p_manf_code and p_manf_code_prior and part_qty_prior!=part_qty:
-                            logger.warning('Different quantities signed between {f}={c} and {fl}={cl} at {r}. Make sure that is right.'.format(
+                            logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
                                                 f=field_manf_dist_code, fl=field_manf_dist_code_prior,
                                                 c=p_manf_code, cl=p_manf_code_prior,
                                                 q=part_qty, ql=part_qty_prior,
-                                                r=list(components.keys())
+                                                r=order_refs(list(components.keys()))
                                             ))
                         part_qty_prior = part_qty
                         p_manf_code_prior = p_manf_code
