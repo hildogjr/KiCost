@@ -263,8 +263,8 @@ class dist_octopart(distributor_class):
                     # Assign the lifecycle status 'obsolete' (others possible: 'active'
                     # and 'not recommended for new designs') but not used.
                     if 'lifecycle_status' in item['specs']:
-                        lifecycle_status = item['specs']['lifecycle_status']['value'][0]
-                        if lifecycle_status.lower() == 'obsolete':
+                        lifecycle_status = item['specs']['lifecycle_status']['value'][0].lower()
+                        if lifecycle_status == 'obsolete':
                             parts[i].lifecycle = lifecycle_status
 
                     for offer in item['offers']:
