@@ -97,18 +97,16 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
         WRK_HDR_FORMAT = {
                 'font_size': 14,
                 'font_color': 'white',
+                'bg_color': '#303030',
                 'bold': True,
-                'align': 'center',
-                'valign': 'vcenter',
-                'bg_color': '#303030'
+                'align': 'center', 'valign': 'vcenter'
             }
         wrk_formats = {
             'global': workbook.add_format(WRK_HDR_FORMAT),
             'header': workbook.add_format({
                 'font_size': 12,
                 'bold': True,
-                'align': 'center',
-                'valign': 'top',
+                'align': 'center', 'valign': 'top',
                 'text_wrap': True
             }),
             'board_qty': workbook.add_format({
@@ -145,16 +143,17 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
             'proj_info_field': workbook.add_format({
                 'font_size': 13,
                 'bold': True,
-                'align': 'right',
-                'valign': 'vcenter'
+                'align': 'right', 'valign': 'vcenter'
             }),
             'proj_info': workbook.add_format({
                 'font_size': 12,
-                'align': 'left',
-                'valign': 'vcenter'
+                'align': 'left', 'valign': 'vcenter'
             }),
             'part_format': workbook.add_format({
-                'valign': 'vcenter'
+                'valign': 'vcenter',
+            }),
+            'part_format_obsolete': workbook.add_format({
+                'valign': 'vcenter', 'bg_color': '#c000c0'
             }),
             'found_part_pct': workbook.add_format({
                 'font_size': 10,
@@ -363,7 +362,8 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 1,
             'label': 'Manf#',
             'width': None,
-            'comment': 'Manufacturer number for each part and link to it\'s datasheet (ctrl-click).',
+            'comment': '''Manufacturer number for each part and link to it\'s datasheet (ctrl-click).
+Purple -> Obsolete part detected by one of the distributors.''',
             'static': True,
         },
         'qty': {
@@ -504,20 +504,24 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 # Fields found in the XML are lower-cased, so do the same for the column key.
                 field_name = field.lower().strip()
                 if field_name=='manf#':
+                    string = part.fields.get('manf#')
+                    link  = part.fields.get('datasheet')
                     try:
-                        string = part.fields['manf#']
-                        link  = part.fields['datasheet']
-                        if re.match(DATASHEET_LINK_REGEX, link):
-                            # Just put the link if is valid.
-                            wks.write_url(row, start_col + columns['manf#']['col'],
-                                 link, string=string)
+                        lifecycle = part.lifecycle
+                        if lifecycle=='obsolete':
+                            cell_format = wrk_formats['part_format_obsolete']
                         else:
-                            wks.write_string(row, start_col + columns[field]['col'],
-                                 part.fields[field_name], wrk_formats['part_format'])
-                    except KeyError:
-                        wks.write_string(row, start_col + columns[field]['col'],
-                                 part.fields[field_name], wrk_formats['part_format'])
+                            cell_format = wrk_formats['part_format']
+                    except:
+                        cell_format = wrk_formats['part_format']
                         pass
+                    if link and re.match(DATASHEET_LINK_REGEX, link):
+                        # Just put the link if is a valid format.
+                        wks.write_url(row, start_col + columns['manf#']['col'],
+                             link, string=string, cell_format=cell_format)
+                    else:
+                        wks.write_string(row, start_col + columns[field]['col'],
+                             part.fields[field_name], cell_format)
                 else:
                     wks.write_string(row, start_col + columns[field]['col'],
                                  part.fields[field_name], wrk_formats['part_format'])
