@@ -313,6 +313,11 @@ Visual Cues in the Spreadsheet
 In addition to the part cost information, the spreadsheet output by KiCost
 provides additional cues:
 
+#. The ``Manf#`` cell is colored to warning the part lifecyle status:
+
+   * Purple if the part is asign as 'obsolete' or 'not recommended for new designs'
+   by one of the distributors accessed.
+
 #. The ``Qty`` cell is colored to show the availability of a given part:
 
    * Red if the part is unavailable at any of the distributors.
