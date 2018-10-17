@@ -506,6 +506,13 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 if field_name=='manf#':
                     string = part.fields.get('manf#')
                     link  = part.fields.get('datasheet')
+                    if not link:
+                        try:
+                            # Use the the datasheet link got in the distributor if not
+                            # available any in the BOM / schematic.
+                            link = part.datasheet
+                        except:
+                            pass
                     try:
                         lifecycle = part.lifecycle
                         if lifecycle=='obsolete':
