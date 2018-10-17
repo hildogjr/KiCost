@@ -3,6 +3,7 @@ History
 
 1.0.4 (2018-??-??)
 --------------
+- Use the datasheet information by Octopart as link in ``manf#`` if not got any by the BOM.
 - Added user warnings of bad ``manf`` format in case of multi-files of different quantities assigned on the catalogue codes.
 - ``manf#`` cell get purple color if the distributor asigned the part as 'obsolete' or 'not recommended for new designs'.
 
