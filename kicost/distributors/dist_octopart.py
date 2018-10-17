@@ -278,8 +278,7 @@ class dist_octopart(distributor_class):
                     # in the output spreadsheet if not provide any in the BOM/schematic.
                     # This will be signed in the file.
                     if item['datasheets']:
-                        datasheet = item['datasheets'][0]['url']
-                        #TODO implement this to show at the spreadsheet.
+                        parts[i].datasheet = item['datasheets'][0]['url']
 
                     for offer in item['offers']:
 
