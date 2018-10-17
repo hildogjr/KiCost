@@ -153,9 +153,16 @@ class dist_octopart(distributor_class):
 
     def query(query, token='96df69ba'):
         """Send query to Octopart and return results."""
-        url = 'http://octopart.com/api/v3/parts/match'
-        payload = {'queries': json.dumps(query), 'include[]': 'specs', 'apikey': token}
-        response = requests.get(url, params=payload)
+        #url = 'http://octopart.com/api/v3/parts/match'
+        #payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
+        #response = requests.get(url, params=payload)
+        #TODO improve this bellow in the standard above.
+        url = 'http://octopart.com/api/v3/parts/match?queries=%s' \
+        % json.dumps(query)
+        url += '&apikey=' + token
+        url += '&include[]=specs'
+        url += '&include[]=datasheets'
+        response = requests.get(url)
         results = json.loads(response.text).get('results')
         return results
 
@@ -266,6 +273,13 @@ class dist_octopart(distributor_class):
                         lifecycle_status = item['specs']['lifecycle_status']['value'][0].lower()
                         if lifecycle_status == 'obsolete':
                             parts[i].lifecycle = lifecycle_status
+
+                    # Take the datasheet provided by the distributor. This will by used
+                    # in the output spreadsheet if not provide any in the BOM/schematic.
+                    # This will be signed in the file.
+                    if item['datasheets']:
+                        datasheet = item['datasheets'][0]['url']
+                        #TODO implement this to show at the spreadsheet.
 
                     for offer in item['offers']:
 
