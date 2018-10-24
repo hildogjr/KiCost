@@ -493,7 +493,7 @@ class formKiCost(wx.Frame):
 
         self.set_properties()
         self.SetDropTarget(FileDropTarget(self)) # Start the drop file in all the window.
-        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__)
+        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__ + ' (Powered by Octopart)')
 
     def __del__(self):
         pass
