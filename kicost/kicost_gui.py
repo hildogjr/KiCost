@@ -493,7 +493,7 @@ class formKiCost(wx.Frame):
 
         self.set_properties()
         self.SetDropTarget(FileDropTarget(self)) # Start the drop file in all the window.
-        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__ + ' (Powered by Octopart)')
+        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__)
 
     def __del__(self):
         pass
@@ -783,7 +783,7 @@ class formKiCost(wx.Frame):
         actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
 
         # Set the application windows title and configurations.
-        self.SetTitle('KiCost v.' + __version__ + ' (Powered by Octopart)')
+        self.SetTitle('KiCost v.' + __version__)
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 
         # Current distributors module recognized.
@@ -819,7 +819,7 @@ class formKiCost(wx.Frame):
         self.m_comboBox_language.Insert(languages, 0)
 
         # Credits and other informations, search by `AUTHOR.rst` file.
-        self.m_staticText_version.SetLabel('KiCost version ' + __version__)
+        self.m_staticText_version.SetLabel('KiCost v. ' + __version__ + ' (Powered by Octopart)')
         self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
         try:
             credits_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.egg-info' + os.sep + 'AUTHOR.rst')
