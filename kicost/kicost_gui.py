@@ -783,7 +783,7 @@ class formKiCost(wx.Frame):
         actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
 
         # Set the application windows title and configurations.
-        self.SetTitle('KiCost v.' + __version__)
+        self.SetTitle('KiCost v.' + __version__ + ' (Powered by Octopart)')
         self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 
         # Current distributors module recognized.
