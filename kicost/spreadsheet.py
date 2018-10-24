@@ -302,7 +302,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
         # Add the KiCost package information at the end of the spreadsheet to debug
         # information at the forum and "advertising".
         wks.write(START_ROW+len(parts)+3, START_COL,
-            'Distributors scraped by KiCost\N{REGISTERED SIGN} v.' + __version__,
+            'KiCost\N{REGISTERED SIGN} v.' + __version__ + ' (Powered by Octopart API)',
                 wrk_formats['proj_info'])
 
 
