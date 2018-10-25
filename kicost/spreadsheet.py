@@ -439,12 +439,9 @@ Yellow -> Parts available, but haven't purchased enough.''',
         user_field_id = user_field.lower()
         if user_field_id not in col_ids:
             # Put user fields immediately to right of the 'desc' column. 
-            if 'desc' in columns:
-                desc_col = columns['desc']['col']
-            else:
-                assert('value' in columns)
-                desc_col = columns['value']['col']
+            desc_col = columns.get('desc', columns['value'])['col']
             # Push all existing fields to right of 'desc' over by one column.
+            # Use 'value' if 'desc' was removed due not value present in the BOM.
             for id in col_ids:
                 if columns[id]['col'] > desc_col:
                     columns[id]['col'] += 1
