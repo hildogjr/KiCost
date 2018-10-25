@@ -44,8 +44,9 @@ from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 __all__ = ['create_spreadsheet']
 
 
-# Currency format and symbol definition.
-CURRENCY_SYMBOL = ''
+# Currency format and symbol definition (placed default values, it will be replaced athe the doce).
+CURRENCY_ALPHA3 = 'USD'
+CURRENCY_SYMBOL = 'US$'
 CURRENCY_FORMAT = ''
 
 
@@ -54,6 +55,10 @@ DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\
 
 # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
 EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
+
+
+# About and credit message at the end of the spreadsheet.
+ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__ + ' (Powered by Octopart.com API)'
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
@@ -71,8 +76,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
 
     global CURRENCY_SYMBOL
     global CURRENCY_FORMAT
+    global CURRENCY_ALPHA3
+    CURRENCY_ALPHA3 = currency.strip().upper()
     CURRENCY_SYMBOL = numbers.get_currency_symbol(
-                        currency.strip().upper(), locale=DEFAULT_LANGUAGE
+                        CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE
                         )
     CURRENCY_FORMAT = CURRENCY_SYMBOL + '#,##0.00'
 
@@ -302,8 +309,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
         # Add the KiCost package information at the end of the spreadsheet to debug
         # information at the forum and "advertising".
         wks.write(START_ROW+len(parts)+3, START_COL,
-            'KiCost\N{REGISTERED SIGN} v.' + __version__ + ' (Powered by Octopart API)',
-                wrk_formats['proj_info'])
+            ABOUT_MSG, wrk_formats['proj_info'])
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
@@ -705,6 +711,8 @@ def add_dist_to_worksheet(wks, wrk_formats, start_row, start_col,
 
     logger.log(DEBUG_OVERVIEW, '# Writing {}'.format(distributor_dict[dist]['label']))
 
+    global CURRENCY_ALPHA3
+
     # Columns for the various types of distributor-specific part data.
     columns = {
         'avail': {
@@ -863,8 +871,8 @@ Orange -> Too little quantity available.'''
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(
                     q,
-                    '${:.2f}'.format(price_tiers[q]),
-                    '${:.2f}'.format(price_tiers[q] * q))
+                    numbers.format_currency(price_tiers[q], CURRENCY_ALPHA3),
+                    numbers.format_currency(price_tiers[q] * q, CURRENCY_ALPHA3))
             wks.write_comment(row, unit_price_col, price_break_info)
 
             # Conditional format to show no quantity is available.
