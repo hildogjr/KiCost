@@ -439,14 +439,18 @@ Yellow -> Parts available, but haven't purchased enough.''',
         user_field_id = user_field.lower()
         if user_field_id not in col_ids:
             # Put user fields immediately to right of the 'desc' column. 
-            desc_col = columns['desc']['col']
+            if 'desc' in columns:
+                desc_col = columns['desc']['col']
+            else:
+                assert('value' in columns)
+                desc_col = columns['value']['col']
             # Push all existing fields to right of 'desc' over by one column.
             for id in col_ids:
                 if columns[id]['col'] > desc_col:
                     columns[id]['col'] += 1
             # Insert user field in the vacated space.
             columns[user_field_id] = {
-                'col': columns['desc']['col']+1,
+                'col': desc_col+1,
                 'level': 0,
                 'label': user_field,
                 'width': None,
