@@ -381,7 +381,7 @@ optional arguments:
                         Specify the names of additional part fields to extract
                         and insert in the global data section of the
                         spreadsheet.
-  --translate NAME [NAME ...]
+  --translate_fields NAME [NAME ...]
                         Speficy or remove field translation (--translate X1 Y1
                         X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
                         remove X3 for the internal dictionary).
