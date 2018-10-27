@@ -86,6 +86,14 @@ def main():
                         help='''Specify the names of additional part fields to 
                             extract and insert in the global data section of 
                             the spreadsheet.''')
+    parser.add_argument('--translate_fields',
+                        nargs='+',
+                        type=str,
+                        metavar='NAME',
+                        help='''Speficy or remove field translation
+                            (--translate X1 Y1 X2 Y2 X3 ~,
+                            translates X1 to Y1 and X2 to Y2 and remove
+                            X3 for the internal dictionary).''')
     parser.add_argument('-var', '--variant',
                         nargs='+',
                         type=str,
@@ -253,7 +261,8 @@ def main():
     kicost(in_file=args.input, eda_name=args.eda,
         out_filename=args.output, collapse_refs=not args.no_collapse,
         user_fields=args.fields, ignore_fields=args.ignore_fields,
-        group_fields=args.group_fields, variant=args.variant,
+        group_fields=args.group_fields, translate_fields=args.translate_fields,
+        variant=args.variant,
         dist_list=dist_list, currency=args.currency)
     #except Exception as e:
     #    sys.exit(e)

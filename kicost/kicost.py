@@ -52,6 +52,7 @@ from .distributors.dist_local_template import dist_local_template
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.
+from .edas.tools import field_name_translations
 from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
 # Import information about various distributors.
@@ -61,7 +62,8 @@ from .distributors.global_vars import distributor_dict
 from .spreadsheet import *
 
 def kicost(in_file, eda_name, out_filename,
-        user_fields, ignore_fields, group_fields, variant,
+        user_fields, ignore_fields, group_fields, translate_fields,
+        variant,
         dist_list=list(distributor_dict.keys()),
         collapse_refs=True, currency='USD'):
     ''' @brief Run KiCost.
@@ -75,6 +77,7 @@ def kicost(in_file, eda_name, out_filename,
     @param ignore_fields `list()` of the fields to be ignored on the read EDA modules.
     @param group_fields `list()` of the fields to be grouped/merged on the function group parts that
     are not grouped by default.
+    @param translate_fields `list()` of the fields to translate to translate or remove (if `~` present).
     @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
     @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors
     modules. If `None`, no web/local distributors will be scraped.
@@ -83,7 +86,21 @@ def kicost(in_file, eda_name, out_filename,
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
-    #logger.log(DEBUG_OVERVIEW, 'Exchange rate: 1 EUR = %.2f USD' % currency.convert(1, 'EUR', 'USD'))
+    # Add or remove field translations, ignore in case the trying to re-translate default field names.
+    if translate_fields:
+        if len(translate_fields)%2 == 1:
+            raise Exception('Translation fields argument should have an even number of words.')
+        for c in range(0, len(translate_fields), 2):
+            #field_name_translations.keys(), field_name_translations.values()
+            if translate_fields[c] in field_name_translations.values():
+                logger.warning("Not possible re-translate {} to {}, this is used as internal field names.".format(
+                        translate_fields[c].lower(), translate_fields[c+1].lower()
+                    ))
+                continues
+            if translate_fields[c+1]!='~':
+                field_name_translations.update({translate_fields[c].lower():translate_fields[c+1].lower()})
+            else:
+                field_name_translations.pop(translate_fields[c].lower(), None)
 
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list!=None:

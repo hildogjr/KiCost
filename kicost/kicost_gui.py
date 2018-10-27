@@ -711,6 +711,7 @@ class formKiCost(wx.Frame):
         args.fields = str_to_arg(['--fields', '-f']).split()
         args.ignore_fields = str_to_arg(['--ignore_fields', '-ign']).split()
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
+        args.translate_fields = str_to_arg(['--translate_fields']).split()
         args.variant = str_to_arg(['--variant', '-var'])
         args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())[0]
 
@@ -746,7 +747,8 @@ class formKiCost(wx.Frame):
             kicost(in_file=args.input, eda_name=args.eda_name,
                 out_filename=args.output, collapse_refs=args.collapse_refs,
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
-                group_fields=args.group_fields, variant=args.variant,
+                group_fields=args.group_fields, translate_fields=args.translate_fields,
+                variant=args.variant,
                 dist_list=args.include, currency=args.currency)
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, e)
