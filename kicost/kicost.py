@@ -110,7 +110,7 @@ def kicost(in_file, eda_name, out_filename,
     # user field.
     user_fields = set(user_fields)
     for f in user_fields:
-        if f.lower() in field_name_translations.values():
+        if f.lower() in field_name_translations.keys():
             logger.warning("\"{f}\" field is a reserved field and can not be used user filed. Try to remove it from internal dictionary using `--translate_filed {f} ~`".format(
                     f=f.lower()
                 )
