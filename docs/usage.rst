@@ -358,64 +358,70 @@ Command-Line Options
 
 ::
 
-    usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
-                  [-f NAME [NAME ...]] [-var VARIANT [VARIANT ...]] [-w] [-s] [-q]
-                  [-grp NAME [NAME ...]] [--debug [LEVEL]]
-                  [-eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
-                  [--show_dist_list] [--show_eda_list] [--no_collapse]
-                  [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_price] [--user]
+usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
+              [-f NAME [NAME ...]] [--translate NAME [NAME ...]]
+              [-var VARIANT [VARIANT ...]] [-w] [-q] [-ign NAME [NAME ...]]
+              [-grp NAME [NAME ...]] [--debug [LEVEL]]
+              [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
+              [--show_dist_list] [--show_eda_list] [--no_collapse]
+              [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_price]
+              [--currency [CURRENCY]] [--guide FILE.XML [FILE.XML ...]]
+              [--user]
 
-    Build cost spreadsheet for a KiCAD project.
+Build cost spreadsheet for a KiCAD project.
 
-    optional arguments:
-      -h, --help            show this help message and exit
-      -v, --version         show program's version number and exit
-      -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
-                            One or more schematic BOM XML files.
-      -o [FILE.XLSX], --output [FILE.XLSX]
-                            Generated cost spreadsheet.
-      -f NAME [NAME ...], --fields NAME [NAME ...]
-                            Specify the names of additional part fields to extract
-                            and insert in the global data section of the
-                            spreadsheet.
-      -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
-                            schematic variant name filter.
-      -w, --overwrite       Allow overwriting of an existing spreadsheet.
-      -q, --quiet           Enable quiet mode with no warnings.
-      -np [NUM_PROCESSES], --num_processes [NUM_PROCESSES]
-                            Set the number of parallel processes used for web
-                            scraping part data.
-      -ign NAME [NAME ...], --ignore_fields NAME [NAME ...]
-                            Declare part fields to ignore when reading the BoM
-                            file.
-      -grp NAME [NAME ...], --group_fields NAME [NAME ...]
-                            Declare part fields to merge when grouping parts.
-      --debug [LEVEL]
-                            Print debugging info. (Larger LEVEL means more info.)
-      -eda {kicad,altium,csv} [{kicad,altium,csv} ...], --eda_tool {kicad,altium,csv} [{kicad,altium,csv} ...]
-                            Choose EDA tool from which the XML BOM file
-                            originated, or use csv for .CSV files.
-      --show_dist_list      Show list of distributors that can be scraped/queried
-                            for cost data, then exit.
-      --show_eda_list       Show list of EDA tools whose files KiCost can read,
-                            then exit.
-      --no_collapse         Do not collapse the part references like C1,C2,C3 into
-                            C1-C3 in the spreadsheet.
-      -e DIST [DIST ...], --exclude DIST [DIST ...]
-                            Excludes the given distributor(s) from the scraping
-                            process.
-      --include DIST [DIST ...]
-                            Includes only the given distributor(s) in the scraping
-                            process.
-      --no_price            Create a spreadsheet without price part data from
-                            distributor websites.
-      --currency [CURRENCY] Define the priority currency. Use the ISO4217 for
-                            currency (`USD`, `EUR`). Default: `USD`.
-      --guide               Start the user guide to run KiCost passing the file
-                            parameter give by "--input", all others parameters are
-                            ignored.
-      --user, -u            Run KiCost in terminal using the parameters in the guide
-                            memory, all passed parameters from terminal take priority.
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
+  -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
+                        One or more schematic BOM XML files.
+  -o [FILE.XLSX], --output [FILE.XLSX]
+                        Generated cost spreadsheet.
+  -f NAME [NAME ...], --fields NAME [NAME ...]
+                        Specify the names of additional part fields to extract
+                        and insert in the global data section of the
+                        spreadsheet.
+  --translate NAME [NAME ...]
+                        Speficy or remove field translation (--translate X1 Y1
+                        X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
+                        remove X3 for the internal dictionary).
+  -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
+                        schematic variant name filter.
+  -w, --overwrite       Allow overwriting of an existing spreadsheet.
+  -q, --quiet           Enable quiet mode with no warnings.
+  -ign NAME [NAME ...], --ignore_fields NAME [NAME ...]
+                        Declare part fields to ignore when reading the BoM
+                        file.
+  -grp NAME [NAME ...], --group_fields NAME [NAME ...]
+                        Declare part fields to merge when grouping parts.
+  --debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
+  --eda {kicad,altium,csv} [{kicad,altium,csv} ...]
+                        Choose EDA tool from which the XML BOM file
+                        originated, or use csv for .CSV files.
+  --show_dist_list      Show list of distributors that can be scraped for cost
+                        data, then exit.
+  --show_eda_list       Show list of EDA tools whose files KiCost can read,
+                        then exit.
+  --no_collapse         Do not collapse the part references in the
+                        spreadsheet.
+  -e DIST [DIST ...], --exclude DIST [DIST ...]
+                        Excludes the given distributor(s) from the scraping
+                        process.
+  --include DIST [DIST ...]
+                        Includes only the given distributor(s) in the scraping
+                        process.
+  --no_price            Create a spreadsheet without scraping part data from
+                        distributor websites.
+  --currency [CURRENCY]
+                        Define the priority currency. Use the ISO4217 for
+                        currency (`USD`, `EUR`). Default: `USD`.
+  --guide FILE.XML [FILE.XML ...]
+                        Start the user guide to run KiCost passing the file
+                        parameter give by "--input", all others parameters are
+                        ignored.
+  --user, -u            Run KiCost on terminal using the parameters in the
+                        guide memory, all passed parameters from terminal take
+                        priority.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
