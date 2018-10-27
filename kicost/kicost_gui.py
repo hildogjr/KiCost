@@ -72,7 +72,7 @@ PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last officia
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
 PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
 
-
+actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
 
 #======================================================================
 def open_file(filepath):
@@ -437,7 +437,13 @@ class formKiCost(wx.Frame):
         bSizer101 = wx.BoxSizer(wx.VERTICAL)
 
         self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)#wx.DefaultSize, 0)
+        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
         bSizer101.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
+
+        self.m_staticText_version = wx.StaticText(self.m_panel3, wx.ID_ANY, u"version", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_staticText_version.Wrap(-1)
+        self.m_staticText_version.SetLabel('Version ' + __version__)
+        bSizer101.Add(self.m_staticText_version, 1, wx.ALL, 5)
 
         self.m_button_open_webpage = wx.Button(self.m_panel3, wx.ID_ANY, u"Online manual", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_webpage.SetToolTip(wx.ToolTip(u"Click for official web page user manual."))
@@ -452,9 +458,14 @@ class formKiCost(wx.Frame):
 
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_staticText_version = wx.StaticText(self.m_panel3, wx.ID_ANY, u"MyLabel", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_staticText_version.Wrap(-1)
-        bSizer111.Add(self.m_staticText_version, 1, wx.ALL, 5)
+        self.m_staticText_octopart = wx.StaticText(self.m_panel3, wx.ID_ANY, u"Powered by", wx.DefaultPosition, wx.DefaultSize, 0)
+        self.m_staticText_octopart.Wrap(-1)
+        bSizer111.Add(self.m_staticText_octopart, 1, wx.ALL, 5)
+
+        self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)#wx.DefaultSize, 0)
+        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'logo_octopart.png', wx.BITMAP_TYPE_PNG))
+        self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_octopart_click)
+        bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_button_check_updates = wx.Button(self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_check_updates.SetToolTip(wx.ToolTip(u"Click for compare you version with the most recent released."))
@@ -491,6 +502,12 @@ class formKiCost(wx.Frame):
                    # execution without the last size and position saved.
         #self.SetSizeHints(wx.Size(40, 40), wx.DefaultSize) # Only available on wxPython4.
 
+
+
+        # Set the application windows title and configurations.
+        self.SetTitle('KiCost v.' + __version__)
+        self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
+
         self.set_properties()
         self.SetDropTarget(FileDropTarget(self)) # Start the drop file in all the window.
         logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__)
@@ -520,6 +537,10 @@ class formKiCost(wx.Frame):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
         webbrowser.open(PAGE_UPDATE)
+    def open_octopart_click(self, event):
+        ''' @brief Open Octopart.com as rule to be powered up by.'''
+        event.Skip()
+        webbrowser.open('https://octopart.com/')
 
     #----------------------------------------------------------------------
     def check_updates_click(self, event):
@@ -782,11 +803,6 @@ class formKiCost(wx.Frame):
     #----------------------------------------------------------------------
     def set_properties(self):
         ''' @brief Set the current proprieties of the graphical elements.'''
-        actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
-
-        # Set the application windows title and configurations.
-        self.SetTitle('KiCost v.' + __version__)
-        self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
 
         # Current distributors module recognized.
         distributors_list = sorted([ distributor_dict[d]['label']['name'] for d in distributor_dict.keys() if distributor_dict[d]['type']!='local'])
@@ -821,8 +837,6 @@ class formKiCost(wx.Frame):
         self.m_comboBox_language.Insert(languages, 0)
 
         # Credits and other informations, search by `AUTHOR.rst` file.
-        self.m_staticText_version.SetLabel('KiCost v. ' + __version__ + ' (Powered by Octopart)')
-        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
         try:
             credits_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.egg-info' + os.sep + 'AUTHOR.rst')
             credits = credits_file.read()
