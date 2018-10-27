@@ -86,21 +86,35 @@ def kicost(in_file, eda_name, out_filename,
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
-    # Add or remove field translations, ignore in case the trying to re-translate default field names.
+    # Add or remove field translations, ignore in case the trying to
+    # re-translate default field names.
     if translate_fields:
         if len(translate_fields)%2 == 1:
             raise Exception('Translation fields argument should have an even number of words.')
         for c in range(0, len(translate_fields), 2):
             #field_name_translations.keys(), field_name_translations.values()
             if translate_fields[c] in field_name_translations.values():
-                logger.warning("Not possible re-translate {} to {}, this is used as internal field names.".format(
+                logger.warning("Not possible re-translate \"{}\" to \"{}\", this is used as internal field names.".format(
                         translate_fields[c].lower(), translate_fields[c+1].lower()
                     ))
-                continues
+                continue
             if translate_fields[c+1]!='~':
                 field_name_translations.update({translate_fields[c].lower():translate_fields[c+1].lower()})
             else:
                 field_name_translations.pop(translate_fields[c].lower(), None)
+
+    # Check the integrity of the user personal fields, this should not
+    # be any of the reserved fields.
+    # This is checked after the translation `dict` is complete, so an
+    # before used name field on the translate dictionary can be used
+    # user field.
+    user_fields = set(user_fields)
+    for f in user_fields:
+        if f.lower() in field_name_translations.values():
+            logger.warning("\"{f}\" field is a reserved field and can not be used user filed. Try to remove it from internal dictionary using `--translate_filed {f} ~`".format(
+                    f=f.lower()
+                )
+            user_fields.remove(x)
 
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list!=None:
