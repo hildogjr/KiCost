@@ -8,6 +8,7 @@ include README.rst
 include kicost/kicost.ico
 include block_diag.png
 include gui.png
+include kicost/logo_octopart.png
 
 
 recursive-include tests *
