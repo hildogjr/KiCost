@@ -867,11 +867,12 @@ Orange -> Too little quantity available.'''
                     wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit$  -  Ext$\n================'
+            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(s=CURRENCY_SYMBOL)
             for q in qtys[1:]:  # Skip the first qty which is always 0.
+                price = price_tiers[q]
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format( q,
-                    numbers.format_currency(price_tiers[q], CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE),
-                    numbers.format_currency(price_tiers[q] * q, CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE))
+                    numbers.format_currency(price, CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE),
+                    numbers.format_currency(price*q, CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE))
             wks.write_comment(row, unit_price_col, price_break_info)
 
             # Conditional format to show no quantity is available.
