@@ -263,7 +263,8 @@ def main():
         user_fields=args.fields, ignore_fields=args.ignore_fields,
         group_fields=args.group_fields, translate_fields=args.translate_fields,
         variant=args.variant,
-        dist_list=dist_list, currency=args.currency)
+        dist_list=dist_list, currency=args.currency,
+        apiKeys=None)
     #except Exception as e:
     #    sys.exit(e)
 

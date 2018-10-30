@@ -151,7 +151,9 @@ class dist_octopart(distributor_class):
         })
 
 
-    def query(query, token='96df69ba'):
+    def query(query, apiKey=None):
+        if not apiKey:
+            apiKey = '96df69ba'
         """Send query to Octopart and return results."""
         #url = 'http://octopart.com/api/v3/parts/match'
         #payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
@@ -159,18 +161,25 @@ class dist_octopart(distributor_class):
         #TODO improve this bellow in the standard above.
         url = 'http://octopart.com/api/v3/parts/match?queries=%s' \
         % json.dumps(query)
-        url += '&apikey=' + token
+        url += '&apikey=' + apiKey
         url += '&include[]=specs'
         url += '&include[]=datasheets'
         response = requests.get(url)
-        results = json.loads(response.text).get('results')
-        return results
+        if response.status_code == requests.codes['ok']:
+            results = json.loads(response.text).get('results')
+            return results
+        elif response.status_code == requests.codes['not_found']: #404
+            raise Exception('Octopart server not found.')
+        elif response.status_code == 403:
+            raise Exception('Octopart KEY invalid, registre one at "https://www.octopart.com".')
+        else:
+            raise Exception('Octopart error.')
 
 
-    def sku_to_mpn(sku):
+    def sku_to_mpn(sku, apiKey):
         """Find manufacturer part number associated with a distributor SKU."""
         part_query = [{'reference': 1, 'sku': sku}]
-        results = dist_octopart.query(part_query)
+        results = dist_octopart.query(part_query, apiKey)
         if not results:
             return None
         result = results[0]
@@ -202,7 +211,7 @@ class dist_octopart(distributor_class):
                 continue
 
             # Convert the SKUs to manf. part numbers.
-            mpns = [dist_octopart.sku_to_mpn(sku) for sku in skus]
+            mpns = [dist_octopart.sku_to_mpn(sku, apiKey) for sku in skus]
             mpns = [mpn for mpn in mpns
                     if mpn not in ('', None)]  # Remove null manf#.
 
@@ -215,7 +224,7 @@ class dist_octopart(distributor_class):
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
 
-    def query_part_info(parts, distributors, currency='USD'):
+    def query_part_info(parts, distributors, currency='USD', apiKey=None):
         """Fill-in the parts with price/qty/etc info from Octopart."""
         logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
@@ -258,7 +267,7 @@ class dist_octopart(distributor_class):
         def get_part_info(query, parts, currency='USD'):
             """Query Octopart for quantity/price info and place it into the parts list."""
 
-            results = dist_octopart.query(query)
+            results = dist_octopart.query(query, apiKey)
 
             # Loop through the response to the query and enter info into the parts list.
             for result in results:

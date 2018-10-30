@@ -65,7 +65,7 @@ def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, translate_fields,
         variant,
         dist_list=list(distributor_dict.keys()),
-        collapse_refs=True, currency='USD'):
+        collapse_refs=True, currency='USD', apiKeys=None):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -84,6 +84,7 @@ def kicost(in_file, eda_name, out_filename,
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
     @param currency `str()` Currency in ISO4217. Default 'USD'.
+    @param API keys and user identification in the distributors.
     '''
 
     # Add or remove field translations, ignore in case the trying to
@@ -216,11 +217,15 @@ def kicost(in_file, eda_name, out_filename,
         pprint.pprint(distributor_dict)
 
     # Get the distributor pricing/qty/etc for each part.
+    apiKeys = {'octopart':'3b22137a'}
     if dist_list:
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
         dist_local_template.query_part_info(parts, distributor_dict, currency)
-        dist_octopart.query_part_info(parts, distributor_dict, currency)
+        if apiKeys and apiKeys.get('octopart'):
+            dist_octopart.query_part_info(parts, distributor_dict, currency, apiKeys.get('octopart'))
+        else:
+            logger.warning("Octopart KEY not informed.")
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,
