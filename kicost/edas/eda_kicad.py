@@ -160,11 +160,15 @@ def get_part_groups(in_file, ignore_fields, variant):
     for c in root.find('components').find_all('comp'):
 
         # Find the library used for this component.
+        print('\n\n',c)
         libsource = c.find('libsource')
-
-        # Create the key to look up the part in the libparts dict.
-        #libpart = str(libsource['lib'] + SEPRTR + libsource['part'])
-        libpart = str(libsource['lib']) + SEPRTR + str(libsource['part'])
+        if libsource:
+            # Create the key to look up the part in the libparts dict.
+            #libpart = str(libsource['lib'] + SEPRTR + libsource['part'])
+            libpart = str(libsource['lib']) + SEPRTR + str(libsource['part'])
+        else:
+            libpart = '???'
+            logger.log(DEBUG_OVERVIEW, 'Fottprint library not assigned to {}'.format(''))#TODO
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
@@ -178,10 +182,10 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # Store the part key and its value.
         fields['libpart'] = libpart
-        fields['value'] = str(c.find('value').string)
 
         # Get the footprint for the part (if any) from the schematic.
         try:
+            fields['value'] = str(c.find('value').string)
             fields['footprint'] = str(c.find('footprint').string)
             fields['datasheet'] = str(c.find('datasheet').string)
         except AttributeError:
