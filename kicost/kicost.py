@@ -217,7 +217,6 @@ def kicost(in_file, eda_name, out_filename,
         pprint.pprint(distributor_dict)
 
     # Get the distributor pricing/qty/etc for each part.
-    apiKeys = {'octopart':'3b22137a'}
     if dist_list:
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
