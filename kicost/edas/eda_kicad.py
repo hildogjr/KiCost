@@ -160,7 +160,6 @@ def get_part_groups(in_file, ignore_fields, variant):
     for c in root.find('components').find_all('comp'):
 
         # Find the library used for this component.
-        print('\n\n',c)
         libsource = c.find('libsource')
         if libsource:
             # Create the key to look up the part in the libparts dict.
