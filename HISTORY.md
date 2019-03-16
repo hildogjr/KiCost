@@ -1,6 +1,11 @@
 History
 =======
 
+1.0.4 (2019-03-??)
+--------------
+- Use KitSpace proxy
+
+
 1.0.4 (2018-10-02)
 --------------
 - Use the datasheet information by Octopart as link in ``manf#`` if not got any by the BOM.
