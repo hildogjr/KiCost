@@ -715,7 +715,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                       'This is the total of your cart across all distributors.')
         wks.write(final_line, start_col + columns['ext_price']['col'],
                   '=SUM({})'.format(','.join(dist_ext_prices)),
-              wrk_formats['total_cost_currency']) #TODO
+              wrk_formats['total_cost_currency'])
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.
