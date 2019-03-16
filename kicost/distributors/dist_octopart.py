@@ -153,16 +153,17 @@ class dist_octopart(distributor_class):
 
 
     def query(query, apiKey=None):
-        if not apiKey:
-            raise Exception('Octopart KEY not present.')
         """Send query to Octopart and return results."""
         #url = 'http://octopart.com/api/v3/parts/match'
         #payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
         #response = requests.get(url, params=payload)
-        #TODO improve this bellow in the standard above.
-        url = 'http://octopart.com/api/v3/parts/match?queries=%s' \
-        % json.dumps(query)
-        url += '&apikey=' + apiKey
+        if apiKey:
+            url = 'http://octopart.com/api/v3/parts/match?queries=%s' \
+            % json.dumps(query)
+            url += '&apikey=' + apiKey
+        else:
+            url = 'https://temp-octopart-proxy.kitspace.org/parts/match?queries=%s' \
+            % json.dumps(query)
         url += '&include[]=specs'
         url += '&include[]=datasheets'
         print(url)

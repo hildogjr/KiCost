@@ -1,8 +1,9 @@
 History
 =======
 
-1.0.5 (2018-03-??)
+1.0.5 (2019-03-??)
 --------------
+- Use KitSpace proxy
 - Show the total purchased at the spreadsheet
 
 

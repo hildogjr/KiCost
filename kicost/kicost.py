@@ -224,7 +224,8 @@ def kicost(in_file, eda_name, out_filename,
         if apiKeys and apiKeys.get('octopart'):
             dist_octopart.query_part_info(parts, distributor_dict, currency, apiKeys.get('octopart'))
         else:
-            logger.warning("Octopart KEY not informed.")
+            logger.warning("KiCost is using kitspace services.")
+            dist_octopart.query_part_info(parts, distributor_dict, currency, None)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,
