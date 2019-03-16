@@ -4,6 +4,7 @@ History
 1.0.5 (2019-03-??)
 --------------
 - Use KitSpace proxy
+- Show the total purchased at the spreadsheet
 
 
 1.0.4 (2018-10-02)
