@@ -61,7 +61,7 @@ EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'vo
 
 
 # About and credit message at the end of the spreadsheet.
-ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__ + ' (Powered by Octopart.com API)'
+ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
@@ -250,6 +250,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
             # Create the cell to show total cost of board parts for each distributor.
             wks.write(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str),
                       wrk_formats['total_cost_label'])
+            wks.write_comment(next_row + 2, next_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
             # Define the named cell where the total cost can be found.
             workbook.define_name('TotalCost{}'.format(i_prj_str),
                             '={wks_name}!{cell_ref}'.format(
@@ -311,8 +312,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
 
         # Add the KiCost package information at the end of the spreadsheet to debug
         # information at the forum and "advertising".
-        wks.write(START_ROW+len(parts)+3, START_COL,
-            ABOUT_MSG, wrk_formats['proj_info'])
+        wks.write(START_ROW+len(parts)+3, START_COL, ABOUT_MSG, wrk_formats['proj_info'])
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
@@ -575,6 +575,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
         dist_qty_avail = []
         dist_qty_purchased = []
         dist_code_avail = []
+        dist_ext_prices = []
         for dist in list(distributor_dict.keys()):
 
             # Get the name of the data range for this distributor.
@@ -597,6 +598,9 @@ Yellow -> Parts available, but haven't purchased enough.''',
             dist_code_avail.append(
                 'ISBLANK(INDIRECT(ADDRESS(ROW(),COLUMN({})+4)))'.format(dist_data_rng))
 
+            # Get the contents of the manufacture and distributors codes.
+            dist_ext_prices.append(
+                'INDIRECT(ADDRESS(ROW(),COLUMN({})+3))'.format(dist_data_rng))
 
         # If part do not have manf# code or distributor codes, color quantity cell gray.
         wks.conditional_format(
@@ -701,6 +705,17 @@ Yellow -> Parts available, but haven't purchased enough.''',
               sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
+
+    # Add the total purchase.
+    if distributor_dict.keys():
+        final_line = row + 1
+        wks.write(final_line, start_col + columns['unit_price']['col'],
+                      'Total Purchase:', wrk_formats['total_cost_label'])
+        wks.write_comment(final_line, start_col + columns['unit_price']['col'],
+                      'This is the total of your cart across all distributors.')
+        wks.write(final_line, start_col + columns['ext_price']['col'],
+                  '=SUM({})'.format(','.join(dist_ext_prices)),
+              wrk_formats['total_cost_currency']) #TODO
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.
@@ -1103,8 +1118,19 @@ Orange -> Too little quantity available.'''
 
     # Write the header and how many parts are being purchased.
     purch_qty_col = start_col + columns['purch']['col']
+    ext_price_col = start_col + columns['ext_price']['col']
     ORDER_HEADER =  PART_INFO_LAST_ROW + 2
-    wks.write_formula(
+    wks.write_formula( # Expended many in this distributor.
+        ORDER_HEADER, ext_price_col,
+        '=SUMIF({count_range},">0",{price_range})'.format(
+            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
+                                 PART_INFO_LAST_ROW, purch_qty_col),
+            price_range=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
+                                 PART_INFO_LAST_ROW, ext_price_col),
+        ),
+        wrk_formats['total_cost_currency']
+    )
+    wks.write_formula( # Quantity of purchased part in this distributor.
         ORDER_HEADER, purch_qty_col,
         '=IFERROR(IF(OR({count_range}),COUNTIF({count_range},">0")&" of "&ROWS({count_range})&" parts purchased",""),"")'.format(
             count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
