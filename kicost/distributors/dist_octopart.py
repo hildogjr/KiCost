@@ -63,12 +63,15 @@ class dist_octopart(distributor_class):
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
                     'delimiter': ',', # Delimiter for online orders.
+                    'not_allowed_char': ',', # Characters not allowed at the BoM for web-site import.
+                    'replace_by_char': ';', # The `delimiter` is not allowed inside description. This caracter is used to replace it.
                 },
                 'label': {
                     'name': 'Arrow',  # Distributor label used in spreadsheet columns.
                     # Formatting for distributor header in worksheet; bold, font and align are
                     # `spreadsheet.py` defined but can by overload heve.
                     'format': {'font_color': 'white', 'bg_color': '#000000'}, # Arrow black.
+                    'link': 'https://www.arrow.com/',
                 },
             },
             'digikey': {
@@ -77,11 +80,12 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['purch', 'part_num', 'refs'],
-                    'delimiter': ',', 
+                    'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
                 },
                 'label': {
                     'name': 'Digi-Key',
                     'format': {'font_color': 'white', 'bg_color': '#CC0000'}, # Digi-Key red.
+                    'link': 'https://www.digikey.com/',
                 },
             },
             'farnell': {
@@ -90,11 +94,12 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ' ', 
+                    'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
                 },
                 'label': {
                     'name': 'Farnell',
                     'format': {'font_color': 'white', 'bg_color': '#FF6600'}, # Farnell/E14 orange.
+                    'link': 'https://www.newark.com/',
                 },
             },
             'mouser': {
@@ -103,11 +108,12 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ' ', 
+                    'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';',
                 },
                 'label': {
                     'name': 'Mouser', 
                     'format': {'font_color': 'white', 'bg_color': '#004A85'}, # Mouser blue.
+                    'link': 'https://www.mouser.com',
                 },
             },
             'newark': {
@@ -116,11 +122,12 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ',', 
+                    'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
                 },
                 'label': {
                     'name': 'Newark',
                     'format': {'font_color': 'white', 'bg_color': '#A2AE06'}, # Newark/E14 olive green.
+                    'link': 'https://www.newark.com/',
                 },
             },
             'rs': {
@@ -129,11 +136,12 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ' ', 
+                    'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
                 },
                 'label': {
                     'name': 'RS Components',
                     'format': {'font_color': 'white', 'bg_color': '#FF0000'}, # RS Components red.
+                    'link': 'https://uk.rs-online.com/',
                 },
             },
             'tme': {
@@ -142,11 +150,12 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ' ', 
+                    'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
                 },
                 'label': {
                     'name': 'TME',
                     'format': {'font_color': 'white', 'bg_color': '#0C4DA1'}, # TME blue
+                    'link': 'https://www.tme.eu',
                 },
             },
         })
