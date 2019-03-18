@@ -779,6 +779,10 @@ Orange -> Too little quantity available.'''
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
             distributor_dict[dist]['label']['name'].title(), wrk_formats[dist])
+    if distributor_dict[dist]['type']!='local':
+        wks.write_url(row, start_col,
+            distributor_dict[dist]['label']['link'], wrk_formats[dist],
+            distributor_dict[dist]['label']['name'].title())
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
