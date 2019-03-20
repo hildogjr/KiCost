@@ -779,10 +779,11 @@ Orange -> Too little quantity available.'''
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
             distributor_dict[dist]['label']['name'].title(), wrk_formats[dist])
-    if distributor_dict[dist]['type']!='local':
-        wks.write_url(row, start_col,
-            distributor_dict[dist]['label']['link'], wrk_formats[dist],
-            distributor_dict[dist]['label']['name'].title())
+    # Put the distributor site hyperlink. NOt used because of LibreOffice presentation.
+    #if distributor_dict[dist]['type']!='local':
+    #    wks.write_url(row, start_col,
+    #        distributor_dict[dist]['label']['link'], wrk_formats[dist],
+    #        distributor_dict[dist]['label']['name'].title())
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -1082,7 +1083,6 @@ Orange -> Too little quantity available.'''
                 ""
             )
         '''
-
         # Strip all the whitespace from the function string.
         order_info_func = re.sub('[\s\n]', '', order_info_func)
 
@@ -1108,8 +1108,7 @@ Orange -> Too little quantity available.'''
             wks.write_array_formula(
                 xl_range(r, order_col, r, order_col),
                 '{{={func}}}'.format(func=order_info_func.format(
-                    order_first_row=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0,
-                                                      row_abs=True),
+                    order_first_row=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0, row_abs=True),
                     sel_range1=xl_range_abs(PART_INFO_FIRST_ROW, purch_qty_col,
                                             PART_INFO_LAST_ROW, purch_qty_col),
                     sel_range2=xl_range_abs(PART_INFO_FIRST_ROW, part_num_col,
