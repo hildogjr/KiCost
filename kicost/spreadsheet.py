@@ -779,7 +779,6 @@ Orange -> Too little quantity available.'''
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
             distributor_dict[dist]['label']['name'].title(), wrk_formats[dist])
-    # Put the distributor site hyperlink. NOt used because of LibreOffice presentation.
     #if distributor_dict[dist]['type']!='local':
     #    wks.write_url(row, start_col,
     #        distributor_dict[dist]['label']['link'], wrk_formats[dist],
@@ -1083,6 +1082,7 @@ Orange -> Too little quantity available.'''
                 ""
             )
         '''
+
         # Strip all the whitespace from the function string.
         order_info_func = re.sub('[\s\n]', '', order_info_func)
 
@@ -1108,7 +1108,8 @@ Orange -> Too little quantity available.'''
             wks.write_array_formula(
                 xl_range(r, order_col, r, order_col),
                 '{{={func}}}'.format(func=order_info_func.format(
-                    order_first_row=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0, row_abs=True),
+                    order_first_row=xl_rowcol_to_cell(ORDER_FIRST_ROW, 0,
+                                                      row_abs=True),
                     sel_range1=xl_range_abs(PART_INFO_FIRST_ROW, purch_qty_col,
                                             PART_INFO_LAST_ROW, purch_qty_col),
                     sel_range2=xl_range_abs(PART_INFO_FIRST_ROW, part_num_col,
@@ -1135,9 +1136,11 @@ Orange -> Too little quantity available.'''
     )
     wks.write_formula( # Quantity of purchased part in this distributor.
         ORDER_HEADER, purch_qty_col,
-        '=IFERROR(IF(OR({count_range}),COUNTIF({count_range},">0")&" of "&ROWS({count_range})&" parts purchased",""),"")'.format(
+        '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.format(
             count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
-                                 PART_INFO_LAST_ROW, purch_qty_col)
+                                 PART_INFO_LAST_ROW, purch_qty_col),
+            count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
+                                 PART_INFO_LAST_ROW, ext_price_col)
         ),
         wrk_formats['found_part_pct']
     )
