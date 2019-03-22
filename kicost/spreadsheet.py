@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
+# Copyright (C) 2019 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -175,6 +175,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
             'not_manf_codes': workbook.add_format({'bg_color': '#AAAAAA'}),
             'not_available': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
             'order_too_much': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
+            'order_min_qty': workbook.add_format({'bg_color': '#FFFF00'}),
             'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
             'too_few_purchased': workbook.add_format({'bg_color': '#FFFF00'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'}),
@@ -748,14 +749,14 @@ Orange -> Too little quantity available.'''
             'level': 2,
             'label': 'Purch',
             'width': None,
-            'comment': 'Purchase quantity of each part from this distributor.\nRed -> Purchasing more than the available quantity.'
+            'comment': 'Purchase quantity of each part from this distributor.\nYellow -> This part have a minimum purchase quantity bigger than 1 (check the price breaks).\nRed -> Purchasing more than the available quantity.'
         },
         'unit_price': {
             'col': 2,
             'level': 2,
             'label': 'Unit$',
             'width': None,
-            'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price.'
+            'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price across distributors.'
         },
         'ext_price': {
             'col': 3,
@@ -889,6 +890,7 @@ Orange -> Too little quantity available.'''
                     wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
+            minimum_order_qty = qtys[1] # Before get the minimum order quantity to validate the user cart.
             price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(s=CURRENCY_SYMBOL)
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price = price_tiers[q]
@@ -921,6 +923,20 @@ Orange -> Too little quantity available.'''
                 }
             )
 
+            # Conditional format to show that the part have a minimum order quantity not respected.
+            if minimum_order_qty<1:
+                wks.conditional_format(
+                    row, start_col + columns['purch']['col'], 
+                    row, start_col + columns['purch']['col'],
+                    {
+                        'type': 'formula',
+                        'criteria': '=AND({q}>0,{q}<{moq})'.format(
+                            q=xl_rowcol_to_cell(row, start_col + columns['purch']['col']),
+                            moq=minimum_order_qty
+                        ),
+                        'format': wrk_formats['order_min_qty']
+                    }
+                )
             # Conditional format to show the purchase quantity is more than what is available.
             wks.conditional_format(
                 row, start_col + columns['purch']['col'], 
