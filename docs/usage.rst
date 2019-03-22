@@ -331,6 +331,11 @@ provides additional cues:
    * Red if the part is unavailable.
    * Orange if there is not sufficient quantity of the part available.
 
+#. The ``Purch`` cell is colored to check the user purchase cart validity:
+
+   * Red if try to purchase more than avaliable part
+   * Yellow if try to purchase less than the minimum order quantity
+
 #. The ``Unit$`` and ``Ext$`` in each distributor cell is colored green
    to indicate the lowest price found across all the distributors.
 
