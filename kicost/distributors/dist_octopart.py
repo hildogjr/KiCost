@@ -108,7 +108,7 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';',
+                    'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
                 },
                 'label': {
                     'name': 'Mouser', 
@@ -175,7 +175,6 @@ class dist_octopart(distributor_class):
             % json.dumps(query)
         url += '&include[]=specs'
         url += '&include[]=datasheets'
-        print(url)
         response = requests.get(url)
         if response.status_code == requests.codes['ok']:
             results = json.loads(response.text).get('results')
