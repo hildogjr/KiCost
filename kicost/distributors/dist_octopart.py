@@ -108,7 +108,7 @@ class dist_octopart(distributor_class):
                 'type': 'api',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';',
+                    'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
                 },
                 'label': {
                     'name': 'Mouser', 
