@@ -38,7 +38,7 @@ from babel import numbers # For currency presentation.
 
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
-from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
+from .distributors import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 from currency_converter import CurrencyConverter

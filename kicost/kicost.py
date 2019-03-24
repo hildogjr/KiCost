@@ -50,7 +50,7 @@ from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
 # Import information about various distributors.
 from .distributors.distributor import *
-from .distributors.global_vars import distributor_dict
+from .distributors import distributor_dict
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import *
 

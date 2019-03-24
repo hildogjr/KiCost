@@ -24,10 +24,11 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
+distributor_dict = {}
 from .dist_octopart import *
 from .dist_local_template import *
 
-from .global_vars import distributor_dict
+#from .global_vars import distributor_dict
 
 def init_distributor_dict():
     # Clear distributor_dict, then let all distributor modules recreate their entries.

@@ -52,7 +52,7 @@ import requests
 from . import __version__ # Version control by @xesscorp and collaborator.
 from .kicost import *  # kicost core functions.
 from .distributors import init_distributor_dict
-from .distributors.global_vars import distributor_dict
+from .distributors import distributor_dict
 from .edas import eda_dict
 from .edas.tools import file_eda_match
 

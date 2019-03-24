@@ -30,7 +30,7 @@ from ..global_vars import SEPRTR
 
 # Distributors definitions.
 from .distributor import distributor_class
-from .global_vars import distributor_dict
+from . import distributor_dict
 
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert

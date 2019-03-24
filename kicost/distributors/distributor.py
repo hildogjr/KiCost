@@ -35,7 +35,7 @@ import logging
 
 from ..edas.tools import order_refs # To better print the warnings about the parts.
 
-from .global_vars import distributor_dict
+from . import distributor_dict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from ..global_vars import SEPRTR
 
