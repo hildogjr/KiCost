@@ -26,7 +26,7 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import * # Debug, language and default configurations.
+from .global_vars import * # Debug, language and default configurations, `distributor_dict` and `SEPRTR`.
 
 # Python libraries.
 import os
@@ -38,7 +38,6 @@ from babel import numbers # For currency presentation.
 
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
-from .distributors import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 from currency_converter import CurrencyConverter

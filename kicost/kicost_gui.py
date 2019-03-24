@@ -26,7 +26,7 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import * # Debug, language and default configurations.
+from .global_vars import * # Debug, language and default configurations, `distributor_dict` and `SEPRTR`.
 
 # Libraries.
 try:
@@ -51,8 +51,7 @@ import requests
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
 from .kicost import *  # kicost core functions.
-from .distributors import init_distributor_dict
-from .distributors import distributor_dict
+from .vendors import init_distributor_dict
 from .edas import eda_dict
 from .edas.tools import file_eda_match
 

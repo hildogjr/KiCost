@@ -24,6 +24,8 @@
 
 import logging
 
+distributor_dict = {} # Variable to keep all distributors informations.
+
 # The root logger of the application. This has to be the root logger to catch
 # output from libraries (e.g. requests) as well.
 logger = logging.getLogger('')

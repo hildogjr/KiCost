@@ -40,8 +40,8 @@ __all__ = ['kicost','output_filename']  # Only export this routine for use by th
 from .global_vars import *
 
 # TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
-from .distributors.dist_octopart import dist_octopart
-from .distributors.dist_local_template import dist_local_template
+from .dist_octopart import dist_octopart
+from .dist_local_template import dist_local_template
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.
@@ -49,8 +49,7 @@ from .edas.tools import field_name_translations
 from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
 # Import information about various distributors.
-from .distributors.distributor import *
-from .distributors import distributor_dict
+from .distributor import *
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import *
 

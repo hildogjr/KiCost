@@ -35,9 +35,7 @@ from datetime import datetime
 from bs4 import BeautifulSoup # To Read XML files.
 import re # Regular expression parser.
 import logging
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..global_vars import SEPRTR
-from ..distributors import distributor_dict
+from ..global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
 from .tools import field_name_translations, remove_dnp_parts
 from .tools import PART_REF_REGEX_NOT_ALLOWED
 

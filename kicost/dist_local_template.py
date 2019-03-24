@@ -25,12 +25,10 @@ import copy, re
 import logging
 
 # KiCost definitions.
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE  # Debug configurations.
-from ..global_vars import SEPRTR
+from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
 
 # Distributors definitions.
 from .distributor import distributor_class
-from . import distributor_dict
 
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
