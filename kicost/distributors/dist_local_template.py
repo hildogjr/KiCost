@@ -20,11 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Python2/3 compatibility.
-#from __future__ import unicode_literals, print_function, division, absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
 # Libraries.
 import copy, re
 import logging

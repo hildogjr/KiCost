@@ -20,12 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Inserted by Pasteurize tool.
-from __future__ import print_function, unicode_literals, division, absolute_import
-from builtins import open
-from future import standard_library
-standard_library.install_aliases()
-
 from .global_vars import * # Debug, language and default configurations.
 
 #Libraries.

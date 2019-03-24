@@ -23,26 +23,3 @@
 
 # The global dictionary of distributor information starts out empty.
 distributor_dict = {}
-
-# Extra informations to by got by each part in the distributors.
-EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
-              'size', 'op temp', 'orientation', 'color',
-              'datasheet', 'image', # Links.
-             ]
-extra_info_dist_name_translations = {
-    #TODO it will need to put here language translation after implementation of ISSUE #65?
-    'resistance': 'value',
-    'inductance': 'value',
-    'capacitance': 'value',
-    'manufacturer': 'manf',
-    'package': 'footprint',
-    'package / case': 'footprint',
-    'datasheets': 'datasheet',
-    'dimension': 'size',
-    'size / dimension': 'size',
-    'operating temperature': 'op temp',
-    'voltage - rated': 'voltage',
-    'Mating Orientation': 'orientation',
-    'coulor': 'color',
-    'wire gauge': 'wire',
-}

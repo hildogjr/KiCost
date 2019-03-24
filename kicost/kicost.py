@@ -20,16 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Inserted by Pasteurize tool.
-from __future__ import print_function, unicode_literals, division, absolute_import
-from builtins import zip, range, int, str
-from future import standard_library
-standard_library.install_aliases()
-import future
-
+# Libraries.
 import sys, os
-import copy
-import re
+import copy, re
 import pprint
 import tqdm
 from time import time
