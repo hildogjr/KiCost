@@ -3,7 +3,8 @@ History
 
 1.0.5 (2019-03-??)
 --------------
-- Use KitSpace proxy
+- Improved the spreadsheet purchase distributors code formula
+- Use KitSpace proxy  if not given Octopart Key
 - Show the total purchased at the spreadsheet
 
 
