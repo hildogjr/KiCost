@@ -1054,10 +1054,13 @@ Orange -> Too little quantity available.'''
     wks.write_comment(ORDER_HEADER, purch_qty_col,
         'Copy the information below to the BOM import page of the distributor web site.')
 
-    cols = distributor_dict[dist]['order']['cols']
+    try:
+        cols = distributor_dict[dist]['order']['cols']
+    except:
+        cols = ""
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
         logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not sbe genereated.".format(
-                            d=distributor_dict[dist]['name']
+                            d=distributor_dict[dist]['label']['name']
                         ))
     else:
         # This script enters a function into a spreadsheet cell that
@@ -1112,16 +1115,17 @@ Orange -> Too little quantity available.'''
                 # All comment and description columns (that are not quantity and
                 # catalogue code) should respect the allowed characters.
                 order_info_func_parcial = order_info_func_model
-                for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):
-                    not_allowed_char = distributor_dict[dist]['order']['not_allowed_char'][c]
-                    if len(distributor_dict[dist]['order']['replace_by_char'])>1:
-                        replace_by_char = distributor_dict[dist]['order']['replace_by_char'][c]
-                    else:
-                        replace_by_char = distributor_dict[dist]['order']['replace_by_char'][0]
-                    order_info_func_parcial = 'SUBSTITUTE({t},"{o}","{n}")'.format(
-                            t=order_info_func_parcial,
-                            o=not_allowed_char,
-                            n=replace_by_char)
+                if 'not_allowed_char' in distributor_dict[dist]['order'] and 'replace_by_char' in distributor_dict[dist]['order']:
+                    for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):
+                        not_allowed_char = distributor_dict[dist]['order']['not_allowed_char'][c]
+                        if len(distributor_dict[dist]['order']['replace_by_char'])>1:
+                            replace_by_char = distributor_dict[dist]['order']['replace_by_char'][c]
+                        else:
+                            replace_by_char = distributor_dict[dist]['order']['replace_by_char'][0]
+                        order_info_func_parcial = 'SUBSTITUTE({t},"{o}","{n}")'.format(
+                                t=order_info_func_parcial,
+                                o=not_allowed_char,
+                                n=replace_by_char)
                 order_part_info.append(order_info_func_parcial)
             else:
                 order_part_info.append(order_info_func_model)
@@ -1135,7 +1139,7 @@ Orange -> Too little quantity available.'''
                 info_range = ""
                 logger.warning("Not valid field `{f}` for purchase list at {d}.".format(
                             f=col,
-                            d=distributor_dict[dist]['name']
+                            d=distributor_dict[dist]['label']['name']
                         ))
             info_range =xl_range(PART_INFO_FIRST_ROW, info_range,
                                  PART_INFO_LAST_ROW, info_range)
@@ -1157,7 +1161,7 @@ Orange -> Too little quantity available.'''
             purchase_code = ""
             logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(
                         f=col,
-                        d=distributor_dict[dist]['name']
+                        d=distributor_dict[dist]['label']['name']
                     ))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code,
                                  PART_INFO_LAST_ROW, purchase_code)
