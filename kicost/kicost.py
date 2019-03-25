@@ -42,6 +42,8 @@ from .global_vars import *
 # TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
 from .dist_octopart import dist_octopart
 from .dist_local_template import dist_local_template
+from .vendors import init_distributor_dict
+init_distributor_dict()
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.

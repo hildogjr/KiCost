@@ -22,10 +22,10 @@
 
 from .global_vars import distributor_dict
 
+__all__ = ['init_distributor_dict']
 
 def init_distributor_dict():
     # Clear distributor_dict, then let all distributor modules recreate their entries.
-    distributor_dict = {}
     distributor_dict.update({
         'arrow': {
             'octopart_name': 'Arrow Electronics, Inc.',
