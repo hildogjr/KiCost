@@ -27,6 +27,17 @@ __all__ = ['init_distributor_dict']
 def init_distributor_dict():
     # Clear distributor_dict, then let all distributor modules recreate their entries.
     distributor_dict.update({
+        'local_template': {
+            'octopart_name': '',
+            'module': 'local', # The directory name containing this file.
+            'type': 'local', # Allowable values: 'api', 'scrape' or 'local'.
+            'label': {
+                'name': 'Local',  # Distributor label used in spreadsheet columns.
+                # Formatting for distributor header in worksheet; bold, font and align are
+                # `spreadsheet.py` defined but can by overload heve.
+                'format': { 'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
+            },
+        },
         'arrow': {
             'octopart_name': 'Arrow Electronics, Inc.',
             'module': 'arrow',   # The directory name containing this file.
