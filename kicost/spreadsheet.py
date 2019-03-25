@@ -1051,8 +1051,6 @@ Orange -> Too little quantity available.'''
         ),
         wrk_formats['found_part_pct']
     )
-    wks.write_comment(ORDER_HEADER, purch_qty_col,
-        'Copy the information below to the BOM import page of the distributor web site.')
 
     try:
         cols = distributor_dict[dist]['order']['cols']
@@ -1063,6 +1061,8 @@ Orange -> Too little quantity available.'''
                             d=distributor_dict[dist]['label']['name']
                         ))
     else:
+        wks.write_comment(ORDER_HEADER, purch_qty_col,
+            'Copy the information below to the BOM import page of the distributor web site.') # User instruction.
         # This script enters a function into a spreadsheet cell that
         # prints the information found in info_col into the order_col column
         # of the order.
