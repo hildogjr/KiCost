@@ -70,6 +70,7 @@ PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last official version.
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
 PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
+PAGE_THIRTH_PART_SUPPORT = 'https://kitspace.org/'
 
 actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
 
@@ -469,8 +470,8 @@ class formKiCost(wx.Frame):
         bSizer111.Add(self.m_staticText_octopart, 1, wx.ALL, 5)
 
         self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)#wx.DefaultSize, 0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'logo_octopart.png', wx.BITMAP_TYPE_PNG))
-        self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_octopart_click)
+        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kitspace.png', type=wx.BITMAP_TYPE_PNG, desiredWidth=200, desiredHeight=200))
+        self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_thirth_part_support_click)
         bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_button_check_updates = wx.Button(self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -543,10 +544,10 @@ class formKiCost(wx.Frame):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
         webbrowser.open(PAGE_UPDATE)
-    def open_octopart_click(self, event):
+    def open_thirth_part_support_click(self, event):
         ''' @brief Open Octopart.com as rule to be powered up by.'''
         event.Skip()
-        webbrowser.open('https://octopart.com/')
+        webbrowser.open(PAGE_THIRTH_PART_SUPPORT)
 
     #----------------------------------------------------------------------
     def check_updates_click(self, event):
