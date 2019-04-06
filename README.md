@@ -12,7 +12,7 @@ with a graphical user interface in addition to command line.
 -   Documentation: <https://xesscorp.github.io/KiCost>.
 -   Quick start: <https://www.youtube.com/watch?v=AeccxROpDfY>.
 
-Powered by [![image](logo_octopart.png)](https://octopart.com)
+Powered by [![image](kitspace.png)](https://kitspace.org/)
 
 Features
 --------
