@@ -41,8 +41,7 @@ from .global_vars import *
 
 # TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
 from .partinfo_kitspace import partinfo_kitspace
-from .dist_local_template import dist_local_template
-init_distributor_dict()
+from .dist_local_template import dist_local_templates
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.
@@ -213,7 +212,7 @@ def kicost(in_file, eda_name, out_filename,
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
         dist_local_template.query_part_info(parts, distributor_dict, currency)
-        partinfo_kitscape.query_part_info(parts, distributor_dict, currency)
+        partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,

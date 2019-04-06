@@ -62,10 +62,11 @@ QUERY_ANSWER = '''
 '''
 QUERY_ANSWER = re.sub('[\s\n]', '', QUERY_ANSWER)
 
-#QUERY_PART = 'query ($input: MpnInput!) { part(mpn: $input) { {ANS} } }'.format(ANS=QUERY_ANSWER)
-#QUERY_MATCH = 'query ($input: [MpnOrSku]!){ match(parts: $input) { {ANS} } }'.format(ANS=QUERY_ANSWER)
-#QUERY_SEARCH = 'query ($input: String!){ search(term: $input) { {ANS} } }'.format(ANS=QUERY_ANSWER)
+QUERY_PART = 'query ($input: MpnInput!) { part(mpn: $input) {' + QUERY_ANSWER + '} }'
+QUERY_MATCH = 'query ($input: [MpnOrSku]!){ match(parts: $input) {' + QUERY_ANSWER + '} }'
+QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER + '} }'
 QUERY_URL = "https://dev-partinfo.kitspace.org/graphql"
+
 
 __all__ = ['partinfo_kitspace']
 
@@ -180,22 +181,10 @@ class partinfo_kitspace(distributor_class):
         })
 
 
-    def query(query, apiKey=None):
-        """Send query to Octopart and return results."""
-        #url = 'http://octopart.com/api/v3/parts/match'
-        #payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
-        #response = requests.get(url, params=payload)
-        if apiKey:
-            url = 'http://octopart.com/api/v3/parts/match?queries=%s' \
-            % json.dumps(query)
-            url += '&apikey=' + apiKey
-        else:
-            url = 'https://temp-octopart-proxy.kitspace.org/parts/match?queries=%s' \
-            % json.dumps(query)
-        url += '&include[]=specs'
-        url += '&include[]=datasheets'
-        print(url)
-        response = requests.get(url)
+    def query(query):
+        '''Send query to Octopart and return results.'''
+        #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
+        response = requests.post(QUERY_URL, {"query": QUERY_MATCH, "variables": variables})
         if response.status_code == requests.codes['ok']:
             results = json.loads(response.text).get('results')
             return results
@@ -253,9 +242,9 @@ class partinfo_kitspace(distributor_class):
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
 
-    def query_part_info(parts, distributors, currency='USD', apiKey=None):
-        """Fill-in the parts with price/qty/etc info from Octopart."""
-        logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
+    def query_part_info(parts, distributors, currency='USD'):
+        '''Fill-in the parts with price/qty/etc info from KitSpace.'''
+        logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
 
         # Setup progress bar to track progress of Octopart queries.
         progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
@@ -263,10 +252,8 @@ class partinfo_kitspace(distributor_class):
         # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         class TqdmLoggingHandler(logging.Handler):
             '''Overload the class to write the logging through the `tqdm`.'''
-
             def __init__(self, level=logging.NOTSET):
                 super(self.__class__, self).__init__(level)
-
             def emit(self, record):
                 try:
                     msg = self.format(record)
@@ -277,12 +264,10 @@ class partinfo_kitspace(distributor_class):
                 except:
                     self.handleError(record)
                 pass
-
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
         logDefaultHandler = logger.handlers[0]
         logTqdmHandler = TqdmLoggingHandler()
-
         # Replace default handler with "tqdm" handler.
         logger.addHandler(logTqdmHandler)
         logger.removeHandler(logDefaultHandler)

@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Stuff that everybody else needs to know about."""
+'''Stuff that everybody else needs to know about.'''
 
 import logging
 
