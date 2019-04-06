@@ -51,7 +51,7 @@ import requests
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
 from .kicost import *  # kicost core functions.
-from .vendors import init_distributor_dict
+from .distributors import init_distributor_dic
 from .edas import eda_dict
 from .edas.tools import file_eda_match
 
@@ -411,13 +411,6 @@ class formKiCost(wx.Frame):
         self.m_comboBox_language.SetToolTip(wx.ToolTip(u"Setup the guide language (needs restart)."))
         bSizer11.Add(self.m_comboBox_language, 0, wx.ALL, 5)
 
-        m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Octopart KEY:", wx.DefaultPosition, wx.DefaultSize, 0)
-        m_staticText.Wrap(-1)
-        bSizer11.Add(m_staticText, 0, wx.ALL, 5)
-        self.m_textCtrl_octopartKEY = wx.TextCtrl(self.m_panel2, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_textCtrl_octopartKEY.SetToolTip(wx.ToolTip(u"Put here your registred Octopart KEY."))
-        bSizer11.Add(self.m_textCtrl_octopartKEY, 0, wx.ALL, 5)
-
         wSizer2.Add(bSizer11, 1, wx.TOP|wx.RIGHT, 5)
 
         bSizer8.Add(wSizer2, 1, wx.ALL|wx.EXPAND|wx.ALIGN_CENTER_HORIZONTAL, 5)
@@ -770,7 +763,6 @@ class formKiCost(wx.Frame):
         # Run KiCost main function and print in the log the elapsed time.
         start_time = time.time()
         try:
-            keys = {'octopart': self.m_textCtrl_octopartKEY.GetValue()}
             #print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
             #    '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
             kicost(in_file=args.input, eda_name=args.eda_name,
@@ -778,7 +770,7 @@ class formKiCost(wx.Frame):
                 user_fields=args.fields, ignore_fields=args.ignore_fields,
                 group_fields=args.group_fields, translate_fields=args.translate_fields,
                 variant=args.variant,
-                dist_list=args.include, currency=args.currency, apiKeys=keys)
+                dist_list=args.include, currency=args.currency)
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, e)
             self.m_button_run.Enable()

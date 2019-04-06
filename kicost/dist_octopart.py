@@ -173,6 +173,7 @@ class dist_octopart(distributor_class):
             % json.dumps(query)
         url += '&include[]=specs'
         url += '&include[]=datasheets'
+        print(url)
         response = requests.get(url)
         if response.status_code == requests.codes['ok']:
             results = json.loads(response.text).get('results')

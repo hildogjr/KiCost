@@ -40,9 +40,8 @@ __all__ = ['kicost','output_filename']  # Only export this routine for use by th
 from .global_vars import *
 
 # TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
-from .dist_octopart import dist_octopart
+from .partinfo_kitspace import partinfo_kitspace
 from .dist_local_template import dist_local_template
-from .vendors import init_distributor_dict
 init_distributor_dict()
 
 ## Import the KiCost libraries functions.
@@ -59,7 +58,7 @@ def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, translate_fields,
         variant,
         dist_list=list(distributor_dict.keys()),
-        collapse_refs=True, currency='USD', apiKeys=None):
+        collapse_refs=True, currency='USD'):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -78,7 +77,6 @@ def kicost(in_file, eda_name, out_filename,
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
     @param currency `str()` Currency in ISO4217. Default 'USD'.
-    @param API keys and user identification in the distributors.
     '''
 
     # Add or remove field translations, ignore in case the trying to
@@ -215,11 +213,7 @@ def kicost(in_file, eda_name, out_filename,
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
         dist_local_template.query_part_info(parts, distributor_dict, currency)
-        if apiKeys and apiKeys.get('octopart'):
-            dist_octopart.query_part_info(parts, distributor_dict, currency, apiKeys.get('octopart'))
-        else:
-            logger.warning("KiCost is using kitspace services.")
-            dist_octopart.query_part_info(parts, distributor_dict, currency, None)
+        partinfo_kitscape.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,
