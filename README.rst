@@ -17,8 +17,8 @@ in addition to command line.
 * Quick start: https://www.youtube.com/watch?v=AeccxROpDfY.
 
 Powered by
-.. image:: logo_octopart.png
-        :target: https://octopart.com
+.. image:: kitspace.png
+        :target: https://kitspace.org/
 
 Features
 --------
