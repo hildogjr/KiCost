@@ -1113,16 +1113,17 @@ Orange -> Too little quantity available.'''
                 # All comment and description columns (that are not quantity and
                 # catalogue code) should respect the allowed characters.
                 order_info_func_parcial = order_info_func_model
-                for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):
-                    not_allowed_char = distributor_dict[dist]['order']['not_allowed_char'][c]
-                    if len(distributor_dict[dist]['order']['replace_by_char'])>1:
-                        replace_by_char = distributor_dict[dist]['order']['replace_by_char'][c]
-                    else:
-                        replace_by_char = distributor_dict[dist]['order']['replace_by_char'][0]
-                    order_info_func_parcial = 'SUBSTITUTE({t},"{o}","{n}")'.format(
-                            t=order_info_func_parcial,
-                            o=not_allowed_char,
-                            n=replace_by_char)
+                if 'not_allowed_char' in distributor_dict[dist]['order'] and 'replace_by_char' in distributor_dict[dist]['order']:
+                    for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):
+                        not_allowed_char = distributor_dict[dist]['order']['not_allowed_char'][c]
+                        if len(distributor_dict[dist]['order']['replace_by_char'])>1:
+                            replace_by_char = distributor_dict[dist]['order']['replace_by_char'][c]
+                        else:
+                            replace_by_char = distributor_dict[dist]['order']['replace_by_char'][0]
+                        order_info_func_parcial = 'SUBSTITUTE({t},"{o}","{n}")'.format(
+                                t=order_info_func_parcial,
+                                o=not_allowed_char,
+                                n=replace_by_char)
                 order_part_info.append(order_info_func_parcial)
             else:
                 order_part_info.append(order_info_func_model)
