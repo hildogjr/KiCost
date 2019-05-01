@@ -134,10 +134,8 @@ class dist_local_template(distributor_class):
 
                 price_tiers = {}
                 try:
-                    local_currency = re.findall('\w{3}', pricing)
-                    pricing = re.sub(
-                        '[^0-9.;:]', '',
-                        pricing)  # Keep only digits, decimals, delimiters.
+                    local_currency = re.findall('[a-zA-Z]{3}', pricing)
+                    pricing = re.sub('[^0-9.;:]', '', pricing)  # Keep only digits, decimals, delimiters.
                     for qty_price in pricing.split(';'):
                         qty, price = qty_price.split(SEPRTR)
                         if local_currency and local_currency[0]!=currency.upper():
