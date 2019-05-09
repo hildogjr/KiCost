@@ -69,7 +69,7 @@ QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER 
 QUERY_URL = "https://dev-partinfo.kitspace.org/graphql"
 
 
-__all__ = ['partinfo_kitspace']
+__all__ = ['api_partinfo_kitspace']
 
 
 class api_partinfo_kitspace(distributor_class):

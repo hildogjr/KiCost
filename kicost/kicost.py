@@ -175,7 +175,8 @@ def kicost(in_file, eda_name, out_filename,
         for f in fields:
             # Merge all extra fields that read on the files that will
             # not be displayed (Needed to check `user_fields`).
-            if f not in FIELDS_IGNORE and SEPRTR not in f and not f in group_fields: # Not include repetitive filed names or fields with the separator `:` defined on `SEPRTR`.
+            if f not in FIELDS_IGNORE and SEPRTR not in f and not f in group_fields:
+                # Not include repetitive filed names or fields with the separator `:` defined on `SEPRTR`.
                 group_fields += [f]
 
     # Some fields to be merged on specific EDA are enrolled bellow.
