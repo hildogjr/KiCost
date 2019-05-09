@@ -195,10 +195,10 @@ class api_partinfo_kitspace(distributor_class):
             raise Exception('Kitspace error: ' + str(response.status_code))
 
 
-    def sku_to_mpn(sku, apiKey):
+    def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
         part_query = [{'reference': 1, 'sku': urlquote(sku)}]
-        results = dist_octopart.query(part_query, apiKey)
+        results = api_partinfo_kitspace.query(part_query,)
         if not results:
             return None
         result = results[0]
@@ -230,7 +230,7 @@ class api_partinfo_kitspace(distributor_class):
                 continue
 
             # Convert the SKUs to manf. part numbers.
-            mpns = [dist_octopart.sku_to_mpn(sku, apiKey) for sku in skus]
+            mpns = [api_partinfo_kitspace.sku_to_mpn(sku) for sku in skus]
             mpns = [mpn for mpn in mpns
                     if mpn not in ('', None)]  # Remove null manf#.
 
@@ -282,7 +282,7 @@ class api_partinfo_kitspace(distributor_class):
         def get_part_info(query, parts, currency='USD'):
             """Query Octopart for quantity/price info and place it into the parts list."""
 
-            results = dist_octopart.query(query, apiKey)
+            results = api_partinfo_kitspace.query(query)
 
             # Loop through the response to the query and enter info into the parts list.
             for result in results:
@@ -405,7 +405,7 @@ class api_partinfo_kitspace(distributor_class):
             octopart_query.append(part_query)
 
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
-            if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
+            if len(octopart_query) == MAX_PARTS_BY_QUERY:
                 get_part_info(octopart_query, parts)
                 progress.update(i - prev_i) # Update progress bar.
                 prev_i = i;

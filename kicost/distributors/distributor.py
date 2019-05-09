@@ -35,11 +35,13 @@ import logging
 
 from ..edas.tools import order_refs # To better print the warnings about the parts.
 
-from .global_vars import distributor_dict
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
-from ..global_vars import SEPRTR
+from .global_vars import *
 
 from currency_converter import CurrencyConverter
+
+
+__all__ = ['distributor_class']
+
 
 class distributor_class(object):
     start_time = time.time()
@@ -55,23 +57,12 @@ class distributor_class(object):
         # Kept this for future use.
 
 
-    def get_dist_parts_info(self, parts, distributors, currency_dst='USD'):
+    def get_dist_parts_info(self, parts, distributors, currency='USD'):
         ''' Get the parts info using the modules API/Scrape/Local.'''
-
-        currency_dst = currency_dst.upper()
-        def currency_converter_fun(value, currency):
-            currency = ''.join(currency).upper()
-            if currency and currency!=self.currency_output:
-                try:
-                    value = currency_convert(price, currency, currency)
-                except:
-                    pass
-            return value
-        #self.currency_converter = currency_converter_fun
-
-        # Fill-in info for any locally-sourced parts not handled by Octopart.
-        dist_local.dist_get_part_info(parts, distributors, currency)
-        dist_octopart.query_part_info(parts, distributors, currency)
+        for d in distributors_modules:
+            globals()[d].query_part_info(parts, distributors, currency)
+            #dist_local_template.query_part_info(parts, distributors, currency)
+           #api_partinfo_kitspace.query_part_info(parts, distributors, currency)
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod

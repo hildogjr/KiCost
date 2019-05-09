@@ -49,7 +49,7 @@ currency_convert = CurrencyConverter().convert
 
 OCTOPART_MAX_PARTBYQUERY = 20 # Maximum part list length to one single query.
 
-__all__ = ['dist_octopart']
+__all__ = ['api_octopart']
 
 class api_octopart(distributor_class):
 
@@ -190,7 +190,7 @@ class api_octopart(distributor_class):
     def sku_to_mpn(sku, apiKey):
         """Find manufacturer part number associated with a distributor SKU."""
         part_query = [{'reference': 1, 'sku': urlquote(sku)}]
-        results = dist_octopart.query(part_query, apiKey)
+        results = api_octopart.query(part_query, apiKey)
         if not results:
             return None
         result = results[0]
@@ -222,7 +222,7 @@ class api_octopart(distributor_class):
                 continue
 
             # Convert the SKUs to manf. part numbers.
-            mpns = [dist_octopart.sku_to_mpn(sku, apiKey) for sku in skus]
+            mpns = [api_octopart.sku_to_mpn(sku, apiKey) for sku in skus]
             mpns = [mpn for mpn in mpns
                     if mpn not in ('', None)]  # Remove null manf#.
 
@@ -278,7 +278,7 @@ class api_octopart(distributor_class):
         def get_part_info(query, parts, currency='USD'):
             """Query Octopart for quantity/price info and place it into the parts list."""
 
-            results = dist_octopart.query(query, apiKey)
+            results = api_octopart.query(query, apiKey)
 
             # Loop through the response to the query and enter info into the parts list.
             for result in results:

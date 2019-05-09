@@ -46,6 +46,7 @@ from .global_vars import *
 #from .distributors.api_octopart import api_octopart
 from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
 from .distributors.dist_local_template import dist_local_template
+from .distributors.distributor import distributor_class
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.
@@ -217,8 +218,8 @@ def kicost(in_file, eda_name, out_filename,
     if dist_list:
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
-        dist_local_template.query_part_info(parts, distributor_dict, currency)
-        partinfo_kitspace.query_part_info(parts, distributor_dict, currency, None)
+        #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
+        api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,

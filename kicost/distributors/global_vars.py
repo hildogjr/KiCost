@@ -21,8 +21,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Heritage of the above global vars.
+from ..global_vars import * # Debug information and `SEPRTR`.
+#from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+#from ..global_vars import SEPRTR
+
+
 # The global dictionary of distributor information starts out empty.
 distributor_dict = {}
+distributors_modules = {}
 
 # Extra informations to by got by each part in the distributors.
 EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
