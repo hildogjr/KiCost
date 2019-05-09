@@ -26,7 +26,7 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import * # Debug, language and default configurations, `distributor_dict` and `SEPRTR`.
+from .global_vars import * # Debug, language and default configurations.
 
 # Libraries.
 try:
@@ -51,7 +51,8 @@ import requests
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
 from .kicost import *  # kicost core functions.
-from .distributors import init_distributor_dic
+from .distributors import init_distributor_dict
+from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
 from .edas.tools import file_eda_match
 
@@ -70,7 +71,7 @@ PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last official version.
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
 PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
-PAGE_THIRTH_PART_SUPPORT = 'https://kitspace.org/'
+PAGE_POWERED_BY = 'https://kitspace.org/'
 
 actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
 
@@ -458,13 +459,9 @@ class formKiCost(wx.Frame):
 
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_staticText_octopart = wx.StaticText(self.m_panel3, wx.ID_ANY, u"Powered by", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_staticText_octopart.Wrap(-1)
-        bSizer111.Add(self.m_staticText_octopart, 1, wx.ALL, 5)
-
         self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)#wx.DefaultSize, 0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kitspace.png', type=wx.BITMAP_TYPE_PNG, desiredWidth=200, desiredHeight=200))
-        self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_thirth_part_support_click)
+        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'logo_kitspace.png', wx.BITMAP_TYPE_PNG))
+        self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_powered_by)
         bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_button_check_updates = wx.Button(self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -537,10 +534,10 @@ class formKiCost(wx.Frame):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
         webbrowser.open(PAGE_UPDATE)
-    def open_thirth_part_support_click(self, event):
-        ''' @brief Open Octopart.com as rule to be powered up by.'''
+    def open_powered_by(self, event):
+        ''' @brief Open partner that power the KiCost.'''
         event.Skip()
-        webbrowser.open(PAGE_THIRTH_PART_SUPPORT)
+        webbrowser.open(PAGE_POWERED_BY)
 
     #----------------------------------------------------------------------
     def check_updates_click(self, event):

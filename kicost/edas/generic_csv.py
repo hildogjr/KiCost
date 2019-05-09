@@ -34,8 +34,9 @@ from datetime import datetime
 import csv # CSV file reader.
 import re # Regular expression parser.
 import logging
-from ..global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
 from .tools import field_name_translations, remove_dnp_parts, split_refs
+from ..distributors.global_vars import distributor_dict
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(

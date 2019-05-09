@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
@@ -20,9 +21,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+
 # Libraries.
 import sys, os
-import copy, re
+import copy
+import re
 import pprint
 import tqdm
 from time import time
@@ -40,8 +43,9 @@ __all__ = ['kicost','output_filename']  # Only export this routine for use by th
 from .global_vars import *
 
 # TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
-from .partinfo_kitspace import partinfo_kitspace
-from .dist_local_template import dist_local_templates
+#from .distributors.api_octopart import api_octopart
+from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
+from .distributors.dist_local_template import dist_local_template
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.
@@ -49,7 +53,8 @@ from .edas.tools import field_name_translations
 from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
 # Import information about various distributors.
-from .distributor import *
+from .distributors.distributor import *
+from .distributors.global_vars import distributor_dict
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import *
 
@@ -212,7 +217,7 @@ def kicost(in_file, eda_name, out_filename,
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
         dist_local_template.query_part_info(parts, distributor_dict, currency)
-        partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
+        partinfo_kitspace.query_part_info(parts, distributor_dict, currency, None)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,

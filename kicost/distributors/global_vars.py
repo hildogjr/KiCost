@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,21 +21,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Author information.
-__author__ = 'Hildo Guillardi Junior'
-__webpage__ = 'https://github.com/hildogjr/'
-__company__ = 'University of Campinas - Brazil'
+# The global dictionary of distributor information starts out empty.
+distributor_dict = {}
 
-# The global dictionary of supported EDA tools starts out empty.
-eda_dict = {}
-
-# The global EDA tool modules dictionary.
-eda_modules = {}
-
-# Import and register here the file read modules.
-from .eda_kicad import *
-from .eda_altium import *
-from .generic_csv import *
-eda_modules['kicad'] = eda_kicad
-eda_modules['altium'] = eda_altium
-eda_modules['csv'] = generic_csv
+# Extra informations to by got by each part in the distributors.
+EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
+              'size', 'op temp', 'orientation', 'color',
+              'datasheet', 'image', # Links.
+             ]
+extra_info_dist_name_translations = {
+    #TODO it will need to put here language translation after implementation of ISSUE #65?
+    'resistance': 'value',
+    'inductance': 'value',
+    'capacitance': 'value',
+    'manufacturer': 'manf',
+    'package': 'footprint',
+    'package / case': 'footprint',
+    'datasheets': 'datasheet',
+    'dimension': 'size',
+    'size / dimension': 'size',
+    'operating temperature': 'op temp',
+    'voltage - rated': 'voltage',
+    'Mating Orientation': 'orientation',
+    'coulor': 'color',
+    'wire gauge': 'wire',
+}

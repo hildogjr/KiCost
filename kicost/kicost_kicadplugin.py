@@ -2,7 +2,6 @@
 # MIT license
 #
 # Copyright (C) 2018 by Hildo Guillardi Junior
-# Copyright (C) 2019
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,22 +22,15 @@
 # THE SOFTWARE.
 
 # Author information.
-__author__ = 'Hildo Guillardi Júnior'
+__author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-
-import pcbnew # KiCad Python library.
+from pcbnew import * # KiCad Python library.
 import os, subprocess#, threading, time
 
 import traceback, wx # For debug.
-
-import sys, threading, time
-import wx.aui
-
-
-################# Functions.
 
 def debug_dialog(msg, exception=None, kind=wx.OK):
     '''Debug dialog.'''
@@ -54,7 +46,7 @@ def install_kicost():
     pip.main(['install', 'kicost'])
     return
 
-class kicost_kicadplugin(pcbnew.ActionPlugin):
+class kicost_kicadplugin(ActionPlugin):
     '''KiCad PcbNew action plugin.'''
     def defaults(self):
         self.name = "KiCost"
@@ -63,22 +55,18 @@ class kicost_kicadplugin(pcbnew.ActionPlugin):
 
     def Run(self):
         BOM_FILEEXTENSION = '.xml'
-        SCH_FILEEXTENSION = '.sch'
-        bom_file = os.path.splitext( pcbnew.GetBoard().GetFileName() )[0] + BOM_FILEEXTENSION
+        bom_file = os.path.splitext( GetBoard().GetFileName() )[0] + BOM_FILEEXTENSION
         if not os.path.isfile(bom_file):
             debug_dialog('The file \'{}\' not exist yet.\nReturn to Eeschma and update/generate it.'.format(bom_file))
         elif bom_file==BOM_FILEEXTENSION:
             debug_dialog('This boad have not BOM associated.')
             bom_file = ''
-        sch_file = os.path.splitext(bom_file)[0] + SCH_FILEEXTENSION
-        if os.path.getmtime(bom_file) < os.path.getmtime(sch_file):
-            debug_dialog('Schematic file more recent than \'{}\'.'.format(bom_file))
         try:
             try:
                 from kicost.kicost_gui import *
                 kicost_gui(bom_file) # If KiCad and KiCost share the same Python installation.
             except ImportError:
-                subprocess.call('python3 -m kicost --guide \'{}\''.format(bom_file), shell=True)
+                subprocess.call(('kicost', '--guide', bom_file), shell=True)
                 #os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
                 #os.system('eeschema')
                 #subprocess.call('eeschema')
@@ -93,46 +81,5 @@ class kicost_kicadplugin(pcbnew.ActionPlugin):
                 return False
         return True
 
-
-def check_for_button():
-    # From Miles McCoo's blog
-    # https://kicad.mmccoo.com/2017/03/05/adding-your-own-command-buttons-to-the-pcbnew-gui/
-    def find_pcbnew_window():
-        windows = wx.GetTopLevelWindows()
-        pcbneww = [w for w in windows if "pcbnew" in w.GetTitle().lower()]
-        if len(pcbneww) != 1:
-            return None
-        return pcbneww[0]
-    def callback(_):
-        plugin.Run()
-    import os
-    path = os.path.dirname(__file__)
-    while not wx.GetApp():
-        time.sleep(1)
-    bm = wx.Bitmap(path + '/kicost.png', wx.BITMAP_TYPE_ICO)
-    button_wx_item_id = 0
-    while True:
-        time.sleep(1)
-        pcbwin = find_pcbnew_window()
-        if not pcbwin:
-            continue
-        top_tb = pcbwin.FindWindowById(pcbnew.ID_H_TOOLBAR)
-        if button_wx_item_id == 0 or not top_tb.FindTool(button_wx_item_id):
-            top_tb.AddSeparator()
-            button_wx_item_id = wx.NewId()
-            top_tb.AddTool(button_wx_item_id, "KiCost", bm,
-                           "Generate spreadsheet part cost.", wx.ITEM_NORMAL)
-            top_tb.Bind(wx.EVT_TOOL, callback, id=button_wx_item_id)
-            top_tb.Realize()
-
-
-################# Entry point.
-
-plugin = kicost_kicadplugin()
-plugin.register()
-# Add a button the hacky way if plugin button is not supported in pcbnew, unless this is linux.
-#if not plugin.pcbnew_icon_support and not sys.platform.startswith('linux'):
-#    t = threading.Thread(target=check_for_button)
-#    t.daemon = True
-#    t.start()
-#TODO it is not working the icon gnerator
+# Start point.
+kicost_kicadplugin().register()

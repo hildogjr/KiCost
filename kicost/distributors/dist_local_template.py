@@ -20,15 +20,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Python2/3 compatibility.
+#from __future__ import unicode_literals, print_function, division, absolute_import
+from future import standard_library
+standard_library.install_aliases()
+
 # Libraries.
 import copy, re
 import logging
 
 # KiCost definitions.
-from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE  # Debug configurations.
+from ..global_vars import SEPRTR
 
 # Distributors definitions.
 from .distributor import distributor_class
+from .global_vars import distributor_dict
 
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
@@ -38,7 +45,7 @@ __all__ = ['dist_local_template']
 class dist_local_template(distributor_class):
 
     @staticmethod
-    def dist_init_distributor_dict():
+    def init_dist_dict():
         distributor_dict.update({
             'local_template': {
                 'octopart_name': '',

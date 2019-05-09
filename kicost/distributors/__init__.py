@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo G Jr
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,21 +21,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Author information.
-__author__ = 'Hildo Guillardi Junior'
-__webpage__ = 'https://github.com/hildogjr/'
-__company__ = 'University of Campinas - Brazil'
+__author__ = 'XESS Corporation'
+__email__ = 'info@xess.com'
 
-# The global dictionary of supported EDA tools starts out empty.
-eda_dict = {}
+from .global_vars import distributor_dict
 
-# The global EDA tool modules dictionary.
-eda_modules = {}
 
-# Import and register here the file read modules.
-from .eda_kicad import *
-from .eda_altium import *
-from .generic_csv import *
-eda_modules['kicad'] = eda_kicad
-eda_modules['altium'] = eda_altium
-eda_modules['csv'] = generic_csv
+# Import and register here the API / local / scrape modules.
+
+from .dist_local_template import * # Template for local distributors entry.
+#from .api_octopart import *
+from .api_partinfo_kitspace import *
+
+def init_distributor_dict():
+    # Clear distributor_dict, then let all distributor modules recreate their entries.
+    distributor_dict = {}
+    for x in globals():
+        if x.startswith("dist_") or x.startswith("api_") or x.startswith("scrape_"):
+            globals()[x].init_dist_dict()
+            # Import all "ditributors_templates" (`dist_`), APIs or scrape modules.
+
+# Init distributor dict during import.
+init_distributor_dict()

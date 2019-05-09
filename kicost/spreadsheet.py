@@ -26,7 +26,7 @@ __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import * # Debug, language and default configurations, `distributor_dict` and `SEPRTR`.
+from .global_vars import * # Debug, language and default configurations.
 
 # Python libraries.
 import os
@@ -38,6 +38,7 @@ from babel import numbers # For currency presentation.
 
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
+from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 from currency_converter import CurrencyConverter
@@ -1051,18 +1052,15 @@ Orange -> Too little quantity available.'''
         ),
         wrk_formats['found_part_pct']
     )
+    wks.write_comment(ORDER_HEADER, purch_qty_col,
+        'Copy the information below to the BOM import page of the distributor web site.')
 
-    try:
-        cols = distributor_dict[dist]['order']['cols']
-    except:
-        cols = ""
+    cols = distributor_dict[dist]['order']['cols']
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
         logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not sbe genereated.".format(
-                            d=distributor_dict[dist]['label']['name']
+                            d=distributor_dict[dist]['name']
                         ))
     else:
-        wks.write_comment(ORDER_HEADER, purch_qty_col,
-            'Copy the information below to the BOM import page of the distributor web site.') # User instruction.
         # This script enters a function into a spreadsheet cell that
         # prints the information found in info_col into the order_col column
         # of the order.
@@ -1139,7 +1137,7 @@ Orange -> Too little quantity available.'''
                 info_range = ""
                 logger.warning("Not valid field `{f}` for purchase list at {d}.".format(
                             f=col,
-                            d=distributor_dict[dist]['label']['name']
+                            d=distributor_dict[dist]['name']
                         ))
             info_range =xl_range(PART_INFO_FIRST_ROW, info_range,
                                  PART_INFO_LAST_ROW, info_range)
@@ -1161,7 +1159,7 @@ Orange -> Too little quantity available.'''
             purchase_code = ""
             logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(
                         f=col,
-                        d=distributor_dict[dist]['label']['name']
+                        d=distributor_dict[dist]['name']
                     ))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code,
                                  PART_INFO_LAST_ROW, purchase_code)

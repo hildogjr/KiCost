@@ -20,11 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-'''Stuff that everybody else needs to know about.'''
+"""Stuff that everybody else needs to know about."""
 
 import logging
-
-distributor_dict = {} # Variable to keep all distributors informations.
 
 # The root logger of the application. This has to be the root logger to catch
 # output from libraries (e.g. requests) as well.

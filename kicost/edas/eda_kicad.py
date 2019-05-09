@@ -25,7 +25,9 @@ import sys, os, time
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
-from ..global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from ..global_vars import SEPRTR
+from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 
 

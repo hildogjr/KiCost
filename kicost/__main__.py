@@ -20,13 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from .global_vars import * # Debug, language and default configurations, `distributor_dict` and `SEPRTR`.
-
 #Libraries.
 import argparse as ap # Command argument parser.
 import os, sys, platform
 import logging, time
 #import inspect # To get the internal module and informations of a module/class.
+
+from .global_vars import * # Debug, language and default configurations.
 
 # KiCost definitions and modules/packages functions.
 from .kicost import * # kicost core functions.
@@ -35,6 +35,7 @@ try:
 except wxPythonNotPresent as e:
     pass # If the wxPython dependences are not installed and
          # the user just want the KiCost CLI.
+from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
 from . import __version__ # Version control by @xesscorp and collaborator.
 
