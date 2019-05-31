@@ -79,26 +79,8 @@ class api_partinfo_kitspace(distributor_class):
     @staticmethod
     def init_dist_dict():
         distributor_dict.update({
-            'arrow': {
-                'octopart_name': 'Arrow Electronics, Inc.',
-                'module': 'arrow',   # The directory name containing this file.
-                'type': 'api',     # Allowable values: 'api', 'scrap' or 'local'.
-                'order': {
-                    'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
-                    'delimiter': ',', # Delimiter for online orders.
-                    'not_allowed_char': ',', # Characters not allowed at the BoM for web-site import.
-                    'replace_by_char': ';', # The `delimiter` is not allowed inside description. This caracter is used to replace it.
-                },
-                'label': {
-                    'name': 'Arrow',  # Distributor label used in spreadsheet columns.
-                    # Formatting for distributor header in worksheet; bold, font and align are
-                    # `spreadsheet.py` defined but can by overload heve.
-                    'format': {'font_color': 'white', 'bg_color': '#000000'}, # Arrow black.
-                    'link': 'https://www.arrow.com/',
-                },
-            },
             'digikey': {
-                'octopart_name': 'Digi-Key',
+                'api_info': {'kitspace_dist_name': 'DigiKey'},
                 'module': 'digikey',
                 'type': 'api',
                 'order': {
@@ -112,7 +94,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'farnell': {
-                'octopart_name': 'Farnell',
+                'api_info':{'kitspace_dist_name': 'Farnell',},
                 'module': 'farnell',
                 'type': 'api',
                 'order': {
@@ -126,7 +108,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'mouser': {
-                'octopart_name': 'Mouser',
+                'api_info':{'kitspace_dist_name': 'Mouser',},
                 'module': 'mouser', 
                 'type': 'api',
                 'order': {
@@ -140,7 +122,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'newark': {
-                'octopart_name': 'Newark',
+                'api_info':{'kitspace_dist_name': 'Newark',},
                 'module': 'newark',
                 'type': 'api',
                 'order': {
@@ -154,7 +136,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'rs': {
-                'octopart_name': 'RS Components',
+                'api_info':{'kitspace_dist_name': 'RS',},
                 'module': 'rs',
                 'type': 'api',
                 'order': {
@@ -167,20 +149,6 @@ class api_partinfo_kitspace(distributor_class):
                     'link': 'https://uk.rs-online.com/',
                 },
             },
-            'tme': {
-                'octopart_name': 'TME',
-                'module': 'tme',
-                'type': 'api',
-                'order': {
-                    'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
-                },
-                'label': {
-                    'name': 'TME',
-                    'format': {'font_color': 'white', 'bg_color': '#0C4DA1'}, # TME blue
-                    'link': 'https://www.tme.eu',
-                },
-            },
         })
 
 
@@ -189,10 +157,10 @@ class api_partinfo_kitspace(distributor_class):
         #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub('\s', '', variables)
-        variables = '{{input:{}}}'.format(variables)
+        variables = '{{"input":{}}}'.format(variables)
         response = requests.post(QUERY_URL, {'query': query_type, "variables": variables})
-        if response.status_code == requests.codes['ok']:
-            results = json.loads(response.text).get('results')
+        if response.status_code == requests.codes['ok']: #200
+            results = json.loads(response.text)
             return results
         elif response.status_code == requests.codes['not_found']: #404
             raise Exception('Kitspace server not found.')
@@ -200,55 +168,6 @@ class api_partinfo_kitspace(distributor_class):
             raise Exception('Bad request to Kitspace server probably due uncorrect strig format.')
         else:
             raise Exception('Kitspace error: ' + str(response.status_code))
-
-
-    def sku_to_mpn(sku):
-        """Find manufacturer part number associated with a distributor SKU."""
-        #part_query = [{'reference': 1, 'sku': urlquote(sku)}]
-        part_query = [{'sku': {'manufacture': '', 'part': urlquote(sku)} }]
-        results = api_partinfo_kitspace.query(part_query)
-        if not results:
-            return None
-        result = results[0]
-        mpns = [item['mpn'] for item in result['items']]
-        if not mpns:
-            return None
-        if len(mpns) == 1:
-            return mpns[0]
-        mpn_cnts = Counter(mpns)
-        return mpn_cnts.most_common(1)[0][0]  # Return the most common MPN.
-
-
-    def skus_to_mpns(parts, distributors):
-        """Find manufaturer's part number for all parts with just distributor SKUs."""
-        for i, part in enumerate(parts):
-
-            # Skip parts that already have a manufacturer's part number.
-            if part.fields.get('manf#'):
-                continue
-
-            # Get all the SKUs for this part.
-            skus = list(
-                set([part.fields.get(dist + '#', '') for dist in distributors]))
-            skus = [sku for sku in skus
-                    if sku not in ('', None)]  # Remove null SKUs.
-
-            # Skip this part if there are no SKUs.
-            if not skus:
-                continue
-
-            # Convert the SKUs to manf. part numbers.
-            mpns = [api_partinfo_kitspace.sku_to_mpn(sku) for sku in skus]
-            mpns = [mpn for mpn in mpns
-                    if mpn not in ('', None)]  # Remove null manf#.
-
-            # Skip assigning manf. part number to this part if there aren't any to assign.
-            if not mpns:
-                continue
-
-            # Assign the most common manf. part number to this part.
-            mpn_cnts = Counter(mpns)
-            part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
 
     def query_part_info(parts, distributors, currency='USD'):
@@ -283,34 +202,36 @@ class api_partinfo_kitspace(distributor_class):
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = {
-            dist_value['octopart_name']: dist_key
-            for dist_key, dist_value in distributors.items()
+            dist_value['api_info']['kitspace_dist_name']: dist_key
+            for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
         }
 
-        def get_part_info(query, parts, currency='USD'):
+        def get_part_info(query, parts, index, currency='USD'):
             """Query PartInfo for quantity/price info and place it into the parts list."""
 
             results = api_partinfo_kitspace.query(query)
 
             # Loop through the response to the query and enter info into the parts list.
-            for result in results:
-                i = int(result['reference'])  # Get the index into the part dict.
+            for i in range(len(index)):
+                result = results['data']['match'][i]
+                idx = index[i]
+                print(idx,"#",result)
 
                 # Loop through the offers from various dists for this particular part.
-                for item in result['items']:
+                for item in result['offers']:
 
                     # Assign the lifecycle status 'obsolete' (others possible: 'active'
                     # and 'not recommended for new designs') but not used.
                     if 'lifecycle_status' in item['specs']:
                         lifecycle_status = item['specs']['lifecycle_status']['value'][0].lower()
                         if lifecycle_status == 'obsolete':
-                            parts[i].lifecycle = lifecycle_status
+                            parts[idx].lifecycle = lifecycle_status
 
                     # Take the datasheet provided by the distributor. This will by used
                     # in the output spreadsheet if not provide any in the BOM/schematic.
                     # This will be signed in the file.
                     if item['datasheets']:
-                        parts[i].datasheet = item['datasheets'][0]['url']
+                        parts[idx].datasheet = item['datasheets'][0]['url']
 
                     for offer in item['offers']:
 
@@ -330,7 +251,7 @@ class api_partinfo_kitspace(distributor_class):
                                 }
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
-                                parts[i].price_tiers[dist].update(price_tiers)
+                                parts[idx].price_tiers[dist].update(price_tiers)
                             except Exception:
                                 pass  # Price list is probably missing so leave empty default dict in place.
 
@@ -347,36 +268,37 @@ class api_partinfo_kitspace(distributor_class):
 
                             # Use the qty increment to select the part SKU, web page, and available quantity.
                             # Do this if this is the first part offer from this dist.
-                            if not parts[i].part_num[dist]:
-                                parts[i].part_num[dist] = offer.get('sku', '')
-                                parts[i].url[dist] = offer.get('product_url', '')
-                                parts[i].qty_avail[dist] = offer.get(
+                            if not parts[idx].part_num[dist]:
+                                parts[idx].part_num[dist] = offer.get('sku', '')
+                                parts[idx].url[dist] = offer.get('product_url', '')
+                                parts[idx].qty_avail[dist] = offer.get(
                                     'in_stock_quantity', None)
-                                parts[i].qty_increment[dist] = part_qty_increment
+                                parts[idx].qty_increment[dist] = part_qty_increment
                             # Otherwise, check qty increment and see if its the smallest for this part & dist.
-                            elif part_qty_increment < parts[i].qty_increment[dist]:
+                            elif part_qty_increment < parts[idx].qty_increment[dist]:
                                 # This part looks more like a cut-tape version, so
                                 # update the SKU, web page, and available quantity.
-                                parts[i].part_num[dist] = offer.get('sku', '')
-                                parts[i].url[dist] = offer.get('product_url', '')
-                                parts[i].qty_avail[dist] = offer.get(
+                                parts[idx].part_num[dist] = offer.get('sku', '')
+                                parts[idx].url[dist] = offer.get('product_url', '')
+                                parts[idx].qty_avail[dist] = offer.get(
                                     'in_stock_quantity', None)
-                                parts[i].qty_increment[dist] = part_qty_increment
+                                parts[idx].qty_increment[dist] = part_qty_increment
 
                             # Don't bother with any extra info from the distributor.
-                            parts[i].info_dist[dist] = {}
+                            parts[idx].info_dist[dist] = {}
 
         # Get the valid distributors names used by them part catalog
         # that may be index by PartInfo. This is used to remove the
         # local distributors and future not implemented in the PartInfo
         # definition.
         distributors_octopart = [d for d in distributors if distributors[d]['type']=='api'
-                            and distributors[d].get('octopart_name')]
+                            and distributors[d].get('api_info').get('kitspace_dist_name')]
 
         # Break list of parts into smaller pieces and get price/quantities from PartInfo.
         partinfo_query = []
+        part_enumerate = []
         prev_i = 0 # Used to record index where parts query occurs.
-        for i, part in enumerate(parts):
+        for idx, part in enumerate(parts):
 
             # Creat an PartInfo query using the manufacturer's part number or 
             # distributor SKU.
@@ -412,17 +334,19 @@ class api_partinfo_kitspace(distributor_class):
 
             # Add query for this part to the list of part queries.
             partinfo_query.append(part_query)
+            part_enumerate.append(idx)
 
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
             if len(partinfo_query) == MAX_PARTS_BY_QUERY:
-                get_part_info(partinfo_query, parts)
+                get_part_info(partinfo_query, parts, part_enumerate)
                 progress.update(i - prev_i) # Update progress bar.
                 prev_i = i;
                 partinfo_query = []  # Get ready for next batch.
+                part_enumerate = []
 
         # Query PartInfo for the last batch of parts.
         if partinfo_query:
-            get_part_info(partinfo_query, parts)
+            get_part_info(partinfo_query, parts, part_enumerate)
             progress.update(len(parts)-prev_i) # This will indicate final progress of 100%.
 
         # Restore the logging print channel now that the progress bar is no longer needed.

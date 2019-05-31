@@ -57,7 +57,7 @@ class api_octopart(distributor_class):
     def init_dist_dict():
         distributor_dict.update({
             'arrow': {
-                'octopart_name': 'Arrow Electronics, Inc.',
+                'api_info': {'octopart_dist_name': 'Arrow Electronics, Inc.',},
                 'module': 'arrow',   # The directory name containing this file.
                 'type': 'api',     # Allowable values: 'api', 'scrap' or 'local'.
                 'order': {
@@ -75,7 +75,7 @@ class api_octopart(distributor_class):
                 },
             },
             'digikey': {
-                'octopart_name': 'Digi-Key',
+                'api_info': {'octopart_dist_name': 'Digi-Key',},
                 'module': 'digikey',
                 'type': 'api',
                 'order': {
@@ -89,7 +89,7 @@ class api_octopart(distributor_class):
                 },
             },
             'farnell': {
-                'octopart_name': 'Farnell',
+                'api_info': {'octopart_dist_name': 'Farnell',},
                 'module': 'farnell',
                 'type': 'api',
                 'order': {
@@ -103,7 +103,7 @@ class api_octopart(distributor_class):
                 },
             },
             'mouser': {
-                'octopart_name': 'Mouser',
+                'api_info': {'octopart_dist_name': 'Mouser',},
                 'module': 'mouser', 
                 'type': 'api',
                 'order': {
@@ -117,7 +117,7 @@ class api_octopart(distributor_class):
                 },
             },
             'newark': {
-                'octopart_name': 'Newark',
+                'api_info': {'octopart_dist_name': 'Newark',},
                 'module': 'newark',
                 'type': 'api',
                 'order': {
@@ -131,7 +131,7 @@ class api_octopart(distributor_class):
                 },
             },
             'rs': {
-                'octopart_name': 'RS Components',
+                'api_info': {'octopart_dist_name': 'RS Components',},
                 'module': 'rs',
                 'type': 'api',
                 'order': {
@@ -145,7 +145,7 @@ class api_octopart(distributor_class):
                 },
             },
             'tme': {
-                'octopart_name': 'TME',
+                'api_info': {'octopart_dist_name': 'TME',},
                 'module': 'tme',
                 'type': 'api',
                 'order': {
@@ -271,8 +271,8 @@ class api_octopart(distributor_class):
 
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = {
-            dist_value['octopart_name']: dist_key
-            for dist_key, dist_value in distributors.items()
+            dist_value['api_info']['octopart_dist_name']: dist_key
+            for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
         }
 
         def get_part_info(query, parts, currency='USD'):
@@ -359,7 +359,7 @@ class api_octopart(distributor_class):
         # local distributors and future not implemented in the Octopart
         # definition.
         distributors_octopart = [d for d in distributors if distributors[d]['type']=='api'
-                            and distributors[d].get('octopart_name')]
+                            and distributors[d].get('api_info').get('octopart_dist_name')]
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []
