@@ -196,6 +196,8 @@ class api_partinfo_kitspace(distributor_class):
             return results
         elif response.status_code == requests.codes['not_found']: #404
             raise Exception('Kitspace server not found.')
+        elif response.status_code == requests.codes['bad_request']: #400
+            raise Exception('Bad request to Kitspace server probably due uncorrect strig format.')
         else:
             raise Exception('Kitspace error: ' + str(response.status_code))
 
