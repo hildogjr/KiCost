@@ -285,6 +285,13 @@ class api_octopart(distributor_class):
                 i = int(result['reference'])  # Get the index into the part dict.
 
                 # Loop through the offers from various dists for this particular part.
+                parts[i].price_tiers = {}
+                parts[i].part_num = {}
+                parts[i].url = {}
+                parts[i].qty_avail = {}
+                parts[i].moq = {}
+                parts[i].qty_increment = {}
+                parts[i].info_dist = {}
                 for item in result['items']:
 
                     # Assign the lifecycle status 'obsolete' (others possible: 'active'
@@ -366,7 +373,7 @@ class api_octopart(distributor_class):
         prev_i = 0 # Used to record index where parts query occurs.
         for i, part in enumerate(parts):
 
-            # Creat an Octopart query using the manufacturer's part number or 
+            # Create an Octopart query using the manufacturer's part number or 
             # distributor SKU.
             manf_code = part.fields.get('manf#')
             if manf_code:

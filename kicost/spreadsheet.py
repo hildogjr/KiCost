@@ -807,11 +807,8 @@ Orange -> Too little quantity available.'''
 
     for part in parts:
 
-        # Get the distributor part number.
-        dist_part_num = part.part_num[dist]
-
-        # Extract price tiers from distributor HTML page tree.
-        price_tiers = part.price_tiers[dist]
+        dist_part_num = part.part_num[dist] # Get the distributor part number.
+        price_tiers = part.price_tiers[dist] # Extract price tiers from distributor HTML page tree.
 
         # If the part number doesn't exist, just leave this row blank.
         if len(dist_part_num) == 0:

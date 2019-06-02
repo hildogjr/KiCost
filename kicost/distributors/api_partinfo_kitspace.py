@@ -80,7 +80,7 @@ class api_partinfo_kitspace(distributor_class):
     def init_dist_dict():
         distributor_dict.update({
             'digikey': {
-                'api_info': {'kitspace_dist_name': 'DigiKey'},
+                'api_info': {'kitspace_dist_name': 'Digikey'},
                 'module': 'digikey',
                 'type': 'api',
                 'order': {
@@ -218,9 +218,10 @@ class api_partinfo_kitspace(distributor_class):
             dist_value['api_info']['kitspace_dist_name']: dist_key
             for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
         }
+        print(dist_xlate)##TODO
 
         def get_part_info(query, parts, index, currency='USD'):
-            """Query PartInfo for quantity/price info and place it into the parts list."""
+            '''Query PartInfo for quantity/price info and place it into the parts list'''
 
             results = api_partinfo_kitspace.query(query)
 
@@ -229,53 +230,65 @@ class api_partinfo_kitspace(distributor_class):
                 result = results['data']['match'][i]
                 idx = index[i]
 
-                # Get the information of the part.
-                parts[idx].datasheet = result.get('datasheet')
-                parts[idx].lifecycle = api_partinfo_kitspace.get_value(result['specs'], 'lifecycle_status', 'active')
+                parts[idx].price_tiers = {}
+                parts[idx].part_num = {}
+                parts[idx].url = {}
+                parts[idx].qty_avail = {}
+                parts[idx].moq = {}
+                parts[idx].qty_increment = {}
+                parts[idx].info_dist = {}
+                if not result:
+                    #logger.warning('Found any result to part \'{}\''.format(parts[idx].get('manf#')))
+                    print('---> NOT GET RESULT',idx, result) ##TODO
+                else:
 
-                # Loop through the offers from various dists for this particular part.
-                for offer in result['offers']:
-                    # Get the distributor who made the offer and add their
-                    # price/qty info to the parts list if its one of the accepted distributors.
-                    dist = dist_xlate.get(offer['sku']['vendor'], '')
-                    if dist in distributors:
+                    # Get the information of the part.
+                    parts[idx].datasheet = result.get('datasheet')
+                    parts[idx].lifecycle = api_partinfo_kitspace.get_value(result['specs'], 'lifecycle_status', 'active')
 
-                        # Get pricing information from this distributor.
-                        try:
-                            price_tiers = {} # Empty dict in case of exception.
-                            local_currency = list(offer['prices'].keys())
-                            price_tiers = {
-                                qty: float( currency_convert(price, local_currency[0], currency.upper()) )
-                                for qty, price in list(offer['prices'].values())[0]
-                                }
-                            # Combine price lists for multiple offers from the same distributor
-                            # to build a complete list of cut-tape and reeled components.
-                            parts[idx].price_tiers[dist].update(price_tiers)
-                        except Exception:
-                            pass  # Price list is probably missing so leave empty default dict in place.
+                    # Loop through the offers from various dists for this particular part.
+                    for offer in result['offers']:
+                        # Get the distributor who made the offer and add their
+                        # price/qty info to the parts list if its one of the accepted distributors.
+                        dist = dist_xlate.get(offer['sku']['vendor'], '')
+                        if dist in distributors:
 
-                        # Compute the quantity increment between the lowest two prices.
-                        # This will be used to distinguish the cut-tape from the reeled components.
-                        try:
-                            part_break_qtys = sorted(price_tiers.keys())
-                            part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
-                        except Exception:
-                            # This will happen if there are not enough entries in the price/qty list.
-                            # As a stop-gap measure, just assign infinity to the part increment.
-                            # A better alternative may be to examine the packaging field of the offer.
-                            part_qty_increment = float("inf")
+                            # Get pricing information from this distributor.
+                            try:
+                                price_tiers = {} # Empty dict in case of exception.
+                                local_currency = list(offer['prices'].keys())
+                                price_tiers = {
+                                    qty: float( currency_convert(price, local_currency[0], currency.upper()) )
+                                    for qty, price in list(offer['prices'].values())[0]
+                                    }
+                                # Combine price lists for multiple offers from the same distributor
+                                # to build a complete list of cut-tape and reeled components.
+                                parts[idx].price_tiers[dist].update(price_tiers)
+                            except Exception:
+                                pass  # Price list is probably missing so leave empty default dict in place.
 
-                        # Use the qty increment to select the part SKU, web page, and available quantity.
-                        # Do this if this is the first part offer from this dist.
-                        print(offer)
-                        parts[idx].part_num[dist] = offer.get('sku', '').get('part', '')
-                        parts[idx].url[dist] = offer.get('product_url', '') # Page to purchase.
-                        parts[idx].qty_avail[dist] = offer.get('in_stock_quantity', None) # In stock.
-                        parts[idx].qty_avail[dist] = offer.get('moq', None) # Minimum order qty.s
-                        parts[idx].qty_increment[dist] = part_qty_increment
+                            # Compute the quantity increment between the lowest two prices.
+                            # This will be used to distinguish the cut-tape from the reeled components.
+                            try:
+                                part_break_qtys = sorted(price_tiers.keys())
+                                part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
+                            except Exception:
+                                # This will happen if there are not enough entries in the price/qty list.
+                                # As a stop-gap measure, just assign infinity to the part increment.
+                                # A better alternative may be to examine the packaging field of the offer.
+                                part_qty_increment = float("inf")
 
-                        # Don't bother with any extra info from the distributor.
-                        parts[idx].info_dist[dist] = {}
+                            # Use the qty increment to select the part SKU, web page, and available quantity.
+                            # Do this if this is the first part offer from this dist.
+                            parts[idx].part_num[dist] = offer.get('sku', '').get('part', '')
+                            parts[idx].url[dist] = offer.get('product_url', '') # Page to purchase.
+                            parts[idx].qty_avail[dist] = offer.get('in_stock_quantity', None) # In stock.
+                            parts[idx].moq[dist] = offer.get('moq', None) # Minimum order qty.s
+                            parts[idx].qty_increment[dist] = part_qty_increment
+
+                            # Don't bother with any extra info from the distributor.
+                            parts[idx].info_dist[dist] = {}
+                            ##print('----',dist,parts[idx].part_num[dist])
 
         # Get the valid distributors names used by them part catalog
         # that may be index by PartInfo. This is used to remove the
@@ -287,14 +300,15 @@ class api_partinfo_kitspace(distributor_class):
         # Break list of parts into smaller pieces and get price/quantities from PartInfo.
         partinfo_query = []
         part_enumerate = []
-        prev_i = 0 # Used to record index where parts query occurs.
+        prev_idx = 0 # Used to record index where parts query occurs.
         for idx, part in enumerate(parts):
 
-            # Creat an PartInfo query using the manufacturer's part number or 
+            # Create an PartInfo query using the manufacturer's part number or 
             # distributor SKU.
             manf_code = part.fields.get('manf#')
             if manf_code:
-                part_query = {'mpn': {'manufacturer': '', 'part': urlquote(manf_code)} }
+                #part_query = {'mpn': {'manufacturer': '', 'part': urlquote(manf_code)} }#TODO
+                part_query = {'mpn': {'manufacturer': '', 'part': manf_code} }
             else:
                 try:
                     # No MPN, so use the first distributor SKU that's found.
@@ -306,8 +320,7 @@ class api_partinfo_kitspace(distributor_class):
                             break
                     # Create the part query using SKU matching.
                     if sku:
-                        part_query = {'sku': {'manufacturer': '', 'part': urlquote(sku)} }
-                        
+                        part_query = {'sku': {'manufacturer': '', 'part': sku} }
                         # Because was used the distributor (enrolled at Octopart list)
                         # despite the normal 'manf#' code, take the sub quantity as
                         # general sub quantity of the current part.
@@ -329,15 +342,15 @@ class api_partinfo_kitspace(distributor_class):
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
             if len(partinfo_query) == MAX_PARTS_BY_QUERY:
                 get_part_info(partinfo_query, parts, part_enumerate)
-                progress.update(i - prev_i) # Update progress bar.
-                prev_i = i;
+                progress.update(idx - prev_idx) # Update progress bar.
+                prev_idx = idx;
                 partinfo_query = []  # Get ready for next batch.
                 part_enumerate = []
 
         # Query PartInfo for the last batch of parts.
         if partinfo_query:
             get_part_info(partinfo_query, parts, part_enumerate)
-            progress.update(len(parts)-prev_i) # This will indicate final progress of 100%.
+            progress.update(len(parts)-prev_idx) # This will indicate final progress of 100%.
 
         # Restore the logging print channel now that the progress bar is no longer needed.
         logger.addHandler(logDefaultHandler)
