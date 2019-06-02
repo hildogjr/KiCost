@@ -169,6 +169,19 @@ class api_partinfo_kitspace(distributor_class):
         else:
             raise Exception('Kitspace error: ' + str(response.status_code))
 
+    def get_value(data, item, default=None):
+        '''Get the value of `value` field of a dictionary if the `name`field identifier.
+        Used to get information from the JSON response.'''
+        try:
+            for d in data:
+                try:
+                    if d['key'] == item:
+                        return d['value']
+                except:
+                    continue
+            return default
+        except:
+            return default
 
     def query_part_info(parts, distributors, currency='USD'):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
@@ -215,83 +228,60 @@ class api_partinfo_kitspace(distributor_class):
             for i in range(len(index)):
                 result = results['data']['match'][i]
                 idx = index[i]
-                print(idx,"#",result)
+
+                # Get the information of the part.
+                parts[idx].datasheet = result.get('datasheet')
+                parts[idx].lifecycle = api_partinfo_kitspace.get_value(result['specs'], 'lifecycle_status', 'active')
 
                 # Loop through the offers from various dists for this particular part.
-                for item in result['offers']:
+                for offer in result['offers']:
+                    # Get the distributor who made the offer and add their
+                    # price/qty info to the parts list if its one of the accepted distributors.
+                    dist = dist_xlate.get(offer['sku']['vendor'], '')
+                    if dist in distributors:
 
-                    # Assign the lifecycle status 'obsolete' (others possible: 'active'
-                    # and 'not recommended for new designs') but not used.
-                    if 'lifecycle_status' in item['specs']:
-                        lifecycle_status = item['specs']['lifecycle_status']['value'][0].lower()
-                        if lifecycle_status == 'obsolete':
-                            parts[idx].lifecycle = lifecycle_status
-
-                    # Take the datasheet provided by the distributor. This will by used
-                    # in the output spreadsheet if not provide any in the BOM/schematic.
-                    # This will be signed in the file.
-                    if item['datasheets']:
-                        parts[idx].datasheet = item['datasheets'][0]['url']
-
-                    for offer in item['offers']:
-
-                        # Get the distributor who made the offer and add their
-                        # price/qty info to the parts list if its one of the accepted distributors.
-                        dist = dist_xlate.get(offer['seller']['name'], '')
-                        if dist in distributors:
-
-                            # Get pricing information from this distributor.
-                            try:
-                                price_tiers = {} # Empty dict in case of exception.
-                                local_currency = list(offer['prices'].keys())
-                                price_tiers = {
-                                    qty: float( currency_convert(price, local_currency[0], currency.upper()) )
-                                    for qty, price in list(offer['prices']
-                                                           .values())[0]
+                        # Get pricing information from this distributor.
+                        try:
+                            price_tiers = {} # Empty dict in case of exception.
+                            local_currency = list(offer['prices'].keys())
+                            price_tiers = {
+                                qty: float( currency_convert(price, local_currency[0], currency.upper()) )
+                                for qty, price in list(offer['prices'].values())[0]
                                 }
-                                # Combine price lists for multiple offers from the same distributor
-                                # to build a complete list of cut-tape and reeled components.
-                                parts[idx].price_tiers[dist].update(price_tiers)
-                            except Exception:
-                                pass  # Price list is probably missing so leave empty default dict in place.
+                            # Combine price lists for multiple offers from the same distributor
+                            # to build a complete list of cut-tape and reeled components.
+                            parts[idx].price_tiers[dist].update(price_tiers)
+                        except Exception:
+                            pass  # Price list is probably missing so leave empty default dict in place.
 
-                            # Compute the quantity increment between the lowest two prices.
-                            # This will be used to distinguish the cut-tape from the reeled components.
-                            try:
-                                part_break_qtys = sorted(price_tiers.keys())
-                                part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
-                            except Exception:
-                                # This will happen if there are not enough entries in the price/qty list.
-                                # As a stop-gap measure, just assign infinity to the part increment.
-                                # A better alternative may be to examine the packaging field of the offer.
-                                part_qty_increment = float("inf")
+                        # Compute the quantity increment between the lowest two prices.
+                        # This will be used to distinguish the cut-tape from the reeled components.
+                        try:
+                            part_break_qtys = sorted(price_tiers.keys())
+                            part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
+                        except Exception:
+                            # This will happen if there are not enough entries in the price/qty list.
+                            # As a stop-gap measure, just assign infinity to the part increment.
+                            # A better alternative may be to examine the packaging field of the offer.
+                            part_qty_increment = float("inf")
 
-                            # Use the qty increment to select the part SKU, web page, and available quantity.
-                            # Do this if this is the first part offer from this dist.
-                            if not parts[idx].part_num[dist]:
-                                parts[idx].part_num[dist] = offer.get('sku', '')
-                                parts[idx].url[dist] = offer.get('product_url', '')
-                                parts[idx].qty_avail[dist] = offer.get(
-                                    'in_stock_quantity', None)
-                                parts[idx].qty_increment[dist] = part_qty_increment
-                            # Otherwise, check qty increment and see if its the smallest for this part & dist.
-                            elif part_qty_increment < parts[idx].qty_increment[dist]:
-                                # This part looks more like a cut-tape version, so
-                                # update the SKU, web page, and available quantity.
-                                parts[idx].part_num[dist] = offer.get('sku', '')
-                                parts[idx].url[dist] = offer.get('product_url', '')
-                                parts[idx].qty_avail[dist] = offer.get(
-                                    'in_stock_quantity', None)
-                                parts[idx].qty_increment[dist] = part_qty_increment
+                        # Use the qty increment to select the part SKU, web page, and available quantity.
+                        # Do this if this is the first part offer from this dist.
+                        print(offer)
+                        parts[idx].part_num[dist] = offer.get('sku', '').get('part', '')
+                        parts[idx].url[dist] = offer.get('product_url', '') # Page to purchase.
+                        parts[idx].qty_avail[dist] = offer.get('in_stock_quantity', None) # In stock.
+                        parts[idx].qty_avail[dist] = offer.get('moq', None) # Minimum order qty.s
+                        parts[idx].qty_increment[dist] = part_qty_increment
 
-                            # Don't bother with any extra info from the distributor.
-                            parts[idx].info_dist[dist] = {}
+                        # Don't bother with any extra info from the distributor.
+                        parts[idx].info_dist[dist] = {}
 
         # Get the valid distributors names used by them part catalog
         # that may be index by PartInfo. This is used to remove the
         # local distributors and future not implemented in the PartInfo
         # definition.
-        distributors_octopart = [d for d in distributors if distributors[d]['type']=='api'
+        distributors_name_api = [d for d in distributors if distributors[d]['type']=='api'
                             and distributors[d].get('api_info').get('kitspace_dist_name')]
 
         # Break list of parts into smaller pieces and get price/quantities from PartInfo.
@@ -308,10 +298,10 @@ class api_partinfo_kitspace(distributor_class):
             else:
                 try:
                     # No MPN, so use the first distributor SKU that's found.
-                    #skus = [part.fields.get(d + '#', '') for d in distributors_octopart
+                    #skus = [part.fields.get(d + '#', '') for d in `distributors_name_api`
                     #            if part.fields.get(d + '#') ]
-                    for octopart_dist_sku in distributors_octopart:
-                        sku = part.fields.get(octopart_dist_sku + '#', '')
+                    for api_dist_sku in distributors_name_api:
+                        sku = part.fields.get(api_dist_sku + '#', '')
                         if sku:
                             break
                     # Create the part query using SKU matching.
@@ -322,10 +312,10 @@ class api_partinfo_kitspace(distributor_class):
                         # despite the normal 'manf#' code, take the sub quantity as
                         # general sub quantity of the current part.
                         try:
-                            part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
+                            part.fields['manf#_qty'] = part.fields[api_dist_sku + '#_qty']
                             logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
-                                    q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
-                                    f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
+                                    q=part.fields[api_dist_sku + '#_qty'], r=part.refs,
+                                    f=api_dist_sku, c=part.fields[api_dist_sku+'#']))
                         except:
                             pass
                 except IndexError:
