@@ -978,6 +978,7 @@ Orange -> Too little quantity available.'''
 
     total_cost_col = start_col + columns['ext_price']['col']
     unit_cost_col = start_col + columns['unit_price']['col']
+    dist_cat_col = start_col + columns['part_num']['col']
     
     # If more than one file (multi-files mode) show how many
     # parts of each BOM as found at this distributor and
@@ -995,14 +996,14 @@ Orange -> Too little quantity available.'''
                                             PART_INFO_LAST_ROW, unit_cost_col)),
                       wrk_formats['total_cost_currency'])
             # Show how many parts were found at this distributor.
-            wks.write(row, total_cost_col+1,
+            wks.write(row, dist_cat_col,
                 '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",{qty_range},"<>")&" parts found"'.format(
                 price_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                                      PART_INFO_LAST_ROW, total_cost_col),
                 qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
                                    PART_INFO_LAST_ROW, qty_prj_col)),
                 wrk_formats['found_part_pct'])
-            wks.write_comment(row, total_cost_col+1, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
+            wks.write_comment(row, dist_cat_col, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
         total_cost_row = PART_INFO_FIRST_ROW - 3 # Shift the total price in this distributor.
     
     # Sum the extended prices for all the parts to get the total cost from this distributor.
@@ -1011,13 +1012,13 @@ Orange -> Too little quantity available.'''
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
     # Show how many parts were found at this distributor.
-    wks.write(total_cost_row, total_cost_col+1,
-        '=(ROWS({count_range})-COUNTBLANK({count_range}))&" of "&ROWS({count_range})&" parts found"'.format(
+    wks.write(total_cost_row, dist_cat_col,
+        '=(COUNTA({count_range})&" of "&ROWS({count_range})&" parts found"'.format(
         #'=COUNTIF({count_range},"<>")&" of "&ROWS({count_range})&" parts found"'.format(
             count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                                  PART_INFO_LAST_ROW, total_cost_col)),
             wrk_formats['found_part_pct'])
-    wks.write_comment(total_cost_row, total_cost_col+1, 'Number of parts found at this distributor.')
+    wks.write_comment(total_cost_row, dist_cat_col, 'Number of parts found at this distributor.')
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
     ORDER_START_COL = start_col + 1
