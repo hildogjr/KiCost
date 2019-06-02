@@ -271,9 +271,9 @@ class api_octopart(distributor_class):
 
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = {
-            dist_value['api_info']['octopart_dist_name']: dist_key
-            for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
-        }
+                dist_value['api_info']['octopart_dist_name']: dist_key
+                for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
+            }
 
         def get_part_info(query, parts, currency='USD'):
             """Query Octopart for quantity/price info and place it into the parts list."""
@@ -321,10 +321,9 @@ class api_octopart(distributor_class):
                                 local_currency = list(offer['prices'].keys())
                                 parts[idx].currency = local_currency[0]
                                 price_tiers = {
-                                    qty: float( currency_convert(price, local_currency[0], currency.upper()) )
-                                    for qty, price in list(offer['prices']
-                                                           .values())[0]
-                                }
+                                        qty: float( currency_convert(price, local_currency[0], currency.upper()) )
+                                        for qty, price in list(offer['prices'].values())[0]
+                                    }
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
                                 if not dist in parts[idx].price_tiers:

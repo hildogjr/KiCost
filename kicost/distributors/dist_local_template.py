@@ -79,6 +79,7 @@ class dist_local_template(distributor_class):
                 # then it's a local distributor. Copy the local distributor template
                 # and add it to the table of distributors.
                 if dist not in distributors:
+                    logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
                     distributors[dist] = copy.deepcopy(distributors['local_template'])
                     distributors[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
 
@@ -90,6 +91,7 @@ class dist_local_template(distributor_class):
             part.qty_avail = {dist: None for dist in distributors}
             part.qty_increment = {dist: None for dist in distributors}
             part.info_dist = {dist: {} for dist in distributors}
+            part.currency = {dist: DEFAULT_CURRENCY for dist in distributors} # Default currency.
 
         # Loop through the parts looking for those sourced by local distributors
         # that won't be found online. Place any user-added info for these parts
@@ -125,7 +127,7 @@ class dist_local_template(distributor_class):
                     link = urlunsplit(url_parts)
                 except Exception:
                     # This happens when no part URL is found.
-                    logger.log(DEBUG_OBSESSIVE, 'No local part URL found!')
+                    logger.log(DEBUG_OBSESSIVE, 'No part URL found to local \'{}\' distributor!'.format(dist))
                 p.url[dist] = link
 
                 price_tiers = {}
@@ -142,8 +144,7 @@ class dist_local_template(distributor_class):
                         price_tiers[int(qty)] = float(price)
                 except AttributeError:
                     # This happens when no pricing info is found.
-                    logger.log(DEBUG_OBSESSIVE,
-                               'No local pricing information found!')
+                    logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))
                 p.price_tiers[dist] = price_tiers
 
         # Remove the local distributor template so it won't be processed later on.

@@ -63,7 +63,7 @@ def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, translate_fields,
         variant,
         dist_list=list(distributor_dict.keys()),
-        collapse_refs=True, currency='USD'):
+        collapse_refs=True, currency=DEFAULT_CURRENCY):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -222,6 +222,10 @@ def kicost(in_file, eda_name, out_filename,
         api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
         dist_local_template.query_part_info(parts, distributor_dict, currency)
 
+    for p in parts:
+        for d in distributor_dict:
+            if d != 'local_template':
+                print('<---->',d,p.part_num[d],p.price_tiers[d])
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,
                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])

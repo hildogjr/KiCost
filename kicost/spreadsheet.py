@@ -48,7 +48,7 @@ __all__ = ['create_spreadsheet']
 
 
 # Currency format and symbol definition (placed default values, it will be replaced athe the doce).
-CURRENCY_ALPHA3 = 'USD'
+CURRENCY_ALPHA3 = DEFAULT_CURRENCY
 CURRENCY_SYMBOL = 'US$'
 CURRENCY_FORMAT = ''
 
@@ -64,7 +64,7 @@ EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'vo
 ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__
 
 
-def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
+def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
                        collapse_refs=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
@@ -85,7 +85,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency='USD',
                         CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE
                         )
     CURRENCY_FORMAT = CURRENCY_SYMBOL + '#,##0.00'
-
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
         # Remove any special characters that might be illegal in a 

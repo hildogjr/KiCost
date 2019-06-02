@@ -185,7 +185,7 @@ class api_partinfo_kitspace(distributor_class):
         except:
             return default
 
-    def query_part_info(parts, distributors, currency='USD'):
+    def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
 
@@ -217,11 +217,11 @@ class api_partinfo_kitspace(distributor_class):
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = {
-            dist_value['api_info']['kitspace_dist_name']: dist_key
-            for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
-        }
+                dist_value['api_info']['kitspace_dist_name']: dist_key
+                for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
+            }
 
-        def get_part_info(query, parts, index, currency='USD'):
+        def get_part_info(query, parts, index, currency=DEFAULT_CURRENCY):
             '''Query PartInfo for quantity/price info and place it into the parts list'''
 
             results = api_partinfo_kitspace.query(query)
@@ -294,7 +294,6 @@ class api_partinfo_kitspace(distributor_class):
                             # Don't bother with any extra info from the distributor.
                             parts[idx].info_dist[dist] = {}
                             print(idx, '----',dist,parts[idx].part_num[dist],parts[idx].price_tiers[dist])
-                            
 
         # Get the valid distributors names used by them part catalog
         # that may be index by PartInfo. This is used to remove the
@@ -361,6 +360,8 @@ class api_partinfo_kitspace(distributor_class):
         # Restore the logging print channel now that the progress bar is no longer needed.
         logger.addHandler(logDefaultHandler)
         logger.removeHandler(logTqdmHandler)
+        
+        
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
