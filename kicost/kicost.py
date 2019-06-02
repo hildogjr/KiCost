@@ -63,7 +63,7 @@ def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, translate_fields,
         variant,
         dist_list=list(distributor_dict.keys()),
-        collapse_refs=True, currency=DEFAULT_CURRENCY):
+        collapse_refs=True, supress_cat_url=True, currency=DEFAULT_CURRENCY):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -80,6 +80,8 @@ def kicost(in_file, eda_name, out_filename,
     @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors
     modules. If `None`, no web/local distributors will be scraped.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
+    Default `True`.
+    @param collapse_refs `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
     Default `True`.
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
@@ -223,7 +225,7 @@ def kicost(in_file, eda_name, out_filename,
         api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,
+    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, supress_cat_url,
                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.

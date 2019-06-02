@@ -65,7 +65,7 @@ ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
-                       collapse_refs=True, user_fields=None, variant=None):
+                       collapse_refs=True, supress_cat_url=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
@@ -303,7 +303,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
             next_col = add_dist_to_worksheet(wks, wrk_formats, columns_global,
                                             START_ROW, dist_start_col,
                                             UNIT_COST_ROW, TOTAL_COST_ROW,
-                                             refs_col, qty_col, dist, parts)
+                                             refs_col, qty_col, dist, parts, supress_cat_url)
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
@@ -725,7 +725,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
 
 def add_dist_to_worksheet(wks, wrk_formats, columns_global, start_row, start_col,
                           unit_cost_row, total_cost_row, part_ref_col, part_qty_col,
-                          dist, parts):
+                          dist, parts, supress_cat_url=True):
     '''Add distributor-specific part data to the spreadsheet.'''
 
     logger.log(DEBUG_OVERVIEW, '# Writing {}'.format(distributor_dict[dist]['label']))
@@ -773,6 +773,16 @@ Orange -> Too little quantity available.'''
             'comment': 'Distributor-assigned catalog number for each part and link to it\'s web page (ctrl-click). Extra distributor data is shown as comment.'
         },
     }
+    if not supress_cat_url:
+        # Add a extra column to the hiperlink.
+        columns.update({'link': {
+                            'col': 5,
+                            'level': 2,
+                            'label': 'URL',
+                            'width': 15,
+                            'comment': 'Distributor catalog link (ctrl-click).'
+                        }})
+        columns['part_num']['comment'] = 'Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.'
     num_cols = len(list(columns.keys()))
 
     row = start_row  # Start building distributor section at this row.
@@ -822,7 +832,8 @@ Orange -> Too little quantity available.'''
         if dist_part_num:
             wks.write(row, start_col + columns['part_num']['col'], dist_part_num, wrk_formats['part_format'])
         else:
-            dist_part_num = 'Link' # To use as text for the link.
+            if supress_cat_url:
+                dist_part_num = 'Link' # To use as text for the link.
         try:
             # Add a comment in the 'cat#' column with extra informations gotten in the distributor web page.
             comment = '\n'.join(sorted([ k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
@@ -836,9 +847,11 @@ Orange -> Too little quantity available.'''
         # Having the link present will help debug if the extraction of the
         # quantity or pricing information was done correctly.
         if part.url[dist]:
-            wks.write_url(row, start_col + columns['part_num']['col'],
-                part.url[dist],
-                string=dist_part_num)
+            if supress_cat_url:
+                wks.write_url(row, start_col + columns['part_num']['col'],
+                    part.url[dist], string=dist_part_num)
+            else:
+                wks.write_url(row, start_col + columns['link']['col'], part.url[dist])
 
         # Enter quantity of part available at this distributor unless it is None
         # which means the part is not stocked.

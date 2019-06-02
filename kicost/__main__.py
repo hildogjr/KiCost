@@ -137,6 +137,9 @@ def main():
     parser.add_argument('--no_collapse',
                         action='store_true',
                         help='Do not collapse the part references in the spreadsheet.')
+    parser.add_argument('--show_cat_url',
+                        action='store_true',
+                        help='Do not suppress the catalogue links into the catalogue code in the spreadsheet.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
                         metavar = 'DIST',
@@ -260,7 +263,7 @@ def main():
 
     #try:
     kicost(in_file=args.input, eda_name=args.eda,
-        out_filename=args.output, collapse_refs=not args.no_collapse,
+        out_filename=args.output, collapse_refs=not args.no_collapse, supress_cat_url=not args.show_cat_url,
         user_fields=args.fields, ignore_fields=args.ignore_fields,
         group_fields=args.group_fields, translate_fields=args.translate_fields,
         variant=args.variant,

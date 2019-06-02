@@ -368,7 +368,7 @@ usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
               [-var VARIANT [VARIANT ...]] [-w] [-q] [-ign NAME [NAME ...]]
               [-grp NAME [NAME ...]] [--debug [LEVEL]]
               [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
-              [--show_dist_list] [--show_eda_list] [--no_collapse]
+              [--show_dist_list] [--show_eda_list] [--no_collapse] [--show_cat_url]
               [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_price]
               [--currency [CURRENCY]] [--guide FILE.XML [FILE.XML ...]]
               [--user]
@@ -409,6 +409,8 @@ optional arguments:
                         then exit.
   --no_collapse         Do not collapse the part references in the
                         spreadsheet.
+  --show_cat_url        Do not suppress the catalogue links into the catalogue code
+                        in the spreadsheet.
   -e DIST [DIST ...], --exclude DIST [DIST ...]
                         Excludes the given distributor(s) from the scraping
                         process.
