@@ -49,22 +49,19 @@ MAX_PARTS_BY_QUERY = 20 # Maximum part list length to one single query.
 QUERY_AVAIABLE_CURRENCIES = {'GBP', 'EUR', 'USD'}
 QUERY_ANSWER = '''
     mpn{manufacturer, part},
-    type,
     datasheet,
     description,
-    image{url, credit_string, credit_url},
-    specs{key, name, value},
+    specs{key, value},
     offers{
+        product_url,
         sku {vendor, part},
         description,
         moq,
         in_stock_quantity,
-        stock_location,
-        image {url, credit_string, credit_url},
-        specs {key, name, value},
         prices{''' + DEFAULT_CURRENCY + '''}
         }
 '''
+#Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location
 QUERY_ANSWER = re.sub('[\s\n]', '', QUERY_ANSWER)
 
 QUERY_PART = 'query ($input: MpnInput!) { part(mpn: $input) {' + QUERY_ANSWER + '} }'
