@@ -45,6 +45,8 @@ currency_convert = CurrencyConverter().convert
 MAX_PARTS_BY_QUERY = 20 # Maximum part list length to one single query.
 
 # Information to return from PartInfo KitSpace server.
+
+QUERY_AVAIABLE_CURRENCIES = {'GBP', 'EUR', 'USD'}
 QUERY_ANSWER = '''
     mpn{manufacturer, part},
     type,
@@ -60,7 +62,7 @@ QUERY_ANSWER = '''
         stock_location,
         image {url, credit_string, credit_url},
         specs {key, name, value},
-        prices{GBP, EUR, USD}
+        prices{USD}
         }
 '''
 QUERY_ANSWER = re.sub('[\s\n]', '', QUERY_ANSWER)
@@ -218,7 +220,6 @@ class api_partinfo_kitspace(distributor_class):
             dist_value['api_info']['kitspace_dist_name']: dist_key
             for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
         }
-        print(dist_xlate)##TODO
 
         def get_part_info(query, parts, index, currency='USD'):
             '''Query PartInfo for quantity/price info and place it into the parts list'''
@@ -237,6 +238,7 @@ class api_partinfo_kitspace(distributor_class):
                 parts[idx].moq = {}
                 parts[idx].qty_increment = {}
                 parts[idx].info_dist = {}
+                parts[idx].currency = 'USD'
                 if not result:
                     #logger.warning('Found any result to part \'{}\''.format(parts[idx].get('manf#')))
                     print('---> NOT GET RESULT',idx, result) ##TODO
@@ -257,12 +259,15 @@ class api_partinfo_kitspace(distributor_class):
                             try:
                                 price_tiers = {} # Empty dict in case of exception.
                                 local_currency = list(offer['prices'].keys())
+                                parts[idx].currency = local_currency[0]
                                 price_tiers = {
                                     qty: float( currency_convert(price, local_currency[0], currency.upper()) )
                                     for qty, price in list(offer['prices'].values())[0]
                                     }
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
+                                if not dist in parts[idx].price_tiers:
+                                    parts[idx].price_tiers[dist] = {}
                                 parts[idx].price_tiers[dist].update(price_tiers)
                             except Exception:
                                 pass  # Price list is probably missing so leave empty default dict in place.
@@ -288,7 +293,8 @@ class api_partinfo_kitspace(distributor_class):
 
                             # Don't bother with any extra info from the distributor.
                             parts[idx].info_dist[dist] = {}
-                            ##print('----',dist,parts[idx].part_num[dist])
+                            print(idx, '----',dist,parts[idx].part_num[dist],parts[idx].price_tiers[dist])
+                            
 
         # Get the valid distributors names used by them part catalog
         # that may be index by PartInfo. This is used to remove the

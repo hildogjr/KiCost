@@ -292,6 +292,7 @@ class api_octopart(distributor_class):
                 parts[i].moq = {}
                 parts[i].qty_increment = {}
                 parts[i].info_dist = {}
+                parts[idx].currency = 'USD'
                 for item in result['items']:
 
                     # Assign the lifecycle status 'obsolete' (others possible: 'active'
@@ -318,6 +319,7 @@ class api_octopart(distributor_class):
                             try:
                                 price_tiers = {} # Empty dict in case of exception.
                                 local_currency = list(offer['prices'].keys())
+                                parts[idx].currency = local_currency[0]
                                 price_tiers = {
                                     qty: float( currency_convert(price, local_currency[0], currency.upper()) )
                                     for qty, price in list(offer['prices']
@@ -325,6 +327,8 @@ class api_octopart(distributor_class):
                                 }
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
+                                if not dist in parts[idx].price_tiers:
+                                    parts[idx].price_tiers[dist] = {}
                                 parts[i].price_tiers[dist].update(price_tiers)
                             except Exception:
                                 pass  # Price list is probably missing so leave empty default dict in place.
