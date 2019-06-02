@@ -219,13 +219,9 @@ def kicost(in_file, eda_name, out_filename,
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
         #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
-        api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
         dist_local_template.query_part_info(parts, distributor_dict, currency)
+        api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
-    for p in parts:
-        for d in distributor_dict:
-            if d != 'local_template':
-                print('<---->',d,p.part_num[d],p.price_tiers[d])
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs,
                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])

@@ -62,7 +62,7 @@ QUERY_ANSWER = '''
         stock_location,
         image {url, credit_string, credit_url},
         specs {key, name, value},
-        prices{USD}
+        prices{''' + DEFAULT_CURRENCY + '''}
         }
 '''
 QUERY_ANSWER = re.sub('[\s\n]', '', QUERY_ANSWER)
@@ -230,15 +230,6 @@ class api_partinfo_kitspace(distributor_class):
             for i in range(len(index)):
                 result = results['data']['match'][i]
                 idx = index[i]
-
-                parts[idx].price_tiers = {}
-                parts[idx].part_num = {}
-                parts[idx].url = {}
-                parts[idx].qty_avail = {}
-                parts[idx].moq = {}
-                parts[idx].qty_increment = {}
-                parts[idx].info_dist = {}
-                parts[idx].currency = 'USD'
                 if not result:
                     #logger.warning('Found any result to part \'{}\''.format(parts[idx].get('manf#')))
                     print('---> NOT GET RESULT',idx, result) ##TODO
@@ -293,7 +284,6 @@ class api_partinfo_kitspace(distributor_class):
 
                             # Don't bother with any extra info from the distributor.
                             parts[idx].info_dist[dist] = {}
-                            print(idx, '----',dist,parts[idx].part_num[dist],parts[idx].price_tiers[dist])
 
         # Get the valid distributors names used by them part catalog
         # that may be index by PartInfo. This is used to remove the

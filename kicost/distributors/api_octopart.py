@@ -283,16 +283,7 @@ class api_octopart(distributor_class):
             # Loop through the response to the query and enter info into the parts list.
             for result in results:
                 i = int(result['reference'])  # Get the index into the part dict.
-
                 # Loop through the offers from various dists for this particular part.
-                parts[i].price_tiers = {}
-                parts[i].part_num = {}
-                parts[i].url = {}
-                parts[i].qty_avail = {}
-                parts[i].moq = {}
-                parts[i].qty_increment = {}
-                parts[i].info_dist = {}
-                parts[idx].currency = 'USD'
                 for item in result['items']:
 
                     # Assign the lifecycle status 'obsolete' (others possible: 'active'
