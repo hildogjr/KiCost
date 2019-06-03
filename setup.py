@@ -21,14 +21,13 @@ with open('HISTORY.md') as history_file:
 
 # KiCost Python packages requirements to run-time.
 requirements = [
-    'beautifulsoup4 >= 4.3.2', # HTML tag deal.
-    'XlsxWriter >= 0.7.3',
-    'future >= 0.15.0',
-    'lxml >= 3.7.2',
-    'yattag >= 1.5.2',
-    'tqdm >= 4.4.0',
-    'requests >= 2.18.4',
-    'CurrencyConverter >= 0.5', # Used to convert price to a not avaiable currecy in one distributor.
+    'beautifulsoup4 >= 4.3.2', # Deal with HTML and XML tags.
+    'XlsxWriter >= 0.7.3', # Write the XLSX output file.
+    #'lxml >= 3.7.2', # Deal with XML files and tags.
+    #'yattag >= 1.5.2', #Deal with HTML tags.
+    'tqdm >= 4.30.0', # Progress bar.
+    'requests >= 2.18.4', # Scrape, API and web modules.
+    'CurrencyConverter >= 0.13', # Used to convert price to a not available currency in one distributor.
     'babel >= 2.6', # For currency format by the language in the spreadsheet.
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
