@@ -98,7 +98,7 @@ def main():
     parser.add_argument('-var', '--variant',
                         nargs='+',
                         type=str,
-                        default=' ', # Default variant is a space.
+                        default=[' '], # Default variant is a space.
                         help='schematic variant name filter.')
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
@@ -126,7 +126,7 @@ def main():
                         help='Print debugging info. (Larger LEVEL means more info.)')
     parser.add_argument('--eda', choices=['kicad', 'altium', 'csv'],
                         nargs='+',
-                        default='kicad',
+                        default=['kicad'],
                         help='Choose EDA tool from which the XML BOM file originated, or use csv for .CSV files.')
     parser.add_argument('--show_dist_list',
                         action='store_true',
@@ -229,6 +229,21 @@ def main():
             kicost_gui_notdependences()
         return
     else:
+        # Match the EDA tool formats with the input files.
+        if len(args.eda) == 1:
+            # Expand a single EDA format to cover all input files.
+            args.eda = args.eda[0:1] * len(args.input)
+        if len(args.input) != len(args.eda):
+            print('The number of input files must match the number of EDA tool formats.')
+            return
+
+        # Match the variants with the input files.
+        if len(args.variant) == 1:
+            args.variant = args.variant[0:1] * len(args.input)
+        if len(args.input) != len(args.variant):
+            print('The number of input files must match the number of variants.')
+            return
+
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
             # Set '.xml' as the default file extension, treating this exception
@@ -236,8 +251,8 @@ def main():
             try:
                 if os.path.splitext(args.input[i])[1] == '':
                     args.input[i] += '.xml'
-                elif os.path.splitext(args.input[i])[1] == '.csv' or args.eda[i] == 'csv':
-                    args.eda_tool = 'csv'
+                elif os.path.splitext(args.input[i])[1] == '.csv':
+                    args.eda[i] = 'csv'
             except IndexError:
                 pass
 
