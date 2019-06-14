@@ -25,6 +25,7 @@ requirements = [
     'XlsxWriter >= 0.7.3', # Write the XLSX output file.
     #'lxml >= 3.7.2', # Deal with XML files and tags.
     #'yattag >= 1.5.2', #Deal with HTML tags.
+    'future', # For print statements.
     'tqdm >= 4.30.0', # Progress bar.
     'requests >= 2.18.4', # Scrape, API and web modules.
     'CurrencyConverter >= 0.13', # Used to convert price to a not available currency in one distributor.
