@@ -55,6 +55,7 @@ class dist_local_template(distributor_class):
             }
         })
 
+    @staticmethod
     def query_part_info(parts, distributors, currency='USD'):
         """Fill-in part information for locally-sourced parts not handled by Octopart."""
 

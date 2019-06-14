@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*- 
+
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
@@ -19,6 +21,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+
+from __future__ import print_function
 
 #Libraries.
 import argparse as ap # Command argument parser.

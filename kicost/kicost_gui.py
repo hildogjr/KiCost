@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*- 
+
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior
+# Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +21,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+
+from __future__ import print_function
 
 # Author information.
 __author__ = 'Hildo Guillardi Júnior'
@@ -42,6 +45,7 @@ import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
 from distutils.version import StrictVersion # To comparative of versions.
 import re # Regular expression parser.
+import locale # For country location.
 import babel # For language.
 from babel import numbers # For currency presentation.
 import logging
@@ -731,7 +735,10 @@ class formKiCost(wx.Frame):
         args.group_fields = str_to_arg(['--group_fields', '-grp']).split()
         args.translate_fields = str_to_arg(['--translate_fields']).split()
         args.variant = str_to_arg(['--variant', '-var'])
-        args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())[0]
+        try:
+            args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())[0]
+        except IndexError:
+            pass # Doesn't work under Python 2 so I'm just ignoring it.
 
         args.collapse_refs = self.m_checkBox_collapseRefs.GetValue() # Collapse refs in the spreadsheet.
 
@@ -818,12 +825,13 @@ class formKiCost(wx.Frame):
         #self.m_listBox_edatool.Append(eda_names)
 
         # Get all the currencies present.
+        loc = locale.getdefaultlocale()[0]
         currencyList = sorted(list(numbers.list_currencies()))
         for c in range(len(currencyList)):
             currency = currencyList[c]
             currencyList[c] = '({a} {s}) {n}'.format(a=currency,
-                                                  s=numbers.get_currency_symbol(currency),
-                                                  n=numbers.get_currency_name(currency)
+                                                  s=numbers.get_currency_symbol(currency, locale=loc),
+                                                  n=numbers.get_currency_name(currency, locale=loc)
                                               )
         self.m_comboBox_currency.Insert(currencyList, 0)
 
@@ -861,6 +869,7 @@ class formKiCost(wx.Frame):
             GUI by Hildo Guillardi Júnior
             '''
             credits = re.sub(r'\n[\t ]+', '\n', credits)  # Remove leading whitespace
+
         self.m_text_credits.SetValue(credits)
 
         # Recovery the last configurations used (found the folder of the file by the OS).

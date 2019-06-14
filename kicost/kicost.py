@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
@@ -21,6 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from __future__ import print_function
 
 # Libraries.
 import sys, os

@@ -136,7 +136,7 @@
       <value>Conn_02x02_Odd_Even</value>
       <footprint>Socket_Strips:Socket_Strip_Straight_2x02_Pitch1.27mm_SMD</footprint>
       <fields>
-        <field name="MPN">FLE–102–01–G–DV</field>
+        <field name="MPN">FLE-102-01-G-DV</field>
       </fields>
       <libsource lib="RX LR lite-cache" part="Conn_02x02_Odd_Even"/>
       <sheetpath names="/" tstamps="/"/>

@@ -31,7 +31,7 @@ import json, requests
 import logging, tqdm
 import copy, re
 from collections import Counter
-from urllib.parse import quote_plus as urlquote
+#from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
 from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
@@ -151,11 +151,16 @@ class api_partinfo_kitspace(distributor_class):
         })
 
 
+    @staticmethod
     def query(query_parts, query_type=QUERY_MATCH):
         '''Send query to server and return results.'''
         #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub('\s', '', variables)
+        # Python 2 prepends a 'u' before the query strings and this makes PartInfo
+        # complain, so remove them.
+        variables = re.sub(':u"', ':"', variables)
+        variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
         response = requests.post(QUERY_URL, {'query': query_type, "variables": variables})
         if response.status_code == requests.codes['ok']: #200
@@ -164,10 +169,11 @@ class api_partinfo_kitspace(distributor_class):
         elif response.status_code == requests.codes['not_found']: #404
             raise Exception('Kitspace server not found.')
         elif response.status_code == requests.codes['bad_request']: #400
-            raise Exception('Bad request to Kitspace server probably due to incorrect string format.')
+            raise Exception('Bad request to Kitspace server probably due to an incorrect string format.')
         else:
             raise Exception('Kitspace error: ' + str(response.status_code))
 
+    @staticmethod
     def get_value(data, item, default=None):
         '''Get the value of `value` field of a dictionary if the `name`field identifier.
         Used to get information from the JSON response.'''
@@ -182,6 +188,7 @@ class api_partinfo_kitspace(distributor_class):
         except:
             return default
 
+    @staticmethod
     def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
