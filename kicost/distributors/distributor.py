@@ -47,10 +47,9 @@ __all__ = ['distributor_class']
 
 class distributor_class(object):
     start_time = time.time()
-    def __init__(self, name, logger, output_currency='USD'):
+    def __init__(self, name, logger):
         self.name = name
         self.logger = logger
-        self.currency = output_currency
 
         # Don't create fake_browser for "local" distributor.
         #if self.domain != None:
@@ -59,7 +58,7 @@ class distributor_class(object):
         # Kept this for future use.
 
 
-    def get_dist_parts_info(self, parts, distributors, currency='USD'):
+    def get_dist_parts_info(self, parts, distributors, currency=DEFAULT_CURRENCY):
         ''' Get the parts info using the modules API/Scrape/Local.'''
         for d in distributors_modules:
             globals()[d].query_part_info(parts, distributors, currency)

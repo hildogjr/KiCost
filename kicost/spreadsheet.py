@@ -47,11 +47,12 @@ currency_convert = CurrencyConverter().convert
 __all__ = ['create_spreadsheet']
 
 
-# Currency format and symbol definition (placed default values, it will be replaced athe the doce).
+# Currency format and symbol definition (placed default values here, it will be replaced by the user asked currency).
 CURRENCY_ALPHA3 = DEFAULT_CURRENCY
 CURRENCY_SYMBOL = 'US$'
 CURRENCY_FORMAT = ''
 
+WORKBOOK = None
 
 # Regular expression to the link for one datasheet.
 DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
@@ -75,6 +76,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
                                 # string for the worksheet name, Google
                                 #Spreadsheet 100 and LibreOffice Calc have no limit.
     DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
+    global WORKSHEET_NAME
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
 
     global CURRENCY_SYMBOL
@@ -189,6 +191,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
 
         # Create the worksheet that holds the pricing information.
         wks = workbook.add_worksheet(WORKSHEET_NAME)
+        global WORKBOOK
+        WORKBOOK = workbook
 
         # Set the row & column for entering the part information in the sheet.
         START_COL = 0
@@ -205,7 +209,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         # Load the global part information (not distributor-specific) into the sheet.
         # next_col = the column immediately to the right of the global data.
         # qty_col = the column where the quantity needed of each part is stored.
-        next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(
+        next_line, next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(
             wks, wrk_formats, START_ROW, START_COL, TOTAL_COST_ROW,
             parts, user_fields, collapse_refs)
         # Create a defined range for the global data.
@@ -313,7 +317,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
 
         # Add the KiCost package information at the end of the spreadsheet to debug
         # information at the forum and "advertising".
-        wks.write(START_ROW+len(parts)+3, START_COL, ABOUT_MSG, wrk_formats['proj_info'])
+        wks.write(next_line+1, START_COL, ABOUT_MSG, wrk_formats['proj_info'])
 
 
 def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
@@ -502,6 +506,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
     parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.
+    used_currencies = []
     for part in parts:
 
         # Enter part references.
@@ -578,6 +583,9 @@ Yellow -> Parts available, but haven't purchased enough.''',
         dist_code_avail = []
         dist_ext_prices = []
         for dist in list(distributor_dict.keys()):
+
+            # Get the currencies used among all distributors.
+            used_currencies.append(part.currency[dist])
 
             # Get the name of the data range for this distributor.
             dist_data_rng = '{}_part_data'.format(dist)
@@ -709,18 +717,45 @@ Yellow -> Parts available, but haven't purchased enough.''',
 
     # Add the total purchase.
     if distributor_dict.keys():
-        final_line = row + 1
-        wks.write(final_line, start_col + columns['unit_price']['col'],
+        next_line = row + 1
+        wks.write(next_line, start_col + columns['unit_price']['col'],
                       'Total Purchase:', wrk_formats['total_cost_label'])
-        wks.write_comment(final_line, start_col + columns['unit_price']['col'],
+        wks.write_comment(next_line, start_col + columns['unit_price']['col'],
                       'This is the total of your cart across all distributors.')
-        wks.write(final_line, start_col + columns['ext_price']['col'],
+        wks.write(next_line, start_col + columns['ext_price']['col'],
                   '=SUM({})'.format(','.join(dist_ext_prices)),
               wrk_formats['total_cost_currency'])
 
+    # Get the actual currency rate to use.
+    next_line = row + 1
+    used_currencies = list(set(used_currencies))
+    logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...', used_currencies, CURRENCY_ALPHA3)
+    if used_currencies:
+        if CURRENCY_ALPHA3 in used_currencies:
+            used_currencies.remove(CURRENCY_ALPHA3)
+        wks.write(next_line, start_col + columns['value']['col'],
+                    'Used currency rates:')
+        next_line = next_line + 1
+    for used_currency in used_currencies:
+        if used_currency!=CURRENCY_ALPHA3:
+            wks.write(next_line, start_col + columns['value']['col'],
+                      '{c}({c_s})/{d}({d_s})'.format(c=CURRENCY_ALPHA3, d=used_currency, c_s=CURRENCY_SYMBOL,
+                                    d_s=numbers.get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
+                                  )
+                      )
+            WORKBOOK.define_name('{c}_{d}'.format(c=CURRENCY_ALPHA3, d=used_currency),
+                '={wks_name}!{cell_ref}'.format(
+                    wks_name="'" + WORKSHEET_NAME + "'",
+                    cell_ref=xl_rowcol_to_cell(next_line, columns['value']['col'] + 1,
+                                           row_abs=True, col_abs=True)))
+            wks.write(next_line, columns['value']['col'] + 1,
+                        currency_convert(1, used_currency, CURRENCY_ALPHA3)
+                      )
+            next_line = next_line + 1
+
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.
-    return start_col + num_cols, start_col + columns['refs']['col'], start_col + columns['qty']['col'], columns
+    return next_line, start_col + num_cols, start_col + columns['refs']['col'], start_col + columns['qty']['col'], columns
 
 
 def add_dist_to_worksheet(wks, wrk_formats, columns_global, start_row, start_col,
@@ -818,6 +853,7 @@ Orange -> Too little quantity available.'''
 
         dist_part_num = part.part_num[dist] # Get the distributor part number.
         price_tiers = part.price_tiers[dist] # Extract price tiers from distributor HTML page tree.
+        dist_currency =  part.currency[dist] # Extract currency used by the distributor.
 
         # If the part number doesn't exist, just leave this row blank.
         if len(dist_part_num) == 0:
@@ -890,23 +926,35 @@ Orange -> Too little quantity available.'''
 
             # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
             # or the purchased quantity (if that is non-zero).
-            wks.write_formula(
-                row, unit_price_col,
-                '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                    needed_qty=xl_rowcol_to_cell(row, part_qty_col),
-                    purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
-                    qtys=','.join([str(q) for q in qtys]),
-                    prices=','.join([str(price_tiers[q]) for q in qtys])),
-                    wrk_formats['currency'])
+            if dist_currency==CURRENCY_ALPHA3:
+                wks.write_formula(
+                    row, unit_price_col,
+                    '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                        needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                        purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                        qtys=','.join([str(q) for q in qtys]),
+                        prices=','.join([str(price_tiers[q]) for q in qtys])),
+                        wrk_formats['currency'])
+            else:
+                wks.write_formula(
+                    row, unit_price_col,
+                    '=iferror({rate}*lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
+                        rate='{c}_{d}'.format(c=CURRENCY_ALPHA3, d=dist_currency), # Currency rate used to this distributor.
+                        needed_qty=xl_rowcol_to_cell(row, part_qty_col),
+                        purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
+                        qtys=','.join([str(q) for q in qtys]),
+                        prices=','.join([str(price_tiers[q]) for q in qtys])),
+                        wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
             minimum_order_qty = qtys[1] # Before get the minimum order quantity to validate the user cart.
-            price_break_info = 'Qty/Price Breaks:\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(s=CURRENCY_SYMBOL)
+            dist_currency_symbol = numbers.get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
+            price_break_info = 'Qty/Price Breaks ({c}):\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(c=dist_currency, s=dist_currency_symbol)
             for q in qtys[1:]:  # Skip the first qty which is always 0.
                 price = price_tiers[q]
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format( q,
-                    numbers.format_currency(price, CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE),
-                    numbers.format_currency(price*q, CURRENCY_ALPHA3, locale=DEFAULT_LANGUAGE))
+                    numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE),
+                    numbers.format_currency(price*q, dist_currency, locale=DEFAULT_LANGUAGE))
             wks.write_comment(row, unit_price_col, price_break_info)
 
             # Conditional format to show no quantity is available.

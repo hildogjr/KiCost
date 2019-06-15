@@ -44,9 +44,6 @@ from ..global_vars import SEPRTR
 from .distributor import distributor_class
 from .global_vars import distributor_dict
 
-from currency_converter import CurrencyConverter
-currency_convert = CurrencyConverter().convert
-
 OCTOPART_MAX_PARTBYQUERY = 20 # Maximum part list length to one single query.
 
 __all__ = ['api_octopart']
@@ -235,7 +232,7 @@ class api_octopart(distributor_class):
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
 
-    def query_part_info(parts, distributors, currency='USD', apiKey=None):
+    def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY, apiKey=None):
         """Fill-in the parts with price/qty/etc info from Octopart."""
         logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
@@ -309,12 +306,11 @@ class api_octopart(distributor_class):
                             # Get pricing information from this distributor.
                             try:
                                 price_tiers = {} # Empty dict in case of exception.
-                                local_currency = list(offer['prices'].keys())
-                                parts[idx].currency = local_currency[0]
-                                price_tiers = {
-                                        qty: float( currency_convert(price, local_currency[0], currency.upper()) )
-                                        for qty, price in list(offer['prices'].values())[0]
-                                    }
+                                dist_currency = list(offer['prices'].keys())
+                                parts[idx].currency[dist] = dist_currency[0]
+                                price_tiers = {qty: float( price )
+                                                    for qty, price in list(offer['prices'].values())[0]
+                                                }
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
                                 if not dist in parts[idx].price_tiers:

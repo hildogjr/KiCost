@@ -39,14 +39,12 @@ from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
 # Distributors definitions.
 from .distributor import distributor_class
 
-from currency_converter import CurrencyConverter
-currency_convert = CurrencyConverter().convert
-
 MAX_PARTS_PER_QUERY = 20 # Maximum number of parts in a single query.
 
 # Information to return from PartInfo KitSpace server.
 
 QUERY_AVAIABLE_CURRENCIES = {'GBP', 'EUR', 'USD'}
+#DEFAULT_CURRENCY
 QUERY_ANSWER = '''
     mpn{manufacturer, part},
     datasheet,
@@ -58,7 +56,7 @@ QUERY_ANSWER = '''
         description,
         moq,
         in_stock_quantity,
-        prices{''' + DEFAULT_CURRENCY + '''}
+        prices{''' + ','.join(QUERY_AVAIABLE_CURRENCIES) + '''}
         }
 '''
 #Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location
@@ -69,9 +67,7 @@ QUERY_MATCH = 'query ($input: [MpnOrSku]!){ match(parts: $input) {' + QUERY_ANSW
 QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER + '} }'
 QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 
-
 __all__ = ['api_partinfo_kitspace']
-
 
 class api_partinfo_kitspace(distributor_class):
 
@@ -222,7 +218,7 @@ class api_partinfo_kitspace(distributor_class):
                 for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
             }
 
-        def get_part_info(query, parts, currency=DEFAULT_CURRENCY):
+        def get_part_info(query, parts):
             '''Query PartInfo for quantity/price info and place it into the parts list'''
 
             results = api_partinfo_kitspace.query(query)
@@ -250,12 +246,28 @@ class api_partinfo_kitspace(distributor_class):
                             # Get pricing information from this distributor.
                             try:
                                 price_tiers = {} # Empty dict in case of exception.
-                                local_currency = list(offer['prices'].keys())
-                                part.currency = local_currency[0]
-                                price_tiers = {
-                                    qty: float( currency_convert(price, local_currency[0], currency.upper()) )
-                                    for qty, price in list(offer['prices'].values())[0]
-                                    }
+                                dist_currency = list(offer['prices'].keys())
+                                
+                                # Get the price tiers prioritizing:
+                                # 1) The asked currency by KiCOst user;
+                                # 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;
+                                # 3) The first not null tier.
+                                if currency in dist_currency and offer['prices'][currency]:
+                                    prices = offer['prices'][currency]
+                                    part.currency[dist] = currency
+                                elif DEFAULT_CURRENCY in dist_currency and offer['prices'][currency]:# and DEFAULT_CURRENCY!=currency:
+                                    prices = offer['prices'][currency]
+                                    part.currency[dist] = DEFAULT_CURRENCY
+                                else:
+                                    for dist_c in dist_currency:
+                                        if offer['prices'][dist_c]:
+                                            prices = offer['prices'][dist_c]
+                                            part.currency[dist] = dist_c
+                                            break
+                                
+                                price_tiers = {qty: float(price)
+                                                    for qty, price in list(prices)
+                                              }
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
                                 if not dist in part.price_tiers:
