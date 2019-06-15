@@ -144,6 +144,9 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
                 'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
+            'currency_rate_name': workbook.add_format({
+                'align': 'right',
+            }),
             'unit_cost_currency': workbook.add_format({
                 'font_size': 13,
                 'font_color': 'green',
@@ -412,19 +415,14 @@ Yellow -> Parts available, but haven't purchased enough.''',
 
     # Remove not used columns by the field not founded in ALL the parts. This give
     # better visualization on notebooks (small screens) and optimization to print.
-    def remove_col_not_exist_parts(code):
-        def remove_column(name):
-            for h in columns:
-                if columns[h]['col']>columns[name]['col']:
-                    columns[h]['col'] -= 1
-            del columns[name]
+    def remove_col_not_exist_parts(code, table=columns):
         for part in parts:
             try:
                 if part.fields[code]:
                     return
             except KeyError:
                 pass
-        remove_column(code) # All 'manf' are empty.
+        table = remove_column(table, code) # All 'manf' are empty.
     remove_col_not_exist_parts('manf')
     remove_col_not_exist_parts('desc')
 
@@ -739,9 +737,10 @@ Yellow -> Parts available, but haven't purchased enough.''',
     for used_currency in used_currencies:
         if used_currency!=CURRENCY_ALPHA3:
             wks.write(next_line, start_col + columns['value']['col'],
-                      '{c}({c_s})/{d}({d_s})'.format(c=CURRENCY_ALPHA3, d=used_currency, c_s=CURRENCY_SYMBOL,
+                      '{c}({c_s})/{d}({d_s}):'.format(c=CURRENCY_ALPHA3, d=used_currency, c_s=CURRENCY_SYMBOL,
                                     d_s=numbers.get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
-                                  )
+                                  ),
+                        wrk_formats['currency_rate_name']
                       )
             WORKBOOK.define_name('{c}_{d}'.format(c=CURRENCY_ALPHA3, d=used_currency),
                 '={wks_name}!{cell_ref}'.format(
@@ -1239,3 +1238,12 @@ Orange -> Too little quantity available.'''
                 xl_range(r, order_col, r, order_col), '{{={f}}}'.format(f=order_func))
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
+
+
+def remove_column(table, name):
+    '''Remove a speficied columns from a create table.'''
+    for h in table:
+        if table[h]['col']>table[name]['col']:
+            table[h]['col'] -= 1
+    del table[name]
+    return table

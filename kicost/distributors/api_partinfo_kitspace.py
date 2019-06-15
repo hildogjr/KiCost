@@ -251,12 +251,12 @@ class api_partinfo_kitspace(distributor_class):
                                 # Get the price tiers prioritizing:
                                 # 1) The asked currency by KiCOst user;
                                 # 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;
-                                # 3) The first not null tier.
+                                # 3) The first not null tier.s
                                 if currency in dist_currency and offer['prices'][currency]:
                                     prices = offer['prices'][currency]
                                     part.currency[dist] = currency
-                                elif DEFAULT_CURRENCY in dist_currency and offer['prices'][currency]:# and DEFAULT_CURRENCY!=currency:
-                                    prices = offer['prices'][currency]
+                                elif DEFAULT_CURRENCY in dist_currency and offer['prices'][DEFAULT_CURRENCY]:# and DEFAULT_CURRENCY!=currency:
+                                    prices = offer['prices'][DEFAULT_CURRENCY]
                                     part.currency[dist] = DEFAULT_CURRENCY
                                 else:
                                     for dist_c in dist_currency:
