@@ -826,7 +826,7 @@ Orange -> Too little quantity available.'''
             distributor_dict[dist]['label']['name'].title(), wrk_formats[dist])
     #if distributor_dict[dist]['type']!='local':
     #    wks.write_url(row, start_col,
-    #        distributor_dict[dist]['label']['link'], wrk_formats[dist],
+    #        distributor_dict[dist]['label']['url'], wrk_formats[dist],
     #        distributor_dict[dist]['label']['name'].title())
     row += 1  # Go to next row.
 

@@ -49,6 +49,10 @@ from .global_vars import *
 from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
 from .distributors.dist_local_template import dist_local_template
 from .distributors.distributor import distributor_class
+from .distributors.global_vars import distributors_modules_dict
+for distributors_modules in distributors_modules_dict:
+    print(distributors_modules)
+    #distributors_modules_dict.update({distributors_modules:{'handle': __import__(distributors_modules)}})
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.

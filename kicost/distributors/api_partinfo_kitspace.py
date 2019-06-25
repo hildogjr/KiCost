@@ -73,11 +73,10 @@ class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        distributor_dict.update({
+        dists = {
             'digikey': {
-                'api_info': {'kitspace_dist_name': 'Digikey'},
                 'module': 'digikey',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['purch', 'part_num', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -85,13 +84,12 @@ class api_partinfo_kitspace(distributor_class):
                 'label': {
                     'name': 'Digi-Key',
                     'format': {'font_color': 'white', 'bg_color': '#CC0000'}, # Digi-Key red.
-                    'link': 'https://www.digikey.com/',
+                    'url': 'https://www.digikey.com/',
                 },
             },
             'farnell': {
-                'api_info':{'kitspace_dist_name': 'Farnell',},
                 'module': 'farnell',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -99,13 +97,12 @@ class api_partinfo_kitspace(distributor_class):
                 'label': {
                     'name': 'Farnell',
                     'format': {'font_color': 'white', 'bg_color': '#FF6600'}, # Farnell/E14 orange.
-                    'link': 'https://www.newark.com/',
+                    'url': 'https://www.newark.com/',
                 },
             },
             'mouser': {
-                'api_info':{'kitspace_dist_name': 'Mouser',},
                 'module': 'mouser', 
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
@@ -113,13 +110,12 @@ class api_partinfo_kitspace(distributor_class):
                 'label': {
                     'name': 'Mouser', 
                     'format': {'font_color': 'white', 'bg_color': '#004A85'}, # Mouser blue.
-                    'link': 'https://www.mouser.com',
+                    'url': 'https://www.mouser.com',
                 },
             },
             'newark': {
-                'api_info':{'kitspace_dist_name': 'Newark',},
                 'module': 'newark',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -127,13 +123,12 @@ class api_partinfo_kitspace(distributor_class):
                 'label': {
                     'name': 'Newark',
                     'format': {'font_color': 'white', 'bg_color': '#A2AE06'}, # Newark/E14 olive green.
-                    'link': 'https://www.newark.com/',
+                    'url': 'https://www.newark.com/',
                 },
             },
             'rs': {
-                'api_info':{'kitspace_dist_name': 'RS',},
                 'module': 'rs',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -141,10 +136,24 @@ class api_partinfo_kitspace(distributor_class):
                 'label': {
                     'name': 'RS Components',
                     'format': {'font_color': 'white', 'bg_color': '#FF0000'}, # RS Components red.
-                    'link': 'https://uk.rs-online.com/',
+                    'url': 'https://uk.rs-online.com/',
                 },
             },
-        })
+        }
+        distributors_modules_dict.update({'api_partinfo_kitspace':{
+                                        'type': 'api', 'url': 'https://kitspace.org/', # Web site API information.
+                                        'distributors': dists.keys(), # Avaliable web distributors in this api.
+                                        'param': None, # Configuration parameters.
+                                        'dist_translation': { # Distributor translation.
+                                                                'Digikey': 'digikey',
+                                                                'Farnell': 'farnell',
+                                                                'Mouser': 'mouser',
+                                                                'Newark': 'newark',
+                                                                'RS': 'rs'
+                                                            }
+                                            }
+                                        })
+        distributor_dict.update(dists)
 
 
     @staticmethod
@@ -163,9 +172,13 @@ class api_partinfo_kitspace(distributor_class):
             results = json.loads(response.text)
             return results
         elif response.status_code == requests.codes['not_found']: #404
-            raise Exception('Kitspace server not found.')
+            raise Exception('Kitspace server not found check your internet connection.')
+        elif response.status_code == requests.codes['request_timeout']: #408
+            raise Exception('KitSpace is not responding.')
         elif response.status_code == requests.codes['bad_request']: #400
-            raise Exception('Bad request to Kitspace server probably due to an incorrect string format.')
+            raise Exception('Bad request to Kitspace server probably due to an incorrect string format check your `manf#` codes and contact the suport team.')
+        elif response.status_code == requests.codes['gateway_timeout']: # 504
+            raise Exception('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.')
         else:
             raise Exception('Kitspace error: ' + str(response.status_code))
 
@@ -213,10 +226,7 @@ class api_partinfo_kitspace(distributor_class):
         logger.removeHandler(logDefaultHandler)
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
-        dist_xlate = {
-                dist_value['api_info']['kitspace_dist_name']: dist_key
-                for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
-            }
+        dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
 
         def get_part_info(query, parts):
             '''Query PartInfo for quantity/price info and place it into the parts list'''
@@ -228,7 +238,6 @@ class api_partinfo_kitspace(distributor_class):
 
                 if not result:
                     logger.warning('No information found for part {}'.format(str(part_query)))
-                    #print('---> NO RESULT FOR', part) ##TODO
 
                 else:
 
@@ -302,8 +311,7 @@ class api_partinfo_kitspace(distributor_class):
         # that may be index by PartInfo. This is used to remove the
         # local distributors and future not implemented in the PartInfo
         # definition.
-        distributors_name_api = [d for d in distributors if distributors[d]['type']=='api'
-                            and distributors[d].get('api_info').get('kitspace_dist_name')]
+        distributors_name_api = distributors_modules_dict['api_partinfo_kitspace']['dist_translation'].values()
 
         # Create queries to get part price/quantities from PartInfo.
         queries = []

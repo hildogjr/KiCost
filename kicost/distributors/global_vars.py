@@ -29,7 +29,7 @@ from ..global_vars import * # Debug information and `SEPRTR`.
 
 # The global dictionary of distributor information starts out empty.
 distributor_dict = {}
-distributors_modules = {}
+distributors_modules_dict = {}
 
 # Extra informations to by got by each part in the distributors.
 EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',

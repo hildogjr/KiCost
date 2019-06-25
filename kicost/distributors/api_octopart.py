@@ -42,7 +42,7 @@ from ..global_vars import SEPRTR
 
 # Distributors definitions.
 from .distributor import distributor_class
-from .global_vars import distributor_dict
+from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
 
 OCTOPART_MAX_PARTBYQUERY = 20 # Maximum part list length to one single query.
 
@@ -52,11 +52,10 @@ class api_octopart(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        distributor_dict.update({
+        dists = {
             'arrow': {
-                'api_info': {'octopart_dist_name': 'Arrow Electronics, Inc.',},
                 'module': 'arrow',   # The directory name containing this file.
-                'type': 'api',     # Allowable values: 'api', 'scrap' or 'local'.
+                'type': 'web',     # Allowable values: 'local' or 'web'.
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
                     'delimiter': ',', # Delimiter for online orders.
@@ -68,13 +67,12 @@ class api_octopart(distributor_class):
                     # Formatting for distributor header in worksheet; bold, font and align are
                     # `spreadsheet.py` defined but can by overload heve.
                     'format': {'font_color': 'white', 'bg_color': '#000000'}, # Arrow black.
-                    'link': 'https://www.arrow.com/',
+                    'url': 'https://www.arrow.com/',
                 },
             },
             'digikey': {
-                'api_info': {'octopart_dist_name': 'Digi-Key',},
                 'module': 'digikey',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['purch', 'part_num', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -82,13 +80,12 @@ class api_octopart(distributor_class):
                 'label': {
                     'name': 'Digi-Key',
                     'format': {'font_color': 'white', 'bg_color': '#CC0000'}, # Digi-Key red.
-                    'link': 'https://www.digikey.com/',
+                    'url': 'https://www.digikey.com/',
                 },
             },
             'farnell': {
-                'api_info': {'octopart_dist_name': 'Farnell',},
                 'module': 'farnell',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -96,13 +93,12 @@ class api_octopart(distributor_class):
                 'label': {
                     'name': 'Farnell',
                     'format': {'font_color': 'white', 'bg_color': '#FF6600'}, # Farnell/E14 orange.
-                    'link': 'https://www.newark.com/',
+                    'url': 'https://www.newark.com/',
                 },
             },
             'mouser': {
-                'api_info': {'octopart_dist_name': 'Mouser',},
                 'module': 'mouser', 
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
@@ -110,13 +106,12 @@ class api_octopart(distributor_class):
                 'label': {
                     'name': 'Mouser', 
                     'format': {'font_color': 'white', 'bg_color': '#004A85'}, # Mouser blue.
-                    'link': 'https://www.mouser.com',
+                    'url': 'https://www.mouser.com',
                 },
             },
             'newark': {
-                'api_info': {'octopart_dist_name': 'Newark',},
                 'module': 'newark',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -124,13 +119,12 @@ class api_octopart(distributor_class):
                 'label': {
                     'name': 'Newark',
                     'format': {'font_color': 'white', 'bg_color': '#A2AE06'}, # Newark/E14 olive green.
-                    'link': 'https://www.newark.com/',
+                    'url': 'https://www.newark.com/',
                 },
             },
             'rs': {
-                'api_info': {'octopart_dist_name': 'RS Components',},
                 'module': 'rs',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -138,13 +132,12 @@ class api_octopart(distributor_class):
                 'label': {
                     'name': 'RS Components',
                     'format': {'font_color': 'white', 'bg_color': '#FF0000'}, # RS Components red.
-                    'link': 'https://uk.rs-online.com/',
+                    'url': 'https://uk.rs-online.com/',
                 },
             },
             'tme': {
-                'api_info': {'octopart_dist_name': 'TME',},
                 'module': 'tme',
-                'type': 'api',
+                'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -152,10 +145,28 @@ class api_octopart(distributor_class):
                 'label': {
                     'name': 'TME',
                     'format': {'font_color': 'white', 'bg_color': '#0C4DA1'}, # TME blue
-                    'link': 'https://www.tme.eu',
+                    'url': 'https://www.tme.eu',
                 },
             },
-        })
+        }
+        distributors_modules_dict.update({'api_octopart': {
+                                        'type': 'api', # Module type, could be 'api', 'scrape' or 'local'.
+                                        'url': 'https://octopart.com/', # Web site API information.
+                                        'distributors': dists.keys(), # Avaliable web distributors in this api.
+                                        'param': 'Token', # Configuration parameters.
+                                        'dist_translation': { # Distributor translation.
+                                                                'arrow': 'Arrow Electronics, Inc.',
+                                                                'digikey': 'Digi-Key',
+                                                                'farnel': 'Farnell',
+                                                                'mouser': 'Mouser',
+                                                                'newark': 'Newark',
+                                                                'rs': 'RS Components',
+                                                                'newark': ,
+                                                                'tme': 'TME'
+                                                            }
+                                            }
+                                        })
+        distributor_dict.update(dists)
 
 
     def query(query, apiKey=None):
@@ -267,10 +278,7 @@ class api_octopart(distributor_class):
         logger.removeHandler(logDefaultHandler)
 
         # Translate from Octopart distributor names to the names used internally by kicost.
-        dist_xlate = {
-                dist_value['api_info']['octopart_dist_name']: dist_key
-                for dist_key, dist_value in distributors.items() if dist_value['type']=='api'
-            }
+        dist_xlate = distributors_modules_dict['api_octopart']['dist_translation']
 
         def get_part_info(query, parts, currency='USD'):
             """Query Octopart for quantity/price info and place it into the parts list."""
@@ -355,8 +363,8 @@ class api_octopart(distributor_class):
         # that may be index by Octopart. This is used to remove the
         # local distributors and future not implemented in the Octopart
         # definition.
-        distributors_octopart = [d for d in distributors if distributors[d]['type']=='api'
-                            and distributors[d].get('api_info').get('octopart_dist_name')]
+        distributors_octopart = [d for d in distributors if distributors[d]['type']=='web'
+                            and distributors_modules_dict['api_octopart'].get('dist_translation')]
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []

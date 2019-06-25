@@ -51,6 +51,7 @@ class dist_local_template(distributor_class):
                 },
             }
         })
+        distributors_modules_dict.update({'local_template':{'type': 'local', 'param': None}})
 
     @staticmethod
     def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
