@@ -21,6 +21,24 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+"""
+    @package
+    KiCost is intended to be run as a script for generating
+    part-cost spreadsheets for circuit boards developed with KiCad.
+    KiCost also comes with a graphical user interface in addition
+    to command line.
+    It is acually powered by Partinfo API (https://kitspace.org/).
+
+    Command line:
+    kicost -i "%I" "%O.xslx"
+    
+    Run Graphical User Interface:
+    kicost
+    
+    Check for help on terminal:
+    kicost --help
+"""
+
 
 from __future__ import print_function
 

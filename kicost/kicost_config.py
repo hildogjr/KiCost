@@ -52,7 +52,7 @@ def get_app_config_path(appname):
         # NSApplicationSupportDirectory = 14
         # NSUserDomainMask = 1
         # True for expanding the tilde into a fully qualified path
-        appdata = os.path.join(NSSearchPathForDirectoriesInDomains(14, 1, True)[0], appname)
+        appdata = os.path.join(NSSearchPathForDirectoriesInDomains(5, 1, True)[0], "Preferences" , appname)
     elif sys.platform == 'win32':
         appdata = os.path.join(os.environ['APPDATA'], appname)
     else:
@@ -153,9 +153,7 @@ def remove_bom_plugin_entry(paths, name):
     if len(bom_plugins_raw) == 1:
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
-        # print(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
-        print(bom_list)
         for plugin in bom_list[1:]:
             #print("name = ", plugin[1].value())
             #print("cmd = " , plugin[2][1])
@@ -166,7 +164,6 @@ def remove_bom_plugin_entry(paths, name):
                 new_list.append(plugin)
     if changes:
         s = sexpdata.dumps(new_list)
-        # save into config
         config = update_config_file(config, "bom_plugins", escape(s))
     write_config_file(os.path.join(paths.kicad_config_dir, "eeschema"), config)
 
@@ -182,10 +179,9 @@ def add_bom_plugin_entry(paths, name, cmd):
         #print(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
         for plugin in bom_list[1:]:
-            #print("name = ", plugin[1].value())
-            #print("cmd = " , plugin[2][1])
             new_list.append(plugin)
-    new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
+    #new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
+    new_list.append( [sexpdata.Symbol('plugin'), '/usr/local/lib/python3.5/dist-packages/kicost/kicost.py', [sexpdata.Symbol('cmd'), 'kicost --guide "%I"'], [sexpdata.Symbol('opts'), 'nickname=KiCost']] )
     s = sexpdata.dumps(new_list)
     # save into config
     config = update_config_file(config, "bom_plugins", escape(s))
@@ -196,15 +192,6 @@ def add_bom_plugin_entry(paths, name, cmd):
 ###############################################################################
 ## Auxiliary functions.
 ###############################################################################
-
-
-def kicost_gui_notdependences():
-    '''Just warnning about the wxPython installtion.'''
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip3 install -U wxPython # For Windows & macOS')
-
-    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
 
 
 def install_kicad_plugin(path):
@@ -231,6 +218,7 @@ def create_os_contex_menu(path):
         wreg.SetValueEx(key, 'ValueName', 0, wreg.REG_SZ, 'testvalue')
         key.Close()
 
+
 def create_gui_shortcut(path):
     '''Create the OS shortcut on applications list.'''
     return
@@ -247,6 +235,7 @@ def create_gui_shortcut(path):
         print('Error. Shortcut not created!')
         pass
     return
+
 
 def create_shortcut(target, directory, name, icon, location, description=''):
     '''Generic routine to create shortcuts.'''
@@ -291,8 +280,7 @@ def get_kicost_path():
     '''Get KiCost installation path.'''
     try:
         import kicost
-        print('KiCad identified at \'{}\', proceding this GUI plugin configuration...'.format(kicost_path))
-        kicost_path = kicost.__file__
+        kicost_path = os.path.dirname(kicost.__file__)
     except:
         try:
             import imp
@@ -306,7 +294,7 @@ def get_kicost_path():
 def setup():
     '''Create all the configuration used by KiCost.'''
     # Check if KiCost really exist.
-    kicost_path = get_kicost_path()
+    kicost_path = os.path.join(get_kicost_path(), 'kicost.py')
     if not kicost_path:
         raise('KiCost installation not found to configurate it.')
     # Check if KiCad is installed.
@@ -344,13 +332,13 @@ def setup():
         class Path():
             pass
         Path.kicad_config_dir = kicost_config_path
-        add_bom_plugin_entry(Path(), 'KiCost', 'kicost --guide "%I"')
+        add_bom_plugin_entry(Path(), '"'+kicost_path+'"', 'kicost --guide "%I"')
         create_gui_shortcut(kicost_path)
     else:
         class Path():
             pass
         Path.kicad_config_dir = kicost_config_path
-        add_bom_plugin_entry(Path(), 'KiCost', 'kicost -qwi "%I"')
+        add_bom_plugin_entry(Path(), '"'+kicost_path+'"', 'kicost -qwi "%I"')
     #install_kicad_plugin(kicost_path)
     #create_os_contex_menu(kicost_path)
 
@@ -360,7 +348,10 @@ def unsetup():
     class Path():
         pass
     Path.kicad_config_dir = kicost_config_path
-    remove_bom_plugin_entry(Path(), 'KiCost')
+    kicost_path = os.path.join(get_kicost_path(), 'kicost.py')
+    if not kicost_config_path:
+        raise('KiCad configuration folder not found.')
+    remove_bom_plugin_entry(Path(), '"'+kicost_path+'"')
     return
 
 
