@@ -32,11 +32,10 @@ from .global_vars import *
 from .dist_local_template import * # Template for local distributors entry.
 #from .api_octopart import *
 from .api_partinfo_kitspace import *
-#from .api_octopart import *
 
-distributors_modules_dict['dist_local_template'] = dist_local_template
-distributors_modules_dict['api_partinfo_kitspace'] = api_partinfo_kitspace
-#distributors_modules_dict['api_octopart'] = api_octopart
+distributors_modules_dict['dist_local_template'] = {'handle': dist_local_template}
+#distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_octopart}
+distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_partinfo_kitspace}
 
 def init_distributor_dict():
     # Clear distributor_dict, then let all distributor modules recreate their entries.

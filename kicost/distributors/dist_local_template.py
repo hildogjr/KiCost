@@ -36,7 +36,6 @@ class dist_local_template(distributor_class):
     def init_dist_dict():
         distributor_dict.update({
             'local_template': {
-                'octopart_name': '',
                 'module': 'local', # The directory name containing this file.
                 'type': 'local', # Allowable values: 'api', 'scrape' or 'local'.
                 'order': {
@@ -51,11 +50,15 @@ class dist_local_template(distributor_class):
                 },
             }
         })
-        distributors_modules_dict.update({'local_template':{'type': 'local', 'param': None}})
+        distributors_modules_dict.update({'local_template':{'type': 'local', 'enabled': True, 'param': None}})
 
     @staticmethod
     def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
         """Fill-in part information for locally-sourced parts not handled by Octopart."""
+
+        # If this module is not enabled, do not add any price values conrrespondent to the local distributors.
+        if not distributors_modules_dict['local_template']['enabled']:
+            return
 
         # This loops through all the parts and finds any that are sourced from
         # local distributors that are not normally searched and places them into
@@ -79,7 +82,7 @@ class dist_local_template(distributor_class):
 
         # Set part info to default blank values for all the distributors.
         for part in parts:
-            # Thes bellow variable are all the data the each distributor/local API/scrap module needs to fill.
+            # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
             part.part_num = {dist: '' for dist in distributors} # Ditributor catalogue number.
             part.url = {dist: '' for dist in distributors} # Purchase distributor URL for the spefic part.
             part.price_tiers = {dist: {} for dist in distributors} # Price break tiers; [[qty1, price1][qty2, price2]...]

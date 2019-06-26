@@ -75,8 +75,7 @@ class api_partinfo_kitspace(distributor_class):
     def init_dist_dict():
         dists = {
             'digikey': {
-                'module': 'digikey',
-                'type': 'web',
+                'module': 'digikey', 'type': 'web',
                 'order': {
                     'cols': ['purch', 'part_num', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -88,8 +87,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'farnell': {
-                'module': 'farnell',
-                'type': 'web',
+                'module': 'farnell', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -101,8 +99,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'mouser': {
-                'module': 'mouser', 
-                'type': 'web',
+                'module': 'mouser', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
@@ -114,8 +111,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'newark': {
-                'module': 'newark',
-                'type': 'web',
+                'module': 'newark', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -127,8 +123,7 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
             'rs': {
-                'module': 'rs',
-                'type': 'web',
+                'module': 'rs', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -140,20 +135,26 @@ class api_partinfo_kitspace(distributor_class):
                 },
             },
         }
-        distributors_modules_dict.update({'api_partinfo_kitspace':{
-                                        'type': 'api', 'url': 'https://kitspace.org/', # Web site API information.
-                                        'distributors': dists.keys(), # Avaliable web distributors in this api.
-                                        'param': None, # Configuration parameters.
-                                        'dist_translation': { # Distributor translation.
-                                                                'Digikey': 'digikey',
-                                                                'Farnell': 'farnell',
-                                                                'Mouser': 'mouser',
-                                                                'Newark': 'newark',
-                                                                'RS': 'rs'
-                                                            }
-                                            }
-                                        })
-        distributor_dict.update(dists)
+        if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
+             # First module load.
+            distributors_modules_dict.update({'api_partinfo_kitspace':{
+                                            'type': 'api', 'url': 'https://kitspace.org/', # Web site API information.
+                                            'distributors': dists.keys(), # Avaliable web distributors in this api.
+                                            'enabled': True, # Default status of the module (it's load but can be not calle).
+                                            'param': None, # Configuration parameters.
+                                            'dist_translation': { # Distributor translation.
+                                                                    'Digikey': 'digikey',
+                                                                    'Farnell': 'farnell',
+                                                                    'Mouser': 'mouser',
+                                                                    'Newark': 'newark',
+                                                                    'RS': 'rs'
+                                                                }
+                                                }
+                                            })
+        # Update the `distributor_dict` with the available distributor in this module with the module is enabled.
+        # It can be not enabled by the GUI saved configurations.
+        if distributors_modules_dict['api_partinfo_kitspace']['enabled']:
+            distributor_dict.update(dists)
 
 
     @staticmethod

@@ -50,9 +50,6 @@ from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
 from .distributors.dist_local_template import dist_local_template
 from .distributors.distributor import distributor_class
 from .distributors.global_vars import distributors_modules_dict
-for distributors_modules in distributors_modules_dict:
-    print(distributors_modules)
-    #distributors_modules_dict.update({distributors_modules:{'handle': __import__(distributors_modules)}})
 
 ## Import the KiCost libraries functions.
 # Import information for various EDA tools.
@@ -224,6 +221,17 @@ def kicost(in_file, eda_name, out_filename,
 
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
+        # Set part info to default blank values for all the distributors.
+        for part in parts:
+            # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
+            part.part_num = {dist: '' for dist in dist_list} # Ditributor catalogue number.
+            part.url = {dist: '' for dist in dist_list} # Purchase distributor URL for the spefic part.
+            part.price_tiers = {dist: {} for dist in dist_list} # Price break tiers; [[qty1, price1][qty2, price2]...]
+            part.qty_avail = {dist: None for dist in dist_list} # Available quantity.
+            part.qty_increment = {dist: None for dist in dist_list}
+            part.info_dist = {dist: {} for dist in dist_list}
+            part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list} # Default currency.
+            part.moq = {dist: 1 for dist in dist_list} # Minimum order quantity allowd by the distributor.
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
         #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)

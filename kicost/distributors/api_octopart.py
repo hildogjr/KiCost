@@ -54,10 +54,10 @@ class api_octopart(distributor_class):
     def init_dist_dict():
         dists = {
             'arrow': {
-                'module': 'arrow',   # The directory name containing this file.
-                'type': 'web',     # Allowable values: 'local' or 'web'.
+                'module': 'arrow', # The directory name containing this file.
+                'type': 'web', # Allowable values: 'local' or 'web'.
                 'order': {
-                    'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+                    'cols': ['part_num', 'purch', 'refs'], # Sort-order for online orders.
                     'delimiter': ',', # Delimiter for online orders.
                     'not_allowed_char': ',', # Characters not allowed at the BoM for web-site import.
                     'replace_by_char': ';', # The `delimiter` is not allowed inside description. This caracter is used to replace it.
@@ -71,8 +71,7 @@ class api_octopart(distributor_class):
                 },
             },
             'digikey': {
-                'module': 'digikey',
-                'type': 'web',
+                'module': 'digikey', 'type': 'web',
                 'order': {
                     'cols': ['purch', 'part_num', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -84,8 +83,7 @@ class api_octopart(distributor_class):
                 },
             },
             'farnell': {
-                'module': 'farnell',
-                'type': 'web',
+                'module': 'farnell', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -97,8 +95,7 @@ class api_octopart(distributor_class):
                 },
             },
             'mouser': {
-                'module': 'mouser', 
-                'type': 'web',
+                'module': 'mouser', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
@@ -110,8 +107,7 @@ class api_octopart(distributor_class):
                 },
             },
             'newark': {
-                'module': 'newark',
-                'type': 'web',
+                'module': 'newark', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -123,8 +119,7 @@ class api_octopart(distributor_class):
                 },
             },
             'rs': {
-                'module': 'rs',
-                'type': 'web',
+                'module': 'rs', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -136,8 +131,7 @@ class api_octopart(distributor_class):
                 },
             },
             'tme': {
-                'module': 'tme',
-                'type': 'web',
+                'module': 'tme', 'type': 'web',
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],
                     'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -149,24 +143,30 @@ class api_octopart(distributor_class):
                 },
             },
         }
-        distributors_modules_dict.update({'api_octopart': {
-                                        'type': 'api', # Module type, could be 'api', 'scrape' or 'local'.
-                                        'url': 'https://octopart.com/', # Web site API information.
-                                        'distributors': dists.keys(), # Avaliable web distributors in this api.
-                                        'param': 'Token', # Configuration parameters.
-                                        'dist_translation': { # Distributor translation.
-                                                                'arrow': 'Arrow Electronics, Inc.',
-                                                                'digikey': 'Digi-Key',
-                                                                'farnel': 'Farnell',
-                                                                'mouser': 'Mouser',
-                                                                'newark': 'Newark',
-                                                                'rs': 'RS Components',
-                                                                'newark': ,
-                                                                'tme': 'TME'
-                                                            }
-                                            }
-                                        })
-        distributor_dict.update(dists)
+        if not 'enabled' in distributors_modules_dict['api_octopart']:
+             # First module load.
+            distributors_modules_dict.update({'api_octopart': {
+                                            'type': 'api', # Module type, could be 'api', 'scrape' or 'local'.
+                                            'url': 'https://octopart.com/', # Web site API information.
+                                            'distributors': dists.keys(), # Avaliable web distributors in this api.
+                                            'enabled': False, # Default status of the module (it's load but can be not calle).
+                                            'param': 'Token', # Configuration parameters.
+                                            'dist_translation': { # Distributor translation.
+                                                                    'arrow': 'Arrow Electronics, Inc.',
+                                                                    'digikey': 'Digi-Key',
+                                                                    'farnel': 'Farnell',
+                                                                    'mouser': 'Mouser',
+                                                                    'newark': 'Newark',
+                                                                    'rs': 'RS Components',
+                                                                    'newark': ,
+                                                                    'tme': 'TME'
+                                                                }
+                                                }
+                                            })
+        # Update the `distributor_dict`with the available distributor in this module with the module is enabled.
+        # It can be not enabled by the GUI saved configurations.
+        if distributors_modules_dict['api_partinfo_kitspace']['enabled']:
+            distributor_dict.update(dists)
 
 
     def query(query, apiKey=None):
