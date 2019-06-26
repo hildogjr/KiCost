@@ -41,6 +41,42 @@ __all__ = ['config_setup_kicost', 'config_unsetup_kicost']
 ## Most of this functions are from https://github.com/bobc/kicad-getlibs/blob/master/kipi/kicad_getlibs.py
 ###############################################################################
 
+def get_app_config_path(appname):
+    if sys.platform == 'darwin':
+        from AppKit import NSSearchPathForDirectoriesInDomains
+        # http://developer.apple.com/DOCUMENTATION/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Functions/Reference/reference.html#//apple_ref/c/func/NSSearchPathForDirectoriesInDomains
+        # NSApplicationSupportDirectory = 14
+        # NSUserDomainMask = 1
+        # True for expanding the tilde into a fully qualified path
+        appdata = os.path.join(NSSearchPathForDirectoriesInDomains(14, 1, True)[0], appname)
+    elif sys.platform == 'win32':
+        appdata = os.path.join(os.environ['APPDATA'], appname)
+    else:
+        # ~/.kicad
+        appdata = os.path.expanduser(os.path.join("~", "." + appname))
+    return appdata
+
+def get_user_documents():
+    if sys.platform == 'darwin':
+        user_documents = os.path.expanduser(os.path.join("~", "Documents"))
+    elif sys.platform == 'win32':
+        # e.g. c:\users\bob\Documents
+        user_documents = os.path.join(os.environ['USERPROFILE'], "Documents")
+    else:
+        user_documents = os.path.expanduser(os.path.join("~", "Documents"))
+    return user_documents
+
+
+def get_running_processes(appname):
+    processes = []
+    for p in psutil.process_iter():
+        try:
+            if p.name().lower().startswith(appname):
+                processes.append(p)
+        except psutil.Error:
+            pass
+    return processes
+
 def get_config_item(config, key):
     for p in config:
         if before(p,'=').strip() == key:
@@ -222,7 +258,7 @@ def get_kicost_path():
         except:
             print('KiCost can\'t be reached.\nPost setup not executed!')
             return None
-    return os.path.dirname( os.path.fullname(kicost_path) )
+    return os.path.dirname( os.path.abspath(kicost_path) )
 
 
 def config_setup_kicost():
@@ -231,9 +267,12 @@ def config_setup_kicost():
     kicost_path = get_kicost_path()
     if not kicost_path:
         raise('KiCost installation not found to configurate it.')
+    kicost_config_path = get_app_config_path('kicad')
+    if not kicost_config_path:
+        raise('KiCad configuration folder not found.')
     print('KiCost identified at \'{}\', proceding with it configuration...'.format(kicost_path))
-    add_bom_plugin_entry(kicost_path, 'KiCost', 'kicost --guide "%I"')
-    add_bom_plugin_entry(kicost_path, 'KiCost', 'kicost -qwi "%I"')
+    add_bom_plugin_entry(kicost_config_path, 'KiCost', 'kicost --guide "%I"')
+    add_bom_plugin_entry(kicost_config_path, 'KiCost', 'kicost -qwi "%I"')
     
     # Check if KiCad is installed.
     
@@ -256,7 +295,7 @@ def config_setup_kicost():
     install_kicad_plugin(kicost_path)
     create_os_contex_menu(kicost_path)
 
-def config_unsetp_kicost():
+def config_unsetup_kicost():
     '''Create all the configuration used by KiCost.'''
     kicost_path = get_kicost_path()
     remove_bom_plugin_entry(kicost_path, 'KiCost')
