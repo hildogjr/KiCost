@@ -32,8 +32,12 @@ __company__ = 'University of Campinas - Brazil'
 
 # Python libraries.
 import os, sys
+try:
+    import sexpdata
+except:
+    from . import sexpdata
 
-__all__ = ['config_setup_kicost', 'config_unsetup_kicost']
+__all__ = ['setup', 'unsetup']
 
 
 ###############################################################################
@@ -52,8 +56,8 @@ def get_app_config_path(appname):
     elif sys.platform == 'win32':
         appdata = os.path.join(os.environ['APPDATA'], appname)
     else:
-        # ~/.kicad
-        appdata = os.path.expanduser(os.path.join("~", "." + appname))
+        # ~/.config/kicad
+        appdata = os.path.expanduser(os.path.join("~", ".config", appname))
     return appdata
 
 def get_user_documents():
@@ -76,6 +80,45 @@ def get_running_processes(appname):
         except psutil.Error:
             pass
     return processes
+
+
+def before(value, a):
+    # Find first part and return slice before it.
+    pos_a = value.find(a)
+    if pos_a == -1: return ""
+    return value[0:pos_a]
+
+def after(value, a):
+    # Find and validate first part.
+    pos_a = value.find(a)
+    if pos_a == -1: return ""
+    # Returns chars after the found string.
+    adjusted_pos_a = pos_a + len(a)
+    if adjusted_pos_a >= len(value): return ""
+    return value[adjusted_pos_a:]
+
+def de_escape (s):
+    result = ""
+    in_escape = False
+    for c in s:
+        if in_escape:
+            result += c
+            in_escape = False
+        else:
+            if c== '\\':
+                in_escape = True
+            else:
+                result += c
+    return result
+
+def escape (s):
+    result = ""
+    for c in s:
+        if c == '\\':
+            result += '\\' + c
+        else:
+            result += c
+    return result
 
 def get_config_item(config, key):
     for p in config:
@@ -105,24 +148,23 @@ def remove_bom_plugin_entry(paths, name):
     config = read_config_file(os.path.join(paths.kicad_config_dir, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
-    new_list.append(Symbol("plugins"))
+    new_list.append(sexpdata.Symbol("plugins"))
     changes = False
     if len(bom_plugins_raw) == 1:
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
         # print(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
+        print(bom_list)
         for plugin in bom_list[1:]:
             #print("name = ", plugin[1].value())
             #print("cmd = " , plugin[2][1])
             if plugin[1].value() == name:
                 # we want to delete this entry
-                if args.verbose:
-                    print("Removing %s" % name)
                 changes = True
             else:
                 new_list.append(plugin)
-    if changes and not args.test:
+    if changes:
         s = sexpdata.dumps(new_list)
         # save into config
         config = update_config_file(config, "bom_plugins", escape(s))
@@ -133,7 +175,7 @@ def add_bom_plugin_entry(paths, name, cmd):
     config = read_config_file(os.path.join(paths.kicad_config_dir, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
-    new_list.append(Symbol("plugins"))
+    new_list.append(sexpdata.Symbol("plugins"))
     if len(bom_plugins_raw)==1:
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
@@ -143,14 +185,12 @@ def add_bom_plugin_entry(paths, name, cmd):
             #print("name = ", plugin[1].value())
             #print("cmd = " , plugin[2][1])
             new_list.append(plugin)
-    if not args.test:
-        if args.verbose:
-            print("Adding %s" % name)
-        new_list.append([Symbol('plugin'), Symbol(name), [Symbol('cmd'), cmd]])
-        s = sexpdata.dumps(new_list)
-        # save into config
-        config = update_config_file(config, "bom_plugins", escape(s))
+    new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
+    s = sexpdata.dumps(new_list)
+    # save into config
+    config = update_config_file(config, "bom_plugins", escape(s))
     write_config_file(os.path.join(paths.kicad_config_dir, "eeschema"), config)
+
 
 
 ###############################################################################
@@ -193,6 +233,7 @@ def create_os_contex_menu(path):
 
 def create_gui_shortcut(path):
     '''Create the OS shortcut on applications list.'''
+    return
     try:
         
         directory
@@ -241,6 +282,7 @@ def create_shortcut(target, directory, name, icon, location, description=''):
     return
 
 
+
 ###############################################################################
 ## Main functions.
 ###############################################################################
@@ -261,26 +303,21 @@ def get_kicost_path():
     return os.path.dirname( os.path.abspath(kicost_path) )
 
 
-def config_setup_kicost():
+def setup():
     '''Create all the configuration used by KiCost.'''
     # Check if KiCost really exist.
     kicost_path = get_kicost_path()
     if not kicost_path:
         raise('KiCost installation not found to configurate it.')
+    # Check if KiCad is installed.
     kicost_config_path = get_app_config_path('kicad')
     if not kicost_config_path:
         raise('KiCad configuration folder not found.')
-    print('KiCost identified at \'{}\', proceding with it configuration...'.format(kicost_path))
-    add_bom_plugin_entry(kicost_config_path, 'KiCost', 'kicost --guide "%I"')
-    add_bom_plugin_entry(kicost_config_path, 'KiCost', 'kicost -qwi "%I"')
-    
-    # Check if KiCad is installed.
-    
-    kicad_installation = True
+    print('KiCost identified at \'{}\', proceding with it configuration in file \'{}\'...'.format(kicost_path, kicost_config_path))
     # Check if wxPython is present.
     try:
         import wx # wxWidgets for Python.
-        print('wxPython identified, proceding this GUI shortcut configuration...')
+        print('GUI requirements (wxPython) identified.')
         guide = True
     except ImportError:
         kicost_gui_notdependences
@@ -290,19 +327,46 @@ def config_setup_kicost():
         guide = False
         pass
 
-    if guide:
-        create_gui_shortcut(kicost_path)
-    install_kicad_plugin(kicost_path)
-    create_os_contex_menu(kicost_path)
+    if not guide:
+        MESSAGE = 'Do want to install the GUI requirement packages? (Y/n)\n'
+        if sys.version_info >= (3,0):
+            ans = input(MESSAGE)
+        else:
+            ans = raw_input(MESSAGE)
+        if ans.lower() in ['y', 'yes']:
+            try:
+                from pip import main as pipmain
+            except ImportError:
+                from pip._internal import main as pipmain
+            pipmain(['install', 'wxpython'])
 
-def config_unsetup_kicost():
+    if guide:
+        class Path():
+            pass
+        Path.kicad_config_dir = kicost_config_path
+        add_bom_plugin_entry(Path(), 'KiCost', 'kicost --guide "%I"')
+        create_gui_shortcut(kicost_path)
+    else:
+        class Path():
+            pass
+        Path.kicad_config_dir = kicost_config_path
+        add_bom_plugin_entry(Path(), 'KiCost', 'kicost -qwi "%I"')
+    #install_kicad_plugin(kicost_path)
+    #create_os_contex_menu(kicost_path)
+
+def unsetup():
     '''Create all the configuration used by KiCost.'''
-    kicost_path = get_kicost_path()
-    remove_bom_plugin_entry(kicost_path, 'KiCost')
+    kicost_config_path = get_app_config_path('kicad')
+    class Path():
+        pass
+    Path.kicad_config_dir = kicost_config_path
+    remove_bom_plugin_entry(Path(), 'KiCost')
     return
+
+
 
 ###############################################################################
 # Main entrypoint.
 ###############################################################################
 if __name__ == '__main__':
-    config_setup_kicost()
+    setup()

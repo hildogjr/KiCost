@@ -35,13 +35,13 @@ requirements = [
 
 # KiCost Python packages requirements to debug and tests.
 test_requirements = [
-    # TODO: put package test requirements here
+    # Put package test requirements here.
 ]
 
 # Extra files needed by KiCost.
 data_files=[
-    #('kicost', ['kicost/kicost.ico']), # Icon to the user guide. Added via `MANIFEST.in`
-],
+    #('kicost', ['kicost/kicost.ico']), # Icon to the user guide. Added via `MANIFEST.in`.
+]
 
 setup(
     name='kicost',
@@ -78,3 +78,10 @@ setup(
     test_suite='tests',
     tests_require=test_requirements
 )
+
+# Run the KiCost integration script.
+try:
+    from .kicost.kicost_config import setup as kicost_setup
+    kicost_setup()
+except:
+    print('Error to run KiCost integration script.')

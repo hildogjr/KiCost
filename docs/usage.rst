@@ -364,14 +364,14 @@ Command-Line Options
 ::
 
 usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
-              [-f NAME [NAME ...]] [--translate NAME [NAME ...]]
+              [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
               [-var VARIANT [VARIANT ...]] [-w] [-q] [-ign NAME [NAME ...]]
               [-grp NAME [NAME ...]] [--debug [LEVEL]]
               [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
-              [--show_dist_list] [--show_eda_list] [--no_collapse] [--show_cat_url]
-              [-e DIST [DIST ...]] [--include DIST [DIST ...]] [--no_price]
-              [--currency [CURRENCY]] [--guide FILE.XML [FILE.XML ...]]
-              [--user]
+              [--show_dist_list] [--show_eda_list] [--no_collapse]
+              [--show_cat_url] [-e DIST [DIST ...]]
+              [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
+              [--guide FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
 
 Build cost spreadsheet for a KiCAD project.
 
@@ -409,8 +409,8 @@ optional arguments:
                         then exit.
   --no_collapse         Do not collapse the part references in the
                         spreadsheet.
-  --show_cat_url        Do not suppress the catalogue links into the catalogue code
-                        in the spreadsheet.
+  --show_cat_url        Do not suppress the catalogue links into the catalogue
+                        code in the spreadsheet.
   -e DIST [DIST ...], --exclude DIST [DIST ...]
                         Excludes the given distributor(s) from the scraping
                         process.
@@ -426,9 +426,12 @@ optional arguments:
                         Start the user guide to run KiCost passing the file
                         parameter give by "--input", all others parameters are
                         ignored.
-  --user, -u            Run KiCost on terminal using the parameters in the
+  --user                Run KiCost on terminal using the parameters in the
                         guide memory, all passed parameters from terminal take
                         priority.
+  --setup               Run KiCost integration (with KiCad and OS)
+                        configuration script.
+  --unsetup             Undo the KiCost integration.
 
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)

@@ -165,11 +165,27 @@ def main():
                         type=str,
                         metavar='FILE.XML',
                         help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
-    parser.add_argument('--user', '-u',
+    parser.add_argument('--user',
                         action='store_true',
                         help='Run KiCost on terminal using the parameters in the guide memory, all passed parameters from terminal take priority.')
+    parser.add_argument('--setup',
+                        action='store_true',
+                        help='Run KiCost integration (with KiCad and OS) configuration script.')
+    parser.add_argument('--unsetup',
+                        action='store_true',
+                        help='Undo the KiCost integration.')
 
     args = parser.parse_args()
+
+    # Setup and unsetup KiCost integration.
+    if args.setup:
+        from .kicost_config import setup as kicost_setup
+        kicost_setup()
+        return
+    if args.unsetup:
+        from .kicost_config import unsetup as kicost_unsetup
+        kicost_unsetup()
+        return
 
     # Set up logging.
     if args.debug is not None:
