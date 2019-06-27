@@ -181,7 +181,7 @@ def add_bom_plugin_entry(paths, name, cmd):
         for plugin in bom_list[1:]:
             new_list.append(plugin)
     #new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
-    new_list.append( [sexpdata.Symbol('plugin'), '/usr/local/lib/python3.5/dist-packages/kicost/kicost.py', [sexpdata.Symbol('cmd'), 'kicost --guide "%I"'], [sexpdata.Symbol('opts'), 'nickname=KiCost']] )
+    new_list.append( [sexpdata.Symbol('plugin'), '/usr/local/lib/python3.5/dist-packages/kicost/kicost.py', [sexpdata.Symbol('cmd'), 'kicost --gui "%I"'], [sexpdata.Symbol('opts'), 'nickname=KiCost']] )
     s = sexpdata.dumps(new_list)
     # save into config
     config = update_config_file(config, "bom_plugins", escape(s))
@@ -193,6 +193,33 @@ def add_bom_plugin_entry(paths, name, cmd):
 ## Auxiliary functions.
 ###############################################################################
 
+if sys.platform.startswith('windows'):
+    import shutil, sysconfig, winreg
+
+    def get_reg(path, name):
+        # Read variable from Windows Registry.
+        # From http://stackoverflow.com/a/35286642
+        try:
+            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, path, 0,
+                                           winreg.KEY_READ)
+            value, regtype = winreg.QueryValueEx(registry_key, name)
+            winreg.CloseKey(registry_key)
+            return value
+        except WindowsError:
+            return None
+
+    def set_reg(path, name, value):
+        # Write in the Windows Registry.
+        try:
+            winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, path)
+            registry_key = winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, path, 0, 
+                                           winreg.KEY_WRITE)
+            winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
+            winreg.CloseKey(registry_key)
+            return True
+        except WindowsError:
+            return False
+
 
 def install_kicad_plugin(path):
     '''Create the plugin installation if KiCad present'''
@@ -203,42 +230,34 @@ def install_kicad_plugin(path):
 
 def create_os_contex_menu(path):
     '''Create the OS context menu to recognized KiCost files (XML/CSV).'''
-    from kicost.edas import eda_dict
-    if sys.platform.startswith('windows'):
-        import _winreg as wreg
-        key = wreg.OpenKey(wreg.HKEY_LOCAL_MACHINE, "HKEY_CLASSES_ROOT\\xmlfile\\shell\\KiCost",0, wreg.KEY_ALL_ACCESS)
-        if not guide:
-            cmd_opt = '--guide'
-        else:
-            cmd_opt = '-wi'
-        wreg.SetValue(key, 'command', wreg.REG_SZ, '{kicost} {opt} "%1"'.format(
-                    kicost=os.path.join(kicost_path, 'kicost'),
-                    opt=cmd_opt
-                ))
-        wreg.SetValueEx(key, 'ValueName', 0, wreg.REG_SZ, 'testvalue')
-        key.Close()
-
-
-def create_gui_shortcut(path):
-    '''Create the OS shortcut on applications list.'''
-    return
     try:
-        
-        directory
-        location
-        
-        create_shortcut('kicost', directory, 'KiCost', 
-                os.path.join(location, 'kicost.ico'),
-                location,
-                'Generate a Cost Bill of Material for EDA softwares')
-    except:
-        print('Error. Shortcut not created!')
+        import wx # wxWidgets for Python.
+        print('GUI requirements (wxPython) identified.')
+        have_gui = True
+    except ImportError:
+        kicost_gui_notdependences
+        have_gui = False
+    except Exception as e:
+        print(e)
+        have_gui = False
         pass
-    return
+    if not have_gui:
+        cmd_opt = '--gui'
+    else:
+        cmd_opt = '-wi'
+    if sys.platform.startswith('darwin'): # Mac-OS.
+        print('I don\'t kwon how to create the context menu on OSX')
+    elif sys.platform.startswith('windows'):
+        set_reg(wreg.HKEY_LOCAL_MACHINE, '\xmlfile\shell\KiCost', 'command', 'kicost {opt} "%1"'.format(cmd_opt))
+        set_reg(wreg.HKEY_LOCAL_MACHINE, '\csvfile\shell\KiCost', 'command', 'kicost {opt} "%1"'.format(cmd_opt))
+    elif sys.platform.startswith('linux'):
+        print('I don\'t kwon how to create the context menu on Linux')
 
 
-def create_shortcut(target, directory, name, icon, location, description=''):
+def create_shortcut(target, directory, name, icon, location=None, description='', category=''):
     '''Generic routine to create shortcuts.'''
+    if not location:
+        location = os.path.abspath(target)
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t kwon how to create a shortcut in OSX')
     elif sys.platform.startswith('windows'): # Windows.
@@ -254,18 +273,18 @@ def create_shortcut(target, directory, name, icon, location, description=''):
         content = '[Desktop Entry]\nType=Application\nName={name}\nExec={target}'.format(
                     name=name, target=target)
         if description:
-            content += '\nComment='+description
-        content += '\nCategories=BOM'
+            content += '\nComment=\''+description+'\''
+        content += '\nCategories={}'.format(category)
         content += '\nTerminal=false'
-        if directory:
-            content += '\nPath={}'.format(directory)
+        content += '\nPath={}'.format(location)
         if icon:
-            content += '\nIcon{}'.format(icon)
+            content += '\nIcon={}'.format(icon)
         path = os.path.join(directory, name+'.desktop')
         with open(path, 'w') as shortcut:
             shortcut.write(content)
             shortcut.close()
-        os.chmod(path)
+        import stat
+        os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
     else:
         print('Not recognized OS.\nShortcut not created!')
     return
@@ -288,34 +307,35 @@ def get_kicost_path():
         except:
             print('KiCost can\'t be reached.\nPost setup not executed!')
             return None
-    return os.path.dirname( os.path.abspath(kicost_path) )
+    return os.path.abspath(kicost_path)
 
 
 def setup():
     '''Create all the configuration used by KiCost.'''
     # Check if KiCost really exist.
-    kicost_path = os.path.join(get_kicost_path(), 'kicost.py')
+    kicost_path = get_kicost_path()
+    kicost_file_path = os.path.join(kicost_path, 'kicost.py')
     if not kicost_path:
         raise('KiCost installation not found to configurate it.')
     # Check if KiCad is installed.
-    kicost_config_path = get_app_config_path('kicad')
-    if not kicost_config_path:
+    kicad_config_path = get_app_config_path('kicad')
+    if not kicad_config_path:
         raise('KiCad configuration folder not found.')
-    print('KiCost identified at \'{}\', proceding with it configuration in file \'{}\'...'.format(kicost_path, kicost_config_path))
+    print('KiCost identified at \'{}\', proceding with it configuration in file \'{}\'...'.format(kicost_path, kicad_config_path))
     # Check if wxPython is present.
     try:
         import wx # wxWidgets for Python.
         print('GUI requirements (wxPython) identified.')
-        guide = True
+        have_gui = True
     except ImportError:
         kicost_gui_notdependences
-        guide = False
+        have_gui = False
     except Exception as e:
         print(e)
-        guide = False
+        have_gui = False
         pass
 
-    if not guide:
+    if not have_gui:
         MESSAGE = 'Do want to install the GUI requirement packages? (Y/n)\n'
         if sys.version_info >= (3,0):
             ans = input(MESSAGE)
@@ -327,29 +347,49 @@ def setup():
             except ImportError:
                 from pip._internal import main as pipmain
             pipmain(['install', 'wxpython'])
+            have_gui = True # now the Graphical User Interface is installed.
 
-    if guide:
+    print('Creating KiCad integration...')
+    if have_gui:
         class Path():
             pass
-        Path.kicad_config_dir = kicost_config_path
-        add_bom_plugin_entry(Path(), '"'+kicost_path+'"', 'kicost --guide "%I"')
-        create_gui_shortcut(kicost_path)
+        Path.kicad_config_dir = kicad_config_path
+        add_bom_plugin_entry(Path(), '"'+kicost_file_path+'"', 'kicost --gui "%I"')
     else:
         class Path():
             pass
-        Path.kicad_config_dir = kicost_config_path
+        Path.kicad_config_dir = kicad_config_path
         add_bom_plugin_entry(Path(), '"'+kicost_path+'"', 'kicost -qwi "%I"')
-    #install_kicad_plugin(kicost_path)
+    print('KiCost will appear in the Eeschema BOM plugin list.')
+
+    if have_gui:
+        print('Creating app shortcuts...')
+        if sys.platform.startswith('darwin'): # Mac-OS.
+            print('I don\'t kwon the desktop folder of mac-OS.')
+            shotcut_directories = []
+        elif sys.platform.startswith('windows'):
+            shotcut_directories = [os.path.normpath(get_reg(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+        elif sys.platform.startswith('linux'):
+            shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
+        else:
+            print('Not recognized OS.\nShortcut not created!')
+        for shotcut_directory in shotcut_directories:
+            create_shortcut('kicost', shotcut_directory, 
+                            'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
+                            'Generate a Cost Bill of Material for EDA softwares', 'BOM')
+
+    print('Creating OS context integration...')
     #create_os_contex_menu(kicost_path)
+
 
 def unsetup():
     '''Create all the configuration used by KiCost.'''
-    kicost_config_path = get_app_config_path('kicad')
+    kicad_config_path = get_app_config_path('kicad')
     class Path():
         pass
-    Path.kicad_config_dir = kicost_config_path
+    Path.kicad_config_dir = kicad_config_path
     kicost_path = os.path.join(get_kicost_path(), 'kicost.py')
-    if not kicost_config_path:
+    if not kicad_config_path:
         raise('KiCad configuration folder not found.')
     remove_bom_plugin_entry(Path(), '"'+kicost_path+'"')
     return

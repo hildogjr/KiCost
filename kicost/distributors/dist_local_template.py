@@ -131,17 +131,15 @@ class dist_local_template(distributor_class):
 
                 price_tiers = {}
                 try:
-                    local_currency = re.findall('[a-zA-Z]{3}', pricing)[0]
+                    try:
+                        local_currency = re.findall('[a-zA-Z]{3}', pricing)[0].upper()
+                    except:
+                        local_currency = DEFAULT_CURRENCY
                     pricing = re.sub('[^0-9.;:]', '', pricing)  # Keep only digits, decimals, delimiters.
                     for qty_price in pricing.split(';'):
                         qty, price = qty_price.split(SEPRTR)
                         if local_currency:
                             p.currency[dist] = local_currency
-                        #if local_currency:
-                        #    try:
-                        #        price = (price, local_currency[0], currency.upper())
-                        #    except:
-                        #        pass
                         price_tiers[int(qty)] = float(price)
                 except AttributeError:
                     # This happens when no pricing info is found.

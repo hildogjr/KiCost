@@ -371,7 +371,7 @@ usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
               [--show_dist_list] [--show_eda_list] [--no_collapse]
               [--show_cat_url] [-e DIST [DIST ...]]
               [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
-              [--guide FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
+              [--gui FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
 
 Build cost spreadsheet for a KiCAD project.
 
@@ -422,12 +422,12 @@ optional arguments:
   --currency [CURRENCY]
                         Define the priority currency. Use the ISO4217 for
                         currency (`USD`, `EUR`). Default: `USD`.
-  --guide FILE.XML [FILE.XML ...]
-                        Start the user guide to run KiCost passing the file
+  --gui FILE.XML [FILE.XML ...]
+                        Start the GUI to run KiCost passing the file
                         parameter give by "--input", all others parameters are
                         ignored.
   --user                Run KiCost on terminal using the parameters in the
-                        guide memory, all passed parameters from terminal take
+                        GUI memory, all passed parameters from terminal take
                         priority.
   --setup               Run KiCost integration (with KiCad and OS)
                         configuration script.

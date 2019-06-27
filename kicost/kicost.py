@@ -27,14 +27,14 @@
     part-cost spreadsheets for circuit boards developed with KiCad.
     KiCost also comes with a graphical user interface in addition
     to command line.
+    Full manual at https://xesscorp.github.io/KiCost
+    Development at https://github.com/xesscorp/KiCost
     It is acually powered by Partinfo API (https://kitspace.org/).
 
     Command line:
-    kicost -i "%I" "%O.xslx"
-    
+        kicost -i "%I" "%O.xslx"
     Run Graphical User Interface:
-    kicost
-    
+        kicost
     Check for help on terminal:
     kicost --help
 """

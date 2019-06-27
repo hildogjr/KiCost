@@ -262,6 +262,7 @@ class api_partinfo_kitspace(distributor_class):
                                 # 1) The asked currency by KiCOst user;
                                 # 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;
                                 # 3) The first not null tier.s
+                                prices = None
                                 if currency in dist_currency and offer['prices'][currency]:
                                     prices = offer['prices'][currency]
                                     part.currency[dist] = currency
@@ -275,9 +276,10 @@ class api_partinfo_kitspace(distributor_class):
                                             part.currency[dist] = dist_c
                                             break
                                 
-                                price_tiers = {qty: float(price)
-                                                    for qty, price in list(prices)
-                                              }
+                                if prices:
+                                    price_tiers = {qty: float(price)
+                                                        for qty, price in list(prices)
+                                                  }
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
                                 if not dist in part.price_tiers:

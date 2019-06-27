@@ -160,14 +160,14 @@ def main():
                         type=str,
                         default='USD',
                         help='Define the priority currency. Use the ISO4217 for currency (`USD`, `EUR`). Default: `USD`.')
-    parser.add_argument('--guide',
+    parser.add_argument('--gui',
                         nargs='+',
                         type=str,
                         metavar='FILE.XML',
-                        help='Start the user guide to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
+                        help='Start the GUI to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
     parser.add_argument('--user',
                         action='store_true',
-                        help='Run KiCost on terminal using the parameters in the guide memory, all passed parameters from terminal take priority.')
+                        help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from terminal take priority.')
     parser.add_argument('--setup',
                         action='store_true',
                         help='Run KiCost integration (with KiCad and OS) configuration script.')
@@ -235,16 +235,16 @@ def main():
                 --overwrite option to replace it.'''.format(args.output))
             sys.exit(1)
 
-    if args.guide:
+    if args.gui:
         try:
-            kicost_gui([os.path.abspath(fileName) for fileName in args.guide])
+            kicost_gui([os.path.abspath(fileName) for fileName in args.gui])
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
 
     if args.input == None:
         try:
-            kicost_gui() # Use the user guide if no input is given.
+            kicost_gui() # Use the user gui if no input is given.
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return

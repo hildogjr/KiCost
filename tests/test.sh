@@ -27,12 +27,11 @@
 
 echo 'This macro test all the xml files BOM in this folder'
 BOMs=$(find *.xml)
-#echo $(echo "$var" | wc -l)" recognized files"
-#echo "$BOMs"
-for eachBOM in $BOMs; do
-    echo "############ Testing file $eachBOM"
-    kicost -i $eachBOM -wq
+
+while read -r eachBOM; do
+    echo "##### Testing file: $eachBOM"
+    kicost -wqi "$eachBOM"
     echo ""
-done
+done <<< "$BOMs"
 
 echo "If you see this message all BOMs spreadsheet was created without error"

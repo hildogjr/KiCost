@@ -3,16 +3,21 @@
 History
 -------
 
-1.0.5 (2019-03-??)
+1.1 (2019-06-??)
 ______________________
-* Improved the spreadsheet purchase distributors code formula
-* Use KitSpace proxy  if not given Octopart Key
-* Show the total purchased at the spreadsheet
+* Use the PartInfo KitSpace API.
+* Creates a KiCad plugin integration and desktop shortcuts (not im Mac-OS) during the installation.
+* Add KiCost to the context menu "Open with..." in Windows to XML and CSV files.
+* Show (and allow to change) the current currency rate for distributors that are not in the specified curreny.
+* Highlight non-active in production / not-recommended-to-new-layout / decrepit components.
+* Improved the spreadsheet purchase distributors code formula and fix the Digikey/Mouser import errors.
+* Show the total purchased at the spreadsheet.
+* Fix the erro when deal with scapes in the names of BOM files on `test.sh`.
 
 
 1.0.4 (2018-10-02)
 ______________________
-* Use the datasheet information by Octopart as link in ``manf#`` if not got any by the BOM.
+* Use the datasheet information distributor/API as link in ``manf#`` if not got any by the BOM.
 * Added user warnings of bad ``manf`` format in case of multi-files of different quantities assigned on the catalogue codes.
 * ``manf#`` cell get purple color if the distributor asigned the part as 'obsolete' or 'not recommended for new designs'.
 
