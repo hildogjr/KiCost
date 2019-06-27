@@ -23,20 +23,19 @@
 # THE SOFTWARE.
 """
     @package
-    KiCost is intended to be run as a script for generating
-    part-cost spreadsheets for circuit boards developed with KiCad.
-    KiCost also comes with a graphical user interface in addition
-    to command line.
+    KiCost is intended to be run as a script for generating part-cost
+    spreadsheets for circuit boards developed with KiCad. KiCost also
+    comes with a graphical user interface in addition to command line.
     Full manual at https://xesscorp.github.io/KiCost
     Development at https://github.com/xesscorp/KiCost
-    It is acually powered by Partinfo API (https://kitspace.org/).
+    Nowadays, KiCost is powered by PartInfo API (https://kitspace.org/).
 
     Command line:
         kicost -i "%I" "%O.xslx"
     Run Graphical User Interface:
         kicost
     Check for help on terminal:
-    kicost --help
+        kicost --help
 """
 
 
@@ -44,12 +43,8 @@ from __future__ import print_function
 
 # Libraries.
 import sys, os
-import copy
-import re
 import pprint
 import tqdm
-from time import time
-#from multiprocessing.pool import ThreadPool
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -231,8 +226,9 @@ def kicost(in_file, eda_name, out_filename,
         distributors = distributor_dict.copy().keys()
         for d in distributors:
             if not d in dist_not_rmv:
-                logger.warning("No 'manf#' and '%s#' field in any part: distributor '%s' will be not scraped.", d, distributor_dict[d]['label'])
-                distributor_dict.pop(d, None)
+                logger.warning("No 'manf#' and '%s#' field in any part: distributor '%s' will be not scraped.",
+                                d, distributor_dict[d]['label'])
+                                distributor_dict.pop(d, None)
 
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributor_dict)

@@ -81,7 +81,7 @@ setup(
 
 # Run the KiCost integration script.
 try:
-    from .kicost.kicost_config import setup as kicost_setup
+    from .kicost.kicost_config import kicost_setup
     kicost_setup()
 except:
     print('Error to run KiCost integration script.')

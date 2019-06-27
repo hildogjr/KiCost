@@ -179,11 +179,11 @@ def main():
 
     # Setup and unsetup KiCost integration.
     if args.setup:
-        from .kicost_config import setup as kicost_setup
+        from .kicost_config import kicost_setup
         kicost_setup()
         return
     if args.unsetup:
-        from .kicost_config import unsetup as kicost_unsetup
+        from .kicost_config import kicost_unsetup
         kicost_unsetup()
         return
 

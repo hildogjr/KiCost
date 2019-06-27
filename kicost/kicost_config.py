@@ -37,7 +37,8 @@ try:
 except:
     from . import sexpdata
 
-__all__ = ['setup', 'unsetup']
+__all__ = ['kicost_setup', 'kicost_unsetup']
+
 
 
 ###############################################################################
@@ -59,6 +60,7 @@ def get_app_config_path(appname):
         # ~/.config/kicad
         appdata = os.path.expanduser(os.path.join("~", ".config", appname))
     return appdata
+
 
 def get_user_documents():
     if sys.platform == 'darwin':
@@ -88,6 +90,7 @@ def before(value, a):
     if pos_a == -1: return ""
     return value[0:pos_a]
 
+
 def after(value, a):
     # Find and validate first part.
     pos_a = value.find(a)
@@ -97,7 +100,8 @@ def after(value, a):
     if adjusted_pos_a >= len(value): return ""
     return value[adjusted_pos_a:]
 
-def de_escape (s):
+
+def de_escape(s):
     result = ""
     in_escape = False
     for c in s:
@@ -111,7 +115,8 @@ def de_escape (s):
                 result += c
     return result
 
-def escape (s):
+
+def escape(s):
     result = ""
     for c in s:
         if c == '\\':
@@ -120,10 +125,12 @@ def escape (s):
             result += c
     return result
 
+
 def get_config_item(config, key):
     for p in config:
         if before(p,'=').strip() == key:
             return after(p, '=')
+
 
 def update_config_file(config, key, value):
     new_config = []
@@ -134,18 +141,21 @@ def update_config_file(config, key, value):
             new_config.append(p)
     return new_config
 
+
 def write_config_file(path, config):
     with open(path, "w") as f:
         f.write('\n'.join(config))
+
 
 def read_config_file(path):
     with open(path) as f:
         config = f.read().split('\n')
     return config
 
-def remove_bom_plugin_entry(paths, name):
-    # get list of current plugins from eeschema config
-    config = read_config_file(os.path.join(paths.kicad_config_dir, "eeschema"))
+
+def remove_bom_plugin_entry(kicad_config_path, name):
+    # Remove a BOM plugin enttry to the Eeschema configuration file.
+    config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
     new_list.append(sexpdata.Symbol("plugins"))
@@ -165,11 +175,12 @@ def remove_bom_plugin_entry(paths, name):
     if changes:
         s = sexpdata.dumps(new_list)
         config = update_config_file(config, "bom_plugins", escape(s))
-    write_config_file(os.path.join(paths.kicad_config_dir, "eeschema"), config)
+    write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
 
-def add_bom_plugin_entry(paths, name, cmd):
-    # get from eeschema config
-    config = read_config_file(os.path.join(paths.kicad_config_dir, "eeschema"))
+
+def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
+    # Add a BOM plugin enttry to the Eeschema configuration file.
+    config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
     new_list.append(sexpdata.Symbol("plugins"))
@@ -180,12 +191,15 @@ def add_bom_plugin_entry(paths, name, cmd):
         bom_list = sexpdata.loads(bom_plugins_raw)
         for plugin in bom_list[1:]:
             new_list.append(plugin)
-    #new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
-    new_list.append( [sexpdata.Symbol('plugin'), '/usr/local/lib/python3.5/dist-packages/kicost/kicost.py', [sexpdata.Symbol('cmd'), 'kicost --gui "%I"'], [sexpdata.Symbol('opts'), 'nickname=KiCost']] )
-    s = sexpdata.dumps(new_list)
-    # save into config
-    config = update_config_file(config, "bom_plugins", escape(s))
-    write_config_file(os.path.join(paths.kicad_config_dir, "eeschema"), config)
+    if not nickname:
+        new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
+    else:
+        new_list.append([sexpdata.Symbol('plugin'),
+                        '/usr/local/lib/python3.5/dist-packages/kicost/kicost.py',
+                        [sexpdata.Symbol('cmd'), 'kicost --gui "%I"'],
+                        [sexpdata.Symbol('opts'), 'nickname=KiCost']] )
+    config = update_config_file(config, "bom_plugins", escape( sexpdata.dumps(new_list) ))
+    write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
 
 
 
@@ -196,26 +210,35 @@ def add_bom_plugin_entry(paths, name, cmd):
 if sys.platform.startswith('windows'):
     import shutil, sysconfig, winreg
 
-    def get_reg(path, name):
+    def get_reg(key, path, name):
         # Read variable from Windows Registry.
         # From http://stackoverflow.com/a/35286642
         try:
-            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, path, 0,
-                                           winreg.KEY_READ)
+            registry_key = winreg.OpenKey(key, path, 0, winreg.KEY_READ)
             value, regtype = winreg.QueryValueEx(registry_key, name)
             winreg.CloseKey(registry_key)
             return value
         except WindowsError:
             return None
 
-    def set_reg(path, name, value):
+    def set_reg(keypath, name, value):
         # Write in the Windows Registry.
         try:
-            winreg.CreateKey(winreg.HKEY_CLASSES_ROOT, path)
-            registry_key = winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, path, 0, 
-                                           winreg.KEY_WRITE)
+            winreg.CreateKey(key, path)
+            registry_key = winreg.OpenKey(key, path, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
             winreg.CloseKey(registry_key)
+            return True
+        except WindowsError:
+            return False
+    
+    def del_reg(key, name):
+        # Delete a registry key on Windows.
+        try:
+            key = OpenKey(key, 'Environment', 0, winreg.KEY_ALL_ACCESS)
+            DeleteValue(key, name) 
+            CloseKey(key)
+            SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except WindowsError:
             return False
@@ -248,13 +271,27 @@ def create_os_contex_menu(path):
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t kwon how to create the context menu on OSX')
     elif sys.platform.startswith('windows'):
-        set_reg(wreg.HKEY_LOCAL_MACHINE, '\xmlfile\shell\KiCost', 'command', 'kicost {opt} "%1"'.format(cmd_opt))
-        set_reg(wreg.HKEY_LOCAL_MACHINE, '\csvfile\shell\KiCost', 'command', 'kicost {opt} "%1"'.format(cmd_opt))
+        set_reg(wreg.HKEY_LOCAL_MACHINE, '\xmlfile\shell\KiCost',
+                'command', 'kicost {opt} "%1"'.format(cmd_opt))
+        set_reg(wreg.HKEY_LOCAL_MACHINE, '\csvfile\shell\KiCost',
+                'command', 'kicost {opt} "%1"'.format(cmd_opt))
     elif sys.platform.startswith('linux'):
         print('I don\'t kwon how to create the context menu on Linux')
 
 
-def create_shortcut(target, directory, name, icon, location=None, description='', category='', terminal='false'):
+def delete_os_contex_menu():
+    '''Delete the OS context menu to recognized KiCost files (XML/CSV).'''
+    if sys.platform.startswith('darwin'): # Mac-OS.
+        print('I don\'t kwon how to create the context menu on OSX')
+    elif sys.platform.startswith('windows'):
+        del_reg(wreg.HKEY_LOCAL_MACHINE, '\xmlfile\shell\KiCost')
+        del_reg(wreg.HKEY_LOCAL_MACHINE, '\csvfile\shell\KiCost')
+    elif sys.platform.startswith('linux'):
+        print('I don\'t kwon how to create the context menu on Linux')
+
+
+def create_shortcut(target, directory, name, icon, location=None,
+                    description='', category='', terminal='false'):
     '''Generic routine to create shortcuts.'''
     if not location:
         location = os.path.abspath(target)
@@ -310,7 +347,7 @@ def get_kicost_path():
     return os.path.abspath(kicost_path)
 
 
-def setup():
+def kicost_setup():
     '''Create all the configuration used by KiCost.'''
     # Check if KiCost really exist.
     kicost_path = get_kicost_path()
@@ -351,15 +388,9 @@ def setup():
 
     print('Creating KiCad integration...')
     if have_gui:
-        class Path():
-            pass
-        Path.kicad_config_dir = kicad_config_path
-        add_bom_plugin_entry(Path(), '"'+kicost_file_path+'"', 'kicost --gui "%I"')
+        add_bom_plugin_entry(kicad_config_path, '"'+kicost_file_path+'"', 'kicost --gui "%I"', 'KiCost')
     else:
-        class Path():
-            pass
-        Path.kicad_config_dir = kicad_config_path
-        add_bom_plugin_entry(Path(), '"'+kicost_path+'"', 'kicost -qwi "%I"')
+        add_bom_plugin_entry(kicad_config_path, '"'+kicost_file_path+'"', 'kicost -qwi "%I"', 'KiCost')
     print('KiCost will appear in the Eeschema BOM plugin list.')
 
     if have_gui:
@@ -377,21 +408,46 @@ def setup():
             create_shortcut('kicost', shotcut_directory, 
                             'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
                             'Generate a Cost Bill of Material for EDA softwares', 'BOM')
+        print('Check your desktop for the KiCost shortcut.')
 
     print('Creating OS context integration...')
-    #create_os_contex_menu(kicost_path)
+    if create_os_contex_menu(kicost_path)
+        print('KiCost listed at the \'Open with...\' context menu.')
+    else
+        print('Failed to create KiCost OS context menu integration.')
 
 
-def unsetup():
+def kicost_unsetup():
     '''Create all the configuration used by KiCost.'''
     kicad_config_path = get_app_config_path('kicad')
-    class Path():
-        pass
-    Path.kicad_config_dir = kicad_config_path
     kicost_path = os.path.join(get_kicost_path(), 'kicost.py')
     if not kicad_config_path:
         raise('KiCad configuration folder not found.')
-    remove_bom_plugin_entry(Path(), '"'+kicost_path+'"')
+
+    print('Removing BOM plugin entry from Eeschma configuration...')
+    remove_bom_plugin_entry(kicad_config_path, '"'+kicost_path+'"')
+    print('BOM plugin entry removed from Eeschma configuration.')
+
+    print('Deleting KiCost shortcuts...')
+    if sys.platform.startswith('darwin'): # Mac-OS.
+        print('I don\'t kwon the desktop folder of mac-OS.')
+        shotcut_directories = []
+    elif sys.platform.startswith('windows'):
+        shotcut_directories = [os.path.normpath(get_reg(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+        shotcut_directories = os.path.join(shotcut_directories, 'KiCost.lnk')
+    elif sys.platform.startswith('linux'):
+        shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
+        shotcut_directories = os.path.join(shotcut_directories, 'KiCost.desktop')
+    else:
+        print('Not recognized OS.\nShortcut not created!')
+    for kicost_shortcut in kicost_shortcuts:
+        os.remove(kicost_shortcut)
+    print('KiCost shortcuts deleted.')
+
+    print('Removing KiCost from the \'Open with...\' OS context menu...')
+    delete_os_contex_menu()
+    print('KiCost removed from the \'Open with...\' OS context menu.')
+
     return
 
 
@@ -400,4 +456,4 @@ def unsetup():
 # Main entrypoint.
 ###############################################################################
 if __name__ == '__main__':
-    setup()
+    kicost_setup()
