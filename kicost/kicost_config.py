@@ -204,11 +204,11 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
 ###############################################################################
 
 if sys.platform.startswith('windows'):
+    # Create the functions to deal with Windows registry, f''rom http://stackoverflow.com/a/35286642
     import shutil, sysconfig, winreg
 
     def get_reg(key, path, name):
         # Read variable from Windows Registry.
-        # From http://stackoverflow.com/a/35286642
         try:
             registry_key = winreg.OpenKey(key, path, 0, winreg.KEY_READ)
             value, regtype = winreg.QueryValueEx(registry_key, name)
@@ -231,9 +231,10 @@ if sys.platform.startswith('windows'):
     def del_reg(key, name):
         # Delete a registry key on Windows.
         try:
-            key = OpenKey(key, 'Environment', 0, winreg.KEY_ALL_ACCESS)
-            DeleteValue(key, name) 
-            CloseKey(key)
+            registry_key = OpenKey(key, name, 0, winreg.KEY_ALL_ACCESS)
+            DeleteValue(registry_key)
+            CloseKey(registry_key)
+            # Uptade the Windows behaviour.
             SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except WindowsError:
