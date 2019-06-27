@@ -31,7 +31,7 @@ __company__ = 'University of Campinas - Brazil'
 
 
 # Python libraries.
-import os, sys
+import os, sys, re
 try:
     import sexpdata
 except:
@@ -153,7 +153,7 @@ def read_config_file(path):
     return config
 
 
-def remove_bom_plugin_entry(kicad_config_path, name):
+def remove_bom_plugin_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
     # Remove a BOM plugin enttry to the Eeschema configuration file.
     config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
@@ -165,10 +165,16 @@ def remove_bom_plugin_entry(kicad_config_path, name):
         bom_plugins_raw = de_escape(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
         for plugin in bom_list[1:]:
-            if plugin[1].value() == name:
-                changes = True # We want to delete this entry.
+            if re.findall(name, plugin[1], re_flags):
+                changes = True # The name in really in the 'name'.
+                continue # We want to delete this entry.
             else:
-                new_list.append(plugin)
+                for entry in plugin[2:]:
+                    if entry[0]==sexpdata.Symbol('opts') and\
+                        re.findall('nickname\s*=\s*'+name, entry[1], re_flags):
+                            changes = True
+                            continue # The name is in the 'nickname'.
+                new_list.append(plugin) # This plugin remains on the list.
     if changes:
         s = sexpdata.dumps(new_list)
         config = update_config_file(config, "bom_plugins", escape(s))
@@ -190,9 +196,8 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
     if not nickname:
         new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
     else:
-        new_list.append([sexpdata.Symbol('plugin'),
-                        '/usr/local/lib/python3.5/dist-packages/kicost/kicost.py',
-                        [sexpdata.Symbol('cmd'), 'kicost --gui "%I"'],
+        new_list.append([sexpdata.Symbol('plugin'), name,
+                        [sexpdata.Symbol('cmd'), cmd],
                         [sexpdata.Symbol('opts'), 'nickname={}'.format(nickname)]] )
     config = update_config_file(config, "bom_plugins", escape( sexpdata.dumps(new_list) ))
     write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
@@ -385,9 +390,9 @@ def kicost_setup():
 
     print('Creating KiCad integration...')
     if have_gui:
-        add_bom_plugin_entry(kicad_config_path, '"'+kicost_file_path+'"', 'kicost --gui "%I"', 'KiCost')
+        add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost --gui "%I"', 'KiCost')
     else:
-        add_bom_plugin_entry(kicad_config_path, '"'+kicost_file_path+'"', 'kicost -qwi "%I"', 'KiCost')
+        add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
     print('KiCost will appear in the Eeschema BOM plugin list.')
 
     if have_gui:
@@ -422,19 +427,23 @@ def kicost_unsetup():
         raise('KiCad configuration folder not found.')
 
     print('Removing BOM plugin entry from Eeschma configuration...')
-    remove_bom_plugin_entry(kicad_config_path, '"'+kicost_path+'"')
+    remove_bom_plugin_entry(kicad_config_path, 'KiCost')
     print('BOM plugin entry removed from Eeschma configuration.')
 
     print('Deleting KiCost shortcuts...')
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t kwon the desktop folder of mac-OS.')
-        shotcut_directories = []
+        kicost_shortcuts = []
     elif sys.platform.startswith('windows'):
-        shotcut_directories = [os.path.normpath(get_reg(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
-        shotcut_directories = os.path.join(shotcut_directories, 'KiCost.lnk')
+        kicost_shortcuts = [os.path.normpath(get_reg(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+        for count in range(len(kicost_shortcuts)):
+            kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.lnk')
     elif sys.platform.startswith('linux'):
-        shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
-        shotcut_directories = os.path.join(shotcut_directories, 'KiCost.desktop')
+        kicost_shortcuts = [os.path.expanduser(os.path.join('~', 'Desktop'))]
+        print(kicost_shortcuts)
+        for count in range(len(kicost_shortcuts)):
+            kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.desktop')
+        print(kicost_shortcuts)
     else:
         print('Not recognized OS.\nShortcut not created!')
     for kicost_shortcut in kicost_shortcuts:
