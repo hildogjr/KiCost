@@ -254,7 +254,7 @@ def create_os_contex_menu(path):
         print('I don\'t kwon how to create the context menu on Linux')
 
 
-def create_shortcut(target, directory, name, icon, location=None, description='', category=''):
+def create_shortcut(target, directory, name, icon, location=None, description='', category='', terminal='false'):
     '''Generic routine to create shortcuts.'''
     if not location:
         location = os.path.abspath(target)
@@ -272,10 +272,10 @@ def create_shortcut(target, directory, name, icon, location=None, description=''
     elif sys.platform.startswith('linux'): # Linux.
         content = '[Desktop Entry]\nType=Application\nName={name}\nExec={target}'.format(
                     name=name, target=target)
+        content += '\nTerminal={}'.format(terminal)
         if description:
             content += '\nComment=\''+description+'\''
         content += '\nCategories={}'.format(category)
-        content += '\nTerminal=false'
         content += '\nPath={}'.format(location)
         if icon:
             content += '\nIcon={}'.format(icon)
