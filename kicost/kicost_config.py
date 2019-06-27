@@ -165,11 +165,8 @@ def remove_bom_plugin_entry(kicad_config_path, name):
         bom_plugins_raw = de_escape(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
         for plugin in bom_list[1:]:
-            #print("name = ", plugin[1].value())
-            #print("cmd = " , plugin[2][1])
             if plugin[1].value() == name:
-                # we want to delete this entry
-                changes = True
+                changes = True # We want to delete this entry.
             else:
                 new_list.append(plugin)
     if changes:
@@ -187,7 +184,6 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
     if len(bom_plugins_raw)==1:
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
-        #print(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
         for plugin in bom_list[1:]:
             new_list.append(plugin)
@@ -197,7 +193,7 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
         new_list.append([sexpdata.Symbol('plugin'),
                         '/usr/local/lib/python3.5/dist-packages/kicost/kicost.py',
                         [sexpdata.Symbol('cmd'), 'kicost --gui "%I"'],
-                        [sexpdata.Symbol('opts'), 'nickname=KiCost']] )
+                        [sexpdata.Symbol('opts'), 'nickname={}'.format(nickname)]] )
     config = update_config_file(config, "bom_plugins", escape( sexpdata.dumps(new_list) ))
     write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
 
@@ -271,9 +267,9 @@ def create_os_contex_menu(path):
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t kwon how to create the context menu on OSX')
     elif sys.platform.startswith('windows'):
-        set_reg(wreg.HKEY_LOCAL_MACHINE, '\xmlfile\shell\KiCost',
+        set_reg(wreg.HKEY_LOCAL_MACHINE, r'\xmlfile\shell\KiCost',
                 'command', 'kicost {opt} "%1"'.format(cmd_opt))
-        set_reg(wreg.HKEY_LOCAL_MACHINE, '\csvfile\shell\KiCost',
+        set_reg(wreg.HKEY_LOCAL_MACHINE, r'\csvfile\shell\KiCost',
                 'command', 'kicost {opt} "%1"'.format(cmd_opt))
     elif sys.platform.startswith('linux'):
         print('I don\'t kwon how to create the context menu on Linux')
@@ -284,8 +280,8 @@ def delete_os_contex_menu():
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t kwon how to create the context menu on OSX')
     elif sys.platform.startswith('windows'):
-        del_reg(wreg.HKEY_LOCAL_MACHINE, '\xmlfile\shell\KiCost')
-        del_reg(wreg.HKEY_LOCAL_MACHINE, '\csvfile\shell\KiCost')
+        del_reg(wreg.HKEY_LOCAL_MACHINE, r'\xmlfile\shell\KiCost')
+        del_reg(wreg.HKEY_LOCAL_MACHINE, r'\csvfile\shell\KiCost')
     elif sys.platform.startswith('linux'):
         print('I don\'t kwon how to create the context menu on Linux')
 
@@ -411,9 +407,9 @@ def kicost_setup():
         print('Check your desktop for the KiCost shortcut.')
 
     print('Creating OS context integration...')
-    if create_os_contex_menu(kicost_path)
+    if create_os_contex_menu(kicost_path):
         print('KiCost listed at the \'Open with...\' context menu.')
-    else
+    else:
         print('Failed to create KiCost OS context menu integration.')
 
 

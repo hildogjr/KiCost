@@ -228,7 +228,7 @@ def kicost(in_file, eda_name, out_filename,
             if not d in dist_not_rmv:
                 logger.warning("No 'manf#' and '%s#' field in any part: distributor '%s' will be not scraped.",
                                 d, distributor_dict[d]['label'])
-                                distributor_dict.pop(d, None)
+                distributor_dict.pop(d, None)
 
     if logger.isEnabledFor(DEBUG_DETAILED):
         pprint.pprint(distributor_dict)
