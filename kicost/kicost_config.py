@@ -39,6 +39,8 @@ except:
 
 __all__ = ['kicost_setup', 'kicost_unsetup']
 
+WINDOWS_STARTS_WITH = "win32"
+
 
 
 ###############################################################################
@@ -208,11 +210,11 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
 ## Auxiliary functions.
 ###############################################################################
 
-if sys.platform.startswith('windows'):
-    # Create the functions to deal with Windows registry, f''rom http://stackoverflow.com/a/35286642
-    import shutil, sysconfig, winreg
+if sys.platform.startswith(WINDOWS_STARTS_WITH):
+    # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
+    import winreg
 
-    def get_reg(key, path, name):
+    def get_reg(path, name, key=winreg.HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
         try:
             registry_key = winreg.OpenKey(key, path, 0, winreg.KEY_READ)
@@ -222,7 +224,7 @@ if sys.platform.startswith('windows'):
         except WindowsError:
             return None
 
-    def set_reg(keypath, name, value):
+    def set_reg(path, name, value, key=winreg.HKEY_CURRENT_USER):
         # Write in the Windows Registry.
         try:
             winreg.CreateKey(key, path)
@@ -233,10 +235,10 @@ if sys.platform.startswith('windows'):
         except WindowsError:
             return False
     
-    def del_reg(key, name):
+    def del_reg(name, key=winreg.HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
-            registry_key = OpenKey(key, name, 0, winreg.KEY_ALL_ACCESS)
+            registry_key = winreg.OpenKey(key, name, 0, winreg.KEY_ALL_ACCESS)
             DeleteValue(registry_key)
             CloseKey(registry_key)
             # Uptade the Windows behaviour.
@@ -271,25 +273,25 @@ def create_os_contex_menu(path):
     else:
         cmd_opt = '-wi'
     if sys.platform.startswith('darwin'): # Mac-OS.
-        print('I don\'t kwon how to create the context menu on OSX')
-    elif sys.platform.startswith('windows'):
-        set_reg(wreg.HKEY_LOCAL_MACHINE, r'\xmlfile\shell\KiCost',
-                'command', 'kicost {opt} "%1"'.format(cmd_opt))
-        set_reg(wreg.HKEY_LOCAL_MACHINE, r'\csvfile\shell\KiCost',
-                'command', 'kicost {opt} "%1"'.format(cmd_opt))
+        print('I don\'t know how to create the context menu on OSX')
+    elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+        set_reg(r'\xmlfile\shell\KiCost',
+                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt))
+        set_reg(r'\csvfile\shell\KiCost',
+                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt))
     elif sys.platform.startswith('linux'):
-        print('I don\'t kwon how to create the context menu on Linux')
+        print('I don\'t know how to create the context menu on Linux')
 
 
 def delete_os_contex_menu():
     '''Delete the OS context menu to recognized KiCost files (XML/CSV).'''
     if sys.platform.startswith('darwin'): # Mac-OS.
-        print('I don\'t kwon how to create the context menu on OSX')
-    elif sys.platform.startswith('windows'):
-        del_reg(wreg.HKEY_LOCAL_MACHINE, r'\xmlfile\shell\KiCost')
-        del_reg(wreg.HKEY_LOCAL_MACHINE, r'\csvfile\shell\KiCost')
+        print('I don\'t know how to create the context menu on OSX')
+    elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+        del_reg(r'\xmlfile\shell\KiCost')
+        del_reg(r'\csvfile\shell\KiCost')
     elif sys.platform.startswith('linux'):
-        print('I don\'t kwon how to create the context menu on Linux')
+        print('I don\'t know how to create the context menu on Linux')
 
 
 def create_shortcut(target, directory, name, icon, location=None,
@@ -298,12 +300,13 @@ def create_shortcut(target, directory, name, icon, location=None,
     if not location:
         location = os.path.abspath(target)
     if sys.platform.startswith('darwin'): # Mac-OS.
-        print('I don\'t kwon how to create a shortcut in OSX')
-    elif sys.platform.startswith('windows'): # Windows.
-        import winshell
+        print('I don\'t know how to create a shortcut in OSX')
+    elif sys.platform.startswith(WINDOWS_STARTS_WITH): # Windows.
         from win32com.client import Dispatch
         shell = Dispatch('WScript.Shell')
-        shortcut = shell.CreateShortCut(os.path.join(directory, name+'.lnk'))
+        shortcut_path = os.path.join(directory, name+'.lnk')
+        shortcut_path = os.path.expandvars(shortcut_path)
+        shortcut = shell.CreateShortCut(shortcut_path)
         shortcut.Targetpath = target
         shortcut.WorkingDirectory = location
         shortcut.IconLocation = icon
@@ -325,7 +328,7 @@ def create_shortcut(target, directory, name, icon, location=None,
         import stat
         os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
     else:
-        print('Not recognized OS.\nShortcut not created!')
+        print('Unrecognized OS.\nShortcut not created!')
     return
 
 
@@ -343,8 +346,8 @@ def get_kicost_path():
         try:
             import imp
             kicost_path = imp.find_module('kicost')[1]
-        except:
-            print('KiCost can\'t be reached.\nPost setup not executed!')
+        except ImportError:
+            print('KiCost module not found.\nPost setup not executed!')
             return None
     return os.path.abspath(kicost_path)
 
@@ -400,8 +403,8 @@ def kicost_setup():
         if sys.platform.startswith('darwin'): # Mac-OS.
             print('I don\'t kwon the desktop folder of mac-OS.')
             shotcut_directories = []
-        elif sys.platform.startswith('windows'):
-            shotcut_directories = [os.path.normpath(get_reg(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+        elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+            shotcut_directories = [os.path.normpath(get_reg(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
         elif sys.platform.startswith('linux'):
             shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
         else:
@@ -434,20 +437,21 @@ def kicost_unsetup():
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t kwon the desktop folder of mac-OS.')
         kicost_shortcuts = []
-    elif sys.platform.startswith('windows'):
+    elif sys.platform.startswith(WINDOWS_STARTS_WITH):
         kicost_shortcuts = [os.path.normpath(get_reg(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
-        for count in range(len(kicost_shortcuts)):
-            kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.lnk')
+        kicost_shortcuts = [os.path.join(sc, 'KiCost.lnk') for sc in kicost_shortcuts]
     elif sys.platform.startswith('linux'):
         kicost_shortcuts = [os.path.expanduser(os.path.join('~', 'Desktop'))]
-        print(kicost_shortcuts)
         for count in range(len(kicost_shortcuts)):
             kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.desktop')
-        print(kicost_shortcuts)
     else:
-        print('Not recognized OS.\nShortcut not created!')
+        print('Unrecognized OS.\nShortcut not created!')
     for kicost_shortcut in kicost_shortcuts:
-        os.remove(kicost_shortcut)
+        kicost_shortcut = os.path.expandvars(kicost_shortcut)
+        try:
+            os.remove(kicost_shortcut)
+        except FileNotFoundError:
+            pass
     print('KiCost shortcuts deleted.')
 
     print('Removing KiCost from the \'Open with...\' OS context menu...')
