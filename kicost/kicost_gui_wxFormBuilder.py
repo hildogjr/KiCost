@@ -217,7 +217,7 @@ class formKiCost_raw(wx.Frame):
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
         self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'logo_kitspace.png', wx.BITMAP_TYPE_PNG))
+        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kitspace.png', wx.BITMAP_TYPE_PNG))
         self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_powered_by)
         bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
