@@ -62,15 +62,23 @@ from .edas.tools import file_eda_match
 
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 
+#=================================
 # Guide definitions.
+
+# Open file defitions.
 FILE_HIST_QTY_DEFAULT = 10
 SEP_FILES = '\n' # File separator in the comboBox.
 WILDCARD_BOM = "BOM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
             "KiCad/Altium BOM file (*.xml)|*.xml|" \
             "Proteus/Generic BOM file (*.csv)|*.csv"
+
+# save settings definitions.
 CONFIG_FILE = 'KiCost' # Config file for Linux and Windows registry key for KiCost configurations.
 GUI_SIZE_ENTRY = 'GUI_size'
 GUI_POSITION_ENTRY = 'GUI_position'
+GUI_NEWS_MESSAGE_ENTRY = 'GUI_news_message'
+
+# Links displayed.
 PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last official version.
 #https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
@@ -240,7 +248,8 @@ class menuMessages(wx.Menu):
 
 
 #======================================================================
-class formKiCost(wx.Frame):
+from .kicost_gui_wxFormBuilder import formKiCost_raw
+class formKiCost(formKiCost_raw):
     ''' @brief Main frame / form of KiCost GUI.'''
 
     def __init__(self, parent):
@@ -464,7 +473,7 @@ class formKiCost(wx.Frame):
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
         self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)#wx.DefaultSize, 0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'logo_kitspace.png', wx.BITMAP_TYPE_PNG))
+        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kitspace.png', wx.BITMAP_TYPE_PNG))
         self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_powered_by)
         bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
@@ -910,6 +919,10 @@ class formKiCost(wx.Frame):
                 elif entry==GUI_SIZE_ENTRY:
                     self.SetSize(str_to_wxsize(entry_value))
                     continue
+                elif entry==GUI_NEWS_MESSAGE_ENTRY:
+                    #if self.show_news_message():
+                    configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'False') # Doesn't show the message on next GUI startup.
+                    continue
 
                 try:
                     wxElement_handle = self.__dict__[entry]
@@ -1008,6 +1021,18 @@ class formKiCost(wx.Frame):
             del configHandle # Close the file / Windows registry sock.
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, 'Configurations not saved: <'+str(e)+'>.')
+
+    def show_news_message():
+        '''Shows a message bos if the news of the last version installed.'''
+        history_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.egg-info' + os.sep + 'AUTHOR.rst')
+        history = history_file.read()
+        history_file.close()
+        serach_news = re.compile('History\n+[\=\-\_]+\n+(?P<version>[\d\.a-zA-Z]+)\s*\((?P<data>.+)\)\n+[\=\-\_]+\n+(?P<news>(?:\n|.)*?)\n+[\d\.]+', re.IGNORECASE)
+        news = re.search(search_news, history)
+        dlg = wx.MessageDialog(self, news.news, 'KiCost v.'+news.version+' from '+data, wx.OK | wx.ICON_INFORMATION)
+        dlg.ShowModal()
+        dlg.Destroy()
+        return True
 
 
 

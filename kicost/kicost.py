@@ -22,20 +22,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-    @package
-    KiCost is intended to be run as a script for generating part-cost
-    spreadsheets for circuit boards developed with KiCad. KiCost also
-    comes with a graphical user interface in addition to command line.
-    Full manual at https://xesscorp.github.io/KiCost
-    Development at https://github.com/xesscorp/KiCost
-    Nowadays, KiCost is powered by PartInfo API (https://kitspace.org/).
-
-    Command line:
-        kicost -i "%I" "%O.xslx"
-    Run Graphical User Interface:
-        kicost
-    Check for help on terminal:
-        kicost --help
+  @package
+  KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.
+  Full manual at https://xesscorp.github.io/KiCost
+  Development at https://github.com/xesscorp/KiCost
+  KiCost is powered by the Kitspace PartInfo API (https://kitspace.org/). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please donate to the Kitspace Open Collective to keep the service running. (https://opencollective.com/kitspace).
+  
+  Command line:
+      kicost -i "%I" "%O.xslx"
+  Run Graphical User Interface:
+      kicost
+  Check for help on terminal:
+      kicost --help
 """
 
 

@@ -12,7 +12,9 @@ with a graphical user interface in addition to command line.
 -   Documentation: <https://xesscorp.github.io/KiCost>.
 -   Quick start: <https://www.youtube.com/watch?v=AeccxROpDfY>.
 
-Powered by [![image](kitspace.png)](https://kitspace.org/)
+KiCost is powered by the [Kitspace](https://kitspace.org/) PartInfo API. [Partinfo](https://github.com/kitspace/partinfo) hooks into paid-for 3rd party services. If you find KiCost useful please [donate to the Kitspace Open Collective](https://opencollective.com/kitspace). If Kitspace doesn't receive enough donations then this free service will have to be shut down.
+
+[![image](/kicost/kitspace.png)](https://kitspace.org/)
 
 Features
 --------
@@ -36,5 +38,5 @@ Features
     formats that you can cut-and-paste directly into the website
     ordering page of each distributor.
 
-![image](block_diag.png)
+![image](docs/block_diag.png)
 ![image](gui.png)
