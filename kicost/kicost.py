@@ -26,7 +26,7 @@
   KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.
   Full manual at https://xesscorp.github.io/KiCost
   Development at https://github.com/xesscorp/KiCost
-  KiCost is powered by PartInfo API (https://kitspace.org/) which is kept by donations (https://opencollective.com/kitspace).
+  KiCost is powered by the Kitspace PartInfo API (https://kitspace.org/). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please donate to the Kitspace Open Collective to keep the service running. (https://opencollective.com/kitspace).
   
   Command line:
       kicost -i "%I" "%O.xslx"
