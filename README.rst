@@ -8,15 +8,15 @@ KiCost
 .. image:: https://img.shields.io/pypi/v/kicost.svg
         :target: https://pypi.python.org/pypi/kicost
 
-KiCost is intended to be run as a script for generating part-cost spreadsheets for
-circuit boards developed with KiCad. KiCost also comes with a graphical user interface
-in addition to command line.
+KiCost script, also with Graphical User Interface - GUI, under MIT license for
+generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.
 
 * Free software: MIT license
 * Documentation: https://xesscorp.github.io/KiCost.
 * Quick start: https://www.youtube.com/watch?v=AeccxROpDfY.
 
 Powered by
+
 .. image:: kitspace.png
         :target: https://kitspace.org/
 

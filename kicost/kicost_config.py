@@ -119,10 +119,7 @@ def de_escape(s):
 def escape(s):
     result = ""
     for c in s:
-        if c == '\\':
-            result += '\\' + c
-        else:
-            result += c
+        result += '\\' + c if c == '\\' else c
     return result
 
 
@@ -181,7 +178,7 @@ def remove_bom_plugin_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
     write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
 
 
-def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
+def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=re.IGNORECASE):
     # Add a BOM plugin enttry to the Eeschema configuration file.
     config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
@@ -192,6 +189,14 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None):
         bom_plugins_raw = de_escape(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
         for plugin in bom_list[1:]:
+            if re.findall(name, plugin[1], re_flags):
+                if not nickname:
+                    return # Plugin already added and don't have nickname.
+                for entry in plugin[2:]:
+                    print(entry , '<<<', entry[1] , '<<<', 'nickname\s*=\s*'+nickname)
+                    if entry[0]==sexpdata.Symbol('opts') and\
+                        re.findall('nickname\s*=\s*'+nickname, entry[1], re_flags):
+                            return # Plugin already added with this nickname.
             new_list.append(plugin)
     if not nickname:
         new_list.append([sexpdata.Symbol('plugin'), sexpdata.Symbol(name), [sexpdata.Symbol('cmd'), cmd]])
@@ -388,13 +393,6 @@ def kicost_setup():
             pipmain(['install', 'wxpython'])
             have_gui = True # now the Graphical User Interface is installed.
 
-    print('Creating KiCad integration...')
-    if have_gui:
-        add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost --gui "%I"', 'KiCost')
-    else:
-        add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
-    print('KiCost will appear in the Eeschema BOM plugin list.')
-
     if have_gui:
         print('Creating app shortcuts...')
         if sys.platform.startswith('darwin'): # Mac-OS.
@@ -418,6 +416,35 @@ def kicost_setup():
     else:
         print('Failed to create KiCost OS context menu integration.')
 
+    if have_gui:
+        print('Setting the GUI to display the NEWS message...')
+        try:
+            from .kicost_gui import CONFIG_FILE, GUI_NEWS_MESSAGE_ENTRY
+            configHandle = wx.Config(CONFIG_FILE)
+            configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'True')
+            print('The will display the NEWS message on first staturp.')
+        except:
+            print('Failed to set to display the news message on GUI.')
+
+    print('Creating KiCad integration...')
+    if not os.path.isfile(os.path.join(kicad_config_path, 'eeschema')):
+        print('###  ---> Eeschema was never started. start it and after run `kicost --setup` to configure.')
+    else:
+        if have_gui:
+            add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost --gui "%I"', 'KiCost')
+        else:
+            add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
+            # Set KiCost as default plugin.
+        import fileinput
+        #for line in fileinput.input(os.path.join(kicad_config_path, 'eeschema'), inplace=True):
+        #    print(line.rstrip('\r\n'), '\n\n')
+        #    if line.strip().startswith('bom_plugin_selected='):
+        #        line = 'bom_plugin_selected=KiCost'
+        #        sys.stdout.write(line)
+        #        print('setado')
+        #        break
+        print('KiCost will appear in the Eeschema BOM plugin list.')
+
 
 def kicost_unsetup():
     '''Create all the configuration used by KiCost.'''
@@ -440,10 +467,8 @@ def kicost_unsetup():
             kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.lnk')
     elif sys.platform.startswith('linux'):
         kicost_shortcuts = [os.path.expanduser(os.path.join('~', 'Desktop'))]
-        print(kicost_shortcuts)
         for count in range(len(kicost_shortcuts)):
             kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.desktop')
-        print(kicost_shortcuts)
     else:
         print('Not recognized OS.\nShortcut not created!')
     for kicost_shortcut in kicost_shortcuts:
