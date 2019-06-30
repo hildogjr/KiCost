@@ -303,11 +303,13 @@ def delete_os_contex_menu():
     '''Delete the OS context menu to recognized KiCost files (XML/CSV).'''
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t know how to create the context menu on OSX')
+        return True
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        del_reg(r'\xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
-        del_reg(r'\csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
+        return del_reg(r'\xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
+            del_reg(r'\csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux')
+        return True
 
 
 def create_shortcut(target, directory, name, icon, location=None,
@@ -448,16 +450,20 @@ def kicost_setup():
             add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost --gui "%I"', 'KiCost')
         else:
             add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
-            # Set KiCost as default plugin.
-        import fileinput
-        #for line in fileinput.input(os.path.join(kicad_config_path, 'eeschema'), inplace=True):
-        #    print(line.rstrip('\r\n'), '\n\n')
-        #    if line.strip().startswith('bom_plugin_selected='):
-        #        line = 'bom_plugin_selected=KiCost'
-        #        sys.stdout.write(line)
-        #        print('setado')
-        #        break
-        print('KiCost will appear in the Eeschema BOM plugin list.')
+        # Set KiCost as default plugin.
+        try:
+            import fileinput
+            for line in fileinput.input(os.path.join(kicad_config_path, 'eeschema'), inplace=True):
+                if line.strip().startswith('bom_plugin_selected='):
+                    line = 'bom_plugin_selected=KiCost'
+                sys.stdout.write(line)
+            print('KiCost will appear in the Eeschema BOM plugin list.')
+        except:
+            print('Falied to set KiCost as efault BOm plugin.')
+
+    print('KiCost setup configuration finished.')
+
+    return
 
 
 def kicost_unsetup():
@@ -484,17 +490,24 @@ def kicost_unsetup():
             kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.desktop')
     else:
         print('Unrecognized OS.\nShortcut not created!')
-    for kicost_shortcut in kicost_shortcuts:
-        kicost_shortcut = os.path.expandvars(kicost_shortcut)
-        try:
-            os.remove(kicost_shortcut)
-        except FileNotFoundError:
-            pass
+    try:
+        for kicost_shortcut in kicost_shortcuts:
+            kicost_shortcut = os.path.expandvars(kicost_shortcut)
+            try:
+                os.remove(kicost_shortcut)
+            except FileNotFoundError:
+                pass
+    except:
+        print('Falied to remove kiCost shortcuts.')
     print('KiCost shortcuts deleted.')
 
     print('Removing KiCost from the \'Open with...\' OS context menu...')
-    delete_os_contex_menu()
-    print('KiCost removed from the \'Open with...\' OS context menu.')
+    if delete_os_contex_menu():
+        print('KiCost removed from the \'Open with...\' OS context menu.')
+    else:
+        print('Falied to remove kiCost from OS context menu.')
+
+    print('KiCost setup configuration finished.')
 
     return
 
