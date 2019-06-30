@@ -158,7 +158,6 @@ class api_octopart(distributor_class):
                                                                     'mouser': 'Mouser',
                                                                     'newark': 'Newark',
                                                                     'rs': 'RS Components',
-                                                                    'newark': ,
                                                                     'tme': 'TME'
                                                                 }
                                                 }
