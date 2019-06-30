@@ -195,7 +195,6 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=r
                 if not nickname:
                     return # Plugin already added and don't have nickname.
                 for entry in plugin[2:]:
-                    print(entry , '<<<', entry[1] , '<<<', 'nickname\s*=\s*'+nickname)
                     if entry[0]==sexpdata.Symbol('opts') and\
                         re.findall('nickname\s*=\s*'+nickname, entry[1], re_flags):
                             return # Plugin already added with this nickname.
@@ -206,6 +205,8 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=r
         new_list.append([sexpdata.Symbol('plugin'), name,
                         [sexpdata.Symbol('cmd'), cmd],
                         [sexpdata.Symbol('opts'), 'nickname={}'.format(nickname)]] )
+    if len(new_list):
+        new_list[0], new_list[-1] = new_list[-1], new_list[0] # Put KiCost at first.
     config = update_config_file(config, "bom_plugins", escape( sexpdata.dumps(new_list) ))
     write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
 
@@ -226,7 +227,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
             registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_READ)
             value, regtype = winreg.QueryValueEx(registry_key, name)
             winreg.CloseKey(registry_key)
-            CloseKey(reg)
+            winreg.CloseKey(reg)
             return value
         except WindowsError:
             return None
@@ -239,7 +240,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
             registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
             winreg.CloseKey(registry_key)
-            CloseKey(reg)
+            winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
@@ -252,8 +253,8 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
             reg = ConnectRegistry(None, key)
             registry_key = winreg.OpenKey(reg, name, 0, winreg.KEY_ALL_ACCESS)
             DeleteValue(registry_key)
-            CloseKey(registry_key)
-            CloseKey(reg)
+            winreg.CloseKey(registry_key)
+            winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
