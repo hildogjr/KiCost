@@ -1,11 +1,17 @@
 History
 =======
 
-1.0.5 (2019-03-??)
+1.1 (2019-07-??)
 --------------
-- Improved the spreadsheet purchase distributors code formula
-- Use KitSpace proxy  if not given Octopart Key
-- Show the total purchased at the spreadsheet
+- Use the PartInfo KitSpace API.
+- Creates a KiCad plugin integration and desktop shortcuts (not in Mac-OS) during the installation.
+- Add KiCost to the context menu "Open with..." in Windows to XML and CSV files.
+- Show (and allow to change in the spreadsheet) the current currency rate for distributors that are not in the specified curreny.
+- Highlight non-active in production / not-recommended-to-new-layout / decrepit components.
+- Improved the spreadsheet purchase distributors code formula and fix the Digikey/Mouser import errors.
+- Show the total purchased at the spreadsheet.
+- Split the GUI file in programming one in wxFormBuilder generated.
+- Fix the erro when deal with scapes in the names of BOM files on `test.sh`.
 
 
 1.0.4 (2018-10-02)

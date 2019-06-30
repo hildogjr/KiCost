@@ -3,7 +3,7 @@
 History
 -------
 
-1.1 (2019-06-??)
+1.1 (2019-07-??)
 ______________________
 * Use the PartInfo KitSpace API.
 * Creates a KiCad plugin integration and desktop shortcuts (not in Mac-OS) during the installation.
