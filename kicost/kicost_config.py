@@ -222,9 +222,11 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
     def get_reg(path, name, key=winreg.HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
         try:
-            registry_key = winreg.OpenKey(key, path, 0, winreg.KEY_READ)
+            reg = ConnectRegistry(None, key)
+            registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_READ)
             value, regtype = winreg.QueryValueEx(registry_key, name)
             winreg.CloseKey(registry_key)
+            CloseKey(reg)
             return value
         except WindowsError:
             return None
@@ -232,10 +234,14 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
     def set_reg(path, name, value, key=winreg.HKEY_CURRENT_USER):
         # Write in the Windows Registry.
         try:
-            winreg.CreateKey(key, path)
-            registry_key = winreg.OpenKey(key, path, 0, winreg.KEY_WRITE)
+            reg = ConnectRegistry(None, key)
+            winreg.CreateKey(reg, path)
+            registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
             winreg.CloseKey(registry_key)
+            CloseKey(reg)
+            # Uptade the Windows behaviour.
+            SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except WindowsError:
             return False
@@ -243,9 +249,11 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
     def del_reg(name, key=winreg.HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
-            registry_key = winreg.OpenKey(key, name, 0, winreg.KEY_ALL_ACCESS)
+            reg = ConnectRegistry(None, key)
+            registry_key = winreg.OpenKey(reg, name, 0, winreg.KEY_ALL_ACCESS)
             DeleteValue(registry_key)
             CloseKey(registry_key)
+            CloseKey(reg)
             # Uptade the Windows behaviour.
             SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
@@ -281,9 +289,11 @@ def create_os_contex_menu(path):
         print('I don\'t know how to create the context menu on OSX')
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
         set_reg(r'\xmlfile\shell\KiCost',
-                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt))
+                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt),
+                winreg.HKEY_CLASSES_ROOT)
         set_reg(r'\csvfile\shell\KiCost',
-                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt))
+                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt),
+                winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux')
 
@@ -293,8 +303,8 @@ def delete_os_contex_menu():
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t know how to create the context menu on OSX')
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        del_reg(r'\xmlfile\shell\KiCost')
-        del_reg(r'\csvfile\shell\KiCost')
+        del_reg(r'\xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
+        del_reg(r'\csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux')
 
