@@ -81,6 +81,15 @@ setup(
 
 # Run the KiCost integration script.
 try:
+    import sys
+    if sys.platform.startswith("win32"):
+        # For Windows it is necessary one additional library.
+        try:
+            from pip import main as pipmain
+        except ImportError:
+            from pip._internal import main as pipmain
+        pipmain(['install', 'pywin32'])
+    # Run setup: shortcut, BOM module to Eeschema and OS contect menu.
     from .kicost.kicost_config import kicost_setup
     kicost_setup()
 except:
