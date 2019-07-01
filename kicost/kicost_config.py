@@ -181,7 +181,7 @@ def remove_bom_plugin_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
 
 
 def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=re.IGNORECASE):
-    # Add a BOM plugin enttry to the Eeschema configuration file.
+    # Add a BOM plugin entry to the Eeschema configuration file.
     config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
