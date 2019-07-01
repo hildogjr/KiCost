@@ -181,7 +181,7 @@ def remove_bom_plugin_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
 
 
 def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=re.IGNORECASE):
-    # Add a BOM plugin enttry to the Eeschema configuration file.
+    # Add a BOM plugin entry to the Eeschema configuration file.
     config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
@@ -223,7 +223,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
     def get_reg(path, name, key=winreg.HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
         try:
-            reg = ConnectRegistry(None, key)
+            reg = winreg.ConnectRegistry(None, key)
             registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_READ)
             value, regtype = winreg.QueryValueEx(registry_key, name)
             winreg.CloseKey(registry_key)
@@ -235,7 +235,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
     def set_reg(path, name, value, key=winreg.HKEY_CURRENT_USER):
         # Write in the Windows Registry.
         try:
-            reg = ConnectRegistry(None, key)
+            reg = winreg.ConnectRegistry(None, key)
             winreg.CreateKey(reg, path)
             registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
@@ -250,7 +250,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
     def del_reg(name, key=winreg.HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
-            reg = ConnectRegistry(None, key)
+            reg = winreg.ConnectRegistry(None, key)
             registry_key = winreg.OpenKey(reg, name, 0, winreg.KEY_ALL_ACCESS)
             DeleteValue(registry_key)
             winreg.CloseKey(registry_key)
