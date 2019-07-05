@@ -27,9 +27,10 @@ ______________________
 ______________________
 * Fix READ file on installtion.
 
+
 1.0.2 (2018-10-06).
 ______________________
-* Fix the *.md installation files.
+* Fix the \*.md installation files.
 * Minor modifications into the new class model.
 
 
