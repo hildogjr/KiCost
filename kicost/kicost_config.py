@@ -190,8 +190,13 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=r
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
+        if sys.platform.startswith(WINDOWS_STARTS_WITH):
+            name = name.replace("\\",'/')
         for plugin in bom_list[1:]:
-            if re.findall(name, plugin[1], re_flags):
+            search = plugin[1]
+            if sys.platform.startswith(WINDOWS_STARTS_WITH):
+                search = plugin[1].replace("\\",'/')
+            if re.findall(name, search, re_flags):
                 if not nickname:
                     return # Plugin already added and don't have nickname.
                 for entry in plugin[2:]:
@@ -446,20 +451,23 @@ def kicost_setup():
     if not os.path.isfile(os.path.join(kicad_config_path, 'eeschema')):
         print('###  ---> Eeschema was never started. start it and after run `kicost --setup` to configure.')
     else:
-        if have_gui:
-            add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost --gui "%I"', 'KiCost')
-        else:
-            add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
-        # Set KiCost as default plugin.
         try:
-            import fileinput
-            for line in fileinput.input(os.path.join(kicad_config_path, 'eeschema'), inplace=True):
-                if line.strip().startswith('bom_plugin_selected='):
-                    line = 'bom_plugin_selected=KiCost'
-                sys.stdout.write(line)
-            print('KiCost will appear in the Eeschema BOM plugin list.')
+            if have_gui:
+                add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost --gui "%I"', 'KiCost')
+            else:
+                add_bom_plugin_entry(kicad_config_path, kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
+            try:
+                # Set KiCost as default plugin.
+                import fileinput
+                for line in fileinput.input(os.path.join(kicad_config_path, 'eeschema'), inplace=True):
+                    if line.strip().startswith('bom_plugin_selected='):
+                        line = 'bom_plugin_selected=KiCost'
+                    sys.stdout.write(line)
+                print('KiCost will appear in the Eeschema BOM plugin list.')
+            except:
+                print('Falied to set KiCost as default BOM plugin.')
         except:
-            print('Falied to set KiCost as efault BOm plugin.')
+            print('Failed to add KiCost as KiCad BOM plugin.')
 
     print('KiCost setup configuration finished.')
 
