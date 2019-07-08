@@ -438,7 +438,7 @@ def kicost_setup():
             if not create_shortcut('kicost', shotcut_directory, 
                             'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
                             'Generate a Cost Bill of Material for EDA softwares', 'BOM'):
-                print('Failed to creat the KiCost shortcut!')
+                print('Failed to create the KiCost shortcut!')
                 break
         print('Check your desktop for the KiCost shortcut.')
 
