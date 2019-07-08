@@ -298,6 +298,7 @@ def create_os_contex_menu(path):
         cmd_opt = '-wi'
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t know how to create the context menu on OSX')
+        return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
         set_reg(r'\xmlfile\shell\KiCost',
                 'command', 'kicost {opt} "%1"'.format(opt=cmd_opt),
@@ -305,8 +306,10 @@ def create_os_contex_menu(path):
         set_reg(r'\csvfile\shell\KiCost',
                 'command', 'kicost {opt} "%1"'.format(opt=cmd_opt),
                 winreg.HKEY_CLASSES_ROOT)
+        return True
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux')
+        return False
 
 
 def delete_os_contex_menu():
@@ -327,9 +330,7 @@ def create_shortcut(target, directory, name, icon, location=None,
     '''Generic routine to create shortcuts.'''
     if not location:
         location = os.path.abspath(target)
-    if sys.platform.startswith('darwin'): # Mac-OS.
-        print('I don\'t know how to create a shortcut in OSX')
-    elif sys.platform.startswith(WINDOWS_STARTS_WITH): # Windows.
+    if sys.platform.startswith(WINDOWS_STARTS_WITH): # Windows.
         from win32com.client import Dispatch
         shell = Dispatch('WScript.Shell')
         shortcut_path = os.path.join(directory, name+'.lnk')
@@ -339,7 +340,8 @@ def create_shortcut(target, directory, name, icon, location=None,
         shortcut.WorkingDirectory = location
         shortcut.IconLocation = icon
         shortcut.save()
-    elif sys.platform.startswith('linux'): # Linux.
+        return True
+    elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'): # Mac-OS.
         content = '[Desktop Entry]\nType=Application\nName={name}\nExec={target}'.format(
                     name=name, target=target)
         content += '\nTerminal={}'.format(terminal)
@@ -355,8 +357,10 @@ def create_shortcut(target, directory, name, icon, location=None,
             shortcut.close()
         import stat
         os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
+        return True
     else:
         print('Unrecognized OS.\nShortcut not created!')
+        return False
     return
 
 
@@ -431,9 +435,11 @@ def kicost_setup():
         else:
             print('Not recognized OS.\nShortcut not created!')
         for shotcut_directory in shotcut_directories:
-            create_shortcut('kicost', shotcut_directory, 
+            if not create_shortcut('kicost', shotcut_directory, 
                             'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
-                            'Generate a Cost Bill of Material for EDA softwares', 'BOM')
+                            'Generate a Cost Bill of Material for EDA softwares', 'BOM'):
+                print('Failed to creat the KiCost shortcut!')
+                break
         print('Check your desktop for the KiCost shortcut.')
 
     print('Creating OS context integration...')
