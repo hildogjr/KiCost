@@ -163,8 +163,13 @@ def remove_bom_plugin_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
+        if sys.platform.startswith(WINDOWS_STARTS_WITH):
+            name = name.replace("\\",'/')
         for plugin in bom_list[1:]:
-            if re.findall(name, plugin[1], re_flags):
+            search = plugin[1]
+            if sys.platform.startswith(WINDOWS_STARTS_WITH):
+                search = plugin[1].replace("\\",'/')
+            if re.findall(name, search, re_flags):
                 changes = True # The name in really in the 'name'.
                 continue # We want to delete this entry.
             else:
