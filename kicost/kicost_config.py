@@ -283,7 +283,7 @@ def create_os_contex_menu(path):
     '''Create the OS context menu to recognized KiCost files (XML/CSV).'''
     try:
         import wx # wxWidgets for Python.
-        print('GUI requirements (wxPython) identified.')
+        #print('GUI requirements (wxPython) identified.')
         have_gui = True
     except ImportError:
         kicost_gui_notdependences
