@@ -263,9 +263,9 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
         # Delete a registry key on Windows.
         try:
             reg = winreg.ConnectRegistry(None, key)
-            registry_key = winreg.OpenKey(reg, name, 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteValue(registry_key)
-            winreg.CloseKey(registry_key)
+            #registry_key = winreg.OpenKey(reg, name, 0, winreg.KEY_ALL_ACCESS)
+            winreg.DeleteValue(reg, name)
+            #winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
@@ -404,7 +404,7 @@ def kicost_setup():
     kicad_config_path = get_app_config_path('kicad')
     if not kicad_config_path:
         raise('KiCad configuration folder not found.')
-    print('KiCost identified at \'{}\', proceding with it configuration in file \'{}\'...'.format(kicost_path, kicad_config_path))
+    print('KiCost identified at \'{}\', proceeding with it configuration in file \'{}\'...'.format(kicost_path, kicad_config_path))
     # Check if wxPython is present.
     try:
         import wx # wxWidgets for Python.
