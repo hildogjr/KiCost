@@ -153,7 +153,7 @@ def read_config_file(path):
 
 
 def remove_bom_plugin_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
-    # Remove a BOM plugin enttry to the Eeschema configuration file.
+    '''Remove a BOM plugin enttry to the Eeschema configuration file.'''
     config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
@@ -186,7 +186,7 @@ def remove_bom_plugin_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
 
 
 def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=re.IGNORECASE):
-    # Add a BOM plugin entry to the Eeschema configuration file.
+    '''Add a BOM plugin entry to the Eeschema configuration file.'''
     config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
@@ -242,18 +242,20 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
         except WindowsError:
             return None
 
-    def set_reg(path, name, value, key=winreg.HKEY_CURRENT_USER):
+    def set_reg(path, name, value, key=winreg.HKEY_CURRENT_USER, key_type=winreg.REG_SZ):
         # Write in the Windows Registry.
         try:
             reg = winreg.ConnectRegistry(None, key)
             winreg.CreateKey(reg, path)
             registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_WRITE)
-            winreg.SetValueEx(registry_key, name, 0, winreg.REG_SZ, value)
+            winreg.SetValueEx(registry_key, name, 0, key_type, value)
             winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
+        except PermissionError:
+            print('You shoud run this command as system administrator: run the terminal as admnistrator and type the command again.')
         except WindowsError:
             return False
     
@@ -262,12 +264,14 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
         try:
             reg = winreg.ConnectRegistry(None, key)
             registry_key = winreg.OpenKey(reg, name, 0, winreg.KEY_ALL_ACCESS)
-            DeleteValue(registry_key)
+            winreg.DeleteValue(registry_key)
             winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
+        except PermissionError:
+            print('You shoud run this command as system administrator: run the terminal as admnistrator and type the command again.')
         except WindowsError:
             return False
 
@@ -296,20 +300,20 @@ def create_os_contex_menu(kicost_path):
         cmd_opt = '--gui'
     else:
         cmd_opt = '-wi'
+    icon_path = os.path.join(kicost_path, 'kicost.ico')
     if sys.platform.startswith('darwin'): # Mac-OS.
         print('I don\'t know how to create the context menu on OSX')
         return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        icon_path = os.path.join(kicost_path, 'kicost.ico')
-        set_reg(r'\xmlfile\shell\KiCost\command',
-                '(Default)', 'kicost {opt} "%1"'.format(opt=cmd_opt),
+        set_reg(r'xmlfile\shell\KiCost\command',
+                None, 'kicost {opt} "%1"'.format(opt=cmd_opt),
                 winreg.HKEY_CLASSES_ROOT)
-        set_reg(r'\xmlfile\shell\KiCost',
+        set_reg(r'xmlfile\shell\KiCost',
                 'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
-        set_reg(r'\csvfile\shell\KiCost\command',
-                '(Default)', 'kicost {opt} "%1"'.format(opt=cmd_opt),
+        set_reg(r'csvfile\shell\KiCost\command',
+                None, 'kicost {opt} "%1"'.format(opt=cmd_opt),
                 winreg.HKEY_CLASSES_ROOT)
-        set_reg(r'\csvfile\shell\KiCost',
+        set_reg(r'csvfile\shell\KiCost',
                 'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
         return True
     elif sys.platform.startswith('linux'):
@@ -320,14 +324,14 @@ def create_os_contex_menu(kicost_path):
 def delete_os_contex_menu():
     '''Delete the OS context menu to recognized KiCost files (XML/CSV).'''
     if sys.platform.startswith('darwin'): # Mac-OS.
-        print('I don\'t know how to create the context menu on OSX')
-        return True
+        print('I don\'t know how to create the context menu on OSX.')
+        return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
         return del_reg(r'\xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
             del_reg(r'\csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
-        print('I don\'t know how to create the context menu on Linux')
-        return True
+        print('I don\'t know how to create the context menu on Linux.')
+        return False
 
 
 def create_shortcut(target, directory, name, icon, location=None,
