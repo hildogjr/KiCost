@@ -257,12 +257,12 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
         except WindowsError:
             return False
     
-    def del_reg(name_base, name_delete, key=winreg.HKEY_CURRENT_USER):
+    def del_reg(name, key=winreg.HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
             reg = winreg.ConnectRegistry(None, key)
             #registry_key = winreg.OpenKey(reg, name_base, 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteKey(reg, name_delete)
+            winreg.DeleteKey(reg, name)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
