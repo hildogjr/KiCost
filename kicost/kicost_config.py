@@ -259,12 +259,12 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
         except WindowsError:
             return False
     
-    def del_reg(name, key=winreg.HKEY_CURRENT_USER):
+    def del_reg(name_base, name_delete, key=winreg.HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
             reg = winreg.ConnectRegistry(None, key)
-            #registry_key = winreg.OpenKey(reg, name, 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteValue(reg, name)
+            registry_key = winreg.OpenKey(reg, name_base, 0, winreg.KEY_ALL_ACCESS)
+            winreg.DeleteValue(registry_key, name_delete)
             #winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
@@ -327,8 +327,8 @@ def delete_os_contex_menu():
         print('I don\'t know how to create the context menu on OSX.')
         return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        return del_reg(r'xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
-            del_reg(r'csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
+        return del_reg(r'xmlfile\shell', r'KiCost', winreg.HKEY_CLASSES_ROOT) and \
+            del_reg(r'csvfile\shell', r'KiCost', winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux.')
         return False
@@ -463,7 +463,7 @@ def kicost_setup():
             from .kicost_gui import CONFIG_FILE, GUI_NEWS_MESSAGE_ENTRY
             configHandle = wx.Config(CONFIG_FILE)
             configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'True')
-            print('The will display the NEWS message on first staturp.')
+            print('The user interface will display the NEWS message on first startup.')
         except:
             print('Failed to set to display the news message on GUI.')
 
