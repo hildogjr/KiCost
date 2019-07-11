@@ -296,7 +296,7 @@ def create_os_contex_menu(kicost_path):
         print(e)
         have_gui = False
         pass
-    if not have_gui:
+    if have_gui:
         cmd_opt = '--gui'
     else:
         cmd_opt = '-wi'
