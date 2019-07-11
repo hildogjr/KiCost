@@ -279,7 +279,7 @@ def install_kicad_plugin(path):
     return
 
 
-def create_os_contex_menu(path):
+def create_os_contex_menu(kicost_path):
     '''Create the OS context menu to recognized KiCost files (XML/CSV).'''
     try:
         import wx # wxWidgets for Python.
@@ -300,12 +300,17 @@ def create_os_contex_menu(path):
         print('I don\'t know how to create the context menu on OSX')
         return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+        icon_path = os.path.join(kicost_path, 'kicost.ico')
+        set_reg(r'\xmlfile\shell\KiCost\command',
+                '(Default)', 'kicost {opt} "%1"'.format(opt=cmd_opt),
+                winreg.HKEY_CLASSES_ROOT)
         set_reg(r'\xmlfile\shell\KiCost',
-                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt),
+                'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
+        set_reg(r'\csvfile\shell\KiCost\command',
+                '(Default)', 'kicost {opt} "%1"'.format(opt=cmd_opt),
                 winreg.HKEY_CLASSES_ROOT)
         set_reg(r'\csvfile\shell\KiCost',
-                'command', 'kicost {opt} "%1"'.format(opt=cmd_opt),
-                winreg.HKEY_CLASSES_ROOT)
+                'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
         return True
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux')
@@ -444,7 +449,7 @@ def kicost_setup():
 
     print('Creating OS context integration...')
     if create_os_contex_menu(kicost_path):
-        print('KiCost listed at the \'Open with...\' context menu.')
+        print('KiCost listed at the OS context menu for the associated files.')
     else:
         print('Failed to create KiCost OS context menu integration.')
 
