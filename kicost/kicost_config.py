@@ -327,8 +327,8 @@ def delete_os_contex_menu():
         print('I don\'t know how to create the context menu on OSX.')
         return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        return del_reg(r'\xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
-            del_reg(r'\csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
+        return del_reg(r'xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
+            del_reg(r'csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux.')
         return False
