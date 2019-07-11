@@ -236,7 +236,6 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
             reg = winreg.ConnectRegistry(None, key)
             registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_READ)
             value, regtype = winreg.QueryValueEx(registry_key, name)
-            winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             return value
         except WindowsError:
@@ -249,7 +248,6 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
             winreg.CreateKey(reg, path)
             registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_WRITE)
             winreg.SetValueEx(registry_key, name, 0, key_type, value)
-            winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
@@ -263,9 +261,8 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
         # Delete a registry key on Windows.
         try:
             reg = winreg.ConnectRegistry(None, key)
-            registry_key = winreg.OpenKey(reg, name_base, 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteValue(registry_key, name_delete)
-            #winreg.CloseKey(registry_key)
+            #registry_key = winreg.OpenKey(reg, name_base, 0, winreg.KEY_ALL_ACCESS)
+            winreg.DeleteValue(reg, name_delete)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
@@ -327,8 +324,10 @@ def delete_os_contex_menu():
         print('I don\'t know how to create the context menu on OSX.')
         return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        return del_reg(r'xmlfile\shell', r'KiCost', winreg.HKEY_CLASSES_ROOT) and \
-            del_reg(r'csvfile\shell', r'KiCost', winreg.HKEY_CLASSES_ROOT)
+        return del_reg(r'xmlfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
+            del_reg(r'xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
+            del_reg(r'csvfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
+            del_reg(r'csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux.')
         return False
