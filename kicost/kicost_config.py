@@ -252,7 +252,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
             winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
-            SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
+            #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except PermissionError:
             print('You shoud run this command as system administrator: run the terminal as admnistrator and type the command again.')
@@ -268,7 +268,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
             winreg.CloseKey(registry_key)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
-            SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
+            #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except PermissionError:
             print('You shoud run this command as system administrator: run the terminal as admnistrator and type the command again.')
