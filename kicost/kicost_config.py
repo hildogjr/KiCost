@@ -262,7 +262,7 @@ if sys.platform.startswith(WINDOWS_STARTS_WITH):
         try:
             reg = winreg.ConnectRegistry(None, key)
             #registry_key = winreg.OpenKey(reg, name_base, 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteValue(reg, name_delete)
+            winreg.DeleteKey(reg, name_delete)
             winreg.CloseKey(reg)
             # Uptade the Windows behaviour.
             #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
