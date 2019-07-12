@@ -433,6 +433,7 @@ optional arguments:
                         configuration script.
   --unsetup             Undo the KiCost integration.
 
+
 -------------------------------------------------
 Adding KiCost to the Context Menu (Windows Only)
 -------------------------------------------------
@@ -471,3 +472,4 @@ To do this:
    which distributors to use, currency and others definitions.
 
 #. Close the registry. KiCost should now appear when you right-click on an XML file.
+
