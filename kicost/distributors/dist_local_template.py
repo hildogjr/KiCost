@@ -90,7 +90,7 @@ class dist_local_template(distributor_class):
             part.qty_increment = {dist: None for dist in distributors}
             part.info_dist = {dist: {} for dist in distributors}
             part.currency = {dist: DEFAULT_CURRENCY for dist in distributors} # Default currency.
-            part.moq = {dist: 1 for dist in distributors} # Minimum order quantity allowd by the distributor.
+            part.moq = {dist: None for dist in distributors} # Minimum order quantity allowd by the distributor.
 
         # Loop through the parts looking for those sourced by local distributors
         # that won't be found online. Place any user-added info for these parts

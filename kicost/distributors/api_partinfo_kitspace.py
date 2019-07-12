@@ -300,12 +300,18 @@ class api_partinfo_kitspace(distributor_class):
                                 part_qty_increment = float("inf")
 
                             # Use the qty increment to select the part SKU, web page, and available quantity.
-                            # Do this if this is the first part offer from this dist.
-                            part.part_num[dist] = offer.get('sku', '').get('part', '')
-                            part.url[dist] = offer.get('product_url', '') # Page to purchase.
-                            part.qty_avail[dist] = offer.get('in_stock_quantity', None) # In stock.
-                            part.moq[dist] = offer.get('moq', None) # Minimum order qty.s
-                            part.qty_increment[dist] = part_qty_increment
+                            # Do this if this is the first part offer from this dist. Each distributor can have
+                            # differente stock codes for the same part in different quantities / delivery package
+                            # style: cut-tape, reel, ...
+                            if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
+                                # Keeps the information of more availability.
+                                part.qty_avail[dist] = offer.get('in_stock_quantity') # In stock.
+                            if not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq')):
+                                # Save the link, stock code, ... of the page for minimum purchase.
+                                part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
+                                part.part_num[dist] = offer.get('sku', '').get('part', '')
+                                part.qty_increment[dist] = part_qty_increment
 
                             # Don't bother with any extra info from the distributor.
                             part.info_dist[dist] = {}

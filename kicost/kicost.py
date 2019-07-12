@@ -243,7 +243,7 @@ def kicost(in_file, eda_name, out_filename,
             part.qty_increment = {dist: None for dist in dist_list}
             part.info_dist = {dist: {} for dist in dist_list}
             part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list} # Default currency.
-            part.moq = {dist: 1 for dist in dist_list} # Minimum order quantity allowd by the distributor.
+            part.moq = {dist: None for dist in dist_list} # Minimum order quantity allowd by the distributor.
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
         #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)

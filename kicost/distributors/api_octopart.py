@@ -340,20 +340,28 @@ class api_octopart(distributor_class):
                             # Use the qty increment to select the part SKU, web page, and available quantity.
                             # Do this if this is the first part offer from this dist.
                             if not parts[i].part_num[dist]:
-                                parts[i].part_num[dist] = offer.get('sku', '')
-                                parts[i].url[dist] = offer.get('product_url', '')
-                                parts[i].qty_avail[dist] = offer.get(
-                                    'in_stock_quantity', None)
-                                parts[i].qty_increment[dist] = part_qty_increment
+                                if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
+                                    # Keeps the information of more availability.
+                                    parts[i].qty_avail[dist] = offer.get('in_stock_quantity')
+                                if not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq')):
+                                    # Save the link, stock code, ... of the page for minimum purchase.
+                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                    parts[i].part_num[dist] = offer.get('sku')
+                                    parts[i].url[dist] = offer.get('product_url')
+                                    parts[i].qty_increment[dist] = part_qty_increment
                             # Otherwise, check qty increment and see if its the smallest for this part & dist.
                             elif part_qty_increment < parts[i].qty_increment[dist]:
                                 # This part looks more like a cut-tape version, so
                                 # update the SKU, web page, and available quantity.
-                                parts[i].part_num[dist] = offer.get('sku', '')
-                                parts[i].url[dist] = offer.get('product_url', '')
-                                parts[i].qty_avail[dist] = offer.get(
-                                    'in_stock_quantity', None)
-                                parts[i].qty_increment[dist] = part_qty_increment
+                                if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
+                                # Keeps the information of more availability.
+                                    parts[i].qty_avail[dist] = offer.get('in_stock_quantity')
+                                if not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq')):
+                                    # Save the link, stock code, ... of the page for minimum purchase.
+                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                    parts[i].part_num[dist] = offer.get('sku')
+                                    parts[i].url[dist] = offer.get('product_url')
+                                    parts[i].qty_increment[dist] = part_qty_increment
 
                             # Don't bother with any extra info from the distributor.
                             parts[i].info_dist[dist] = {}
