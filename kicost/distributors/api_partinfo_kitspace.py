@@ -280,11 +280,12 @@ class api_partinfo_kitspace(distributor_class):
                                     price_tiers = {qty: float(price)
                                                         for qty, price in list(prices)
                                                   }
-                                # Combine price lists for multiple offers from the same distributor
-                                # to build a complete list of cut-tape and reeled components.
-                                if not dist in part.price_tiers:
-                                    part.price_tiers[dist] = {}
-                                part.price_tiers[dist].update(price_tiers)
+                                    # Combine price lists for multiple offers from the same distributor
+                                    # to build a complete list of cut-tape and reeled components.
+                                    if not dist in part.price_tiers:
+                                        part.price_tiers[dist] = {}
+                                        # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
+                                    part.price_tiers[dist].update(price_tiers)
                             except TypeError:
                                 pass  # Price list is probably missing so leave empty default dict in place.
 

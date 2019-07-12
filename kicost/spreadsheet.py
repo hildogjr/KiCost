@@ -946,10 +946,10 @@ Orange -> Too little quantity available.'''
                         wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            minimum_order_qty = qtys[1] # Before get the minimum order quantity to validate the user cart.
+            minimum_order_qty = qtys[0] # Before get the minimum order quantity to validate the user cart.
             dist_currency_symbol = numbers.get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
             price_break_info = 'Qty/Price Breaks ({c}):\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(c=dist_currency, s=dist_currency_symbol)
-            for q in qtys[1:]:  # Skip the first qty which is always 0.
+            for q in qtys[0:]:
                 price = price_tiers[q]
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format( q,
                     numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE),
