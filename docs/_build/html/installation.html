@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Installation &#8212; kicost 1.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Usage" href="usage.html" />
+    <link rel="prev" title="KiCost" href="readme.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="readme.html" title="KiCost"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>This is a Python package, so you’ll need to have Python installed to use it.
+If you’re using linux, you probably already have Python.
+If you’re on Windows, you can download a Python installer from
+<a class="reference external" href="https://www.continuum.io/downloads#windows">Anaconda</a> ,
+<a class="reference external" href="https://www.activestate.com/activepython/downloads">Active State</a> , or even
+<a class="reference external" href="http://winpython.github.io/#releases">WinPython</a> .</p>
+<p>Once you have Python, you can install this package by opening a terminal
+window and typing the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ easy_install kicost
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install kicost
+</pre></div>
+</div>
+<p>Note that if you install KiCost using <code class="docutils literal notranslate"><span class="pre">pip</span></code> on a Windows system running Python 2.7,
+using the default option that web scrapes with parallel processes may cause
+<strong>MANY</strong> errors. You can avoid this problem by:</p>
+<ul class="simple">
+<li><p>using <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> to install KiCost, or</p></li>
+<li><p>use the <code class="docutils literal notranslate"><span class="pre">-s</span></code> KiCost option to serialize the web scraping.</p></li>
+</ul>
+<p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal notranslate"><span class="pre">pip3</span></code> for <code class="docutils literal notranslate"><span class="pre">pip</span></code> on each command):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
+$ sudo -H pip3 install -U pip # Upgrade the PIP version.
+$ sudo -H pip3 install kicost # Install KiCost from PyPI.
+</pre></div>
+</div>
+<p>For install the graphical dependence used by KiCost GUI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo -H pip3 install wxpython
+or
+$ sudo -H pip3 install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Ubuntu 16.04
+$ kicost # Execute KiCost without input arguments to initialize the GUI.
+</pre></div>
+</div>
+<p>For install the last code version from GitHub, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install git # It&#39;s necessary to have Git installed.
+$ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="readme.html"
+                        title="previous chapter">KiCost</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="next chapter">Usage</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/installation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="readme.html" title="KiCost"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

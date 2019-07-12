@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>kicost.wxAnyThread &#8212; kicost 1.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.wxAnyThread</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">  wxAnyThread:  allow methods on wxPython objects to be called from any thread</span>
+
+<span class="sd">In wxPython, methods that alter the state of the GUI are only safe to call from</span>
+<span class="sd">the thread running the main event loop.  Other threads must typically post</span>
+<span class="sd">events to the GUI thread instead of invoking methods directly.</span>
+
+<span class="sd">While there are builtin shortcuts for this (e.g. wx.CallAfter) they do not</span>
+<span class="sd">capture the full semantics of a function call.  This module provides an easy</span>
+<span class="sd">way to invoke methods from any thread *transparently*, propagating return</span>
+<span class="sd">values and exceptions back to the calling thread.</span>
+
+<span class="sd">The main interface is a decorator named &quot;anythread&quot;, which can be applied</span>
+<span class="sd">to methods to make them safe to call from any thread, like so:</span>
+
+<span class="sd">from .wxAnyThread import anythread # For correct use of the threads with the GUI in wxPython.</span>
+
+<span class="sd">  class MyFrame(wx.Frame):</span>
+
+<span class="sd">     @anythread</span>
+<span class="sd">     def GetSomeData():</span>
+<span class="sd">         dlg = MyQueryDialog(self,&quot;Enter some data&quot;)</span>
+<span class="sd">         if dlg.ShowModal() == wx.ID_OK:</span>
+<span class="sd">             resp = dlg.GetResponse()</span>
+<span class="sd">             return int(resp)</span>
+<span class="sd">         else:</span>
+<span class="sd">             raise NoDataEnteredError()</span>
+
+<span class="sd">The GetSomeData method can now be directly invoked from any thread.</span>
+<span class="sd">The calling thread will block while the main GUI thread shows the dialog,</span>
+<span class="sd">and will then receive a return value or exception as appropriate.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">__ver_major__</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">__ver_minor__</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">__ver_patch__</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">__ver_sub__</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="n">__version__</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">.</span><span class="si">%d</span><span class="s2">.</span><span class="si">%d%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">__ver_major__</span><span class="p">,</span><span class="n">__ver_minor__</span><span class="p">,</span>
+                              <span class="n">__ver_patch__</span><span class="p">,</span><span class="n">__ver_sub__</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">wx</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;anythread&#39;</span><span class="p">]</span>
+
+<span class="n">_EVT_INVOKE_METHOD</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">NewId</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">MethodInvocationEvent</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">PyEvent</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Event fired to the GUI thread indicating a method invocation.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">func</span><span class="p">,</span><span class="n">args</span><span class="p">,</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">PyEvent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetEventType</span><span class="p">(</span><span class="n">_EVT_INVOKE_METHOD</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwds</span> <span class="o">=</span> <span class="n">kwds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Invoke the method, blocking until the main thread handles it.&quot;&quot;&quot;</span>
+        <span class="n">wx</span><span class="o">.</span><span class="n">PostEvent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">tb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">traceback</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">traceback</span>
+            <span class="k">raise</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">,</span> <span class="n">tb</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">process</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Execute the method and signal that it is ready.&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">_</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">exception</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">traceback</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">evt</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Simple event handler to register for invocation events.&quot;&quot;&quot;</span>
+    <span class="n">evt</span><span class="o">.</span><span class="n">process</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="anythread"><a class="viewcode-back" href="../../kicost.html#kicost.wxAnyThread.anythread">[docs]</a><span class="k">def</span> <span class="nf">anythread</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Method decorator allowing call from any thread.</span>
+
+<span class="sd">    The method is replaced by one that posts a MethodInvocationEvent to the</span>
+<span class="sd">    object, then blocks waiting for it to be completed.  The target object</span>
+<span class="sd">    is automatically connected to the _EVT_INVOKE_METHOD event if it wasn&#39;t</span>
+<span class="sd">    alread connected.</span>
+
+<span class="sd">    When invoked from the main thread, the function is executed immediately.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">invoker</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="c1">#if wx.Thread_IsMain():</span>
+        <span class="k">if</span> <span class="n">wx</span><span class="o">.</span><span class="n">IsMainThread</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="s2">&quot;_AnyThread__connected&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">Connect</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">_EVT_INVOKE_METHOD</span><span class="p">,</span><span class="n">handler</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_AnyThread__connected</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">evt</span> <span class="o">=</span> <span class="n">MethodInvocationEvent</span><span class="p">(</span><span class="n">func</span><span class="p">,</span><span class="n">args</span><span class="p">,</span><span class="n">kwds</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">evt</span><span class="o">.</span><span class="n">invoke</span><span class="p">()</span>
+    <span class="n">invoker</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="n">invoker</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span>
+    <span class="k">return</span> <span class="n">invoker</span></div>
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

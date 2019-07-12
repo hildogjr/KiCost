@@ -1,0 +1,146 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>KiCost &#8212; kicost 1.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to kicost’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to kicost’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kicost">
+<h1>KiCost<a class="headerlink" href="#kicost" title="Permalink to this headline">¶</a></h1>
+<a class="reference external image-reference" href="https://travis-ci.org/xesscorp/kicost"><img alt="https://img.shields.io/travis/xesscorp/kicost.svg" src="https://img.shields.io/travis/xesscorp/kicost.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/kicost"><img alt="https://img.shields.io/pypi/v/kicost.svg" src="https://img.shields.io/pypi/v/kicost.svg" /></a>
+<p>KiCost script, also with Graphical User Interface - GUI, under MIT license for
+generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.</p>
+<ul class="simple">
+<li><p>Free software: MIT license</p></li>
+<li><p>Documentation: <a class="reference external" href="https://xesscorp.github.io/KiCost">https://xesscorp.github.io/KiCost</a>.</p></li>
+<li><p>Quick start: <a class="reference external" href="https://www.youtube.com/watch?v=AeccxROpDfY">https://www.youtube.com/watch?v=AeccxROpDfY</a>.</p></li>
+</ul>
+<p>KiCost is powered by the [Kitspace](<a class="reference external" href="https://kitspace.org/">https://kitspace.org/</a>) PartInfo API. [Partinfo](<a class="reference external" href="https://github.com/kitspace/partinfo">https://github.com/kitspace/partinfo</a>) hooks into paid-for 3rd party services. If you find KiCost useful please [donate to the Kitspace Open Collective](<a class="reference external" href="https://opencollective.com/kitspace">https://opencollective.com/kitspace</a>). If Kitspace doesn’t receive enough donations then this free service will have to be shut down.</p>
+<a class="reference external image-reference" href="https://opencollective.com/kitspace"><img alt="_images/kitspace.png" src="_images/kitspace.png" /></a>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Easy installation via <cite>pip</cite> (see on documentation folder).</p></li>
+<li><p>Processes the BOM XML file from your KiCad schematic to create a part-cost spreadsheet by
+scraping the web sites of several popular distributors for price and inventory data.
+(You can also enter your own quantity-adjusted pricing data for specialized parts or those
+not found at the supported distributors.);</p></li>
+<li><p>Processes also BOM files from Altium, Proteus, Eagle, Upverter and hand made CSVs;</p></li>
+<li><p>The spreadsheet contains quantity-adjusted pricing from each distributor for
+individual parts and the total board;</p></li>
+<li><p>Enter the number of boards to be built in a spreadsheet cell and all the pricing
+for the total board and individual parts is updated;</p></li>
+<li><p>The spreadsheet also shows the current inventory on-hand for each part at each distributor;</p></li>
+<li><p>Enter the quantity of each part that you want to purchase from each distributor and
+lists of part numbers and quantities will appear in formats that you can cut-and-paste
+directly into the website ordering page of each distributor.</p></li>
+</ul>
+<img alt="_images/block_diag.png" src="_images/block_diag.png" />
+<img alt="_images/gui.png" src="_images/gui.png" />
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">KiCost</a><ul>
+<li><a class="reference internal" href="#features">Features</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to kicost’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Installation</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/readme.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to kicost’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>kicost.edas.eda_altium &#8212; kicost 1.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.edas.eda_altium</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Júnior&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;University of Campinas - Brazil&#39;</span>
+<span class="c1"># This module is intended to work with Altium XML files.</span>
+
+<span class="c1"># Libraries.</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">time</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">copy</span> <span class="c1"># Necessary because Py2 doesn&#39;t have copy in list.</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="k">import</span> <span class="n">BeautifulSoup</span> <span class="c1"># To Read XML files.</span>
+<span class="kn">import</span> <span class="nn">re</span> <span class="c1"># Regular expression parser.</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="k">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">DEBUG_OBSESSIVE</span> <span class="c1"># Debug configurations.</span>
+<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="k">import</span> <span class="n">SEPRTR</span>
+<span class="kn">from</span> <span class="nn">..distributors.global_vars</span> <span class="k">import</span> <span class="n">distributor_dict</span>
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="n">field_name_translations</span><span class="p">,</span> <span class="n">remove_dnp_parts</span>
+<span class="kn">from</span> <span class="nn">.tools</span> <span class="k">import</span> <span class="n">PART_REF_REGEX_NOT_ALLOWED</span>
+
+<span class="c1"># Add to deal with the fileds of Altium and WEB tools.</span>
+<span class="n">field_name_translations</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;designator&#39;</span><span class="p">:</span> <span class="s1">&#39;refs&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;quantity&#39;</span><span class="p">:</span> <span class="s1">&#39;qty&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;manufacturer name&#39;</span><span class="p">:</span> <span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="c1"># Used for some web site tools to part generator in Altium.</span>
+        <span class="s1">&#39;manufacturer part number&#39;</span><span class="p">:</span> <span class="s1">&#39;manf#&#39;</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<span class="n">ALTIUM_NONE</span> <span class="o">=</span> <span class="s1">&#39;[NoParam]&#39;</span> <span class="c1"># Value of Altium to `None`.</span>
+<span class="n">ALTIUM_PART_SEPRTR</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?&lt;!</span><span class="se">\\</span><span class="s1">),\s*&#39;</span> <span class="c1"># Separator for the part numbers in a list, remove the lateral spaces.</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;get_part_groups&#39;</span><span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">eda_dict</span>
+
+<span class="c1"># Place information about this EDA into the eda_tool dictionary.</span>
+<span class="n">eda_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;altium&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;altium&#39;</span><span class="p">,</span> <span class="c1"># The directory name containing this file.</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Altium file&#39;</span><span class="p">,</span> <span class="c1"># Label used on the GUI.</span>
+            <span class="s1">&#39;desc&#39;</span><span class="p">:</span> <span class="s1">&#39;Altium Limited (formerly known as Protel until 2001).&#39;</span><span class="p">,</span>
+            <span class="c1"># Formatting file match .</span>
+            <span class="s1">&#39;file&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;extension&#39;</span><span class="p">:</span> <span class="s1">&#39;.xml&#39;</span><span class="p">,</span> <span class="c1"># File extension.</span>
+                <span class="s1">&#39;content&#39;</span><span class="p">:</span> <span class="s1">&#39;\&lt;GRID[\s\S]+&lt;COLUMNS&gt;[\s\S]+&lt;COLUMN[\s\S]+&lt;\/COLUMNS&gt;[\s\S]+&lt;ROWS&gt;[\s\S]+\&lt;ROW[\s\S]+\&lt;\/ROWS&gt;[\s\S]+\&lt;\/GRID&gt;&#39;</span> <span class="c1"># Regular expression content match.</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">)</span>
+
+<div class="viewcode-block" id="get_part_groups"><a class="viewcode-back" href="../../../kicost.edas.html#kicost.edas.eda_altium.get_part_groups">[docs]</a><span class="k">def</span> <span class="nf">get_part_groups</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;@brief Get groups of identical parts from an XML file and return them as a dictionary.</span>
+<span class="sd">       @param in_file `str()` with the file name.</span>
+<span class="sd">       @param ignore_fields `list()` fields do be ignored on the read action.</span>
+<span class="sd">       @param variant `str()` in regular expression to match with the design version of the BOM.</span>
+<span class="sd">       @return `dict()` of the parts designed. The keys are the componentes references.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">ign_fields</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">ignore_fields</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">extract_field</span><span class="p">(</span><span class="n">xml_entry</span><span class="p">,</span> <span class="n">field_name</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Extract XML fields from XML entry given.&#39;&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">&gt;=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">xml_entry</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">xml_entry</span><span class="p">[</span><span class="n">field_name</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">extract_fields_row</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">header</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Extract XML fields from the part in a library or schematic.&#39;&#39;&#39;</span>
+        
+        <span class="c1"># First get the references and the quantities of elements in each rwo group.</span>
+        <span class="n">header_translated</span> <span class="o">=</span> <span class="p">[</span><span class="n">field_name_translations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span><span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">hdr</span> <span class="ow">in</span> <span class="n">header</span><span class="p">]</span>
+        <span class="n">hdr_refs</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">header_translated</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;refs&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">hdr_refs</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not founded the part designators/references in the BOM.</span><span class="se">\n</span><span class="s1">Try to generate the file again at Altium.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hdr_refs</span> <span class="o">=</span> <span class="n">hdr_refs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">refs</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ALTIUM_PART_SEPRTR</span><span class="p">,</span> <span class="n">extract_field</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">header</span><span class="p">[</span><span class="n">hdr_refs</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span>
+            <span class="n">header_valid</span> <span class="o">=</span> <span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">header_valid</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+        <span class="n">header_valid</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="n">hdr_refs</span><span class="p">])</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">hdr_qty</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">header_translated</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;qty&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">qty</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="n">extract_field</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">header</span><span class="p">[</span><span class="n">hdr_qty</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="p">)</span>
+            <span class="n">header_valid</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">header</span><span class="p">[</span><span class="n">hdr_qty</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">qty</span><span class="o">!=</span><span class="nb">len</span><span class="p">(</span><span class="n">refs</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not recognize the division elements in the Altium BOM.</span><span class="se">\n</span><span class="s1">If you are using subparts, try to replace the separator from `, ` to `,` or better, use `;` instead `,`.&#39;</span><span class="p">)</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">qty</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">refs</span><span class="p">)</span>
+        
+        <span class="c1"># After the others fields.</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="nb">dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qty</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">hdr</span> <span class="ow">in</span> <span class="n">header_valid</span><span class="p">:</span>
+            <span class="c1"># Extract each information, by the the header given, for each</span>
+            <span class="c1"># row part, spliting it in a list.</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">extract_field</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ALTIUM_PART_SEPRTR</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">ign_fields</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">SEPRTR</span> <span class="ow">in</span> <span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qty</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">==</span><span class="n">qty</span><span class="p">:</span>
+                        <span class="n">v</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">v</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Footprint is just one for group.</span>
+                    <span class="c1"># Do not create empty fields. This is useful</span>
+                    <span class="c1"># when used more than one `manf#` alias in one designator.</span>
+                    <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">v</span><span class="o">!=</span><span class="n">ALTIUM_NONE</span><span class="p">:</span>
+                        <span class="n">fields</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">field_name_translations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span><span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">())]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Now look for fields that start with &#39;kicost&#39; and possibly</span>
+                <span class="c1"># another dot-separated variant field and store their values.</span>
+                <span class="c1"># Anything else is in a non-kicost namespace.</span>
+                <span class="n">key_re</span> <span class="o">=</span> <span class="s1">&#39;kicost(\.</span><span class="si">{}</span><span class="s1">)?:(?P&lt;name&gt;.*)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span>
+                <span class="n">mtch</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key_re</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">mtch</span><span class="p">:</span>
+                    <span class="c1"># The field name is anything that came after the leading</span>
+                    <span class="c1"># &#39;kicost&#39; and variant field.</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">mtch</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">field_name_translations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                    <span class="c1"># If the field name isn&#39;t for a manufacturer&#39;s part</span>
+                    <span class="c1"># number or a distributors catalog number, then add</span>
+                    <span class="c1"># it to &#39;local&#39; if it doesn&#39;t start with a distributor</span>
+                    <span class="c1"># name and colon.</span>
+                    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;manf#&#39;</span><span class="p">,</span> <span class="s1">&#39;manf&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">SEPRTR</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span> <span class="c1"># This field has no distributor.</span>
+                            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;local:&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="c1"># Assign it to a local distributor.</span>
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">qty</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">==</span><span class="n">qty</span><span class="p">:</span>
+                            <span class="n">v</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">v</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Footprint is just one for group.</span>
+                        <span class="c1"># Do not create empty fields. This is useful</span>
+                        <span class="c1"># when used more than one `manf#` alias in one designator.</span>
+                        <span class="k">if</span> <span class="n">v</span> <span class="ow">and</span> <span class="n">v</span><span class="o">!=</span><span class="n">ALTIUM_NONE</span><span class="p">:</span>
+                            <span class="n">fields</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">field_name_translations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span><span class="n">hdr</span><span class="o">.</span><span class="n">lower</span><span class="p">())]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">refs</span><span class="p">,</span> <span class="n">fields</span>
+
+    <span class="c1"># Read-in the schematic XML file to get a tree and get its root.</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;# Getting from XML </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> Altium BoM...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">in_file</span><span class="p">))</span> <span class="p">)</span>
+    <span class="n">file_h</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">file_h</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
+    <span class="n">file_h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1"># Get the header of the XML file of Altium, so KiCost is able to to</span>
+    <span class="c1"># to get all the informations in the file.</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting the XML table header...&#39;</span><span class="p">)</span>
+    <span class="n">header</span> <span class="o">=</span> <span class="p">[</span> <span class="n">extract_field</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;column&#39;</span><span class="p">)</span> <span class="p">]</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting components...&#39;</span><span class="p">)</span>
+    <span class="n">accepted_components</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;rows&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;row&#39;</span><span class="p">):</span>
+
+        <span class="c1"># Get the values for the fields in each library part (if any).</span>
+        <span class="n">refs</span><span class="p">,</span> <span class="n">fields</span> <span class="o">=</span> <span class="n">extract_fields_row</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">refs</span><span class="p">)):</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">refs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;\+$&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span> <span class="c1"># Finishing &quot;+&quot;.</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">PART_REF_REGEX_NOT_ALLOWED</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span> <span class="c1"># Generic special characters not allowed. To work around #ISSUE #89.</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;\-+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span> <span class="c1"># Double &quot;-&quot;.</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;^\-&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span> <span class="c1"># Starting &quot;-&quot;.</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;\-$&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span> <span class="c1"># Finishing &quot;-&quot;.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;\d$&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+                <span class="n">ref</span> <span class="o">+=</span> <span class="s1">&#39;0&#39;</span>
+            <span class="n">accepted_components</span><span class="p">[</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">PART_REF_REGEX_NOT_ALLOWED</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ref</span><span class="p">)</span> <span class="p">]</span> <span class="o">=</span> <span class="n">fields</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="c1"># Not founded project information at the file content.</span>
+    <span class="n">prj_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span> <span class="n">in_file</span> <span class="p">),</span>
+                <span class="s1">&#39;company&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s1">&#39;date&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">in_file</span><span class="p">)),</span> <span class="s1">&#39;%a %b </span><span class="si">%d</span><span class="s1"> %H:%M:%S %Y&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; (file)&#39;</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">remove_dnp_parts</span><span class="p">(</span><span class="n">accepted_components</span><span class="p">,</span> <span class="n">variant</span><span class="p">),</span> <span class="n">prj_info</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

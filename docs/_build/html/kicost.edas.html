@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>kicost.edas package &#8212; kicost 1.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kicost-edas-package">
+<h1>kicost.edas package<a class="headerlink" href="#kicost-edas-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kicost.edas.eda_altium">
+<span id="kicost-edas-eda-altium-module"></span><h2>kicost.edas.eda_altium module<a class="headerlink" href="#module-kicost.edas.eda_altium" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kicost.edas.eda_altium.get_part_groups">
+<code class="sig-prename descclassname">kicost.edas.eda_altium.</code><code class="sig-name descname">get_part_groups</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">ignore_fields</em>, <em class="sig-param">variant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/eda_altium.html#get_part_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.eda_altium.get_part_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;brief Get groups of identical parts from an XML file and return them as a dictionary.
+&#64;param in_file <cite>str()</cite> with the file name.
+&#64;param ignore_fields <cite>list()</cite> fields do be ignored on the read action.
+&#64;param variant <cite>str()</cite> in regular expression to match with the design version of the BOM.
+&#64;return <cite>dict()</cite> of the parts designed. The keys are the componentes references.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.edas.eda_kicad">
+<span id="kicost-edas-eda-kicad-module"></span><h2>kicost.edas.eda_kicad module<a class="headerlink" href="#module-kicost.edas.eda_kicad" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kicost.edas.eda_kicad.get_part_groups">
+<code class="sig-prename descclassname">kicost.edas.eda_kicad.</code><code class="sig-name descname">get_part_groups</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">ignore_fields</em>, <em class="sig-param">variant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/eda_kicad.html#get_part_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.eda_kicad.get_part_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get groups of identical parts from an XML file and return them as a dictionary.
+&#64;param in_file <cite>str()</cite> with the file name.
+&#64;param ignore_fields <cite>list()</cite> fields do be ignored on the read action.
+&#64;param variant <cite>str()</cite> in regular expression to match with the design version of the BOM.
+&#64;return <cite>dict()</cite> of the parts designed. The keys are the componentes references.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.edas.generic_csv">
+<span id="kicost-edas-generic-csv-module"></span><h2>kicost.edas.generic_csv module<a class="headerlink" href="#module-kicost.edas.generic_csv" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kicost.edas.generic_csv.get_part_groups">
+<code class="sig-prename descclassname">kicost.edas.generic_csv.</code><code class="sig-name descname">get_part_groups</code><span class="sig-paren">(</span><em class="sig-param">in_file</em>, <em class="sig-param">ignore_fields</em>, <em class="sig-param">variant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/generic_csv.html#get_part_groups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.generic_csv.get_part_groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get groups of identical parts from an generic CSV file and return them as a dictionary.
+&#64;param in_file <cite>str()</cite> with the file name.
+&#64;param ignore_fields <cite>list()</cite> fields do be ignored on the read action.
+&#64;param variant <cite>str()</cite> in regular expression to match with the design version of the BOM.
+For now, <cite>variant`is not used on CSV read, just kept to compatibility with the other EDA submodules.
+&#64;return `dict()</cite> of the parts designed. The keys are the componentes references.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.edas.tools">
+<span id="kicost-edas-tools-module"></span><h2>kicost.edas.tools module<a class="headerlink" href="#module-kicost.edas.tools" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kicost.edas.tools.file_eda_match">
+<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">file_eda_match</code><span class="sig-paren">(</span><em class="sig-param">file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#file_eda_match"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.file_eda_match" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;brief Verify with which EDA the file matches.</p>
+<p>Return the EDA name with the file matches or <cite>None</cite> if not founded.
+&#64;param file_name File <cite>str</cite> name.
+&#64;return Name of the module corresponding to read the file or <a href="#id1"><span class="problematic" id="id2">`</span></a>None`to not recognized.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.edas.tools.partgroup_qty">
+<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">partgroup_qty</code><span class="sig-paren">(</span><em class="sig-param">component</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#partgroup_qty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.partgroup_qty" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;brief Take the components grouped quantity.</p>
+<p>Calculate the string of the quantity of the group parsing the
+reference (design) quantity and the sub quantity (in case that
+was a sub part of a manufacture/distributor code).
+In the case of the multifiles BOM (and future revision of the
+code) just use the ‘manf#_qty’ field that in <cite>group_parts()</cite>
+recorded the quantities used in each project.</p>
+<p>&#64;param components Part component <cite>dict()</cite>, format given by the EDA modules.
+&#64;return Quantity of the manf# part used.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.edas.tools.groups_sort">
+<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">groups_sort</code><span class="sig-paren">(</span><em class="sig-param">new_component_groups</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#groups_sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.groups_sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;brief Order the groups in a alphabetical way.</p>
+<p>Put the components groups in the spreadsheet rows in a specific order
+using the reference string of the components. The order is defined
+by BOM_ORDER.
+&#64;param components Part components in a <cite>list()</cite> of <cite>dict()</cite>, format given by the EDA modules.
+&#64;return Same as input.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.edas.tools.order_refs">
+<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">order_refs</code><span class="sig-paren">(</span><em class="sig-param">refs</em>, <em class="sig-param">collapse=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#order_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.order_refs" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as opposite of <cite>split_refs()</cite>
+&#64;param refs Designator/references <cite>list()</cite>.
+&#64;return References in a organized view way.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.edas.tools.subpartqty_split">
+<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">subpartqty_split</code><span class="sig-paren">(</span><em class="sig-param">components</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#subpartqty_split"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.subpartqty_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;brief Split the components with subparts in different components.</p>
+<p>Take each part and the all manufacture/distributors combination
+possibility to split in subpart the components part that have
+more than one manufacture/distributors code.
+For each designator…
+For designator with a “single subpart” check with the quantity
+is more than one.</p>
+<p>&#64;param components Part components in a <cite>list()</cite> of <cite>dict()</cite>, format given by the EDA modules.
+&#64;return Same as the input.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.edas.tools.group_parts">
+<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">group_parts</code><span class="sig-paren">(</span><em class="sig-param">components</em>, <em class="sig-param">fields_merge</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#group_parts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.group_parts" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#64;brief Group common parts after preprocessing from XML or CSV files.</p>
+<p>Group common parts looking in the existent files that could be merged
+by the use of <cite>fields_merge</cite>. First group all designed parts without
+look the manufacture/distributors codes, after see if any will be
+propagated (designed part with out information and same values,
+footprint and so on that other that have manufacture part, receive
+this code).
+Count the quantities of each part designed using the ‘manf#_qty’
+field, this is important to merge subparts of different parts and
+parts of different BOMs (in the mode of multifiles).
+&#64;param components Part components in a <cite>list()</cite> of <cite>dict()</cite>, format given by the EDA modules.
+&#64;param fields_merge Data fields of the <cite>dict()</cite> variable to be merged and ignored to make the identical components group (before be scraped in the distributors web site).
+&#64;return <cite>list()</cite> of <cite>dict()</cite></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.edas">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost.edas" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kicost.edas package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kicost.edas.eda_altium">kicost.edas.eda_altium module</a></li>
+<li><a class="reference internal" href="#module-kicost.edas.eda_kicad">kicost.edas.eda_kicad module</a></li>
+<li><a class="reference internal" href="#module-kicost.edas.generic_csv">kicost.edas.generic_csv module</a></li>
+<li><a class="reference internal" href="#module-kicost.edas.tools">kicost.edas.tools module</a></li>
+<li><a class="reference internal" href="#module-kicost.edas">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kicost.edas.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

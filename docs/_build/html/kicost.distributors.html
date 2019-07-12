@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>kicost.distributors package &#8212; kicost 1.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="kicost-distributors-package">
+<h1>kicost.distributors package<a class="headerlink" href="#kicost-distributors-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kicost.distributors.api_octopart">
+<span id="kicost-distributors-api-octopart-module"></span><h2>kicost.distributors.api_octopart module<a class="headerlink" href="#module-kicost.distributors.api_octopart" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kicost.distributors.api_octopart.api_octopart">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.distributors.api_octopart.</code><code class="sig-name descname">api_octopart</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kicost.distributors.distributor.distributor_class" title="kicost.distributors.distributor.distributor_class"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.distributors.distributor.distributor_class</span></code></a></p>
+<dl class="method">
+<dt id="kicost.distributors.api_octopart.api_octopart.init_dist_dict">
+<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.init_dist_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.api_octopart.api_octopart.query">
+<code class="sig-name descname">query</code><span class="sig-paren">(</span><em class="sig-param">apiKey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send query to Octopart and return results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.api_octopart.api_octopart.query_part_info">
+<code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><em class="sig-param">distributors</em>, <em class="sig-param">currency='USD'</em>, <em class="sig-param">apiKey=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.query_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill-in the parts with price/qty/etc info from Octopart.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.api_octopart.api_octopart.sku_to_mpn">
+<code class="sig-name descname">sku_to_mpn</code><span class="sig-paren">(</span><em class="sig-param">apiKey</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.sku_to_mpn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.sku_to_mpn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find manufacturer part number associated with a distributor SKU.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.api_octopart.api_octopart.skus_to_mpns">
+<code class="sig-name descname">skus_to_mpns</code><span class="sig-paren">(</span><em class="sig-param">distributors</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.skus_to_mpns"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.skus_to_mpns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find manufaturer’s part number for all parts with just distributor SKUs.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.distributors.api_partinfo_kitspace">
+<span id="kicost-distributors-api-partinfo-kitspace-module"></span><h2>kicost.distributors.api_partinfo_kitspace module<a class="headerlink" href="#module-kicost.distributors.api_partinfo_kitspace" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.distributors.api_partinfo_kitspace.</code><code class="sig-name descname">api_partinfo_kitspace</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kicost.distributors.distributor.distributor_class" title="kicost.distributors.distributor.distributor_class"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.distributors.distributor.distributor_class</span></code></a></p>
+<dl class="method">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_value">
+<em class="property">static </em><code class="sig-name descname">get_value</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">item</em>, <em class="sig-param">default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.get_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value of <cite>value</cite> field of a dictionary if the <a href="#id1"><span class="problematic" id="id2">`</span></a>name`field identifier.
+Used to get information from the JSON response.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.init_dist_dict">
+<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.init_dist_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query">
+<em class="property">static </em><code class="sig-name descname">query</code><span class="sig-paren">(</span><em class="sig-param">query_parts</em>, <em class="sig-param">query_type='query ($input: [MpnOrSku]!){ match(parts: $input) {mpn{manufacturer</em>, <em class="sig-param">part}</em>, <em class="sig-param">datasheet</em>, <em class="sig-param">description</em>, <em class="sig-param">specs{key</em>, <em class="sig-param">value}</em>, <em class="sig-param">offers{product_url</em>, <em class="sig-param">sku{vendor</em>, <em class="sig-param">part}</em>, <em class="sig-param">description</em>, <em class="sig-param">moq</em>, <em class="sig-param">in_stock_quantity</em>, <em class="sig-param">prices{USD</em>, <em class="sig-param">EUR</em>, <em class="sig-param">GBP}}} }'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send query to server and return results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query_part_info">
+<em class="property">static </em><code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">distributors</em>, <em class="sig-param">currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill-in the parts with price/qty/etc info from KitSpace.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.distributors.dist_local_template">
+<span id="kicost-distributors-dist-local-template-module"></span><h2>kicost.distributors.dist_local_template module<a class="headerlink" href="#module-kicost.distributors.dist_local_template" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kicost.distributors.dist_local_template.dist_local_template">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.distributors.dist_local_template.</code><code class="sig-name descname">dist_local_template</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kicost.distributors.distributor.distributor_class" title="kicost.distributors.distributor.distributor_class"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.distributors.distributor.distributor_class</span></code></a></p>
+<dl class="method">
+<dt id="kicost.distributors.dist_local_template.dist_local_template.init_dist_dict">
+<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.init_dist_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.dist_local_template.dist_local_template.query_part_info">
+<em class="property">static </em><code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">distributors</em>, <em class="sig-param">currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template.query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.query_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill-in part information for locally-sourced parts not handled by Octopart.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.distributors.distributor">
+<span id="kicost-distributors-distributor-module"></span><h2>kicost.distributors.distributor module<a class="headerlink" href="#module-kicost.distributors.distributor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="kicost.distributors.distributor.distributor_class">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.distributors.distributor.</code><code class="sig-name descname">distributor_class</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">logger</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="kicost.distributors.distributor.distributor_class.get_dist_parts_info">
+<code class="sig-name descname">get_dist_parts_info</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">distributors</em>, <em class="sig-param">currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.get_dist_parts_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.get_dist_parts_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the parts info using the modules API/Scrape/Local.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.distributor.distributor_class.init_dist_dict">
+<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.init_dist_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="kicost.distributors.distributor.distributor_class.query_part_info">
+<em class="property">static </em><code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.query_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the parts info of one distributor class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="kicost.distributors.distributor.distributor_class.start_time">
+<code class="sig-name descname">start_time</code><em class="property"> = 1562935073.9341745</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.start_time" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-kicost.distributors.global_vars">
+<span id="kicost-distributors-global-vars-module"></span><h2>kicost.distributors.global_vars module<a class="headerlink" href="#module-kicost.distributors.global_vars" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kicost.distributors">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost.distributors" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kicost.distributors.init_distributor_dict">
+<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">init_distributor_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#init_distributor_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.init_distributor_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">kicost.distributors package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kicost.distributors.api_octopart">kicost.distributors.api_octopart module</a></li>
+<li><a class="reference internal" href="#module-kicost.distributors.api_partinfo_kitspace">kicost.distributors.api_partinfo_kitspace module</a></li>
+<li><a class="reference internal" href="#module-kicost.distributors.dist_local_template">kicost.distributors.dist_local_template module</a></li>
+<li><a class="reference internal" href="#module-kicost.distributors.distributor">kicost.distributors.distributor module</a></li>
+<li><a class="reference internal" href="#module-kicost.distributors.global_vars">kicost.distributors.global_vars module</a></li>
+<li><a class="reference internal" href="#module-kicost.distributors">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/kicost.distributors.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>
