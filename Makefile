@@ -13,6 +13,7 @@ help:
 	@echo "release - package and upload a release"
 	@echo "dist - package"
 	@echo "install - install the package to the active Python's site-packages"
+	@echo "release-test test of release at https://test.pypi.org/ server"
 
 clean: clean-build clean-pyc clean-test
 
@@ -56,6 +57,11 @@ docs:
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html
+
+release-test: clean
+	python3 setup.py sdist
+	python3 setup.py bdist_wheel
+	twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/*
 
 release: clean
 	python setup.py sdist upload

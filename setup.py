@@ -10,9 +10,9 @@ except ImportError:
     from distutils.core import setup
 
 # Update the information files that stay in the computer.
-with open('README.md') as readme_file:
+with open('README.rst') as readme_file:
     readme = readme_file.read()
-with open('HISTORY.md') as history_file:
+with open('HISTORY.rst') as history_file:
     history = history_file.read()
     try:
         history = history.replace('.. :changelog:', '')
@@ -23,8 +23,6 @@ with open('HISTORY.md') as history_file:
 requirements = [
     'beautifulsoup4 >= 4.3.2', # Deal with HTML and XML tags.
     'XlsxWriter >= 0.7.3', # Write the XLSX output file.
-    #'lxml >= 3.7.2', # Deal with XML files and tags.
-    #'yattag >= 1.5.2', #Deal with HTML tags.
     'future', # For print statements.
     'tqdm >= 4.30.0', # Progress bar.
     'requests >= 2.18.4', # Scrape, API and web modules.
@@ -48,7 +46,7 @@ setup(
     version=kicost.__version__,
     description="Build cost spreadsheet for a KiCad project.",
     long_description=readme + '\n\n' + history,
-    long_description_content_type="text/markdown",
+#    long_description_content_type="text/reStructuredText",
     author=kicost.__author__,
     author_email=kicost.__email__,
     url='https://xesscorp.github.io/KiCost',
@@ -89,7 +87,7 @@ try:
         except ImportError:
             from pip._internal import main as pipmain
         pipmain(['install', 'pywin32'])
-    # Run setup: shortcut, BOM module to Eeschema and OS contect menu.
+    # Run setup: shortcut, BOM module to Eeschema and OS context menu.
     from .kicost.kicost_config import kicost_setup
     kicost_setup()
 except:

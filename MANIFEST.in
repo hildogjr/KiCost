@@ -1,14 +1,14 @@
 include AUTHORS.rst
 include CONTRIBUTING.rst
-include HISTORY.md
 include HISTORY.rst
+include HISTORY.md
 include LICENSE
 include README.md
 include README.rst
 include kicost/kicost.ico
 include block_diag.png
 include gui.png
-include kicost/logo_octopart.png
+include kicost/kitspace.png
 
 
 recursive-include tests *
