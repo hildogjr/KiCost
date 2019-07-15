@@ -64,9 +64,9 @@ setup(
     install_requires=requirements,
     license="MIT",
     zip_safe=False,
-    keywords='kicost, KiCAD',
+    keywords='KiCAD, BOM, electronics',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
