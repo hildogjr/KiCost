@@ -5,6 +5,7 @@ History
 
 1.1 (2019-07-15)
 ______________________
+* Fix the issue of RST files in the PyPI package.
 * Use the PartInfo KitSpace API.
 * Creates a KiCad plugin integration and desktop shortcuts (not in Mac-OS) during the installation.
 * Add KiCost to the context menu "Open with..." in Windows to XML and CSV files.
@@ -13,19 +14,19 @@ ______________________
 * Improved the spreadsheet purchase distributors code formula and fix the Digikey/Mouser import errors.
 * Show the total purchased at the spreadsheet.
 * Split the GUI file in programming one in wxFormBuilder generated.
-* Fix the erro when deal with scapes in the names of BOM files on `test.sh`.
+* Fix the error when deal with spaces in the names of BOM files on `test.sh`.
 
 
 1.0.4 (2018-10-02)
 ______________________
 * Use the datasheet information distributor/API as link in ``manf#`` if not got any by the BOM.
 * Added user warnings of bad ``manf`` format in case of multi-files of different quantities assigned on the catalogue codes.
-* ``manf#`` cell get purple color if the distributor asigned the part as 'obsolete' or 'not recommended for new designs'.
+* ``manf#`` cell get purple color if the distributor assigned the part as 'obsolete' or 'not recommended for new designs'.
 
 
 1.0.3 (2018-10-06)
 ______________________
-* Fix READ file on installtion.
+* Fix READ file on installation.
 
 
 1.0.2 (2018-10-06).

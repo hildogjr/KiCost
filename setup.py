@@ -81,7 +81,7 @@ setup(
 try:
     import sys
     if sys.platform.startswith("win32"):
-        # For Windows it is necessary one additional library.
+        # For Windows it is necessary one additional library (used to create the shortcut).
         try:
             from pip import main as pipmain
         except ImportError:
