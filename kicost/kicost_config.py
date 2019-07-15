@@ -216,7 +216,9 @@ def add_bom_plugin_entry(kicad_config_path, name, cmd, nickname=None, re_flags=r
                         [sexpdata.Symbol('cmd'), cmd],
                         [sexpdata.Symbol('opts'), 'nickname={}'.format(nickname)]] )
     if len(new_list):
-        new_list[0], new_list[-1] = new_list[-1], new_list[0] # Put KiCost at first.
+        # Put KiCost at first.
+        new_list.insert(1, new_list[-1])
+        del new_list[-1]
     config = update_config_file(config, "bom_plugins", escape( sexpdata.dumps(new_list) ))
     write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
 
@@ -480,7 +482,7 @@ def kicost_setup():
                 import fileinput
                 for line in fileinput.input(os.path.join(kicad_config_path, 'eeschema'), inplace=True):
                     if line.strip().startswith('bom_plugin_selected='):
-                        line = 'bom_plugin_selected=KiCost'
+                        line = 'bom_plugin_selected=KiCost\n'
                     sys.stdout.write(line)
                 print('KiCost will appear in the Eeschema BOM plugin list.')
             except:
