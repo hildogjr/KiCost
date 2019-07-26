@@ -141,6 +141,7 @@ class dist_local_template(distributor_class):
                         if local_currency:
                             p.currency[dist] = local_currency
                         price_tiers[int(qty)] = float(price)
+                    #p.moq[dist] = min(price_tiers.keys())
                 except AttributeError:
                     # This happens when no pricing info is found.
                     logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))

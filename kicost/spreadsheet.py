@@ -907,13 +907,12 @@ Orange -> Too little quantity available.'''
             # Add the price for a single unit if it doesn't already exist in the tiers.
             try:
                 min_qty = min(price_tiers.keys())
+                minimum_order_qty = min_qty # Update the minimum order quantity.
                 if min_qty > 1:
-                    price_tiers[1] = price_tiers[
-                        min_qty
-                    ]  # Set unit price to price of lowest available quantity.
+                    price_tiers[1] = price_tiers[min_qty] # Set unit price to price of lowest available quantity.
             except ValueError:  # This happens if the price tier list is empty.
                 pass
-            price_tiers[0] = 0.00  # Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.
+            price_tiers[0] = 0.00  # Enter quantity-zero pricing so `LOOKUP` works correctly in the spreadsheet.
 
             # Sort the tiers based on quantities and turn them into lists of strings.
             qtys = sorted(price_tiers.keys())
@@ -946,10 +945,10 @@ Orange -> Too little quantity available.'''
                         wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            minimum_order_qty = qtys[0] # Before get the minimum order quantity to validate the user cart.
             dist_currency_symbol = numbers.get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
             price_break_info = 'Qty/Price Breaks ({c}):\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(c=dist_currency, s=dist_currency_symbol)
-            for q in qtys[0:]:
+            for q in qtys[1 if minimum_order_qty==1 else 2:]:
+                # Skip the unity quantity for the tip ballon if it not allow to purchase in the distributor.
                 price = price_tiers[q]
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format( q,
                     numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE),
@@ -981,7 +980,7 @@ Orange -> Too little quantity available.'''
             )
 
             # Conditional format to show that the part have a minimum order quantity not respected.
-            if minimum_order_qty<1:
+            if minimum_order_qty>1:
                 wks.conditional_format(
                     row, start_col + columns['purch']['col'], 
                     row, start_col + columns['purch']['col'],
