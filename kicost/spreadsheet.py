@@ -39,7 +39,7 @@ from babel import numbers # For currency presentation.
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
 from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
-from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
+from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX, SUB_SEPRTR
 
 from currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
@@ -106,41 +106,35 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
     
         # Create the various format styles used by various spreadsheet items.
         WRK_HDR_FORMAT = {
-                'font_size': 14,
+                'font_size': 14, 'bold': True,
                 'font_color': 'white',
                 'bg_color': '#303030',
-                'bold': True,
                 'align': 'center', 'valign': 'vcenter'
             }
         wrk_formats = {
             'global': workbook.add_format(WRK_HDR_FORMAT),
             'header': workbook.add_format({
-                'font_size': 12,
-                'bold': True,
+                'font_size': 12, 'bold': True,
                 'align': 'center', 'valign': 'top',
                 'text_wrap': True
             }),
             'board_qty': workbook.add_format({
-                'font_size': 13,
-                'bold': True,
+                'font_size': 13, 'bold': True,
                 'align': 'right'
             }),
             'total_cost_label': workbook.add_format({
-                'font_size': 13,
-                'bold': True,
+                'font_size': 13, 'bold': True,
                 'align': 'right',
                 'valign': 'vcenter'
             }),
             'unit_cost_label': workbook.add_format({
-                'font_size': 13,
-                'bold': True,
+                'font_size': 13, 'bold': True,
                 'align': 'right',
                 'valign': 'vcenter'
             }),
             'total_cost_currency': workbook.add_format({
-                'font_size': 13,
+                'font_size': 13, 'bold': True,
                 'font_color': 'red',
-                'bold': True,
                 'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
@@ -148,15 +142,13 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
                 'align': 'right',
             }),
             'unit_cost_currency': workbook.add_format({
-                'font_size': 13,
+                'font_size': 13, 'bold': True,
                 'font_color': 'green',
-                'bold': True,
                 'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
             'proj_info_field': workbook.add_format({
-                'font_size': 13,
-                'bold': True,
+                'font_size': 13, 'bold': True,
                 'align': 'right', 'valign': 'vcenter'
             }),
             'proj_info': workbook.add_format({
@@ -170,9 +162,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
                 'valign': 'vcenter', 'bg_color': '#c000c0'
             }),
             'found_part_pct': workbook.add_format({
-                'font_size': 10,
-                'bold': True,
-                'italic': True,
+                'font_size': 10, 'bold': True, 'italic': True,
                 'valign': 'vcenter'
             }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
@@ -1156,18 +1146,23 @@ Orange -> Too little quantity available.'''
         '''
         order_info_func_model = re.sub('[\s\n]', '', order_info_func_model) # Strip all the whitespace from the function string.
 
-        # Create the line order by the fields speficied by each distributor.
+        # Create the line order by the fields specified by each distributor.
         delimier = ',"' + distributor_dict[dist]['order']['delimiter'] + '",' # Function delimiter plus distributor code delimiter.
         order_part_info = []
         for col in cols:
             # Deal with conversion and string replace necessary to the correct distributors
-            # code undestanding.
+            # code understanding.
             if col=='purch':
                 # Add text conversion if is a numeric cell.
                 order_part_info.append('TEXT({},"##0")'.format(order_info_func_model))
             elif col not in ['part_num', 'purch', 'manf#']:
-                # All comment and description columns (that are not quantity and
-                # catalogue code) should respect the allowed characters.
+                # All comment and description columns (that are not quantity and catalogue code)
+                # should respect the allowed characters. These are text informative columns.
+                #if col=='refs':
+                #    # If 'refs' column an additional rule to remove the subpart counter.
+                #    order_info_func_parcial = 'REGEX({f},"\{c}\d+","","g")'.format(f=order_info_func_model,c=SUB_SEPRTR)
+                #    This is not supported by Microsoft Excel. ## TODO
+                #else:
                 order_info_func_parcial = order_info_func_model
                 if 'not_allowed_char' in distributor_dict[dist]['order'] and 'replace_by_char' in distributor_dict[dist]['order']:
                     for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):
@@ -1183,8 +1178,8 @@ Orange -> Too little quantity available.'''
                 order_part_info.append(order_info_func_parcial)
             else:
                 order_part_info.append(order_info_func_model)
-            # Look for the `col`name into the distributor spreadsheet part
-            # with don't find, it belog to the global part.
+            # Look for the `col` name into the distributor spreadsheet part
+            # with don't find, it belongs to the global part.
             if col in columns:
                 info_range = start_col + columns[col]['col']
             elif col in columns_global:

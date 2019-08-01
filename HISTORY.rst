@@ -3,6 +3,12 @@
 History
 -------
 
+1.1.1 (2019-??-??)
+______________________
+* Fix minimum order number and warning the user, it also show in the price break.
+* Improve some spreadsheet formulas.
+
+
 1.1 (2019-07-15)
 ______________________
 * Fix the issue of RST files in the PyPI package.
