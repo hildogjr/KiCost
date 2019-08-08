@@ -1027,7 +1027,7 @@ class formKiCost(formKiCost_raw):
         history_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.egg-info' + os.sep + 'AUTHOR.rst')
         history = history_file.read()
         history_file.close()
-        serach_news = re.compile('History\n+[\=\-\_]+\n+(?P<version>[\d\.a-zA-Z]+)\s*\((?P<data>.+)\)\n+[\=\-\_]+\n+(?P<news>(?:\n|.)*?)\n+[\d\.]+', re.IGNORECASE)
+        serach_news = re.compile('History\n+[\=\-\_]+\n+(?P<version>[\w\.]+)\s*\((?P<data>.+)\)\n+[\=\-\_]+\n+(?P<news>(?:\n|.)*?)\n+[\d\.]+', re.IGNORECASE)
         news = re.search(search_news, history)
         dlg = wx.MessageDialog(self, news.news, 'KiCost v.'+news.version+' from '+data, wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
