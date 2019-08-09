@@ -4,6 +4,9 @@
 import setuptools
 import kicost
 
+import re
+SHOW_LAST_HISTORY=3
+
 try:
     from setuptools import setup
 except ImportError:
@@ -16,6 +19,11 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
     try:
         history = history.replace('.. :changelog:', '')
+        history = re.findall('(^[\s.]*History\n[\=\-\_]+\n+((?:\s|.)*?\n[\=\-\_]+\n(?:\s|.)+?\n*){' + \
+                             str(SHOW_LAST_HISTORY) + \
+                             '})\n+[\d\.]+(?:\s|.)*?\n[\=\-\_]+', history)[0]
+        history = history.replace('History', 'Latest updates')
+        history = history + '\n\nAccess https://github.com/xesscorp/KiCost/blob/master/HISTORY.rst for full development history.'
     except:
         pass
 
