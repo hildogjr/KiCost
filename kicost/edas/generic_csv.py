@@ -135,17 +135,19 @@ def get_part_groups(in_file, ignore_fields, variant):
     # If the first line contains a column header that is not in the list of
     # allowable field names, then assume the first line is data and not a header.
     field_names = list(field_name_translations.keys()) + list(field_name_translations.values())
-    if not any([code in header for code in (['manf#']+ [d+'#' for d in distributor_dict])]):
+    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
+    if not any([code in header for code in FIELDS_MANFCAT]):
         if any(col_hdr.lower() in field_names for col_hdr in header):
-            content.pop(0) # It was a header by the user not identify the 'manf#' column.
+            content.pop(0) # It was a header by the user not identify the 'manf#' / 'cat#' column.
 
         # If a column header is not in the list of field names, then there is
         # no header in the file. Therefore, create a header based on number of columns.
 
-        # header may have a '' at the end, so remove it.
+        # Header may have a '' at the end, so remove it.
         if '' in header:
             header.remove('')
 
+        # Define the default header by how may coluns are present at the CSV file.
         num_cols = len(header)
         if num_cols == 1:
             header = ['manf#']

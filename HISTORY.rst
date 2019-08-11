@@ -7,6 +7,7 @@ History
 ______________________
 * Fix minimum order number and warning the user, it also show in the price break.
 * Improve some spreadsheet formulas.
+* Fix the Kispace query API to prioritize the catalogue number under the manufacture code.
 
 
 1.1 (2019-07-15)

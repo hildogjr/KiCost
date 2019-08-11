@@ -231,16 +231,22 @@ class api_partinfo_kitspace(distributor_class):
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
 
-        def get_part_info(query, parts):
-            '''Query PartInfo for quantity/price info and place it into the parts list'''
+        def get_part_info(query, parts, distributor_info=None):
+            '''Query PartInfo for quantity/price info and place it into the parts list.
+               `distributor_info` is used to update only one distibutor information (price_tiers, ...),
+               the proposed if use in the disambiguouzation procedure.
+            '''
 
             results = api_partinfo_kitspace.query(query)
+            if not distributor_info:
+                distributor_info = [None] * len(query)
 
             # Loop through the response to the query and enter info into the parts list.
-            for part_query, part, result in zip(query, parts, results['data']['match']):
+            for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
 
                 if not result:
                     logger.warning('No information found for part {}'.format(str(part_query)))
+                    print('ERRO', dist_info)
 
                 else:
 
@@ -253,6 +259,8 @@ class api_partinfo_kitspace(distributor_class):
                         # Get the distributor who made the offer and add their
                         # price/qty info to the parts list if its one of the accepted distributors.
                         dist = dist_xlate.get(offer['sku']['vendor'], '')
+                        if dist_info and dist!=dist_info:
+                            continue
                         if dist in distributors:
 
                             # Get pricing information from this distributor.
@@ -326,48 +334,35 @@ class api_partinfo_kitspace(distributor_class):
         distributors_name_api = distributors_modules_dict['api_partinfo_kitspace']['dist_translation'].values()
 
         # Create queries to get part price/quantities from PartInfo.
-        queries = []
-        query_parts = []
-        query_part_index = [] # My be created more than one qurey for um part if it
-                              # have distributors stock code for disambiguouzation.
-        qurey_part_stock_code = [] # Used the stock coe mention for disambiguouzation,
+        queries = [] # Each part reference query.
+        query_parts = [] # Pointer to the part.
+        query_part_stock_code = [] # Used the stock code mention for disambiguouzation,
                                    # it ised `None` for the "manf#".
         for part_idx, part in enumerate(parts):
 
             # Create a PartInfo query using the manufacturer's part number or 
             # the distributor's SKU.
             query = None
-            part_manf = part.fields.get('manf', '')
-            
+
             # Check if that part have stock code. KiCost will prioritize these codes under "manf#'
             # that will be used for get information for the part hat were not filled with the
-            # distributor stock code.
+            # distributor stock code. So this is chacked after the 'manf#' abov code.
             for d in FIELDS_CAT:
                 part_stock = part.fields.get(d)
                 if part_stock:
-                    query = {'sku': {'manufacturer': part_manf, 'part': part_stock}}
+                    part_code_dist = list({k for k, v in dist_xlate.items() if v == d[:-1]})[0]
+                    query = {'sku': {'vendor': part_code_dist, 'part': part_stock}}
                     queries.append(query)
                     query_parts.append(part)
-                    query_part_index.append(part_idx)
-                    qurey_part_stock_code.append(d[:-1])
-            
-            part_code = part.fields.get('manf#')
-            if part_code:
-                query = {'mpn': {'manufacturer': part_manf, 'part': part_code}}
-            #else:
-            #    # No MPN, so use the first distributor SKU that's found.
-            #    for dist_name in distributors_name_api:
-            #        part_code = part.fields.get(dist_name + '#')
-            #        if part_code:
-            #            query = {'sku': {'vendor': dist_name, 'part': part_code}}
-            #            break
+                    query_part_stock_code.append(d[:-1])
 
-            #if query:
-                # Add query for this part to the list of part queries.
+            part_manf = part.fields.get('manf', '')
+            part_code = part.fields.get('manf#')
+            if part_code and not all([part.fields.get(f) for f in FIELDS_CAT]):
+                query = {'mpn': {'manufacturer': part_manf, 'part': part_code}}
                 queries.append(query)
                 query_parts.append(part)
-                query_part_index.append(part_idx)
-                qurey_part_stock_code.append(None)
+                query_part_stock_code.append(None)
 
         # Setup progress bar to track progress of server queries.
         progress = tqdm.tqdm(desc='Progress', total=len(query_parts), unit='part', miniters=1)
@@ -376,10 +371,8 @@ class api_partinfo_kitspace(distributor_class):
         # the part data for each batch.
         for i in range(0, len(queries), MAX_PARTS_PER_QUERY):
             slc = slice(i, i+MAX_PARTS_PER_QUERY)
-            query_batch = queries[slc]
-            part_batch = query_parts[slc]
-            get_part_info(query_batch, part_batch)
-            progress.update(len(query_batch))
+            get_part_info(queries[slc], query_parts[slc], query_part_stock_code[slc])
+            progress.update(len(queries[slc]))
 
         # Restore the logging print channel now that the progress bar is no longer needed.
         logger.addHandler(logDefaultHandler)
