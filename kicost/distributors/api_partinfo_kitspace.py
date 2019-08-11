@@ -227,6 +227,7 @@ class api_partinfo_kitspace(distributor_class):
         logger.removeHandler(logDefaultHandler)
 
         FIELDS_CAT = ([d + '#' for d in distributor_dict])
+        DISTRIBUTORS = ([d for d in distributor_dict])
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
@@ -258,7 +259,7 @@ class api_partinfo_kitspace(distributor_class):
                         # Get the distributor who made the offer and add their
                         # price/qty info to the parts list if its one of the accepted distributors.
                         dist = dist_xlate.get(offer['sku']['vendor'], '')
-                        if dist_info and dist!=dist_info:
+                        if dist_info and dist not in dist_info:
                             continue
                         if dist in distributors:
 
@@ -342,6 +343,7 @@ class api_partinfo_kitspace(distributor_class):
             # Create a PartInfo query using the manufacturer's part number or 
             # the distributor's SKU.
             query = None
+            part_dist_use_manfpn = copy.copy(DISTRIBUTORS)
 
             # Check if that part have stock code. KiCost will prioritize these codes under "manf#'
             # that will be used for get information for the part hat were not filled with the
@@ -349,11 +351,13 @@ class api_partinfo_kitspace(distributor_class):
             for d in FIELDS_CAT:
                 part_stock = part.fields.get(d)
                 if part_stock:
-                    part_code_dist = list({k for k, v in dist_xlate.items() if v == d[:-1]})[0]
+                    part_catalogue_code_dist = d[:-1]
+                    part_code_dist = list({k for k, v in dist_xlate.items() if v == part_catalogue_code_dist})[0]
                     query = {'sku': {'vendor': part_code_dist, 'part': part_stock}}
                     queries.append(query)
                     query_parts.append(part)
-                    query_part_stock_code.append(d[:-1])
+                    query_part_stock_code.append(part_catalogue_code_dist)
+                    part_dist_use_manfpn.remove(part_catalogue_code_dist)
 
             part_manf = part.fields.get('manf', '')
             part_code = part.fields.get('manf#')
@@ -361,7 +365,7 @@ class api_partinfo_kitspace(distributor_class):
                 query = {'mpn': {'manufacturer': part_manf, 'part': part_code}}
                 queries.append(query)
                 query_parts.append(part)
-                query_part_stock_code.append(None)
+                query_part_stock_code.append(part_dist_use_manfpn)
 
         # Setup progress bar to track progress of server queries.
         progress = tqdm.tqdm(desc='Progress', total=len(query_parts), unit='part', miniters=1)
