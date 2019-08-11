@@ -246,7 +246,6 @@ class api_partinfo_kitspace(distributor_class):
 
                 if not result:
                     logger.warning('No information found for part {}'.format(str(part_query)))
-                    print('ERRO', dist_info)
 
                 else:
 
