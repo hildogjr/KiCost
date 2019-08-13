@@ -9,6 +9,7 @@ ______________________
 * Improve some spreadsheet formulas.
 * Fix the Kispace query API to prioritize the catalogue number under the manufacture code.
 * Added a global field for purchase information, it will be added as description to be printed into the package labels (Digikey and others distributors that allow to include description into the package labels).
+* Organized the distributors information for better KiCost next features in the road map.
 
 
 1.1 (2019-07-15)

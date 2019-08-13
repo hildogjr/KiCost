@@ -22,7 +22,7 @@
 # THE SOFTWARE.
 
 # Author information.
-__author__ = 'Hildo Guillardi Junior'
+__author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 

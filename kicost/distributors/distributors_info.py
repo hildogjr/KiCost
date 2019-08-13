@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*- 
 # This file keep all the web distributors information used by the different API/scrap modules.
+
+# Author information.
+__author__ = 'Hildo Guillardi Júnior'
+__webpage__ = 'https://github.com/hildogjr/'
+__company__ = 'University of Campinas - Brazil'
 
 distributors_info = {
     'arrow': {
