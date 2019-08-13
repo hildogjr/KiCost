@@ -73,68 +73,9 @@ class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        dists = {
-            'digikey': {
-                'module': 'digikey', 'type': 'web',
-                'order': {
-                    'cols': ['purch', 'part_num', 'refs'],
-                    'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
-                },
-                'label': {
-                    'name': 'Digi-Key',
-                    'format': {'font_color': 'white', 'bg_color': '#CC0000'}, # Digi-Key red.
-                    'url': 'https://www.digikey.com/',
-                },
-            },
-            'farnell': {
-                'module': 'farnell', 'type': 'web',
-                'order': {
-                    'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
-                },
-                'label': {
-                    'name': 'Farnell',
-                    'format': {'font_color': 'white', 'bg_color': '#FF6600'}, # Farnell/E14 orange.
-                    'url': 'https://www.newark.com/',
-                },
-            },
-            'mouser': {
-                'module': 'mouser', 'type': 'web',
-                'order': {
-                    'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
-                },
-                'label': {
-                    'name': 'Mouser', 
-                    'format': {'font_color': 'white', 'bg_color': '#004A85'}, # Mouser blue.
-                    'url': 'https://www.mouser.com',
-                },
-            },
-            'newark': {
-                'module': 'newark', 'type': 'web',
-                'order': {
-                    'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
-                },
-                'label': {
-                    'name': 'Newark',
-                    'format': {'font_color': 'white', 'bg_color': '#A2AE06'}, # Newark/E14 olive green.
-                    'url': 'https://www.newark.com/',
-                },
-            },
-            'rs': {
-                'module': 'rs', 'type': 'web',
-                'order': {
-                    'cols': ['part_num', 'purch', 'refs'],
-                    'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
-                },
-                'label': {
-                    'name': 'RS Components',
-                    'format': {'font_color': 'white', 'bg_color': '#FF0000'}, # RS Components red.
-                    'url': 'https://uk.rs-online.com/',
-                },
-            },
-        }
+        from .distributors_info import distributors_info
+        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs']
+        dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
              # First module load.
             distributors_modules_dict.update({'api_partinfo_kitspace':{
