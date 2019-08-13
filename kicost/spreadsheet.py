@@ -47,6 +47,8 @@ currency_convert = CurrencyConverter().convert
 __all__ = ['create_spreadsheet']
 
 
+PURCHASE_DESCRIPTION_SEPRTR = SEPRTR # Purchase description separator.
+
 # Currency format and symbol definition (placed default values here, it will be replaced by the user asked currency).
 CURRENCY_ALPHA3 = DEFAULT_CURRENCY
 CURRENCY_SYMBOL = 'US$'
@@ -138,8 +140,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
                 'num_format': CURRENCY_FORMAT,
                 'valign': 'vcenter'
             }),
-            'currency_rate_name': workbook.add_format({
-                'align': 'right',
+            'description': workbook.add_format({
+                'align': 'right'
             }),
             'unit_cost_currency': workbook.add_format({
                 'font_size': 13, 'bold': True,
@@ -703,7 +705,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                            PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
 
-    # Add the total purchase.
+    # Add the total purchase and others purchase informations.
     if distributor_dict.keys():
         next_line = row + 1
         wks.write(next_line, start_col + columns['unit_price']['col'],
@@ -713,16 +715,27 @@ Yellow -> Parts available, but haven't purchased enough.''',
         wks.write(next_line, start_col + columns['ext_price']['col'],
                   '=SUM({})'.format(','.join(dist_ext_prices)),
               wrk_formats['total_cost_currency'])
+        # Purchase general description, it may be used to distinguish carts of different projects.
+        next_line = next_line + 1
+        wks.write(next_line, start_col + columns['unit_price']['col'],
+                      'Purchase description:', wrk_formats['description'])
+        wks.write_comment(next_line, start_col + columns['unit_price']['col'],
+                      'This description will be added to all purchased parts label and may be used to distinguish the component of different projects.')
+        WORKBOOK.define_name('PURCHASE_DESCRIPTION',
+            '={wks_name}!{cell_ref}'.format(
+                wks_name="'" + WORKSHEET_NAME + "'",
+                cell_ref=xl_rowcol_to_cell(next_line, columns['ext_price']['col'],
+                                       row_abs=True, col_abs=True)))
 
     # Get the actual currency rate to use.
     next_line = row + 1
     used_currencies = list(set(used_currencies))
     logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...', used_currencies, CURRENCY_ALPHA3)
-    if used_currencies:
+    if len(used_currencies)>1:
         if CURRENCY_ALPHA3 in used_currencies:
             used_currencies.remove(CURRENCY_ALPHA3)
         wks.write(next_line, start_col + columns['value']['col'],
-                    'Used currency rates:')
+                    'Used currency rates:', wrk_formats['description'])
         next_line = next_line + 1
     for used_currency in used_currencies:
         if used_currency!=CURRENCY_ALPHA3:
@@ -730,7 +743,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                       '{c}({c_s})/{d}({d_s}):'.format(c=CURRENCY_ALPHA3, d=used_currency, c_s=CURRENCY_SYMBOL,
                                     d_s=numbers.get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
                                   ),
-                        wrk_formats['currency_rate_name']
+                        wrk_formats['description']
                       )
             WORKBOOK.define_name('{c}_{d}'.format(c=CURRENCY_ALPHA3, d=used_currency),
                 '={wks_name}!{cell_ref}'.format(
@@ -1192,6 +1205,11 @@ Orange -> Too little quantity available.'''
                         ))
             info_range =xl_range(PART_INFO_FIRST_ROW, info_range,
                                  PART_INFO_LAST_ROW, info_range)
+            # If the correspondent information is some description, it is allow to add the general
+            # purchase designator. it is placed inside the "not allow caracheters" restriction.
+            if col not in ['part_num', 'purch', 'manf#']:
+                info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(PURCHASE_DESCRIPTION_SEPRTR)+ '&' + info_range
+            # Create the part of formula that refers with one specific information.
             order_part_info[-1] = order_part_info[-1].format(
                         get_range=info_range,
                         qty='{qty}', # keep all other for future replacement.
@@ -1205,7 +1223,7 @@ Orange -> Too little quantity available.'''
         if 'part_num' in cols:
             purchase_code = start_col + columns['part_num']['col']
         elif 'manf#' in cols:
-            purchase_code = start_col + columns_global['manf#']['col']#TODO columns_global
+            purchase_code = start_col + columns_global['manf#']['col']
         else:
             purchase_code = ""
             logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(
