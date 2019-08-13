@@ -75,7 +75,6 @@ class api_partinfo_kitspace(distributor_class):
     def init_dist_dict():
         from .distributors_info import distributors_info
         api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs']
-        print({k:v for k,v in distributors_info.items() if k in api_distributors})
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
              # First module load.

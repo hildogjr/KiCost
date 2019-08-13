@@ -234,7 +234,7 @@ def kicost(in_file, eda_name, out_filename,
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
         # Set part info to default blank values for all the distributors.
-        for part in parts:
+        for part in parts: ## TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
             part.part_num = {dist: '' for dist in dist_list} # Ditributor catalogue number.
             part.url = {dist: '' for dist in dist_list} # Purchase distributor URL for the spefic part.
