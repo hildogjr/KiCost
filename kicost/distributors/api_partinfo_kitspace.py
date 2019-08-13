@@ -35,6 +35,7 @@ from collections import Counter
 
 # KiCost definitions.
 from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
@@ -68,12 +69,12 @@ QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER 
 QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 
 __all__ = ['api_partinfo_kitspace']
+from .distributors_info import distributors_info
 
 class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        from .distributors_info import distributors_info
         api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs']
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
@@ -187,7 +188,7 @@ class api_partinfo_kitspace(distributor_class):
             for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
 
                 if not result:
-                    logger.warning('No information found for part {}'.format(str(part_query)))
+                    logger.warning('No information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
 
                 else:
 
@@ -207,36 +208,39 @@ class api_partinfo_kitspace(distributor_class):
                             # Get pricing information from this distributor.
                             try:
                                 price_tiers = {} # Empty dict in case of exception.
-                                dist_currency = list(offer['prices'].keys())
-                                
-                                # Get the price tiers prioritizing:
-                                # 1) The asked currency by KiCOst user;
-                                # 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;
-                                # 3) The first not null tier.s
-                                prices = None
-                                if currency in dist_currency and offer['prices'][currency]:
-                                    prices = offer['prices'][currency]
-                                    part.currency[dist] = currency
-                                elif DEFAULT_CURRENCY in dist_currency and offer['prices'][DEFAULT_CURRENCY]:# and DEFAULT_CURRENCY!=currency:
-                                    prices = offer['prices'][DEFAULT_CURRENCY]
-                                    part.currency[dist] = DEFAULT_CURRENCY
+                                if not offer['prices']:
+                                    logger.warning('No price information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
                                 else:
-                                    for dist_c in dist_currency:
-                                        if offer['prices'][dist_c]:
-                                            prices = offer['prices'][dist_c]
-                                            part.currency[dist] = dist_c
-                                            break
-                                
-                                # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
-                                if prices:
-                                    price_tiers = {qty: float(price)
-                                                        for qty, price in list(prices)
-                                                  }
-                                    # Combine price lists for multiple offers from the same distributor
-                                    # to build a complete list of cut-tape and reeled components.
-                                    if not dist in part.price_tiers:
-                                        part.price_tiers[dist] = {}
-                                    part.price_tiers[dist].update(price_tiers)
+                                    dist_currency = list(offer['prices'].keys())
+                                    
+                                    # Get the price tiers prioritizing:
+                                    # 1) The asked currency by KiCOst user;
+                                    # 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;
+                                    # 3) The first not null tier.s
+                                    prices = None
+                                    if currency in dist_currency and offer['prices'][currency]:
+                                        prices = offer['prices'][currency]
+                                        part.currency[dist] = currency
+                                    elif DEFAULT_CURRENCY in dist_currency and offer['prices'][DEFAULT_CURRENCY]:# and DEFAULT_CURRENCY!=currency:
+                                        prices = offer['prices'][DEFAULT_CURRENCY]
+                                        part.currency[dist] = DEFAULT_CURRENCY
+                                    else:
+                                        for dist_c in dist_currency:
+                                            if offer['prices'][dist_c]:
+                                                prices = offer['prices'][dist_c]
+                                                part.currency[dist] = dist_c
+                                                break
+                                    
+                                    # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
+                                    if prices:
+                                        price_tiers = {qty: float(price)
+                                                            for qty, price in list(prices)
+                                                      }
+                                        # Combine price lists for multiple offers from the same distributor
+                                        # to build a complete list of cut-tape and reeled components.
+                                        if not dist in part.price_tiers:
+                                            part.price_tiers[dist] = {}
+                                        part.price_tiers[dist].update(price_tiers)
                             except TypeError:
                                 pass  # Price list is probably missing so leave empty default dict in place.
 

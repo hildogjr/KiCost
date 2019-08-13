@@ -95,7 +95,7 @@ def kicost(in_file, eda_name, out_filename,
     modules. If `None`, no web/local distributors will be scraped.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
-    @param collapse_refs `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
+    @param supress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
     Default `True`.
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
@@ -224,8 +224,8 @@ def kicost(in_file, eda_name, out_filename,
         distributors = distributor_dict.copy().keys()
         for d in distributors:
             if not d in dist_not_rmv:
-                logger.warning("No 'manf#' and '%s#' field in any part: distributor '%s' will be not scraped.",
-                                d, distributor_dict[d]['label'])
+                logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
+                                d, distributor_dict[d]['label']['name'])
                 distributor_dict.pop(d, None)
 
     if logger.isEnabledFor(DEBUG_DETAILED):

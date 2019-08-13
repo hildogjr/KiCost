@@ -37,8 +37,8 @@ from collections import Counter
 from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE  # Debug configurations.
-from ..global_vars import SEPRTR
+from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
@@ -47,12 +47,12 @@ from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
 OCTOPART_MAX_PARTBYQUERY = 20 # Maximum part list length to one single query.
 
 __all__ = ['api_octopart']
+from .distributors_info import distributors_info
 
 class api_octopart(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        from .distributors_info import distributors_info
         api_distributors = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_octopart']:

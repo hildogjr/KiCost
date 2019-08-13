@@ -30,7 +30,15 @@ BOMs=$(find *.xml)
 
 while read -r eachBOM; do
     echo "##### Testing file: $eachBOM"
-    kicost -wqi "$eachBOM"
+    kicost -wi "$eachBOM"
+    echo ""
+done <<< "$BOMs"
+
+BOMs=$(find *.csv)
+
+while read -r eachBOM; do
+    echo "##### Testing file: $eachBOM"
+    kicost -wi "$eachBOM" --eda csv
     echo ""
 done <<< "$BOMs"
 

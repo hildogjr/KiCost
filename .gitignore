@@ -30,6 +30,10 @@ pip-log.txt
 nosetests.xml
 htmlcov
 
+# Test results
+tests/*.xlsx
+tests/*.log
+
 # Translations
 *.mo
 
