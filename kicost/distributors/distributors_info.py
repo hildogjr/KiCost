@@ -2,7 +2,6 @@
 
 distributors_info = {
     'arrow': {
-        'module': 'arrow', # The directory name containing this file.
         'type': 'web', # Allowable values: 'local' or 'web'.
         'order': {
             'cols': ['part_num', 'purch', 'refs'], # Sort-order for online orders.
@@ -19,7 +18,7 @@ distributors_info = {
         },
     },
     'digikey': {
-        'module': 'digikey', 'type': 'web',
+        'type': 'web',
         'order': {
             'url': 'https://www.digikey.com/ordering/shoppingcart',
             'cols': ['purch', 'part_num', 'refs'],
@@ -32,7 +31,7 @@ distributors_info = {
         },
     },
     'farnell': {
-        'module': 'farnell', 'type': 'web',
+        'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -44,7 +43,7 @@ distributors_info = {
         },
     },
     'mouser': {
-        'module': 'mouser', 'type': 'web',
+        'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
             'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
@@ -56,7 +55,7 @@ distributors_info = {
         },
     },
     'newark': {
-        'module': 'newark', 'type': 'web',
+        'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -68,7 +67,7 @@ distributors_info = {
         },
     },
     'rs': {
-        'module': 'rs', 'type': 'web',
+        'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -80,7 +79,7 @@ distributors_info = {
         },
     },
     'tme': {
-        'module': 'tme', 'type': 'web',
+        'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
