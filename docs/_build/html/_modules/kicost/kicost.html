@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.kicost &#8212; kicost 1.1 documentation</title>
+    <title>kicost.kicost &#8212; kicost 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -134,7 +134,7 @@
 <span class="sd">    modules. If `None`, no web/local distributors will be scraped.</span>
 <span class="sd">    @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.</span>
 <span class="sd">    Default `True`.</span>
-<span class="sd">    @param collapse_refs `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.</span>
+<span class="sd">    @param supress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.</span>
 <span class="sd">    Default `True`.</span>
 <span class="sd">    @param currency `str()` Currency in ISO4217. Default &#39;USD&#39;.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -263,8 +263,8 @@
         <span class="n">distributors</span> <span class="o">=</span> <span class="n">distributor_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_not_rmv</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No &#39;manf#&#39; and &#39;</span><span class="si">%s</span><span class="s2">#&#39; field in any part: distributor &#39;</span><span class="si">%s</span><span class="s2">&#39; will be not scraped.&quot;</span><span class="p">,</span>
-                                <span class="n">d</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No &#39;manf#&#39; and &#39;</span><span class="si">%s</span><span class="s2">#&#39; field in any part: no information by &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">,</span>
+                                <span class="n">d</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
                 <span class="n">distributor_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">):</span>
@@ -273,7 +273,7 @@
     <span class="c1"># Get the distributor pricing/qty/etc for each part.</span>
     <span class="k">if</span> <span class="n">dist_list</span><span class="p">:</span>
         <span class="c1"># Set part info to default blank values for all the distributors.</span>
-        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span> <span class="c1">## TODO create this for just the current active distributor inside each module.</span>
             <span class="c1"># These bellow variable are all the data the each distributor/local API/scrap module needs to fill.</span>
             <span class="n">part</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Ditributor catalogue number.</span>
             <span class="n">part</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Purchase distributor URL for the spefic part.</span>
@@ -382,7 +382,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

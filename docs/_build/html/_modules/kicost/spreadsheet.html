@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.spreadsheet &#8212; kicost 1.1 documentation</title>
+    <title>kicost.spreadsheet &#8212; kicost 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -61,7 +61,7 @@
 <span class="c1"># THE SOFTWARE.</span>
 
 <span class="c1"># Author information.</span>
-<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Junior&#39;</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Júnior&#39;</span>
 <span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/&#39;</span>
 <span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;University of Campinas - Brazil&#39;</span>
 
@@ -78,13 +78,15 @@
 <span class="c1"># KiCost libraries.</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">__version__</span> <span class="c1"># Version control by @xesscorp and collaborator.</span>
 <span class="kn">from</span> <span class="nn">.distributors.global_vars</span> <span class="k">import</span> <span class="n">distributor_dict</span> <span class="c1"># Distributors names and definitions to use in the spreadsheet.</span>
-<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="k">import</span> <span class="n">partgroup_qty</span><span class="p">,</span> <span class="n">order_refs</span><span class="p">,</span> <span class="n">PART_REF_REGEX</span>
+<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="k">import</span> <span class="n">partgroup_qty</span><span class="p">,</span> <span class="n">order_refs</span><span class="p">,</span> <span class="n">PART_REF_REGEX</span><span class="p">,</span> <span class="n">SUB_SEPRTR</span>
 
 <span class="kn">from</span> <span class="nn">currency_converter</span> <span class="k">import</span> <span class="n">CurrencyConverter</span>
 <span class="n">currency_convert</span> <span class="o">=</span> <span class="n">CurrencyConverter</span><span class="p">()</span><span class="o">.</span><span class="n">convert</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;create_spreadsheet&#39;</span><span class="p">]</span>
 
+
+<span class="n">PURCHASE_DESCRIPTION_SEPRTR</span> <span class="o">=</span> <span class="n">SEPRTR</span> <span class="c1"># Purchase description separator.</span>
 
 <span class="c1"># Currency format and symbol definition (placed default values here, it will be replaced by the user asked currency).</span>
 <span class="n">CURRENCY_ALPHA3</span> <span class="o">=</span> <span class="n">DEFAULT_CURRENCY</span>
@@ -145,57 +147,49 @@
     
         <span class="c1"># Create the various format styles used by various spreadsheet items.</span>
         <span class="n">WRK_HDR_FORMAT</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#303030&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span>
             <span class="p">}</span>
         <span class="n">wrk_formats</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s1">&#39;global&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">WRK_HDR_FORMAT</span><span class="p">),</span>
             <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;top&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;text_wrap&#39;</span><span class="p">:</span> <span class="kc">True</span>
             <span class="p">}),</span>
             <span class="s1">&#39;board_qty&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;total_cost_label&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;unit_cost_label&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;total_cost_currency&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;num_format&#39;</span><span class="p">:</span> <span class="n">CURRENCY_FORMAT</span><span class="p">,</span>
                 <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span>
             <span class="p">}),</span>
-            <span class="s1">&#39;currency_rate_name&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
+                <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;unit_cost_currency&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;num_format&#39;</span><span class="p">:</span> <span class="n">CURRENCY_FORMAT</span><span class="p">,</span>
                 <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;proj_info_field&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;align&#39;</span><span class="p">:</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;proj_info&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
@@ -209,9 +203,7 @@
                 <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#c000c0&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;found_part_pct&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span>
-                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-                <span class="s1">&#39;italic&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+                <span class="s1">&#39;font_size&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;bold&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;italic&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="s1">&#39;valign&#39;</span><span class="p">:</span> <span class="s1">&#39;vcenter&#39;</span>
             <span class="p">}),</span>
             <span class="s1">&#39;best_price&#39;</span><span class="p">:</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">({</span><span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#80FF80&#39;</span><span class="p">,</span> <span class="p">}),</span>
@@ -752,7 +744,7 @@
                            <span class="n">PART_INFO_LAST_ROW</span><span class="p">,</span> <span class="n">total_cost_col</span><span class="p">)),</span>
               <span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;total_cost_currency&#39;</span><span class="p">])</span>
 
-    <span class="c1"># Add the total purchase.</span>
+    <span class="c1"># Add the total purchase and others purchase informations.</span>
     <span class="k">if</span> <span class="n">distributor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="n">next_line</span> <span class="o">=</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">wks</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">next_line</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;unit_price&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
@@ -762,16 +754,27 @@
         <span class="n">wks</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">next_line</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;ext_price&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
                   <span class="s1">&#39;=SUM(</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dist_ext_prices</span><span class="p">)),</span>
               <span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;total_cost_currency&#39;</span><span class="p">])</span>
+        <span class="c1"># Purchase general description, it may be used to distinguish carts of different projects.</span>
+        <span class="n">next_line</span> <span class="o">=</span> <span class="n">next_line</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">wks</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">next_line</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;unit_price&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
+                      <span class="s1">&#39;Purchase description:&#39;</span><span class="p">,</span> <span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">])</span>
+        <span class="n">wks</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="n">next_line</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;unit_price&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
+                      <span class="s1">&#39;This description will be added to all purchased parts label and may be used to distinguish the component of different projects.&#39;</span><span class="p">)</span>
+        <span class="n">WORKBOOK</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s1">&#39;PURCHASE_DESCRIPTION&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;=</span><span class="si">{wks_name}</span><span class="s1">!</span><span class="si">{cell_ref}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">wks_name</span><span class="o">=</span><span class="s2">&quot;&#39;&quot;</span> <span class="o">+</span> <span class="n">WORKSHEET_NAME</span> <span class="o">+</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">,</span>
+                <span class="n">cell_ref</span><span class="o">=</span><span class="n">xl_rowcol_to_cell</span><span class="p">(</span><span class="n">next_line</span><span class="p">,</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;ext_price&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
+                                       <span class="n">row_abs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">col_abs</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
 
     <span class="c1"># Get the actual currency rate to use.</span>
     <span class="n">next_line</span> <span class="o">=</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">used_currencies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">used_currencies</span><span class="p">))</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting distributor currency convertion rate </span><span class="si">{}</span><span class="s1"> to </span><span class="si">{}</span><span class="s1">...&#39;</span><span class="p">,</span> <span class="n">used_currencies</span><span class="p">,</span> <span class="n">CURRENCY_ALPHA3</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">used_currencies</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">used_currencies</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">CURRENCY_ALPHA3</span> <span class="ow">in</span> <span class="n">used_currencies</span><span class="p">:</span>
             <span class="n">used_currencies</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">CURRENCY_ALPHA3</span><span class="p">)</span>
         <span class="n">wks</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">next_line</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;Used currency rates:&#39;</span><span class="p">)</span>
+                    <span class="s1">&#39;Used currency rates:&#39;</span><span class="p">,</span> <span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">])</span>
         <span class="n">next_line</span> <span class="o">=</span> <span class="n">next_line</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">used_currency</span> <span class="ow">in</span> <span class="n">used_currencies</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">used_currency</span><span class="o">!=</span><span class="n">CURRENCY_ALPHA3</span><span class="p">:</span>
@@ -779,7 +782,7 @@
                       <span class="s1">&#39;</span><span class="si">{c}</span><span class="s1">(</span><span class="si">{c_s}</span><span class="s1">)/</span><span class="si">{d}</span><span class="s1">(</span><span class="si">{d_s}</span><span class="s1">):&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">CURRENCY_ALPHA3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">used_currency</span><span class="p">,</span> <span class="n">c_s</span><span class="o">=</span><span class="n">CURRENCY_SYMBOL</span><span class="p">,</span>
                                     <span class="n">d_s</span><span class="o">=</span><span class="n">numbers</span><span class="o">.</span><span class="n">get_currency_symbol</span><span class="p">(</span><span class="n">used_currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">DEFAULT_LANGUAGE</span><span class="p">)</span>
                                   <span class="p">),</span>
-                        <span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;currency_rate_name&#39;</span><span class="p">]</span>
+                        <span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
                       <span class="p">)</span>
             <span class="n">WORKBOOK</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{c}</span><span class="s1">_</span><span class="si">{d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">CURRENCY_ALPHA3</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">used_currency</span><span class="p">),</span>
                 <span class="s1">&#39;=</span><span class="si">{wks_name}</span><span class="s1">!</span><span class="si">{cell_ref}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -946,13 +949,12 @@
             <span class="c1"># Add the price for a single unit if it doesn&#39;t already exist in the tiers.</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">min_qty</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">price_tiers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                <span class="n">minimum_order_qty</span> <span class="o">=</span> <span class="n">min_qty</span> <span class="c1"># Update the minimum order quantity.</span>
                 <span class="k">if</span> <span class="n">min_qty</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">price_tiers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">price_tiers</span><span class="p">[</span>
-                        <span class="n">min_qty</span>
-                    <span class="p">]</span>  <span class="c1"># Set unit price to price of lowest available quantity.</span>
+                    <span class="n">price_tiers</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">price_tiers</span><span class="p">[</span><span class="n">min_qty</span><span class="p">]</span> <span class="c1"># Set unit price to price of lowest available quantity.</span>
             <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>  <span class="c1"># This happens if the price tier list is empty.</span>
                 <span class="k">pass</span>
-            <span class="n">price_tiers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.00</span>  <span class="c1"># Enter quantity-zero pricing so LOOKUP works correctly in the spreadsheet.</span>
+            <span class="n">price_tiers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.00</span>  <span class="c1"># Enter quantity-zero pricing so `LOOKUP` works correctly in the spreadsheet.</span>
 
             <span class="c1"># Sort the tiers based on quantities and turn them into lists of strings.</span>
             <span class="n">qtys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">price_tiers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -985,10 +987,10 @@
                         <span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;currency&#39;</span><span class="p">])</span>
 
             <span class="c1"># Add a comment to the cell showing the qty/price breaks.</span>
-            <span class="n">minimum_order_qty</span> <span class="o">=</span> <span class="n">qtys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Before get the minimum order quantity to validate the user cart.</span>
             <span class="n">dist_currency_symbol</span> <span class="o">=</span> <span class="n">numbers</span><span class="o">.</span><span class="n">get_currency_symbol</span><span class="p">(</span><span class="n">dist_currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">DEFAULT_LANGUAGE</span><span class="p">)</span>
             <span class="n">price_break_info</span> <span class="o">=</span> <span class="s1">&#39;Qty/Price Breaks (</span><span class="si">{c}</span><span class="s1">):</span><span class="se">\n</span><span class="s1">  Qty  -  Unit</span><span class="si">{s}</span><span class="s1">  -  Ext</span><span class="si">{s}</span><span class="se">\n</span><span class="s1">================&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">dist_currency</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">dist_currency_symbol</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qtys</span><span class="p">[</span><span class="mi">0</span><span class="p">:]:</span>
+            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">qtys</span><span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">minimum_order_qty</span><span class="o">==</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">2</span><span class="p">:]:</span>
+                <span class="c1"># Skip the unity quantity for the tip ballon if it not allow to purchase in the distributor.</span>
                 <span class="n">price</span> <span class="o">=</span> <span class="n">price_tiers</span><span class="p">[</span><span class="n">q</span><span class="p">]</span>
                 <span class="n">price_break_info</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="si">{:&gt;6d}</span><span class="s1"> </span><span class="si">{:&gt;7s}</span><span class="s1"> </span><span class="si">{:&gt;10s}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span> <span class="n">q</span><span class="p">,</span>
                     <span class="n">numbers</span><span class="o">.</span><span class="n">format_currency</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">dist_currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">DEFAULT_LANGUAGE</span><span class="p">),</span>
@@ -1020,7 +1022,7 @@
             <span class="p">)</span>
 
             <span class="c1"># Conditional format to show that the part have a minimum order quantity not respected.</span>
-            <span class="k">if</span> <span class="n">minimum_order_qty</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">minimum_order_qty</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
                 <span class="n">wks</span><span class="o">.</span><span class="n">conditional_format</span><span class="p">(</span>
                     <span class="n">row</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;purch&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span> 
                     <span class="n">row</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;purch&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">],</span>
@@ -1196,18 +1198,23 @@
 <span class="s1">        &#39;&#39;&#39;</span>
         <span class="n">order_info_func_model</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[\s</span><span class="se">\n</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">order_info_func_model</span><span class="p">)</span> <span class="c1"># Strip all the whitespace from the function string.</span>
 
-        <span class="c1"># Create the line order by the fields speficied by each distributor.</span>
+        <span class="c1"># Create the line order by the fields specified by each distributor.</span>
         <span class="n">delimier</span> <span class="o">=</span> <span class="s1">&#39;,&quot;&#39;</span> <span class="o">+</span> <span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;delimiter&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&#39;</span> <span class="c1"># Function delimiter plus distributor code delimiter.</span>
         <span class="n">order_part_info</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
             <span class="c1"># Deal with conversion and string replace necessary to the correct distributors</span>
-            <span class="c1"># code undestanding.</span>
+            <span class="c1"># code understanding.</span>
             <span class="k">if</span> <span class="n">col</span><span class="o">==</span><span class="s1">&#39;purch&#39;</span><span class="p">:</span>
                 <span class="c1"># Add text conversion if is a numeric cell.</span>
                 <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;TEXT(</span><span class="si">{}</span><span class="s1">,&quot;##0&quot;)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">order_info_func_model</span><span class="p">))</span>
             <span class="k">elif</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;manf#&#39;</span><span class="p">]:</span>
-                <span class="c1"># All comment and description columns (that are not quantity and</span>
-                <span class="c1"># catalogue code) should respect the allowed characters.</span>
+                <span class="c1"># All comment and description columns (that are not quantity and catalogue code)</span>
+                <span class="c1"># should respect the allowed characters. These are text informative columns.</span>
+                <span class="c1">#if col==&#39;refs&#39;:</span>
+                <span class="c1">#    # If &#39;refs&#39; column an additional rule to remove the subpart counter.</span>
+                <span class="c1">#    order_info_func_parcial = &#39;REGEX({f},&quot;\{c}\d+&quot;,&quot;&quot;,&quot;g&quot;)&#39;.format(f=order_info_func_model,c=SUB_SEPRTR)</span>
+                <span class="c1">#    This is not supported by Microsoft Excel. ## TODO</span>
+                <span class="c1">#else:</span>
                 <span class="n">order_info_func_parcial</span> <span class="o">=</span> <span class="n">order_info_func_model</span>
                 <span class="k">if</span> <span class="s1">&#39;not_allowed_char&#39;</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;order&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="s1">&#39;replace_by_char&#39;</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;order&#39;</span><span class="p">]:</span>
                     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;not_allowed_char&#39;</span><span class="p">])):</span>
@@ -1223,8 +1230,8 @@
                 <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order_info_func_parcial</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order_info_func_model</span><span class="p">)</span>
-            <span class="c1"># Look for the `col`name into the distributor spreadsheet part</span>
-            <span class="c1"># with don&#39;t find, it belog to the global part.</span>
+            <span class="c1"># Look for the `col` name into the distributor spreadsheet part</span>
+            <span class="c1"># with don&#39;t find, it belongs to the global part.</span>
             <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
                 <span class="n">info_range</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="n">col</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>
             <span class="k">elif</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns_global</span><span class="p">:</span>
@@ -1237,6 +1244,11 @@
                         <span class="p">))</span>
             <span class="n">info_range</span> <span class="o">=</span><span class="n">xl_range</span><span class="p">(</span><span class="n">PART_INFO_FIRST_ROW</span><span class="p">,</span> <span class="n">info_range</span><span class="p">,</span>
                                  <span class="n">PART_INFO_LAST_ROW</span><span class="p">,</span> <span class="n">info_range</span><span class="p">)</span>
+            <span class="c1"># If the correspondent information is some description, it is allow to add the general</span>
+            <span class="c1"># purchase designator. it is placed inside the &quot;not allow caracheters&quot; restriction.</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;manf#&#39;</span><span class="p">]:</span>
+                <span class="n">info_range</span> <span class="o">=</span> <span class="s1">&#39;IF(PURCHASE_DESCRIPTION&lt;&gt;&quot;&quot;,PURCHASE_DESCRIPTION&amp;&quot;</span><span class="si">{}</span><span class="s1">&quot;,&quot;&quot;)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">PURCHASE_DESCRIPTION_SEPRTR</span><span class="p">)</span><span class="o">+</span> <span class="s1">&#39;&amp;&#39;</span> <span class="o">+</span> <span class="n">info_range</span>
+            <span class="c1"># Create the part of formula that refers with one specific information.</span>
             <span class="n">order_part_info</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">order_part_info</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">get_range</span><span class="o">=</span><span class="n">info_range</span><span class="p">,</span>
                         <span class="n">qty</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{qty}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="c1"># keep all other for future replacement.</span>
@@ -1250,7 +1262,7 @@
         <span class="k">if</span> <span class="s1">&#39;part_num&#39;</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
             <span class="n">purchase_code</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>
         <span class="k">elif</span> <span class="s1">&#39;manf#&#39;</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
-            <span class="n">purchase_code</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns_global</span><span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span><span class="c1">#TODO columns_global</span>
+            <span class="n">purchase_code</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns_global</span><span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">purchase_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not valid  quantity/code field `</span><span class="si">{f}</span><span class="s2">` for purchase list at </span><span class="si">{d}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1316,7 +1328,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

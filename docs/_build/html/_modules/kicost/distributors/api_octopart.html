@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.distributors.api_octopart &#8212; kicost 1.1 documentation</title>
+    <title>kicost.distributors.api_octopart &#8212; kicost 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li> 
       </ul>
@@ -77,8 +77,8 @@
 <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">quote_plus</span> <span class="k">as</span> <span class="n">urlquote</span>
 
 <span class="c1"># KiCost definitions.</span>
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="k">import</span> <span class="n">logger</span><span class="p">,</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">DEBUG_OBSESSIVE</span>  <span class="c1"># Debug configurations.</span>
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="k">import</span> <span class="n">SEPRTR</span>
+<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span> <span class="c1"># Debug information, `distributor_dict` and `SEPRTR`.</span>
+<span class="kn">from</span> <span class="nn">..edas.tools</span> <span class="k">import</span> <span class="n">order_refs</span>
 
 <span class="c1"># Distributors definitions.</span>
 <span class="kn">from</span> <span class="nn">.distributor</span> <span class="k">import</span> <span class="n">distributor_class</span>
@@ -87,102 +87,14 @@
 <span class="n">OCTOPART_MAX_PARTBYQUERY</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># Maximum part list length to one single query.</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;api_octopart&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">.distributors_info</span> <span class="k">import</span> <span class="n">distributors_info</span>
 
 <div class="viewcode-block" id="api_octopart"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_octopart.api_octopart">[docs]</a><span class="k">class</span> <span class="nc">api_octopart</span><span class="p">(</span><span class="n">distributor_class</span><span class="p">):</span>
 
 <div class="viewcode-block" id="api_octopart.init_dist_dict"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_octopart.api_octopart.init_dist_dict">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">init_dist_dict</span><span class="p">():</span>
-        <span class="n">dists</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;arrow&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span> <span class="c1"># The directory name containing this file.</span>
-                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span> <span class="c1"># Allowable values: &#39;local&#39; or &#39;web&#39;.</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span> <span class="c1"># Sort-order for online orders.</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="c1"># Delimiter for online orders.</span>
-                    <span class="s1">&#39;not_allowed_char&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="c1"># Characters not allowed at the BoM for web-site import.</span>
-                    <span class="s1">&#39;replace_by_char&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="c1"># The `delimiter` is not allowed inside description. This caracter is used to replace it.</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Arrow&#39;</span><span class="p">,</span>  <span class="c1"># Distributor label used in spreadsheet columns.</span>
-                    <span class="c1"># Formatting for distributor header in worksheet; bold, font and align are</span>
-                    <span class="c1"># `spreadsheet.py` defined but can by overload heve.</span>
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#000000&#39;</span><span class="p">},</span> <span class="c1"># Arrow black.</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.arrow.com/&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">},</span>
-            <span class="s1">&#39;digikey&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;digikey&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;not_allowed_char&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;replace_by_char&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Digi-Key&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#CC0000&#39;</span><span class="p">},</span> <span class="c1"># Digi-Key red.</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.digikey.com/&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">},</span>
-            <span class="s1">&#39;farnell&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;not_allowed_char&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;replace_by_char&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Farnell&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#FF6600&#39;</span><span class="p">},</span> <span class="c1"># Farnell/E14 orange.</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.newark.com/&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">},</span>
-            <span class="s1">&#39;mouser&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="s1">&#39;not_allowed_char&#39;</span><span class="p">:</span> <span class="s1">&#39;| &#39;</span><span class="p">,</span> <span class="s1">&#39;replace_by_char&#39;</span><span class="p">:</span> <span class="s1">&#39;;_&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Mouser&#39;</span><span class="p">,</span> 
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#004A85&#39;</span><span class="p">},</span> <span class="c1"># Mouser blue.</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.mouser.com&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">},</span>
-            <span class="s1">&#39;newark&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;not_allowed_char&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;replace_by_char&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Newark&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#A2AE06&#39;</span><span class="p">},</span> <span class="c1"># Newark/E14 olive green.</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.newark.com/&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">},</span>
-            <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;not_allowed_char&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;replace_by_char&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;RS Components&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#FF0000&#39;</span><span class="p">},</span> <span class="c1"># RS Components red.</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://uk.rs-online.com/&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">},</span>
-            <span class="s1">&#39;tme&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;web&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;not_allowed_char&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;replace_by_char&#39;</span><span class="p">:</span> <span class="s1">&#39;;&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;TME&#39;</span><span class="p">,</span>
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#0C4DA1&#39;</span><span class="p">},</span> <span class="c1"># TME blue</span>
-                    <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://www.tme.eu&#39;</span><span class="p">,</span>
-                <span class="p">},</span>
-            <span class="p">},</span>
-        <span class="p">}</span>
+        <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;arrow&#39;</span><span class="p">,</span> <span class="s1">&#39;digikey&#39;</span><span class="p">,</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;tme&#39;</span><span class="p">]</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">distributors_info</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">api_distributors</span><span class="p">}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;enabled&#39;</span> <span class="ow">in</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_octopart&#39;</span><span class="p">]:</span>
              <span class="c1"># First module load.</span>
             <span class="n">distributors_modules_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;api_octopart&#39;</span><span class="p">:</span> <span class="p">{</span>
@@ -315,6 +227,8 @@
         <span class="c1"># Replace default handler with &quot;tqdm&quot; handler.</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logTqdmHandler</span><span class="p">)</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">logDefaultHandler</span><span class="p">)</span>
+
+        <span class="n">FIELDS_CAT</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">])</span>
 
         <span class="c1"># Translate from Octopart distributor names to the names used internally by kicost.</span>
         <span class="n">dist_xlate</span> <span class="o">=</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_octopart&#39;</span><span class="p">][</span><span class="s1">&#39;dist_translation&#39;</span><span class="p">]</span>
@@ -501,7 +415,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li> 
       </ul>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.kicost_config &#8212; kicost 1.1 documentation</title>
+    <title>kicost.kicost_config &#8212; kicost 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -255,7 +255,9 @@
                         <span class="p">[</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;cmd&#39;</span><span class="p">),</span> <span class="n">cmd</span><span class="p">],</span>
                         <span class="p">[</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;opts&#39;</span><span class="p">),</span> <span class="s1">&#39;nickname=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nickname</span><span class="p">)]]</span> <span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_list</span><span class="p">):</span>
-        <span class="n">new_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">new_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">new_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Put KiCost at first.</span>
+        <span class="c1"># Put KiCost at first.</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">new_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">del</span> <span class="n">new_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">update_config_file</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;bom_plugins&quot;</span><span class="p">,</span> <span class="n">escape</span><span class="p">(</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">new_list</span><span class="p">)</span> <span class="p">))</span>
     <span class="n">write_config_file</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicad_config_path</span><span class="p">,</span> <span class="s2">&quot;eeschema&quot;</span><span class="p">),</span> <span class="n">config</span><span class="p">)</span>
 
@@ -519,7 +521,7 @@
                 <span class="kn">import</span> <span class="nn">fileinput</span>
                 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicad_config_path</span><span class="p">,</span> <span class="s1">&#39;eeschema&#39;</span><span class="p">),</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;bom_plugin_selected=&#39;</span><span class="p">):</span>
-                        <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;bom_plugin_selected=KiCost&#39;</span>
+                        <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;bom_plugin_selected=KiCost</span><span class="se">\n</span><span class="s1">&#39;</span>
                     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost will appear in the Eeschema BOM plugin list.&#39;</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
@@ -614,7 +616,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

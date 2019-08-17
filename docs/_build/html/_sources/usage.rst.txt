@@ -19,11 +19,24 @@ circuit boards developed with KiCad as follows:
         mfr_num      mfr-num      mfr# 
         mnf_num      mnf-num      mnf# 
 
+Distributors stock code can be also used through the specific field name listed bellow and
+they are prioritized to get the part information.
+
+Digi-Key: digikey#         digikey_#    digikey-#    digikeypn#    digikey_pn#    digikey-pn#
+          digikeypn        ...
+          digikeyvendor#   ...
+          digikeynum       ...
+          digikeyvp#       ...
+          digikeyvpn       ...
+Mouser:   mouser# ....
+...
+
 Be careful if the part have a ``manf#`` or distributor code with the ``,``, ``;`` or ``\`` characters,
 these have specific propose as shown in *Parts With Subparts*. They have to be preceded by ``\``,
 example, for the ``NUP1301,215`` code, use ``NUP1301\,215``.
 
 2. Output a BOM from your KiCad schematic. This will be an XML file such as ``schem.xml``.
+
 3. Process the XML file with KiCost to create a part-cost spreadsheet named ``schem.xlsx`` like this::
 
      kicost -i schem.xml
@@ -36,6 +49,7 @@ example, for the ``NUP1301,215`` code, use ``NUP1301\,215``.
    each distributor.
    The spreadsheet also shows the current inventory of each part from each distributor so you can tell
    if there's a problem finding something and an alternate part may be needed.
+
 5. Enter the quantity of each part that you want to purchase from each distributor.
    Lists of part numbers and quantities will appear that you can cut-and-paste
    directly into the website ordering page of each distributor.
@@ -472,4 +486,3 @@ To do this:
    which distributors to use, currency and others definitions.
 
 #. Close the registry. KiCost should now appear when you right-click on an XML file.
-
