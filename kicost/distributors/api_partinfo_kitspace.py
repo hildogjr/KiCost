@@ -290,19 +290,21 @@ class api_partinfo_kitspace(distributor_class):
             query = None
             part_dist_use_manfpn = copy.copy(DISTRIBUTORS)
 
-            # Check if that part have stock code. KiCost will prioritize these codes under "manf#'
-            # that will be used for get information for the part hat were not filled with the
-            # distributor stock code. So this is chacked after the 'manf#' abov code.
+            # Check if that part have stock code that is accepted to use by this module (API).
+            # KiCost will prioritize these codes under "manf#" that will be used for get
+            #information for the part hat were not filled with the distributor stock code. So
+            # this is checked after the 'manf#' buv code.
             for d in FIELDS_CAT:
                 part_stock = part.fields.get(d)
                 if part_stock:
                     part_catalogue_code_dist = d[:-1]
-                    part_code_dist = list({k for k, v in dist_xlate.items() if v == part_catalogue_code_dist})[0]
-                    query = {'sku': {'vendor': part_code_dist, 'part': part_stock}}
-                    queries.append(query)
-                    query_parts.append(part)
-                    query_part_stock_code.append(part_catalogue_code_dist)
-                    part_dist_use_manfpn.remove(part_catalogue_code_dist)
+                    if part_catalogue_code_dist in distributors_modules_dict['api_partinfo_kitspace']['distributors']:
+                        part_code_dist = list({k for k, v in dist_xlate.items() if v == part_catalogue_code_dist})[0]
+                        query = {'sku': {'vendor': part_code_dist, 'part': part_stock}}
+                        queries.append(query)
+                        query_parts.append(part)
+                        query_part_stock_code.append(part_catalogue_code_dist)
+                        part_dist_use_manfpn.remove(part_catalogue_code_dist)
 
             part_manf = part.fields.get('manf', '')
             part_code = part.fields.get('manf#')

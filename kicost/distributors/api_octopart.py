@@ -76,7 +76,7 @@ class api_octopart(distributor_class):
                                             })
         # Update the `distributor_dict`with the available distributor in this module with the module is enabled.
         # It can be not enabled by the GUI saved configurations.
-        if distributors_modules_dict['api_partinfo_kitspace']['enabled']:
+        if distributors_modules_dict['api_octopart']['enabled']:
             distributor_dict.update(dists)
 
 
