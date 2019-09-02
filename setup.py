@@ -19,11 +19,13 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
     try:
         history = history.replace('.. :changelog:', '')
-        history = re.findall('(^[\s.]*History\n[\=\-\_]+\n+((?:\s|.)*?\n[\=\-\_]+\n(?:\s|.)+?\n*){' + \
-                             str(SHOW_LAST_HISTORY) + \
-                             '})\n+[\d\.]+(?:\s|.)*?\n[\=\-\_]+', history)[0]
-        history = history.replace('History', 'Latest updates')
-        history = history + '\n\nAccess https://github.com/xesscorp/KiCost/blob/master/HISTORY.rst for full development history.'
+        #update_format = r'(^[\s.]*History\s*[\=\-\_]+\s+((?:\s|.)*?\n[\=\-\_]+\s*(?:\s|.)+?\s*){{{n}}})\s+[\d\.]+(?:\s|.)*?\s*[\=\-\_]+'.format(n=SHOW_LAST_HISTORY)
+        #history = re.findall(update_format, history)[0][0]
+        #if SHOW_LAST_HISTORY==1:
+        #    history = history.replace('History', 'Latest update')
+        #else:
+        #    history = history.replace('History', 'Latest updates')
+        #history = history + '\n\nAccess https://github.com/xesscorp/KiCost/blob/master/HISTORY.rst for full development history.'
     except:
         pass
 
@@ -74,7 +76,7 @@ setup(
     zip_safe=False,
     keywords='KiCAD, BOM, electronics',
     classifiers=[
-        'Development Status :: Beta',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',

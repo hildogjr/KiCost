@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.distributors.dist_local_template &#8212; kicost 1.1 documentation</title>
+    <title>kicost.distributors.dist_local_template &#8212; kicost 1.1.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li> 
       </ul>
@@ -121,9 +121,9 @@
                     <span class="n">distributors</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span>  <span class="c1"># Set dist name for spreadsheet header.</span>
 
         <span class="c1"># Set part info to default blank values for all the distributors.</span>
-        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span> <span class="c1">## TODO create this for just the current active distributor inside each module.</span>
             <span class="c1"># These bellow variable are all the data the each distributor/local API/scrap module needs to fill.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Ditributor catalogue number.</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Distributor catalogue number.</span>
             <span class="n">part</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Purchase distributor URL for the spefic part.</span>
             <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Price break tiers; [[qty1, price1][qty2, price2]...]</span>
             <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Available quantity.</span>
@@ -181,6 +181,7 @@
                         <span class="k">if</span> <span class="n">local_currency</span><span class="p">:</span>
                             <span class="n">p</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_currency</span>
                         <span class="n">price_tiers</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">qty</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+                    <span class="c1">#p.moq[dist] = min(price_tiers.keys())</span>
                 <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
                     <span class="c1"># This happens when no pricing info is found.</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;No pricing information found to local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
@@ -222,7 +223,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li> 
       </ul>

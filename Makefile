@@ -59,13 +59,15 @@ docs:
 	open docs/_build/html/index.html
 
 release-test: clean
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel
+	python setup.py sdist
+	python setup.py bdist_wheel
 	twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/*
 
-release: clean
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+release:
+	#clean
+	#python setup.py sdist upload
+	#python setup.py bdist_wheel upload
+	twine upload --verbose dist/*
 
 dist: clean
 	python setup.py sdist
