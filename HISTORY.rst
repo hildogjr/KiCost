@@ -8,7 +8,6 @@ ______________________
 * Check by accepted stock code into the API modules.
 
 
-=======
 1.1.1 (2019-08-16)
 ______________________
 * Fix minimum order number and warning the user, it also show in the price break.
