@@ -3,11 +3,11 @@
 History
 -------
 
-1.1.2 (2019-08-16)
+1.1.2 (2019-09-??)
 ______________________
 * Check by accepted stock code into the API modules.
 * Fix the not found module name in the GUI.
-* Added ``--info`` command to get all the details of KiCost installtion.
+* Added ``--info`` command to get all the details of KiCost installation.
 
 
 1.1.1 (2019-08-16)
