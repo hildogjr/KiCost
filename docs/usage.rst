@@ -392,6 +392,7 @@ Build cost spreadsheet for a KiCAD project.
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  --info                Show program' and library information and version.
   -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
                         One or more schematic BOM XML files.
   -o [FILE.XLSX], --output [FILE.XLSX]

@@ -767,7 +767,7 @@ class formKiCost(formKiCost_raw):
                 label = self.m_checkList_dist.GetString(idx)
                 for k,v in distributor_dict.items():
                     if v['label']['name']==label:
-                        dist_list.append(v['module'])
+                        dist_list.append(k)
                         break
         else:
             dist_list = None

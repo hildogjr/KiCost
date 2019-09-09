@@ -55,6 +55,23 @@ def kicost_gui_notdependences():
     print('Or download from last version from <https://wxpython.org/pages/downloads/>')
     sys.exit(1)
 
+def kicost_version_info():
+    version_info_str = r'KiCost v.{}.'.format(__version__)
+    version_info_str += r'at Python {}.{}.{}.'.format(
+                                                      sys.version_info.major,
+                                                      sys.version_info.minor,
+                                                      sys.version_info.micro)
+    version_info_str += r'on {}({}).'.format(
+                                              platform.platform(),
+                                              platform.architecture()[0])
+    try:
+        import wx
+        version_info_str += 'Graphical library: {}.'.format(wx.version())
+    except:
+        version_info_str += 'No graphical library installed for the GUI.'
+    #version_info_str += r'\n'
+    return version_info_str
+
 ###############################################################################
 # Command-line interface.
 ###############################################################################
@@ -65,14 +82,11 @@ def main():
         description='Build cost spreadsheet for a KiCAD project.')
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='KiCost v.{} on {}({}) Python {}.{}.{}'.format(
-                                              __version__,
-                                              platform.platform(),
-                                              platform.architecture()[0],
-                                              sys.version_info.major,
-                                              sys.version_info.minor,
-                                              sys.version_info.micro)
-                                      )
+                        version='KiCost v.{}'.format(__version__) )
+    parser.add_argument('--info',
+                        action='version',
+                        version=kicost_version_info(),
+                        help='Show program\' and library information and version.' )
     parser.add_argument('-i', '--input',
                         nargs='+',
                         type=str,
