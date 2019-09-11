@@ -39,7 +39,7 @@ except:
 
 __all__ = ['kicost_setup', 'kicost_unsetup']
 
-WINDOWS_STARTS_WITH = "win32"
+WINDOWS_STARTS_WITH = 'win32'
 
 
 
