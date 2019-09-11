@@ -99,7 +99,7 @@ def open_file(filepath):
     elif sys.platform.startswith('linux'): # Linux.
         subprocess.call(('xdg-open', filepath))
     else:
-        print('Not recognized OS.')
+        print('Not recognized OS. The spreadsheet file will not be automatically opened.')
 
 
 #======================================================================
