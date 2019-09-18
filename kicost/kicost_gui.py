@@ -316,9 +316,13 @@ class formKiCost(formKiCost_raw):
         self.m_checkBox_XLSXtoODS.Enable(False)
         try:
             # Create a control to convert the XLSX to ODS quietly.
-            subprocess.check_output(['libreoffice', '--version'])
-            self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
-        except OSError:
+            from distutils.spawn import find_executable
+            if find_executable('libreoffice'):
+                self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
+            else:
+                logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
+                self.m_checkBox_XLSXtoODS.SetValue(False)
+        except:
             logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
             self.m_checkBox_XLSXtoODS.SetValue(False)
 
