@@ -104,7 +104,7 @@ To create a cost spreadsheet from a CSV file of part data::
 
 To read and merge different projects BOMs, even those from different EDA tools::
 
-    kicost -i bom1.xml bom2.xml bom3.csv -eda kicad altium csv
+    kicost -i bom1.xml bom2.xml bom3.csv --eda kicad altium csv
 
 To access KiCost through a graphical user interface, just use the `kicost`
 command without parameters.
@@ -405,14 +405,14 @@ optional arguments:
                         Speficy or remove field translation (--translate X1 Y1
                         X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
                         remove X3 for the internal dictionary).
-  -var VARIANT [VARIANT ...], --variant VARIANT [VARIANT ...]
+  --variant VARIANT [VARIANT ...]
                         schematic variant name filter.
   -w, --overwrite       Allow overwriting of an existing spreadsheet.
   -q, --quiet           Enable quiet mode with no warnings.
-  -ign NAME [NAME ...], --ignore_fields NAME [NAME ...]
+  --ignore_fields NAME [NAME ...]
                         Declare part fields to ignore when reading the BoM
                         file.
-  -grp NAME [NAME ...], --group_fields NAME [NAME ...]
+  --group_fields NAME [NAME ...]
                         Declare part fields to merge when grouping parts.
   --debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
   --eda {kicad,altium,csv} [{kicad,altium,csv} ...]
@@ -438,15 +438,15 @@ optional arguments:
                         Define the priority currency. Use the ISO4217 for
                         currency (`USD`, `EUR`). Default: `USD`.
   --gui FILE.XML [FILE.XML ...]
-                        Start the GUI to run KiCost passing the file
-                        parameter give by "--input", all others parameters are
-                        ignored.
-  --user                Run KiCost on terminal using the parameters in the
-                        GUI memory, all passed parameters from terminal take
+                        Start the GUI to run KiCost passing the file parameter
+                        give by "--input", all others parameters are ignored.
+  --user                Run KiCost on terminal using the parameters in the GUI
+                        memory, all passed parameters from terminal take
                         priority.
   --setup               Run KiCost integration (with KiCad and OS)
                         configuration script.
   --unsetup             Undo the KiCost integration.
+
 
 
 -------------------------------------------------

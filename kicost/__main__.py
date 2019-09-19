@@ -113,7 +113,7 @@ def main():
                             (--translate X1 Y1 X2 Y2 X3 ~,
                             translates X1 to Y1 and X2 to Y2 and remove
                             X3 for the internal dictionary).''')
-    parser.add_argument('-var', '--variant',
+    parser.add_argument('--variant',
                         nargs='+',
                         type=str,
                         default=[' '], # Default variant is a space.
@@ -124,13 +124,13 @@ def main():
     parser.add_argument('-q', '--quiet',
                         action='store_true',
                         help='Enable quiet mode with no warnings.')
-    parser.add_argument('-ign', '--ignore_fields',
+    parser.add_argument('--ignore_fields',
                         nargs='+',
                         default=[],
                         help='Declare part fields to ignore when reading the BoM file.',
                         metavar='NAME',
                         type=str)
-    parser.add_argument('-grp', '--group_fields',
+    parser.add_argument('--group_fields',
                         nargs='+',
                         default=[],
                         help='Declare part fields to merge when grouping parts.',
