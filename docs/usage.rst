@@ -406,7 +406,7 @@ optional arguments:
                         X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
                         remove X3 for the internal dictionary).
   --variant VARIANT [VARIANT ...]
-                        schematic variant name filter.
+                        schematic variant name filter using regular expression.
   -w, --overwrite       Allow overwriting of an existing spreadsheet.
   -q, --quiet           Enable quiet mode with no warnings.
   --ignore_fields NAME [NAME ...]

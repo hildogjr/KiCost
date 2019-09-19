@@ -117,7 +117,7 @@ def main():
                         nargs='+',
                         type=str,
                         default=[' '], # Default variant is a space.
-                        help='schematic variant name filter.')
+                        help='schematic variant name filter using regular expression.')
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
                         help='Allow overwriting of an existing spreadsheet.')
