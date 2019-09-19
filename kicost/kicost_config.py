@@ -41,7 +41,7 @@ __all__ = ['kicost_setup', 'kicost_unsetup']
 
 WINDOWS_STARTS_WITH = 'win32'
 if sys.platform.startswith(WINDOWS_STARTS_WITH):
-    from .windows import *
+    from .os_windows import *
 
 
 ###############################################################################
