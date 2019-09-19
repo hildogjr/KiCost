@@ -402,7 +402,7 @@ optional arguments:
                         and insert in the global data section of the
                         spreadsheet.
   --translate_fields NAME [NAME ...]
-                        Speficy or remove field translation (--translate X1 Y1
+                        Specify or remove field translation (--translate X1 Y1
                         X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
                         remove X3 for the internal dictionary).
   --variant VARIANT [VARIANT ...]

@@ -109,7 +109,7 @@ def main():
                         nargs='+',
                         type=str,
                         metavar='NAME',
-                        help='''Speficy or remove field translation
+                        help='''Specify or remove field translation
                             (--translate X1 Y1 X2 Y2 X3 ~,
                             translates X1 to Y1 and X2 to Y2 and remove
                             X3 for the internal dictionary).''')
