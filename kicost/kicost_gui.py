@@ -65,6 +65,12 @@ __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 #=================================
 # Guide definitions.
 
+# LibreOffice identification
+if sys.platform.startswith("win32"):
+    libreoffice_executable = 'soffice'
+else:
+    libreoffice_executable = 'libreoffice'
+
 # Open file defitions.
 FILE_HIST_QTY_DEFAULT = 10
 SEP_FILES = '\n' # File separator in the comboBox.
@@ -317,7 +323,7 @@ class formKiCost(formKiCost_raw):
         try:
             # Create a control to convert the XLSX to ODS quietly.
             from distutils.spawn import find_executable
-            if find_executable('libreoffice'):
+            if find_executable(libreoffice_executable):
                 self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
             else:
                 logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
@@ -799,7 +805,7 @@ class formKiCost(formKiCost_raw):
             if self.m_checkBox_XLSXtoODS.GetValue():
                 logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
                                     os.path.basename(spreadsheet_file) ) )
-                os.system('libreoffice  --headless --convert-to ods {i} --outdir {o}'.format(si=preadsheet_file, o=os.path.dirname(spreadsheet_file)))
+                os.system('{e} --headless --convert-to ods {i} --outdir {o}'.format(e=libreoffice_executable, si=preadsheet_file, o=os.path.dirname(spreadsheet_file)))
                 #os.remove(spreadsheet_file) # Delete the older file.
                 spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
         except Exception as e:

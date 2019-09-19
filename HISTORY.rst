@@ -8,7 +8,7 @@ ______________________
 * Check by accepted stock code into the API modules.
 * Fix the not found module name and Windows open spreadsheet in the GUI.
 * Added ``--info`` command to get all the details of KiCost installation.
-* Fix at the GUI: LibreOffice installtion check.
+* Fix at the GUI: LibreOffice installation check on Windows.
 
 
 1.1.1 (2019-08-16)
