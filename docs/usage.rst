@@ -377,15 +377,17 @@ Command-Line Options
 
 ::
 
-usage: kicost [-h] [-v] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
+usage: kicost [-h] [-v] [--info] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
               [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
-              [-var VARIANT [VARIANT ...]] [-w] [-q] [-ign NAME [NAME ...]]
-              [-grp NAME [NAME ...]] [--debug [LEVEL]]
+              [--variant VARIANT [VARIANT ...]] [-w] [-q]
+              [--ignore_fields NAME [NAME ...]]
+              [--group_fields NAME [NAME ...]] [--debug [LEVEL]]
               [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
               [--show_dist_list] [--show_eda_list] [--no_collapse]
               [--show_cat_url] [-e DIST [DIST ...]]
               [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
               [--gui FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
+
 
 Build cost spreadsheet for a KiCAD project.
 
