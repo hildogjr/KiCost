@@ -67,9 +67,21 @@ __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 
 # LibreOffice identification
 if sys.platform.startswith("win32"):
-    libreoffice_executable = 'soffice'
+    #libreoffice_executable = 'soffice'
+    # Get the LIbreOffice last installed version path from it registry.
+    from .os_windows import reg_enum_keys, reg_get
+    if sys.version_info < (3,0):
+        from _winreg import HKEY_LOCAL_MACHINE
+    else:
+        from winreg import *
+    libreoffice_reg = r'SOFTWARE\LibreOffice\LibreOffice'
+    libreoffice_installations = reg_enum_keys(libreoffice_reg, HKEY_LOCAL_MACHINE)
+    from distutils.version import StrictVersion
+    libreoffice_installations.sort(key=StrictVersion)
+    libreoffice_executable = reg_get(libreoffice_installations[-1], HKEY_LOCAL_MACHINE)
 else:
-    libreoffice_executable = 'libreoffice'
+    from distutils.spawn import find_executable
+    libreoffice_executable = find_executable('libreoffice')
 
 # Open file defitions.
 FILE_HIST_QTY_DEFAULT = 10
@@ -320,15 +332,10 @@ class formKiCost(formKiCost_raw):
         self.m_checkBox_XLSXtoODS.Bind(wx.EVT_CHECKBOX, self.updateOutputFilename)
         bSizer6.Add(self.m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
         self.m_checkBox_XLSXtoODS.Enable(False)
-        try:
-            # Create a control to convert the XLSX to ODS quietly.
-            from distutils.spawn import find_executable
-            if find_executable(libreoffice_executable):
-                self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
-            else:
-                logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
-                self.m_checkBox_XLSXtoODS.SetValue(False)
-        except:
+        # Create a control to convert the XLSX to ODS quietly.
+        if libreoffice_executable:
+            self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
+        else:
             logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
             self.m_checkBox_XLSXtoODS.SetValue(False)
 
