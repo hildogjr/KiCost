@@ -78,7 +78,9 @@ if sys.platform.startswith("win32"):
     libreoffice_installations = reg_enum_keys(libreoffice_reg, HKEY_LOCAL_MACHINE)
     from distutils.version import StrictVersion
     libreoffice_installations.sort(key=StrictVersion)
-    libreoffice_executable = reg_get(libreoffice_installations[-1], HKEY_LOCAL_MACHINE)
+    libreoffice_executable = reg_get(
+            os.path.join(libreoffice_reg, libreoffice_installations[-1], 'Path'),
+            HKEY_LOCAL_MACHINE)
 else:
     from distutils.spawn import find_executable
     libreoffice_executable = find_executable('libreoffice')

@@ -42,7 +42,10 @@ if sys.platform.startswith('win32'):
         # Read variable from Windows Registry.
         try:
             reg = ConnectRegistry(None, key)
-            registry_key = OpenKey(reg, path, 0, KEY_READ)
+            try:
+                registry_key = OpenKey(reg, path, 0, KEY_READ)
+            except FileNotFoundError:
+                registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             values = ()
             try:
                 idx = 0
@@ -61,7 +64,10 @@ if sys.platform.startswith('win32'):
         # Read variable from Windows Registry.
         try:
             reg = ConnectRegistry(None, key)
-            registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
+            try:
+                registry_key = OpenKey(reg, path, 0, KEY_READ)
+            except FileNotFoundError:
+                registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             sub_keys = []
             try:
                 idx = 0
