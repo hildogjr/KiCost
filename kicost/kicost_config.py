@@ -226,9 +226,10 @@ def kicost_setup():
         print('Check your desktop for the KiCost shortcut.')
 
     print('Creating OS context integration...')
-    if create_os_contex_menu(kicost_path):
+    try:
+        create_os_contex_menu(kicost_path)
         print('KiCost listed at the OS context menu for the associated files.')
-    else:
+    except:
         print('Failed to create KiCost OS context menu integration.')
 
     if have_gui:
@@ -247,13 +248,13 @@ def kicost_setup():
     else:
         try:
             if have_gui:
-                bom_plugin_add_entry(kicad_config_path, kicost_file_path, 'kicost --gui "%I"', 'KiCost')
+                bom_plugin_add_entry(kicost_file_path, 'kicost --gui "%I"', 'KiCost')
             else:
-                bom_plugin_add_entry(kicad_config_path, kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
+                bom_plugin_add_entry(kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
             try:
                 # Set KiCost as default plugin.
                 import fileinput
-                for line in fileinput.input(os.path.join(kicad_config_path, 'eeschema'), inplace=True):
+                for line in fileinput.input(PATH_EESCHEMA_CONFIG, inplace=True):
                     if line.strip().startswith('bom_plugin_selected='):
                         line = 'bom_plugin_selected=KiCost\n'
                     sys.stdout.write(line)
@@ -277,21 +278,19 @@ def kicost_setup():
 
 def kicost_unsetup():
     '''Create all the configuration used by KiCost.'''
-    kicad_config_path = get_app_config_path('kicad')
-    kicost_path = os.path.join(get_kicost_path(), 'kicost.py')
-    if not kicad_config_path:
-        raise('KiCad configuration folder not found.')
 
     print('Removing BOM plugin entry from Eeschema configuration...')
-    if bom_plugin_remove_entry(kicad_config_path, 'KiCost'):
+    try:
+        bom_plugin_remove_entry('KiCost')
         print('BOM plugin entry removed from Eeschema configuration.')
-    else:
+    except:
         print('Error to remove KiCost from Eeschema plugin list.')
 
     print('Removing KiCost fields to Eeschema template...')
-    if fields_remove_entry(EESCHEMA_KICOST_FIELDS):
+    try:
+        fields_remove_entry(EESCHEMA_KICOST_FIELDS)
         print('{} fields removed to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
-    else:
+    except:
         print('Error to remove {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
 
     print('Deleting KiCost shortcuts...')
@@ -319,9 +318,10 @@ def kicost_unsetup():
     print('KiCost shortcuts deleted.')
 
     print('Removing KiCost from the \'Open with...\' OS context menu...')
-    if delete_os_contex_menu():
+    try:
+        delete_os_contex_menu()
         print('KiCost removed from the \'Open with...\' OS context menu.')
-    else:
+    except:
         print('Fail to remove kiCost from OS context menu.')
 
     print('KiCost setup configuration finished.')

@@ -37,6 +37,7 @@ except:
 WINDOWS_STARTS_WITH = 'win32'
 
 __all__ = ['get_app_config_path',
+           'PATH_KICAD_CONFIG', 'PATH_EESCHEMA_CONFIG',
            'bom_plugin_add_entry', 'bom_plugin_remove_entry',
            'fields_add_entry', 'fields_remove_entry']
 
@@ -55,6 +56,10 @@ def get_app_config_path(appname):
         appdata = os.path.expanduser(os.path.join("~", ".config", appname))
     return appdata
 
+PATH_KICAD_CONFIG = get_app_config_path('kicad')
+if not PATH_KICAD_CONFIG:
+    raise('KiCad configuration folder not found.')
+PATH_EESCHEMA_CONFIG = os.path.join(PATH_KICAD_CONFIG, "eeschema")
 
 def get_user_documents():
     if sys.platform == 'darwin':
@@ -153,9 +158,9 @@ def fields_remove_entry(name):
     return
 
 
-def bom_plugin_remove_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
+def bom_plugin_remove_entry(name, re_flags=re.IGNORECASE):
     '''Remove a BOM plugin entry to the Eeschema configuration file.'''
-    config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
+    config = read_config_file(PATH_EESCHEMA_CONFIG)
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
     new_list.append(sexpdata.Symbol("plugins"))
@@ -183,12 +188,12 @@ def bom_plugin_remove_entry(kicad_config_path, name, re_flags=re.IGNORECASE):
     if changes:
         s = sexpdata.dumps(new_list)
         config = update_config_file(config, "bom_plugins", escape(s))
-    write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
+    write_config_file(PATH_EESCHEMA_CONFIG, config)
 
 
-def bom_plugin_add_entry(kicad_config_path, name, cmd, nickname=None, re_flags=re.IGNORECASE, put_first=True):
+def bom_plugin_add_entry(name, cmd, nickname=None, re_flags=re.IGNORECASE, put_first=True):
     '''Add a BOM plugin entry to the Eeschema configuration file.'''
-    config = read_config_file(os.path.join(kicad_config_path, "eeschema"))
+    config = read_config_file(PATH_EESCHEMA_CONFIG)
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
     new_list = []
     new_list.append(sexpdata.Symbol("plugins"))
@@ -222,4 +227,4 @@ def bom_plugin_add_entry(kicad_config_path, name, cmd, nickname=None, re_flags=r
             new_list.insert(1, new_list[-1])
             del new_list[-1]
     config = update_config_file(config, "bom_plugins", escape( sexpdata.dumps(new_list) ))
-    write_config_file(os.path.join(kicad_config_path, "eeschema"), config)
+    write_config_file(PATH_EESCHEMA_CONFIG, config)

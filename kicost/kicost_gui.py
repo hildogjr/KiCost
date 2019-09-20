@@ -45,10 +45,7 @@ import tempfile # To create the temporary log file.
 from datetime import datetime # To create the log name, when asked to save.
 from distutils.version import StrictVersion # To comparative of versions.
 import re # Regular expression parser.
-import locale # For country location.
-import babel # For language.
-from babel import numbers # For currency presentation.
-import logging
+import locale, babel # For country location, language and currency presentation.
 import requests
 #from .wxAnyThread import anythread
 
@@ -333,7 +330,6 @@ class formKiCost(formKiCost_raw):
         self.m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
         self.m_checkBox_XLSXtoODS.Bind(wx.EVT_CHECKBOX, self.updateOutputFilename)
         bSizer6.Add(self.m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
-        self.m_checkBox_XLSXtoODS.Enable(False)
         # Create a control to convert the XLSX to ODS quietly.
         if libreoffice_executable:
             self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
@@ -854,12 +850,12 @@ class formKiCost(formKiCost_raw):
 
         # Get all the currencies present.
         loc = locale.getdefaultlocale()[0]
-        currencyList = sorted(list(numbers.list_currencies()))
+        currencyList = sorted(list(babel.numbers.list_currencies()))
         for c in range(len(currencyList)):
             currency = currencyList[c]
             currencyList[c] = '({a} {s}) {n}'.format(a=currency,
-                                                  s=numbers.get_currency_symbol(currency, locale=loc),
-                                                  n=numbers.get_currency_name(currency, locale=loc)
+                                                  s=babel.numbers.get_currency_symbol(currency, locale=loc),
+                                                  n=babel.numbers.get_currency_name(currency, locale=loc)
                                               )
         self.m_comboBox_currency.Insert(currencyList, 0)
 

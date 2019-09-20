@@ -70,7 +70,7 @@ setup(
     package_dir={'kicost':'kicost'},
     include_package_data=True,
     package_data={'kicost': ['*.gif', '*.png']},
-    #data_files=data_files,
+#    data_files=data_files,
     scripts=[],
     install_requires=requirements,
     license="MIT",
@@ -88,18 +88,28 @@ setup(
     tests_require=test_requirements
 )
 
+
 # Run the KiCost integration script.
 try:
     import sys
     if sys.platform.startswith("win32"):
         # For Windows it is necessary one additional library (used to create the shortcut).
+        print('Installing additional library need for Windows setup...')
         try:
-            from pip import main as pipmain
-        except ImportError:
-            from pip._internal import main as pipmain
-        pipmain(['install', 'pywin32'])
+            if sys.version_info < (3,0):
+                from pip._internal import main as pipmain
+            else:
+                from pip import main as pipmain
+            pipmain(['install', 'pywin32'])
+        except:
+            print('Error to install Windows additional Python library. KiCost configuration related to Windows registry may not work.')
     # Run setup: shortcut, BOM module to Eeschema and OS context menu.
-    from .kicost.kicost_config import kicost_setup
-    kicost_setup()
+    try:
+        from .kicost.kicost_config import kicost_setup
+        kicost_setup()
+    except:
+        print('Running the external configuration command...')
+        from subprocess import call
+        call(['kicost', '--setup'])
 except:
     print('Error to run KiCost integration script.')
