@@ -29,6 +29,8 @@ __company__ = 'University of Campinas - Brazil'
 # This script aims to be a post installation configuration script, setting
 # shortcuts, plugins, ...
 
+import sys
+
 if sys.platform.startswith('win32'):
     # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
     if sys.version_info < (3,0):
