@@ -259,15 +259,15 @@ def create_os_contex_menu(kicost_path):
         print('I don\'t know how to create the context menu on OSX')
         return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        set_reg(r'xmlfile\shell\KiCost\command',
+        reg_set(r'xmlfile\shell\KiCost\command',
                 None, 'kicost {opt} "%1"'.format(opt=cmd_opt),
                 winreg.HKEY_CLASSES_ROOT)
-        set_reg(r'xmlfile\shell\KiCost',
+        reg_set(r'xmlfile\shell\KiCost',
                 'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
-        set_reg(r'csvfile\shell\KiCost\command',
+        reg_set(r'csvfile\shell\KiCost\command',
                 None, 'kicost {opt} "%1"'.format(opt=cmd_opt),
                 winreg.HKEY_CLASSES_ROOT)
-        set_reg(r'csvfile\shell\KiCost',
+        reg_set(r'csvfile\shell\KiCost',
                 'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
         return True
     elif sys.platform.startswith('linux'):
@@ -281,10 +281,10 @@ def delete_os_contex_menu():
         print('I don\'t know how to create the context menu on OSX.')
         return False
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        return del_reg(r'xmlfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
-            del_reg(r'xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
-            del_reg(r'csvfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
-            del_reg(r'csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
+        return reg_del(r'xmlfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
+            reg_del(r'xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
+            reg_del(r'csvfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
+            reg_del(r'csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
     elif sys.platform.startswith('linux'):
         print('I don\'t know how to create the context menu on Linux.')
         return False
@@ -394,7 +394,7 @@ def kicost_setup():
             print('I don\'t kwon the desktop folder of mac-OS.')
             shotcut_directories = []
         elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-            shotcut_directories = [os.path.normpath(get_reg(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+            shotcut_directories = [os.path.normpath(reg_get(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
         elif sys.platform.startswith('linux'):
             shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
         else:
@@ -466,7 +466,7 @@ def kicost_unsetup():
         print('I don\'t kwon the desktop folder of mac-OS.')
         kicost_shortcuts = []
     elif sys.platform.startswith(WINDOWS_STARTS_WITH):
-        kicost_shortcuts = [os.path.normpath(get_reg(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+        kicost_shortcuts = [os.path.normpath(reg_get(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
         kicost_shortcuts = [os.path.join(sc, 'KiCost.lnk') for sc in kicost_shortcuts]
     elif sys.platform.startswith('linux'):
         kicost_shortcuts = [os.path.expanduser(os.path.join('~', 'Desktop'))]

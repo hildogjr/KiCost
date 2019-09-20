@@ -31,47 +31,88 @@ __company__ = 'University of Campinas - Brazil'
 
 if sys.platform.startswith('win32'):
     # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
-    import winreg
-    __all__ = ['get_reg', 'set_reg', 'del_reg']
+    if sys.version_info < (3,0):
+        from _winreg import *
+    else:
+        from winreg import *
+    __all__ = ['reg_enum_velues', 'reg_enum_keys', 'reg_get', 'reg_set', 'reg_del']
 
-    def get_reg(path, name, key=winreg.HKEY_CURRENT_USER):
+
+    def reg_enum_velues(path, name, key=HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
         try:
-            reg = winreg.ConnectRegistry(None, key)
-            registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_READ)
-            value, regtype = winreg.QueryValueEx(registry_key, name)
-            winreg.CloseKey(reg)
+            reg = ConnectRegistry(None, key)
+            registry_key = OpenKey(reg, path, 0, KEY_READ)
+            values = ()
+            try:
+                idx = 0
+                while 1:
+                    values.Append( EnumVelue(key, idx) )
+                    idx = idx + 1
+            except WindowsError:
+                pass
+            return values
+            CloseKey(reg)
             return value
         except WindowsError:
             return None
 
-    def set_reg(path, name, value, key=winreg.HKEY_CURRENT_USER, key_type=winreg.REG_SZ):
+    def reg_enum_keys(path, name, key=HKEY_CURRENT_USER):
+        # Read variable from Windows Registry.
+        try:
+            reg = ConnectRegistry(None, key)
+            registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
+            sub_keys = []
+            try:
+                idx = 0
+                while 1:
+                    sub_keys.Append( EnumKey(key, idx) )
+                    idx = idx + 1
+            except WindowsError:
+                pass
+            CloseKey(reg)
+            return sub_keys
+        except WindowsError:
+            return None
+
+    def reg_get(path, name, key=HKEY_CURRENT_USER):
+        # Read variable from Windows Registry.
+        try:
+            reg = ConnectRegistry(None, key)
+            registry_key = OpenKey(reg, path, 0, KEY_READ)
+            value, regtype = QueryValueEx(registry_key, name)
+            CloseKey(reg)
+            return value
+        except WindowsError:
+            return None
+
+    def reg_set(path, name, value, key=HKEY_CURRENT_USER, key_type=REG_SZ):
         # Write in the Windows Registry.
         try:
-            reg = winreg.ConnectRegistry(None, key)
-            winreg.CreateKey(reg, path)
-            registry_key = winreg.OpenKey(reg, path, 0, winreg.KEY_WRITE)
-            winreg.SetValueEx(registry_key, name, 0, key_type, value)
-            winreg.CloseKey(reg)
-            # Uptade the Windows behaviour.
+            reg = ConnectRegistry(None, key)
+            CreateKey(reg, path)
+            registry_key = OpenKey(reg, path, 0, KEY_WRITE)
+            SetValueEx(registry_key, name, 0, key_type, value)
+            CloseKey(reg)
+            # Update the Windows behaviour.
             #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except PermissionError:
-            print('You shoud run this command as system administrator: run the terminal as admnistrator and type the command again.')
+            print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             return False
     
-    def del_reg(name, key=winreg.HKEY_CURRENT_USER):
+    def reg_del(name, key=HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
-            reg = winreg.ConnectRegistry(None, key)
-            #registry_key = winreg.OpenKey(reg, name_base, 0, winreg.KEY_ALL_ACCESS)
-            winreg.DeleteKey(reg, name)
-            winreg.CloseKey(reg)
-            # Uptade the Windows behaviour.
+            reg = ConnectRegistry(None, key)
+            #registry_key = OpenKey(reg, name_base, 0, KEY_ALL_ACCESS)
+            DeleteKey(reg, name)
+            CloseKey(reg)
+            # Update the Windows behaviour.
             #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except PermissionError:
-            print('You shoud run this command as system administrator: run the terminal as admnistrator and type the command again.')
+            print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             return False
