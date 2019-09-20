@@ -32,11 +32,11 @@ __company__ = 'University of Campinas - Brazil'
 
 # Python libraries.
 import os, sys
+from .global_vars import * # Debug, language and default configurations.
 
 __all__ = ['kicost_setup', 'kicost_unsetup']
 
-WINDOWS_STARTS_WITH = 'win32'
-if sys.platform.startswith(WINDOWS_STARTS_WITH):
+if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
     from .os_windows import *
 
 from .kicad_config import *
@@ -73,10 +73,10 @@ def create_os_contex_menu(kicost_path):
     else:
         cmd_opt = '-wi'
     icon_path = os.path.join(kicost_path, 'kicost.ico')
-    if sys.platform.startswith('darwin'): # Mac-OS.
+    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
         print('I don\'t know how to create the context menu on OSX')
         return False
-    elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+    elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
         reg_set(r'xmlfile\shell\KiCost\command',
                 None, 'kicost {opt} "%1"'.format(opt=cmd_opt),
                 winreg.HKEY_CLASSES_ROOT)
@@ -88,22 +88,22 @@ def create_os_contex_menu(kicost_path):
         reg_set(r'csvfile\shell\KiCost',
                 'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
         return True
-    elif sys.platform.startswith('linux'):
+    elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
         print('I don\'t know how to create the context menu on Linux')
         return False
 
 
 def delete_os_contex_menu():
     '''Delete the OS context menu to recognized KiCost files (XML/CSV).'''
-    if sys.platform.startswith('darwin'): # Mac-OS.
+    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
         print('I don\'t know how to create the context menu on OSX.')
         return False
-    elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+    elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
         return reg_del(r'xmlfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
             reg_del(r'xmlfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT) and \
             reg_del(r'csvfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and \
             reg_del(r'csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT)
-    elif sys.platform.startswith('linux'):
+    elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
         print('I don\'t know how to create the context menu on Linux.')
         return False
 
@@ -113,7 +113,7 @@ def create_shortcut(target, directory, name, icon, location=None,
     '''Generic routine to create shortcuts.'''
     if not location:
         location = os.path.abspath(target)
-    if sys.platform.startswith(WINDOWS_STARTS_WITH): # Windows.
+    if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH): # Windows.
         from win32com.client import Dispatch
         shell = Dispatch('WScript.Shell')
         shortcut_path = os.path.join(directory, name+'.lnk')
@@ -124,7 +124,7 @@ def create_shortcut(target, directory, name, icon, location=None,
         shortcut.IconLocation = icon
         shortcut.save()
         return True
-    elif sys.platform.startswith('linux') or sys.platform.startswith('darwin'): # Mac-OS.
+    elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH) or sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
         content = '[Desktop Entry]\nType=Application\nName={name}\nExec={target}'.format(
                     name=name, target=target)
         content += '\nTerminal={}'.format(terminal)
@@ -208,12 +208,12 @@ def kicost_setup():
 
     if have_gui:
         print('Creating app shortcuts...')
-        if sys.platform.startswith('darwin'): # Mac-OS.
+        if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
             print('I don\'t kwon the desktop folder of mac-OS.')
             shotcut_directories = []
-        elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+        elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
             shotcut_directories = [os.path.normpath(reg_get(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
-        elif sys.platform.startswith('linux'):
+        elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
             shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
         else:
             print('Not recognized OS.\nShortcut not created!')
@@ -247,29 +247,19 @@ def kicost_setup():
         print('###  ---> Eeschema was never started. start it and after run `kicost --setup` to configure.')
     else:
         try:
+            print('Adding the KiCost fields to Eeschema template...')
             if have_gui:
                 bom_plugin_add_entry(kicost_file_path, 'kicost --gui "%I"', 'KiCost')
             else:
                 bom_plugin_add_entry(kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
+            print('KiCost added to KiCad plugin list.')
             try:
-                # Set KiCost as default plugin.
-                import fileinput
-                for line in fileinput.input(PATH_EESCHEMA_CONFIG, inplace=True):
-                    if line.strip().startswith('bom_plugin_selected='):
-                        line = 'bom_plugin_selected=KiCost\n'
-                    sys.stdout.write(line)
-                print('KiCost will appear in the Eeschema BOM plugin list.')
-                
-                print('Adding the KiCost fields to Eeschema template...')
-                if fields_add_entry(EESCHEMA_KICOST_FIELDS):
-                    print('{} fields add to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
-                else:
-                    print('Error to add {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
-                
+                fields_add_entry(EESCHEMA_KICOST_FIELDS)
+                print('{} fields add to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
             except:
-                print('Fail to set KiCost as default BOM plugin.')
+                print('Error to add {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
         except:
-            print('Fail to add KiCost as KiCad BOM plugin.')
+            print('Fail to create KiCad-KiCost integration.')
 
     print('KiCost setup configuration finished.')
 
@@ -294,13 +284,13 @@ def kicost_unsetup():
         print('Error to remove {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
 
     print('Deleting KiCost shortcuts...')
-    if sys.platform.startswith('darwin'): # Mac-OS.
+    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
         print('I don\'t kwon the desktop folder of mac-OS.')
         kicost_shortcuts = []
-    elif sys.platform.startswith(WINDOWS_STARTS_WITH):
+    elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
         kicost_shortcuts = [os.path.normpath(reg_get(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
         kicost_shortcuts = [os.path.join(sc, 'KiCost.lnk') for sc in kicost_shortcuts]
-    elif sys.platform.startswith('linux'):
+    elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
         kicost_shortcuts = [os.path.expanduser(os.path.join('~', 'Desktop'))]
         for count in range(len(kicost_shortcuts)):
             kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.desktop')

@@ -24,6 +24,11 @@
 
 """Stuff that everybody else needs to know about."""
 
+PLATFORM_WINDOWS_STARTS_WITH = 'win32'
+PLATFORM_LINUX_STARTS_WITH = 'linux'
+PLATFORM_MACOS_STARTS_WITH = 'darwin'
+
+
 import logging
 
 # The root logger of the application. This has to be the root logger to catch

@@ -34,7 +34,7 @@ try:
     import sexpdata # Try to use a external updated library.
 except:
     from . import sexpdata # Use the local file.
-WINDOWS_STARTS_WITH = 'win32'
+from .global_vars import * # Debug, language and default configurations.
 
 __all__ = ['get_app_config_path',
            'PATH_KICAD_CONFIG', 'PATH_EESCHEMA_CONFIG',
@@ -42,14 +42,14 @@ __all__ = ['get_app_config_path',
            'fields_add_entry', 'fields_remove_entry']
 
 def get_app_config_path(appname):
-    if sys.platform == 'darwin':
+    if sys.platform == PLATFORM_MACOS_STARTS_WITH:
         from AppKit import NSSearchPathForDirectoriesInDomains
         # http://developer.apple.com/DOCUMENTATION/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Functions/Reference/reference.html#//apple_ref/c/func/NSSearchPathForDirectoriesInDomains
         # NSApplicationSupportDirectory = 14
         # NSUserDomainMask = 1
         # True for expanding the tilde into a fully qualified path
         appdata = os.path.join(NSSearchPathForDirectoriesInDomains(5, 1, True)[0], "Preferences" , appname)
-    elif sys.platform == 'win32':
+    elif sys.platform == PLATFORM_WINDOWS_STARTS_WITH:
         appdata = os.path.join(os.environ['APPDATA'], appname)
     else:
         # ~/.config/kicad
@@ -62,9 +62,9 @@ if not PATH_KICAD_CONFIG:
 PATH_EESCHEMA_CONFIG = os.path.join(PATH_KICAD_CONFIG, "eeschema")
 
 def get_user_documents():
-    if sys.platform == 'darwin':
+    if sys.platform == PLATFORM_MACOS_STARTS_WITH:
         user_documents = os.path.expanduser(os.path.join("~", "Documents"))
-    elif sys.platform == 'win32':
+    elif sys.platform == PLATFORM_WINDOWS_STARTS_WITH:
         # e.g. c:\users\bob\Documents
         user_documents = os.path.join(os.environ['USERPROFILE'], "Documents")
     else:
@@ -169,11 +169,11 @@ def bom_plugin_remove_entry(name, re_flags=re.IGNORECASE):
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
-        if sys.platform.startswith(WINDOWS_STARTS_WITH):
+        if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
             name = name.replace("\\",'/')
         for plugin in bom_list[1:]:
             search = plugin[1]
-            if sys.platform.startswith(WINDOWS_STARTS_WITH):
+            if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
                 search = plugin[1].replace("\\",'/')
             if re.findall(name, search, re_flags):
                 changes = True # The name in really in the 'name'.
@@ -191,7 +191,7 @@ def bom_plugin_remove_entry(name, re_flags=re.IGNORECASE):
     write_config_file(PATH_EESCHEMA_CONFIG, config)
 
 
-def bom_plugin_add_entry(name, cmd, nickname=None, re_flags=re.IGNORECASE, put_first=True):
+def bom_plugin_add_entry(name, cmd, nickname=None, re_flags=re.IGNORECASE, put_first=True, set_default=True):
     '''Add a BOM plugin entry to the Eeschema configuration file.'''
     config = read_config_file(PATH_EESCHEMA_CONFIG)
     bom_plugins_raw = [p for p in config if p.startswith("bom_plugins")]
@@ -201,11 +201,11 @@ def bom_plugin_add_entry(name, cmd, nickname=None, re_flags=re.IGNORECASE, put_f
         bom_plugins_raw = after(bom_plugins_raw[0], "bom_plugins=")
         bom_plugins_raw = de_escape(bom_plugins_raw)
         bom_list = sexpdata.loads(bom_plugins_raw)
-        if sys.platform.startswith(WINDOWS_STARTS_WITH):
+        if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
             name = name.replace("\\",'/')
         for plugin in bom_list[1:]:
             search = plugin[1]
-            if sys.platform.startswith(WINDOWS_STARTS_WITH):
+            if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
                 search = plugin[1].replace("\\",'/')
             if re.findall(name, search, re_flags):
                 if not nickname:
@@ -228,3 +228,9 @@ def bom_plugin_add_entry(name, cmd, nickname=None, re_flags=re.IGNORECASE, put_f
             del new_list[-1]
     config = update_config_file(config, "bom_plugins", escape( sexpdata.dumps(new_list) ))
     write_config_file(PATH_EESCHEMA_CONFIG, config)
+    if set_default:
+        import fileinput
+        for line in fileinput.input(PATH_EESCHEMA_CONFIG, inplace=True):
+            if line.strip().startswith('bom_plugin_selected='):
+                line = 'bom_plugin_selected={}\n'.format(nickname)
+            sys.stdout.write(line)

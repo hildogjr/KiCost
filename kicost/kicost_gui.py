@@ -109,11 +109,11 @@ def open_file(filepath):
     '''@brief Open a file with the default application in different OSs.
        @param filepath str() file name.
     '''
-    if sys.platform.startswith('darwin'): # Mac-OS.
+    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
         subprocess.call(('open', filepath))
-    elif sys.platform.startswith('win32'): # Windows.
+    elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH): # Windows.
         os.startfile(filepath)
-    elif sys.platform.startswith('linux'): # Linux.
+    elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH): # Linux.
         subprocess.call(('xdg-open', filepath))
     else:
         print('Not recognized OS. The spreadsheet file will not be automatically opened.')
