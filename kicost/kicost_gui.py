@@ -83,7 +83,7 @@ else:
     from distutils.spawn import find_executable
     libreoffice_executable = find_executable('libreoffice')
 
-# Open file defitions.
+# Open file definitions.
 FILE_HIST_QTY_DEFAULT = 10
 SEP_FILES = '\n' # File separator in the comboBox.
 WILDCARD_BOM = "BOM compatible formats (*.xml,*.csv)|*.xml;*.csv|"\
