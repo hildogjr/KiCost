@@ -4,12 +4,14 @@ Credits
 
 Development Lead
 ----------------
-
 * XESS Corporation <info@xess.com>
+
+------------
+GUI, main collaborator and maintainer:
+* Hildo Guillardi Júnior https://github.com/hildogjr
 
 Contributors
 ------------
-
 * Oliver Martin: https://github.com/oliviermartin
 * Timo Alho: https://github.com/timoalho
 * Steven Johnson: https://github.com/stevenj

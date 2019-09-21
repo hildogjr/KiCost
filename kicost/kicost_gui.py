@@ -102,7 +102,7 @@ PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost' # Page with the last officia
 PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
 PAGE_POWERED_BY = 'https://kitspace.org/'
 
-actualDir = os.path.dirname(os.path.abspath(__file__)) # Application dir.
+kicostPath = os.path.dirname(os.path.abspath(__file__)) # Application dir.
 
 #======================================================================
 def open_file(filepath):
@@ -466,7 +466,7 @@ class formKiCost(formKiCost_raw):
         bSizer101 = wx.BoxSizer(wx.VERTICAL)
 
         self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)#wx.DefaultSize, 0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
+        self.m_bitmap_icon.SetIcon(wx.Icon(os.path.join(kicostPath, 'kicost.ico'), wx.BITMAP_TYPE_ICO))
         bSizer101.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_staticText_version = wx.StaticText(self.m_panel3, wx.ID_ANY, u"version", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -488,7 +488,7 @@ class formKiCost(formKiCost_raw):
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
         self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200,100),0)#wx.DefaultSize, 0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(actualDir + os.sep + 'kitspace.png', wx.BITMAP_TYPE_PNG))
+        self.m_bitmap_icon.SetIcon(wx.Icon(os.path.join(kicostPath,'kitspace.png'), wx.BITMAP_TYPE_PNG))
         self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_powered_by)
         bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
@@ -531,7 +531,7 @@ class formKiCost(formKiCost_raw):
 
         # Set the application windows title and configurations.
         self.SetTitle('KiCost v.' + __version__)
-        self.SetIcon(wx.Icon(actualDir + os.sep + 'kicost.ico', wx.BITMAP_TYPE_ICO))
+        self.SetIcon(wx.Icon(os.path.join(kicostPath, 'kicost.ico'), wx.BITMAP_TYPE_ICO))
 
         self.set_properties()
         self.SetDropTarget(FileDropTarget(self)) # Start the drop file in all the window.
@@ -867,7 +867,7 @@ class formKiCost(formKiCost_raw):
 
         # Credits and other informations, search by `AUTHOR.rst` file.
         try:
-            credits_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.egg-info' + os.sep + 'AUTHOR.rst')
+            credits_file = open(os.path.join(kicostPath, 'AUTHORS.rst') )
             credits = credits_file.read()
             credits_file.close()
         except:
@@ -877,23 +877,13 @@ class formKiCost(formKiCost_raw):
             Development Lead:
             * XESS Corporation <info@xess.com>
             ------------
-            Collaborators:
+            GUI, main collaborator and maintainer:
             * Hildo Guillardi Júnior https://github.com/hildogjr
             ------------
             Contributors:
-            * Oliver Martin: https://github.com/oliviermartin
-            * Timo Alho: https://github.com/timoalho
-            * Steven Johnson: https://github.com/stevenj
-            * Diorcet Yann: https://github.com/diorcety
-            * Giacinto Luigi Cerone https://github.com/glcerone
-            * Hildo Guillardi Júnior https://github.com/hildogjr
-            * Adam Heinrich https://github.com/adamheinrich
-            * Max Maisel https://github.com/mmmaisel
-            ------------
-            GUI by Hildo Guillardi Júnior
+            See https://github.com/xesscorp/KiCost/ for the full list.
             '''
             credits = re.sub(r'\n[\t ]+', '\n', credits)  # Remove leading whitespace
-
         self.m_text_credits.SetValue(credits)
 
         # Recovery the last configurations used (found the folder of the file by the OS).
@@ -935,8 +925,10 @@ class formKiCost(formKiCost_raw):
                     self.SetSize(str_to_wxsize(entry_value))
                     continue
                 elif entry==GUI_NEWS_MESSAGE_ENTRY:
-                    #if self.show_news_message():
-                    configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'False') # Doesn't show the message on next GUI startup.
+                    def wait_show_news_message():
+                        if self.show_news_message():
+                            configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'False') # Doesn't show the message on next GUI startup.
+                    wx.CallAfter(wait_show_news_message)
                     continue
 
                 try:
@@ -1039,7 +1031,7 @@ class formKiCost(formKiCost_raw):
 
     def show_news_message():
         '''Shows a message bos if the news of the last version installed.'''
-        history_file = open(actualDir + os.sep+'..'+os.sep + 'kicost-' + __version__ + '.egg-info' + os.sep + 'AUTHOR.rst')
+        history_file = open(os.path.join(kicostPath, 'HISTORY.rst') )
         history = history_file.read()
         history_file.close()
         serach_news = re.compile('History\n+[\=\-\_]+\n+(?P<version>[\w\.]+)\s*\((?P<data>.+)\)\n+[\=\-\_]+\n+(?P<news>(?:\n|.)*?)\n+[\d\.]+', re.IGNORECASE)

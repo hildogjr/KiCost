@@ -9,6 +9,7 @@ ______________________
 * Fix the not found module name and Windows open spreadsheet in the GUI.
 * Added ``--info`` command to get all the details of KiCost installation.
 * Fix at the GUI: LibreOffice installation check on Windows.
+* Now ``--setup`` and ``--unsetup`` add and remove the default KiCost field to Eeschema template.
 
 
 1.1.1 (2019-08-16)

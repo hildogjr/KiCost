@@ -30,6 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 
 # Python libraries.
 import os, sys, re
+
 try:
     import sexpdata # Try to use a external updated library.
 except:
@@ -149,13 +150,62 @@ def read_config_file(path):
     return config
 
 
-def fields_add_entry(name):
+def fields_add_entry(values_modify, re_flags=re.IGNORECASE):
     '''Add a list of fields to the Eeschema template.'''
-    return
+    if type(values_modify) is not list: values_modify=[values_modify]
+    config = read_config_file(PATH_EESCHEMA_CONFIG)
+    values = [p for p in config if p.startswith("FieldNames")]
+    changes = False
+    if len(values) == 1:
+        values = after(values[0], "FieldNames=")
+        values = de_escape(values)
+        values = sexpdata.loads(values)
+        if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
+            name = name.replace("\\",'/')
+        for idx, value_modify in enumerate(values_modify):
+            value_found = False
+            for idx, value in enumerate(values[1:]):
+                search = value[1]
+                if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
+                    search = value[1].replace("\\",'/')
+                if re.findall(value_modify, search[1], re_flags):
+                    value_found = True
+            if not value_found:
+                values.append([sexpdata.Symbol('field'), [sexpdata.Symbol('name'), value_modify]])
+                changes = True
+    if changes:
+        s = sexpdata.dumps(values)
+        config = update_config_file(config, "FieldNames", escape(s))
+    write_config_file(PATH_EESCHEMA_CONFIG, config)
 
-def fields_remove_entry(name):
+
+def fields_remove_entry(values_modify, re_flags=re.IGNORECASE):
     '''Remove a list of fields from the Eeschema template.'''
-    return
+    if type(values_modify) is not list: values_modify=[values_modify]
+    config = read_config_file(PATH_EESCHEMA_CONFIG)
+    values = [p for p in config if p.startswith("FieldNames")]
+    changes = False
+    delete_list = []
+    if len(values) == 1:
+        values = after(values[0], "FieldNames=")
+        values = de_escape(values)
+        values = sexpdata.loads(values)
+        if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
+            name = name.replace("\\",'/')
+        for value_modify in values_modify:
+            for idx, value in enumerate(values[1:]):
+                search = value[1]
+                if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
+                    search = value[1].replace("\\",'/')
+                if re.findall(value_modify, search[1], re_flags):
+                    changes = True # The name in really in the 'name'.
+                    delete_list.append(idx) # We want to delete this entry.
+        for delete in sorted(set(delete_list), reverse=True):
+            del values[delete+1]
+    if changes:
+        s = sexpdata.dumps(values)
+        config = update_config_file(config, "FieldNames", escape(s))
+    write_config_file(PATH_EESCHEMA_CONFIG, config)
 
 
 def bom_plugin_remove_entry(name, re_flags=re.IGNORECASE):

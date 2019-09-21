@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import setuptools
+import setuptools, os
 import kicost
 
 import re
@@ -15,7 +15,7 @@ except ImportError:
 # Update the information files that stay in the computer.
 with open('README.rst') as readme_file:
     readme = readme_file.read()
-with open('HISTORY.rst') as history_file:
+with open(os.path.join('kicost','HISTORY.rst')) as history_file:
     history = history_file.read()
     try:
         history = history.replace('.. :changelog:', '')

@@ -247,15 +247,19 @@ def kicost_setup():
         print('###  ---> Eeschema was never started. start it and after run `kicost --setup` to configure.')
     else:
         try:
+            print('Adding KiCost to Eeschema plugin list...')
+            try:
+                if have_gui:
+                    bom_plugin_add_entry(kicost_file_path, 'kicost --gui "%I"', 'KiCost')
+                else:
+                    bom_plugin_add_entry(kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
+                print('KiCost added to KiCad plugin list.')
+            except:
+                print('Fail to add KiCost to Eeschema plugin list.')
             print('Adding the KiCost fields to Eeschema template...')
-            if have_gui:
-                bom_plugin_add_entry(kicost_file_path, 'kicost --gui "%I"', 'KiCost')
-            else:
-                bom_plugin_add_entry(kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
-            print('KiCost added to KiCad plugin list.')
             try:
                 fields_add_entry(EESCHEMA_KICOST_FIELDS)
-                print('{} fields add to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
+                print('{} fields added to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
             except:
                 print('Error to add {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
         except:
