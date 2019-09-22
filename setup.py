@@ -18,15 +18,19 @@ with open('README.rst') as readme_file:
 with open(os.path.join('kicost','HISTORY.rst')) as history_file:
     history = history_file.read()
     try:
-        history = history.replace('.. :changelog:', '')
-        #update_format = r'(^[\s.]*History\s*[\=\-\_]+\s+((?:\s|.)*?\n[\=\-\_]+\s*(?:\s|.)+?\s*){{{n}}})\s+[\d\.]+(?:\s|.)*?\s*[\=\-\_]+'.format(n=SHOW_LAST_HISTORY)
-        #history = re.findall(update_format, history)[0][0]
-        #if SHOW_LAST_HISTORY==1:
-        #    history = history.replace('History', 'Latest update')
-        #else:
-        #    history = history.replace('History', 'Latest updates')
-        #history = history + '\n\nAccess https://github.com/xesscorp/KiCost/blob/master/HISTORY.rst for full development history.'
+        history_full = history.replace('.. :changelog:', '')
+        update_format = r'History\s\-+\s(.|\n|\r|\_)*?((.|\n|\r)*?\s{2,}){'+str(SHOW_LAST_HISTORY)+'}'
+        history_lastest = re.findall(update_format, history_full)[0][0]
+        if history_lastest:
+            if SHOW_LAST_HISTORY==1:
+                history_lastest = history_lastest.replace('History', 'Latest update')
+            else:
+                history_lastest = history_lastest.replace('History', 'Latest updates')
+            history = history_lastest + '\n\nAccess https://github.com/xesscorp/KiCost/blob/master/HISTORY.rst for full development history.'
+        else:
+            history = history_full
     except:
+        history = history_full
         pass
 
 # KiCost Python packages requirements to run-time.
