@@ -324,7 +324,7 @@ class formKiCost(formKiCost_raw):
                 logger.log(DEBUG_OVERVIEW, 'Found LibreOffice {} installation(s) version(s).'.format(libreoffice_installations))
                 libreoffice_installations.sort(key=StrictVersion)
                 libreoffice_executable = reg_get(
-                        os.path.join(libreoffice_reg, libreoffice_installations[-1], 'Path'),
+                        os.path.join(libreoffice_reg, os.path.join(libreoffice_reg, libreoffice_installations[-1]), 'Path'),
                         HKEY_LOCAL_MACHINE)
                 logger.log(DEBUG_OVERVIEW, 'Last LibreOffice installation at {}.'.format(libreoffice_executable))
             except:
