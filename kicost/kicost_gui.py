@@ -56,31 +56,17 @@ from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
 from .edas.tools import file_eda_match
+if sys.platform.startswith("win32"):
+    from .os_windows import reg_enum_keys, reg_get
+    if sys.version_info < (3,0):
+        from _winreg import HKEY_LOCAL_MACHINE
+    else:
+        from winreg import HKEY_LOCAL_MACHINE
 
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 
 #=================================
 # Guide definitions.
-
-# LibreOffice identification
-if sys.platform.startswith("win32"):
-    #libreoffice_executable = 'soffice'
-    # Get the LIbreOffice last installed version path from it registry.
-    from .os_windows import reg_enum_keys, reg_get
-    if sys.version_info < (3,0):
-        from _winreg import HKEY_LOCAL_MACHINE
-    else:
-        from winreg import *
-    libreoffice_reg = r'SOFTWARE\LibreOffice\LibreOffice'
-    libreoffice_installations = reg_enum_keys(libreoffice_reg, HKEY_LOCAL_MACHINE)
-    from distutils.version import StrictVersion
-    libreoffice_installations.sort(key=StrictVersion)
-    libreoffice_executable = reg_get(
-            os.path.join(libreoffice_reg, libreoffice_installations[-1], 'Path'),
-            HKEY_LOCAL_MACHINE)
-else:
-    from distutils.spawn import find_executable
-    libreoffice_executable = find_executable('libreoffice')
 
 # Open file definitions.
 FILE_HIST_QTY_DEFAULT = 10
@@ -330,6 +316,23 @@ class formKiCost(formKiCost_raw):
         self.m_checkBox_XLSXtoODS.SetToolTip(wx.ToolTip(u"Convert the file output to ODS format quietly."))
         self.m_checkBox_XLSXtoODS.Bind(wx.EVT_CHECKBOX, self.updateOutputFilename)
         bSizer6.Add(self.m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
+        # LibreOffice identification
+        if sys.platform.startswith("win32"):
+            try:
+                libreoffice_reg = r'SOFTWARE\LibreOffice\LibreOffice'
+                libreoffice_installations = reg_enum_keys(libreoffice_reg, HKEY_LOCAL_MACHINE)
+                logger.log(DEBUG_OVERVIEW, 'Found LibreOffice {} installation(s) version(s).'.format(libreoffice_installations))
+                libreoffice_installations.sort(key=StrictVersion)
+                libreoffice_executable = reg_get(
+                        os.path.join(libreoffice_reg, libreoffice_installations[-1], 'Path'),
+                        HKEY_LOCAL_MACHINE)
+                logger.log(DEBUG_OVERVIEW, 'Last LibreOffice installation at {}.'.format(libreoffice_executable))
+            except:
+                logger.log(DEBUG_OVERVIEW, 'LibreOffice not found.')
+                libreoffice_executable = None
+        else:
+            from distutils.spawn import find_executable
+            libreoffice_executable = find_executable('libreoffice')
         # Create a control to convert the XLSX to ODS quietly.
         if libreoffice_executable:
             self.m_checkBox_XLSXtoODS.Enable() # Recognized LibreOffice.
@@ -925,10 +928,12 @@ class formKiCost(formKiCost_raw):
                     self.SetSize(str_to_wxsize(entry_value))
                     continue
                 elif entry==GUI_NEWS_MESSAGE_ENTRY:
-                    def wait_show_news_message():
-                        if self.show_news_message():
-                            configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'False') # Doesn't show the message on next GUI startup.
-                    wx.CallAfter(wait_show_news_message)
+                    if entry_value=='True':
+                        def wait_show_news_message():
+                            if self.show_news_message():
+                                configHandle = wx.Config(CONFIG_FILE)
+                                configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'False') # Doesn't show the message on next GUI startup.
+                        wx.CallAfter(wait_show_news_message)
                     continue
 
                 try:
@@ -1029,14 +1034,17 @@ class formKiCost(formKiCost_raw):
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, 'Configurations not saved: <'+str(e)+'>.')
 
-    def show_news_message():
+    def show_news_message(self):
         '''Shows a message bos if the news of the last version installed.'''
         history_file = open(os.path.join(kicostPath, 'HISTORY.rst') )
         history = history_file.read()
         history_file.close()
-        serach_news = re.compile('History\n+[\=\-\_]+\n+(?P<version>[\w\.]+)\s*\((?P<data>.+)\)\n+[\=\-\_]+\n+(?P<news>(?:\n|.)*?)\n+[\d\.]+', re.IGNORECASE)
+        search_news = re.compile('History\s+[\=\-\_]+\s+(?P<version>[\w\.]+)\s*\((?P<data>.+)\)\s+[\=\-\_]+\s+(?P<news>(?:\n|.)*?)\s+[\d\.]+', re.IGNORECASE)
         news = re.search(search_news, history)
-        dlg = wx.MessageDialog(self, news.news, 'KiCost v.'+news.version+' from '+data, wx.OK | wx.ICON_INFORMATION)
+        dlg = wx.MessageDialog(self,
+                               news.group('news'),
+                               'NEWS of KiCost v.{v} release from {d}'.format(v=news.group('version'), d=news.group('data')),
+                               wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()
         return True

@@ -295,8 +295,5 @@ class formKiCost_raw(wx.Frame):
     def button_saveas(self, event):
         pass
 
-    def addFile(self, filesName):
-        pass
-
     def button_run(self, event):
         pass

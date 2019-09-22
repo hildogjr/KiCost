@@ -6,10 +6,11 @@ History
 1.1.2 (2019-09-??)
 ______________________
 * Check by accepted stock code into the API modules.
-* Fix the not found module name and Windows open spreadsheet in the GUI.
 * Added ``--info`` command to get all the details of KiCost installation.
-* Fix at the GUI: LibreOffice installation check on Windows.
-* Now ``--setup`` and ``--unsetup`` add and remove the default KiCost field to Eeschema template.
+* Now ``--setup`` and ``--unsetup`` add and remove the default KiCost field to Eeschema template. ``--setup`` ran at the KiCost installation.
+* Added a NEWS dialog on first GUI initialization.
+* Fix the not found module name and Windows open spreadsheet in the GUI.
+* Fix LibreOffice installation check on Windows.
 
 
 1.1.1 (2019-08-16)
