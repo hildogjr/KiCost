@@ -37,10 +37,10 @@ if sys.platform.startswith('win32'):
         from _winreg import *
     else:
         from winreg import *
-    __all__ = ['reg_enum_velues', 'reg_enum_keys', 'reg_get', 'reg_set', 'reg_del']
+    __all__ = ['reg_enum_values', 'reg_enum_keys', 'reg_get', 'reg_set', 'reg_del']
 
 
-    def reg_enum_velues(path, name, key=HKEY_CURRENT_USER):
+    def reg_enum_values(path, key=HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
         try:
             reg = ConnectRegistry(None, key)
@@ -52,7 +52,7 @@ if sys.platform.startswith('win32'):
             try:
                 idx = 0
                 while 1:
-                    values.Append( EnumVelue(key, idx) )
+                    values.append( EnumValue(registry_key, idx) )
                     idx = idx + 1
             except WindowsError:
                 pass
@@ -62,7 +62,7 @@ if sys.platform.startswith('win32'):
         except WindowsError:
             return None
 
-    def reg_enum_keys(path, name, key=HKEY_CURRENT_USER):
+    def reg_enum_keys(path, key=HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
         try:
             reg = ConnectRegistry(None, key)
@@ -74,7 +74,7 @@ if sys.platform.startswith('win32'):
             try:
                 idx = 0
                 while 1:
-                    sub_keys.Append( EnumKey(key, idx) )
+                    sub_keys.append( EnumKey(registry_key, idx) )
                     idx = idx + 1
             except WindowsError:
                 pass
@@ -87,7 +87,10 @@ if sys.platform.startswith('win32'):
         # Read variable from Windows Registry.
         try:
             reg = ConnectRegistry(None, key)
-            registry_key = OpenKey(reg, path, 0, KEY_READ)
+            try:
+                registry_key = OpenKey(reg, path, 0, KEY_READ)
+            except FileNotFoundError:
+                registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             value, regtype = QueryValueEx(registry_key, name)
             CloseKey(reg)
             return value
@@ -99,7 +102,10 @@ if sys.platform.startswith('win32'):
         try:
             reg = ConnectRegistry(None, key)
             CreateKey(reg, path)
-            registry_key = OpenKey(reg, path, 0, KEY_WRITE)
+            try:
+                registry_key = OpenKey(reg, path, 0, KEY_WRITE)
+            except FileNotFoundError:
+                registry_key = OpenKey(reg, path, 0, KEY_WRITE | KEY_WOW64_64KEY)
             SetValueEx(registry_key, name, 0, key_type, value)
             CloseKey(reg)
             # Update the Windows behaviour.
