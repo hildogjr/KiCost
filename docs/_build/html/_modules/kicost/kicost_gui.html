@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.kicost_gui &#8212; kicost 1.1.1 documentation</title>
+    <title>kicost.kicost_gui &#8212; kicost 1.1.2 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -84,10 +84,7 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span> <span class="c1"># To create the log name, when asked to save.</span>
 <span class="kn">from</span> <span class="nn">distutils.version</span> <span class="k">import</span> <span class="n">StrictVersion</span> <span class="c1"># To comparative of versions.</span>
 <span class="kn">import</span> <span class="nn">re</span> <span class="c1"># Regular expression parser.</span>
-<span class="kn">import</span> <span class="nn">locale</span> <span class="c1"># For country location.</span>
-<span class="kn">import</span> <span class="nn">babel</span> <span class="c1"># For language.</span>
-<span class="kn">from</span> <span class="nn">babel</span> <span class="k">import</span> <span class="n">numbers</span> <span class="c1"># For currency presentation.</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">locale</span><span class="o">,</span> <span class="nn">babel</span> <span class="c1"># For country location, language and currency presentation.</span>
 <span class="kn">import</span> <span class="nn">requests</span>
 <span class="c1">#from .wxAnyThread import anythread</span>
 
@@ -98,13 +95,19 @@
 <span class="kn">from</span> <span class="nn">.distributors.global_vars</span> <span class="k">import</span> <span class="n">distributor_dict</span>
 <span class="kn">from</span> <span class="nn">.edas</span> <span class="k">import</span> <span class="n">eda_dict</span>
 <span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="k">import</span> <span class="n">file_eda_match</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;win32&quot;</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.os_windows</span> <span class="k">import</span> <span class="n">reg_enum_keys</span><span class="p">,</span> <span class="n">reg_get</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">_winreg</span> <span class="k">import</span> <span class="n">HKEY_LOCAL_MACHINE</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">winreg</span> <span class="k">import</span> <span class="n">HKEY_LOCAL_MACHINE</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kicost_gui&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost_gui_runterminal&#39;</span><span class="p">]</span>
 
 <span class="c1">#=================================</span>
 <span class="c1"># Guide definitions.</span>
 
-<span class="c1"># Open file defitions.</span>
+<span class="c1"># Open file definitions.</span>
 <span class="n">FILE_HIST_QTY_DEFAULT</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">SEP_FILES</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="c1"># File separator in the comboBox.</span>
 <span class="n">WILDCARD_BOM</span> <span class="o">=</span> <span class="s2">&quot;BOM compatible formats (*.xml,*.csv)|*.xml;*.csv|&quot;</span>\
@@ -124,21 +127,21 @@
 <span class="n">PAGE_DEV</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/xesscorp/KiCost/issues/&#39;</span>
 <span class="n">PAGE_POWERED_BY</span> <span class="o">=</span> <span class="s1">&#39;https://kitspace.org/&#39;</span>
 
-<span class="n">actualDir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span> <span class="c1"># Application dir.</span>
+<span class="n">kicostPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span> <span class="c1"># Application dir.</span>
 
 <span class="c1">#======================================================================</span>
 <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;@brief Open a file with the default application in different OSs.</span>
 <span class="sd">       @param filepath str() file name.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;darwin&#39;</span><span class="p">):</span> <span class="c1"># Mac-OS.</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Mac-OS.</span>
         <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">((</span><span class="s1">&#39;open&#39;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;windows&#39;</span><span class="p">):</span> <span class="c1"># Windows.</span>
+    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Windows.</span>
         <span class="n">os</span><span class="o">.</span><span class="n">startfile</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">):</span> <span class="c1"># Linux.</span>
+    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Linux.</span>
         <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">((</span><span class="s1">&#39;xdg-open&#39;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not recognized OS.&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not recognized OS. The spreadsheet file will not be automatically opened.&#39;</span><span class="p">)</span>
 
 
 <span class="c1">#======================================================================</span>
@@ -352,12 +355,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">SetToolTip</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">ToolTip</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Convert the file output to ODS format quietly.&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_CHECKBOX</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">updateOutputFilename</span><span class="p">)</span>
         <span class="n">bSizer6</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">Enable</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Create a control to convert the XLSX to ODS quietly.</span>
-            <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="s1">&#39;libreoffice&#39;</span><span class="p">,</span> <span class="s1">&#39;--version&#39;</span><span class="p">])</span>
+        <span class="c1"># LibreOffice identification</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;win32&quot;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">libreoffice_reg</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;SOFTWARE\LibreOffice\LibreOffice&#39;</span>
+                <span class="n">libreoffice_installations</span> <span class="o">=</span> <span class="n">reg_enum_keys</span><span class="p">(</span><span class="n">libreoffice_reg</span><span class="p">,</span> <span class="n">HKEY_LOCAL_MACHINE</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Found LibreOffice </span><span class="si">{}</span><span class="s1"> installation(s) version(s).&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">libreoffice_installations</span><span class="p">))</span>
+                <span class="n">libreoffice_installations</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">StrictVersion</span><span class="p">)</span>
+                <span class="n">libreoffice_executable</span> <span class="o">=</span> <span class="n">reg_get</span><span class="p">(</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">libreoffice_reg</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">libreoffice_reg</span><span class="p">,</span> <span class="n">libreoffice_installations</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="s1">&#39;Path&#39;</span><span class="p">),</span>
+                        <span class="n">HKEY_LOCAL_MACHINE</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Last LibreOffice installation at </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">libreoffice_executable</span><span class="p">))</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;LibreOffice not found.&#39;</span><span class="p">)</span>
+                <span class="n">libreoffice_executable</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">distutils.spawn</span> <span class="k">import</span> <span class="n">find_executable</span>
+            <span class="n">libreoffice_executable</span> <span class="o">=</span> <span class="n">find_executable</span><span class="p">(</span><span class="s1">&#39;libreoffice&#39;</span><span class="p">)</span>
+        <span class="c1"># Create a control to convert the XLSX to ODS quietly.</span>
+        <span class="k">if</span> <span class="n">libreoffice_executable</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">Enable</span><span class="p">()</span> <span class="c1"># Recognized LibreOffice.</span>
-        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;LibreOffice not found.&#39;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
@@ -490,7 +508,7 @@
         <span class="n">bSizer101</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticBitmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel3</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">NullBitmap</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span><span class="c1">#wx.DefaultSize, 0)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">actualDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_ICO</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_ICO</span><span class="p">))</span>
         <span class="n">bSizer101</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">m_staticText_version</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel3</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;version&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -512,7 +530,7 @@
         <span class="n">bSizer111</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticBitmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel3</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">NullBitmap</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="mi">100</span><span class="p">),</span><span class="mi">0</span><span class="p">)</span><span class="c1">#wx.DefaultSize, 0)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">actualDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;kitspace.png&#39;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_PNG</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span><span class="s1">&#39;kitspace.png&#39;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_PNG</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_LEFT_DOWN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_powered_by</span><span class="p">)</span>
         <span class="n">bSizer111</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 
@@ -555,7 +573,7 @@
 
         <span class="c1"># Set the application windows title and configurations.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="s1">&#39;KiCost v.&#39;</span> <span class="o">+</span> <span class="n">__version__</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">actualDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_ICO</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_ICO</span><span class="p">))</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_properties</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SetDropTarget</span><span class="p">(</span><span class="n">FileDropTarget</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="c1"># Start the drop file in all the window.</span>
@@ -719,7 +737,9 @@
         <span class="sd">&#39;&#39;&#39; @brief Call to run KiCost.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="c1">#self.run()</span>
-        <span class="n">wx</span><span class="o">.</span><span class="n">CallLater</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span> <span class="c1"># Necessary to not &#39;(core dumped)&#39; with wxPython.</span>
+        <span class="c1">#wx.CallLater(10, self.run) # Necessary to not &#39;(core dumped)&#39; with wxPython.</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span><span class="c1">#, args=[self])</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="c1">#----------------------------------------------------------------------</span>
     <span class="c1">#@anythread</span>
@@ -806,7 +826,7 @@
                 <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_checkList_dist</span><span class="o">.</span><span class="n">GetString</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                     <span class="k">if</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">label</span><span class="p">:</span>
-                        <span class="n">dist_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s1">&#39;module&#39;</span><span class="p">])</span>
+                        <span class="n">dist_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
                         <span class="k">break</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">dist_list</span> <span class="o">=</span> <span class="kc">None</span>
@@ -834,7 +854,7 @@
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">GetValue</span><span class="p">():</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Converting </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> to ODS file...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">spreadsheet_file</span><span class="p">)</span> <span class="p">)</span> <span class="p">)</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;libreoffice  --headless --convert-to ods </span><span class="si">{i}</span><span class="s1"> --outdir </span><span class="si">{o}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">si</span><span class="o">=</span><span class="n">preadsheet_file</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">spreadsheet_file</span><span class="p">)))</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{e}</span><span class="s1"> --headless --convert-to ods </span><span class="si">{i}</span><span class="s1"> --outdir </span><span class="si">{o}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">=</span><span class="n">libreoffice_executable</span><span class="p">,</span> <span class="n">si</span><span class="o">=</span><span class="n">spreadsheet_file</span><span class="p">,</span> <span class="n">o</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">spreadsheet_file</span><span class="p">)))</span>
                 <span class="c1">#os.remove(spreadsheet_file) # Delete the older file.</span>
                 <span class="n">spreadsheet_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">spreadsheet_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.ods&#39;</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -874,12 +894,12 @@
 
         <span class="c1"># Get all the currencies present.</span>
         <span class="n">loc</span> <span class="o">=</span> <span class="n">locale</span><span class="o">.</span><span class="n">getdefaultlocale</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">currencyList</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">numbers</span><span class="o">.</span><span class="n">list_currencies</span><span class="p">()))</span>
+        <span class="n">currencyList</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">babel</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="n">list_currencies</span><span class="p">()))</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">currencyList</span><span class="p">)):</span>
             <span class="n">currency</span> <span class="o">=</span> <span class="n">currencyList</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
             <span class="n">currencyList</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;(</span><span class="si">{a}</span><span class="s1"> </span><span class="si">{s}</span><span class="s1">) </span><span class="si">{n}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">currency</span><span class="p">,</span>
-                                                  <span class="n">s</span><span class="o">=</span><span class="n">numbers</span><span class="o">.</span><span class="n">get_currency_symbol</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">loc</span><span class="p">),</span>
-                                                  <span class="n">n</span><span class="o">=</span><span class="n">numbers</span><span class="o">.</span><span class="n">get_currency_name</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+                                                  <span class="n">s</span><span class="o">=</span><span class="n">babel</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="n">get_currency_symbol</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">loc</span><span class="p">),</span>
+                                                  <span class="n">n</span><span class="o">=</span><span class="n">babel</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="n">get_currency_name</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
                                               <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_comboBox_currency</span><span class="o">.</span><span class="n">Insert</span><span class="p">(</span><span class="n">currencyList</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
@@ -891,7 +911,7 @@
 
         <span class="c1"># Credits and other informations, search by `AUTHOR.rst` file.</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">credits_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">actualDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">+</span><span class="s1">&#39;..&#39;</span><span class="o">+</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;kicost-&#39;</span> <span class="o">+</span> <span class="n">__version__</span> <span class="o">+</span> <span class="s1">&#39;.egg-info&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;AUTHOR.rst&#39;</span><span class="p">)</span>
+            <span class="n">credits_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span> <span class="s1">&#39;AUTHORS.rst&#39;</span><span class="p">)</span> <span class="p">)</span>
             <span class="n">credits</span> <span class="o">=</span> <span class="n">credits_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="n">credits_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="k">except</span><span class="p">:</span>
@@ -901,23 +921,13 @@
 <span class="s1">            Development Lead:</span>
 <span class="s1">            * XESS Corporation &lt;info@xess.com&gt;</span>
 <span class="s1">            ------------</span>
-<span class="s1">            Collaborators:</span>
+<span class="s1">            GUI, main collaborator and maintainer:</span>
 <span class="s1">            * Hildo Guillardi Júnior https://github.com/hildogjr</span>
 <span class="s1">            ------------</span>
 <span class="s1">            Contributors:</span>
-<span class="s1">            * Oliver Martin: https://github.com/oliviermartin</span>
-<span class="s1">            * Timo Alho: https://github.com/timoalho</span>
-<span class="s1">            * Steven Johnson: https://github.com/stevenj</span>
-<span class="s1">            * Diorcet Yann: https://github.com/diorcety</span>
-<span class="s1">            * Giacinto Luigi Cerone https://github.com/glcerone</span>
-<span class="s1">            * Hildo Guillardi Júnior https://github.com/hildogjr</span>
-<span class="s1">            * Adam Heinrich https://github.com/adamheinrich</span>
-<span class="s1">            * Max Maisel https://github.com/mmmaisel</span>
-<span class="s1">            ------------</span>
-<span class="s1">            GUI by Hildo Guillardi Júnior</span>
+<span class="s1">            See https://github.com/xesscorp/KiCost/ for the full list.</span>
 <span class="s1">            &#39;&#39;&#39;</span>
             <span class="n">credits</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n[\t ]+&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">credits</span><span class="p">)</span>  <span class="c1"># Remove leading whitespace</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">m_text_credits</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">credits</span><span class="p">)</span>
 
         <span class="c1"># Recovery the last configurations used (found the folder of the file by the OS).</span>
@@ -959,8 +969,12 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">SetSize</span><span class="p">(</span><span class="n">str_to_wxsize</span><span class="p">(</span><span class="n">entry_value</span><span class="p">))</span>
                     <span class="k">continue</span>
                 <span class="k">elif</span> <span class="n">entry</span><span class="o">==</span><span class="n">GUI_NEWS_MESSAGE_ENTRY</span><span class="p">:</span>
-                    <span class="c1">#if self.show_news_message():</span>
-                    <span class="n">configHandle</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">GUI_NEWS_MESSAGE_ENTRY</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span> <span class="c1"># Doesn&#39;t show the message on next GUI startup.</span>
+                    <span class="k">if</span> <span class="n">entry_value</span><span class="o">==</span><span class="s1">&#39;True&#39;</span><span class="p">:</span>
+                        <span class="k">def</span> <span class="nf">wait_show_news_message</span><span class="p">():</span>
+                            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">show_news_message</span><span class="p">():</span>
+                                <span class="n">configHandle</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
+                                <span class="n">configHandle</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">GUI_NEWS_MESSAGE_ENTRY</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">)</span> <span class="c1"># Doesn&#39;t show the message on next GUI startup.</span>
+                        <span class="n">wx</span><span class="o">.</span><span class="n">CallAfter</span><span class="p">(</span><span class="n">wait_show_news_message</span><span class="p">)</span>
                     <span class="k">continue</span>
 
                 <span class="k">try</span><span class="p">:</span>
@@ -1061,14 +1075,17 @@
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Configurations not saved: &lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&gt;.&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">show_news_message</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">show_news_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Shows a message bos if the news of the last version installed.&#39;&#39;&#39;</span>
-        <span class="n">history_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">actualDir</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">+</span><span class="s1">&#39;..&#39;</span><span class="o">+</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;kicost-&#39;</span> <span class="o">+</span> <span class="n">__version__</span> <span class="o">+</span> <span class="s1">&#39;.egg-info&#39;</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span> <span class="o">+</span> <span class="s1">&#39;AUTHOR.rst&#39;</span><span class="p">)</span>
+        <span class="n">history_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span> <span class="s1">&#39;HISTORY.rst&#39;</span><span class="p">)</span> <span class="p">)</span>
         <span class="n">history</span> <span class="o">=</span> <span class="n">history_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="n">history_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="n">serach_news</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;History</span><span class="se">\n</span><span class="s1">+[\=\-\_]+</span><span class="se">\n</span><span class="s1">+(?P&lt;version&gt;[\w\.]+)\s*\((?P&lt;data&gt;.+)\)</span><span class="se">\n</span><span class="s1">+[\=\-\_]+</span><span class="se">\n</span><span class="s1">+(?P&lt;news&gt;(?:</span><span class="se">\n</span><span class="s1">|.)*?)</span><span class="se">\n</span><span class="s1">+[\d\.]+&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
+        <span class="n">search_news</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;History\s+[\=\-\_]+\s+(?P&lt;version&gt;[\w\.]+)\s*\((?P&lt;data&gt;.+)\)\s+[\=\-\_]+\s+(?P&lt;news&gt;(?:</span><span class="se">\n</span><span class="s1">|.)*?)\s+[\d\.]+&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">)</span>
         <span class="n">news</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">search_news</span><span class="p">,</span> <span class="n">history</span><span class="p">)</span>
-        <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MessageDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">news</span><span class="o">.</span><span class="n">news</span><span class="p">,</span> <span class="s1">&#39;KiCost v.&#39;</span><span class="o">+</span><span class="n">news</span><span class="o">.</span><span class="n">version</span><span class="o">+</span><span class="s1">&#39; from &#39;</span><span class="o">+</span><span class="n">data</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">OK</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ICON_INFORMATION</span><span class="p">)</span>
+        <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MessageDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                               <span class="n">news</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;news&#39;</span><span class="p">),</span>
+                               <span class="s1">&#39;NEWS of KiCost v.</span><span class="si">{v}</span><span class="s1"> release from </span><span class="si">{d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="n">news</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">),</span> <span class="n">d</span><span class="o">=</span><span class="n">news</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)),</span>
+                               <span class="n">wx</span><span class="o">.</span><span class="n">OK</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ICON_INFORMATION</span><span class="p">)</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">True</span>
@@ -1094,6 +1111,7 @@
             <span class="c1"># Necessary the call bellow and not above</span>
             <span class="c1"># because of the KiCost threads.</span>
             <span class="n">wx</span><span class="o">.</span><span class="n">CallAfter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">AppendText</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
+            <span class="c1">#wx.CallAfter(frame.m_textCtrl_messages.AppendText, msg)</span>
         <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">__stdout__</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
@@ -1197,7 +1215,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

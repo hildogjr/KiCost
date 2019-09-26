@@ -1,1 +1,1 @@
-.. include:: ../HISTORY.rst
+.. include:: ../kicost/HISTORY.rst

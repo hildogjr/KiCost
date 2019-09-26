@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost package &#8212; kicost 1.1.1 documentation</title>
+    <title>kicost package &#8212; kicost 1.1.2 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.2 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -84,6 +84,38 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-kicost.kicad_config">
+<span id="kicost-kicad-config-module"></span><h2>kicost.kicad_config module<a class="headerlink" href="#module-kicost.kicad_config" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="kicost.kicad_config.get_app_config_path">
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">get_app_config_path</code><span class="sig-paren">(</span><em class="sig-param">appname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#get_app_config_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.get_app_config_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="kicost.kicad_config.bom_plugin_add_entry">
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">bom_plugin_add_entry</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">cmd</em>, <em class="sig-param">nickname=None</em>, <em class="sig-param">re_flags=2</em>, <em class="sig-param">put_first=True</em>, <em class="sig-param">set_default=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#bom_plugin_add_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.bom_plugin_add_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a BOM plugin entry to the Eeschema configuration file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.kicad_config.bom_plugin_remove_entry">
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">bom_plugin_remove_entry</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">re_flags=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#bom_plugin_remove_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.bom_plugin_remove_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a BOM plugin entry to the Eeschema configuration file.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.kicad_config.fields_add_entry">
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">fields_add_entry</code><span class="sig-paren">(</span><em class="sig-param">values_modify</em>, <em class="sig-param">re_flags=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#fields_add_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.fields_add_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a list of fields to the Eeschema template.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kicost.kicad_config.fields_remove_entry">
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">fields_remove_entry</code><span class="sig-paren">(</span><em class="sig-param">values_modify</em>, <em class="sig-param">re_flags=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#fields_remove_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.fields_remove_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a list of fields from the Eeschema template.</p>
+</dd></dl>
+
+</div>
 <div class="section" id="module-kicost.kicost">
 <span id="kicost-kicost-module"></span><h2>kicost.kicost module<a class="headerlink" href="#module-kicost.kicost" title="Permalink to this headline">¶</a></h2>
 <p>&#64;package
@@ -101,7 +133,7 @@ KiCost is powered by the Kitspace PartInfo API (<a class="reference external" hr
 </dl>
 <dl class="function">
 <dt id="kicost.kicost.kicost">
-<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost</code><span class="sig-paren">(</span><em class="sig-param">in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields, variant, dist_list=['local_template', 'farnell', 'rs', 'mouser', 'digikey', 'newark'], collapse_refs=True, supress_cat_url=True, currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost</code><span class="sig-paren">(</span><em class="sig-param">in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields, variant, dist_list=['newark', 'mouser', 'digikey', 'local_template', 'farnell', 'rs'], collapse_refs=True, supress_cat_url=True, currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;brief Run KiCost.</p>
 <p>Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.</p>
 <p>&#64;param in_file <cite>list(str())</cite> List of the names of the input BOM files.
@@ -179,11 +211,6 @@ process bar is not redirected to the GUI, staying on terminal.</p>
 <em class="property">class </em><code class="sig-prename descclassname">kicost.kicost_gui_wxFormBuilder.</code><code class="sig-name descname">formKiCost_raw</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Frame</span></code></p>
 <dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.addFile">
-<code class="sig-name descname">addFile</code><span class="sig-paren">(</span><em class="sig-param">filesName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.addFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.addFile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.app_close">
 <code class="sig-name descname">app_close</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.app_close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.app_close" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -258,6 +285,9 @@ process bar is not redirected to the GUI, staying on terminal.</p>
 </div>
 <div class="section" id="kicost-kicost-kicadplugin-module">
 <h2>kicost.kicost_kicadplugin module<a class="headerlink" href="#kicost-kicost-kicadplugin-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-kicost.os_windows">
+<span id="kicost-os-windows-module"></span><h2>kicost.os_windows module<a class="headerlink" href="#module-kicost.os_windows" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-kicost.sexpdata">
 <span id="kicost-sexpdata-module"></span><h2>kicost.sexpdata module<a class="headerlink" href="#module-kicost.sexpdata" title="Permalink to this headline">¶</a></h2>
@@ -615,11 +645,13 @@ alread connected.</p>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-kicost.global_vars">kicost.global_vars module</a></li>
+<li><a class="reference internal" href="#module-kicost.kicad_config">kicost.kicad_config module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost">kicost.kicost module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost_config">kicost.kicost_config module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost_gui">kicost.kicost_gui module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost_gui_wxFormBuilder">kicost.kicost_gui_wxFormBuilder module</a></li>
 <li><a class="reference internal" href="#kicost-kicost-kicadplugin-module">kicost.kicost_kicadplugin module</a></li>
+<li><a class="reference internal" href="#module-kicost.os_windows">kicost.os_windows module</a></li>
 <li><a class="reference internal" href="#module-kicost.sexpdata">kicost.sexpdata module</a><ul>
 <li><a class="reference internal" href="#s-expression-parser-for-python">S-expression parser for Python</a><ul>
 <li><a class="reference internal" href="#license">License</a></li>
@@ -665,7 +697,7 @@ alread connected.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

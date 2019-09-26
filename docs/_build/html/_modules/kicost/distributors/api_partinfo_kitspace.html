@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.distributors.api_partinfo_kitspace &#8212; kicost 1.1.1 documentation</title>
+    <title>kicost.distributors.api_partinfo_kitspace &#8212; kicost 1.1.2 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li> 
       </ul>
@@ -330,19 +330,21 @@
             <span class="n">query</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">part_dist_use_manfpn</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">DISTRIBUTORS</span><span class="p">)</span>
 
-            <span class="c1"># Check if that part have stock code. KiCost will prioritize these codes under &quot;manf#&#39;</span>
-            <span class="c1"># that will be used for get information for the part hat were not filled with the</span>
-            <span class="c1"># distributor stock code. So this is chacked after the &#39;manf#&#39; abov code.</span>
+            <span class="c1"># Check if that part have stock code that is accepted to use by this module (API).</span>
+            <span class="c1"># KiCost will prioritize these codes under &quot;manf#&quot; that will be used for get</span>
+            <span class="c1">#information for the part hat were not filled with the distributor stock code. So</span>
+            <span class="c1"># this is checked after the &#39;manf#&#39; buv code.</span>
             <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">FIELDS_CAT</span><span class="p">:</span>
                 <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">part_stock</span><span class="p">:</span>
                     <span class="n">part_catalogue_code_dist</span> <span class="o">=</span> <span class="n">d</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">part_code_dist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">({</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dist_xlate</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">part_catalogue_code_dist</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
-                    <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sku&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;vendor&#39;</span><span class="p">:</span> <span class="n">part_code_dist</span><span class="p">,</span> <span class="s1">&#39;part&#39;</span><span class="p">:</span> <span class="n">part_stock</span><span class="p">}}</span>
-                    <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-                    <span class="n">query_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
-                    <span class="n">query_part_stock_code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part_catalogue_code_dist</span><span class="p">)</span>
-                    <span class="n">part_dist_use_manfpn</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">part_catalogue_code_dist</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">part_catalogue_code_dist</span> <span class="ow">in</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">][</span><span class="s1">&#39;distributors&#39;</span><span class="p">]:</span>
+                        <span class="n">part_code_dist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">({</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dist_xlate</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">part_catalogue_code_dist</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sku&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;vendor&#39;</span><span class="p">:</span> <span class="n">part_code_dist</span><span class="p">,</span> <span class="s1">&#39;part&#39;</span><span class="p">:</span> <span class="n">part_stock</span><span class="p">}}</span>
+                        <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                        <span class="n">query_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+                        <span class="n">query_part_stock_code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part_catalogue_code_dist</span><span class="p">)</span>
+                        <span class="n">part_dist_use_manfpn</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">part_catalogue_code_dist</span><span class="p">)</span>
 
             <span class="n">part_manf</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="n">part_code</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf#&#39;</span><span class="p">)</span>
@@ -399,7 +401,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li> 
       </ul>

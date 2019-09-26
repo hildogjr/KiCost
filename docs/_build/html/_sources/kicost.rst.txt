@@ -20,6 +20,14 @@ kicost.global\_vars module
    :undoc-members:
    :show-inheritance:
 
+kicost.kicad\_config module
+---------------------------
+
+.. automodule:: kicost.kicad_config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 kicost.kicost module
 --------------------
 
@@ -56,6 +64,14 @@ kicost.kicost\_kicadplugin module
 ---------------------------------
 
 .. automodule:: kicost.kicost_kicadplugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kicost.os\_windows module
+-------------------------
+
+.. automodule:: kicost.os_windows
    :members:
    :undoc-members:
    :show-inheritance:
