@@ -9,8 +9,52 @@ SHOW_LAST_HISTORY=3
 
 try:
     from setuptools import setup
+    from setuptools.command.develop import develop
+    from setuptools.command.install import install
 except ImportError:
     from distutils.core import setup
+    from distutils.core.command.develop import develop
+    from distutils.core.command.install import install
+
+
+def post_install_setup():
+    # Run the KiCost integration script.
+    try:
+        import sys
+        if sys.platform.startswith("win32"):
+            # For Windows it is necessary one additional library (used to create the shortcut).
+            print('Installing additional library need for Windows setup...')
+            try:
+                if sys.version_info < (3,0):
+                    from pip._internal import main as pipmain
+                else:
+                    from pip import main as pipmain
+                pipmain(['install', 'pywin32'])
+            except:
+                print('Error to install Windows additional Python library. KiCost configuration related to Windows registry may not work.')
+        # Run setup: shortcut, BOM module to Eeschema and OS context menu.
+        try:
+            from .kicost.kicost_config import kicost_setup
+            kicost_setup()
+        except:
+            print('Running the external configuration command...')
+            from subprocess import call
+            call(['kicost', '--setup'])
+    except:
+        print('Error to run KiCost integration script.')
+
+
+class PostDevelopCommand(develop):
+    """Post-installation for development mode."""
+    def run(self):
+        post_install_setup()
+        develop.run(self)
+
+class PostInstallCommand(install):
+    """Post-installation for installation mode."""
+    def run(self):
+        post_install_setup()
+        install.run(self)
 
 # Update the information files that stay in the computer.
 with open('README.rst') as readme_file:
@@ -89,31 +133,9 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
     test_suite='tests',
-    tests_require=test_requirements
+    tests_require=test_requirements,
+    cmdclass={
+        'develop': PostDevelopCommand,
+        'install': PostInstallCommand,
+    }
 )
-
-
-# Run the KiCost integration script.
-try:
-    import sys
-    if sys.platform.startswith("win32"):
-        # For Windows it is necessary one additional library (used to create the shortcut).
-        print('Installing additional library need for Windows setup...')
-        try:
-            if sys.version_info < (3,0):
-                from pip._internal import main as pipmain
-            else:
-                from pip import main as pipmain
-            pipmain(['install', 'pywin32'])
-        except:
-            print('Error to install Windows additional Python library. KiCost configuration related to Windows registry may not work.')
-    # Run setup: shortcut, BOM module to Eeschema and OS context menu.
-    try:
-        from .kicost.kicost_config import kicost_setup
-        kicost_setup()
-    except:
-        print('Running the external configuration command...')
-        from subprocess import call
-        call(['kicost', '--setup'])
-except:
-    print('Error to run KiCost integration script.')
