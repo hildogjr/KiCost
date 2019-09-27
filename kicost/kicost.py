@@ -51,7 +51,7 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-__all__ = ['kicost','output_filename']  # Only export this routine for use by the outside world.
+__all__ = ['kicost','output_filename', 'kicost_gui_notdependences']  # Only export this routine for use by the outside world.
 
 from .global_vars import *
 
@@ -313,3 +313,11 @@ def output_filename(files_input):
     file_name = FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] )
     file_output = os.path.join(dir_output, file_name + '.xlsx')
     return file_output
+
+def kicost_gui_notdependences():
+    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
+    print('pip3 install -U wxPython # For Windows & macOS')
+
+    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
+    sys.exit(1)
