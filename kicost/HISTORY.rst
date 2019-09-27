@@ -3,7 +3,7 @@
 History
 -------
 
-1.1.2 (2019-09-??)
+1.1.2 (2019-09-26)
 ______________________
 * Check by accepted stock code into the API modules.
 * Added ``--info`` command to get all the details of KiCost installation.
