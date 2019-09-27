@@ -186,6 +186,7 @@ def kicost_setup():
         print('GUI requirements (wxPython) identified.')
         have_gui = True
     except ImportError:
+        from .kicost.kicost_gui import kicost_gui_notdependences
         kicost_gui_notdependences
         have_gui = False
     except Exception as e:
