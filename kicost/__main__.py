@@ -47,14 +47,6 @@ from . import __version__ # Version control by @xesscorp and collaborator.
 # Additional functions
 ###############################################################################
 
-def kicost_gui_notdependences():
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip3 install -U wxPython # For Windows & macOS')
-
-    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
-    sys.exit(1)
-
 def kicost_version_info():
     version_info_str = r'KiCost v.{}.'.format(__version__)
     version_info_str += r'at Python {}.{}.{}.'.format(
