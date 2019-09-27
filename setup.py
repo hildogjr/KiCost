@@ -47,13 +47,13 @@ def post_install_setup():
 class PostDevelopCommand(develop):
     """Post-installation for development mode."""
     def run(self):
-        post_install_setup()
+        post_install_setup
         develop.run(self)
 
 class PostInstallCommand(install):
     """Post-installation for installation mode."""
     def run(self):
-        post_install_setup()
+        post_install_setup
         install.run(self)
 
 # Update the information files that stay in the computer.
