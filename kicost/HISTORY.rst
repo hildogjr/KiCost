@@ -3,6 +3,11 @@
 History
 -------
 
+1.1.3 (2019-10-??)
+______________________
+* Add LCSC as distributor.
+
+
 1.1.2 (2019-09-26)
 ______________________
 * Check by accepted stock code into the API modules.

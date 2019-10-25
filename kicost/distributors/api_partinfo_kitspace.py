@@ -89,7 +89,8 @@ class api_partinfo_kitspace(distributor_class):
                                                                     'Farnell': 'farnell',
                                                                     'Mouser': 'mouser',
                                                                     'Newark': 'newark',
-                                                                    'RS': 'rs'
+                                                                    'RS': 'rs',
+                                                                    'LCSC': 'lcsc',
                                                                 }
                                                 }
                                             })

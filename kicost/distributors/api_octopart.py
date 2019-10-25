@@ -70,7 +70,8 @@ class api_octopart(distributor_class):
                                                                     'mouser': 'Mouser',
                                                                     'newark': 'Newark',
                                                                     'rs': 'RS Components',
-                                                                    'tme': 'TME'
+                                                                    'tme': 'TME',
+                                                                    'lcsc': 'LCSC',
                                                                 }
                                                 }
                                             })

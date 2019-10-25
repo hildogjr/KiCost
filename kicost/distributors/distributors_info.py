@@ -16,11 +16,10 @@ distributors_info = {
             'replace_by_char': ';', # The `delimiter` is not allowed inside description. This caracter is used to replace it.
         },
         'label': {
-            'name': 'Arrow',  # Distributor label used in spreadsheet columns.
+            'name': 'Arrow', 'url': 'https://www.arrow.com/', # Distributor label used in spreadsheet columns.
             # Formatting for distributor header in worksheet; bold, font and align are
             # `spreadsheet.py` defined but can by overload heve.
             'format': {'font_color': 'white', 'bg_color': '#000000'}, # Arrow black.
-            'url': 'https://www.arrow.com/',
         },
     },
     'digikey': {
@@ -31,9 +30,8 @@ distributors_info = {
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
-            'name': 'Digi-Key',
+            'name': 'Digi-Key', 'url': 'https://www.digikey.com/',
             'format': {'font_color': 'white', 'bg_color': '#CC0000'}, # Digi-Key red.
-            'url': 'https://www.digikey.com/',
         },
     },
     'farnell': {
@@ -43,9 +41,8 @@ distributors_info = {
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
         },
         'label': {
-            'name': 'Farnell',
+            'name': 'Farnell', 'url': 'https://www.newark.com/',
             'format': {'font_color': 'white', 'bg_color': '#FF6600'}, # Farnell/E14 orange.
-            'url': 'https://www.newark.com/',
         },
     },
     'mouser': {
@@ -55,9 +52,8 @@ distributors_info = {
             'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
         },
         'label': {
-            'name': 'Mouser', 
+            'name': 'Mouser', 'url': 'https://www.mouser.com',
             'format': {'font_color': 'white', 'bg_color': '#004A85'}, # Mouser blue.
-            'url': 'https://www.mouser.com',
         },
     },
     'newark': {
@@ -67,9 +63,8 @@ distributors_info = {
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
-            'name': 'Newark',
+            'name': 'Newark', 'url': 'https://www.newark.com/',
             'format': {'font_color': 'white', 'bg_color': '#A2AE06'}, # Newark/E14 olive green.
-            'url': 'https://www.newark.com/',
         },
     },
     'rs': {
@@ -79,9 +74,8 @@ distributors_info = {
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
         },
         'label': {
-            'name': 'RS Components',
+            'name': 'RS Components', 'url': 'https://uk.rs-online.com/',
             'format': {'font_color': 'white', 'bg_color': '#FF0000'}, # RS Components red.
-            'url': 'https://uk.rs-online.com/',
         },
     },
     'tme': {
@@ -91,9 +85,21 @@ distributors_info = {
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
         },
         'label': {
-            'name': 'TME',
+            'name': 'TME', 'url': 'https://www.tme.eu',
             'format': {'font_color': 'white', 'bg_color': '#0C4DA1'}, # TME blue
-            'url': 'https://www.tme.eu',
+        },
+    },
+    'lcsc': {
+        'type': 'web',
+        'order': {
+            'cols': ['purch', 'refs', 'footprint', 'part_num'],
+            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
+            'header': 'Quantity,Comment,Designator,Footprint,LCSC Part #（optional）',
+            'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing.',
+        },
+        'label': {
+            'name': 'LCSC', 'url': 'https://www.tme.eu',
+            'format': {'font_color': 'white', 'bg_color': '#1166DD'}, # LCSC blue
         },
     },
 }
