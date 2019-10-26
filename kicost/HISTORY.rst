@@ -5,7 +5,8 @@ History
 
 1.1.3 (2019-10-??)
 ______________________
-* Add LCSC as distributor.
+* Added LCSC as distributor into the Kitspace API (the list can be used to JLCPCB).
+* Parinfo kitspace API now just return the asked distributors (before was given all the avaliable distributors).
 
 
 1.1.2 (2019-09-26)

@@ -536,8 +536,15 @@ Yellow -> Parts available, but haven't purchased enough.''',
                         wks.write_string(row, start_col + columns[field]['col'],
                              part.fields[field_name], cell_format)
                 else:
+                    if field_name=='footprint':
+                        ##TODO add future depence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
+                        field_value_footprint = re.findall('\:(.*)', part.fields[field_name])
+                        if field_value_footprint:
+                            field_value = field_value_footprint[0]
+                    else:
+                        field_value = part.fields[field_name]
                     wks.write_string(row, start_col + columns[field]['col'],
-                                 part.fields[field_name], wrk_formats['part_format'])
+                                 field_value, wrk_formats['part_format'])
             except KeyError:
                 pass
 
@@ -826,7 +833,9 @@ Orange -> Too little quantity available.'''
 
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-            distributor_dict[dist]['label']['name'].title(), wrk_formats[dist])
+            #distributor_dict[dist]['label']['name'].title(),
+            distributor_dict[dist]['label']['name'],
+            wrk_formats[dist])
     #if distributor_dict[dist]['type']!='local':
     #    wks.write_url(row, start_col,
     #        distributor_dict[dist]['label']['url'], wrk_formats[dist],
@@ -1114,7 +1123,35 @@ Orange -> Too little quantity available.'''
     wks.write_comment(ORDER_HEADER, purch_qty_col,
         'Copy the information below to the BOM import page of the distributor web site.')
 
-    cols = distributor_dict[dist]['order']['cols']
+
+    # Write the spreadsheet code to multiple lines to create the purchase codes to
+    # be used in this current distributor.
+    try:
+        cols = distributor_dict[dist]['order']['cols']
+    except KeyError:
+        return start_col + num_cols # If not created the distributor definition, jump this final code part.
+
+    # Create the header of the purchase codes, if present the definition.
+    try:
+        wks.write_formula(ORDER_FIRST_ROW, ORDER_START_COL,
+                         '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}",""),"")'.format(
+                            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
+                                PART_INFO_LAST_ROW, purch_qty_col),
+                            count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
+                                PART_INFO_LAST_ROW, ext_price_col),
+                            header=distributor_dict[dist]['order']['header'],
+                         ),
+                         wrk_formats['found_part_pct']
+        )
+        try:
+            wks.write_comment(ORDER_FIRST_ROW, ORDER_START_COL, distributor_dict[dist]['order']['info'])
+        except KeyError:
+            pass
+        ORDER_FIRST_ROW = ORDER_FIRST_ROW + 1 # Push all the code list one row.
+        ORDER_LAST_ROW = ORDER_LAST_ROW + 1
+    except KeyError:
+        pass
+
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
         logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not sbe genereated.".format(
                             d=distributor_dict[dist]['name']
@@ -1242,14 +1279,13 @@ Orange -> Too little quantity available.'''
                         qty=purchase_qty
                     )
         # Now write the order_func into every row of the order in the given column.
-        order_col = ORDER_START_COL
         dist_col = start_col + columns['unit_price']['col']
         info_col = dist_col
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
             wks.write_array_formula(
-                xl_range(r, order_col, r, order_col), '{{={f}}}'.format(f=order_func))
+                xl_range(r, ORDER_START_COL, r, ORDER_START_COL), '{{={f}}}'.format(f=order_func))
 
-    return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
+    return start_col + num_cols # Return column following the globals so we know where to start next set of cells.
 
 
 def remove_column(table, name):

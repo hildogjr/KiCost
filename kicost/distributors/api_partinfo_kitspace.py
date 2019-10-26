@@ -51,7 +51,7 @@ QUERY_ANSWER = '''
     datasheet,
     description,
     specs{key, value},
-    offers{
+    offers(from: {DISTRIBUTORS}){
         product_url,
         sku {vendor, part},
         description,
@@ -75,7 +75,7 @@ class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs']
+        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'lcsc']
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
              # First module load.
@@ -101,8 +101,16 @@ class api_partinfo_kitspace(distributor_class):
 
 
     @staticmethod
-    def query(query_parts, query_type=QUERY_MATCH):
+    def query(query_parts, distributors, query_type=QUERY_MATCH):
         '''Send query to server and return results.'''
+        
+        ##TODO this `dist_xlate` have to be better coded into this file.
+        dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
+        def find_key(input_dict, value):
+            return next((k for k, v in input_dict.items() if v == value), None)
+        distributors = ([find_key(dist_xlate, d) for d in distributor_dict])
+        
+        query_type = re.sub('\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
         #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub('\s', '', variables)
@@ -181,7 +189,7 @@ class api_partinfo_kitspace(distributor_class):
                the proposed if use in the disambiguouzation procedure.
             '''
 
-            results = api_partinfo_kitspace.query(query)
+            results = api_partinfo_kitspace.query(query, DISTRIBUTORS)
             if not distributor_info:
                 distributor_info = [None] * len(query)
 

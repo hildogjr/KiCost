@@ -94,8 +94,8 @@ distributors_info = {
         'order': {
             'cols': ['purch', 'refs', 'footprint', 'part_num'],
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
-            'header': 'Quantity,Comment,Designator,Footprint,LCSC Part #（optional）',
-            'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing.',
+            'header': 'Quantity,Comment,Designator,Footprint,LCSC Part #(optional)',
+            'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. The multipart components that use "#" symbol is not allowed at JLCPCB.',
         },
         'label': {
             'name': 'LCSC', 'url': 'https://www.tme.eu',
