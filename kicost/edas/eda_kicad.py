@@ -101,7 +101,8 @@ def get_part_groups(in_file, ignore_fields, variant):
                             if SEPRTR not in name: # This field has no distributor.
                                 name = 'local:' + name # Assign it to a local distributor.
                         value = str(f.string)
-                        if value:
+                        if value or v is not None:
+						    # Empty value also propagated to force deleting default value
                             fields[name] = value
         except AttributeError:
             pass  # No fields found for this part.
