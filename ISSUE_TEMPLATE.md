@@ -9,6 +9,6 @@
 4. One BoM to reproduce the error (with the EDA version).
 
 #### Feature / Enhancement request
-- Explain it will help the other users.
+- Explain how it will help the other users.
 
 The team thanks your contribution.
