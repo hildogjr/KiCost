@@ -1,0 +1,1355 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>kicost 1.1.3 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 1.1.3 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="welcome-to-kicost-s-documentation">
+<h1>Welcome to kicost’s documentation!<a class="headerlink" href="#welcome-to-kicost-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<span id="document-readme"></span><div class="section" id="kicost">
+<h2>KiCost<a class="headerlink" href="#kicost" title="Permalink to this headline">¶</a></h2>
+<a class="reference external image-reference" href="https://travis-ci.org/xesscorp/kicost"><img alt="https://img.shields.io/travis/xesscorp/kicost.svg" src="https://img.shields.io/travis/xesscorp/kicost.svg" /></a>
+<a class="reference external image-reference" href="https://pypi.python.org/pypi/kicost"><img alt="https://img.shields.io/pypi/v/kicost.svg" src="https://img.shields.io/pypi/v/kicost.svg" /></a>
+<p>KiCost script, also with Graphical User Interface - GUI, under MIT license for
+generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.</p>
+<ul class="simple">
+<li><p>Free software: MIT license</p></li>
+<li><p>Documentation: <a class="reference external" href="https://xesscorp.github.io/KiCost">https://xesscorp.github.io/KiCost</a>.</p></li>
+<li><p>Quick start: <a class="reference external" href="https://www.youtube.com/watch?v=AeccxROpDfY">https://www.youtube.com/watch?v=AeccxROpDfY</a>.</p></li>
+</ul>
+<p>KiCost is powered by the [Kitspace](<a class="reference external" href="https://kitspace.org/">https://kitspace.org/</a>) PartInfo API. [Partinfo](<a class="reference external" href="https://github.com/kitspace/partinfo">https://github.com/kitspace/partinfo</a>) hooks into paid-for 3rd party services. If you find KiCost useful please [donate to the Kitspace Open Collective](<a class="reference external" href="https://opencollective.com/kitspace">https://opencollective.com/kitspace</a>). If Kitspace doesn’t receive enough donations then this free service will have to be shut down.</p>
+<a class="reference external image-reference" href="https://opencollective.com/kitspace"><img alt="kicost/kitspace.png" src="kicost/kitspace.png" /></a>
+<div class="section" id="features">
+<h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Easy installation via <cite>pip</cite> (see on documentation folder).</p></li>
+<li><p>Processes the BOM XML file from your KiCad schematic to create a part-cost spreadsheet by
+scraping the web sites of several popular distributors for price and inventory data.
+(You can also enter your own quantity-adjusted pricing data for specialized parts or those
+not found at the supported distributors.);</p></li>
+<li><p>Processes also BOM files from Altium, Proteus, Eagle, Upverter and hand made CSVs;</p></li>
+<li><p>The spreadsheet contains quantity-adjusted pricing from each distributor for
+individual parts and the total board;</p></li>
+<li><p>Enter the number of boards to be built in a spreadsheet cell and all the pricing
+for the total board and individual parts is updated;</p></li>
+<li><p>The spreadsheet also shows the current inventory on-hand for each part at each distributor;</p></li>
+<li><p>Enter the quantity of each part that you want to purchase from each distributor and
+lists of part numbers and quantities will appear in formats that you can cut-and-paste
+directly into the website ordering page of each distributor.</p></li>
+</ul>
+<img alt="_images/block_diag.png" src="_images/block_diag.png" />
+<img alt="_images/gui.png" src="_images/gui.png" />
+</div>
+</div>
+<span id="document-installation"></span><div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>This is a Python package, so you’ll need to have Python installed to use it.
+If you’re using linux, you probably already have Python.
+If you’re on Windows, you can download a Python installer from
+<a class="reference external" href="https://www.continuum.io/downloads#windows">Anaconda</a> ,
+<a class="reference external" href="https://www.activestate.com/activepython/downloads">Active State</a> , or even
+<a class="reference external" href="http://winpython.github.io/#releases">WinPython</a> .</p>
+<p>Once you have Python, you can install this package by opening a terminal
+window and typing the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ easy_install kicost
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install kicost
+</pre></div>
+</div>
+<p>Note that if you install KiCost using <code class="docutils literal notranslate"><span class="pre">pip</span></code> on a Windows system running Python 2.7,
+using the default option that web scrapes with parallel processes may cause
+<strong>MANY</strong> errors. You can avoid this problem by:</p>
+<ul class="simple">
+<li><p>using <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> to install KiCost, or</p></li>
+<li><p>use the <code class="docutils literal notranslate"><span class="pre">-s</span></code> KiCost option to serialize the web scraping.</p></li>
+</ul>
+<p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal notranslate"><span class="pre">pip3</span></code> for <code class="docutils literal notranslate"><span class="pre">pip</span></code> on each command):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
+$ sudo -H pip3 install -U pip # Upgrade the PIP version.
+$ sudo -H pip3 install kicost # Install KiCost from PyPI.
+</pre></div>
+</div>
+<p>For install the graphical dependence used by KiCost GUI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo -H pip3 install wxpython
+or
+$ sudo -H pip3 install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Ubuntu 16.04
+$ kicost # Execute KiCost without input arguments to initialize the GUI.
+</pre></div>
+</div>
+<p>For install the last code version from GitHub, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install git # It&#39;s necessary to have Git installed.
+$ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
+</pre></div>
+</div>
+</div>
+<span id="document-usage"></span><div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>KiCost’s main use is generating part-cost spreadsheets for
+circuit boards developed with KiCad as follows:</p>
+<ol class="arabic">
+<li><p>For each part in your schematic, create a field called <code class="docutils literal notranslate"><span class="pre">manf#</span></code> and set the field value
+to the manufacturer’s part number.
+(You can reduce the effort of adding this information to individual parts by
+placing the <code class="docutils literal notranslate"><span class="pre">manf#</span></code> field into the part info in the schematic library so it gets applied globally.)
+The allowable field names for part numbers are:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mpn</span>          <span class="n">pn</span>           <span class="n">p</span><span class="c1">#</span>
+<span class="n">part_num</span>     <span class="n">part</span><span class="o">-</span><span class="n">num</span>     <span class="n">part</span><span class="c1">#</span>
+<span class="n">manf_num</span>     <span class="n">manf</span><span class="o">-</span><span class="n">num</span>     <span class="n">manf</span><span class="c1">#</span>
+<span class="n">man_num</span>      <span class="n">man</span><span class="o">-</span><span class="n">num</span>      <span class="n">man</span><span class="c1">#</span>
+<span class="n">mfg_num</span>      <span class="n">mfg</span><span class="o">-</span><span class="n">num</span>      <span class="n">mfg</span><span class="c1">#</span>
+<span class="n">mfr_num</span>      <span class="n">mfr</span><span class="o">-</span><span class="n">num</span>      <span class="n">mfr</span><span class="c1">#</span>
+<span class="n">mnf_num</span>      <span class="n">mnf</span><span class="o">-</span><span class="n">num</span>      <span class="n">mnf</span><span class="c1">#</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Distributors stock code can be also used through the specific field name listed bellow and
+they are prioritized to get the part information.</p>
+<dl class="simple">
+<dt>Digi-Key: digikey#         digikey_#    digikey-#    digikeypn#    digikey_pn#    digikey-pn#</dt><dd><p>digikeypn        …
+digikeyvendor#   …
+digikeynum       …
+digikeyvp#       …
+digikeyvpn       …</p>
+</dd>
+</dl>
+<p>Mouser:   mouser# ….
+…</p>
+<p>Be careful if the part have a <code class="docutils literal notranslate"><span class="pre">manf#</span></code> or distributor code with the <code class="docutils literal notranslate"><span class="pre">,</span></code>, <code class="docutils literal notranslate"><span class="pre">;</span></code> or <code class="docutils literal notranslate"><span class="pre">\</span></code> characters,
+these have specific propose as shown in <em>Parts With Subparts</em>. They have to be preceded by <code class="docutils literal notranslate"><span class="pre">\</span></code>,
+example, for the <code class="docutils literal notranslate"><span class="pre">NUP1301,215</span></code> code, use <code class="docutils literal notranslate"><span class="pre">NUP1301\,215</span></code>.</p>
+<ol class="arabic" start="2">
+<li><p>Output a BOM from your KiCad schematic. This will be an XML file such as <code class="docutils literal notranslate"><span class="pre">schem.xml</span></code>.</p></li>
+<li><p>Process the XML file with KiCost to create a part-cost spreadsheet named <code class="docutils literal notranslate"><span class="pre">schem.xlsx</span></code> like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+</li>
+<li><p>Open the <code class="docutils literal notranslate"><span class="pre">schem.xlsx</span></code> spreadsheet using Microsoft Excel, LibreOffice Calc, or Google Sheets.
+Then enter the number of boards that you need to build and see
+the prices for the total board and individual parts when purchased from
+several different distributors (KiCost currently supports Arrow, Digi-Key, Mouser, Newark, Farnell, RS and TME).
+All of the pricing information reflects the quantity discounts currently in effect at
+each distributor.
+The spreadsheet also shows the current inventory of each part from each distributor so you can tell
+if there’s a problem finding something and an alternate part may be needed.</p></li>
+<li><p>Enter the quantity of each part that you want to purchase from each distributor.
+Lists of part numbers and quantities will appear that you can cut-and-paste
+directly into the website ordering page of each distributor.</p></li>
+</ol>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p>Most people just want some examples of using KiCost so they don’t have to read a bunch
+of documentation, so here they are!</p>
+<p>To create a cost spreadsheet from an XML file exported from KiCad:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+<p>To create a cost spreadsheet from within KiCad, use the
+<code class="docutils literal notranslate"><span class="pre">Tools</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">Generate</span> <span class="pre">Bill</span> <span class="pre">of</span> <span class="pre">Materials...</span></code> menu item and then enter the
+following in the <cite>Command line</cite> field:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="o">%</span><span class="n">I</span>
+</pre></div>
+</div>
+<p>To create a cost spreadsheet direct from the KiCad using the user definitions (by graphical interface last runned):
+To create a cost spreadsheet from within KiCad using the previous, use the
+<code class="docutils literal notranslate"><span class="pre">Tools</span></code> =&gt; <code class="docutils literal notranslate"><span class="pre">Generate</span> <span class="pre">Bill</span> <span class="pre">of</span> <span class="pre">Materials...</span></code> menu item and then enter the
+following in the <code class="docutils literal notranslate"><span class="pre">Command</span> <span class="pre">line</span></code> field:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="o">%</span><span class="n">I</span> <span class="o">--</span><span class="n">user</span>
+</pre></div>
+</div>
+<p>To place the spreadsheet in a file with a different name than the XML file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">o</span> <span class="n">new_file</span><span class="o">.</span><span class="n">xlsx</span>
+</pre></div>
+</div>
+<p>To overwrite an existing spreadsheet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">-</span><span class="n">w</span>
+</pre></div>
+</div>
+<p>To get costs from only a few distributors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">include</span> <span class="n">digikey</span> <span class="n">mouser</span>
+</pre></div>
+</div>
+<p>To exclude one or more distributors from the cost spreadsheet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">exclude</span> <span class="n">digikey</span> <span class="n">farnell</span>
+</pre></div>
+</div>
+<p>To include parts that are only used in a particular variant of a design:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">variant</span> <span class="n">V1</span>
+</pre></div>
+</div>
+<p>To create a cost spreadsheet from a CSV file of part data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">csv</span> <span class="o">--</span><span class="n">eda_tool</span> <span class="n">csv</span>
+</pre></div>
+</div>
+<p>To read and merge different projects BOMs, even those from different EDA tools:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">bom1</span><span class="o">.</span><span class="n">xml</span> <span class="n">bom2</span><span class="o">.</span><span class="n">xml</span> <span class="n">bom3</span><span class="o">.</span><span class="n">csv</span> <span class="o">--</span><span class="n">eda</span> <span class="n">kicad</span> <span class="n">altium</span> <span class="n">csv</span>
+</pre></div>
+</div>
+<p>To access KiCost through a graphical user interface, just use the <cite>kicost</cite>
+command without parameters.</p>
+<img alt="https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png" src="https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png" />
+</div>
+<div class="section" id="custom-bom-list">
+<h3>Custom BOM list<a class="headerlink" href="#custom-bom-list" title="Permalink to this headline">¶</a></h3>
+<p>In addition to XML files output by EDA tools, KiCost also accepts CSV files
+as a method for getting costs of preliminary designs or older projects.
+The format of the CSV file is as follows:</p>
+<ol class="arabic simple">
+<li><p>A single column is interpreted as containing manufacturer part numbers.</p></li>
+<li><p>Two columns are interpreted as the manufacturer’s part number followed by the part reference (e.g., <code class="docutils literal notranslate"><span class="pre">R4</span></code>).</p></li>
+<li><p>Three columns are interpreted as the quantity followed by the part number and reference.</p></li>
+</ol>
+<p>You can also arrange the columns arbitrarily by placing a header in the first line
+of the CSV file that labels the particular
+columns as manufacturer’s part numbers (<code class="docutils literal notranslate"><span class="pre">manf#</span></code>), quantities (<code class="docutils literal notranslate"><span class="pre">qty</span></code>), and
+part references (<code class="docutils literal notranslate"><span class="pre">refs</span></code>).</p>
+</div>
+<div class="section" id="custom-part-data">
+<h3>Custom Part Data<a class="headerlink" href="#custom-part-data" title="Permalink to this headline">¶</a></h3>
+<p>The price breaks on some parts can’t be obtained automatically because:</p>
+<ul class="simple">
+<li><p>they’re not offered by one of the distributors whose web pages KiCost can scrape/query, or</p></li>
+<li><p>they’re custom parts.</p></li>
+</ul>
+<p>For these parts, you can manually enter price information as follows:</p>
+<ol class="arabic">
+<li><p>Create a new field for the part named <code class="docutils literal notranslate"><span class="pre">kicost:pricing</span></code> in either the schematic or library.</p></li>
+<li><p>For the field value, enter a semicolon-separated list of quantities and prices which
+are separated by colons like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1:$1.50; 10:$1.00; 25:$0.90; 100:$0.75
+</pre></div>
+</div>
+<p>(You can put spaces and currency symbols in the field value. KiCost will
+strip everything except digits, decimal points, semicolons, and colons.
+Others currency are acepted by use of the standardize ISO 4217 alpha3 format,
+e.g. <code class="docutils literal notranslate"><span class="pre">USD1.50</span></code>, <code class="docutils literal notranslate"><span class="pre">EUR1.00</span></code>)</p>
+</li>
+</ol>
+<p>You can also enter a link to documentation for the part using a field named <code class="docutils literal notranslate"><span class="pre">kicost:link</span></code>.
+The value of this field will be a web address like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">www</span><span class="o">.</span><span class="n">reallyweirdparts</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">weird_product</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>After KiCost is run, the price information and clickable link to documentation
+for the part are shown in a section of the spreadsheet labeled <strong>Local</strong>.
+If you want to associate the pricing and/or documentation link to a particular
+source or distributor, just place an extra label within the field key to indicate
+the source like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span><span class="p">:</span><span class="n">My_Weird_Parts</span><span class="p">:</span><span class="n">pricing</span>
+<span class="n">kicost</span><span class="p">:</span><span class="n">My_Weird_Parts</span><span class="p">:</span><span class="n">link</span>
+</pre></div>
+</div>
+<p>Then the pricing and documentation link for that part will appear in a section
+of the spreadsheet labeled <strong>My_Weird_Parts</strong>.</p>
+<p>You can have as many sources for parts as you want, and a part may have multiple sources.</p>
+</div>
+<div class="section" id="part-grouping">
+<h3>Part Grouping<a class="headerlink" href="#part-grouping" title="Permalink to this headline">¶</a></h3>
+<p>KiCost groups similar parts together and places their information on a single line
+of the generated spreadsheet.
+For parts to be grouped, they must:</p>
+<ul class="simple">
+<li><p>come from the same library (e.g., “device”),</p></li>
+<li><p>be the same part (e.g., “R”),</p></li>
+<li><p>have the same value (e.g., “10K” but note that this <strong>would not match</strong> “10000” or “10K0”), and</p></li>
+<li><p>have the same footprint (e.g., “Resistors_SMD:R_0805_HandSoldering”).</p></li>
+</ul>
+<p>To reduce your effort, KiCost will also propagate pricing data among grouped parts.
+For example, if you place a hundred 0.1 uF decoupling capacitors in 0805 packages
+in a schematic, you need only assign a manufacturer’s number and/or pricing data
+to one of them and it will be applied to the rest.</p>
+<p>There are several cases that are considered when propagating part data:</p>
+<ul class="simple">
+<li><p>If only one of the parts has data, that data is propagated to all the other parts
+in the group.</p></li>
+<li><p>If two or more parts have data but it is identical, then that
+data is propagated to any of the parts in the group without data.</p></li>
+<li><p>If two or more parts in the group have <code class="docutils literal notranslate"><span class="pre">different</span></code> data, then any parts without
+data are left that way because it is impossible to figure out which data should
+be propagated to them.</p></li>
+</ul>
+<p>It is possible that there are identical parts in your schematic that have differing data
+and, hence, wouldn’t be grouped together.
+For example, you might store information about a part in a “notes” field,
+but that shouldn’t exclude the part from a group that has none or different notes.
+There are three ways to prevent this:</p>
+<ol class="arabic">
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">--ignore_fields</span></code> command-line option to make KiCost ignore part fields
+with certain names:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schematic</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">ignore_fields</span> <span class="n">notes</span>
+</pre></div>
+</div>
+</li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">--group_fields</span></code> option to allow grouping of parts even if they
+have different field values, but then display the parts separately in the
+spreadsheet using a multiline cell.
+The following example will group parts that are identical except for having
+different footprints, but will display them individually:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schematic</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">group_fields</span> <span class="n">footprint</span>
+</pre></div>
+</div>
+</li>
+<li><p>Precede the field name with a “:” such as <code class="docutils literal notranslate"><span class="pre">:note</span></code>. This makes KiCost ignore the
+field because it is in a different namespace.</p></li>
+</ol>
+</div>
+<div class="section" id="parts-with-subparts">
+<h3>Parts With Subparts<a class="headerlink" href="#parts-with-subparts" title="Permalink to this headline">¶</a></h3>
+<p>Some parts consist of two or more subparts.
+For example, a two-pin jumper might have an associated shunt.
+This is represented by placing the part number for each subpart into the <code class="docutils literal notranslate"><span class="pre">manf#</span></code> field, separated
+by a “;” like so: <code class="docutils literal notranslate"><span class="pre">JMP1A45;SH3QQ5</span></code>. The <code class="docutils literal notranslate"><span class="pre">manf</span></code> (manufacture name) also allow this division, empty or replicate the last one (use “~” character to replicate the last one).
+Each subpart will be placed on a separate row of the spreadsheet with its associated part number
+and a part reference formed from the original part reference with an added “#” and a number.
+For example, if the two-pin jumper had a part reference of <code class="docutils literal notranslate"><span class="pre">JP6</span></code>, then there
+would be two rows in the spreadsheet containing data like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">JP6</span><span class="c1">#1  ...  JMP1A45</span>
+<span class="n">JP6</span><span class="c1">#2  ...  SH3QQ5</span>
+</pre></div>
+</div>
+<p>You can also specify multipliers for each subpart by either prepending or appending
+the subpart part number with a multiplier separated by a “:”.
+To illustrate, a 2x2 jumper paired with two shunts would have a part number of
+<code class="docutils literal notranslate"><span class="pre">JMP2B26;</span> <span class="pre">SH3QQ5:2</span></code>.
+The multiplier can be either an integer, float or fraction
+and it can precede or follow the part code (e.g. <code class="docutils literal notranslate"><span class="pre">SH3QQ5:2</span></code> or <code class="docutils literal notranslate"><span class="pre">2:SH3QQ5</span></code>).</p>
+<p>In the case of <code class="docutils literal notranslate"><span class="pre">distributor#</span></code> and <code class="docutils literal notranslate"><span class="pre">manf#</span></code> for one sub part only, the other should have a blank
+value discriminated. As exemple:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">manf</span><span class="c1">#    =  0022232061;0022012067; 6: 08-50-0114;  LA 55-P; lv 25-P</span>
+<span class="n">digikey</span><span class="c1"># =  ;;; 398-1010-ND; 398-1019-ND</span>
+<span class="n">rs</span><span class="c1">#      =  ;;; 180-7357; 286-361</span>
+</pre></div>
+</div>
+<p>See that just the last two <code class="docutils literal notranslate"><span class="pre">manf#</span></code> have a correspondent <code class="docutils literal notranslate"><span class="pre">digikey#</span></code> and <code class="docutils literal notranslate"><span class="pre">rs#</span></code> catalogue code.</p>
+</div>
+<div class="section" id="schematic-variants">
+<h3>Schematic Variants<a class="headerlink" href="#schematic-variants" title="Permalink to this headline">¶</a></h3>
+<p>There are cases where a schematic needs to be priced differently depending
+upon the context.
+For example, the price of the end-user circuit board might be needed, but
+then the price for the board plus additional parts for test also has to be
+calculated.</p>
+<p>KiCost supports this using a <code class="docutils literal notranslate"><span class="pre">variant</span></code> field for parts in the schematic in
+conjunction with the <code class="docutils literal notranslate"><span class="pre">--variant</span></code> command-line option.
+Suppose a circuit has a connector, J1, that’s only inserted for certain units.
+If a field called <code class="docutils literal notranslate"><span class="pre">variant</span></code> is added to J1 and given the value V1,
+then KiCost will ignore it during a normal cost calculation.
+But J1 will be included in the cost calculation spreadsheet if you run KiCost like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schematic</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">variant</span> <span class="n">V1</span>
+</pre></div>
+</div>
+<p>In more complicated situations, you may have several circuit variants, some of which
+are used in combination.
+The <code class="docutils literal notranslate"><span class="pre">--variant</span></code> option will accept a regular expression as its argument
+so, for example, you could get the cost of a board that includes circuitry for
+both variants V1 and V2 with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schematic</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">variant</span> <span class="s2">&quot;(V1|V2)&quot;</span>
+</pre></div>
+</div>
+<p>A part can be a member of more than one variant by loading its <code class="docutils literal notranslate"><span class="pre">variant</span></code> field
+with a list such as “V1, V2”.
+(The allowed delimiters for the list are comma (,), semicolon (;), slash (/), and space ( ).)
+The part will be included in the cost calculation spreadsheet if any of its variants matches
+the <code class="docutils literal notranslate"><span class="pre">--variant</span></code> argument.</p>
+<div class="section" id="old-style-variants">
+<h4>Old-Style Variants<a class="headerlink" href="#old-style-variants" title="Permalink to this headline">¶</a></h4>
+<p>KiCost supports another way of specifying the variant associated with a part.
+Using the example from above, labeling the part number for J1 as
+<code class="docutils literal notranslate"><span class="pre">kicost.v1:manf#</span></code> will assign it to the v1 variant.
+This method is not as flexible as using the <code class="docutils literal notranslate"><span class="pre">variant</span></code> field and may be removed
+in future versions of KiCost.</p>
+</div>
+</div>
+<div class="section" id="do-not-populate-parts">
+<h3>“Do Not Populate” Parts<a class="headerlink" href="#do-not-populate-parts" title="Permalink to this headline">¶</a></h3>
+<p>Some parts in a schematic are not intended for insertion on the final board assembly.
+These “do not populate” (DNP) parts can be assigned a field called <code class="docutils literal notranslate"><span class="pre">DNP</span></code> or <code class="docutils literal notranslate"><span class="pre">NOPOP</span></code>.
+Setting the value of this field to a non-zero number or any string will cause this part
+to be omitted from the cost calculation spreadsheet.</p>
+</div>
+<div class="section" id="showing-extra-part-data-in-the-spreadsheet">
+<h3>Showing Extra Part Data in the Spreadsheet<a class="headerlink" href="#showing-extra-part-data-in-the-spreadsheet" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes it is desirable to show additional data for the parts in the
+spreadsheet.
+To do this, use the <code class="docutils literal notranslate"><span class="pre">--fields</span></code> command-line option followed by the names of the
+additional part fields you want displayed in the global data section of the
+of the spreadsheet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schematic</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">fields</span> <span class="n">fld1</span> <span class="n">fld2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visual-cues-in-the-spreadsheet">
+<h3>Visual Cues in the Spreadsheet<a class="headerlink" href="#visual-cues-in-the-spreadsheet" title="Permalink to this headline">¶</a></h3>
+<p>In addition to the part cost information, the spreadsheet output by KiCost
+provides additional cues:</p>
+<ol class="arabic">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Manf#</span></code> cell is colored to warning the part lifecyle status:</p>
+<ul class="simple">
+<li><p>Purple if the part is asign as ‘obsolete’ or ‘not recommended for new designs’</p></li>
+</ul>
+<p>by one of the distributors accessed.</p>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Qty</span></code> cell is colored to show the availability of a given part:</p>
+<ul class="simple">
+<li><p>Red if the part is unavailable at any of the distributors.</p></li>
+<li><p>Orange if the part is available, but not in sufficient quantity.</p></li>
+<li><p>Yellow if there is enough of the part available, but not enough has been ordered.</p></li>
+<li><p>Gray if no manufacturer or distributor part number was found in the BOM file.</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Avail</span></code> cell is colored to show the availability of a given part
+at a particular distributor:</p>
+<ul class="simple">
+<li><p>Red if the part is unavailable.</p></li>
+<li><p>Orange if there is not sufficient quantity of the part available.</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Purch</span></code> cell is colored to check the user purchase cart validity:</p>
+<ul class="simple">
+<li><p>Red if try to purchase more than avaliable part</p></li>
+<li><p>Yellow if try to purchase less than the minimum order quantity</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">Unit$</span></code> and <code class="docutils literal notranslate"><span class="pre">Ext$</span></code> in each distributor cell is colored green
+to indicate the lowest price found across all the distributors.</p></li>
+</ol>
+</div>
+<div class="section" id="selecting-distributors-to-scrape-query">
+<h3>Selecting Distributors to Scrape/Query<a class="headerlink" href="#selecting-distributors-to-scrape-query" title="Permalink to this headline">¶</a></h3>
+<p>You can get the list of part distributors that KiCost scrapes/query for data like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">--</span><span class="n">show_dist_list</span>
+<span class="n">Distributor</span> <span class="nb">list</span><span class="p">:</span> <span class="n">digikey</span> <span class="n">farnell</span> <span class="n">local_template</span> <span class="n">mouser</span> <span class="n">newark</span> <span class="n">rs</span> <span class="n">tme</span>
+</pre></div>
+</div>
+<p>Since you may not have access to some of the distributors in that list,
+you can restrict scraping from only a subset of them as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">include</span> <span class="n">digikey</span> <span class="n">mouser</span>
+</pre></div>
+</div>
+<p>Or you can exclude some distributors require the price of the rest:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">exclude</span> <span class="n">farnell</span> <span class="n">newark</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="command-line-options">
+<h3>Command-Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h3>
+<dl class="simple">
+<dt>usage: kicost [-h] [-v] [–info] [-i FILE.XML [FILE.XML …]] [-o [FILE.XLSX]]</dt><dd><p>[-f NAME [NAME …]] [–translate_fields NAME [NAME …]]
+[–variant VARIANT [VARIANT …]] [-w] [-q]
+[–ignore_fields NAME [NAME …]]
+[–group_fields NAME [NAME …]] [–debug [LEVEL]]
+[–eda {kicad,altium,csv} [{kicad,altium,csv} …]]
+[–show_dist_list] [–show_eda_list] [–no_collapse]
+[–show_cat_url] [-e DIST [DIST …]]
+[–include DIST [DIST …]] [–no_price] [–currency [CURRENCY]]
+[–gui FILE.XML [FILE.XML …]] [–user] [–setup] [–unsetup]</p>
+</dd>
+</dl>
+<p>Build cost spreadsheet for a KiCAD project.</p>
+<dl>
+<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
+<dd><p>show this help message and exit</p>
+</dd>
+<dt><kbd><span class="option">-v</span>, <span class="option">--version</span></kbd></dt>
+<dd><p>show program’s version number and exit</p>
+</dd>
+<dt><kbd><span class="option">--info</span></kbd></dt>
+<dd><p>Show program’ and library information and version.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>-i FILE.XML [FILE.XML …], –input FILE.XML [FILE.XML …]</dt><dd><p>One or more schematic BOM XML files.</p>
+</dd>
+<dt>-o [FILE.XLSX], –output [FILE.XLSX]</dt><dd><p>Generated cost spreadsheet.</p>
+</dd>
+<dt>-f NAME [NAME …], –fields NAME [NAME …]</dt><dd><p>Specify the names of additional part fields to extract
+and insert in the global data section of the
+spreadsheet.</p>
+</dd>
+<dt>–translate_fields NAME [NAME …]</dt><dd><p>Specify or remove field translation (–translate X1 Y1
+X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
+remove X3 for the internal dictionary).</p>
+</dd>
+<dt>–variant VARIANT [VARIANT …]</dt><dd><p>schematic variant name filter using regular expression.</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">-w</span>, <span class="option">--overwrite</span></kbd></dt>
+<dd><p>Allow overwriting of an existing spreadsheet.</p>
+</dd>
+<dt><kbd><span class="option">-q</span>, <span class="option">--quiet</span></kbd></dt>
+<dd><p>Enable quiet mode with no warnings.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>–ignore_fields NAME [NAME …]</dt><dd><p>Declare part fields to ignore when reading the BoM
+file.</p>
+</dd>
+<dt>–group_fields NAME [NAME …]</dt><dd><p>Declare part fields to merge when grouping parts.</p>
+</dd>
+</dl>
+<p>–debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
+–eda {kicad,altium,csv} [{kicad,altium,csv} …]</p>
+<blockquote>
+<div><p>Choose EDA tool from which the XML BOM file
+originated, or use csv for .CSV files.</p>
+</div></blockquote>
+<dl class="option-list">
+<dt><kbd><span class="option">--show_dist_list</span></kbd></dt>
+<dd><p>Show list of distributors that can be scraped for cost
+data, then exit.</p>
+</dd>
+<dt><kbd><span class="option">--show_eda_list</span></kbd></dt>
+<dd><p>Show list of EDA tools whose files KiCost can read,
+then exit.</p>
+</dd>
+<dt><kbd><span class="option">--no_collapse</span></kbd></dt>
+<dd><p>Do not collapse the part references in the
+spreadsheet.</p>
+</dd>
+<dt><kbd><span class="option">--show_cat_url</span></kbd></dt>
+<dd><p>Do not suppress the catalogue links into the catalogue
+code in the spreadsheet.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>-e DIST [DIST …], –exclude DIST [DIST …]</dt><dd><p>Excludes the given distributor(s) from the scraping
+process.</p>
+</dd>
+<dt>–include DIST [DIST …]</dt><dd><p>Includes only the given distributor(s) in the scraping
+process.</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">--no_price</span></kbd></dt>
+<dd><p>Create a spreadsheet without scraping part data from
+distributor websites.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>–currency [CURRENCY]</dt><dd><p>Define the priority currency. Use the ISO4217 for
+currency (<cite>USD</cite>, <cite>EUR</cite>). Default: <cite>USD</cite>.</p>
+</dd>
+<dt>–gui FILE.XML [FILE.XML …]</dt><dd><p>Start the GUI to run KiCost passing the file parameter
+give by “–input”, all others parameters are ignored.</p>
+</dd>
+</dl>
+<dl class="option-list">
+<dt><kbd><span class="option">--user</span></kbd></dt>
+<dd><p>Run KiCost on terminal using the parameters in the GUI
+memory, all passed parameters from terminal take
+priority.</p>
+</dd>
+<dt><kbd><span class="option">--setup</span></kbd></dt>
+<dd><p>Run KiCost integration (with KiCad and OS)
+configuration script.</p>
+</dd>
+<dt><kbd><span class="option">--unsetup</span></kbd></dt>
+<dd><p>Undo the KiCost integration.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div>
+<div class="section" id="adding-kicost-to-the-context-menu-windows-only">
+<h3>Adding KiCost to the Context Menu (Windows Only)<a class="headerlink" href="#adding-kicost-to-the-context-menu-windows-only" title="Permalink to this headline">¶</a></h3>
+<p>You can add KiCost to the Windows context menu so you can right-click on an
+XML file and generate the pricing spreadsheet.
+To do this:</p>
+<ol class="arabic">
+<li><p>Open the registry and find the <code class="docutils literal notranslate"><span class="pre">HKEY_CLASSES_ROOT</span> <span class="pre">=&gt;</span> <span class="pre">xmlfile</span> <span class="pre">=&gt;</span> <span class="pre">shell</span></code> key.
+Then add a <code class="docutils literal notranslate"><span class="pre">KiCost</span></code> key to it and, under that, add a <code class="docutils literal notranslate"><span class="pre">command</span></code> key.
+The resulting hierarchy of keys will look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HKEY_CLASSES_ROOT</span>
+        <span class="o">|</span>
+        <span class="o">+--</span> <span class="n">xmlfile</span>
+              <span class="o">|</span>
+              <span class="o">+--</span> <span class="n">shell</span>
+                    <span class="o">|</span>
+                    <span class="o">+--</span> <span class="n">KiCost</span>
+                          <span class="o">|</span>
+                          <span class="o">+--</span> <span class="n">command</span>
+</pre></div>
+</div>
+</li>
+<li><p>Set the value of the command to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path_to_kicost</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;%1&quot;</span>
+</pre></div>
+</div>
+<p>For example, the command value I use is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">winpython3</span>\<span class="n">python</span><span class="o">-</span><span class="mf">3.4</span><span class="o">.</span><span class="mi">3</span>\<span class="n">scripts</span>\<span class="n">kicost</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;%1&quot;</span>
+</pre></div>
+</div>
+</li>
+<li><p>If you have the GUIDE dependences insalled, it could be used:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path_to_kicost</span> <span class="o">--</span><span class="n">user</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;%1&quot;</span>
+</pre></div>
+</div>
+<p>So, KiCost will use the last preferences setted on the GUI to scrape/query, including
+which distributors to use, currency and others definitions.</p>
+</li>
+<li><p>Close the registry. KiCost should now appear when you right-click on an XML file.</p></li>
+</ol>
+</div>
+</div>
+<span id="document-contributing"></span><div class="section" id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>Contributions are welcome, and they are greatly appreciated! Every
+little bit helps, and credit will always be given.</p>
+<p>You can contribute in many ways:</p>
+<div class="section" id="types-of-contributions">
+<h3>Types of Contributions<a class="headerlink" href="#types-of-contributions" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="report-bugs">
+<h4>Report Bugs<a class="headerlink" href="#report-bugs" title="Permalink to this headline">¶</a></h4>
+<p>Report bugs at <a class="reference external" href="https://github.com/xesscorp/kicost/issues">https://github.com/xesscorp/kicost/issues</a>.</p>
+<p>If you are reporting a bug, please include:</p>
+<ul class="simple">
+<li><p>Your operating system name and version.</p></li>
+<li><p>Any details about your local setup that might be helpful in troubleshooting.</p></li>
+<li><p>Detailed steps to reproduce the bug.</p></li>
+</ul>
+</div>
+<div class="section" id="fix-bugs">
+<h4>Fix Bugs<a class="headerlink" href="#fix-bugs" title="Permalink to this headline">¶</a></h4>
+<p>Look through the GitHub issues for bugs. Anything tagged with “bug”
+is open to whoever wants to implement it.</p>
+</div>
+<div class="section" id="implement-features">
+<h4>Implement Features<a class="headerlink" href="#implement-features" title="Permalink to this headline">¶</a></h4>
+<p>Look through the GitHub issues for features. Anything tagged with “feature”
+is open to whoever wants to implement it.</p>
+</div>
+<div class="section" id="write-documentation">
+<h4>Write Documentation<a class="headerlink" href="#write-documentation" title="Permalink to this headline">¶</a></h4>
+<p>kicost could always use more documentation, whether as part of the
+official kicost docs, in docstrings, or even on the web in blog posts,
+articles, and such.</p>
+</div>
+<div class="section" id="submit-feedback">
+<h4>Submit Feedback<a class="headerlink" href="#submit-feedback" title="Permalink to this headline">¶</a></h4>
+<p>The best way to send feedback is to file an issue at <a class="reference external" href="https://github.com/xesscorp/kicost/issues">https://github.com/xesscorp/kicost/issues</a>.</p>
+<p>If you are proposing a feature:</p>
+<ul class="simple">
+<li><p>Explain in detail how it would work.</p></li>
+<li><p>Keep the scope as narrow as possible, to make it easier to implement.</p></li>
+<li><p>Remember that this is a volunteer-driven project, and that contributions
+are welcome :)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="get-started">
+<h3>Get Started!<a class="headerlink" href="#get-started" title="Permalink to this headline">¶</a></h3>
+<p>Ready to contribute? Here’s how to set up <cite>kicost</cite> for local development.</p>
+<ol class="arabic">
+<li><p>Fork the <cite>kicost</cite> repo on GitHub.</p></li>
+<li><p>Clone your fork locally:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone git@github.com:your_name_here/kicost.git
+</pre></div>
+</div>
+</li>
+<li><p>Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ mkvirtualenv kicost
+$ cd kicost/
+$ python setup.py develop
+</pre></div>
+</div>
+</li>
+<li><p>Create a branch for local development:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git checkout -b name-of-your-bugfix-or-feature
+</pre></div>
+</div>
+<p>Now you can make your changes locally.</p>
+</li>
+<li><p>When you’re done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ flake8 kicost tests
+$ python setup.py test
+$ tox
+</pre></div>
+</div>
+<p>To get flake8 and tox, just pip install them into your virtualenv.</p>
+</li>
+<li><p>Commit your changes and push your branch to GitHub:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git add .
+$ git commit -m &quot;Your detailed description of your changes.&quot;
+$ git push origin name-of-your-bugfix-or-feature
+</pre></div>
+</div>
+</li>
+<li><p>Submit a pull request through the GitHub website.</p></li>
+</ol>
+</div>
+<div class="section" id="pull-request-guidelines">
+<h3>Pull Request Guidelines<a class="headerlink" href="#pull-request-guidelines" title="Permalink to this headline">¶</a></h3>
+<p>Before you submit a pull request, check that it meets these guidelines:</p>
+<ol class="arabic simple">
+<li><p>The pull request should include tests.</p></li>
+<li><p>If the pull request adds functionality, the docs should be updated. Put
+your new functionality into a function with a docstring, and add the
+feature to the list in README.rst.</p></li>
+<li><p>The pull request should work for Python 2.6, 2.7, 3.3, and 3.4, and for PyPy. Check
+<a class="reference external" href="https://travis-ci.org/xesscorp/kicost/pull_requests">https://travis-ci.org/xesscorp/kicost/pull_requests</a>
+and make sure that the tests pass for all supported Python versions.</p></li>
+</ol>
+</div>
+<div class="section" id="tips">
+<h3>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h3>
+<p>To run a subset of tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python -m unittest tests.test_kicost
+</pre></div>
+</div>
+</div>
+</div>
+<span id="document-authors"></span><div class="section" id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="development-lead">
+<h3>Development Lead<a class="headerlink" href="#development-lead" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>XESS Corporation &lt;<a class="reference external" href="mailto:info&#37;&#52;&#48;xess&#46;com">info<span>&#64;</span>xess<span>&#46;</span>com</a>&gt;</p></li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h3>Contributors<a class="headerlink" href="#contributors" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Oliver Martin: <a class="reference external" href="https://github.com/oliviermartin">https://github.com/oliviermartin</a></p></li>
+<li><p>Timo Alho: <a class="reference external" href="https://github.com/timoalho">https://github.com/timoalho</a></p></li>
+<li><p>Steven Johnson: <a class="reference external" href="https://github.com/stevenj">https://github.com/stevenj</a></p></li>
+<li><p>Diorcet Yann: <a class="reference external" href="https://github.com/diorcety">https://github.com/diorcety</a></p></li>
+<li><p>Giacinto Luigi Cerone <a class="reference external" href="https://github.com/glcerone">https://github.com/glcerone</a></p></li>
+<li><p>Hildo Guillardi Júnior <a class="reference external" href="https://github.com/hildogjr">https://github.com/hildogjr</a></p></li>
+<li><p>Adam Heinrich <a class="reference external" href="https://github.com/adamheinrich">https://github.com/adamheinrich</a></p></li>
+<li><p>Max Maisel <a class="reference external" href="https://github.com/mmmaisel">https://github.com/mmmaisel</a></p></li>
+</ul>
+</div>
+</div>
+<span id="document-history"></span><div class="section" id="history">
+<h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>1.1.3 (2019-10-??)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added LCSC as distributor into the Kitspace API (the list can be used to JLCPCB).</p></li>
+<li><p>Parinfo kitspace API now just return the asked distributors (before was given all the avaliable distributors).</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>1.1.2 (2019-09-26)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Check by accepted stock code into the API modules.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--info</span></code> command to get all the details of KiCost installation.</p></li>
+<li><p>Now <code class="docutils literal notranslate"><span class="pre">--setup</span></code> and <code class="docutils literal notranslate"><span class="pre">--unsetup</span></code> add and remove the default KiCost field to Eeschema template. <code class="docutils literal notranslate"><span class="pre">--setup</span></code> ran at the KiCost installation.</p></li>
+<li><p>Added a NEWS dialog on first GUI initialization.</p></li>
+<li><p>Fix in GUI: process bar, the not found module name, Windows open spreadsheet in the GUI and LibreOffice installation check on Windows.</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>1.1.1 (2019-08-16)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fix minimum order number and warning the user, it also show in the price break.</p></li>
+<li><p>Improve some spreadsheet formulas.</p></li>
+<li><p>Fix the Kitspace query API to prioritize the catalogue number under the manufacture code.</p></li>
+<li><p>Added a global field for purchase information, it will be added as description to be printed into the package labels (Digikey and others distributors that allow to include description into the package labels).</p></li>
+<li><p>Organized the distributors information for better KiCost next features in the road map.</p></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>1.1 (2019-07-15)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fix the issue of RST files in the PyPI package.</p></li>
+<li><p>Use the PartInfo KitSpace API.</p></li>
+<li><p>Creates a KiCad plugin integration and desktop shortcuts (not in Mac-OS) during the installation.</p></li>
+<li><p>Add KiCost to the context menu “Open with…” in Windows to XML and CSV files.</p></li>
+<li><p>Show (and allow to change in the spreadsheet) the current currency rate for distributors that are not in the specified currency.</p></li>
+<li><p>Highlight non-active in production / not-recommended-to-new-layout / decrepit components.</p></li>
+<li><p>Improved the spreadsheet purchase distributors code formula and fix the Digikey/Mouser import errors.</p></li>
+<li><p>Show the total purchased at the spreadsheet.</p></li>
+<li><p>Split the GUI file in programming one in wxFormBuilder generated.</p></li>
+<li><p>Fix the error when deal with spaces in the names of BOM files on <cite>test.sh</cite>.</p></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>1.0.4 (2018-10-02)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Use the datasheet information distributor/API as link in <code class="docutils literal notranslate"><span class="pre">manf#</span></code> if not got any by the BOM.</p></li>
+<li><p>Added user warnings of bad <code class="docutils literal notranslate"><span class="pre">manf</span></code> format in case of multi-files of different quantities assigned on the catalogue codes.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">manf#</span></code> cell get purple color if the distributor assigned the part as ‘obsolete’ or ‘not recommended for new designs’.</p></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>1.0.3 (2018-10-06)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fix READ file on installation.</p></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>1.0.2 (2018-10-06)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fix the *.md installation files.</p></li>
+<li><p>Minor modifications into the new class model.</p></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>1.0.1 (2018-10-05)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Complete re-facture of internal class structure, now <code class="docutils literal notranslate"><span class="pre">distributors</span></code> and <code class="docutils literal notranslate"><span class="pre">edas</span></code> follow a heritage model.</p></li>
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">post_setup</span></code> function to configure shortcut and OS dependent settings.</p></li>
+<li><p>Fix some minor error with multi file projects.</p></li>
+<li><p>Fix the Octopart response with part with <code class="docutils literal notranslate"><span class="pre">manf#</span></code> but with <code class="docutils literal notranslate"><span class="pre">distributor#</span></code>.</p></li>
+<li><p>Removed the limitation of subpart with empty <code class="docutils literal notranslate"><span class="pre">manf#</span></code> that doesn’t respected the quantity.</p></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>1.0.0 (2018-10-03)<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Re-facture the KiCost motor, now use the Octopart API.</p></li>
+<li><p>Added a full currency convert capability.</p></li>
+<li><p>Fix some minor error with multi file projects.</p></li>
+</ul>
+</div>
+<div class="section" id="id10">
+<h3>0.1.47 (2018-08-16)<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Created the KiCad plugin (in beta).</p></li>
+<li><p>Fixed Digikey distributor module logger problem raise on refacture.</p></li>
+<li><p>Added GUI compatibility with wxPython 3.x.x.</p></li>
+<li><p>Added convert to ODS option if recognized LibreOffice in the system.</p></li>
+<li><p>Others GUI controls improvements.</p></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>0.1.46 (2018-07-04)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed some Python 2 incompatibility of the GUI and Altium module.</p></li>
+<li><p>Fixed the tqdm print channel. Now the process bar is kept at the end.</p></li>
+<li><p>Fixed the output messages when used the GUI.</p></li>
+<li><p>Fixed GUI problem caused by distributors re-factore and other UI improvements.</p></li>
+<li><p>More improvements on scrape classes.</p></li>
+<li><p>Now TME ajax post scrape method repect the <code class="docutils literal notranslate"><span class="pre">fake_browser</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>0.1.45 (2018-06-12)<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Changed Farnell link and table result format.</p></li>
+<li><p>Fixed TME <code class="docutils literal notranslate"><span class="pre">fake_browser</span></code> migration.</p></li>
+<li><p>Re-factored the distributors modules to class kind and improved the scrape sequence to decrease probability of ban.</p></li>
+<li><p>Fixed the multi-threading configuration.</p></li>
+<li><p>Fixed Mac-OS hang when parallel scraping.</p></li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>0.1.44 (2018-05-28)<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">logging</span></code> messages when using <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> (process bar) for sequential scrape, missing fix for multithreads scrape.</p></li>
+<li><p>Improve the <code class="docutils literal notranslate"><span class="pre">spreadsheet.py</span></code> to a lighter file when use just one distributor.</p></li>
+<li><p>Improved log messages to better community debug.</p></li>
+<li><p>Add Upverter CSV compatibility.</p></li>
+<li><p>Fixed Mouser “quote price” exception in the price tiers.</p></li>
+<li><p>Fixed wxPython exception import.</p></li>
+<li><p>Use the datasheet link information from KiCad and other EDAs, given by ‘datasheet’ field.</p></li>
+<li><p>Now automatically merge ‘description’ and other fields to create the groups.</p></li>
+<li><p>GUI save last position and size and others improvements.</p></li>
+<li><p>Display additional information from the web page distributors and use as comment in the <code class="docutils literal notranslate"><span class="pre">cat#</span></code> column (just implemented on DigiKey yet).</p></li>
+<li><p>Now is possible to specify country/currency to be priorized on the distributors scrapes (just implemented on DigiKey yet).</p></li>
+<li><p>Minor improvements.</p></li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>0.1.43 (2018-03-15)<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed RS scrape module.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--no_scrape</span></code> option to create spreadsheets without information from distributor websites.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--no_collapse</span></code> option to prevent collapsing part references in the spreadsheet.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--throttling_delay</span></code> option to add delay between accesses to distributor websites.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--show_eda_list</span></code> option to display the list of EDA tools supported by KiCost.</p></li>
+<li><p>Added capability to read multiple BOM files and merge them into the spreadsheet.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--group_fields</span></code> option to ignore differences in fields of the components and group them.</p></li>
+<li><p>Fixed the not ungrouping issue when <code class="docutils literal notranslate"><span class="pre">manf#</span></code> equal <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p>CSV now accepts files from Proteus and Eagle EDA tools.</p></li>
+<li><p>Cleared up unused Python imports and better placed functions into files (spreadsheet creation files are now in <code class="docutils literal notranslate"><span class="pre">spreadsheet.py</span></code>).</p></li>
+<li><p>Added a KiCost stamp version at the end of the spreadsheet and file information in the beginning, if they are not inside it.</p></li>
+<li><p>Fixed issues related to user visualization in the spreadsheet (added gray formatted conditioning and the “exclude desc and manf columns”).</p></li>
+<li><p>Added “user errors” and software scape in the case of not recognized references characters given the message of how to solve.</p></li>
+<li><p>Support for multiple quantity for a single manufacture code (before just worked when using multiple/sub-parts).</p></li>
+<li><p>Fixed the Altium EDA module.</p></li>
+<li><p>Created a graphical user interface based on wxWidgets (the dependence is asked to be installed at the first use).</p></li>
+<li><p>Added the <code class="docutils literal notranslate"><span class="pre">--user</span></code> option allow to use just <code class="docutils literal notranslate"><span class="pre">kicost</span> <span class="pre">--user</span> <span class="pre">-i</span> <span class="pre">%file</span></code> and others parameters will be got by the last configuration in the graphical interface (that save the user configurations).</p></li>
+<li><p>Added automatic recognition of the files of each EDA tool (for the graphical interface).</p></li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h3>0.1.42 (2017-12-07)<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Processing of CSV files containing part information is now supported.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">show_dist_list</span></code> option to display the list of distributors from which part cost data is available.</p></li>
+<li><p>Added capability to process multiple XML and CSV files.</p></li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>0.1.41 (2017-11-16)<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed exception caused by missing ‘href’ key in product links extracted by TME module.</p></li>
+</ul>
+</div>
+<div class="section" id="id17">
+<h3>0.1.40 (2017-11-02)<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed exceptions caused by .xml files without a title block or part library section.</p></li>
+</ul>
+</div>
+<div class="section" id="id18">
+<h3>0.1.39 (2017-10-10)<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Part number separator characters can now be escaped with backslashes in case they are actually part of part numbers.</p></li>
+</ul>
+</div>
+<div class="section" id="id19">
+<h3>0.1.38 (2017-10-09)<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed webscrape retry error in TME distributor module.</p></li>
+</ul>
+</div>
+<div class="section" id="id20">
+<h3>0.1.37 (2017-10-09)<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>A part manf# field can now contain multiple subpart numbers. Each part number can be
+assigned a multiplier to indicate the quantity of the subpart needed for each part.</p></li>
+<li><p>Unit price cells for parts now show complete Qty/Price table as a cell comment.</p></li>
+<li><p>Part quantity cells are now color-coded to indicate parts with insufficient availability.</p></li>
+<li><p>Part quantity cells are now color-coded to indicate parts for which insufficient quantity has been ordered.</p></li>
+<li><p>Project name, company, and date are now shown in the spreadsheet.</p></li>
+<li><p>New distributor can now be added just by creating a submodule in <code class="docutils literal notranslate"><span class="pre">distributors</span></code>.</p></li>
+<li><p>Added distributor TME.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--retries</span></code> option to set the number of attempts at loading a distributor webpage.</p></li>
+<li><p>Fixed problem where “kicost:dnp” field was not recognized.</p></li>
+</ul>
+</div>
+<div class="section" id="id21">
+<h3>0.1.36 (2017-08-14)<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Parts may now be assigned to a variant by giving them a <code class="docutils literal notranslate"><span class="pre">variant</span></code> field.</p></li>
+<li><p>Parts may now be assigned to multiple variants.</p></li>
+<li><p>Parts may be designated as “do not populate” by giving them a <code class="docutils literal notranslate"><span class="pre">DNP</span></code> field.</p></li>
+<li><p>DNP parts or parts not in the current variant will not appear in the cost spreadsheet.</p></li>
+</ul>
+</div>
+<div class="section" id="id22">
+<h3>0.1.35 (2017-04-24)<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed bug in scraping RS website when a part search results in a list of matches instead of a single product page.</p></li>
+</ul>
+</div>
+<div class="section" id="id23">
+<h3>0.1.34 (2017-03-31)<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed crash caused by uninitialized array in Digikey webscraping module.</p></li>
+<li><p>Place any available scraped part info into spreadsheet even if part is not available from a distributor.</p></li>
+<li><p>Removed unused imports from distributor modules.</p></li>
+</ul>
+</div>
+<div class="section" id="id24">
+<h3>0.1.33 (2017-02-23)<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Surround worksheet name with quotes in case it contains spreadsheet operators.</p></li>
+<li><p>Fixed extraction of product links from Farnell product tables.</p></li>
+</ul>
+</div>
+<div class="section" id="id25">
+<h3>0.1.32 (2017-02-14)<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added options for including or excluding distributors.</p></li>
+<li><p>Updated web scrapers for various distributors.</p></li>
+<li><p>Added more debugging/logger statements.</p></li>
+<li><p>Updated some of the package requirements.</p></li>
+</ul>
+</div>
+<div class="section" id="id26">
+<h3>0.1.31 (2016-11-14)<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Giacinto Luigi Cerone added support for distributors Farnell and RS.</p></li>
+</ul>
+</div>
+<div class="section" id="id27">
+<h3>0.1.30 (2016-11-07)<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Manufacturer’s part number field can now be labeled as ‘manf#’, ‘mpn’, ‘pn’, ‘#’, etc. (See documentation.)</p></li>
+<li><p>Manufacturer field can now be labeled as ‘manf’ or ‘manufacturer’.</p></li>
+<li><p>Distributor part number fields can now be labeled as ‘digikey#’, ‘digikeypn’, digikey_pn’, ‘digikey-pn’, etc.</p></li>
+</ul>
+</div>
+<div class="section" id="id28">
+<h3>0.1.29 (2016-08-27)<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>KiCost no longer fails if the &lt;libparts&gt;…&lt;/libparts&gt; section is missing from the XML file.</p></li>
+<li><p>Documentation moved to Github Pages.</p></li>
+</ul>
+</div>
+<div class="section" id="id29">
+<h3>0.1.28 (2016-08-18)<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed scraping of Digi-Key pages to correctly detect reeled parts and scrape alternate packaging options.</p></li>
+</ul>
+</div>
+<div class="section" id="id30">
+<h3>0.1.27 (2016-07-26)<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed scraping of Digi-Key pages to correctly extract available quantity of parts.</p></li>
+</ul>
+</div>
+<div class="section" id="id31">
+<h3>0.1.26 (2016-07-25)<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Progress bar is explicitly deleted to prevent an error from occurring when the program terminates.</p></li>
+</ul>
+</div>
+<div class="section" id="id32">
+<h3>0.1.25 (2016-06-12)<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Contents of “Desc” field in component/library were being ignored when generating spreadsheet.</p></li>
+</ul>
+</div>
+<div class="section" id="id33">
+<h3>0.1.24 (2016-05-28)<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed part scraping from Newark website.</p></li>
+</ul>
+</div>
+<div class="section" id="id34">
+<h3>0.1.23 (2016-04-12)<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added progress bar.</p></li>
+<li><p>Added quiet option to suppress warning messages.</p></li>
+<li><p>‘manf#’ and ‘manf’ fields are now both propagated to similar parts.</p></li>
+</ul>
+</div>
+<div class="section" id="id35">
+<h3>0.1.22 (2016-04-08)<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Extra part data can now be shown in the global data section of the spreadsheet
+by using the new <code class="docutils literal notranslate"><span class="pre">--fields</span></code> command-line option. This commit implements
+issue #8.</p></li>
+</ul>
+</div>
+<div class="section" id="id36">
+<h3>0.1.21 (2016-03-20)<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Parts with valid Digi-Key web pages were not appearing in the spreadsheet
+because they had strange quantity listings (e.g., input fields or ‘call for
+quantities’. This commit fixes #36.</p></li>
+</ul>
+</div>
+<div class="section" id="id37">
+<h3>0.1.20 (2016-03-20)<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Prices of $0.00 were appearing in the spreadsheet for parts that were
+listed but not stocked. Parts having no pricing list no longer list a price
+in the sheet.</p></li>
+<li><p>Parts with short manf. numbers (e.g. 5010) were not found correctly in the
+distributor websites. The manufacturer name was added to the search string
+to increase the probability of the search finding the correct part.</p></li>
+</ul>
+</div>
+<div class="section" id="id38">
+<h3>0.1.19 (2016-02-12)<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Local parts weren’t showing up in spreadsheet because of previous fix to
+omit parts that had no quantity field (non-stocked; not even 0). Fixed.</p></li>
+</ul>
+</div>
+<div class="section" id="id39">
+<h3>0.1.18 (2016-02-10)<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Made change to adapt to change in Digi-Key’s part quantity field of their webpages.</p></li>
+<li><p>Omit parts from the spreadsheet that are listed but not stocked at a distributor.</p></li>
+</ul>
+</div>
+<div class="section" id="id40">
+<h3>0.1.17 (2016-02-09)<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Made changes to adapt to changes in Digi-Key’s webpage format.</p></li>
+</ul>
+</div>
+<div class="section" id="id41">
+<h3>0.1.16 (2016-01-26)<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--variant</span></code> command-line option for costing different variants of a single schematic.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--num_processes</span></code> command-line option for setting the number of parallel
+processes used to scrape part data from the distributor web sites.</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">--ignore_fields</span></code> command-line option for ignoring benign fields that might
+prevent identical parts from being grouped together.</p></li>
+</ul>
+</div>
+<div class="section" id="id42">
+<h3>0.1.15 (2016-01-10)<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed exception caused when indexing with ‘manf#’ on components that didn’t
+have that field defined.</p></li>
+<li><p>Replaced custom debug_print() with logging module.</p></li>
+</ul>
+</div>
+<div class="section" id="id43">
+<h3>0.1.14 (2015-12-31)<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>When scraping a Digi-Key product list page, use both the manfufacturer’s AND
+Digi-Key’s number to select the closest match to the part number.</p></li>
+</ul>
+</div>
+<div class="section" id="id44">
+<h3>0.1.13 (2015-12-29)<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>‘kicost:’ can be prepended to schematic field labels to distinguish them from other app fields.</p></li>
+<li><p>Custom prices and documentation links can now be added to parts in the schematic.</p></li>
+<li><p>Web-scraping for part data is sped up using parallel processes.</p></li>
+</ul>
+</div>
+<div class="section" id="id45">
+<h3>0.1.12 (2015-12-03)<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Following the IP address mouser with redirect you to the nearest locale match,
+so the price will be in Euro if you are in Europe and the price decimal can be a comma.</p></li>
+</ul>
+</div>
+<div class="section" id="id46">
+<h3>0.1.11 (2015-12-02)<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Changed BOARD_COST field to UNIT_COST.</p></li>
+<li><p>Changed formatting of UNIT_COST field to make use monetary units.</p></li>
+<li><p>Changed format of debug messages.</p></li>
+</ul>
+</div>
+<div class="section" id="id47">
+<h3>0.1.10 (2015-10-08)<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Pushed lxml requirement back to 3.3.3 so linux mint would have fewer problems trying to install.</p></li>
+</ul>
+</div>
+<div class="section" id="id48">
+<h3>0.1.9 (2015-09-26)<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed exception caused by Digi-Key part with ‘call’ as an entry in a part’s price list.</p></li>
+<li><p>Fixed extraction of part quantities in Mouser web pages.</p></li>
+<li><p>Added randomly-selected user-agent strings so sites might be less likely to block scraping.</p></li>
+<li><p>Added ghost.py code for getting around Javascript challenge pages (currently inactive).</p></li>
+</ul>
+</div>
+<div class="section" id="id49">
+<h3>0.1.8 (2015-09-17)<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added missing requirements for future and lxml packages.</p></li>
+</ul>
+</div>
+<div class="section" id="id50">
+<h3>0.1.7 (2015-08-26)<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>KiCost now runs under both Python 2.7.6 and 3.4.</p></li>
+</ul>
+</div>
+<div class="section" id="id51">
+<h3>0.1.6 (2015-08-26)<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Mouser changed their HTML page format, so I changed their web scraper.</p></li>
+</ul>
+</div>
+<div class="section" id="id52">
+<h3>0.1.5 (2015-07-25)<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Corrected entrypoint in <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>.</p></li>
+</ul>
+</div>
+<div class="section" id="id53">
+<h3>0.1.4 (2015-07-09)<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added conditional formatting to indicate which distributor had the best price for a particular part.</p></li>
+<li><p>Fixed calc of min unit price so it wouldn’t be affected if part rows were sorted.</p></li>
+</ul>
+</div>
+<div class="section" id="id54">
+<h3>0.1.3 (2015-07-07)<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Added global part columns that show minimum unit and extended prices for all parts across all distributors.</p></li>
+</ul>
+</div>
+<div class="section" id="id55">
+<h3>0.1.2 (2015-07-04)<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Refactoring.</p></li>
+<li><p>To reduce the effort in adding manufacturer’s part numbers to a schematic, one will now be assigned to a part if:</p>
+<ol class="arabic simple">
+<li><p>It doesn’t have one.</p></li>
+<li><p>It is identical to another part or parts which do have a manf. part number.</p></li>
+<li><p>There are no other identical parts with a different manf. part number than the ones in item #2.</p></li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="section" id="id56">
+<h3>0.1.1 (2015-07-02)<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Fixed delimiter for Mouser online order cut-and-paste.</p></li>
+</ul>
+</div>
+<div class="section" id="id57">
+<h3>0.1.0 (2015-06-30)<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>First release on PyPI.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html#document-index">Table of Contents</a></h3>
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-readme">KiCost</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#features">Features</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-usage">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#examples">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#custom-bom-list">Custom BOM list</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#custom-part-data">Custom Part Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#part-grouping">Part Grouping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#parts-with-subparts">Parts With Subparts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#schematic-variants">Schematic Variants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#do-not-populate-parts">“Do Not Populate” Parts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#showing-extra-part-data-in-the-spreadsheet">Showing Extra Part Data in the Spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#visual-cues-in-the-spreadsheet">Visual Cues in the Spreadsheet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#selecting-distributors-to-scrape-query">Selecting Distributors to Scrape/Query</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#command-line-options">Command-Line Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#adding-kicost-to-the-context-menu-windows-only">Adding KiCost to the Context Menu (Windows Only)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-contributing">Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#types-of-contributions">Types of Contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#get-started">Get Started!</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#pull-request-guidelines">Pull Request Guidelines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tips">Tips</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-authors">Credits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#development-lead">Development Lead</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#contributors">Contributors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-history">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">1.1.3 (2019-10-??)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">1.1.2 (2019-09-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id3">1.1.1 (2019-08-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id4">1.1 (2019-07-15)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id5">1.0.4 (2018-10-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id6">1.0.3 (2018-10-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id7">1.0.2 (2018-10-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id8">1.0.1 (2018-10-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id9">1.0.0 (2018-10-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id10">0.1.47 (2018-08-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id11">0.1.46 (2018-07-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id12">0.1.45 (2018-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id13">0.1.44 (2018-05-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id14">0.1.43 (2018-03-15)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id15">0.1.42 (2017-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id16">0.1.41 (2017-11-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id17">0.1.40 (2017-11-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id18">0.1.39 (2017-10-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id19">0.1.38 (2017-10-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id20">0.1.37 (2017-10-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id21">0.1.36 (2017-08-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id22">0.1.35 (2017-04-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id23">0.1.34 (2017-03-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id24">0.1.33 (2017-02-23)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id25">0.1.32 (2017-02-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id26">0.1.31 (2016-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id27">0.1.30 (2016-11-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id28">0.1.29 (2016-08-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id29">0.1.28 (2016-08-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id30">0.1.27 (2016-07-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id31">0.1.26 (2016-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id32">0.1.25 (2016-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id33">0.1.24 (2016-05-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id34">0.1.23 (2016-04-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id35">0.1.22 (2016-04-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id36">0.1.21 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id37">0.1.20 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id38">0.1.19 (2016-02-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id39">0.1.18 (2016-02-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id40">0.1.17 (2016-02-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id41">0.1.16 (2016-01-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id42">0.1.15 (2016-01-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id43">0.1.14 (2015-12-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id44">0.1.13 (2015-12-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id45">0.1.12 (2015-12-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id46">0.1.11 (2015-12-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id47">0.1.10 (2015-10-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id48">0.1.9 (2015-09-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id49">0.1.8 (2015-09-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id50">0.1.7 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id51">0.1.6 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id52">0.1.5 (2015-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id53">0.1.4 (2015-07-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id54">0.1.3 (2015-07-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id55">0.1.2 (2015-07-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id56">0.1.1 (2015-07-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id57">0.1.0 (2015-06-30)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="nav-item nav-item-0"><a href="index.html#document-index">kicost 1.1.3 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>
