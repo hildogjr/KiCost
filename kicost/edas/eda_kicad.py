@@ -76,7 +76,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                     name = field_name_translations.get(name, name)
                     value = str(f.string)
                     if value:
-                        fields[name] = value # Do not create empty fields. This is usefull
+                        fields[name] = value # Do not create empty fields. This is useful
                                              # when used more than one `manf#` alias in one designator.
                 else:
                     # Now look for fields that start with 'kicost' and possibly

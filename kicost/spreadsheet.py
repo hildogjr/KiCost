@@ -371,7 +371,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 1,
             'label': 'Manf#',
             'width': None,
-            'comment': '''Manufacturer number for each part and link to it\'s datasheet (ctrl-click).
+            'comment': '''Manufacturer number for each part and link to it\'s datasheet (Ctrl-click).
 Purple -> Obsolete part detected by one of the distributors.''',
             'static': True,
         },
@@ -537,7 +537,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                              part.fields[field_name], cell_format)
                 else:
                     if field_name=='footprint':
-                        ##TODO add future depence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
+                        ##TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
                         field_value_footprint = re.findall('\:(.*)', part.fields[field_name])
                         if field_value_footprint:
                             field_value = field_value_footprint[0]
@@ -960,7 +960,7 @@ Orange -> Too little quantity available.'''
             dist_currency_symbol = numbers.get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
             price_break_info = 'Qty/Price Breaks ({c}):\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(c=dist_currency, s=dist_currency_symbol)
             for q in qtys[1 if minimum_order_qty==1 else 2:]:
-                # Skip the unity quantity for the tip ballon if it not allow to purchase in the distributor.
+                # Skip the unity quantity for the tip balloon if it not allow to purchase in the distributor.
                 price = price_tiers[q]
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format( q,
                     numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE),
@@ -1153,7 +1153,7 @@ Orange -> Too little quantity available.'''
         pass
 
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
-        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not sbe genereated.".format(
+        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated.".format(
                             d=distributor_dict[dist]['name']
                         ))
     else:
@@ -1165,7 +1165,7 @@ Orange -> Too little quantity available.'''
         #    non-empty cells in sel_range1 and sel_range2. (Innermost
         #    nested IF and ROW commands.) sel_range1 and sel_range2 are
         #    the part's catalog number and purchase quantity.
-        # 2) Selects the k'th smallest of the row indices where k is the
+        # 2) Selects the k'th smallest of the row index where k is the
         #    number of rows between the current part row in the order and the
         #    top row of the order. (SMALL() and ROW() commands.)
         # 3) Gets the cell contents  from the get_range using the k'th
@@ -1243,7 +1243,7 @@ Orange -> Too little quantity available.'''
             info_range =xl_range(PART_INFO_FIRST_ROW, info_range,
                                  PART_INFO_LAST_ROW, info_range)
             # If the correspondent information is some description, it is allow to add the general
-            # purchase designator. it is placed inside the "not allow caracheters" restriction.
+            # purchase designator. it is placed inside the "not allow characters" restriction.
             if col not in ['part_num', 'purch', 'manf#']:
                 info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(PURCHASE_DESCRIPTION_SEPRTR)+ '&' + info_range
             # Create the part of formula that refers with one specific information.

@@ -236,16 +236,16 @@ def kicost(in_file, eda_name, out_filename,
         # Set part info to default blank values for all the distributors.
         for part in parts: ## TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-            part.part_num = {dist: '' for dist in dist_list} # Ditributor catalogue number.
-            part.url = {dist: '' for dist in dist_list} # Purchase distributor URL for the spefic part.
+            part.part_num = {dist: '' for dist in dist_list} # Distributor catalogue number.
+            part.url = {dist: '' for dist in dist_list} # Purchase distributor URL for the specific part.
             part.price_tiers = {dist: {} for dist in dist_list} # Price break tiers; [[qty1, price1][qty2, price2]...]
             part.qty_avail = {dist: None for dist in dist_list} # Available quantity.
             part.qty_increment = {dist: None for dist in dist_list}
             part.info_dist = {dist: {} for dist in dist_list}
             part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list} # Default currency.
-            part.moq = {dist: None for dist in dist_list} # Minimum order quantity allowd by the distributor.
+            part.moq = {dist: None for dist in dist_list} # Minimum order quantity allowed by the distributor.
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
-        #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
+        #TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
         #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
         dist_local_template.query_part_info(parts, distributor_dict, currency)
         api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)

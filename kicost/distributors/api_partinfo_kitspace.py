@@ -108,7 +108,7 @@ class api_partinfo_kitspace(distributor_class):
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
         def find_key(input_dict, value):
             return next((k for k, v in input_dict.items() if v == value), None)
-        distributors = ([find_key(dist_xlate, d) for d in distributor_dict])
+        distributors = ([find_key(dist_xlate, d) for d in distributors])
         
         query_type = re.sub('\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
         #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
@@ -179,6 +179,9 @@ class api_partinfo_kitspace(distributor_class):
 
         FIELDS_CAT = ([d + '#' for d in distributor_dict])
         DISTRIBUTORS = ([d for d in distributor_dict])
+        # Use just the distributors avaliable in this API.
+        distributors = list( set(DISTRIBUTORS) &
+            set(distributors_modules_dict['api_partinfo_kitspace']['distributors']) )
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
@@ -186,10 +189,10 @@ class api_partinfo_kitspace(distributor_class):
         def get_part_info(query, parts, distributor_info=None):
             '''Query PartInfo for quantity/price info and place it into the parts list.
                `distributor_info` is used to update only one distributor information (price_tiers, ...),
-               the proposed if use in the disambiguouzation procedure.
+               the proposed if use in the disambiguation procedure.
             '''
 
-            results = api_partinfo_kitspace.query(query, DISTRIBUTORS)
+            results = api_partinfo_kitspace.query(query, distributors)
             if not distributor_info:
                 distributor_info = [None] * len(query)
 
@@ -290,7 +293,7 @@ class api_partinfo_kitspace(distributor_class):
         # Create queries to get part price/quantities from PartInfo.
         queries = [] # Each part reference query.
         query_parts = [] # Pointer to the part.
-        query_part_stock_code = [] # Used the stock code mention for disambiguouzation,
+        query_part_stock_code = [] # Used the stock code mention for disambiguation,
                                    # it is used `None` for the "manf#".
         for part_idx, part in enumerate(parts):
 
