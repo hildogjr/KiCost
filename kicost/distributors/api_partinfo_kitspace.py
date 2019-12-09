@@ -185,7 +185,7 @@ class api_partinfo_kitspace(distributor_class):
 
         def get_part_info(query, parts, distributor_info=None):
             '''Query PartInfo for quantity/price info and place it into the parts list.
-               `distributor_info` is used to update only one distibutor information (price_tiers, ...),
+               `distributor_info` is used to update only one distributor information (price_tiers, ...),
                the proposed if use in the disambiguouzation procedure.
             '''
 
@@ -291,7 +291,7 @@ class api_partinfo_kitspace(distributor_class):
         queries = [] # Each part reference query.
         query_parts = [] # Pointer to the part.
         query_part_stock_code = [] # Used the stock code mention for disambiguouzation,
-                                   # it ised `None` for the "manf#".
+                                   # it is used `None` for the "manf#".
         for part_idx, part in enumerate(parts):
 
             # Create a PartInfo query using the manufacturer's part number or 
