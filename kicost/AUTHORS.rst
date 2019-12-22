@@ -20,3 +20,5 @@ Contributors
 * Hildo Guillardi Júnior https://github.com/hildogjr
 * Adam Heinrich https://github.com/adamheinrich
 * Max Maisel https://github.com/mmmaisel
+* johnthagen https://github.com/johnthagen
+* Frieder Schrempf https://github.com/fri-sch
