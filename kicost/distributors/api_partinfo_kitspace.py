@@ -267,19 +267,30 @@ class api_partinfo_kitspace(distributor_class):
                                 # A better alternative may be to examine the packaging field of the offer.
                                 part_qty_increment = float("inf")
 
-                            # Use the qty increment to select the part SKU, web page, and available quantity.
-                            # Do this if this is the first part offer from this dist. Each distributor can have
-                            # differente stock codes for the same part in different quantities / delivery package
-                            # style: cut-tape, reel, ...
+                            # Select the part SKU, web page, and available quantity.
+                            # Each distributor can have differente stock codes for the same part in different
+                            # quantities / delivery package styles: cut-tape, reel, ...
+                            # Therefore we select and overwrite a previous selection if one of the
+                            # following conditions is met:
+                            #   1. We don't have a selection for this part from this ditributor yet.
+                            #   2. The MOQ is smaller than for the current selection.
+                            #   3. The part_qty_increment for this offer smaller than that of the existing selection.
+                            #      (we prefer cut-tape style packaging over reels)
+                            #   4. For DigiKey, we can't use part_qty_increment to distinguish between
+                            #      reel and cut-tape, so we need to look at the actual DigiKey part number.
+                            dist_part_num = offer.get('sku', '').get('part', '')
                             if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
                                 # Keeps the information of more availability.
                                 part.qty_avail[dist] = offer.get('in_stock_quantity') # In stock.
-                            if not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq')):
-                                # Save the link, stock code, ... of the page for minimum purchase.
-                                part.moq[dist] = offer.get('moq') # Minimum order qty.
-                                part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
-                                part.part_num[dist] = offer.get('sku', '').get('part', '')
-                                part.qty_increment[dist] = part_qty_increment
+                            if not part.part_num[dist] or \
+                               (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) or \
+                               (part_qty_increment < part.qty_increment[dist]) or \
+                               (dist == "digikey" and part.part_num[dist].endswith("DKR-ND") and dist_part_num.endswith("CT-ND")):
+                                    # Save the link, stock code, ... of the page for minimum purchase.
+                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                    part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
+                                    part.part_num[dist] = dist_part_num
+                                    part.qty_increment[dist] = part_qty_increment
 
                             # Don't bother with any extra info from the distributor.
                             part.info_dist[dist] = {}
