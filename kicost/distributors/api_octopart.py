@@ -283,7 +283,8 @@ class api_octopart(distributor_class):
                                 if not part.moq[dist] or (offer.get('moq') or \
                                    (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) or \
                                    (part_qty_increment < part.qty_increment[dist]) or \
-                                   (dist == "digikey" and part.part_num[dist].endswith("DKR-ND") and dist_part_num.endswith("CT-ND")):
+                                   (dist == "digikey" and part.part_num[dist].endswith("DKR-ND") and dist_part_num.endswith("CT-ND")) or \
+                                   (dist == "digikey" and part.part_num[dist].endswith("-6-ND") and dist_part_num.endswith("-1-ND")):
                                         # Save the link, stock code, ... of the page for minimum purchase.
                                         part.moq[dist] = offer.get('moq') # Minimum order qty.
                                         parts[i].part_num[dist] = offer.get('sku')
