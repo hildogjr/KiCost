@@ -3,7 +3,7 @@
 History
 -------
 
-1.1.3 (2019-12-??)
+1.1.3 (2019-12-31)
 ______________________
 * Fix the Digikey using Digi-Reel information.
 * Added LCSC as distributor into the Kitspace API (the list can be used to JLCPCB).

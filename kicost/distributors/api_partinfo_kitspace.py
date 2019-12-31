@@ -272,21 +272,24 @@ class api_partinfo_kitspace(distributor_class):
                             # quantities / delivery package styles: cut-tape, reel, ...
                             # Therefore we select and overwrite a previous selection if one of the
                             # following conditions is met:
-                            #   1. We don't have a selection for this part from this ditributor yet.
+                            #   1. We don't have a selection for this part from this distributor yet.
                             #   2. The MOQ is smaller than for the current selection.
                             #   3. The part_qty_increment for this offer smaller than that of the existing selection.
                             #      (we prefer cut-tape style packaging over reels)
                             #   4. For DigiKey, we can't use part_qty_increment to distinguish between
                             #      reel and cut-tape, so we need to look at the actual DigiKey part number.
+                            #      This procedure is made by the definition `distributors_info[dist]['ignore_cat#_re']`
+                            #      at the distributor profile.
                             dist_part_num = offer.get('sku', '').get('part', '')
                             if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
                                 # Keeps the information of more availability.
                                 part.qty_avail[dist] = offer.get('in_stock_quantity') # In stock.
-                            if not part.part_num[dist] or \
-                               (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) or \
-                               (part_qty_increment < part.qty_increment[dist]) or \
-                               (dist == "digikey" and part.part_num[dist].endswith("DKR-ND") and dist_part_num.endswith("CT-ND")) or \
-                               (dist == "digikey" and part.part_num[dist].endswith("-6-ND") and dist_part_num.endswith("-1-ND")):
+                            ign_stock_code = distributors_info[dist].get('ignore_cat#_re','')
+                            valid_part = not ( ign_stock_code and re.match(ign_stock_code, dist_part_num) )
+                            if valid_part and \
+                                ( not part.part_num[dist] or \
+                                (part_qty_increment < part.qty_increment[dist]) or \
+                                (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
                                     # Save the link, stock code, ... of the page for minimum purchase.
                                     part.moq[dist] = offer.get('moq') # Minimum order qty.
                                     part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.

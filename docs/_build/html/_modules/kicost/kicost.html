@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.kicost &#8212; kicost 1.1.2 documentation</title>
+    <title>kicost.kicost &#8212; kicost 1.1.3 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -90,7 +90,7 @@
 <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
     <span class="k">pass</span>  <span class="c1"># Happens if reload is attempted in Python 3.</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span><span class="s1">&#39;output_filename&#39;</span><span class="p">]</span>  <span class="c1"># Only export this routine for use by the outside world.</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span><span class="s1">&#39;output_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost_gui_notdependences&#39;</span><span class="p">]</span>  <span class="c1"># Only export this routine for use by the outside world.</span>
 
 <span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span>
 
@@ -275,16 +275,16 @@
         <span class="c1"># Set part info to default blank values for all the distributors.</span>
         <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span> <span class="c1">## TODO create this for just the current active distributor inside each module.</span>
             <span class="c1"># These bellow variable are all the data the each distributor/local API/scrap module needs to fill.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Ditributor catalogue number.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Purchase distributor URL for the spefic part.</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Distributor catalogue number.</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Purchase distributor URL for the specific part.</span>
             <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Price break tiers; [[qty1, price1][qty2, price2]...]</span>
             <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Available quantity.</span>
             <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span>
             <span class="n">part</span><span class="o">.</span><span class="n">info_dist</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span>
             <span class="n">part</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="n">DEFAULT_CURRENCY</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Default currency.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Minimum order quantity allowd by the distributor.</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Minimum order quantity allowed by the distributor.</span>
         <span class="c1">#distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)</span>
-        <span class="c1">#TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.</span>
+        <span class="c1">#TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.</span>
         <span class="c1">#distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)</span>
         <span class="n">dist_local_template</span><span class="o">.</span><span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
         <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
@@ -352,6 +352,14 @@
     <span class="n">file_name</span> <span class="o">=</span> <span class="n">FILE_OUTPUT_INPUT_SEP</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="p">[</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_name</span><span class="p">))[</span><span class="mi">0</span><span class="p">][:</span><span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">FILE_OUTPUT_MAX_NAME</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">files_input</span><span class="p">)),</span><span class="n">FILE_OUTPUT_MIN_INPUT</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">FILE_OUTPUT_INPUT_SEP</span><span class="p">))]</span> <span class="k">for</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="n">files_input</span> <span class="p">]</span> <span class="p">)</span>
     <span class="n">file_output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_output</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">file_output</span></div>
+
+<div class="viewcode-block" id="kicost_gui_notdependences"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.kicost_gui_notdependences">[docs]</a><span class="k">def</span> <span class="nf">kicost_gui_notdependences</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;You don</span><span class="se">\&#39;</span><span class="s1">t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pip3 install -U wxPython # For Windows &amp; macOS&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Or download from last version from &lt;https://wxpython.org/pages/downloads/&gt;&#39;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -382,7 +390,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

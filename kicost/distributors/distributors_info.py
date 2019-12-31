@@ -33,6 +33,7 @@ distributors_info = {
             'name': 'Digi-Key', 'url': 'https://www.digikey.com/',
             'format': {'font_color': 'white', 'bg_color': '#CC0000'}, # Digi-Key red.
         },
+        'ignore_cat#_re': '.+(DKR\-ND|\-6\-ND)$', # Use to ignore some catalogue/stock code format. In the Digikey distributor it is used to ignore the Digireel package.
     },
     'farnell': {
         'type': 'web',
