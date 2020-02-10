@@ -75,7 +75,7 @@ class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'lcsc']
+        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme', 'lcsc']
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
              # First module load.
@@ -90,6 +90,7 @@ class api_partinfo_kitspace(distributor_class):
                                                                     'Mouser': 'mouser',
                                                                     'Newark': 'newark',
                                                                     'RS': 'rs',
+                                                                    'TME': 'tme',
                                                                     'LCSC': 'lcsc',
                                                                 }
                                                 }
