@@ -3,6 +3,11 @@
 History
 -------
 
+1.1.4 (2020-??-??)
+______________________
+* Add TME to Kitspace API.
+
+
 1.1.3 (2019-12-31)
 ______________________
 * Fix the Digikey using Digi-Reel information.
