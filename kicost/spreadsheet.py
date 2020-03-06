@@ -68,7 +68,7 @@ ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
-                       collapse_refs=True, supress_cat_url=True, user_fields=None, variant=None):
+                       collapse_refs=True, suppress_cat_url=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
@@ -302,7 +302,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
             next_col = add_dist_to_worksheet(wks, wrk_formats, columns_global,
                                             START_ROW, dist_start_col,
                                             UNIT_COST_ROW, TOTAL_COST_ROW,
-                                             refs_col, qty_col, dist, parts, supress_cat_url)
+                                             refs_col, qty_col, dist, parts, suppress_cat_url)
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(

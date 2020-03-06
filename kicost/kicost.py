@@ -77,7 +77,7 @@ def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, translate_fields,
         variant,
         dist_list=list(distributor_dict.keys()),
-        collapse_refs=True, supress_cat_url=True, currency=DEFAULT_CURRENCY):
+        collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -95,7 +95,7 @@ def kicost(in_file, eda_name, out_filename,
     modules. If `None`, no web/local distributors will be scraped.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
-    @param supress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
+    @param suppress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
     Default `True`.
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
@@ -193,7 +193,7 @@ def kicost(in_file, eda_name, out_filename,
             # Merge all extra fields that read on the files that will
             # not be displayed (Needed to check `user_fields`).
             if f not in FIELDS_IGNORE and SEPRTR not in f and not f in group_fields:
-                # Not include repetitive filed names or fields with the separator `:` defined on `SEPRTR`.
+                # Not include repetitive field names or fields with the separator `:` defined on `SEPRTR`.
                 group_fields += [f]
 
     # Some fields to be merged on specific EDA are enrolled bellow.
@@ -251,7 +251,7 @@ def kicost(in_file, eda_name, out_filename,
         api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, supress_cat_url,
+    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, suppress_cat_url,
                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.
