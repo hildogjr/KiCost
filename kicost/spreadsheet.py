@@ -818,7 +818,7 @@ Orange -> Too little quantity available.'''
         },
     }
     if not supress_cat_url:
-        # Add a extra column to the hiperlink.
+        # Add a extra column to the hyperlink.
         columns.update({'link': {
                             'col': 5,
                             'level': 2,
@@ -853,7 +853,7 @@ Orange -> Too little quantity available.'''
 
     num_parts = len(parts)
     # For check the number of BOM files read, see the length of p[?]['manf#_qty'],
-    # if it is a `list()` instance, if don't, the lenth is always `1`.
+    # if it is a `list()` instance, if don't, the length is always `1`.
     num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
 
     # Add distributor data for each part.
@@ -882,7 +882,7 @@ Orange -> Too little quantity available.'''
             if supress_cat_url:
                 dist_part_num = 'Link' # To use as text for the link.
         try:
-            # Add a comment in the 'cat#' column with extra informations gotten in the distributor web page.
+            # Add a comment in the 'cat#' column with extra information gotten in the distributor web page.
             comment = '\n'.join(sorted([ k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
             if comment:
                 wks.write_comment(row, start_col + columns['part_num']['col'], comment)
@@ -1289,7 +1289,7 @@ Orange -> Too little quantity available.'''
 
 
 def remove_column(table, name):
-    '''Remove a speficied columns from a create table.'''
+    '''Remove a specified columns from a create table.'''
     for h in table:
         if table[h]['col']>table[name]['col']:
             table[h]['col'] -= 1

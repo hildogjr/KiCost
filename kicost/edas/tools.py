@@ -230,7 +230,7 @@ def group_parts(components, fields_merge):
             # Add next ref for identical part to the list.
             component_groups[h].refs.append(ref)
             # Also add any manufacturer's part number (or None) and each distributor
-            # stock catologue code to the group's list.
+            # stock catalogue code to the group's list.
             for f in FIELDS_MANFCAT:
                 component_groups[h].manfcat_codes[f].add(fields.get(f))
         except KeyError:
@@ -239,7 +239,7 @@ def group_parts(components, fields_merge):
             component_groups[h] = IdenticalComponents()  # Add empty structure.
             component_groups[h].refs = [ref]  # Init list of refs with first ref.
             # Now add the manf. part code (or None) and each distributor stock
-            # catologue code for this part to the group set.
+            # catalogue code for this part to the group set.
             component_groups[h].manfcat_codes = {}
             for f in FIELDS_MANFCAT:
                 component_groups[h].manfcat_codes[f] = set([fields.get(f)])
