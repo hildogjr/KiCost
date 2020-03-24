@@ -3,9 +3,10 @@
 History
 -------
 
-1.1.4 (2020-??-??)
+1.1.4 (2020-03-24)
 ______________________
-* Add TME to Kitspace API.
+* Add TME and Arrow to Kitspace API.
+* Others cosmetic and internal changes.
 
 
 1.1.3 (2019-12-31)

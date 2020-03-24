@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost package &#8212; kicost 1.1.3 documentation</title>
+    <title>kicost package &#8212; kicost 1.1.4 documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.3 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.4 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
@@ -133,7 +133,7 @@ KiCost is powered by the Kitspace PartInfo API (<a class="reference external" hr
 </dl>
 <dl class="function">
 <dt id="kicost.kicost.kicost">
-<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost</code><span class="sig-paren">(</span><em class="sig-param">in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields, variant, dist_list=['mouser', 'digikey', 'lcsc', 'newark', 'rs', 'farnell', 'local_template'], collapse_refs=True, supress_cat_url=True, currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost</code><span class="sig-paren">(</span><em class="sig-param">in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields, variant, dist_list=['digikey', 'arrow', 'farnell', 'newark', 'mouser', 'local_template', 'rs', 'tme', 'lcsc'], collapse_refs=True, suppress_cat_url=True, currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;brief Run KiCost.</p>
 <p>Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.</p>
 <p>&#64;param in_file <cite>list(str())</cite> List of the names of the input BOM files.
@@ -149,7 +149,7 @@ are not grouped by default.
 modules. If <cite>None</cite>, no web/local distributors will be scraped.
 &#64;param collapse_refs <cite>bool()</cite> Collapse or not the designator references in the spreadsheet.
 Default <cite>True</cite>.
-&#64;param supress_cat_url <cite>bool()</cite> Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
+&#64;param suppress_cat_url <cite>bool()</cite> Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
 Default <cite>True</cite>.
 &#64;param currency <cite>str()</cite> Currency in ISO4217. Default ‘USD’.</p>
 </dd></dl>
@@ -579,7 +579,7 @@ Default is <code class="docutils literal notranslate"><span class="pre">'()'</sp
 <span id="kicost-spreadsheet-module"></span><h2>kicost.spreadsheet module<a class="headerlink" href="#module-kicost.spreadsheet" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="kicost.spreadsheet.create_spreadsheet">
-<code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">create_spreadsheet</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">prj_info</em>, <em class="sig-param">spreadsheet_filename</em>, <em class="sig-param">currency='USD'</em>, <em class="sig-param">collapse_refs=True</em>, <em class="sig-param">supress_cat_url=True</em>, <em class="sig-param">user_fields=None</em>, <em class="sig-param">variant=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">create_spreadsheet</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">prj_info</em>, <em class="sig-param">spreadsheet_filename</em>, <em class="sig-param">currency='USD'</em>, <em class="sig-param">collapse_refs=True</em>, <em class="sig-param">suppress_cat_url=True</em>, <em class="sig-param">user_fields=None</em>, <em class="sig-param">variant=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a spreadsheet using the info for the parts (including their HTML trees).</p>
 </dd></dl>
 
@@ -702,7 +702,7 @@ alread connected.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.3 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.4 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.kicost &#8212; kicost 1.1.3 documentation</title>
+    <title>kicost.kicost &#8212; kicost 1.1.4 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -116,7 +116,7 @@
         <span class="n">user_fields</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">group_fields</span><span class="p">,</span> <span class="n">translate_fields</span><span class="p">,</span>
         <span class="n">variant</span><span class="p">,</span>
         <span class="n">dist_list</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">distributor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
-        <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">supress_cat_url</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
+        <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; @brief Run KiCost.</span>
 <span class="sd">    </span>
 <span class="sd">    Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.</span>
@@ -134,7 +134,7 @@
 <span class="sd">    modules. If `None`, no web/local distributors will be scraped.</span>
 <span class="sd">    @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.</span>
 <span class="sd">    Default `True`.</span>
-<span class="sd">    @param supress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.</span>
+<span class="sd">    @param suppress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.</span>
 <span class="sd">    Default `True`.</span>
 <span class="sd">    @param currency `str()` Currency in ISO4217. Default &#39;USD&#39;.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -232,7 +232,7 @@
             <span class="c1"># Merge all extra fields that read on the files that will</span>
             <span class="c1"># not be displayed (Needed to check `user_fields`).</span>
             <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_IGNORE</span> <span class="ow">and</span> <span class="n">SEPRTR</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">group_fields</span><span class="p">:</span>
-                <span class="c1"># Not include repetitive filed names or fields with the separator `:` defined on `SEPRTR`.</span>
+                <span class="c1"># Not include repetitive field names or fields with the separator `:` defined on `SEPRTR`.</span>
                 <span class="n">group_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="n">f</span><span class="p">]</span>
 
     <span class="c1"># Some fields to be merged on specific EDA are enrolled bellow.</span>
@@ -290,7 +290,7 @@
         <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
 
     <span class="c1"># Create the part pricing spreadsheet.</span>
-    <span class="n">create_spreadsheet</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">collapse_refs</span><span class="p">,</span> <span class="n">supress_cat_url</span><span class="p">,</span>
+    <span class="n">create_spreadsheet</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">collapse_refs</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="p">,</span>
                       <span class="n">user_fields</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="k">else</span> <span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
     <span class="c1"># Print component groups for debugging purposes.</span>
@@ -390,7 +390,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

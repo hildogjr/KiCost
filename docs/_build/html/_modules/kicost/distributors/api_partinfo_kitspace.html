@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.distributors.api_partinfo_kitspace &#8212; kicost 1.1.3 documentation</title>
+    <title>kicost.distributors.api_partinfo_kitspace &#8212; kicost 1.1.4 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li> 
       </ul>
@@ -115,7 +115,7 @@
 
 <div class="viewcode-block" id="api_partinfo_kitspace.init_dist_dict"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.init_dist_dict">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">init_dist_dict</span><span class="p">():</span>
-        <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;digikey&#39;</span><span class="p">,</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">]</span>
+        <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;digikey&#39;</span><span class="p">,</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">]</span>
         <span class="n">dists</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">distributors_info</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">api_distributors</span><span class="p">}</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;enabled&#39;</span> <span class="ow">in</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">]:</span>
              <span class="c1"># First module load.</span>
@@ -130,6 +130,8 @@
                                                                     <span class="s1">&#39;Mouser&#39;</span><span class="p">:</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span>
                                                                     <span class="s1">&#39;Newark&#39;</span><span class="p">:</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span>
                                                                     <span class="s1">&#39;RS&#39;</span><span class="p">:</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span>
+                                                                    <span class="s1">&#39;TME&#39;</span><span class="p">:</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span>
+                                                                    <span class="s1">&#39;Arrow Electronics, Inc.&#39;</span><span class="p">:</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span>
                                                                     <span class="s1">&#39;LCSC&#39;</span><span class="p">:</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">,</span>
                                                                 <span class="p">}</span>
                                                 <span class="p">}</span>
@@ -428,7 +430,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li> 
       </ul>

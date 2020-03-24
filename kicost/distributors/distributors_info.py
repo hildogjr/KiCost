@@ -13,7 +13,7 @@ distributors_info = {
             'cols': ['part_num', 'purch', 'refs'], # Sort-order for online orders.
             'delimiter': ',', # Delimiter for online orders.
             'not_allowed_char': ',', # Characters not allowed at the BoM for web-site import.
-            'replace_by_char': ';', # The `delimiter` is not allowed inside description. This caracter is used to replace it.
+            'replace_by_char': ';', # The `delimiter` is not allowed inside description. This character is used to replace it.
         },
         'label': {
             'name': 'Arrow', 'url': 'https://www.arrow.com/', # Distributor label used in spreadsheet columns.
@@ -33,7 +33,7 @@ distributors_info = {
             'name': 'Digi-Key', 'url': 'https://www.digikey.com/',
             'format': {'font_color': 'white', 'bg_color': '#CC0000'}, # Digi-Key red.
         },
-        'ignore_cat#_re': '.+(DKR\-ND|\-6\-ND)$', # Use to ignore some catalogue/stock code format. In the Digikey distributor it is used to ignore the Digireel package.
+        'ignore_cat#_re': '.+(DKR\-ND|\-6\-ND)$', # Use to ignore some catalogue/stock code format. In the Digikey distributor it is used to ignore the Digi-reel package.
     },
     'farnell': {
         'type': 'web',
