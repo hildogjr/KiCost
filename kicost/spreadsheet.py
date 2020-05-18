@@ -1135,7 +1135,23 @@ Orange -> Too little quantity available.'''
     try:
         cols = distributor_dict[dist]['order']['cols']
     except KeyError:
+        logger.log(DEBUG_OVERVIEW,
+                "Purchase list codes for {d} will not be generated: no information provided.".format(
+                    d=distributor_dict[dist]['label']['name']
+                ))
         return start_col + num_cols # If not created the distributor definition, jump this final code part.
+
+    from .distributors.distributors_info import ORDER_COL_USERFIELDS
+    if ORDER_COL_USERFIELDS in cols:
+        # It is requested all the user fields at the purchase code,
+        # replace the virtual annotation provided by `ORDER_COL_USERFIELDS`
+        # by all user fields in the spreadsheet. This keep the compatibility
+        # and configuration possibility for other features.
+        idx = cols.index(ORDER_COL_USERFIELDS) # Find the first occurrence.
+        print('-----', distributor_dict[dist]['label']['name'], cols)
+        del cols[idx]
+        cols[idx:idx] = [None] #TODO #TODO
+        print('-----', distributor_dict[dist]['label']['name'], cols)
 
     # Create the header of the purchase codes, if present the definition.
     try:
@@ -1159,8 +1175,8 @@ Orange -> Too little quantity available.'''
         pass
 
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
-        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated.".format(
-                            d=distributor_dict[dist]['name']
+        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(
+                            d=distributor_dict[dist]['label']['name']
                         ))
     else:
         # This script enters a function into a spreadsheet cell that
@@ -1208,6 +1224,10 @@ Orange -> Too little quantity available.'''
         for col in cols:
             # Deal with conversion and string replace necessary to the correct distributors
             # code understanding.
+            if col==None:
+                # Create a empty column escaping all the information.
+                order_part_info.append('')
+                continue # Doesn't need to calculate range or references, go check the next field.
             if col=='purch':
                 # Add text conversion if is a numeric cell.
                 order_part_info.append('TEXT({},"##0")'.format(order_info_func_model))
@@ -1244,7 +1264,7 @@ Orange -> Too little quantity available.'''
                 info_range = ""
                 logger.warning("Not valid field `{f}` for purchase list at {d}.".format(
                             f=col,
-                            d=distributor_dict[dist]['name']
+                            d=distributor_dict[dist]['label']['name']
                         ))
             info_range =xl_range(PART_INFO_FIRST_ROW, info_range,
                                  PART_INFO_LAST_ROW, info_range)
@@ -1271,7 +1291,7 @@ Orange -> Too little quantity available.'''
             purchase_code = ""
             logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(
                         f=col,
-                        d=distributor_dict[dist]['name']
+                        d=distributor_dict[dist]['label']['name']
                     ))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code,
                                  PART_INFO_LAST_ROW, purchase_code)

@@ -6,7 +6,7 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-ORDER_COL_USERFIELDS = '**user_field**' # Used as identification for all user fields allowed for some custom importation in some distributors. It correspond to all user fields.
+ORDER_COL_USERFIELDS = '**user*_*_*field**' # Used as identification for all user fields allowed for some custom importation in some distributors. It is used a low probability "word" corresponding to all user fields.
 #TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some personal field.
 
 distributors_info = {
@@ -45,7 +45,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs'],
+            'cols': ['part_num', 'purch', 'refs', ORDER_COL_USERFIELDS],
             #'header': 'Stock#,Quantity,Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
@@ -71,7 +71,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs'],
+            'cols': ['part_num', 'purch', 'refs', ORDER_COL_USERFIELDS],
             #'header': 'Stock#,Quantity,Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
@@ -84,9 +84,9 @@ distributors_info = {
         'type': 'web',
         'order': {
             'url': 'https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new',
-            'cols': ['part_num', 'purch', 'refs'],
+            'cols': ['part_num', 'purch', None, None, None, 'manf#', 'refs'], # `None` is used for generate a empty column.
             #'header': 'Stock# Quantity Designators',
-            'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
+            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
             'name': 'RS Components', 'url': 'https://uk.rs-online.com/',

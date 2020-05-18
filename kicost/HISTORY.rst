@@ -6,6 +6,8 @@ History
 1.1.5 (2020-??-??)
 ______________________
 * Fix the Farnell import code order
+* Fix LCSC link and add BOM import links of all
+* Add the user custom field capability to order quote
 
 
 1.1.4 (2020-03-24)
