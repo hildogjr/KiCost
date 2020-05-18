@@ -6,10 +6,14 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
+ORDER_COL_USERFIELDS = '**user_field**' # Used as identification for all user fields allowed for some custom importation in some distributors. It correspond to all user fields.
+#TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some personal field.
+
 distributors_info = {
     'arrow': {
         'type': 'web', # Allowable values: 'local' or 'web'.
         'order': {
+            'url': 'https://www.arrow.com/en/bom-tool/',
             'cols': ['part_num', 'purch', 'refs'], # Sort-order for online orders.
             #'header': 'Stock#,Quantity,Designators', # Header to help user undertanding (used in some importations).
             'delimiter': ',', # Delimiter for online orders.
@@ -40,6 +44,7 @@ distributors_info = {
     'farnell': {
         'type': 'web',
         'order': {
+            'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
             'cols': ['part_num', 'purch', 'refs'],
             #'header': 'Stock#,Quantity,Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -52,6 +57,7 @@ distributors_info = {
     'mouser': {
         'type': 'web',
         'order': {
+            'url': 'https://mouser.com/bom/',
             'cols': ['part_num', 'purch', 'refs'],
             #'header': 'Stock#|Quantity|Designators',
             'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
@@ -64,6 +70,7 @@ distributors_info = {
     'newark': {
         'type': 'web',
         'order': {
+            'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
             'cols': ['part_num', 'purch', 'refs'],
             #'header': 'Stock#,Quantity,Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
@@ -100,13 +107,14 @@ distributors_info = {
     'lcsc': {
         'type': 'web',
         'order': {
+            'url': 'https://lcsc.com/bom.html',
             'cols': ['purch', 'refs', 'footprint', 'part_num'],
             'header': 'Quantity,Comment,Designator,Footprint,LCSC Part #(optional)',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
             'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. The multipart components that use "#" symbol is not allowed at JLCPCB.',
         },
         'label': {
-            'name': 'LCSC', 'url': 'https://www.tme.eu',
+            'name': 'LCSC', 'url': 'https://lcsc.com',
             'format': {'font_color': 'white', 'bg_color': '#1166DD'}, # LCSC blue
         },
     },
