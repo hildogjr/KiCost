@@ -550,7 +550,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
 
         # Enter total part quantity needed.
         try:
-            qty = partgroup_qty(part);
+            qty = partgroup_qty(part)
             if isinstance(qty, list):
                 # Multifiles BOM case, write each quantity and after,
                 # in the 'qty' column the total quantity as ceil of
@@ -1122,6 +1122,12 @@ Orange -> Too little quantity available.'''
     )
     wks.write_comment(ORDER_HEADER, purch_qty_col,
         'Copy the information below to the BOM import page of the distributor web site.')
+    try:
+        wks.write_url(ORDER_HEADER, purch_qty_col-1,
+            distributor_dict[dist]['order']['url'],
+            string='Buy here')
+    except KeyError:
+        pass # Not URL registered.
 
 
     # Write the spreadsheet code to multiple lines to create the purchase codes to

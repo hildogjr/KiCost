@@ -83,6 +83,7 @@ distributors_info = {
     'rs': {
         'type': 'web',
         'order': {
+            'url': 'https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new',
             'cols': ['part_num', 'purch', 'refs'],
             #'header': 'Stock# Quantity Designators',
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
@@ -95,13 +96,14 @@ distributors_info = {
     'tme': {
         'type': 'web',
         'order': {
+            'url': 'https://www.tme.eu/en/Profile/QuickBuy/load.html',
             'cols': ['part_num', 'purch', 'refs'],
             #'header': 'Stock# Quantity Designators',
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
         },
         'label': {
             'name': 'TME', 'url': 'https://www.tme.eu',
-            'format': {'font_color': 'white', 'bg_color': '#0C4DA1'}, # TME blue
+            'format': {'font_color': 'white', 'bg_color': '#0C4DA1'}, # TME blue.
         },
     },
     'lcsc': {
@@ -115,7 +117,7 @@ distributors_info = {
         },
         'label': {
             'name': 'LCSC', 'url': 'https://lcsc.com',
-            'format': {'font_color': 'white', 'bg_color': '#1166DD'}, # LCSC blue
+            'format': {'font_color': 'white', 'bg_color': '#1166DD'}, # LCSC blue.
         },
     },
 }
