@@ -3,6 +3,11 @@
 History
 -------
 
+1.1.5 (2020-??-??)
+______________________
+* Fix the Farnell import code order
+
+
 1.1.4 (2020-03-24)
 ______________________
 * Add TME and Arrow to Kitspace API.

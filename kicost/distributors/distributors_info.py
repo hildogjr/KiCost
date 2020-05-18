@@ -11,6 +11,7 @@ distributors_info = {
         'type': 'web', # Allowable values: 'local' or 'web'.
         'order': {
             'cols': ['part_num', 'purch', 'refs'], # Sort-order for online orders.
+            #'header': 'Stock#,Quantity,Designators', # Header to help user undertanding (used in some importations).
             'delimiter': ',', # Delimiter for online orders.
             'not_allowed_char': ',', # Characters not allowed at the BoM for web-site import.
             'replace_by_char': ';', # The `delimiter` is not allowed inside description. This character is used to replace it.
@@ -27,6 +28,7 @@ distributors_info = {
         'order': {
             'url': 'https://www.digikey.com/ordering/shoppingcart',
             'cols': ['purch', 'part_num', 'refs'],
+            #'header': 'Quantity,Stock#,Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
@@ -39,7 +41,8 @@ distributors_info = {
         'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
-            'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
+            #'header': 'Stock#,Quantity,Designators',
+            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
             'name': 'Farnell', 'url': 'https://www.newark.com/',
@@ -50,6 +53,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
+            #'header': 'Stock#|Quantity|Designators',
             'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
         },
         'label': {
@@ -61,6 +65,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
+            #'header': 'Stock#,Quantity,Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
@@ -72,6 +77,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
+            #'header': 'Stock# Quantity Designators',
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
         },
         'label': {
@@ -83,6 +89,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'cols': ['part_num', 'purch', 'refs'],
+            #'header': 'Stock# Quantity Designators',
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
         },
         'label': {
@@ -94,8 +101,8 @@ distributors_info = {
         'type': 'web',
         'order': {
             'cols': ['purch', 'refs', 'footprint', 'part_num'],
-            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
             'header': 'Quantity,Comment,Designator,Footprint,LCSC Part #(optional)',
+            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
             'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. The multipart components that use "#" symbol is not allowed at JLCPCB.',
         },
         'label': {
