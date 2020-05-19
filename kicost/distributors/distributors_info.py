@@ -47,7 +47,7 @@ distributors_info = {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
             'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
             #'header': 'Stock#,Quantity,Designators,Descriptions,User',
-            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
+            'delimiter': ',', 'not_allowed_char': [',','\n'], 'replace_by_char': ';',
         },
         'label': {
             'name': 'Farnell', 'url': 'https://www.newark.com/',
@@ -73,7 +73,7 @@ distributors_info = {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
             'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
             #'header': 'Stock#,Quantity,Designators,Descriptions,User',
-            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
+            'delimiter': ',', 'not_allowed_char': [',','\n'], 'replace_by_char': ';',
         },
         'label': {
             'name': 'Newark', 'url': 'https://www.newark.com/',

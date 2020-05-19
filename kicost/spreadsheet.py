@@ -1148,10 +1148,19 @@ Orange -> Too little quantity available.'''
         # by all user fields in the spreadsheet. This keep the compatibility
         # and configuration possibility for other features.
         idx = cols.index(ORDER_COL_USERFIELDS) # Find the first occurrence.
-        print('-----', distributor_dict[dist]['label']['name'], cols)
         del cols[idx]
-        cols[idx:idx] = [None] #TODO #TODO
-        print('-----', distributor_dict[dist]['label']['name'], cols)
+        cols_user = list(columns_global.keys())
+        for r in set(cols+['refs', 'qty', 'value', 'footprint', 'unit_price', 'ext_price', 'manf#', 'part_num', 'purch', 'desc']):
+            try:
+                cols_user.remove(r)
+            except ValueError:
+                pass
+        logger.log(DEBUG_OVERVIEW,
+                "Add the {f} information for the {d} purchase list code.".format(
+                    d=distributor_dict[dist]['label']['name'],
+                    f=cols_user
+                ))
+        cols[idx:idx] = cols_user
 
     # Create the header of the purchase codes, if present the definition.
     try:
@@ -1227,7 +1236,9 @@ Orange -> Too little quantity available.'''
             if col==None or \
                     (col not in columns and \
                     col not in columns_global):
-                # Create a empty column escaping all the information.
+                # Create an empty column escaping all the information, same when is asked
+                # for a not present filed at the global column (`columns_global`) part or
+                # distributors columns part (`columns`).
                 order_part_info.append('')
                 continue # Doesn't need to calculate range or references, go check the next field.
             if col=='purch':
