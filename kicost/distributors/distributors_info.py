@@ -14,7 +14,7 @@ distributors_info = {
         'type': 'web', # Allowable values: 'local' or 'web'.
         'order': {
             'url': 'https://www.arrow.com/en/bom-tool/',
-            'cols': ['part_num', 'purch', 'refs'], # Sort-order for online orders.
+            'cols': ['part_num', 'purch', 'refs'], # Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.
             #'header': 'Stock#,Quantity,Designators', # Header to help user undertanding (used in some importations).
             'delimiter': ',', # Delimiter for online orders.
             'not_allowed_char': ',', # Characters not allowed at the BoM for web-site import.
@@ -45,8 +45,8 @@ distributors_info = {
         'type': 'web',
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs', ORDER_COL_USERFIELDS],
-            #'header': 'Stock#,Quantity,Designators',
+            'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
+            #'header': 'Stock#,Quantity,Designators,Descriptions,User',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
@@ -71,8 +71,8 @@ distributors_info = {
         'type': 'web',
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs', ORDER_COL_USERFIELDS],
-            #'header': 'Stock#,Quantity,Designators',
+            'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
+            #'header': 'Stock#,Quantity,Designators,Descriptions,User',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {

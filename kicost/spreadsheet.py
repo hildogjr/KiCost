@@ -1224,7 +1224,9 @@ Orange -> Too little quantity available.'''
         for col in cols:
             # Deal with conversion and string replace necessary to the correct distributors
             # code understanding.
-            if col==None:
+            if col==None or \
+                    (col not in columns and \
+                    col not in columns_global):
                 # Create a empty column escaping all the information.
                 order_part_info.append('')
                 continue # Doesn't need to calculate range or references, go check the next field.
