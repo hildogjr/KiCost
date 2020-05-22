@@ -270,7 +270,7 @@ class api_partinfo_kitspace(distributor_class):
                                 part_qty_increment = float("inf")
 
                             # Select the part SKU, web page, and available quantity.
-                            # Each distributor can have differente stock codes for the same part in different
+                            # Each distributor can have different stock codes for the same part in different
                             # quantities / delivery package styles: cut-tape, reel, ...
                             # Therefore we select and overwrite a previous selection if one of the
                             # following conditions is met:
