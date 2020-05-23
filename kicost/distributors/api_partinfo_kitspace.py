@@ -75,7 +75,7 @@ class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'lcsc']
+        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
              # First module load.
@@ -90,6 +90,8 @@ class api_partinfo_kitspace(distributor_class):
                                                                     'Mouser': 'mouser',
                                                                     'Newark': 'newark',
                                                                     'RS': 'rs',
+                                                                    'TME': 'tme',
+                                                                    'Arrow Electronics, Inc.': 'arrow',
                                                                     'LCSC': 'lcsc',
                                                                 }
                                                 }
@@ -108,7 +110,7 @@ class api_partinfo_kitspace(distributor_class):
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
         def find_key(input_dict, value):
             return next((k for k, v in input_dict.items() if v == value), None)
-        distributors = ([find_key(dist_xlate, d) for d in distributor_dict])
+        distributors = ([find_key(dist_xlate, d) for d in distributors])
         
         query_type = re.sub('\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
         #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
@@ -179,17 +181,20 @@ class api_partinfo_kitspace(distributor_class):
 
         FIELDS_CAT = ([d + '#' for d in distributor_dict])
         DISTRIBUTORS = ([d for d in distributor_dict])
+        # Use just the distributors avaliable in this API.
+        distributors = list( set(DISTRIBUTORS) &
+            set(distributors_modules_dict['api_partinfo_kitspace']['distributors']) )
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
 
         def get_part_info(query, parts, distributor_info=None):
             '''Query PartInfo for quantity/price info and place it into the parts list.
-               `distributor_info` is used to update only one distibutor information (price_tiers, ...),
-               the proposed if use in the disambiguouzation procedure.
+               `distributor_info` is used to update only one distributor information (price_tiers, ...),
+               the proposed if use in the disambiguation procedure.
             '''
 
-            results = api_partinfo_kitspace.query(query, DISTRIBUTORS)
+            results = api_partinfo_kitspace.query(query, distributors)
             if not distributor_info:
                 distributor_info = [None] * len(query)
 
@@ -264,19 +269,34 @@ class api_partinfo_kitspace(distributor_class):
                                 # A better alternative may be to examine the packaging field of the offer.
                                 part_qty_increment = float("inf")
 
-                            # Use the qty increment to select the part SKU, web page, and available quantity.
-                            # Do this if this is the first part offer from this dist. Each distributor can have
-                            # differente stock codes for the same part in different quantities / delivery package
-                            # style: cut-tape, reel, ...
+                            # Select the part SKU, web page, and available quantity.
+                            # Each distributor can have different stock codes for the same part in different
+                            # quantities / delivery package styles: cut-tape, reel, ...
+                            # Therefore we select and overwrite a previous selection if one of the
+                            # following conditions is met:
+                            #   1. We don't have a selection for this part from this distributor yet.
+                            #   2. The MOQ is smaller than for the current selection.
+                            #   3. The part_qty_increment for this offer smaller than that of the existing selection.
+                            #      (we prefer cut-tape style packaging over reels)
+                            #   4. For DigiKey, we can't use part_qty_increment to distinguish between
+                            #      reel and cut-tape, so we need to look at the actual DigiKey part number.
+                            #      This procedure is made by the definition `distributors_info[dist]['ignore_cat#_re']`
+                            #      at the distributor profile.
+                            dist_part_num = offer.get('sku', '').get('part', '')
                             if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
                                 # Keeps the information of more availability.
                                 part.qty_avail[dist] = offer.get('in_stock_quantity') # In stock.
-                            if not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq')):
-                                # Save the link, stock code, ... of the page for minimum purchase.
-                                part.moq[dist] = offer.get('moq') # Minimum order qty.
-                                part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
-                                part.part_num[dist] = offer.get('sku', '').get('part', '')
-                                part.qty_increment[dist] = part_qty_increment
+                            ign_stock_code = distributors_info[dist].get('ignore_cat#_re','')
+                            valid_part = not ( ign_stock_code and re.match(ign_stock_code, dist_part_num) )
+                            if valid_part and \
+                                ( not part.part_num[dist] or \
+                                (part_qty_increment < part.qty_increment[dist]) or \
+                                (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
+                                    # Save the link, stock code, ... of the page for minimum purchase.
+                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                    part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
+                                    part.part_num[dist] = dist_part_num
+                                    part.qty_increment[dist] = part_qty_increment
 
                             # Don't bother with any extra info from the distributor.
                             part.info_dist[dist] = {}
@@ -290,8 +310,8 @@ class api_partinfo_kitspace(distributor_class):
         # Create queries to get part price/quantities from PartInfo.
         queries = [] # Each part reference query.
         query_parts = [] # Pointer to the part.
-        query_part_stock_code = [] # Used the stock code mention for disambiguouzation,
-                                   # it ised `None` for the "manf#".
+        query_part_stock_code = [] # Used the stock code mention for disambiguation,
+                                   # it is used `None` for the "manf#".
         for part_idx, part in enumerate(parts):
 
             # Create a PartInfo query using the manufacturer's part number or 

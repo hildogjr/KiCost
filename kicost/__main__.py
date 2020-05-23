@@ -304,7 +304,7 @@ def main():
 
     #try:
     kicost(in_file=args.input, eda_name=args.eda,
-        out_filename=args.output, collapse_refs=not args.no_collapse, supress_cat_url=not args.show_cat_url,
+        out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
         user_fields=args.fields, ignore_fields=args.ignore_fields,
         group_fields=args.group_fields, translate_fields=args.translate_fields,
         variant=args.variant,

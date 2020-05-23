@@ -57,6 +57,7 @@ docs:
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html
+	$(MAKE) -C ./docs/make singlehtml
 
 release-test: clean
 	python setup.py sdist

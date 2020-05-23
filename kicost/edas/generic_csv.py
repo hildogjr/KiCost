@@ -128,7 +128,7 @@ def get_part_groups(in_file, ignore_fields, variant):
          logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
 
     # Standardize the header titles and remove the spaces before
-    # and after, striping the text imrpove the user experience.
+    # and after, striping the text improve the user experience.
     header = [field_name_translations.get(hdr.strip().lower(),hdr.strip().lower()) for hdr in header_file]
 
     # Examine the first line to see if it really is a header.
@@ -147,7 +147,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         if '' in header:
             header.remove('')
 
-        # Define the default header by how may coluns are present at the CSV file.
+        # Define the default header by how may columns are present at the CSV file.
         num_cols = len(header)
         if num_cols == 1:
             header = ['manf#']
@@ -181,7 +181,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         try:
             vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header_file, delimiter=dialect.delimiter))
         except:
-            # If had a error when tryed to read a line maybe a 'EmptyLine',
+            # If had a error when tried to read a line maybe a 'EmptyLine',
             # normally at the end of the file or after the header and before
             # the first part.
             raise Exception('EmptyLine')

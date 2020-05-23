@@ -77,7 +77,7 @@ def kicost(in_file, eda_name, out_filename,
         user_fields, ignore_fields, group_fields, translate_fields,
         variant,
         dist_list=list(distributor_dict.keys()),
-        collapse_refs=True, supress_cat_url=True, currency=DEFAULT_CURRENCY):
+        collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -95,7 +95,7 @@ def kicost(in_file, eda_name, out_filename,
     modules. If `None`, no web/local distributors will be scraped.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
-    @param supress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
+    @param suppress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
     Default `True`.
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
@@ -193,7 +193,7 @@ def kicost(in_file, eda_name, out_filename,
             # Merge all extra fields that read on the files that will
             # not be displayed (Needed to check `user_fields`).
             if f not in FIELDS_IGNORE and SEPRTR not in f and not f in group_fields:
-                # Not include repetitive filed names or fields with the separator `:` defined on `SEPRTR`.
+                # Not include repetitive field names or fields with the separator `:` defined on `SEPRTR`.
                 group_fields += [f]
 
     # Some fields to be merged on specific EDA are enrolled bellow.
@@ -236,22 +236,22 @@ def kicost(in_file, eda_name, out_filename,
         # Set part info to default blank values for all the distributors.
         for part in parts: ## TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-            part.part_num = {dist: '' for dist in dist_list} # Ditributor catalogue number.
-            part.url = {dist: '' for dist in dist_list} # Purchase distributor URL for the spefic part.
+            part.part_num = {dist: '' for dist in dist_list} # Distributor catalogue number.
+            part.url = {dist: '' for dist in dist_list} # Purchase distributor URL for the specific part.
             part.price_tiers = {dist: {} for dist in dist_list} # Price break tiers; [[qty1, price1][qty2, price2]...]
             part.qty_avail = {dist: None for dist in dist_list} # Available quantity.
             part.qty_increment = {dist: None for dist in dist_list}
             part.info_dist = {dist: {} for dist in dist_list}
             part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list} # Default currency.
-            part.moq = {dist: None for dist in dist_list} # Minimum order quantity allowd by the distributor.
+            part.moq = {dist: None for dist in dist_list} # Minimum order quantity allowed by the distributor.
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
-        #TODO The calls bellow should became the call above of just one function in the `distributors` pachage/folder.
+        #TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
         #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
         dist_local_template.query_part_info(parts, distributor_dict, currency)
         api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, supress_cat_url,
+    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, suppress_cat_url,
                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.

@@ -41,7 +41,7 @@ if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
 
 from .kicad_config import *
 
-EESCHEMA_KICOST_FIELDS = ['manf#', 'variant']
+EESCHEMA_KICOST_FIELDS = ['manf#', 'desc', 'variant']
 
 ###############################################################################
 ## Auxiliary functions.

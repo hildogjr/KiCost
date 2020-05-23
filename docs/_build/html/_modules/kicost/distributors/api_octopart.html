@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.distributors.api_octopart &#8212; kicost 1.1.2 documentation</title>
+    <title>kicost.distributors.api_octopart &#8212; kicost 1.1.4 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li> 
       </ul>
@@ -110,7 +110,8 @@
                                                                     <span class="s1">&#39;mouser&#39;</span><span class="p">:</span> <span class="s1">&#39;Mouser&#39;</span><span class="p">,</span>
                                                                     <span class="s1">&#39;newark&#39;</span><span class="p">:</span> <span class="s1">&#39;Newark&#39;</span><span class="p">,</span>
                                                                     <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="s1">&#39;RS Components&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;tme&#39;</span><span class="p">:</span> <span class="s1">&#39;TME&#39;</span>
+                                                                    <span class="s1">&#39;tme&#39;</span><span class="p">:</span> <span class="s1">&#39;TME&#39;</span><span class="p">,</span>
+                                                                    <span class="s1">&#39;lcsc&#39;</span><span class="p">:</span> <span class="s1">&#39;LCSC&#39;</span><span class="p">,</span>
                                                                 <span class="p">}</span>
                                                 <span class="p">}</span>
                                             <span class="p">})</span>
@@ -291,8 +292,19 @@
                                 <span class="c1"># A better alternative may be to examine the packaging field of the offer.</span>
                                 <span class="n">part_qty_increment</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
 
-                            <span class="c1"># Use the qty increment to select the part SKU, web page, and available quantity.</span>
-                            <span class="c1"># Do this if this is the first part offer from this dist.</span>
+                            <span class="c1"># Select the part SKU, web page, and available quantity.</span>
+                            <span class="c1"># Each distributor can have differente stock codes for the same part in different</span>
+                            <span class="c1"># quantities / delivery package styles: cut-tape, reel, ...</span>
+                            <span class="c1"># Therefore we select and overwrite a previous selection if one of the</span>
+                            <span class="c1"># following conditions is met:</span>
+                            <span class="c1">#   1. We don&#39;t have a selection for this part from this distributor yet.</span>
+                            <span class="c1">#   2. The MOQ is smaller than for the current selection.</span>
+                            <span class="c1">#   3. The part_qty_increment for this offer smaller than that of the existing selection.</span>
+                            <span class="c1">#      (we prefer cut-tape style packaging over reels)</span>
+                            <span class="c1">#   4. For DigiKey, we can&#39;t use part_qty_increment to distinguish between</span>
+                            <span class="c1">#      reel and cut-tape, so we need to look at the actual DigiKey part number.</span>
+                            <span class="c1">#      This procedure is made by the definition `distributors_info[dist][&#39;ignore_cat#_re&#39;]`</span>
+                            <span class="c1">#      at the distributor profile.</span>
                             <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]:</span>
                                 <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">&lt;</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)):</span>
                                     <span class="c1"># Keeps the information of more availability.</span>
@@ -310,12 +322,17 @@
                                 <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">&lt;</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)):</span>
                                 <span class="c1"># Keeps the information of more availability.</span>
                                     <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)</span>
-                                <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">&gt;</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)):</span>
-                                    <span class="c1"># Save the link, stock code, ... of the page for minimum purchase.</span>
-                                    <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span> <span class="c1"># Minimum order qty.</span>
-                                    <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sku&#39;</span><span class="p">)</span>
-                                    <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">url</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product_url&#39;</span><span class="p">)</span>
-                                    <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">part_qty_increment</span>
+                                <span class="n">ign_stock_code</span> <span class="o">=</span> <span class="n">distributors_info</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_cat#_re&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                                <span class="n">valid_part</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span> <span class="n">ign_stock_code</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ign_stock_code</span><span class="p">,</span> <span class="n">dist_part_num</span><span class="p">)</span> <span class="p">)</span>
+                                <span class="k">if</span> <span class="n">valid_part</span> <span class="ow">and</span> \
+                                    <span class="p">(</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> \
+                                    <span class="p">(</span><span class="n">part_qty_increment</span> <span class="o">&lt;</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">[</span><span class="n">dist</span><span class="p">])</span> <span class="ow">or</span> \
+                                    <span class="p">(</span><span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">&gt;</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)))</span> <span class="p">):</span>
+                                        <span class="c1"># Save the link, stock code, ... of the page for minimum purchase.</span>
+                                        <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span> <span class="c1"># Minimum order qty.</span>
+                                        <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sku&#39;</span><span class="p">)</span>
+                                        <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">url</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product_url&#39;</span><span class="p">)</span>
+                                        <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">part_qty_increment</span>
 
                             <span class="c1"># Don&#39;t bother with any extra info from the distributor.</span>
                             <span class="n">parts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">info_dist</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -415,7 +432,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li> 
       </ul>

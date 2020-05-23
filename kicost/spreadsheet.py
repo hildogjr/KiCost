@@ -68,7 +68,7 @@ ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
-                       collapse_refs=True, supress_cat_url=True, user_fields=None, variant=None):
+                       collapse_refs=True, suppress_cat_url=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
@@ -302,7 +302,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
             next_col = add_dist_to_worksheet(wks, wrk_formats, columns_global,
                                             START_ROW, dist_start_col,
                                             UNIT_COST_ROW, TOTAL_COST_ROW,
-                                             refs_col, qty_col, dist, parts, supress_cat_url)
+                                             refs_col, qty_col, dist, parts, suppress_cat_url)
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
                 '{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(
@@ -371,7 +371,7 @@ def add_globals_to_worksheet(wks, wrk_formats, start_row, start_col,
             'level': 1,
             'label': 'Manf#',
             'width': None,
-            'comment': '''Manufacturer number for each part and link to it\'s datasheet (ctrl-click).
+            'comment': '''Manufacturer number for each part and link to it\'s datasheet (Ctrl-click).
 Purple -> Obsolete part detected by one of the distributors.''',
             'static': True,
         },
@@ -537,7 +537,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                              part.fields[field_name], cell_format)
                 else:
                     if field_name=='footprint':
-                        ##TODO add future depence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
+                        ##TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
                         field_value_footprint = re.findall('\:(.*)', part.fields[field_name])
                         if field_value_footprint:
                             field_value = field_value_footprint[0]
@@ -550,7 +550,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
 
         # Enter total part quantity needed.
         try:
-            qty = partgroup_qty(part);
+            qty = partgroup_qty(part)
             if isinstance(qty, list):
                 # Multifiles BOM case, write each quantity and after,
                 # in the 'qty' column the total quantity as ceil of
@@ -818,7 +818,7 @@ Orange -> Too little quantity available.'''
         },
     }
     if not supress_cat_url:
-        # Add a extra column to the hiperlink.
+        # Add a extra column to the hyperlink.
         columns.update({'link': {
                             'col': 5,
                             'level': 2,
@@ -853,7 +853,7 @@ Orange -> Too little quantity available.'''
 
     num_parts = len(parts)
     # For check the number of BOM files read, see the length of p[?]['manf#_qty'],
-    # if it is a `list()` instance, if don't, the lenth is always `1`.
+    # if it is a `list()` instance, if don't, the length is always `1`.
     num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
 
     # Add distributor data for each part.
@@ -882,7 +882,7 @@ Orange -> Too little quantity available.'''
             if supress_cat_url:
                 dist_part_num = 'Link' # To use as text for the link.
         try:
-            # Add a comment in the 'cat#' column with extra informations gotten in the distributor web page.
+            # Add a comment in the 'cat#' column with extra information gotten in the distributor web page.
             comment = '\n'.join(sorted([ k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
             if comment:
                 wks.write_comment(row, start_col + columns['part_num']['col'], comment)
@@ -960,7 +960,7 @@ Orange -> Too little quantity available.'''
             dist_currency_symbol = numbers.get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
             price_break_info = 'Qty/Price Breaks ({c}):\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(c=dist_currency, s=dist_currency_symbol)
             for q in qtys[1 if minimum_order_qty==1 else 2:]:
-                # Skip the unity quantity for the tip ballon if it not allow to purchase in the distributor.
+                # Skip the unity quantity for the tip balloon if it not allow to purchase in the distributor.
                 price = price_tiers[q]
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format( q,
                     numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE),
@@ -1122,6 +1122,12 @@ Orange -> Too little quantity available.'''
     )
     wks.write_comment(ORDER_HEADER, purch_qty_col,
         'Copy the information below to the BOM import page of the distributor web site.')
+    try:
+        wks.write_url(ORDER_HEADER, purch_qty_col-1,
+            distributor_dict[dist]['order']['url'],
+            string='Buy here')
+    except KeyError:
+        pass # Not URL registered.
 
 
     # Write the spreadsheet code to multiple lines to create the purchase codes to
@@ -1129,7 +1135,32 @@ Orange -> Too little quantity available.'''
     try:
         cols = distributor_dict[dist]['order']['cols']
     except KeyError:
+        logger.log(DEBUG_OVERVIEW,
+                "Purchase list codes for {d} will not be generated: no information provided.".format(
+                    d=distributor_dict[dist]['label']['name']
+                ))
         return start_col + num_cols # If not created the distributor definition, jump this final code part.
+
+    from .distributors.distributors_info import ORDER_COL_USERFIELDS
+    if ORDER_COL_USERFIELDS in cols:
+        # It is requested all the user fields at the purchase code,
+        # replace the virtual annotation provided by `ORDER_COL_USERFIELDS`
+        # by all user fields in the spreadsheet. This keep the compatibility
+        # and configuration possibility for other features.
+        idx = cols.index(ORDER_COL_USERFIELDS) # Find the first occurrence.
+        del cols[idx]
+        cols_user = list(columns_global.keys())
+        for r in set(cols+['refs', 'qty', 'value', 'footprint', 'unit_price', 'ext_price', 'manf#', 'part_num', 'purch', 'desc']):
+            try:
+                cols_user.remove(r)
+            except ValueError:
+                pass
+        logger.log(DEBUG_OVERVIEW,
+                "Add the {f} information for the {d} purchase list code.".format(
+                    d=distributor_dict[dist]['label']['name'],
+                    f=cols_user
+                ))
+        cols[idx:idx] = cols_user
 
     # Create the header of the purchase codes, if present the definition.
     try:
@@ -1153,8 +1184,8 @@ Orange -> Too little quantity available.'''
         pass
 
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
-        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not sbe genereated.".format(
-                            d=distributor_dict[dist]['name']
+        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(
+                            d=distributor_dict[dist]['label']['name']
                         ))
     else:
         # This script enters a function into a spreadsheet cell that
@@ -1165,7 +1196,7 @@ Orange -> Too little quantity available.'''
         #    non-empty cells in sel_range1 and sel_range2. (Innermost
         #    nested IF and ROW commands.) sel_range1 and sel_range2 are
         #    the part's catalog number and purchase quantity.
-        # 2) Selects the k'th smallest of the row indices where k is the
+        # 2) Selects the k'th smallest of the row index where k is the
         #    number of rows between the current part row in the order and the
         #    top row of the order. (SMALL() and ROW() commands.)
         # 3) Gets the cell contents  from the get_range using the k'th
@@ -1202,6 +1233,14 @@ Orange -> Too little quantity available.'''
         for col in cols:
             # Deal with conversion and string replace necessary to the correct distributors
             # code understanding.
+            if col==None or \
+                    (col not in columns and \
+                    col not in columns_global):
+                # Create an empty column escaping all the information, same when is asked
+                # for a not present filed at the global column (`columns_global`) part or
+                # distributors columns part (`columns`).
+                order_part_info.append('')
+                continue # Doesn't need to calculate range or references, go check the next field.
             if col=='purch':
                 # Add text conversion if is a numeric cell.
                 order_part_info.append('TEXT({},"##0")'.format(order_info_func_model))
@@ -1238,12 +1277,12 @@ Orange -> Too little quantity available.'''
                 info_range = ""
                 logger.warning("Not valid field `{f}` for purchase list at {d}.".format(
                             f=col,
-                            d=distributor_dict[dist]['name']
+                            d=distributor_dict[dist]['label']['name']
                         ))
             info_range =xl_range(PART_INFO_FIRST_ROW, info_range,
                                  PART_INFO_LAST_ROW, info_range)
             # If the correspondent information is some description, it is allow to add the general
-            # purchase designator. it is placed inside the "not allow caracheters" restriction.
+            # purchase designator. it is placed inside the "not allow characters" restriction.
             if col not in ['part_num', 'purch', 'manf#']:
                 info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(PURCHASE_DESCRIPTION_SEPRTR)+ '&' + info_range
             # Create the part of formula that refers with one specific information.
@@ -1265,7 +1304,7 @@ Orange -> Too little quantity available.'''
             purchase_code = ""
             logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(
                         f=col,
-                        d=distributor_dict[dist]['name']
+                        d=distributor_dict[dist]['label']['name']
                     ))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code,
                                  PART_INFO_LAST_ROW, purchase_code)
@@ -1289,7 +1328,7 @@ Orange -> Too little quantity available.'''
 
 
 def remove_column(table, name):
-    '''Remove a speficied columns from a create table.'''
+    '''Remove a specified columns from a create table.'''
     for h in table:
         if table[h]['col']>table[name]['col']:
             table[h]['col'] -= 1

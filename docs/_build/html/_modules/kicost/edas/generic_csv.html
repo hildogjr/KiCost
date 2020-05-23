@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.edas.generic_csv &#8212; kicost 1.1.2 documentation</title>
+    <title>kicost.edas.generic_csv &#8212; kicost 1.1.4 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -167,7 +167,7 @@
          <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;There is a duplicated header title in the file. This could cause loss of information.&#39;</span><span class="p">)</span>
 
     <span class="c1"># Standardize the header titles and remove the spaces before</span>
-    <span class="c1"># and after, striping the text imrpove the user experience.</span>
+    <span class="c1"># and after, striping the text improve the user experience.</span>
     <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">field_name_translations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">hdr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span><span class="n">hdr</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span> <span class="k">for</span> <span class="n">hdr</span> <span class="ow">in</span> <span class="n">header_file</span><span class="p">]</span>
 
     <span class="c1"># Examine the first line to see if it really is a header.</span>
@@ -186,7 +186,7 @@
         <span class="k">if</span> <span class="s1">&#39;&#39;</span> <span class="ow">in</span> <span class="n">header</span><span class="p">:</span>
             <span class="n">header</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Define the default header by how may coluns are present at the CSV file.</span>
+        <span class="c1"># Define the default header by how may columns are present at the CSV file.</span>
         <span class="n">num_cols</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_cols</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">]</span>
@@ -220,7 +220,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="n">vals</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">([</span><span class="n">row</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">)],</span> <span class="n">fieldnames</span><span class="o">=</span><span class="n">header_file</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">dialect</span><span class="o">.</span><span class="n">delimiter</span><span class="p">))</span>
         <span class="k">except</span><span class="p">:</span>
-            <span class="c1"># If had a error when tryed to read a line maybe a &#39;EmptyLine&#39;,</span>
+            <span class="c1"># If had a error when tried to read a line maybe a &#39;EmptyLine&#39;,</span>
             <span class="c1"># normally at the end of the file or after the header and before</span>
             <span class="c1"># the first part.</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;EmptyLine&#39;</span><span class="p">)</span>
@@ -327,7 +327,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

@@ -1,0 +1,365 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>kicost.kicad_config &#8212; kicost 1.1.4 documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.kicad_config</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!python</span>
+<span class="c1"># -*- coding: utf-8 -*- </span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2018 by Hildo Guillardi Júnior</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Júnior&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;University of Campinas - Brazil&#39;</span>
+<span class="c1"># This script aims to be a Eeschema configuration layer.</span>
+
+<span class="c1"># Python libraries.</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">re</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">sexpdata</span> <span class="c1"># Try to use a external updated library.</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">sexpdata</span> <span class="c1"># Use the local file.</span>
+<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span> <span class="c1"># Debug, language and default configurations.</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;get_app_config_path&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;PATH_KICAD_CONFIG&#39;</span><span class="p">,</span> <span class="s1">&#39;PATH_EESCHEMA_CONFIG&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;bom_plugin_add_entry&#39;</span><span class="p">,</span> <span class="s1">&#39;bom_plugin_remove_entry&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;fields_add_entry&#39;</span><span class="p">,</span> <span class="s1">&#39;fields_remove_entry&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="get_app_config_path"><a class="viewcode-back" href="../../kicost.html#kicost.kicad_config.get_app_config_path">[docs]</a><span class="k">def</span> <span class="nf">get_app_config_path</span><span class="p">(</span><span class="n">appname</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">AppKit</span> <span class="k">import</span> <span class="n">NSSearchPathForDirectoriesInDomains</span>
+        <span class="c1"># http://developer.apple.com/DOCUMENTATION/Cocoa/Reference/Foundation/Miscellaneous/Foundation_Functions/Reference/reference.html#//apple_ref/c/func/NSSearchPathForDirectoriesInDomains</span>
+        <span class="c1"># NSApplicationSupportDirectory = 14</span>
+        <span class="c1"># NSUserDomainMask = 1</span>
+        <span class="c1"># True for expanding the tilde into a fully qualified path</span>
+        <span class="n">appdata</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">NSSearchPathForDirectoriesInDomains</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;Preferences&quot;</span> <span class="p">,</span> <span class="n">appname</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">:</span>
+        <span class="n">appdata</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;APPDATA&#39;</span><span class="p">],</span> <span class="n">appname</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># ~/.config/kicad</span>
+        <span class="n">appdata</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">,</span> <span class="s2">&quot;.config&quot;</span><span class="p">,</span> <span class="n">appname</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">appdata</span></div>
+
+<span class="n">PATH_KICAD_CONFIG</span> <span class="o">=</span> <span class="n">get_app_config_path</span><span class="p">(</span><span class="s1">&#39;kicad&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">PATH_KICAD_CONFIG</span><span class="p">:</span>
+    <span class="k">raise</span><span class="p">(</span><span class="s1">&#39;KiCad configuration folder not found.&#39;</span><span class="p">)</span>
+<span class="n">PATH_EESCHEMA_CONFIG</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PATH_KICAD_CONFIG</span><span class="p">,</span> <span class="s2">&quot;eeschema&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_user_documents</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">:</span>
+        <span class="n">user_documents</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">,</span> <span class="s2">&quot;Documents&quot;</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">:</span>
+        <span class="c1"># e.g. c:\users\bob\Documents</span>
+        <span class="n">user_documents</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;USERPROFILE&#39;</span><span class="p">],</span> <span class="s2">&quot;Documents&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">user_documents</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">,</span> <span class="s2">&quot;Documents&quot;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">user_documents</span>
+
+
+<span class="k">def</span> <span class="nf">get_running_processes</span><span class="p">(</span><span class="n">appname</span><span class="p">):</span>
+    <span class="n">processes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">psutil</span><span class="o">.</span><span class="n">process_iter</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">appname</span><span class="p">):</span>
+                <span class="n">processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">psutil</span><span class="o">.</span><span class="n">Error</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">return</span> <span class="n">processes</span>
+
+
+<span class="k">def</span> <span class="nf">before</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="c1"># Find first part and return slice before it.</span>
+    <span class="n">pos_a</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pos_a</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">pos_a</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">after</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">a</span><span class="p">):</span>
+    <span class="c1"># Find and validate first part.</span>
+    <span class="n">pos_a</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pos_a</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># Returns chars after the found string.</span>
+    <span class="n">adjusted_pos_a</span> <span class="o">=</span> <span class="n">pos_a</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">adjusted_pos_a</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">):</span> <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">value</span><span class="p">[</span><span class="n">adjusted_pos_a</span><span class="p">:]</span>
+
+
+<span class="k">def</span> <span class="nf">de_escape</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">in_escape</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">in_escape</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="n">c</span>
+            <span class="n">in_escape</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">==</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">:</span>
+                <span class="n">in_escape</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="n">c</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">escape</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">c</span> <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span> <span class="k">else</span> <span class="n">c</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+
+<span class="k">def</span> <span class="nf">get_config_item</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">before</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s1">&#39;=&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">after</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">update_config_file</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="n">new_config</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">config</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">before</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s1">&#39;=&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">key</span><span class="p">:</span>
+            <span class="n">new_config</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_config</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_config</span>
+
+
+<span class="k">def</span> <span class="nf">write_config_file</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">read_config_file</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">config</span>
+
+
+<div class="viewcode-block" id="fields_add_entry"><a class="viewcode-back" href="../../kicost.html#kicost.kicad_config.fields_add_entry">[docs]</a><span class="k">def</span> <span class="nf">fields_add_entry</span><span class="p">(</span><span class="n">values_modify</span><span class="p">,</span> <span class="n">re_flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Add a list of fields to the Eeschema template.&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">values_modify</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span> <span class="n">values_modify</span><span class="o">=</span><span class="p">[</span><span class="n">values_modify</span><span class="p">]</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">config</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;FieldNames&quot;</span><span class="p">)]</span>
+    <span class="n">changes</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">after</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;FieldNames=&quot;</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">de_escape</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value_modify</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values_modify</span><span class="p">):</span>
+            <span class="n">value_found</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="n">search</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+                    <span class="n">search</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">value_modify</span><span class="p">,</span> <span class="n">search</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">re_flags</span><span class="p">):</span>
+                    <span class="n">value_found</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">value_found</span><span class="p">:</span>
+                <span class="n">values</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;field&#39;</span><span class="p">),</span> <span class="p">[</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="n">value_modify</span><span class="p">]])</span>
+                <span class="n">changes</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">changes</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">update_config_file</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;FieldNames&quot;</span><span class="p">,</span> <span class="n">escape</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="n">write_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fields_remove_entry"><a class="viewcode-back" href="../../kicost.html#kicost.kicad_config.fields_remove_entry">[docs]</a><span class="k">def</span> <span class="nf">fields_remove_entry</span><span class="p">(</span><span class="n">values_modify</span><span class="p">,</span> <span class="n">re_flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Remove a list of fields from the Eeschema template.&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">values_modify</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span> <span class="n">values_modify</span><span class="o">=</span><span class="p">[</span><span class="n">values_modify</span><span class="p">]</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">)</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">config</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;FieldNames&quot;</span><span class="p">)]</span>
+    <span class="n">changes</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">delete_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">after</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;FieldNames=&quot;</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">de_escape</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">value_modify</span> <span class="ow">in</span> <span class="n">values_modify</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+                <span class="n">search</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+                    <span class="n">search</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">value_modify</span><span class="p">,</span> <span class="n">search</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">re_flags</span><span class="p">):</span>
+                    <span class="n">changes</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># The name in really in the &#39;name&#39;.</span>
+                    <span class="n">delete_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="c1"># We want to delete this entry.</span>
+        <span class="k">for</span> <span class="n">delete</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">delete_list</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">del</span> <span class="n">values</span><span class="p">[</span><span class="n">delete</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">changes</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">update_config_file</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;FieldNames&quot;</span><span class="p">,</span> <span class="n">escape</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="n">write_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="bom_plugin_remove_entry"><a class="viewcode-back" href="../../kicost.html#kicost.kicad_config.bom_plugin_remove_entry">[docs]</a><span class="k">def</span> <span class="nf">bom_plugin_remove_entry</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">re_flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Remove a BOM plugin entry to the Eeschema configuration file.&#39;&#39;&#39;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">)</span>
+    <span class="n">bom_plugins_raw</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">config</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bom_plugins&quot;</span><span class="p">)]</span>
+    <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">))</span>
+    <span class="n">changes</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">bom_plugins_raw</span> <span class="o">=</span> <span class="n">after</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;bom_plugins=&quot;</span><span class="p">)</span>
+        <span class="n">bom_plugins_raw</span> <span class="o">=</span> <span class="n">de_escape</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">)</span>
+        <span class="n">bom_list</span> <span class="o">=</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">bom_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">search</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+                <span class="n">search</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">re_flags</span><span class="p">):</span>
+                <span class="n">changes</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># The name in really in the &#39;name&#39;.</span>
+                <span class="k">continue</span> <span class="c1"># We want to delete this entry.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">[</span><span class="mi">2</span><span class="p">:]:</span>
+                    <span class="k">if</span> <span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;opts&#39;</span><span class="p">)</span> <span class="ow">and</span>\
+                        <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;nickname\s*=\s*&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">,</span> <span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">re_flags</span><span class="p">):</span>
+                            <span class="n">changes</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="k">continue</span> <span class="c1"># The name is in the &#39;nickname&#39;.</span>
+                <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span> <span class="c1"># This plugin remains on the list.</span>
+    <span class="k">if</span> <span class="n">changes</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">new_list</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">update_config_file</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;bom_plugins&quot;</span><span class="p">,</span> <span class="n">escape</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+    <span class="n">write_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="bom_plugin_add_entry"><a class="viewcode-back" href="../../kicost.html#kicost.kicad_config.bom_plugin_add_entry">[docs]</a><span class="k">def</span> <span class="nf">bom_plugin_add_entry</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="n">nickname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">re_flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">,</span> <span class="n">put_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">set_default</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Add a BOM plugin entry to the Eeschema configuration file.&#39;&#39;&#39;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">read_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">)</span>
+    <span class="n">bom_plugins_raw</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">config</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;bom_plugins&quot;</span><span class="p">)]</span>
+    <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;plugins&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">bom_plugins_raw</span> <span class="o">=</span> <span class="n">after</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;bom_plugins=&quot;</span><span class="p">)</span>
+        <span class="n">bom_plugins_raw</span> <span class="o">=</span> <span class="n">de_escape</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">)</span>
+        <span class="n">bom_list</span> <span class="o">=</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bom_plugins_raw</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">bom_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="n">search</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+                <span class="n">search</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">,</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">search</span><span class="p">,</span> <span class="n">re_flags</span><span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">nickname</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="c1"># Plugin already added and don&#39;t have nickname.</span>
+                <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">[</span><span class="mi">2</span><span class="p">:]:</span>
+                    <span class="k">if</span> <span class="n">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;opts&#39;</span><span class="p">)</span> <span class="ow">and</span>\
+                        <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;nickname\s*=\s*&#39;</span><span class="o">+</span><span class="n">nickname</span><span class="p">,</span> <span class="n">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">re_flags</span><span class="p">):</span>
+                            <span class="k">return</span> <span class="c1"># Plugin already added with this nickname.</span>
+            <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">nickname</span><span class="p">:</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;plugin&#39;</span><span class="p">),</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="p">[</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;cmd&#39;</span><span class="p">),</span> <span class="n">cmd</span><span class="p">]])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;plugin&#39;</span><span class="p">),</span> <span class="n">name</span><span class="p">,</span>
+                        <span class="p">[</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;cmd&#39;</span><span class="p">),</span> <span class="n">cmd</span><span class="p">],</span>
+                        <span class="p">[</span><span class="n">sexpdata</span><span class="o">.</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;opts&#39;</span><span class="p">),</span> <span class="s1">&#39;nickname=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nickname</span><span class="p">)]]</span> <span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_list</span><span class="p">):</span>
+        <span class="c1"># Put KiCost at first.</span>
+        <span class="k">if</span> <span class="n">put_first</span><span class="p">:</span>
+            <span class="n">new_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">new_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">del</span> <span class="n">new_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">update_config_file</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;bom_plugins&quot;</span><span class="p">,</span> <span class="n">escape</span><span class="p">(</span> <span class="n">sexpdata</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">new_list</span><span class="p">)</span> <span class="p">))</span>
+    <span class="n">write_config_file</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">set_default</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">fileinput</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fileinput</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="n">PATH_EESCHEMA_CONFIG</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;bom_plugin_selected=&#39;</span><span class="p">):</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="s1">&#39;bom_plugin_selected=</span><span class="si">{}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nickname</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">line</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

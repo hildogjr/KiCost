@@ -3,8 +3,22 @@
 History
 -------
 
-1.1.3 (2019-10-??)
+1.1.5 (2020-??-??)
 ______________________
+* Fix the Farnell import code order
+* Fix LCSC link and add BOM import links of all
+* Add the user custom field capability to order quote
+
+
+1.1.4 (2020-03-24)
+______________________
+* Add TME and Arrow to Kitspace API.
+* Others cosmetic and internal changes.
+
+
+1.1.3 (2019-12-31)
+______________________
+* Fix the Digikey using Digi-Reel information.
 * Added LCSC as distributor into the Kitspace API (the list can be used to JLCPCB).
 * Parinfo kitspace API now just return the asked distributors (before was given all the avaliable distributors).
 
