@@ -21,6 +21,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from __future__ import print_function
+
+
 # Author information.
 __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
@@ -39,6 +42,14 @@ from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
+
+# Define debug function
+import sys
+
+# Use `debug('x + 1')` for instance.
+def debug(expression):
+    frame = sys._getframe(1)
+    print(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
 
 MAX_PARTS_PER_QUERY = 20 # Maximum number of parts in a single query.
 
@@ -288,9 +299,11 @@ class api_partinfo_kitspace(distributor_class):
                                 part.qty_avail[dist] = offer.get('in_stock_quantity') # In stock.
                             ign_stock_code = distributors_info[dist].get('ignore_cat#_re','')
                             valid_part = not ( ign_stock_code and re.match(ign_stock_code, dist_part_num) )
+                            #debug('part.part_num[dist]') # Uncomment to debug
+                            #debug('part.qty_increment[dist]')  # Uncomment to debug
                             if valid_part and \
                                 ( not part.part_num[dist] or \
-                                (part_qty_increment < part.qty_increment[dist]) or \
+                                ( part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or \
                                 (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
                                     # Save the link, stock code, ... of the page for minimum purchase.
                                     part.moq[dist] = offer.get('moq') # Minimum order qty.
