@@ -1084,7 +1084,7 @@ Orange -> Too little quantity available.'''
               wrk_formats['total_cost_currency'])
     # Show how many parts were found at this distributor.
     wks.write(total_cost_row, dist_cat_col,
-        '=(COUNTA({count_range})&" of "&ROWS({count_range})&" parts found"'.format(
+        '=(COUNTA({count_range})&" of "&ROWS({count_range})&" parts found")'.format(
         #'=COUNTIF({count_range},"<>")&" of "&ROWS({count_range})&" parts found"'.format(
             count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
                                  PART_INFO_LAST_ROW, total_cost_col)),

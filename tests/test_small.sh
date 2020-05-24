@@ -25,6 +25,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+cd $(dirname $0)
 BOMs="part_list_small.csv Indium_X2.xml multipart.xml NF6X_TestBoard.xml StickIt-Hat.xml"
 for eachBOM in $BOMs; do
     echo "############ Testing file $eachBOM"
