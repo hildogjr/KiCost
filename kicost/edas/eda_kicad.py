@@ -31,6 +31,13 @@ from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 
 
+from .eda import eda_class
+
+class eda_altium(eda_class):
+    def __init__(self):
+        pass
+
+
 __all__ = ['get_part_groups']
 
 from . import eda_dict

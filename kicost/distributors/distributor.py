@@ -72,6 +72,11 @@ class distributor_class(object):
         raise NotImplementedError()
 
     @staticmethod
+    def query():
+        '''Send query to server and return results.'''
+        raise NotImplementedError()
+
+    @staticmethod
     def query_part_info():
         ''' Get the parts info of one distributor class.'''
         raise NotImplementedError()

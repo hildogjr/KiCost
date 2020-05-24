@@ -38,6 +38,12 @@ from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIV
 from .tools import field_name_translations, remove_dnp_parts, split_refs
 from ..distributors.global_vars import distributor_dict
 
+from .eda import eda_class
+
+class generic_csv(eda_class):
+    def __init__(self):
+        pass
+
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
     {
@@ -93,7 +99,7 @@ def get_part_groups(in_file, ignore_fields, variant):
        @param ignore_fields `list()` fields do be ignored on the read action.
        @param variant `str()` in regular expression to match with the design version of the BOM.
        For now, `variant`is not used on CSV read, just kept to compatibility with the other EDA submodules.
-       @return `dict()` of the parts designed. The keys are the componentes references.
+       @return `dict()` of the parts designed. The keys are the components references.
     '''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
@@ -159,7 +165,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # OK, the first line is a header, so remove it from the data.
         content.pop(0) # Remove the header from the content.
 
-    def corresponent_header_value(key, vals):
+    def correspondent_header_value(key, vals):
         # Get the correspondent first valid value of `vals` look from a key
         # in `header`, but using `header_file` to access `vals`. Used to get
         # the designator reference `refs` and quantity `qty`.
@@ -187,10 +193,10 @@ def get_part_groups(in_file, ignore_fields, variant):
             raise Exception('EmptyLine')
 
         if 'refs' in header:
-            ref_str = corresponent_header_value('refs', vals).strip()
+            ref_str = correspondent_header_value('refs', vals).strip()
             qty = len(ref_str)
         elif 'qty' in header:
-            qty = int( corresponent_header_value('qty', vals) )
+            qty = int( correspondent_header_value('qty', vals) )
             if qty>1:
                 ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr, extract_fields.gen_cntr+qty-1)
             else:

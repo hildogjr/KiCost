@@ -41,6 +41,12 @@ from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 from .tools import PART_REF_REGEX_NOT_ALLOWED
 
+from .eda import eda_class
+
+class eda_altium(eda_class):
+    def __init__(self):
+        pass
+
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(
     {
