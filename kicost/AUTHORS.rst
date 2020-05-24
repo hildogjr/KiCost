@@ -22,4 +22,4 @@ Contributors
 * Max Maisel https://github.com/mmmaisel
 * johnthagen https://github.com/johnthagen
 * Frieder Schrempf https://github.com/fri-sch
-* mdeweerd https://github.com/mdeweerd
+* Mario DE WEERD https://github.com/mdeweerd
