@@ -165,7 +165,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # OK, the first line is a header, so remove it from the data.
         content.pop(0) # Remove the header from the content.
 
-    def corresponent_header_value(key, vals):
+    def correspondent_header_value(key, vals):
         # Get the correspondent first valid value of `vals` look from a key
         # in `header`, but using `header_file` to access `vals`. Used to get
         # the designator reference `refs` and quantity `qty`.
@@ -193,10 +193,10 @@ def get_part_groups(in_file, ignore_fields, variant):
             raise Exception('EmptyLine')
 
         if 'refs' in header:
-            ref_str = corresponent_header_value('refs', vals).strip()
+            ref_str = correspondent_header_value('refs', vals).strip()
             qty = len(ref_str)
         elif 'qty' in header:
-            qty = int( corresponent_header_value('qty', vals) )
+            qty = int( correspondent_header_value('qty', vals) )
             if qty>1:
                 ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr, extract_fields.gen_cntr+qty-1)
             else:
