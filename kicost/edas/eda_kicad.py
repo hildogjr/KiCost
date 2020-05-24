@@ -75,19 +75,23 @@ def get_part_groups(in_file, ignore_fields, variant):
                 elif SEPRTR not in name: # No separator, so get global field value.
                     name = field_name_translations.get(name, name)
                     value = str(f.string)
-                    if value:
+                    if value and name not in fields:
+                        # Only set the field if it is not set yet (which indicates a variant
+                        # has been parsed before)
                         fields[name] = value # Do not create empty fields. This is useful
                                              # when used more than one `manf#` alias in one designator.
                 else:
                     # Now look for fields that start with 'kicost' and possibly
                     # another dot-separated variant field and store their values.
                     # Anything else is in a non-kicost namespace.
-                    key_re = 'kicost(\.(?P<variant>.*))?:(?P<name>.*)'.format(variant)
+                    key_re = 'kicost(\.(?P<variant>.*))?:(?P<name>.*)'
                     mtch = re.match(key_re, name, flags=re.IGNORECASE)
                     if mtch:
                         v = mtch.group('variant')
                         if v is not None and not re.match(variant, v, flags=re.IGNORECASE):
                             continue
+                        if v is not None:
+                            logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + v + mtch.group('name') )
                         # The field name is anything that came after the leading
                         # 'kicost' and optional variant field.
                         name = mtch.group('name')
@@ -96,13 +100,20 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # number or a distributors catalog number, then add
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
-                        if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and name[:-1] not in distributor_dict:
+                        #if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and name[:-1] not in distributor_dict:
+                        dist_mtch = re.match('([^:]+):',name)
+                        if dist_mtch and dist_mtch.group(1) not in distributor_dict:
+                            # 'name' is a distibutore (preceded & followed with ':'
+                            logger.log(DEBUG_OBSESSIVE, 'Assigning local: for name "{}" dist "{}" ... '.format(name,dist_mtch.group(1)) )
+                            # Original code supposes that name is a distributor
                             if SEPRTR not in name: # This field has no distributor.
                                 name = 'local:' + name # Assign it to a local distributor.
                         value = str(f.string)
                         if value or v is not None:
-						    # Empty value also propagated to force deleting default value
+                            # Empty value also propagated to force deleting default value
                             fields[name] = value
+                            logger.log(DEBUG_OVERVIEW, 'Field {}={}'.format(name,value))
+                        logger.log(DEBUG_OVERVIEW, 'Field {}={}'.format(name,value))
         except AttributeError:
             pass  # No fields found for this part.
         return fields
