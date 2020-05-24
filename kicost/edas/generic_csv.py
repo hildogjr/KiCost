@@ -38,6 +38,12 @@ from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIV
 from .tools import field_name_translations, remove_dnp_parts, split_refs
 from ..distributors.global_vars import distributor_dict
 
+from .eda import eda_class
+
+class generic_csv(eda_class):
+    def __init__(self):
+        pass
+
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(
     {
@@ -93,7 +99,7 @@ def get_part_groups(in_file, ignore_fields, variant):
        @param ignore_fields `list()` fields do be ignored on the read action.
        @param variant `str()` in regular expression to match with the design version of the BOM.
        For now, `variant`is not used on CSV read, just kept to compatibility with the other EDA submodules.
-       @return `dict()` of the parts designed. The keys are the componentes references.
+       @return `dict()` of the parts designed. The keys are the components references.
     '''
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
