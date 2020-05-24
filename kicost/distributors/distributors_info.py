@@ -6,7 +6,7 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-ORDER_COL_USERFIELDS = '**user*_*_*field**' # Used as identification for all user fields allowed for some custom importation in some distributors. It is used a low probability "word" corresponding to all user fields.
+ORDER_COL_USERFIELDS = '*__USER__FIELDS__*' # Used as identification for all user fields allowed for some custom importation in some distributors. It is used a low probability "word" corresponding to all user fields.
 #TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some personal field.
 
 distributors_info = {
@@ -23,7 +23,7 @@ distributors_info = {
         'label': {
             'name': 'Arrow', 'url': 'https://www.arrow.com/', # Distributor label used in spreadsheet columns.
             # Formatting for distributor header in worksheet; bold, font and align are
-            # `spreadsheet.py` defined but can by overload heve.
+            # `spreadsheet.py` defined but can by overload here.
             'format': {'font_color': 'white', 'bg_color': '#000000'}, # Arrow black.
         },
     },

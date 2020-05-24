@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>kicost.spreadsheet &#8212; kicost 1.1.4 documentation</title>
+    <title>kicost.spreadsheet &#8212; kicost 1.1.5 documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -589,7 +589,7 @@
 
         <span class="c1"># Enter total part quantity needed.</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">qty</span> <span class="o">=</span> <span class="n">partgroup_qty</span><span class="p">(</span><span class="n">part</span><span class="p">);</span>
+            <span class="n">qty</span> <span class="o">=</span> <span class="n">partgroup_qty</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">qty</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                 <span class="c1"># Multifiles BOM case, write each quantity and after,</span>
                 <span class="c1"># in the &#39;qty&#39; column the total quantity as ceil of</span>
@@ -1161,6 +1161,12 @@
     <span class="p">)</span>
     <span class="n">wks</span><span class="o">.</span><span class="n">write_comment</span><span class="p">(</span><span class="n">ORDER_HEADER</span><span class="p">,</span> <span class="n">purch_qty_col</span><span class="p">,</span>
         <span class="s1">&#39;Copy the information below to the BOM import page of the distributor web site.&#39;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">wks</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="n">ORDER_HEADER</span><span class="p">,</span> <span class="n">purch_qty_col</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">],</span>
+            <span class="n">string</span><span class="o">=</span><span class="s1">&#39;Buy here&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">pass</span> <span class="c1"># Not URL registered.</span>
 
 
     <span class="c1"># Write the spreadsheet code to multiple lines to create the purchase codes to</span>
@@ -1168,7 +1174,32 @@
     <span class="k">try</span><span class="p">:</span>
         <span class="n">cols</span> <span class="o">=</span> <span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;cols&#39;</span><span class="p">]</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span>
+                <span class="s2">&quot;Purchase list codes for </span><span class="si">{d}</span><span class="s2"> will not be generated: no information provided.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                <span class="p">))</span>
         <span class="k">return</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">num_cols</span> <span class="c1"># If not created the distributor definition, jump this final code part.</span>
+
+    <span class="kn">from</span> <span class="nn">.distributors.distributors_info</span> <span class="k">import</span> <span class="n">ORDER_COL_USERFIELDS</span>
+    <span class="k">if</span> <span class="n">ORDER_COL_USERFIELDS</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+        <span class="c1"># It is requested all the user fields at the purchase code,</span>
+        <span class="c1"># replace the virtual annotation provided by `ORDER_COL_USERFIELDS`</span>
+        <span class="c1"># by all user fields in the spreadsheet. This keep the compatibility</span>
+        <span class="c1"># and configuration possibility for other features.</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">cols</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">ORDER_COL_USERFIELDS</span><span class="p">)</span> <span class="c1"># Find the first occurrence.</span>
+        <span class="k">del</span> <span class="n">cols</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+        <span class="n">cols_user</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">columns_global</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="n">cols</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;refs&#39;</span><span class="p">,</span> <span class="s1">&#39;qty&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;footprint&#39;</span><span class="p">,</span> <span class="s1">&#39;unit_price&#39;</span><span class="p">,</span> <span class="s1">&#39;ext_price&#39;</span><span class="p">,</span> <span class="s1">&#39;manf#&#39;</span><span class="p">,</span> <span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">]):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cols_user</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span>
+                <span class="s2">&quot;Add the </span><span class="si">{f}</span><span class="s2"> information for the </span><span class="si">{d}</span><span class="s2"> purchase list code.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+                    <span class="n">f</span><span class="o">=</span><span class="n">cols_user</span>
+                <span class="p">))</span>
+        <span class="n">cols</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">cols_user</span>
 
     <span class="c1"># Create the header of the purchase codes, if present the definition.</span>
     <span class="k">try</span><span class="p">:</span>
@@ -1192,8 +1223,8 @@
         <span class="k">pass</span>
 
     <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="s1">&#39;purch&#39;</span> <span class="ow">in</span> <span class="n">cols</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;part_num&#39;</span> <span class="ow">in</span> <span class="n">cols</span> <span class="ow">or</span> <span class="s1">&#39;manf#&#39;</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">)):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s2">&quot;Purchase list codes for </span><span class="si">{d}</span><span class="s2"> will not be generated.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                            <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s2">&quot;Purchase list codes for </span><span class="si">{d}</span><span class="s2"> will not be generated: no stock# of manf# format defined.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                            <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
                         <span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># This script enters a function into a spreadsheet cell that</span>
@@ -1241,6 +1272,14 @@
         <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
             <span class="c1"># Deal with conversion and string replace necessary to the correct distributors</span>
             <span class="c1"># code understanding.</span>
+            <span class="k">if</span> <span class="n">col</span><span class="o">==</span><span class="kc">None</span> <span class="ow">or</span> \
+                    <span class="p">(</span><span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns</span> <span class="ow">and</span> \
+                    <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">columns_global</span><span class="p">):</span>
+                <span class="c1"># Create an empty column escaping all the information, same when is asked</span>
+                <span class="c1"># for a not present filed at the global column (`columns_global`) part or</span>
+                <span class="c1"># distributors columns part (`columns`).</span>
+                <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">continue</span> <span class="c1"># Doesn&#39;t need to calculate range or references, go check the next field.</span>
             <span class="k">if</span> <span class="n">col</span><span class="o">==</span><span class="s1">&#39;purch&#39;</span><span class="p">:</span>
                 <span class="c1"># Add text conversion if is a numeric cell.</span>
                 <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;TEXT(</span><span class="si">{}</span><span class="s1">,&quot;##0&quot;)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">order_info_func_model</span><span class="p">))</span>
@@ -1277,7 +1316,7 @@
                 <span class="n">info_range</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not valid field `</span><span class="si">{f}</span><span class="s2">` for purchase list at </span><span class="si">{d}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">f</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
-                            <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                            <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
                         <span class="p">))</span>
             <span class="n">info_range</span> <span class="o">=</span><span class="n">xl_range</span><span class="p">(</span><span class="n">PART_INFO_FIRST_ROW</span><span class="p">,</span> <span class="n">info_range</span><span class="p">,</span>
                                  <span class="n">PART_INFO_LAST_ROW</span><span class="p">,</span> <span class="n">info_range</span><span class="p">)</span>
@@ -1304,7 +1343,7 @@
             <span class="n">purchase_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not valid  quantity/code field `</span><span class="si">{f}</span><span class="s2">` for purchase list at </span><span class="si">{d}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                         <span class="n">f</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
-                        <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+                        <span class="n">d</span><span class="o">=</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
                     <span class="p">))</span>
         <span class="n">purchase_code</span> <span class="o">=</span> <span class="n">xl_range</span><span class="p">(</span><span class="n">PART_INFO_FIRST_ROW</span><span class="p">,</span> <span class="n">purchase_code</span><span class="p">,</span>
                                  <span class="n">PART_INFO_LAST_ROW</span><span class="p">,</span> <span class="n">purchase_code</span><span class="p">)</span>
@@ -1364,7 +1403,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
