@@ -26,6 +26,7 @@
 # THE SOFTWARE.
 
 echo 'This macro test all the xml files BOM in this folder'
+cd $(dirname $0)
 BOMs=$(find *.xml)
 
 while read -r eachBOM; do
