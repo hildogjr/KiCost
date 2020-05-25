@@ -1,0 +1,21 @@
+Prj:,StickIt-RotaryEncoder Module,,,,,Board Qty:,100
+Co.:,XESS Corp.,,,,,Unit Cost:,0
+$ date:,2020-05-25 02:27:13,,,,,,
+Global Part Info,,,,,,,
+Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$
+C1-C6,C-NONPOL,C_0603_HandSoldering,,,0,0,0
+JP1-JP4,JUMPER,HDR_1x2,,,0,0,0
+PCB1,PCB,,,,0,0,0
+RN1,4K7,CTS_742C163,OMRON,B3U-1000P,0,0,0
+RN2,1K,CTS_742C163,,,0,0,0
+ROT1,ROT_ENC_SW,ROT_ENC_EC11E,Bourns,PEC11R-4220F-S0024,0,0,0
+ROT2,ROT_ENC_SW,ROT_ENC_EC11E,,,0,0,0
+STK1,STICKIT2_HDR,STICKIT2_HDR,,,0,0,0
+
+,Used currency rates:,,,,,Total Purchase:,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,

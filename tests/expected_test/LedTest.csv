@@ -1,0 +1,18 @@
+Prj:,LedTest.xml,,,,Board Qty:,100
+Co.:,,,,,Unit Cost:,0
+$ date:,2020-05-25 02:26:46,,,,,
+Global Part Info,,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$
+D1-D8,Led_Small,,,0,0,0
+IC1,ATTINY13A-S,SOIC-14_N,,0,0,0
+P1,CONN_02X03,ICSP-6pin,,0,0,0
+P2,CONN_01X03,Jumper_3pin,,0,0,0
+R1-R8,R_Small,,,0,0,0
+U1,LTV-847,LTV-847,LTV-846S,0,0,0
+
+,Used currency rates:,,,,Total Purchase:,0
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,
+,,,,,,

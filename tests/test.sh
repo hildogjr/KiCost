@@ -27,11 +27,21 @@
 
 echo 'This macro test all the xml files BOM in this folder'
 cd $(dirname $0)
+
+RESULT_PATH=result_test/
+EXPECT_PATH=expected_test/
+# Create the target directory for test files to compare if needed
+mkdir -p ${RESULT_PATH}
+# Remove previous results if any
+rm ${RESULT_PATH}*
+
 BOMs=$(find *.xml)
 
 while read -r eachBOM; do
     echo "##### Testing file: $eachBOM"
     kicost -wi "$eachBOM"
+    # Convert Excel to CSV file to make simple verification
+    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(|Prj date|kicost)' > "${RESULT_PATH}${eachBOM%.*}.csv"
     echo ""
 done <<< "$BOMs"
 
@@ -40,7 +50,16 @@ BOMs=$(find *.csv)
 while read -r eachBOM; do
     echo "##### Testing file: $eachBOM"
     kicost -wi "$eachBOM" --eda csv
+    # Convert Excel to CSV file to make simple verification
+    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(|Prj date|kicost)' > "${RESULT_PATH}${eachBOM%.*}.csv"
     echo ""
 done <<< "$BOMs"
 
-echo "If you see this message all BOMs spreadsheet was created without error"
+diff -r ${RESULT_PATH} ${EXPECT_PATH}
+RESULT=$?
+if [[ ${RESULT} == 0 ]] ; then
+  echo "If you see this message all BOMs spreadsheet was created without error"
+else
+  echo "If you see this message there were some unexpected results"
+fi
+exit $?
