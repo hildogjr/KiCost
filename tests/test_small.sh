@@ -35,7 +35,7 @@ mkdir -p ${RESULT_PATH}
 # Remove previous results if any
 rm ${RESULT_PATH}*
 
-BOMs="part_list_small.csv Indium_X2.xml multipart.xml NF6X_Testboard.xml StickIt-Hat.xml"
+BOMs="part_list_small.csv Indium_X2.xml multipart.xml NF6X_TestBoard.xml StickIt-Hat.xml"
 for eachBOM in $BOMs; do
     echo "############ Testing file $eachBOM"
     kicost -i $eachBOM -wq --inc digikey mouser
