@@ -1,0 +1,21 @@
+Prj:,TestBoard,,,,,Board Qty:,100
+Co.:,,,,,,Unit Cost:,0
+Global Part Info,,,,,,,
+Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$
+J1,ST-LINK_Debug_Header,3M_30320-6002HB,3M,30320-6002HB,0,0,0
+J2,DF12(5.0)-30DP-0.5V(86),Hirose_DF12-30DP-0.5V,Hirose,DF12(5.0)-30DP-0.5V(86),0,0,0
+J3,BLE113_Debug_Header,CNC-Tech_3220-10-0300-00,,3220-10-0300-00,0,0,0
+R1,DNI,R_0402,,,0,0,0
+"R2,R3",0,R_0402,Samsung,RC1005J000CS,0,0,0
+"S1,S2",Coto_CL-SB-22A-01T,Coto_CL-SB-22A,Coto,CL-SB-22A-01T,0,0,0
+SW4,Wurth_431481031816,Wurth_431481031816,Wurth Elektronik,431481,0,0,0
+"SW1-SW3,SW5-SW9",Wurth_431481031816,Wurth_431481031816,Wurth Elektronik,431481031816,0,0,0
+
+,Used currency rates:,,,,,Total Purchase:,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,

@@ -25,12 +25,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Go to test directory
 cd $(dirname $0)
+
+RESULT_PATH=result_test_small/
+EXPECT_PATH=expected_test_small/
+# Create the target directory for test files to compare if needed
+mkdir -p ${RESULT_PATH}
+# Remove previous results if any
+rm ${RESULT_PATH}*
+
 BOMs="part_list_small.csv Indium_X2.xml multipart.xml NF6X_TestBoard.xml StickIt-Hat.xml"
 for eachBOM in $BOMs; do
     echo "############ Testing file $eachBOM"
     kicost -i $eachBOM -wq --inc digikey mouser
+    # Convert Excel to CSV file to make simple verification
+    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(| date|kicost)' > "${RESULT_PATH}${eachBOM%.*}.csv"
     echo ""
 done
 
-echo "If you see this message all BOMs spreadsheet was created without error"
+diff -r ${RESULT_PATH} ${EXPECT_PATH}
+RESULT=$?
+if [[ ${RESULT} == 0 ]] ; then
+  echo "If you see this message all BOMs spreadsheet was created without error"
+else
+  echo "If you see this message there were some unexpected results"
+fi
+exit ${RESULT}

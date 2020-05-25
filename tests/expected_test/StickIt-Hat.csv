@@ -1,0 +1,40 @@
+Prj:,StickIt! Motherboard / Raspberry Pi B+ Hat,,,,,Board Qty:,100
+Co.:,XESS Corp.,,,,,Unit Cost:,0
+Global Part Info,,,,,,,
+Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$
+"C1,C3",22uF,c_elec_5x5.3,,UWX1C220MCL1GB,0,0,0
+"C2,C4",4.7uF,R_0805_HandSoldering,,LMK212BJ475KD-T,0,0,0
+C5,0.1uF,R_0805_HandSoldering,,08055C104KAT2A,0,0,0
+CON1,BARREL_JACK,BARREL_JACK,,PJ-002A,0,0,0
+GPIO1,RPi_GPIO,Pin_Header_Straight_2x20,,,0,0,0
+GR1-GR3,Grove,GROVE_MALE,,,0,0,0
+J1,XuLA_IO_HDR,XuLA_IO_Hdr,,,0,0,0
+J3-J5,JSHORTNORMAL,xess-JSHORT,,,0,0,0
+JP1,JUMPER3,HDR_1x3,,,0,0,0
+"JP2,JP3",JUMPER3,HDR_1x3,,,0,0,0
+JP8,JUMPER,HDR_1x2,,,0,0,0
+"JP4-JP7,JP9,JP10,TP1",JUMPER,HDR_1x2,,,0,0,0
+PM1-PM3,PMOD_SCKT-12,PMOD_SCKT-12,Ho Chien,2553-2x6G,0,0,0
+R1,1K,R_0805_HandSoldering,,RC0805JR-071KL,0,0,0
+RN1,3.9K,CTS_742C043,,742C083392JP,0,0,0
+SW1,SW_PUSH,RS-282G05A3-SM_RT,,RS-282G05A3-SM RT,0,0,0
+U1,AZ1117EH-3.3,SOT-223,,AZ1117EH-3.3TRG1,0,0,0
+U2,CAT24C32,SOIC-8-N,,CAT24C32WI-GT3,0,0,0
+
+,Used currency rates:,,,,,Total Purchase:,0
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
+,,,,,,,
