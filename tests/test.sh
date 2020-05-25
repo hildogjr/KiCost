@@ -62,4 +62,4 @@ if [[ ${RESULT} == 0 ]] ; then
 else
   echo "If you see this message there were some unexpected results"
 fi
-exit $?
+exit ${RESULT}
