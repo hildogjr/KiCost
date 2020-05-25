@@ -40,7 +40,7 @@ for eachBOM in $BOMs; do
     echo "############ Testing file $eachBOM"
     kicost -i $eachBOM -wq --inc digikey mouser
     # Convert Excel to CSV file to make simple verification
-    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(|Prj date|kicost)' > "${RESULT_PATH}${eachBOM%.*}.csv"
+    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(| date|kicost)' > "${RESULT_PATH}${eachBOM%.*}.csv"
     echo ""
 done
 
