@@ -119,8 +119,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                         if value or v is not None:
                             # Empty value also propagated to force deleting default value
                             fields[name] = value
-                            logger.log(DEBUG_OVERVIEW, 'Field {}={}'.format(name,value))
-                        logger.log(DEBUG_OVERVIEW, 'Field {}={}'.format(name,value))
+                        logger.log(DEBUG_OBSESSIVE, 'Field {}={}'.format(name,value))
         except AttributeError:
             pass  # No fields found for this part.
         return fields
