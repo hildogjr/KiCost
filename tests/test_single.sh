@@ -40,11 +40,10 @@ mkdir -p ${LOG_PATH}
 # Remove previous results if any
 rm ${RESULT_PATH}*
 
-BOMs="$*"
 
 RESULT=0
 
-for eachBOM in "$BOMs" ; do
+for eachBOM in "$@" ; do
     echo "##### Testing file: $eachBOM"
     if [[ ${eachBOM#*.} == "csv" ]] ; then
        kicost -wi "$eachBOM" --debug=10 --eda csv >& "${LOG_PATH}$eachBOM".log
