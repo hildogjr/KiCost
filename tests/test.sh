@@ -1,3 +1,4 @@
+#!/bin/bash
 # Automatic test macro for KiCad.
 # Use this script in linux to generate the spreadsheet based on the XML files of this folder after changes in the KiCost python module. Use to validate and check erros.
 # Written by Hildo Guillardi Júnior
@@ -33,30 +34,20 @@ EXPECT_PATH=expected_test/
 # Create the target directory for test files to compare if needed
 mkdir -p ${RESULT_PATH}
 # Remove previous results if any
-rm ${RESULT_PATH}*
+rm ${RESULT_PATH}* >& /dev/null
 
-BOMs=$(find *.xml)
+RESULT=0
 
+# Find BOMs
+BOMs=$(find *.csv *.xml)
+
+# Compute BOMs
 while read -r eachBOM; do
-    echo "##### Testing file: $eachBOM"
-    kicost -wi "$eachBOM"
-    # Convert Excel to CSV file to make simple verification
-    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(| date|kicost)' > "${RESULT_PATH}${eachBOM%.*}.csv"
-    echo ""
+  ./test_single.sh --no_price "$eachBOM"
+  RESULT=$(($RESULT + $?))
 done <<< "$BOMs"
 
-BOMs=$(find *.csv)
-
-while read -r eachBOM; do
-    echo "##### Testing file: $eachBOM"
-    kicost -wi "$eachBOM" --eda csv
-    # Convert Excel to CSV file to make simple verification
-    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(| date|kicost)' > "${RESULT_PATH}${eachBOM%.*}.csv"
-    echo ""
-done <<< "$BOMs"
-
-diff -r ${RESULT_PATH} ${EXPECT_PATH}
-RESULT=$?
+# Display final result
 if [[ ${RESULT} == 0 ]] ; then
   echo "If you see this message all BOMs spreadsheet was created without error"
 else
