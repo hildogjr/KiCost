@@ -31,12 +31,12 @@ BOMs=()
 OPTS=()
 # Extract options
 parsed_options=$(
-  getopt -o hv -l noprice -- "$@"
+  getopt -o hv -l no_price -- "$@"
 ) || exit
 eval "set -- $parsed_options"
 while [ "$#" -gt 0 ]; do
   case $1 in
-    (--noprice) OPTS+=("$1") ; shift;;
+    (--no_price) OPTS+=("$1") ; shift;;
     (-[hv]) shift;;  # Options without parameter
     #(-t) shift 2;;   # Option with parameter
     (--) shift; break;;
@@ -63,10 +63,13 @@ RESULT=0
 
 for eachBOM in "${BOMs[@]}" ; do
     echo "##### Testing file: $eachBOM"
-    rm "${RESULT_PATH}${eachBOM%.*}.csv" >& /deV/null
-    rm "${LOG_PATH}${eachBOM%.*}.log" >& /deV/null
+    rm "${RESULT_PATH}${eachBOM%.*}.csv" >& /dev/null
+    rm "${LOG_PATH}${eachBOM%.*}.log" >& /dev/null
+    XLSFILE="${eachBOM%.*}.xlsx"
+    rm "$XLSFILE" >& /dev/null
 
     if [[ ${eachBOM#*.} == "csv" ]] ; then
+       echo kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 --eda csv
        kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 --eda csv >& "${LOG_PATH}$eachBOM".log
     else
        kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 >& "${LOG_PATH}$eachBOM".log

@@ -2,20 +2,14 @@ Prj:,StickIt-QuadDAC Module,,,,,,Board Qty:,100
 Co.:,XESS Corp.,,,,,,Unit Cost:,0
 Global Part Info,,,,,,,,
 Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$
-C1-C7,1.0uF,,C_0603_HandSoldering,Yageo,CC0201KRX5R7BB103,0,0,0
-JP1-JP10,JUMPER,,HDR_1x2,,,0,0,0
-PCB1,PCB,,,,,0,0,0
-PM1,PMOD_SCKT-12,,PMOD_SCKT-12,Ho Chien,2553-2x6G,0,0,0
-RN1,4K7,,CTS_742C043,,742c043472,0,0,0
-STK1,STICKIT2_HDR,,STICKIT2_HDR,,,0,0,0
-"U1,U2",MCP48X2,Dual DAC,xess-MICROCHIP-8_MSOP,Microchip,MCP4802-E/MS,0,0,0
-U3,MCP43X1,digital pot A,xess-MICROCHIP-20_TSSOP,Microchip,MCP4361-503E/ST,0,0,0
-VoA2,COAX_CONN,,SMA_EDGE_AMP_132322,amphenol,132322,0,0,0
+C1-C7,1.0uF,,C_0603_HandSoldering,Yageo,CC0201KRX5R7BB103,0,,0
+JP1-JP10,JUMPER,,HDR_1x2,,,0,,0
+PCB1,PCB,,,,,0,,0
+PM1,PMOD_SCKT-12,,PMOD_SCKT-12,Ho Chien,2553-2x6G,0,,0
+RN1,4K7,,CTS_742C043,,742c043472,0,,0
+STK1,STICKIT2_HDR,,STICKIT2_HDR,,,0,,0
+"U1,U2",MCP48X2,Dual DAC,xess-MICROCHIP-8_MSOP,Microchip,MCP4802-E/MS,0,,0
+U3,MCP43X1,digital pot A,xess-MICROCHIP-20_TSSOP,Microchip,MCP4361-503E/ST,0,,0
+VoA2,COAX_CONN,,SMA_EDGE_AMP_132322,amphenol,132322,0,,0
 
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
-,,,,,,,,
+

@@ -1,3 +1,4 @@
+#!/bin/bash
 # Automatic test macro for KiCad.
 # Use this script in linux to generate the spreadsheet based on the XML files of this folder after changes in the KiCost python module. Use to validate and check erros.
 # Written by Hildo Guillardi Júnior
@@ -42,7 +43,7 @@ BOMs=$(find *.csv *.xml)
 
 # Compute BOMs
 while read -r eachBOM; do
-  ./test_single.sh --noprice "$eachBOM"
+  ./test_single.sh --no_price "$eachBOM"
   RESULT=$(($RESULT + $?))
 done <<< "$BOMs"
 
