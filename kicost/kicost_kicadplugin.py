@@ -63,7 +63,7 @@ class kicost_kicadplugin(ActionPlugin):
             bom_file = ''
         try:
             try:
-                from kicost.kicost_gui import *
+                from kicost.kicost_gui import kicost_gui
                 kicost_gui(bom_file) # If KiCad and KiCost share the same Python installation.
             except ImportError:
                 subprocess.call(('kicost', '--guide', bom_file), shell=True)
