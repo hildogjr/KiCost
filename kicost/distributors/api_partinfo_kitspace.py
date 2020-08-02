@@ -30,33 +30,38 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-import json, requests
-import logging, tqdm
-import copy, re
-from collections import Counter
-#from urllib.parse import quote_plus as urlquote
+import json
+import requests
+import logging
+import tqdm
+import copy
+import re
+import sys
+# from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from .global_vars import *  # Debug information, distributor_dict and SEPRTR.
 from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
+from .distributors_info import distributors_info
+
+logger = logging.getLogger('kitspace.partinfo')
 
 # Define debug function
-import sys
-
 # Use `debug('x + 1')` for instance.
 def debug(expression):
     frame = sys._getframe(1)
     print(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
+
 
 MAX_PARTS_PER_QUERY = 20 # Maximum number of parts in a single query.
 
 # Information to return from PartInfo KitSpace server.
 
 QUERY_AVAIABLE_CURRENCIES = {'GBP', 'EUR', 'USD'}
-#DEFAULT_CURRENCY
+# DEFAULT_CURRENCY
 QUERY_ANSWER = '''
     mpn{manufacturer, part},
     datasheet,
@@ -71,8 +76,8 @@ QUERY_ANSWER = '''
         prices{''' + ','.join(QUERY_AVAIABLE_CURRENCIES) + '''}
         }
 '''
-#Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location
-QUERY_ANSWER = re.sub('[\s\n]', '', QUERY_ANSWER)
+# Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location
+QUERY_ANSWER = re.sub(r'[\s\n]', '', QUERY_ANSWER)
 
 QUERY_PART = 'query ($input: MpnInput!) { part(mpn: $input) {' + QUERY_ANSWER + '} }'
 QUERY_MATCH = 'query ($input: [MpnOrSku]!){ match(parts: $input) {' + QUERY_ANSWER + '} }'
@@ -80,51 +85,66 @@ QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER 
 QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 
 __all__ = ['api_partinfo_kitspace']
-from .distributors_info import distributors_info
+
 
 class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
-        dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
+        api_distributors = [
+            'digikey',
+            'farnell',
+            'mouser',
+            'newark',
+            'rs',
+            'arrow',
+            'tme',
+            'lcsc'
+        ]
+
+        dists = {
+            k: v
+            for k, v in distributors_info.items()
+            if k in api_distributors}
+
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
-             # First module load.
-            distributors_modules_dict.update({'api_partinfo_kitspace':{
-                                            'type': 'api', 'url': 'https://kitspace.org/', # Web site API information.
-                                            'distributors': dists.keys(), # Avaliable web distributors in this api.
-                                            'enabled': True, # Default status of the module (it's load but can be not calle).
-                                            'param': None, # Configuration parameters.
-                                            'dist_translation': { # Distributor translation.
-                                                                    'Digikey': 'digikey',
-                                                                    'Farnell': 'farnell',
-                                                                    'Mouser': 'mouser',
-                                                                    'Newark': 'newark',
-                                                                    'RS': 'rs',
-                                                                    'TME': 'tme',
-                                                                    'Arrow Electronics, Inc.': 'arrow',
-                                                                    'LCSC': 'lcsc',
-                                                                }
-                                                }
-                                            })
+            # First module load.
+            distributors_modules_dict.update(
+                {'api_partinfo_kitspace':{
+                    'type': 'api', 'url': 'https://kitspace.org/', # Web site API information.
+                    'distributors': dists.keys(), # Avaliable web distributors in this api.
+                    'enabled': True, # Default status of the module (it's load but can be not calle).
+                    'param': None, # Configuration parameters.
+                    'dist_translation': { # Distributor translation.
+                        'Digikey': 'digikey',
+                        'Farnell': 'farnell',
+                        'Mouser': 'mouser',
+                        'Newark': 'newark',
+                        'RS': 'rs',
+                        'TME': 'tme',
+                        'Arrow Electronics, Inc.': 'arrow',
+                        'LCSC': 'lcsc',
+                        }
+                }})
         # Update the `distributor_dict` with the available distributor in this module with the module is enabled.
         # It can be not enabled by the GUI saved configurations.
         if distributors_modules_dict['api_partinfo_kitspace']['enabled']:
             distributor_dict.update(dists)
 
-
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
         '''Send query to server and return results.'''
-        
-        ##TODO this `dist_xlate` have to be better coded into this file.
+
+        # TODO this `dist_xlate` have to be better coded into this file.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
+
         def find_key(input_dict, value):
             return next((k for k, v in input_dict.items() if v == value), None)
+
         distributors = ([find_key(dist_xlate, d) for d in distributors])
-        
-        query_type = re.sub('\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
-        #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
+
+        query_type = re.sub(r'\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
+        # r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables})  # TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub('\s', '', variables)
         # Python 2 prepends a 'u' before the query strings and this makes PartInfo
@@ -132,25 +152,42 @@ class api_partinfo_kitspace(distributor_class):
         variables = re.sub(':u"', ':"', variables)
         variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
-        response = requests.post(QUERY_URL, {'query': query_type, "variables": variables})
-        if response.status_code == requests.codes['ok']: #200
+        response = requests.post(
+            QUERY_URL, {'query': query_type, "variables": variables})
+        if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
             return results
-        elif response.status_code == requests.codes['not_found']: #404
-            raise Exception('Kitspace server not found check your internet connection.')
-        elif response.status_code == requests.codes['request_timeout']: #408
-            raise Exception('KitSpace is not responding.')
-        elif response.status_code == requests.codes['bad_request']: #400
-            raise Exception('Bad request to Kitspace server probably due to an incorrect string format check your `manf#` codes and contact the suport team.')
-        elif response.status_code == requests.codes['gateway_timeout']: # 504
-            raise Exception('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.')
         else:
-            raise Exception('Kitspace error: ' + str(response.status_code))
+            logger.warning(
+                'Kitspace responded with an error (Part %s) %d - %s',
+                query_parts, response.status_code, response.text)
+
+        if response.status_code == requests.codes['not_found']:  # 404
+            raise Exception(
+                'Kitspace server not found check your internet connection.')
+        elif response.status_code == requests.codes['request_timeout']:  # 408
+            raise Exception(
+                'KitSpace is not responding.')
+        elif response.status_code == requests.codes['bad_request']:  # 400
+            raise Exception(
+                'Bad request to Kitspace server probably due to'
+                ' an incorrect string format check your `manf#` codes'
+                ' and contact the suport team.')
+        elif response.status_code == requests.codes['gateway_timeout']:  # 504
+            raise Exception(
+
+                'Kitspace timeout, a services may experiencing problems.'
+                'Contact the Kitspace support.')
+        else:
+            raise Exception(
+                'Kitspace error: %d - %s'
+                % (response.status_code, response.text))
 
     @staticmethod
     def get_value(data, item, default=None):
-        '''Get the value of `value` field of a dictionary if the `name`field identifier.
-        Used to get information from the JSON response.'''
+        '''Get the value of `value` field of a dictionary if the
+        `name`field identifier. Used to get information from the JSON response.
+        '''
         try:
             for d in data:
                 try:
@@ -184,16 +221,18 @@ class api_partinfo_kitspace(distributor_class):
                 pass
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
-        logDefaultHandler = logger.handlers[0]
+        if len(logger.handlers) > 0:
+            logDefaultHandler = logger.handlers[0]
+            logger.removeHandler(logDefaultHandler)
         logTqdmHandler = TqdmLoggingHandler()
         # Replace default handler with "tqdm" handler.
         logger.addHandler(logTqdmHandler)
-        logger.removeHandler(logDefaultHandler)
 
         FIELDS_CAT = ([d + '#' for d in distributor_dict])
         DISTRIBUTORS = ([d for d in distributor_dict])
         # Use just the distributors avaliable in this API.
-        distributors = list( set(DISTRIBUTORS) &
+        distributors = list(
+            set(DISTRIBUTORS) &
             set(distributors_modules_dict['api_partinfo_kitspace']['distributors']) )
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
@@ -237,7 +276,7 @@ class api_partinfo_kitspace(distributor_class):
                                     logger.warning('No price information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
                                 else:
                                     dist_currency = list(offer['prices'].keys())
-                                    
+
                                     # Get the price tiers prioritizing:
                                     # 1) The asked currency by KiCOst user;
                                     # 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;
@@ -255,12 +294,13 @@ class api_partinfo_kitspace(distributor_class):
                                                 prices = offer['prices'][dist_c]
                                                 part.currency[dist] = dist_c
                                                 break
-                                    
+
                                     # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
                                     if prices:
-                                        price_tiers = {qty: float(price)
-                                                            for qty, price in list(prices)
-                                                      }
+                                        price_tiers = {
+                                            qty: float(price)
+                                            for qty, price in list(prices)
+                                        }
                                         # Combine price lists for multiple offers from the same distributor
                                         # to build a complete list of cut-tape and reeled components.
                                         if not dist in part.price_tiers:
