@@ -332,7 +332,7 @@ def group_parts(components, fields_merge):
                     if f=='desc' and len(ocurrences)==2 and '' in ocurrences.keys():
                         value = ''.join(list(ocurrences.keys()))
                     else:
-                        value = SGROUP_SEPRTR.join( [','.join( order_refs(r) ) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
+                        value = SGROUP_SEPRTR.join( [order_refs(r) + SEPRTR + ' ' + t for t,r in ocurrences.items()] )
                     for r in grp.refs:
                         components[r][f] = value
     #print('\n\n\n3++++++++++++++',len(new_component_groups))
