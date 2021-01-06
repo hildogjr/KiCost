@@ -35,6 +35,7 @@ import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from babel import numbers # For currency presentation.
+from validators import url # URL validator.
 
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
@@ -55,9 +56,6 @@ CURRENCY_SYMBOL = 'US$'
 CURRENCY_FORMAT = ''
 
 WORKBOOK = None
-
-# Regular expression to the link for one datasheet.
-DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
 
 # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
 EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
@@ -528,7 +526,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                     except:
                         cell_format = wrk_formats['part_format']
                         pass
-                    if link and re.match(DATASHEET_LINK_REGEX, link):
+                    if link and url(link):
                         # Just put the link if is a valid format.
                         wks.write_url(row, start_col + columns['manf#']['col'],
                              link, string=string, cell_format=cell_format)

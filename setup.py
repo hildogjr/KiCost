@@ -87,6 +87,7 @@ requirements = [
     'requests >= 2.18.4', # Scrape, API and web modules.
     'CurrencyConverter >= 0.13', # Used to convert price to a not available currency in one distributor.
     'babel >= 2.6', # For currency format by the language in the spreadsheet.
+    'validators >= 0.18.2', # For validation of datasheet URLs in the spreadsheet.
 #    'wxPython >= 4.0', # Graphical package/library needed to user guide.
 ]
 
