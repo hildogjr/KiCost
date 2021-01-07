@@ -35,7 +35,7 @@ import re # Regular expression parser.
 import xlsxwriter # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
 from babel import numbers # For currency presentation.
-from validators import url # URL validator.
+from validators import url as validate_url # URL validator.
 
 # KiCost libraries.
 from . import __version__ # Version control by @xesscorp and collaborator.
@@ -526,7 +526,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                     except:
                         cell_format = wrk_formats['part_format']
                         pass
-                    if link and url(link):
+                    if link and validate_url(link):
                         # Just put the link if is a valid format.
                         wks.write_url(row, start_col + columns['manf#']['col'],
                              link, string=string, cell_format=cell_format)
