@@ -28,6 +28,7 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re, os # Regular expression parser and matches.
+from collections import OrderedDict
 from ..global_vars import * # Debug, language and default configurations.
 from ..distributors.global_vars import distributor_dict
 from . import eda_dict # EDA dictionary with the features.
@@ -232,7 +233,7 @@ def group_parts(components, fields_merge):
             # Also add any manufacturer's part number (or None) and each distributor
             # stock catalogue code to the group's list.
             for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f].add(fields.get(f))
+                component_groups[h].manfcat_codes[f][fields.get(f)] = True
         except KeyError:
             # This happens if it is the first part in a group, so the group
             # doesn't exist yet.
@@ -242,7 +243,7 @@ def group_parts(components, fields_merge):
             # catalogue code for this part to the group set.
             component_groups[h].manfcat_codes = {}
             for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f] = set([fields.get(f)])
+                component_groups[h].manfcat_codes[f] = OrderedDict([(fields.get(f), True)])
     #print('\n\n\n1++++++++++++++',len(component_groups))
     #for g,grp in list(component_groups.items()):
     #    print('\n', grp.refs)
@@ -281,7 +282,7 @@ def group_parts(components, fields_merge):
                       # the other one is `None`.Don't split this group. `None`
                       # will be replaced with the propagated manufacture /
                       # distributor catalogue code.
-        elif all([(num_manfcat_codes[f]==1 and grp.manfcat_codes[f]==None) for f in FIELDS_MANFCAT]):
+        elif all([(num_manfcat_codes[f]==1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
             continue  # CASE THREE:
                       # One manf# or cat# that is `None`. Don't split this
@@ -290,17 +291,17 @@ def group_parts(components, fields_merge):
         # Otherwise, split the group into subgroups, each with the
         # same manf# and distributors catalogue codes (for that one
         # that will be scraped, the other ones are not considered).
-        for i_manfcat in range(max([len(grp.manfcat_codes.get(f)) for f in FIELDS_MANFCAT])):
-            manfcat_num = {}
+        for i_manfcat in range(max([len(grp.manfcat_codes[f]) for f in FIELDS_MANFCAT])):
+            manfcat_num = OrderedDict()
             for f in FIELDS_MANFCAT:
                 try:
-                    manfcat_num[f] = list(grp.manfcat_codes.get(f))[i_manfcat]
+                    manfcat_num[f] = list(grp.manfcat_codes[f])[i_manfcat]
                 except IndexError:
                     # If not have more code in the set list, is because just
                     # exist one. So use this as general.
-                    manfcat_num[f] = list(grp.manfcat_codes.get(f))[0]
+                    manfcat_num[f] = list(grp.manfcat_codes[f])[0]
             sub_group = IdenticalComponents()
-            sub_group.manfcat_codes = [manfcat_num]
+            sub_group.manfcat_codes = manfcat_num
             sub_group.refs = []
             for ref in grp.refs:
                 # Use get() which returns `None` if the component has no
