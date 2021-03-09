@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import setuptools, os
+import setuptools
+import os
+import re
 import kicost
 
 import re
@@ -78,18 +80,13 @@ with open(os.path.join('kicost','HISTORY.rst')) as history_file:
         pass
 
 # KiCost Python packages requirements to run-time.
-requirements = [
-    'beautifulsoup4 >= 4.3.2', # Deal with HTML and XML tags.
-#    'lxml >= 3.7.2', # Indirectly used, this is beautifulsoup4's dependency
-    'XlsxWriter >= 0.7.3', # Write the XLSX output file.
-    'future', # For print statements.
-    'tqdm >= 4.30.0', # Progress bar.
-    'requests >= 2.18.4', # Scrape, API and web modules.
-    'CurrencyConverter >= 0.13', # Used to convert price to a not available currency in one distributor.
-    'babel >= 2.6', # For currency format by the language in the spreadsheet.
-    'validators >= 0.18.2', # For validation of datasheet URLs in the spreadsheet.
-#    'wxPython >= 4.0', # Graphical package/library needed to user guide.
-]
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+# Remove the comments of the line.
+for idx, r in enumerate(requirements):
+    requirements[idx] = re.findall('^(.*)(!?#.*)', r)[0][0].strip()
+if '' in requirements:
+    requirements.remove('')
 
 # KiCost Python packages requirements to debug and tests.
 test_requirements = [
