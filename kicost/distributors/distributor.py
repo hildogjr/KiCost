@@ -27,19 +27,14 @@ __author__ = 'Max Maisel'
 __webpage__ = 'https://github.com/mmmaisel/'
 
 # Libraries.
-import sys, time, os, re
-import logging
+import time
 
-#from . import fake_browser
-#import http.client # For web scraping exceptions.
-#from ..global_vars import PartHtmlError
+# from . import fake_browser
+# import http.client # For web scraping exceptions.
+# from ..global_vars import PartHtmlError
 # Kept this for future use.
 
-from ..edas.tools import order_refs # To better print the warnings about the parts.
-
-from .global_vars import *
-
-from currency_converter import CurrencyConverter
+from .global_vars import DEFAULT_CURRENCY, distributors_modules_dict
 
 
 __all__ = ['distributor_class']
@@ -47,23 +42,23 @@ __all__ = ['distributor_class']
 
 class distributor_class(object):
     start_time = time.time()
+
     def __init__(self, name, logger):
         self.name = name
         self.logger = logger
 
         # Don't create fake_browser for "local" distributor.
-        #if self.domain != None:
-        #    self.browser = fake_browser.fake_browser \
-        #        (self.domain, self.logger, self.scrape_retries, throttle_delay)
+        # if self.domain != None:
+        #     self.browser = fake_browser.fake_browser \
+        #         (self.domain, self.logger, self.scrape_retries, throttle_delay)
         # Kept this for future use.
-
 
     def get_dist_parts_info(self, parts, distributors, currency=DEFAULT_CURRENCY):
         ''' Get the parts info using the modules API/Scrape/Local.'''
-        for d in distributors_modules:
+        for d in list(distributors_modules_dict):
             globals()[d].query_part_info(parts, distributors, currency)
-            #dist_local_template.query_part_info(parts, distributors, currency)
-           #api_partinfo_kitspace.query_part_info(parts, distributors, currency)
+            # dist_local_template.query_part_info(parts, distributors, currency)
+            # api_partinfo_kitspace.query_part_info(parts, distributors, currency)
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod
