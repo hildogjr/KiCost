@@ -80,7 +80,7 @@ with open(os.path.join('kicost','HISTORY.rst')) as history_file:
 # KiCost Python packages requirements to run-time.
 requirements = [
     'beautifulsoup4 >= 4.3.2', # Deal with HTML and XML tags.
-    'lxml >= 3.7.2',
+#    'lxml >= 3.7.2', # Indirectly used, this is beautifulsoup4's dependency
     'XlsxWriter >= 0.7.3', # Write the XLSX output file.
     'future', # For print statements.
     'tqdm >= 4.30.0', # Progress bar.
