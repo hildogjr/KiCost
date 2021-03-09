@@ -84,7 +84,7 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 # Remove the comments of the line.
 for idx, r in enumerate(requirements):
-    requirements[idx] = re.findall('^(.*)(!?#.*)', r)[0][0].strip()
+    requirements[idx] = re.findall('^(.*)(!?#.*)*', r)[0][0].strip()
 if '' in requirements:
     requirements.remove('')
 
