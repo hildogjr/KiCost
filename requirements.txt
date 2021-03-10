@@ -1,5 +1,5 @@
 beautifulsoup4 >= 4.3.2 # Deal with HTML and XML tags.
-#lxml >= 3.7.2
+lxml >= 3.7.2 # Used by beautifulsoup4, but optional.
 XlsxWriter >= 0.7.3 # Write the XLSX output file.
 future # For print statements.
 tqdm >= 4.30.0 # Progress bar.
