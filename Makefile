@@ -1,4 +1,4 @@
-.PHONY: clean-pyc clean-build docs clean
+.PHONY: clean-pyc clean-build docs clean update-rates
 
 help:
 	@echo "clean - remove all build, test, coverage and Python artifacts"
@@ -14,6 +14,7 @@ help:
 	@echo "dist - package"
 	@echo "install - install the package to the active Python's site-packages"
 	@echo "release-test test of release at https://test.pypi.org/ server"
+	@echo "update-rates - update the currency exchange rates"
 
 clean: clean-build clean-pyc clean-test
 
@@ -64,16 +65,19 @@ release-test: clean
 	python setup.py bdist_wheel
 	twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/*
 
-release:
+release: update-rates
 	#clean
 	#python setup.py sdist upload
 	#python setup.py bdist_wheel upload
 	twine upload --verbose dist/*
 
-dist: clean
+dist: update-rates clean
 	python setup.py sdist
 	python setup.py bdist_wheel
 	ls -l dist
 
 install: clean
 	python setup.py install
+
+update-rates:
+	python tools/get_rates.py > kicost/currency_converter/default_rates.py
