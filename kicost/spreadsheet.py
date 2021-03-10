@@ -42,7 +42,7 @@ from . import __version__ # Version control by @xesscorp and collaborator.
 from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX, SUB_SEPRTR
 
-from currency_converter import CurrencyConverter
+from .currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
 __all__ = ['create_spreadsheet']
