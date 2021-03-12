@@ -5,5 +5,5 @@ future # For print statements.
 tqdm >= 4.30.0 # Progress bar.
 requests >= 2.18.4 # Scrape, API and web modules.
 babel >= 2.6 # For currency format by the language in the spreadsheet.
-validators >= 0.18.2 # For validation of datasheet URLs in the spreadsheet.
+validators >= 0.14.2 # For validation of datasheet URLs in the spreadsheet.
 wxPython >= 4.0 # Graphical package/library needed to user guide.
