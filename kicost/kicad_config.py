@@ -231,7 +231,7 @@ def bom_plugin_remove_entry(name, re_flags=re.IGNORECASE):
             else:
                 for entry in plugin[2:]:
                     if entry[0]==sexpdata.Symbol('opts') and\
-                        re.findall('nickname\s*=\s*'+name, entry[1], re_flags):
+                        re.findall(r'nickname\s*=\s*'+name, entry[1], re_flags):
                             changes = True
                             continue # The name is in the 'nickname'.
                 new_list.append(plugin) # This plugin remains on the list.
@@ -262,7 +262,7 @@ def bom_plugin_add_entry(name, cmd, nickname=None, re_flags=re.IGNORECASE, put_f
                     return # Plugin already added and don't have nickname.
                 for entry in plugin[2:]:
                     if entry[0]==sexpdata.Symbol('opts') and\
-                        re.findall('nickname\s*=\s*'+nickname, entry[1], re_flags):
+                        re.findall(r'nickname\s*=\s*'+nickname, entry[1], re_flags):
                             return # Plugin already added with this nickname.
             new_list.append(plugin)
     if not nickname:

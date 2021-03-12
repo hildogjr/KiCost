@@ -52,7 +52,7 @@ eda_dict.update(
             # Formatting file match.
             'file': {
                 'extension': '.xml', # File extension.
-                'content': '<tool\>Eeschema.*\<\/tool\>' # Regular expression content match.
+                'content': r'<tool\>Eeschema.*\<\/tool\>' # Regular expression content match.
                 }
         }
     }
@@ -91,7 +91,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                     # Now look for fields that start with 'kicost' and possibly
                     # another dot-separated variant field and store their values.
                     # Anything else is in a non-kicost namespace.
-                    key_re = 'kicost(\.(?P<variant>.*))?:(?P<name>.*)'
+                    key_re = r'kicost(\.(?P<variant>.*))?:(?P<name>.*)'
                     mtch = re.match(key_re, name, flags=re.IGNORECASE)
                     if mtch:
                         v = mtch.group('variant')
