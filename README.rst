@@ -2,8 +2,8 @@
 KiCost
 ===============================
 
-.. image:: https://travis-ci.com/xesscorp/KiCost.svg?branch=master
-        :target: https://travis-ci.com/xesscorp/kicost
+.. image:: https://img.shields.io/github/workflow/status/xesscorp/KiCost/Python%20application
+        :target: https://github.com/xesscorp/KiCost/actions
 
 .. image:: https://img.shields.io/pypi/v/kicost.svg
         :target: https://pypi.python.org/pypi/kicost
