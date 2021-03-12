@@ -874,9 +874,9 @@ def split_refs(text):
                 split = [designator_name +base_split_nums+str(split[i]) for i in range(len(split)) ]
                 
                 refs += split
-            elif re.search(r'[/\\\]', ref):
+            elif re.search(r'[/\\]', ref):
                 designator_name = re.findall(r'^\D+',ref)[0]
-                split_nums = [re.sub('^'+designator_name, '', i) for i in re.split(r'[/\\\]',ref)]
+                split_nums = [re.sub('^'+designator_name, '', i) for i in re.split(r'[/\\]',ref)]
                 refs += [designator_name+i for i in split_nums]
             else:
                 refs += [ref.strip()]
@@ -884,7 +884,7 @@ def split_refs(text):
             # The designator name is not for a group of components and 
             # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
-            ref = re.sub(r'[\-\/\\\]', '', ref.strip())
+            ref = re.sub(r'[\-\/\\]', '', ref.strip())
             if not re.search(PART_REF_REGEX, ref).group('num'):
                 # Add a '0' number at the end to be compatible with KiCad/KiCost
                 # ref strings. This may be missing in the hand made BoM.
