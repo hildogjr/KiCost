@@ -212,7 +212,7 @@ def group_parts(components, fields_merge):
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
     logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
-    component_groups = {}
+    component_groups = OrderedDict()
     for ref, fields in list(components.items()): # part references and field values.
 
         # Take the field keys and values of each part and create a hash.
@@ -389,7 +389,7 @@ def remove_dnp_parts(components, variant):
 
     logger.log(DEBUG_OVERVIEW, '# Removing do not populate parts...')
 
-    accepted_components = {}
+    accepted_components = OrderedDict()
     for ref, fields in components.items():
         # Remove DNPs.
         dnp = fields.get('local:dnp', fields.get('dnp', 0))
@@ -418,7 +418,7 @@ def remove_dnp_parts(components, variant):
 
         # The part was not removed, so add it to the list of accepted components.
         accepted_components[ref] = fields
-    
+
     return accepted_components
 
 
@@ -492,7 +492,7 @@ def subpartqty_split(components):
     FIELDS_MANF = [d+'#' for d in distributor_dict]
     FIELDS_MANF.append('manf#')
 
-    split_components = {}
+    split_components = OrderedDict()
     for part_ref, part in components.items():
         try:
             # Divide the subparts in different parts keeping the other fields
@@ -792,7 +792,7 @@ def order_refs(refs, collapse=True):
 
         return num_ranges
 
-    prefix_nums = {}  # Contains a list of numbers for each distinct prefix.
+    prefix_nums = OrderedDict()  # Contains a list of numbers for each distinct prefix.
     for ref in refs:
         # Partition each part reference into its beginning part prefix and ending number.
         match = re.search(PART_REF_REGEX, ref)
