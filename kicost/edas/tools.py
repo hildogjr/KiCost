@@ -53,7 +53,7 @@ PRJ_SEPRTR = ';' # Separator between projects when collapsed and grouped the par
 BOM_ORDER = 'u,q,d,t,y,x,c,r,s,j,p,cnn,con'
 
 # Characters removed from references when read the files.
-PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*\{}]'.format(SEPRTR)
+PART_REF_REGEX_NOT_ALLOWED = r'[\+\(\)\*\{}]'.format(SEPRTR)
 # Regular expression for detecting part reference ids consisting of a
 # prefix of letters followed by a sequence of digits, such as 'LED10'
 # or a sequence of digits followed by a subpart number like 'CONN1#3'.
@@ -65,8 +65,8 @@ PART_REF_REGEX_NOT_ALLOWED = '[\+\(\)\*\{}]'.format(SEPRTR)
 # In the case of multiple project BOM files, the references are
 # modified by adding the project number identification followed
 # by `SEPRTR` definition.
-PART_REF_REGEX_SPECIAL_CHAR_REF = '\+\-\=\s\_\.\(\)\$\*\&' # Used in next definition only (because repeat).
-PART_REF_REGEX = re.compile('(?P<prefix>({p_str}(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_str=PRJ_STR_DECLARE, p_sp=PRJPART_SPRTR,
+PART_REF_REGEX_SPECIAL_CHAR_REF = r'\+\-\=\s\_\.\(\)\$\*\&' # Used in next definition only (because repeat).
+PART_REF_REGEX = re.compile(r'(?P<prefix>({p_str}(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_str=PRJ_STR_DECLARE, p_sp=PRJPART_SPRTR,
                                 sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
@@ -434,7 +434,7 @@ def groups_sort(new_component_groups):
 
     logger.log(DEBUG_OVERVIEW, 'Sorting the groups for better visualization...')
 
-    ref_identifiers = re.split('(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
+    ref_identifiers = re.split(r'(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
                 BOM_ORDER, flags=re.IGNORECASE)
     component_groups_order_old = list( range(0,len(new_component_groups)) )
     component_groups_order_new = list()
@@ -696,7 +696,7 @@ def manf_code_qtypart(subpart):
        manufacture / distributor. Test if was pre or post
        multiplied by a constant.
        
-       Setting QTY_SEPRTR as '\:', we have
+       Setting QTY_SEPRTR as ':', we have
        ' 4.5 : ADUM3150BRSZ-RL7' -> ('4.5', 'ADUM3150BRSZ-RL7')
        '4/5  : ADUM3150BRSZ-RL7' -> ('4/5', 'ADUM3150BRSZ-RL7')
        '7:ADUM3150BRSZ-RL7' -> ('7', 'ADUM3150BRSZ-RL7')
@@ -711,7 +711,7 @@ def manf_code_qtypart(subpart):
     strings = re.split(QTY_SEPRTR, subpart)
     if len(strings)==2:
         # Search for numbers, matching with simple, frac and decimal ones.
-        num_format = re.compile("^\s*[\-\+]?\s*[0-9]*\s*[\.\/]*\s*?[0-9]*\s*$")
+        num_format = re.compile(r"^\s*[\-\+]?\s*[0-9]*\s*[\.\/]*\s*?[0-9]*\s*$")
         string0_test = re.match(num_format, strings[0])
         string1_test = re.match(num_format, strings[1])
         if string0_test and not(string1_test):
@@ -724,7 +724,7 @@ def manf_code_qtypart(subpart):
             # May be founded a just numeric manufacture/distributor part,
             # in this case, the quantity is a shortest string not
             #considering "." and "/" marks.
-            if len(re.sub('[\.\/]','',strings[0])) < len(re.sub('[\.\/]','',strings[1])):
+            if len(re.sub(r'[\.\/]','',strings[0])) < len(re.sub(r'[\.\/]','',strings[1])):
                 qty = strings[0].strip()
                 part = strings[1].strip()
             else:
@@ -753,7 +753,7 @@ def order_refs(refs, collapse=True):
         # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
 
         def get_refnum(refnum):
-            return int(re.match('\d+', refnum).group(0))
+            return int(re.match(r'\d+', refnum).group(0))
 
         def to_int(n):
             try:
@@ -816,7 +816,7 @@ def order_refs(refs, collapse=True):
     else:
         for prefix in list(prefix_nums.keys()):
             def get_refnum(refnum):
-                return int(re.match('\d+', refnum).group(0))
+                return int(re.match(r'\d+', refnum).group(0))
             prefix_nums[prefix].sort(key=get_refnum)
 
     # Combine the prefixes and number ranges back into part references.
@@ -856,27 +856,27 @@ def split_refs(text):
         #ref = re.sub('\-+', '-', ref) # Double "-".
         #ref = re.sub('^\-', '', ref) # Starting "-".
         #ref = re.sub('\-$', 'n', ref) # Finishing "-".
-        if re.search('^\w+\d', ref):
+        if re.search(r'^\w+\d', ref):
             if re.search('-', ref):
-                designator_name = re.findall('^\D+', ref)[0]
+                designator_name = re.findall(r'^\D+', ref)[0]
                 split_nums = re.split('-', ref)
-                designator_name += ''.join( re.findall('^d*\W', split_nums[0] ) )
+                designator_name += ''.join( re.findall(r'^d*\W', split_nums[0] ) )
                 split_nums = [re.sub(designator_name,'',split_nums[i]) for i in range(len(split_nums))]
                 
                 # Some EDAs may use some separator in the reference numeric parts, as
                 # Altium that use "." (or even other) e.g. "R2.1,R2.2" to the same "R2"
                 # replicated between schematics / rooms.
-                base_split_nums = ''.join( re.findall('^\d+\D', split_nums[0]) )
-                split_nums = [''.join( re.findall('\D*(\d+)$', n) ) for n in split_nums]
+                base_split_nums = ''.join( re.findall(r'^\d+\D', split_nums[0]) )
+                split_nums = [''.join( re.findall(r'\D*(\d+)$', n) ) for n in split_nums]
                 
                 split = list( range( int(split_nums[0]), int(split_nums[1])+1 ) )
                 #split = [designator_name+str(split[i]) for i in range(len(split)) ]
                 split = [designator_name +base_split_nums+str(split[i]) for i in range(len(split)) ]
                 
                 refs += split
-            elif re.search('[/\\\]', ref):
-                designator_name = re.findall('^\D+',ref)[0]
-                split_nums = [re.sub('^'+designator_name, '', i) for i in re.split('[/\\\]',ref)]
+            elif re.search(r'[/\\\]', ref):
+                designator_name = re.findall(r'^\D+',ref)[0]
+                split_nums = [re.sub('^'+designator_name, '', i) for i in re.split(r'[/\\\]',ref)]
                 refs += [designator_name+i for i in split_nums]
             else:
                 refs += [ref.strip()]
@@ -884,7 +884,7 @@ def split_refs(text):
             # The designator name is not for a group of components and 
             # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
-            ref = re.sub('[\-\/\\\]', '', ref.strip())
+            ref = re.sub(r'[\-\/\\\]', '', ref.strip())
             if not re.search(PART_REF_REGEX, ref).group('num'):
                 # Add a '0' number at the end to be compatible with KiCad/KiCost
                 # ref strings. This may be missing in the hand made BoM.

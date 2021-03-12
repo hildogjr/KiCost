@@ -581,7 +581,7 @@ class formKiCost(formKiCost_raw):
             try:
                 response = requests.get(PAGE_UPDATE)
                 html = response.text
-                offical_last_version = re.findall('kicost (\d+\.\d+\.\d+)', str(html), flags=re.IGNORECASE)[0]
+                offical_last_version = re.findall(r'kicost (\d+\.\d+\.\d+)', str(html), flags=re.IGNORECASE)[0]
                 if StrictVersion(offical_last_version) > StrictVersion(__version__):
                     self.m_button_check_updates.SetLabel(u"Found v{}.".format(offical_last_version) )
                     #self.m_staticText_update.Bind(wx.EVT_LEFT_UP, self.m_staticText_update_click)
@@ -766,7 +766,7 @@ class formKiCost(formKiCost_raw):
         args.translate_fields = str_to_arg(['--translate_fields']).split()
         args.variant = str_to_arg(['--variant', '-var'])
         try:
-            args.currency = re.findall('\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())[0]
+            args.currency = re.findall(r'\((\w{3}) .*\).*', self.m_comboBox_currency.GetValue())[0]
         except IndexError:
             pass # Doesn't work under Python 2 so I'm just ignoring it.
 
@@ -907,11 +907,11 @@ class formKiCost(formKiCost_raw):
 
             def str_to_wxpoint(s):
                 '''Convert a string tuple into a  wxPoint.'''
-                p = re.findall('\d+', s)
+                p = re.findall(r'\d+', s)
                 return wx.Point(int(p[0]), int(p[1]))
             def str_to_wxsize(s):
                 '''Convert a string tuple into a  wxRect.'''
-                p = re.findall('\d+', s)
+                p = re.findall(r'\d+', s)
                 return wx.Size(int(p[0]), int(p[1]))
 
             entryCount = 0
@@ -1042,7 +1042,7 @@ class formKiCost(formKiCost_raw):
         history_file = open(os.path.join(kicostPath, 'HISTORY.rst') )
         history = history_file.read()
         history_file.close()
-        search_news = re.compile('History\s+[\=\-\_]+\s+(?P<version>[\w\.]+)\s*\((?P<data>.+)\)\s+[\=\-\_]+\s+(?P<news>(?:\n|.)*?)\s+[\d\.]+', re.IGNORECASE)
+        search_news = re.compile(r'History\s+[\=\-\_]+\s+(?P<version>[\w\.]+)\s*\((?P<data>.+)\)\s+[\=\-\_]+\s+(?P<news>(?:\n|.)*?)\s+[\d\.]+', re.IGNORECASE)
         news = re.search(search_news, history)
         dlg = wx.MessageDialog(self,
                                news.group('news'),
@@ -1088,9 +1088,9 @@ def kicost_gui(files=None):
                 # Second https://github.com/tqdm/tqdm/issues/172 is necessary this work around,
                 # until they finish the v5.
                 wx.CallAfter(frame.m_gauge_process.SetValue,
-                    int(re.findall('^.*\s(\d+)\%', msg)[0])) # Perceptual.
+                    int(re.findall(r'^.*\s(\d+)\%', msg)[0])) # Perceptual.
                 wx.CallAfter(frame.m_staticText_progressInfo.SetLabel,
-                    re.findall('\|+?\s(.*)$', msg)[0]) # Eta.
+                    re.findall(r'\|+?\s(.*)$', msg)[0]) # Eta.
             except:
                 sys.__stderr__.write(msg)
         def flush(self):

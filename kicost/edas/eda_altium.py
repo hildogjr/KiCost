@@ -74,7 +74,7 @@ eda_dict.update(
             # Formatting file match .
             'file': {
                 'extension': '.xml', # File extension.
-                'content': '\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>' # Regular expression content match.
+                r'content': r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>' # Regular expression content match.
             }
         }
     }
@@ -148,7 +148,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 # Now look for fields that start with 'kicost' and possibly
                 # another dot-separated variant field and store their values.
                 # Anything else is in a non-kicost namespace.
-                key_re = 'kicost(\.{})?:(?P<name>.*)'.format(variant)
+                key_re = r'kicost(\.{})?:(?P<name>.*)'.format(variant)
                 mtch = re.match(key_re, hdr, flags=re.IGNORECASE)
                 if mtch:
                     # The field name is anything that came after the leading
@@ -193,12 +193,12 @@ def get_part_groups(in_file, ignore_fields, variant):
         refs, fields = extract_fields_row(row, variant, header)
         for i in range(len(refs)):
             ref = refs[i]
-            ref = re.sub('\+$', 'p', ref) # Finishing "+".
+            ref = re.sub(r'\+$', 'p', ref) # Finishing "+".
             ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special characters not allowed. To work around #ISSUE #89.
-            ref = re.sub('\-+', '-', ref) # Double "-".
-            ref = re.sub('^\-', '', ref) # Starting "-".
-            ref = re.sub('\-$', 'n', ref) # Finishing "-".
-            if not re.search('\d$', ref):
+            ref = re.sub(r'\-+', '-', ref) # Double "-".
+            ref = re.sub(r'^\-', '', ref) # Starting "-".
+            ref = re.sub(r'\-$', 'n', ref) # Finishing "-".
+            if not re.search(r'\d$', ref):
                 ref += '0'
             accepted_components[ re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) ] = fields[i]
 

@@ -72,7 +72,7 @@ QUERY_ANSWER = '''
         }
 '''
 #Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location
-QUERY_ANSWER = re.sub('[\s\n]', '', QUERY_ANSWER)
+QUERY_ANSWER = re.sub(r'[\s\n]', '', QUERY_ANSWER)
 
 QUERY_PART = 'query ($input: MpnInput!) { part(mpn: $input) {' + QUERY_ANSWER + '} }'
 QUERY_MATCH = 'query ($input: [MpnOrSku]!){ match(parts: $input) {' + QUERY_ANSWER + '} }'
@@ -123,10 +123,10 @@ class api_partinfo_kitspace(distributor_class):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
         
-        query_type = re.sub('\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
+        query_type = re.sub(r'\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
         #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
-        variables = re.sub('\s', '', variables)
+        variables = re.sub(r'\s', '', variables)
         # Python 2 prepends a 'u' before the query strings and this makes PartInfo
         # complain, so remove them.
         variables = re.sub(':u"', ':"', variables)

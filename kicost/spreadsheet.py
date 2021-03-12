@@ -93,7 +93,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         # worksheet name since the variant might be a regular expression.
         # Fix the maximum worksheet name, priorize the variant string cutting
         # the board project.
-        variant = re.sub('[\[\]\\\/\|\?\*\:\(\)]','_',
+        variant = re.sub(r'[\[\]\\\/\|\?\*\:\(\)]','_',
                             variant[:(MAX_LEN_WORKSHEET_NAME)])
         WORKSHEET_NAME += '.'
         WORKSHEET_NAME = WORKSHEET_NAME[:(MAX_LEN_WORKSHEET_NAME-len(variant))]
@@ -536,7 +536,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 else:
                     if field_name=='footprint':
                         ##TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
-                        field_value_footprint = re.findall('\:(.*)', part.fields[field_name])
+                        field_value_footprint = re.findall(r'\:(.*)', part.fields[field_name])
                         if field_value_footprint:
                             field_value = field_value_footprint[0]
                     else:
@@ -1223,7 +1223,7 @@ Orange -> Too little quantity available.'''
                             )
                         )
         '''
-        order_info_func_model = re.sub('[\s\n]', '', order_info_func_model) # Strip all the whitespace from the function string.
+        order_info_func_model = re.sub(r'[\s\n]', '', order_info_func_model) # Strip all the whitespace from the function string.
 
         # Create the line order by the fields specified by each distributor.
         delimier = ',"' + distributor_dict[dist]['order']['delimiter'] + '",' # Function delimiter plus distributor code delimiter.
