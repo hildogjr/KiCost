@@ -149,7 +149,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 # another dot-separated variant field and store their values.
                 # Anything else is in a non-kicost namespace.
                 key_re = 'kicost(\.{})?:(?P<name>.*)'.format(variant)
-                mtch = re.match(key_re, name, flags=re.IGNORECASE)
+                mtch = re.match(key_re, hdr, flags=re.IGNORECASE)
                 if mtch:
                     # The field name is anything that came after the leading
                     # 'kicost' and variant field.
