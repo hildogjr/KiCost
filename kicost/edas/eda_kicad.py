@@ -25,6 +25,7 @@ import sys, os, time
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
+from collections import OrderedDict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from ..global_vars import SEPRTR
 from ..distributors.global_vars import distributor_dict
@@ -170,7 +171,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     # them with global values from the libraries and local values
     # from the schematic.
     logger.log(DEBUG_OVERVIEW, 'Getting components...')
-    components = {}
+    components = OrderedDict()
     for c in root.find('components').find_all('comp'):
 
         # Find the library used for this component.

@@ -43,6 +43,7 @@ from __future__ import print_function
 import sys, os
 import pprint
 import tqdm
+from collections import OrderedDict
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -157,7 +158,7 @@ def kicost(in_file, eda_name, out_filename,
         eda_name = [eda_name[0]] * len(in_file) #Assume the first as default.
 
     # Get groups of identical parts.
-    parts = dict()
+    parts = OrderedDict()
     prj_info = list()
     for i_prj in range(len(in_file)):
         eda_module = eda_modules[eda_name[i_prj]]
