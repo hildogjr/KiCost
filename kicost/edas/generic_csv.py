@@ -29,15 +29,17 @@ __company__ = 'University of Campinas - Brazil'
 # Proteus ISIS-ARES and AutoDesk EAGLE.
 
 # Libraries.
-import sys, os, time
+import sys
+import os
+import time
 from datetime import datetime
 import csv  # CSV file reader.
 import re  # Regular expression parser.
 import logging
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE  # Debug configurations.
+from .global_vars import eda_dict
 from .tools import field_name_translations, remove_dnp_parts, split_refs
 from ..distributors.global_vars import distributor_dict
-
 from .eda import eda_class
 
 
@@ -76,7 +78,6 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 
 __all__ = ['get_part_groups']
 
-from . import eda_dict
 
 # Place information about this EDA into the eda_tool dictionary.
 eda_dict.update(

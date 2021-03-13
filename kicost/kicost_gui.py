@@ -37,7 +37,9 @@ try:
 except ImportError:
     raise wxPythonNotPresent()
 import webbrowser  # To update informations.
-import sys, os, subprocess  # To access OS commands and run in the shell.
+import sys
+import os
+import subprocess  # To access OS commands and run in the shell.
 import threading
 import time  # To elapse time.
 import platform  # To check the system platform when open the XLS file.
@@ -45,7 +47,8 @@ import tempfile  # To create the temporary log file.
 from datetime import datetime  # To create the log name, when asked to save.
 from distutils.version import StrictVersion  # To comparative of versions.
 import re  # Regular expression parser.
-import locale, babel  # For country location, language and currency presentation.
+import locale
+import babel  # For country location, language and currency presentation.
 import requests
 # from .wxAnyThread import anythread
 

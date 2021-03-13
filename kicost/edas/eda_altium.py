@@ -28,7 +28,9 @@ __company__ = 'University of Campinas - Brazil'
 # This module is intended to work with Altium XML files.
 
 # Libraries.
-import sys, os, time
+import sys
+import os
+import time
 if sys.version_info < (3, 0):
     import copy  # Necessary because Py2 doesn't have copy in list.
 from datetime import datetime
@@ -37,10 +39,10 @@ import re  # Regular expression parser.
 import logging
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE  # Debug configurations.
 from ..global_vars import SEPRTR
+from .global_vars import eda_dict
 from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 from .tools import PART_REF_REGEX_NOT_ALLOWED
-
 from .eda import eda_class
 
 
@@ -64,7 +66,6 @@ ALTIUM_PART_SEPRTR = r'(?<!\\),\s*'  # Separator for the part numbers in a list,
 
 __all__ = ['get_part_groups']
 
-from . import eda_dict
 
 # Place information about this EDA into the eda_tool dictionary.
 eda_dict.update(

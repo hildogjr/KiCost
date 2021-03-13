@@ -40,7 +40,8 @@
 from __future__ import print_function
 
 # Libraries.
-import sys, os
+import sys
+import os
 import pprint
 import tqdm
 from collections import OrderedDict

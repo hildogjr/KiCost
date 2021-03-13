@@ -21,17 +21,17 @@
 # THE SOFTWARE.
 
 # Libraries.
-import sys, os, time
+import sys
+import os
+import time
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE
-from ..global_vars import SEPRTR
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, SEPRTR
+from .global_vars import eda_dict
 from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
-
-
 from .eda import eda_class
 
 
@@ -42,7 +42,6 @@ class eda_altium(eda_class):
 
 __all__ = ['get_part_groups']
 
-from . import eda_dict
 
 # Place information about this EDA into the eda_tool dictionary.
 eda_dict.update(

@@ -27,11 +27,12 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-import re, os  # Regular expression parser and matches.
+import re  # Regular expression parser and matches.
+import os
 from collections import OrderedDict
 from ..global_vars import *  # Debug, language and default configurations.
 from ..distributors.global_vars import distributor_dict
-from . import eda_dict  # EDA dictionary with the features.
+from .global_vars import eda_dict  # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
 

@@ -29,7 +29,9 @@ __company__ = 'University of Campinas - Brazil'
 # This script aims to be a Eeschema configuration layer.
 
 # Python libraries.
-import os, sys, re
+import os
+import sys
+import re
 
 try:
     import sexpdata  # Try to use a external updated library.

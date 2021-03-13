@@ -28,9 +28,11 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 from pcbnew import *  # KiCad Python library.
-import os, subprocess  # , threading, time
+import os
+import subprocess
 
-import traceback, wx  # For debug.
+import traceback  # For debug.
+import wx
 
 
 def debug_dialog(msg, exception=None, kind=wx.OK):

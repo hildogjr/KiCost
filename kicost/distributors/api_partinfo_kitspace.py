@@ -23,16 +23,18 @@
 
 from __future__ import print_function
 
-
 # Author information.
 __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-import json, requests
-import logging, tqdm
-import copy, re
+import json
+import requests
+import logging
+import tqdm
+import copy
+import re
 from collections import Counter
 # from urllib.parse import quote_plus as urlquote
 
@@ -42,6 +44,7 @@ from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
+from .distributors_info import distributors_info
 
 # Define debug function
 import sys
@@ -82,7 +85,6 @@ QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER 
 QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 
 __all__ = ['api_partinfo_kitspace']
-from .distributors_info import distributors_info
 
 
 class api_partinfo_kitspace(distributor_class):

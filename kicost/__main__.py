@@ -26,8 +26,11 @@ from __future__ import print_function
 
 # Libraries.
 import argparse as ap  # Command argument parser.
-import os, sys, platform
-import logging, time
+import os
+import sys
+import platform
+import logging
+import time
 # import inspect # To get the internal module and informations of a module/class.
 
 from .global_vars import *  # Debug, language and default configurations.

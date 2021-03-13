@@ -21,7 +21,8 @@
 # THE SOFTWARE.
 
 # Libraries.
-import copy, re
+import copy
+import re
 import logging
 
 # Distributors definitions.

@@ -31,7 +31,8 @@ __company__ = 'University of Campinas - Brazil'
 
 
 # Python libraries.
-import os, sys
+import os
+import sys
 from .global_vars import *  # Debug, language and default configurations.
 
 __all__ = ['kicost_setup', 'kicost_unsetup']

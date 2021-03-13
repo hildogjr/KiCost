@@ -20,19 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Author information.
-__author__ = 'XESS Corporation'
-__webpage__ = 'info@xess.com'
-
-# Python2/3 compatibility.
-# from __future__ import (unicode_literals, print_function, division, absolute_import
-from future import standard_library
-standard_library.install_aliases()
-
 # Libraries.
-import json, requests
-import logging, tqdm
-import copy, re
+import json
+import requests
+import logging
+import tqdm
+import copy
+import re
 from collections import Counter
 from urllib.parse import quote_plus as urlquote
 
@@ -42,12 +36,21 @@ from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
+from .distributors_info import distributors_info
 from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
+
+# Author information.
+__author__ = 'XESS Corporation'
+__webpage__ = 'info@xess.com'
+
+# Python2/3 compatibility.
+# from __future__ import (unicode_literals, print_function, division, absolute_import
+from future import standard_library
+standard_library.install_aliases()
 
 OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 
 __all__ = ['api_octopart']
-from .distributors_info import distributors_info
 
 
 class api_octopart(distributor_class):
