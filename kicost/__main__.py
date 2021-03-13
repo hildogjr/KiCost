@@ -47,6 +47,7 @@ from . import __version__  # Version control by @xesscorp and collaborator.
 # Additional functions
 ###############################################################################
 
+
 def kicost_version_info():
     version_info_str = r'KiCost v.{}.'.format(__version__)
     version_info_str += r'at Python {}.{}.{}.'.format(
@@ -64,9 +65,11 @@ def kicost_version_info():
     # version_info_str += r'\n'
     return version_info_str
 
+
 ###############################################################################
 # Command-line interface.
 ###############################################################################
+
 
 def main():
 
@@ -311,6 +314,7 @@ def main():
            dist_list=dist_list, currency=args.currency)
     # except Exception as e:
     #     sys.exit(e)
+
 
 ###############################################################################
 # Main entrypoint.

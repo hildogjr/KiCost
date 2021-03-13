@@ -40,9 +40,11 @@ from ..distributors.global_vars import distributor_dict
 
 from .eda import eda_class
 
+
 class generic_csv(eda_class):
     def __init__(self):
         pass
+
 
 # Add to deal with the generic CSV header purchase list.
 field_name_translations.update(

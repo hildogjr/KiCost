@@ -46,10 +46,12 @@ from .distributor import distributor_class
 # Define debug function
 import sys
 
+
 # Use `debug('x + 1')` for instance.
 def debug(expression):
     frame = sys._getframe(1)
     print(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
+
 
 MAX_PARTS_PER_QUERY = 20  # Maximum number of parts in a single query.
 
@@ -82,6 +84,7 @@ QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 __all__ = ['api_partinfo_kitspace']
 from .distributors_info import distributors_info
 
+
 class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
@@ -112,13 +115,13 @@ class api_partinfo_kitspace(distributor_class):
         if distributors_modules_dict['api_partinfo_kitspace']['enabled']:
             distributor_dict.update(dists)
 
-
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
         '''Send query to server and return results.'''
         
         # TODO this `dist_xlate` have to be better coded into this file.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
+
         def find_key(input_dict, value):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
@@ -172,6 +175,7 @@ class api_partinfo_kitspace(distributor_class):
             '''Overload the class to write the logging through the `tqdm`.'''
             def __init__(self, level=logging.NOTSET):
                 super(self.__class__, self).__init__(level)
+
             def emit(self, record):
                 try:
                     msg = self.format(record)

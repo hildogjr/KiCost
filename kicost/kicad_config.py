@@ -42,6 +42,7 @@ __all__ = ['get_app_config_path',
            'bom_plugin_add_entry', 'bom_plugin_remove_entry',
            'fields_add_entry', 'fields_remove_entry']
 
+
 def get_app_config_path(appname):
     if sys.platform == PLATFORM_MACOS_STARTS_WITH:
         from AppKit import NSSearchPathForDirectoriesInDomains
@@ -57,10 +58,12 @@ def get_app_config_path(appname):
         appdata = os.path.expanduser(os.path.join("~", ".config", appname))
     return appdata
 
+
 PATH_KICAD_CONFIG = get_app_config_path('kicad')
 if not PATH_KICAD_CONFIG:
     raise('KiCad configuration folder not found.')
 PATH_EESCHEMA_CONFIG = os.path.join(PATH_KICAD_CONFIG, "eeschema")
+
 
 def get_user_documents():
     if sys.platform == PLATFORM_MACOS_STARTS_WITH:

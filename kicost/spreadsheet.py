@@ -1121,7 +1121,6 @@ Orange -> Too little quantity available.'''
     except KeyError:
         pass  # Not URL registered.
 
-
     # Write the spreadsheet code to multiple lines to create the purchase codes to
     # be used in this current distributor.
     try:

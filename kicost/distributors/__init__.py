@@ -37,6 +37,7 @@ distributors_modules_dict['dist_local_template'] = {'handle': dist_local_templat
 # distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_octopart}
 distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_partinfo_kitspace}
 
+
 def init_distributor_dict():
     # Clear distributor_dict, then let all distributor modules recreate their entries.
     distributor_dict = {}
@@ -44,6 +45,7 @@ def init_distributor_dict():
         if x.startswith("dist_") or x.startswith("api_") or x.startswith("scrape_"):
             globals()[x].init_dist_dict()
             # Import all "ditributors_templates" (`dist_`), APIs or scrape modules.
+
 
 # Init distributor dict during import.
 init_distributor_dict()

@@ -30,6 +30,7 @@ from .global_vars import *
 
 __all__ = ['dist_local_template']
 
+
 class dist_local_template(distributor_class):
 
     @staticmethod

@@ -148,10 +148,10 @@ def create_shortcut(target, directory, name, icon, location=None,
     return
 
 
-
 ###############################################################################
 # Main functions.
 ###############################################################################
+
 
 def get_kicost_path():
     '''Get KiCost installation path.'''
@@ -323,7 +323,6 @@ def kicost_unsetup():
     print('KiCost setup configuration finished.')
 
     return
-
 
 
 ###############################################################################

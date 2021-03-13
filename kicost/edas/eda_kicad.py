@@ -34,6 +34,7 @@ from .tools import field_name_translations, remove_dnp_parts
 
 from .eda import eda_class
 
+
 class eda_altium(eda_class):
     def __init__(self):
         pass
@@ -58,6 +59,7 @@ eda_dict.update(
         }
     }
 )
+
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''Get groups of identical parts from an XML file and return them as a dictionary.
@@ -136,6 +138,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Get the general information of the project BoM XML file.
     logger.log(DEBUG_OVERVIEW, 'Getting authorship data...')
     title = root.find('title_block')
+
     def title_find_all(data, field):
         '''Helper function for finding title info, especially if it is absent.'''
         try:

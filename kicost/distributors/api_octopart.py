@@ -49,6 +49,7 @@ OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 __all__ = ['api_octopart']
 from .distributors_info import distributors_info
 
+
 class api_octopart(distributor_class):
 
     @staticmethod
@@ -80,7 +81,6 @@ class api_octopart(distributor_class):
         if distributors_modules_dict['api_octopart']['enabled']:
             distributor_dict.update(dists)
 
-
     def query(query, apiKey=None):
         """Send query to Octopart and return results."""
         # url = 'http://octopart.com/api/v3/parts/match'
@@ -104,7 +104,6 @@ class api_octopart(distributor_class):
         else:
             raise Exception('Octopart error: ' + str(response.status_code))
 
-
     def sku_to_mpn(sku, apiKey):
         """Find manufacturer part number associated with a distributor SKU."""
         part_query = [{'reference': 1, 'sku': urlquote(sku)}]
@@ -119,7 +118,6 @@ class api_octopart(distributor_class):
             return mpns[0]
         mpn_cnts = Counter(mpns)
         return mpn_cnts.most_common(1)[0][0]  # Return the most common MPN.
-
 
     def skus_to_mpns(parts, distributors):
         """Find manufaturer's part number for all parts with just distributor SKUs."""
@@ -151,7 +149,6 @@ class api_octopart(distributor_class):
             # Assign the most common manf. part number to this part.
             mpn_cnts = Counter(mpns)
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
-
 
     def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY, apiKey=None):
         """Fill-in the parts with price/qty/etc info from Octopart."""

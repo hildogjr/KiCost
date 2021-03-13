@@ -91,6 +91,7 @@ PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
 
+
 # ======================================================================
 def open_file(filepath):
     '''@brief Open a file with the default application in different OSs.
@@ -427,7 +428,6 @@ class formKiCost(wx.Frame):
         self.m_checkBox_overwrite.SetToolTip(wx.ToolTip(u"Allow overwriting of an existing spreadsheet."))
         bSizer11.Add(self.m_checkBox_overwrite, 0, wx.ALL, 5)
 
-
         m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"History keep:", wx.DefaultPosition, wx.DefaultSize, 0)
         m_staticText.Wrap(-1)
         bSizer11.Add(m_staticText, 0, wx.ALL, 5)
@@ -530,8 +530,6 @@ class formKiCost(wx.Frame):
         self.Fit()
         # self.SetSizeHints(wx.Size(40, 40), wx.DefaultSize) # Only available on wxPython4.
 
-
-
         # Set the application windows title and configurations.
         self.SetTitle('KiCost v.' + __version__)
         self.SetIcon(wx.Icon(os.path.join(kicostPath, 'kicost.ico'), wx.BITMAP_TYPE_ICO))
@@ -557,14 +555,17 @@ class formKiCost(wx.Frame):
         ''' @brief Open the official software web page in the default browser.'''
         event.Skip()
         webbrowser.open(PAGE_OFFICIAL)
+
     def open_issuepage_click(self, event):
         ''' @brief Open the official software web page in the default browser.'''
         event.Skip()
         webbrowser.open(PAGE_DEV)
+
     def open_updatepage_click(self, event):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
         webbrowser.open(PAGE_UPDATE)
+
     def open_powered_by(self, event):
         ''' @brief Open partner that power the KiCost.'''
         event.Skip()
@@ -574,6 +575,7 @@ class formKiCost(wx.Frame):
     def check_updates_click(self, event):
         ''' @brief Check version to update if the "About" tab.'''
         event.Skip()
+
         def checkUpdate():
             '''Check for updates.'''
             self.m_button_check_updates.SetLabel(u"Checking for updates...")
@@ -596,6 +598,7 @@ class formKiCost(wx.Frame):
         ''' @brief Open the context menu with save log options.'''
         event.Skip()
         self.PopupMenu(menuMessages(self), event.GetPosition())
+
     def m_textCtrl_distributors_rClick(self, event):
         ''' @brief Open the context menu with distributors options.'''
         event.Skip()
@@ -904,6 +907,7 @@ class formKiCost(wx.Frame):
                 '''Convert a string tuple into a  wxPoint.'''
                 p = re.findall(r'\d+', s)
                 return wx.Point(int(p[0]), int(p[1]))
+
             def str_to_wxsize(s):
                 '''Convert a string tuple into a  wxRect.'''
                 p = re.findall(r'\d+', s)
@@ -1048,7 +1052,6 @@ class formKiCost(wx.Frame):
         return True
 
 
-
 #######################################################################
 
 def kicost_gui(files=None):
@@ -1063,18 +1066,21 @@ def kicost_gui(files=None):
         def __init__(self, aWxTextCtrl):
             # super(self.__class__, self).__init__()
             self.area = aWxTextCtrl
+
         def write(self, msg):
             # self.area.AppendText(msg)
             # Necessary the call bellow and not above
             # because of the KiCost threads.
             wx.CallAfter(self.area.AppendText, msg)
             # wx.CallAfter(frame.m_textCtrl_messages.AppendText, msg)
+
         def flush(self):
             sys.__stdout__.flush()
 
     class GUI_ETAHandler(object):
         def __init__(self):
             pass
+
         def write(self, msg):
             try:
                 # Try to read a process bar model, with error, is really a error message.
@@ -1088,6 +1094,7 @@ def kicost_gui(files=None):
                              re.findall(r'\|+?\s(.*)$', msg)[0])  # Eta.
             except:
                 sys.__stderr__.write(msg)
+
         def flush(self):
             sys.__stderr__.flush()
 

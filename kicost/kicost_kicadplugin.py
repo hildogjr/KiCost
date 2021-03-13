@@ -32,6 +32,7 @@ import os, subprocess  # , threading, time
 
 import traceback, wx  # For debug.
 
+
 def debug_dialog(msg, exception=None, kind=wx.OK):
     '''Debug dialog.'''
     if exception:
@@ -40,11 +41,13 @@ def debug_dialog(msg, exception=None, kind=wx.OK):
     dlg.ShowModal()
     dlg.Destroy()
 
+
 def install_kicost():
     '''Install KiCost.'''
     import pip
     pip.main(['install', 'kicost'])
     return
+
 
 class kicost_kicadplugin(ActionPlugin):
     '''KiCad PcbNew action plugin.'''
@@ -80,6 +83,7 @@ class kicost_kicadplugin(ActionPlugin):
             else:
                 return False
         return True
+
 
 # Start point.
 kicost_kicadplugin().register()

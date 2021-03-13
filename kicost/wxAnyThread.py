@@ -48,6 +48,7 @@ __all__ = ['anythread']
 
 _EVT_INVOKE_METHOD = wx.NewId()
 
+
 class MethodInvocationEvent(wx.PyEvent):
     """Event fired to the GUI thread indicating a method invocation."""
 

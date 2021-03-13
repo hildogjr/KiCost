@@ -48,9 +48,11 @@ SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 DEFAULT_LANGUAGE = 'en_US'
 DEFAULT_CURRENCY = 'USD'  # Default currency assigned.
 
+
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
+
 
 class wxPythonNotPresent(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''

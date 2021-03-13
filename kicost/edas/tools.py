@@ -171,6 +171,7 @@ class IdenticalComponents(object):
     '''@brief Class to group components.'''
     pass
 
+
 def group_parts(components, fields_merge):
     '''@brief Group common parts after preprocessing from XML or CSV files.
        
@@ -249,7 +250,6 @@ def group_parts(components, fields_merge):
     #     print('\n', grp.refs)
     #     for r in grp.refs:
     #         print(r, components[r])
-
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these

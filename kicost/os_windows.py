@@ -39,7 +39,6 @@ if sys.platform.startswith('win32'):
         from winreg import *
     __all__ = ['reg_enum_values', 'reg_enum_keys', 'reg_get', 'reg_set', 'reg_del']
 
-
     def reg_enum_values(path, key=HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
         try:

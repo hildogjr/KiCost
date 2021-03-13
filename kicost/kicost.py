@@ -74,6 +74,7 @@ from .distributors.global_vars import distributor_dict
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import *
 
+
 def kicost(in_file, eda_name, out_filename,
            user_fields, ignore_fields, group_fields, translate_fields,
            variant,
@@ -274,8 +275,6 @@ def kicost(in_file, eda_name, out_filename,
             print()
 
 
-
-
 # Maximum length of the name of the spreadsheet output generate, this is used in the multifiles to limit the
 # automatic name generation.
 FILE_OUTPUT_MAX_NAME = 10
@@ -285,6 +284,8 @@ FILE_OUTPUT_MIN_INPUT = 5
 # Separator in the name of the output spreadsheet file when used multiple input file to generate automatically
 # the name.
 FILE_OUTPUT_INPUT_SEP = '-'
+
+
 # Here because is used at `__main__.py` and `kicost_gui.py`.
 def output_filename(files_input):
     ''' @brief Compose a name with the multiple BOM input file names.
@@ -312,6 +313,7 @@ def output_filename(files_input):
     file_name = FILE_OUTPUT_INPUT_SEP.join([os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)), FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input])
     file_output = os.path.join(dir_output, file_name + '.xlsx')
     return file_output
+
 
 def kicost_gui_notdependences():
     print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')

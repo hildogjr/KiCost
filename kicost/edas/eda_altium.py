@@ -43,9 +43,11 @@ from .tools import PART_REF_REGEX_NOT_ALLOWED
 
 from .eda import eda_class
 
+
 class eda_altium(eda_class):
     def __init__(self):
         pass
+
 
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(
@@ -79,6 +81,7 @@ eda_dict.update(
         }
     }
 )
+
 
 def get_part_groups(in_file, ignore_fields, variant):
     '''@brief Get groups of identical parts from an XML file and return them as a dictionary.
