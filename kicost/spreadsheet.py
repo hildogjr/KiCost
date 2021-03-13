@@ -534,13 +534,12 @@ Yellow -> Parts available, but haven't purchased enough.''',
                         wks.write_string(row, start_col + columns[field]['col'],
                              part.fields[field_name], cell_format)
                 else:
+                    field_value = part.fields[field_name]
                     if field_name=='footprint':
                         ##TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
-                        field_value_footprint = re.findall(r'\:(.*)', part.fields[field_name])
+                        field_value_footprint = re.findall(r'\:(.*)', field_value)
                         if field_value_footprint:
                             field_value = field_value_footprint[0]
-                    else:
-                        field_value = part.fields[field_name]
                     wks.write_string(row, start_col + columns[field]['col'],
                                  field_value, wrk_formats['part_format'])
             except KeyError:
