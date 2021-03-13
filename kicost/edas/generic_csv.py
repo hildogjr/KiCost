@@ -131,7 +131,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     logger.log(DEBUG_OVERVIEW, 'Getting CSV header...')
     header_file = next(csv.reader(content,delimiter=dialect.delimiter))
     if len(set(header_file))<len(header_file):
-         logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
+        logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
 
     # Standardize the header titles and remove the spaces before
     # and after, striping the text improve the user experience.
@@ -228,10 +228,10 @@ def get_part_groups(in_file, ignore_fields, variant):
                     except:
                         pass
                     finally:
-                        fields[h] = value # Use the translated header title, this is used to deal
-                                          # with duplicated information that could be found by
-                                          # translating header titles that are the same for KiCost.
-
+                        # Use the translated header title, this is used to deal
+                        # with duplicated information that could be found by
+                        # translating header titles that are the same for KiCost.
+                        fields[h] = value
         # Set some key with default values, needed for KiCost.
         # Have to be created after the loop above because of the
         # warning in the case of trying to re-write a key.
@@ -256,7 +256,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             # If error in one line, try get the part proprieties in last one.
             continue
         for ref in refs:
-           accepted_components[ref] = fields
+            accepted_components[ref] = fields
 
     # Not founded project information at the file content.
     prj_info = {'title': os.path.basename( in_file ),

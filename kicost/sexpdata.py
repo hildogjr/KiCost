@@ -494,7 +494,7 @@ class Bracket(SExpBase):
 
     def __repr__(self):
         return uformat("{0}({1!r}, {2!r})",
-            self.__class__.__name__, self._val, self._bra)
+                       self.__class__.__name__, self._val, self._bra)
 
     def tosexp(self, tosexp=tosexp):
         bra = self._bra

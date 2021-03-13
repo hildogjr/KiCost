@@ -67,7 +67,7 @@ PART_REF_REGEX_NOT_ALLOWED = r'[\+\(\)\*\{}]'.format(SEPRTR)
 # by `SEPRTR` definition.
 PART_REF_REGEX_SPECIAL_CHAR_REF = r'\+\-\=\s\_\.\(\)\$\*\&' # Used in next definition only (because repeat).
 PART_REF_REGEX = re.compile(r'(?P<prefix>({p_str}(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_str=PRJ_STR_DECLARE, p_sp=PRJPART_SPRTR,
-                                sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
+                            sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, manufacture name and such.
@@ -138,9 +138,9 @@ def file_eda_match(file_name):
     for name, defs in eda_dict.items():
         #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
         if re.search(defs['file']['content'], content, re.IGNORECASE)\
-            and extension==defs['file']['extension']:
-                file_handle.close()
-                return name
+           and extension==defs['file']['extension']:
+            file_handle.close()
+            return name
     file_handle.close()
     return None
 
@@ -205,7 +205,7 @@ def group_parts(components, fields_merge):
     fields_merge = list( [field_name_translations.get(f.lower(),f.lower()) for f in fields_merge] )
     for c in FIELDS_NOT_HASH:
         if c in fields_merge:
-             raise ValueError('Manufacturer/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
+            raise ValueError('Manufacturer/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
     FIELDS_NOT_HASH = FIELDS_NOT_HASH + fields_merge # Not use the fields do merge to create the hash.
 
     # Now partition the parts into groups of like components.
@@ -276,17 +276,19 @@ def group_parts(components, fields_merge):
         num_manfcat_codes = {f:len(grp.manfcat_codes[f]) for f in FIELDS_MANFCAT}
         if all([num_manfcat_codes[f]==1 or (num_manfcat_codes[f]==2 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
-            continue  # CASE ONE and TWO:
-                      # Single manf# and distributor catalogue. Or a seemingly
-                      # identical group with just one valid manf# or cat# code,
-                      # the other one is `None`.Don't split this group. `None`
-                      # will be replaced with the propagated manufacture /
-                      # distributor catalogue code.
+            # CASE ONE and TWO:
+            # Single manf# and distributor catalogue. Or a seemingly
+            # identical group with just one valid manf# or cat# code,
+            # the other one is `None`.Don't split this group. `None`
+            # will be replaced with the propagated manufacture /
+            # distributor catalogue code.
+            continue
         elif all([(num_manfcat_codes[f]==1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
-            continue  # CASE THREE:
-                      # One manf# or cat# that is `None`. Don't split this
-                      # group. These parts are not intended to be purchased.
+            # CASE THREE:
+            # One manf# or cat# that is `None`. Don't split this
+            # group. These parts are not intended to be purchased.
+            continue
         # CASE FOUR:
         # Otherwise, split the group into subgroups, each with the
         # same manf# and distributors catalogue codes (for that one
@@ -435,7 +437,7 @@ def groups_sort(new_component_groups):
     logger.log(DEBUG_OVERVIEW, 'Sorting the groups for better visualization...')
 
     ref_identifiers = re.split(r'(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
-                BOM_ORDER, flags=re.IGNORECASE)
+                               BOM_ORDER, flags=re.IGNORECASE)
     component_groups_order_old = list( range(0,len(new_component_groups)) )
     component_groups_order_new = list()
     component_groups_refs = [new_component_groups[g].fields.get('reference') for g in component_groups_order_old]

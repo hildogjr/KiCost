@@ -37,8 +37,8 @@ from .kicost import * # kicost core functions.
 try:
     from .kicost_gui import * # User guide.
 except wxPythonNotPresent as e:
-    pass # If the wxPython dependences are not installed and
-         # the user just want the KiCost CLI.
+    # If the wxPython dependences are not installed and the user just want the KiCost CLI.
+    pass
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
 from . import __version__ # Version control by @xesscorp and collaborator.
@@ -300,15 +300,15 @@ def main():
                                               sys.version_info.major,
                                               sys.version_info.minor,
                                               sys.version_info.micro)
-                                          )
+               )
 
     #try:
     kicost(in_file=args.input, eda_name=args.eda,
-        out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
-        user_fields=args.fields, ignore_fields=args.ignore_fields,
-        group_fields=args.group_fields, translate_fields=args.translate_fields,
-        variant=args.variant,
-        dist_list=dist_list, currency=args.currency)
+           out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
+           user_fields=args.fields, ignore_fields=args.ignore_fields,
+           group_fields=args.group_fields, translate_fields=args.translate_fields,
+           variant=args.variant,
+           dist_list=dist_list, currency=args.currency)
     #except Exception as e:
     #    sys.exit(e)
 

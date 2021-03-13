@@ -219,7 +219,7 @@ class menuMessages(wx.Menu):
         ''' @brief Save the messages as a text "KiCost*.log" file.'''
         event.Skip()
         actualDir = (os.getcwd() if self.parent.m_comboBox_files.GetValue() else \
-            os.path.dirname(os.path.abspath(self.parent.m_comboBox_files.GetValue())))
+                     os.path.dirname(os.path.abspath(self.parent.m_comboBox_files.GetValue())))
         dlg = wx.FileDialog(
             self.parent, message = "Save log as...",
             defaultDir = actualDir, 
@@ -483,7 +483,7 @@ class formKiCost(wx.Frame):
         bSizer101.Add(self.m_button_open_webpage, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_button_open_issuepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Report issue page", \
-            wx.DefaultPosition, wx.DefaultSize, 0)
+                                                 wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_issuepage.SetToolTip(wx.ToolTip(u"Open KiCost project ISSUE report page on GitHub."))
         bSizer101.Add(self.m_button_open_issuepage, 0, wx.CENTER | wx.ALL, 5)
         self.m_button_open_issuepage.Bind(wx.EVT_LEFT_DOWN, self.open_issuepage_click)
@@ -501,7 +501,7 @@ class formKiCost(wx.Frame):
         bSizer111.Add(self.m_button_check_updates, 0, wx.CENTER | wx.ALL, 5)
 
         self.m_button_open_updatepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Open PyPI page", \
-            wx.DefaultPosition, wx.DefaultSize, 0)
+                                                  wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_updatepage.SetToolTip(wx.ToolTip(u"Open PyPI page with the most recent KiCost version."))
         self.m_button_open_updatepage.Bind(wx.EVT_LEFT_DOWN, self.open_updatepage_click)
         bSizer111.Add(self.m_button_open_updatepage, 0,  wx.CENTER | wx.ALL, 5)
@@ -526,8 +526,8 @@ class formKiCost(wx.Frame):
         self.Layout()
         self.Centre(wx.BOTH)
         self.Bind(wx.EVT_CLOSE, self.app_close)
-        self.Fit() # Set the window size to fit all controls, useful in first
-                   # execution without the last size and position saved.
+        # Set the window size to fit all controls, useful in first execution without the last size and position saved.
+        self.Fit()
         #self.SetSizeHints(wx.Size(40, 40), wx.DefaultSize) # Only available on wxPython4.
 
 
@@ -649,10 +649,10 @@ class formKiCost(wx.Frame):
         """ @brief Create and show the Open FileDialog"""
         event.Skip()
         actualDir = (os.getcwd() if self.m_comboBox_files.GetValue() else \
-            os.path.dirname(os.path.abspath(self.m_comboBox_files.GetValue())))
+                     os.path.dirname(os.path.abspath(self.m_comboBox_files.GetValue())))
         dlg = wx.FileDialog(self, message = "Select BOM(s)", defaultDir = actualDir, 
-            defaultFile = "", wildcard = WILDCARD_BOM,
-            style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR)
+                            defaultFile = "", wildcard = WILDCARD_BOM,
+                            style = wx.FD_OPEN | wx.FD_MULTIPLE | wx.FD_CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             self.addFile(dlg.GetPaths())
             self.updateOutputFilename() # Update the output file name on GUI text.
@@ -663,12 +663,12 @@ class formKiCost(wx.Frame):
         """ @brief Create and show the Save As... FileDialog."""
         event.Skip()
         wildcard = ("Open format (*.ods)|*.ods" if self.m_checkBox_XLSXtoODS.GetValue()\
-            else "Microsoft Excel (*.xlsx)|*.xlsx")
+                    else "Microsoft Excel (*.xlsx)|*.xlsx")
         actualFile = (os.getcwd() if self.m_text_saveas.GetValue() else \
-            os.path.dirname(os.path.abspath(self.m_text_saveas.GetValue())))
+                      os.path.dirname(os.path.abspath(self.m_text_saveas.GetValue())))
         dlg = wx.FileDialog(self, message = "Save spreadsheet as...", defaultDir = actualFile, 
-            defaultFile = "", wildcard = wildcard,
-            style = wx.FD_SAVE | wx.FD_CHANGE_DIR)
+                            defaultFile = "", wildcard = wildcard,
+                            style = wx.FD_SAVE | wx.FD_CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             spreadsheet_file = dlg.GetPaths()[0]
             if not re.search('^.(xlsx|odt)$', os.path.splitext(spreadsheet_file)[1], re.IGNORECASE):
@@ -727,18 +727,14 @@ class formKiCost(wx.Frame):
         # Handle case where output is going into an existing spreadsheet file.
         if os.path.isfile(spreadsheet_file):
             if not self.m_checkBox_overwrite.GetValue():
-                dlg = wx.MessageDialog(self, 
-                    "The file output \'{}\' already exit, do you want overwrite?".format(
-                                os.path.basename(spreadsheet_file)
-                           ),
-                    "Confirm Overwrite", wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION|wx.STAY_ON_TOP|wx.CENTER)
+                dlg = wx.MessageDialog(self, "The file output \'{}\' already exit, do you want overwrite?"
+                                       .format(os.path.basename(spreadsheet_file)),
+                                       "Confirm Overwrite",
+                                       wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION|wx.STAY_ON_TOP|wx.CENTER)
                 result = dlg.ShowModal()
                 dlg.Destroy()
                 if result==wx.ID_NO:
-                    print('Not able to overwrite \'{}\'...'.format(
-                                os.path.basename(spreadsheet_file)
-                           )
-                       )
+                    print('Not able to overwrite \'{}\'...'.format(os.path.basename(spreadsheet_file)))
                     return
         spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.xlsx' # Force the output (for the CLI interface) to be .XLSX.
         args.output = spreadsheet_file
@@ -773,9 +769,9 @@ class formKiCost(wx.Frame):
 
         if self.m_listBox_edatool.GetStringSelection():
             for k,v in eda_dict.items():
-               if v['label']==self.m_listBox_edatool.GetStringSelection():
-                  args.eda_name = v['module'] # The selected EDA module on GUI.
-                  break
+                if v['label']==self.m_listBox_edatool.GetStringSelection():
+                    args.eda_name = v['module'] # The selected EDA module on GUI.
+                    break
 
         # Get the current distributors to scrape.
         #choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
@@ -799,11 +795,11 @@ class formKiCost(wx.Frame):
             #print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
             #    '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
             kicost(in_file=args.input, eda_name=args.eda_name,
-                out_filename=args.output, collapse_refs=args.collapse_refs,
-                user_fields=args.fields, ignore_fields=args.ignore_fields,
-                group_fields=args.group_fields, translate_fields=args.translate_fields,
-                variant=args.variant,
-                dist_list=args.include, currency=args.currency)
+                   out_filename=args.output, collapse_refs=args.collapse_refs,
+                   user_fields=args.fields, ignore_fields=args.ignore_fields,
+                   group_fields=args.group_fields, translate_fields=args.translate_fields,
+                   variant=args.variant,
+                   dist_list=args.include, currency=args.currency)
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, e)
             self.m_button_run.Enable()
@@ -859,15 +855,15 @@ class formKiCost(wx.Frame):
         for c in range(len(currencyList)):
             currency = currencyList[c]
             currencyList[c] = '({a} {s}) {n}'.format(a=currency,
-                                                  s=babel.numbers.get_currency_symbol(currency, locale=loc),
-                                                  n=babel.numbers.get_currency_name(currency, locale=loc)
-                                              )
+                                                     s=babel.numbers.get_currency_symbol(currency, locale=loc),
+                                                     n=babel.numbers.get_currency_name(currency, locale=loc)
+                                                     )
         self.m_comboBox_currency.Insert(currencyList, 0)
 
         # Get all languages possible.
         languages = '{n} ({s})'.format(n=babel.Locale(DEFAULT_LANGUAGE).get_language_name(),
-                                      s=DEFAULT_LANGUAGE,
-                                  )
+                                       s=DEFAULT_LANGUAGE,
+                                       )
         self.m_comboBox_language.Insert(languages, 0)
 
         # Credits and other informations, search by `AUTHOR.rst` file.
@@ -1087,9 +1083,9 @@ def kicost_gui(files=None):
                 # Second https://github.com/tqdm/tqdm/issues/172 is necessary this work around,
                 # until they finish the v5.
                 wx.CallAfter(frame.m_gauge_process.SetValue,
-                    int(re.findall(r'^.*\s(\d+)\%', msg)[0])) # Perceptual.
+                             int(re.findall(r'^.*\s(\d+)\%', msg)[0])) # Perceptual.
                 wx.CallAfter(frame.m_staticText_progressInfo.SetLabel,
-                    re.findall(r'\|+?\s(.*)$', msg)[0]) # Eta.
+                             re.findall(r'\|+?\s(.*)$', msg)[0]) # Eta.
             except:
                 sys.__stderr__.write(msg)
         def flush(self):
@@ -1134,9 +1130,8 @@ def kicost_gui_runterminal(args):
             pass
         elif isinstance(args.__dict__[k_a], bool) and args.__dict__[k_a]==True:
             options_cmd += '--' + k_a
-        elif isinstance(args.__dict__[k_a], float) or isinstance(args.__dict__[k_a], int) \
-            and args.__dict__[k_a]:
-                options_cmd += '--' + k_a + str(args.__dict__[k_a])
+        elif isinstance(args.__dict__[k_a], float) or isinstance(args.__dict__[k_a], int) and args.__dict__[k_a]:
+            options_cmd += '--' + k_a + str(args.__dict__[k_a])
         elif isinstance(args.__dict__[k_a], list) and args.__dict__[k_a]:
             options_cmd += '--' + k_a + ' '.join(args.__dict__[k_a])
         #else args.__dict__[k_a]:

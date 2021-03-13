@@ -86,8 +86,9 @@ def get_part_groups(in_file, ignore_fields, variant):
                     if value and name not in fields:
                         # Only set the field if it is not set yet (which indicates a variant
                         # has been parsed before)
-                        fields[name] = value # Do not create empty fields. This is useful
-                                             # when used more than one `manf#` alias in one designator.
+                        # Do not create empty fields. This is useful
+                        # when used more than one `manf#` alias in one designator.
+                        fields[name] = value
                 else:
                     # Now look for fields that start with 'kicost' and possibly
                     # another dot-separated variant field and store their values.
@@ -189,8 +190,9 @@ def get_part_groups(in_file, ignore_fields, variant):
         # (Use an empty dict if no part exists in the library.)
         fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
         try:
-            del fields['refs'] # Delete this entry that was creating problem
-                               # to group parts of differents sheets ISSUE #97.
+            # Delete this entry that was creating problem
+            # to group parts of differents sheets ISSUE #97.
+            del fields['refs']
         except KeyError:
             pass
 

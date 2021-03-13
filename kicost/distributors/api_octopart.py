@@ -56,7 +56,7 @@ class api_octopart(distributor_class):
         api_distributors = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_octopart']:
-             # First module load.
+            # First module load.
             distributors_modules_dict.update({'api_octopart': {
                                             'type': 'api', # Module type, could be 'api', 'scrape' or 'local'.
                                             'url': 'https://octopart.com/', # Web site API information.
@@ -74,7 +74,7 @@ class api_octopart(distributor_class):
                                                                     'lcsc': 'LCSC',
                                                                 }
                                                 }
-                                            })
+                                              })
         # Update the `distributor_dict`with the available distributor in this module with the module is enabled.
         # It can be not enabled by the GUI saved configurations.
         if distributors_modules_dict['api_octopart']['enabled']:
@@ -87,12 +87,10 @@ class api_octopart(distributor_class):
         #payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
         #response = requests.get(url, params=payload)
         if apiKey:
-            url = 'http://octopart.com/api/v3/parts/match?queries=%s' \
-            % json.dumps(query)
+            url = 'http://octopart.com/api/v3/parts/match?queries=%s' % json.dumps(query)
             url += '&apikey=' + apiKey
         else:
-            url = 'https://temp-octopart-proxy.kitspace.org/parts/match?queries=%s' \
-            % json.dumps(query)
+            url = 'https://temp-octopart-proxy.kitspace.org/parts/match?queries=%s' % json.dumps(query)
         url += '&include[]=specs'
         url += '&include[]=datasheets'
         response = requests.get(url)
@@ -230,9 +228,7 @@ class api_octopart(distributor_class):
                                 price_tiers = {} # Empty dict in case of exception.
                                 dist_currency = list(offer['prices'].keys())
                                 parts[idx].currency[dist] = dist_currency[0]
-                                price_tiers = {qty: float( price )
-                                                    for qty, price in list(offer['prices'].values())[0]
-                                                }
+                                price_tiers = {qty: float( price ) for qty, price in list(offer['prices'].values())[0]}
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
                                 if not dist in parts[idx].price_tiers:
@@ -280,19 +276,19 @@ class api_octopart(distributor_class):
                                 # This part looks more like a cut-tape version, so
                                 # update the SKU, web page, and available quantity.
                                 if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
-                                # Keeps the information of more availability.
+                                    # Keeps the information of more availability.
                                     parts[i].qty_avail[dist] = offer.get('in_stock_quantity')
                                 ign_stock_code = distributors_info[dist].get('ignore_cat#_re','')
                                 valid_part = not ( ign_stock_code and re.match(ign_stock_code, dist_part_num) )
                                 if valid_part and \
                                     ( not part.part_num[dist] or \
-                                    (part_qty_increment < part.qty_increment[dist]) or \
-                                    (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
-                                        # Save the link, stock code, ... of the page for minimum purchase.
-                                        part.moq[dist] = offer.get('moq') # Minimum order qty.
-                                        parts[i].part_num[dist] = offer.get('sku')
-                                        parts[i].url[dist] = offer.get('product_url')
-                                        parts[i].qty_increment[dist] = part_qty_increment
+                                      (part_qty_increment < part.qty_increment[dist]) or \
+                                      (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
+                                    # Save the link, stock code, ... of the page for minimum purchase.
+                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                    parts[i].part_num[dist] = offer.get('sku')
+                                    parts[i].url[dist] = offer.get('product_url')
+                                    parts[i].qty_increment[dist] = part_qty_increment
 
                             # Don't bother with any extra info from the distributor.
                             parts[i].info_dist[dist] = {}
@@ -302,7 +298,7 @@ class api_octopart(distributor_class):
         # local distributors and future not implemented in the Octopart
         # definition.
         distributors_octopart = [d for d in distributors if distributors[d]['type']=='web'
-                            and distributors_modules_dict['api_octopart'].get('dist_translation')]
+                                 and distributors_modules_dict['api_octopart'].get('dist_translation')]
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []

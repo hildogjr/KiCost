@@ -75,10 +75,10 @@ from .distributors.global_vars import distributor_dict
 from .spreadsheet import *
 
 def kicost(in_file, eda_name, out_filename,
-        user_fields, ignore_fields, group_fields, translate_fields,
-        variant,
-        dist_list=list(distributor_dict.keys()),
-        collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
+           user_fields, ignore_fields, group_fields, translate_fields,
+           variant,
+           dist_list=list(distributor_dict.keys()),
+           collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
     ''' @brief Run KiCost.
     
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -204,9 +204,8 @@ def kicost(in_file, eda_name, out_filename,
         # If more than one EDA software was used, ignore the 'footprint'
         # field, because they could have different libraries names.
         group_fields += ['footprint']
-    group_fields += ['desc', 'var'] # Always ignore 'desc' ('description')
-                                    # and 'var' ('variant') fields, merging
-                                    # the components in groups.
+    # Always ignore 'desc' ('description') and 'var' ('variant') fields, merging the components in groups.
+    group_fields += ['desc', 'var']
     group_fields = set(group_fields)
     parts = group_parts(parts, group_fields)
 
@@ -226,7 +225,7 @@ def kicost(in_file, eda_name, out_filename,
         for d in distributors:
             if not d in dist_not_rmv:
                 logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                                d, distributor_dict[d]['label']['name'])
+                               d, distributor_dict[d]['label']['name'])
                 distributor_dict.pop(d, None)
 
     if logger.isEnabledFor(DEBUG_DETAILED):
@@ -253,7 +252,7 @@ def kicost(in_file, eda_name, out_filename,
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, suppress_cat_url,
-                      user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
+                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):
@@ -277,16 +276,15 @@ def kicost(in_file, eda_name, out_filename,
 
 
 
-FILE_OUTPUT_MAX_NAME = 10 # Maximum length of the name of the spreadsheet output
-                          # generate, this is used in the multifiles to limit the
-                          # automatic name generation.
-FILE_OUTPUT_MIN_INPUT = 5 # Minimum length of characters to use of the input files
-                          # to create the name of the spreadsheet output file. This
-                          # is used in the multifile BoM and have prioritize in the
-                          # `FILE_OUTPUT_MAX_NAME` definition.
-FILE_OUTPUT_INPUT_SEP = '-' # Separator in the name of the output spreadsheet file
-                            # when used multiple input file to generate automatically
-                            # the name.
+# Maximum length of the name of the spreadsheet output generate, this is used in the multifiles to limit the
+# automatic name generation.
+FILE_OUTPUT_MAX_NAME = 10
+# Minimum length of characters to use of the input files to create the name of the spreadsheet output file.
+# This is used in the multifile BoM and have prioritize in the `FILE_OUTPUT_MAX_NAME` definition.
+FILE_OUTPUT_MIN_INPUT = 5
+# Separator in the name of the output spreadsheet file when used multiple input file to generate automatically
+# the name.
+FILE_OUTPUT_INPUT_SEP = '-'
 # Here because is used at `__main__.py` and `kicost_gui.py`.
 def output_filename(files_input):
     ''' @brief Compose a name with the multiple BOM input file names.

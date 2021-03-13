@@ -31,9 +31,9 @@ distributors_modules_dict = {}
 
 # Extra informations to by got by each part in the distributors.
 EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',
-              'size', 'op temp', 'orientation', 'color',
-              'datasheet', 'image', # Links.
-             ]
+                   'size', 'op temp', 'orientation', 'color',
+                   'datasheet', 'image', # Links.
+                   ]
 extra_info_dist_name_translations = {
     #TODO it will need to put here language translation after implementation of ISSUE #65?
     'resistance': 'value',

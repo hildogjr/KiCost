@@ -89,7 +89,7 @@ class api_partinfo_kitspace(distributor_class):
         api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
         dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
-             # First module load.
+            # First module load.
             distributors_modules_dict.update({'api_partinfo_kitspace':{
                                             'type': 'api', 'url': 'https://kitspace.org/', # Web site API information.
                                             'distributors': dists.keys(), # Avaliable web distributors in this api.
@@ -106,7 +106,7 @@ class api_partinfo_kitspace(distributor_class):
                                                                     'LCSC': 'lcsc',
                                                                 }
                                                 }
-                                            })
+                                              })
         # Update the `distributor_dict` with the available distributor in this module with the module is enabled.
         # It can be not enabled by the GUI saved configurations.
         if distributors_modules_dict['api_partinfo_kitspace']['enabled']:
@@ -193,8 +193,8 @@ class api_partinfo_kitspace(distributor_class):
         FIELDS_CAT = ([d + '#' for d in distributor_dict])
         DISTRIBUTORS = ([d for d in distributor_dict])
         # Use just the distributors avaliable in this API.
-        distributors = list( set(DISTRIBUTORS) &
-            set(distributors_modules_dict['api_partinfo_kitspace']['distributors']) )
+        distributors = list(set(DISTRIBUTORS) &
+                            set(distributors_modules_dict['api_partinfo_kitspace']['distributors']) )
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
@@ -258,9 +258,7 @@ class api_partinfo_kitspace(distributor_class):
                                     
                                     # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
                                     if prices:
-                                        price_tiers = {qty: float(price)
-                                                            for qty, price in list(prices)
-                                                      }
+                                        price_tiers = {qty: float(price) for qty, price in list(prices)}
                                         # Combine price lists for multiple offers from the same distributor
                                         # to build a complete list of cut-tape and reeled components.
                                         if not dist in part.price_tiers:
@@ -303,13 +301,13 @@ class api_partinfo_kitspace(distributor_class):
                             #debug('part.qty_increment[dist]')  # Uncomment to debug
                             if valid_part and \
                                 ( not part.part_num[dist] or \
-                                ( part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or \
-                                (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
-                                    # Save the link, stock code, ... of the page for minimum purchase.
-                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
-                                    part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
-                                    part.part_num[dist] = dist_part_num
-                                    part.qty_increment[dist] = part_qty_increment
+                                  ( part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or \
+                                  (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
+                                # Save the link, stock code, ... of the page for minimum purchase.
+                                part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
+                                part.part_num[dist] = dist_part_num
+                                part.qty_increment[dist] = part_qty_increment
 
                             # Don't bother with any extra info from the distributor.
                             part.info_dist[dist] = {}
@@ -323,8 +321,7 @@ class api_partinfo_kitspace(distributor_class):
         # Create queries to get part price/quantities from PartInfo.
         queries = [] # Each part reference query.
         query_parts = [] # Pointer to the part.
-        query_part_stock_code = [] # Used the stock code mention for disambiguation,
-                                   # it is used `None` for the "manf#".
+        query_part_stock_code = [] # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
         for part_idx, part in enumerate(parts):
 
             # Create a PartInfo query using the manufacturer's part number or 
