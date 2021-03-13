@@ -29,7 +29,7 @@ from .global_vars import *
 
 # Import and register here the API / local / scrape modules.
 
-from .dist_local_template import * # Template for local distributors entry.
+from .dist_local_template import *  # Template for local distributors entry.
 #from .api_octopart import *
 from .api_partinfo_kitspace import *
 

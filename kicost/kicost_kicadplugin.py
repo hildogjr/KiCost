@@ -27,10 +27,10 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-from pcbnew import * # KiCad Python library.
-import os, subprocess#, threading, time
+from pcbnew import *  # KiCad Python library.
+import os, subprocess  #, threading, time
 
-import traceback, wx # For debug.
+import traceback, wx  # For debug.
 
 def debug_dialog(msg, exception=None, kind=wx.OK):
     '''Debug dialog.'''
@@ -55,16 +55,16 @@ class kicost_kicadplugin(ActionPlugin):
 
     def Run(self):
         BOM_FILEEXTENSION = '.xml'
-        bom_file = os.path.splitext( GetBoard().GetFileName() )[0] + BOM_FILEEXTENSION
+        bom_file = os.path.splitext(GetBoard().GetFileName())[0] + BOM_FILEEXTENSION
         if not os.path.isfile(bom_file):
             debug_dialog('The file \'{}\' not exist yet.\nReturn to Eeschma and update/generate it.'.format(bom_file))
-        elif bom_file==BOM_FILEEXTENSION:
+        elif bom_file == BOM_FILEEXTENSION:
             debug_dialog('This boad have not BOM associated.')
             bom_file = ''
         try:
             try:
                 from kicost.kicost_gui import kicost_gui
-                kicost_gui(bom_file) # If KiCad and KiCost share the same Python installation.
+                kicost_gui(bom_file)  # If KiCad and KiCost share the same Python installation.
             except ImportError:
                 subprocess.call(('kicost', '--guide', bom_file), shell=True)
                 #os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
@@ -74,7 +74,7 @@ class kicost_kicadplugin(ActionPlugin):
             dlg = debug_dialog('Error trying to run KiCost as plugin or subprocess,\n\
                 KiCost is not available or accessible.\n\
                 Do you want to try to install KiCost?', e, wx.YES_NO)
-            if dlg==wx.YES:
+            if dlg == wx.YES:
                 debug_dialog('YES')
                 return True
             else:

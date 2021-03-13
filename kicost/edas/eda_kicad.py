@@ -47,13 +47,13 @@ from . import eda_dict
 eda_dict.update(
     {
         'kicad': {
-            'module': 'kicad', # The directory name containing this file.
-            'label': 'KiCad file', # Label used on the GUI.
+            'module': 'kicad',  # The directory name containing this file.
+            'label': 'KiCad file',  # Label used on the GUI.
             'desc': 'KiCad open source EDA.',
             # Formatting file match.
             'file': {
-                'extension': '.xml', # File extension.
-                'content': r'<tool\>Eeschema.*\<\/tool\>' # Regular expression content match.
+                'extension': '.xml',  # File extension.
+                'content': r'<tool\>Eeschema.*\<\/tool\>'  # Regular expression content match.
                 }
         }
     }
@@ -80,7 +80,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                 name = str(f['name']).lower().strip()
                 if name in ign_fields:
                     continue  # Ignore fields in the ignore list.
-                elif SEPRTR not in name: # No separator, so get global field value.
+                elif SEPRTR not in name:  # No separator, so get global field value.
                     name = field_name_translations.get(name, name)
                     value = str(f.string)
                     if value and name not in fields:
@@ -100,7 +100,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                         if v is not None and not re.match(variant, v, flags=re.IGNORECASE):
                             continue
                         if v is not None:
-                            logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + v + mtch.group('name') )
+                            logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + v + mtch.group('name'))
                         # The field name is anything that came after the leading
                         # 'kicost' and optional variant field.
                         name = mtch.group('name')
@@ -110,25 +110,25 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
                         #if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and name[:-1] not in distributor_dict:
-                        dist_mtch = re.match('([^:]+):',name)
+                        dist_mtch = re.match('([^:]+):', name)
                         if dist_mtch and dist_mtch.group(1) not in distributor_dict:
                             # 'name' is a distibutore (preceded & followed with ':'
-                            logger.log(DEBUG_OBSESSIVE, 'Assigning local: for name "{}" dist "{}" ... '.format(name,dist_mtch.group(1)) )
+                            logger.log(DEBUG_OBSESSIVE, 'Assigning local: for name "{}" dist "{}" ... '.format(name, dist_mtch.group(1)))
                             # Original code supposes that name is a distributor
-                            if SEPRTR not in name: # This field has no distributor.
-                                name = 'local:' + name # Assign it to a local distributor.
+                            if SEPRTR not in name:  # This field has no distributor.
+                                name = 'local:' + name  # Assign it to a local distributor.
                         value = str(f.string)
                         if value or v is not None:
                             # Empty value also propagated to force deleting default value
                             fields[name] = value
-                        logger.log(DEBUG_OBSESSIVE, 'Field {}={}'.format(name,value))
+                        logger.log(DEBUG_OBSESSIVE, 'Field {}={}'.format(name, value))
         except AttributeError:
             pass  # No fields found for this part.
         return fields
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' KiCad BoM...'.format(
-                                    os.path.basename(in_file)) )
+                                    os.path.basename(in_file)))
     file_h = open(in_file)
     root = BeautifulSoup(file_h, 'lxml')
     file_h.close()
@@ -143,7 +143,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         except (AttributeError, IndexError):
             return None
     prj_info = dict()
-    prj_info['title'] = title_find_all(title, 'title') or os.path.basename( in_file )
+    prj_info['title'] = title_find_all(title, 'title') or os.path.basename(in_file)
     prj_info['company'] = title_find_all(title, 'company')
     prj_info['date'] = title_find_all(root, 'date') or (datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)')
 
@@ -183,12 +183,12 @@ def get_part_groups(in_file, ignore_fields, variant):
             libpart = str(libsource['lib']) + SEPRTR + str(libsource['part'])
         else:
             libpart = '???'
-            logger.log(DEBUG_OVERVIEW, 'Footprint library not assigned to {}'.format(''))#TODO
+            logger.log(DEBUG_OVERVIEW, 'Footprint library not assigned to {}'.format(''))  #TODO
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
         # (Use an empty dict if no part exists in the library.)
-        fields = libparts.get(libpart, dict()).copy() # Make a copy! Don't use reference!
+        fields = libparts.get(libpart, dict()).copy()  # Make a copy! Don't use reference!
         try:
             # Delete this entry that was creating problem
             # to group parts of differents sheets ISSUE #97.

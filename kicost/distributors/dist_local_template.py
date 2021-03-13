@@ -36,8 +36,8 @@ class dist_local_template(distributor_class):
     def init_dist_dict():
         distributor_dict.update({
             'local_template': {
-                'module': 'local', # The directory name containing this file.
-                'type': 'local', # Allowable values: 'api', 'scrape' or 'local'.
+                'module': 'local',  # The directory name containing this file.
+                'type': 'local',  # Allowable values: 'api', 'scrape' or 'local'.
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
                     'delimiter': ' '  # Delimiter for online orders.
@@ -46,11 +46,11 @@ class dist_local_template(distributor_class):
                     'name': 'Local',  # Distributor label used in spreadsheet columns.
                     # Formatting for distributor header in worksheet; bold, font and align are
                     # `spreadsheet.py` defined but can by overload heve.
-                    'format': { 'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
+                    'format': {'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
                 },
             }
         })
-        distributors_modules_dict.update({'local_template':{'type': 'local', 'enabled': True, 'param': None}})
+        distributors_modules_dict.update({'local_template': {'type': 'local', 'enabled': True, 'param': None}})
 
     @staticmethod
     def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
@@ -81,16 +81,16 @@ class dist_local_template(distributor_class):
                     distributors[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
 
         # Set part info to default blank values for all the distributors.
-        for part in parts: ## TODO create this for just the current active distributor inside each module.
+        for part in parts:  ## TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-            part.part_num = {dist: '' for dist in distributors} # Distributor catalogue number.
-            part.url = {dist: '' for dist in distributors} # Purchase distributor URL for the spefic part.
-            part.price_tiers = {dist: {} for dist in distributors} # Price break tiers; [[qty1, price1][qty2, price2]...]
-            part.qty_avail = {dist: None for dist in distributors} # Available quantity.
+            part.part_num = {dist: '' for dist in distributors}  # Distributor catalogue number.
+            part.url = {dist: '' for dist in distributors}  # Purchase distributor URL for the spefic part.
+            part.price_tiers = {dist: {} for dist in distributors}  # Price break tiers; [[qty1, price1][qty2, price2]...]
+            part.qty_avail = {dist: None for dist in distributors}  # Available quantity.
             part.qty_increment = {dist: None for dist in distributors}
             part.info_dist = {dist: {} for dist in distributors}
-            part.currency = {dist: DEFAULT_CURRENCY for dist in distributors} # Default currency.
-            part.moq = {dist: None for dist in distributors} # Minimum order quantity allowd by the distributor.
+            part.currency = {dist: DEFAULT_CURRENCY for dist in distributors}  # Default currency.
+            part.moq = {dist: None for dist in distributors}  # Minimum order quantity allowd by the distributor.
 
         # Loop through the parts looking for those sourced by local distributors
         # that won't be found online. Place any user-added info for these parts

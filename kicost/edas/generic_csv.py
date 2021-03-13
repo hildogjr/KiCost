@@ -31,10 +31,10 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import sys, os, time
 from datetime import datetime
-import csv # CSV file reader.
-import re # Regular expression parser.
+import csv  # CSV file reader.
+import re  # Regular expression parser.
 import logging
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE  # Debug configurations.
 from .tools import field_name_translations, remove_dnp_parts, split_refs
 from ..distributors.global_vars import distributor_dict
 
@@ -60,7 +60,7 @@ field_name_translations.update(
         'part': 'refs',
         'value': 'value',
         'package': 'footprint',
-        'pcb package': 'footprint', # Used at Proteus.
+        'pcb package': 'footprint',  # Used at Proteus.
         '': '',  # This is here because the header row may contain an empty field.
         # Use on `http://upverter.com/`.
         'manufacturer part number': 'manf#',
@@ -80,13 +80,13 @@ from . import eda_dict
 eda_dict.update(
     {
         'csv': {
-            'module': 'csv', # The directory name containing this file.
-            'label': 'CSV file', # Label used on the GUI.
+            'module': 'csv',  # The directory name containing this file.
+            'label': 'CSV file',  # Label used on the GUI.
             'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus and Eagle.',
             # Formatting file match.
             'file': {
-                'extension': '.csv', # File extension.
-                'content': '.' # Regular expression content match.
+                'extension': '.csv',  # File extension.
+                'content': '.'  # Regular expression content match.
                 }
         }
     }
@@ -105,11 +105,11 @@ def get_part_groups(in_file, ignore_fields, variant):
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
     logger.log(DEBUG_OVERVIEW, '# Getting from CSV \'{}\' BoM...'.format(
-                                    os.path.basename(in_file)) )
+                                    os.path.basename(in_file)))
     try:
         file_h = open(in_file, 'r')
         content = file_h.read()
-    except UnicodeDecodeError: # It happens with some Windows CSV files on Python 3.
+    except UnicodeDecodeError:  # It happens with some Windows CSV files on Python 3.
         file_h.close()
         file_h = open(in_file, 'r', encoding='ISO-8859-1')
         content = file_h.read()
@@ -120,7 +120,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     # Determine the column delimiter used in the CSV file.
     try:
-        dialect = csv.Sniffer().sniff(content, [',',';','\t'])
+        dialect = csv.Sniffer().sniff(content, [',', ';', '\t'])
     except csv.Error:
         # If the CSV file only has a single column of data, there may be no
         # delimiter so just set the delimiter to a comma.
@@ -129,13 +129,13 @@ def get_part_groups(in_file, ignore_fields, variant):
     # The first line in the file must be the column header.
     content = content.splitlines()
     logger.log(DEBUG_OVERVIEW, 'Getting CSV header...')
-    header_file = next(csv.reader(content,delimiter=dialect.delimiter))
-    if len(set(header_file))<len(header_file):
+    header_file = next(csv.reader(content, delimiter=dialect.delimiter))
+    if len(set(header_file)) < len(header_file):
         logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
 
     # Standardize the header titles and remove the spaces before
     # and after, striping the text improve the user experience.
-    header = [field_name_translations.get(hdr.strip().lower(),hdr.strip().lower()) for hdr in header_file]
+    header = [field_name_translations.get(hdr.strip().lower(), hdr.strip().lower()) for hdr in header_file]
 
     # Examine the first line to see if it really is a header.
     # If the first line contains a column header that is not in the list of
@@ -144,7 +144,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
     if not any([code in header for code in FIELDS_MANFCAT]):
         if any(col_hdr.lower() in field_names for col_hdr in header):
-            content.pop(0) # It was a header by the user not identify the 'manf#' / 'cat#' column.
+            content.pop(0)  # It was a header by the user not identify the 'manf#' / 'cat#' column.
 
         # If a column header is not in the list of field names, then there is
         # no header in the file. Therefore, create a header based on number of columns.
@@ -163,20 +163,20 @@ def get_part_groups(in_file, ignore_fields, variant):
             header = ['qty', 'manf#', 'refs']
     else:
         # OK, the first line is a header, so remove it from the data.
-        content.pop(0) # Remove the header from the content.
+        content.pop(0)  # Remove the header from the content.
 
     def correspondent_header_value(key, vals):
         # Get the correspondent first valid value of `vals` look from a key
         # in `header`, but using `header_file` to access `vals`. Used to get
         # the designator reference `refs` and quantity `qty`.
-        idx = [i for i, x in enumerate(header) if x==key]
+        idx = [i for i, x in enumerate(header) if x == key]
         value = None
         for i in idx:
-            if len(idx)>1 and value!=None and value!=vals[ header_file[i] ]:
+            if len(idx) > 1 and value != None and value != vals[header_file[i]]:
                 logger.warning('Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
-                    key, value, vals[ header_file[i] ])
+                    key, value, vals[header_file[i]])
                     )
-            value = vals[ header_file[i] ]
+            value = vals[header_file[i]]
             if value:
                 break
         return value
@@ -196,8 +196,8 @@ def get_part_groups(in_file, ignore_fields, variant):
             ref_str = correspondent_header_value('refs', vals).strip()
             qty = len(ref_str)
         elif 'qty' in header:
-            qty = int( correspondent_header_value('qty', vals) )
-            if qty>1:
+            qty = int(correspondent_header_value('qty', vals))
+            if qty > 1:
                 ref_str = GENERIC_PREFIX + '{0}-{1}'.format(extract_fields.gen_cntr, extract_fields.gen_cntr+qty-1)
             else:
                 ref_str = GENERIC_PREFIX + '{0}'.format(extract_fields.gen_cntr)
@@ -213,7 +213,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Extract each value.
         for (h_file, h) in zip(header_file, header):
             if h not in (ign_fields + ['refs', 'qty']):
-                if sys.version_info >= (3,0):
+                if sys.version_info >= (3, 0):
                     # This is for Python 3 where the values are already unicode.
                     value = vals.get(h_file)
                 else:
@@ -259,7 +259,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             accepted_components[ref] = fields
 
     # Not founded project information at the file content.
-    prj_info = {'title': os.path.basename( in_file ),
+    prj_info = {'title': os.path.basename(in_file),
                 'company': None,
                 'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 

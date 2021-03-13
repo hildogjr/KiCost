@@ -25,23 +25,23 @@
 from __future__ import print_function
 
 #Libraries.
-import argparse as ap # Command argument parser.
+import argparse as ap  # Command argument parser.
 import os, sys, platform
 import logging, time
 #import inspect # To get the internal module and informations of a module/class.
 
-from .global_vars import * # Debug, language and default configurations.
+from .global_vars import *  # Debug, language and default configurations.
 
 # KiCost definitions and modules/packages functions.
-from .kicost import * # kicost core functions.
+from .kicost import *  # kicost core functions.
 try:
-    from .kicost_gui import * # User guide.
+    from .kicost_gui import *  # User guide.
 except wxPythonNotPresent as e:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
-from . import __version__ # Version control by @xesscorp and collaborator.
+from . import __version__  # Version control by @xesscorp and collaborator.
 
 ###############################################################################
 # Additional functions
@@ -74,11 +74,11 @@ def main():
         description='Build cost spreadsheet for a KiCAD project.')
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='KiCost v.{}'.format(__version__) )
+                        version='KiCost v.{}'.format(__version__))
     parser.add_argument('--info',
                         action='version',
                         version=kicost_version_info(),
-                        help='Show program\' and library information and version.' )
+                        help='Show program\' and library information and version.')
     parser.add_argument('-i', '--input',
                         nargs='+',
                         type=str,
@@ -108,7 +108,7 @@ def main():
     parser.add_argument('--variant',
                         nargs='+',
                         type=str,
-                        default=[' '], # Default variant is a space.
+                        default=[' '],  # Default variant is a space.
                         help='schematic variant name filter using regular expression.')
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
@@ -152,11 +152,11 @@ def main():
                         help='Do not suppress the catalogue links into the catalogue code in the spreadsheet.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
-                        metavar = 'DIST',
+                        metavar='DIST',
                         help='Excludes the given distributor(s) from the scraping process.')
     parser.add_argument('--include',
                         nargs='+', type=str, default='',
-                        metavar = 'DIST',
+                        metavar='DIST',
                         help='Includes only the given distributor(s) in the scraping process.')
     parser.add_argument('--no_price',
                         action='store_true',
@@ -230,7 +230,7 @@ def main():
     if args.user:
         try:
             kicost_gui_runterminal(args)
-        except (ImportError,NameError):
+        except (ImportError, NameError):
             kicost_gui_notdependences()
         return
 
@@ -250,7 +250,7 @@ def main():
 
     if args.input == None:
         try:
-            kicost_gui() # Use the user gui if no input is given.
+            kicost_gui()  # Use the user gui if no input is given.
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return

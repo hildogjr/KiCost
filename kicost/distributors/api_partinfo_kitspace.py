@@ -37,7 +37,7 @@ from collections import Counter
 #from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
 from ..edas.tools import order_refs
 
 # Distributors definitions.
@@ -51,7 +51,7 @@ def debug(expression):
     frame = sys._getframe(1)
     print(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
 
-MAX_PARTS_PER_QUERY = 20 # Maximum number of parts in a single query.
+MAX_PARTS_PER_QUERY = 20  # Maximum number of parts in a single query.
 
 # Information to return from PartInfo KitSpace server.
 
@@ -87,15 +87,15 @@ class api_partinfo_kitspace(distributor_class):
     @staticmethod
     def init_dist_dict():
         api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
-        dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
+        dists = {k: v for k, v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
             # First module load.
-            distributors_modules_dict.update({'api_partinfo_kitspace':{
-                                            'type': 'api', 'url': 'https://kitspace.org/', # Web site API information.
-                                            'distributors': dists.keys(), # Avaliable web distributors in this api.
-                                            'enabled': True, # Default status of the module (it's load but can be not calle).
-                                            'param': None, # Configuration parameters.
-                                            'dist_translation': { # Distributor translation.
+            distributors_modules_dict.update({'api_partinfo_kitspace': {
+                                            'type': 'api', 'url': 'https://kitspace.org/',  # Web site API information.
+                                            'distributors': dists.keys(),  # Avaliable web distributors in this api.
+                                            'enabled': True,  # Default status of the module (it's load but can be not calle).
+                                            'param': None,  # Configuration parameters.
+                                            'dist_translation': {  # Distributor translation.
                                                                     'Digikey': 'digikey',
                                                                     'Farnell': 'farnell',
                                                                     'Mouser': 'mouser',
@@ -123,7 +123,7 @@ class api_partinfo_kitspace(distributor_class):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
         
-        query_type = re.sub(r'\{DISTRIBUTORS\}', '["'+ '","'.join(distributors) +'"]' , query_type)
+        query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(distributors) + '"]', query_type)
         #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub(r'\s', '', variables)
@@ -133,16 +133,16 @@ class api_partinfo_kitspace(distributor_class):
         variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
         response = requests.post(QUERY_URL, {'query': query_type, "variables": variables})
-        if response.status_code == requests.codes['ok']: #200
+        if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
             return results
-        elif response.status_code == requests.codes['not_found']: #404
+        elif response.status_code == requests.codes['not_found']:  # 404
             raise Exception('Kitspace server not found check your internet connection.')
-        elif response.status_code == requests.codes['request_timeout']: #408
+        elif response.status_code == requests.codes['request_timeout']:  # 408
             raise Exception('KitSpace is not responding.')
-        elif response.status_code == requests.codes['bad_request']: #400
+        elif response.status_code == requests.codes['bad_request']:  # 400
             raise Exception('Bad request to Kitspace server probably due to an incorrect string format check your `manf#` codes and contact the suport team.')
-        elif response.status_code == requests.codes['gateway_timeout']: # 504
+        elif response.status_code == requests.codes['gateway_timeout']:  # 504
             raise Exception('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.')
         else:
             raise Exception('Kitspace error: ' + str(response.status_code))
@@ -194,7 +194,7 @@ class api_partinfo_kitspace(distributor_class):
         DISTRIBUTORS = ([d for d in distributor_dict])
         # Use just the distributors avaliable in this API.
         distributors = list(set(DISTRIBUTORS) &
-                            set(distributors_modules_dict['api_partinfo_kitspace']['distributors']) )
+                            set(distributors_modules_dict['api_partinfo_kitspace']['distributors']))
 
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
@@ -232,7 +232,7 @@ class api_partinfo_kitspace(distributor_class):
 
                             # Get pricing information from this distributor.
                             try:
-                                price_tiers = {} # Empty dict in case of exception.
+                                price_tiers = {}  # Empty dict in case of exception.
                                 if not offer['prices']:
                                     logger.warning('No price information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
                                 else:
@@ -246,7 +246,7 @@ class api_partinfo_kitspace(distributor_class):
                                     if currency in dist_currency and offer['prices'][currency]:
                                         prices = offer['prices'][currency]
                                         part.currency[dist] = currency
-                                    elif DEFAULT_CURRENCY in dist_currency and offer['prices'][DEFAULT_CURRENCY]:# and DEFAULT_CURRENCY!=currency:
+                                    elif DEFAULT_CURRENCY in dist_currency and offer['prices'][DEFAULT_CURRENCY]:  # and DEFAULT_CURRENCY!=currency:
                                         prices = offer['prices'][DEFAULT_CURRENCY]
                                         part.currency[dist] = DEFAULT_CURRENCY
                                     else:
@@ -292,20 +292,20 @@ class api_partinfo_kitspace(distributor_class):
                             #      This procedure is made by the definition `distributors_info[dist]['ignore_cat#_re']`
                             #      at the distributor profile.
                             dist_part_num = offer.get('sku', '').get('part', '')
-                            if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
+                            if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist] < offer.get('in_stock_quantity')):
                                 # Keeps the information of more availability.
-                                part.qty_avail[dist] = offer.get('in_stock_quantity') # In stock.
-                            ign_stock_code = distributors_info[dist].get('ignore_cat#_re','')
-                            valid_part = not ( ign_stock_code and re.match(ign_stock_code, dist_part_num) )
+                                part.qty_avail[dist] = offer.get('in_stock_quantity')  # In stock.
+                            ign_stock_code = distributors_info[dist].get('ignore_cat#_re', '')
+                            valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
                             #debug('part.part_num[dist]') # Uncomment to debug
                             #debug('part.qty_increment[dist]')  # Uncomment to debug
                             if valid_part and \
-                                ( not part.part_num[dist] or \
-                                  ( part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or \
-                                  (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
+                                (not part.part_num[dist] or \
+                                 (part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or \
+                                 (not part.moq[dist] or (offer.get('moq') and part.moq[dist] > offer.get('moq')))):
                                 # Save the link, stock code, ... of the page for minimum purchase.
-                                part.moq[dist] = offer.get('moq') # Minimum order qty.
-                                part.url[dist] = offer.get('product_url', '') # Page to purchase the minimum quantity.
+                                part.moq[dist] = offer.get('moq')  # Minimum order qty.
+                                part.url[dist] = offer.get('product_url', '')  # Page to purchase the minimum quantity.
                                 part.part_num[dist] = dist_part_num
                                 part.qty_increment[dist] = part_qty_increment
 
@@ -319,9 +319,9 @@ class api_partinfo_kitspace(distributor_class):
         distributors_name_api = distributors_modules_dict['api_partinfo_kitspace']['dist_translation'].values()
 
         # Create queries to get part price/quantities from PartInfo.
-        queries = [] # Each part reference query.
-        query_parts = [] # Pointer to the part.
-        query_part_stock_code = [] # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
+        queries = []  # Each part reference query.
+        query_parts = []  # Pointer to the part.
+        query_part_stock_code = []  # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
         for part_idx, part in enumerate(parts):
 
             # Create a PartInfo query using the manufacturer's part number or 

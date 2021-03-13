@@ -29,13 +29,13 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import sys, os, time
-if sys.version_info < (3,0):
-    import copy # Necessary because Py2 doesn't have copy in list.
+if sys.version_info < (3, 0):
+    import copy  # Necessary because Py2 doesn't have copy in list.
 from datetime import datetime
-from bs4 import BeautifulSoup # To Read XML files.
-import re # Regular expression parser.
+from bs4 import BeautifulSoup  # To Read XML files.
+import re  # Regular expression parser.
 import logging
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE # Debug configurations.
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE  # Debug configurations.
 from ..global_vars import SEPRTR
 from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
@@ -52,13 +52,13 @@ field_name_translations.update(
     {
         'designator': 'refs',
         'quantity': 'qty',
-        'manufacturer name': 'manf', # Used for some web site tools to part generator in Altium.
+        'manufacturer name': 'manf',  # Used for some web site tools to part generator in Altium.
         'manufacturer part number': 'manf#'
     }
 )
 
-ALTIUM_NONE = '[NoParam]' # Value of Altium to `None`.
-ALTIUM_PART_SEPRTR = r'(?<!\\),\s*' # Separator for the part numbers in a list, remove the lateral spaces.
+ALTIUM_NONE = '[NoParam]'  # Value of Altium to `None`.
+ALTIUM_PART_SEPRTR = r'(?<!\\),\s*'  # Separator for the part numbers in a list, remove the lateral spaces.
 
 __all__ = ['get_part_groups']
 
@@ -68,13 +68,13 @@ from . import eda_dict
 eda_dict.update(
     {
         'altium': {
-            'module': 'altium', # The directory name containing this file.
-            'label': 'Altium file', # Label used on the GUI.
+            'module': 'altium',  # The directory name containing this file.
+            'label': 'Altium file',  # Label used on the GUI.
             'desc': 'Altium Limited (formerly known as Protel until 2001).',
             # Formatting file match .
             'file': {
-                'extension': '.xml', # File extension.
-                r'content': r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>' # Regular expression content match.
+                'extension': '.xml',  # File extension.
+                r'content': r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>'  # Regular expression content match.
             }
         }
     }
@@ -93,7 +93,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     def extract_field(xml_entry, field_name):
         '''Extract XML fields from XML entry given.'''
         try:
-            if sys.version_info>=(3,0):
+            if sys.version_info >= (3, 0):
                 return xml_entry[field_name]
             else:
                 return xml_entry[field_name].encode('ascii', 'ignore')
@@ -104,23 +104,23 @@ def get_part_groups(in_file, ignore_fields, variant):
         '''Extract XML fields from the part in a library or schematic.'''
         
         # First get the references and the quantities of elements in each rwo group.
-        header_translated = [field_name_translations.get(hdr.lower(),hdr.lower()) for hdr in header]
+        header_translated = [field_name_translations.get(hdr.lower(), hdr.lower()) for hdr in header]
         hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
         if not hdr_refs:
             raise ValueError('Not founded the part designators/references in the BOM.\nTry to generate the file again at Altium.')
         else:
             hdr_refs = hdr_refs[0]
-        refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()) )
-        if sys.version_info >= (3,0):
+        refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()))
+        if sys.version_info >= (3, 0):
             header_valid = header.copy()
         else:
             header_valid = copy.copy(header)
         header_valid.remove(header[hdr_refs])
         try:
             hdr_qty = [i for i, x in enumerate(header_translated) if x == "qty"][0]
-            qty = int( extract_field(row, header[hdr_qty].lower()) )
+            qty = int(extract_field(row, header[hdr_qty].lower()))
             header_valid.remove(header[hdr_qty])
-            if qty!=len(refs):
+            if qty != len(refs):
                 raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, ` to `,` or better, use `;` instead `,`.')
         except:
             qty = len(refs)
@@ -136,14 +136,14 @@ def get_part_groups(in_file, ignore_fields, variant):
                 continue
             elif not SEPRTR in hdr.lower():
                 for i in range(qty):
-                    if len(value)==qty:
+                    if len(value) == qty:
                         v = value[i]
                     else:
-                        v = value[0] # Footprint is just one for group.
+                        v = value[0]  # Footprint is just one for group.
                     # Do not create empty fields. This is useful
                     # when used more than one `manf#` alias in one designator.
-                    if v and v!=ALTIUM_NONE:
-                        fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
+                    if v and v != ALTIUM_NONE:
+                        fields[i][field_name_translations.get(hdr.lower(), hdr.lower())] = v.strip()
             else:
                 # Now look for fields that start with 'kicost' and possibly
                 # another dot-separated variant field and store their values.
@@ -160,22 +160,22 @@ def get_part_groups(in_file, ignore_fields, variant):
                     # it to 'local' if it doesn't start with a distributor
                     # name and colon.
                     if name not in ('manf#', 'manf') and name[:-1] not in distributor_dict:
-                        if SEPRTR not in name: # This field has no distributor.
-                            name = 'local:' + name # Assign it to a local distributor.
+                        if SEPRTR not in name:  # This field has no distributor.
+                            name = 'local:' + name  # Assign it to a local distributor.
                     for i in range(qty):
-                        if len(value)==qty:
+                        if len(value) == qty:
                             v = value[i]
                         else:
-                            v = value[0] # Footprint is just one for group.
+                            v = value[0]  # Footprint is just one for group.
                         # Do not create empty fields. This is useful
                         # when used more than one `manf#` alias in one designator.
-                        if v and v!=ALTIUM_NONE:
-                            fields[i][field_name_translations.get(hdr.lower(),hdr.lower())] = v.strip()
+                        if v and v != ALTIUM_NONE:
+                            fields[i][field_name_translations.get(hdr.lower(), hdr.lower())] = v.strip()
         return refs, fields
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' Altium BoM...'.format(
-                                    os.path.basename(in_file)) )
+                                    os.path.basename(in_file)))
     file_h = open(in_file)
     root = BeautifulSoup(file_h, 'lxml')
     file_h.close()
@@ -183,7 +183,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     # Get the header of the XML file of Altium, so KiCost is able to to
     # to get all the informations in the file.
     logger.log(DEBUG_OVERVIEW, 'Getting the XML table header...')
-    header = [ extract_field(entry, 'name') for entry in root.find('columns').find_all('column') ]
+    header = [extract_field(entry, 'name') for entry in root.find('columns').find_all('column')]
 
     logger.log(DEBUG_OVERVIEW, 'Getting components...')
     accepted_components = {}
@@ -193,17 +193,17 @@ def get_part_groups(in_file, ignore_fields, variant):
         refs, fields = extract_fields_row(row, variant, header)
         for i in range(len(refs)):
             ref = refs[i]
-            ref = re.sub(r'\+$', 'p', ref) # Finishing "+".
-            ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) # Generic special characters not allowed. To work around #ISSUE #89.
-            ref = re.sub(r'\-+', '-', ref) # Double "-".
-            ref = re.sub(r'^\-', '', ref) # Starting "-".
-            ref = re.sub(r'\-$', 'n', ref) # Finishing "-".
+            ref = re.sub(r'\+$', 'p', ref)  # Finishing "+".
+            ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref)  # Generic special characters not allowed. To work around #ISSUE #89.
+            ref = re.sub(r'\-+', '-', ref)  # Double "-".
+            ref = re.sub(r'^\-', '', ref)  # Starting "-".
+            ref = re.sub(r'\-$', 'n', ref)  # Finishing "-".
             if not re.search(r'\d$', ref):
                 ref += '0'
-            accepted_components[ re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref) ] = fields[i]
+            accepted_components[re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref)] = fields[i]
 
     # Not founded project information at the file content.
-    prj_info = {'title': os.path.basename( in_file ),
+    prj_info = {'title': os.path.basename(in_file),
                 'company': None,
                 'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 

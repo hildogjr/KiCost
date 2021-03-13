@@ -22,4 +22,4 @@
 # THE SOFTWARE.
 
 # Heritage of the above global vars.
-from ..global_vars import * # Debug information and `SEPRTR`.
+from ..global_vars import *  # Debug information and `SEPRTR`.

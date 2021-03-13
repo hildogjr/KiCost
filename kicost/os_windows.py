@@ -33,7 +33,7 @@ import sys
 
 if sys.platform.startswith('win32'):
     # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
-    if sys.version_info < (3,0):
+    if sys.version_info < (3, 0):
         from _winreg import *
     else:
         from winreg import *
@@ -52,7 +52,7 @@ if sys.platform.startswith('win32'):
             try:
                 idx = 0
                 while 1:
-                    values.append( EnumValue(registry_key, idx) )
+                    values.append(EnumValue(registry_key, idx))
                     idx = idx + 1
             except WindowsError:
                 pass
@@ -74,7 +74,7 @@ if sys.platform.startswith('win32'):
             try:
                 idx = 0
                 while 1:
-                    sub_keys.append( EnumKey(registry_key, idx) )
+                    sub_keys.append(EnumKey(registry_key, idx))
                     idx = idx + 1
             except WindowsError:
                 pass

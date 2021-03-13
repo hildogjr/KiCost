@@ -37,8 +37,8 @@ __ver_major__ = 0
 __ver_minor__ = 2
 __ver_patch__ = 2
 __ver_sub__ = ""
-__version__ = "%d.%d.%d%s" % (__ver_major__,__ver_minor__,
-                              __ver_patch__,__ver_sub__)
+__version__ = "%d.%d.%d%s" % (__ver_major__, __ver_minor__,
+                              __ver_patch__, __ver_sub__)
 
 import wx
 import sys
@@ -51,7 +51,7 @@ _EVT_INVOKE_METHOD = wx.NewId()
 class MethodInvocationEvent(wx.PyEvent):
     """Event fired to the GUI thread indicating a method invocation."""
 
-    def __init__(self,func,args,kwds):
+    def __init__(self, func, args, kwds):
         wx.PyEvent.__init__(self)
         self.SetEventType(_EVT_INVOKE_METHOD)
         self.func = func
@@ -61,7 +61,7 @@ class MethodInvocationEvent(wx.PyEvent):
 
     def invoke(self):
         """Invoke the method, blocking until the main thread handles it."""
-        wx.PostEvent(self.args[0],self)
+        wx.PostEvent(self.args[0], self)
         self.event.wait()
         try:
             return self.result
@@ -73,9 +73,9 @@ class MethodInvocationEvent(wx.PyEvent):
     def process(self):
         """Execute the method and signal that it is ready."""
         try:
-            self.result = self.func(*self.args,**self.kwds)
+            self.result = self.func(*self.args, **self.kwds)
         except Exception as e:
-            _,self.exception,self.traceback = sys.exc_info()
+            _, self.exception, self.traceback = sys.exc_info()
         self.event.set()
 
 
@@ -94,16 +94,16 @@ def anythread(func):
 
     When invoked from the main thread, the function is executed immediately.
     """
-    def invoker(*args,**kwds):
+    def invoker(*args, **kwds):
         #if wx.Thread_IsMain():
         if wx.IsMainThread():
-            return func(*args,**kwds)
+            return func(*args, **kwds)
         else:
             self = args[0]
-            if not hasattr(self,"_AnyThread__connected"):
-                self.Connect(-1,-1,_EVT_INVOKE_METHOD,handler)
+            if not hasattr(self, "_AnyThread__connected"):
+                self.Connect(-1, -1, _EVT_INVOKE_METHOD, handler)
                 self._AnyThread__connected = True
-            evt = MethodInvocationEvent(func,args,kwds)
+            evt = MethodInvocationEvent(func, args, kwds)
             return evt.invoke()
     invoker.__name__ = func.__name__
     invoker.__doc__ = func.__doc__

@@ -37,14 +37,14 @@ from collections import Counter
 from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
 from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
-from .global_vars import * # Debug information, `distributor_dict` and `SEPRTR`.
+from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
 
-OCTOPART_MAX_PARTBYQUERY = 20 # Maximum part list length to one single query.
+OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 
 __all__ = ['api_octopart']
 from .distributors_info import distributors_info
@@ -54,16 +54,16 @@ class api_octopart(distributor_class):
     @staticmethod
     def init_dist_dict():
         api_distributors = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
-        dists = {k:v for k,v in distributors_info.items() if k in api_distributors}
+        dists = {k: v for k, v in distributors_info.items() if k in api_distributors}
         if not 'enabled' in distributors_modules_dict['api_octopart']:
             # First module load.
             distributors_modules_dict.update({'api_octopart': {
-                                            'type': 'api', # Module type, could be 'api', 'scrape' or 'local'.
-                                            'url': 'https://octopart.com/', # Web site API information.
-                                            'distributors': dists.keys(), # Avaliable web distributors in this api.
-                                            'enabled': False, # Default status of the module (it's load but can be not calle).
-                                            'param': 'Token', # Configuration parameters.
-                                            'dist_translation': { # Distributor translation.
+                                            'type': 'api',  # Module type, could be 'api', 'scrape' or 'local'.
+                                            'url': 'https://octopart.com/',  # Web site API information.
+                                            'distributors': dists.keys(),  # Avaliable web distributors in this api.
+                                            'enabled': False,  # Default status of the module (it's load but can be not calle).
+                                            'param': 'Token',  # Configuration parameters.
+                                            'dist_translation': {  # Distributor translation.
                                                                     'arrow': 'Arrow Electronics, Inc.',
                                                                     'digikey': 'Digi-Key',
                                                                     'farnel': 'Farnell',
@@ -97,7 +97,7 @@ class api_octopart(distributor_class):
         if response.status_code == requests.codes['ok']:
             results = json.loads(response.text).get('results')
             return results
-        elif response.status_code == requests.codes['not_found']: #404
+        elif response.status_code == requests.codes['not_found']:  # 404
             raise Exception('Octopart server not found.')
         elif response.status_code == 403:
             raise Exception('Octopart KEY invalid, registre one at "https://www.octopart.com".')
@@ -225,10 +225,10 @@ class api_octopart(distributor_class):
 
                             # Get pricing information from this distributor.
                             try:
-                                price_tiers = {} # Empty dict in case of exception.
+                                price_tiers = {}  # Empty dict in case of exception.
                                 dist_currency = list(offer['prices'].keys())
                                 parts[idx].currency[dist] = dist_currency[0]
-                                price_tiers = {qty: float( price ) for qty, price in list(offer['prices'].values())[0]}
+                                price_tiers = {qty: float(price) for qty, price in list(offer['prices'].values())[0]}
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
                                 if not dist in parts[idx].price_tiers:
@@ -262,12 +262,12 @@ class api_octopart(distributor_class):
                             #      This procedure is made by the definition `distributors_info[dist]['ignore_cat#_re']`
                             #      at the distributor profile.
                             if not parts[i].part_num[dist]:
-                                if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
+                                if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist] < offer.get('in_stock_quantity')):
                                     # Keeps the information of more availability.
                                     parts[i].qty_avail[dist] = offer.get('in_stock_quantity')
-                                if not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq')):
+                                if not part.moq[dist] or (offer.get('moq') and part.moq[dist] > offer.get('moq')):
                                     # Save the link, stock code, ... of the page for minimum purchase.
-                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                    part.moq[dist] = offer.get('moq')  # Minimum order qty.
                                     parts[i].part_num[dist] = offer.get('sku')
                                     parts[i].url[dist] = offer.get('product_url')
                                     parts[i].qty_increment[dist] = part_qty_increment
@@ -275,17 +275,17 @@ class api_octopart(distributor_class):
                             elif part_qty_increment < parts[i].qty_increment[dist]:
                                 # This part looks more like a cut-tape version, so
                                 # update the SKU, web page, and available quantity.
-                                if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist]<offer.get('in_stock_quantity')):
+                                if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist] < offer.get('in_stock_quantity')):
                                     # Keeps the information of more availability.
                                     parts[i].qty_avail[dist] = offer.get('in_stock_quantity')
-                                ign_stock_code = distributors_info[dist].get('ignore_cat#_re','')
-                                valid_part = not ( ign_stock_code and re.match(ign_stock_code, dist_part_num) )
+                                ign_stock_code = distributors_info[dist].get('ignore_cat#_re', '')
+                                valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
                                 if valid_part and \
-                                    ( not part.part_num[dist] or \
-                                      (part_qty_increment < part.qty_increment[dist]) or \
-                                      (not part.moq[dist] or (offer.get('moq') and part.moq[dist]>offer.get('moq'))) ):
+                                    (not part.part_num[dist] or \
+                                     (part_qty_increment < part.qty_increment[dist]) or \
+                                     (not part.moq[dist] or (offer.get('moq') and part.moq[dist] > offer.get('moq')))):
                                     # Save the link, stock code, ... of the page for minimum purchase.
-                                    part.moq[dist] = offer.get('moq') # Minimum order qty.
+                                    part.moq[dist] = offer.get('moq')  # Minimum order qty.
                                     parts[i].part_num[dist] = offer.get('sku')
                                     parts[i].url[dist] = offer.get('product_url')
                                     parts[i].qty_increment[dist] = part_qty_increment
@@ -297,12 +297,12 @@ class api_octopart(distributor_class):
         # that may be index by Octopart. This is used to remove the
         # local distributors and future not implemented in the Octopart
         # definition.
-        distributors_octopart = [d for d in distributors if distributors[d]['type']=='web'
+        distributors_octopart = [d for d in distributors if distributors[d]['type'] == 'web'
                                  and distributors_modules_dict['api_octopart'].get('dist_translation')]
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []
-        prev_i = 0 # Used to record index where parts query occurs.
+        prev_i = 0  # Used to record index where parts query occurs.
         for i, part in enumerate(parts):
 
             # Create an Octopart query using the manufacturer's part number or 
@@ -342,14 +342,14 @@ class api_octopart(distributor_class):
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
             if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
                 get_part_info(octopart_query, parts)
-                progress.update(i - prev_i) # Update progress bar.
+                progress.update(i - prev_i)  # Update progress bar.
                 prev_i = i;
                 octopart_query = []  # Get ready for next batch.
 
         # Query Octopart for the last batch of parts.
         if octopart_query:
             get_part_info(octopart_query, parts)
-            progress.update(len(parts)-prev_i) # This will indicate final progress of 100%.
+            progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
 
         # Restore the logging print channel now that the progress bar is no longer needed.
         logger.addHandler(logDefaultHandler)

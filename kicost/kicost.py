@@ -52,7 +52,7 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-__all__ = ['kicost','output_filename', 'kicost_gui_notdependences']  # Only export this routine for use by the outside world.
+__all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences']  # Only export this routine for use by the outside world.
 
 from .global_vars import *
 
@@ -104,7 +104,7 @@ def kicost(in_file, eda_name, out_filename,
     # Add or remove field translations, ignore in case the trying to
     # re-translate default field names.
     if translate_fields:
-        if len(translate_fields)%2 == 1:
+        if len(translate_fields) % 2 == 1:
             raise Exception('Translation fields argument should have an even number of words.')
         for c in range(0, len(translate_fields), 2):
             #field_name_translations.keys(), field_name_translations.values()
@@ -113,8 +113,8 @@ def kicost(in_file, eda_name, out_filename,
                         translate_fields[c].lower(), translate_fields[c+1].lower()
                     ))
                 continue
-            if translate_fields[c+1]!='~':
-                field_name_translations.update({translate_fields[c].lower():translate_fields[c+1].lower()})
+            if translate_fields[c+1] != '~':
+                field_name_translations.update({translate_fields[c].lower(): translate_fields[c+1].lower()})
             else:
                 field_name_translations.pop(translate_fields[c].lower(), None)
 
@@ -132,11 +132,11 @@ def kicost(in_file, eda_name, out_filename,
             user_fields.remove(x)
 
     # Only keep distributors in the included list and not in the excluded list.
-    if dist_list!=None:
+    if dist_list != None:
         if not dist_list:
             dist_list = list(distributor_dict.keys())
         if not 'local_template' in dist_list:
-            dist_list += ['local_template'] # Needed later for creating non-web distributors.
+            dist_list += ['local_template']  # Needed later for creating non-web distributors.
         for d in list(distributor_dict.keys()):
             if not d in dist_list:
                 distributor_dict.pop(d, None)
@@ -146,16 +146,16 @@ def kicost(in_file, eda_name, out_filename,
 
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
-    if not isinstance(in_file,list):
+    if not isinstance(in_file, list):
         in_file = [in_file]
-    if not isinstance(variant,list):
+    if not isinstance(variant, list):
         variant = [variant] * len(in_file)
     elif len(variant) != len(in_file):
-        variant = [variant[0]] * len(in_file) #Assume the first as default.
-    if not isinstance(eda_name,list):
+        variant = [variant[0]] * len(in_file)  # Assume the first as default.
+    if not isinstance(eda_name, list):
         eda_name = [eda_name] * len(in_file)
     elif len(eda_name) != len(in_file):
-        eda_name = [eda_name[0]] * len(in_file) #Assume the first as default.
+        eda_name = [eda_name[0]] * len(in_file)  # Assume the first as default.
 
     # Get groups of identical parts.
     parts = OrderedDict()
@@ -170,18 +170,18 @@ def kicost(in_file, eda_name, out_filename,
         # of number of BOM files. This vector will be used in the `group_parts()`
         # to create groups with elements of same 'manf#' that came for different
         # projects.
-        if len(in_file)>1:
+        if len(in_file) > 1:
             logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
-            qty_base = ['0'] * len(in_file) # Base zero quantity vector.
+            qty_base = ['0'] * len(in_file)  # Base zero quantity vector.
             for p_ref in list(p.keys()):
                 try:
                     qty_base[i_prj] = p[p_ref]['manf#_qty']
                 except:
                     qty_base[i_prj] = '1'
                 p[p_ref]['manf#_qty'] = qty_base.copy()
-                p[ PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p.pop(p_ref)
-        parts.update( p.copy() )
-        prj_info.append( info.copy() )
+                p[PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p.pop(p_ref)
+        parts.update(p.copy())
+        prj_info.append(info.copy())
 
     # Group part out of the module to be possible to merge different
     # project lists, ignore some field to merge given in the `group_fields`.
@@ -199,8 +199,8 @@ def kicost(in_file, eda_name, out_filename,
 
     # Some fields to be merged on specific EDA are enrolled bellow.
     if 'kicad' in eda_name:
-        group_fields += ['libpart'] # This field may be a mess on multiple sheet designs.
-    if len(set(eda_name))>2:
+        group_fields += ['libpart']  # This field may be a mess on multiple sheet designs.
+    if len(set(eda_name)) > 2:
         # If more than one EDA software was used, ignore the 'footprint'
         # field, because they could have different libraries names.
         group_fields += ['footprint']
@@ -219,7 +219,7 @@ def kicost(in_file, eda_name, out_filename,
     all_fields = set(all_fields)
     if not 'manf#' in all_fields:
         dist_not_rmv = [d for d in distributor_dict.keys() if d+'#' in all_fields]
-        dist_not_rmv += ['local_template'] # Needed later for creating non-web distributors.
+        dist_not_rmv += ['local_template']  # Needed later for creating non-web distributors.
         #distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}
         distributors = distributor_dict.copy().keys()
         for d in distributors:
@@ -234,16 +234,16 @@ def kicost(in_file, eda_name, out_filename,
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
         # Set part info to default blank values for all the distributors.
-        for part in parts: ## TODO create this for just the current active distributor inside each module.
+        for part in parts:  ## TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-            part.part_num = {dist: '' for dist in dist_list} # Distributor catalogue number.
-            part.url = {dist: '' for dist in dist_list} # Purchase distributor URL for the specific part.
-            part.price_tiers = {dist: {} for dist in dist_list} # Price break tiers; [[qty1, price1][qty2, price2]...]
-            part.qty_avail = {dist: None for dist in dist_list} # Available quantity.
+            part.part_num = {dist: '' for dist in dist_list}  # Distributor catalogue number.
+            part.url = {dist: '' for dist in dist_list}  # Purchase distributor URL for the specific part.
+            part.price_tiers = {dist: {} for dist in dist_list}  # Price break tiers; [[qty1, price1][qty2, price2]...]
+            part.qty_avail = {dist: None for dist in dist_list}  # Available quantity.
             part.qty_increment = {dist: None for dist in dist_list}
             part.info_dist = {dist: {} for dist in dist_list}
-            part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list} # Default currency.
-            part.moq = {dist: None for dist in dist_list} # Minimum order quantity allowed by the distributor.
+            part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list}  # Default currency.
+            part.moq = {dist: None for dist in dist_list}  # Minimum order quantity allowed by the distributor.
         #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
         #TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
         #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
@@ -252,7 +252,7 @@ def kicost(in_file, eda_name, out_filename,
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, suppress_cat_url,
-                       user_fields, '-'.join(variant) if len(variant)>1 else variant[0])
+                       user_fields, '-'.join(variant) if len(variant) > 1 else variant[0])
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):
@@ -297,7 +297,7 @@ def output_filename(files_input):
     @return `str()` file name for the spreadsheet.
     '''
 
-    if len(files_input)==1:
+    if len(files_input) == 1:
         # Use the folder of the project.
         return os.path.splitext(files_input[0])[0] + '.xlsx'
     else:
@@ -306,10 +306,10 @@ def output_filename(files_input):
         # `kicost` was called.
         dir_output = os.path.dirname(files_input[0]) + os.path.sep
         for dir_idx in range(len(files_input)):
-            if os.path.dirname(files_input[dir_idx])!=dir_output:
+            if os.path.dirname(files_input[dir_idx]) != dir_output:
                 dir_output = os.getcwd()
 
-    file_name = FILE_OUTPUT_INPUT_SEP.join( [ os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)),FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input ] )
+    file_name = FILE_OUTPUT_INPUT_SEP.join([os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)), FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input])
     file_output = os.path.join(dir_output, file_name + '.xlsx')
     return file_output
 
