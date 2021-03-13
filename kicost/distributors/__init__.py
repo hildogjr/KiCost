@@ -30,11 +30,11 @@ from .global_vars import *
 # Import and register here the API / local / scrape modules.
 
 from .dist_local_template import *  # Template for local distributors entry.
-#from .api_octopart import *
+# from .api_octopart import *
 from .api_partinfo_kitspace import *
 
 distributors_modules_dict['dist_local_template'] = {'handle': dist_local_template}
-#distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_octopart}
+# distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_octopart}
 distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_partinfo_kitspace}
 
 def init_distributor_dict():

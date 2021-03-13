@@ -7,7 +7,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 ORDER_COL_USERFIELDS = '*__USER__FIELDS__*'  # Used as identification for all user fields allowed for some custom importation in some distributors. It is used a low probability "word" corresponding to all user fields.
-#TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some personal field.
+# TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some personal field.
 
 distributors_info = {
     'arrow': {
@@ -15,7 +15,7 @@ distributors_info = {
         'order': {
             'url': 'https://www.arrow.com/en/bom-tool/',
             'cols': ['part_num', 'purch', 'refs'],  # Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.
-            #'header': 'Stock#,Quantity,Designators', # Header to help user undertanding (used in some importations).
+            # 'header': 'Stock#,Quantity,Designators', # Header to help user undertanding (used in some importations).
             'delimiter': ',',  # Delimiter for online orders.
             'not_allowed_char': ',',  # Characters not allowed at the BoM for web-site import.
             'replace_by_char': ';',  # The `delimiter` is not allowed inside description. This character is used to replace it.
@@ -32,7 +32,7 @@ distributors_info = {
         'order': {
             'url': 'https://www.digikey.com/ordering/shoppingcart',
             'cols': ['purch', 'part_num', 'refs'],
-            #'header': 'Quantity,Stock#,Designators',
+            # 'header': 'Quantity,Stock#,Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
@@ -46,7 +46,7 @@ distributors_info = {
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
             'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
-            #'header': 'Stock#,Quantity,Designators,Descriptions,User',
+            # 'header': 'Stock#,Quantity,Designators,Descriptions,User',
             'delimiter': ',', 'not_allowed_char': [',', '\n'], 'replace_by_char': ';',
         },
         'label': {
@@ -59,7 +59,7 @@ distributors_info = {
         'order': {
             'url': 'https://mouser.com/bom/',
             'cols': ['part_num', 'purch', 'refs'],
-            #'header': 'Stock#|Quantity|Designators',
+            # 'header': 'Stock#|Quantity|Designators',
             'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
         },
         'label': {
@@ -72,7 +72,7 @@ distributors_info = {
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
             'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
-            #'header': 'Stock#,Quantity,Designators,Descriptions,User',
+            # 'header': 'Stock#,Quantity,Designators,Descriptions,User',
             'delimiter': ',', 'not_allowed_char': [',', '\n'], 'replace_by_char': ';',
         },
         'label': {
@@ -85,7 +85,7 @@ distributors_info = {
         'order': {
             'url': 'https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new',
             'cols': ['part_num', 'purch', None, None, None, 'manf#', 'refs'],  # `None` is used for generate a empty column.
-            #'header': 'Stock# Quantity Designators',
+            # 'header': 'Stock# Quantity Designators',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
         },
         'label': {
@@ -98,7 +98,7 @@ distributors_info = {
         'order': {
             'url': 'https://www.tme.eu/en/Profile/QuickBuy/load.html',
             'cols': ['part_num', 'purch', 'refs'],
-            #'header': 'Stock# Quantity Designators',
+            # 'header': 'Stock# Quantity Designators',
             'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
         },
         'label': {

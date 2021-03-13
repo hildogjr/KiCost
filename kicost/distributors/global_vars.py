@@ -35,7 +35,7 @@ EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'volta
                    'datasheet', 'image',  # Links.
                    ]
 extra_info_dist_name_translations = {
-    #TODO it will need to put here language translation after implementation of ISSUE #65?
+    # TODO it will need to put here language translation after implementation of ISSUE #65?
     'resistance': 'value',
     'inductance': 'value',
     'capacitance': 'value',

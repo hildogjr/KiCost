@@ -43,4 +43,4 @@ def get_part_groups(in_file):
        @return `dict()` of the parts designed. The keys are the components references.
     '''
 
-    #TODO this file aims to be a base class file for create all the BOM readers.
+    # TODO this file aims to be a base class file for create all the BOM readers.

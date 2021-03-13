@@ -109,7 +109,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # number or a distributors catalog number, then add
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
-                        #if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and name[:-1] not in distributor_dict:
+                        # if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and name[:-1] not in distributor_dict:
                         dist_mtch = re.match('([^:]+):', name)
                         if dist_mtch and dist_mtch.group(1) not in distributor_dict:
                             # 'name' is a distibutore (preceded & followed with ':'
@@ -179,11 +179,11 @@ def get_part_groups(in_file, ignore_fields, variant):
         libsource = c.find('libsource')
         if libsource:
             # Create the key to look up the part in the libparts dict.
-            #libpart = str(libsource['lib'] + SEPRTR + libsource['part'])
+            # libpart = str(libsource['lib'] + SEPRTR + libsource['part'])
             libpart = str(libsource['lib']) + SEPRTR + str(libsource['part'])
         else:
             libpart = '???'
-            logger.log(DEBUG_OVERVIEW, 'Footprint library not assigned to {}'.format(''))  #TODO
+            logger.log(DEBUG_OVERVIEW, 'Footprint library not assigned to {}'.format(''))  # TODO
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)

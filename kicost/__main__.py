@@ -24,11 +24,11 @@
 
 from __future__ import print_function
 
-#Libraries.
+# Libraries.
 import argparse as ap  # Command argument parser.
 import os, sys, platform
 import logging, time
-#import inspect # To get the internal module and informations of a module/class.
+# import inspect # To get the internal module and informations of a module/class.
 
 from .global_vars import *  # Debug, language and default configurations.
 
@@ -61,7 +61,7 @@ def kicost_version_info():
         version_info_str += 'Graphical library: {}.'.format(wx.version())
     except:
         version_info_str += 'No graphical library installed for the GUI.'
-    #version_info_str += r'\n'
+    # version_info_str += r'\n'
     return version_info_str
 
 ###############################################################################
@@ -206,8 +206,8 @@ def main():
         print('Distributor list:', *sorted(list(distributor_dict.keys())))
         return
     if args.show_eda_list:
-        #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
-        #print('EDA supported list:', ', '.join(eda_names))
+        # eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+        # print('EDA supported list:', ', '.join(eda_names))
         print('EDA supported list:', *sorted(list(eda_dict.keys())))
         return
 
@@ -302,15 +302,15 @@ def main():
                                               sys.version_info.micro)
                )
 
-    #try:
+    # try:
     kicost(in_file=args.input, eda_name=args.eda,
            out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
            user_fields=args.fields, ignore_fields=args.ignore_fields,
            group_fields=args.group_fields, translate_fields=args.translate_fields,
            variant=args.variant,
            dist_list=dist_list, currency=args.currency)
-    #except Exception as e:
-    #    sys.exit(e)
+    # except Exception as e:
+    #     sys.exit(e)
 
 ###############################################################################
 # Main entrypoint.

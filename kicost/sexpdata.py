@@ -82,7 +82,7 @@ import functools
 BRACKETS = {'(': ')', '[': ']'}
 
 
-### Python 3 compatibility
+# ** Python 3 compatibility
 
 try:
     unicode
@@ -97,7 +97,7 @@ def uformat(s, *args, **kwds):
     return tounicode(s).format(*args, **kwds)
 
 
-### Utility
+# ** Utility
 
 def tounicode(string):
     """
@@ -149,7 +149,7 @@ def return_as(converter):
     return wrapper
 
 
-### Interface
+# ** Interface
 
 def load(filelike, **kwds):
     """
@@ -356,7 +356,7 @@ def cdr(obj):
     return obj[1:]
 
 
-### Core
+# ** Core
 
 def tosexp(obj, str_as='string', tuple_as='list',
            true_as='t', false_as='()', none_as='()'):

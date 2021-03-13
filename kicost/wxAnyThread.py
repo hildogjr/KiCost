@@ -95,7 +95,7 @@ def anythread(func):
     When invoked from the main thread, the function is executed immediately.
     """
     def invoker(*args, **kwds):
-        #if wx.Thread_IsMain():
+        # if wx.Thread_IsMain():
         if wx.IsMainThread():
             return func(*args, **kwds)
         else:

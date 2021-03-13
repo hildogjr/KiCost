@@ -481,7 +481,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
     # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        #part.collapsed_refs = ','.join( order_refs(part.refs, collapse=collapse_refs) )
+        # part.collapsed_refs = ','.join( order_refs(part.refs, collapse=collapse_refs) )
         part.collapsed_refs = order_refs(part.refs, collapse=collapse_refs)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
@@ -533,7 +533,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 else:
                     field_value = part.fields[field_name]
                     if field_name == 'footprint':
-                        ##TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
+                        # TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
                         field_value_footprint = re.findall(r'\:(.*)', field_value)
                         if field_value_footprint:
                             field_value = field_value_footprint[0]
@@ -830,10 +830,10 @@ Orange -> Too little quantity available.'''
                     # distributor_dict[dist]['label']['name'].title(),
                     distributor_dict[dist]['label']['name'],
                     wrk_formats[dist])
-    #if distributor_dict[dist]['type']!='local':
-    #    wks.write_url(row, start_col,
-    #        distributor_dict[dist]['label']['url'], wrk_formats[dist],
-    #        distributor_dict[dist]['label']['name'].title())
+    # if distributor_dict[dist]['type']!='local':
+    #     wks.write_url(row, start_col,
+    #         distributor_dict[dist]['label']['url'], wrk_formats[dist],
+    #         distributor_dict[dist]['label']['name'].title())
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -1238,11 +1238,11 @@ Orange -> Too little quantity available.'''
             elif col not in ['part_num', 'purch', 'manf#']:
                 # All comment and description columns (that are not quantity and catalogue code)
                 # should respect the allowed characters. These are text informative columns.
-                #if col=='refs':
-                #    # If 'refs' column an additional rule to remove the subpart counter.
-                #    order_info_func_parcial = 'REGEX({f},"\{c}\d+","","g")'.format(f=order_info_func_model,c=SUB_SEPRTR)
-                #    This is not supported by Microsoft Excel. ## TODO
-                #else:
+                # if col=='refs':
+                #     # If 'refs' column an additional rule to remove the subpart counter.
+                #     order_info_func_parcial = 'REGEX({f},"\{c}\d+","","g")'.format(f=order_info_func_model,c=SUB_SEPRTR)
+                #     This is not supported by Microsoft Excel. ## TODO
+                # else:
                 order_info_func_parcial = order_info_func_model
                 if 'not_allowed_char' in distributor_dict[dist]['order'] and 'replace_by_char' in distributor_dict[dist]['order']:
                     for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):

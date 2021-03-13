@@ -81,7 +81,7 @@ class dist_local_template(distributor_class):
                     distributors[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
 
         # Set part info to default blank values for all the distributors.
-        for part in parts:  ## TODO create this for just the current active distributor inside each module.
+        for part in parts:  # TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
             part.part_num = {dist: '' for dist in distributors}  # Distributor catalogue number.
             part.url = {dist: '' for dist in distributors}  # Purchase distributor URL for the spefic part.
@@ -110,7 +110,7 @@ class dist_local_template(distributor_class):
                 def make_random_catalog_number(p):
                     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
                     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
-                    #TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
+                    # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
                     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                     hash_fields['dist'] = dist
                     return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
@@ -141,7 +141,7 @@ class dist_local_template(distributor_class):
                         if local_currency:
                             p.currency[dist] = local_currency
                         price_tiers[int(qty)] = float(price)
-                    #p.moq[dist] = min(price_tiers.keys())
+                    # p.moq[dist] = min(price_tiers.keys())
                 except AttributeError:
                     # This happens when no pricing info is found.
                     logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))

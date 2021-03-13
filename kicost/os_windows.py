@@ -109,7 +109,7 @@ if sys.platform.startswith('win32'):
             SetValueEx(registry_key, name, 0, key_type, value)
             CloseKey(reg)
             # Update the Windows behaviour.
-            #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
+            # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except PermissionError:
             print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
@@ -120,11 +120,11 @@ if sys.platform.startswith('win32'):
         # Delete a registry key on Windows.
         try:
             reg = ConnectRegistry(None, key)
-            #registry_key = OpenKey(reg, name_base, 0, KEY_ALL_ACCESS)
+            # registry_key = OpenKey(reg, name_base, 0, KEY_ALL_ACCESS)
             DeleteKey(reg, name)
             CloseKey(reg)
             # Update the Windows behaviour.
-            #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
+            # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except PermissionError:
             print('You should run this command as system administrator: run the terminal as administrator and type the command again.')

@@ -28,7 +28,7 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 from pcbnew import *  # KiCad Python library.
-import os, subprocess  #, threading, time
+import os, subprocess  # , threading, time
 
 import traceback, wx  # For debug.
 
@@ -67,9 +67,9 @@ class kicost_kicadplugin(ActionPlugin):
                 kicost_gui(bom_file)  # If KiCad and KiCost share the same Python installation.
             except ImportError:
                 subprocess.call(('kicost', '--guide', bom_file), shell=True)
-                #os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
-                #os.system('eeschema')
-                #subprocess.call('eeschema')
+                # os.system('kicost --guide \"{}\"'.format(bom_file)) # If using different Python installation.
+                # os.system('eeschema')
+                # subprocess.call('eeschema')
         except Exception as e:
             dlg = debug_dialog('Error trying to run KiCost as plugin or subprocess,\n\
                 KiCost is not available or accessible.\n\

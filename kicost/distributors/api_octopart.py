@@ -25,7 +25,7 @@ __author__ = 'XESS Corporation'
 __webpage__ = 'info@xess.com'
 
 # Python2/3 compatibility.
-#from __future__ import (unicode_literals, print_function, division, absolute_import
+# from __future__ import (unicode_literals, print_function, division, absolute_import
 from future import standard_library
 standard_library.install_aliases()
 
@@ -83,9 +83,9 @@ class api_octopart(distributor_class):
 
     def query(query, apiKey=None):
         """Send query to Octopart and return results."""
-        #url = 'http://octopart.com/api/v3/parts/match'
-        #payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
-        #response = requests.get(url, params=payload)
+        # url = 'http://octopart.com/api/v3/parts/match'
+        # payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
+        # response = requests.get(url, params=payload)
         if apiKey:
             url = 'http://octopart.com/api/v3/parts/match?queries=%s' % json.dumps(query)
             url += '&apikey=' + apiKey
@@ -313,7 +313,7 @@ class api_octopart(distributor_class):
             else:
                 try:
                     # No MPN, so use the first distributor SKU that's found.
-                    #skus = [part.fields.get(d + '#', '') for d in distributors_octopart
+                    # skus = [part.fields.get(d + '#', '') for d in distributors_octopart
                     #            if part.fields.get(d + '#') ]
                     for octopart_dist_sku in distributors_octopart:
                         sku = part.fields.get(octopart_dist_sku + '#', '')

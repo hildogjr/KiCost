@@ -44,7 +44,7 @@ from .kicad_config import *
 EESCHEMA_KICOST_FIELDS = ['manf#', 'desc', 'variant']
 
 ###############################################################################
-## Auxiliary functions.
+# Auxiliary functions.
 ###############################################################################
 
 
@@ -59,7 +59,7 @@ def create_os_contex_menu(kicost_path):
     '''Create the OS context menu to recognized KiCost files (XML/CSV).'''
     try:
         import wx  # wxWidgets for Python.
-        #print('GUI requirements (wxPython) identified.')
+        # print('GUI requirements (wxPython) identified.')
         have_gui = True
     except ImportError:
         from .kicost import kicost_gui_notdependences
@@ -150,7 +150,7 @@ def create_shortcut(target, directory, name, icon, location=None,
 
 
 ###############################################################################
-## Main functions.
+# Main functions.
 ###############################################################################
 
 def get_kicost_path():

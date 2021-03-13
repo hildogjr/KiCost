@@ -34,7 +34,7 @@ import json, requests
 import logging, tqdm
 import copy, re
 from collections import Counter
-#from urllib.parse import quote_plus as urlquote
+# from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
 from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
@@ -56,7 +56,7 @@ MAX_PARTS_PER_QUERY = 20  # Maximum number of parts in a single query.
 # Information to return from PartInfo KitSpace server.
 
 QUERY_AVAIABLE_CURRENCIES = {'GBP', 'EUR', 'USD'}
-#DEFAULT_CURRENCY
+# DEFAULT_CURRENCY
 QUERY_ANSWER = '''
     mpn{manufacturer, part},
     datasheet,
@@ -71,7 +71,7 @@ QUERY_ANSWER = '''
         prices{''' + ','.join(QUERY_AVAIABLE_CURRENCIES) + '''}
         }
 '''
-#Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location
+# Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location
 QUERY_ANSWER = re.sub(r'[\s\n]', '', QUERY_ANSWER)
 
 QUERY_PART = 'query ($input: MpnInput!) { part(mpn: $input) {' + QUERY_ANSWER + '} }'
@@ -117,14 +117,14 @@ class api_partinfo_kitspace(distributor_class):
     def query(query_parts, distributors, query_type=QUERY_MATCH):
         '''Send query to server and return results.'''
         
-        ##TODO this `dist_xlate` have to be better coded into this file.
+        # TODO this `dist_xlate` have to be better coded into this file.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
         def find_key(input_dict, value):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
         
         query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(distributors) + '"]', query_type)
-        #r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
+        # r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub(r'\s', '', variables)
         # Python 2 prepends a 'u' before the query strings and this makes PartInfo
@@ -297,8 +297,8 @@ class api_partinfo_kitspace(distributor_class):
                                 part.qty_avail[dist] = offer.get('in_stock_quantity')  # In stock.
                             ign_stock_code = distributors_info[dist].get('ignore_cat#_re', '')
                             valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
-                            #debug('part.part_num[dist]') # Uncomment to debug
-                            #debug('part.qty_increment[dist]')  # Uncomment to debug
+                            # debug('part.part_num[dist]') # Uncomment to debug
+                            # debug('part.qty_increment[dist]')  # Uncomment to debug
                             if valid_part and \
                                 (not part.part_num[dist] or \
                                  (part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or \
@@ -331,7 +331,7 @@ class api_partinfo_kitspace(distributor_class):
 
             # Check if that part have stock code that is accepted to use by this module (API).
             # KiCost will prioritize these codes under "manf#" that will be used for get
-            #information for the part hat were not filled with the distributor stock code. So
+            # information for the part hat were not filled with the distributor stock code. So
             # this is checked after the 'manf#' buv code.
             for d in FIELDS_CAT:
                 part_stock = part.fields.get(d)

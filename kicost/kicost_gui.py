@@ -47,7 +47,7 @@ from distutils.version import StrictVersion  # To comparative of versions.
 import re  # Regular expression parser.
 import locale, babel  # For country location, language and currency presentation.
 import requests
-#from .wxAnyThread import anythread
+# from .wxAnyThread import anythread
 
 # KiCost libraries.
 from . import __version__  # Version control by @xesscorp and collaborator.
@@ -66,7 +66,7 @@ if sys.platform.startswith("win32"):
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 
 
-#=================================
+# =================================
 # Guide definitions.
 
 # Open file definitions.
@@ -85,13 +85,13 @@ GUI_NEWS_MESSAGE_ENTRY = 'GUI_news_message'
 # Links displayed.
 PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost'  # Page with the last official version.
-#https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
+# https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
 PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
 PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
 
-#======================================================================
+# ======================================================================
 def open_file(filepath):
     '''@brief Open a file with the default application in different OSs.
        @param filepath str() file name.
@@ -106,7 +106,7 @@ def open_file(filepath):
         print('Not recognized OS. The spreadsheet file will not be automatically opened.')
 
 
-#======================================================================
+# ======================================================================
 class FileDropTarget(wx.FileDropTarget):
     ''' This object implements Drop Target functionality for Files.
         @param Window handle.
@@ -117,12 +117,12 @@ class FileDropTarget(wx.FileDropTarget):
         self.obj = obj
 
     def OnDropFiles(self, x, y, filenames):
-        #self.obj.SetInsertionPointEnd()
+        # self.obj.SetInsertionPointEnd()
         self.obj.addFile(filenames)
         return True  # No error.
 
 
-#======================================================================
+# ======================================================================
 class menuSelection(wx.Menu):
     ''' @brief Menu of the distributor checkbox list. Provide select all, unselect and toggle hotkey.
         @param TextBox handle.
@@ -165,7 +165,7 @@ class menuSelection(wx.Menu):
                 self.list.Check(idx)
 
 
-#======================================================================
+# ======================================================================
 class menuMessages(wx.Menu):
     ''' @brief Menu of the messages text. Provide copy and save options.
         @param TextBox handle.
@@ -244,14 +244,14 @@ class menuMessages(wx.Menu):
     def openMessages(self, event):
         ''' @brief Save the messages in a temporary file and open it in the default text editor before system delete.'''
         event.Skip()
-        #TODO - not working on Ubuntu
+        # TODO - not working on Ubuntu
         with tempfile.NamedTemporaryFile(prefix='KiCost_', suffix='.log', delete=True, mode='w') as temp:
             temp.write(self.parent.m_textCtrl_messages.GetValue())
             open_file(temp.name)
             temp.close()
 
 
-#======================================================================
+# ======================================================================
 class formKiCost(wx.Frame):
     ''' @brief Main frame / form of KiCost GUI.'''
 
@@ -382,7 +382,7 @@ class formKiCost(wx.Frame):
         self.m_textCtrl_messages.Bind(wx.EVT_RIGHT_DOWN, self.m_textCtrl_messages_rClick)
         bSizer3.Add(self.m_textCtrl_messages, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL, 5)
 
-        ## Configuration tab.
+        # * Configuration tab.
         self.m_panel1.SetSizer(bSizer3)
         self.m_panel1.Layout()
         bSizer3.Fit(self.m_panel1)
@@ -468,7 +468,7 @@ class formKiCost(wx.Frame):
 
         bSizer101 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200, 100), 0)  #wx.DefaultSize, 0)
+        self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200, 100), 0)  # wx.DefaultSize, 0)
         self.m_bitmap_icon.SetIcon(wx.Icon(os.path.join(kicostPath, 'kicost.ico'), wx.BITMAP_TYPE_ICO))
         bSizer101.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
 
@@ -490,7 +490,7 @@ class formKiCost(wx.Frame):
 
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200, 100), 0)  #wx.DefaultSize, 0)
+        self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(200, 100), 0)  # wx.DefaultSize, 0)
         self.m_bitmap_icon.SetIcon(wx.Icon(os.path.join(kicostPath, 'kitspace.png'), wx.BITMAP_TYPE_PNG))
         self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_powered_by)
         bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
@@ -528,7 +528,7 @@ class formKiCost(wx.Frame):
         self.Bind(wx.EVT_CLOSE, self.app_close)
         # Set the window size to fit all controls, useful in first execution without the last size and position saved.
         self.Fit()
-        #self.SetSizeHints(wx.Size(40, 40), wx.DefaultSize) # Only available on wxPython4.
+        # self.SetSizeHints(wx.Size(40, 40), wx.DefaultSize) # Only available on wxPython4.
 
 
 
@@ -545,13 +545,13 @@ class formKiCost(wx.Frame):
 
     # Virtual event handlers, overwrite them in your derived class
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def app_close(self, event):
         ''' @brief Close event, used to call the save settings.'''
         event.Skip()
         self.save_properties()
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     '''About page, report and official informations.'''
     def open_webpage_click(self, event):
         ''' @brief Open the official software web page in the default browser.'''
@@ -570,7 +570,7 @@ class formKiCost(wx.Frame):
         event.Skip()
         webbrowser.open(PAGE_POWERED_BY)
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def check_updates_click(self, event):
         ''' @brief Check version to update if the "About" tab.'''
         event.Skip()
@@ -583,14 +583,14 @@ class formKiCost(wx.Frame):
                 offical_last_version = re.findall(r'kicost (\d+\.\d+\.\d+)', str(html), flags=re.IGNORECASE)[0]
                 if StrictVersion(offical_last_version) > StrictVersion(__version__):
                     self.m_button_check_updates.SetLabel(u"Found v{}.".format(offical_last_version))
-                    #self.m_staticText_update.Bind(wx.EVT_LEFT_UP, self.m_staticText_update_click)
+                    # self.m_staticText_update.Bind(wx.EVT_LEFT_UP, self.m_staticText_update_click)
                 else:
                     self.m_button_check_updates.SetLabel(u"KiCost is up to date")
             except:
                 self.m_button_check_updates.SetLabel(u"No information")
         wx.CallLater(50, checkUpdate)  # Thread optimized for graphical elements change.
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     '''Pop-up menus on main tab.'''
     def m_textCtrl_messages_rClick(self, event):
         ''' @brief Open the context menu with save log options.'''
@@ -601,7 +601,7 @@ class formKiCost(wx.Frame):
         event.Skip()
         self.PopupMenu(menuSelection(self.m_checkList_dist), event.GetPosition())
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def m_comboBox_files_selecthist(self, event):
         ''' @brief Update the select EDA module tool when changed the file selected in the history, update the order and delete if file not existent.'''
         event.Skip()
@@ -617,7 +617,7 @@ class formKiCost(wx.Frame):
         else:
             self.m_comboBox_files.SetValue('')
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def updateOutputFilename(self, event=None):
         ''' @brief Update the output file name on the GUI.'''
         spreadsheet_file = output_filename(re.split(SEP_FILES, self.m_comboBox_files.GetValue()))
@@ -625,7 +625,7 @@ class formKiCost(wx.Frame):
             spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
         self.m_text_saveas.SetValue(spreadsheet_file)
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def updateEDAselection(self):
         ''' @brief Update the EDA selection in the listBox based on the comboBox actual text.'''
         fileNames = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
@@ -644,7 +644,7 @@ class formKiCost(wx.Frame):
             if eda_module:
                 self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(eda_dict[eda_module]['label']))
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def button_openfile(self, event):
         """ @brief Create and show the Open FileDialog"""
         event.Skip()
@@ -658,7 +658,7 @@ class formKiCost(wx.Frame):
             self.updateOutputFilename()  # Update the output file name on GUI text.
         dlg.Destroy()
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def button_saveas(self, event):
         """ @brief Create and show the Save As... FileDialog."""
         event.Skip()
@@ -676,7 +676,7 @@ class formKiCost(wx.Frame):
             self.m_text_saveas.SetValue(spreadsheet_file)
         dlg.Destroy()
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def addFile(self, filesName):
         ''' @brief Add the file(s) to the history, updating it (and delete the too old).'''
         if sys.version_info >= (3, 0):
@@ -693,17 +693,17 @@ class formKiCost(wx.Frame):
             pass
         self.updateEDAselection()
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def button_run(self, event):
         ''' @brief Call to run KiCost.'''
         event.Skip()
-        #self.run()
-        #wx.CallLater(10, self.run) # Necessary to not '(core dumped)' with wxPython.
-        t = threading.Thread(target=self.run)  #, args=[self])
+        # self.run()
+        # wx.CallLater(10, self.run) # Necessary to not '(core dumped)' with wxPython.
+        t = threading.Thread(target=self.run)  # , args=[self])
         t.start()
 
-    #----------------------------------------------------------------------
-    #@anythread
+    # ----------------------------------------------------------------------
+    # @anythread
     def run(self):
         ''' @brief Run KiCost.
             Run KiCost in the GUI interface updating the process bar and messages.'''
@@ -774,11 +774,11 @@ class formKiCost(wx.Frame):
                     break
 
         # Get the current distributors to scrape.
-        #choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
+        # choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
         choisen_dist = [i for i in range(self.m_checkList_dist.GetCount()) if self.m_checkList_dist.IsChecked(i)]
         if choisen_dist:
             dist_list = []
-            #choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
+            # choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
             for idx in choisen_dist:
                 label = self.m_checkList_dist.GetString(idx)
                 for k, v in distributor_dict.items():
@@ -792,8 +792,8 @@ class formKiCost(wx.Frame):
         # Run KiCost main function and print in the log the elapsed time.
         start_time = time.time()
         try:
-            #print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
-            #    '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
+            # print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
+            #       '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
             kicost(in_file=args.input, eda_name=args.eda_name,
                    out_filename=args.output, collapse_refs=args.collapse_refs,
                    user_fields=args.fields, ignore_fields=args.ignore_fields,
@@ -812,7 +812,7 @@ class formKiCost(wx.Frame):
                 logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
                                     os.path.basename(spreadsheet_file)))
                 os.system('{e} --headless --convert-to ods {i} --outdir {o}'.format(e=libreoffice_executable, si=spreadsheet_file, o=os.path.dirname(spreadsheet_file)))
-                #os.remove(spreadsheet_file) # Delete the older file.
+                # os.remove(spreadsheet_file) # Delete the older file.
                 spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, '\'{}\' could be not converted to ODS: {}'.format(os.path.basename(spreadsheet_file), e))
@@ -829,7 +829,7 @@ class formKiCost(wx.Frame):
         self.m_button_run.Enable()
         return
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def set_properties(self):
         ''' @brief Set the current proprieties of the graphical elements.'''
 
@@ -838,7 +838,7 @@ class formKiCost(wx.Frame):
         self.m_checkList_dist.Clear()
         for d in distributors_list:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)
-        #self.m_checkList_dist.Append(distributors_list)
+        # self.m_checkList_dist.Append(distributors_list)
         for idx in range(len(distributors_list)):
             self.m_checkList_dist.Check(idx, True)  # All start checked (after is modified by the configuration file).
 
@@ -847,7 +847,7 @@ class formKiCost(wx.Frame):
         self.m_listBox_edatool.Clear()
         for s in eda_names:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_listBox_edatool.Append(s)
-        #self.m_listBox_edatool.Append(eda_names)
+        # self.m_listBox_edatool.Append(eda_names)
 
         # Get all the currencies present.
         loc = locale.getdefaultlocale()[0]
@@ -891,10 +891,10 @@ class formKiCost(wx.Frame):
         self.restore_properties()
 
         # Files in the history.
-        #if not self.m_comboBox_files.IsListEmpty(): # If have some history, set to the last used file.
-        #    self.m_comboBox_files.IsListEmpty(0)
+        # if not self.m_comboBox_files.IsListEmpty(): # If have some history, set to the last used file.
+        #     self.m_comboBox_files.IsListEmpty(0)
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def restore_properties(self):
         ''' @brief Restore the current proprieties of the graphical elements.'''
         try:
@@ -970,12 +970,12 @@ class formKiCost(wx.Frame):
                     elif isinstance(wxElement_handle, wx._core.Notebook):
                         wxElement_handle.SetSelection(int(entry_value))
                     # Others wxWidgets graphical elements with not saved configurations.
-                    #elif isinstance(wxElement_handle, wx._core.):
-                    #elif isinstance(wxElement_handle, wx._core.):configHandle
-                    #elif isinstance(wxElement_handle, wx._core.StaticBitmap):
-                    #elif isinstance(wxElement_handle, wx._core.Panel):
-                    #elif isinstance(wxElement_handle, wx._core.Button):
-                    #elif isinstance(wxElement_handle, wx._core.StaticText):
+                    # elif isinstance(wxElement_handle, wx._core.):
+                    # elif isinstance(wxElement_handle, wx._core.):configHandle
+                    # elif isinstance(wxElement_handle, wx._core.StaticBitmap):
+                    # elif isinstance(wxElement_handle, wx._core.Panel):
+                    # elif isinstance(wxElement_handle, wx._core.Button):
+                    # elif isinstance(wxElement_handle, wx._core.StaticText):
                 except KeyError:
                     continue
 
@@ -983,7 +983,7 @@ class formKiCost(wx.Frame):
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, 'Configurations not recovered: <'+str(e)+'>.')
 
-    #----------------------------------------------------------------------
+    # ----------------------------------------------------------------------
     def save_properties(self):
         ''' @brief Save the current proprieties of the graphical elements.'''
         try:
@@ -1020,11 +1020,11 @@ class formKiCost(wx.Frame):
                     elif isinstance(wxElement_handle, wx._core.Notebook):
                         configHandle.Write(wxElement_name, str(wxElement_handle.GetSelection()))
                     # Others wxWidgets graphical elements with not saved configurations.
-                    #elif isinstance(wxElement_handle, wx._core.):configHandle
-                    #elif isinstance(wxElement_handle, wx._core.StaticBitmap):
-                    #elif isinstance(wxElement_handle, wx._core.Panel):
-                    #elif isinstance(wxElement_handle, wx._core.Button):
-                    #elif isinstance(wxElement_handle, wx._core.StaticText):
+                    # elif isinstance(wxElement_handle, wx._core.):configHandle
+                    # elif isinstance(wxElement_handle, wx._core.StaticBitmap):
+                    # elif isinstance(wxElement_handle, wx._core.Panel):
+                    # elif isinstance(wxElement_handle, wx._core.Button):
+                    # elif isinstance(wxElement_handle, wx._core.StaticText):
                 except KeyError:
                     continue
 
@@ -1061,14 +1061,14 @@ def kicost_gui(files=None):
 
     class GUI_LoggerHandler(object):
         def __init__(self, aWxTextCtrl):
-            #super(self.__class__, self).__init__()
+            # super(self.__class__, self).__init__()
             self.area = aWxTextCtrl
         def write(self, msg):
-            #self.area.AppendText(msg)
+            # self.area.AppendText(msg)
             # Necessary the call bellow and not above
             # because of the KiCost threads.
             wx.CallAfter(self.area.AppendText, msg)
-            #wx.CallAfter(frame.m_textCtrl_messages.AppendText, msg)
+            # wx.CallAfter(frame.m_textCtrl_messages.AppendText, msg)
         def flush(self):
             sys.__stdout__.flush()
 
@@ -1079,7 +1079,7 @@ def kicost_gui(files=None):
             try:
                 # Try to read a process bar model, with error, is really a error message.
                 # Model:
-                #Progress: 100%|███████████████████████████████| 24/24 [00:26<00:00,  1.56s/part]
+                # Progress: 100%|███████████████████████████████| 24/24 [00:26<00:00,  1.56s/part]
                 # Second https://github.com/tqdm/tqdm/issues/172 is necessary this work around,
                 # until they finish the v5.
                 wx.CallAfter(frame.m_gauge_process.SetValue,
@@ -1134,8 +1134,8 @@ def kicost_gui_runterminal(args):
             options_cmd += '--' + k_a + str(args.__dict__[k_a])
         elif isinstance(args.__dict__[k_a], list) and args.__dict__[k_a]:
             options_cmd += '--' + k_a + ' '.join(args.__dict__[k_a])
-        #else args.__dict__[k_a]:
-        #    options_cmd += '--' + k_a + ' '.join(args.__dict__[k_a])
+        # else args.__dict__[k_a]:
+        #     options_cmd += '--' + k_a + ' '.join(args.__dict__[k_a])
 
     frame.m_textCtrlextracmd.SetValue(options_cmd)
 

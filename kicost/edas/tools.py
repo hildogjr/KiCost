@@ -136,7 +136,7 @@ def file_eda_match(file_name):
         content = file_handle.read()
     extension = os.path.splitext(file_name)[1]
     for name, defs in eda_dict.items():
-        #print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
+        # print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
         if re.search(defs['file']['content'], content, re.IGNORECASE)\
            and extension == defs['file']['extension']:
             file_handle.close()
@@ -158,7 +158,7 @@ def organize_parts(components, fields_merge):
        @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
     '''
     # Remove the Not Populate Parts.
-    ##components = remove_dnp_parts(components, variant) # Do this inside each EDA submodule because of the ISSUE #73.
+    # components = remove_dnp_parts(components, variant) # Do this inside each EDA submodule because of the ISSUE #73.
     # Split multi-components into individual subparts.
     components = subpartqty_split(components)
     # Group the components in group in the same characteristics (fields).
@@ -244,11 +244,11 @@ def group_parts(components, fields_merge):
             component_groups[h].manfcat_codes = {}
             for f in FIELDS_MANFCAT:
                 component_groups[h].manfcat_codes[f] = OrderedDict([(fields.get(f), True)])
-    #print('\n\n\n1++++++++++++++',len(component_groups))
-    #for g,grp in list(component_groups.items()):
-    #    print('\n', grp.refs)
-    #    for r in grp.refs:
-    #        print(r, components[r])
+    # print('\n\n\n1++++++++++++++',len(component_groups))
+    # for g,grp in list(component_groups.items()):
+    #     print('\n', grp.refs)
+    #     for r in grp.refs:
+    #         print(r, components[r])
 
 
     # Now we have groups of seemingly identical parts. But some of the parts
@@ -312,11 +312,11 @@ def group_parts(components, fields_merge):
                 if all([components[ref].get(f) == manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)  # Append one part of the split group.
-    #print('\n\n\n2++++++++++++++',len(new_component_groups))
-    #for grp in new_component_groups:
-    #    print('\n', grp.refs)
-    #    for r in grp.refs:
-    #        print(r, components[r])
+    # print('\n\n\n2++++++++++++++',len(new_component_groups))
+    # for grp in new_component_groups:
+    #     print('\n', grp.refs)
+    #     for r in grp.refs:
+    #         print(r, components[r])
 
     # If the identical components grouped have difference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
@@ -338,11 +338,11 @@ def group_parts(components, fields_merge):
                         value = SGROUP_SEPRTR.join([order_refs(r) + SEPRTR + ' ' + t for t, r in ocurrences.items()])
                     for r in grp.refs:
                         components[r][f] = value
-    #print('\n\n\n3++++++++++++++',len(new_component_groups))
-    #for grp in new_component_groups:
-    #    print(grp.refs)
-    #    for r in grp.refs:
-    #        print(r, components[r])
+    # print('\n\n\n3++++++++++++++',len(new_component_groups))
+    # for grp in new_component_groups:
+    #     print(grp.refs)
+    #     for r in grp.refs:
+    #         print(r, components[r])
 
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
@@ -370,11 +370,11 @@ def group_parts(components, fields_merge):
         grp.fields = grp_fields
 
     # Now return the list of identical part groups.
-    #print('\n\n\n------------')
-    #for grp in new_component_groups:
-    #    print(grp.refs)
-    #    for r in grp.refs:
-    #        print(r, components[r])
+    # print('\n\n\n------------')
+    # for grp in new_component_groups:
+    #     print(grp.refs)
+    #     for r in grp.refs:
+    #         print(r, components[r])
     return new_component_groups
 
 
@@ -725,7 +725,7 @@ def manf_code_qtypart(subpart):
         elif string0_test and string1_test:
             # May be founded a just numeric manufacture/distributor part,
             # in this case, the quantity is a shortest string not
-            #considering "." and "/" marks.
+            # considering "." and "/" marks.
             if len(re.sub(r'[\.\/]', '', strings[0])) < len(re.sub(r'[\.\/]', '', strings[1])):
                 qty = strings[0].strip()
                 part = strings[1].strip()
@@ -853,11 +853,11 @@ def split_refs(text):
     refs = []
     for ref in partial_ref:
         # Remove invalid characters. Changed `PART_REF_REGEX_SPECIAL_CHAR_REF` definition and allowed special characters.
-        #ref = re.sub('\+$', 'p', ref) # Finishing "+".
+        # ref = re.sub('\+$', 'p', ref) # Finishing "+".
         ref = re.sub(PART_REF_REGEX_NOT_ALLOWED, '', ref)  # Generic special characters not allowed. To work around #ISSUE #89.
-        #ref = re.sub('\-+', '-', ref) # Double "-".
-        #ref = re.sub('^\-', '', ref) # Starting "-".
-        #ref = re.sub('\-$', 'n', ref) # Finishing "-".
+        # ref = re.sub('\-+', '-', ref) # Double "-".
+        # ref = re.sub('^\-', '', ref) # Starting "-".
+        # ref = re.sub('\-$', 'n', ref) # Finishing "-".
         if re.search(r'^\w+\d', ref):
             if re.search('-', ref):
                 designator_name = re.findall(r'^\D+', ref)[0]
@@ -872,7 +872,7 @@ def split_refs(text):
                 split_nums = [''.join(re.findall(r'\D*(\d+)$', n)) for n in split_nums]
                 
                 split = list(range(int(split_nums[0]), int(split_nums[1])+1))
-                #split = [designator_name+str(split[i]) for i in range(len(split)) ]
+                # split = [designator_name+str(split[i]) for i in range(len(split)) ]
                 split = [designator_name + base_split_nums+str(split[i]) for i in range(len(split))]
                 
                 refs += split

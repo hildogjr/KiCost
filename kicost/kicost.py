@@ -57,13 +57,13 @@ __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences']  # Only exp
 from .global_vars import *
 
 # TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
-#from .distributors.api_octopart import api_octopart
+# from .distributors.api_octopart import api_octopart
 from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
 from .distributors.dist_local_template import dist_local_template
 from .distributors.distributor import distributor_class
 from .distributors.global_vars import distributors_modules_dict
 
-## Import the KiCost libraries functions.
+# * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations
 from .edas import eda_modules
@@ -107,7 +107,7 @@ def kicost(in_file, eda_name, out_filename,
         if len(translate_fields) % 2 == 1:
             raise Exception('Translation fields argument should have an even number of words.')
         for c in range(0, len(translate_fields), 2):
-            #field_name_translations.keys(), field_name_translations.values()
+            # field_name_translations.keys(), field_name_translations.values()
             if translate_fields[c] in field_name_translations.values():
                 logger.warning("Not possible re-translate \"{}\" to \"{}\", this is used as internal field names.".format(
                         translate_fields[c].lower(), translate_fields[c+1].lower()
@@ -220,7 +220,7 @@ def kicost(in_file, eda_name, out_filename,
     if not 'manf#' in all_fields:
         dist_not_rmv = [d for d in distributor_dict.keys() if d+'#' in all_fields]
         dist_not_rmv += ['local_template']  # Needed later for creating non-web distributors.
-        #distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}
+        # distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}
         distributors = distributor_dict.copy().keys()
         for d in distributors:
             if not d in dist_not_rmv:
@@ -234,7 +234,7 @@ def kicost(in_file, eda_name, out_filename,
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
         # Set part info to default blank values for all the distributors.
-        for part in parts:  ## TODO create this for just the current active distributor inside each module.
+        for part in parts:  # TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
             part.part_num = {dist: '' for dist in dist_list}  # Distributor catalogue number.
             part.url = {dist: '' for dist in dist_list}  # Purchase distributor URL for the specific part.
@@ -244,9 +244,9 @@ def kicost(in_file, eda_name, out_filename,
             part.info_dist = {dist: {} for dist in dist_list}
             part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list}  # Default currency.
             part.moq = {dist: None for dist in dist_list}  # Minimum order quantity allowed by the distributor.
-        #distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
-        #TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
-        #distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
+        # distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
+        # TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
+        # distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
         dist_local_template.query_part_info(parts, distributor_dict, currency)
         api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
