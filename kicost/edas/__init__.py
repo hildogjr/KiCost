@@ -36,5 +36,3 @@ eda_modules['csv'] = generic_csv
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
-
-

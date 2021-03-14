@@ -109,5 +109,3 @@ def anythread(func):
     invoker.__name__ = func.__name__
     invoker.__doc__ = func.__doc__
     return invoker
-
-
