@@ -312,7 +312,7 @@ def kicost_unsetup():
             kicost_shortcut = os.path.expandvars(kicost_shortcut)
             try:
                 os.remove(kicost_shortcut)
-            except FileNotFoundError:
+            except OSError:
                 pass
     except Exception:
         print('Fail to remove kiCost shortcuts.')
