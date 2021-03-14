@@ -1,0 +1,7 @@
+[flake8]
+#ignore = E402, E226, E126, W504
+max-line-length = 159
+max-complexity = 20
+#exclude = experiments/kicad/v6/
+#          experiments/JLC/
+#          kibot/mcpyrate/

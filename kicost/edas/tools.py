@@ -67,8 +67,9 @@ PART_REF_REGEX_NOT_ALLOWED = r'[\+\(\)\*\{}]'.format(SEPRTR)
 # modified by adding the project number identification followed
 # by `SEPRTR` definition.
 PART_REF_REGEX_SPECIAL_CHAR_REF = r'\+\-\=\s\_\.\(\)\$\*\&'  # Used in next definition only (because repeat).
-PART_REF_REGEX = re.compile(r'(?P<prefix>({p_str}(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'.format(p_str=PRJ_STR_DECLARE, p_sp=PRJPART_SPRTR,
-                            sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR), re.IGNORECASE)
+PART_REF_REGEX_STR = r'(?P<prefix>({p_str}(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'
+PART_REF_REGEX = re.compile(PART_REF_REGEX_STR.format(p_str=PRJ_STR_DECLARE, p_sp=PRJPART_SPRTR, sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR),
+                            re.IGNORECASE)
 
 # Generate a dictionary to translate all the different ways people might want
 # to refer to part numbers, vendor numbers, manufacture name and such.
@@ -186,7 +187,8 @@ def group_parts(components, fields_merge):
        field, this is important to merge subparts of different parts and
        parts of different BOMs (in the mode of multifiles).
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
-       @param fields_merge Data fields of the `dict()` variable to be merged and ignored to make the identical components group (before be scraped in the distributors web site).
+       @param fields_merge Data fields of the `dict()` variable to be merged and ignored to make the
+              identical components group (before be scraped in the distributors web site).
        @return `list()` of `dict()`
     '''
 
@@ -365,7 +367,8 @@ def group_parts(components, fields_merge):
                     continue  # so ignore it.
                 if grp_fields.get(key):  # This field has been seen before.
                     if grp_fields[key] != val:  # Flag if new field value not the same as old.
-                        raise ValueError('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'.format(ref, key, val, grp_fields[key], grp.refs))
+                        raise ValueError('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'
+                                         .format(ref, key, val, grp_fields[key], grp.refs))
                 else:  # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
         grp.fields = grp_fields
@@ -514,11 +517,12 @@ def subpartqty_split(components):
                     # associated in different `manf#`/distributors# of the same component.
                     if subparts_qty_field != subparts_qty:
                         problem_manf_code = (field_code if subparts_qty > subparts_qty_field else field_code_last)
-                        logger.warning('Found a different subpart quantity between the code fields {c} and {lc}.\n\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'.format(
-                                        c=field_code_last, lc=field_code, r=part_ref,
-                                        pc=problem_manf_code,
-                                        m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field))
-                                  ))
+                        logger.warning('Found a different subpart quantity between the code fields {c} and {lc}.\n'
+                                       '\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'
+                                       .format(c=field_code_last, lc=field_code, r=part_ref,
+                                               pc=problem_manf_code,
+                                               m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field)))
+                                       )
                     field_code_last = field_code
                     
                     founded_fields += [field_code]

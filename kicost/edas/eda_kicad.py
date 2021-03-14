@@ -110,7 +110,8 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # number or a distributors catalog number, then add
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
-                        # if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and name[:-1] not in distributor_dict:
+                        # if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and
+                        #    name[:-1] not in distributor_dict:
                         dist_mtch = re.match('([^:]+):', name)
                         if dist_mtch and dist_mtch.group(1) not in distributor_dict:
                             # 'name' is a distibutore (preceded & followed with ':'
@@ -147,7 +148,8 @@ def get_part_groups(in_file, ignore_fields, variant):
     prj_info = dict()
     prj_info['title'] = title_find_all(title, 'title') or os.path.basename(in_file)
     prj_info['company'] = title_find_all(title, 'company')
-    prj_info['date'] = title_find_all(root, 'date') or (datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)')
+    prj_info['date'] = title_find_all(root, 'date') or (datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y')
+                                                        .strftime("%Y-%m-%d %H:%M:%S") + ' (file)')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.

@@ -176,10 +176,12 @@ def main():
                         nargs='+',
                         type=str,
                         metavar='FILE.XML',
-                        help='Start the GUI to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
+                        help='Start the GUI to run KiCost passing the file parameter give by "--input",'
+                             ' all others parameters are ignored.')
     parser.add_argument('--user',
                         action='store_true',
-                        help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from terminal take priority.')
+                        help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from'
+                             ' terminal take priority.')
     parser.add_argument('--setup',
                         action='store_true',
                         help='Run KiCost integration (with KiCad and OS) configuration script.')

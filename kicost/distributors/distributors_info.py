@@ -6,15 +6,19 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-ORDER_COL_USERFIELDS = '*__USER__FIELDS__*'  # Used as identification for all user fields allowed for some custom importation in some distributors. It is used a low probability "word" corresponding to all user fields.
-# TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some personal field.
+# Used as identification for all user fields allowed for some custom importation in some distributors.
+# It is used a low probability "word" corresponding to all user fields.
+ORDER_COL_USERFIELDS = '*__USER__FIELDS__*'
+# TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some
+#      personal field.
 
 distributors_info = {
     'arrow': {
         'type': 'web',  # Allowable values: 'local' or 'web'.
         'order': {
             'url': 'https://www.arrow.com/en/bom-tool/',
-            'cols': ['part_num', 'purch', 'refs'],  # Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.
+            # Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.
+            'cols': ['part_num', 'purch', 'refs'],
             # 'header': 'Stock#,Quantity,Designators', # Header to help user undertanding (used in some importations).
             'delimiter': ',',  # Delimiter for online orders.
             'not_allowed_char': ',',  # Characters not allowed at the BoM for web-site import.
@@ -39,7 +43,8 @@ distributors_info = {
             'name': 'Digi-Key', 'url': 'https://www.digikey.com/',
             'format': {'font_color': 'white', 'bg_color': '#CC0000'},  # Digi-Key red.
         },
-        'ignore_cat#_re': r'.+(DKR\-ND|\-6\-ND)$',  # Use to ignore some catalogue/stock code format. In the Digikey distributor it is used to ignore the Digi-reel package.
+        # Use to ignore some catalogue/stock code format. In the Digikey distributor it is used to ignore the Digi-reel package.
+        'ignore_cat#_re': r'.+(DKR\-ND|\-6\-ND)$',
     },
     'farnell': {
         'type': 'web',
@@ -113,7 +118,8 @@ distributors_info = {
             'cols': ['purch', 'refs', 'footprint', 'part_num'],
             'header': 'Quantity,Comment,Designator,Footprint,LCSC Part #(optional)',
             'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
-            'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. The multipart components that use "#" symbol is not allowed at JLCPCB.',
+            'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. '
+                    'The multipart components that use "#" symbol is not allowed at JLCPCB.',
         },
         'label': {
             'name': 'LCSC', 'url': 'https://lcsc.com',

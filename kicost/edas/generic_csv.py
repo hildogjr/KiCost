@@ -225,9 +225,9 @@ def get_part_groups(in_file, ignore_fields, variant):
                 if value:
                     try:
                         if fields[h] != value:
-                            logger.warning('Found different duplicated information for {} in the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'.format(
-                                    refs, h, h_file, fields[h], value, value)
-                                )
+                            logger.warning('Found different duplicated information for {} in the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'
+                                           .format(refs, h, h_file, fields[h], value, value)
+                                           )
                     except:
                         pass
                     finally:

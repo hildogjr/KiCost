@@ -77,7 +77,8 @@ eda_dict.update(
             # Formatting file match .
             'file': {
                 'extension': '.xml',  # File extension.
-                r'content': r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>'  # Regular expression content match.
+                # Regular expression content match.
+                r'content': r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>'
             }
         }
     }
@@ -125,7 +126,8 @@ def get_part_groups(in_file, ignore_fields, variant):
             qty = int(extract_field(row, header[hdr_qty].lower()))
             header_valid.remove(header[hdr_qty])
             if qty != len(refs):
-                raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, ` to `,` or better, use `;` instead `,`.')
+                raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, `'
+                                 ' to `,` or better, use `;` instead `,`.')
         except:
             qty = len(refs)
         

@@ -43,6 +43,7 @@ if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
 from .kicad_config import *
 
 EESCHEMA_KICOST_FIELDS = ['manf#', 'desc', 'variant']
+WIN_USR_FOLDERS = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
 
 ###############################################################################
 # Auxiliary functions.
@@ -180,7 +181,8 @@ def kicost_setup():
     kicad_config_path = get_app_config_path('kicad')
     if not kicad_config_path:
         raise('KiCad configuration folder not found.')
-    print('KiCost identified at \'{}\', proceeding with it configuration in file \'{}\'...'.format(kicost_path, kicad_config_path))
+    print('KiCost identified at \'{}\', proceeding with it configuration in file \'{}\'...'
+          .format(kicost_path, kicad_config_path))
     # Check if wxPython is present.
     try:
         import wx  # wxWidgets for Python.
@@ -215,7 +217,7 @@ def kicost_setup():
             print('I don\'t kwon the desktop folder of mac-OS.')
             shotcut_directories = []
         elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-            shotcut_directories = [os.path.normpath(reg_get(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+            shotcut_directories = [os.path.normpath(reg_get(WIN_USR_FOLDERS, 'Desktop'))]
         elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
             shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
         else:
@@ -295,7 +297,7 @@ def kicost_unsetup():
         print('I don\'t kwon the desktop folder of mac-OS.')
         kicost_shortcuts = []
     elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-        kicost_shortcuts = [os.path.normpath(reg_get(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+        kicost_shortcuts = [os.path.normpath(reg_get(WIN_USR_FOLDERS, 'Desktop'))]
         kicost_shortcuts = [os.path.join(sc, 'KiCost.lnk') for sc in kicost_shortcuts]
     elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
         kicost_shortcuts = [os.path.expanduser(os.path.join('~', 'Desktop'))]

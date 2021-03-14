@@ -23,10 +23,12 @@
 # THE SOFTWARE.
 """
   @package
-  KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.
+  KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and
+  others EDAs.
   Full manual at https://xesscorp.github.io/KiCost
   Development at https://github.com/xesscorp/KiCost
-  KiCost is powered by the Kitspace PartInfo API (https://kitspace.org/). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please donate to the Kitspace Open Collective to keep the service running. (https://opencollective.com/kitspace).
+  KiCost is powered by the Kitspace PartInfo API (https://kitspace.org/). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please
+  donate to the Kitspace Open Collective to keep the service running. (https://opencollective.com/kitspace).
   
   Command line:
       kicost -i "%I" "%O.xslx"
@@ -128,9 +130,9 @@ def kicost(in_file, eda_name, out_filename,
     user_fields = list(set(user_fields))
     for f in user_fields:
         if f.lower() in field_name_translations.keys():
-            logger.warning("\"{f}\" field is a reserved field and can not be used user filed. Try to remove it from internal dictionary using `--translate_filed {f} ~`".format(
-                    f=f.lower()
-                ))
+            logger.warning("\"{f}\" field is a reserved field and can not be used user filed."
+                           " Try to remove it from internal dictionary using `--translate_filed {f} ~`".format(f=f.lower())
+                           )
             user_fields.remove(x)
 
     # Only keep distributors in the included list and not in the excluded list.
@@ -311,7 +313,8 @@ def output_filename(files_input):
             if os.path.dirname(files_input[dir_idx]) != dir_output:
                 dir_output = os.getcwd()
 
-    file_name = FILE_OUTPUT_INPUT_SEP.join([os.path.splitext(os.path.basename(input_name))[0][:max(int(FILE_OUTPUT_MAX_NAME/len(files_input)), FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))] for input_name in files_input])
+    _end = max(int(FILE_OUTPUT_MAX_NAME/len(files_input)), FILE_OUTPUT_MIN_INPUT-len(FILE_OUTPUT_INPUT_SEP))
+    file_name = FILE_OUTPUT_INPUT_SEP.join([os.path.splitext(os.path.basename(input_name))[0][:_end] for input_name in files_input])
     file_output = os.path.join(dir_output, file_name + '.xlsx')
     return file_output
 

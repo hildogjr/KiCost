@@ -787,7 +787,8 @@ Orange -> Too little quantity available.'''
             'level': 2,
             'label': 'Purch',
             'width': None,
-            'comment': 'Purchase quantity of each part from this distributor.\nYellow -> This part have a minimum purchase quantity bigger than 1 (check the price breaks).\nRed -> Purchasing more than the available quantity.'
+            'comment': 'Purchase quantity of each part from this distributor.\nYellow -> This part have a minimum purchase quantity bigger than 1'
+                       ' (check the price breaks).\nRed -> Purchasing more than the available quantity.'
         },
         'unit_price': {
             'col': 2,
@@ -1104,7 +1105,8 @@ Orange -> Too little quantity available.'''
     )
     wks.write_formula(  # Quantity of purchased part in this distributor.
         ORDER_HEADER, purch_qty_col,
-        '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.format(
+        '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&'
+        '(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.format(
             count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
                                  PART_INFO_LAST_ROW, purch_qty_col),
             count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
