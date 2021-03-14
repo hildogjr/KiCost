@@ -369,9 +369,9 @@ def tosexp(obj, str_as='string', tuple_as='list',
     <http://hyperpolyglot.org/lisp>`_
 
     """
-    _tosexp = lambda x: tosexp(
-        x, str_as=str_as, tuple_as=tuple_as,
-        true_as=true_as, false_as=false_as, none_as=none_as)
+    def _tosexp(x):
+        tosexp(x, str_as=str_as, tuple_as=tuple_as, true_as=true_as, false_as=false_as, none_as=none_as)
+
     if isinstance(obj, list):
         return Bracket(obj, '(').tosexp(_tosexp)
     elif isinstance(obj, tuple):
