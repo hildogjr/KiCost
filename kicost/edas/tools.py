@@ -589,7 +589,6 @@ def subpartqty_split(components):
                                 logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
                                                     f=field_manf_dist_code, fl=field_manf_dist_code_prior,
                                                     c=p_manf_code, cl=p_manf_code_prior,
-                                                    q=subpart_qty, ql=subpart_qty_prior,
                                                     r=order_refs(list(components.keys()))
                                                 ))
                             subpart_qty_prior = subpart_qty
@@ -628,7 +627,6 @@ def subpartqty_split(components):
                             logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
                                                 f=field_manf_dist_code, fl=field_manf_dist_code_prior,
                                                 c=p_manf_code, cl=p_manf_code_prior,
-                                                q=part_qty, ql=part_qty_prior,
                                                 r=order_refs(list(components.keys()))
                                             ))
                         part_qty_prior = part_qty
@@ -746,7 +744,7 @@ def manf_code_qtypart(subpart):
     else:
         qty = '1'
         part = ''.join(strings)
-    logger.log(DEBUG_OBSESSIVE, 'part/qty>> {}\t\tpart>>{}\tqty>>'.format(subpart, part, qty))
+    logger.log(DEBUG_OBSESSIVE, 'part/qty>> {}\t\tpart>>{}\tqty>>{}'.format(subpart, part, qty))
     return qty, part
 
 
