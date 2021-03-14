@@ -222,7 +222,7 @@ class menuMessages(wx.Menu):
     def saveMessages(self, event):
         ''' @brief Save the messages as a text "KiCost*.log" file.'''
         event.Skip()
-        actualDir = (os.getcwd() if self.parent.m_comboBox_files.GetValue() else \
+        actualDir = (os.getcwd() if self.parent.m_comboBox_files.GetValue() else
                      os.path.dirname(os.path.abspath(self.parent.m_comboBox_files.GetValue())))
         dlg = wx.FileDialog(
             self.parent, message="Save log as...",
@@ -493,7 +493,7 @@ class formKiCost(wx.Frame):
         self.m_button_open_webpage.Bind(wx.EVT_LEFT_DOWN, self.open_webpage_click)
         bSizer101.Add(self.m_button_open_webpage, 0, wx.CENTER | wx.ALL, 5)
 
-        self.m_button_open_issuepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Report issue page", \
+        self.m_button_open_issuepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Report issue page",
                                                  wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_issuepage.SetToolTip(wx.ToolTip(u"Open KiCost project ISSUE report page on GitHub."))
         bSizer101.Add(self.m_button_open_issuepage, 0, wx.CENTER | wx.ALL, 5)
@@ -511,7 +511,7 @@ class formKiCost(wx.Frame):
         self.m_button_check_updates.Bind(wx.EVT_BUTTON, self.check_updates_click)
         bSizer111.Add(self.m_button_check_updates, 0, wx.CENTER | wx.ALL, 5)
 
-        self.m_button_open_updatepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Open PyPI page", \
+        self.m_button_open_updatepage = wx.Button(self.m_panel3, wx.ID_ANY, u"Open PyPI page",
                                                   wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_open_updatepage.SetToolTip(wx.ToolTip(u"Open PyPI page with the most recent KiCost version."))
         self.m_button_open_updatepage.Bind(wx.EVT_LEFT_DOWN, self.open_updatepage_click)
@@ -663,7 +663,7 @@ class formKiCost(wx.Frame):
     def button_openfile(self, event):
         """ @brief Create and show the Open FileDialog"""
         event.Skip()
-        actualDir = (os.getcwd() if self.m_comboBox_files.GetValue() else \
+        actualDir = (os.getcwd() if self.m_comboBox_files.GetValue() else
                      os.path.dirname(os.path.abspath(self.m_comboBox_files.GetValue())))
         dlg = wx.FileDialog(self, message="Select BOM(s)", defaultDir=actualDir,
                             defaultFile="", wildcard=WILDCARD_BOM,
@@ -677,9 +677,9 @@ class formKiCost(wx.Frame):
     def button_saveas(self, event):
         """ @brief Create and show the Save As... FileDialog."""
         event.Skip()
-        wildcard = ("Open format (*.ods)|*.ods" if self.m_checkBox_XLSXtoODS.GetValue()\
+        wildcard = ("Open format (*.ods)|*.ods" if self.m_checkBox_XLSXtoODS.GetValue()
                     else "Microsoft Excel (*.xlsx)|*.xlsx")
-        actualFile = (os.getcwd() if self.m_text_saveas.GetValue() else \
+        actualFile = (os.getcwd() if self.m_text_saveas.GetValue() else
                       os.path.dirname(os.path.abspath(self.m_text_saveas.GetValue())))
         dlg = wx.FileDialog(self, message="Save spreadsheet as...", defaultDir=actualFile,
                             defaultFile="", wildcard=wildcard,

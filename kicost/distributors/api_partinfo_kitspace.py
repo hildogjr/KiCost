@@ -306,8 +306,8 @@ class api_partinfo_kitspace(distributor_class):
                             # debug('part.part_num[dist]') # Uncomment to debug
                             # debug('part.qty_increment[dist]')  # Uncomment to debug
                             if valid_part and \
-                                (not part.part_num[dist] or \
-                                 (part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or \
+                                (not part.part_num[dist] or
+                                 (part.qty_increment[dist] is None or part_qty_increment < part.qty_increment[dist]) or
                                  (not part.moq[dist] or (offer.get('moq') and part.moq[dist] > offer.get('moq')))):
                                 # Save the link, stock code, ... of the page for minimum purchase.
                                 part.moq[dist] = offer.get('moq')  # Minimum order qty.

@@ -1226,7 +1226,7 @@ Orange -> Too little quantity available.'''
             # Deal with conversion and string replace necessary to the correct distributors
             # code understanding.
             if col == None or \
-                    (col not in columns and \
+                    (col not in columns and
                      col not in columns_global):
                 # Create an empty column escaping all the information, same when is asked
                 # for a not present filed at the global column (`columns_global`) part or

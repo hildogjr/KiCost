@@ -281,8 +281,8 @@ class api_octopart(distributor_class):
                                 ign_stock_code = distributors_info[dist].get('ignore_cat#_re', '')
                                 valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
                                 if valid_part and \
-                                    (not part.part_num[dist] or \
-                                     (part_qty_increment < part.qty_increment[dist]) or \
+                                    (not part.part_num[dist] or
+                                     (part_qty_increment < part.qty_increment[dist]) or
                                      (not part.moq[dist] or (offer.get('moq') and part.moq[dist] > offer.get('moq')))):
                                     # Save the link, stock code, ... of the page for minimum purchase.
                                     part.moq[dist] = offer.get('moq')  # Minimum order qty.
