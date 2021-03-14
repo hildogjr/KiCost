@@ -29,7 +29,7 @@
   Development at https://github.com/xesscorp/KiCost
   KiCost is powered by the Kitspace PartInfo API (https://kitspace.org/). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please
   donate to the Kitspace Open Collective to keep the service running. (https://opencollective.com/kitspace).
-  
+
   Command line:
       kicost -i "%I" "%O.xslx"
   Run Graphical User Interface:
@@ -80,9 +80,9 @@ def kicost(in_file, eda_name, out_filename,
            dist_list=list(distributor_dict.keys()),
            collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
     ''' @brief Run KiCost.
-    
+
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
-    
+
     @param in_file `list(str())` List of the names of the input BOM files.
     @param eda_name `list(str())` of the EDA modules to be used to open the `in_file`list.
     @param out_filename `str()` XLSX output file name.

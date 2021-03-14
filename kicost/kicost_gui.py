@@ -374,7 +374,7 @@ class formKiCost(wx.Frame):
         self.m_gauge_process.SetValue(0)
         self.m_gauge_process.SetToolTip(wx.ToolTip(u"Percentage of the scrape process elapsed."))
         fgSizer1.Add(self.m_gauge_process, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 5)
-        
+
         self.m_staticText_progressInfo = wx.StaticText(self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_RIGHT)
         self.m_staticText_progressInfo.Wrap(-1)
         self.m_staticText_progressInfo.SetToolTip(wx.ToolTip(u"Progress information."))

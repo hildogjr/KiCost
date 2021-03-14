@@ -101,7 +101,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
     def extract_fields_row(row, variant, header):
         '''Extract XML fields from the part in a library or schematic.'''
-        
+
         # First get the references and the quantities of elements in each rwo group.
         header_translated = [field_name_translations.get(hdr.lower(), hdr.lower()) for hdr in header]
         hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
@@ -124,7 +124,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                                  ' to `,` or better, use `;` instead `,`.')
         except Exception:
             qty = len(refs)
-        
+
         # After the others fields.
         fields = [dict() for x in range(qty)]
         for hdr in header_valid:

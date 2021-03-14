@@ -321,7 +321,7 @@ class api_octopart(distributor_class):
                             break
                     # Create the part query using SKU matching.
                     part_query = {'reference': i, 'sku': urlquote(sku)}
-                    
+
                     # Because was used the distributor (enrolled at Octopart list)
                     # despite the normal 'manf#' code, take the sub quantity as
                     # general sub quantity of the current part.

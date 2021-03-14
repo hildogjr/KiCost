@@ -68,7 +68,7 @@ ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v.' + __version__
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
                        collapse_refs=True, suppress_cat_url=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
-    
+
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
                                     os.path.basename(spreadsheet_filename)))
     # Microsoft Excel allows a 31 characters longer string for the worksheet name, Google
@@ -98,10 +98,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         WORKSHEET_NAME += variant
     else:
         WORKSHEET_NAME = WORKSHEET_NAME[:MAX_LEN_WORKSHEET_NAME]
-    
+
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
-    
+
         # Create the various format styles used by various spreadsheet items.
         WRK_HDR_FORMAT = {
                 'font_size': 14, 'bold': True,
@@ -241,7 +241,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
                                  cell_ref=xl_rowcol_to_cell(next_row, next_col - 1,
                                                             row_abs=True,
                                                             col_abs=True)))
-            
+
             # Create the cell to show total cost of board parts for each distributor.
             wks.write(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str),
                       wrk_formats['total_cost_label'])
@@ -1043,7 +1043,7 @@ Orange -> Too little quantity available.'''
     total_cost_col = start_col + columns['ext_price']['col']
     unit_cost_col = start_col + columns['unit_price']['col']
     dist_cat_col = start_col + columns['part_num']['col']
-    
+
     # If more than one file (multi-files mode) show how many
     # parts of each BOM as found at this distributor and
     # the correspondent total price.
@@ -1069,7 +1069,7 @@ Orange -> Too little quantity available.'''
                       wrk_formats['found_part_pct'])
             wks.write_comment(row, dist_cat_col, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
         total_cost_row = PART_INFO_FIRST_ROW - 3  # Shift the total price in this distributor.
-    
+
     # Sum the extended prices for all the parts to get the total cost from this distributor.
     wks.write(total_cost_row, total_cost_col, '=SUM({sum_range})'.format(
         sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,

@@ -124,7 +124,7 @@ field_name_translations.update(
 
 def file_eda_match(file_name):
     '''@brief Verify with which EDA the file matches.
-       
+
        Return the EDA name with the file matches or `None` if not founded.
        @param file_name File `str` name.
        @return Name of the module corresponding to read the file or `None`to not recognized.
@@ -149,13 +149,13 @@ def file_eda_match(file_name):
 
 def organize_parts(components, fields_merge):
     '''@brief Organize the parts to better do the scrape in the distributors.
-       
+
        Remove the Not Populate Parts (DNP), split the components in unique
        parts, necessary because of some file formats that present the
        components already grouped and to finish, group them as group parts
        with same manufactures codes, company manufactures and distributors
        codes to not scrape repetitively the same part kind.
-       
+
        @param  components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
     '''
@@ -176,7 +176,7 @@ class IdenticalComponents(object):
 
 def group_parts(components, fields_merge):
     '''@brief Group common parts after preprocessing from XML or CSV files.
-       
+
        Group common parts looking in the existent files that could be merged
        by the use of `fields_merge`. First group all designed parts without
        look the manufacture/distributors codes, after see if any will be
@@ -384,11 +384,11 @@ def group_parts(components, fields_merge):
 
 def remove_dnp_parts(components, variant):
     '''@brief Remove the DNP parts or not assigned to the current variant.
-       
+
        Remove components that are assigned to a variant that is not the current variant,
        or which are "do not populate" (DNP). (Any component that does not have a variant
        is assigned the current variant so it will not be removed unless it is also DNP.)
-       
+
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @return `list()` of `dict()`.
     '''
@@ -430,7 +430,7 @@ def remove_dnp_parts(components, variant):
 
 def groups_sort(new_component_groups):
     '''@brief Order the groups in a alphabetical way.
-       
+
        Put the components groups in the spreadsheet rows in a specific order
        using the reference string of the components. The order is defined
        by BOM_ORDER.
@@ -482,14 +482,14 @@ def groups_sort(new_component_groups):
 
 def subpartqty_split(components):
     '''@brief Split the components with subparts in different components.
-       
+
        Take each part and the all manufacture/distributors combination
        possibility to split in subpart the components part that have
        more than one manufacture/distributors code.
        For each designator...
        For designator with a "single subpart" check with the quantity
        is more than one.
-       
+
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @return Same as the input.
     '''
@@ -525,7 +525,7 @@ def subpartqty_split(components):
                                                m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field)))
                                        )
                     field_code_last = field_code
-                    
+
                     founded_fields += [field_code]
                     subparts_manf_code[field_code] = subpart_list(part[field_code])
             if not founded_fields:
@@ -581,7 +581,7 @@ def subpartqty_split(components):
                                             idx=subparts_index+1,
                                             total=subparts_qty)
                             subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
-                            
+
                             # Warning the user about different quantities signed to different `manf#`
                             # and catalogue number of same part/subpart. Which may be a type error by
                             # the user.
@@ -594,7 +594,7 @@ def subpartqty_split(components):
                             subpart_qty_prior = subpart_qty
                             p_manf_code_prior = p_manf_code
                             field_manf_dist_code_prior = field_manf_dist_code
-                            
+
                             subpart_actual[field_manf_dist_code] = subpart_part
                             subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
                             logger.log(DEBUG_OBSESSIVE, subpart_actual)
@@ -619,7 +619,7 @@ def subpartqty_split(components):
                     try:
                         p_manf_code = subparts_manf_code[field_manf_dist_code][0]
                         part_qty, part_part = manf_code_qtypart(p_manf_code)
-                        
+
                         # Warning the user about different quantities signed to different `manf#`
                         # and catalogue number of same part/subpart. Which may be a type error by
                         # the user.
@@ -632,7 +632,7 @@ def subpartqty_split(components):
                         part_qty_prior = part_qty
                         p_manf_code_prior = p_manf_code
                         field_manf_dist_code_prior = field_manf_dist_code
-                        
+
                         part_actual[field_manf_dist_code] = part_part
                         part_actual[field_manf_dist_code+'_qty'] = part_qty
                         logger.log(DEBUG_OBSESSIVE, part)
@@ -647,14 +647,14 @@ def subpartqty_split(components):
 
 def partgroup_qty(component):
     '''@brief Take the components grouped quantity.
-       
+
        Calculate the string of the quantity of the group parsing the
        reference (design) quantity and the sub quantity (in case that
        was a sub part of a manufacture/distributor code).
        In the case of the multifiles BOM (and future revision of the
        code) just use the 'manf#_qty' field that in `group_parts()`
        recorded the quantities used in each project.
-       
+
        @param components Part component `dict()`, format given by the EDA modules.
        @return Quantity of the manf# part used.
     '''
@@ -685,12 +685,12 @@ def partgroup_qty(component):
 def subpart_list(part):
     '''
     @brief Split the subpart by the `PART_SEPRTR`definition.
-    
+
     Get the list of sub parts manufacture / distributor code
     numbers stripping the spaces and keeping the sub part
     quantity information, these have to be separated by
     PART_SEPRTR definition.
-    
+
     @param part Manufacture code part `str`.
     @return List of manufacture code parts.
     '''
@@ -701,7 +701,7 @@ def manf_code_qtypart(subpart):
     '''@brief Get the quantity and the part code of the sub part
        manufacture / distributor. Test if was pre or post
        multiplied by a constant.
-       
+
        Setting QTY_SEPRTR as ':', we have
        ' 4.5 : ADUM3150BRSZ-RL7' -> ('4.5', 'ADUM3150BRSZ-RL7')
        '4/5  : ADUM3150BRSZ-RL7' -> ('4/5', 'ADUM3150BRSZ-RL7')
@@ -709,7 +709,7 @@ def manf_code_qtypart(subpart):
        'ADUM3150BRSZ-RL7 :   7' -> ('7', 'ADUM3150BRSZ-RL7')
        'ADUM3150BRSZ-RL7' -> ('1', 'ADUM3150BRSZ-RL7')
        'ADUM3150BRSZ-RL7:' -> ('1', 'ADUM3150BRSZ-RL7') forgot the qty understood '1'
-       
+
        @param Part that way have different than ONE quantity. Intended as one element of the list of `subpart_list()`.
        @return (qty, manf#) Quantity and the manufacture code.
     '''
@@ -843,13 +843,13 @@ def order_refs(refs, collapse=True):
 
 def split_refs(text):
     '''@brief Split string grouped references into a unique designator. This is intended as opposite of `order_refs(?, collapse=True)`
-       
+
        'C17/18/19/20' --> ['C17','C18','C19','C20']
        'C17\18\19\20' --> ['C17','C18','C19','C20']
        'D33-D36' --> ['D33','D34','D35','D36']
        'D33-36' --> ['D33','D34','D35','D36']
        Also ignore some characters as '.' or ':' used in some cases of references.
-       
+
        @param text Designator/references worn by a group of parts.
        @return Designator/references `list()` split.
     '''
@@ -868,17 +868,17 @@ def split_refs(text):
                 split_nums = re.split('-', ref)
                 designator_name += ''.join(re.findall(r'^d*\W', split_nums[0]))
                 split_nums = [re.sub(designator_name, '', split_nums[i]) for i in range(len(split_nums))]
-                
+
                 # Some EDAs may use some separator in the reference numeric parts, as
                 # Altium that use "." (or even other) e.g. "R2.1,R2.2" to the same "R2"
                 # replicated between schematics / rooms.
                 base_split_nums = ''.join(re.findall(r'^\d+\D', split_nums[0]))
                 split_nums = [''.join(re.findall(r'\D*(\d+)$', n)) for n in split_nums]
-                
+
                 split = list(range(int(split_nums[0]), int(split_nums[1])+1))
                 # split = [designator_name+str(split[i]) for i in range(len(split)) ]
                 split = [designator_name + base_split_nums+str(split[i]) for i in range(len(split))]
-                
+
                 refs += split
             elif re.search(r'[/\\]', ref):
                 designator_name = re.findall(r'^\D+', ref)[0]

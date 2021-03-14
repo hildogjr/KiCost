@@ -120,14 +120,14 @@ class api_partinfo_kitspace(distributor_class):
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
         '''Send query to server and return results.'''
-        
+
         # TODO this `dist_xlate` have to be better coded into this file.
         dist_xlate = distributors_modules_dict['api_partinfo_kitspace']['dist_translation']
 
         def find_key(input_dict, value):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
-        
+
         query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(distributors) + '"]', query_type)
         # r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
@@ -243,7 +243,7 @@ class api_partinfo_kitspace(distributor_class):
                                     logger.warning('No price information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
                                 else:
                                     dist_currency = list(offer['prices'].keys())
-                                    
+
                                     # Get the price tiers prioritizing:
                                     # 1) The asked currency by KiCOst user;
                                     # 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;
@@ -261,7 +261,7 @@ class api_partinfo_kitspace(distributor_class):
                                                 prices = offer['prices'][dist_c]
                                                 part.currency[dist] = dist_c
                                                 break
-                                    
+
                                     # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
                                     if prices:
                                         price_tiers = {qty: float(price) for qty, price in list(prices)}

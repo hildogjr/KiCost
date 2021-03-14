@@ -117,7 +117,7 @@ if sys.platform.startswith('win32'):
             print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             return False
-    
+
     def reg_del(name, key=HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
