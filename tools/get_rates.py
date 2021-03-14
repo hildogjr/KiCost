@@ -11,7 +11,7 @@ Should be used before each release.
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from kicost.currency_converter.download_rates import download_rates
+from kicost.currency_converter.download_rates import download_rates  # noqa: E402
 
 date, rates = download_rates()
 assert date
