@@ -238,9 +238,12 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Set some key with default values, needed for KiCost.
         # Have to be created after the loop above because of the
         # warning in the case of trying to re-write a key.
-        if 'libpart' not in fields: fields['libpart'] = 'Lib:???'
-        if 'footprint' not in fields: fields['footprint'] = 'Foot:???'
-        if 'value' not in fields: fields['value'] = '???'
+        if 'libpart' not in fields:
+            fields['libpart'] = 'Lib:???'
+        if 'footprint' not in fields:
+            fields['footprint'] = 'Foot:???'
+        if 'value' not in fields:
+            fields['value'] = '???'
 
         return refs, fields
     extract_fields.gen_cntr = 0

@@ -92,17 +92,20 @@ def get_running_processes(appname):
 def before(value, a):
     # Find first part and return slice before it.
     pos_a = value.find(a)
-    if pos_a == -1: return ""
+    if pos_a == -1:
+        return ""
     return value[0:pos_a]
 
 
 def after(value, a):
     # Find and validate first part.
     pos_a = value.find(a)
-    if pos_a == -1: return ""
+    if pos_a == -1:
+        return ""
     # Returns chars after the found string.
     adjusted_pos_a = pos_a + len(a)
-    if adjusted_pos_a >= len(value): return ""
+    if adjusted_pos_a >= len(value):
+        return ""
     return value[adjusted_pos_a:]
 
 
@@ -157,7 +160,8 @@ def read_config_file(path):
 
 def fields_add_entry(values_modify, re_flags=re.IGNORECASE):
     '''Add a list of fields to the Eeschema template.'''
-    if type(values_modify) is not list: values_modify = [values_modify]
+    if type(values_modify) is not list:
+        values_modify = [values_modify]
     config = read_config_file(PATH_EESCHEMA_CONFIG)
     values = [p for p in config if p.startswith("FieldNames")]
     changes = False
@@ -186,7 +190,8 @@ def fields_add_entry(values_modify, re_flags=re.IGNORECASE):
 
 def fields_remove_entry(values_modify, re_flags=re.IGNORECASE):
     '''Remove a list of fields from the Eeschema template.'''
-    if type(values_modify) is not list: values_modify = [values_modify]
+    if type(values_modify) is not list:
+        values_modify = [values_modify]
     config = read_config_file(PATH_EESCHEMA_CONFIG)
     values = [p for p in config if p.startswith("FieldNames")]
     changes = False
