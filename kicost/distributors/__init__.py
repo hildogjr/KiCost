@@ -24,7 +24,8 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from .global_vars import distributors_modules_dict
+# We really use distributor_dict to clear it
+from .global_vars import distributors_modules_dict, distributor_dict  # noqa: F401
 
 
 # Import and register here the API / local / scrape modules.
@@ -40,6 +41,7 @@ distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_partinfo_kit
 
 def init_distributor_dict():
     # Clear distributor_dict, then let all distributor modules recreate their entries.
+    global distributor_dict
     distributor_dict = {}
     for x in globals():
         if x.startswith("dist_") or x.startswith("api_") or x.startswith("scrape_"):

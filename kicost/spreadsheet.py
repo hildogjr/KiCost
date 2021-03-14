@@ -193,7 +193,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         START_ROW = 1+3*len(prj_info)
         LABEL_ROW = START_ROW + 1
         COL_HDR_ROW = LABEL_ROW + 1
-        FIRST_PART_ROW = COL_HDR_ROW + 1
+        # FIRST_PART_ROW = COL_HDR_ROW + 1
         LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
         next_row = 0
 
@@ -1310,8 +1310,8 @@ Orange -> Too little quantity available.'''
                         qty=purchase_qty
                     )
         # Now write the order_func into every row of the order in the given column.
-        dist_col = start_col + columns['unit_price']['col']
-        info_col = dist_col
+        # dist_col = start_col + columns['unit_price']['col']
+        # info_col = dist_col
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
             wks.write_array_formula(
                 xl_range(r, ORDER_START_COL, r, ORDER_START_COL), '{{={f}}}'.format(f=order_func))

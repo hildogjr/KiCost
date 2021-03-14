@@ -352,7 +352,7 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
-        qty = []
+        # qty = []
         for ref in grp.refs:
             for key, val in list(components[ref].items()):
                 if key == 'manf#_qty':

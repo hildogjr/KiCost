@@ -185,7 +185,7 @@ class api_octopart(distributor_class):
         logger.addHandler(logTqdmHandler)
         logger.removeHandler(logDefaultHandler)
 
-        FIELDS_CAT = ([d + '#' for d in distributor_dict])
+        # FIELDS_CAT = ([d + '#' for d in distributor_dict])
 
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = distributors_modules_dict['api_octopart']['dist_translation']

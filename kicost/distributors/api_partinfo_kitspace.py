@@ -322,7 +322,7 @@ class api_partinfo_kitspace(distributor_class):
         # that may be index by PartInfo. This is used to remove the
         # local distributors and future not implemented in the PartInfo
         # definition.
-        distributors_name_api = distributors_modules_dict['api_partinfo_kitspace']['dist_translation'].values()
+        # distributors_name_api = distributors_modules_dict['api_partinfo_kitspace']['dist_translation'].values()
 
         # Create queries to get part price/quantities from PartInfo.
         queries = []  # Each part reference query.

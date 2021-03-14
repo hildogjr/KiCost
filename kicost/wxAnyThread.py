@@ -75,7 +75,7 @@ class MethodInvocationEvent(wx.PyEvent):
         """Execute the method and signal that it is ready."""
         try:
             self.result = self.func(*self.args, **self.kwds)
-        except Exception as e:
+        except Exception:
             _, self.exception, self.traceback = sys.exc_info()
         self.event.set()
 

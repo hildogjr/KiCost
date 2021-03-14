@@ -40,7 +40,7 @@ from .global_vars import wxPythonNotPresent, logger, DEBUG_OBSESSIVE
 from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions.
 try:
     from .kicost_gui import kicost_gui, kicost_gui_runterminal  # User guide.
-except wxPythonNotPresent as e:
+except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
 from .distributors.global_vars import distributor_dict

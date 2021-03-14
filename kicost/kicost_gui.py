@@ -1139,7 +1139,7 @@ def kicost_gui_runterminal(args):
 
         @param List of the file name.
     '''
-    app = wx.App(redirect=False)
+    wx.App(redirect=False)
     frame = formKiCost(None)
 
     files = args.input
