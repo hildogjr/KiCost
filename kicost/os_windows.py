@@ -36,9 +36,13 @@ if sys.platform.startswith('win32'):
     if sys.version_info < (3, 0):
         from _winreg import (OpenKey, HKEY_CURRENT_USER, ConnectRegistry, KEY_READ, KEY_WOW64_64KEY, EnumValue, CloseKey, EnumKey, QueryValueEx, REG_SZ,
                              CreateKey, KEY_WRITE, SetValueEx, DeleteKey)
+        OpenKeyError = WindowsError
+        ConnectRegistryError = WindowsError
     else:
         from winreg import (OpenKey, HKEY_CURRENT_USER, ConnectRegistry, KEY_READ, KEY_WOW64_64KEY, EnumValue, CloseKey, EnumKey, QueryValueEx, REG_SZ,
                             CreateKey, KEY_WRITE, SetValueEx, DeleteKey)
+        OpenKeyError = FileNotFoundError  # noqa: F821
+        ConnectRegistryError = PermissionError  # noqa: F821
     __all__ = ['reg_enum_values', 'reg_enum_keys', 'reg_get', 'reg_set', 'reg_del']
 
     def reg_enum_values(path, key=HKEY_CURRENT_USER):
@@ -47,7 +51,7 @@ if sys.platform.startswith('win32'):
             reg = ConnectRegistry(None, key)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_READ)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             values = ()
             try:
@@ -70,7 +74,7 @@ if sys.platform.startswith('win32'):
             reg = ConnectRegistry(None, key)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_READ)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             sub_keys = []
             try:
@@ -91,7 +95,7 @@ if sys.platform.startswith('win32'):
             reg = ConnectRegistry(None, key)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_READ)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             value, regtype = QueryValueEx(registry_key, name)
             CloseKey(reg)
@@ -106,14 +110,14 @@ if sys.platform.startswith('win32'):
             CreateKey(reg, path)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_WRITE)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_WRITE | KEY_WOW64_64KEY)
             SetValueEx(registry_key, name, 0, key_type, value)
             CloseKey(reg)
             # Update the Windows behaviour.
             # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
-        except PermissionError:
+        except ConnectRegistryError:
             print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             return False
@@ -128,7 +132,7 @@ if sys.platform.startswith('win32'):
             # Update the Windows behaviour.
             # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
-        except PermissionError:
+        except ConnectRegistryError:
             print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             return False
