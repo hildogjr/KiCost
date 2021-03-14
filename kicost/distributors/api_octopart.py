@@ -305,7 +305,7 @@ class api_octopart(distributor_class):
         prev_i = 0  # Used to record index where parts query occurs.
         for i, part in enumerate(parts):
 
-            # Create an Octopart query using the manufacturer's part number or 
+            # Create an Octopart query using the manufacturer's part number or
             # distributor SKU.
             manf_code = part.fields.get('manf#')
             if manf_code:

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
 # MIT license
 #
@@ -101,8 +101,8 @@ def main():
                         type=str,
                         default=[],
                         metavar='NAME',
-                        help='''Specify the names of additional part fields to 
-                            extract and insert in the global data section of 
+                        help='''Specify the names of additional part fields to
+                            extract and insert in the global data section of
                             the spreadsheet.''')
     parser.add_argument('--translate_fields',
                         nargs='+',

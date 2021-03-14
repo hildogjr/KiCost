@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
 # MIT license
 #
@@ -371,7 +371,7 @@ class formKiCost(wx.Frame):
         fgSizer1.SetNonFlexibleGrowMode(wx.FLEX_GROWMODE_SPECIFIED)
 
         self.m_gauge_process = wx.Gauge(self.m_panel1, wx.ID_ANY, 100, wx.DefaultPosition, wx.DefaultSize, wx.GA_HORIZONTAL)
-        self.m_gauge_process.SetValue(0) 
+        self.m_gauge_process.SetValue(0)
         self.m_gauge_process.SetToolTip(wx.ToolTip(u"Percentage of the scrape process elapsed."))
         fgSizer1.Add(self.m_gauge_process, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 5)
         
@@ -421,7 +421,7 @@ class formKiCost(wx.Frame):
         bSizer11 = wx.BoxSizer(wx.VERTICAL)
 
         self.m_checkBox_collapseRefs = wx.CheckBox(self.m_panel2, wx.ID_ANY, u"Collapse refs", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_checkBox_collapseRefs.SetValue(True) 
+        self.m_checkBox_collapseRefs.SetValue(True)
         self.m_checkBox_collapseRefs.SetToolTip(wx.ToolTip(u"Collapse the references in the spreadsheet.\n'R1,R2,R3,R4,R9' become 'R1-R4,R9' with checked."))
         bSizer11.Add(self.m_checkBox_collapseRefs, 0, wx.ALL, 5)
 
@@ -436,7 +436,7 @@ class formKiCost(wx.Frame):
         bSizer11.Add(self.m_checkBox_quite, 0, wx.ALL, 5)
 
         self.m_checkBox_overwrite = wx.CheckBox(self.m_panel2, wx.ID_ANY, u"Overwrite file", wx.DefaultPosition, wx.DefaultSize, 0)
-        self.m_checkBox_overwrite.SetValue(True) 
+        self.m_checkBox_overwrite.SetValue(True)
         self.m_checkBox_overwrite.SetToolTip(wx.ToolTip(u"Allow overwriting of an existing spreadsheet."))
         bSizer11.Add(self.m_checkBox_overwrite, 0, wx.ALL, 5)
 

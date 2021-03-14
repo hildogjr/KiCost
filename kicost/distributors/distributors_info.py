@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # This file keep all the web distributors information used by the different API/scrap modules.
 
 # Author information.

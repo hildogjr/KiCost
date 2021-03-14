@@ -1,5 +1,5 @@
 #!python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2018 by Hildo Guillardi Júnior
@@ -226,7 +226,7 @@ def kicost_setup():
         else:
             print('Not recognized OS.\nShortcut not created!')
         for shotcut_directory in shotcut_directories:
-            if not create_shortcut('kicost', shotcut_directory, 
+            if not create_shortcut('kicost', shotcut_directory,
                                    'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
                                    'Generate a Cost Bill of Material for EDA softwares', 'BOM'):
                 print('Failed to create the KiCost shortcut!')

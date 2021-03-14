@@ -330,7 +330,7 @@ class api_partinfo_kitspace(distributor_class):
         query_part_stock_code = []  # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
         for part_idx, part in enumerate(parts):
 
-            # Create a PartInfo query using the manufacturer's part number or 
+            # Create a PartInfo query using the manufacturer's part number or
             # the distributor's SKU.
             query = None
             part_dist_use_manfpn = copy.copy(DISTRIBUTORS)

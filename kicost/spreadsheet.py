@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2019 by XESS Corporation / Hildo Guillardi Júnior
@@ -88,7 +88,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
     CURRENCY_FORMAT = CURRENCY_SYMBOL + '#,##0.00'
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
-        # Remove any special characters that might be illegal in a 
+        # Remove any special characters that might be illegal in a
         # worksheet name since the variant might be a regular expression.
         # Fix the maximum worksheet name, priorize the variant string cutting
         # the board project.
@@ -437,7 +437,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
         col_ids = list(columns.keys())
         user_field_id = user_field.lower()
         if user_field_id not in col_ids:
-            # Put user fields immediately to right of the 'desc' column. 
+            # Put user fields immediately to right of the 'desc' column.
             desc_col = columns.get('desc', columns['value'])['col']
             # Push all existing fields to right of 'desc' over by one column.
             # Use 'value' if 'desc' was removed due not value present in the BOM.
@@ -646,7 +646,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 }
             )
 
-            # If total available part quantity is less than needed quantity, color cell orange. 
+            # If total available part quantity is less than needed quantity, color cell orange.
             wks.conditional_format(
                 row, start_col + columns['qty']['col'],
                 row, start_col + columns['qty']['col'],
@@ -658,7 +658,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 }
             )
 
-            # If total purchased part quantity is less than needed quantity, color cell yellow. 
+            # If total purchased part quantity is less than needed quantity, color cell yellow.
             wks.conditional_format(
                 row, start_col + columns['qty']['col'],
                 row, start_col + columns['qty']['col'],
@@ -903,7 +903,7 @@ Orange -> Too little quantity available.'''
         else:
             wks.write(row, start_col + columns['avail']['col'],
                       'NonStk', wrk_formats['not_stocked'])
-            wks.write_comment(row, start_col + columns['avail']['col'], 
+            wks.write_comment(row, start_col + columns['avail']['col'],
                               'This part is listed but is not normally stocked.')
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
@@ -962,7 +962,7 @@ Orange -> Too little quantity available.'''
 
             # Conditional format to show no quantity is available.
             wks.conditional_format(
-                row, start_col + columns['avail']['col'], 
+                row, start_col + columns['avail']['col'],
                 row, start_col + columns['avail']['col'],
                 {
                     'type': 'cell',
@@ -974,7 +974,7 @@ Orange -> Too little quantity available.'''
 
             # Conditional format to show the available quantity is less than required.
             wks.conditional_format(
-                row, start_col + columns['avail']['col'], 
+                row, start_col + columns['avail']['col'],
                 row, start_col + columns['avail']['col'],
                 {
                     'type': 'cell',
@@ -987,7 +987,7 @@ Orange -> Too little quantity available.'''
             # Conditional format to show that the part have a minimum order quantity not respected.
             if minimum_order_qty > 1:
                 wks.conditional_format(
-                    row, start_col + columns['purch']['col'], 
+                    row, start_col + columns['purch']['col'],
                     row, start_col + columns['purch']['col'],
                     {
                         'type': 'formula',
@@ -1000,7 +1000,7 @@ Orange -> Too little quantity available.'''
                 )
             # Conditional format to show the purchase quantity is more than what is available.
             wks.conditional_format(
-                row, start_col + columns['purch']['col'], 
+                row, start_col + columns['purch']['col'],
                 row, start_col + columns['purch']['col'],
                 {
                     'type': 'cell',

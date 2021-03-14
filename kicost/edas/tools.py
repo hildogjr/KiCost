@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Júnior
@@ -199,7 +199,7 @@ def group_parts(components, fields_merge):
     # the identical groups or subsplit the seemingly identical parts.
     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
     # Calculated all the fields that never have to be used to create the hash keys.
-    # These include all the manufacture company and codes, distributors codes 
+    # These include all the manufacture company and codes, distributors codes
     # recognized by the installed modules and, quantity and sub quantity of the part.
     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
 
@@ -887,7 +887,7 @@ def split_refs(text):
             else:
                 refs += [ref.strip()]
         else:
-            # The designator name is not for a group of components and 
+            # The designator name is not for a group of components and
             # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
             ref = re.sub(r'[\-\/\\]', '', ref.strip())
