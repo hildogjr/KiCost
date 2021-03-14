@@ -20,12 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Libraries.
-
-
-from .global_vars import *
-
-
 __all__ = ['eda_class']
 
 

@@ -33,14 +33,18 @@ __company__ = 'University of Campinas - Brazil'
 # Python libraries.
 import os
 import sys
-from .global_vars import *  # Debug, language and default configurations.
+from .global_vars import PLATFORM_WINDOWS_STARTS_WITH, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH  # Debug, language and default configurations.
 
 __all__ = ['kicost_setup', 'kicost_unsetup']
 
 if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-    from .os_windows import *
+    from .os_windows import reg_set, reg_del, reg_get
+    if sys.version_info < (3, 0):
+        import _winreg as winreg
+    else:
+        import winreg
 
-from .kicad_config import *
+from .kicad_config import get_app_config_path, bom_plugin_add_entry, bom_plugin_remove_entry, fields_add_entry, fields_remove_entry
 
 EESCHEMA_KICOST_FIELDS = ['manf#', 'desc', 'variant']
 WIN_USR_FOLDERS = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
@@ -60,7 +64,6 @@ def install_kicad_plugin(path):
 def create_os_contex_menu(kicost_path):
     '''Create the OS context menu to recognized KiCost files (XML/CSV).'''
     try:
-        import wx  # wxWidgets for Python.
         # print('GUI requirements (wxPython) identified.')
         have_gui = True
     except ImportError:
@@ -202,7 +205,7 @@ def kicost_setup():
         if sys.version_info >= (3, 0):
             ans = input(MESSAGE)
         else:
-            ans = raw_input(MESSAGE)
+            ans = raw_input(MESSAGE)  # noqa: F821
         if ans.lower() in ['y', 'yes']:
             try:
                 from pip import main as pipmain

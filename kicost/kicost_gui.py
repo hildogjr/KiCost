@@ -29,7 +29,8 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import *  # Debug, language and default configurations.
+from .global_vars import (logger, wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
+                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEFAULT_LANGUAGE)
 
 # Libraries.
 try:
@@ -42,7 +43,6 @@ import os
 import subprocess  # To access OS commands and run in the shell.
 import threading
 import time  # To elapse time.
-import platform  # To check the system platform when open the XLS file.
 import tempfile  # To create the temporary log file.
 from datetime import datetime  # To create the log name, when asked to save.
 from distutils.version import StrictVersion  # To comparative of versions.
@@ -54,7 +54,7 @@ import requests
 
 # KiCost libraries.
 from . import __version__  # Version control by @xesscorp and collaborator.
-from .kicost import *  # kicost core functions.
+from .kicost import kicost, output_filename  # kicost core functions.
 from .distributors import init_distributor_dict
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
@@ -67,7 +67,8 @@ if sys.platform.startswith("win32"):
         from winreg import HKEY_LOCAL_MACHINE
 
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
-
+# TODO this variable was used locally and referred globally
+libreoffice_executable = None
 
 # =================================
 # Guide definitions.
@@ -325,6 +326,7 @@ class formKiCost(wx.Frame):
         self.m_checkBox_XLSXtoODS.Bind(wx.EVT_CHECKBOX, self.updateOutputFilename)
         bSizer6.Add(self.m_checkBox_XLSXtoODS, 0, wx.ALL, 5)
         # LibreOffice identification
+        global libreoffice_executable
         if sys.platform.startswith("win32"):
             try:
                 libreoffice_reg = r'SOFTWARE\LibreOffice\LibreOffice'
@@ -697,7 +699,7 @@ class formKiCost(wx.Frame):
         if sys.version_info >= (3, 0):
             sorted_files = sorted(filesName, key=str.lower)
         else:
-            sorted_files = sorted(filesName, key=unicode.lower)
+            sorted_files = sorted(filesName, key=unicode.lower)  # noqa: F821
         fileBOM = SEP_FILES.join(sorted_files)  # Add the files sorted.
         if self.m_comboBox_files.FindString(fileBOM) == wx.NOT_FOUND:
             self.m_comboBox_files.Insert(fileBOM, 0)

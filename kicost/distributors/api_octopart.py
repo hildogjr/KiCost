@@ -25,19 +25,17 @@ import json
 import requests
 import logging
 import tqdm
-import copy
 import re
 from collections import Counter
 from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
-from ..edas.tools import order_refs
+from .global_vars import distributors_modules_dict, distributor_dict
+from ..global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW
 
 # Distributors definitions.
 from .distributor import distributor_class
 from .distributors_info import distributors_info
-from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
 
 # Author information.
 __author__ = 'XESS Corporation'
@@ -122,7 +120,7 @@ class api_octopart(distributor_class):
         mpn_cnts = Counter(mpns)
         return mpn_cnts.most_common(1)[0][0]  # Return the most common MPN.
 
-    def skus_to_mpns(parts, distributors):
+    def skus_to_mpns(parts, distributors, apiKey):
         """Find manufaturer's part number for all parts with just distributor SKUs."""
         for i, part in enumerate(parts):
 
@@ -227,12 +225,12 @@ class api_octopart(distributor_class):
                             try:
                                 price_tiers = {}  # Empty dict in case of exception.
                                 dist_currency = list(offer['prices'].keys())
-                                parts[idx].currency[dist] = dist_currency[0]
+                                parts[i].currency[dist] = dist_currency[0]
                                 price_tiers = {qty: float(price) for qty, price in list(offer['prices'].values())[0]}
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
-                                if dist not in parts[idx].price_tiers:
-                                    parts[idx].price_tiers[dist] = {}
+                                if dist not in parts[i].price_tiers:
+                                    parts[i].price_tiers[dist] = {}
                                 parts[i].price_tiers[dist].update(price_tiers)
                             except Exception:
                                 pass  # Price list is probably missing so leave empty default dict in place.
@@ -279,6 +277,8 @@ class api_octopart(distributor_class):
                                     # Keeps the information of more availability.
                                     parts[i].qty_avail[dist] = offer.get('in_stock_quantity')
                                 ign_stock_code = distributors_info[dist].get('ignore_cat#_re', '')
+                                # TODO dist_part_num wan't defined, I copied it from KitSpace API
+                                dist_part_num = offer.get('sku', '').get('part', '')
                                 valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
                                 if valid_part and \
                                     (not part.part_num[dist] or

@@ -30,7 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 import os
 from collections import OrderedDict
-from ..global_vars import *  # Debug, language and default configurations.
+from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED  # Debug, language and default configurations.
 from ..distributors.global_vars import distributor_dict
 from .global_vars import eda_dict  # EDA dictionary with the features.
 
@@ -509,6 +509,7 @@ def subpartqty_split(components):
             founded_fields = []
             subparts_qty = 0
             subparts_manf_code = dict()
+            field_code_last = None
             for field_code in FIELDS_MANF:
                 if field_code in part:
                     subparts_qty_field = len(subpart_list(part[field_code]))

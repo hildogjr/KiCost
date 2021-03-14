@@ -35,17 +35,11 @@ import time
 from datetime import datetime
 import csv  # CSV file reader.
 import re  # Regular expression parser.
-import logging
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE  # Debug configurations.
+from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from .global_vars import eda_dict
 from .tools import field_name_translations, remove_dnp_parts, split_refs
 from ..distributors.global_vars import distributor_dict
 from .eda import eda_class
-
-
-class generic_csv(eda_class):
-    def __init__(self):
-        pass
 
 
 # Add to deal with the generic CSV header purchase list.
@@ -270,3 +264,12 @@ def get_part_groups(in_file, ignore_fields, variant):
                 'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 
     return remove_dnp_parts(accepted_components, variant), prj_info
+
+
+class generic_csv(eda_class):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def get_part_groups(in_file, ignore_fields, variant):
+        return get_part_groups(in_file, ignore_fields, variant)

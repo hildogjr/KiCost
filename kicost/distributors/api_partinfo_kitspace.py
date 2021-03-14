@@ -35,11 +35,11 @@ import logging
 import tqdm
 import copy
 import re
-from collections import Counter
 # from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from .global_vars import *  # Debug information, `distributor_dict` and `SEPRTR`.
+from ..global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW
+from .global_vars import distributors_modules_dict, distributor_dict
 from ..edas.tools import order_refs
 
 # Distributors definitions.

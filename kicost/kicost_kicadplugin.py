@@ -27,7 +27,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
-from pcbnew import *  # KiCad Python library.
+from pcbnew import ActionPlugin, GetBoard  # KiCad Python library.
 import os
 import subprocess
 

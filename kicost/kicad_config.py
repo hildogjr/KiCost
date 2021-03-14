@@ -37,7 +37,7 @@ try:
     import sexpdata  # Try to use a external updated library.
 except:
     from . import sexpdata  # Use the local file.
-from .global_vars import *  # Debug, language and default configurations.
+from .global_vars import PLATFORM_MACOS_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH  # Debug, language and default configurations.
 
 __all__ = ['get_app_config_path',
            'PATH_KICAD_CONFIG', 'PATH_EESCHEMA_CONFIG',
@@ -78,15 +78,15 @@ def get_user_documents():
     return user_documents
 
 
-def get_running_processes(appname):
-    processes = []
-    for p in psutil.process_iter():
-        try:
-            if p.name().lower().startswith(appname):
-                processes.append(p)
-        except psutil.Error:
-            pass
-    return processes
+# def get_running_processes(appname):
+#     processes = []
+#     for p in psutil.process_iter():
+#         try:
+#             if p.name().lower().startswith(appname):
+#                 processes.append(p)
+#         except psutil.Error:
+#             pass
+#     return processes
 
 
 def before(value, a):
@@ -169,8 +169,9 @@ def fields_add_entry(values_modify, re_flags=re.IGNORECASE):
         values = after(values[0], "FieldNames=")
         values = de_escape(values)
         values = sexpdata.loads(values)
+        # TODO validate it, was using an undefined variable `name`
         if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-            name = name.replace("\\", '/')
+            values = values.replace("\\", '/')
         for idx, value_modify in enumerate(values_modify):
             value_found = False
             for idx, value in enumerate(values[1:]):
@@ -200,8 +201,9 @@ def fields_remove_entry(values_modify, re_flags=re.IGNORECASE):
         values = after(values[0], "FieldNames=")
         values = de_escape(values)
         values = sexpdata.loads(values)
+        # TODO validate it, was using an undefined variable `name`
         if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-            name = name.replace("\\", '/')
+            values = values.replace("\\", '/')
         for value_modify in values_modify:
             for idx, value in enumerate(values[1:]):
                 search = value[1]

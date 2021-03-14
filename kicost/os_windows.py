@@ -34,9 +34,11 @@ import sys
 if sys.platform.startswith('win32'):
     # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
     if sys.version_info < (3, 0):
-        from _winreg import *
+        from _winreg import (OpenKey, HKEY_CURRENT_USER, ConnectRegistry, KEY_READ, KEY_WOW64_64KEY, EnumValue, CloseKey, EnumKey, QueryValueEx, REG_SZ,
+                             CreateKey, KEY_WRITE, SetValueEx, DeleteKey)
     else:
-        from winreg import *
+        from winreg import (OpenKey, HKEY_CURRENT_USER, ConnectRegistry, KEY_READ, KEY_WOW64_64KEY, EnumValue, CloseKey, EnumKey, QueryValueEx, REG_SZ,
+                            CreateKey, KEY_WRITE, SetValueEx, DeleteKey)
     __all__ = ['reg_enum_values', 'reg_enum_keys', 'reg_get', 'reg_set', 'reg_del']
 
     def reg_enum_values(path, key=HKEY_CURRENT_USER):
@@ -56,8 +58,9 @@ if sys.platform.startswith('win32'):
             except WindowsError:
                 pass
             return values
-            CloseKey(reg)
-            return value
+            # TODO this portion of code was unreachable, remove?
+            # CloseKey(reg)
+            # return value
         except WindowsError:
             return None
 

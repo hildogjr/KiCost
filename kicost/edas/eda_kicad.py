@@ -21,23 +21,17 @@
 # THE SOFTWARE.
 
 # Libraries.
-import sys
 import os
 import time
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, SEPRTR
+from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, SEPRTR
 from .global_vars import eda_dict
 from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 from .eda import eda_class
-
-
-class eda_altium(eda_class):
-    def __init__(self):
-        pass
 
 
 __all__ = ['get_part_groups']
@@ -220,3 +214,12 @@ def get_part_groups(in_file, ignore_fields, variant):
         components[str(c['ref'])] = fields
 
     return remove_dnp_parts(components, variant), prj_info
+
+
+class eda_kicad(eda_class):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def get_part_groups(in_file, ignore_fields, variant):
+        return get_part_groups(in_file, ignore_fields, variant)

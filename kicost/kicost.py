@@ -45,7 +45,6 @@ from __future__ import print_function
 import sys
 import os
 import pprint
-import tqdm
 from collections import OrderedDict
 
 # Stops UnicodeDecodeError exceptions.
@@ -57,14 +56,12 @@ except NameError:
 
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences']  # Only export this routine for use by the outside world.
 
-from .global_vars import *
+from .global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED
 
 # TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
 # from .distributors.api_octopart import api_octopart
 from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
 from .distributors.dist_local_template import dist_local_template
-from .distributors.distributor import distributor_class
-from .distributors.global_vars import distributors_modules_dict
 
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
@@ -72,10 +69,9 @@ from .edas.tools import field_name_translations
 from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
 # Import information about various distributors.
-from .distributors.distributor import *
 from .distributors.global_vars import distributor_dict
 # Creation of the final XLSX spreadsheet.
-from .spreadsheet import *
+from .spreadsheet import create_spreadsheet
 
 
 def kicost(in_file, eda_name, out_filename,
@@ -130,10 +126,10 @@ def kicost(in_file, eda_name, out_filename,
     user_fields = list(set(user_fields))
     for f in user_fields:
         if f.lower() in field_name_translations.keys():
-            logger.warning("\"{f}\" field is a reserved field and can not be used user filed."
-                           " Try to remove it from internal dictionary using `--translate_filed {f} ~`".format(f=f.lower())
+            logger.warning("\"{f}\" field is a reserved field and can not be used as user field."
+                           " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower())
                            )
-            user_fields.remove(x)
+            user_fields.remove(f)
 
     # Only keep distributors in the included list and not in the excluded list.
     if dist_list is not None:

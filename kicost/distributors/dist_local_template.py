@@ -23,13 +23,19 @@
 # Libraries.
 import copy
 import re
-import logging
+import sys
 
 # Distributors definitions.
 from .distributor import distributor_class
-from .global_vars import *
+from ..global_vars import DEFAULT_CURRENCY, SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE
+from .global_vars import distributor_dict, distributors_modules_dict
 
 __all__ = ['dist_local_template']
+
+if sys.version_info[0] < 3:
+    from urlparse import urlsplit, urlunsplit
+else:
+    from urllib.parse import urlsplit, urlunsplit
 
 
 class dist_local_template(distributor_class):

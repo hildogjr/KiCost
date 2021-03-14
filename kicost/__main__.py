@@ -33,12 +33,13 @@ import logging
 import time
 # import inspect # To get the internal module and informations of a module/class.
 
-from .global_vars import *  # Debug, language and default configurations.
+# Debug, language and default configurations.
+from .global_vars import wxPythonNotPresent, logger, DEBUG_OBSESSIVE
 
 # KiCost definitions and modules/packages functions.
-from .kicost import *  # kicost core functions.
+from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions.
 try:
-    from .kicost_gui import *  # User guide.
+    from .kicost_gui import kicost_gui, kicost_gui_runterminal  # User guide.
 except wxPythonNotPresent as e:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass

@@ -36,19 +36,13 @@ if sys.version_info < (3, 0):
 from datetime import datetime
 from bs4 import BeautifulSoup  # To Read XML files.
 import re  # Regular expression parser.
-import logging
-from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE  # Debug configurations.
+from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from ..global_vars import SEPRTR
 from .global_vars import eda_dict
 from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 from .tools import PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
-
-
-class eda_altium(eda_class):
-    def __init__(self):
-        pass
 
 
 # Add to deal with the fileds of Altium and WEB tools.
@@ -214,3 +208,12 @@ def get_part_groups(in_file, ignore_fields, variant):
                 'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 
     return remove_dnp_parts(accepted_components, variant), prj_info
+
+
+class eda_altium(eda_class):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def get_part_groups(in_file, ignore_fields, variant):
+        return get_part_groups(in_file, ignore_fields, variant)

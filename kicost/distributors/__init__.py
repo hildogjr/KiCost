@@ -24,14 +24,14 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from .global_vars import *
+from .global_vars import distributors_modules_dict
 
 
 # Import and register here the API / local / scrape modules.
 
-from .dist_local_template import *  # Template for local distributors entry.
-# from .api_octopart import *
-from .api_partinfo_kitspace import *
+from .dist_local_template import dist_local_template  # Template for local distributors entry.
+# from .api_octopart import api_octopart
+from .api_partinfo_kitspace import api_partinfo_kitspace
 
 distributors_modules_dict['dist_local_template'] = {'handle': dist_local_template}
 # distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_octopart}

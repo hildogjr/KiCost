@@ -22,9 +22,9 @@
 # THE SOFTWARE.
 
 # Import and register here the file read modules.
-from .eda_kicad import *
-from .eda_altium import *
-from .generic_csv import *
+from .eda_kicad import eda_kicad
+from .eda_altium import eda_altium
+from .generic_csv import generic_csv
 from .global_vars import eda_modules
 # Here we export edas.global_vars.eda_dict as edas.eda_dict
 from .global_vars import eda_dict  # noqa: F401
