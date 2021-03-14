@@ -140,7 +140,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             value = re.split(ALTIUM_PART_SEPRTR, value)
             if hdr.lower() in ign_fields:
                 continue
-            elif not SEPRTR in hdr.lower():
+            elif SEPRTR not in hdr.lower():
                 for i in range(qty):
                     if len(value) == qty:
                         v = value[i]

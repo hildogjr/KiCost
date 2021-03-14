@@ -93,7 +93,7 @@ class api_partinfo_kitspace(distributor_class):
     def init_dist_dict():
         api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
         dists = {k: v for k, v in distributors_info.items() if k in api_distributors}
-        if not 'enabled' in distributors_modules_dict['api_partinfo_kitspace']:
+        if 'enabled' not in distributors_modules_dict['api_partinfo_kitspace']:
             # First module load.
             distributors_modules_dict.update({'api_partinfo_kitspace': {
                                             'type': 'api', 'url': 'https://kitspace.org/',  # Web site API information.
@@ -267,7 +267,7 @@ class api_partinfo_kitspace(distributor_class):
                                         price_tiers = {qty: float(price) for qty, price in list(prices)}
                                         # Combine price lists for multiple offers from the same distributor
                                         # to build a complete list of cut-tape and reeled components.
-                                        if not dist in part.price_tiers:
+                                        if dist not in part.price_tiers:
                                             part.price_tiers[dist] = {}
                                         part.price_tiers[dist].update(price_tiers)
                             except TypeError:

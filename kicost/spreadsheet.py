@@ -1225,7 +1225,7 @@ Orange -> Too little quantity available.'''
         for col in cols:
             # Deal with conversion and string replace necessary to the correct distributors
             # code understanding.
-            if col == None or \
+            if col is None or \
                     (col not in columns and
                      col not in columns_global):
                 # Create an empty column escaping all the information, same when is asked

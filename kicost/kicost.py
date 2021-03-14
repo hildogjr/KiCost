@@ -136,13 +136,13 @@ def kicost(in_file, eda_name, out_filename,
             user_fields.remove(x)
 
     # Only keep distributors in the included list and not in the excluded list.
-    if dist_list != None:
+    if dist_list is not None:
         if not dist_list:
             dist_list = list(distributor_dict.keys())
-        if not 'local_template' in dist_list:
+        if 'local_template' not in dist_list:
             dist_list += ['local_template']  # Needed later for creating non-web distributors.
         for d in list(distributor_dict.keys()):
-            if not d in dist_list:
+            if d not in dist_list:
                 distributor_dict.pop(d, None)
     else:
         for d in list(distributor_dict.keys()):
@@ -197,7 +197,7 @@ def kicost(in_file, eda_name, out_filename,
         for f in fields:
             # Merge all extra fields that read on the files that will
             # not be displayed (Needed to check `user_fields`).
-            if f not in FIELDS_IGNORE and SEPRTR not in f and not f in group_fields:
+            if f not in FIELDS_IGNORE and SEPRTR not in f and f not in group_fields:
                 # Not include repetitive field names or fields with the separator `:` defined on `SEPRTR`.
                 group_fields += [f]
 
@@ -221,13 +221,13 @@ def kicost(in_file, eda_name, out_filename,
     for p in parts:
         all_fields += list(p.fields.keys())
     all_fields = set(all_fields)
-    if not 'manf#' in all_fields:
+    if 'manf#' not in all_fields:
         dist_not_rmv = [d for d in distributor_dict.keys() if d+'#' in all_fields]
         dist_not_rmv += ['local_template']  # Needed later for creating non-web distributors.
         # distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}
         distributors = distributor_dict.copy().keys()
         for d in distributors:
-            if not d in dist_not_rmv:
+            if d not in dist_not_rmv:
                 logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
                                d, distributor_dict[d]['label']['name'])
                 distributor_dict.pop(d, None)

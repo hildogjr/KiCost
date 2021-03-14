@@ -1016,7 +1016,7 @@ class formKiCost(wx.Frame):
                 try:
                     # Each wxPython object have a specific parameter value
                     # to be saved and restored in the software initialization.
-                    if isinstance(wxElement_handle, wx._core.TextCtrl) and not wxElement_name in ['m_textCtrl_messages', 'm_text_credits', 'm_text_saveas']:
+                    if isinstance(wxElement_handle, wx._core.TextCtrl) and wxElement_name not in ['m_textCtrl_messages', 'm_text_credits', 'm_text_saveas']:
                         # Save each TextCtrl (TextBox) that is not the status messages or credits.
                         configHandle.Write(wxElement_name, wxElement_handle.GetValue())
                     elif isinstance(wxElement_handle, wx._core.CheckBox):
@@ -1148,7 +1148,7 @@ def kicost_gui_runterminal(args):
     for k_a in list(args.__dict__.keys()):
         if k_a == 'input' or k_a == 'user' or k_a == 'guide' or k_a == 'help':
             pass
-        elif isinstance(args.__dict__[k_a], bool) and args.__dict__[k_a] == True:
+        elif isinstance(args.__dict__[k_a], bool) and args.__dict__[k_a]:
             options_cmd += '--' + k_a
         elif isinstance(args.__dict__[k_a], float) or isinstance(args.__dict__[k_a], int) and args.__dict__[k_a]:
             options_cmd += '--' + k_a + str(args.__dict__[k_a])

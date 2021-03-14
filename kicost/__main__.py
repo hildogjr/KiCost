@@ -220,9 +220,9 @@ def main():
         return
 
     # Set up spreadsheet output file.
-    if args.output == None:
+    if args.output is None:
         # If no output file is given...
-        if args.input != None:
+        if args.input is not None:
             # Send output to spreadsheet with name of input file.
             # Compose a name with the multiple BOM input file names.
             args.output = output_filename(args.input)
@@ -256,7 +256,7 @@ def main():
             kicost_gui_notdependences()
         return
 
-    if args.input == None:
+    if args.input is None:
         try:
             kicost_gui()  # Use the user gui if no input is given.
         except (ImportError, NameError):

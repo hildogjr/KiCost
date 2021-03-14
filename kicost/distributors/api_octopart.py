@@ -59,7 +59,7 @@ class api_octopart(distributor_class):
     def init_dist_dict():
         api_distributors = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
         dists = {k: v for k, v in distributors_info.items() if k in api_distributors}
-        if not 'enabled' in distributors_modules_dict['api_octopart']:
+        if 'enabled' not in distributors_modules_dict['api_octopart']:
             # First module load.
             distributors_modules_dict.update({'api_octopart': {
                                             'type': 'api',  # Module type, could be 'api', 'scrape' or 'local'.
@@ -231,7 +231,7 @@ class api_octopart(distributor_class):
                                 price_tiers = {qty: float(price) for qty, price in list(offer['prices'].values())[0]}
                                 # Combine price lists for multiple offers from the same distributor
                                 # to build a complete list of cut-tape and reeled components.
-                                if not dist in parts[idx].price_tiers:
+                                if dist not in parts[idx].price_tiers:
                                     parts[idx].price_tiers[dist] = {}
                                 parts[i].price_tiers[dist].update(price_tiers)
                             except Exception:
@@ -343,7 +343,7 @@ class api_octopart(distributor_class):
             if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
                 get_part_info(octopart_query, parts)
                 progress.update(i - prev_i)  # Update progress bar.
-                prev_i = i;
+                prev_i = i
                 octopart_query = []  # Get ready for next batch.
 
         # Query Octopart for the last batch of parts.

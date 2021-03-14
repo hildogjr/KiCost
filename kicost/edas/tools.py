@@ -671,7 +671,7 @@ def partgroup_qty(component):
             # the quantities needed in all projects BOMs.
             string = ['={{}}*({qp})'.format(qp=i) for i in qty]
         else:
-            if qty != '1' and qty != None:
+            if qty != '1' and qty is not None:
                 string = '=CEILING({{}}*({q})*{qty},1)'.format(
                                 q=qty,
                                 qty=len(component.refs))

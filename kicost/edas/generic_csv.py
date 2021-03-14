@@ -175,7 +175,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         idx = [i for i, x in enumerate(header) if x == key]
         value = None
         for i in idx:
-            if len(idx) > 1 and value != None and value != vals[header_file[i]]:
+            if len(idx) > 1 and value is not None and value != vals[header_file[i]]:
                 logger.warning('Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
                     key, value, vals[header_file[i]])
                     )
