@@ -183,7 +183,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         try:
             vals = next(csv.DictReader([row.replace("'", '"')], fieldnames=header_file, delimiter=dialect.delimiter))
-        except:
+        except Exception:
             # If had a error when tried to read a line maybe a 'EmptyLine',
             # normally at the end of the file or after the header and before
             # the first part.
@@ -222,7 +222,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                             logger.warning('Found different duplicated information for {} in the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'
                                            .format(refs, h, h_file, fields[h], value, value)
                                            )
-                    except:
+                    except KeyError:
                         pass
                     finally:
                         # Use the translated header title, this is used to deal
@@ -252,7 +252,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Get the values for the fields in each library part (if any).
         try:
             refs, fields = extract_fields(row)
-        except:
+        except Exception:
             # If error in one line, try get the part proprieties in last one.
             continue
         for ref in refs:

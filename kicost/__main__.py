@@ -64,7 +64,7 @@ def kicost_version_info():
     try:
         import wx
         version_info_str += 'Graphical library: {}.'.format(wx.version())
-    except:
+    except ImportError:
         version_info_str += 'No graphical library installed for the GUI.'
     # version_info_str += r'\n'
     return version_info_str

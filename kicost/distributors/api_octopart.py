@@ -172,7 +172,7 @@ class api_octopart(distributor_class):
                     self.flush()
                 except (KeyboardInterrupt, SystemExit):
                     raise
-                except:
+                except Exception:
                     self.handleError(record)
                 pass
 
@@ -330,7 +330,7 @@ class api_octopart(distributor_class):
                         logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                                 q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                                 f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
-                    except:
+                    except KeyError:
                         pass
                 except IndexError:
                     # No MPN or SKU, so skip this part.

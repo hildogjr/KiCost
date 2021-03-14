@@ -360,7 +360,7 @@ def group_parts(components, fields_merge):
                         for i in range(len(val)):
                             grp_fields['manf#_qty'][i] += '+' + val[i]  # DUMMY way and need improvement to really do arithmetic and not string cat. #TODO
                             val[i] = grp_fields['manf#_qty'][i]  # Make the first values take also equal.
-                    except:
+                    except (TypeError, KeyError):
                         grp_fields['manf#_qty'] = val
                     continue
                 if val is None:  # Field with no value...

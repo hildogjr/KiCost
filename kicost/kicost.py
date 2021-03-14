@@ -176,7 +176,7 @@ def kicost(in_file, eda_name, out_filename,
             for p_ref in list(p.keys()):
                 try:
                     qty_base[i_prj] = p[p_ref]['manf#_qty']
-                except:
+                except KeyError:
                     qty_base[i_prj] = '1'
                 p[p_ref]['manf#_qty'] = qty_base.copy()
                 p[PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p.pop(p_ref)

@@ -122,7 +122,7 @@ def get_part_groups(in_file, ignore_fields, variant):
             if qty != len(refs):
                 raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, `'
                                  ' to `,` or better, use `;` instead `,`.')
-        except:
+        except Exception:
             qty = len(refs)
         
         # After the others fields.

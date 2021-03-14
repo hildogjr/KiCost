@@ -161,10 +161,10 @@ class api_partinfo_kitspace(distributor_class):
                 try:
                     if d['key'] == item:
                         return d['value']
-                except:
+                except KeyError:
                     continue
             return default
-        except:
+        except Exception:
             return default
 
     @staticmethod
@@ -185,7 +185,7 @@ class api_partinfo_kitspace(distributor_class):
                     self.flush()
                 except (KeyboardInterrupt, SystemExit):
                     raise
-                except:
+                except Exception:
                     self.handleError(record)
                 pass
         # Get handles to default sys.stdout logging handler and the

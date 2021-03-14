@@ -337,7 +337,7 @@ class formKiCost(wx.Frame):
                         os.path.join(libreoffice_reg, os.path.join(libreoffice_reg, libreoffice_installations[-1]), 'Path'),
                         HKEY_LOCAL_MACHINE)
                 logger.log(DEBUG_OVERVIEW, 'Last LibreOffice installation at {}.'.format(libreoffice_executable))
-            except:
+            except Exception:
                 logger.log(DEBUG_OVERVIEW, 'LibreOffice not found.')
                 libreoffice_executable = None
         else:
@@ -602,7 +602,7 @@ class formKiCost(wx.Frame):
                     # self.m_staticText_update.Bind(wx.EVT_LEFT_UP, self.m_staticText_update_click)
                 else:
                     self.m_button_check_updates.SetLabel(u"KiCost is up to date")
-            except:
+            except Exception:
                 self.m_button_check_updates.SetLabel(u"No information")
         wx.CallLater(50, checkUpdate)  # Thread optimized for graphical elements change.
 
@@ -706,7 +706,7 @@ class formKiCost(wx.Frame):
         self.m_comboBox_files.SetValue(fileBOM)
         try:
             self.m_comboBox_files.Delete(self.m_spinCtrl_histotyLen.GetValue()-1)  # Keep 10 files on history.
-        except:
+        except Exception:
             pass
         self.updateEDAselection()
 
@@ -766,9 +766,9 @@ class formKiCost(wx.Frame):
                 for c in commands:
                     try:
                         return ''.join(re.findall(c+' (.+)', extra_commands))
-                    except:
+                    except Exception:
                         continue
-            except:
+            except Exception:
                 pass
             finally:
                 return ''
@@ -889,7 +889,7 @@ class formKiCost(wx.Frame):
             credits_file = open(os.path.join(kicostPath, 'AUTHORS.rst'))
             credits = credits_file.read()
             credits_file.close()
-        except:
+        except Exception:
             credits = r'''=======
             Credits
             =======
@@ -1107,7 +1107,7 @@ def kicost_gui(files=None):
                              int(re.findall(r'^.*\s(\d+)\%', msg)[0]))  # Perceptual.
                 wx.CallAfter(frame.m_staticText_progressInfo.SetLabel,
                              re.findall(r'\|+?\s(.*)$', msg)[0])  # Eta.
-            except:
+            except Exception:
                 sys.__stderr__.write(msg)
 
         def flush(self):

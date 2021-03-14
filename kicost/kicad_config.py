@@ -35,7 +35,7 @@ import re
 
 try:
     import sexpdata  # Try to use a external updated library.
-except:
+except ImportError:
     from . import sexpdata  # Use the local file.
 from .global_vars import PLATFORM_MACOS_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH  # Debug, language and default configurations.
 

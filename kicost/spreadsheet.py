@@ -512,7 +512,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                             # Use the the datasheet link got in the distributor if not
                             # available any in the BOM / schematic.
                             link = part.datasheet
-                        except:
+                        except AttributeError:
                             pass
                     try:
                         lifecycle = part.lifecycle
@@ -520,7 +520,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                             cell_format = wrk_formats['part_format_obsolete']
                         else:
                             cell_format = wrk_formats['part_format']
-                    except:
+                    except AttributeError:
                         cell_format = wrk_formats['part_format']
                         pass
                     if link and validate_url(link):
@@ -881,7 +881,7 @@ Orange -> Too little quantity available.'''
             comment = '\n'.join(sorted([k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
             if comment:
                 wks.write_comment(row, start_col + columns['part_num']['col'], comment)
-        except:
+        except Exception:
             pass
 
         # Enter a link to the distributor webpage for this part, even if there

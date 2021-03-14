@@ -141,7 +141,7 @@ class dist_local_template(distributor_class):
                 try:
                     try:
                         local_currency = re.findall('[a-zA-Z]{3}', pricing)[0].upper()
-                    except:
+                    except Exception:
                         local_currency = DEFAULT_CURRENCY
                     pricing = re.sub('[^0-9.;:]', '', pricing)  # Keep only digits, decimals, delimiters.
                     for qty_price in pricing.split(';'):
@@ -159,5 +159,5 @@ class dist_local_template(distributor_class):
         # It has served its purpose.
         try:
             del distributors['local_template']
-        except:
+        except Exception:
             pass
