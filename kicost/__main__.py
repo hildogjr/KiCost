@@ -209,7 +209,10 @@ def main():
         log_level = logging.ERROR
     else:
         log_level = logging.WARNING
-    logging.basicConfig(level=log_level, format='%(message)s')
+    # The GUI needs to redirect the logger
+    # So we initialize it only if no GUI
+    if not (args.gui or args.user or args.input is None):
+        logging.basicConfig(level=log_level, format='%(message)s')
 
     if args.show_dist_list:
         print('Distributor list:', *sorted(list(distributor_dict.keys())))
@@ -238,7 +241,7 @@ def main():
     # saved user configurations of the graphical interface.
     if args.user:
         try:
-            kicost_gui_runterminal(args)
+            kicost_gui_runterminal(args, log_level=log_level)
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
@@ -252,14 +255,14 @@ def main():
 
     if args.gui:
         try:
-            kicost_gui([os.path.abspath(fileName) for fileName in args.gui])
+            kicost_gui([os.path.abspath(fileName) for fileName in args.gui], log_level=log_level)
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
 
     if args.input is None:
         try:
-            kicost_gui()  # Use the user gui if no input is given.
+            kicost_gui(log_level=log_level)  # Use the user gui if no input is given.
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
