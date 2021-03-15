@@ -14,8 +14,6 @@ import logging
 import glob
 import os
 
-from kicost import kicost
-
 
 def do_test_single(pattern):
     os.chdir('tests')
@@ -29,13 +27,13 @@ def do_test_single(pattern):
             try:
                 cmd = ['./test_single.sh', '--no_price', f]
                 logging.debug('Running '+str(cmd))
-                res = subprocess.check_output(['./test_single.sh', '--no_price', f], stderr=subprocess.STDOUT)
+                subprocess.check_output(['./test_single.sh', '--no_price', f], stderr=subprocess.STDOUT)
                 logging.info(f + ' OK')
             except subprocess.CalledProcessError as e:
                 logging.error('Failed test: '+f)
                 if e.output:
                     logging.error('Output from command: ' + e.output.decode())
-                logfile = os.path.join('log_test', f + '.log')
+                # logfile = os.path.join('log_test', f + '.log')
                 # if os.path.isfile(logfile):
                 #     with open(logfile, 'rt') as f:
                 #         msg = f.read()
@@ -65,6 +63,7 @@ class TestKicost(unittest.TestCase):
 
     def tearDown(self):
         pass
+
 
 if __name__ == '__main__':
     unittest.main()

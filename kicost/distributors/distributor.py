@@ -34,7 +34,8 @@ import time
 # from ..global_vars import PartHtmlError
 # Kept this for future use.
 
-from .global_vars import DEFAULT_CURRENCY, distributors_modules_dict
+from ..global_vars import DEFAULT_CURRENCY
+from .global_vars import distributors_modules_dict
 
 
 __all__ = ['distributor_class']

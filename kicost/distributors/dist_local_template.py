@@ -21,14 +21,22 @@
 # THE SOFTWARE.
 
 # Libraries.
-import copy, re
-import logging
+import copy
+import re
+import sys
 
 # Distributors definitions.
 from .distributor import distributor_class
-from .global_vars import *
+from ..global_vars import DEFAULT_CURRENCY, SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE
+from .global_vars import distributor_dict, distributors_modules_dict
 
 __all__ = ['dist_local_template']
+
+if sys.version_info[0] < 3:
+    from urlparse import urlsplit, urlunsplit
+else:
+    from urllib.parse import urlsplit, urlunsplit
+
 
 class dist_local_template(distributor_class):
 
@@ -36,8 +44,8 @@ class dist_local_template(distributor_class):
     def init_dist_dict():
         distributor_dict.update({
             'local_template': {
-                'module': 'local', # The directory name containing this file.
-                'type': 'local', # Allowable values: 'api', 'scrape' or 'local'.
+                'module': 'local',  # The directory name containing this file.
+                'type': 'local',  # Allowable values: 'api', 'scrape' or 'local'.
                 'order': {
                     'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
                     'delimiter': ' '  # Delimiter for online orders.
@@ -46,11 +54,11 @@ class dist_local_template(distributor_class):
                     'name': 'Local',  # Distributor label used in spreadsheet columns.
                     # Formatting for distributor header in worksheet; bold, font and align are
                     # `spreadsheet.py` defined but can by overload heve.
-                    'format': { 'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
+                    'format': {'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
                 },
             }
         })
-        distributors_modules_dict.update({'local_template':{'type': 'local', 'enabled': True, 'param': None}})
+        distributors_modules_dict.update({'local_template': {'type': 'local', 'enabled': True, 'param': None}})
 
     @staticmethod
     def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
@@ -81,16 +89,16 @@ class dist_local_template(distributor_class):
                     distributors[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
 
         # Set part info to default blank values for all the distributors.
-        for part in parts: ## TODO create this for just the current active distributor inside each module.
+        for part in parts:  # TODO create this for just the current active distributor inside each module.
             # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-            part.part_num = {dist: '' for dist in distributors} # Distributor catalogue number.
-            part.url = {dist: '' for dist in distributors} # Purchase distributor URL for the spefic part.
-            part.price_tiers = {dist: {} for dist in distributors} # Price break tiers; [[qty1, price1][qty2, price2]...]
-            part.qty_avail = {dist: None for dist in distributors} # Available quantity.
+            part.part_num = {dist: '' for dist in distributors}  # Distributor catalogue number.
+            part.url = {dist: '' for dist in distributors}  # Purchase distributor URL for the spefic part.
+            part.price_tiers = {dist: {} for dist in distributors}  # Price break tiers; [[qty1, price1][qty2, price2]...]
+            part.qty_avail = {dist: None for dist in distributors}  # Available quantity.
             part.qty_increment = {dist: None for dist in distributors}
             part.info_dist = {dist: {} for dist in distributors}
-            part.currency = {dist: DEFAULT_CURRENCY for dist in distributors} # Default currency.
-            part.moq = {dist: None for dist in distributors} # Minimum order quantity allowd by the distributor.
+            part.currency = {dist: DEFAULT_CURRENCY for dist in distributors}  # Default currency.
+            part.moq = {dist: None for dist in distributors}  # Minimum order quantity allowd by the distributor.
 
         # Loop through the parts looking for those sourced by local distributors
         # that won't be found online. Place any user-added info for these parts
@@ -110,7 +118,7 @@ class dist_local_template(distributor_class):
                 def make_random_catalog_number(p):
                     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
                     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
-                    #TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
+                    # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
                     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                     hash_fields['dist'] = dist
                     return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
@@ -133,7 +141,7 @@ class dist_local_template(distributor_class):
                 try:
                     try:
                         local_currency = re.findall('[a-zA-Z]{3}', pricing)[0].upper()
-                    except:
+                    except Exception:
                         local_currency = DEFAULT_CURRENCY
                     pricing = re.sub('[^0-9.;:]', '', pricing)  # Keep only digits, decimals, delimiters.
                     for qty_price in pricing.split(';'):
@@ -141,7 +149,7 @@ class dist_local_template(distributor_class):
                         if local_currency:
                             p.currency[dist] = local_currency
                         price_tiers[int(qty)] = float(price)
-                    #p.moq[dist] = min(price_tiers.keys())
+                    # p.moq[dist] = min(price_tiers.keys())
                 except AttributeError:
                     # This happens when no pricing info is found.
                     logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))
@@ -151,5 +159,5 @@ class dist_local_template(distributor_class):
         # It has served its purpose.
         try:
             del distributors['local_template']
-        except:
+        except Exception:
             pass

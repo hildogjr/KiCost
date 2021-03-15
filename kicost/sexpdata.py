@@ -82,7 +82,7 @@ import functools
 BRACKETS = {'(': ')', '[': ']'}
 
 
-### Python 3 compatibility
+# ** Python 3 compatibility
 
 try:
     unicode
@@ -97,7 +97,7 @@ def uformat(s, *args, **kwds):
     return tounicode(s).format(*args, **kwds)
 
 
-### Utility
+# ** Utility
 
 def tounicode(string):
     """
@@ -149,7 +149,7 @@ def return_as(converter):
     return wrapper
 
 
-### Interface
+# ** Interface
 
 def load(filelike, **kwds):
     """
@@ -356,7 +356,7 @@ def cdr(obj):
     return obj[1:]
 
 
-### Core
+# ** Core
 
 def tosexp(obj, str_as='string', tuple_as='list',
            true_as='t', false_as='()', none_as='()'):
@@ -369,9 +369,9 @@ def tosexp(obj, str_as='string', tuple_as='list',
     <http://hyperpolyglot.org/lisp>`_
 
     """
-    _tosexp = lambda x: tosexp(
-        x, str_as=str_as, tuple_as=tuple_as,
-        true_as=true_as, false_as=false_as, none_as=none_as)
+    def _tosexp(x):
+        tosexp(x, str_as=str_as, tuple_as=tuple_as, true_as=true_as, false_as=false_as, none_as=none_as)
+
     if isinstance(obj, list):
         return Bracket(obj, '(').tosexp(_tosexp)
     elif isinstance(obj, tuple):
@@ -494,7 +494,7 @@ class Bracket(SExpBase):
 
     def __repr__(self):
         return uformat("{0}({1!r}, {2!r})",
-            self.__class__.__name__, self._val, self._bra)
+                       self.__class__.__name__, self._val, self._bra)
 
     def tosexp(self, tosexp=tosexp):
         bra = self._bra

@@ -20,12 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Libraries.
-
-
-from .global_vars import *
-
-
 __all__ = ['eda_class']
 
 
@@ -33,6 +27,7 @@ class eda_class(object):
     def __init__(self, name, logger):
         self.name = name
         self.logger = logger
+
 
 def get_part_groups(in_file):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.
@@ -43,4 +38,4 @@ def get_part_groups(in_file):
        @return `dict()` of the parts designed. The keys are the components references.
     '''
 
-    #TODO this file aims to be a base class file for create all the BOM readers.
+    # TODO this file aims to be a base class file for create all the BOM readers.

@@ -21,5 +21,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Heritage of the above global vars.
-from ..global_vars import * # Debug information and `SEPRTR`.
+# The global dictionary of supported EDA tools starts out empty.
+eda_dict = {}
+
+# The global EDA tool modules dictionary.
+eda_modules = {}

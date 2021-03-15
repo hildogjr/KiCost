@@ -1,5 +1,5 @@
 #!python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2018 by Hildo Guillardi Júnior
@@ -33,12 +33,17 @@ import sys
 
 if sys.platform.startswith('win32'):
     # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
-    if sys.version_info < (3,0):
-        from _winreg import *
+    if sys.version_info < (3, 0):
+        from _winreg import (OpenKey, HKEY_CURRENT_USER, ConnectRegistry, KEY_READ, KEY_WOW64_64KEY, EnumValue, CloseKey, EnumKey, QueryValueEx, REG_SZ,
+                             CreateKey, KEY_WRITE, SetValueEx, DeleteKey)
+        OpenKeyError = WindowsError
+        ConnectRegistryError = WindowsError
     else:
-        from winreg import *
+        from winreg import (OpenKey, HKEY_CURRENT_USER, ConnectRegistry, KEY_READ, KEY_WOW64_64KEY, EnumValue, CloseKey, EnumKey, QueryValueEx, REG_SZ,
+                            CreateKey, KEY_WRITE, SetValueEx, DeleteKey)
+        OpenKeyError = FileNotFoundError  # noqa: F821
+        ConnectRegistryError = PermissionError  # noqa: F821
     __all__ = ['reg_enum_values', 'reg_enum_keys', 'reg_get', 'reg_set', 'reg_del']
-
 
     def reg_enum_values(path, key=HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
@@ -46,19 +51,20 @@ if sys.platform.startswith('win32'):
             reg = ConnectRegistry(None, key)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_READ)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             values = ()
             try:
                 idx = 0
                 while 1:
-                    values.append( EnumValue(registry_key, idx) )
+                    values.append(EnumValue(registry_key, idx))
                     idx = idx + 1
             except WindowsError:
                 pass
             return values
-            CloseKey(reg)
-            return value
+            # TODO this portion of code was unreachable, remove?
+            # CloseKey(reg)
+            # return value
         except WindowsError:
             return None
 
@@ -68,13 +74,13 @@ if sys.platform.startswith('win32'):
             reg = ConnectRegistry(None, key)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_READ)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             sub_keys = []
             try:
                 idx = 0
                 while 1:
-                    sub_keys.append( EnumKey(registry_key, idx) )
+                    sub_keys.append(EnumKey(registry_key, idx))
                     idx = idx + 1
             except WindowsError:
                 pass
@@ -89,7 +95,7 @@ if sys.platform.startswith('win32'):
             reg = ConnectRegistry(None, key)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_READ)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_READ | KEY_WOW64_64KEY)
             value, regtype = QueryValueEx(registry_key, name)
             CloseKey(reg)
@@ -104,29 +110,29 @@ if sys.platform.startswith('win32'):
             CreateKey(reg, path)
             try:
                 registry_key = OpenKey(reg, path, 0, KEY_WRITE)
-            except FileNotFoundError:
+            except OpenKeyError:
                 registry_key = OpenKey(reg, path, 0, KEY_WRITE | KEY_WOW64_64KEY)
             SetValueEx(registry_key, name, 0, key_type, value)
             CloseKey(reg)
             # Update the Windows behaviour.
-            #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
+            # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
-        except PermissionError:
+        except ConnectRegistryError:
             print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             return False
-    
+
     def reg_del(name, key=HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
         try:
             reg = ConnectRegistry(None, key)
-            #registry_key = OpenKey(reg, name_base, 0, KEY_ALL_ACCESS)
+            # registry_key = OpenKey(reg, name_base, 0, KEY_ALL_ACCESS)
             DeleteKey(reg, name)
             CloseKey(reg)
             # Update the Windows behaviour.
-            #SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
+            # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
-        except PermissionError:
+        except ConnectRegistryError:
             print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             return False

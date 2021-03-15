@@ -1,5 +1,5 @@
 #!python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2018 by Hildo Guillardi Júnior
@@ -31,35 +31,40 @@ __company__ = 'University of Campinas - Brazil'
 
 
 # Python libraries.
-import os, sys
-from .global_vars import * # Debug, language and default configurations.
+import os
+import sys
+from .global_vars import PLATFORM_WINDOWS_STARTS_WITH, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH  # Debug, language and default configurations.
 
 __all__ = ['kicost_setup', 'kicost_unsetup']
 
 if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-    from .os_windows import *
+    from .os_windows import reg_set, reg_del, reg_get
+    if sys.version_info < (3, 0):
+        import _winreg as winreg
+    else:
+        import winreg
 
-from .kicad_config import *
+from .kicad_config import get_app_config_path, bom_plugin_add_entry, bom_plugin_remove_entry, fields_add_entry, fields_remove_entry
 
 EESCHEMA_KICOST_FIELDS = ['manf#', 'desc', 'variant']
+WIN_USR_FOLDERS = r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
 
 ###############################################################################
-## Auxiliary functions.
+# Auxiliary functions.
 ###############################################################################
 
 
 def install_kicad_plugin(path):
     '''Create the plugin installation if KiCad present'''
     from shutil import copyfile
-    copyfile(os.path.join(path, 'kicost_kicadplugin.py'),'')
+    copyfile(os.path.join(path, 'kicost_kicadplugin.py'), '')
     return
 
 
 def create_os_contex_menu(kicost_path):
     '''Create the OS context menu to recognized KiCost files (XML/CSV).'''
     try:
-        import wx # wxWidgets for Python.
-        #print('GUI requirements (wxPython) identified.')
+        # print('GUI requirements (wxPython) identified.')
         have_gui = True
     except ImportError:
         from .kicost import kicost_gui_notdependences
@@ -74,7 +79,7 @@ def create_os_contex_menu(kicost_path):
     else:
         cmd_opt = '-wi'
     icon_path = os.path.join(kicost_path, 'kicost.ico')
-    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
+    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
         print('I don\'t know how to create the context menu on OSX')
         return False
     elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
@@ -96,7 +101,7 @@ def create_os_contex_menu(kicost_path):
 
 def delete_os_contex_menu():
     '''Delete the OS context menu to recognized KiCost files (XML/CSV).'''
-    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
+    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
         print('I don\'t know how to create the context menu on OSX.')
         return False
     elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
@@ -114,7 +119,7 @@ def create_shortcut(target, directory, name, icon, location=None,
     '''Generic routine to create shortcuts.'''
     if not location:
         location = os.path.abspath(target)
-    if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH): # Windows.
+    if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):  # Windows.
         from win32com.client import Dispatch
         shell = Dispatch('WScript.Shell')
         shortcut_path = os.path.join(directory, name+'.lnk')
@@ -125,7 +130,7 @@ def create_shortcut(target, directory, name, icon, location=None,
         shortcut.IconLocation = icon
         shortcut.save()
         return True
-    elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH) or sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
+    elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH) or sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
         content = '[Desktop Entry]\nType=Application\nName={name}\nExec={target}'.format(
                     name=name, target=target)
         content += '\nTerminal={}'.format(terminal)
@@ -148,17 +153,17 @@ def create_shortcut(target, directory, name, icon, location=None,
     return
 
 
+###############################################################################
+# Main functions.
+###############################################################################
 
-###############################################################################
-## Main functions.
-###############################################################################
 
 def get_kicost_path():
     '''Get KiCost installation path.'''
     try:
         import kicost
         kicost_path = os.path.dirname(kicost.__file__)
-    except:
+    except ImportError:
         try:
             import imp
             kicost_path = imp.find_module('kicost')[1]
@@ -179,10 +184,11 @@ def kicost_setup():
     kicad_config_path = get_app_config_path('kicad')
     if not kicad_config_path:
         raise('KiCad configuration folder not found.')
-    print('KiCost identified at \'{}\', proceeding with it configuration in file \'{}\'...'.format(kicost_path, kicad_config_path))
+    print('KiCost identified at \'{}\', proceeding with it configuration in file \'{}\'...'
+          .format(kicost_path, kicad_config_path))
     # Check if wxPython is present.
     try:
-        import wx # wxWidgets for Python.
+        import wx  # wxWidgets for Python.
         print('GUI requirements (wxPython) identified.')
         have_gui = True
     except ImportError:
@@ -196,42 +202,41 @@ def kicost_setup():
 
     if not have_gui:
         MESSAGE = 'Do want to install the GUI requirement packages? (Y/n)\n'
-        if sys.version_info >= (3,0):
+        if sys.version_info >= (3, 0):
             ans = input(MESSAGE)
         else:
-            ans = raw_input(MESSAGE)
+            ans = raw_input(MESSAGE)  # noqa: F821
         if ans.lower() in ['y', 'yes']:
             try:
                 from pip import main as pipmain
             except ImportError:
                 from pip._internal import main as pipmain
             pipmain(['install', 'wxpython'])
-            have_gui = True # now the Graphical User Interface is installed.
+            have_gui = True  # now the Graphical User Interface is installed.
 
     if have_gui:
         print('Creating app shortcuts...')
-        if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
+        if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
             print('I don\'t kwon the desktop folder of mac-OS.')
             shotcut_directories = []
         elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-            shotcut_directories = [os.path.normpath(reg_get(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+            shotcut_directories = [os.path.normpath(reg_get(WIN_USR_FOLDERS, 'Desktop'))]
         elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
             shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
         else:
             print('Not recognized OS.\nShortcut not created!')
         for shotcut_directory in shotcut_directories:
-            if not create_shortcut('kicost', shotcut_directory, 
-                            'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
-                            'Generate a Cost Bill of Material for EDA softwares', 'BOM'):
+            if not create_shortcut('kicost', shotcut_directory,
+                                   'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
+                                   'Generate a Cost Bill of Material for EDA softwares', 'BOM'):
                 print('Failed to create the KiCost shortcut!')
                 break
         print('Check your desktop for the KiCost shortcut.')
 
     print('Creating OS context integration...')
-    try:
-        create_os_contex_menu(kicost_path)
+    if create_os_contex_menu(kicost_path):
         print('KiCost listed at the OS context menu for the associated files.')
-    except:
+    else:
         print('Failed to create KiCost OS context menu integration.')
 
     if have_gui:
@@ -241,7 +246,7 @@ def kicost_setup():
             configHandle = wx.Config(CONFIG_FILE)
             configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'True')
             print('The user interface will display the NEWS message on first startup.')
-        except:
+        except Exception:
             print('Failed to set to display the news message on GUI.')
 
     print('Creating KiCad integration...')
@@ -256,15 +261,15 @@ def kicost_setup():
                 else:
                     bom_plugin_add_entry(kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
                 print('KiCost added to KiCad plugin list.')
-            except:
+            except Exception:
                 print('Fail to add KiCost to Eeschema plugin list.')
             print('Adding the KiCost fields to Eeschema template...')
             try:
                 fields_add_entry(EESCHEMA_KICOST_FIELDS)
                 print('{} fields added to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
-            except:
+            except Exception:
                 print('Error to add {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
-        except:
+        except Exception:
             print('Fail to create KiCad-KiCost integration.')
 
     print('KiCost setup configuration finished.')
@@ -279,22 +284,22 @@ def kicost_unsetup():
     try:
         bom_plugin_remove_entry('KiCost')
         print('BOM plugin entry removed from Eeschema configuration.')
-    except:
+    except Exception:
         print('Error to remove KiCost from Eeschema plugin list.')
 
     print('Removing KiCost fields to Eeschema template...')
     try:
         fields_remove_entry(EESCHEMA_KICOST_FIELDS)
         print('{} fields removed to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
-    except:
+    except Exception:
         print('Error to remove {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
 
     print('Deleting KiCost shortcuts...')
-    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH): # Mac-OS.
+    if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
         print('I don\'t kwon the desktop folder of mac-OS.')
         kicost_shortcuts = []
     elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
-        kicost_shortcuts = [os.path.normpath(reg_get(r'Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders', 'Desktop'))]
+        kicost_shortcuts = [os.path.normpath(reg_get(WIN_USR_FOLDERS, 'Desktop'))]
         kicost_shortcuts = [os.path.join(sc, 'KiCost.lnk') for sc in kicost_shortcuts]
     elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
         kicost_shortcuts = [os.path.expanduser(os.path.join('~', 'Desktop'))]
@@ -307,9 +312,9 @@ def kicost_unsetup():
             kicost_shortcut = os.path.expandvars(kicost_shortcut)
             try:
                 os.remove(kicost_shortcut)
-            except FileNotFoundError:
+            except OSError:
                 pass
-    except:
+    except Exception:
         print('Fail to remove kiCost shortcuts.')
     print('KiCost shortcuts deleted.')
 
@@ -317,13 +322,12 @@ def kicost_unsetup():
     try:
         delete_os_contex_menu()
         print('KiCost removed from the \'Open with...\' OS context menu.')
-    except:
+    except Exception:
         print('Fail to remove kiCost from OS context menu.')
 
     print('KiCost setup configuration finished.')
 
     return
-
 
 
 ###############################################################################

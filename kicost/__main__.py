@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 
 # MIT license
 #
@@ -24,28 +24,33 @@
 
 from __future__ import print_function
 
-#Libraries.
-import argparse as ap # Command argument parser.
-import os, sys, platform
-import logging, time
-#import inspect # To get the internal module and informations of a module/class.
+# Libraries.
+import argparse as ap  # Command argument parser.
+import os
+import sys
+import platform
+import logging
+import time
+# import inspect # To get the internal module and informations of a module/class.
 
-from .global_vars import * # Debug, language and default configurations.
+# Debug, language and default configurations.
+from .global_vars import wxPythonNotPresent, logger, DEBUG_OBSESSIVE
 
 # KiCost definitions and modules/packages functions.
-from .kicost import * # kicost core functions.
+from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions.
 try:
-    from .kicost_gui import * # User guide.
-except wxPythonNotPresent as e:
-    pass # If the wxPython dependences are not installed and
-         # the user just want the KiCost CLI.
+    from .kicost_gui import kicost_gui, kicost_gui_runterminal  # User guide.
+except wxPythonNotPresent:
+    # If the wxPython dependences are not installed and the user just want the KiCost CLI.
+    pass
 from .distributors.global_vars import distributor_dict
 from .edas import eda_dict
-from . import __version__ # Version control by @xesscorp and collaborator.
+from . import __version__  # Version control by @xesscorp and collaborator.
 
 ###############################################################################
 # Additional functions
 ###############################################################################
+
 
 def kicost_version_info():
     version_info_str = r'KiCost v.{}.'.format(__version__)
@@ -59,14 +64,16 @@ def kicost_version_info():
     try:
         import wx
         version_info_str += 'Graphical library: {}.'.format(wx.version())
-    except:
+    except ImportError:
         version_info_str += 'No graphical library installed for the GUI.'
-    #version_info_str += r'\n'
+    # version_info_str += r'\n'
     return version_info_str
+
 
 ###############################################################################
 # Command-line interface.
 ###############################################################################
+
 
 def main():
 
@@ -74,11 +81,11 @@ def main():
         description='Build cost spreadsheet for a KiCAD project.')
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='KiCost v.{}'.format(__version__) )
+                        version='KiCost v.{}'.format(__version__))
     parser.add_argument('--info',
                         action='version',
                         version=kicost_version_info(),
-                        help='Show program\' and library information and version.' )
+                        help='Show program\' and library information and version.')
     parser.add_argument('-i', '--input',
                         nargs='+',
                         type=str,
@@ -94,8 +101,8 @@ def main():
                         type=str,
                         default=[],
                         metavar='NAME',
-                        help='''Specify the names of additional part fields to 
-                            extract and insert in the global data section of 
+                        help='''Specify the names of additional part fields to
+                            extract and insert in the global data section of
                             the spreadsheet.''')
     parser.add_argument('--translate_fields',
                         nargs='+',
@@ -108,7 +115,7 @@ def main():
     parser.add_argument('--variant',
                         nargs='+',
                         type=str,
-                        default=[' '], # Default variant is a space.
+                        default=[' '],  # Default variant is a space.
                         help='schematic variant name filter using regular expression.')
     parser.add_argument('-w', '--overwrite',
                         action='store_true',
@@ -152,11 +159,11 @@ def main():
                         help='Do not suppress the catalogue links into the catalogue code in the spreadsheet.')
     parser.add_argument('-e', '--exclude',
                         nargs='+', type=str, default='',
-                        metavar = 'DIST',
+                        metavar='DIST',
                         help='Excludes the given distributor(s) from the scraping process.')
     parser.add_argument('--include',
                         nargs='+', type=str, default='',
-                        metavar = 'DIST',
+                        metavar='DIST',
                         help='Includes only the given distributor(s) in the scraping process.')
     parser.add_argument('--no_price',
                         action='store_true',
@@ -170,10 +177,12 @@ def main():
                         nargs='+',
                         type=str,
                         metavar='FILE.XML',
-                        help='Start the GUI to run KiCost passing the file parameter give by "--input", all others parameters are ignored.')
+                        help='Start the GUI to run KiCost passing the file parameter give by "--input",'
+                             ' all others parameters are ignored.')
     parser.add_argument('--user',
                         action='store_true',
-                        help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from terminal take priority.')
+                        help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from'
+                             ' terminal take priority.')
     parser.add_argument('--setup',
                         action='store_true',
                         help='Run KiCost integration (with KiCad and OS) configuration script.')
@@ -206,15 +215,15 @@ def main():
         print('Distributor list:', *sorted(list(distributor_dict.keys())))
         return
     if args.show_eda_list:
-        #eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
-        #print('EDA supported list:', ', '.join(eda_names))
+        # eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
+        # print('EDA supported list:', ', '.join(eda_names))
         print('EDA supported list:', *sorted(list(eda_dict.keys())))
         return
 
     # Set up spreadsheet output file.
-    if args.output == None:
+    if args.output is None:
         # If no output file is given...
-        if args.input != None:
+        if args.input is not None:
             # Send output to spreadsheet with name of input file.
             # Compose a name with the multiple BOM input file names.
             args.output = output_filename(args.input)
@@ -230,7 +239,7 @@ def main():
     if args.user:
         try:
             kicost_gui_runterminal(args)
-        except (ImportError,NameError):
+        except (ImportError, NameError):
             kicost_gui_notdependences()
         return
 
@@ -248,9 +257,9 @@ def main():
             kicost_gui_notdependences()
         return
 
-    if args.input == None:
+    if args.input is None:
         try:
-            kicost_gui() # Use the user gui if no input is given.
+            kicost_gui()  # Use the user gui if no input is given.
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
@@ -300,17 +309,18 @@ def main():
                                               sys.version_info.major,
                                               sys.version_info.minor,
                                               sys.version_info.micro)
-                                          )
+               )
 
-    #try:
+    # try:
     kicost(in_file=args.input, eda_name=args.eda,
-        out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
-        user_fields=args.fields, ignore_fields=args.ignore_fields,
-        group_fields=args.group_fields, translate_fields=args.translate_fields,
-        variant=args.variant,
-        dist_list=dist_list, currency=args.currency)
-    #except Exception as e:
-    #    sys.exit(e)
+           out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
+           user_fields=args.fields, ignore_fields=args.ignore_fields,
+           group_fields=args.group_fields, translate_fields=args.translate_fields,
+           variant=args.variant,
+           dist_list=dist_list, currency=args.currency)
+    # except Exception as e:
+    #     sys.exit(e)
+
 
 ###############################################################################
 # Main entrypoint.

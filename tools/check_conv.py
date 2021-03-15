@@ -10,7 +10,7 @@ A simple test for the CurrencyConverter class
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
-from kicost.currency_converter import CurrencyConverter
+from kicost.currency_converter import CurrencyConverter  # noqa: E402
 
 
 currency_convert = CurrencyConverter().convert
