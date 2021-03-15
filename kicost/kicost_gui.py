@@ -839,11 +839,11 @@ class formKiCost(wx.Frame):
             if self.m_checkBox_XLSXtoODS.GetValue():
                 logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
                                     os.path.basename(spreadsheet_file)))
-                os.system('{e} --headless --convert-to ods {si} --outdir {o}'.format(e=libreoffice_executable, si=spreadsheet_file,
-                                                                                     o=os.path.dirname(spreadsheet_file)))
-                # os.remove(spreadsheet_file) # Delete the older file.
+                subprocess.run((libreoffice_executable, '--headless', '--convert-to', 'ods', spreadsheet_file,
+                                '--outdir', os.path.dirname(spreadsheet_file)), check=True)
+                # os.remove(spreadsheet_file)  # Delete the older file.
                 spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
-        except Exception as e:
+        except subprocess.CalledProcessError as e:
             logger.log(DEBUG_OVERVIEW, '\'{}\' could be not converted to ODS: {}'.format(os.path.basename(spreadsheet_file), e))
             pass
         try:
