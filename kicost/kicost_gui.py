@@ -41,7 +41,7 @@ import webbrowser  # To update informations.
 import sys
 import os
 import subprocess  # To access OS commands and run in the shell.
-import threading
+from threading import Thread
 import time  # To elapse time.
 import tempfile  # To create the temporary log file.
 from datetime import datetime  # To create the log name, when asked to save.
@@ -94,6 +94,18 @@ PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
 PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
+
+
+# ======================================================================
+class ChildThread(Thread):
+    """ Helper class to safetly call the run action """
+    def __init__(self, myframe):
+        """Init Worker Thread Class."""
+        Thread.__init__(self)
+        self.myframe = myframe
+
+    def run(self):
+        wx.CallAfter(self.myframe.run)
 
 
 # ======================================================================
@@ -714,10 +726,9 @@ class formKiCost(wx.Frame):
     def button_run(self, event):
         ''' @brief Call to run KiCost.'''
         event.Skip()
-        # self.run()
-        # wx.CallLater(10, self.run) # Necessary to not '(core dumped)' with wxPython.
-        t = threading.Thread(target=self.run)  # , args=[self])
-        t.start()
+        self.child = ChildThread(myframe=self)
+        self.child.daemon = True
+        self.child.start()
 
     # ----------------------------------------------------------------------
     # @anythread
