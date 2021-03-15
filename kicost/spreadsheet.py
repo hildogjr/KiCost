@@ -731,7 +731,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
     # Get the actual currency rate to use.
     next_line = row + 1
     used_currencies = list(set(used_currencies))
-    logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...', used_currencies, CURRENCY_ALPHA3)
+    logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...'.format(used_currencies, CURRENCY_ALPHA3))
     if len(used_currencies) > 1:
         if CURRENCY_ALPHA3 in used_currencies:
             used_currencies.remove(CURRENCY_ALPHA3)
