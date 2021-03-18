@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/tmp/subparts/subparts.sch</source>
+    <date>jue 18 mar 2021 15:46:06</date>
+    <tool>Eeschema 5.1.9+dfsg1-1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>KiCost subparts test</title>
+        <company>KiBot</company>
+        <rev>r1</rev>
+        <date>2021-03-16</date>
+        <source>subparts.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="HS1">
+      <value>322400B00000G</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">HEAT SINK TO-18 1W BLK</field>
+        <field name="digikey#">HS100-ND</field>
+        <field name="manf">Aavid</field>
+        <field name="manf#">322400B00000G</field>
+      </fields>
+      <libsource lib="Mechanical" part="Heatsink" description="Heatsink"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6063AB02</tstamp>
+    </comp>
+    <comp ref="Q2">
+      <value>2N2222A</value>
+      <footprint>Package_TO_SOT_THT:TO-18-3</footprint>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">TRANS NPN 40V 0.8A TO-18</field>
+        <field name="digikey#">1514-2N2222APBFREE-ND</field>
+        <field name="manf">Central Semiconductor Corp</field>
+        <field name="manf#">2N2222A PBFREE</field>
+      </fields>
+      <libsource lib="Device" part="Q_NPN_BCE" description="NPN transistor, base/collector/emitter"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6063D25D</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>2N2222A</value>
+      <footprint>Package_TO_SOT_THT:TO-18-3</footprint>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">TRANS NPN 40V 0.8A TO-18 + Heatsink</field>
+        <field name="digikey#">1514-2N2222APBFREE-ND; HS100-ND</field>
+        <field name="manf">Central Semiconductor Corp; Aavid</field>
+        <field name="manf#">2N2222A PBFREE; 322400B00000G</field>
+      </fields>
+      <libsource lib="Device" part="Q_NPN_BCE" description="NPN transistor, base/collector/emitter"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60640F08</tstamp>
+    </comp>
+    <comp ref="J1">
+      <value>Conn_01x06</value>
+      <footprint>Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical</footprint>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">CONN HEADER VERT 6POS 2.54MM; CONN HOUSING 6POS .100 W/RAMP; CONN 22-30AWG CRIMP TIN; SENSOR CURRENT HALL 50A AC/DC; TRANSDUCR VOLTAG CLOSE LOOP 10MA</field>
+        <field name="digikey#">WM4204-ND; WM2015-ND; WM1114-ND; 398-1010-ND; 398-1019-ND</field>
+        <field name="manf">Molex; Molex; Molex; LEM; LEM</field>
+        <field name="manf#">0022232061;0022012067; 6: 08-50-0114;  LA 55-P; lv 25-P</field>
+      </fields>
+      <libsource lib="Connector_Generic" part="Conn_01x06" description="Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60649B1F</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>0</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">RES SMD 0 OHM JUMPER 1/8W 0603</field>
+        <field name="digikey#">CR0603-J/-000ELFCT-ND:  5</field>
+        <field name="manf">Bourns</field>
+        <field name="manf#">CR0603-J/-000ELF:5</field>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6064C12F</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>100</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">RES SMD 100 OHM 5% 1/10W 0603</field>
+        <field name="digikey#">CR0603-JW-101ELFCT-ND   :4.5</field>
+        <field name="manf">Bourns</field>
+        <field name="manf#">CR0603-JW-101ELF   :   4.5</field>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6064CA86</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>100k</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">RES SMD 100K OHM 5% 1/10W 0603</field>
+        <field name="digikey#">  4/5  :   CR0603-JW-104ELFCT-ND</field>
+        <field name="manf">Bourns</field>
+        <field name="manf#">4/5 : CR0603-JW-104ELF  </field>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6064D8D1</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>0</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">RES SMD 0 OHM JUMPER 1/8W 0603</field>
+        <field name="digikey#">CR0603-J/-000ELFCT-ND</field>
+        <field name="manf">Bourns</field>
+        <field name="manf#">CR0603-J/-000ELF</field>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6064EF62</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>0</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">RES SMD 0 OHM JUMPER 1/8W 0603</field>
+      </fields>
+      <libsource lib="Device" part="R" description="Resistor"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>6064F812</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Connector_Generic" part="Conn_01x06">
+      <description>Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Connector*:*_1x??_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">Conn_01x06</field>
+      </fields>
+      <pins>
+        <pin num="1" name="Pin_1" type="passive"/>
+        <pin num="2" name="Pin_2" type="passive"/>
+        <pin num="3" name="Pin_3" type="passive"/>
+        <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+        <pin num="6" name="Pin_6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="Q_NPN_BCE">
+      <description>NPN transistor, base/collector/emitter</description>
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">Q_NPN_BCE</field>
+      </fields>
+      <pins>
+        <pin num="1" name="B" type="input"/>
+        <pin num="2" name="C" type="passive"/>
+        <pin num="3" name="E" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Device" part="R">
+      <description>Resistor</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Mechanical" part="Heatsink">
+      <description>Heatsink</description>
+      <docs>~</docs>
+      <footprints>
+        <fp>Heatsink_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">HS</field>
+        <field name="Value">Heatsink</field>
+      </fields>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="Connector_Generic">
+      <uri>/usr/share/kicad/library/Connector_Generic.lib</uri>
+    </library>
+    <library logical="Device">
+      <uri>/usr/share/kicad/library/Device.lib</uri>
+    </library>
+    <library logical="Mechanical">
+      <uri>/usr/share/kicad/library/Mechanical.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(J1-Pad6)">
+      <node ref="J1" pin="6"/>
+    </net>
+    <net code="2" name="Net-(R5-Pad2)">
+      <node ref="R5" pin="2"/>
+    </net>
+    <net code="3" name="Net-(R5-Pad1)">
+      <node ref="R5" pin="1"/>
+    </net>
+    <net code="4" name="Net-(R4-Pad2)">
+      <node ref="R4" pin="2"/>
+    </net>
+    <net code="5" name="Net-(R4-Pad1)">
+      <node ref="R4" pin="1"/>
+    </net>
+    <net code="6" name="Net-(R3-Pad2)">
+      <node ref="R3" pin="2"/>
+    </net>
+    <net code="7" name="Net-(R3-Pad1)">
+      <node ref="R3" pin="1"/>
+    </net>
+    <net code="8" name="Net-(R2-Pad2)">
+      <node ref="R2" pin="2"/>
+    </net>
+    <net code="9" name="Net-(R2-Pad1)">
+      <node ref="R2" pin="1"/>
+    </net>
+    <net code="10" name="Net-(R1-Pad2)">
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="11" name="Net-(R1-Pad1)">
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="12" name="Net-(Q2-Pad1)">
+      <node ref="Q2" pin="1"/>
+    </net>
+    <net code="13" name="Net-(J1-Pad5)">
+      <node ref="J1" pin="5"/>
+    </net>
+    <net code="14" name="Net-(J1-Pad4)">
+      <node ref="J1" pin="4"/>
+    </net>
+    <net code="15" name="Net-(J1-Pad3)">
+      <node ref="J1" pin="3"/>
+    </net>
+    <net code="16" name="Net-(J1-Pad2)">
+      <node ref="J1" pin="2"/>
+    </net>
+    <net code="17" name="Net-(J1-Pad1)">
+      <node ref="J1" pin="1"/>
+    </net>
+    <net code="18" name="Net-(Q1-Pad3)">
+      <node ref="Q1" pin="3"/>
+    </net>
+    <net code="19" name="Net-(Q1-Pad2)">
+      <node ref="Q1" pin="2"/>
+    </net>
+    <net code="20" name="Net-(Q1-Pad1)">
+      <node ref="Q1" pin="1"/>
+    </net>
+    <net code="21" name="Net-(Q2-Pad3)">
+      <node ref="Q2" pin="3"/>
+    </net>
+    <net code="22" name="Net-(Q2-Pad2)">
+      <node ref="Q2" pin="2"/>
+    </net>
+  </nets>
+</export>
