@@ -352,16 +352,12 @@ def group_parts(components, fields_merge):
     logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
-        # qty = []
+        grp_fields['manf#_qty'] = 0
         for ref in grp.refs:
-            for key, val in list(components[ref].items()):
+            comp = components[ref]
+            for key, val in comp.items():
                 if key == 'manf#_qty':
-                    try:
-                        for i in range(len(val)):
-                            grp_fields['manf#_qty'][i] += '+' + val[i]  # DUMMY way and need improvement to really do arithmetic and not string cat. #TODO
-                            val[i] = grp_fields['manf#_qty'][i]  # Make the first values take also equal.
-                    except (TypeError, KeyError):
-                        grp_fields['manf#_qty'] = val
+                    # We handle this field outside the loop
                     continue
                 if val is None:  # Field with no value...
                     continue  # so ignore it.
@@ -371,14 +367,28 @@ def group_parts(components, fields_merge):
                                          .format(ref, key, val, grp_fields[key], grp.refs))
                 else:  # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
+            # Add this component to the total quantity
+            qty = 1
+            if 'manf#_qty' in comp:
+                qtys = comp['manf#_qty']
+                # Multiprojects has a list of qty's
+                if isinstance(qtys, str):
+                    qtys = [qtys]
+                qty = 0
+                for q in qtys:
+                    qty += qty2float(q)
+            # Add it
+            grp_fields['manf#_qty'] += qty
         grp.fields = grp_fields
 
     # Now return the list of identical part groups.
     # print('\n\n\n------------')
     # for grp in new_component_groups:
     #     print(grp.refs)
+    #     print(grp.fields)
     #     for r in grp.refs:
     #         print(r, components[r])
+    # print('\n\n\n------------')
     return new_component_groups
 
 
@@ -645,8 +655,19 @@ def subpartqty_split(components):
     return split_components
 
 
+def qty2float(value):
+    try:
+        if isinstance(value, str) and '/' in value:
+            vals = value.split('/')
+            return float(vals[0])/float(vals[1])
+        return float(value)
+    except ValueError:
+        logger.warning('Malformed `manf#_qty`: ' + str(value))
+        return 1.0
+
+
 def partgroup_qty(component):
-    '''@brief Take the components grouped quantity.
+    """@brief Take the components grouped quantity.
 
        Calculate the string of the quantity of the group parsing the
        reference (design) quantity and the sub quantity (in case that
@@ -657,29 +678,27 @@ def partgroup_qty(component):
 
        @param components Part component `dict()`, format given by the EDA modules.
        @return Quantity of the manf# part used.
-    '''
-    try:
-        qty = component.fields.get('manf#_qty')
+    """
+    qty = component.fields.get('manf#_qty')
 
-        logger.log(DEBUG_OBSESSIVE, 'Qty>> {}\t {}*{}'.format(component.refs, qty, component.fields.get('manf#')))
+    logger.log(DEBUG_OBSESSIVE, 'Qty>> {}\t {}*{}'.format(component.refs, qty, component.fields.get('manf#')))
 
-        if isinstance(qty, list):
-            # Multifiles BOM case, the quantities in the list represent
-            # each project read by the order. Do not `CEILING` because
-            # this is will be made in the total columns that sum all
-            # the quantities needed in all projects BOMs.
-            string = ['={{}}*({qp})'.format(qp=i) for i in qty]
-        else:
-            if qty != '1' and qty is not None:
-                string = '=CEILING({{}}*({q})*{qty},1)'.format(
-                                q=qty,
-                                qty=len(component.refs))
-            else:
-                string = '={{}}*{qty}'.format(qty=len(component.refs))
-    except (KeyError, TypeError):
-        logger.log(DEBUG_OBSESSIVE, 'Qty>> {} \t {}'.format(component.refs, len(component.refs)))
+    if isinstance(qty, list):
+        # Multifiles BOM case, the quantities in the list represent
+        # each project read by the order. Do not `CEILING` because
+        # this is will be made in the total columns that sum all
+        # the quantities needed in all projects BOMs.
+        string = ['={{}}*({qp})'.format(qp=i) for i in qty]
+        number = [qty2float(i) for i in qty]
+    elif qty is None or qty == '1':
+        # No qty or just 1
         string = '={{}}*{qty}'.format(qty=len(component.refs))
-    return string
+        number = len(component.refs)
+    else:
+        # A number (could be a fraction)
+        string = '=CEILING({{}}*{q},1)'.format(q=qty)
+        number = qty2float(qty)
+    return string, number
 
 
 def subpart_list(part):
