@@ -41,6 +41,7 @@ import webbrowser  # To update informations.
 import sys
 import os
 import subprocess  # To access OS commands and run in the shell.
+import logging
 from threading import Thread
 import time  # To elapse time.
 import tempfile  # To create the temporary log file.
@@ -97,15 +98,66 @@ kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
 
 
 # ======================================================================
-class ChildThread(Thread):
+class ResultEvent(wx.PyEvent):
+    """Simple event to carry arbitrary result data."""
+    def __init__(self, id, data=None):
+        """Init Result Event."""
+        wx.PyEvent.__init__(self)
+        self.SetEventType(id)
+        self.data = data
+
+# ======================================================================
+class KiCostThread(Thread):
     """ Helper class to safetly call the run action """
-    def __init__(self, myframe):
+    def __init__(self, args, wxObject, event_id):
         """Init Worker Thread Class."""
         Thread.__init__(self)
-        self.myframe = myframe
+        self.args = args
+        self.wxObject = wxObject
+        self.event_id = event_id
+        self.daemon = True
+        self.start()
 
     def run(self):
-        wx.CallAfter(self.myframe.run)
+        """ Run KiCost and post stuff, but don't touch the GUI in a direct way """
+        args = self.args
+        # Run KiCost main function and print in the log the elapsed time.
+        start_time = time.time()
+        try:
+            # print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
+            #       '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
+            kicost(in_file=args.input, eda_name=args.eda_name,
+                   out_filename=args.output, collapse_refs=args.collapse_refs,
+                   user_fields=args.fields, ignore_fields=args.ignore_fields,
+                   group_fields=args.group_fields, translate_fields=args.translate_fields,
+                   variant=args.variant,
+                   dist_list=args.include, currency=args.currency)
+        except Exception as e:
+            logger.log(DEBUG_OVERVIEW, e)
+            return
+        finally:
+            init_distributor_dict()  # Restore distributors removed during the execution of KiCost motor.
+        logger.log(DEBUG_OVERVIEW, 'Elapsed time: {} seconds'.format(time.time() - start_time))
+        # Convert to ODS
+        try:
+            if args.convert_to_ods:
+                logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(os.path.basename(args.output)))
+                subprocess.run((libreoffice_executable, '--headless', '--convert-to', 'ods', args.output,
+                                '--outdir', os.path.dirname(args.output)), check=True)
+                # os.remove(args.output)  # Delete the older file.
+                args.output = os.path.splitext(args.output)[0] + '.ods'
+        except subprocess.CalledProcessError as e:
+            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not converted to ODS: {}'.format(os.path.basename(args.output), e))
+            pass
+        # Open the spreadsheet
+        try:
+            if args.open_spreadsheet:
+                logger.log(DEBUG_OVERVIEW, 'Opening the output file \'{}\'...'.format(os.path.basename(args.output)))
+                open_file(args.output)
+        except Exception as e:
+            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not opened: {}'.format(os.path.basename(args.output), e))
+        # We are done, notify the main thread
+        wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
 
 
 # ======================================================================
@@ -564,6 +616,11 @@ class formKiCost(wx.Frame):
         self.SetDropTarget(FileDropTarget(self))  # Start the drop file in all the window.
         logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__)
 
+        # Set up event handler for any worker thread results
+        # It will receive notifications from the KiCost thread
+        self.event_id = wx.NewIdRef().GetId()
+        self.Connect(-1, -1, self.event_id, self.update_kicost_run)
+
     def __del__(self):
         pass
 
@@ -725,10 +782,15 @@ class formKiCost(wx.Frame):
     # ----------------------------------------------------------------------
     def button_run(self, event):
         ''' @brief Call to run KiCost.'''
-        event.Skip()
-        self.child = ChildThread(myframe=self)
-        self.child.daemon = True
-        self.child.start()
+        wx.CallAfter(self.run)
+
+    # ----------------------------------------------------------------------
+    def update_kicost_run(self, status):
+        ''' @brief Receives the message indicating the end of KiCost thread.'''
+        # The KiCost thread is finished
+        self.m_gauge_process.SetValue(100)
+        self.m_button_run.Enable()
+        return
 
     # ----------------------------------------------------------------------
     # @anythread
@@ -816,47 +878,10 @@ class formKiCost(wx.Frame):
         else:
             dist_list = None
         args.include = dist_list
-
-        # Run KiCost main function and print in the log the elapsed time.
-        start_time = time.time()
-        try:
-            # print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
-            #       '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
-            kicost(in_file=args.input, eda_name=args.eda_name,
-                   out_filename=args.output, collapse_refs=args.collapse_refs,
-                   user_fields=args.fields, ignore_fields=args.ignore_fields,
-                   group_fields=args.group_fields, translate_fields=args.translate_fields,
-                   variant=args.variant,
-                   dist_list=args.include, currency=args.currency)
-        except Exception as e:
-            logger.log(DEBUG_OVERVIEW, e)
-            self.m_button_run.Enable()
-            return
-        finally:
-            init_distributor_dict()  # Restore distributors removed during the execution of KiCost motor.
-        logger.log(DEBUG_OVERVIEW, 'Elapsed time: {} seconds'.format(time.time() - start_time))
-        try:
-            if self.m_checkBox_XLSXtoODS.GetValue():
-                logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(
-                                    os.path.basename(spreadsheet_file)))
-                subprocess.run((libreoffice_executable, '--headless', '--convert-to', 'ods', spreadsheet_file,
-                                '--outdir', os.path.dirname(spreadsheet_file)), check=True)
-                # os.remove(spreadsheet_file)  # Delete the older file.
-                spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.ods'
-        except subprocess.CalledProcessError as e:
-            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not converted to ODS: {}'.format(os.path.basename(spreadsheet_file), e))
-            pass
-        try:
-            if self.m_checkBox_openSpreadsheet.GetValue():
-                logger.log(DEBUG_OVERVIEW, 'Opening the output file \'{}\'...'.format(
-                                    os.path.basename(spreadsheet_file)))
-                open_file(spreadsheet_file)
-        except Exception as e:
-            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not opened: {}'.format(os.path.basename(spreadsheet_file), e))
-
-        self.m_gauge_process.SetValue(100)
-        self.m_button_run.Enable()
-        return
+        args.convert_to_ods = self.m_checkBox_XLSXtoODS.GetValue()
+        args.open_spreadsheet = self.m_checkBox_openSpreadsheet.GetValue()
+        # Now start the KiCost thread
+        KiCostThread(args, self, self.event_id)
 
     # ----------------------------------------------------------------------
     def set_properties(self):
@@ -1080,7 +1105,7 @@ class formKiCost(wx.Frame):
 
 #######################################################################
 
-def kicost_gui(files=None):
+def kicost_gui(files=None, log_level=logging.WARNING):
     ''' @brief Load the graphical interface.
         @param String file file names or list.
         (it will be used for plugin implementation on future KiCad6-Eeschema).
@@ -1094,11 +1119,8 @@ def kicost_gui(files=None):
             self.area = aWxTextCtrl
 
         def write(self, msg):
-            # self.area.AppendText(msg)
-            # Necessary the call bellow and not above
-            # because of the KiCost threads.
+            # Let the main thread update the message
             wx.CallAfter(self.area.AppendText, msg)
-            # wx.CallAfter(frame.m_textCtrl_messages.AppendText, msg)
 
         def flush(self):
             sys.__stdout__.flush()
@@ -1111,22 +1133,24 @@ def kicost_gui(files=None):
             try:
                 # Try to read a process bar model, with error, is really a error message.
                 # Model:
-                # Progress: 100%|███████████████████████████████| 24/24 [00:26<00:00,  1.56s/part]
+                # Progress: 100%|###############################| 24/24 [00:26<00:00,  1.56s/part]
                 # Second https://github.com/tqdm/tqdm/issues/172 is necessary this work around,
                 # until they finish the v5.
-                wx.CallAfter(frame.m_gauge_process.SetValue,
-                             int(re.findall(r'^.*\s(\d+)\%', msg)[0]))  # Perceptual.
-                wx.CallAfter(frame.m_staticText_progressInfo.SetLabel,
-                             re.findall(r'\|+?\s(.*)$', msg)[0])  # Eta.
+                wx.CallAfter(frame.m_gauge_process.SetValue, int(re.findall(r'^.*\s(\d+)\%', msg)[0]))  # Perceptual.
+                wx.CallAfter(frame.m_staticText_progressInfo.SetLabel, re.findall(r'\|+?\s(.*)$', msg)[0])  # Eta.
             except Exception:
                 sys.__stderr__.write(msg)
 
         def flush(self):
             sys.__stderr__.flush()
 
-    # Redirect the logger to the GUI area.
-    sys.stdout = GUI_LoggerHandler(frame.m_textCtrl_messages)
+    # Redirect stdout to the messages in the GUI
+    logger_handler = GUI_LoggerHandler(frame.m_textCtrl_messages)
+    sys.stdout = logger_handler
+    # Redirect stderr to the progress bar handler
     sys.stderr = GUI_ETAHandler()
+    # Redirect the logger to the GUI area.
+    logging.basicConfig(level=log_level, format='%(message)s', stream=logger_handler)
 
     if files:
         frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
