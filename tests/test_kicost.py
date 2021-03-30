@@ -67,7 +67,7 @@ def test_multiproject_1():
         cmd = ['egrep', '-i', '-v', r'(\$ date|kicost|Total purchase)', 'tests/result_test/multipart1+2.csv.tmp']
         with open('tests/result_test/multipart1+2.csv', 'w') as f:
             logging.debug('Running '+str(cmd))
-            subprocess.run(cmd, stdout=f)
+            subprocess.call(cmd, stdout=f)
         cmd = ['diff', '-u', 'tests/expected_test/multipart1+2.csv', 'tests/result_test/multipart1+2.csv']
         logging.debug('Running '+str(cmd))
         subprocess.check_output(cmd, stderr=subprocess.STDOUT)
