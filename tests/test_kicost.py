@@ -61,9 +61,13 @@ def test_multiproject_1():
                '-wi', 'tests/multipart.xml', 'tests/multipart2.xml']
         logging.debug('Running '+str(cmd))
         subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        cmd = ['xlsx2csv', 'tests/multipart1+2.xlsx', 'tests/result_test/multipart1+2.csv']
+        cmd = ['xlsx2csv', 'tests/multipart1+2.xlsx', 'tests/result_test/multipart1+2.csv.tmp']
         logging.debug('Running '+str(cmd))
         subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        cmd = ['egrep', '-i', '-v', r'(\$ date|kicost|Total purchase)', 'tests/result_test/multipart1+2.csv.tmp']
+        with open('tests/result_test/multipart1+2.csv', 'w') as f:
+            logging.debug('Running '+str(cmd))
+            subprocess.run(cmd, stdout=f)
         cmd = ['diff', '-u', 'tests/expected_test/multipart1+2.csv', 'tests/result_test/multipart1+2.csv']
         logging.debug('Running '+str(cmd))
         subprocess.check_output(cmd, stderr=subprocess.STDOUT)
@@ -72,6 +76,7 @@ def test_multiproject_1():
         logging.error('Failed test: '+test_name)
         if e.output:
             logging.error('Output from command: ' + e.output.decode())
+        raise e
 
 
 class TestKicost(unittest.TestCase):
