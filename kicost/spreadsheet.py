@@ -31,6 +31,7 @@ from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEB
 # Python libraries.
 import os
 from datetime import datetime
+from math import ceil
 import re  # Regular expression parser.
 import xlsxwriter  # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
@@ -60,6 +61,8 @@ WORKBOOK = None
 # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
 EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
 
+# Default value for number of boards to build.
+DEFAULT_BUILD_QTY = 100
 
 # About and credit message at the end of the spreadsheet.
 ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v.' + __version__
@@ -74,7 +77,6 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
     # Microsoft Excel allows a 31 characters longer string for the worksheet name, Google
     # Spreadsheet 100 and LibreOffice Calc have no limit.
     MAX_LEN_WORKSHEET_NAME = 31
-    DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
     global WORKSHEET_NAME
     WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0]  # Default name for pricing worksheet.
 
@@ -375,11 +377,11 @@ Purple -> Obsolete part detected by one of the distributors.''',
             'level': 1,
             'label': 'Qty',
             'width': None,
-            'comment': '''Total number of each part needed.
+            'comment': """Total number of each part needed.
 Gray -> No manf# provided.
 Red -> No parts available.
 Orange -> Not enough parts available.
-Yellow -> Parts available, but haven't purchased enough.''',
+Yellow -> Parts available, but haven't purchased enough.""",
             'static': False,
         },
         'unit_price': {
@@ -544,26 +546,28 @@ Yellow -> Parts available, but haven't purchased enough.''',
 
         # Enter total part quantity needed.
         try:
-            qty = partgroup_qty(part)
+            qty, qty_n = partgroup_qty(part)
             if isinstance(qty, list):
                 # Multifiles BOM case, write each quantity and after,
                 # in the 'qty' column the total quantity as ceil of
                 # the total quantity (to ceil use a Microsoft Excel
                 # compatible function.
+                total = 0
                 for i_prj in range(len(qty)):
-                    wks.write(row,
-                              start_col + columns['qty_prj{}'.format(i_prj)]['col'],
-                              qty[i_prj].format('BoardQty{}'.format(i_prj)),
-                              wrk_formats['part_format'])
+                    total += qty_n[i_prj] * DEFAULT_BUILD_QTY
+                    wks.write_formula(row,
+                                      start_col + columns['qty_prj{}'.format(i_prj)]['col'],
+                                      qty[i_prj].format('BoardQty{}'.format(i_prj)),
+                                      wrk_formats['part_format'],
+                                      value=qty_n[i_prj])
                 wks.write_formula(row, start_col + columns['qty']['col'],
-                                  '=CEILING(SUM({}:{}),1)'.format(
-                                  xl_rowcol_to_cell(row, start_col + columns['qty_prj0']['col']),
-                                  xl_rowcol_to_cell(row, start_col + columns['qty']['col']-1)
-                                  ),
-                                  wrk_formats['part_format'])
+                                  '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + columns['qty_prj0']['col']),
+                                                                  xl_rowcol_to_cell(row, start_col + columns['qty']['col']-1)),
+                                  wrk_formats['part_format'],
+                                  value=ceil(total))
             else:
-                wks.write(row, start_col + columns['qty']['col'],
-                          qty.format('BoardQty'), wrk_formats['part_format'])
+                wks.write_formula(row, start_col + columns['qty']['col'],
+                                  qty.format('BoardQty'), wrk_formats['part_format'], value=ceil(qty_n * DEFAULT_BUILD_QTY))
         except KeyError:
             pass
 

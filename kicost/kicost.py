@@ -46,6 +46,7 @@ import sys
 import os
 import pprint
 from collections import OrderedDict
+from copy import copy
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -178,10 +179,10 @@ def kicost(in_file, eda_name, out_filename,
                     qty_base[i_prj] = p[p_ref]['manf#_qty']
                 except KeyError:
                     qty_base[i_prj] = '1'
-                p[p_ref]['manf#_qty'] = qty_base.copy()
+                p[p_ref]['manf#_qty'] = copy(qty_base)
                 p[PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p.pop(p_ref)
-        parts.update(p.copy())
-        prj_info.append(info.copy())
+        parts.update(copy(p))
+        prj_info.append(copy(info))
 
     # Group part out of the module to be possible to merge different
     # project lists, ignore some field to merge given in the `group_fields`.
@@ -221,7 +222,7 @@ def kicost(in_file, eda_name, out_filename,
         dist_not_rmv = [d for d in distributor_dict.keys() if d+'#' in all_fields]
         dist_not_rmv += ['local_template']  # Needed later for creating non-web distributors.
         # distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}
-        distributors = distributor_dict.copy().keys()
+        distributors = copy(distributor_dict).keys()
         for d in distributors:
             if d not in dist_not_rmv:
                 logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
