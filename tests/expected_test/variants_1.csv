@@ -1,0 +1,8 @@
+Prj:,KiBom Test Schematic,,,,Board Qty:,100
+Co.:,https://github.com/SchrodingersGat/KiBom,,,,Unit Cost:,0
+Global Part Info,,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$
+C1,1nF,,,100,,0
+R1,1k,,,100,,0
+
+
