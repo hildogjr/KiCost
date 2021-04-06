@@ -55,11 +55,12 @@ try:
 except NameError:
     pass  # Happens if reload is attempted in Python 3.
 
-__all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences']  # Only export this routine for use by the outside world.
+# Only export this routine for use by the outside world.
+__all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
 from .global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED
 
-# TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
+# TODO this 2 imports below should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
 # from .distributors.api_octopart import api_octopart
 from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
 from .distributors.dist_local_template import dist_local_template
@@ -73,6 +74,25 @@ from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_
 from .distributors.global_vars import distributor_dict
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import create_spreadsheet
+
+
+def query_part_info(parts, dist_list=distributor_dict.keys(), currency=DEFAULT_CURRENCY):
+    # Set part info to default blank values for all the distributors.
+    for part in parts:  # TODO create this for just the current active distributor inside each module.
+        # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
+        part.part_num = {dist: '' for dist in dist_list}  # Distributor catalogue number.
+        part.url = {dist: '' for dist in dist_list}  # Purchase distributor URL for the specific part.
+        part.price_tiers = {dist: {} for dist in dist_list}  # Price break tiers; [[qty1, price1][qty2, price2]...]
+        part.qty_avail = {dist: None for dist in dist_list}  # Available quantity.
+        part.qty_increment = {dist: None for dist in dist_list}
+        part.info_dist = {dist: {} for dist in dist_list}
+        part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list}  # Default currency.
+        part.moq = {dist: None for dist in dist_list}  # Minimum order quantity allowed by the distributor.
+    # distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
+    # TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
+    # distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
+    dist_local_template.query_part_info(parts, distributor_dict, currency)
+    api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
 
 
 def kicost(in_file, eda_name, out_filename,
@@ -234,22 +254,7 @@ def kicost(in_file, eda_name, out_filename,
 
     # Get the distributor pricing/qty/etc for each part.
     if dist_list:
-        # Set part info to default blank values for all the distributors.
-        for part in parts:  # TODO create this for just the current active distributor inside each module.
-            # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-            part.part_num = {dist: '' for dist in dist_list}  # Distributor catalogue number.
-            part.url = {dist: '' for dist in dist_list}  # Purchase distributor URL for the specific part.
-            part.price_tiers = {dist: {} for dist in dist_list}  # Price break tiers; [[qty1, price1][qty2, price2]...]
-            part.qty_avail = {dist: None for dist in dist_list}  # Available quantity.
-            part.qty_increment = {dist: None for dist in dist_list}
-            part.info_dist = {dist: {} for dist in dist_list}
-            part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list}  # Default currency.
-            part.moq = {dist: None for dist in dist_list}  # Minimum order quantity allowed by the distributor.
-        # distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
-        # TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
-        # distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
-        dist_local_template.query_part_info(parts, distributor_dict, currency)
-        api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
+        query_part_info(parts, dist_list, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, suppress_cat_url,
