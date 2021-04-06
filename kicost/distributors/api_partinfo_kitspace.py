@@ -82,7 +82,7 @@ QUERY_ANSWER = re.sub(r'[\s\n]', '', QUERY_ANSWER)
 QUERY_PART = 'query ($input: MpnInput!) { part(mpn: $input) {' + QUERY_ANSWER + '} }'
 QUERY_MATCH = 'query ($input: [MpnOrSku]!){ match(parts: $input) {' + QUERY_ANSWER + '} }'
 QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER + '} }'
-QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
+QUERY_URL = 'https://partinfo.kitspace.org/graphql'
 
 __all__ = ['api_partinfo_kitspace']
 
