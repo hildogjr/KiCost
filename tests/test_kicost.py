@@ -53,25 +53,45 @@ def test_csvs():
     assert not do_test_single('*.csv')
 
 
+def run_test(inputs, output, extra=None):
+    cmd = ['kicost', '--no_price']
+    if extra:
+        cmd.extend(extra)
+    out_xlsx = 'tests/' + output + '.xlsx'
+    cmd.extend(['-o', out_xlsx])
+    cmd.extend(['-wi'] + ['tests/' + n for n in inputs])
+    logging.debug('Running '+str(cmd))
+    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    res_csv = 'tests/result_test/' + output + '.csv'
+    logging.debug('Converting to CSV')
+    p1 = subprocess.Popen(['xlsx2csv', '--skipemptycolumns', out_xlsx], stdout=subprocess.PIPE)
+    with open(res_csv, 'w') as f:
+        p2 = subprocess.Popen(['egrep', '-i', '-v', r'(\$ date|kicost|Total purchase)'], stdin=p1.stdout, stdout=f)
+        p2.communicate()[0]
+    ref_csv = 'tests/expected_test/' + output + '.csv'
+    cmd = ['diff', '-u', ref_csv, res_csv]
+    logging.debug('Running '+str(cmd))
+    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    logging.info(output+' OK')
+
+
 def test_multiproject_1():
     test_name = 'multiproject_1'
     try:
-        cmd = ['kicost', '--no_price',
-               '-o', 'tests/multipart1+2.xlsx',
-               '-wi', 'tests/multipart.xml', 'tests/multipart2.xml']
-        logging.debug('Running '+str(cmd))
-        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        cmd = ['xlsx2csv', 'tests/multipart1+2.xlsx', 'tests/result_test/multipart1+2.csv.tmp']
-        logging.debug('Running '+str(cmd))
-        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        cmd = ['egrep', '-i', '-v', r'(\$ date|kicost|Total purchase)', 'tests/result_test/multipart1+2.csv.tmp']
-        with open('tests/result_test/multipart1+2.csv', 'w') as f:
-            logging.debug('Running '+str(cmd))
-            subprocess.call(cmd, stdout=f)
-        cmd = ['diff', '-u', 'tests/expected_test/multipart1+2.csv', 'tests/result_test/multipart1+2.csv']
-        logging.debug('Running '+str(cmd))
-        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        logging.info(test_name+' OK')
+        run_test(['multipart', 'multipart2.xml'], 'multipart1+2')
+    except subprocess.CalledProcessError as e:
+        logging.error('Failed test: '+test_name)
+        if e.output:
+            logging.error('Output from command: ' + e.output.decode())
+        raise e
+
+
+def test_variants_1():
+    test_name = 'variants_1'
+    try:
+        run_test(['variants_1'], 'variants_1_test', ['--variant', 'test'])
+        run_test(['variants_1'], 'variants_1_production', ['--variant', 'production'])
+        run_test(['variants_1'], 'variants_1_default', ['--variant', 'default'])
     except subprocess.CalledProcessError as e:
         logging.error('Failed test: '+test_name)
         if e.output:
