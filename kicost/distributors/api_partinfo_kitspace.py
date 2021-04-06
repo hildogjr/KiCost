@@ -38,7 +38,7 @@ import re
 # from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW
+from ..global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
 from .global_vars import distributors_modules_dict, distributor_dict
 from ..edas.tools import order_refs
 
@@ -137,7 +137,11 @@ class api_partinfo_kitspace(distributor_class):
         variables = re.sub(':u"', ':"', variables)
         variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
+        logger.log(DEBUG_HTTP_HEADERS, 'URL '+QUERY_URL)
+        logger.log(DEBUG_HTTP_HEADERS, '- query '+str(query_type))
+        logger.log(DEBUG_HTTP_HEADERS, '- variables '+str(variables))
         response = requests.post(QUERY_URL, {'query': query_type, "variables": variables})
+        logger.log(DEBUG_HTTP_RESPONSES, response.text)
         if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
             return results
@@ -190,11 +194,12 @@ class api_partinfo_kitspace(distributor_class):
                 pass
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
-        logDefaultHandler = logger.handlers[0]
-        logTqdmHandler = TqdmLoggingHandler()
-        # Replace default handler with "tqdm" handler.
-        logger.addHandler(logTqdmHandler)
-        logger.removeHandler(logDefaultHandler)
+        if len(logger.handlers) > 0:
+            logDefaultHandler = logger.handlers[0]
+            logTqdmHandler = TqdmLoggingHandler()
+            # Replace default handler with "tqdm" handler.
+            logger.addHandler(logTqdmHandler)
+            logger.removeHandler(logDefaultHandler)
 
         FIELDS_CAT = ([d + '#' for d in distributor_dict])
         DISTRIBUTORS = ([d for d in distributor_dict])
@@ -370,8 +375,9 @@ class api_partinfo_kitspace(distributor_class):
             progress.update(len(queries[slc]))
 
         # Restore the logging print channel now that the progress bar is no longer needed.
-        logger.addHandler(logDefaultHandler)
-        logger.removeHandler(logTqdmHandler)
+        if len(logger.handlers) > 0:
+            logger.addHandler(logDefaultHandler)
+            logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
