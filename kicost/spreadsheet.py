@@ -63,7 +63,7 @@ class Spreadsheet(object):
         }
 
     def __init__(self, workbook, worksheet_name, currency=DEFAULT_CURRENCY):
-        super().__init__()
+        super(Spreadsheet, self).__init__()
         self.workbook = workbook
         self.worksheet_name = worksheet_name
         self.purchase_description_seprtr = SEPRTR  # Purchase description separator.
