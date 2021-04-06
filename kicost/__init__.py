@@ -2,5 +2,5 @@
 
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
-
-from .version import __version__
+# Export .version.__version__ as a module version
+from .version import __version__  # noqa: F401

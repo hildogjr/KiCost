@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 # MIT license
 #
 # Copyright (C) 2019 by XESS Corporation / Hildo Guillardi Júnior
@@ -26,28 +26,30 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import * # Debug, language and default configurations.
+from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEBUG_OVERVIEW  # Debug, language and default configurations.
 
 # Python libraries.
 import os
 from datetime import datetime
-import re # Regular expression parser.
-import xlsxwriter # XLSX file interpreter.
+from math import ceil
+import re  # Regular expression parser.
+import xlsxwriter  # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
-from babel import numbers # For currency presentation.
+from babel import numbers  # For currency presentation.
+from validators import url as validate_url  # URL validator.
 
 # KiCost libraries.
-from . import __version__ # Version control by @xesscorp and collaborator.
-from .distributors.global_vars import distributor_dict # Distributors names and definitions to use in the spreadsheet.
-from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX, SUB_SEPRTR
+from .version import __version__  # Version control by @xesscorp and collaborator.
+from .distributors.global_vars import distributor_dict  # Distributors names and definitions to use in the spreadsheet.
+from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
-from currency_converter import CurrencyConverter
+from .currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
 __all__ = ['create_spreadsheet']
 
 
-PURCHASE_DESCRIPTION_SEPRTR = SEPRTR # Purchase description separator.
+PURCHASE_DESCRIPTION_SEPRTR = SEPRTR  # Purchase description separator.
 
 # Currency format and symbol definition (placed default values here, it will be replaced by the user asked currency).
 CURRENCY_ALPHA3 = DEFAULT_CURRENCY
@@ -56,30 +58,27 @@ CURRENCY_FORMAT = ''
 
 WORKBOOK = None
 
-# Regular expression to the link for one datasheet.
-DATASHEET_LINK_REGEX = re.compile('^(http(s)?:\/\/)?(www.)?[0-9a-z\.]+\/[0-9a-z\.\/\%\-\_]+(.pdf)?$', re.IGNORECASE)
-
 # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
 EXTRA_INFO_DISPLAY = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
 
+# Default value for number of boards to build.
+DEFAULT_BUILD_QTY = 100
 
 # About and credit message at the end of the spreadsheet.
-ABOUT_MSG='KiCost\N{REGISTERED SIGN} v.' + __version__
+ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v.' + __version__
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
                        collapse_refs=True, suppress_cat_url=True, user_fields=None, variant=None):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
-    
+
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(
-                                    os.path.basename(spreadsheet_filename)) )
-    
-    MAX_LEN_WORKSHEET_NAME = 31 # Microsoft Excel allows a 31 characters longer
-                                # string for the worksheet name, Google
-                                #Spreadsheet 100 and LibreOffice Calc have no limit.
-    DEFAULT_BUILD_QTY = 100  # Default value for number of boards to build.
+                                    os.path.basename(spreadsheet_filename)))
+    # Microsoft Excel allows a 31 characters longer string for the worksheet name, Google
+    # Spreadsheet 100 and LibreOffice Calc have no limit.
+    MAX_LEN_WORKSHEET_NAME = 31
     global WORKSHEET_NAME
-    WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0] # Default name for pricing worksheet.
+    WORKSHEET_NAME = os.path.splitext(os.path.basename(spreadsheet_filename))[0]  # Default name for pricing worksheet.
 
     global CURRENCY_SYMBOL
     global CURRENCY_FORMAT
@@ -91,21 +90,20 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
     CURRENCY_FORMAT = CURRENCY_SYMBOL + '#,##0.00'
     if len(variant) > 0:
         # Append an indication of the variant to the worksheet title.
-        # Remove any special characters that might be illegal in a 
+        # Remove any special characters that might be illegal in a
         # worksheet name since the variant might be a regular expression.
         # Fix the maximum worksheet name, priorize the variant string cutting
         # the board project.
-        variant = re.sub('[\[\]\\\/\|\?\*\:\(\)]','_',
-                            variant[:(MAX_LEN_WORKSHEET_NAME)])
+        variant = re.sub(r'[\[\]\\\/\|\?\*\:\(\)]', '_', variant[:(MAX_LEN_WORKSHEET_NAME)])
         WORKSHEET_NAME += '.'
         WORKSHEET_NAME = WORKSHEET_NAME[:(MAX_LEN_WORKSHEET_NAME-len(variant))]
         WORKSHEET_NAME += variant
     else:
         WORKSHEET_NAME = WORKSHEET_NAME[:MAX_LEN_WORKSHEET_NAME]
-    
+
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
-    
+
         # Create the various format styles used by various spreadsheet items.
         WRK_HDR_FORMAT = {
                 'font_size': 14, 'bold': True,
@@ -169,10 +167,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
             }),
             'best_price': workbook.add_format({'bg_color': '#80FF80', }),
             'not_manf_codes': workbook.add_format({'bg_color': '#AAAAAA'}),
-            'not_available': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
-            'order_too_much': workbook.add_format({'bg_color': '#FF0000', 'font_color':'white'}),
+            'not_available': workbook.add_format({'bg_color': '#FF0000', 'font_color': 'white'}),
+            'order_too_much': workbook.add_format({'bg_color': '#FF0000', 'font_color': 'white'}),
             'order_min_qty': workbook.add_format({'bg_color': '#FFFF00'}),
-            'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color':'black'}),
+            'too_few_available': workbook.add_format({'bg_color': '#FF9900', 'font_color': 'black'}),
             'too_few_purchased': workbook.add_format({'bg_color': '#FFFF00'}),
             'not_stocked': workbook.add_format({'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'}),
             'currency': workbook.add_format({'num_format': CURRENCY_FORMAT, 'valign': 'vcenter'}),
@@ -197,7 +195,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         START_ROW = 1+3*len(prj_info)
         LABEL_ROW = START_ROW + 1
         COL_HDR_ROW = LABEL_ROW + 1
-        FIRST_PART_ROW = COL_HDR_ROW + 1
+        # FIRST_PART_ROW = COL_HDR_ROW + 1
         LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
         next_row = 0
 
@@ -210,14 +208,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         # Create a defined range for the global data.
         workbook.define_name(
             'global_part_data', '={wks_name}!{data_range}'.format(
-                wks_name= "'" + WORKSHEET_NAME + "'",
+                wks_name="'" + WORKSHEET_NAME + "'",
                 data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
                                         next_col - 1)))
 
         for i_prj in range(len(prj_info)):
             # Add project information to track the project (in a printed version
             # of the BOM) and the date because of price variations.
-            i_prj_str = (str(i_prj) if len(prj_info)>1 else '')
+            i_prj_str = (str(i_prj) if len(prj_info) > 1 else '')
             wks.write(next_row, START_COL,
                       'Prj{}:'.format(i_prj_str),
                       wrk_formats['proj_info_field'])
@@ -240,23 +238,23 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
                       wrk_formats['board_qty'])  # Set initial board quantity.
             # Define the named cell where the total board quantity can be found.
             workbook.define_name('BoardQty{}'.format(i_prj_str),
-                '={wks_name}!{cell_ref}'.format(
-                    wks_name="'" + WORKSHEET_NAME + "'",
-                    cell_ref=xl_rowcol_to_cell(next_row, next_col - 1,
-                                           row_abs=True,
-                                           col_abs=True)))
-            
+                                 '={wks_name}!{cell_ref}'.format(
+                                 wks_name="'" + WORKSHEET_NAME + "'",
+                                 cell_ref=xl_rowcol_to_cell(next_row, next_col - 1,
+                                                            row_abs=True,
+                                                            col_abs=True)))
+
             # Create the cell to show total cost of board parts for each distributor.
             wks.write(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str),
                       wrk_formats['total_cost_label'])
             wks.write_comment(next_row + 2, next_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
             # Define the named cell where the total cost can be found.
             workbook.define_name('TotalCost{}'.format(i_prj_str),
-                            '={wks_name}!{cell_ref}'.format(
-                                wks_name="'" + WORKSHEET_NAME + "'",
-                                cell_ref=xl_rowcol_to_cell(next_row + 2,
-                                                           next_col - 1,
-                                       row_abs=True, col_abs=True)) )
+                                 '={wks_name}!{cell_ref}'.format(
+                                 wks_name="'" + WORKSHEET_NAME + "'",
+                                 cell_ref=xl_rowcol_to_cell(next_row + 2,
+                                                            next_col - 1,
+                                                            row_abs=True, col_abs=True)))
 
             # Create the cell to show unit cost of (each project) board parts.
             wks.write(next_row+1, next_col - 2, 'Unit Cost{}:'.format(i_prj_str),
@@ -273,16 +271,15 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         wks.write(next_row, START_COL+1,
                   datetime.now().strftime("%Y-%m-%d %H:%M:%S"), wrk_formats['proj_info'])
         # Add the total cost of all projects together.
-        if len(prj_info)>1:
+        if len(prj_info) > 1:
             # Create the row to show total cost of board parts for each distributor.
             wks.write(next_row, next_col - 2, 'Total Prjs Cost:',
                       wrk_formats['total_cost_label'])
             # Define the named cell where the total cost can be found.
             workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(
-                            wks_name="'" + WORKSHEET_NAME + "'",
-                            cell_ref=xl_rowcol_to_cell(next_row, next_col - 1,
-                                       row_abs=True,
-                                       col_abs=True)))
+                                 wks_name="'" + WORKSHEET_NAME + "'",
+                                 cell_ref=xl_rowcol_to_cell(next_row, next_col - 1,
+                                                            row_abs=True, col_abs=True)))
         next_row += 1
 
         # Freeze view of the global information and the column headers, but
@@ -300,8 +297,8 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         for dist in dist_list:
             dist_start_col = next_col
             next_col = add_dist_to_worksheet(wks, wrk_formats, columns_global,
-                                            START_ROW, dist_start_col,
-                                            UNIT_COST_ROW, TOTAL_COST_ROW,
+                                             START_ROW, dist_start_col,
+                                             UNIT_COST_ROW, TOTAL_COST_ROW,
                                              refs_col, qty_col, dist, parts, suppress_cat_url)
             # Create a defined range for each set of distributor part data.
             workbook.define_name(
@@ -380,11 +377,11 @@ Purple -> Obsolete part detected by one of the distributors.''',
             'level': 1,
             'label': 'Qty',
             'width': None,
-            'comment': '''Total number of each part needed.
+            'comment': """Total number of each part needed.
 Gray -> No manf# provided.
 Red -> No parts available.
 Orange -> Not enough parts available.
-Yellow -> Parts available, but haven't purchased enough.''',
+Yellow -> Parts available, but haven't purchased enough.""",
             'static': False,
         },
         'unit_price': {
@@ -414,7 +411,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                     return
             except KeyError:
                 pass
-        table = remove_column(table, code) # All 'manf' are empty.
+        table = remove_column(table, code)  # All 'manf' are empty.
     remove_col_not_exist_parts('manf')
     remove_col_not_exist_parts('desc')
 
@@ -422,8 +419,8 @@ Yellow -> Parts available, but haven't purchased enough.''',
     # original quantity column will be the total of each item. For check the number
     # of BOM files read, see the length of p[?]['manf#_qty'], if it is a `list()`
     # instance, if don't, the length is always `1`.
-    num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
-    if num_prj>1:
+    num_prj = max([len(part.fields.get('manf#_qty', [])) if isinstance(part.fields.get('manf#_qty', []), list) else 1 for part in parts])
+    if num_prj > 1:
         for i_prj in range(num_prj):
             # Add one column to quantify the quantity for each project.
             name = 'qty_prj{}'.format(i_prj)
@@ -432,8 +429,8 @@ Yellow -> Parts available, but haven't purchased enough.''',
             columns[name]['col'] = col
             columns[name]['label'] = 'Qty.Prj{}'.format(i_prj)
             columns[name]['comment'] = 'Total number of each part needed to assembly the project {}.'.format(i_prj)
-            for k,f in columns.items():
-                if f['col']>=col and k!=name:
+            for k, f in columns.items():
+                if f['col'] >= col and k != name:
                     f['col'] += 1
 
     # Enter user-defined fields into the global part data columns structure.
@@ -442,7 +439,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
         col_ids = list(columns.keys())
         user_field_id = user_field.lower()
         if user_field_id not in col_ids:
-            # Put user fields immediately to right of the 'desc' column. 
+            # Put user fields immediately to right of the 'desc' column.
             desc_col = columns.get('desc', columns['value'])['col']
             # Push all existing fields to right of 'desc' over by one column.
             # Use 'value' if 'desc' was removed due not value present in the BOM.
@@ -486,7 +483,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
     # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        #part.collapsed_refs = ','.join( order_refs(part.refs, collapse=collapse_refs) )
+        # part.collapsed_refs = ','.join( order_refs(part.refs, collapse=collapse_refs) )
         part.collapsed_refs = order_refs(part.refs, collapse=collapse_refs)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
@@ -509,67 +506,68 @@ Yellow -> Parts available, but haven't purchased enough.''',
             try:
                 # Fields found in the XML are lower-cased, so do the same for the column key.
                 field_name = field.lower().strip()
-                if field_name=='manf#':
+                if field_name == 'manf#':
                     string = part.fields.get('manf#')
-                    link  = part.fields.get('datasheet')
+                    link = part.fields.get('datasheet')
                     if not link:
                         try:
                             # Use the the datasheet link got in the distributor if not
                             # available any in the BOM / schematic.
                             link = part.datasheet
-                        except:
+                        except AttributeError:
                             pass
                     try:
                         lifecycle = part.lifecycle
-                        if lifecycle=='obsolete':
+                        if lifecycle == 'obsolete':
                             cell_format = wrk_formats['part_format_obsolete']
                         else:
                             cell_format = wrk_formats['part_format']
-                    except:
+                    except AttributeError:
                         cell_format = wrk_formats['part_format']
                         pass
-                    if link and re.match(DATASHEET_LINK_REGEX, link):
+                    if link and validate_url(link):
                         # Just put the link if is a valid format.
                         wks.write_url(row, start_col + columns['manf#']['col'],
-                             link, string=string, cell_format=cell_format)
+                                      link, string=string, cell_format=cell_format)
                     else:
                         wks.write_string(row, start_col + columns[field]['col'],
-                             part.fields[field_name], cell_format)
+                                         part.fields[field_name], cell_format)
                 else:
-                    if field_name=='footprint':
-                        ##TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
-                        field_value_footprint = re.findall('\:(.*)', part.fields[field_name])
+                    field_value = part.fields[field_name]
+                    if field_name == 'footprint':
+                        # TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
+                        field_value_footprint = re.findall(r'\:(.*)', field_value)
                         if field_value_footprint:
                             field_value = field_value_footprint[0]
-                    else:
-                        field_value = part.fields[field_name]
                     wks.write_string(row, start_col + columns[field]['col'],
-                                 field_value, wrk_formats['part_format'])
+                                     field_value, wrk_formats['part_format'])
             except KeyError:
                 pass
 
         # Enter total part quantity needed.
         try:
-            qty = partgroup_qty(part)
+            qty, qty_n = partgroup_qty(part)
             if isinstance(qty, list):
                 # Multifiles BOM case, write each quantity and after,
                 # in the 'qty' column the total quantity as ceil of
                 # the total quantity (to ceil use a Microsoft Excel
                 # compatible function.
+                total = 0
                 for i_prj in range(len(qty)):
-                    wks.write(row,
-                          start_col + columns['qty_prj{}'.format(i_prj)]['col'],
-                          qty[i_prj].format('BoardQty{}'.format(i_prj)),
-                          wrk_formats['part_format'])
+                    total += qty_n[i_prj] * DEFAULT_BUILD_QTY
+                    wks.write_formula(row,
+                                      start_col + columns['qty_prj{}'.format(i_prj)]['col'],
+                                      qty[i_prj].format('BoardQty{}'.format(i_prj)),
+                                      wrk_formats['part_format'],
+                                      value=qty_n[i_prj])
                 wks.write_formula(row, start_col + columns['qty']['col'],
-                    '=CEILING(SUM({}:{}),1)'.format(
-                        xl_rowcol_to_cell(row, start_col + columns['qty_prj0']['col']),
-                        xl_rowcol_to_cell(row, start_col + columns['qty']['col']-1)
-                    ),
-                    wrk_formats['part_format'])
+                                  '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + columns['qty_prj0']['col']),
+                                                                  xl_rowcol_to_cell(row, start_col + columns['qty']['col']-1)),
+                                  wrk_formats['part_format'],
+                                  value=ceil(total))
             else:
-                wks.write(row, start_col + columns['qty']['col'],
-                          qty.format('BoardQty'), wrk_formats['part_format'])
+                wks.write_formula(row, start_col + columns['qty']['col'],
+                                  qty.format('BoardQty'), wrk_formats['part_format'], value=ceil(qty_n * DEFAULT_BUILD_QTY))
         except KeyError:
             pass
 
@@ -615,7 +613,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
             {
                 'type': 'formula',
                 'criteria': '=AND(ISBLANK({g}),{d})'.format(
-                    g=xl_rowcol_to_cell(row,start_col + columns['manf#']['col']), # Manf# column also have to be blank.
+                    g=xl_rowcol_to_cell(row, start_col + columns['manf#']['col']),  # Manf# column also have to be blank.
                     d=(','.join(dist_code_avail) if dist_code_avail else 'TRUE()')
                  ),
                 'format': wrk_formats['not_manf_codes']
@@ -626,8 +624,8 @@ Yellow -> Parts available, but haven't purchased enough.''',
         wks.write_formula(
             row, start_col + columns['ext_price']['col'],
             '=iferror({qty}*{unit_price},"")'.format(
-                qty        = xl_rowcol_to_cell(row, start_col + columns['qty']['col']),
-                unit_price = xl_rowcol_to_cell(row, start_col + columns['unit_price']['col'])
+                qty=xl_rowcol_to_cell(row, start_col + columns['qty']['col']),
+                unit_price=xl_rowcol_to_cell(row, start_col + columns['unit_price']['col'])
             ),
             wrk_formats['currency']
         )
@@ -652,7 +650,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 }
             )
 
-            # If total available part quantity is less than needed quantity, color cell orange. 
+            # If total available part quantity is less than needed quantity, color cell orange.
             wks.conditional_format(
                 row, start_col + columns['qty']['col'],
                 row, start_col + columns['qty']['col'],
@@ -664,7 +662,7 @@ Yellow -> Parts available, but haven't purchased enough.''',
                 }
             )
 
-            # If total purchased part quantity is less than needed quantity, color cell yellow. 
+            # If total purchased part quantity is less than needed quantity, color cell yellow.
             wks.conditional_format(
                 row, start_col + columns['qty']['col'],
                 row, start_col + columns['qty']['col'],
@@ -700,65 +698,65 @@ Yellow -> Parts available, but haven't purchased enough.''',
                       '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
                             unit_price_range=unit_price_range,
                             qty_range=xl_range(PART_INFO_FIRST_ROW, qty_col,
-                                PART_INFO_LAST_ROW, qty_col)),
+                                               PART_INFO_LAST_ROW, qty_col)),
                       wrk_formats['total_cost_currency'])
         # Add total of the spreadsheet, this can be equal or bigger than
         # than the sum of the above totals, because, in the case of partial
         # or fractional quantity of one part or subpart, the total quantity
         # column 'qty' will be the ceil of the sum of the other ones.
-        total_cost_row = start_row -1 # Change the position of the total price cell.
+        total_cost_row = start_row - 1  # Change the position of the total price cell.
     wks.write(total_cost_row, total_cost_col, '=SUM({sum_range})'.format(
               sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
-                           PART_INFO_LAST_ROW, total_cost_col)),
+                                 PART_INFO_LAST_ROW, total_cost_col)),
               wrk_formats['total_cost_currency'])
 
     # Add the total purchase and others purchase informations.
     if distributor_dict.keys():
         next_line = row + 1
         wks.write(next_line, start_col + columns['unit_price']['col'],
-                      'Total Purchase:', wrk_formats['total_cost_label'])
+                  'Total Purchase:', wrk_formats['total_cost_label'])
         wks.write_comment(next_line, start_col + columns['unit_price']['col'],
-                      'This is the total of your cart across all distributors.')
+                          'This is the total of your cart across all distributors.')
         wks.write(next_line, start_col + columns['ext_price']['col'],
                   '=SUM({})'.format(','.join(dist_ext_prices)),
-              wrk_formats['total_cost_currency'])
+                  wrk_formats['total_cost_currency'])
         # Purchase general description, it may be used to distinguish carts of different projects.
         next_line = next_line + 1
         wks.write(next_line, start_col + columns['unit_price']['col'],
-                      'Purchase description:', wrk_formats['description'])
+                  'Purchase description:', wrk_formats['description'])
         wks.write_comment(next_line, start_col + columns['unit_price']['col'],
-                      'This description will be added to all purchased parts label and may be used to distinguish the component of different projects.')
+                          'This description will be added to all purchased parts label and may be used to distinguish the ' +
+                          'component of different projects.')
         WORKBOOK.define_name('PURCHASE_DESCRIPTION',
-            '={wks_name}!{cell_ref}'.format(
-                wks_name="'" + WORKSHEET_NAME + "'",
-                cell_ref=xl_rowcol_to_cell(next_line, columns['ext_price']['col'],
-                                       row_abs=True, col_abs=True)))
+                             '={wks_name}!{cell_r}'.format(wks_name="'" + WORKSHEET_NAME + "'",
+                                                           cell_r=xl_rowcol_to_cell(next_line, columns['ext_price']['col'],
+                                                                                    row_abs=True, col_abs=True)))
 
     # Get the actual currency rate to use.
     next_line = row + 1
     used_currencies = list(set(used_currencies))
-    logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...', used_currencies, CURRENCY_ALPHA3)
-    if len(used_currencies)>1:
+    logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...'.format(used_currencies, CURRENCY_ALPHA3))
+    if len(used_currencies) > 1:
         if CURRENCY_ALPHA3 in used_currencies:
             used_currencies.remove(CURRENCY_ALPHA3)
         wks.write(next_line, start_col + columns['value']['col'],
-                    'Used currency rates:', wrk_formats['description'])
+                  'Used currency rates:', wrk_formats['description'])
         next_line = next_line + 1
     for used_currency in used_currencies:
-        if used_currency!=CURRENCY_ALPHA3:
+        if used_currency != CURRENCY_ALPHA3:
             wks.write(next_line, start_col + columns['value']['col'],
                       '{c}({c_s})/{d}({d_s}):'.format(c=CURRENCY_ALPHA3, d=used_currency, c_s=CURRENCY_SYMBOL,
-                                    d_s=numbers.get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
-                                  ),
-                        wrk_formats['description']
+                                                      d_s=numbers.get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
+                                                      ),
+                      wrk_formats['description']
                       )
             WORKBOOK.define_name('{c}_{d}'.format(c=CURRENCY_ALPHA3, d=used_currency),
-                '={wks_name}!{cell_ref}'.format(
-                    wks_name="'" + WORKSHEET_NAME + "'",
-                    cell_ref=xl_rowcol_to_cell(next_line, columns['value']['col'] + 1,
-                                           row_abs=True, col_abs=True)))
+                                 '={wks_name}!{cell_ref}'.format(
+                                 wks_name="'" + WORKSHEET_NAME + "'",
+                                 cell_ref=xl_rowcol_to_cell(next_line, columns['value']['col'] + 1,
+                                                            row_abs=True, col_abs=True)))
             wks.write(next_line, columns['value']['col'] + 1,
-                        currency_convert(1, used_currency, CURRENCY_ALPHA3)
+                      currency_convert(1, used_currency, CURRENCY_ALPHA3)
                       )
             next_line = next_line + 1
 
@@ -793,7 +791,8 @@ Orange -> Too little quantity available.'''
             'level': 2,
             'label': 'Purch',
             'width': None,
-            'comment': 'Purchase quantity of each part from this distributor.\nYellow -> This part have a minimum purchase quantity bigger than 1 (check the price breaks).\nRed -> Purchasing more than the available quantity.'
+            'comment': 'Purchase quantity of each part from this distributor.\nYellow -> This part have a minimum purchase quantity bigger than 1'
+                       ' (check the price breaks).\nRed -> Purchasing more than the available quantity.'
         },
         'unit_price': {
             'col': 2,
@@ -833,13 +832,13 @@ Orange -> Too little quantity available.'''
 
     # Add label for this distributor.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-            #distributor_dict[dist]['label']['name'].title(),
-            distributor_dict[dist]['label']['name'],
-            wrk_formats[dist])
-    #if distributor_dict[dist]['type']!='local':
-    #    wks.write_url(row, start_col,
-    #        distributor_dict[dist]['label']['url'], wrk_formats[dist],
-    #        distributor_dict[dist]['label']['name'].title())
+                    # distributor_dict[dist]['label']['name'].title(),
+                    distributor_dict[dist]['label']['name'],
+                    wrk_formats[dist])
+    # if distributor_dict[dist]['type']!='local':
+    #     wks.write_url(row, start_col,
+    #         distributor_dict[dist]['label']['url'], wrk_formats[dist],
+    #         distributor_dict[dist]['label']['name'].title())
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -854,7 +853,7 @@ Orange -> Too little quantity available.'''
     num_parts = len(parts)
     # For check the number of BOM files read, see the length of p[?]['manf#_qty'],
     # if it is a `list()` instance, if don't, the length is always `1`.
-    num_prj = max([len(part.fields.get('manf#_qty',[])) if isinstance(part.fields.get('manf#_qty',[]),list) else 1 for part in parts])
+    num_prj = max([len(part.fields.get('manf#_qty', [])) if isinstance(part.fields.get('manf#_qty', []), list) else 1 for part in parts])
 
     # Add distributor data for each part.
     PART_INFO_FIRST_ROW = row  # Starting row of part info.
@@ -862,9 +861,9 @@ Orange -> Too little quantity available.'''
 
     for part in parts:
 
-        dist_part_num = part.part_num[dist] # Get the distributor part number.
-        price_tiers = part.price_tiers[dist] # Extract price tiers from distributor HTML page tree.
-        dist_currency =  part.currency[dist] # Extract currency used by the distributor.
+        dist_part_num = part.part_num[dist]  # Get the distributor part number.
+        price_tiers = part.price_tiers[dist]  # Extract price tiers from distributor HTML page tree.
+        dist_currency = part.currency[dist]  # Extract currency used by the distributor.
 
         # If the part number doesn't exist, just leave this row blank.
         if len(dist_part_num) == 0:
@@ -880,13 +879,13 @@ Orange -> Too little quantity available.'''
             wks.write(row, start_col + columns['part_num']['col'], dist_part_num, wrk_formats['part_format'])
         else:
             if supress_cat_url:
-                dist_part_num = 'Link' # To use as text for the link.
+                dist_part_num = 'Link'  # To use as text for the link.
         try:
             # Add a comment in the 'cat#' column with extra information gotten in the distributor web page.
-            comment = '\n'.join(sorted([ k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
+            comment = '\n'.join(sorted([k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in EXTRA_INFO_DISPLAY]))
             if comment:
                 wks.write_comment(row, start_col + columns['part_num']['col'], comment)
-        except:
+        except Exception:
             pass
 
         # Enter a link to the distributor webpage for this part, even if there
@@ -896,7 +895,7 @@ Orange -> Too little quantity available.'''
         if part.url[dist]:
             if supress_cat_url:
                 wks.write_url(row, start_col + columns['part_num']['col'],
-                    part.url[dist], string=dist_part_num)
+                              part.url[dist], string=dist_part_num)
             else:
                 wks.write_url(row, start_col + columns['link']['col'], part.url[dist])
 
@@ -904,12 +903,12 @@ Orange -> Too little quantity available.'''
         # which means the part is not stocked.
         if part.qty_avail[dist]:
             wks.write(row, start_col + columns['avail']['col'],
-                  part.qty_avail[dist], wrk_formats['part_format'])
+                      part.qty_avail[dist], wrk_formats['part_format'])
         else:
             wks.write(row, start_col + columns['avail']['col'],
-                'NonStk', wrk_formats['not_stocked'])
-            wks.write_comment(row, start_col + columns['avail']['col'], 
-                'This part is listed but is not normally stocked.')
+                      'NonStk', wrk_formats['not_stocked'])
+            wks.write_comment(row, start_col + columns['avail']['col'],
+                              'This part is listed but is not normally stocked.')
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, start_col + columns['purch']['col'], '', None)
@@ -919,9 +918,9 @@ Orange -> Too little quantity available.'''
             # Add the price for a single unit if it doesn't already exist in the tiers.
             try:
                 min_qty = min(price_tiers.keys())
-                minimum_order_qty = min_qty # Update the minimum order quantity.
+                minimum_order_qty = min_qty  # Update the minimum order quantity.
                 if min_qty > 1:
-                    price_tiers[1] = price_tiers[min_qty] # Set unit price to price of lowest available quantity.
+                    price_tiers[1] = price_tiers[min_qty]  # Set unit price to price of lowest available quantity.
             except ValueError:  # This happens if the price tier list is empty.
                 pass
             price_tiers[0] = 0.00  # Enter quantity-zero pricing so `LOOKUP` works correctly in the spreadsheet.
@@ -936,40 +935,38 @@ Orange -> Too little quantity available.'''
 
             # Enter a spreadsheet lookup function that determines the unit price based on the needed quantity
             # or the purchased quantity (if that is non-zero).
-            if dist_currency==CURRENCY_ALPHA3:
+            if dist_currency == CURRENCY_ALPHA3:
                 wks.write_formula(
                     row, unit_price_col,
                     '=iferror(lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
                         needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                         purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                         qtys=','.join([str(q) for q in qtys]),
-                        prices=','.join([str(price_tiers[q]) for q in qtys])),
-                        wrk_formats['currency'])
+                        prices=','.join([str(price_tiers[q]) for q in qtys])), wrk_formats['currency'])
             else:
                 wks.write_formula(
                     row, unit_price_col,
                     '=iferror({rate}*lookup(if({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                        rate='{c}_{d}'.format(c=CURRENCY_ALPHA3, d=dist_currency), # Currency rate used to this distributor.
+                        rate='{c}_{d}'.format(c=CURRENCY_ALPHA3, d=dist_currency),  # Currency rate used to this distributor.
                         needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                         purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                         qtys=','.join([str(q) for q in qtys]),
-                        prices=','.join([str(price_tiers[q]) for q in qtys])),
-                        wrk_formats['currency'])
+                        prices=','.join([str(price_tiers[q]) for q in qtys])), wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
             dist_currency_symbol = numbers.get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
             price_break_info = 'Qty/Price Breaks ({c}):\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(c=dist_currency, s=dist_currency_symbol)
-            for q in qtys[1 if minimum_order_qty==1 else 2:]:
+            for q in qtys[1 if minimum_order_qty == 1 else 2:]:
                 # Skip the unity quantity for the tip balloon if it not allow to purchase in the distributor.
                 price = price_tiers[q]
-                price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format( q,
-                    numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE),
-                    numbers.format_currency(price*q, dist_currency, locale=DEFAULT_LANGUAGE))
+                price_fmt = numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE)
+                priceq_fmt = numbers.format_currency(price*q, dist_currency, locale=DEFAULT_LANGUAGE)
+                price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(q, price_fmt, priceq_fmt)
             wks.write_comment(row, unit_price_col, price_break_info)
 
             # Conditional format to show no quantity is available.
             wks.conditional_format(
-                row, start_col + columns['avail']['col'], 
+                row, start_col + columns['avail']['col'],
                 row, start_col + columns['avail']['col'],
                 {
                     'type': 'cell',
@@ -981,7 +978,7 @@ Orange -> Too little quantity available.'''
 
             # Conditional format to show the available quantity is less than required.
             wks.conditional_format(
-                row, start_col + columns['avail']['col'], 
+                row, start_col + columns['avail']['col'],
                 row, start_col + columns['avail']['col'],
                 {
                     'type': 'cell',
@@ -992,9 +989,9 @@ Orange -> Too little quantity available.'''
             )
 
             # Conditional format to show that the part have a minimum order quantity not respected.
-            if minimum_order_qty>1:
+            if minimum_order_qty > 1:
                 wks.conditional_format(
-                    row, start_col + columns['purch']['col'], 
+                    row, start_col + columns['purch']['col'],
                     row, start_col + columns['purch']['col'],
                     {
                         'type': 'formula',
@@ -1007,7 +1004,7 @@ Orange -> Too little quantity available.'''
                 )
             # Conditional format to show the purchase quantity is more than what is available.
             wks.conditional_format(
-                row, start_col + columns['purch']['col'], 
+                row, start_col + columns['purch']['col'],
                 row, start_col + columns['purch']['col'],
                 {
                     'type': 'cell',
@@ -1026,7 +1023,7 @@ Orange -> Too little quantity available.'''
                     unit_price=xl_rowcol_to_cell(row, unit_price_col)),
                 wrk_formats['currency'])
 
-            if len(distributor_dict)>1: # Just use the best price highlight if more than one distributor.
+            if len(distributor_dict) > 1:  # Just use the best price highlight if more than one distributor.
                 # Conditionally format the extended price cell that contains the best price.
                 wks.conditional_format(row, ext_price_col, row, ext_price_col, {
                     'type': 'cell',
@@ -1050,11 +1047,11 @@ Orange -> Too little quantity available.'''
     total_cost_col = start_col + columns['ext_price']['col']
     unit_cost_col = start_col + columns['unit_price']['col']
     dist_cat_col = start_col + columns['part_num']['col']
-    
+
     # If more than one file (multi-files mode) show how many
     # parts of each BOM as found at this distributor and
     # the correspondent total price.
-    if num_prj>1:
+    if num_prj > 1:
         for i_prj in range(num_prj):
             # Sum the extended prices (unit multiplied by quantity) for each file/BOM.
             qty_prj_col = part_qty_col - (num_prj - i_prj)
@@ -1062,21 +1059,21 @@ Orange -> Too little quantity available.'''
             wks.write(row, total_cost_col,
                       '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
                             qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
-                                            PART_INFO_LAST_ROW, qty_prj_col),
+                                               PART_INFO_LAST_ROW, qty_prj_col),
                             unit_price_range=xl_range(PART_INFO_FIRST_ROW, unit_cost_col,
-                                            PART_INFO_LAST_ROW, unit_cost_col)),
+                                                      PART_INFO_LAST_ROW, unit_cost_col)),
                       wrk_formats['total_cost_currency'])
             # Show how many parts were found at this distributor.
             wks.write(row, dist_cat_col,
-                '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",{qty_range},"<>")&" parts found"'.format(
-                price_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
-                                     PART_INFO_LAST_ROW, total_cost_col),
-                qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
-                                   PART_INFO_LAST_ROW, qty_prj_col)),
-                wrk_formats['found_part_pct'])
+                      '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",'
+                      '{qty_range},"<>")&" parts found"'.format(price_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
+                                                                PART_INFO_LAST_ROW, total_cost_col),
+                                                                qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
+                                                                                   PART_INFO_LAST_ROW, qty_prj_col)),
+                      wrk_formats['found_part_pct'])
             wks.write_comment(row, dist_cat_col, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
-        total_cost_row = PART_INFO_FIRST_ROW - 3 # Shift the total price in this distributor.
-    
+        total_cost_row = PART_INFO_FIRST_ROW - 3  # Shift the total price in this distributor.
+
     # Sum the extended prices for all the parts to get the total cost from this distributor.
     wks.write(total_cost_row, total_cost_col, '=SUM({sum_range})'.format(
         sum_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
@@ -1084,11 +1081,11 @@ Orange -> Too little quantity available.'''
               wrk_formats['total_cost_currency'])
     # Show how many parts were found at this distributor.
     wks.write(total_cost_row, dist_cat_col,
-        '=(COUNTA({count_range})&" of "&ROWS({count_range})&" parts found")'.format(
-        #'=COUNTIF({count_range},"<>")&" of "&ROWS({count_range})&" parts found"'.format(
-            count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
-                                 PART_INFO_LAST_ROW, total_cost_col)),
-            wrk_formats['found_part_pct'])
+              # '=COUNTIF({count_range},"<>")&" of "&ROWS({count_range})&" parts found"'.format(
+              '=(COUNTA({count_range})&" of "&ROWS({count_range})&"'
+              ' parts found")'.format(count_range=xl_range(PART_INFO_FIRST_ROW, total_cost_col,
+                                      PART_INFO_LAST_ROW, total_cost_col)),
+              wrk_formats['found_part_pct'])
     wks.write_comment(total_cost_row, dist_cat_col, 'Number of parts found at this distributor.')
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
@@ -1099,8 +1096,8 @@ Orange -> Too little quantity available.'''
     # Write the header and how many parts are being purchased.
     purch_qty_col = start_col + columns['purch']['col']
     ext_price_col = start_col + columns['ext_price']['col']
-    ORDER_HEADER =  PART_INFO_LAST_ROW + 2
-    wks.write_formula( # Expended many in this distributor.
+    ORDER_HEADER = PART_INFO_LAST_ROW + 2
+    wks.write_formula(  # Expended many in this distributor.
         ORDER_HEADER, ext_price_col,
         '=SUMIF({count_range},">0",{price_range})'.format(
             count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
@@ -1110,25 +1107,25 @@ Orange -> Too little quantity available.'''
         ),
         wrk_formats['total_cost_currency']
     )
-    wks.write_formula( # Quantity of purchased part in this distributor.
+    wks.write_formula(  # Quantity of purchased part in this distributor.
         ORDER_HEADER, purch_qty_col,
-        '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.format(
+        '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&'
+        '(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.format(
             count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
                                  PART_INFO_LAST_ROW, purch_qty_col),
             count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
-                                 PART_INFO_LAST_ROW, ext_price_col)
+                                       PART_INFO_LAST_ROW, ext_price_col)
         ),
         wrk_formats['found_part_pct']
     )
     wks.write_comment(ORDER_HEADER, purch_qty_col,
-        'Copy the information below to the BOM import page of the distributor web site.')
+                      'Copy the information below to the BOM import page of the distributor web site.')
     try:
         wks.write_url(ORDER_HEADER, purch_qty_col-1,
-            distributor_dict[dist]['order']['url'],
-            string='Buy here')
+                      distributor_dict[dist]['order']['url'],
+                      string='Buy here')
     except KeyError:
-        pass # Not URL registered.
-
+        pass  # Not URL registered.
 
     # Write the spreadsheet code to multiple lines to create the purchase codes to
     # be used in this current distributor.
@@ -1136,10 +1133,10 @@ Orange -> Too little quantity available.'''
         cols = distributor_dict[dist]['order']['cols']
     except KeyError:
         logger.log(DEBUG_OVERVIEW,
-                "Purchase list codes for {d} will not be generated: no information provided.".format(
-                    d=distributor_dict[dist]['label']['name']
-                ))
-        return start_col + num_cols # If not created the distributor definition, jump this final code part.
+                   "Purchase list codes for {d} will not be generated: no information "
+                   "provided.".format(d=distributor_dict[dist]['label']['name'])
+                   )
+        return start_col + num_cols  # If not created the distributor definition, jump this final code part.
 
     from .distributors.distributors_info import ORDER_COL_USERFIELDS
     if ORDER_COL_USERFIELDS in cols:
@@ -1147,7 +1144,7 @@ Orange -> Too little quantity available.'''
         # replace the virtual annotation provided by `ORDER_COL_USERFIELDS`
         # by all user fields in the spreadsheet. This keep the compatibility
         # and configuration possibility for other features.
-        idx = cols.index(ORDER_COL_USERFIELDS) # Find the first occurrence.
+        idx = cols.index(ORDER_COL_USERFIELDS)  # Find the first occurrence.
         del cols[idx]
         cols_user = list(columns_global.keys())
         for r in set(cols+['refs', 'qty', 'value', 'footprint', 'unit_price', 'ext_price', 'manf#', 'part_num', 'purch', 'desc']):
@@ -1156,29 +1153,28 @@ Orange -> Too little quantity available.'''
             except ValueError:
                 pass
         logger.log(DEBUG_OVERVIEW,
-                "Add the {f} information for the {d} purchase list code.".format(
-                    d=distributor_dict[dist]['label']['name'],
-                    f=cols_user
-                ))
+                   "Add the {f} information for the {d} purchase list code.".format(d=distributor_dict[dist]['label']['name'],
+                                                                                    f=cols_user)
+                   )
         cols[idx:idx] = cols_user
 
     # Create the header of the purchase codes, if present the definition.
     try:
         wks.write_formula(ORDER_FIRST_ROW, ORDER_START_COL,
-                         '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}",""),"")'.format(
-                            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
-                                PART_INFO_LAST_ROW, purch_qty_col),
-                            count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
-                                PART_INFO_LAST_ROW, ext_price_col),
-                            header=distributor_dict[dist]['order']['header'],
-                         ),
-                         wrk_formats['found_part_pct']
-        )
+                          '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}",""),"")'
+                          .format(count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
+                                                       PART_INFO_LAST_ROW, purch_qty_col),
+                                  count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
+                                                             PART_INFO_LAST_ROW, ext_price_col),
+                                  header=distributor_dict[dist]['order']['header'],
+                                  ),
+                          wrk_formats['found_part_pct']
+                          )
         try:
             wks.write_comment(ORDER_FIRST_ROW, ORDER_START_COL, distributor_dict[dist]['order']['info'])
         except KeyError:
             pass
-        ORDER_FIRST_ROW = ORDER_FIRST_ROW + 1 # Push all the code list one row.
+        ORDER_FIRST_ROW = ORDER_FIRST_ROW + 1  # Push all the code list one row.
         ORDER_LAST_ROW = ORDER_LAST_ROW + 1
     except KeyError:
         pass
@@ -1225,38 +1221,38 @@ Orange -> Too little quantity available.'''
                             )
                         )
         '''
-        order_info_func_model = re.sub('[\s\n]', '', order_info_func_model) # Strip all the whitespace from the function string.
+        order_info_func_model = re.sub(r'[\s\n]', '', order_info_func_model)  # Strip all the whitespace from the function string.
 
         # Create the line order by the fields specified by each distributor.
-        delimier = ',"' + distributor_dict[dist]['order']['delimiter'] + '",' # Function delimiter plus distributor code delimiter.
+        delimier = ',"' + distributor_dict[dist]['order']['delimiter'] + '",'  # Function delimiter plus distributor code delimiter.
         order_part_info = []
         for col in cols:
             # Deal with conversion and string replace necessary to the correct distributors
             # code understanding.
-            if col==None or \
-                    (col not in columns and \
-                    col not in columns_global):
+            if col is None or \
+                    (col not in columns and
+                     col not in columns_global):
                 # Create an empty column escaping all the information, same when is asked
                 # for a not present filed at the global column (`columns_global`) part or
                 # distributors columns part (`columns`).
                 order_part_info.append('')
-                continue # Doesn't need to calculate range or references, go check the next field.
-            if col=='purch':
+                continue  # Doesn't need to calculate range or references, go check the next field.
+            if col == 'purch':
                 # Add text conversion if is a numeric cell.
                 order_part_info.append('TEXT({},"##0")'.format(order_info_func_model))
             elif col not in ['part_num', 'purch', 'manf#']:
                 # All comment and description columns (that are not quantity and catalogue code)
                 # should respect the allowed characters. These are text informative columns.
-                #if col=='refs':
-                #    # If 'refs' column an additional rule to remove the subpart counter.
-                #    order_info_func_parcial = 'REGEX({f},"\{c}\d+","","g")'.format(f=order_info_func_model,c=SUB_SEPRTR)
-                #    This is not supported by Microsoft Excel. ## TODO
-                #else:
+                # if col=='refs':
+                #     # If 'refs' column an additional rule to remove the subpart counter.
+                #     order_info_func_parcial = 'REGEX({f},"\{c}\d+","","g")'.format(f=order_info_func_model,c=SUB_SEPRTR)
+                #     This is not supported by Microsoft Excel. ## TODO
+                # else:
                 order_info_func_parcial = order_info_func_model
                 if 'not_allowed_char' in distributor_dict[dist]['order'] and 'replace_by_char' in distributor_dict[dist]['order']:
                     for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):
                         not_allowed_char = distributor_dict[dist]['order']['not_allowed_char'][c]
-                        if len(distributor_dict[dist]['order']['replace_by_char'])>1:
+                        if len(distributor_dict[dist]['order']['replace_by_char']) > 1:
                             replace_by_char = distributor_dict[dist]['order']['replace_by_char'][c]
                         else:
                             replace_by_char = distributor_dict[dist]['order']['replace_by_char'][0]
@@ -1279,21 +1275,21 @@ Orange -> Too little quantity available.'''
                             f=col,
                             d=distributor_dict[dist]['label']['name']
                         ))
-            info_range =xl_range(PART_INFO_FIRST_ROW, info_range,
-                                 PART_INFO_LAST_ROW, info_range)
+            info_range = xl_range(PART_INFO_FIRST_ROW, info_range,
+                                  PART_INFO_LAST_ROW, info_range)
             # If the correspondent information is some description, it is allow to add the general
             # purchase designator. it is placed inside the "not allow characters" restriction.
             if col not in ['part_num', 'purch', 'manf#']:
-                info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(PURCHASE_DESCRIPTION_SEPRTR)+ '&' + info_range
+                info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(PURCHASE_DESCRIPTION_SEPRTR) + '&' + info_range
             # Create the part of formula that refers with one specific information.
             order_part_info[-1] = order_part_info[-1].format(
                         get_range=info_range,
-                        qty='{qty}', # keep all other for future replacement.
+                        qty='{qty}',  # keep all other for future replacement.
                         code='{code}',
                         order_first_row='{order_first_row}')
         # If already have some information, add the delimiter for
         # Microsoft Excel/LibreOffice Calc function.
-        order_func = order_func.format( delimier.join(order_part_info) )
+        order_func = order_func.format(delimier.join(order_part_info))
 
         # These are the columns where the part catalog numbers and purchase quantities can be found.
         if 'part_num' in cols:
@@ -1318,19 +1314,19 @@ Orange -> Too little quantity available.'''
                         qty=purchase_qty
                     )
         # Now write the order_func into every row of the order in the given column.
-        dist_col = start_col + columns['unit_price']['col']
-        info_col = dist_col
+        # dist_col = start_col + columns['unit_price']['col']
+        # info_col = dist_col
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
             wks.write_array_formula(
                 xl_range(r, ORDER_START_COL, r, ORDER_START_COL), '{{={f}}}'.format(f=order_func))
 
-    return start_col + num_cols # Return column following the globals so we know where to start next set of cells.
+    return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
 
 
 def remove_column(table, name):
     '''Remove a specified columns from a create table.'''
     for h in table:
-        if table[h]['col']>table[name]['col']:
+        if table[h]['col'] > table[name]['col']:
             table[h]['col'] -= 1
     del table[name]
     return table

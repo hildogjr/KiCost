@@ -21,21 +21,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Import and register here the file read modules.
+from .eda_kicad import eda_kicad
+from .eda_altium import eda_altium
+from .generic_csv import generic_csv
+from .global_vars import eda_modules
+# Here we export edas.global_vars.eda_dict as edas.eda_dict
+from .global_vars import eda_dict  # noqa: F401
+eda_modules['kicad'] = eda_kicad
+eda_modules['altium'] = eda_altium
+eda_modules['csv'] = generic_csv
+
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
-
-# The global dictionary of supported EDA tools starts out empty.
-eda_dict = {}
-
-# The global EDA tool modules dictionary.
-eda_modules = {}
-
-# Import and register here the file read modules.
-from .eda_kicad import *
-from .eda_altium import *
-from .generic_csv import *
-eda_modules['kicad'] = eda_kicad
-eda_modules['altium'] = eda_altium
-eda_modules['csv'] = generic_csv
