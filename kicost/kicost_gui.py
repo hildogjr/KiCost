@@ -437,7 +437,7 @@ class formKiCost(wx.Frame):
         self.m_gauge_process = wx.Gauge(self.m_panel1, wx.ID_ANY, 100, wx.DefaultPosition, wx.DefaultSize, wx.GA_HORIZONTAL)
         self.m_gauge_process.SetValue(0)
         self.m_gauge_process.SetToolTip(wx.ToolTip(u"Percentage of the scrape process elapsed."))
-        fgSizer1.Add(self.m_gauge_process, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL | wx.ALIGN_CENTER_VERTICAL, 5)
+        fgSizer1.Add(self.m_gauge_process, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_VERTICAL, 5)
 
         self.m_staticText_progressInfo = wx.StaticText(self.m_panel1, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.ALIGN_RIGHT)
         self.m_staticText_progressInfo.Wrap(-1)
@@ -455,7 +455,7 @@ class formKiCost(wx.Frame):
         self.m_textCtrl_messages.SetToolTip(wx.ToolTip(u"Process messages and warnings.\nClick right to copy or save the log."))
         self.m_textCtrl_messages.SetMinSize(wx.Size(-1, 4))
         self.m_textCtrl_messages.Bind(wx.EVT_RIGHT_DOWN, self.m_textCtrl_messages_rClick)
-        bSizer3.Add(self.m_textCtrl_messages, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        bSizer3.Add(self.m_textCtrl_messages, 1, wx.ALL | wx.EXPAND, 5)
 
         # * Configuration tab.
         self.m_panel1.SetSizer(bSizer3)
@@ -521,7 +521,7 @@ class formKiCost(wx.Frame):
 
         wSizer2.Add(bSizer11, 1, wx.TOP | wx.RIGHT, 5)
 
-        bSizer8.Add(wSizer2, 1, wx.ALL | wx.EXPAND | wx.ALIGN_CENTER_HORIZONTAL, 5)
+        bSizer8.Add(wSizer2, 1, wx.ALL | wx.EXPAND, 5)
 
         m_staticText = wx.StaticText(self.m_panel2, wx.ID_ANY, u"Extra commands:", wx.DefaultPosition, wx.DefaultSize, 0)
         m_staticText.Wrap(-1)
@@ -590,7 +590,7 @@ class formKiCost(wx.Frame):
 
         self.m_text_credits = wx.TextCtrl(self.m_panel3, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.Size(-1, 4),
                                           wx.TE_READONLY | wx.TE_MULTILINE | wx.TE_AUTO_URL | wx.TE_BESTWRAP)
-        bSizer2.Add(self.m_text_credits, 1, wx.ALL | wx.ALIGN_CENTER_HORIZONTAL | wx.EXPAND, 5)
+        bSizer2.Add(self.m_text_credits, 1, wx.ALL | wx.EXPAND, 5)
         self.m_text_credits.SetValue('jkjtke')
 
         self.m_panel3.SetSizer(bSizer2)
