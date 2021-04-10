@@ -38,7 +38,8 @@ import re
 # from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+import kicost.global_vars as gv
 from .global_vars import distributors_modules_dict, distributor_dict
 from ..edas.tools import order_refs
 
@@ -132,16 +133,15 @@ class api_partinfo_kitspace(distributor_class):
         # r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub(r'\s', '', variables)
-        # Python 2 prepends a 'u' before the query strings and this makes PartInfo
-        # complain, so remove them.
+        # Python 2 prepends a 'u' before the query strings and this makes PartInfo complain, so remove them.
         variables = re.sub(':u"', ':"', variables)
         variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
-        logger.log(DEBUG_HTTP_HEADERS, 'URL '+QUERY_URL)
-        logger.log(DEBUG_HTTP_HEADERS, '- query '+str(query_type))
-        logger.log(DEBUG_HTTP_HEADERS, '- variables '+str(variables))
+        gv.logger.log(DEBUG_HTTP_HEADERS, 'URL '+QUERY_URL)
+        gv.logger.log(DEBUG_HTTP_HEADERS, '- query '+str(query_type))
+        gv.logger.log(DEBUG_HTTP_HEADERS, '- variables '+str(variables))
         response = requests.post(QUERY_URL, {'query': query_type, "variables": variables})
-        logger.log(DEBUG_HTTP_RESPONSES, response.text)
+        gv.logger.log(DEBUG_HTTP_RESPONSES, response.text)
         if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
             return results
@@ -174,7 +174,7 @@ class api_partinfo_kitspace(distributor_class):
     @staticmethod
     def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
-        logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
+        gv.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
 
         # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         class TqdmLoggingHandler(logging.Handler):
@@ -194,12 +194,12 @@ class api_partinfo_kitspace(distributor_class):
                 pass
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
-        if len(logger.handlers) > 0:
-            logDefaultHandler = logger.handlers[0]
+        if len(gv.logger.handlers) > 0:
+            logDefaultHandler = gv.logger.handlers[0]
             logTqdmHandler = TqdmLoggingHandler()
             # Replace default handler with "tqdm" handler.
-            logger.addHandler(logTqdmHandler)
-            logger.removeHandler(logDefaultHandler)
+            gv.logger.addHandler(logTqdmHandler)
+            gv.logger.removeHandler(logDefaultHandler)
 
         FIELDS_CAT = ([d + '#' for d in distributor_dict])
         DISTRIBUTORS = ([d for d in distributor_dict])
@@ -224,7 +224,7 @@ class api_partinfo_kitspace(distributor_class):
             for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
 
                 if not result:
-                    logger.warning('No information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
+                    gv.logger.warning('No information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
 
                 else:
 
@@ -245,7 +245,7 @@ class api_partinfo_kitspace(distributor_class):
                             try:
                                 price_tiers = {}  # Empty dict in case of exception.
                                 if not offer['prices']:
-                                    logger.warning('No price information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
+                                    gv.logger.warning('No price information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
                                 else:
                                     dist_currency = list(offer['prices'].keys())
 
@@ -375,9 +375,9 @@ class api_partinfo_kitspace(distributor_class):
             progress.update(len(queries[slc]))
 
         # Restore the logging print channel now that the progress bar is no longer needed.
-        if len(logger.handlers) > 0:
-            logger.addHandler(logDefaultHandler)
-            logger.removeHandler(logTqdmHandler)
+        if len(gv.logger.handlers) > 0:
+            gv.logger.addHandler(logDefaultHandler)
+            gv.logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
