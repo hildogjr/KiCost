@@ -129,19 +129,24 @@ class api_partinfo_kitspace(distributor_class):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
 
+        # Allow changing the URL for debug purposes
+        try:
+            url = os.environ['KICOST_KITSPACE_URL']
+        except KeyError:
+            url = QUERY_URL
         # Sort the distributors to create a reproducible query
         query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(sorted(distributors)) + '"]', query_type)
-        # r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
+        # r = requests.post(url, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub(r'\s', '', variables)
         # Python 2 prepends a 'u' before the query strings and this makes PartInfo complain, so remove them.
         variables = re.sub(':u"', ':"', variables)
         variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
-        gv.logger.log(DEBUG_HTTP_HEADERS, 'URL '+QUERY_URL)
+        gv.logger.log(DEBUG_HTTP_HEADERS, 'URL '+url)
         gv.logger.log(DEBUG_HTTP_HEADERS, '- query '+str(query_type))
         gv.logger.log(DEBUG_HTTP_HEADERS, '- variables '+str(variables))
-        response = requests.post(QUERY_URL, {'query': query_type, "variables": variables})
+        response = requests.post(url, {'query': query_type, "variables": variables})
         gv.logger.log(DEBUG_HTTP_RESPONSES, response.text)
         if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
