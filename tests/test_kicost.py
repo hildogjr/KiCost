@@ -13,7 +13,6 @@ pytest-3 --log-cli-level debug
 import unittest
 import subprocess
 import logging
-import glob
 import os
 
 # Defined as True to collect real world queries
@@ -29,8 +28,8 @@ def run_test(inputs, output, extra=None, price=False):
         server = None
     else:
         os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
-        fo = open('server_stdout.txt', 'wt')
-        fe = open('server_stderr.txt', 'wt')
+        fo = open('tests/server_stdout.txt', 'at')
+        fe = open('tests/server_stderr.txt', 'at')
         server = subprocess.Popen('./tests/dummy-web-server.py', stdout=fo, stderr=fe)
     if not os.path.isdir('tests/result_test'):
         os.mkdir('tests/result_test')
