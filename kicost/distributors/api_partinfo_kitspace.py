@@ -156,12 +156,9 @@ class api_partinfo_kitspace(distributor_class):
         # Sort the distributors to create a reproducible query
         query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(sorted(distributors)) + '"]', query_type)
         # r = requests.post(url, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
-        variables = re.sub('\'', '\"', str(query_parts))
-        variables = re.sub(r'\s', '', variables)
-        # Python 2 prepends a 'u' before the query strings and this makes PartInfo complain, so remove them.
-        variables = re.sub(':u"', ':"', variables)
-        variables = re.sub('{u"', '{"', variables)
-        variables = '{{"input":{}}}'.format(variables)
+        variables = '{"input":[' + ','.join(query_parts) + ']}'
+        # TODO: REALLY???!!!! This removes spaces in mnf# codes
+        variables = variables.replace(' ', '')
         # Do the query using POST
         data = 'query={}&variables={}'.format(quote_plus(query_type), quote_plus(variables))
         log_request(url, data)
@@ -375,8 +372,7 @@ class api_partinfo_kitspace(distributor_class):
                     part_catalogue_code_dist = d[:-1]
                     if part_catalogue_code_dist in distributors_modules_dict['api_partinfo_kitspace']['distributors']:
                         part_code_dist = list({k for k, v in dist_xlate.items() if v == part_catalogue_code_dist})[0]
-                        query = {'sku': {'vendor': part_code_dist, 'part': part_stock}}
-                        queries.append(query)
+                        queries.append('{"sku":{"vendor":"' + part_code_dist + '","part":"' + part_stock + '"}}')
                         query_parts.append(part)
                         query_part_stock_code.append(part_catalogue_code_dist)
                         part_dist_use_manfpn.remove(part_catalogue_code_dist)
@@ -384,8 +380,7 @@ class api_partinfo_kitspace(distributor_class):
             part_manf = part.fields.get('manf', '')
             part_code = part.fields.get('manf#')
             if part_code and not all([part.fields.get(f) for f in FIELDS_CAT]):
-                query = {'mpn': {'manufacturer': part_manf, 'part': part_code}}
-                queries.append(query)
+                queries.append('{"mpn":{"manufacturer":"' + part_manf + '","part":"' + part_code + '"}}')
                 query_parts.append(part)
                 query_part_stock_code.append(part_dist_use_manfpn)
 
