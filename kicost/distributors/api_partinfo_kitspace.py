@@ -37,7 +37,6 @@ import copy
 import re
 import sys
 import os
-from collections import OrderedDict
 if sys.version_info[0] < 3:
     from urllib import quote_plus
 else:
@@ -94,9 +93,8 @@ QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 __all__ = ['api_partinfo_kitspace']
 
 
-def log_request(url, query, variables):
+def log_request(url, data):
     gv.logger.log(DEBUG_HTTP_HEADERS, 'URL ' + url + ' query:')
-    data = 'query=' + quote_plus(query) + '&variables=' + quote_plus(variables)
     gv.logger.log(DEBUG_HTTP_HEADERS, data)
     if os.environ.get('KICOST_LOG_HTTP'):
         with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
@@ -165,10 +163,8 @@ class api_partinfo_kitspace(distributor_class):
         variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
         # Do the query using POST
-        log_request(url, query_type, variables)
-        data = OrderedDict()
-        data['query'] = query_type
-        data['variables'] = variables
+        data = 'query={}&variables={}'.format(quote_plus(query_type), quote_plus(variables))
+        log_request(url, data)
         response = requests.post(url, data)
         log_response(response.text)
         if response.status_code == requests.codes['ok']:  # 200
