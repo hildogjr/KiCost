@@ -61,7 +61,7 @@ class S(BaseHTTPRequestHandler):
         in the body. Override, or re-write this do do more interesting stuff.
 
         """
-        content = f"<html><body><h1>{message}</h1></body></html>"
+        content = "<html><body><h1>{}</h1></body></html>".format(message)
         return content.encode("utf8")  # NOTE: must return a bytes object!
 
     def do_GET(self):
@@ -80,8 +80,8 @@ class S(BaseHTTPRequestHandler):
             print("Known query "+comments[post_data])
         else:
             data = unquote(post_data.replace('+', ' '))
-            print(f'Unknown query, len={content_length}\n{data}')
-            content = f"<html><body><h1>POST!</h1><pre>{post_data}</pre></body></html>"
+            print('Unknown query, len={}\n{}'.format(content_length, data))
+            content = "<html><body><h1>POST!</h1><pre>{}</pre></body></html>".format(post_data)
             self.wfile.write(content.encode("utf8"))
         sys.stdout.flush()
 
@@ -104,7 +104,7 @@ def load_queries(file):
                 # print(query)
                 # print(len(query))
                 queries[query] = line
-                comments[query] = f'{last_comment} ({id})'
+                comments[query] = '{} ({})'.format(last_comment, id)
                 id += 1
                 is_query = True
 
@@ -114,7 +114,7 @@ def run(server_class=HTTPServer, handler_class=S, addr="localhost", port=8000):
     httpd = server_class(server_address, handler_class)
     load_queries(op.join(op.dirname(__file__), 'kitspace_queries.txt'))
 
-    print(f"Starting httpd server on {addr}:{port}")
+    print("Starting httpd server on {}:{}".format(addr, port))
     httpd.serve_forever()
 
 
