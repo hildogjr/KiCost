@@ -61,7 +61,7 @@ MAX_PARTS_PER_QUERY = 20  # Maximum number of parts in a single query.
 
 # Information to return from PartInfo KitSpace server.
 
-QUERY_AVAIABLE_CURRENCIES = {'GBP', 'EUR', 'USD'}
+QUERY_AVAIABLE_CURRENCIES = ['GBP', 'EUR', 'USD']
 # DEFAULT_CURRENCY
 QUERY_ANSWER = '''
     mpn{manufacturer, part},
@@ -129,7 +129,8 @@ class api_partinfo_kitspace(distributor_class):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
 
-        query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(distributors) + '"]', query_type)
+        # Sort the distributors to create a reproducible query
+        query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(sorted(distributors)) + '"]', query_type)
         # r = requests.post(QUERY_URL, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = re.sub('\'', '\"', str(query_parts))
         variables = re.sub(r'\s', '', variables)
