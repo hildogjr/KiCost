@@ -80,7 +80,7 @@ class S(BaseHTTPRequestHandler):
             print("Known query "+comments[post_data])
         else:
             data = unquote(post_data.replace('+', ' '))
-            print('Unknown query, len={}\n{}'.format(content_length, data))
+            print('Unknown query, len={}\n{}\n{}'.format(content_length, post_data, data))
             content = "<html><body><h1>POST!</h1><pre>{}</pre></body></html>".format(post_data)
             self.wfile.write(content.encode("utf8"))
         sys.stdout.flush()
