@@ -35,7 +35,12 @@ import logging
 import tqdm
 import copy
 import re
-# from urllib.parse import quote_plus as urlquote
+import sys
+import os
+if sys.version_info[0] < 3:
+    from urllib import quote_plus
+else:
+    from urllib.parse import quote_plus
 
 # KiCost definitions.
 from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
@@ -88,6 +93,22 @@ QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 __all__ = ['api_partinfo_kitspace']
 
 
+def log_request(url, query, variables):
+    gv.logger.log(DEBUG_HTTP_HEADERS, 'URL ' + url + ' query:')
+    data = 'query=' + quote_plus(query) + '&variables=' + quote_plus(variables)
+    gv.logger.log(DEBUG_HTTP_HEADERS, data)
+    if os.environ.get('KICOST_LOG_HTTP'):
+        with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
+            f.write(data + '\n')
+
+
+def log_response(text):
+    gv.logger.log(DEBUG_HTTP_RESPONSES, text)
+    if os.environ.get('KICOST_LOG_HTTP'):
+        with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
+            f.write(text + '\n')
+
+
 class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
@@ -128,7 +149,6 @@ class api_partinfo_kitspace(distributor_class):
         def find_key(input_dict, value):
             return next((k for k, v in input_dict.items() if v == value), None)
         distributors = ([find_key(dist_xlate, d) for d in distributors])
-
         # Allow changing the URL for debug purposes
         try:
             url = os.environ['KICOST_KITSPACE_URL']
@@ -143,11 +163,10 @@ class api_partinfo_kitspace(distributor_class):
         variables = re.sub(':u"', ':"', variables)
         variables = re.sub('{u"', '{"', variables)
         variables = '{{"input":{}}}'.format(variables)
-        gv.logger.log(DEBUG_HTTP_HEADERS, 'URL '+url)
-        gv.logger.log(DEBUG_HTTP_HEADERS, '- query '+str(query_type))
-        gv.logger.log(DEBUG_HTTP_HEADERS, '- variables '+str(variables))
-        response = requests.post(url, {'query': query_type, "variables": variables})
-        gv.logger.log(DEBUG_HTTP_RESPONSES, response.text)
+        # Do the query using POST
+        log_request(url, query_type, variables)
+        response = requests.post(url, {'query': query_type, 'variables': variables})
+        log_response(response.text)
         if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
             return results
