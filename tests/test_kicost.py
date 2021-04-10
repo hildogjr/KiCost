@@ -33,42 +33,44 @@ def run_test(inputs, output, extra=None, price=False):
         server = subprocess.Popen('./tests/dummy-web-server.py', stdout=fo, stderr=fe)
     if not os.path.isdir('tests/result_test'):
         os.mkdir('tests/result_test')
-    # Run KiCost
-    cmd = ['kicost']
-    if not price:
-        cmd.append('--no_price')
-    if extra:
-        cmd.extend(extra)
-    out_xlsx = 'tests/' + output + '.xlsx'
-    cmd.extend(['-o', out_xlsx])
-    cmd.extend(['-wi'] + ['tests/' + n for n in inputs])
-    logging.debug('Running '+str(cmd))
-    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-    res_csv = 'tests/result_test/' + output + '.csv'
-    # Convert to CSV
-    logging.debug('Converting to CSV')
-    cmd = ['xlsx2csv']
-    if not price:
-        cmd.append('--skipemptycolumns')
-    cmd.append(out_xlsx)
-    p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-    # Filter it
-    filter = r'\$ date|Prj date:.*\(file|kicost'
-    if not price:
-        filter += '|Total purchase'
-    with open(res_csv, 'w') as f:
-        p2 = subprocess.Popen(['egrep', '-i', '-v', '(' + filter + ')'], stdin=p1.stdout, stdout=f)
-        p2.communicate()[0]
-    # Check with diff
-    ref_csv = 'tests/expected_test/' + output + '.csv'
-    cmd = ['diff', '-u', ref_csv, res_csv]
-    logging.debug('Running '+str(cmd))
-    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-    # Kill the server
-    if server is not None:
-        server.terminate()
-        fo.close()
-        fe.close()
+    try:
+        # Run KiCost
+        cmd = ['kicost']
+        if not price:
+            cmd.append('--no_price')
+        if extra:
+            cmd.extend(extra)
+        out_xlsx = 'tests/' + output + '.xlsx'
+        cmd.extend(['-o', out_xlsx])
+        cmd.extend(['-wi'] + ['tests/' + n for n in inputs])
+        logging.debug('Running '+str(cmd))
+        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        res_csv = 'tests/result_test/' + output + '.csv'
+        # Convert to CSV
+        logging.debug('Converting to CSV')
+        cmd = ['xlsx2csv']
+        if not price:
+            cmd.append('--skipemptycolumns')
+        cmd.append(out_xlsx)
+        p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        # Filter it
+        filter = r'\$ date|Prj date:.*\(file|kicost'
+        if not price:
+            filter += '|Total purchase'
+        with open(res_csv, 'w') as f:
+            p2 = subprocess.Popen(['egrep', '-i', '-v', '(' + filter + ')'], stdin=p1.stdout, stdout=f)
+            p2.communicate()[0]
+        # Check with diff
+        ref_csv = 'tests/expected_test/' + output + '.csv'
+        cmd = ['diff', '-u', ref_csv, res_csv]
+        logging.debug('Running '+str(cmd))
+        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    finally:
+        # Kill the server
+        if server is not None:
+            server.terminate()
+            fo.close()
+            fe.close()
     logging.info(output+' OK')
 
 
