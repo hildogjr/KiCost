@@ -355,10 +355,11 @@ class api_partinfo_kitspace(distributor_class):
         queries = []  # Each part reference query.
         query_parts = []  # Pointer to the part.
         query_part_stock_code = []  # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
-        for part_idx, part in enumerate(parts):
+        # Dict to translate KiCost field names into KitSpace distributor names
+        kicost2kitspace_dist = {v: k for k, v in dist_xlate.items()}
+        for part in parts:
 
-            # Create a PartInfo query using the manufacturer's part number or
-            # the distributor's SKU.
+            # Create a PartInfo query using the manufacturer's part number or the distributor's SKU.
             query = None
             part_dist_use_manfpn = copy.copy(DISTRIBUTORS)
 
@@ -371,7 +372,7 @@ class api_partinfo_kitspace(distributor_class):
                 if part_stock:
                     part_catalogue_code_dist = d[:-1]
                     if part_catalogue_code_dist in distributors_modules_dict['api_partinfo_kitspace']['distributors']:
-                        part_code_dist = list({k for k, v in dist_xlate.items() if v == part_catalogue_code_dist})[0]
+                        part_code_dist = kicost2kitspace_dist[part_catalogue_code_dist]
                         queries.append('{"sku":{"vendor":"' + part_code_dist + '","part":"' + part_stock + '"}}')
                         query_parts.append(part)
                         query_part_stock_code.append(part_catalogue_code_dist)
@@ -382,6 +383,7 @@ class api_partinfo_kitspace(distributor_class):
             if part_code and not all([part.fields.get(f) for f in FIELDS_CAT]):
                 queries.append('{"mpn":{"manufacturer":"' + part_manf + '","part":"' + part_code + '"}}')
                 query_parts.append(part)
+                # List of distributors without a code
                 query_part_stock_code.append(part_dist_use_manfpn)
 
         # Setup progress bar to track progress of server queries.
