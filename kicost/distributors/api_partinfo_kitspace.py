@@ -357,6 +357,7 @@ class api_partinfo_kitspace(distributor_class):
         query_part_stock_code = []  # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
         # Dict to translate KiCost field names into KitSpace distributor names
         kicost2kitspace_dist = {v: k for k, v in dist_xlate.items()}
+        available_distributors = set(distributors_modules_dict['api_partinfo_kitspace']['distributors'])
         for part in parts:
 
             # Create a PartInfo query using the manufacturer's part number or the distributor's SKU.
@@ -367,23 +368,27 @@ class api_partinfo_kitspace(distributor_class):
             # KiCost will prioritize these codes under "manf#" that will be used for get
             # information for the part hat were not filled with the distributor stock code. So
             # this is checked after the 'manf#' buv code.
+            found_codes_for_all_dists = True
             for d in FIELDS_CAT:
                 part_stock = part.fields.get(d)
                 if part_stock:
                     part_catalogue_code_dist = d[:-1]
-                    if part_catalogue_code_dist in distributors_modules_dict['api_partinfo_kitspace']['distributors']:
+                    if part_catalogue_code_dist in available_distributors:
                         part_code_dist = kicost2kitspace_dist[part_catalogue_code_dist]
                         queries.append('{"sku":{"vendor":"' + part_code_dist + '","part":"' + part_stock + '"}}')
                         query_parts.append(part)
                         query_part_stock_code.append(part_catalogue_code_dist)
                         part_dist_use_manfpn.remove(part_catalogue_code_dist)
+                else:
+                    found_codes_for_all_dists = False
 
             part_manf = part.fields.get('manf', '')
             part_code = part.fields.get('manf#')
-            if part_code and not all([part.fields.get(f) for f in FIELDS_CAT]):
+            if part_code and not found_codes_for_all_dists:
+                # Not all distributors has code, include the manufaturer P/N
                 queries.append('{"mpn":{"manufacturer":"' + part_manf + '","part":"' + part_code + '"}}')
                 query_parts.append(part)
-                # List of distributors without a code
+                # List of distributors without an specific part number
                 query_part_stock_code.append(part_dist_use_manfpn)
 
         # Setup progress bar to track progress of server queries.
