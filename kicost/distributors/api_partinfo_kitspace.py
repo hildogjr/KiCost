@@ -109,6 +109,24 @@ def log_response(text):
             f.write(text + '\n')
 
 
+# Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
+class TqdmLoggingHandler(logging.Handler):
+    '''Overload the class to write the logging through the `tqdm`.'''
+    def __init__(self, level=logging.NOTSET):
+        super(self.__class__, self).__init__(level)
+
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            tqdm.tqdm.write(msg)
+            self.flush()
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception:
+            self.handleError(record)
+        pass
+
+
 class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
@@ -318,22 +336,6 @@ class api_partinfo_kitspace(distributor_class):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         gv.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
 
-        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
-        class TqdmLoggingHandler(logging.Handler):
-            '''Overload the class to write the logging through the `tqdm`.'''
-            def __init__(self, level=logging.NOTSET):
-                super(self.__class__, self).__init__(level)
-
-            def emit(self, record):
-                try:
-                    msg = self.format(record)
-                    tqdm.tqdm.write(msg)
-                    self.flush()
-                except (KeyboardInterrupt, SystemExit):
-                    raise
-                except Exception:
-                    self.handleError(record)
-                pass
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
         if len(gv.logger.handlers) > 0:
