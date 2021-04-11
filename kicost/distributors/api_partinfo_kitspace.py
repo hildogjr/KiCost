@@ -227,7 +227,7 @@ class api_partinfo_kitspace(distributor_class):
             gv.logger.addHandler(logTqdmHandler)
             gv.logger.removeHandler(logDefaultHandler)
 
-        FIELDS_CAT = ([d + '#' for d in distributor_dict])
+        FIELDS_CAT = sorted([d + '#' for d in distributor_dict])
         DISTRIBUTORS = ([d for d in distributor_dict])
         # Use just the distributors avaliable in this API.
         distributors = list(set(DISTRIBUTORS) &
