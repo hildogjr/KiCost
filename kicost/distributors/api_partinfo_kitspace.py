@@ -37,6 +37,7 @@ import copy
 import re
 import sys
 import os
+from collections import OrderedDict
 if sys.version_info[0] < 3:
     from urllib import quote_plus
 else:
@@ -162,6 +163,9 @@ class api_partinfo_kitspace(distributor_class):
         # Do the query using POST
         data = 'query={}&variables={}'.format(quote_plus(query_type), quote_plus(variables))
         log_request(url, data)
+        data = OrderedDict()
+        data["query"] = query_type
+        data["variables"] = variables
         response = requests.post(url, data)
         log_response(response.text)
         if response.status_code == requests.codes['ok']:  # 200
