@@ -356,7 +356,7 @@ def group_parts(components, fields_merge):
         for ref in grp.refs:
             comp = components[ref]
             for key, val in comp.items():
-                if key == 'manf#_qty':
+                if key == 'manf#_qty' or key.endswith('_qty'):
                     # We handle this field outside the loop
                     continue
                 if val is None:  # Field with no value...
