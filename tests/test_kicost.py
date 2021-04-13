@@ -227,20 +227,21 @@ def test_part_list_big():
 
 
 def test_part_list_small_hdr():
-    run_test_check('part_list_small.csv')
+    run_test_check('part_list_small.csv', price=True)
 
 
 def test_part_list_small_nohdr():
-    run_test_check('part_list_small_nohdr.csv')
+    run_test_check('part_list_small_nohdr.csv', price=True)
 
 
 def test_multiproject_1():
-    run_test_check('multiproject_1 (1 single)', 'multipart')
-    run_test_check('multiproject_1 (2 single)', 'multipart2')
-    run_test_check('multiproject_1', ['multipart', 'multipart2.xml'], 'multipart1+2')
+    run_test_check('multiproject_1 (1 single)', 'multipart', price=True)
+    run_test_check('multiproject_1 (2 single)', 'multipart2', price=True)
+    run_test_check('multiproject_1', ['multipart', 'multipart2.xml'], 'multipart1+2', price=True)
 
 
 def test_variants_1():
+    # This test doesn't have any kind of manf# or DISTRIBUTOR#
     test_name = 'variants_1'
     run_test_check(test_name, 'variants_1')
     run_test_check(test_name + '(test)', 'variants_1', 'variants_1_test', ['--variant', 'test'])
