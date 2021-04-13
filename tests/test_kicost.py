@@ -19,7 +19,7 @@ import os
 ADD_QUERY_TO_KNOWN = False
 
 
-def run_test(inputs, output, extra=None, price=False):
+def run_test(inputs, output, extra=None, price=True):
     # Always fake the currency rates
     os.environ['KICOST_CURRENCY_RATES'] = 'tests/currency_rates.xml'
     # Now choose between recording the KitSpace queries or fake them
@@ -85,7 +85,7 @@ def run_test(inputs, output, extra=None, price=False):
     logging.info(output+' OK')
 
 
-def run_test_check(name, inputs=None, output=None, extra=None, price=False):
+def run_test_check(name, inputs=None, output=None, extra=None, price=True):
     logging.debug('Test name: ' + name)
     if inputs is None:
         inputs = name
@@ -105,148 +105,148 @@ def run_test_check(name, inputs=None, output=None, extra=None, price=False):
 
 
 def test_300_010():
-    run_test_check('300-010', price=True)
+    run_test_check('300-010')
 
 
 def test_acquire_PWM_1():
-    run_test_check('acquire-PWM', price=True)
+    run_test_check('acquire-PWM')
 
 
 def test_acquire_PWM_2():
-    run_test_check('acquire-PWM_2', price=True)
+    run_test_check('acquire-PWM_2')
 
 
 def test_Aeronav_R():
-    run_test_check('Aeronav_R', price=True)
+    run_test_check('Aeronav_R')
 
 
 def test_b3u():
-    run_test_check('b3u_test', price=True)
+    run_test_check('b3u_test')
 
 
 def test_bbsram():
-    run_test_check('bbsram', price=True)
+    run_test_check('bbsram')
 
 
 def test_BoulderCreekMotherBoard():
     # This test doesn't have any kind of manf# or DISTRIBUTOR#
-    run_test_check('BoulderCreekMotherBoard')
+    run_test_check('BoulderCreekMotherBoard', price=False)
 
 
 def test_CAN_Balancer():
-    run_test_check('CAN Balancer', price=True)
+    run_test_check('CAN Balancer')
 
 
 def test_Decoder():
-    run_test_check('Decoder', price=True)
+    run_test_check('Decoder')
 
 
 def test_fitting():
-    run_test_check('fitting_test', price=True)
+    run_test_check('fitting_test')
 
 
 def test_Indium_X2():
-    run_test_check('Indium_X2', price=True)
+    run_test_check('Indium_X2')
 
 
 def test_kc():
-    run_test_check('kc-test', price=True)
+    run_test_check('kc-test')
 
 
 def test_LedTest():
-    run_test_check('LedTest', price=True)
+    run_test_check('LedTest')
 
 
 def test_local_Indium_X2():
-    run_test_check('local_Indium_X2', price=True)
+    run_test_check('local_Indium_X2')
 
 
 def test_NF6X_TestBoard():
-    run_test_check('NF6X_TestBoard', price=True)
+    run_test_check('NF6X_TestBoard')
 
 
 def test_Receiver_1W():
-    run_test_check('Receiver_1W', price=True)
+    run_test_check('Receiver_1W')
 
 
 def test_RPi():
-    run_test_check('RPi-Test', price=True)
+    run_test_check('RPi-Test')
 
 
 def test_RX_LR_lite():
-    run_test_check('RX LR lite', price=True)
+    run_test_check('RX LR lite')
 
 
 def test_safelink_receiver():
-    run_test_check('safelink_receiver', price=True)
+    run_test_check('safelink_receiver')
 
 
 def test_single_component():
-    run_test_check('single_component', price=True)
+    run_test_check('single_component')
 
 
 def test_StickIt_Hat_old():
-    run_test_check('StickIt-Hat-old', price=True)
+    run_test_check('StickIt-Hat-old')
 
 
 def test_StickIt_Hat_new():
-    run_test_check('StickIt-Hat', price=True)
+    run_test_check('StickIt-Hat')
 
 
 def test_StickIt_QuadDAC():
-    run_test_check('StickIt-QuadDAC', price=True)
+    run_test_check('StickIt-QuadDAC')
 
 
 def test_StickIt_RotaryEncoder():
     # Tests an embedded price from Aliexpress
-    run_test_check('StickIt-RotaryEncoder', price=True)
+    run_test_check('StickIt-RotaryEncoder')
 
 
 def test_subparts():
-    run_test_check('subparts', price=True)
+    run_test_check('subparts')
 
 
 def test_1():
-    run_test_check('test', price=True)
+    run_test_check('test')
 
 
 def test_2():
-    run_test_check('test2', price=True)
+    run_test_check('test2')
 
 
 def test_3_():
-    run_test_check('test3', price=True)
+    run_test_check('test3')
 
 
 def test_Parts():
-    run_test_check('TestParts', price=True)
+    run_test_check('TestParts')
 
 
 def test_part_list_big():
-    run_test_check('part_list_big.csv', price=True)
+    run_test_check('part_list_big.csv')
 
 
 def test_part_list_small_hdr():
-    run_test_check('part_list_small.csv', price=True)
+    run_test_check('part_list_small.csv')
 
 
 def test_part_list_small_nohdr():
-    run_test_check('part_list_small_nohdr.csv', price=True)
+    run_test_check('part_list_small_nohdr.csv')
 
 
 def test_multiproject_1():
-    run_test_check('multiproject_1 (1 single)', 'multipart', price=True)
-    run_test_check('multiproject_1 (2 single)', 'multipart2', price=True)
-    run_test_check('multiproject_1', ['multipart', 'multipart2.xml'], 'multipart1+2', price=True)
+    run_test_check('multiproject_1 (1 single)', 'multipart')
+    run_test_check('multiproject_1 (2 single)', 'multipart2')
+    run_test_check('multiproject_1', ['multipart', 'multipart2.xml'], 'multipart1+2')
 
 
 def test_variants_1():
     # This test doesn't have any kind of manf# or DISTRIBUTOR#
     test_name = 'variants_1'
-    run_test_check(test_name, 'variants_1')
-    run_test_check(test_name + '(test)', 'variants_1', 'variants_1_test', ['--variant', 'test'])
-    run_test_check(test_name + '(production)', 'variants_1', 'variants_1_production', ['--variant', 'production'])
-    run_test_check(test_name + '(default)', 'variants_1', 'variants_1_default', ['--variant', 'default'])
+    run_test_check(test_name, 'variants_1', price=False)
+    run_test_check(test_name + '(test)', 'variants_1', 'variants_1_test', ['--variant', 'test'], price=False)
+    run_test_check(test_name + '(production)', 'variants_1', 'variants_1_production', ['--variant', 'production'], price=False)
+    run_test_check(test_name + '(default)', 'variants_1', 'variants_1_default', ['--variant', 'default'], price=False)
 
 
 class TestKicost(unittest.TestCase):
