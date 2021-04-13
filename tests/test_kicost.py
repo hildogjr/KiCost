@@ -131,23 +131,23 @@ def test_Decoder():
 
 
 def test_fitting():
-    run_test_check('fitting_test')
+    run_test_check('fitting_test', price=True)
 
 
 def test_Indium_X2():
-    run_test_check('Indium_X2')
+    run_test_check('Indium_X2', price=True)
 
 
 def test_kc():
-    run_test_check('kc-test')
+    run_test_check('kc-test', price=True)
 
 
 def test_LedTest():
-    run_test_check('LedTest')
+    run_test_check('LedTest', price=True)
 
 
 def test_local_Indium_X2():
-    run_test_check('local_Indium_X2')
+    run_test_check('local_Indium_X2', price=True)
 
 
 def test_NF6X_TestBoard():
