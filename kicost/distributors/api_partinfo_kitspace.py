@@ -109,7 +109,6 @@ def log_response(text):
             f.write(text + '\n')
 
 
-# Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
 class TqdmLoggingHandler(logging.Handler):
     '''Overload the class to write the logging through the `tqdm`.'''
     def __init__(self, level=logging.NOTSET):
@@ -176,7 +175,8 @@ class api_partinfo_kitspace(distributor_class):
         query_type = re.sub(r'\{DISTRIBUTORS\}', '["' + '","'.join(sorted(distributors)) + '"]', query_type)
         # r = requests.post(url, {"query": QUERY_SEARCH, "variables": variables}) #TODO future use for ISSUE #17
         variables = '{"input":[' + ','.join(query_parts) + ']}'
-        # TODO: REALLY???!!!! This removes spaces in mnf# codes
+        # Remove all spaces, even inside the manf#
+        # SET comment: this is how the code always worked. Octopart (used by KitSpace) ignores spaces inside manf# codes.
         variables = variables.replace(' ', '')
         # Do the query using POST
         data = 'query={}&variables={}'.format(quote_plus(query_type), quote_plus(variables))
@@ -336,6 +336,7 @@ class api_partinfo_kitspace(distributor_class):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         gv.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
 
+        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
         if len(gv.logger.handlers) > 0:
