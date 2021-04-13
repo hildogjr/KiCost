@@ -203,7 +203,7 @@ def test_StickIt_RotaryEncoder():
 
 
 def test_subparts():
-    run_test_check('subparts')
+    run_test_check('subparts', price=True)
 
 
 def test_1():
