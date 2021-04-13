@@ -25,6 +25,11 @@ def run_test(inputs, output, extra=None, price=False):
     # Now choose between recording the KitSpace queries or fake them
     if price and ADD_QUERY_TO_KNOWN:
         os.environ['KICOST_LOG_HTTP'] = 'tests/kitspace_queries.txt'
+        with open('tests/kitspace_queries.txt', 'at') as f:
+            if len(inputs) == 1:
+                f.write('# ' + inputs[0] + '\n')
+            else:
+                f.write('# ' + str(inputs) + '\n')
         server = None
     else:
         os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
@@ -33,9 +38,11 @@ def run_test(inputs, output, extra=None, price=False):
         server = subprocess.Popen('./tests/dummy-web-server.py', stdout=fo, stderr=fe)
     if not os.path.isdir('tests/result_test'):
         os.mkdir('tests/result_test')
+    if not os.path.isdir('tests/log_test'):
+        os.mkdir('tests/log_test')
     try:
         # Run KiCost
-        cmd = ['kicost']
+        cmd = ['kicost', '--debug', '10']
         if not price:
             cmd.append('--no_price')
         if extra:
@@ -44,7 +51,11 @@ def run_test(inputs, output, extra=None, price=False):
         cmd.extend(['-o', out_xlsx])
         cmd.extend(['-wi'] + ['tests/' + n for n in inputs])
         logging.debug('Running '+str(cmd))
-        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        log_err = open('tests/log_test/' + output + '_error.log', 'wt')
+        log_out = open('tests/log_test/' + output + '_out.log', 'wt')
+        subprocess.check_call(cmd, stderr=log_err, stdout=log_out)
+        log_err.close()
+        log_out.close()
         res_csv = 'tests/result_test/' + output + '.csv'
         # Convert to CSV
         logging.debug('Converting to CSV')
@@ -171,23 +182,24 @@ def test_safelink_receiver():
 
 
 def test_single_component():
-    run_test_check('single_component')
+    run_test_check('single_component', price=True)
 
 
 def test_StickIt_Hat_old():
-    run_test_check('StickIt-Hat-old')
+    run_test_check('StickIt-Hat-old', price=True)
 
 
 def test_StickIt_Hat_new():
-    run_test_check('StickIt-Hat')
+    run_test_check('StickIt-Hat', price=True)
 
 
 def test_StickIt_QuadDAC():
-    run_test_check('StickIt-QuadDAC')
+    run_test_check('StickIt-QuadDAC', price=True)
 
 
 def test_StickIt_RotaryEncoder():
-    run_test_check('StickIt-RotaryEncoder')
+    # Tests an embedded price from Aliexpress
+    run_test_check('StickIt-RotaryEncoder', price=True)
 
 
 def test_subparts():
