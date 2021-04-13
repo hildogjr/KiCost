@@ -207,23 +207,23 @@ def test_subparts():
 
 
 def test_1():
-    run_test_check('test')
+    run_test_check('test', price=True)
 
 
 def test_2():
-    run_test_check('test2')
+    run_test_check('test2', price=True)
 
 
-def test_3():
-    run_test_check('test3')
+def test_3_():
+    run_test_check('test3', price=True)
 
 
 def test_Parts():
-    run_test_check('TestParts')
+    run_test_check('TestParts', price=True)
 
 
 def test_part_list_big():
-    run_test_check('part_list_big.csv')
+    run_test_check('part_list_big.csv', price=True)
 
 
 def test_part_list_small_hdr():
