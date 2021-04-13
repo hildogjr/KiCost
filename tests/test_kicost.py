@@ -151,23 +151,23 @@ def test_local_Indium_X2():
 
 
 def test_NF6X_TestBoard():
-    run_test_check('NF6X_TestBoard')
+    run_test_check('NF6X_TestBoard', price=True)
 
 
 def test_Receiver_1W():
-    run_test_check('Receiver_1W')
+    run_test_check('Receiver_1W', price=True)
 
 
 def test_RPi():
-    run_test_check('RPi-Test')
+    run_test_check('RPi-Test', price=True)
 
 
 def test_RX_LR_lite():
-    run_test_check('RX LR lite')
+    run_test_check('RX LR lite', price=True)
 
 
 def test_safelink_receiver():
-    run_test_check('safelink_receiver')
+    run_test_check('safelink_receiver', price=True)
 
 
 def test_single_component():
