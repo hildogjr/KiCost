@@ -35,10 +35,12 @@ __all__ = ['dist_local_template']
 
 if sys.version_info[0] < 3:
     from urlparse import urlsplit, urlunsplit
+
     def to_bytes(val):
         return val
 else:
     from urllib.parse import urlsplit, urlunsplit
+
     def to_bytes(val):
         return val.encode('utf-8')
 

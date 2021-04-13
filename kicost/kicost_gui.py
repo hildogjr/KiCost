@@ -106,6 +106,7 @@ class ResultEvent(wx.PyEvent):
         self.SetEventType(id)
         self.data = data
 
+
 # ======================================================================
 class KiCostThread(Thread):
     """ Helper class to safetly call the run action """
