@@ -106,27 +106,28 @@ def test_acquire_PWM_2():
 
 
 def test_Aeronav_R():
-    run_test_check('Aeronav_R')
+    run_test_check('Aeronav_R', price=True)
 
 
 def test_b3u():
-    run_test_check('b3u_test')
+    run_test_check('b3u_test', price=True)
 
 
 def test_bbsram():
-    run_test_check('bbsram')
+    run_test_check('bbsram', price=True)
 
 
 def test_BoulderCreekMotherBoard():
+    # This test doesn't have any kind of manf# or DISTRIBUTOR#
     run_test_check('BoulderCreekMotherBoard')
 
 
 def test_CAN_Balancer():
-    run_test_check('CAN Balancer')
+    run_test_check('CAN Balancer', price=True)
 
 
 def test_Decoder():
-    run_test_check('Decoder')
+    run_test_check('Decoder', price=True)
 
 
 def test_fitting():
