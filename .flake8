@@ -1,3 +1,4 @@
 [flake8]
 max-line-length = 159
 max-complexity = 50
+exclude = tests/dummy-web-server.py

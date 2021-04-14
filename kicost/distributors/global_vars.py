@@ -21,9 +21,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from collections import OrderedDict
+
 
 # The global dictionary of distributor information starts out empty.
-distributor_dict = {}
+distributor_dict = OrderedDict()
 distributors_modules_dict = {}
 
 # Extra informations to by got by each part in the distributors.

@@ -33,6 +33,7 @@ import sys
 import os
 import time
 from datetime import datetime
+from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
@@ -247,7 +248,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     logger.log(DEBUG_OVERVIEW, 'Getting parts...')
 
     # Read the each line content.
-    accepted_components = {}
+    accepted_components = OrderedDict()
     for row in content:
         # Get the values for the fields in each library part (if any).
         try:

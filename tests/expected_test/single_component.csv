@@ -1,7 +1,10 @@
-Prj:,single_component.xml,,,,Board Qty:,100
-Co.:,,,,,Unit Cost:,0
-Global Part Info,,,,,,
-Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$
-X1,RESONATOR,,20021321-00024T4LF,100,,0
+Prj:,single_component.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,04/21/2017 4:03:40 PM,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
+Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
+X1,RESONATOR,,20021321-00024T4LF,100,0,0,,,,,,1464,,0,0,609-3774-ND,2412,,0,0,2910266,,,,,,1502,,0,0,64922132100024T4LF,2412,,0,0,82R8850,,,,,,,,,,
 
-
+,Used currency rates:,,,,Total Purchase:,0,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,
+,USD($)/GBP(£):,1.375941592305018,,,Purchase description:,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,

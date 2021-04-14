@@ -6,97 +6,247 @@ test_kicost
 ----------------------------------
 
 Tests for `kicost` module.
+
+pytest-3 --log-cli-level debug
 """
 
 import unittest
 import subprocess
 import logging
-import glob
 import os
 
+# Defined as True to collect real world queries
+ADD_QUERY_TO_KNOWN = False
 
-def do_test_single(pattern):
-    os.chdir('tests')
-    fail = False
-    if not os.path.isdir('result_test'):
-        os.mkdir('result_test')
-    if not os.path.isdir('log_test'):
-        os.mkdir('log_test')
+
+def run_test(inputs, output, extra=None, price=True):
+    # Always fake the currency rates
+    os.environ['KICOST_CURRENCY_RATES'] = 'tests/currency_rates.xml'
+    # Now choose between recording the KitSpace queries or fake them
+    if price and ADD_QUERY_TO_KNOWN:
+        os.environ['KICOST_LOG_HTTP'] = 'tests/kitspace_queries.txt'
+        with open('tests/kitspace_queries.txt', 'at') as f:
+            if len(inputs) == 1:
+                f.write('# ' + inputs[0] + '\n')
+            else:
+                f.write('# ' + str(inputs) + '\n')
+        server = None
+    else:
+        os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
+        fo = open('tests/server_stdout.txt', 'at')
+        fe = open('tests/server_stderr.txt', 'at')
+        server = subprocess.Popen('./tests/dummy-web-server.py', stdout=fo, stderr=fe)
+    if not os.path.isdir('tests/result_test'):
+        os.mkdir('tests/result_test')
+    if not os.path.isdir('tests/log_test'):
+        os.mkdir('tests/log_test')
     try:
-        for f in glob.glob(pattern):
-            try:
-                cmd = ['./test_single.sh', '--no_price', f]
-                logging.debug('Running '+str(cmd))
-                subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-                logging.info(f + ' OK')
-            except subprocess.CalledProcessError as e:
-                logging.error('Failed test: '+f)
-                if e.output:
-                    logging.error('Output from command: ' + e.output.decode())
-                # logfile = os.path.join('log_test', f + '.log')
-                # if os.path.isfile(logfile):
-                #     with open(logfile, 'rt') as f:
-                #         msg = f.read()
-                #     logging.error('Logfile: ' + msg)
-                fail = True
-                pass
+        # Run KiCost
+        cmd = ['kicost', '--debug', '10']
+        if not price:
+            cmd.append('--no_price')
+        if extra:
+            cmd.extend(extra)
+        out_xlsx = 'tests/' + output + '.xlsx'
+        cmd.extend(['-o', out_xlsx])
+        cmd.extend(['-wi'] + ['tests/' + n for n in inputs])
+        logging.debug('Running '+str(cmd))
+        log_err = open('tests/log_test/' + output + '_error.log', 'wt')
+        log_out = open('tests/log_test/' + output + '_out.log', 'wt')
+        subprocess.check_call(cmd, stderr=log_err, stdout=log_out)
+        log_err.close()
+        log_out.close()
+        res_csv = 'tests/result_test/' + output + '.csv'
+        # Convert to CSV
+        logging.debug('Converting to CSV')
+        cmd = ['xlsx2csv']
+        if not price:
+            cmd.append('--skipemptycolumns')
+        cmd.append(out_xlsx)
+        p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        # Filter it
+        filter = r'\$ date|Prj date:.*\(file|kicost'
+        if not price:
+            filter += '|Total purchase'
+        with open(res_csv, 'w') as f:
+            p2 = subprocess.Popen(['egrep', '-i', '-v', '(' + filter + ')'], stdin=p1.stdout, stdout=f)
+            p2.communicate()[0]
+        # Check with diff
+        ref_csv = 'tests/expected_test/' + output + '.csv'
+        cmd = ['diff', '-u', ref_csv, res_csv]
+        logging.debug('Running '+str(cmd))
+        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     finally:
-        os.chdir('..')
-    return fail
-
-
-def test_xmls():
-    assert not do_test_single('*.xml')
-
-
-def test_csvs():
-    assert not do_test_single('*.csv')
-
-
-def run_test(inputs, output, extra=None):
-    cmd = ['kicost', '--no_price']
-    if extra:
-        cmd.extend(extra)
-    out_xlsx = 'tests/' + output + '.xlsx'
-    cmd.extend(['-o', out_xlsx])
-    cmd.extend(['-wi'] + ['tests/' + n for n in inputs])
-    logging.debug('Running '+str(cmd))
-    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-    res_csv = 'tests/result_test/' + output + '.csv'
-    logging.debug('Converting to CSV')
-    p1 = subprocess.Popen(['xlsx2csv', '--skipemptycolumns', out_xlsx], stdout=subprocess.PIPE)
-    with open(res_csv, 'w') as f:
-        p2 = subprocess.Popen(['egrep', '-i', '-v', r'(\$ date|kicost|Total purchase)'], stdin=p1.stdout, stdout=f)
-        p2.communicate()[0]
-    ref_csv = 'tests/expected_test/' + output + '.csv'
-    cmd = ['diff', '-u', ref_csv, res_csv]
-    logging.debug('Running '+str(cmd))
-    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        # Kill the server
+        if server is not None:
+            server.terminate()
+            fo.close()
+            fe.close()
     logging.info(output+' OK')
 
 
-def test_multiproject_1():
-    test_name = 'multiproject_1'
+def run_test_check(name, inputs=None, output=None, extra=None, price=True):
+    logging.debug('Test name: ' + name)
+    if inputs is None:
+        inputs = name
+    if isinstance(inputs, str):
+        inputs = [inputs]
+    if output is None:
+        output = inputs[0]
+        if output.endswith('.csv'):
+            output = output[:-4]
     try:
-        run_test(['multipart', 'multipart2.xml'], 'multipart1+2')
+        run_test(inputs, output, extra, price)
     except subprocess.CalledProcessError as e:
-        logging.error('Failed test: '+test_name)
+        logging.error('Failed test: ' + name)
         if e.output:
             logging.error('Output from command: ' + e.output.decode())
         raise e
+
+
+def test_300_010():
+    run_test_check('300-010')
+
+
+def test_acquire_PWM_1():
+    run_test_check('acquire-PWM')
+
+
+def test_acquire_PWM_2():
+    run_test_check('acquire-PWM_2')
+
+
+def test_Aeronav_R():
+    run_test_check('Aeronav_R')
+
+
+def test_b3u():
+    run_test_check('b3u_test')
+
+
+def test_bbsram():
+    run_test_check('bbsram')
+
+
+def test_BoulderCreekMotherBoard():
+    # This test doesn't have any kind of manf# or DISTRIBUTOR#
+    run_test_check('BoulderCreekMotherBoard', price=False)
+
+
+def test_CAN_Balancer():
+    run_test_check('CAN Balancer')
+
+
+def test_Decoder():
+    run_test_check('Decoder')
+
+
+def test_fitting():
+    run_test_check('fitting_test')
+
+
+def test_Indium_X2():
+    run_test_check('Indium_X2')
+
+
+def test_kc():
+    run_test_check('kc-test')
+
+
+def test_LedTest():
+    run_test_check('LedTest')
+
+
+def test_local_Indium_X2():
+    run_test_check('local_Indium_X2')
+
+
+def test_NF6X_TestBoard():
+    run_test_check('NF6X_TestBoard')
+
+
+def test_Receiver_1W():
+    run_test_check('Receiver_1W')
+
+
+def test_RPi():
+    run_test_check('RPi-Test')
+
+
+def test_RX_LR_lite():
+    run_test_check('RX LR lite')
+
+
+def test_safelink_receiver():
+    run_test_check('safelink_receiver')
+
+
+def test_single_component():
+    run_test_check('single_component')
+
+
+def test_StickIt_Hat_old():
+    run_test_check('StickIt-Hat-old')
+
+
+def test_StickIt_Hat_new():
+    run_test_check('StickIt-Hat')
+
+
+def test_StickIt_QuadDAC():
+    run_test_check('StickIt-QuadDAC')
+
+
+def test_StickIt_RotaryEncoder():
+    # Tests an embedded price from Aliexpress
+    run_test_check('StickIt-RotaryEncoder')
+
+
+def test_subparts():
+    run_test_check('subparts')
+
+
+def test_1():
+    run_test_check('test')
+
+
+def test_2():
+    run_test_check('test2')
+
+
+def test_3_():
+    run_test_check('test3')
+
+
+def test_Parts():
+    run_test_check('TestParts')
+
+
+def test_part_list_big():
+    run_test_check('part_list_big.csv')
+
+
+def test_part_list_small_hdr():
+    run_test_check('part_list_small.csv')
+
+
+def test_part_list_small_nohdr():
+    run_test_check('part_list_small_nohdr.csv')
+
+
+def test_multiproject_1():
+    run_test_check('multiproject_1 (1 single)', 'multipart')
+    run_test_check('multiproject_1 (2 single)', 'multipart2')
+    run_test_check('multiproject_1', ['multipart', 'multipart2.xml'], 'multipart1+2')
 
 
 def test_variants_1():
+    # This test doesn't have any kind of manf# or DISTRIBUTOR#
     test_name = 'variants_1'
-    try:
-        run_test(['variants_1'], 'variants_1_test', ['--variant', 'test'])
-        run_test(['variants_1'], 'variants_1_production', ['--variant', 'production'])
-        run_test(['variants_1'], 'variants_1_default', ['--variant', 'default'])
-    except subprocess.CalledProcessError as e:
-        logging.error('Failed test: '+test_name)
-        if e.output:
-            logging.error('Output from command: ' + e.output.decode())
-        raise e
+    run_test_check(test_name, 'variants_1', price=False)
+    run_test_check(test_name + '(test)', 'variants_1', 'variants_1_test', ['--variant', 'test'], price=False)
+    run_test_check(test_name + '(production)', 'variants_1', 'variants_1_production', ['--variant', 'production'], price=False)
+    run_test_check(test_name + '(default)', 'variants_1', 'variants_1_default', ['--variant', 'default'], price=False)
 
 
 class TestKicost(unittest.TestCase):

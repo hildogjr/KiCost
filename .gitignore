@@ -52,3 +52,13 @@ output/*/index.html
 
 # Sphinx
 #docs/_build
+
+# Debian pybuild
+.pybuild/
+
+# SETEdit project
+*.epr
+
+# Dummy web server
+server_stderr.txt
+server_stdout.txt

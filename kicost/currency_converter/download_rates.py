@@ -7,6 +7,7 @@
 """
 Simple helper to download the exchange rates.
 """
+import os
 import sys
 from bs4 import BeautifulSoup
 
@@ -25,10 +26,14 @@ url = 'https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml'
 
 def download_rates():
     content = ''
-    try:
-        content = urlopen(url).read().decode('utf8')
-    except URLError:
-        pass
+    if os.environ.get('KICOST_CURRENCY_RATES'):
+        with open(os.environ['KICOST_CURRENCY_RATES'], 'rt') as f:
+            content = f.read()
+    else:
+        try:
+            content = urlopen(url).read().decode('utf8')
+        except URLError:
+            pass
     soup = BeautifulSoup(content, 'xml')
     rates = {'EUR': 1.0}
     date = ''

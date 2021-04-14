@@ -1,15 +1,25 @@
-Prj:,StickIt-QuadDAC Module,,,,,,Board Qty:,100
-Co.:,XESS Corp.,,,,,,Unit Cost:,0
-Global Part Info,,,,,,,,
-Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$
-C1-C7,1.0uF,,C_0603_HandSoldering,Yageo,CC0201KRX5R7BB103,700,,0
-JP1-JP10,JUMPER,,HDR_1x2,,,1000,,0
-PCB1,PCB,,,,,100,,0
-PM1,PMOD_SCKT-12,,PMOD_SCKT-12,Ho Chien,2553-2x6G,100,,0
-RN1,4K7,,CTS_742C043,,742c043472,100,,0
-STK1,STICKIT2_HDR,,STICKIT2_HDR,,,100,,0
-"U1,U2",MCP48X2,Dual DAC,xess-MICROCHIP-8_MSOP,Microchip,MCP4802-E/MS,200,,0
-U3,MCP43X1,digital pot A,xess-MICROCHIP-20_TSSOP,Microchip,MCP4361-503E/ST,100,,0
-VoA2,COAX_CONN,,SMA_EDGE_AMP_132322,amphenol,132322,100,,0
+Prj:,StickIt-QuadDAC Module,,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,XESS Corp.,,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,06/12/2016 11:01:25 PM,,,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
+Global Part Info,,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
+Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
+C1-C7,1.0uF,,C_0603_HandSoldering,Yageo,CC0201KRX5R7BB103,700,0,0,,,,,,584720,,0,0,311-1596-1-ND,135000,,0,0,3369041,,,,,,134231,,0,0,603CC201KRX5R7BB103,135000,,0,0,69AH7060,,,,,,,,,,
+JP1-JP10,JUMPER,,HDR_1x2,,,1000,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+PCB1,PCB,,,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+PM1,PMOD_SCKT-12,,PMOD_SCKT-12,Ho Chien,2553-2x6G,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+RN1,4K7,,CTS_742C043,,742c043472,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+STK1,STICKIT2_HDR,,STICKIT2_HDR,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"U1,U2",MCP48X2,Dual DAC,xess-MICROCHIP-8_MSOP,Microchip,MCP4802-E/MS,200,0,0,,,,,,2,,0,0,MCP4802-E/MS-ND,2,,0,0,3102799,9,,0,0,C185622,191,,0,0,579MCP4802E/MS,2,,0,0,02AH4494,45,,0,0,7263908,NonStk,,0,0,MCP4802E/MS
+U3,MCP43X1,digital pot A,xess-MICROCHIP-20_TSSOP,Microchip,MCP4361-503E/ST,100,0,0,,,,,,215,,0,0,MCP4361-503E/ST-ND,NonStk,,0,0,1840707,,,,,,93,,0,0,579MCP4361503E/ST,NonStk,,0,0,53R0046,,,,,,,,,,
+VoA2,COAX_CONN,,SMA_EDGE_AMP_132322,amphenol,132322,100,0,0,,,,,,2315,,0,0,ACX1652-ND,1002,,0,0,2579819,,,,,,NonStk,,0,0,523132322,597,,0,0,99H5141,235,,0,0,1440918,89,,0,0,132322
 
-
+,Used currency rates:,,,,,,Total Purchase:,0,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,
+,USD($)/EUR(€):,1.1873,,,,,Purchase description:,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,USD($)/GBP(£):,1.375941592305018,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,

@@ -442,7 +442,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.
-    used_currencies = []
+    used_currencies = set()
     for part in parts:
 
         # Enter part references.
@@ -528,7 +528,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         for dist in list(distributor_dict.keys()):
 
             # Get the currencies used among all distributors.
-            used_currencies.append(part.currency[dist])
+            used_currencies.add(part.currency[dist])
 
             # Get the name of the data range for this distributor.
             dist_data_rng = '{}_part_data'.format(dist)
@@ -671,7 +671,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
     # Get the actual currency rate to use.
     next_line = row + 1
-    used_currencies = list(set(used_currencies))
+    used_currencies = sorted(list(used_currencies))
     logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...'.format(used_currencies, ss.currency_alpha3))
     if len(used_currencies) > 1:
         if ss.currency_alpha3 in used_currencies:

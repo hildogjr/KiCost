@@ -24,6 +24,7 @@
 import copy
 import re
 import sys
+import hashlib
 
 # Distributors definitions.
 from .distributor import distributor_class
@@ -34,8 +35,14 @@ __all__ = ['dist_local_template']
 
 if sys.version_info[0] < 3:
     from urlparse import urlsplit, urlunsplit
+
+    def to_bytes(val):
+        return val
 else:
     from urllib.parse import urlsplit, urlunsplit
+
+    def to_bytes(val):
+        return val.encode('utf-8')
 
 
 class dist_local_template(distributor_class):
@@ -115,15 +122,15 @@ class dist_local_template(distributor_class):
                 if cat_num is None and pricing is None and link is None:
                     continue
 
-                def make_random_catalog_number(p):
+                def make_unique_catalog_number(p):
                     FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
                     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
                     # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
                     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                     hash_fields['dist'] = dist
-                    return '#{0:08X}'.format(abs(hash(tuple(sorted(hash_fields.items())))))
+                    return '#' + hashlib.md5(to_bytes(str(tuple(sorted(hash_fields.items()))))).hexdigest()
 
-                cat_num = cat_num or pn or make_random_catalog_number(p)
+                cat_num = cat_num or pn or make_unique_catalog_number(p)
                 p.fields[dist + ':cat#'] = cat_num  # Store generated cat#.
                 p.part_num[dist] = cat_num
 
