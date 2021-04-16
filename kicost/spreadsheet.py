@@ -26,12 +26,14 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEBUG_OVERVIEW  # Debug, language and default configurations.
+# Debug, language and default configurations.
+from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEBUG_OVERVIEW, DEBUG_DETAILED
 
 # Python libraries.
 import os
 from datetime import datetime
 from math import ceil
+from textwrap import wrap
 import re  # Regular expression parser.
 import xlsxwriter  # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
@@ -49,18 +51,46 @@ currency_convert = CurrencyConverter().convert
 __all__ = ['create_spreadsheet', 'create_worksheet', 'Spreadsheet']
 
 
+# This class is used to configure the spreadsheet creation.
+# Settings can be used inside KiCost or from any tool using KiCost as a module.
+# It was originally created to control the spreadsheet details from KiBot.
 class Spreadsheet(object):
     ''' A class to hold the spreadsheet generation settings '''
     # Microsoft Excel allows a 31 characters longer string for the worksheet name, Google
     # Spreadsheet 100 and LibreOffice Calc have no limit.
     MAX_LEN_WORKSHEET_NAME = 31
-    # Base header format
-    WRK_HDR_FORMAT = {
-            'font_size': 14, 'bold': True,
-            'font_color': 'white',
-            'bg_color': '#303030',
-            'align': 'center', 'valign': 'vcenter'
-        }
+    # Try to make columns wide enough to make their text readable
+    # If they are bigger than MAX_COL_WIDTH try to make them taller
+    ADJUST_ROW_AND_COL_SIZE = False
+    # Limit the cells width to this size
+    MAX_COL_WIDTH = 60
+    # Don't adjust bellow this width
+    MIN_COL_WIDTH = 13
+    # Cell formats
+    WRK_FORMATS = {
+        'global': {'font_size': 14, 'bold': True, 'font_color': 'white', 'bg_color': '#303030', 'align': 'center', 'valign': 'vcenter'},
+        'header': {'font_size': 12, 'bold': True, 'align': 'center', 'valign': 'top'},
+        'board_qty': {'font_size': 13, 'bold': True, 'align': 'right'},
+        'total_cost_label': {'font_size': 13, 'bold': True, 'align': 'right', 'valign': 'vcenter'},
+        'unit_cost_label': {'font_size': 13, 'bold': True, 'align': 'right', 'valign': 'vcenter'},
+        'total_cost_currency': {'font_size': 13, 'bold': True, 'font_color': 'red', 'valign': 'vcenter'},
+        'description': {'align': 'right'},
+        'unit_cost_currency': {'font_size': 13, 'bold': True, 'font_color': 'green', 'valign': 'vcenter'},
+        'proj_info_field': {'font_size': 13, 'bold': True, 'align': 'right', 'valign': 'vcenter'},
+        'proj_info': {'font_size': 12, 'align': 'left', 'valign': 'vcenter'},
+        'part_format': {'valign': 'vcenter'},
+        'part_format_obsolete': {'valign': 'vcenter', 'bg_color': '#c000c0'},
+        'found_part_pct': {'font_size': 10, 'bold': True, 'italic': True, 'valign': 'vcenter'},
+        'best_price': {'bg_color': '#80FF80', },
+        'not_manf_codes': {'bg_color': '#AAAAAA'},
+        'not_available': {'bg_color': '#FF0000', 'font_color': 'white'},
+        'order_too_much': {'bg_color': '#FF0000', 'font_color': 'white'},
+        'order_min_qty': {'bg_color': '#FFFF00'},
+        'too_few_available': {'bg_color': '#FF9900', 'font_color': 'black'},
+        'too_few_purchased': {'bg_color': '#FFFF00'},
+        'not_stocked': {'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'},
+        'currency': {'valign': 'vcenter'},
+    }
 
     def __init__(self, workbook, worksheet_name, currency=DEFAULT_CURRENCY):
         super(Spreadsheet, self).__init__()
@@ -91,6 +121,42 @@ class Spreadsheet(object):
             self.currency_alpha3 = DEFAULT_CURRENCY
             self.currency_symbol = 'US$'
             self.currency_format = ''
+
+
+def adjust_row_and_col_sizes(ss, prj_info, logger):
+    logger.log(DEBUG_OVERVIEW, 'Adjusting cell sizes')
+    # Adjust the column and row sizes
+    START_ROW = 1+3*len(prj_info)
+    col_widths = {}
+    row_heights = {}
+    try:
+        # This code is very dependant on xlsxwriter internal, could fail
+        strings = {v: k for k, v in ss.wks.str_table.string_table.items()}
+        for row_num, row in ss.wks.table.items():
+            if row_num < START_ROW:
+                # Exclude the header rows
+                continue
+            max_h = 1
+            for col_num, cell in row.items():
+                if type(cell).__name__ == 'String':
+                    string = strings[cell.string]
+                    l_str = len(string)
+                    if l_str > Spreadsheet.MIN_COL_WIDTH:
+                        cur_l = col_widths.get(col_num, Spreadsheet.MIN_COL_WIDTH)
+                        col_widths[col_num] = min(max(l_str, cur_l), Spreadsheet.MAX_COL_WIDTH)
+                        if l_str > Spreadsheet.MAX_COL_WIDTH:
+                            h = len(wrap(string, Spreadsheet.MAX_COL_WIDTH))
+                            max_h = max(h, max_h)
+            if max_h > 1:
+                row_heights[row_num] = max_h
+    except Exception:
+        pass
+    logger.log(DEBUG_DETAILED, 'Column adjusts: ' +  str(col_widths))
+    logger.log(DEBUG_DETAILED, 'Row adjusts: ' +  str(row_heights))
+    for i, width in col_widths.items():
+        ss.wks.set_column(i, i, width+1)
+    for r, height in row_heights.items():
+        ss.wks.set_row(r, 15.0*height)
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
@@ -124,37 +190,22 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
 
 def create_worksheet(ss, logger, parts, prj_info):
     '''Create a worksheet using the info for the parts (including their HTML trees).'''
+    # Force all currency related cells to use the "currency_format"
+    ss.WRK_FORMATS['total_cost_currency']['num_format'] = ss.currency_format
+    ss.WRK_FORMATS['unit_cost_currency']['num_format'] = ss.currency_format
+    ss.WRK_FORMATS['currency']['num_format'] = ss.currency_format
+    # Enable test wrap if we will adjust the sizes
+    if ss.ADJUST_ROW_AND_COL_SIZE:
+        ss.WRK_FORMATS['header']['text_wrap'] = True
+        ss.WRK_FORMATS['part_format']['text_wrap'] = True
     # Create the various format styles used by various spreadsheet items.
-    ss.wrk_formats = {
-        'global': ss.workbook.add_format(ss.WRK_HDR_FORMAT),
-        'header': ss.workbook.add_format({'font_size': 12, 'bold': True, 'align': 'center', 'valign': 'top', 'text_wrap': True}),
-        'board_qty': ss.workbook.add_format({'font_size': 13, 'bold': True, 'align': 'right'}),
-        'total_cost_label': ss.workbook.add_format({'font_size': 13, 'bold': True, 'align': 'right', 'valign': 'vcenter'}),
-        'unit_cost_label': ss.workbook.add_format({'font_size': 13, 'bold': True, 'align': 'right', 'valign': 'vcenter'}),
-        'total_cost_currency': ss.workbook.add_format({'font_size': 13, 'bold': True, 'font_color': 'red', 'num_format': ss.currency_format,
-                                                       'valign': 'vcenter'}),
-        'description': ss.workbook.add_format({'align': 'right'}),
-        'unit_cost_currency': ss.workbook.add_format({'font_size': 13, 'bold': True, 'font_color': 'green', 'num_format': ss.currency_format,
-                                                      'valign': 'vcenter'}),
-        'proj_info_field': ss.workbook.add_format({'font_size': 13, 'bold': True, 'align': 'right', 'valign': 'vcenter'}),
-        'proj_info': ss.workbook.add_format({'font_size': 12, 'align': 'left', 'valign': 'vcenter'}),
-        'part_format': ss.workbook.add_format({'valign': 'vcenter'}),
-        'part_format_obsolete': ss.workbook.add_format({'valign': 'vcenter', 'bg_color': '#c000c0'}),
-        'found_part_pct': ss.workbook.add_format({'font_size': 10, 'bold': True, 'italic': True, 'valign': 'vcenter'}),
-        'best_price': ss.workbook.add_format({'bg_color': '#80FF80', }),
-        'not_manf_codes': ss.workbook.add_format({'bg_color': '#AAAAAA'}),
-        'not_available': ss.workbook.add_format({'bg_color': '#FF0000', 'font_color': 'white'}),
-        'order_too_much': ss.workbook.add_format({'bg_color': '#FF0000', 'font_color': 'white'}),
-        'order_min_qty': ss.workbook.add_format({'bg_color': '#FFFF00'}),
-        'too_few_available': ss.workbook.add_format({'bg_color': '#FF9900', 'font_color': 'black'}),
-        'too_few_purchased': ss.workbook.add_format({'bg_color': '#FFFF00'}),
-        'not_stocked': ss.workbook.add_format({'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'}),
-        'currency': ss.workbook.add_format({'num_format': ss.currency_format, 'valign': 'vcenter'}),
-    }
-
+    ss.wrk_formats = {}
+    for k, v in ss.WRK_FORMATS.items():
+        ss.wrk_formats[k] = ss.workbook.add_format(v)
     # Add the distinctive header format for each distributor to the `dict` of formats.
+    base_hdr_format = ss.WRK_FORMATS['global']
     for d in distributor_dict:
-        hdr_format = ss.WRK_HDR_FORMAT.copy()
+        hdr_format = base_hdr_format.copy()
         hdr_format.update(distributor_dict[d]['label']['format'])
         ss.wrk_formats[d] = ss.workbook.add_format(hdr_format)
 
@@ -262,6 +313,9 @@ def create_worksheet(ss, logger, parts, prj_info):
     # Add the KiCost package information at the end of the spreadsheet to debug
     # information at the forum and "advertising".
     wks.write(next_line+1, START_COL, ss.about_msg, ss.wrk_formats['proj_info'])
+    # Optionally adjust cell sizes
+    if ss.ADJUST_ROW_AND_COL_SIZE:
+        adjust_row_and_col_sizes(ss, prj_info, logger)
 
 
 def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, parts):
