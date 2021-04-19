@@ -175,6 +175,10 @@ class Spreadsheet(object):
                 self.wks.set_column(i, i, width + 1, None, {'level': level})
             else:
                 self.wks.set_column(i, i, width + 1)
+        # Set the level for the columns that we didn't adjust
+        for i, level in self.col_levels.items():
+            if i not in self.col_widths:
+                self.wks.set_column(i, i, None, None, {'level': level})
         for r, height in self.row_heights.items():
             self.wks.set_row(r, 15.0 * height * self.ADJUST_WEIGHT)
 
