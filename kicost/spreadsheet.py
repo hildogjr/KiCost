@@ -172,6 +172,26 @@ class Spreadsheet(object):
         for r, height in self.row_heights.items():
             self.wks.set_row(r, 15.0 * height * self.ADJUST_WEIGHT)
 
+    def get_for_sheet(self, text):
+        """ Returns a name qualified for this sheet """
+        return "'{}'!{}".format(self.worksheet_name, text)
+
+    def get_ref(self, row, col):
+        """ Returns an absolute reference to row/col on this sheet """
+        return '=' + self.get_for_sheet(xl_rowcol_to_cell(row, col, row_abs=True, col_abs=True))
+
+    def get_range(self, row1, col1, row2, col2):
+        """ Returns an absolute reference to a range on this sheet """
+        return '=' + self.get_for_sheet(xl_range_abs(row1, col1, row2, col2))
+
+    def define_name_ref(self, name, row, col):
+        """ Define a local variable assigned to an absolute position in the sheet """
+        self.workbook.define_name(self.get_for_sheet(name), self.get_ref(row, col))
+
+    def define_name_range(self, name, row1, col1, row2, col2):
+        """ Define a local variable assigned to an absolute range in the sheet """
+        self.workbook.define_name(self.get_for_sheet(name), self.get_range(row1, col1, row2, col2))
+
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
                        collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' '):
@@ -242,11 +262,7 @@ def create_worksheet(ss, logger, parts, prj_info):
     # qty_col = the column where the quantity needed of each part is stored.
     next_line, next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts)
     # Create a defined range for the global data.
-    ss.workbook.define_name(
-        'global_part_data', '={wks_name}!{data_range}'.format(
-            wks_name="'" + ss.worksheet_name + "'",
-            data_range=xl_range_abs(START_ROW, START_COL, LAST_PART_ROW,
-                                    next_col - 1)))
+    ss.define_name_range('global_part_data', START_ROW, START_COL, LAST_PART_ROW, next_col - 1)
 
     for i_prj in range(len(prj_info)):
         # Add project information to track the project (in a printed version
@@ -265,17 +281,13 @@ def create_worksheet(ss, logger, parts, prj_info):
         # Set initial board quantity.
         wks.write(next_row, next_col - 1, ss.default_build_qty, ss.wrk_formats['board_qty'])
         # Define the named cell where the total board quantity can be found.
-        ss.workbook.define_name('BoardQty{}'.format(i_prj_str),
-                                '={wks_name}!{cell_ref}'.format(wks_name="'" + ss.worksheet_name + "'",
-                                                                cell_ref=xl_rowcol_to_cell(next_row, next_col - 1, row_abs=True, col_abs=True)))
+        ss.define_name_ref('BoardQty{}'.format(i_prj_str), next_row, next_col - 1)
 
         # Create the cell to show total cost of board parts for each distributor.
         ss.write_string(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str), 'total_cost_label')
         wks.write_comment(next_row + 2, next_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
         # Define the named cell where the total cost can be found.
-        ss.workbook.define_name('TotalCost{}'.format(i_prj_str),
-                                '={wks_name}!{cell_ref}'.format(wks_name="'" + ss.worksheet_name + "'",
-                                                                cell_ref=xl_rowcol_to_cell(next_row + 2, next_col - 1, row_abs=True, col_abs=True)))
+        ss.define_name_ref('TotalCost{}'.format(i_prj_str), next_row + 2, next_col - 1)
 
         # Create the cell to show unit cost of (each project) board parts.
         ss.write_string(next_row+1, next_col - 2, 'Unit Cost{}:'.format(i_prj_str), 'unit_cost_label')
@@ -291,8 +303,7 @@ def create_worksheet(ss, logger, parts, prj_info):
         # Create the row to show total cost of board parts for each distributor.
         ss.write_string(next_row, next_col - 2, 'Total Prjs Cost:', 'total_cost_label')
         # Define the named cell where the total cost can be found.
-        ss.workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(wks_name="'" + ss.worksheet_name + "'",
-                                                                             cell_ref=xl_rowcol_to_cell(next_row, next_col - 1, row_abs=True, col_abs=True)))
+        ss.define_name_ref(next_row, next_col - 1, 'TotalCost')
     next_row += 1
 
     # Freeze view of the global information and the column headers, but
@@ -314,8 +325,7 @@ def create_worksheet(ss, logger, parts, prj_info):
                                          UNIT_COST_ROW, TOTAL_COST_ROW,
                                          refs_col, qty_col, dist, parts)
         # Create a defined range for each set of distributor part data.
-        data_range = xl_range_abs(START_ROW, dist_start_col, LAST_PART_ROW, next_col - 1)
-        ss.workbook.define_name('{}_part_data'.format(dist), '={wks_name}!{data_range}'.format(wks_name="'" + ss.worksheet_name + "'", data_range=data_range))
+        ss.define_name_range('{}_part_data'.format(dist), START_ROW, dist_start_col, LAST_PART_ROW, next_col - 1)
 
     # Add the KiCost package information at the end of the spreadsheet to debug
     # information at the forum and "advertising".
@@ -721,10 +731,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         wks.write_comment(next_line, start_col + columns['unit_price']['col'],
                           'This description will be added to all purchased parts label and may be used to distinguish the ' +
                           'component of different projects.')
-        ss.workbook.define_name('PURCHASE_DESCRIPTION',
-                                '={wks_name}!{cell_r}'.format(wks_name="'" + ss.worksheet_name + "'",
-                                                              cell_r=xl_rowcol_to_cell(next_line, columns['ext_price']['col'],
-                                                                                       row_abs=True, col_abs=True)))
+        ss.define_name_ref('PURCHASE_DESCRIPTION', next_line, columns['ext_price']['col'])
 
     # Get the actual currency rate to use.
     next_line = row + 1
@@ -744,14 +751,8 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                                                       ),
                       ss.wrk_formats['description']
                       )
-            ss.workbook.define_name('{c}_{d}'.format(c=ss.currency_alpha3, d=used_currency),
-                                    '={wks_name}!{cell_ref}'.format(
-                                    wks_name="'" + ss.worksheet_name + "'",
-                                    cell_ref=xl_rowcol_to_cell(next_line, columns['value']['col'] + 1,
-                                                               row_abs=True, col_abs=True)))
-            wks.write(next_line, columns['value']['col'] + 1,
-                      currency_convert(1, used_currency, ss.currency_alpha3)
-                      )
+            ss.define_name_ref('{c}_{d}'.format(c=ss.currency_alpha3, d=used_currency), next_line, columns['value']['col'] + 1)
+            wks.write(next_line, columns['value']['col'] + 1, currency_convert(1, used_currency, ss.currency_alpha3))
             next_line = next_line + 1
 
     # Return column following the globals so we know where to start next set of cells.
