@@ -320,7 +320,7 @@ def create_worksheet(ss, logger, parts, prj_info):
         # Create the row to show total cost of board parts for each distributor.
         ss.write_string(next_row, next_col - 2, 'Total Prjs Cost:', 'total_cost_label')
         # Define the named cell where the total cost can be found.
-        ss.define_name_ref(next_row, next_col - 1, 'TotalCost')
+        ss.define_name_ref('TotalCost', next_row, next_col - 1)
     next_row += 1
 
     # Freeze view of the global information and the column headers, but
