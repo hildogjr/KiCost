@@ -61,11 +61,14 @@ class Spreadsheet(object):
     MAX_LEN_WORKSHEET_NAME = 31
     # Try to make columns wide enough to make their text readable
     # If they are bigger than MAX_COL_WIDTH try to make them taller
-    ADJUST_ROW_AND_COL_SIZE = False
+    ADJUST_ROW_AND_COL_SIZE = True
     # Limit the cells width to this size
     MAX_COL_WIDTH = 60
     # Don't adjust bellow this width
-    MIN_COL_WIDTH = 13
+    MIN_COL_WIDTH = 6
+    # Constant used to fine tune the cell adjust
+    # Values bigger than 1.0 makes columns wider, also affects the row heights
+    ADJUST_WEIGHT = 1.0
     # Cell formats
     WRK_FORMATS = {
         'global': {'font_size': 14, 'bold': True, 'font_color': 'white', 'bg_color': '#303030', 'align': 'center', 'valign': 'vcenter'},
@@ -111,6 +114,9 @@ class Spreadsheet(object):
         self.user_fields = []
         # Create the worksheet that holds the pricing information.
         self.wks = workbook.add_worksheet(worksheet_name)
+        # Data to performe cell size adjust
+        self.col_widths = {}
+        self.row_heights = {}
 
     def set_currency(self, currency):
         if currency:
@@ -122,41 +128,49 @@ class Spreadsheet(object):
             self.currency_symbol = 'US$'
             self.currency_format = ''
 
+    def write_string(self, row, col, text, format):
+        """ worksheet.write_string wrapper to keep track of the string sizes. """
+        self.wks.write_string(row, col, text, self.wrk_formats[format])
+        self.compute_cell_size(row, col, text, format)
 
-def adjust_row_and_col_sizes(ss, prj_info, logger):
-    logger.log(DEBUG_OVERVIEW, 'Adjusting cell sizes')
-    # Adjust the column and row sizes
-    START_ROW = 1+3*len(prj_info)
-    col_widths = {}
-    row_heights = {}
-    try:
-        # This code is very dependant on xlsxwriter internal, could fail
-        strings = {v: k for k, v in ss.wks.str_table.string_table.items()}
-        for row_num, row in ss.wks.table.items():
-            if row_num < START_ROW:
-                # Exclude the header rows
-                continue
-            max_h = 1
-            for col_num, cell in row.items():
-                if type(cell).__name__ == 'String':
-                    string = strings[cell.string]
-                    l_str = len(string)
-                    if l_str > Spreadsheet.MIN_COL_WIDTH:
-                        cur_l = col_widths.get(col_num, Spreadsheet.MIN_COL_WIDTH)
-                        col_widths[col_num] = min(max(l_str, cur_l), Spreadsheet.MAX_COL_WIDTH)
-                        if l_str > Spreadsheet.MAX_COL_WIDTH:
-                            h = len(wrap(string, Spreadsheet.MAX_COL_WIDTH))
-                            max_h = max(h, max_h)
-            if max_h > 1:
-                row_heights[row_num] = max_h
-    except Exception:
-        pass
-    logger.log(DEBUG_DETAILED, 'Column adjusts: ' +  str(col_widths))
-    logger.log(DEBUG_DETAILED, 'Row adjusts: ' +  str(row_heights))
-    for i, width in col_widths.items():
-        ss.wks.set_column(i, i, width+1)
-    for r, height in row_heights.items():
-        ss.wks.set_row(r, 15.0*height)
+    def write_url(self, row, col, url, cell_format=None, string=None, tip=None):
+        """ worksheet.write_url wrapper to keep track of the string sizes. """
+        format = cell_format if cell_format is None else self.wrk_formats[cell_format]
+        self.wks.write_url(row, col, url, cell_format=format, string=string, tip=tip)
+        text = string if string is not None else url
+        self.compute_cell_size(row, col, text, cell_format)
+
+    def compute_cell_size(self, row, col, text, format):
+        """ Compute cell size adjusts """
+        # Compute a scale factor
+        multiplier = 1.0
+        if format:
+            format = self.WRK_FORMATS[format]
+            size = format.get('font_size', 11)
+            bold = format.get('bold', False)
+            # Try to adjust according to font size and weigth
+            multiplier += (size - 11) * 0.08 + (0.1 if bold else 0.0)
+        multiplier *= self.ADJUST_WEIGHT
+        # Adjust the sizes
+        l_text = ceil(len(text) * multiplier)
+        if l_text > Spreadsheet.MIN_COL_WIDTH:
+            cur_l = self.col_widths.get(col, Spreadsheet.MIN_COL_WIDTH)
+            self.col_widths[col] = min(max(l_text, cur_l), Spreadsheet.MAX_COL_WIDTH)
+            if l_text > Spreadsheet.MAX_COL_WIDTH:
+                h = len(wrap(text, Spreadsheet.MAX_COL_WIDTH))
+                cur_h = self.row_heights.get(row, 1)
+                if h > cur_h:
+                    self.row_heights[row] = h
+
+    def adjust_row_and_col_sizes(self, logger):
+        """ Adjust the column and row sizes using the values computed by compute_cell_size """
+        logger.log(DEBUG_OVERVIEW, 'Adjusting cell sizes')
+        logger.log(DEBUG_DETAILED, 'Column adjusts: ' + str(self.col_widths))
+        logger.log(DEBUG_DETAILED, 'Row adjusts: ' + str(self.row_heights))
+        for i, width in self.col_widths.items():
+            self.wks.set_column(i, i, width + 1)
+        for r, height in self.row_heights.items():
+            self.wks.set_row(r, 15.0 * height * self.ADJUST_WEIGHT)
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
@@ -198,6 +212,7 @@ def create_worksheet(ss, logger, parts, prj_info):
     if ss.ADJUST_ROW_AND_COL_SIZE:
         ss.WRK_FORMATS['header']['text_wrap'] = True
         ss.WRK_FORMATS['part_format']['text_wrap'] = True
+        ss.WRK_FORMATS['part_format_obsolete']['text_wrap'] = True
     # Create the various format styles used by various spreadsheet items.
     ss.wrk_formats = {}
     for k, v in ss.WRK_FORMATS.items():
@@ -237,9 +252,7 @@ def create_worksheet(ss, logger, parts, prj_info):
         # Add project information to track the project (in a printed version
         # of the BOM) and the date because of price variations.
         i_prj_str = (str(i_prj) if len(prj_info) > 1 else '')
-        wks.write(next_row, START_COL,
-                  'Prj{}:'.format(i_prj_str),
-                  ss.wrk_formats['proj_info_field'])
+        wks.write(next_row, START_COL, 'Prj{}:'.format(i_prj_str), ss.wrk_formats['proj_info_field'])
         wks.write(next_row, START_COL+1, prj_info[i_prj]['title'], ss.wrk_formats['proj_info'])
         wks.write(next_row+1, START_COL, 'Co.:', ss.wrk_formats['proj_info_field'])
         wks.write(next_row+1, START_COL+1, prj_info[i_prj]['company'], ss.wrk_formats['proj_info'])
@@ -248,30 +261,24 @@ def create_worksheet(ss, logger, parts, prj_info):
 
         # Create the cell where the quantity of boards to assemble is entered.
         # Place the board qty cells near the right side of the global info.
-        wks.write(next_row, next_col - 2, 'Board Qty{}:'.format(i_prj_str), ss.wrk_formats['board_qty'])
+        ss.write_string(next_row, next_col - 2, 'Board Qty{}:'.format(i_prj_str), 'board_qty')
         # Set initial board quantity.
         wks.write(next_row, next_col - 1, ss.default_build_qty, ss.wrk_formats['board_qty'])
         # Define the named cell where the total board quantity can be found.
         ss.workbook.define_name('BoardQty{}'.format(i_prj_str),
-                                '={wks_name}!{cell_ref}'.format(
-                                wks_name="'" + ss.worksheet_name + "'",
-                                cell_ref=xl_rowcol_to_cell(next_row, next_col - 1,
-                                                           row_abs=True,
-                                                           col_abs=True)))
+                                '={wks_name}!{cell_ref}'.format(wks_name="'" + ss.worksheet_name + "'",
+                                                                cell_ref=xl_rowcol_to_cell(next_row, next_col - 1, row_abs=True, col_abs=True)))
 
         # Create the cell to show total cost of board parts for each distributor.
-        wks.write(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str), ss.wrk_formats['total_cost_label'])
+        ss.write_string(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str), 'total_cost_label')
         wks.write_comment(next_row + 2, next_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
         # Define the named cell where the total cost can be found.
         ss.workbook.define_name('TotalCost{}'.format(i_prj_str),
-                                '={wks_name}!{cell_ref}'.format(
-                                wks_name="'" + ss.worksheet_name + "'",
-                                cell_ref=xl_rowcol_to_cell(next_row + 2,
-                                                           next_col - 1,
-                                                           row_abs=True, col_abs=True)))
+                                '={wks_name}!{cell_ref}'.format(wks_name="'" + ss.worksheet_name + "'",
+                                                                cell_ref=xl_rowcol_to_cell(next_row + 2, next_col - 1, row_abs=True, col_abs=True)))
 
         # Create the cell to show unit cost of (each project) board parts.
-        wks.write(next_row+1, next_col - 2, 'Unit Cost{}:'.format(i_prj_str), ss.wrk_formats['unit_cost_label'])
+        ss.write_string(next_row+1, next_col - 2, 'Unit Cost{}:'.format(i_prj_str), 'unit_cost_label')
         wks.write(next_row+1, next_col - 1, "=TotalCost{}/BoardQty{}".format(i_prj_str, i_prj_str), ss.wrk_formats['unit_cost_currency'])
 
         next_row += 3
@@ -282,7 +289,7 @@ def create_worksheet(ss, logger, parts, prj_info):
     # Add the total cost of all projects together.
     if len(prj_info) > 1:
         # Create the row to show total cost of board parts for each distributor.
-        wks.write(next_row, next_col - 2, 'Total Prjs Cost:', ss.wrk_formats['total_cost_label'])
+        ss.write_string(next_row, next_col - 2, 'Total Prjs Cost:', 'total_cost_label')
         # Define the named cell where the total cost can be found.
         ss.workbook.define_name('TotalCost', '={wks_name}!{cell_ref}'.format(wks_name="'" + ss.worksheet_name + "'",
                                                                              cell_ref=xl_rowcol_to_cell(next_row, next_col - 1, row_abs=True, col_abs=True)))
@@ -315,7 +322,7 @@ def create_worksheet(ss, logger, parts, prj_info):
     wks.write(next_line+1, START_COL, ss.about_msg, ss.wrk_formats['proj_info'])
     # Optionally adjust cell sizes
     if ss.ADJUST_ROW_AND_COL_SIZE:
-        adjust_row_and_col_sizes(ss, prj_info, logger)
+        ss.adjust_row_and_col_sizes(logger)
 
 
 def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, parts):
@@ -464,17 +471,15 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     row = start_row  # Start building global section at this row.
 
     # Add label for global section.
-    wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-                    "Global Part Info", ss.wrk_formats['global'])
+    wks.merge_range(row, start_col, row, start_col + num_cols - 1, "Global Part Info", ss.wrk_formats['global'])
     row += 1  # Go to next row.
 
     # Add column headers.
     for k in list(columns.keys()):
         col = start_col + columns[k]['col']
-        wks.write_string(row, col, columns[k]['label'], ss.wrk_formats['header'])
+        ss.write_string(row, col, columns[k]['label'], 'header')
         wks.write_comment(row, col, columns[k]['comment'])
-        wks.set_column(col, col, columns[k]['width'], None,
-                       {'level': columns[k]['level']})
+        wks.set_column(col, col, columns[k]['width'], None, {'level': columns[k]['level']})
     row += 1  # Go to next row.
 
     num_parts = len(parts)
@@ -500,7 +505,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     for part in parts:
 
         # Enter part references.
-        wks.write_string(row, start_col + columns['refs']['col'], part.collapsed_refs, ss.wrk_formats['part_format'])
+        ss.write_string(row, start_col + columns['refs']['col'], part.collapsed_refs, 'part_format')
 
         # Enter more static data for the part.
         for field in list(columns.keys()):
@@ -522,19 +527,17 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                     try:
                         lifecycle = part.lifecycle
                         if lifecycle == 'obsolete':
-                            cell_format = ss.wrk_formats['part_format_obsolete']
+                            cell_format = 'part_format_obsolete'
                         else:
-                            cell_format = ss.wrk_formats['part_format']
+                            cell_format = 'part_format'
                     except AttributeError:
-                        cell_format = ss.wrk_formats['part_format']
+                        cell_format = 'part_format'
                         pass
                     if link and validate_url(link):
                         # Just put the link if is a valid format.
-                        wks.write_url(row, start_col + columns['manf#']['col'],
-                                      link, string=string, cell_format=cell_format)
+                        ss.write_url(row, start_col + columns['manf#']['col'], link, string=string, cell_format=cell_format)
                     else:
-                        wks.write_string(row, start_col + columns[field]['col'],
-                                         part.fields[field_name], cell_format)
+                        ss.write_string(row, start_col + columns[field]['col'], part.fields[field_name], cell_format)
                 else:
                     field_value = part.fields[field_name]
                     if field_name == 'footprint':
@@ -542,7 +545,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                         field_value_footprint = re.findall(r'\:(.*)', field_value)
                         if field_value_footprint:
                             field_value = field_value_footprint[0]
-                    wks.write_string(row, start_col + columns[field]['col'], field_value, ss.wrk_formats['part_format'])
+                    ss.write_string(row, start_col + columns[field]['col'], field_value, 'part_format')
             except KeyError:
                 pass
 
@@ -709,12 +712,12 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # Add the total purchase and others purchase informations.
     if distributor_dict.keys():
         next_line = row + 1
-        wks.write(next_line, start_col + columns['unit_price']['col'], 'Total Purchase:', ss.wrk_formats['total_cost_label'])
+        ss.write_string(next_line, start_col + columns['unit_price']['col'], 'Total Purchase:', 'total_cost_label')
         wks.write_comment(next_line, start_col + columns['unit_price']['col'], 'This is the total of your cart across all distributors.')
         wks.write(next_line, start_col + columns['ext_price']['col'], '=SUM({})'.format(','.join(dist_ext_prices)), ss.wrk_formats['total_cost_currency'])
         # Purchase general description, it may be used to distinguish carts of different projects.
         next_line = next_line + 1
-        wks.write(next_line, start_col + columns['unit_price']['col'], 'Purchase description:', ss.wrk_formats['description'])
+        ss.write_string(next_line, start_col + columns['unit_price']['col'], 'Purchase description:', 'description')
         wks.write_comment(next_line, start_col + columns['unit_price']['col'],
                           'This description will be added to all purchased parts label and may be used to distinguish the ' +
                           'component of different projects.')
@@ -825,19 +828,16 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                     # distributor_dict[dist]['label']['name'].title(),
                     distributor_dict[dist]['label']['name'],
                     ss.wrk_formats[dist])
-    # if distributor_dict[dist]['type']!='local':
-    #     wks.write_url(row, start_col,
-    #         distributor_dict[dist]['label']['url'], ss.wrk_formats[dist],
-    #         distributor_dict[dist]['label']['name'].title())
+    # if distributor_dict[dist]['type'] != 'local':
+    #     ss.write_url(row, start_col, distributor_dict[dist]['label']['url'], ss.wrk_formats[dist], distributor_dict[dist]['label']['name'].title())
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
     for k in list(columns.keys()):
         col = start_col + columns[k]['col']  # Column index for this column.
-        wks.write_string(row, col, columns[k]['label'], ss.wrk_formats['header'])
+        ss.write_string(row, col, columns[k]['label'], 'header')
         wks.write_comment(row, col, columns[k]['comment'])
-        wks.set_column(col, col, columns[k]['width'], None,
-                       {'level': columns[k]['level']})
+        wks.set_column(col, col, columns[k]['width'], None, {'level': columns[k]['level']})
     row += 1  # Go to next row.
 
     num_parts = len(parts)
@@ -884,10 +884,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         # quantity or pricing information was done correctly.
         if part.url[dist]:
             if ss.suppress_cat_url:
-                wks.write_url(row, start_col + columns['part_num']['col'],
-                              part.url[dist], string=dist_part_num)
+                ss.write_url(row, start_col + columns['part_num']['col'], part.url[dist], string=dist_part_num)
             else:
-                wks.write_url(row, start_col + columns['link']['col'], part.url[dist])
+                ss.write_url(row, start_col + columns['link']['col'], part.url[dist])
 
         # Enter quantity of part available at this distributor unless it is None
         # which means the part is not stocked.
@@ -1087,10 +1086,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     wks.write_formula(  # Expended many in this distributor.
         ORDER_HEADER, ext_price_col,
         '=SUMIF({count_range},">0",{price_range})'.format(
-            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
-                                 PART_INFO_LAST_ROW, purch_qty_col),
-            price_range=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
-                                 PART_INFO_LAST_ROW, ext_price_col),
+            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col, PART_INFO_LAST_ROW, purch_qty_col),
+            price_range=xl_range(PART_INFO_FIRST_ROW, ext_price_col, PART_INFO_LAST_ROW, ext_price_col),
         ),
         ss.wrk_formats['total_cost_currency']
     )
@@ -1098,18 +1095,14 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         ORDER_HEADER, purch_qty_col,
         '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&'
         '(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.format(
-            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
-                                 PART_INFO_LAST_ROW, purch_qty_col),
-            count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
-                                       PART_INFO_LAST_ROW, ext_price_col)
+            count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col, PART_INFO_LAST_ROW, purch_qty_col),
+            count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col, PART_INFO_LAST_ROW, ext_price_col)
         ),
         ss.wrk_formats['found_part_pct']
     )
     wks.write_comment(ORDER_HEADER, purch_qty_col, 'Copy the information below to the BOM import page of the distributor web site.')
     try:
-        wks.write_url(ORDER_HEADER, purch_qty_col-1,
-                      distributor_dict[dist]['order']['url'],
-                      string='Buy here')
+        ss.write_url(ORDER_HEADER, purch_qty_col-1, distributor_dict[dist]['order']['url'], string='Buy here')
     except KeyError:
         pass  # Not URL registered.
 
