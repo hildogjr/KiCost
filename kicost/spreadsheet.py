@@ -61,7 +61,7 @@ class Spreadsheet(object):
     MAX_LEN_WORKSHEET_NAME = 31
     # Try to make columns wide enough to make their text readable
     # If they are bigger than MAX_COL_WIDTH try to make them taller
-    ADJUST_ROW_AND_COL_SIZE = True
+    ADJUST_ROW_AND_COL_SIZE = False
     # Limit the cells width to this size
     MAX_COL_WIDTH = 60
     # Don't adjust bellow this width
@@ -117,6 +117,7 @@ class Spreadsheet(object):
         # Data to performe cell size adjust
         self.col_widths = {}
         self.row_heights = {}
+        self.col_levels = {}
 
     def set_currency(self, currency):
         if currency:
@@ -167,10 +168,26 @@ class Spreadsheet(object):
         logger.log(DEBUG_OVERVIEW, 'Adjusting cell sizes')
         logger.log(DEBUG_DETAILED, 'Column adjusts: ' + str(self.col_widths))
         logger.log(DEBUG_DETAILED, 'Row adjusts: ' + str(self.row_heights))
+        logger.log(DEBUG_DETAILED, 'Levels: ' + str(self.col_levels))
         for i, width in self.col_widths.items():
-            self.wks.set_column(i, i, width + 1)
+            level = self.col_levels.get(i, 0)
+            if level:
+                self.wks.set_column(i, i, width + 1, None, {'level': level})
+            else:
+                self.wks.set_column(i, i, width + 1)
         for r, height in self.row_heights.items():
             self.wks.set_row(r, 15.0 * height * self.ADJUST_WEIGHT)
+
+    def set_column(self, col, width, level):
+        if self.ADJUST_ROW_AND_COL_SIZE:
+            # Add it to the computation
+            if width is not None:
+                self.col_widths[col] = max(self.col_widths.get(col, 0), width)
+            if level:
+                self.col_levels[col] = level
+        else:
+            # Do it now
+            self.wks.set_column(col, col, width, None, {'level': level})
 
     def get_for_sheet(self, text):
         """ Returns a name qualified for this sheet """
@@ -489,7 +506,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         col = start_col + columns[k]['col']
         ss.write_string(row, col, columns[k]['label'], 'header')
         wks.write_comment(row, col, columns[k]['comment'])
-        wks.set_column(col, col, columns[k]['width'], None, {'level': columns[k]['level']})
+        ss.set_column(col, columns[k]['width'], columns[k]['level'])
     row += 1  # Go to next row.
 
     num_parts = len(parts)
@@ -838,7 +855,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         col = start_col + columns[k]['col']  # Column index for this column.
         ss.write_string(row, col, columns[k]['label'], 'header')
         wks.write_comment(row, col, columns[k]['comment'])
-        wks.set_column(col, col, columns[k]['width'], None, {'level': columns[k]['level']})
+        ss.set_column(col, columns[k]['width'], columns[k]['level'])
     row += 1  # Go to next row.
 
     num_parts = len(parts)
