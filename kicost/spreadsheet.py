@@ -71,6 +71,15 @@ class Spreadsheet(object):
     ADJUST_WEIGHT = 1.0
     # References separator
     PART_NSEQ_SEPRTR = ','
+    # Include project/s information
+    INCLUDE_PRJ_INFO = True
+    # How many rows has the project information
+    PRJ_INFO_ROWS = 3
+    # First row for the project information
+    PRJ_INFO_START = 0
+    # Add date to the top and/or bottom
+    ADD_DATE_TOP = True
+    ADD_DATE_BOTTOM = False
     # Cell formats
     WRK_FORMATS = {
         'global': {'font_size': 14, 'bold': True, 'font_color': 'white', 'bg_color': '#303030', 'align': 'center', 'valign': 'vcenter'},
@@ -98,11 +107,13 @@ class Spreadsheet(object):
         'currency': {'valign': 'vcenter'},
     }
 
-    def __init__(self, workbook, worksheet_name, currency=DEFAULT_CURRENCY):
+    def __init__(self, workbook, worksheet_name, prj_info, currency=DEFAULT_CURRENCY):
         super(Spreadsheet, self).__init__()
         self.workbook = workbook
         self.worksheet_name = worksheet_name
         self.purchase_description_seprtr = SEPRTR  # Purchase description separator.
+        self.prj_info = prj_info
+        self.START_ROW = self.PRJ_INFO_START+1+self.PRJ_INFO_ROWS*len(prj_info)
         # Currency format and symbol definition
         self.set_currency(currency)
         # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
@@ -216,6 +227,10 @@ class Spreadsheet(object):
         """ Define a local variable assigned to an absolute range in the sheet """
         self.workbook.define_name(self.get_for_sheet(name), self.get_range(row1, col1, row2, col2))
 
+    def add_date(self, row, col):
+        self.wks.write(row, col, '$ date:', self.wrk_formats['proj_info_field'])
+        self.wks.write(row, col+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), self.wrk_formats['proj_info'])
+
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
                        collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' '):
@@ -239,14 +254,14 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         worksheet_name = worksheet_name[:Spreadsheet.MAX_LEN_WORKSHEET_NAME]
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
-        ss = Spreadsheet(workbook, worksheet_name, currency)
+        ss = Spreadsheet(workbook, worksheet_name, prj_info, currency)
         ss.collapse_refs = collapse_refs
         ss.suppress_cat_url = suppress_cat_url
         ss.user_fields = user_fields
-        create_worksheet(ss, logger, parts, prj_info)
+        create_worksheet(ss, logger, parts)
 
 
-def create_worksheet(ss, logger, parts, prj_info):
+def create_worksheet(ss, logger, parts):
     '''Create a worksheet using the info for the parts (including their HTML trees).'''
     # Force all currency related cells to use the "currency_format"
     ss.WRK_FORMATS['total_cost_currency']['num_format'] = ss.currency_format
@@ -269,35 +284,36 @@ def create_worksheet(ss, logger, parts, prj_info):
         ss.wrk_formats[d] = ss.workbook.add_format(hdr_format)
 
     wks = ss.wks
+    prj_info = ss.prj_info
     # Set the row & column for entering the part information in the sheet.
     START_COL = 0
-    BOARD_QTY_ROW = 0
+    BOARD_QTY_ROW = ss.PRJ_INFO_START
     UNIT_COST_ROW = BOARD_QTY_ROW + 1
     TOTAL_COST_ROW = BOARD_QTY_ROW + 2
-    START_ROW = 1+3*len(prj_info)
+    START_ROW = ss.START_ROW
     LABEL_ROW = START_ROW + 1
     COL_HDR_ROW = LABEL_ROW + 1
-    # FIRST_PART_ROW = COL_HDR_ROW + 1
     LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
-    next_row = 0
+    next_row = ss.PRJ_INFO_START
 
     # Load the global part information (not distributor-specific) into the sheet.
     # next_col = the column immediately to the right of the global data.
     # qty_col = the column where the quantity needed of each part is stored.
     next_line, next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts)
+    ss.globals_width = next_col - 1
     # Create a defined range for the global data.
     ss.define_name_range('global_part_data', START_ROW, START_COL, LAST_PART_ROW, next_col - 1)
 
     for i_prj in range(len(prj_info)):
-        # Add project information to track the project (in a printed version
-        # of the BOM) and the date because of price variations.
-        i_prj_str = (str(i_prj) if len(prj_info) > 1 else '')
-        wks.write(next_row, START_COL, 'Prj{}:'.format(i_prj_str), ss.wrk_formats['proj_info_field'])
-        wks.write(next_row, START_COL+1, prj_info[i_prj]['title'], ss.wrk_formats['proj_info'])
-        wks.write(next_row+1, START_COL, 'Co.:', ss.wrk_formats['proj_info_field'])
-        wks.write(next_row+1, START_COL+1, prj_info[i_prj]['company'], ss.wrk_formats['proj_info'])
-        wks.write(next_row+2, START_COL, 'Prj date:', ss.wrk_formats['proj_info_field'])
-        wks.write(next_row+2, START_COL+1, prj_info[i_prj]['date'], ss.wrk_formats['proj_info'])
+        # Add project information to track the project (in a printed version of the BOM) and the date because of price variations.
+        i_prj_str = str(i_prj) if len(prj_info) > 1 else ''
+        if ss.INCLUDE_PRJ_INFO:
+            wks.write(next_row, START_COL, 'Prj{}:'.format(i_prj_str), ss.wrk_formats['proj_info_field'])
+            wks.write(next_row, START_COL+1, prj_info[i_prj]['title'], ss.wrk_formats['proj_info'])
+            wks.write(next_row+1, START_COL, 'Co.:', ss.wrk_formats['proj_info_field'])
+            wks.write(next_row+1, START_COL+1, prj_info[i_prj]['company'], ss.wrk_formats['proj_info'])
+            wks.write(next_row+2, START_COL, 'Prj date:', ss.wrk_formats['proj_info_field'])
+            wks.write(next_row+2, START_COL+1, prj_info[i_prj]['date'], ss.wrk_formats['proj_info'])
 
         # Create the cell where the quantity of boards to assemble is entered.
         # Place the board qty cells near the right side of the global info.
@@ -317,11 +333,11 @@ def create_worksheet(ss, logger, parts, prj_info):
         ss.write_string(next_row+1, next_col - 2, 'Unit Cost{}:'.format(i_prj_str), 'unit_cost_label')
         wks.write(next_row+1, next_col - 1, "=TotalCost{}/BoardQty{}".format(i_prj_str, i_prj_str), ss.wrk_formats['unit_cost_currency'])
 
-        next_row += 3
+        next_row += ss.PRJ_INFO_ROWS
 
     # Add general information of the scrap to track price modifications.
-    wks.write(next_row, START_COL, '$ date:', ss.wrk_formats['proj_info_field'])
-    wks.write(next_row, START_COL+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), ss.wrk_formats['proj_info'])
+    if ss.ADD_DATE_TOP:
+        ss.add_date(next_row, START_COL)
     # Add the total cost of all projects together.
     if len(prj_info) > 1:
         # Create the row to show total cost of board parts for each distributor.
@@ -351,6 +367,10 @@ def create_worksheet(ss, logger, parts, prj_info):
         # Create a defined range for each set of distributor part data.
         ss.define_name_range('{}_part_data'.format(dist), START_ROW, dist_start_col, LAST_PART_ROW, next_col - 1)
 
+    # Add general information of the scrap to track price modifications.
+    if ss.ADD_DATE_BOTTOM:
+        ss.add_date(next_line+1, START_COL)
+        next_line += 1
     # Add the KiCost package information at the end of the spreadsheet to debug
     # information at the forum and "advertising".
     wks.write(next_line+1, START_COL, ss.about_msg, ss.wrk_formats['about_msg'])
