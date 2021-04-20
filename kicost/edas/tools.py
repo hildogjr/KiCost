@@ -767,7 +767,7 @@ def manf_code_qtypart(subpart):
     return qty, part
 
 
-def order_refs(refs, collapse=True):
+def order_refs(refs, collapse=True, ref_sep=None):
     '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as opposite of `split_refs()`
        @param refs Designator/references `list()`.
        @return References in a organized view way.
@@ -856,7 +856,9 @@ def order_refs(refs, collapse=True):
                 # Convert a single number into a simple part reference: e.g., 'R10'.
                 collapsed_refs.append('{}{}'.format(prefix, num))
 
-    collapsed_refs = PART_NSEQ_SEPRTR.join(collapsed_refs)
+    if ref_sep is None:
+        ref_sep = PART_NSEQ_SEPRTR
+    collapsed_refs = ref_sep.join(collapsed_refs)
     return collapsed_refs  # Return the collapsed par references.
 
 

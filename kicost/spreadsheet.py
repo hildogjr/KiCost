@@ -69,6 +69,8 @@ class Spreadsheet(object):
     # Constant used to fine tune the cell adjust
     # Values bigger than 1.0 makes columns wider, also affects the row heights
     ADJUST_WEIGHT = 1.0
+    # References separator
+    PART_NSEQ_SEPRTR = ','
     # Cell formats
     WRK_FORMATS = {
         'global': {'font_size': 14, 'bold': True, 'font_color': 'white', 'bg_color': '#303030', 'align': 'center', 'valign': 'vcenter'},
@@ -522,8 +524,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
     # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        # part.collapsed_refs = ','.join( order_refs(part.refs, collapse=ss.collapse_refs) )
-        part.collapsed_refs = order_refs(part.refs, collapse=ss.collapse_refs)
+        part.collapsed_refs = order_refs(part.refs, collapse=ss.collapse_refs, ref_sep=ss.PART_NSEQ_SEPRTR)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
