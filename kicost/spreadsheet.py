@@ -83,6 +83,7 @@ class Spreadsheet(object):
         'unit_cost_currency': {'font_size': 13, 'bold': True, 'font_color': 'green', 'valign': 'vcenter'},
         'proj_info_field': {'font_size': 13, 'bold': True, 'align': 'right', 'valign': 'vcenter'},
         'proj_info': {'font_size': 12, 'align': 'left', 'valign': 'vcenter'},
+        'about_msg': {'font_size': 12, 'align': 'left', 'valign': 'vcenter'},
         'part_format': {'valign': 'vcenter'},
         'part_format_obsolete': {'valign': 'vcenter', 'bg_color': '#c000c0'},
         'found_part_pct': {'font_size': 10, 'bold': True, 'italic': True, 'valign': 'vcenter'},
@@ -352,7 +353,7 @@ def create_worksheet(ss, logger, parts, prj_info):
 
     # Add the KiCost package information at the end of the spreadsheet to debug
     # information at the forum and "advertising".
-    wks.write(next_line+1, START_COL, ss.about_msg, ss.wrk_formats['proj_info'])
+    wks.write(next_line+1, START_COL, ss.about_msg, ss.wrk_formats['about_msg'])
     # Optionally adjust cell sizes
     if ss.ADJUST_ROW_AND_COL_SIZE:
         ss.adjust_row_and_col_sizes(logger)
