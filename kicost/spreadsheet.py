@@ -549,26 +549,31 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
     # Enter user-defined fields into the global part data columns structure.
     for user_field in list(reversed(ss.USER_FIELDS)):
+        # Separate the information
+        comment = 'User-defined field.'
+        level = 0
+        if isinstance(user_field, dict):
+            # Support a dict with extra info:
+            field = user_field['field']
+            user_field_id = field.lower()
+            comment = user_field.get('comment', comment)
+            level = user_field.get('level', level)
+            label = user_field.get('label', field)
+        else:
+            # Just the name of the field
+            user_field_id = user_field.lower()
+            label = user_field
         # Skip the user field if it's already in the list of data columns.
-        col_ids = list(columns.keys())
-        user_field_id = user_field.lower()
-        if user_field_id not in col_ids:
+        if user_field_id not in columns:
             # Put user fields immediately to right of the 'desc' column.
             desc_col = columns.get('desc', columns['value'])['col']
             # Push all existing fields to right of 'desc' over by one column.
             # Use 'value' if 'desc' was removed due not value present in the BOM.
-            for id in col_ids:
+            for id in columns.keys():
                 if columns[id]['col'] > desc_col:
                     columns[id]['col'] += 1
             # Insert user field in the vacated space.
-            columns[user_field_id] = {
-                'col': desc_col+1,
-                'level': 0,
-                'label': user_field,
-                'width': None,
-                'comment': 'User-defined field.',
-                'static': True,
-            }
+            columns[user_field_id] = {'col': desc_col+1, 'level': level, 'label': label, 'width': None, 'comment': comment, 'static': True}
 
     num_cols = len(list(columns.keys()))
 
@@ -643,12 +648,13 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                         ss.write_string(row, start_col + columns[field]['col'], part.fields[field_name], cell_format)
                 else:
                     field_value = part.fields[field_name]
-                    if field_name == 'footprint':
-                        # TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
-                        field_value_footprint = re.findall(r'\:(.*)', field_value)
-                        if field_value_footprint:
-                            field_value = field_value_footprint[0]
-                    ss.write_string(row, start_col + columns[field]['col'], field_value, 'part_format')
+                    if field_value is not None:
+                        if field_name == 'footprint':
+                            # TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
+                            field_value_footprint = re.findall(r'\:(.*)', field_value)
+                            if field_value_footprint:
+                                field_value = field_value_footprint[0]
+                        ss.write_string(row, start_col + columns[field]['col'], field_value, 'part_format')
             except KeyError:
                 pass
 
