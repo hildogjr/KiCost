@@ -164,23 +164,24 @@ def kicost(in_file, eda_name, out_filename,
         for d in list(distributor_dict.keys()):
             distributor_dict.pop(d, None)
 
+    c_files = len(in_file)
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
     if not isinstance(in_file, list):
         in_file = [in_file]
     if not isinstance(variant, list):
-        variant = [variant] * len(in_file)
-    elif len(variant) != len(in_file):
-        variant = [variant[0]] * len(in_file)  # Assume the first as default.
+        variant = [variant] * c_files
+    elif len(variant) != c_files:
+        variant = [variant[0]] * c_files  # Assume the first as default.
     if not isinstance(eda_name, list):
-        eda_name = [eda_name] * len(in_file)
-    elif len(eda_name) != len(in_file):
-        eda_name = [eda_name[0]] * len(in_file)  # Assume the first as default.
+        eda_name = [eda_name] * c_files
+    elif len(eda_name) != c_files:
+        eda_name = [eda_name[0]] * c_files  # Assume the first as default.
 
     # Get groups of identical parts.
     parts = OrderedDict()
     prj_info = list()
-    for i_prj in range(len(in_file)):
+    for i_prj in range(c_files):
         eda_module = eda_modules[eda_name[i_prj]]
         p, info = eda_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
         p = subpartqty_split(p)
@@ -190,9 +191,9 @@ def kicost(in_file, eda_name, out_filename,
         # of number of BOM files. This vector will be used in the `group_parts()`
         # to create groups with elements of same 'manf#' that came for different
         # projects.
-        if len(in_file) > 1:
+        if c_files > 1:
             logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
-            qty_base = ['0'] * len(in_file)  # Base zero quantity vector.
+            qty_base = ['0'] * c_files  # Base zero quantity vector.
             for p_ref in list(p.keys()):
                 try:
                     qty_base[i_prj] = p[p_ref]['manf#_qty']
@@ -227,7 +228,7 @@ def kicost(in_file, eda_name, out_filename,
     # Always ignore 'desc' ('description') and 'var' ('variant') fields, merging the components in groups.
     group_fields += ['desc', 'var']
     group_fields = set(group_fields)
-    parts = group_parts(parts, group_fields)
+    parts = group_parts(parts, group_fields, c_files)
 
     # If do not have the manufacture code 'manf#' and just distributors codes,
     # check if is asked to scrape a distributor that do not have any code in the

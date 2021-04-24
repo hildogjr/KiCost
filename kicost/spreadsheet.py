@@ -662,12 +662,14 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                 # compatible function.
                 total = 0
                 for i_prj in range(len(qty)):
-                    total += qty_n[i_prj] * ss.DEFAULT_BUILD_QTY
+                    value = qty_n[i_prj] * ss.DEFAULT_BUILD_QTY
+                    total += value
+                    id = str(i_prj)
                     wks.write_formula(row,
-                                      start_col + columns['qty_prj{}'.format(i_prj)]['col'],
-                                      qty[i_prj].format('BoardQty{}'.format(i_prj)),
+                                      start_col + columns['qty_prj'+id]['col'],
+                                      qty[i_prj].format('BoardQty'+id),
                                       ss.wrk_formats['part_format'],
-                                      value=qty_n[i_prj])
+                                      value=value)
                 wks.write_formula(row, start_col + columns['qty']['col'],
                                   '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + columns['qty_prj0']['col']),
                                                                   xl_rowcol_to_cell(row, start_col + columns['qty']['col']-1)),

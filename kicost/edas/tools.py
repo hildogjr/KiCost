@@ -30,7 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 import os
 from collections import OrderedDict
-from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED  # Debug, language and default configurations.
+from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL
 from ..distributors.global_vars import distributor_dict
 from .global_vars import eda_dict  # EDA dictionary with the features.
 
@@ -147,25 +147,25 @@ def file_eda_match(file_name):
     return None
 
 
-def organize_parts(components, fields_merge):
-    '''@brief Organize the parts to better do the scrape in the distributors.
-
-       Remove the Not Populate Parts (DNP), split the components in unique
-       parts, necessary because of some file formats that present the
-       components already grouped and to finish, group them as group parts
-       with same manufactures codes, company manufactures and distributors
-       codes to not scrape repetitively the same part kind.
-
-       @param  components Part components in a `list()` of `dict()`, format given by the EDA modules.
-       @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
-    '''
-    # Remove the Not Populate Parts.
-    # components = remove_dnp_parts(components, variant) # Do this inside each EDA submodule because of the ISSUE #73.
-    # Split multi-components into individual subparts.
-    components = subpartqty_split(components)
-    # Group the components in group in the same characteristics (fields).
-    components = group_parts(components, fields_merge)
-    return components
+# def organize_parts(components, fields_merge, c_prjs):
+#     '''@brief Organize the parts to better do the scrape in the distributors.
+# 
+#        Remove the Not Populate Parts (DNP), split the components in unique
+#        parts, necessary because of some file formats that present the
+#        components already grouped and to finish, group them as group parts
+#        with same manufactures codes, company manufactures and distributors
+#        codes to not scrape repetitively the same part kind.
+# 
+#        @param  components Part components in a `list()` of `dict()`, format given by the EDA modules.
+#        @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
+#     '''
+#     # Remove the Not Populate Parts.
+#     # components = remove_dnp_parts(components, variant) # Do this inside each EDA submodule because of the ISSUE #73.
+#     # Split multi-components into individual subparts.
+#     components = subpartqty_split(components)
+#     # Group the components in group in the same characteristics (fields).
+#     components = group_parts(components, fields_merge, c_prjs)
+#     return components
 
 
 # Temporary class for storing part group information.
@@ -174,7 +174,7 @@ class IdenticalComponents(object):
     pass
 
 
-def group_parts(components, fields_merge):
+def group_parts(components, fields_merge, c_prjs):
     '''@brief Group common parts after preprocessing from XML or CSV files.
 
        Group common parts looking in the existent files that could be merged
@@ -193,6 +193,7 @@ def group_parts(components, fields_merge):
     '''
 
     logger.log(DEBUG_OVERVIEW, '# Grouping parts...')
+    ultra_debug = logger.getEffectiveLevel() <= DEBUG_FULL
 
     # All codes to scrape, do not include code field name of distributors
     # that will not be scraped. This definition is used to create and check
@@ -248,11 +249,12 @@ def group_parts(components, fields_merge):
             component_groups[h].manfcat_codes = {}
             for f in FIELDS_MANFCAT:
                 component_groups[h].manfcat_codes[f] = OrderedDict([(fields.get(f), True)])
-    # print('\n\n\n1++++++++++++++',len(component_groups))
-    # for g,grp in list(component_groups.items()):
-    #     print('\n', grp.refs)
-    #     for r in grp.refs:
-    #         print(r, components[r])
+    if ultra_debug:
+        logger.log(DEBUG_FULL, '\n\n\n1++++++++++++++' + str(len(component_groups)))
+        for g, grp in list(component_groups.items()):
+            logger.log(DEBUG_FULL, '\n' + str(grp.refs))
+            for r in grp.refs:
+                logger.log(DEBUG_FULL, str(r) + str(components[r]))
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
@@ -315,11 +317,12 @@ def group_parts(components, fields_merge):
                 if all([components[ref].get(f) == manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)  # Append one part of the split group.
-    # print('\n\n\n2++++++++++++++',len(new_component_groups))
-    # for grp in new_component_groups:
-    #     print('\n', grp.refs)
-    #     for r in grp.refs:
-    #         print(r, components[r])
+    if ultra_debug:
+        logger.log(DEBUG_FULL, '\n\n\n2++++++++++++++' + str(len(new_component_groups)))
+        for grp in new_component_groups:
+            logger.log(DEBUG_FULL, '\n' + str(grp.refs))
+            for r in grp.refs:
+                logger.log(DEBUG_FULL, str(r) + str(components[r]))
 
     # If the identical components grouped have difference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
@@ -341,18 +344,21 @@ def group_parts(components, fields_merge):
                         value = SGROUP_SEPRTR.join([order_refs(r) + SEPRTR + ' ' + t for t, r in ocurrences.items()])
                     for r in grp.refs:
                         components[r][f] = value
-    # print('\n\n\n3++++++++++++++',len(new_component_groups))
-    # for grp in new_component_groups:
-    #     print(grp.refs)
-    #     for r in grp.refs:
-    #         print(r, components[r])
+    if ultra_debug:
+        logger.log(DEBUG_FULL, '\n\n\n3++++++++++++++' + str(len(new_component_groups)))
+        for grp in new_component_groups:
+            logger.log(DEBUG_FULL, grp.refs)
+            for r in grp.refs:
+                logger.log(DEBUG_FULL, str(r) + str(components[r]))
 
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
     logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = {}
-        grp_fields['manf#_qty'] = 0
+        # Multiprojects has a list of qty's
+        # So we use a list and reduce it to one single element if needed
+        grp_qtys = [0]*c_prjs
         for ref in grp.refs:
             comp = components[ref]
             for key, val in comp.items():
@@ -368,27 +374,27 @@ def group_parts(components, fields_merge):
                 else:  # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
             # Add this component to the total quantity
-            qty = 1
+            qty = [1]*c_prjs
             if 'manf#_qty' in comp:
                 qtys = comp['manf#_qty']
-                # Multiprojects has a list of qty's
-                if isinstance(qtys, str):
+                if not isinstance(qtys, list):
                     qtys = [qtys]
-                qty = 0
-                for q in qtys:
-                    qty += qty2float(q)
+                qty = [qty2float(q) for q in qtys]
             # Add it
-            grp_fields['manf#_qty'] += qty
+            for i in range(c_prjs):
+                grp_qtys[i] += qty[i]
+        grp_fields['manf#_qty'] = grp_qtys[0] if c_prjs == 1 else grp_qtys
         grp.fields = grp_fields
 
     # Now return the list of identical part groups.
-    # print('\n\n\n------------')
-    # for grp in new_component_groups:
-    #     print(grp.refs)
-    #     print(grp.fields)
-    #     for r in grp.refs:
-    #         print(r, components[r])
-    # print('\n\n\n------------')
+    if ultra_debug:
+        logger.log(DEBUG_FULL, '\n\n\n4------------')
+        for grp in new_component_groups:
+            logger.log(DEBUG_FULL, grp.refs)
+            logger.log(DEBUG_FULL, grp.fields)
+            for r in grp.refs:
+                logger.log(DEBUG_FULL, str(r) + str(components[r]))
+        logger.log(DEBUG_FULL, '\n\n\n------------')
     return new_component_groups
 
 

@@ -39,6 +39,7 @@ DEBUG_DETAILED = logging.DEBUG-1
 DEBUG_OBSESSIVE = logging.DEBUG-2
 DEBUG_HTTP_HEADERS = logging.DEBUG-3
 DEBUG_HTTP_RESPONSES = logging.DEBUG-4
+DEBUG_FULL = logging.DEBUG-9
 # Minimum possible log level is logging.DEBUG-9 !
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
