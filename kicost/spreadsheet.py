@@ -32,6 +32,7 @@ from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEB
 # Python libraries.
 import os
 from datetime import datetime
+from copy import deepcopy
 from math import ceil
 from textwrap import wrap
 import re  # Regular expression parser.
@@ -80,6 +81,128 @@ class Spreadsheet(object):
     # Add date to the top and/or bottom
     ADD_DATE_TOP = True
     ADD_DATE_BOTTOM = False
+    DATE_FIELD_LABEL = '$ date:'
+    # Columns used for the global section
+    GLOBAL_COLUMNS = {
+        'refs': {
+            'col': 0,
+            'level': 0,  # Outline level (or hierarchy level) for this column.
+            'label': 'Refs',
+            'width': None,  # Column width (default in this case).
+            'comment': 'Schematic identifier for each part.',
+            'static': False,
+        },
+        'value': {
+            'col': 1,
+            'level': 0,
+            'label': 'Value',
+            'width': None,
+            'comment': 'Value of each part.',
+            'static': True,
+        },
+        'desc': {
+            'col': 2,
+            'level': 2,
+            'label': 'Desc',
+            'width': None,
+            'comment': 'Description of each part.',
+            'static': True,
+        },
+        'footprint': {
+            'col': 3,
+            'level': 2,
+            'label': 'Footprint',
+            'width': None,
+            'comment': 'PCB footprint for each part.',
+            'static': True,
+        },
+        'manf': {
+            'col': 4,
+            'level': 1,
+            'label': 'Manf',
+            'width': None,
+            'comment': 'Manufacturer of each part.',
+            'static': True,
+        },
+        'manf#': {
+            'col': 5,
+            'level': 1,
+            'label': 'Manf#',
+            'width': None,
+            'comment': 'Manufacturer number for each part and link to it\'s datasheet (Ctrl-click).\n'
+                       'Purple -> Obsolete part detected by one of the distributors.',
+            'static': True,
+        },
+        'qty': {
+            'col': 6,
+            'level': 1,
+            'label': 'Qty',
+            'width': None,
+            'comment': "Total number of each part needed.\n"
+                       "Gray -> No manf# provided.\n"
+                       "Red -> No parts available.\n"
+                       "Orange -> Not enough parts available.\n"
+                       "Yellow -> Parts available, but haven't purchased enough.",
+            'static': False,
+        },
+        'unit_price': {
+            'col': 7,
+            'level': 0,
+            'label': 'Unit$',
+            'width': None,
+            'comment': 'Minimum unit price for each part across all distributors.',
+            'static': False,
+        },
+        'ext_price': {
+            'col': 8,
+            'level': 0,
+            'label': 'Ext$',
+            'width': 15,  # Displays up to $9,999,999.99 without "###".
+            'comment': 'Minimum extended price for each part across all distributors.',
+            'static': False,
+        },
+    }
+    DISTRIBUTOR_COLUMNS = {
+        'avail': {
+            'col': 0,
+            # column offset within this distributor range of the worksheet.
+            'level': 1,  # Outline level (or hierarchy level) for this column.
+            'label': 'Avail',  # Column header label.
+            'width': None,  # Column width (default in this case).
+            'comment': 'Available quantity of each part at the distributor.\n'
+                       'Red -> No quantity available.\n'
+                       'Orange -> Too little quantity available.'
+        },
+        'purch': {
+            'col': 1,
+            'level': 2,
+            'label': 'Purch',
+            'width': None,
+            'comment': 'Purchase quantity of each part from this distributor.\nYellow -> This part have a minimum purchase quantity bigger than 1'
+                       ' (check the price breaks).\nRed -> Purchasing more than the available quantity.'
+        },
+        'unit_price': {
+            'col': 2,
+            'level': 2,
+            'label': 'Unit$',
+            'width': None,
+            'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price across distributors.'
+        },
+        'ext_price': {
+            'col': 3,
+            'level': 0,
+            'label': 'Ext$',
+            'width': 15,  # Displays up to $9,999,999.99 without "###".
+            'comment': '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> Next price break is cheaper.\nGreen -> Cheapest supplier.'
+        },
+        'part_num': {
+            'col': 4,
+            'level': 2,
+            'label': 'Cat#',
+            'width': 15,
+            'comment': 'Distributor-assigned catalog number for each part and link to it\'s web page (ctrl-click). Extra distributor data is shown as comment.'
+        },
+    }
     # Cell formats
     WRK_FORMATS = {
         'global': {'font_size': 14, 'bold': True, 'font_color': 'white', 'bg_color': '#303030', 'align': 'center', 'valign': 'vcenter'},
@@ -228,7 +351,7 @@ class Spreadsheet(object):
         self.workbook.define_name(self.get_for_sheet(name), self.get_range(row1, col1, row2, col2))
 
     def add_date(self, row, col):
-        self.wks.write(row, col, '$ date:', self.wrk_formats['proj_info_field'])
+        self.wks.write(row, col, self.DATE_FIELD_LABEL, self.wrk_formats['proj_info_field'])
         self.wks.write(row, col+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), self.wrk_formats['proj_info'])
 
 
@@ -386,85 +509,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
     wks = ss.wks
     # Columns for the various types of global part data.
-    columns = {
-        'refs': {
-            'col': 0,
-            'level': 0,  # Outline level (or hierarchy level) for this column.
-            'label': 'Refs',
-            'width': None,  # Column width (default in this case).
-            'comment': 'Schematic identifier for each part.',
-            'static': False,
-        },
-        'value': {
-            'col': 1,
-            'level': 0,
-            'label': 'Value',
-            'width': None,
-            'comment': 'Value of each part.',
-            'static': True,
-        },
-        'desc': {
-            'col': 2,
-            'level': 2,
-            'label': 'Desc',
-            'width': None,
-            'comment': 'Description of each part.',
-            'static': True,
-        },
-        'footprint': {
-            'col': 3,
-            'level': 2,
-            'label': 'Footprint',
-            'width': None,
-            'comment': 'PCB footprint for each part.',
-            'static': True,
-        },
-        'manf': {
-            'col': 4,
-            'level': 1,
-            'label': 'Manf',
-            'width': None,
-            'comment': 'Manufacturer of each part.',
-            'static': True,
-        },
-        'manf#': {
-            'col': 5,
-            'level': 1,
-            'label': 'Manf#',
-            'width': None,
-            'comment': 'Manufacturer number for each part and link to it\'s datasheet (Ctrl-click).\n'
-                       'Purple -> Obsolete part detected by one of the distributors.',
-            'static': True,
-        },
-        'qty': {
-            'col': 6,
-            'level': 1,
-            'label': 'Qty',
-            'width': None,
-            'comment': "Total number of each part needed.\n"
-                       "Gray -> No manf# provided.\n"
-                       "Red -> No parts available.\n"
-                       "Orange -> Not enough parts available.\n"
-                       "Yellow -> Parts available, but haven't purchased enough.",
-            'static': False,
-        },
-        'unit_price': {
-            'col': 7,
-            'level': 0,
-            'label': 'Unit$',
-            'width': None,
-            'comment': 'Minimum unit price for each part across all distributors.',
-            'static': False,
-        },
-        'ext_price': {
-            'col': 8,
-            'level': 0,
-            'label': 'Ext$',
-            'width': 15,  # Displays up to $9,999,999.99 without "###".
-            'comment': 'Minimum extended price for each part across all distributors.',
-            'static': False,
-        },
-    }
+    columns = deepcopy(ss.GLOBAL_COLUMNS)
 
     # Remove not used columns by the field not founded in ALL the parts. This give
     # better visualization on notebooks (small screens) and optimization to print.
@@ -812,47 +857,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
 
     wks = ss.wks
     # Columns for the various types of distributor-specific part data.
-    columns = {
-        'avail': {
-            'col': 0,
-            # column offset within this distributor range of the worksheet.
-            'level': 1,  # Outline level (or hierarchy level) for this column.
-            'label': 'Avail',  # Column header label.
-            'width': None,  # Column width (default in this case).
-            'comment': 'Available quantity of each part at the distributor.\n'
-                       'Red -> No quantity available.\n'
-                       'Orange -> Too little quantity available.'
-        },
-        'purch': {
-            'col': 1,
-            'level': 2,
-            'label': 'Purch',
-            'width': None,
-            'comment': 'Purchase quantity of each part from this distributor.\nYellow -> This part have a minimum purchase quantity bigger than 1'
-                       ' (check the price breaks).\nRed -> Purchasing more than the available quantity.'
-        },
-        'unit_price': {
-            'col': 2,
-            'level': 2,
-            'label': 'Unit$',
-            'width': None,
-            'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price across distributors.'
-        },
-        'ext_price': {
-            'col': 3,
-            'level': 0,
-            'label': 'Ext$',
-            'width': 15,  # Displays up to $9,999,999.99 without "###".
-            'comment': '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> Next price break is cheaper.\nGreen -> Cheapest supplier.'
-        },
-        'part_num': {
-            'col': 4,
-            'level': 2,
-            'label': 'Cat#',
-            'width': 15,
-            'comment': 'Distributor-assigned catalog number for each part and link to it\'s web page (ctrl-click). Extra distributor data is shown as comment.'
-        },
-    }
+    columns = deepcopy(ss.DISTRIBUTOR_COLUMNS)
     if not ss.suppress_cat_url:
         # Add a extra column to the hyperlink.
         columns.update({'link': {
