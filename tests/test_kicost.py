@@ -249,6 +249,10 @@ def test_variants_1():
     run_test_check(test_name + '(default)', 'variants_1', 'variants_1_default', ['--variant', 'default'], price=False)
 
 
+def test_user_fields_1():
+    run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

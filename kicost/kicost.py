@@ -144,12 +144,11 @@ def kicost(in_file, eda_name, out_filename,
     # This is checked after the translation `dict` is complete, so an
     # before used name field on the translate dictionary can be used
     # user field.
-    user_fields = list(set(user_fields))
+    user_fields = list(OrderedDict([(lv, 1) for lv in user_fields]))  # Avoid repeated fields
     for f in user_fields:
-        if f.lower() in field_name_translations.keys():
+        if f.lower() in field_name_translations:
             logger.warning("\"{f}\" field is a reserved field and can not be used as user field."
-                           " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower())
-                           )
+                           " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
             user_fields.remove(f)
 
     # Only keep distributors in the included list and not in the excluded list.
