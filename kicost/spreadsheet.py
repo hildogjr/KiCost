@@ -514,14 +514,17 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
     wks = ss.wks
     # Columns for the various types of global part data.
-    columns = deepcopy(ss.GLOBAL_COLUMNS)
-
-    # Remove not used columns by the field not founded in ALL the parts. This give
-    # better visualization on notebooks (small screens) and optimization to print.
-    if not next(iter(filter(lambda part: part.fields.get('manf'), parts)), None):
-        remove_column(columns, 'manf')  # All 'manf' are empty.
-    if not next(iter(filter(lambda part: part.fields.get('desc'), parts)), None):
-        remove_column(columns, 'desc')  # All 'desc' are empty.
+    columns = ss.GLOBAL_COLUMNS.copy()
+    # Created a list of columns sorted by column position
+    columns_list = [None] * len(columns)
+    for id, data in columns.items():
+        # Remove not used columns by the field not founded in ALL the parts. This give
+        # better visualization on notebooks (small screens) and optimization to print.
+        if id in ['manf', 'desc'] and not next(iter(filter(lambda part: part.fields.get(id), parts)), None):
+            continue
+        columns_list[data['col']] = id
+    # Compact the list
+    columns_list = [c for c in columns_list if c]
 
     # Add quantity columns to deal with different quantities in the BOM files. The
     # original quantity column will be the total of each item. For check the number
@@ -529,19 +532,19 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # instance, if don't, the length is always `1`.
     num_prj = max([len(part.fields.get('manf#_qty', [])) if isinstance(part.fields.get('manf#_qty', []), list) else 1 for part in parts])
     if num_prj > 1:
+        insert_idx = columns_list.index('qty')
         for i_prj in range(num_prj):
             # Add one column to quantify the quantity for each project.
-            name = 'qty_prj{}'.format(i_prj)
-            col = columns['qty']['col']
+            s_prj = str(i_prj)
+            name = 'qty_prj' + s_prj
             columns[name] = columns['qty'].copy()
-            columns[name]['col'] = col
-            columns[name]['label'] = 'Qty.Prj{}'.format(i_prj)
-            columns[name]['comment'] = 'Total number of each part needed to assembly the project {}.'.format(i_prj)
-            for k, f in columns.items():
-                if f['col'] >= col and k != name:
-                    f['col'] += 1
+            columns[name]['label'] = 'Qty.Prj' + s_prj
+            columns[name]['comment'] = 'Total number of each part needed to assembly the project {}.'.format(s_prj)
+            columns_list.insert(insert_idx, name)
+            insert_idx += 1
 
     # Enter user-defined fields into the global part data columns structure.
+    insert_idx = columns_list.index('footprint')
     for user_field in list(reversed(ss.USER_FIELDS)):
         # Separate the information
         comment = 'User-defined field.'
@@ -559,17 +562,11 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             label = user_field
         # Skip the user field if it's already in the list of data columns.
         if user_field_id not in columns:
-            # Put user fields immediately to right of the 'desc' column.
-            desc_col = columns.get('desc', columns['value'])['col']
-            # Push all existing fields to right of 'desc' over by one column.
-            # Use 'value' if 'desc' was removed due not value present in the BOM.
-            for id in columns.keys():
-                if columns[id]['col'] > desc_col:
-                    columns[id]['col'] += 1
-            # Insert user field in the vacated space.
-            columns[user_field_id] = {'col': desc_col+1, 'level': level, 'label': label, 'width': None, 'comment': comment, 'static': True}
+            # Insert user field immediately to right of the 'desc' column.
+            columns_list.insert(insert_idx, user_field_id)
+            columns[user_field_id] = {'level': level, 'label': label, 'width': None, 'comment': comment, 'static': True}
 
-    num_cols = len(list(columns.keys()))
+    num_cols = len(columns_list)
 
     row = start_row  # Start building global section at this row.
 
@@ -578,11 +575,14 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     row += 1  # Go to next row.
 
     # Add column headers.
-    for k in list(columns.keys()):
-        col = start_col + columns[k]['col']
-        ss.write_string(row, col, columns[k]['label'], 'header')
-        wks.write_comment(row, col, columns[k]['comment'])
-        ss.set_column(col, columns[k]['width'], columns[k]['level'])
+    # Memorize the columns positions, this `col`
+    logger.debug(columns_list)
+    col = {}
+    for c, k in enumerate(columns_list):
+        ss.write_string(row, c, columns[k]['label'], 'header')
+        wks.write_comment(row, c, columns[k]['comment'])
+        ss.set_column(c, columns[k]['width'], columns[k]['level'])
+        col[k] = c
     row += 1  # Go to next row.
 
     num_parts = len(parts)
@@ -607,10 +607,10 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     for part in parts:
 
         # Enter part references.
-        ss.write_string(row, start_col + columns['refs']['col'], part.collapsed_refs, 'part_format')
+        ss.write_string(row, start_col + col['refs'], part.collapsed_refs, 'part_format')
 
         # Enter more static data for the part.
-        for field in list(columns.keys()):
+        for field in columns_list:
             if columns[field]['static'] is False:
                 continue
             try:
@@ -637,9 +637,9 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                         pass
                     if link and validate_url(link):
                         # Just put the link if is a valid format.
-                        ss.write_url(row, start_col + columns['manf#']['col'], link, string=string, cell_format=cell_format)
+                        ss.write_url(row, start_col + col['manf#'], link, string=string, cell_format=cell_format)
                     else:
-                        ss.write_string(row, start_col + columns[field]['col'], part.fields[field_name], cell_format)
+                        ss.write_string(row, start_col + col[field], part.fields[field_name], cell_format)
                 else:
                     field_value = part.fields[field_name]
                     if field_value is not None:
@@ -648,7 +648,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                             field_value_footprint = re.findall(r'\:(.*)', field_value)
                             if field_value_footprint:
                                 field_value = field_value_footprint[0]
-                        ss.write_string(row, start_col + columns[field]['col'], field_value, 'part_format')
+                        ss.write_string(row, start_col + col[field], field_value, 'part_format')
             except KeyError:
                 pass
 
@@ -666,17 +666,17 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                     total += value
                     id = str(i_prj)
                     wks.write_formula(row,
-                                      start_col + columns['qty_prj'+id]['col'],
+                                      start_col + col['qty_prj'+id],
                                       qty[i_prj].format('BoardQty'+id),
                                       ss.wrk_formats['part_format'],
                                       value=value)
-                wks.write_formula(row, start_col + columns['qty']['col'],
-                                  '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + columns['qty_prj0']['col']),
-                                                                  xl_rowcol_to_cell(row, start_col + columns['qty']['col']-1)),
+                wks.write_formula(row, start_col + col['qty'],
+                                  '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + col['qty_prj0']),
+                                                                  xl_rowcol_to_cell(row, start_col + col['qty']-1)),
                                   ss.wrk_formats['part_format'],
                                   value=ceil(total))
             else:
-                wks.write_formula(row, start_col + columns['qty']['col'],
+                wks.write_formula(row, start_col + col['qty'],
                                   qty.format('BoardQty'), ss.wrk_formats['part_format'], value=ceil(qty_n * ss.DEFAULT_BUILD_QTY))
         except KeyError:
             pass
@@ -713,12 +713,12 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
         # If part do not have manf# code or distributor codes, color quantity cell gray.
         wks.conditional_format(
-            row, start_col + columns['qty']['col'],
-            row, start_col + columns['qty']['col'],
+            row, start_col + col['qty'],
+            row, start_col + col['qty'],
             {
                 'type': 'formula',
                 'criteria': '=AND(ISBLANK({g}),{d})'.format(
-                    g=xl_rowcol_to_cell(row, start_col + columns['manf#']['col']),  # Manf# column also have to be blank.
+                    g=xl_rowcol_to_cell(row, start_col + col['manf#']),  # Manf# column also have to be blank.
                     d=(','.join(dist_code_avail) if dist_code_avail else 'TRUE()')
                  ),
                 'format': ss.wrk_formats['not_manf_codes']
@@ -727,10 +727,10 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
         # Enter the spreadsheet formula for calculating the minimum extended price (based on the unit price found on next formula).
         wks.write_formula(
-            row, start_col + columns['ext_price']['col'],
+            row, start_col + col['ext_price'],
             '=iferror({qty}*{unit_price},"")'.format(
-                qty=xl_rowcol_to_cell(row, start_col + columns['qty']['col']),
-                unit_price=xl_rowcol_to_cell(row, start_col + columns['unit_price']['col'])
+                qty=xl_rowcol_to_cell(row, start_col + col['qty']),
+                unit_price=xl_rowcol_to_cell(row, start_col + col['unit_price'])
             ),
             ss.wrk_formats['currency']
         )
@@ -739,15 +739,15 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         if distributor_dict.keys():
             # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
             wks.write_formula(
-                row, start_col + columns['unit_price']['col'],
+                row, start_col + col['unit_price'],
                 '=MINA({})'.format(','.join(dist_unit_prices)),
                 ss.wrk_formats['currency']
             )
 
             # If part is unavailable from all distributors, color quantity cell red.
             wks.conditional_format(
-                row, start_col + columns['qty']['col'],
-                row, start_col + columns['qty']['col'],
+                row, start_col + col['qty'],
+                row, start_col + col['qty'],
                 {
                     'type': 'formula',
                     'criteria': '=IF(SUM({})=0,1,0)'.format(','.join(dist_qty_avail)),
@@ -757,8 +757,8 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
             # If total available part quantity is less than needed quantity, color cell orange.
             wks.conditional_format(
-                row, start_col + columns['qty']['col'],
-                row, start_col + columns['qty']['col'],
+                row, start_col + col['qty'],
+                row, start_col + col['qty'],
                 {
                     'type': 'cell',
                     'criteria': '>',
@@ -769,8 +769,8 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
             # If total purchased part quantity is less than needed quantity, color cell yellow.
             wks.conditional_format(
-                row, start_col + columns['qty']['col'],
-                row, start_col + columns['qty']['col'],
+                row, start_col + col['qty'],
+                row, start_col + col['qty'],
                 {
                     'type': 'cell',
                     'criteria': '>',
@@ -781,8 +781,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
         # Enter part shortage quantity.
         try:
-            wks.write(row, start_col + columns['short']['col'],
-                      0)  # slack quantity. (Not handled, yet.)
+            wks.write(row, start_col + col['short'], 0)  # slack quantity. (Not handled, yet.)
         except KeyError:
             pass
 
@@ -791,13 +790,13 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # Sum the extended prices for all the parts to get the total minimum cost.
     # If have read multiple BOM file calculate it by `SUMPRODUCT()` of the
     # board project quantity components 'qty_prj*' by unitary price 'Unit$'.
-    total_cost_col = start_col + columns['ext_price']['col']
+    total_cost_col = start_col + col['ext_price']
     if isinstance(qty, list):
-        unit_price_col = start_col + columns['unit_price']['col']
+        unit_price_col = start_col + col['unit_price']
         unit_price_range = xl_range(PART_INFO_FIRST_ROW, unit_price_col, PART_INFO_LAST_ROW, unit_price_col)
         # Add each project board total.
         for i_prj in range(len(qty)):
-            qty_col = start_col + columns['qty_prj{}'.format(i_prj)]['col']
+            qty_col = start_col + col['qty_prj{}'.format(i_prj)]
             wks.write(total_cost_row + 3*i_prj, total_cost_col,
                       '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
                             unit_price_range=unit_price_range,
@@ -817,16 +816,16 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # Add the total purchase and others purchase informations.
     if distributor_dict.keys():
         next_line = row + 1
-        ss.write_string(next_line, start_col + columns['unit_price']['col'], 'Total Purchase:', 'total_cost_label')
-        wks.write_comment(next_line, start_col + columns['unit_price']['col'], 'This is the total of your cart across all distributors.')
-        wks.write(next_line, start_col + columns['ext_price']['col'], '=SUM({})'.format(','.join(dist_ext_prices)), ss.wrk_formats['total_cost_currency'])
+        ss.write_string(next_line, start_col + col['unit_price'], 'Total Purchase:', 'total_cost_label')
+        wks.write_comment(next_line, start_col + col['unit_price'], 'This is the total of your cart across all distributors.')
+        wks.write(next_line, start_col + col['ext_price'], '=SUM({})'.format(','.join(dist_ext_prices)), ss.wrk_formats['total_cost_currency'])
         # Purchase general description, it may be used to distinguish carts of different projects.
         next_line = next_line + 1
-        ss.write_string(next_line, start_col + columns['unit_price']['col'], 'Purchase description:', 'description')
-        wks.write_comment(next_line, start_col + columns['unit_price']['col'],
+        ss.write_string(next_line, start_col + col['unit_price'], 'Purchase description:', 'description')
+        wks.write_comment(next_line, start_col + col['unit_price'],
                           'This description will be added to all purchased parts label and may be used to distinguish the ' +
                           'component of different projects.')
-        ss.define_name_ref('PURCHASE_DESCRIPTION', next_line, columns['ext_price']['col'])
+        ss.define_name_ref('PURCHASE_DESCRIPTION', next_line, col['ext_price'])
 
     # Get the actual currency rate to use.
     next_line = row + 1
@@ -835,24 +834,24 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     if len(used_currencies) > 1:
         if ss.currency_alpha3 in used_currencies:
             used_currencies.remove(ss.currency_alpha3)
-        wks.write(next_line, start_col + columns['value']['col'],
+        wks.write(next_line, start_col + col['value'],
                   'Used currency rates:', ss.wrk_formats['description'])
         next_line = next_line + 1
     for used_currency in used_currencies:
         if used_currency != ss.currency_alpha3:
-            wks.write(next_line, start_col + columns['value']['col'],
+            wks.write(next_line, start_col + col['value'],
                       '{c}({c_s})/{d}({d_s}):'.format(c=ss.currency_alpha3, d=used_currency, c_s=ss.currency_symbol,
                                                       d_s=numbers.get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
                                                       ),
                       ss.wrk_formats['description']
                       )
-            ss.define_name_ref('{c}_{d}'.format(c=ss.currency_alpha3, d=used_currency), next_line, columns['value']['col'] + 1)
-            wks.write(next_line, columns['value']['col'] + 1, currency_convert(1, used_currency, ss.currency_alpha3))
+            ss.define_name_ref('{c}_{d}'.format(c=ss.currency_alpha3, d=used_currency), next_line, col['value'] + 1)
+            wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency_alpha3))
             next_line = next_line + 1
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part is stored.
-    return next_line, start_col + num_cols, start_col + columns['refs']['col'], start_col + columns['qty']['col'], columns
+    return next_line, start_col + num_cols, start_col + col['refs'], start_col + col['qty'], col
 
 
 def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
@@ -1301,7 +1300,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             if col in columns:
                 info_range = start_col + columns[col]['col']
             elif col in columns_global:
-                info_range = columns_global[col]['col']
+                info_range = columns_global[col]
             else:
                 info_range = ""
                 logger.warning("Not valid field `{f}` for purchase list at {d}.".format(
@@ -1328,7 +1327,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         if 'part_num' in cols:
             purchase_code = start_col + columns['part_num']['col']
         elif 'manf#' in cols:
-            purchase_code = start_col + columns_global['manf#']['col']
+            purchase_code = start_col + columns_global['manf#']
         else:
             purchase_code = ""
             logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(
@@ -1347,12 +1346,3 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             wks.write_array_formula(xl_range(r, ORDER_START_COL, r, ORDER_START_COL), '{{={f}}}'.format(f=order_func))
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
-
-
-def remove_column(table, name):
-    '''Remove a specified columns from a create table.'''
-    for h in table:
-        if table[h]['col'] > table[name]['col']:
-            table[h]['col'] -= 1
-    del table[name]
-    return table
