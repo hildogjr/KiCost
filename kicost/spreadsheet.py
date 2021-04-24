@@ -57,6 +57,9 @@ __all__ = ['create_spreadsheet', 'create_worksheet', 'Spreadsheet']
 # It was originally created to control the spreadsheet details from KiBot.
 class Spreadsheet(object):
     ''' A class to hold the spreadsheet generation settings '''
+    # Note: upper case members are static. Can be read by the objects, but shouldn't be modfified by the objects.
+    # They work as configuration parameters to fine tune the spreadsheet content and aspect.
+    #
     # Microsoft Excel allows a 31 characters longer string for the worksheet name, Google
     # Spreadsheet 100 and LibreOffice Calc have no limit.
     MAX_LEN_WORKSHEET_NAME = 31
@@ -82,6 +85,16 @@ class Spreadsheet(object):
     ADD_DATE_TOP = True
     ADD_DATE_BOTTOM = False
     DATE_FIELD_LABEL = '$ date:'
+    # Default value for number of boards to build.
+    DEFAULT_BUILD_QTY = 100
+    # About and credit message at the end of the spreadsheet.
+    ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v.' + __version__
+    # Try to group references as ranges
+    COLLAPSE_REFS = True
+    # Don't add the link column
+    SUPPRESS_CAT_URL = True
+    # Columns to add to the global section
+    USER_FIELDS = []
     # Columns used for the global section
     GLOBAL_COLUMNS = {
         'refs': {
@@ -241,14 +254,6 @@ class Spreadsheet(object):
         self.set_currency(currency)
         # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
         self.extra_info_display = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
-        # Default value for number of boards to build.
-        self.default_build_qty = 100
-        # About and credit message at the end of the spreadsheet.
-        self.about_msg = 'KiCost\N{REGISTERED SIGN} v.' + __version__
-        # Default options:
-        self.collapse_refs = True
-        self.suppress_cat_url = True
-        self.user_fields = []
         # Create the worksheet that holds the pricing information.
         self.wks = workbook.add_worksheet(worksheet_name)
         # Data to performe cell size adjust
@@ -377,10 +382,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         worksheet_name = worksheet_name[:Spreadsheet.MAX_LEN_WORKSHEET_NAME]
     # Create spreadsheet file.
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
+        Spreadsheet.COLLAPSE_REFS = collapse_refs
+        Spreadsheet.SUPPRESS_CAT_URL = suppress_cat_url
+        Spreadsheet.USER_FIELDS = user_fields
         ss = Spreadsheet(workbook, worksheet_name, prj_info, currency)
-        ss.collapse_refs = collapse_refs
-        ss.suppress_cat_url = suppress_cat_url
-        ss.user_fields = user_fields
         create_worksheet(ss, logger, parts)
 
 
@@ -442,7 +447,7 @@ def create_worksheet(ss, logger, parts):
         # Place the board qty cells near the right side of the global info.
         ss.write_string(next_row, next_col - 2, 'Board Qty{}:'.format(i_prj_str), 'board_qty')
         # Set initial board quantity.
-        wks.write(next_row, next_col - 1, ss.default_build_qty, ss.wrk_formats['board_qty'])
+        wks.write(next_row, next_col - 1, ss.DEFAULT_BUILD_QTY, ss.wrk_formats['board_qty'])
         # Define the named cell where the total board quantity can be found.
         ss.define_name_ref('BoardQty{}'.format(i_prj_str), next_row, next_col - 1)
 
@@ -496,7 +501,7 @@ def create_worksheet(ss, logger, parts):
         next_line += 1
     # Add the KiCost package information at the end of the spreadsheet to debug
     # information at the forum and "advertising".
-    wks.write(next_line+1, START_COL, ss.about_msg, ss.wrk_formats['about_msg'])
+    wks.write(next_line+1, START_COL, ss.ABOUT_MSG, ss.wrk_formats['about_msg'])
     # Optionally adjust cell sizes
     if ss.ADJUST_ROW_AND_COL_SIZE:
         ss.adjust_row_and_col_sizes(logger)
@@ -543,7 +548,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                     f['col'] += 1
 
     # Enter user-defined fields into the global part data columns structure.
-    for user_field in list(reversed(ss.user_fields)):
+    for user_field in list(reversed(ss.USER_FIELDS)):
         # Skip the user field if it's already in the list of data columns.
         col_ids = list(columns.keys())
         user_field_id = user_field.lower()
@@ -590,7 +595,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
     # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        part.collapsed_refs = order_refs(part.refs, collapse=ss.collapse_refs, ref_sep=ss.PART_NSEQ_SEPRTR)
+        part.collapsed_refs = order_refs(part.refs, collapse=ss.COLLAPSE_REFS, ref_sep=ss.PART_NSEQ_SEPRTR)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
@@ -657,7 +662,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                 # compatible function.
                 total = 0
                 for i_prj in range(len(qty)):
-                    total += qty_n[i_prj] * ss.default_build_qty
+                    total += qty_n[i_prj] * ss.DEFAULT_BUILD_QTY
                     wks.write_formula(row,
                                       start_col + columns['qty_prj{}'.format(i_prj)]['col'],
                                       qty[i_prj].format('BoardQty{}'.format(i_prj)),
@@ -670,7 +675,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                                   value=ceil(total))
             else:
                 wks.write_formula(row, start_col + columns['qty']['col'],
-                                  qty.format('BoardQty'), ss.wrk_formats['part_format'], value=ceil(qty_n * ss.default_build_qty))
+                                  qty.format('BoardQty'), ss.wrk_formats['part_format'], value=ceil(qty_n * ss.DEFAULT_BUILD_QTY))
         except KeyError:
             pass
 
@@ -858,7 +863,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     wks = ss.wks
     # Columns for the various types of distributor-specific part data.
     columns = deepcopy(ss.DISTRIBUTOR_COLUMNS)
-    if not ss.suppress_cat_url:
+    if not ss.SUPPRESS_CAT_URL:
         # Add a extra column to the hyperlink.
         columns.update({'link': {
                             'col': 5,
@@ -917,7 +922,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         if dist_part_num:
             wks.write(row, start_col + columns['part_num']['col'], dist_part_num, ss.wrk_formats['part_format'])
         else:
-            if ss.suppress_cat_url:
+            if ss.SUPPRESS_CAT_URL:
                 dist_part_num = 'Link'  # To use as text for the link.
         try:
             # Add a comment in the 'cat#' column with extra information gotten in the distributor web page.
@@ -932,7 +937,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         # Having the link present will help debug if the extraction of the
         # quantity or pricing information was done correctly.
         if part.url[dist]:
-            if ss.suppress_cat_url:
+            if ss.SUPPRESS_CAT_URL:
                 ss.write_url(row, start_col + columns['part_num']['col'], part.url[dist], string=dist_part_num)
             else:
                 ss.write_url(row, start_col + columns['link']['col'], part.url[dist])
