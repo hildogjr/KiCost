@@ -518,16 +518,10 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
     # Remove not used columns by the field not founded in ALL the parts. This give
     # better visualization on notebooks (small screens) and optimization to print.
-    def remove_col_not_exist_parts(code, table=columns):
-        for part in parts:
-            try:
-                if part.fields[code]:
-                    return
-            except KeyError:
-                pass
-        table = remove_column(table, code)  # All 'manf' are empty.
-    remove_col_not_exist_parts('manf')
-    remove_col_not_exist_parts('desc')
+    if not next(filter(lambda part: part.fields.get('manf'), parts), None):
+        remove_column(columns, 'manf')  # All 'manf' are empty.
+    if not next(filter(lambda part: part.fields.get('desc'), parts), None):
+        remove_column(columns, 'desc')  # All 'desc' are empty.
 
     # Add quantity columns to deal with different quantities in the BOM files. The
     # original quantity column will be the total of each item. For check the number
