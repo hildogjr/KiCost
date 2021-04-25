@@ -171,7 +171,10 @@ def file_eda_match(file_name):
 # Temporary class for storing part group information.
 class IdenticalComponents(object):
     '''@brief Class to group components.'''
-    pass
+    def __init__(self):
+        # None by default, here to avoid try/except in the code
+        self.datasheet = None
+        self.lifecycle = None
 
 
 def group_parts(components, fields_merge, c_prjs):

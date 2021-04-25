@@ -103,7 +103,7 @@ class Spreadsheet(object):
             'label': 'Refs',
             'width': None,  # Column width (default in this case).
             'comment': 'Schematic identifier for each part.',
-            'static': False,
+            'static': False,  # Non static columns are "computed"
         },
         'value': {
             'col': 1,
@@ -613,44 +613,33 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         for field in columns_list:
             if columns[field]['static'] is False:
                 continue
-            try:
-                # Fields found in the XML are lower-cased, so do the same for the column key.
-                field_name = field.lower().strip()
-                if field_name == 'manf#':
-                    string = part.fields.get('manf#')
-                    link = part.fields.get('datasheet')
-                    if not link:
-                        try:
-                            # Use the the datasheet link got in the distributor if not
-                            # available any in the BOM / schematic.
-                            link = part.datasheet
-                        except AttributeError:
-                            pass
-                    try:
-                        lifecycle = part.lifecycle
-                        if lifecycle == 'obsolete':
-                            cell_format = 'part_format_obsolete'
-                        else:
-                            cell_format = 'part_format'
-                    except AttributeError:
-                        cell_format = 'part_format'
-                        pass
-                    if link and validate_url(link):
-                        # Just put the link if is a valid format.
-                        ss.write_url(row, start_col + col['manf#'], link, string=string, cell_format=cell_format)
-                    else:
-                        ss.write_string(row, start_col + col[field], part.fields[field_name], cell_format)
-                else:
-                    field_value = part.fields[field_name]
-                    if field_value is not None:
-                        if field_name == 'footprint':
-                            # TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
-                            field_value_footprint = re.findall(r'\:(.*)', field_value)
-                            if field_value_footprint:
-                                field_value = field_value_footprint[0]
-                        ss.write_string(row, start_col + col[field], field_value, 'part_format')
-            except KeyError:
-                pass
+            # Fields found in the XML are lower-cased, so do the same for the column key.
+            field_name = field.lower().strip()
+            field_value = part.fields.get(field_name)
+            cell_format = 'part_format'
+            n_col = start_col + col[field]
+            if field_name == 'manf#':
+                # Note: empty manf# with link will show the URL
+                link = part.fields.get('datasheet')
+                if not link:
+                    # Use the the datasheet link got in the distributor if not available any in the BOM / schematic.
+                    link = part.datasheet
+                # Mark obsolete parts
+                if part.lifecycle and part.lifecycle == 'obsolete':
+                    cell_format = 'part_format_obsolete'
+                if link and validate_url(link):
+                    # Just put the link if is a valid format.
+                    ss.write_url(row, n_col, link, string=field_value, cell_format=cell_format)
+                    continue
+            if field_value is None:
+                # Skip empty cells
+                continue
+            if field_name == 'footprint':
+                # TODO add future dependence of "electro-grammar" (https://github.com/kitspace/electro-grammar)
+                field_value_footprint = re.findall(r'\:(.*)', field_value)
+                if field_value_footprint:
+                    field_value = field_value_footprint[0]
+            ss.write_string(row, n_col, field_value, cell_format)
 
         # Enter total part quantity needed.
         try:
