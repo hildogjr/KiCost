@@ -26,8 +26,12 @@ import requests
 import logging
 import tqdm
 import re
+import sys
 from collections import Counter
-from urllib.parse import quote_plus as urlquote
+if sys.version_info[0] < 3:
+    from urllib import quote_plus
+else:
+    from urllib.parse import quote_plus
 
 # KiCost definitions.
 from ..global_vars import DEBUG_OVERVIEW
@@ -100,7 +104,7 @@ class api_octopart(distributor_class):
 
     def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
-        part_query = [{'reference': 1, 'sku': urlquote(sku)}]
+        part_query = [{'reference': 1, 'sku': quote_plus(sku)}]
         results = api_octopart.query(part_query)
         if not results:
             return None
@@ -300,7 +304,7 @@ class api_octopart(distributor_class):
             # distributor SKU.
             manf_code = part.fields.get('manf#')
             if manf_code:
-                part_query = {'reference': i, 'mpn': urlquote(manf_code)}
+                part_query = {'reference': i, 'mpn': quote_plus(manf_code)}
             else:
                 try:
                     # No MPN, so use the first distributor SKU that's found.
@@ -311,7 +315,7 @@ class api_octopart(distributor_class):
                         if sku:
                             break
                     # Create the part query using SKU matching.
-                    part_query = {'reference': i, 'sku': urlquote(sku)}
+                    part_query = {'reference': i, 'sku': quote_plus(sku)}
 
                     # Because was used the distributor (enrolled at Octopart list)
                     # despite the normal 'manf#' code, take the sub quantity as
