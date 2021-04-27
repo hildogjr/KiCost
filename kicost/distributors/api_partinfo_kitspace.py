@@ -36,6 +36,7 @@ import tqdm
 import re
 import sys
 import os
+import copy
 from collections import OrderedDict
 if sys.version_info[0] < 3:
     from urllib import quote_plus
@@ -351,7 +352,7 @@ class api_partinfo_kitspace(distributor_class):
         available_distributors = set(api_partinfo_kitspace.API_DISTRIBUTORS)
         for part in parts:
             # Create a PartInfo query using the manufacturer's part number or the distributor's SKU.
-            part_dist_use_manfpn = distributors.copy()
+            part_dist_use_manfpn = copy.copy(distributors)
 
             # Check if that part have stock code that is accepted to use by this module (API).
             # KiCost will prioritize these codes under "manf#" that will be used for get
