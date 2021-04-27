@@ -25,7 +25,8 @@ __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
 from .distributor import distributor_class
-from .distributors_info import ORDER_COL_USERFIELDS
+# Export the ORDER_COL_USERFIELDS content
+from .distributors_info import ORDER_COL_USERFIELDS  # noqa: F401
 
 # Import and register here the API / local / scrape modules.
 from .dist_local_template import dist_local_template  # noqa: F401
