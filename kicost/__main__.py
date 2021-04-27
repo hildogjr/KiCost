@@ -294,14 +294,18 @@ def main():
             except IndexError:
                 pass
 
-    # Remove all the distributor from the list for not scrape any web site.
+    # List of distributors to scrape
     if args.no_price:
-        dist_list = None
+        # None
+        dist_list = []
     else:
         if not args.include:
+            # All by default
             dist_list = list(distributor_dict.keys())
         else:
+            # Requested to be included
             dist_list = args.include
+        # Requested to be excluded
         for d in args.exclude:
             dist_list.remove(d)
 

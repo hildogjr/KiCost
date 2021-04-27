@@ -864,20 +864,16 @@ class formKiCost(wx.Frame):
                     args.eda_name = v['module']  # The selected EDA module on GUI.
                     break
 
+        dist_list = []
         # Get the current distributors to scrape.
         # choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
         choisen_dist = [i for i in range(self.m_checkList_dist.GetCount()) if self.m_checkList_dist.IsChecked(i)]
-        if choisen_dist:
-            dist_list = []
-            # choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
-            for idx in choisen_dist:
-                label = self.m_checkList_dist.GetString(idx)
-                for k, v in distributor_dict.items():
-                    if v['label']['name'] == label:
-                        dist_list.append(k)
-                        break
-        else:
-            dist_list = None
+        for idx in choisen_dist:
+            label = self.m_checkList_dist.GetString(idx)
+            for k, v in distributor_dict.items():
+                if v['label']['name'] == label:
+                    dist_list.append(k)
+                    break
         args.include = dist_list
         args.convert_to_ods = self.m_checkBox_XLSXtoODS.GetValue()
         args.open_spreadsheet = self.m_checkBox_openSpreadsheet.GetValue()

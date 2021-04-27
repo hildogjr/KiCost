@@ -21,12 +21,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from collections import OrderedDict
-
-
-# The global dictionary of distributor information starts out empty.
-distributor_dict = OrderedDict()
-distributors_modules_dict = {}
+# distributor_dict contains the available distributors.
+# The distributors are added by the api_*/dist_*/scrape_* modules.
+# The information of each distributor is copied from distributors_info
+# Some modules can add new distributors, not found on distributors_info (from data in the fields)
+# The list of *used* distributors is handled separately.
+distributor_dict = {}
 
 # Extra informations to by got by each part in the distributors.
 EXTRA_INFO_DIST = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf',

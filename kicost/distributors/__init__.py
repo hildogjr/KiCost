@@ -24,29 +24,16 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-# We really use distributor_dict to clear it
-from .global_vars import distributors_modules_dict, distributor_dict  # noqa: F401
-
+from .distributor import distributor_class
 
 # Import and register here the API / local / scrape modules.
-
-from .dist_local_template import dist_local_template  # Template for local distributors entry.
-# from .api_octopart import api_octopart
-from .api_partinfo_kitspace import api_partinfo_kitspace
-
-distributors_modules_dict['dist_local_template'] = {'handle': dist_local_template}
-# distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_octopart}
-distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_partinfo_kitspace}
+from .dist_local_template import dist_local_template  # noqa: F401
+from .api_octopart import api_octopart  # noqa: F401
+from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
 
 
 def init_distributor_dict():
-    # Clear distributor_dict, then let all distributor modules recreate their entries.
-    global distributor_dict
-    distributor_dict = {}
-    for x in globals():
-        if x.startswith("dist_") or x.startswith("api_") or x.startswith("scrape_"):
-            globals()[x].init_dist_dict()
-            # Import all "ditributors_templates" (`dist_`), APIs or scrape modules.
+    distributor_class.init_dist_dict()
 
 
 # Init distributor dict during import.

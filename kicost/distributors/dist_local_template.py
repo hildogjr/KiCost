@@ -26,10 +26,13 @@ import re
 import sys
 import hashlib
 
+from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE
 # Distributors definitions.
 from .distributor import distributor_class
-from ..global_vars import DEFAULT_CURRENCY, SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE
-from .global_vars import distributor_dict, distributors_modules_dict
+from .distributors_info import distributors_info
+# Use global vars explicitly, if we import them individually we'll get a copy
+import kicost.global_vars as gv
+import kicost.distributors.global_vars as gvd
 
 __all__ = ['dist_local_template']
 
@@ -46,35 +49,20 @@ else:
 
 
 class dist_local_template(distributor_class):
+    name = 'Local'
+    type = 'local'
+    enabled = True
+    url = None
 
     @staticmethod
     def init_dist_dict():
-        distributor_dict.update({
-            'local_template': {
-                'module': 'local',  # The directory name containing this file.
-                'type': 'local',  # Allowable values: 'api', 'scrape' or 'local'.
-                'order': {
-                    'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
-                    'delimiter': ' '  # Delimiter for online orders.
-                },
-                'label': {
-                    'name': 'Local',  # Distributor label used in spreadsheet columns.
-                    # Formatting for distributor header in worksheet; bold, font and align are
-                    # `spreadsheet.py` defined but can by overload heve.
-                    'format': {'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
-                },
-            }
-        })
-        distributors_modules_dict.update({'local_template': {'type': 'local', 'enabled': True, 'param': None}})
+        # We don't add distributors here, they are collected in query_part_info
+        pass
 
     @staticmethod
-    def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY):
-        """Fill-in part information for locally-sourced parts not handled by Octopart."""
-
-        # If this module is not enabled, do not add any price values conrrespondent to the local distributors.
-        if not distributors_modules_dict['local_template']['enabled']:
-            return
-
+    def query_part_info(parts, distributors, currency):
+        """ Fill-in part information for locally-sourced parts not handled by Octopart.
+            IMPORTANT: `distributors` can be modified. """
         # This loops through all the parts and finds any that are sourced from
         # local distributors that are not normally searched and places them into
         # the distributor disctionary.
@@ -91,9 +79,10 @@ class dist_local_template(distributor_class):
                 # then it's a local distributor. Copy the local distributor template
                 # and add it to the table of distributors.
                 if dist not in distributors:
-                    logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
-                    distributors[dist] = copy.deepcopy(distributors['local_template'])
-                    distributors[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
+                    gv.logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
+                    gvd.distributor_dict[dist] = copy.deepcopy(distributors_info['local_template'])
+                    gvd.distributor_dict[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
+                    distributors.append(dist)
 
         # Set part info to default blank values for all the distributors.
         for part in parts:  # TODO create this for just the current active distributor inside each module.
@@ -104,7 +93,7 @@ class dist_local_template(distributor_class):
             part.qty_avail = {dist: None for dist in distributors}  # Available quantity.
             part.qty_increment = {dist: None for dist in distributors}
             part.info_dist = {dist: {} for dist in distributors}
-            part.currency = {dist: DEFAULT_CURRENCY for dist in distributors}  # Default currency.
+            part.currency = {dist: currency for dist in distributors}  # Default currency.
             part.moq = {dist: None for dist in distributors}  # Minimum order quantity allowd by the distributor.
 
         # Loop through the parts looking for those sourced by local distributors
@@ -123,8 +112,8 @@ class dist_local_template(distributor_class):
                     continue
 
                 def make_unique_catalog_number(p):
-                    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
-                    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
+                    FIELDS_MANFCAT = ([d + '#' for d in gvd.distributor_dict] + ['manf#'])
+                    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in gvd.distributor_dict])
                     # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
                     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                     hash_fields['dist'] = dist
@@ -141,7 +130,7 @@ class dist_local_template(distributor_class):
                     link = urlunsplit(url_parts)
                 except Exception:
                     # This happens when no part URL is found.
-                    logger.log(DEBUG_OBSESSIVE, 'No part URL found to local \'{}\' distributor!'.format(dist))
+                    gv.logger.log(DEBUG_OBSESSIVE, 'No part URL found to local \'{}\' distributor!'.format(dist))
                 p.url[dist] = link
 
                 price_tiers = {}
@@ -149,7 +138,7 @@ class dist_local_template(distributor_class):
                     try:
                         local_currency = re.findall('[a-zA-Z]{3}', pricing)[0].upper()
                     except Exception:
-                        local_currency = DEFAULT_CURRENCY
+                        local_currency = currency
                     pricing = re.sub('[^0-9.;:]', '', pricing)  # Keep only digits, decimals, delimiters.
                     for qty_price in pricing.split(';'):
                         qty, price = qty_price.split(SEPRTR)
@@ -159,12 +148,8 @@ class dist_local_template(distributor_class):
                     # p.moq[dist] = min(price_tiers.keys())
                 except AttributeError:
                     # This happens when no pricing info is found.
-                    logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))
+                    gv.logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))
                 p.price_tiers[dist] = price_tiers
 
-        # Remove the local distributor template so it won't be processed later on.
-        # It has served its purpose.
-        try:
-            del distributors['local_template']
-        except Exception:
-            pass
+
+distributor_class.register(dist_local_template, 100)

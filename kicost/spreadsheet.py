@@ -95,6 +95,11 @@ class Spreadsheet(object):
     SUPPRESS_CAT_URL = True
     # Columns to add to the global section
     USER_FIELDS = []
+    # List of selected distributors
+    DISTRIBUTORS = []
+    # Sort the distributors alphabetically.
+    # But first the web distributors and then the local ones
+    SORT_DISTRIBUTORS = True
     # Columns used for the global section
     GLOBAL_COLUMNS = {
         'refs': {
@@ -360,7 +365,7 @@ class Spreadsheet(object):
         self.wks.write(row, col+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), self.wrk_formats['proj_info'])
 
 
-def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_CURRENCY,
+def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currency=DEFAULT_CURRENCY,
                        collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' '):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     basename = os.path.basename(spreadsheet_filename)
@@ -385,6 +390,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, currency=DEFAULT_C
         Spreadsheet.COLLAPSE_REFS = collapse_refs
         Spreadsheet.SUPPRESS_CAT_URL = suppress_cat_url
         Spreadsheet.USER_FIELDS = user_fields
+        Spreadsheet.DISTRIBUTORS = dist_list
         ss = Spreadsheet(workbook, worksheet_name, prj_info, currency)
         create_worksheet(ss, logger, parts)
 
@@ -406,7 +412,7 @@ def create_worksheet(ss, logger, parts):
         ss.wrk_formats[k] = ss.workbook.add_format(v)
     # Add the distinctive header format for each distributor to the `dict` of formats.
     base_hdr_format = ss.WRK_FORMATS['global']
-    for d in distributor_dict:
+    for d in ss.DISTRIBUTORS:
         hdr_format = base_hdr_format.copy()
         hdr_format.update(distributor_dict[d]['label']['format'])
         ss.wrk_formats[d] = ss.workbook.add_format(hdr_format)
@@ -480,9 +486,12 @@ def create_worksheet(ss, logger, parts):
 
     # Make a list of alphabetically-ordered distributors with web distributors before locals.
     logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
-    web_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] != 'local'])
-    local_dists = sorted([d for d in distributor_dict if distributor_dict[d]['type'] == 'local'])
-    dist_list = web_dists + local_dists
+    if ss.SORT_DISTRIBUTORS:
+        web_dists = sorted([d for d in ss.DISTRIBUTORS if distributor_dict[d]['type'] != 'local'])
+        local_dists = sorted([d for d in ss.DISTRIBUTORS if distributor_dict[d]['type'] == 'local'])
+        dist_list = web_dists + local_dists
+    else:
+        dist_list = ss.DISTRIBUTORS
 
     # Load the part information from each distributor into the sheet.
     logger.log(DEBUG_OVERVIEW, 'Writing the distributor part information...')
@@ -676,7 +685,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         dist_qty_purchased = []
         dist_code_avail = []
         dist_ext_prices = []
-        for dist in list(distributor_dict.keys()):
+        for dist in ss.DISTRIBUTORS:
 
             # Get the currencies used among all distributors.
             used_currencies.add(part.currency[dist])
@@ -725,7 +734,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         )
 
         # If not asked to scrape, to correlate the prices and available quantities.
-        if distributor_dict.keys():
+        if ss.DISTRIBUTORS:
             # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
             wks.write_formula(
                 row, start_col + col['unit_price'],
@@ -803,7 +812,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
               ss.wrk_formats['total_cost_currency'])
 
     # Add the total purchase and others purchase informations.
-    if distributor_dict.keys():
+    if ss.DISTRIBUTORS:
         next_line = row + 1
         ss.write_string(next_line, start_col + col['unit_price'], 'Total Purchase:', 'total_cost_label')
         wks.write_comment(next_line, start_col + col['unit_price'], 'This is the total of your cart across all distributors.')
@@ -1053,7 +1062,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                     unit_price=xl_rowcol_to_cell(row, unit_price_col)),
                 ss.wrk_formats['currency'])
 
-            if len(distributor_dict) > 1:  # Just use the best price highlight if more than one distributor.
+            if len(ss.DISTRIBUTORS) > 1:  # Just use the best price highlight if more than one distributor.
                 # Conditionally format the extended price cell that contains the best price.
                 wks.conditional_format(row, ext_price_col, row, ext_price_col, {
                     'type': 'cell',

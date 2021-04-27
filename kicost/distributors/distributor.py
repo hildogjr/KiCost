@@ -26,47 +26,43 @@
 __author__ = 'Max Maisel'
 __webpage__ = 'https://github.com/mmmaisel/'
 
-# Libraries.
-import time
-
-# from . import fake_browser
-# import http.client # For web scraping exceptions.
-# from ..global_vars import PartHtmlError
-# Kept this for future use.
-
-from ..global_vars import DEFAULT_CURRENCY
-from .global_vars import distributors_modules_dict
-
+import kicost.global_vars as gv
 
 __all__ = ['distributor_class']
 
 
 class distributor_class(object):
-    start_time = time.time()
+    registered = []
+    priorities = []
 
-    def __init__(self, name, logger):
-        self.name = name
-        self.logger = logger
+    @staticmethod
+    def register(api, priority):
+        index = 0
+        for idx, prio in enumerate(distributor_class.priorities):
+            index = idx
+            if prio < priority:
+                break
+        else:
+            index += 1
+        distributor_class.registered.insert(index, api)
+        distributor_class.priorities.insert(index, priority)
 
-        # Don't create fake_browser for "local" distributor.
-        # if self.domain != None:
-        #     self.browser = fake_browser.fake_browser \
-        #         (self.domain, self.logger, self.scrape_retries, throttle_delay)
-        # Kept this for future use.
-
-    def get_dist_parts_info(self, parts, distributors, currency=DEFAULT_CURRENCY):
+    @staticmethod
+    def get_dist_parts_info(parts, distributors, currency=gv.DEFAULT_CURRENCY):
         ''' Get the parts info using the modules API/Scrape/Local.'''
-        for d in list(distributors_modules_dict):
-            globals()[d].query_part_info(parts, distributors, currency)
-            # dist_local_template.query_part_info(parts, distributors, currency)
-            # api_partinfo_kitspace.query_part_info(parts, distributors, currency)
+        for api in distributor_class.registered:
+            if api.enabled:
+                api.query_part_info(parts, distributors, currency)
 
-    # Abstract methods, implemented in distributor specific modules.
     @staticmethod
     def init_dist_dict():
         ''' Initialize and update the dictionary of the registered distributors classes.'''
-        raise NotImplementedError()
+        # Clear distributor_dict, then let all distributor modules recreate their entries.
+        gv.distributor_dict = {}
+        for api in distributor_class.registered:
+            api.init_dist_dict()
 
+    # Abstract methods, implemented in distributor specific modules.
     @staticmethod
     def query():
         '''Send query to server and return results.'''

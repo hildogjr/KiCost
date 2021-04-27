@@ -126,4 +126,18 @@ distributors_info = {
             'format': {'font_color': 'white', 'bg_color': '#1166DD'},  # LCSC blue.
         },
     },
+    'local_template': {
+        'type': 'local',  # Allowable values: 'api', 'scrape' or 'local'.
+        'module': 'local',  # The directory name containing this file.
+        'order': {
+            'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
+            'delimiter': ' '  # Delimiter for online orders.
+        },
+        'label': {
+            'name': 'Local',  # Distributor label used in spreadsheet columns.
+            # Formatting for distributor header in worksheet; bold, font and align are
+            # `spreadsheet.py` defined but can by overload heve.
+            'format': {'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
+        },
+    },
 }

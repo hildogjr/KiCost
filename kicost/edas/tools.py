@@ -31,7 +31,7 @@ import re  # Regular expression parser and matches.
 import os
 from collections import OrderedDict
 from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL
-from ..distributors.global_vars import distributor_dict
+import kicost.distributors.global_vars as gv
 from .global_vars import eda_dict  # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
@@ -104,7 +104,7 @@ field_name_translations = {
 }
 # Create the fields translate for each distributor submodule.
 for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
-    for dist in distributor_dict:
+    for dist in gv.distributor_dict:
         field_name_translations[dist + stub] = dist + '#'
         field_name_translations[dist + '_' + stub] = dist + '#'
         field_name_translations[dist + '-' + stub] = dist + '#'
@@ -149,13 +149,13 @@ def file_eda_match(file_name):
 
 # def organize_parts(components, fields_merge, c_prjs):
 #     '''@brief Organize the parts to better do the scrape in the distributors.
-# 
+#
 #        Remove the Not Populate Parts (DNP), split the components in unique
 #        parts, necessary because of some file formats that present the
 #        components already grouped and to finish, group them as group parts
 #        with same manufactures codes, company manufactures and distributors
 #        codes to not scrape repetitively the same part kind.
-# 
+#
 #        @param  components Part components in a `list()` of `dict()`, format given by the EDA modules.
 #        @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
 #     '''
@@ -201,11 +201,11 @@ def group_parts(components, fields_merge, c_prjs):
     # All codes to scrape, do not include code field name of distributors
     # that will not be scraped. This definition is used to create and check
     # the identical groups or subsplit the seemingly identical parts.
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
+    FIELDS_MANFCAT = ([d + '#' for d in gv.distributor_dict] + ['manf#'])
     # Calculated all the fields that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes
     # recognized by the installed modules and, quantity and sub quantity of the part.
-    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
+    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in gv.distributor_dict])
 
     # Check if was asked to merge some not allowed fields (as `manf`, `manf# ...
     # other ones as `desc` and even `value` and `footprint` may be merged due
@@ -514,7 +514,7 @@ def subpartqty_split(components):
     '''
     logger.log(DEBUG_OVERVIEW, 'Splitting subparts in the manufacture / distributors codes...')
 
-    FIELDS_MANF = [d+'#' for d in distributor_dict]
+    FIELDS_MANF = [d+'#' for d in gv.distributor_dict]
     FIELDS_MANF.append('manf#')
 
     split_components = OrderedDict()

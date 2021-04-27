@@ -26,12 +26,15 @@ import requests
 import logging
 import tqdm
 import re
+import copy
 from collections import Counter
 from urllib.parse import quote_plus as urlquote
 
 # KiCost definitions.
-from .global_vars import distributors_modules_dict, distributor_dict
-from ..global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW
+from ..global_vars import DEBUG_OVERVIEW
+# Use global vars explicitly, if we import them individually we'll get a copy
+import kicost.global_vars as gv
+import kicost.distributors.global_vars as gvd
 
 # Distributors definitions.
 from .distributor import distributor_class
@@ -52,44 +55,42 @@ __all__ = ['api_octopart']
 
 
 class api_octopart(distributor_class):
+    name = 'Octopart'
+    type = 'api'
+    enabled = False
+    url = 'https://octopart.com/'  # Web site API information.
+
+    API_KEY = None
+    API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
+    DIST_TRANSLATION = {  # Distributor translation.
+                        'arrow': 'Arrow Electronics, Inc.',
+                        'digikey': 'Digi-Key',
+                        'farnel': 'Farnell',
+                        'mouser': 'Mouser',
+                        'newark': 'Newark',
+                        'rs': 'RS Components',
+                        'tme': 'TME',
+                        'lcsc': 'LCSC',
+                       }
 
     @staticmethod
     def init_dist_dict():
-        api_distributors = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
-        dists = {k: v for k, v in distributors_info.items() if k in api_distributors}
-        if 'enabled' not in distributors_modules_dict['api_octopart']:
-            # First module load.
-            distributors_modules_dict.update({'api_octopart': {
-                                            'type': 'api',  # Module type, could be 'api', 'scrape' or 'local'.
-                                            'url': 'https://octopart.com/',  # Web site API information.
-                                            'distributors': dists.keys(),  # Avaliable web distributors in this api.
-                                            'enabled': False,  # Default status of the module (it's load but can be not calle).
-                                            'param': 'Token',  # Configuration parameters.
-                                            'dist_translation': {  # Distributor translation.
-                                                                    'arrow': 'Arrow Electronics, Inc.',
-                                                                    'digikey': 'Digi-Key',
-                                                                    'farnel': 'Farnell',
-                                                                    'mouser': 'Mouser',
-                                                                    'newark': 'Newark',
-                                                                    'rs': 'RS Components',
-                                                                    'tme': 'TME',
-                                                                    'lcsc': 'LCSC',
-                                                                }
-                                                }
-                                              })
         # Update the `distributor_dict`with the available distributor in this module with the module is enabled.
         # It can be not enabled by the GUI saved configurations.
-        if distributors_modules_dict['api_octopart']['enabled']:
-            distributor_dict.update(dists)
+        if api_octopart.enabled:
+            # Here we copy the available distributors from distributors_info
+            # We use a copy so they can be restored just calling this init again
+            dists = {k: copy.deepcopy(v) for k, v in distributors_info.items() if k in api_octopart.API_DISTRIBUTORS}
+            gvd.distributor_dict.update(dists)
 
-    def query(query, apiKey=None):
+    def query(query):
         """Send query to Octopart and return results."""
         # url = 'http://octopart.com/api/v3/parts/match'
         # payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
         # response = requests.get(url, params=payload)
-        if apiKey:
+        if api_octopart.API_KEY:
             url = 'http://octopart.com/api/v3/parts/match?queries=%s' % json.dumps(query)
-            url += '&apikey=' + apiKey
+            url += '&apikey=' + api_octopart.API_KEY
         else:
             url = 'https://temp-octopart-proxy.kitspace.org/parts/match?queries=%s' % json.dumps(query)
         url += '&include[]=specs'
@@ -105,10 +106,10 @@ class api_octopart(distributor_class):
         else:
             raise Exception('Octopart error: ' + str(response.status_code))
 
-    def sku_to_mpn(sku, apiKey):
+    def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
         part_query = [{'reference': 1, 'sku': urlquote(sku)}]
-        results = api_octopart.query(part_query, apiKey)
+        results = api_octopart.query(part_query)
         if not results:
             return None
         result = results[0]
@@ -120,7 +121,7 @@ class api_octopart(distributor_class):
         mpn_cnts = Counter(mpns)
         return mpn_cnts.most_common(1)[0][0]  # Return the most common MPN.
 
-    def skus_to_mpns(parts, distributors, apiKey):
+    def skus_to_mpns(parts, distributors):
         """Find manufaturer's part number for all parts with just distributor SKUs."""
         for i, part in enumerate(parts):
 
@@ -139,7 +140,7 @@ class api_octopart(distributor_class):
                 continue
 
             # Convert the SKUs to manf. part numbers.
-            mpns = [api_octopart.sku_to_mpn(sku, apiKey) for sku in skus]
+            mpns = [api_octopart.sku_to_mpn(sku) for sku in skus]
             mpns = [mpn for mpn in mpns
                     if mpn not in ('', None)]  # Remove null manf#.
 
@@ -151,9 +152,9 @@ class api_octopart(distributor_class):
             mpn_cnts = Counter(mpns)
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
-    def query_part_info(parts, distributors, currency=DEFAULT_CURRENCY, apiKey=None):
+    def query_part_info(parts, distributors, currency):
         """Fill-in the parts with price/qty/etc info from Octopart."""
-        logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
+        gv.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
         # Setup progress bar to track progress of Octopart queries.
         progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
@@ -178,22 +179,20 @@ class api_octopart(distributor_class):
 
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
-        logDefaultHandler = logger.handlers[0]
-        logTqdmHandler = TqdmLoggingHandler()
-
-        # Replace default handler with "tqdm" handler.
-        logger.addHandler(logTqdmHandler)
-        logger.removeHandler(logDefaultHandler)
-
-        # FIELDS_CAT = ([d + '#' for d in distributor_dict])
+        if len(gv.logger.handlers) > 0:
+            logDefaultHandler = gv.logger.handlers[0]
+            logTqdmHandler = TqdmLoggingHandler()
+            # Replace default handler with "tqdm" handler.
+            gv.logger.addHandler(logTqdmHandler)
+            gv.logger.removeHandler(logDefaultHandler)
 
         # Translate from Octopart distributor names to the names used internally by kicost.
-        dist_xlate = distributors_modules_dict['api_octopart']['dist_translation']
+        dist_xlate = api_octopart.DIST_TRANSLATION
 
         def get_part_info(query, parts, currency='USD'):
             """Query Octopart for quantity/price info and place it into the parts list."""
 
-            results = api_octopart.query(query, apiKey)
+            results = api_octopart.query(query)
 
             # Loop through the response to the query and enter info into the parts list.
             for result in results:
@@ -297,8 +296,8 @@ class api_octopart(distributor_class):
         # that may be index by Octopart. This is used to remove the
         # local distributors and future not implemented in the Octopart
         # definition.
-        distributors_octopart = [d for d in distributors if distributors[d]['type'] == 'web'
-                                 and distributors_modules_dict['api_octopart'].get('dist_translation')]
+        distributors_octopart = [d for d in distributors if gvd.distributor_dict[d]['type'] == 'web'
+                                 and d in api_octopart.API_DISTRIBUTORS]
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []
@@ -327,7 +326,7 @@ class api_octopart(distributor_class):
                     # general sub quantity of the current part.
                     try:
                         part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                        logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                        gv.logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                                 q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                                 f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                     except KeyError:
@@ -352,9 +351,13 @@ class api_octopart(distributor_class):
             progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
 
         # Restore the logging print channel now that the progress bar is no longer needed.
-        logger.addHandler(logDefaultHandler)
-        logger.removeHandler(logTqdmHandler)
+        if len(gv.logger.handlers) > 0:
+            gv.logger.addHandler(logDefaultHandler)
+            gv.logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
         del progress
+
+
+distributor_class.register(api_octopart, 60)
