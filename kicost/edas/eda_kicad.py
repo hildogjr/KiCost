@@ -29,7 +29,7 @@ from bs4 import BeautifulSoup
 from collections import OrderedDict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, SEPRTR
 from .global_vars import eda_dict
-from ..distributors.global_vars import distributor_dict
+from ..distributors import get_distributors_list
 from .tools import field_name_translations, remove_dnp_parts
 from .eda import eda_class
 
@@ -68,6 +68,7 @@ def get_part_groups(in_file, ignore_fields, variant):
         # Extract XML fields from the part in a library or schematic.
 
         fields = {}
+        distributors = set(get_distributors_list())
         try:
             for f in part.find('fields').find_all('field'):
                 # Store the name and value for each kicost-related field.
@@ -105,9 +106,9 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # it to 'local' if it doesn't start with a distributor
                         # name and colon.
                         # if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and
-                        #    name[:-1] not in distributor_dict:
+                        #    name[:-1] not in distributors:
                         dist_mtch = re.match('([^:]+):', name)
-                        if dist_mtch and dist_mtch.group(1) not in distributor_dict:
+                        if dist_mtch and dist_mtch.group(1) not in distributors:
                             # 'name' is a distibutore (preceded & followed with ':'
                             logger.log(DEBUG_OBSESSIVE, 'Assigning local: for name "{}" dist "{}" ... '.format(name, dist_mtch.group(1)))
                             # Original code supposes that name is a distributor

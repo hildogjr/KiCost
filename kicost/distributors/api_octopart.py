@@ -26,7 +26,6 @@ import requests
 import logging
 import tqdm
 import re
-import copy
 from collections import Counter
 from urllib.parse import quote_plus as urlquote
 
@@ -34,11 +33,9 @@ from urllib.parse import quote_plus as urlquote
 from ..global_vars import DEBUG_OVERVIEW
 # Use global vars explicitly, if we import them individually we'll get a copy
 import kicost.global_vars as gv
-import kicost.distributors.global_vars as gvd
 
 # Distributors definitions.
 from .distributor import distributor_class
-from .distributors_info import distributors_info
 
 # Author information.
 __author__ = 'XESS Corporation'
@@ -75,13 +72,8 @@ class api_octopart(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        # Update the `distributor_dict`with the available distributor in this module with the module is enabled.
-        # It can be not enabled by the GUI saved configurations.
         if api_octopart.enabled:
-            # Here we copy the available distributors from distributors_info
-            # We use a copy so they can be restored just calling this init again
-            dists = {k: copy.deepcopy(v) for k, v in distributors_info.items() if k in api_octopart.API_DISTRIBUTORS}
-            gvd.distributor_dict.update(dists)
+            distributor_class.add_distributors(api_octopart.API_DISTRIBUTORS)
 
     def query(query):
         """Send query to Octopart and return results."""
@@ -275,7 +267,7 @@ class api_octopart(distributor_class):
                                 if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist] < offer.get('in_stock_quantity')):
                                     # Keeps the information of more availability.
                                     parts[i].qty_avail[dist] = offer.get('in_stock_quantity')
-                                ign_stock_code = distributors_info[dist].get('ignore_cat#_re', '')
+                                ign_stock_code = distributor_class.get_distributor_info(dist).get('ignore_cat#_re', '')
                                 # TODO dist_part_num wan't defined, I copied it from KitSpace API
                                 dist_part_num = offer.get('sku', '').get('part', '')
                                 valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
@@ -296,7 +288,7 @@ class api_octopart(distributor_class):
         # that may be index by Octopart. This is used to remove the
         # local distributors and future not implemented in the Octopart
         # definition.
-        distributors_octopart = [d for d in distributors if gvd.distributor_dict[d]['type'] == 'web'
+        distributors_octopart = [d for d in distributors if distributor_class.get_distributor_info(d)['type'] == 'web'
                                  and d in api_octopart.API_DISTRIBUTORS]
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.

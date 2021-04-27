@@ -56,8 +56,7 @@ import requests
 # KiCost libraries.
 from . import __version__  # Version control by @xesscorp and collaborator.
 from .kicost import kicost, output_filename  # kicost core functions.
-from .distributors import init_distributor_dict
-from .distributors.global_vars import distributor_dict
+from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info
 from .edas import eda_dict
 from .edas.tools import file_eda_match
 if sys.platform.startswith("win32"):
@@ -870,7 +869,7 @@ class formKiCost(wx.Frame):
         choisen_dist = [i for i in range(self.m_checkList_dist.GetCount()) if self.m_checkList_dist.IsChecked(i)]
         for idx in choisen_dist:
             label = self.m_checkList_dist.GetString(idx)
-            for k, v in distributor_dict.items():
+            for k, v in get_distributors_iter():
                 if v['label']['name'] == label:
                     dist_list.append(k)
                     break
@@ -885,7 +884,7 @@ class formKiCost(wx.Frame):
         ''' @brief Set the current proprieties of the graphical elements.'''
 
         # Current distributors module recognized.
-        distributors_list = sorted([distributor_dict[d]['label']['name'] for d in distributor_dict.keys() if distributor_dict[d]['type'] != 'local'])
+        distributors_list = sorted([get_distributor_info(d)['label']['name'] for d in get_distributors_iter() if get_distributor_info(d)['type'] != 'local'])
         self.m_checkList_dist.Clear()
         for d in distributors_list:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)

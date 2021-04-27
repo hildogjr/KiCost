@@ -33,7 +33,6 @@ import json
 import requests
 import logging
 import tqdm
-import copy
 import re
 import sys
 import os
@@ -47,12 +46,9 @@ else:
 from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
 # Use global vars explicitly, if we import them individually we'll get a copy
 import kicost.global_vars as gv
-import kicost.distributors.global_vars as gvd
-from ..edas.tools import order_refs
 
 # Distributors definitions.
 from .distributor import distributor_class
-from .distributors_info import distributors_info
 
 # Define debug function
 import sys
@@ -149,13 +145,8 @@ class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        # Update the `distributor_dict` with the available distributor in this module with the module is enabled.
-        # It can be not enabled by the GUI saved configurations.
         if api_partinfo_kitspace.enabled:
-            # Here we copy the available distributors from distributors_info
-            # We use a copy so they can be restored just calling this init again
-            dists = {k: copy.deepcopy(v) for k, v in distributors_info.items() if k in api_partinfo_kitspace.API_DISTRIBUTORS}
-            gvd.distributor_dict.update(dists)
+            distributor_class.add_distributors(api_partinfo_kitspace.API_DISTRIBUTORS)
 
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
@@ -228,7 +219,7 @@ class api_partinfo_kitspace(distributor_class):
         for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
 
             if not result:
-                gv.logger.warning('No information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
+                gv.logger.warning('No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
 
             else:
 
@@ -249,7 +240,7 @@ class api_partinfo_kitspace(distributor_class):
                         try:
                             price_tiers = {}  # Empty dict in case of exception.
                             if not offer['prices']:
-                                gv.logger.warning('No price information found for parts \'{}\' query `{}`'.format(order_refs(part.refs), str(part_query)))
+                                gv.logger.warning('No price information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
                             else:
                                 dist_currency = list(offer['prices'].keys())
 
@@ -310,7 +301,7 @@ class api_partinfo_kitspace(distributor_class):
                         if not part.qty_avail[dist] or (offer.get('in_stock_quantity') and part.qty_avail[dist] < offer.get('in_stock_quantity')):
                             # Keeps the information of more availability.
                             part.qty_avail[dist] = offer.get('in_stock_quantity')  # In stock.
-                        ign_stock_code = distributors_info[dist].get('ignore_cat#_re', '')
+                        ign_stock_code = distributor_class.get_distributor_info(dist).get('ignore_cat#_re', '')
                         valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
                         # debug('part.part_num[dist]') # Uncomment to debug
                         # debug('part.qty_increment[dist]')  # Uncomment to debug

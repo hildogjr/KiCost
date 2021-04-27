@@ -39,7 +39,7 @@ import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from ..global_vars import SEPRTR
 from .global_vars import eda_dict
-from ..distributors.global_vars import distributor_dict
+from ..distributors import get_distributors_list
 from .tools import field_name_translations, remove_dnp_parts
 from .tools import PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
@@ -127,6 +127,7 @@ def get_part_groups(in_file, ignore_fields, variant):
 
         # After the others fields.
         fields = [dict() for x in range(qty)]
+        distributors = set(get_distributors_list())
         for hdr in header_valid:
             # Extract each information, by the the header given, for each
             # row part, spliting it in a list.
@@ -159,7 +160,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                     # number or a distributors catalog number, then add
                     # it to 'local' if it doesn't start with a distributor
                     # name and colon.
-                    if name not in ('manf#', 'manf') and name[:-1] not in distributor_dict:
+                    if name not in ('manf#', 'manf') and name[:-1] not in distributors:
                         if SEPRTR not in name:  # This field has no distributor.
                             name = 'local:' + name  # Assign it to a local distributor.
                     for i in range(qty):

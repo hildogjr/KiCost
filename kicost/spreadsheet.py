@@ -43,7 +43,7 @@ from validators import url as validate_url  # URL validator.
 
 # KiCost libraries.
 from .version import __version__  # Version control by @xesscorp and collaborator.
-from .distributors.global_vars import distributor_dict  # Distributors names and definitions to use in the spreadsheet.
+from .distributors import get_distributor_info, ORDER_COL_USERFIELDS
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
 from .currency_converter import CurrencyConverter
@@ -414,7 +414,7 @@ def create_worksheet(ss, logger, parts):
     base_hdr_format = ss.WRK_FORMATS['global']
     for d in ss.DISTRIBUTORS:
         hdr_format = base_hdr_format.copy()
-        hdr_format.update(distributor_dict[d]['label']['format'])
+        hdr_format.update(get_distributor_info(d)['label']['format'])
         ss.wrk_formats[d] = ss.workbook.add_format(hdr_format)
 
     wks = ss.wks
@@ -487,8 +487,8 @@ def create_worksheet(ss, logger, parts):
     # Make a list of alphabetically-ordered distributors with web distributors before locals.
     logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
     if ss.SORT_DISTRIBUTORS:
-        web_dists = sorted([d for d in ss.DISTRIBUTORS if distributor_dict[d]['type'] != 'local'])
-        local_dists = sorted([d for d in ss.DISTRIBUTORS if distributor_dict[d]['type'] == 'local'])
+        web_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d)['type'] != 'local'])
+        local_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d)['type'] == 'local'])
         dist_list = web_dists + local_dists
     else:
         dist_list = ss.DISTRIBUTORS
@@ -857,7 +857,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                           dist, parts):
     '''Add distributor-specific part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, '# Writing {}'.format(distributor_dict[dist]['label']))
+    info = get_distributor_info(dist)
+    logger.log(DEBUG_OVERVIEW, '# Writing {}'.format(info['label']))
 
     wks = ss.wks
     # Columns for the various types of distributor-specific part data.
@@ -877,12 +878,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     row = start_row  # Start building distributor section at this row.
 
     # Add label for this distributor.
-    wks.merge_range(row, start_col, row, start_col + num_cols - 1,
-                    # distributor_dict[dist]['label']['name'].title(),
-                    distributor_dict[dist]['label']['name'],
-                    ss.wrk_formats[dist])
-    # if distributor_dict[dist]['type'] != 'local':
-    #     ss.write_url(row, start_col, distributor_dict[dist]['label']['url'], ss.wrk_formats[dist], distributor_dict[dist]['label']['name'].title())
+    wks.merge_range(row, start_col, row, start_col + num_cols - 1, info['label']['name'], ss.wrk_formats[dist])
+    # if info['type'] != 'local':
+    #     ss.write_url(row, start_col, info['label']['url'], ss.wrk_formats[dist], info['label']['name'])
     row += 1  # Go to next row.
 
     # Add column headers, comments, and outline level (for hierarchy).
@@ -1155,22 +1153,18 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     )
     wks.write_comment(ORDER_HEADER, purch_qty_col, 'Copy the information below to the BOM import page of the distributor web site.')
     try:
-        ss.write_url(ORDER_HEADER, purch_qty_col-1, distributor_dict[dist]['order']['url'], string='Buy here')
+        ss.write_url(ORDER_HEADER, purch_qty_col-1, info['order']['url'], string='Buy here')
     except KeyError:
         pass  # Not URL registered.
 
     # Write the spreadsheet code to multiple lines to create the purchase codes to
     # be used in this current distributor.
     try:
-        cols = distributor_dict[dist]['order']['cols']
+        cols = info['order']['cols']
     except KeyError:
-        logger.log(DEBUG_OVERVIEW,
-                   "Purchase list codes for {d} will not be generated: no information "
-                   "provided.".format(d=distributor_dict[dist]['label']['name'])
-                   )
+        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no information provided.".format(d=info['label']['name']))
         return start_col + num_cols  # If not created the distributor definition, jump this final code part.
 
-    from .distributors.distributors_info import ORDER_COL_USERFIELDS
     if ORDER_COL_USERFIELDS in cols:
         # It is requested all the user fields at the purchase code,
         # replace the virtual annotation provided by `ORDER_COL_USERFIELDS`
@@ -1184,10 +1178,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 cols_user.remove(r)
             except ValueError:
                 pass
-        logger.log(DEBUG_OVERVIEW,
-                   "Add the {f} information for the {d} purchase list code.".format(d=distributor_dict[dist]['label']['name'],
-                                                                                    f=cols_user)
-                   )
+        logger.log(DEBUG_OVERVIEW, "Add the {f} information for the {d} purchase list code.".format(d=info['label']['name'], f=cols_user))
         cols[idx:idx] = cols_user
 
     # Create the header of the purchase codes, if present the definition.
@@ -1198,12 +1189,12 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                                                        PART_INFO_LAST_ROW, purch_qty_col),
                                   count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
                                                              PART_INFO_LAST_ROW, ext_price_col),
-                                  header=distributor_dict[dist]['order']['header'],
+                                  header=info['order']['header'],
                                   ),
                           ss.wrk_formats['found_part_pct']
                           )
         try:
-            wks.write_comment(ORDER_FIRST_ROW, ORDER_START_COL, distributor_dict[dist]['order']['info'])
+            wks.write_comment(ORDER_FIRST_ROW, ORDER_START_COL, info['order']['info'])
         except KeyError:
             pass
         ORDER_FIRST_ROW = ORDER_FIRST_ROW + 1  # Push all the code list one row.
@@ -1212,9 +1203,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         pass
 
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
-        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(
-                            d=distributor_dict[dist]['label']['name']
-                        ))
+        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(d=info['label']['name']))
     else:
         # This script enters a function into a spreadsheet cell that
         # prints the information found in info_col into the order_col column
@@ -1256,7 +1245,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         order_info_func_model = re.sub(r'[\s\n]', '', order_info_func_model)  # Strip all the whitespace from the function string.
 
         # Create the line order by the fields specified by each distributor.
-        delimier = ',"' + distributor_dict[dist]['order']['delimiter'] + '",'  # Function delimiter plus distributor code delimiter.
+        delimier = ',"' + info['order']['delimiter'] + '",'  # Function delimiter plus distributor code delimiter.
         order_part_info = []
         for col in cols:
             # Deal with conversion and string replace necessary to the correct distributors
@@ -1279,17 +1268,14 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 #     This is not supported by Microsoft Excel. ## TODO
                 # else:
                 order_info_func_parcial = order_info_func_model
-                if 'not_allowed_char' in distributor_dict[dist]['order'] and 'replace_by_char' in distributor_dict[dist]['order']:
-                    for c in range(len(distributor_dict[dist]['order']['not_allowed_char'])):
-                        not_allowed_char = distributor_dict[dist]['order']['not_allowed_char'][c]
-                        if len(distributor_dict[dist]['order']['replace_by_char']) > 1:
-                            replace_by_char = distributor_dict[dist]['order']['replace_by_char'][c]
+                if 'not_allowed_char' in info['order'] and 'replace_by_char' in info['order']:
+                    for c in range(len(info['order']['not_allowed_char'])):
+                        not_allowed_char = info['order']['not_allowed_char'][c]
+                        if len(info['order']['replace_by_char']) > 1:
+                            replace_by_char = info['order']['replace_by_char'][c]
                         else:
-                            replace_by_char = distributor_dict[dist]['order']['replace_by_char'][0]
-                        order_info_func_parcial = 'SUBSTITUTE({t},"{o}","{n}")'.format(
-                                t=order_info_func_parcial,
-                                o=not_allowed_char,
-                                n=replace_by_char)
+                            replace_by_char = info['order']['replace_by_char'][0]
+                        order_info_func_parcial = 'SUBSTITUTE({t},"{o}","{n}")'.format(t=order_info_func_parcial, o=not_allowed_char, n=replace_by_char)
                 order_part_info.append(order_info_func_parcial)
             else:
                 order_part_info.append(order_info_func_model)
@@ -1301,10 +1287,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 info_range = columns_global[col]
             else:
                 info_range = ""
-                logger.warning("Not valid field `{f}` for purchase list at {d}.".format(
-                            f=col,
-                            d=distributor_dict[dist]['label']['name']
-                        ))
+                logger.warning("Not valid field `{f}` for purchase list at {d}.".format(f=col, d=info['label']['name']))
             info_range = xl_range(PART_INFO_FIRST_ROW, info_range,
                                   PART_INFO_LAST_ROW, info_range)
             # If the correspondent information is some description, it is allow to add the general
@@ -1328,10 +1311,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             purchase_code = start_col + columns_global['manf#']
         else:
             purchase_code = ""
-            logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(
-                        f=col,
-                        d=distributor_dict[dist]['label']['name']
-                    ))
+            logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=info['label']['name']))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code, PART_INFO_LAST_ROW, purchase_code)
         purchase_qty = start_col + columns['purch']['col']
         purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)

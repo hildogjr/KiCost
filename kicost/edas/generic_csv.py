@@ -39,7 +39,7 @@ import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from .global_vars import eda_dict
 from .tools import field_name_translations, remove_dnp_parts, split_refs
-from ..distributors.global_vars import distributor_dict
+from ..distributors import get_distributors_iter
 from .eda import eda_class
 
 
@@ -139,7 +139,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     # If the first line contains a column header that is not in the list of
     # allowable field names, then assume the first line is data and not a header.
     field_names = list(field_name_translations.keys()) + list(field_name_translations.values())
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
+    FIELDS_MANFCAT = ([d + '#' for d in get_distributors_iter()] + ['manf#'])
     if not any([code in header for code in FIELDS_MANFCAT]):
         if any(col_hdr.lower() in field_names for col_hdr in header):
             content.pop(0)  # It was a header by the user not identify the 'manf#' / 'cat#' column.

@@ -25,6 +25,7 @@ __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
 from .distributor import distributor_class
+from .distributors_info import ORDER_COL_USERFIELDS
 
 # Import and register here the API / local / scrape modules.
 from .dist_local_template import dist_local_template  # noqa: F401
@@ -32,8 +33,35 @@ from .api_octopart import api_octopart  # noqa: F401
 from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
 
 
+#
+# Some wrappers
+#
 def init_distributor_dict():
     distributor_class.init_dist_dict()
+
+
+def get_dist_parts_info(parts, dist_list, currency):
+    distributor_class.get_dist_parts_info(parts, dist_list, currency)
+
+
+def get_registered_apis():
+    return distributor_class.registered
+
+
+def get_distributors_list():
+    ''' List of distributors registered by the API modules '''
+    return list(distributor_class.get_distributors_iter())
+
+
+def get_distributors_iter():
+    ''' Iterator for the distributors registered by the API modules '''
+    return distributor_class.get_distributors_iter()
+
+
+def get_distributor_info(name):
+    ''' Gets all the information about a supported distributor.
+        This information comes from the list collected from the APIs, not from the fixed template. '''
+    return distributor_class.get_distributor_info(name)
 
 
 # Init distributor dict during import.

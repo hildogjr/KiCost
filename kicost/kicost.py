@@ -64,19 +64,17 @@ from .global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW, SEPRTR, DEBUG
 from .edas.tools import field_name_translations
 from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
-# Import information about various distributors.
-from .distributors.global_vars import distributor_dict
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import create_spreadsheet
 # Import the scrape API
-from .distributors.distributor import distributor_class
+from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info
 
 
 def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
     if logger.getEffectiveLevel() <= DEBUG_OVERVIEW:
-        api_list = [d.name + ('(Disabled)' if not d.enabled else '') for d in distributor_class.registered]
+        api_list = [d.name + ('(Disabled)' if not d.enabled else '') for d in get_registered_apis()]
         logger.log(DEBUG_OVERVIEW, 'Scrape API list ' + str(api_list))
-    distributor_class.get_dist_parts_info(parts, dist_list, currency)
+    get_dist_parts_info(parts, dist_list, currency)
 
 
 def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields,
@@ -175,8 +173,8 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     # Group part out of the module to be possible to merge different
     # project lists, ignore some field to merge given in the `group_fields`.
     FIELDS_SPREADSHEET = ['refs', 'value', 'desc', 'footprint', 'manf', 'manf#']
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
-    FIELDS_MANFQTY = ([d + '#_qty' for d in distributor_dict] + ['manf#_qty'])
+    FIELDS_MANFCAT = ([d + '#' for d in get_distributors_iter()] + ['manf#'])
+    FIELDS_MANFQTY = ([d + '#_qty' for d in get_distributors_iter()] + ['manf#_qty'])
     FIELDS_IGNORE = FIELDS_SPREADSHEET + FIELDS_MANFCAT + FIELDS_MANFQTY + user_fields + ['pricing']
     for ref, fields in list(parts.items()):
         for f in fields:
@@ -211,7 +209,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
             for d in dist_list:
                 if d+'#' not in all_fields:
                     logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                                   d, distributor_dict[d]['label']['name'])
+                                   d, get_distributor_info(d)['label']['name'])
                 else:
                     new_list.append(d)
             dist_list = new_list

@@ -26,7 +26,9 @@
 __author__ = 'Max Maisel'
 __webpage__ = 'https://github.com/mmmaisel/'
 
-import kicost.global_vars as gv
+import copy
+from ..global_vars import DEFAULT_CURRENCY
+from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
 
@@ -34,6 +36,12 @@ __all__ = ['distributor_class']
 class distributor_class(object):
     registered = []
     priorities = []
+    # distributor_dict contains the available distributors.
+    # The distributors are added by the api_*/dist_*/scrape_* modules.
+    # The information of each distributor is copied from distributors_info
+    # Some modules can add new distributors, not found on distributors_info (from data in the fields)
+    # The list of *used* distributors is handled separately.
+    distributor_dict = {}
 
     @staticmethod
     def register(api, priority):
@@ -48,7 +56,7 @@ class distributor_class(object):
         distributor_class.priorities.insert(index, priority)
 
     @staticmethod
-    def get_dist_parts_info(parts, distributors, currency=gv.DEFAULT_CURRENCY):
+    def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
         ''' Get the parts info using the modules API/Scrape/Local.'''
         for api in distributor_class.registered:
             if api.enabled:
@@ -58,9 +66,38 @@ class distributor_class(object):
     def init_dist_dict():
         ''' Initialize and update the dictionary of the registered distributors classes.'''
         # Clear distributor_dict, then let all distributor modules recreate their entries.
-        gv.distributor_dict = {}
+        distributor_class.distributor_dict = {}
         for api in distributor_class.registered:
             api.init_dist_dict()
+
+    @staticmethod
+    def get_distributors_iter():
+        return distributor_class.distributor_dict.keys()
+
+    @staticmethod
+    def add_distributors(dists):
+        ''' Adds a copy of the distributor info to the supported '''
+        for dist in dists:
+            # Here we copy the available distributors from distributors_info
+            # We use a copy so they can be restored just calling this init again
+            distributor_class.distributor_dict[dist] = copy.deepcopy(distributors_info[dist])
+
+    @staticmethod
+    def add_distributor(name, data):
+        ''' Adds a distributor to the list of supported '''
+        distributor_class.distributor_dict[name] = data
+
+    @staticmethod
+    def get_distributor_template(name):
+        ''' Get a copy of the distributor info from the original structure.
+            Used internaly from the API to add distributors derived from others. '''
+        return copy.deepcopy(distributors_info[name])
+
+    @staticmethod
+    def get_distributor_info(name):
+        ''' Gets all the information about a supported distributor.
+            This information comes from the list collected from the APIs, not from the fixed template. '''
+        return distributor_class.distributor_dict[name]
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod

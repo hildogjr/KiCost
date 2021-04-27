@@ -21,7 +21,6 @@
 # THE SOFTWARE.
 
 # Libraries.
-import copy
 import re
 import sys
 import hashlib
@@ -29,10 +28,8 @@ import hashlib
 from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE
 # Distributors definitions.
 from .distributor import distributor_class
-from .distributors_info import distributors_info
 # Use global vars explicitly, if we import them individually we'll get a copy
 import kicost.global_vars as gv
-import kicost.distributors.global_vars as gvd
 
 __all__ = ['dist_local_template']
 
@@ -80,8 +77,9 @@ class dist_local_template(distributor_class):
                 # and add it to the table of distributors.
                 if dist not in distributors:
                     gv.logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
-                    gvd.distributor_dict[dist] = copy.deepcopy(distributors_info['local_template'])
-                    gvd.distributor_dict[dist]['label']['name'] = dist  # Set dist name for spreadsheet header.
+                    new_dist = distributor_class.get_distributor_template('local_template')
+                    new_dist['label']['name'] = dist  # Set dist name for spreadsheet header.
+                    distributor_class.add_distributor(dist, new_dist)
                     distributors.append(dist)
 
         # Set part info to default blank values for all the distributors.
@@ -112,8 +110,8 @@ class dist_local_template(distributor_class):
                     continue
 
                 def make_unique_catalog_number(p):
-                    FIELDS_MANFCAT = ([d + '#' for d in gvd.distributor_dict] + ['manf#'])
-                    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in gvd.distributor_dict])
+                    FIELDS_MANFCAT = ([d + '#' for d in distributor_class.get_distributors_iter()] + ['manf#'])
+                    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_class.get_distributors_iter()])
                     # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
                     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                     hash_fields['dist'] = dist
