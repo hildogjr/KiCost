@@ -158,11 +158,11 @@ def main():
                         action='store_true',
                         help='Do not suppress the catalogue links into the catalogue code in the spreadsheet.')
     parser.add_argument('-e', '--exclude',
-                        nargs='+', type=str, default='',
+                        nargs='+', type=str, default=[],
                         metavar='DIST',
                         help='Excludes the given distributor(s) from the scraping process.')
     parser.add_argument('--include',
-                        nargs='+', type=str, default='',
+                        nargs='+', type=str, default=[],
                         metavar='DIST',
                         help='Includes only the given distributor(s) in the scraping process.')
     parser.add_argument('--no_price',
@@ -249,9 +249,8 @@ def main():
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
         if not args.overwrite:
-            logger.critical('''Output file {} already exists! Use the
-                --overwrite option to replace it.'''.format(args.output))
-            sys.exit(1)
+            logger.critical('Output file {} already exists!\nUse the --overwrite option to replace it.'.format(args.output))
+            sys.exit(2)
 
     if args.gui:
         try:
@@ -272,15 +271,15 @@ def main():
             # Expand a single EDA format to cover all input files.
             args.eda = args.eda[0:1] * len(args.input)
         if len(args.input) != len(args.eda):
-            print('The number of input files must match the number of EDA tool formats.')
-            return
+            logger.error('The number of input files must match the number of EDA tool formats.')
+            sys.exit(2)
 
         # Match the variants with the input files.
         if len(args.variant) == 1:
             args.variant = args.variant[0:1] * len(args.input)
         if len(args.input) != len(args.variant):
-            print('The number of input files must match the number of variants.')
-            return
+            logger.error('The number of input files must match the number of variants.')
+            sys.exit(2)
 
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
@@ -295,13 +294,18 @@ def main():
                 pass
 
     # List of distributors to scrape
+    available = get_distributors_list()
+    for d in args.include + args.exclude:
+        if d not in available:
+            logger.error('Unknown distributor requested: `{}`'.format(d))
+            sys.exit(2)
     if args.no_price:
         # None
         dist_list = []
     else:
         if not args.include:
             # All by default
-            dist_list = get_distributors_list()
+            dist_list = available
         else:
             # Requested to be included
             dist_list = args.include
