@@ -253,6 +253,14 @@ def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
 
 
+def test_include_1():
+    run_test_check('include_1', 'fitting_test', 'include_1', extra=['--include', 'digikey', 'mouser'])
+
+
+def test_exclude_1():
+    run_test_check('exclude_1', 'fitting_test', 'exclude_1', extra=['--exclude', 'arrow', 'farnell', 'lcsc', 'newark', 'rs', 'tme'])
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):
