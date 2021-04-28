@@ -28,8 +28,6 @@ import hashlib
 from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE
 # Distributors definitions.
 from .distributor import distributor_class
-# Use global vars explicitly, if we import them individually we'll get a copy
-import kicost.global_vars as gv
 
 __all__ = ['dist_local_template']
 
@@ -76,7 +74,7 @@ class dist_local_template(distributor_class):
                 # then it's a local distributor. Copy the local distributor template
                 # and add it to the table of distributors.
                 if dist not in distributors:
-                    gv.logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
+                    distributor_class.logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
                     new_dist = distributor_class.get_distributor_template('local_template')
                     new_dist['label']['name'] = dist  # Set dist name for spreadsheet header.
                     distributor_class.add_distributor(dist, new_dist)
@@ -128,7 +126,7 @@ class dist_local_template(distributor_class):
                     link = urlunsplit(url_parts)
                 except Exception:
                     # This happens when no part URL is found.
-                    gv.logger.log(DEBUG_OBSESSIVE, 'No part URL found to local \'{}\' distributor!'.format(dist))
+                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No part URL found to local \'{}\' distributor!'.format(dist))
                 p.url[dist] = link
 
                 price_tiers = {}
@@ -146,7 +144,7 @@ class dist_local_template(distributor_class):
                     # p.moq[dist] = min(price_tiers.keys())
                 except AttributeError:
                     # This happens when no pricing info is found.
-                    gv.logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))
+                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))
                 p.price_tiers[dist] = price_tiers
 
 

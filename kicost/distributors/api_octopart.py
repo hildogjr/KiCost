@@ -26,6 +26,7 @@ import requests
 import logging
 import tqdm
 import re
+import os
 import sys
 from collections import Counter
 if sys.version_info[0] < 3:
@@ -35,9 +36,6 @@ else:
 
 # KiCost definitions.
 from ..global_vars import DEBUG_OVERVIEW
-# Use global vars explicitly, if we import them individually we'll get a copy
-import kicost.global_vars as gv
-
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -85,19 +83,23 @@ class api_octopart(distributor_class):
         # payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
         # response = requests.get(url, params=payload)
         if api_octopart.API_KEY:
-            url = 'http://octopart.com/api/v3/parts/match?queries=%s' % json.dumps(query)
-            url += '&apikey=' + api_octopart.API_KEY
-        else:
-            url = 'https://temp-octopart-proxy.kitspace.org/parts/match?queries=%s' % json.dumps(query)
-        url += '&include[]=specs'
-        url += '&include[]=datasheets'
-        response = requests.get(url)
+            url = 'http://octopart.com/api/v3/parts/match'
+            data = 'queries=%s' % json.dumps(query)
+            data += '&apikey=' + api_octopart.API_KEY
+        else:  # Not working 2021/04/28:
+            url = 'https://temp-octopart-proxy.kitspace.org/parts/match'
+            data = 'queries=%s' % json.dumps(query)
+        data += '&include[]=specs'
+        data += '&include[]=datasheets'
+        distributor_class.log_request(url, data)
+        response = requests.get(url + '?' + data)
+        distributor_class.log_response(response.text)
         if response.status_code == requests.codes['ok']:
             results = json.loads(response.text).get('results')
             return results
         elif response.status_code == requests.codes['not_found']:  # 404
             raise Exception('Octopart server not found.')
-        elif response.status_code == 403:
+        elif response.status_code == 403 or 'Invalid API key' in response.text:
             raise Exception('Octopart KEY invalid, registre one at "https://www.octopart.com".')
         else:
             raise Exception('Octopart error: ' + str(response.status_code))
@@ -150,7 +152,7 @@ class api_octopart(distributor_class):
 
     def query_part_info(parts, distributors, currency):
         """Fill-in the parts with price/qty/etc info from Octopart."""
-        gv.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
+        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
         # Setup progress bar to track progress of Octopart queries.
         progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
@@ -175,12 +177,12 @@ class api_octopart(distributor_class):
 
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
-        if len(gv.logger.handlers) > 0:
-            logDefaultHandler = gv.logger.handlers[0]
+        if len(distributor_class.logger.handlers) > 0:
+            logDefaultHandler = distributor_class.logger.handlers[0]
             logTqdmHandler = TqdmLoggingHandler()
             # Replace default handler with "tqdm" handler.
-            gv.logger.addHandler(logTqdmHandler)
-            gv.logger.removeHandler(logDefaultHandler)
+            distributor_class.logger.addHandler(logTqdmHandler)
+            distributor_class.logger.removeHandler(logDefaultHandler)
 
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
@@ -322,7 +324,7 @@ class api_octopart(distributor_class):
                     # general sub quantity of the current part.
                     try:
                         part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                        gv.logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                        distributor_class.logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                                 q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                                 f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                     except KeyError:
@@ -347,13 +349,10 @@ class api_octopart(distributor_class):
             progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
 
         # Restore the logging print channel now that the progress bar is no longer needed.
-        if len(gv.logger.handlers) > 0:
-            gv.logger.addHandler(logDefaultHandler)
-            gv.logger.removeHandler(logTqdmHandler)
+        if len(distributor_class.logger.handlers) > 0:
+            distributor_class.logger.addHandler(logDefaultHandler)
+            distributor_class.logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
         del progress
-
-
-distributor_class.register(api_octopart, 60)

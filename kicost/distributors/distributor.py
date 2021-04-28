@@ -27,7 +27,8 @@ __author__ = 'Max Maisel'
 __webpage__ = 'https://github.com/mmmaisel/'
 
 import copy
-from ..global_vars import DEFAULT_CURRENCY
+import os
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
@@ -36,6 +37,7 @@ __all__ = ['distributor_class']
 class distributor_class(object):
     registered = []
     priorities = []
+    logger = None
     # distributor_dict contains the available distributors.
     # The distributors are added by the api_*/dist_*/scrape_* modules.
     # The information of each distributor is copied from distributors_info
@@ -98,6 +100,21 @@ class distributor_class(object):
         ''' Gets all the information about a supported distributor.
             This information comes from the list collected from the APIs, not from the fixed template. '''
         return distributor_class.distributor_dict[name]
+
+    @staticmethod
+    def log_request(url, data):
+        distributor_class.logger.log(DEBUG_HTTP_HEADERS, 'URL ' + url + ' query:')
+        distributor_class.logger.log(DEBUG_HTTP_HEADERS, data)
+        if os.environ.get('KICOST_LOG_HTTP'):
+            with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
+                f.write(data + '\n')
+
+    @staticmethod
+    def log_response(text):
+        distributor_class.logger.log(DEBUG_HTTP_RESPONSES, text)
+        if os.environ.get('KICOST_LOG_HTTP'):
+            with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
+                f.write(text + '\n')
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod

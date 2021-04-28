@@ -65,5 +65,10 @@ def get_distributor_info(name):
     return distributor_class.get_distributor_info(name)
 
 
+def set_distributors_logger(logger):
+    ''' Sets the logger used by the class '''
+    distributor_class.logger = logger
+
+
 # Init distributor dict during import.
 init_distributor_dict()

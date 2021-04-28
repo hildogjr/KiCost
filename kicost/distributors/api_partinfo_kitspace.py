@@ -44,15 +44,9 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
-# Use global vars explicitly, if we import them individually we'll get a copy
-import kicost.global_vars as gv
-
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW
 # Distributors definitions.
 from .distributor import distributor_class
-
-# Define debug function
-import sys
 
 
 # Use `debug('x + 1')` for instance.
@@ -90,21 +84,6 @@ QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER 
 QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 
 __all__ = ['api_partinfo_kitspace']
-
-
-def log_request(url, data):
-    gv.logger.log(DEBUG_HTTP_HEADERS, 'URL ' + url + ' query:')
-    gv.logger.log(DEBUG_HTTP_HEADERS, data)
-    if os.environ.get('KICOST_LOG_HTTP'):
-        with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
-            f.write(data + '\n')
-
-
-def log_response(text):
-    gv.logger.log(DEBUG_HTTP_RESPONSES, text)
-    if os.environ.get('KICOST_LOG_HTTP'):
-        with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
-            f.write(text + '\n')
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -168,12 +147,12 @@ class api_partinfo_kitspace(distributor_class):
         variables = variables.replace(' ', '')
         # Do the query using POST
         data = 'query={}&variables={}'.format(quote_plus(query_type), quote_plus(variables))
-        log_request(url, data)
+        distributor_class.log_request(url, data)
         data = OrderedDict()
         data["query"] = query_type
         data["variables"] = variables
         response = requests.post(url, data)
-        log_response(response.text)
+        distributor_class.log_response(response.text)
         if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
             return results
@@ -220,7 +199,7 @@ class api_partinfo_kitspace(distributor_class):
         for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
 
             if not result:
-                gv.logger.warning('No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                distributor_class.logger.warning('No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
 
             else:
 
@@ -241,7 +220,7 @@ class api_partinfo_kitspace(distributor_class):
                         try:
                             price_tiers = {}  # Empty dict in case of exception.
                             if not offer['prices']:
-                                gv.logger.warning('No price information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                                distributor_class.logger.warning('No price information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
                             else:
                                 dist_currency = list(offer['prices'].keys())
 
@@ -322,17 +301,17 @@ class api_partinfo_kitspace(distributor_class):
     @staticmethod
     def query_part_info(parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
-        gv.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
+        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
 
         # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
-        if len(gv.logger.handlers) > 0:
-            logDefaultHandler = gv.logger.handlers[0]
+        if len(distributor_class.logger.handlers) > 0:
+            logDefaultHandler = distributor_class.logger.handlers[0]
             logTqdmHandler = TqdmLoggingHandler()
             # Replace default handler with "tqdm" handler.
-            gv.logger.addHandler(logTqdmHandler)
-            gv.logger.removeHandler(logDefaultHandler)
+            distributor_class.logger.addHandler(logTqdmHandler)
+            distributor_class.logger.removeHandler(logDefaultHandler)
 
         # Use just the distributors avaliable in this API.
         distributors = list(set(distributors) & set(api_partinfo_kitspace.API_DISTRIBUTORS))
@@ -392,9 +371,9 @@ class api_partinfo_kitspace(distributor_class):
             progress.update(len(queries[slc]))
 
         # Restore the logging print channel now that the progress bar is no longer needed.
-        if len(gv.logger.handlers) > 0:
-            gv.logger.addHandler(logDefaultHandler)
-            gv.logger.removeHandler(logTqdmHandler)
+        if len(distributor_class.logger.handlers) > 0:
+            distributor_class.logger.addHandler(logDefaultHandler)
+            distributor_class.logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.

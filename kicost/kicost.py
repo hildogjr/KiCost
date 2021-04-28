@@ -58,7 +58,8 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED
+from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED
+import kicost.global_vars as gv
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations
@@ -67,13 +68,13 @@ from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import create_spreadsheet
 # Import the scrape API
-from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info
+from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info, set_distributors_logger
 
 
 def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
-    if logger.getEffectiveLevel() <= DEBUG_OVERVIEW:
+    if gv.logger.getEffectiveLevel() <= DEBUG_OVERVIEW:
         api_list = [d.name + ('(Disabled)' if not d.enabled else '') for d in get_registered_apis()]
-        logger.log(DEBUG_OVERVIEW, 'Scrape API list ' + str(api_list))
+        gv.logger.log(DEBUG_OVERVIEW, 'Scrape API list ' + str(api_list))
     get_dist_parts_info(parts, dist_list, currency)
 
 
@@ -101,6 +102,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
+    set_distributors_logger(gv.logger)
     # Add or remove field translations, ignore in case the trying to
     # re-translate default field names.
     if translate_fields:
@@ -109,7 +111,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         for c in range(0, len(translate_fields), 2):
             # field_name_translations.keys(), field_name_translations.values()
             if translate_fields[c] in field_name_translations.values():
-                logger.warning("Not possible re-translate \"{}\" to \"{}\", this is used as internal field names.".format(
+                gv.logger.warning("Not possible re-translate \"{}\" to \"{}\", this is used as internal field names.".format(
                         translate_fields[c].lower(), translate_fields[c+1].lower()
                     ))
                 continue
@@ -126,8 +128,8 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     user_fields = list(OrderedDict([(lv, 1) for lv in user_fields]))  # Avoid repeated fields
     for f in user_fields:
         if f.lower() in field_name_translations:
-            logger.warning("\"{f}\" field is a reserved field and can not be used as user field."
-                           " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
+            gv.logger.warning("\"{f}\" field is a reserved field and can not be used as user field."
+                              " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
             user_fields.remove(f)
 
     c_files = len(in_file)
@@ -158,7 +160,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         # to create groups with elements of same 'manf#' that came for different
         # projects.
         if c_files > 1:
-            logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
+            gv.logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
             qty_base = ['0'] * c_files  # Base zero quantity vector.
             for p_ref in list(p.keys()):
                 try:
@@ -208,13 +210,13 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
             new_list = []
             for d in dist_list:
                 if d+'#' not in all_fields:
-                    logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                                   d, get_distributor_info(d)['label']['name'])
+                    gv.logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
+                                      d, get_distributor_info(d)['label']['name'])
                 else:
                     new_list.append(d)
             dist_list = new_list
         # Debug the resulting list
-        if logger.isEnabledFor(DEBUG_DETAILED):
+        if gv.logger.isEnabledFor(DEBUG_DETAILED):
             pprint.pprint(dist_list)
         # Get the distributor pricing/qty/etc for each part.
         query_part_info(parts, dist_list, currency)
@@ -224,7 +226,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
                        user_fields, '-'.join(variant) if len(variant) > 1 else variant[0])
 
     # Print component groups for debugging purposes.
-    if logger.isEnabledFor(DEBUG_DETAILED):
+    if gv.logger.isEnabledFor(DEBUG_DETAILED):
         for part in parts:
             for f in dir(part):
                 if f.startswith('__'):
