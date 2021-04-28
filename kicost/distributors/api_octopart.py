@@ -356,3 +356,12 @@ class api_octopart(distributor_class):
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
         del progress
+
+
+key = os.environ.get('KICOST_OCTOPART_KEY_V3')
+if key:
+    api_octopart.API_KEY = key
+    api_octopart.enabled = True
+elif os.environ.get('KICOST_OCTOPART'):
+    api_octopart.enabled = True
+distributor_class.register(api_octopart, 60)
