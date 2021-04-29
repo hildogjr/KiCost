@@ -80,18 +80,6 @@ class dist_local_template(distributor_class):
                     distributor_class.add_distributor(dist, new_dist)
                     distributors.append(dist)
 
-        # Set part info to default blank values for all the distributors.
-        for part in parts:  # TODO create this for just the current active distributor inside each module.
-            # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-            part.part_num = {dist: '' for dist in distributors}  # Distributor catalogue number.
-            part.url = {dist: '' for dist in distributors}  # Purchase distributor URL for the spefic part.
-            part.price_tiers = {dist: {} for dist in distributors}  # Price break tiers; [[qty1, price1][qty2, price2]...]
-            part.qty_avail = {dist: None for dist in distributors}  # Available quantity.
-            part.qty_increment = {dist: None for dist in distributors}
-            part.info_dist = {dist: {} for dist in distributors}
-            part.currency = {dist: currency for dist in distributors}  # Default currency.
-            part.moq = {dist: None for dist in distributors}  # Minimum order quantity allowd by the distributor.
-
         # Loop through the parts looking for those sourced by local distributors
         # that won't be found online. Place any user-added info for these parts
         # (such as pricing) into the part dictionary.

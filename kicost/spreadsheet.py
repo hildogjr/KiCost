@@ -688,7 +688,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         for dist in ss.DISTRIBUTORS:
 
             # Get the currencies used among all distributors.
-            used_currencies.add(part.currency[dist])
+            used_currencies.add(part.currency.get(dist, DEFAULT_CURRENCY))
 
             # Get the name of the data range for this distributor.
             dist_data_rng = '{}_part_data'.format(dist)
@@ -902,18 +902,16 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
 
     for part in parts:
 
-        dist_part_num = part.part_num[dist]  # Get the distributor part number.
-        price_tiers = part.price_tiers[dist]  # Extract price tiers from distributor HTML page tree.
-        dist_currency = part.currency[dist]  # Extract currency used by the distributor.
-
+        dist_part_num = part.part_num.get(dist)  # Get the distributor part number.
+        price_tiers = part.price_tiers.get(dist, {})  # Extract price tiers from distributor HTML page tree.
+        dist_qty_avail = part.qty_avail.get(dist)
         # If the part number doesn't exist, just leave this row blank.
-        if len(dist_part_num) == 0:
+        # if dist_part_num is None or dist_qty_avail is None or len(price_tiers) == 0:
+        if dist_part_num is None:
             row += 1  # Skip this row and go to the next.
             continue
-
-        # if len(dist_part_num) == 0 or part.qty_avail[dist] is None or len(list(price_tiers.keys())) == 0:
-            # row += 1  # Skip this row and go to the next.
-            # continue
+        dist_info_dist = part.info_dist.get(dist, {})
+        dist_currency = part.currency.get(dist)  # Extract currency used by the distributor.
 
         # Enter distributor part number for ordering purposes.
         if dist_part_num:
@@ -923,7 +921,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 dist_part_num = 'Link'  # To use as text for the link.
         try:
             # Add a comment in the 'cat#' column with extra information gotten in the distributor web page.
-            comment = '\n'.join(sorted([k.capitalize()+SEPRTR+' '+v for k, v in part.info_dist[dist].items() if k in ss.extra_info_display]))
+            comment = '\n'.join(sorted([k.capitalize()+SEPRTR+' '+v for k, v in dist_info_dist.items() if k in ss.extra_info_display]))
             if comment:
                 wks.write_comment(row, start_col + columns['part_num']['col'], comment)
         except Exception:
@@ -933,16 +931,17 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         # is no valid quantity or pricing for the part (see next conditional).
         # Having the link present will help debug if the extraction of the
         # quantity or pricing information was done correctly.
-        if part.url[dist]:
+        dist_url = part.url.get(dist)
+        if dist_url:
             if ss.SUPPRESS_CAT_URL:
-                ss.write_url(row, start_col + columns['part_num']['col'], part.url[dist], string=dist_part_num)
+                ss.write_url(row, start_col + columns['part_num']['col'], dist_url, string=dist_part_num)
             else:
-                ss.write_url(row, start_col + columns['link']['col'], part.url[dist])
+                ss.write_url(row, start_col + columns['link']['col'], dist_url)
 
         # Enter quantity of part available at this distributor unless it is None
         # which means the part is not stocked.
-        if part.qty_avail[dist]:
-            wks.write(row, start_col + columns['avail']['col'], part.qty_avail[dist], ss.wrk_formats['part_format'])
+        if dist_qty_avail:
+            wks.write(row, start_col + columns['avail']['col'], dist_qty_avail, ss.wrk_formats['part_format'])
         else:
             wks.write(row, start_col + columns['avail']['col'], 'NonStk', ss.wrk_formats['not_stocked'])
             wks.write_comment(row, start_col + columns['avail']['col'], 'This part is listed but is not normally stocked.')

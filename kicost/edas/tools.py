@@ -175,6 +175,15 @@ class IdenticalComponents(object):
         # None by default, here to avoid try/except in the code
         self.datasheet = None
         self.lifecycle = None
+        # Distributor data
+        self.part_num = {}  # Distributor catalogue number.
+        self.url = {}  # Purchase distributor URL for the spefic part.
+        self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]
+        self.qty_avail = {}  # Available quantity.
+        self.qty_increment = {}
+        self.info_dist = {}
+        self.currency = {}  # Default currency.
+        self.moq = {}  # Minimum order quantity allowd by the distributor.
 
 
 def group_parts(components, fields_merge, c_prjs):
