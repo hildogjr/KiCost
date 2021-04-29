@@ -315,14 +315,10 @@ class api_partinfo_kitspace(distributor_class):
             distributor_class.logger.removeHandler(logDefaultHandler)
 
         # Use just the distributors avaliable in this API.
-        distributors = list(set(distributors) & set(api_partinfo_kitspace.API_DISTRIBUTORS))
+        # Note: The user can use --exclude and define it with fields.
+        distributors = [d for d in distributors if distributor_class.get_distributor_info(d)['type'] == 'web'
+                        and d in api_partinfo_kitspace.API_DISTRIBUTORS]
         FIELDS_CAT = sorted([d + '#' for d in distributors])
-
-        # Get the valid distributor names used by them part catalog
-        # that may be index by PartInfo. This is used to remove the
-        # local distributors and future not implemented in the PartInfo
-        # definition.
-        # distributors_name_api = api_partinfo_kitspace.DIST_TRANSLATION.values()
 
         # Create queries to get part price/quantities from PartInfo.
         queries = []  # Each part reference query.

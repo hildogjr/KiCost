@@ -73,6 +73,8 @@ class dist_local_template(distributor_class):
                 # If the distributor is not in the list of web-scrapable distributors,
                 # then it's a local distributor. Copy the local distributor template
                 # and add it to the table of distributors.
+                # Note: If the user excludes a web-scrapable distributors (using --exclude)
+                # and then adds it as a local distributor (using fields) it will be added.
                 if dist not in distributors:
                     distributor_class.logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
                     new_dist = distributor_class.get_distributor_template('local_template')

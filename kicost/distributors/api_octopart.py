@@ -298,6 +298,7 @@ class api_octopart(distributor_class):
         # that may be index by Octopart. This is used to remove the
         # local distributors and future not implemented in the Octopart
         # definition.
+        # Note: The user can use --exclude and define it with fields.
         distributors_octopart = [d for d in distributors if distributor_class.get_distributor_info(d)['type'] == 'web'
                                  and d in api_octopart.API_DISTRIBUTORS]
 

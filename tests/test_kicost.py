@@ -261,6 +261,18 @@ def test_exclude_1():
     run_test_check('exclude_1', 'fitting_test', 'exclude_1', extra=['--exclude', 'arrow', 'farnell', 'lcsc', 'newark', 'rs', 'tme'])
 
 
+def test_scrape_over_1():
+    # Data from the fields is added to the web-scraped data
+    run_test_check('scrape_over')
+
+
+def test_scrape_over_2():
+    # Data from the fields relaces the web-scraped data.
+    # For this we exclude the distributor with --exclude
+    run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'])
+
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):
