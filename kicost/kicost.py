@@ -152,7 +152,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     prj_info = list()
     for i_prj in range(c_files):
         eda_module = eda_modules[eda_name[i_prj]]
-        p, info = eda_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
+        p, info = eda_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj], dist_list)
         p = subpartqty_split(p)
         # In the case of multiple BOM files, add the project prefix identifier
         # to each reference/designator. Use the field 'manf#_qty' to control
