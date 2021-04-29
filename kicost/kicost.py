@@ -59,7 +59,6 @@ except NameError:
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
 from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, get_logger
-logger = get_logger()
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations
@@ -69,6 +68,8 @@ from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_
 from .spreadsheet import create_spreadsheet
 # Import the scrape API
 from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info, set_distributors_logger
+
+logger = get_logger()
 
 
 def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
@@ -129,7 +130,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     for f in user_fields:
         if f.lower() in field_name_translations:
             logger.warning("\"{f}\" field is a reserved field and can not be used as user field."
-                              " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
+                           " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
             user_fields.remove(f)
 
     c_files = len(in_file)
@@ -211,13 +212,13 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
             for d in dist_list:
                 if d+'#' not in all_fields:
                     logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                                      d, get_distributor_info(d)['label']['name'])
+                                   d, get_distributor_info(d)['label']['name'])
                 else:
                     new_list.append(d)
             dist_list = new_list
         # Debug the resulting list
         if logger.isEnabledFor(DEBUG_DETAILED):
-            pprint.pprint(dist_list)
+            logger.log(DEBUG_DETAILED, pprint.pformat(dist_list))
         # Get the distributor pricing/qty/etc for each part.
         query_part_info(parts, dist_list, currency)
 
@@ -236,10 +237,10 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
                 else:
                     print('{} = '.format(f), end=' ')
                     try:
-                        pprint.pprint(part.__dict__[f])
+                        logger.log(DEBUG_DETAILED, pprint.pformat(part.__dict__[f]))
                     except TypeError:
                         # Python 2.7 pprint has some problem ordering None and strings.
-                        print(part.__dict__[f])
+                        logger.log(DEBUG_DETAILED, part.__dict__[f])
                     except KeyError:
                         pass
             print()
