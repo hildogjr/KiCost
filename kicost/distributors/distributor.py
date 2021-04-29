@@ -44,6 +44,7 @@ class distributor_class(object):
     # Some modules can add new distributors, not found on distributors_info (from data in the fields)
     # The list of *used* distributors is handled separately.
     distributor_dict = {}
+    label2name = {}
 
     @staticmethod
     def register(api, priority):
@@ -69,6 +70,7 @@ class distributor_class(object):
         ''' Initialize and update the dictionary of the registered distributors classes.'''
         # Clear distributor_dict, then let all distributor modules recreate their entries.
         distributor_class.distributor_dict = {}
+        distributor_class.label2name = {}
         for api in distributor_class.registered:
             api.init_dist_dict()
 
@@ -82,12 +84,15 @@ class distributor_class(object):
         for dist in dists:
             # Here we copy the available distributors from distributors_info
             # We use a copy so they can be restored just calling this init again
-            distributor_class.distributor_dict[dist] = copy.deepcopy(distributors_info[dist])
+            data = distributors_info[dist]
+            distributor_class.distributor_dict[dist] = copy.deepcopy(data)
+            distributor_class.label2name[data['label']['name'].lower()] = dist
 
     @staticmethod
     def add_distributor(name, data):
         ''' Adds a distributor to the list of supported '''
         distributor_class.distributor_dict[name] = data
+        distributor_class.label2name[data['label']['name'].lower()] = name
 
     @staticmethod
     def get_distributor_template(name):

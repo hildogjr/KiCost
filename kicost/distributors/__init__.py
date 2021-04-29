@@ -65,6 +65,11 @@ def get_distributor_info(name):
     return distributor_class.get_distributor_info(name)
 
 
+def get_dist_name_from_label(label):
+    ''' Returns the internal distributor name for a provided label. '''
+    return distributor_class.label2name.get(label.lower())
+
+
 def set_distributors_logger(logger):
     ''' Sets the logger used by the class '''
     distributor_class.logger = logger

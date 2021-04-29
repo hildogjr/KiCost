@@ -56,7 +56,7 @@ import requests
 # KiCost libraries.
 from . import __version__  # Version control by @xesscorp and collaborator.
 from .kicost import kicost, output_filename  # kicost core functions.
-from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info
+from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label
 from .edas import eda_dict
 from .edas.tools import file_eda_match
 if sys.platform.startswith("win32"):
@@ -868,11 +868,7 @@ class formKiCost(wx.Frame):
         # choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
         choisen_dist = [i for i in range(self.m_checkList_dist.GetCount()) if self.m_checkList_dist.IsChecked(i)]
         for idx in choisen_dist:
-            label = self.m_checkList_dist.GetString(idx)
-            for k, v in get_distributors_iter():
-                if v['label']['name'] == label:
-                    dist_list.append(k)
-                    break
+            dist_list.append(get_dist_name_from_label(self.m_checkList_dist.GetString(idx)))
         args.include = dist_list
         args.convert_to_ods = self.m_checkBox_XLSXtoODS.GetValue()
         args.open_spreadsheet = self.m_checkBox_openSpreadsheet.GetValue()
