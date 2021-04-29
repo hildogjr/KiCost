@@ -30,6 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 import os
 from collections import OrderedDict
+from .. import PartGroup
 from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL
 from ..distributors import get_distributors_iter
 from .global_vars import eda_dict  # EDA dictionary with the features.
@@ -168,24 +169,6 @@ def file_eda_match(file_name):
 #     return components
 
 
-# Temporary class for storing part group information.
-class IdenticalComponents(object):
-    '''@brief Class to group components.'''
-    def __init__(self):
-        # None by default, here to avoid try/except in the code
-        self.datasheet = None
-        self.lifecycle = None
-        # Distributor data
-        self.part_num = {}  # Distributor catalogue number.
-        self.url = {}  # Purchase distributor URL for the spefic part.
-        self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]
-        self.qty_avail = {}  # Available quantity.
-        self.qty_increment = {}
-        self.info_dist = {}
-        self.currency = {}  # Default currency.
-        self.moq = {}  # Minimum order quantity allowd by the distributor.
-
-
 def group_parts(components, fields_merge, c_prjs):
     '''@brief Group common parts after preprocessing from XML or CSV files.
 
@@ -254,7 +237,7 @@ def group_parts(components, fields_merge, c_prjs):
         except KeyError:
             # This happens if it is the first part in a group, so the group
             # doesn't exist yet.
-            component_groups[h] = IdenticalComponents()  # Add empty structure.
+            component_groups[h] = PartGroup()  # Add empty structure.
             component_groups[h].refs = [ref]  # Init list of refs with first ref.
             # Now add the manf. part code (or None) and each distributor stock
             # catalogue code for this part to the group set.
@@ -319,7 +302,7 @@ def group_parts(components, fields_merge, c_prjs):
                     # If not have more code in the set list, is because just
                     # exist one. So use this as general.
                     manfcat_num[f] = list(grp.manfcat_codes[f])[0]
-            sub_group = IdenticalComponents()
+            sub_group = PartGroup()
             sub_group.manfcat_codes = manfcat_num
             sub_group.refs = []
             for ref in grp.refs:
