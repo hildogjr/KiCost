@@ -49,7 +49,7 @@ distributors_info = {
     'farnell': {
         'type': 'web',
         'order': {
-            'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
+            'url': 'https://uk.farnell.com/quick-order?isQuickPaste=true',
             'cols': ['part_num', 'purch', 'refs', 'desc'],
             # 'header': 'Stock#,Quantity,Designators,Descriptions,User',
             'delimiter': ',', 'not_allowed_char': [',', '\n'], 'replace_by_char': ';',
