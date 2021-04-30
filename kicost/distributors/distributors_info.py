@@ -50,7 +50,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
+            'cols': ['part_num', 'purch', 'refs', 'desc'],
             # 'header': 'Stock#,Quantity,Designators,Descriptions,User',
             'delimiter': ',', 'not_allowed_char': [',', '\n'], 'replace_by_char': ';',
         },
@@ -76,7 +76,7 @@ distributors_info = {
         'type': 'web',
         'order': {
             'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs', 'desc', ORDER_COL_USERFIELDS],
+            'cols': ['part_num', 'purch', 'refs', 'desc'],
             # 'header': 'Stock#,Quantity,Designators,Descriptions,User',
             'delimiter': ',', 'not_allowed_char': [',', '\n'], 'replace_by_char': ';',
         },
