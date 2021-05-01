@@ -86,13 +86,13 @@ class distributor_class(object):
             # We use a copy so they can be restored just calling this init again
             data = distributors_info[dist]
             distributor_class.distributor_dict[dist] = copy.deepcopy(data)
-            distributor_class.label2name[data['label']['name'].lower()] = dist
+            distributor_class.label2name[data.label.name.lower()] = dist
 
     @staticmethod
     def add_distributor(name, data):
         ''' Adds a distributor to the list of supported '''
         distributor_class.distributor_dict[name] = data
-        distributor_class.label2name[data['label']['name'].lower()] = name
+        distributor_class.label2name[data.label.name.lower()] = name
 
     @staticmethod
     def get_distributor_template(name):

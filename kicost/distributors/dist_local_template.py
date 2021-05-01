@@ -78,7 +78,7 @@ class dist_local_template(distributor_class):
                 if dist not in distributors:
                     distributor_class.logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
                     new_dist = distributor_class.get_distributor_template('local_template')
-                    new_dist['label']['name'] = dist  # Set dist name for spreadsheet header.
+                    new_dist.label.name = dist  # Set dist name for spreadsheet header.
                     distributor_class.add_distributor(dist, new_dist)
                     distributors.append(dist)
 

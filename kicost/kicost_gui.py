@@ -880,7 +880,7 @@ class formKiCost(wx.Frame):
         ''' @brief Set the current proprieties of the graphical elements.'''
 
         # Current distributors module recognized.
-        distributors_list = sorted([get_distributor_info(d)['label']['name'] for d in get_distributors_iter() if get_distributor_info(d)['type'] != 'local'])
+        distributors_list = sorted([get_distributor_info(d).label.name for d in get_distributors_iter() if get_distributor_info(d).is_local()])
         self.m_checkList_dist.Clear()
         for d in distributors_list:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)

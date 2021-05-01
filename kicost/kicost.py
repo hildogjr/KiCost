@@ -212,7 +212,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
             for d in dist_list:
                 if d+'#' not in all_fields:
                     logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                                   d, get_distributor_info(d)['label']['name'])
+                                   d, get_distributor_info(d).label.name)
                 else:
                     new_list.append(d)
             dist_list = new_list

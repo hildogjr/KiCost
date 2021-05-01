@@ -282,7 +282,7 @@ class api_partinfo_kitspace(distributor_class):
                     if not qty_avail or (offer.get('in_stock_quantity') and qty_avail < offer.get('in_stock_quantity')):
                         # Keeps the information of more availability.
                         part.qty_avail[dist] = offer.get('in_stock_quantity')  # In stock.
-                    ign_stock_code = distributor_class.get_distributor_info(dist).get('ignore_cat#_re', '')
+                    ign_stock_code = distributor_class.get_distributor_info(dist).ignore_cat
                     valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
                     # debug('part.part_num[dist]') # Uncomment to debug
                     # debug('part.qty_increment[dist]')  # Uncomment to debug
@@ -316,7 +316,7 @@ class api_partinfo_kitspace(distributor_class):
 
         # Use just the distributors avaliable in this API.
         # Note: The user can use --exclude and define it with fields.
-        distributors = [d for d in distributors if distributor_class.get_distributor_info(d)['type'] == 'web'
+        distributors = [d for d in distributors if distributor_class.get_distributor_info(d).is_web()
                         and d in api_partinfo_kitspace.API_DISTRIBUTORS]
         FIELDS_CAT = sorted([d + '#' for d in distributors])
 

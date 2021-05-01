@@ -12,132 +12,116 @@ ORDER_COL_USERFIELDS = '*__USER__FIELDS__*'
 # TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some
 #      personal field.
 
+
+class DistributorOrder(object):
+    '''@brief Class to indicate how to place an order in a distributor.'''
+    def __init__(self, url=None, cols=[], header=None, delimiter=',', replace_by_char=';', not_allowed_char=',', info=None, limit=None):
+        self.url = url
+        # Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.
+        self.cols = cols
+        # Header to help user undertanding (used in some importations). **Currently unused**
+        self.header = header
+        # Delimiter for online orders.
+        self.delimiter = delimiter
+        # The `delimiter` is not allowed inside description. This character is used to replace it.
+        self.replace_by_char = replace_by_char
+        # Characters not allowed at the BoM for web-site import.
+        self.not_allowed_char = not_allowed_char
+        # Descriptive fields size limit
+        self.limit = limit
+        self.info = info
+
+
+class DistributorLabel(object):
+    '''@brief Class to describe a distributor column.'''
+    def __init__(self, name, url, bg, fg='white'):
+        self.name = name
+        self.url = url
+        # Formatting for distributor header in worksheet; bold, font and align are
+        # `spreadsheet.py` defined but can by overload here.
+        self.format = {'font_color': fg, 'bg_color': bg}
+
+
+class DistributorInfo(object):
+    '''@brief Class to describe a distributor.'''
+    def __init__(self, order, label, type='web', ignore_cat=None):
+        self.type = type   # Allowable values: 'local' or 'web'.
+        self.order = order
+        self.label = label
+        # Regex used to ignore some catalogue/stock code format.
+        # In the Digikey distributor it is used to ignore the Digi-reel package.
+        self.ignore_cat = ignore_cat
+
+    def is_local(self):
+        return self.type == 'local'
+
+    def is_web(self):
+        return self.type == 'web'
+
+
 distributors_info = {
-    'arrow': {
-        'type': 'web',  # Allowable values: 'local' or 'web'.
-        'order': {
-            'url': 'https://www.arrow.com/en/bom-tool/',
-            # Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.
-            'cols': ['part_num', 'purch', 'refs'],
-            # 'header': 'Stock#,Quantity,Designators', # Header to help user undertanding (used in some importations).
-            'delimiter': ',',  # Delimiter for online orders.
-            'not_allowed_char': ',',  # Characters not allowed at the BoM for web-site import.
-            'replace_by_char': ';',  # The `delimiter` is not allowed inside description. This character is used to replace it.
-        },
-        'label': {
-            'name': 'Arrow', 'url': 'https://www.arrow.com/',  # Distributor label used in spreadsheet columns.
-            # Formatting for distributor header in worksheet; bold, font and align are
-            # `spreadsheet.py` defined but can by overload here.
-            'format': {'font_color': 'white', 'bg_color': '#000000'},  # Arrow black.
-        },
-    },
-    'digikey': {
-        'type': 'web',
-        'order': {
-            'url': 'https://www.digikey.com/ordering/shoppingcart',
-            'cols': ['purch', 'part_num', 'refs'],
-            # 'header': 'Quantity,Stock#,Designators',
-            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
-        },
-        'label': {
-            'name': 'Digi-Key', 'url': 'https://www.digikey.com/',
-            'format': {'font_color': 'white', 'bg_color': '#CC0000'},  # Digi-Key red.
-        },
-        # Use to ignore some catalogue/stock code format. In the Digikey distributor it is used to ignore the Digi-reel package.
-        'ignore_cat#_re': r'.+(DKR\-ND|\-6\-ND)$',
-    },
-    'farnell': {
-        'type': 'web',
-        'order': {
-            'url': 'https://uk.farnell.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs', 'desc'],
-            # 'header': 'Stock#,Quantity,Designators,Descriptions,User',
-            'delimiter': ',', 'not_allowed_char': [',', '\n'], 'replace_by_char': ';',
-        },
-        'label': {
-            'name': 'Farnell', 'url': 'https://www.newark.com/',
-            'format': {'font_color': 'white', 'bg_color': '#FF6600'},  # Farnell/E14 orange.
-        },
-    },
-    'mouser': {
-        'type': 'web',
-        'order': {
-            'url': 'https://mouser.com/bom/',
-            'cols': ['part_num', 'purch', 'refs'],
-            # 'header': 'Stock#|Quantity|Designators',
-            'delimiter': '|', 'not_allowed_char': '| ', 'replace_by_char': ';_',
-        },
-        'label': {
-            'name': 'Mouser', 'url': 'https://www.mouser.com',
-            'format': {'font_color': 'white', 'bg_color': '#004A85'},  # Mouser blue.
-        },
-    },
-    'newark': {
-        'type': 'web',
-        'order': {
-            'url': 'https://www.newark.com/quick-order?isQuickPaste=true',
-            'cols': ['part_num', 'purch', 'refs', 'desc'],
-            # 'header': 'Stock#,Quantity,Designators,Descriptions,User',
-            'delimiter': ',', 'not_allowed_char': [',', '\n'], 'replace_by_char': ';',
-        },
-        'label': {
-            'name': 'Newark', 'url': 'https://www.newark.com/',
-            'format': {'font_color': 'white', 'bg_color': '#A2AE06'},  # Newark/E14 olive green.
-        },
-    },
-    'rs': {
-        'type': 'web',
-        'order': {
-            'url': 'https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new',
-            'cols': ['part_num', 'purch', None, None, None, 'manf#', 'refs'],  # `None` is used for generate a empty column.
-            # 'header': 'Stock# Quantity Designators',
-            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
-        },
-        'label': {
-            'name': 'RS Components', 'url': 'https://uk.rs-online.com/',
-            'format': {'font_color': 'white', 'bg_color': '#FF0000'},  # RS Components red.
-        },
-    },
-    'tme': {
-        'type': 'web',
-        'order': {
-            'url': 'https://www.tme.eu/en/Profile/QuickBuy/load.html',
-            'cols': ['part_num', 'purch', 'refs'],
-            # 'header': 'Stock# Quantity Designators',
-            'delimiter': ' ', 'not_allowed_char': ' ', 'replace_by_char': ';',
-        },
-        'label': {
-            'name': 'TME', 'url': 'https://www.tme.eu',
-            'format': {'font_color': 'white', 'bg_color': '#0C4DA1'},  # TME blue.
-        },
-    },
-    'lcsc': {
-        'type': 'web',
-        'order': {
-            'url': 'https://lcsc.com/bom.html',
-            'cols': ['purch', 'refs', 'footprint', 'part_num'],
-            'header': 'Quantity,Comment,Designator,Footprint,LCSC Part #(optional)',
-            'delimiter': ',', 'not_allowed_char': ',', 'replace_by_char': ';',
-            'info': 'Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. '
-                    'The multipart components that use "#" symbol is not allowed at JLCPCB.',
-        },
-        'label': {
-            'name': 'LCSC', 'url': 'https://lcsc.com',
-            'format': {'font_color': 'white', 'bg_color': '#1166DD'},  # LCSC blue.
-        },
-    },
-    'local_template': {
-        'type': 'local',  # Allowable values: 'api', 'scrape' or 'local'.
-        'module': 'local',  # The directory name containing this file.
-        'order': {
-            'cols': ['part_num', 'purch', 'refs'],  # Sort-order for online orders.
-            'delimiter': ' '  # Delimiter for online orders.
-        },
-        'label': {
-            'name': 'Local',  # Distributor label used in spreadsheet columns.
-            # Formatting for distributor header in worksheet; bold, font and align are
-            # `spreadsheet.py` defined but can by overload heve.
-            'format': {'font_color': 'white', 'bg_color': '#008000'},  # Darker green.
-        },
-    },
+    'arrow': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://www.arrow.com/en/bom-tool/',
+                    # header='Stock#,Quantity,Designators',
+                    cols=['part_num', 'purch', 'refs']),
+                label=DistributorLabel('Arrow', 'https://www.arrow.com/', '#000000')),  # Arrow black.
+    'digikey': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://www.digikey.com/ordering/shoppingcart',
+                    # header='Quantity,Stock#,Designators',
+                    cols=['purch', 'part_num', 'refs']),
+                ignore_cat=r'.+(DKR\-ND|\-6\-ND)$',
+                label=DistributorLabel('Digi-Key', 'https://www.digikey.com/', '#CC0000')),  # Digi-Key red.
+    'farnell': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true',
+                    # header='Stock#,Quantity,Designators,Descriptions,User',
+                    cols=['part_num', 'purch', 'refs', 'desc'],
+                    not_allowed_char=',\n',
+                    limit=30),
+                label=DistributorLabel('Farnell', 'https://www.farnell.com/', '#FF6600')),  # Farnell/E14 orange.
+    'mouser': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://mouser.com/bom/',
+                    # header='Stock#|Quantity|Designators',
+                    cols=['part_num', 'purch', 'refs'],
+                    delimiter='|',
+                    not_allowed_char='| ',
+                    replace_by_char=';_'),
+                label=DistributorLabel('Mouser', 'https://www.mouser.com/', '#004A85')),  # Mouser blue.
+    'newark': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://www.newark.com/quick-order?isQuickPaste=true',
+                    # header='Stock#,Quantity,Designators,Descriptions,User',
+                    cols=['part_num', 'purch', 'refs', 'desc'],
+                    not_allowed_char=',\n'),
+                label=DistributorLabel('Newark', 'https://www.newark.com/', '#A2AE06')),  # Newark/E14 olive green.
+    'rs': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new',
+                    # header='Stock#,Quantity,-,-,-,Part,Designators',
+                    cols=['part_num', 'purch', None, None, None, 'manf#', 'refs']),  # `None` is used for generate a empty column.
+                label=DistributorLabel('RS Components', 'https://uk.rs-online.com/', '#FF0000')),  # RS Components red.
+    'tme': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://www.tme.eu/en/Profile/QuickBuy/load.html',
+                    # header='Stock# Quantity Designators',
+                    cols=['part_num', 'purch', 'refs'],
+                    delimiter=' ',
+                    not_allowed_char=' ',
+                    replace_by_char=';'),
+                label=DistributorLabel('TME', 'https://www.tme.eu/', '#0C4DA1')),  # TME blue.
+    'lcsc': DistributorInfo(
+                order=DistributorOrder(
+                    url='https://lcsc.com/bom.html',
+                    header='Quantity,Comment,Designator,Footprint,LCSC Part #(optional)',
+                    cols=['purch', 'refs', 'footprint', 'part_num'],
+                    info='Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. '
+                         'The multipart components that use "#" symbol is not allowed at JLCPCB.'),
+                label=DistributorLabel('LCSC', 'https://lcsc.com/', '#1166DD')),  # LCSC blue.
+    'local_template': DistributorInfo(
+                type='local',
+                order=DistributorOrder(cols=['part_num', 'purch', 'refs']),
+                label=DistributorLabel('Local', None, '#008000')),  # Darker green.
 }
