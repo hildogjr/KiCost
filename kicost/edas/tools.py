@@ -327,13 +327,12 @@ def group_parts(components, fields_merge, c_prjs):
     if fields_merge:
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in fields_merge]
         for grp in new_component_groups:
-            components_grp = dict()
-            components_grp = {i: components[i] for i in grp.refs}
+            components_grp = [components[i] for i in grp.refs]
             for f in fields_merge:
-                values_field = [v.get(f, '') for k, v in components_grp.items()]
-                ocurrences = {v_g: [r for r in grp.refs if components[r].get(f, '') == v_g] for v_g in set(values_field)}
+                values_field = set([cmp.get(f, '') for cmp in components_grp])  # Different values
+                ocurrences = {v_g: [r for r in grp.refs if components[r].get(f, '') == v_g] for v_g in values_field}
                 if len(ocurrences) > 1:
-                    if f == 'desc' and len(ocurrences) == 2 and '' in ocurrences.keys():
+                    if f == 'desc' and len(ocurrences) == 2 and '' in ocurrences:
                         value = ''.join(list(ocurrences.keys()))
                     else:
                         value = SGROUP_SEPRTR.join([order_refs(r) + SEPRTR + ' ' + t for t, r in sorted(ocurrences.items())])
