@@ -235,15 +235,15 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
                 elif f.startswith('html_trees'):
                     continue
                 else:
-                    print('{} = '.format(f), end=' ')
+                    head = '{} = '.format(f)
                     try:
-                        logger.log(DEBUG_DETAILED, pprint.pformat(part.__dict__[f]))
+                        logger.log(DEBUG_DETAILED, head + pprint.pformat(part.__dict__[f]))
                     except TypeError:
                         # Python 2.7 pprint has some problem ordering None and strings.
-                        logger.log(DEBUG_DETAILED, part.__dict__[f])
+                        logger.log(DEBUG_DETAILED, head + str(part.__dict__[f]))
                     except KeyError:
                         pass
-            print()
+            logger.log(DEBUG_DETAILED, '')
 
 
 # Maximum length of the name of the spreadsheet output generate, this is used in the multifiles to limit the
