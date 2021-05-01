@@ -39,7 +39,6 @@ import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from .global_vars import eda_dict
 from .tools import field_name_translations, remove_dnp_parts, split_refs
-from ..distributors import get_distributors_iter
 from .eda import eda_class
 
 

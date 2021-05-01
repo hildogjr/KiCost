@@ -29,7 +29,6 @@ from bs4 import BeautifulSoup
 from collections import OrderedDict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, SEPRTR
 from .global_vars import eda_dict
-from ..distributors import get_distributors_list
 from .tools import field_name_translations, remove_dnp_parts
 from .eda import eda_class
 
