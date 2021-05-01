@@ -23,7 +23,6 @@
 # Libraries.
 import json
 import requests
-import logging
 import tqdm
 import re
 import os
@@ -156,33 +155,6 @@ class api_octopart(distributor_class):
 
         # Setup progress bar to track progress of Octopart queries.
         progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
-
-        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
-        class TqdmLoggingHandler(logging.Handler):
-            '''Overload the class to write the logging through the `tqdm`.'''
-
-            def __init__(self, level=logging.NOTSET):
-                super(self.__class__, self).__init__(level)
-
-            def emit(self, record):
-                try:
-                    msg = self.format(record)
-                    tqdm.tqdm.write(msg)
-                    self.flush()
-                except (KeyboardInterrupt, SystemExit):
-                    raise
-                except Exception:
-                    self.handleError(record)
-                pass
-
-        # Get handles to default sys.stdout logging handler and the
-        # new "tqdm" logging handler.
-        if len(distributor_class.logger.handlers) > 0:
-            logDefaultHandler = distributor_class.logger.handlers[0]
-            logTqdmHandler = TqdmLoggingHandler()
-            # Replace default handler with "tqdm" handler.
-            distributor_class.logger.addHandler(logTqdmHandler)
-            distributor_class.logger.removeHandler(logDefaultHandler)
 
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
@@ -352,11 +324,6 @@ class api_octopart(distributor_class):
         if octopart_query:
             get_part_info(octopart_query, parts)
             progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
-
-        # Restore the logging print channel now that the progress bar is no longer needed.
-        if len(distributor_class.logger.handlers) > 0:
-            distributor_class.logger.addHandler(logDefaultHandler)
-            distributor_class.logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.

@@ -31,7 +31,6 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import json
 import requests
-import logging
 import tqdm
 import re
 import sys
@@ -84,23 +83,6 @@ QUERY_SEARCH = 'query ($input: String!){ search(term: $input) {' + QUERY_ANSWER 
 QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 
 __all__ = ['api_partinfo_kitspace']
-
-
-class TqdmLoggingHandler(logging.Handler):
-    '''Overload the class to write the logging through the `tqdm`.'''
-    def __init__(self, level=logging.NOTSET):
-        super(self.__class__, self).__init__(level)
-
-    def emit(self, record):
-        try:
-            msg = self.format(record)
-            tqdm.tqdm.write(msg)
-            self.flush()
-        except (KeyboardInterrupt, SystemExit):
-            raise
-        except Exception:
-            self.handleError(record)
-        pass
 
 
 class api_partinfo_kitspace(distributor_class):
@@ -304,16 +286,6 @@ class api_partinfo_kitspace(distributor_class):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
 
-        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
-        # Get handles to default sys.stdout logging handler and the
-        # new "tqdm" logging handler.
-        if len(distributor_class.logger.handlers) > 0:
-            logDefaultHandler = distributor_class.logger.handlers[0]
-            logTqdmHandler = TqdmLoggingHandler()
-            # Replace default handler with "tqdm" handler.
-            distributor_class.logger.addHandler(logTqdmHandler)
-            distributor_class.logger.removeHandler(logDefaultHandler)
-
         # Use just the distributors avaliable in this API.
         # Note: The user can use --exclude and define it with fields.
         distributors = [d for d in distributors if distributor_class.get_distributor_info(d).is_web()
@@ -366,11 +338,6 @@ class api_partinfo_kitspace(distributor_class):
             slc = slice(i, i+MAX_PARTS_PER_QUERY)
             api_partinfo_kitspace.get_part_info(queries[slc], query_parts[slc], distributors, currency, query_part_stock_code[slc])
             progress.update(len(queries[slc]))
-
-        # Restore the logging print channel now that the progress bar is no longer needed.
-        if len(distributor_class.logger.handlers) > 0:
-            distributor_class.logger.addHandler(logDefaultHandler)
-            distributor_class.logger.removeHandler(logTqdmHandler)
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
