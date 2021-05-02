@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -v
 # Automatic test macro for KiCad.
 # Use this script in linux to generate the spreadsheet based 
 # a on the XML or CSV file the test folder. Use to validate and check errors
@@ -29,6 +29,7 @@
 # THE SOFTWARE.
 BOMs=()
 OPTS=()
+EXPECTED_EXTRA=""
 # Extract options
 parsed_options=$(
   getopt -o hv -l no_price,variant: -- "$@"
@@ -38,7 +39,7 @@ while true; do
   case "$1" in
     --no_price ) OPTS+=("$1") ; shift ;;
     -[hv]      ) shift ;;  # Options without parameter
-    --variant  ) OPTS+=("$1") ; OPTS+=("$2"); shift 2 ;;
+    --variant  ) OPTS+=("$1") ; OPTS+=("$2"); EXPECTED_EXTRA="${EXPECTED_EXTRA}_$2" ; shift 2 ;;
     -t         ) shift 2 ;;   # Option with parameter
     --         ) shift; break ;;
     *          ) break ;; #exit 1 # should never be reached.
@@ -47,6 +48,7 @@ done
 BOMs=("$*")
 echo OPTIONS "${OPTS[@]}"
 echo BOMs "${BOMs[@]}"
+echo VARIANT_KEY "${EXPECTED_EXTRA}"
 
 echo 'This macro tests selected xml or csv BOM files in this folder'
 cd $(dirname $0)
@@ -64,22 +66,24 @@ RESULT=0
 
 for eachBOM in "${BOMs[@]}" ; do
     echo "##### Testing file: '$eachBOM'"
-    rm "${RESULT_PATH}${eachBOM%.*}.csv" >& /dev/null
-    rm "${LOG_PATH}${eachBOM%.*}.log" >& /dev/null
-    XLSFILE="${eachBOM%.*}.xlsx"
+    TEST_BASENAME="${eachBOM%.*}${EXPECTED_EXTRA}"
+    CSV_FN="${TEST_BASENAME}.csv"
+    rm "${RESULT_PATH}${CSV_FN}" >& /dev/null
+    rm "${LOG_PATH}${TEST_BASENAME}.log" >& /dev/null
+    XLSFILE="${TEST_BASENAME}.xlsx"
     rm "$XLSFILE" >& /dev/null
 
     if [[ ${eachBOM#*.} == "csv" ]] ; then
        echo kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 --eda csv
-       kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 --eda csv >& "${LOG_PATH}$eachBOM".log
+       kicost "${OPTS[@]}" -o "${XLSFILE}" -wi "$eachBOM" --debug=10 --eda csv >& "${LOG_PATH}$eachBOM".log
     else
        echo kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10
-       kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 >& "${LOG_PATH}$eachBOM".log
+       kicost "${OPTS[@]}" -o "${XLSFILE}" -wi "$eachBOM" --debug=10 >& "${LOG_PATH}${TEST_BASENAME}".log
     fi
     # Convert Excel to CSV file to make simple verification
-    xlsx2csv --skipemptycolumns "${eachBOM%.*}.xlsx" | egrep -i -v '(USD\(| date|kicost|Total purchase)' > "${RESULT_PATH}${eachBOM%.*}.csv"
+    xlsx2csv --skipemptycolumns "${TEST_BASENAME}.xlsx" | egrep -i -v '(USD\(| date|kicost|Total purchase)' > "${RESULT_PATH}${CSV_FN}"
     # RESULT counts the number of errors (non 0 exit is error)
-    diff "${EXPECT_PATH}${eachBOM%.*}.csv" "${RESULT_PATH}${eachBOM%.*}.csv"
+    diff "${EXPECT_PATH}${CSV_FN}" "${RESULT_PATH}${CSV_FN}"
     RESULT=$(($RESULT + $?))
     echo ""
 done
