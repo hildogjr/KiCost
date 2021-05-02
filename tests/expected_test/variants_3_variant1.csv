@@ -6,5 +6,7 @@ C2,2nF,"Manf is defaultmanf, except when variant1 (check impact of field order)"
 C3,3nF,Placed only when variant1,,defaultmanf,,100,,0
 C4,4nF,Placed only when variant1,,defaultmanf,,100,,0
 C5,5nF,Placed only when variant1,,defaultmanf,,100,,0
+C7,7nF,Should appear in variant1,,defaultmanf,,100,,0
+C8,8nF,None,,defaultmanf,,100,,0
 
 

@@ -66,5 +66,36 @@
         <field name="dnp">1</field>
       </fields>
     </comp>
+    <comp ref="C6">
+      <value>6nF</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="desc">Not placed when variant1</field>
+        <field name="manf">defaultmanf</field>
+        <field name="kicost.variant1:dnp">1</field>
+      </fields>
+    </comp>
+    <comp ref="C7">
+      <value>7nF</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="desc">Should only appear in the default</field>
+        <field name="manf">defaultmanf</field>
+        <field name="comment">This comment should not appear in variant1</field>
+        <field name="kicost.variant1:desc">Should appear in variant1</field>
+        <field name="kicost.variant1:comment"></field>
+      </fields>
+    </comp>
+    <comp ref="C8">
+      <value>8nF</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="desc">Should not appear in variant1 description</field>
+        <field name="manf">defaultmanf</field>
+        <field name="comment">This comment should not appear in variant1</field>
+        <field name="kicost.variant1:desc"></field>
+        <field name="kicost.variant1:comment">Variant 1 comment</field>
+      </fields>
+    </comp>
   </components>
 </export>
