@@ -76,8 +76,8 @@ distributors_info = {
     'farnell': DistributorInfo(
                 order=DistributorOrder(
                     url='https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true',
-                    # header='Stock#,Quantity,Designators,Descriptions,User',
-                    cols=['part_num', 'purch', 'refs', 'desc'],
+                    # header='Stock#,Quantity,Descriptions,Designators,',
+                    cols=['part_num', 'purch', 'desc', 'refs'],
                     not_allowed_char=',\n',
                     limit=30),
                 label=DistributorLabel('Farnell', 'https://www.farnell.com/', '#FF6600')),  # Farnell/E14 orange.
