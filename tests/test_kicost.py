@@ -17,15 +17,16 @@ import os
 
 # Defined as True to collect real world queries
 ADD_QUERY_TO_KNOWN = False
+TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def run_test(inputs, output, extra=None, price=True):
     # Always fake the currency rates
-    os.environ['KICOST_CURRENCY_RATES'] = 'tests/currency_rates.xml'
+    os.environ['KICOST_CURRENCY_RATES'] = TESTDIR + '/currency_rates.xml'
     # Now choose between recording the KitSpace queries or fake them
     if price and ADD_QUERY_TO_KNOWN:
-        os.environ['KICOST_LOG_HTTP'] = 'tests/kitspace_queries.txt'
-        with open('tests/kitspace_queries.txt', 'at') as f:
+        os.environ['KICOST_LOG_HTTP'] = TESTDIR + '/kitspace_queries.txt'
+        with open(TESTDIR + '/kitspace_queries.txt', 'at') as f:
             if len(inputs) == 1:
                 f.write('# ' + inputs[0] + '\n')
             else:
@@ -33,13 +34,13 @@ def run_test(inputs, output, extra=None, price=True):
         server = None
     else:
         os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
-        fo = open('tests/server_stdout.txt', 'at')
-        fe = open('tests/server_stderr.txt', 'at')
-        server = subprocess.Popen('./tests/dummy-web-server.py', stdout=fo, stderr=fe)
-    if not os.path.isdir('tests/result_test'):
-        os.mkdir('tests/result_test')
-    if not os.path.isdir('tests/log_test'):
-        os.mkdir('tests/log_test')
+        fo = open(TESTDIR + '/server_stdout.txt', 'at')
+        fe = open(TESTDIR + '/server_stderr.txt', 'at')
+        server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
+    if not os.path.isdir(TESTDIR + '/result_test'):
+        os.mkdir(TESTDIR + '/result_test')
+    if not os.path.isdir(TESTDIR + '/log_test'):
+        os.mkdir(TESTDIR + '/log_test')
     try:
         # Run KiCost
         cmd = ['kicost', '--debug', '10']
@@ -47,16 +48,16 @@ def run_test(inputs, output, extra=None, price=True):
             cmd.append('--no_price')
         if extra:
             cmd.extend(extra)
-        out_xlsx = 'tests/' + output + '.xlsx'
+        out_xlsx = TESTDIR + '/' + output + '.xlsx'
         cmd.extend(['-o', out_xlsx])
-        cmd.extend(['-wi'] + ['tests/' + n for n in inputs])
+        cmd.extend(['-wi'] + [TESTDIR + '/' + n for n in inputs])
         logging.debug('Running '+str(cmd))
-        log_err = open('tests/log_test/' + output + '_error.log', 'wt')
-        log_out = open('tests/log_test/' + output + '_out.log', 'wt')
+        log_err = open(TESTDIR + '/log_test/' + output + '_error.log', 'wt')
+        log_out = open(TESTDIR + '/log_test/' + output + '_out.log', 'wt')
         subprocess.check_call(cmd, stderr=log_err, stdout=log_out)
         log_err.close()
         log_out.close()
-        res_csv = 'tests/result_test/' + output + '.csv'
+        res_csv = TESTDIR + '/result_test/' + output + '.csv'
         # Convert to CSV
         logging.debug('Converting to CSV')
         cmd = ['xlsx2csv']
@@ -72,7 +73,7 @@ def run_test(inputs, output, extra=None, price=True):
             p2 = subprocess.Popen(['egrep', '-i', '-v', '(' + filter + ')'], stdin=p1.stdout, stdout=f)
             p2.communicate()[0]
         # Check with diff
-        ref_csv = 'tests/expected_test/' + output + '.csv'
+        ref_csv = TESTDIR + '/expected_test/' + output + '.csv'
         cmd = ['diff', '-u', ref_csv, res_csv]
         logging.debug('Running '+str(cmd))
         subprocess.check_output(cmd, stderr=subprocess.STDOUT)
@@ -248,6 +249,12 @@ def test_variants_1():
     run_test_check(test_name + '(production)', 'variants_1', 'variants_1_production', ['--variant', 'production'], price=False)
     run_test_check(test_name + '(default)', 'variants_1', 'variants_1_default', ['--variant', 'default'], price=False)
 
+def disabled_test_variants_3():
+    # This test doesn't have any kind of manf# or DISTRIBUTOR#
+    test_name = 'variants_3'
+    run_test_check(test_name, 'variants_3', price=False)
+    # Run a test with parameter "variant1"
+    run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$'], price=False)
 
 def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
