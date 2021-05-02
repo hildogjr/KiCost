@@ -34,8 +34,8 @@ def run_test(inputs, output, extra=None, price=True):
         server = None
     else:
         os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
-        fo = open(TESTDIR + '/server_stdout.txt', 'at')
-        fe = open(TESTDIR + '/server_stderr.txt', 'at')
+        fo = open(TESTDIR + '/log_test/0server_stdout.log', 'at')
+        fe = open(TESTDIR + '/log_test/0server_stderr.log', 'at')
         server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
     if not os.path.isdir(TESTDIR + '/result_test'):
         os.mkdir(TESTDIR + '/result_test')
