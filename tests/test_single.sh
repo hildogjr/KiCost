@@ -31,21 +31,22 @@ BOMs=()
 OPTS=()
 # Extract options
 parsed_options=$(
-  getopt -o hv -l no_price -- "$@"
+  getopt -o hv -l no_price,variant: -- "$@"
 ) || exit
 eval "set -- $parsed_options"
-while [ "$#" -gt 0 ]; do
-  case $1 in
-    (--no_price) OPTS+=("$1") ; shift;;
-    (-[hv]) shift;;  # Options without parameter
-    #(-t) shift 2;;   # Option with parameter
-    (--) shift; break;;
-    (*) BOMs+=("$1"); echo FILES "${FILES[@]}"; shift; break;; #exit 1 # should never be reached.
+while true; do
+  case "$1" in
+    --no_price ) OPTS+=("$1") ; shift ;;
+    -[hv]      ) shift ;;  # Options without parameter
+    --variant  ) OPTS+=("$1") ; OPTS+=("$2"); shift 2 ;;
+    -t         ) shift 2 ;;   # Option with parameter
+    --         ) shift; break ;;
+    *          ) break ;; #exit 1 # should never be reached.
   esac
 done
-BOMs+=("$*")
-#echo OPTIONS "${OPTS[@]}"
-#echo BOMs "${FILES[@]}"
+BOMs=("$*")
+echo OPTIONS "${OPTS[@]}"
+echo BOMs "${BOMs[@]}"
 
 echo 'This macro tests selected xml or csv BOM files in this folder'
 cd $(dirname $0)
@@ -62,7 +63,7 @@ mkdir -p ${LOG_PATH}
 RESULT=0
 
 for eachBOM in "${BOMs[@]}" ; do
-    echo "##### Testing file: $eachBOM"
+    echo "##### Testing file: '$eachBOM'"
     rm "${RESULT_PATH}${eachBOM%.*}.csv" >& /dev/null
     rm "${LOG_PATH}${eachBOM%.*}.log" >& /dev/null
     XLSFILE="${eachBOM%.*}.xlsx"
@@ -72,6 +73,7 @@ for eachBOM in "${BOMs[@]}" ; do
        echo kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 --eda csv
        kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 --eda csv >& "${LOG_PATH}$eachBOM".log
     else
+       echo kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10
        kicost "${OPTS[@]}" -wi "$eachBOM" --debug=10 >& "${LOG_PATH}$eachBOM".log
     fi
     # Convert Excel to CSV file to make simple verification
