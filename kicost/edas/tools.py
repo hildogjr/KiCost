@@ -213,7 +213,7 @@ def group_parts(components, fields_merge, c_prjs):
     # part numbers that may be assigned. Just collect those in a list for each group.
     logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
     component_groups = OrderedDict()
-    for ref, fields in list(components.items()):  # part references and field values.
+    for ref, fields in components.items():  # part references and field values.
 
         # Take the field keys and values of each part and create a hash.
         # Use the hash as the key to a dictionary that stores lists of
@@ -222,28 +222,30 @@ def group_parts(components, fields_merge, c_prjs):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including KiCost).
-        hash_fields = {k: fields[k] for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k}
-        h = hash(tuple(sorted(hash_fields.items())))
+        hash_fields = (fields[k] for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k)
+        h = hash(tuple(sorted(hash_fields)))
 
         # Now add the hashed component to the group with the matching hash
         # or create a new group if the hash hasn't been seen before.
-        try:
+        if h not in component_groups:
+            # This happens if it is the first part in a group, so the group
+            # doesn't exist yet.
+            grp = PartGroup()  # Add empty structure.
+            grp.refs = [ref]  # Init list of refs with first ref.
+            # Now add the manf. part code (or None) and each distributor stock
+            # catalogue code for this part to the group set.
+            grp.manfcat_codes = {}
+            for f in FIELDS_MANFCAT:
+                grp.manfcat_codes[f] = OrderedDict([(fields.get(f), True)])
+            component_groups[h] = grp
+        else:
+            grp = component_groups[h]
             # Add next ref for identical part to the list.
-            component_groups[h].refs.append(ref)
+            grp.refs.append(ref)
             # Also add any manufacturer's part number (or None) and each distributor
             # stock catalogue code to the group's list.
             for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f][fields.get(f)] = True
-        except KeyError:
-            # This happens if it is the first part in a group, so the group
-            # doesn't exist yet.
-            component_groups[h] = PartGroup()  # Add empty structure.
-            component_groups[h].refs = [ref]  # Init list of refs with first ref.
-            # Now add the manf. part code (or None) and each distributor stock
-            # catalogue code for this part to the group set.
-            component_groups[h].manfcat_codes = {}
-            for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f] = OrderedDict([(fields.get(f), True)])
+                grp.manfcat_codes[f][fields.get(f)] = True
     if ultra_debug:
         logger.log(DEBUG_FULL, '\n\n\n1++++++++++++++' + str(len(component_groups)))
         for g, grp in list(component_groups.items()):
@@ -272,7 +274,7 @@ def group_parts(components, fields_merge, c_prjs):
     #       assigned to, so leave their manf# as `None`.
     logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = []  # Copy new component groups into this.
-    for g, grp in list(component_groups.items()):
+    for g, grp in component_groups.items():
         num_manfcat_codes = {f: len(grp.manfcat_codes[f]) for f in FIELDS_MANFCAT}
         if all([num_manfcat_codes[f] == 1 or (num_manfcat_codes[f] == 2 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
@@ -283,7 +285,9 @@ def group_parts(components, fields_merge, c_prjs):
             # will be replaced with the propagated manufacture /
             # distributor catalogue code.
             continue
-        elif all([(num_manfcat_codes[f] == 1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
+        # TODO: This seems to be part of the above case
+        # TODO: The case number doesn't match the above comment
+        if all([(num_manfcat_codes[f] == 1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
             # CASE THREE:
             # One manf# or cat# that is `None`. Don't split this
