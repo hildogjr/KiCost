@@ -1,12 +1,13 @@
-Prj:,KiBom Variants 3,,,,,,Board Qty:,100
-Global Part Info,,,,,,,,
-Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$
-C1,1nF,"Manf is defaultmanf, except when variant1",,variant1manf,,100,,0
-C2,2nF,"Manf is defaultmanf, except when variant1 (check impact of field order)",,variant1manf,,100,,0
-C3,3nF,Placed only when variant1,,defaultmanf,,100,,0
-C4,4nF,Placed only when variant1,,defaultmanf,,100,,0
-C5,5nF,Placed only when variant1,,defaultmanf,,100,,0
-C7,7nF,Should appear in variant1,,defaultmanf,,100,,0
-C8,8nF,None,,defaultmanf,,100,,0
+Prj:,KiBom Variants 3,,,,,,,Board Qty:,100
+Prj date:,2021-01-02,,,,,,,Total Cost:,0
+Global Part Info,,,,,,,,,
+Refs,Value,Desc,Comment,Footprint,Manf,Manf#,Qty,Unit$,Ext$
+C1,1nF,"Manf is defaultmanf, except when variant1",,,variant1manf,,100,,0
+C2,2nF,"Manf is defaultmanf, except when variant1 (check impact of field order)",,,variant1manf,,100,,0
+C3,3nF,Placed only when variant1,,,defaultmanf,,100,,0
+C4,4nF,Placed only when variant1,,,defaultmanf,,100,,0
+C5,5nF,Placed only when variant1,,,defaultmanf,,100,,0
+C7,7nF,Should appear in variant1,,,defaultmanf,,100,,0
+C8,8nF,None,Variant 1 comment,,defaultmanf,,100,,0
 
 
