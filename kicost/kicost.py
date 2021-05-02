@@ -58,48 +58,29 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import DEFAULT_CURRENCY, logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED
-
-# TODO this 2 imports below should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside
-# from .distributors.api_octopart import api_octopart
-from .distributors.api_partinfo_kitspace import api_partinfo_kitspace
-from .distributors.dist_local_template import dist_local_template
-
+from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, get_logger
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations
 from .edas import eda_modules
 from .edas.tools import subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
-# Import information about various distributors.
-from .distributors.global_vars import distributor_dict
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import create_spreadsheet
+# Import the scrape API
+from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info, set_distributors_logger
+
+logger = get_logger()
 
 
-def query_part_info(parts, dist_list=distributor_dict.keys(), currency=DEFAULT_CURRENCY):
-    # Set part info to default blank values for all the distributors.
-    for part in parts:  # TODO create this for just the current active distributor inside each module.
-        # These bellow variable are all the data the each distributor/local API/scrap module needs to fill.
-        part.part_num = {dist: '' for dist in dist_list}  # Distributor catalogue number.
-        part.url = {dist: '' for dist in dist_list}  # Purchase distributor URL for the specific part.
-        part.price_tiers = {dist: {} for dist in dist_list}  # Price break tiers; [[qty1, price1][qty2, price2]...]
-        part.qty_avail = {dist: None for dist in dist_list}  # Available quantity.
-        part.qty_increment = {dist: None for dist in dist_list}
-        part.info_dist = {dist: {} for dist in dist_list}
-        part.currency = {dist: DEFAULT_CURRENCY for dist in dist_list}  # Default currency.
-        part.moq = {dist: None for dist in dist_list}  # Minimum order quantity allowed by the distributor.
-    # distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)
-    # TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.
-    # distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)
-    dist_local_template.query_part_info(parts, distributor_dict, currency)
-    api_partinfo_kitspace.query_part_info(parts, distributor_dict, currency)
+def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
+    if logger.getEffectiveLevel() <= DEBUG_OVERVIEW:
+        api_list = [d.name + ('(Disabled)' if not d.enabled else '') for d in get_registered_apis()]
+        logger.log(DEBUG_OVERVIEW, 'Scrape API list ' + str(api_list))
+    get_dist_parts_info(parts, dist_list, currency)
 
 
-def kicost(in_file, eda_name, out_filename,
-           user_fields, ignore_fields, group_fields, translate_fields,
-           variant,
-           dist_list=list(distributor_dict.keys()),
-           collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
+def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields,
+           variant, dist_list, collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
     ''' @brief Run KiCost.
 
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -113,7 +94,7 @@ def kicost(in_file, eda_name, out_filename,
     are not grouped by default.
     @param translate_fields `list()` of the fields to translate to translate or remove (if `~` present).
     @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.
-    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors
+    @param dist_list `list(str())` to be scraped
     modules. If `None`, no web/local distributors will be scraped.
     @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.
     Default `True`.
@@ -122,6 +103,7 @@ def kicost(in_file, eda_name, out_filename,
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
+    set_distributors_logger(logger)
     # Add or remove field translations, ignore in case the trying to
     # re-translate default field names.
     if translate_fields:
@@ -151,19 +133,6 @@ def kicost(in_file, eda_name, out_filename,
                            " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
             user_fields.remove(f)
 
-    # Only keep distributors in the included list and not in the excluded list.
-    if dist_list is not None:
-        if not dist_list:
-            dist_list = list(distributor_dict.keys())
-        if 'local_template' not in dist_list:
-            dist_list += ['local_template']  # Needed later for creating non-web distributors.
-        for d in list(distributor_dict.keys()):
-            if d not in dist_list:
-                distributor_dict.pop(d, None)
-    else:
-        for d in list(distributor_dict.keys()):
-            distributor_dict.pop(d, None)
-
     c_files = len(in_file)
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
@@ -183,7 +152,7 @@ def kicost(in_file, eda_name, out_filename,
     prj_info = list()
     for i_prj in range(c_files):
         eda_module = eda_modules[eda_name[i_prj]]
-        p, info = eda_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj])
+        p, info = eda_module.get_part_groups(in_file[i_prj], ignore_fields, variant[i_prj], dist_list)
         p = subpartqty_split(p)
         # In the case of multiple BOM files, add the project prefix identifier
         # to each reference/designator. Use the field 'manf#_qty' to control
@@ -207,8 +176,8 @@ def kicost(in_file, eda_name, out_filename,
     # Group part out of the module to be possible to merge different
     # project lists, ignore some field to merge given in the `group_fields`.
     FIELDS_SPREADSHEET = ['refs', 'value', 'desc', 'footprint', 'manf', 'manf#']
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
-    FIELDS_MANFQTY = ([d + '#_qty' for d in distributor_dict] + ['manf#_qty'])
+    FIELDS_MANFCAT = ([d + '#' for d in get_distributors_iter()] + ['manf#'])
+    FIELDS_MANFQTY = ([d + '#_qty' for d in get_distributors_iter()] + ['manf#_qty'])
     FIELDS_IGNORE = FIELDS_SPREADSHEET + FIELDS_MANFCAT + FIELDS_MANFQTY + user_fields + ['pricing']
     for ref, fields in list(parts.items()):
         for f in fields:
@@ -234,30 +203,27 @@ def kicost(in_file, eda_name, out_filename,
     # check if is asked to scrape a distributor that do not have any code in the
     # parts so, exclude this distributors for the scrap list. This decrease the
     # warning messages given during the process.
-    all_fields = []
-    for p in parts:
-        all_fields += list(p.fields.keys())
-    all_fields = set(all_fields)
-    if 'manf#' not in all_fields:
-        dist_not_rmv = [d for d in distributor_dict.keys() if d+'#' in all_fields]
-        dist_not_rmv += ['local_template']  # Needed later for creating non-web distributors.
-        # distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}
-        distributors = copy(distributor_dict).keys()
-        for d in distributors:
-            if d not in dist_not_rmv:
-                logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                               d, distributor_dict[d]['label']['name'])
-                distributor_dict.pop(d, None)
-
-    if logger.isEnabledFor(DEBUG_DETAILED):
-        pprint.pprint(distributor_dict)
-
-    # Get the distributor pricing/qty/etc for each part.
     if dist_list:
+        all_fields = set()
+        for p in parts:
+            all_fields.update(p.fields)
+        if 'manf#' not in all_fields:
+            new_list = []
+            for d in dist_list:
+                if d+'#' not in all_fields:
+                    logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
+                                   d, get_distributor_info(d).label.name)
+                else:
+                    new_list.append(d)
+            dist_list = new_list
+        # Debug the resulting list
+        if logger.isEnabledFor(DEBUG_DETAILED):
+            logger.log(DEBUG_DETAILED, pprint.pformat(dist_list))
+        # Get the distributor pricing/qty/etc for each part.
         query_part_info(parts, dist_list, currency)
 
     # Create the part pricing spreadsheet.
-    create_spreadsheet(parts, prj_info, out_filename, currency, collapse_refs, suppress_cat_url,
+    create_spreadsheet(parts, prj_info, out_filename, dist_list, currency, collapse_refs, suppress_cat_url,
                        user_fields, '-'.join(variant) if len(variant) > 1 else variant[0])
 
     # Print component groups for debugging purposes.
@@ -269,15 +235,15 @@ def kicost(in_file, eda_name, out_filename,
                 elif f.startswith('html_trees'):
                     continue
                 else:
-                    print('{} = '.format(f), end=' ')
+                    head = '{} = '.format(f)
                     try:
-                        pprint.pprint(part.__dict__[f])
+                        logger.log(DEBUG_DETAILED, head + pprint.pformat(part.__dict__[f]))
                     except TypeError:
                         # Python 2.7 pprint has some problem ordering None and strings.
-                        print(part.__dict__[f])
+                        logger.log(DEBUG_DETAILED, head + str(part.__dict__[f]))
                     except KeyError:
                         pass
-            print()
+            logger.log(DEBUG_DETAILED, '')
 
 
 # Maximum length of the name of the spreadsheet output generate, this is used in the multifiles to limit the

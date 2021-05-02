@@ -253,6 +253,27 @@ def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
 
 
+def test_include_1():
+    # Explicitly request digikey and mouser
+    run_test_check('include_1', 'fitting_test', 'include_1', extra=['--include', 'digikey', 'mouser'])
+
+
+def test_exclude_1():
+    # Implicitly request digikey and mouser
+    run_test_check('exclude_1', 'fitting_test', 'exclude_1', extra=['--exclude', 'arrow', 'farnell', 'lcsc', 'newark', 'rs', 'tme'])
+
+
+def test_scrape_over_1():
+    # Data from the fields is added to the web-scraped data
+    run_test_check('scrape_over')
+
+
+def test_scrape_over_2():
+    # Data from the fields relaces the web-scraped data.
+    # For this we exclude the distributor with --exclude
+    run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'])
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

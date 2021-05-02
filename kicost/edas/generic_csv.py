@@ -39,7 +39,6 @@ import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from .global_vars import eda_dict
 from .tools import field_name_translations, remove_dnp_parts, split_refs
-from ..distributors.global_vars import distributor_dict
 from .eda import eda_class
 
 
@@ -91,7 +90,7 @@ eda_dict.update(
 )
 
 
-def get_part_groups(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant, distributors):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.
        @param in_file `str()` with the file name.
        @param ignore_fields `list()` fields do be ignored on the read action.
@@ -99,7 +98,6 @@ def get_part_groups(in_file, ignore_fields, variant):
        For now, `variant`is not used on CSV read, just kept to compatibility with the other EDA submodules.
        @return `dict()` of the parts designed. The keys are the components references.
     '''
-
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
     logger.log(DEBUG_OVERVIEW, '# Getting from CSV \'{}\' BoM...'.format(
@@ -139,7 +137,7 @@ def get_part_groups(in_file, ignore_fields, variant):
     # If the first line contains a column header that is not in the list of
     # allowable field names, then assume the first line is data and not a header.
     field_names = list(field_name_translations.keys()) + list(field_name_translations.values())
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
+    FIELDS_MANFCAT = ([d + '#' for d in distributors] + ['manf#'])
     if not any([code in header for code in FIELDS_MANFCAT]):
         if any(col_hdr.lower() in field_names for col_hdr in header):
             content.pop(0)  # It was a header by the user not identify the 'manf#' / 'cat#' column.
@@ -272,5 +270,5 @@ class generic_csv(eda_class):
         pass
 
     @staticmethod
-    def get_part_groups(in_file, ignore_fields, variant):
-        return get_part_groups(in_file, ignore_fields, variant)
+    def get_part_groups(in_file, ignore_fields, variant, distributors):
+        return get_part_groups(in_file, ignore_fields, variant, distributors)

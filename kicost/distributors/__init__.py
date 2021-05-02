@@ -24,29 +24,55 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-# We really use distributor_dict to clear it
-from .global_vars import distributors_modules_dict, distributor_dict  # noqa: F401
-
+from .distributor import distributor_class
+# Export the ORDER_COL_USERFIELDS content
+from .distributors_info import ORDER_COL_USERFIELDS  # noqa: F401
 
 # Import and register here the API / local / scrape modules.
-
-from .dist_local_template import dist_local_template  # Template for local distributors entry.
-# from .api_octopart import api_octopart
-from .api_partinfo_kitspace import api_partinfo_kitspace
-
-distributors_modules_dict['dist_local_template'] = {'handle': dist_local_template}
-# distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_octopart}
-distributors_modules_dict['api_partinfo_kitspace'] = {'handle': api_partinfo_kitspace}
+from .dist_local_template import dist_local_template  # noqa: F401
+from .api_octopart import api_octopart  # noqa: F401
+from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
 
 
+#
+# Some wrappers
+#
 def init_distributor_dict():
-    # Clear distributor_dict, then let all distributor modules recreate their entries.
-    global distributor_dict
-    distributor_dict = {}
-    for x in globals():
-        if x.startswith("dist_") or x.startswith("api_") or x.startswith("scrape_"):
-            globals()[x].init_dist_dict()
-            # Import all "ditributors_templates" (`dist_`), APIs or scrape modules.
+    distributor_class.init_dist_dict()
+
+
+def get_dist_parts_info(parts, dist_list, currency):
+    distributor_class.get_dist_parts_info(parts, dist_list, currency)
+
+
+def get_registered_apis():
+    return distributor_class.registered
+
+
+def get_distributors_list():
+    ''' List of distributors registered by the API modules '''
+    return list(distributor_class.get_distributors_iter())
+
+
+def get_distributors_iter():
+    ''' Iterator for the distributors registered by the API modules '''
+    return distributor_class.get_distributors_iter()
+
+
+def get_distributor_info(name):
+    ''' Gets all the information about a supported distributor.
+        This information comes from the list collected from the APIs, not from the fixed template. '''
+    return distributor_class.get_distributor_info(name)
+
+
+def get_dist_name_from_label(label):
+    ''' Returns the internal distributor name for a provided label. '''
+    return distributor_class.label2name.get(label.lower())
+
+
+def set_distributors_logger(logger):
+    ''' Sets the logger used by the class '''
+    distributor_class.logger = logger
 
 
 # Init distributor dict during import.
