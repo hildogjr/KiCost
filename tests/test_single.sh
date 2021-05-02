@@ -1,4 +1,4 @@
-#!/bin/bash -v
+#!/bin/bash
 # Automatic test macro for KiCad.
 # Use this script in linux to generate the spreadsheet based 
 # a on the XML or CSV file the test folder. Use to validate and check errors
