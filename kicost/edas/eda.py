@@ -24,9 +24,15 @@ __all__ = ['eda_class']
 
 
 class eda_class(object):
+    registered = []
+
     def __init__(self, name, logger):
         self.name = name
         self.logger = logger
+
+    @staticmethod
+    def register(eda):
+        eda_class.registered.append(eda)
 
 
 def get_part_groups(in_file):

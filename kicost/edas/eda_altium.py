@@ -211,9 +211,11 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
 
 
 class eda_altium(eda_class):
-    def __init__(self):
-        pass
+    name = 'altium'
 
     @staticmethod
     def get_part_groups(in_file, ignore_fields, variant, distributors):
         return get_part_groups(in_file, ignore_fields, variant, distributors)
+
+
+eda_class.register(eda_altium)

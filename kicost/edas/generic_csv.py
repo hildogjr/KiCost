@@ -266,9 +266,11 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
 
 
 class generic_csv(eda_class):
-    def __init__(self):
-        pass
+    name = 'csv'
 
     @staticmethod
     def get_part_groups(in_file, ignore_fields, variant, distributors):
         return get_part_groups(in_file, ignore_fields, variant, distributors)
+
+
+eda_class.register(generic_csv)

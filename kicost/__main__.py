@@ -43,7 +43,7 @@ try:
 except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
-from .edas import eda_dict
+from .edas import get_registered_eda_names
 from .distributors import get_distributors_list
 from . import __version__  # Version control by @xesscorp and collaborator.
 
@@ -218,9 +218,7 @@ def main():
         print('Distributor list:', *sorted(get_distributors_list()))
         return
     if args.show_eda_list:
-        # eda_names = [o[0] for o in inspect.getmembers(eda_tools_imports) if inspect.ismodule(o[1])]
-        # print('EDA supported list:', ', '.join(eda_names))
-        print('EDA supported list:', *sorted(list(eda_dict.keys())))
+        print('EDA supported list:', *sorted(get_registered_eda_names()))
         return
 
     # Set up spreadsheet output file.

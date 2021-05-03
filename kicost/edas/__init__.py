@@ -21,6 +21,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+from .eda import eda_class
 # Import and register here the file read modules.
 from .eda_kicad import eda_kicad
 from .eda_altium import eda_altium
@@ -36,3 +37,11 @@ eda_modules['csv'] = generic_csv
 __author__ = 'Hildo Guillardi Junior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
+
+
+def get_registered_edas():
+    return eda_class.registered
+
+
+def get_registered_eda_names():
+    return [eda.name for eda in eda_class.registered]
