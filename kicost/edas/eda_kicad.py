@@ -28,7 +28,7 @@ import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, SEPRTR
-from .tools import field_name_translations, remove_dnp_parts
+from .tools import field_name_translations
 from .eda import eda_class
 
 
@@ -216,7 +216,7 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
         # Store the fields for the part using the reference identifier as the key.
         components[str(c['ref'])] = fields
 
-    return remove_dnp_parts(components, variant), prj_info
+    return components, prj_info
 
 
 class eda_kicad(eda_class):

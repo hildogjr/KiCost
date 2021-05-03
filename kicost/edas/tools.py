@@ -121,27 +121,6 @@ field_name_translations.update(
 )
 
 
-# def organize_parts(components, fields_merge, c_prjs):
-#     '''@brief Organize the parts to better do the scrape in the distributors.
-#
-#        Remove the Not Populate Parts (DNP), split the components in unique
-#        parts, necessary because of some file formats that present the
-#        components already grouped and to finish, group them as group parts
-#        with same manufactures codes, company manufactures and distributors
-#        codes to not scrape repetitively the same part kind.
-#
-#        @param  components Part components in a `list()` of `dict()`, format given by the EDA modules.
-#        @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
-#     '''
-#     # Remove the Not Populate Parts.
-#     # components = remove_dnp_parts(components, variant) # Do this inside each EDA submodule because of the ISSUE #73.
-#     # Split multi-components into individual subparts.
-#     components = subpartqty_split(components)
-#     # Group the components in group in the same characteristics (fields).
-#     components = group_parts(components, fields_merge, c_prjs)
-#     return components
-
-
 def get_manfcat(fields, f):
     if f != 'manf#':
         return fields.get(f)
@@ -385,52 +364,6 @@ def group_parts(components, fields_merge, c_prjs):
                 logger.log(DEBUG_FULL, str(r) + str(components[r]))
         logger.log(DEBUG_FULL, '\n\n\n------------')
     return new_component_groups
-
-
-def remove_dnp_parts(components, variant):
-    '''@brief Remove the DNP parts or not assigned to the current variant.
-
-       Remove components that are assigned to a variant that is not the current variant,
-       or which are "do not populate" (DNP). (Any component that does not have a variant
-       is assigned the current variant so it will not be removed unless it is also DNP.)
-
-       @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
-       @return `list()` of `dict()`.
-    '''
-
-    logger.log(DEBUG_OVERVIEW, '# Removing do not populate parts...')
-
-    accepted_components = OrderedDict()
-    for ref, fields in components.items():
-        # Remove DNPs.
-        dnp = fields.get('local:dnp', fields.get('dnp', 0))
-        try:
-            dnp = float(dnp)
-        except ValueError:
-            pass  # The field value must have been a string.
-        if dnp:
-            continue
-
-        # Get part variant. Prioritize local variants over global ones.
-        variants = fields.get('local:variant', fields.get('variant', None))
-
-        # Remove parts that are not assigned to the current variant.
-        # If a part is not assigned to any variant, then it is never removed.
-        if variants:
-            # A part can be assigned to multiple variants. The part will not
-            # be removed if any of its variants match the current variant.
-            # Split the variants apart and abort the loop if any of them match.
-            for v in re.split('[,;/ ]', variants):
-                if re.match(variant, v, flags=re.IGNORECASE):
-                    break
-            else:
-                # None of the variants matched, so skip/remove this part.
-                continue
-
-        # The part was not removed, so add it to the list of accepted components.
-        accepted_components[ref] = fields
-
-    return accepted_components
 
 
 def groups_sort(new_component_groups):

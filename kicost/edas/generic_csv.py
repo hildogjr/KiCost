@@ -37,7 +37,7 @@ from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
-from .tools import field_name_translations, remove_dnp_parts, split_refs
+from .tools import field_name_translations, split_refs
 from .eda import eda_class
 
 
@@ -72,12 +72,10 @@ GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are pr
 __all__ = ['generic_csv']
 
 
-def get_part_groups(in_file, ignore_fields, variant, distributors):
+def get_part_groups(in_file, ignore_fields, distributors):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.
        @param in_file `str()` with the file name.
        @param ignore_fields `list()` fields do be ignored on the read action.
-       @param variant `str()` in regular expression to match with the design version of the BOM.
-       For now, `variant`is not used on CSV read, just kept to compatibility with the other EDA submodules.
        @return `dict()` of the parts designed. The keys are the components references.
     '''
     ign_fields = [str(f.lower()) for f in ignore_fields]
@@ -244,7 +242,7 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
                 'company': None,
                 'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 
-    return remove_dnp_parts(accepted_components, variant), prj_info
+    return accepted_components, prj_info
 
 
 class generic_csv(eda_class):
@@ -254,7 +252,7 @@ class generic_csv(eda_class):
 
     @staticmethod
     def get_part_groups(in_file, ignore_fields, variant, distributors):
-        return get_part_groups(in_file, ignore_fields, variant, distributors)
+        return get_part_groups(in_file, ignore_fields, distributors)
 
     @staticmethod
     def file_eda_match(content, extension):
