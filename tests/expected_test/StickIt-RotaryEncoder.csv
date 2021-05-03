@@ -1,23 +1,21 @@
-Prj:,StickIt-RotaryEncoder Module,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,XESS Corp.,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,05/28/2016 12:02:31 AM,,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
-Global Part Info,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,,aliexpress,,,,
-Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-C1-C6,C-NONPOL,C_0603_HandSoldering,,,600,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-JP1-JP4,JUMPER,HDR_1x2,,,400,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-PCB1,PCB,,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-RN1,4K7,CTS_742C163,,742c163472,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-RN2,1K,CTS_742C163,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-ROT1,ROT_ENC_SW,ROT_ENC_EC11E,Bourns,PEC11R-4220F-S0024,100,0,0,,,,,,NonStk,,0,0,PEC11R-4220F-S0024-ND,NonStk,,0,0,2663527,,,,,,NonStk,,0,0,652PEC11R4220FS24,10,,0,0,53W9535,,,,,,NonStk,,0,0,PEC11R4220FS0024,,,,,
-ROT2,ROT_ENC_SW,ROT_ENC_EC11E,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-STK1,STICKIT2_HDR,STICKIT2_HDR,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0,0,#8412904fe179e53e26e25cc84fd58ab2
+Prj:,StickIt-RotaryEncoder Module,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,XESS Corp.,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,05/28/2016 12:02:31 AM,,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
+Global Part Info,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,,Local,,,,,aliexpress,,,,
+Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
+C1-C6,C-NONPOL,C_0603_HandSoldering,,,600,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+JP1-JP4,JUMPER,HDR_1x2,,,400,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+PCB1,PCB,,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0,0,#366f609df3bc7c9c3a6b12ed2f74360f,,,,,
+RN1,4K7,CTS_742C163,,742c163472,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+RN2,1K,CTS_742C163,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"ROT1,ROT2",ROT_ENC_SW,ROT_ENC_EC11E,Bourns,PEC11R-4220F-S0024,200,0,0,,,,,,NonStk,,0,0,PEC11R-4220F-S0024-ND,NonStk,,0,0,2663527,,,,,,NonStk,,0,0,652PEC11R4220FS24,10,,0,0,53W9535,,,,,,NonStk,,0,0,PEC11R4220FS0024,NonStk,,0,0,PEC11R-4220F-S0024,,,,,
+STK1,STICKIT2_HDR,STICKIT2_HDR,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0,0,#8412904fe179e53e26e25cc84fd58ab2
 
-,Used currency rates:,,,,,Total Purchase:,0,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,,0,,0,
-,USD($)/EUR(€):,1.1873,,,,Purchase description:,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,USD($)/GBP(£):,1.375941592305018,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,Used currency rates:,,,,,Total Purchase:,0,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,,0,,0,,,0,,0,
+,USD($)/EUR(€):,1.1873,,,,Purchase description:,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,USD($)/GBP(£):,1.375941592305018,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

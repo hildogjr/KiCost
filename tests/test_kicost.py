@@ -21,6 +21,10 @@ TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def run_test(inputs, output, extra=None, price=True):
+    if not os.path.isdir(TESTDIR + '/result_test'):
+        os.mkdir(TESTDIR + '/result_test')
+    if not os.path.isdir(TESTDIR + '/log_test'):
+        os.mkdir(TESTDIR + '/log_test')
     # Always fake the currency rates
     os.environ['KICOST_CURRENCY_RATES'] = TESTDIR + '/currency_rates.xml'
     # Now choose between recording the KitSpace queries or fake them
@@ -34,13 +38,9 @@ def run_test(inputs, output, extra=None, price=True):
         server = None
     else:
         os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
-        fo = open(TESTDIR + '/server_stdout.txt', 'at')
-        fe = open(TESTDIR + '/server_stderr.txt', 'at')
+        fo = open(TESTDIR + '/log_test/0server_stdout.log', 'at')
+        fe = open(TESTDIR + '/log_test/0server_stderr.log', 'at')
         server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
-    if not os.path.isdir(TESTDIR + '/result_test'):
-        os.mkdir(TESTDIR + '/result_test')
-    if not os.path.isdir(TESTDIR + '/log_test'):
-        os.mkdir(TESTDIR + '/log_test')
     try:
         # Run KiCost
         cmd = ['kicost', '--debug', '10']
@@ -256,8 +256,36 @@ def test_variants_3():
     # Run a test with parameter "variant1"
     run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$','--fields','Comment'], price=False)
 
+
 def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
+
+
+def test_include_1():
+    # Explicitly request digikey and mouser
+    run_test_check('include_1', 'fitting_test', 'include_1', extra=['--include', 'digikey', 'mouser'])
+
+
+def test_exclude_1():
+    # Implicitly request digikey and mouser
+    run_test_check('exclude_1', 'fitting_test', 'exclude_1', extra=['--exclude', 'arrow', 'farnell', 'lcsc', 'newark', 'rs', 'tme'])
+
+
+def test_scrape_over_1():
+    # Data from the fields is added to the web-scraped data
+    run_test_check('scrape_over')
+
+
+def test_scrape_over_2():
+    # Data from the fields relaces the web-scraped data.
+    # For this we exclude the distributor with --exclude
+    run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'])
+
+
+def test_manf_no_manf_num():
+    # Two similar parts, but from different manufacturer and no manf#
+    # Issue #474
+    run_test_check('manf_no_manf_num')
 
 
 class TestKicost(unittest.TestCase):

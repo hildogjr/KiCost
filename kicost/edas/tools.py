@@ -30,8 +30,9 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 import os
 from collections import OrderedDict
+from .. import PartGroup
 from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL
-from ..distributors.global_vars import distributor_dict
+from ..distributors import get_distributors_iter
 from .global_vars import eda_dict  # EDA dictionary with the features.
 
 __all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
@@ -104,7 +105,7 @@ field_name_translations = {
 }
 # Create the fields translate for each distributor submodule.
 for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
-    for dist in distributor_dict:
+    for dist in get_distributors_iter():
         field_name_translations[dist + stub] = dist + '#'
         field_name_translations[dist + '_' + stub] = dist + '#'
         field_name_translations[dist + '-' + stub] = dist + '#'
@@ -149,13 +150,13 @@ def file_eda_match(file_name):
 
 # def organize_parts(components, fields_merge, c_prjs):
 #     '''@brief Organize the parts to better do the scrape in the distributors.
-# 
+#
 #        Remove the Not Populate Parts (DNP), split the components in unique
 #        parts, necessary because of some file formats that present the
 #        components already grouped and to finish, group them as group parts
 #        with same manufactures codes, company manufactures and distributors
 #        codes to not scrape repetitively the same part kind.
-# 
+#
 #        @param  components Part components in a `list()` of `dict()`, format given by the EDA modules.
 #        @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
 #     '''
@@ -168,13 +169,22 @@ def file_eda_match(file_name):
 #     return components
 
 
-# Temporary class for storing part group information.
-class IdenticalComponents(object):
-    '''@brief Class to group components.'''
-    def __init__(self):
-        # None by default, here to avoid try/except in the code
-        self.datasheet = None
-        self.lifecycle = None
+def get_manfcat(fields, f):
+    if f != 'manf#':
+        return fields.get(f)
+    # Special case for manf#:
+    # The manf and manf# are closely related, join them.
+    # Note that failing to do it will produce problems if two or more parts indicates a manf, but not the manf#
+    manf = fields.get('manf')
+    manf_num = fields.get('manf#')
+    if not manf and not manf_num:
+        return None
+    if manf is None:
+        manf = ''
+    if manf_num is None:
+        manf_num = ''
+    # We use lower case and only the first word to make is less sensitive to typos
+    return manf.lower().split(' ')[0] + ' ' + manf_num
 
 
 def group_parts(components, fields_merge, c_prjs):
@@ -201,11 +211,11 @@ def group_parts(components, fields_merge, c_prjs):
     # All codes to scrape, do not include code field name of distributors
     # that will not be scraped. This definition is used to create and check
     # the identical groups or subsplit the seemingly identical parts.
-    FIELDS_MANFCAT = ([d + '#' for d in distributor_dict] + ['manf#'])
+    FIELDS_MANFCAT = ([d + '#' for d in get_distributors_iter()] + ['manf#'])
     # Calculated all the fields that never have to be used to create the hash keys.
     # These include all the manufacture company and codes, distributors codes
     # recognized by the installed modules and, quantity and sub quantity of the part.
-    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_dict])
+    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in get_distributors_iter()])
 
     # Check if was asked to merge some not allowed fields (as `manf`, `manf# ...
     # other ones as `desc` and even `value` and `footprint` may be merged due
@@ -221,7 +231,7 @@ def group_parts(components, fields_merge, c_prjs):
     # part numbers that may be assigned. Just collect those in a list for each group.
     logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
     component_groups = OrderedDict()
-    for ref, fields in list(components.items()):  # part references and field values.
+    for ref, fields in components.items():  # part references and field values.
 
         # Take the field keys and values of each part and create a hash.
         # Use the hash as the key to a dictionary that stores lists of
@@ -230,28 +240,30 @@ def group_parts(components, fields_merge, c_prjs):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including KiCost).
-        hash_fields = {k: fields[k] for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k}
-        h = hash(tuple(sorted(hash_fields.items())))
+        hash_fields = (fields[k] for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k)
+        h = hash(tuple(sorted(hash_fields)))
 
         # Now add the hashed component to the group with the matching hash
         # or create a new group if the hash hasn't been seen before.
-        try:
+        if h not in component_groups:
+            # This happens if it is the first part in a group, so the group
+            # doesn't exist yet.
+            grp = PartGroup()  # Add empty structure.
+            grp.refs = [ref]  # Init list of refs with first ref.
+            # Now add the manf. part code (or None) and each distributor stock
+            # catalogue code for this part to the group set.
+            grp.manfcat_codes = {}
+            for f in FIELDS_MANFCAT:
+                grp.manfcat_codes[f] = OrderedDict([(get_manfcat(fields, f), True)])
+            component_groups[h] = grp
+        else:
+            grp = component_groups[h]
             # Add next ref for identical part to the list.
-            component_groups[h].refs.append(ref)
+            grp.refs.append(ref)
             # Also add any manufacturer's part number (or None) and each distributor
             # stock catalogue code to the group's list.
             for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f][fields.get(f)] = True
-        except KeyError:
-            # This happens if it is the first part in a group, so the group
-            # doesn't exist yet.
-            component_groups[h] = IdenticalComponents()  # Add empty structure.
-            component_groups[h].refs = [ref]  # Init list of refs with first ref.
-            # Now add the manf. part code (or None) and each distributor stock
-            # catalogue code for this part to the group set.
-            component_groups[h].manfcat_codes = {}
-            for f in FIELDS_MANFCAT:
-                component_groups[h].manfcat_codes[f] = OrderedDict([(fields.get(f), True)])
+                grp.manfcat_codes[f][get_manfcat(fields, f)] = True
     if ultra_debug:
         logger.log(DEBUG_FULL, '\n\n\n1++++++++++++++' + str(len(component_groups)))
         for g, grp in list(component_groups.items()):
@@ -280,7 +292,7 @@ def group_parts(components, fields_merge, c_prjs):
     #       assigned to, so leave their manf# as `None`.
     logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
     new_component_groups = []  # Copy new component groups into this.
-    for g, grp in list(component_groups.items()):
+    for g, grp in component_groups.items():
         num_manfcat_codes = {f: len(grp.manfcat_codes[f]) for f in FIELDS_MANFCAT}
         if all([num_manfcat_codes[f] == 1 or (num_manfcat_codes[f] == 2 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
@@ -291,7 +303,9 @@ def group_parts(components, fields_merge, c_prjs):
             # will be replaced with the propagated manufacture /
             # distributor catalogue code.
             continue
-        elif all([(num_manfcat_codes[f] == 1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
+        # TODO: This seems to be part of the above case
+        # TODO: The case number doesn't match the above comment
+        if all([(num_manfcat_codes[f] == 1 and None in grp.manfcat_codes[f]) for f in FIELDS_MANFCAT]):
             new_component_groups.append(grp)
             # CASE THREE:
             # One manf# or cat# that is `None`. Don't split this
@@ -310,14 +324,14 @@ def group_parts(components, fields_merge, c_prjs):
                     # If not have more code in the set list, is because just
                     # exist one. So use this as general.
                     manfcat_num[f] = list(grp.manfcat_codes[f])[0]
-            sub_group = IdenticalComponents()
+            sub_group = PartGroup()
             sub_group.manfcat_codes = manfcat_num
             sub_group.refs = []
             for ref in grp.refs:
                 # Use get() which returns `None` if the component has no
                 # manf# or distributor# field. That will match if the
                 # group manf_num is also None. So append the par to the group.
-                if all([components[ref].get(f) == manfcat_num[f] for f in FIELDS_MANFCAT]):
+                if all([get_manfcat(components[ref], f) == manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)  # Append one part of the split group.
     if ultra_debug:
@@ -335,16 +349,15 @@ def group_parts(components, fields_merge, c_prjs):
     if fields_merge:
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in fields_merge]
         for grp in new_component_groups:
-            components_grp = dict()
-            components_grp = {i: components[i] for i in grp.refs}
+            components_grp = [components[i] for i in grp.refs]
             for f in fields_merge:
-                values_field = [v.get(f, '') for k, v in components_grp.items()]
-                ocurrences = {v_g: [r for r in grp.refs if components[r].get(f, '') == v_g] for v_g in set(values_field)}
+                values_field = set([cmp.get(f, '') for cmp in components_grp])  # Different values
+                ocurrences = {v_g: [r for r in grp.refs if components[r].get(f, '') == v_g] for v_g in values_field}
                 if len(ocurrences) > 1:
-                    if f == 'desc' and len(ocurrences) == 2 and '' in ocurrences.keys():
+                    if f == 'desc' and len(ocurrences) == 2 and '' in ocurrences:
                         value = ''.join(list(ocurrences.keys()))
                     else:
-                        value = SGROUP_SEPRTR.join([order_refs(r) + SEPRTR + ' ' + t for t, r in ocurrences.items()])
+                        value = SGROUP_SEPRTR.join([order_refs(r) + SEPRTR + ' ' + t for t, r in sorted(ocurrences.items())])
                     for r in grp.refs:
                         components[r][f] = value
     if ultra_debug:
@@ -514,7 +527,7 @@ def subpartqty_split(components):
     '''
     logger.log(DEBUG_OVERVIEW, 'Splitting subparts in the manufacture / distributors codes...')
 
-    FIELDS_MANF = [d+'#' for d in distributor_dict]
+    FIELDS_MANF = [d+'#' for d in get_distributors_iter()]
     FIELDS_MANF.append('manf#')
 
     split_components = OrderedDict()

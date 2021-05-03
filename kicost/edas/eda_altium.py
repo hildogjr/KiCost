@@ -39,7 +39,6 @@ import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from ..global_vars import SEPRTR
 from .global_vars import eda_dict
-from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 from .tools import PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
@@ -79,13 +78,14 @@ eda_dict.update(
 )
 
 
-def get_part_groups(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant, distributors):
     '''@brief Get groups of identical parts from an XML file and return them as a dictionary.
        @param in_file `str()` with the file name.
        @param ignore_fields `list()` fields do be ignored on the read action.
        @param variant `str()` in regular expression to match with the design version of the BOM.
        @return `dict()` of the parts designed. The keys are the componentes references.
     '''
+    distributors = set(distributors)
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
@@ -159,7 +159,7 @@ def get_part_groups(in_file, ignore_fields, variant):
                     # number or a distributors catalog number, then add
                     # it to 'local' if it doesn't start with a distributor
                     # name and colon.
-                    if name not in ('manf#', 'manf') and name[:-1] not in distributor_dict:
+                    if name not in ('manf#', 'manf') and name[:-1] not in distributors:
                         if SEPRTR not in name:  # This field has no distributor.
                             name = 'local:' + name  # Assign it to a local distributor.
                     for i in range(qty):
@@ -215,5 +215,5 @@ class eda_altium(eda_class):
         pass
 
     @staticmethod
-    def get_part_groups(in_file, ignore_fields, variant):
-        return get_part_groups(in_file, ignore_fields, variant)
+    def get_part_groups(in_file, ignore_fields, variant, distributors):
+        return get_part_groups(in_file, ignore_fields, variant, distributors)

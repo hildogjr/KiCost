@@ -56,8 +56,7 @@ import requests
 # KiCost libraries.
 from . import __version__  # Version control by @xesscorp and collaborator.
 from .kicost import kicost, output_filename  # kicost core functions.
-from .distributors import init_distributor_dict
-from .distributors.global_vars import distributor_dict
+from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label
 from .edas import eda_dict
 from .edas.tools import file_eda_match
 if sys.platform.startswith("win32"):
@@ -864,20 +863,12 @@ class formKiCost(wx.Frame):
                     args.eda_name = v['module']  # The selected EDA module on GUI.
                     break
 
+        dist_list = []
         # Get the current distributors to scrape.
         # choisen_dist = list(self.m_checkList_dist.GetCheckedItems()) # Only valid on wxPy4.
         choisen_dist = [i for i in range(self.m_checkList_dist.GetCount()) if self.m_checkList_dist.IsChecked(i)]
-        if choisen_dist:
-            dist_list = []
-            # choisen_dist = [self.m_checkList_dist.GetString(idx) for idx in choisen_dist]
-            for idx in choisen_dist:
-                label = self.m_checkList_dist.GetString(idx)
-                for k, v in distributor_dict.items():
-                    if v['label']['name'] == label:
-                        dist_list.append(k)
-                        break
-        else:
-            dist_list = None
+        for idx in choisen_dist:
+            dist_list.append(get_dist_name_from_label(self.m_checkList_dist.GetString(idx)))
         args.include = dist_list
         args.convert_to_ods = self.m_checkBox_XLSXtoODS.GetValue()
         args.open_spreadsheet = self.m_checkBox_openSpreadsheet.GetValue()
@@ -889,7 +880,7 @@ class formKiCost(wx.Frame):
         ''' @brief Set the current proprieties of the graphical elements.'''
 
         # Current distributors module recognized.
-        distributors_list = sorted([distributor_dict[d]['label']['name'] for d in distributor_dict.keys() if distributor_dict[d]['type'] != 'local'])
+        distributors_list = sorted([get_distributor_info(d).label.name for d in get_distributors_iter() if get_distributor_info(d).is_local()])
         self.m_checkList_dist.Clear()
         for d in distributors_list:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)

@@ -29,7 +29,6 @@ from bs4 import BeautifulSoup
 from collections import OrderedDict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, SEPRTR
 from .global_vars import eda_dict
-from ..distributors.global_vars import distributor_dict
 from .tools import field_name_translations, remove_dnp_parts
 from .eda import eda_class
 
@@ -54,13 +53,14 @@ eda_dict.update(
 )
 
 
-def get_part_groups(in_file, ignore_fields, variant):
+def get_part_groups(in_file, ignore_fields, variant, distributors):
     '''Get groups of identical parts from an XML file and return them as a dictionary.
        @param in_file `str()` with the file name.
        @param ignore_fields `list()` fields do be ignored on the read action.
        @param variant `str()` in regular expression to match with the design version of the BOM.
        @return `dict()` of the parts designed. The keys are the componentes references.
     '''
+    distributors = set(distributors)
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
 
@@ -85,6 +85,8 @@ def get_part_groups(in_file, ignore_fields, variant):
                         # when used more than one `manf#` alias in one designator.
                         fields[name] = value
                 else:
+                    name = str(f['name']).strip()
+                    name_ori = name
                     # Now look for fields that start with 'kicost' and possibly
                     # another dot-separated variant field and store their values.
                     # Anything else is in a non-kicost namespace.
@@ -92,32 +94,51 @@ def get_part_groups(in_file, ignore_fields, variant):
                     mtch = re.match(key_re, name, flags=re.IGNORECASE)
                     if mtch:
                         v = mtch.group('variant')
-                        if v is not None and not re.match(variant, v, flags=re.IGNORECASE):
-                            continue
                         if v is not None:
-                            logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + v + mtch.group('name'))
+                            if not re.match(variant, v, flags=re.IGNORECASE):
+                                continue
+                            logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + v + '.' + mtch.group('name'))
                         # The field name is anything that came after the leading
                         # 'kicost' and optional variant field.
                         name = mtch.group('name')
-                        name = field_name_translations.get(name, name)
-                        # If the field name isn't for a manufacturer's part
-                        # number or a distributors catalog number, then add
-                        # it to 'local' if it doesn't start with a distributor
-                        # name and colon.
-                        # if name not in ('manf#', 'manf', 'desc', 'value', 'comment', 'S1PN', 'S1MN', 'S1PL', 'S2PN', 'S2MN', 'S2PL') and
-                        #    name[:-1] not in distributor_dict:
-                        dist_mtch = re.match('([^:]+):', name)
-                        if dist_mtch and dist_mtch.group(1) not in distributor_dict:
-                            # 'name' is a distibutore (preceded & followed with ':'
-                            logger.log(DEBUG_OBSESSIVE, 'Assigning local: for name "{}" dist "{}" ... '.format(name, dist_mtch.group(1)))
-                            # Original code supposes that name is a distributor
-                            if SEPRTR not in name:  # This field has no distributor.
-                                name = 'local:' + name  # Assign it to a local distributor.
+                        if SEPRTR in name:
+                            # DISTRIBUTOR:FIELD
+                            # Separate the distributor from the field name
+                            idx = name.index(SEPRTR)
+                            dist = name[:idx]
+                            # Is this a supported distributor?
+                            dist_l = dist.lower()
+                            if dist_l in distributors:
+                                # Use the lower case version
+                                dist = dist_l
+                            # Translate the field name
+                            name = name[idx+1:].lower()
+                            name = field_name_translations.get(name, name)
+                            # Join both again
+                            name = dist + SEPRTR + name
+                        else:
+                            # FIELD
+                            # No distributor in the name
+                            # Adapt it
+                            name = name.lower()
+                            name = field_name_translations.get(name, name)
+                            # Is distributor related?
+                            if name in ('cat#', 'pricing', 'link'):
+                                # Add it to the default local distributor
+                                logger.log(DEBUG_OBSESSIVE, 'Assigning name "{}" to "Local" distributor'.format(name))
+                                name = 'Local:' + name
+                            elif name in ('manf#', 'manf') or name[:-1] in distributors or v is not None:
+                                # A part number
+                                logger.log(DEBUG_OBSESSIVE, 'Moving name "{}" to "global" namespace'.format(name))
+                            else:
+                                # Not a part number, add it "local" namespace
+                                logger.log(DEBUG_OBSESSIVE, 'Moving name "{}" to "local" namespace'.format(name))
+                                name = 'local:' + name
                         value = str(f.string)
                         if value or v is not None:
                             # Empty value also propagated to force deleting default value
                             fields[name] = value
-                        logger.log(DEBUG_OBSESSIVE, 'Field {}={}'.format(name, value))
+                        logger.log(DEBUG_OBSESSIVE, '{} Field {} -> {}={}'.format(str(part['ref']), name_ori, name, value))
         except AttributeError:
             pass  # No fields found for this part.
         return fields
@@ -221,5 +242,5 @@ class eda_kicad(eda_class):
         pass
 
     @staticmethod
-    def get_part_groups(in_file, ignore_fields, variant):
-        return get_part_groups(in_file, ignore_fields, variant)
+    def get_part_groups(in_file, ignore_fields, variant, distributors):
+        return get_part_groups(in_file, ignore_fields, variant, distributors)

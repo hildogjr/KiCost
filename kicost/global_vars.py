@@ -57,3 +57,7 @@ class PartHtmlError(Exception):
 class wxPythonNotPresent(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
+
+
+def get_logger():
+    return logger
