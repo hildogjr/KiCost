@@ -174,7 +174,7 @@ def get_manfcat(fields, f):
         return fields.get(f)
     # Special case for manf#:
     # The manf and manf# are closely related, join them.
-    # Note that failing to do it will produce problems if two or more parts indicates a manf, but not the manf#
+    # Note that failing to do it will produce problems if two or more parts indicates a manf, but not the manf# (#474)
     manf = fields.get('manf')
     manf_num = fields.get('manf#')
     if not manf and not manf_num:
