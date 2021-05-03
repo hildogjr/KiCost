@@ -21,6 +21,10 @@ TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
 def run_test(inputs, output, extra=None, price=True):
+    if not os.path.isdir(TESTDIR + '/result_test'):
+        os.mkdir(TESTDIR + '/result_test')
+    if not os.path.isdir(TESTDIR + '/log_test'):
+        os.mkdir(TESTDIR + '/log_test')
     # Always fake the currency rates
     os.environ['KICOST_CURRENCY_RATES'] = TESTDIR + '/currency_rates.xml'
     # Now choose between recording the KitSpace queries or fake them
@@ -37,10 +41,6 @@ def run_test(inputs, output, extra=None, price=True):
         fo = open(TESTDIR + '/log_test/0server_stdout.log', 'at')
         fe = open(TESTDIR + '/log_test/0server_stderr.log', 'at')
         server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
-    if not os.path.isdir(TESTDIR + '/result_test'):
-        os.mkdir(TESTDIR + '/result_test')
-    if not os.path.isdir(TESTDIR + '/log_test'):
-        os.mkdir(TESTDIR + '/log_test')
     try:
         # Run KiCost
         cmd = ['kicost', '--debug', '10']
