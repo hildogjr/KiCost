@@ -169,6 +169,24 @@ def file_eda_match(file_name):
 #     return components
 
 
+def get_manfcat(fields, f):
+    if f != 'manf#':
+        return fields.get(f)
+    # Special case for manf#:
+    # The manf and manf# are closely related, join them.
+    # Note that failing to do it will produce problems if two or more parts indicates a manf, but not the manf#
+    manf = fields.get('manf')
+    manf_num = fields.get('manf#')
+    if not manf and not manf_num:
+        return None
+    if manf is None:
+        manf = ''
+    if manf_num is None:
+        manf_num = ''
+    # We use lower case and only the first word to make is less sensitive to typos
+    return manf.lower().split(' ')[0] + ' ' + manf_num
+
+
 def group_parts(components, fields_merge, c_prjs):
     '''@brief Group common parts after preprocessing from XML or CSV files.
 
@@ -236,7 +254,7 @@ def group_parts(components, fields_merge, c_prjs):
             # catalogue code for this part to the group set.
             grp.manfcat_codes = {}
             for f in FIELDS_MANFCAT:
-                grp.manfcat_codes[f] = OrderedDict([(fields.get(f), True)])
+                grp.manfcat_codes[f] = OrderedDict([(get_manfcat(fields, f), True)])
             component_groups[h] = grp
         else:
             grp = component_groups[h]
@@ -245,7 +263,7 @@ def group_parts(components, fields_merge, c_prjs):
             # Also add any manufacturer's part number (or None) and each distributor
             # stock catalogue code to the group's list.
             for f in FIELDS_MANFCAT:
-                grp.manfcat_codes[f][fields.get(f)] = True
+                grp.manfcat_codes[f][get_manfcat(fields, f)] = True
     if ultra_debug:
         logger.log(DEBUG_FULL, '\n\n\n1++++++++++++++' + str(len(component_groups)))
         for g, grp in list(component_groups.items()):
@@ -313,7 +331,7 @@ def group_parts(components, fields_merge, c_prjs):
                 # Use get() which returns `None` if the component has no
                 # manf# or distributor# field. That will match if the
                 # group manf_num is also None. So append the par to the group.
-                if all([components[ref].get(f) == manfcat_num[f] for f in FIELDS_MANFCAT]):
+                if all([get_manfcat(components[ref], f) == manfcat_num[f] for f in FIELDS_MANFCAT]):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)  # Append one part of the split group.
     if ultra_debug:

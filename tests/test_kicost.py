@@ -249,12 +249,14 @@ def test_variants_1():
     run_test_check(test_name + '(production)', 'variants_1', 'variants_1_production', ['--variant', 'production'], price=False)
     run_test_check(test_name + '(default)', 'variants_1', 'variants_1_default', ['--variant', 'default'], price=False)
 
+
 def disabled_test_variants_3():
     # This test doesn't have any kind of manf# or DISTRIBUTOR#
     test_name = 'variants_3'
     run_test_check(test_name, 'variants_3', price=False)
     # Run a test with parameter "variant1"
     run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$'], price=False)
+
 
 def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
@@ -279,6 +281,12 @@ def test_scrape_over_2():
     # Data from the fields relaces the web-scraped data.
     # For this we exclude the distributor with --exclude
     run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'])
+
+
+def test_manf_no_manf_num():
+    # Two similar parts, but from different manufacturer and no manf#
+    # Issue #474
+    run_test_check('manf_no_manf_num')
 
 
 class TestKicost(unittest.TestCase):
