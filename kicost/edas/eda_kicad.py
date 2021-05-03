@@ -28,29 +28,11 @@ import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 from ..global_vars import logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, SEPRTR
-from .global_vars import eda_dict
 from .tools import field_name_translations, remove_dnp_parts
 from .eda import eda_class
 
 
 __all__ = ['eda_kicad']
-
-
-# Place information about this EDA into the eda_tool dictionary.
-eda_dict.update(
-    {
-        'kicad': {
-            'module': 'kicad',  # The directory name containing this file.
-            'label': 'KiCad file',  # Label used on the GUI.
-            'desc': 'KiCad open source EDA.',
-            # Formatting file match.
-            'file': {
-                'extension': '.xml',  # File extension.
-                'content': r'<tool\>Eeschema.*\<\/tool\>'  # Regular expression content match.
-                }
-        }
-    }
-)
 
 
 def get_part_groups(in_file, ignore_fields, variant, distributors):

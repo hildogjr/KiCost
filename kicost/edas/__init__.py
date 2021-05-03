@@ -26,8 +26,6 @@ from .eda import eda_class
 from .eda_kicad import eda_kicad  # noqa: F401
 from .eda_altium import eda_altium  # noqa: F401
 from .generic_csv import generic_csv  # noqa: F401
-# Here we export edas.global_vars.eda_dict as edas.eda_dict
-from .global_vars import eda_dict  # noqa: F401
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'

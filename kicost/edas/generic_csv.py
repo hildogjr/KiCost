@@ -37,7 +37,6 @@ from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
 from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
-from .global_vars import eda_dict
 from .tools import field_name_translations, remove_dnp_parts, split_refs
 from .eda import eda_class
 
@@ -71,23 +70,6 @@ field_name_translations.update(
 GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are present.
 
 __all__ = ['generic_csv']
-
-
-# Place information about this EDA into the eda_tool dictionary.
-eda_dict.update(
-    {
-        'csv': {
-            'module': 'csv',  # The directory name containing this file.
-            'label': 'CSV file',  # Label used on the GUI.
-            'desc': 'CSV module reader for hand made BoM. Compatible with the software: Proteus and Eagle.',
-            # Formatting file match.
-            'file': {
-                'extension': '.csv',  # File extension.
-                'content': '.'  # Regular expression content match.
-                }
-        }
-    }
-)
 
 
 def get_part_groups(in_file, ignore_fields, variant, distributors):
