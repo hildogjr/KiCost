@@ -39,9 +39,9 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 
-def get_registered_edas():
-    return eda_class.registered
-
-
 def get_registered_eda_names():
-    return [eda.name for eda in eda_class.registered]
+    return eda_class.registered.keys()
+
+
+def get_part_groups(eda, in_file, ignore_fields, variant, distributors):
+    return eda_class.get_part_groups(eda, in_file, ignore_fields, variant, distributors)

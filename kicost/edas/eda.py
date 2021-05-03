@@ -24,24 +24,14 @@ __all__ = ['eda_class']
 
 
 class eda_class(object):
-    registered = []
-
-    def __init__(self, name, logger):
-        self.name = name
-        self.logger = logger
+    registered = {}
 
     @staticmethod
     def register(eda):
-        eda_class.registered.append(eda)
+        eda_class.registered[eda.name] = eda
 
 
-def get_part_groups(in_file):
-    '''Get groups of identical parts from an generic CSV file and return them as a dictionary.
-       @param in_file `str()` with the file name.
-       @param ignore_fields `list()` fields do be ignored on the read action.
-       @param variant `str()` in regular expression to match with the design version of the BOM.
-       For now, `variant`is not used on CSV read, just kept to compatibility with the other EDA submodules.
-       @return `dict()` of the parts designed. The keys are the components references.
-    '''
+    @staticmethod
+    def get_part_groups(eda, in_file, ignore_fields, variant, distributors):
+        return eda_class.registered[eda].get_part_groups(in_file, ignore_fields, variant, distributors)
 
-    # TODO this file aims to be a base class file for create all the BOM readers.

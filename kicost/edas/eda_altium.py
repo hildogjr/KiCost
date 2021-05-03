@@ -57,7 +57,7 @@ field_name_translations.update(
 ALTIUM_NONE = '[NoParam]'  # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*'  # Separator for the part numbers in a list, remove the lateral spaces.
 
-__all__ = ['get_part_groups']
+__all__ = ['eda_altium']
 
 
 # Place information about this EDA into the eda_tool dictionary.

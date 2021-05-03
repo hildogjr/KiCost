@@ -33,7 +33,7 @@ from .tools import field_name_translations, remove_dnp_parts
 from .eda import eda_class
 
 
-__all__ = ['get_part_groups']
+__all__ = ['eda_kicad']
 
 
 # Place information about this EDA into the eda_tool dictionary.

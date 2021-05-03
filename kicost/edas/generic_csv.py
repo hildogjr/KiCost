@@ -70,7 +70,7 @@ field_name_translations.update(
 
 GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are present.
 
-__all__ = ['get_part_groups']
+__all__ = ['generic_csv']
 
 
 # Place information about this EDA into the eda_tool dictionary.
