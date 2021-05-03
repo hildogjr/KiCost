@@ -28,14 +28,12 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re  # Regular expression parser and matches.
-import os
 from collections import OrderedDict
 from .. import PartGroup
 from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL
 from ..distributors import get_distributors_iter
-from .global_vars import eda_dict  # EDA dictionary with the features.
 
-__all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
+__all__ = ['partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -123,58 +121,12 @@ field_name_translations.update(
 )
 
 
-def file_eda_match(file_name):
-    '''@brief Verify with which EDA the file matches.
-
-       Return the EDA name with the file matches or `None` if not founded.
-       @param file_name File `str` name.
-       @return Name of the module corresponding to read the file or `None`to not recognized.
-    '''
-    try:
-        file_handle = open(file_name, 'r')
-        content = file_handle.read()
-    except UnicodeDecodeError:  # It happens with some Windows CSV files on Python 3.
-        file_handle.close()
-        file_handle = open(file_name, 'r', encoding='ISO-8859-1')
-        content = file_handle.read()
-    extension = os.path.splitext(file_name)[1]
-    for name, defs in eda_dict.items():
-        # print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
-        if re.search(defs['file']['content'], content, re.IGNORECASE)\
-           and extension == defs['file']['extension']:
-            file_handle.close()
-            return name
-    file_handle.close()
-    return None
-
-
-# def organize_parts(components, fields_merge, c_prjs):
-#     '''@brief Organize the parts to better do the scrape in the distributors.
-#
-#        Remove the Not Populate Parts (DNP), split the components in unique
-#        parts, necessary because of some file formats that present the
-#        components already grouped and to finish, group them as group parts
-#        with same manufactures codes, company manufactures and distributors
-#        codes to not scrape repetitively the same part kind.
-#
-#        @param  components Part components in a `list()` of `dict()`, format given by the EDA modules.
-#        @return `list()` of `dict()` with the component parts organized (grouped, removed the "not populate", ...)
-#     '''
-#     # Remove the Not Populate Parts.
-#     # components = remove_dnp_parts(components, variant) # Do this inside each EDA submodule because of the ISSUE #73.
-#     # Split multi-components into individual subparts.
-#     components = subpartqty_split(components)
-#     # Group the components in group in the same characteristics (fields).
-#     components = group_parts(components, fields_merge, c_prjs)
-#     return components
-
-
 def get_manfcat(fields, f):
     if f != 'manf#':
         return fields.get(f)
     # Special case for manf#:
     # The manf and manf# are closely related, join them.
-    # Note that failing to do it will produce problems if two or more parts indicates a manf, but not the manf#
+    # Note that failing to do it will produce problems if two or more parts indicates a manf, but not the manf# (#474)
     manf = fields.get('manf')
     manf_num = fields.get('manf#')
     if not manf and not manf_num:
@@ -412,52 +364,6 @@ def group_parts(components, fields_merge, c_prjs):
                 logger.log(DEBUG_FULL, str(r) + str(components[r]))
         logger.log(DEBUG_FULL, '\n\n\n------------')
     return new_component_groups
-
-
-def remove_dnp_parts(components, variant):
-    '''@brief Remove the DNP parts or not assigned to the current variant.
-
-       Remove components that are assigned to a variant that is not the current variant,
-       or which are "do not populate" (DNP). (Any component that does not have a variant
-       is assigned the current variant so it will not be removed unless it is also DNP.)
-
-       @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
-       @return `list()` of `dict()`.
-    '''
-
-    logger.log(DEBUG_OVERVIEW, '# Removing do not populate parts...')
-
-    accepted_components = OrderedDict()
-    for ref, fields in components.items():
-        # Remove DNPs.
-        dnp = fields.get('local:dnp', fields.get('dnp', 0))
-        try:
-            dnp = float(dnp)
-        except ValueError:
-            pass  # The field value must have been a string.
-        if dnp:
-            continue
-
-        # Get part variant. Prioritize local variants over global ones.
-        variants = fields.get('local:variant', fields.get('variant', None))
-
-        # Remove parts that are not assigned to the current variant.
-        # If a part is not assigned to any variant, then it is never removed.
-        if variants:
-            # A part can be assigned to multiple variants. The part will not
-            # be removed if any of its variants match the current variant.
-            # Split the variants apart and abort the loop if any of them match.
-            for v in re.split('[,;/ ]', variants):
-                if re.match(variant, v, flags=re.IGNORECASE):
-                    break
-            else:
-                # None of the variants matched, so skip/remove this part.
-                continue
-
-        # The part was not removed, so add it to the list of accepted components.
-        accepted_components[ref] = fields
-
-    return accepted_components
 
 
 def groups_sort(new_component_groups):

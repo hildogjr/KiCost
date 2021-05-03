@@ -1,3 +1,6 @@
+PYTHON?=python3
+PYTEST?=pytest-3
+
 .PHONY: clean-pyc clean-build docs clean update-rates
 
 help:
@@ -6,7 +9,7 @@ help:
 	@echo "clean-pyc - remove Python file artifacts"
 	@echo "clean-test - remove test and coverage artifacts"
 	@echo "lint - check style with flake8"
-	@echo "test - run tests quickly with the default Python"
+	@echo "test - run tests using PyTest (PYTEST env. var)"
 	@echo "test-all - run tests on every Python version with tox"
 	@echo "coverage - check code coverage quickly with the default Python"
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
@@ -22,25 +25,25 @@ clean-build:
 	rm -fr build/
 	rm -fr dist/
 	rm -fr .eggs/
-	find . -name '*.egg-info' -exec rm -fr {} +
-	find . -name '*.egg' -exec rm -f {} +
+	@find . -name '*.egg-info' -exec rm -fr {} +
+	@find . -name '*.egg' -exec rm -f {} + ; echo 1
 
 clean-pyc:
-	find . -name '*.pyc' -exec rm -f {} +
-	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
-	find . -name '__pycache__' -exec rm -fr {} +
+	@find . -name '*.pyc' -exec rm -f {} +
+	@find . -name '*.pyo' -exec rm -f {} +
+	@find . -name '*~' -exec rm -f {} +
+	@find . -name '__pycache__' -exec rm -fr {} +
 
 clean-test:
-	rm -fr .tox/
-	rm -f .coverage
-	rm -fr htmlcov/
+	-rm -fr .tox/
+	-rm -f .coverage
+	-rm -fr htmlcov/
 
 lint:
 	flake8 kicost tests
 
 test:
-	python setup.py test
+	$(PYTEST)
 
 test-all:
 	tox
@@ -61,23 +64,23 @@ docs:
 	$(MAKE) -C ./docs/make singlehtml
 
 release-test: clean
-	python setup.py sdist
-	python setup.py bdist_wheel
+	$(PYTHON) setup.py sdist
+	$(PYTHON) setup.py bdist_wheel
 	twine upload --verbose --repository-url https://test.pypi.org/legacy/ dist/*
 
 release: update-rates
 	#clean
-	#python setup.py sdist upload
-	#python setup.py bdist_wheel upload
+	#$(PYTHON) setup.py sdist upload
+	#$(PYTHON) setup.py bdist_wheel upload
 	twine upload --verbose dist/*
 
 dist: update-rates clean
-	python setup.py sdist
-	python setup.py bdist_wheel
+	$(PYTHON) setup.py sdist
+	$(PYTHON) setup.py bdist_wheel
 	ls -l dist
 
 install: clean
-	python setup.py install
+	$(PYTHON) setup.py install
 
 update-rates:
-	python tools/get_rates.py > kicost/currency_converter/default_rates.py
+	$(PYTHON) tools/get_rates.py > kicost/currency_converter/default_rates.py
