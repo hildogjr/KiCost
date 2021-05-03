@@ -249,6 +249,16 @@ def test_variants_1():
     run_test_check(test_name + '(production)', 'variants_1', 'variants_1_production', ['--variant', 'production'], price=False)
     run_test_check(test_name + '(default)', 'variants_1', 'variants_1_default', ['--variant', 'default'], price=False)
 
+
+def test_variants_2():
+    # This test is related to issue #474
+    # Tests the same as test_manf_no_manf_num() but in a variant case
+    # Note that we don't even have manf#, no price here
+    test_name = 'variants_2'
+    run_test_check(test_name, 'variants_2', price=False)
+    run_test_check(test_name + '(variant1)', 'variants_2', 'variants_2_variant1', ['--variant', 'variant1'], price=False)
+
+
 def test_variants_3():
     # This test doesn't have any kind of manf# or DISTRIBUTOR#
     test_name = 'variants_3'
@@ -300,5 +310,5 @@ class TestKicost(unittest.TestCase):
         pass
 
 
-if __name__ == '__main__':
+        if __name__ == '__main__':
     unittest.main()
