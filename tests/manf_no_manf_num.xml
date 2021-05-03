@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/kibom-variant_modified_kicost.sch</source>
+    <date>2021-01-02</date>
+    <tool>Eeschema 5.1.9+dfsg1-1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>KiBom Variant 2</title>
+        <company>KiCOST TEST</company>
+        <rev></rev>
+        <date>2020-03-12</date>
+        <source>manual_edit</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>1nF</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="desc">One manufacturer, unknown manf#</field>
+        <field name="manf">variant1manf</field>
+      </fields>
+    </comp>
+    <comp ref="C2">
+      <value>1nF</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="desc">Another manufacturer, unknown manf#</field>
+        <field name="manf">defaultmanf</field>
+      </fields>
+    </comp>
+  </components>
+</export>
