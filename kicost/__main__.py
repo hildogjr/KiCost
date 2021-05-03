@@ -141,7 +141,7 @@ def main():
                         default=None,
                         metavar='LEVEL',
                         help='Print debugging info. (Larger LEVEL means more info.)')
-    parser.add_argument('--eda', choices=['kicad', 'altium', 'csv'],
+    parser.add_argument('--eda', choices=get_registered_eda_names(),
                         nargs='+',
                         default=['kicad'],
                         help='Choose EDA tool from which the XML BOM file originated, or use csv for .CSV files.')
