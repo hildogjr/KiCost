@@ -36,12 +36,25 @@ __company__ = 'University of Campinas - Brazil'
 
 
 def get_registered_eda_names():
+    ''' Get the names of the registered EDAs '''
     return eda_class.registered.keys()
 
 
+def get_registered_eda_labels():
+    ''' Get the labels of the registered EDAs '''
+    return [eda.label for eda in eda_class.registered.values()]
+
+
 def get_part_groups(eda, in_file, ignore_fields, variant, distributors):
+    ''' Get the parts for a file using the indicated EDA '''
     return eda_class.get_part_groups(eda, in_file, ignore_fields, variant, distributors)
 
 
 def file_eda_match(file_name):
+    ''' Check which EDA is suitable for this file '''
     return eda_class.file_eda_match(file_name)
+
+
+def get_eda_label(name):
+    ''' Returns a beautiful name for the EDA '''
+    return eda_class.registered[name].label

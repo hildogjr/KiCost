@@ -57,7 +57,7 @@ import requests
 from . import __version__  # Version control by @xesscorp and collaborator.
 from .kicost import kicost, output_filename  # kicost core functions.
 from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label
-from .edas import eda_dict, file_eda_match
+from .edas import file_eda_match, get_registered_eda_names, get_eda_label, get_registered_eda_labels
 if sys.platform.startswith("win32"):
     from .os_windows import reg_enum_keys, reg_get
     if sys.version_info < (3, 0):
@@ -717,7 +717,7 @@ class formKiCost(wx.Frame):
         if len(fileNames) == 1:
             eda_module = file_eda_match(fileNames[0])
             if eda_module:
-                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(eda_dict[eda_module]['label']))
+                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(get_eda_label(eda_module)))
         elif len(fileNames) > 1:
             # Check if all the EDA are the same. For different ones,
             # the guide is not able now to deal, need improvement
@@ -727,7 +727,7 @@ class formKiCost(wx.Frame):
                 if file_eda_match(fName) != eda_module:
                     return
             if eda_module:
-                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(eda_dict[eda_module]['label']))
+                self.m_listBox_edatool.SetSelection(self.m_listBox_edatool.FindString(get_eda_label(eda_module)))
 
     # ----------------------------------------------------------------------
     def button_openfile(self, event):
@@ -857,9 +857,9 @@ class formKiCost(wx.Frame):
         args.collapse_refs = self.m_checkBox_collapseRefs.GetValue()  # Collapse refs in the spreadsheet.
 
         if self.m_listBox_edatool.GetStringSelection():
-            for k, v in eda_dict.items():
-                if v['label'] == self.m_listBox_edatool.GetStringSelection():
-                    args.eda_name = v['module']  # The selected EDA module on GUI.
+            for eda in get_registered_eda_names():
+                if get_eda_label(eda) == self.m_listBox_edatool.GetStringSelection():
+                    args.eda_name = eda  # The selected EDA module on GUI.
                     break
 
         dist_list = []
@@ -888,7 +888,7 @@ class formKiCost(wx.Frame):
             self.m_checkList_dist.Check(idx, True)  # All start checked (after is modified by the configuration file).
 
         # Current EDA tools module recognized.
-        eda_names = sorted([eda_dict[eda]['label'] for eda in eda_dict.keys()])
+        eda_names = sorted(get_registered_eda_labels())
         self.m_listBox_edatool.Clear()
         for s in eda_names:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_listBox_edatool.Append(s)

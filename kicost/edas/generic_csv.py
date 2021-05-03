@@ -267,6 +267,8 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
 
 class generic_csv(eda_class):
     name = 'csv'
+    label = 'CSV file'  # Label used on the GUI.
+    desc = 'CSV module reader for hand made BoM. Compatible with the software: Proteus and Eagle.'
 
     @staticmethod
     def get_part_groups(in_file, ignore_fields, variant, distributors):

@@ -212,6 +212,8 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
 
 class eda_altium(eda_class):
     name = 'altium'
+    label = 'Altium file'  # Label used on the GUI.
+    desc = 'Altium Limited (formerly known as Protel until 2001).'
 
     @staticmethod
     def get_part_groups(in_file, ignore_fields, variant, distributors):

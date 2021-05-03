@@ -239,6 +239,8 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
 
 class eda_kicad(eda_class):
     name = 'kicad'
+    label = 'KiCad file'  # Label used on the GUI.
+    desc = 'KiCad open source EDA.'
 
     @staticmethod
     def get_part_groups(in_file, ignore_fields, variant, distributors):
