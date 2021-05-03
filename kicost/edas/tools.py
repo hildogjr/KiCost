@@ -28,14 +28,12 @@ __company__ = 'University of Campinas - Brazil'
 
 # Libraries.
 import re  # Regular expression parser and matches.
-import os
 from collections import OrderedDict
 from .. import PartGroup
 from ..global_vars import SEPRTR, logger, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL
 from ..distributors import get_distributors_iter
-from .global_vars import eda_dict  # EDA dictionary with the features.
 
-__all__ = ['file_eda_match', 'partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
+__all__ = ['partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
@@ -121,31 +119,6 @@ field_name_translations.update(
         'pdf': 'datasheet',
     }
 )
-
-
-def file_eda_match(file_name):
-    '''@brief Verify with which EDA the file matches.
-
-       Return the EDA name with the file matches or `None` if not founded.
-       @param file_name File `str` name.
-       @return Name of the module corresponding to read the file or `None`to not recognized.
-    '''
-    try:
-        file_handle = open(file_name, 'r')
-        content = file_handle.read()
-    except UnicodeDecodeError:  # It happens with some Windows CSV files on Python 3.
-        file_handle.close()
-        file_handle = open(file_name, 'r', encoding='ISO-8859-1')
-        content = file_handle.read()
-    extension = os.path.splitext(file_name)[1]
-    for name, defs in eda_dict.items():
-        # print(name, extension==defs['file']['extension'], re.search(defs['file']['content'], content, re.IGNORECASE))
-        if re.search(defs['file']['content'], content, re.IGNORECASE)\
-           and extension == defs['file']['extension']:
-            file_handle.close()
-            return name
-    file_handle.close()
-    return None
 
 
 # def organize_parts(components, fields_merge, c_prjs):

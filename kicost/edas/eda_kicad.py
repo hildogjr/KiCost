@@ -244,5 +244,9 @@ class eda_kicad(eda_class):
     def get_part_groups(in_file, ignore_fields, variant, distributors):
         return get_part_groups(in_file, ignore_fields, variant, distributors)
 
+    @staticmethod
+    def file_eda_match(content, extension):
+        return extension == '.xml' and re.search(r'<tool\>Eeschema.*\<\/tool\>', content, re.IGNORECASE)
+
 
 eda_class.register(eda_kicad)

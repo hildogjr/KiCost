@@ -57,8 +57,7 @@ import requests
 from . import __version__  # Version control by @xesscorp and collaborator.
 from .kicost import kicost, output_filename  # kicost core functions.
 from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label
-from .edas import eda_dict
-from .edas.tools import file_eda_match
+from .edas import eda_dict, file_eda_match
 if sys.platform.startswith("win32"):
     from .os_windows import reg_enum_keys, reg_get
     if sys.version_info < (3, 0):

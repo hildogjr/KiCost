@@ -23,15 +23,11 @@
 
 from .eda import eda_class
 # Import and register here the file read modules.
-from .eda_kicad import eda_kicad
-from .eda_altium import eda_altium
-from .generic_csv import generic_csv
-from .global_vars import eda_modules
+from .eda_kicad import eda_kicad  # noqa: F401
+from .eda_altium import eda_altium  # noqa: F401
+from .generic_csv import generic_csv  # noqa: F401
 # Here we export edas.global_vars.eda_dict as edas.eda_dict
 from .global_vars import eda_dict  # noqa: F401
-eda_modules['kicad'] = eda_kicad
-eda_modules['altium'] = eda_altium
-eda_modules['csv'] = generic_csv
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
@@ -45,3 +41,7 @@ def get_registered_eda_names():
 
 def get_part_groups(eda, in_file, ignore_fields, variant, distributors):
     return eda_class.get_part_groups(eda, in_file, ignore_fields, variant, distributors)
+
+
+def file_eda_match(file_name):
+    return eda_class.file_eda_match(file_name)

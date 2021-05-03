@@ -43,7 +43,6 @@ from .tools import field_name_translations, remove_dnp_parts
 from .tools import PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
 
-
 # Add to deal with the fileds of Altium and WEB tools.
 field_name_translations.update(
     {
@@ -56,6 +55,7 @@ field_name_translations.update(
 
 ALTIUM_NONE = '[NoParam]'  # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*'  # Separator for the part numbers in a list, remove the lateral spaces.
+FILE_REGEX = r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>'
 
 __all__ = ['eda_altium']
 
@@ -216,6 +216,10 @@ class eda_altium(eda_class):
     @staticmethod
     def get_part_groups(in_file, ignore_fields, variant, distributors):
         return get_part_groups(in_file, ignore_fields, variant, distributors)
+
+    @staticmethod
+    def file_eda_match(content, extension):
+        return extension == '.xml' and re.search(FILE_REGEX, content, re.IGNORECASE)
 
 
 eda_class.register(eda_altium)

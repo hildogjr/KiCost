@@ -272,5 +272,9 @@ class generic_csv(eda_class):
     def get_part_groups(in_file, ignore_fields, variant, distributors):
         return get_part_groups(in_file, ignore_fields, variant, distributors)
 
+    @staticmethod
+    def file_eda_match(content, extension):
+        return extension == '.csv'
+
 
 eda_class.register(generic_csv)
