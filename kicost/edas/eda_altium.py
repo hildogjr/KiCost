@@ -57,6 +57,92 @@ FILE_REGEX = r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROW
 __all__ = ['eda_altium']
 
 
+def extract_field(xml_entry, field_name):
+    '''Extract XML fields from XML entry given.'''
+    try:
+        if sys.version_info >= (3, 0):
+            return xml_entry[field_name]
+        else:
+            return xml_entry[field_name].encode('ascii', 'ignore')
+    except KeyError:
+        return None
+
+
+def extract_fields_row(row, variant, header, ign_fields, distributors):
+    '''Extract XML fields from the part in a library or schematic.'''
+
+    # First get the references and the quantities of elements in each rwo group.
+    header_translated = [field_name_translations.get(hdr.lower(), hdr.lower()) for hdr in header]
+    hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
+    if not hdr_refs:
+        raise ValueError('Not founded the part designators/references in the BOM.\nTry to generate the file again at Altium.')
+    else:
+        hdr_refs = hdr_refs[0]
+    refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()))
+    if sys.version_info >= (3, 0):
+        header_valid = header.copy()
+    else:
+        header_valid = copy.copy(header)
+    header_valid.remove(header[hdr_refs])
+    try:
+        hdr_qty = [i for i, x in enumerate(header_translated) if x == "qty"][0]
+        qty = int(extract_field(row, header[hdr_qty].lower()))
+        header_valid.remove(header[hdr_qty])
+        if qty != len(refs):
+            raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, `'
+                             ' to `,` or better, use `;` instead `,`.')
+    except Exception:
+        qty = len(refs)
+
+    # After the others fields.
+    fields = [dict() for x in range(qty)]
+    for hdr in header_valid:
+        # Extract each information, by the the header given, for each
+        # row part, spliting it in a list.
+        value = extract_field(row, hdr.lower())
+        value = re.split(ALTIUM_PART_SEPRTR, value)
+        if hdr.lower() in ign_fields:
+            continue
+        elif SEPRTR not in hdr.lower():
+            for i in range(qty):
+                if len(value) == qty:
+                    v = value[i]
+                else:
+                    v = value[0]  # Footprint is just one for group.
+                # Do not create empty fields. This is useful
+                # when used more than one `manf#` alias in one designator.
+                if v and v != ALTIUM_NONE:
+                    fields[i][field_name_translations.get(hdr.lower(), hdr.lower())] = v.strip()
+        else:
+            # Now look for fields that start with 'kicost' and possibly
+            # another dot-separated variant field and store their values.
+            # Anything else is in a non-kicost namespace.
+            key_re = r'kicost(\.{})?:(?P<name>.*)'.format(variant)
+            mtch = re.match(key_re, hdr, flags=re.IGNORECASE)
+            if mtch:
+                # The field name is anything that came after the leading
+                # 'kicost' and variant field.
+                name = mtch.group('name')
+                name = field_name_translations.get(name, name)
+                # If the field name isn't for a manufacturer's part
+                # number or a distributors catalog number, then add
+                # it to 'local' if it doesn't start with a distributor
+                # name and colon.
+                if name not in ('manf#', 'manf') and name[:-1] not in distributors:
+                    if SEPRTR not in name:  # This field has no distributor.
+                        name = 'local:' + name  # Assign it to a local distributor.
+                for i in range(qty):
+                    if len(value) == qty:
+                        v = value[i]
+                    else:
+                        v = value[0]  # Footprint is just one for group.
+                    # Do not create empty fields. This is useful
+                    # when used more than one `manf#` alias in one designator.
+                    if v and v != ALTIUM_NONE:
+                        fields[i][field_name_translations.get(hdr.lower(), hdr.lower())] = v.strip()
+    return refs, fields
+
+
 def get_part_groups(in_file, ignore_fields, variant, distributors):
     '''@brief Get groups of identical parts from an XML file and return them as a dictionary.
        @param in_file `str()` with the file name.
@@ -67,90 +153,6 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
     distributors = set(distributors)
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
-
-    def extract_field(xml_entry, field_name):
-        '''Extract XML fields from XML entry given.'''
-        try:
-            if sys.version_info >= (3, 0):
-                return xml_entry[field_name]
-            else:
-                return xml_entry[field_name].encode('ascii', 'ignore')
-        except KeyError:
-            return None
-
-    def extract_fields_row(row, variant, header):
-        '''Extract XML fields from the part in a library or schematic.'''
-
-        # First get the references and the quantities of elements in each rwo group.
-        header_translated = [field_name_translations.get(hdr.lower(), hdr.lower()) for hdr in header]
-        hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
-        if not hdr_refs:
-            raise ValueError('Not founded the part designators/references in the BOM.\nTry to generate the file again at Altium.')
-        else:
-            hdr_refs = hdr_refs[0]
-        refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()))
-        if sys.version_info >= (3, 0):
-            header_valid = header.copy()
-        else:
-            header_valid = copy.copy(header)
-        header_valid.remove(header[hdr_refs])
-        try:
-            hdr_qty = [i for i, x in enumerate(header_translated) if x == "qty"][0]
-            qty = int(extract_field(row, header[hdr_qty].lower()))
-            header_valid.remove(header[hdr_qty])
-            if qty != len(refs):
-                raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, `'
-                                 ' to `,` or better, use `;` instead `,`.')
-        except Exception:
-            qty = len(refs)
-
-        # After the others fields.
-        fields = [dict() for x in range(qty)]
-        for hdr in header_valid:
-            # Extract each information, by the the header given, for each
-            # row part, spliting it in a list.
-            value = extract_field(row, hdr.lower())
-            value = re.split(ALTIUM_PART_SEPRTR, value)
-            if hdr.lower() in ign_fields:
-                continue
-            elif SEPRTR not in hdr.lower():
-                for i in range(qty):
-                    if len(value) == qty:
-                        v = value[i]
-                    else:
-                        v = value[0]  # Footprint is just one for group.
-                    # Do not create empty fields. This is useful
-                    # when used more than one `manf#` alias in one designator.
-                    if v and v != ALTIUM_NONE:
-                        fields[i][field_name_translations.get(hdr.lower(), hdr.lower())] = v.strip()
-            else:
-                # Now look for fields that start with 'kicost' and possibly
-                # another dot-separated variant field and store their values.
-                # Anything else is in a non-kicost namespace.
-                key_re = r'kicost(\.{})?:(?P<name>.*)'.format(variant)
-                mtch = re.match(key_re, hdr, flags=re.IGNORECASE)
-                if mtch:
-                    # The field name is anything that came after the leading
-                    # 'kicost' and variant field.
-                    name = mtch.group('name')
-                    name = field_name_translations.get(name, name)
-                    # If the field name isn't for a manufacturer's part
-                    # number or a distributors catalog number, then add
-                    # it to 'local' if it doesn't start with a distributor
-                    # name and colon.
-                    if name not in ('manf#', 'manf') and name[:-1] not in distributors:
-                        if SEPRTR not in name:  # This field has no distributor.
-                            name = 'local:' + name  # Assign it to a local distributor.
-                    for i in range(qty):
-                        if len(value) == qty:
-                            v = value[i]
-                        else:
-                            v = value[0]  # Footprint is just one for group.
-                        # Do not create empty fields. This is useful
-                        # when used more than one `manf#` alias in one designator.
-                        if v and v != ALTIUM_NONE:
-                            fields[i][field_name_translations.get(hdr.lower(), hdr.lower())] = v.strip()
-        return refs, fields
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' Altium BoM...'.format(
@@ -169,7 +171,7 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
     for row in root.find('rows').find_all('row'):
 
         # Get the values for the fields in each library part (if any).
-        refs, fields = extract_fields_row(row, variant, header)
+        refs, fields = extract_fields_row(row, variant, header, ign_fields, distributors)
         for i in range(len(refs)):
             ref = refs[i]
             ref = re.sub(r'\+$', 'p', ref)  # Finishing "+".

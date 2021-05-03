@@ -35,6 +35,94 @@ from .eda import eda_class
 __all__ = ['eda_kicad']
 
 
+def extract_fields(part, variant, ign_fields, distributors):
+    # Extract XML fields from the part in a library or schematic.
+
+    fields = {}
+    try:
+        for f in part.find('fields').find_all('field'):
+            # Store the name and value for each kicost-related field.
+            # Remove case of field name along with leading/trailing whitespace.
+            name = str(f['name']).lower().strip()
+            if name in ign_fields:
+                continue  # Ignore fields in the ignore list.
+            elif SEPRTR not in name:  # No separator, so get global field value.
+                name = field_name_translations.get(name, name)
+                value = str(f.string)
+                if value and name not in fields:
+                    # Only set the field if it is not set yet (which indicates a variant
+                    # has been parsed before)
+                    # Do not create empty fields. This is useful
+                    # when used more than one `manf#` alias in one designator.
+                    fields[name] = value
+            else:
+                name = str(f['name']).strip()
+                name_ori = name
+                # Now look for fields that start with 'kicost' and possibly
+                # another dot-separated variant field and store their values.
+                # Anything else is in a non-kicost namespace.
+                key_re = r'kicost(\.(?P<variant>.*))?:(?P<name>.*)'
+                mtch = re.match(key_re, name, flags=re.IGNORECASE)
+                if mtch:
+                    v = mtch.group('variant')
+                    if v is not None:
+                        if not re.match(variant, v, flags=re.IGNORECASE):
+                            continue
+                        logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + v + '.' + mtch.group('name'))
+                    # The field name is anything that came after the leading
+                    # 'kicost' and optional variant field.
+                    name = mtch.group('name')
+                    if SEPRTR in name:
+                        # DISTRIBUTOR:FIELD
+                        # Separate the distributor from the field name
+                        idx = name.index(SEPRTR)
+                        dist = name[:idx]
+                        # Is this a supported distributor?
+                        dist_l = dist.lower()
+                        if dist_l in distributors:
+                            # Use the lower case version
+                            dist = dist_l
+                        # Translate the field name
+                        name = name[idx+1:].lower()
+                        name = field_name_translations.get(name, name)
+                        # Join both again
+                        name = dist + SEPRTR + name
+                    else:
+                        # FIELD
+                        # No distributor in the name
+                        # Adapt it
+                        name = name.lower()
+                        name = field_name_translations.get(name, name)
+                        # Is distributor related?
+                        if name in ('cat#', 'pricing', 'link'):
+                            # Add it to the default local distributor
+                            logger.log(DEBUG_OBSESSIVE, 'Assigning name "{}" to "Local" distributor'.format(name))
+                            name = 'Local:' + name
+                        elif name in ('manf#', 'manf') or name[:-1] in distributors or v is not None:
+                            # A part number
+                            logger.log(DEBUG_OBSESSIVE, 'Moving name "{}" to "global" namespace'.format(name))
+                        else:
+                            # Not a part number, add it "local" namespace
+                            logger.log(DEBUG_OBSESSIVE, 'Moving name "{}" to "local" namespace'.format(name))
+                            name = 'local:' + name
+                    value = str(f.string)
+                    if value or v is not None:
+                        # Empty value also propagated to force deleting default value
+                        fields[name] = value
+                    logger.log(DEBUG_OBSESSIVE, '{} Field {} -> {}={}'.format(str(part['ref']), name_ori, name, value))
+    except AttributeError:
+        pass  # No fields found for this part.
+    return fields
+
+
+def title_find_all(data, field):
+    ''' Helper function for finding title info, especially if it is absent. '''
+    try:
+        return data.find_all(field)[0].string
+    except (AttributeError, IndexError):
+        return None
+
+
 def get_part_groups(in_file, ignore_fields, variant, distributors):
     '''Get groups of identical parts from an XML file and return them as a dictionary.
        @param in_file `str()` with the file name.
@@ -45,85 +133,6 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
     distributors = set(distributors)
 
     ign_fields = [str(f.lower()) for f in ignore_fields]
-
-    def extract_fields(part, variant):
-        # Extract XML fields from the part in a library or schematic.
-
-        fields = {}
-        try:
-            for f in part.find('fields').find_all('field'):
-                # Store the name and value for each kicost-related field.
-                # Remove case of field name along with leading/trailing whitespace.
-                name = str(f['name']).lower().strip()
-                if name in ign_fields:
-                    continue  # Ignore fields in the ignore list.
-                elif SEPRTR not in name:  # No separator, so get global field value.
-                    name = field_name_translations.get(name, name)
-                    value = str(f.string)
-                    if value and name not in fields:
-                        # Only set the field if it is not set yet (which indicates a variant
-                        # has been parsed before)
-                        # Do not create empty fields. This is useful
-                        # when used more than one `manf#` alias in one designator.
-                        fields[name] = value
-                else:
-                    name = str(f['name']).strip()
-                    name_ori = name
-                    # Now look for fields that start with 'kicost' and possibly
-                    # another dot-separated variant field and store their values.
-                    # Anything else is in a non-kicost namespace.
-                    key_re = r'kicost(\.(?P<variant>.*))?:(?P<name>.*)'
-                    mtch = re.match(key_re, name, flags=re.IGNORECASE)
-                    if mtch:
-                        v = mtch.group('variant')
-                        if v is not None:
-                            if not re.match(variant, v, flags=re.IGNORECASE):
-                                continue
-                            logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + v + '.' + mtch.group('name'))
-                        # The field name is anything that came after the leading
-                        # 'kicost' and optional variant field.
-                        name = mtch.group('name')
-                        if SEPRTR in name:
-                            # DISTRIBUTOR:FIELD
-                            # Separate the distributor from the field name
-                            idx = name.index(SEPRTR)
-                            dist = name[:idx]
-                            # Is this a supported distributor?
-                            dist_l = dist.lower()
-                            if dist_l in distributors:
-                                # Use the lower case version
-                                dist = dist_l
-                            # Translate the field name
-                            name = name[idx+1:].lower()
-                            name = field_name_translations.get(name, name)
-                            # Join both again
-                            name = dist + SEPRTR + name
-                        else:
-                            # FIELD
-                            # No distributor in the name
-                            # Adapt it
-                            name = name.lower()
-                            name = field_name_translations.get(name, name)
-                            # Is distributor related?
-                            if name in ('cat#', 'pricing', 'link'):
-                                # Add it to the default local distributor
-                                logger.log(DEBUG_OBSESSIVE, 'Assigning name "{}" to "Local" distributor'.format(name))
-                                name = 'Local:' + name
-                            elif name in ('manf#', 'manf') or name[:-1] in distributors or v is not None:
-                                # A part number
-                                logger.log(DEBUG_OBSESSIVE, 'Moving name "{}" to "global" namespace'.format(name))
-                            else:
-                                # Not a part number, add it "local" namespace
-                                logger.log(DEBUG_OBSESSIVE, 'Moving name "{}" to "local" namespace'.format(name))
-                                name = 'local:' + name
-                        value = str(f.string)
-                        if value or v is not None:
-                            # Empty value also propagated to force deleting default value
-                            fields[name] = value
-                        logger.log(DEBUG_OBSESSIVE, '{} Field {} -> {}={}'.format(str(part['ref']), name_ori, name, value))
-        except AttributeError:
-            pass  # No fields found for this part.
-        return fields
 
     # Read-in the schematic XML file to get a tree and get its root.
     logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' KiCad BoM...'.format(
@@ -136,12 +145,6 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
     logger.log(DEBUG_OVERVIEW, 'Getting authorship data...')
     title = root.find('title_block')
 
-    def title_find_all(data, field):
-        '''Helper function for finding title info, especially if it is absent.'''
-        try:
-            return data.find_all(field)[0].string
-        except (AttributeError, IndexError):
-            return None
     prj_info = dict()
     prj_info['title'] = title_find_all(title, 'title') or os.path.basename(in_file)
     prj_info['company'] = title_find_all(title, 'company')
@@ -156,7 +159,7 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
         for p in root.find('libparts').find_all('libpart'):
 
             # Get the values for the fields in each library part (if any).
-            fields = extract_fields(p, variant)
+            fields = extract_fields(p, variant, ign_fields, distributors)
 
             # Store the field dict under the key made from the
             # concatenation of the library and part names.
@@ -211,7 +214,7 @@ def get_part_groups(in_file, ignore_fields, variant, distributors):
         # Get the values for any other kicost-related fields in the part
         # (if any) from the schematic. These will override any field values
         # from the part library.
-        fields.update(extract_fields(c, variant))
+        fields.update(extract_fields(c, variant, ign_fields, distributors))
 
         # Store the fields for the part using the reference identifier as the key.
         components[str(c['ref'])] = fields
