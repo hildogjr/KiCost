@@ -103,6 +103,8 @@ class dist_local_template(distributor_class):
                     # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
                     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
                     hash_fields['dist'] = dist
+                    print(p.refs)
+                    print(hash_fields)
                     return '#' + hashlib.md5(to_bytes(str(tuple(sorted(hash_fields.items()))))).hexdigest()
 
                 cat_num = cat_num or pn or make_unique_catalog_number(p)
