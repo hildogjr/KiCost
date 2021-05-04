@@ -322,6 +322,11 @@ def test_group_1():
                      '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
                    price=False)
 
+def test_423():
+    # This currently requires a manual check - the excel field for the manf# field
+    # should not appear as a number
+    run_test_check('test_423',price=False)
+
 
 def test_no_empty_overwrite():
     # Test some cases where we overwrite a field using an alias (i.e. mnp changes manf#)
