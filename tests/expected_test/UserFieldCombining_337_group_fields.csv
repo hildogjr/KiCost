@@ -1,0 +1,13 @@
+Prj:,UserFieldCombining_337.xml,,,,,Board Qty:,100
+Co.:,,,,,,Unit Cost:,0
+Prj date:,"2018 October 26, Friday 12:35:56",,,,,Total Cost:,0
+Global Part Info,,,,,,,
+Refs,Value,Supplier,Footprint,Manf#,Qty,Unit$,Ext$
+"R1,R2",1k,"R2: 
+R1: foobar",R_0603,,200,,0
+"R3,R4",2k,"R4: 
+R3: foobar",R_0603,R2K_manfNBR,200,,0
+"R5,R6",4k,"R6: 
+R5: foobar",R_0603,R4K_manfNBR,200,,0
+
+

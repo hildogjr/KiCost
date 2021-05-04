@@ -329,6 +329,16 @@ def test_no_empty_overwrite():
     run_test_check('no_empty_overwrite', price=False)
 
 
+def test_user_field_combining_337():
+    # Test Issue #337
+    #  No conclusion, but the fact that this test case is present makes it easier to
+    #  follow up.
+    run_test_check('UserFieldCombining_337',
+                    extra=['--field','Supplier'], price=False)
+    run_test_check('UserFieldCombining_337', output='UserFieldCombining_337_group_fields',
+                    extra=['--field','Supplier','--group_fields','Supplier'], price=False)
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

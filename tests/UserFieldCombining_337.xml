@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>UserFieldCombining.sch</source>
+    <date>2018 October 26, Friday 12:35:56</date>
+    <tool>Eeschema 4.0.7</tool>
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>UserFieldCombining.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="R1">
+      <value>1k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Supplier">foobar</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+    </comp>
+    <comp ref="R2">
+      <value>1k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields/>
+      <libsource lib="device" part="R"/>
+    </comp>
+    <comp ref="R3">
+      <value>2k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Supplier">foobar</field>
+        <field name="manf#">R2K_manfNBR</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+    </comp>
+    <comp ref="R4">
+      <value>2k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+        <field name="manf#">R2K_manfNBR</field>
+      <fields/>
+      <libsource lib="device" part="R"/>
+    </comp>
+    <comp ref="R5">
+      <value>4k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields>
+        <field name="Supplier">foobar</field>
+        <field name="manf#">R4K_manfNBR</field>
+      </fields>
+      <libsource lib="device" part="R"/>
+    </comp>
+    <comp ref="R6">
+      <value>4k</value>
+      <footprint>Resistors_SMD:R_0603</footprint>
+      <fields/>
+      <libsource lib="device" part="R"/>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="device" part="R">
+      <description>Resistor</description>
+      <footprints>
+        <fp>R_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="device">
+      <uri>/Library/Application Support/kicad/library/device.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(R1-Pad1)">
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="2" name="Net-(R1-Pad2)">
+      <node ref="R1" pin="2"/>
+    </net>
+    <net code="3" name="Net-(R2-Pad1)">
+      <node ref="R2" pin="1"/>
+    </net>
+    <net code="4" name="Net-(R2-Pad2)">
+      <node ref="R2" pin="2"/>
+    </net>
+  </nets>
+</export>
