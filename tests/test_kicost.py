@@ -305,6 +305,18 @@ def test_parts_and_comments():
                    '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'], price=False)
 
 
+def test_group_1():
+    # Similar to test_no_empty_overwrite, tests all possible manf# aliases
+    run_test_check('group_1_group_fields', 'group_1', output='group_1_group_fields',
+                   extra=['--group_fields', 'h', 'comment',
+                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                   price=False)
+    run_test_check('group_1_ignore_comment', 'group_1', output='group_1_ignore_comment',
+                   extra=['--ignore_fields', 'h', 'comment',
+                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                   price=False)
+
+
 def test_no_empty_overwrite():
     # Test some cases where we overwrite a field using an alias (i.e. mnp changes manf#)
     # See discusion on #471
