@@ -47,8 +47,8 @@ def extract_fields(part):
                 continue
             # Store the name and value for each kicost-related field.
             # Remove case of field name along with leading/trailing whitespace.
-            value = str(f.string)  # Note: str() is needed to avoid Python 2.7 then printing it as u'xxx'
-            fields[name] = value if value is not None else ''
+            # Note: str() is needed to avoid Python 2.7 then printing it as u'xxx'
+            fields[name] = str(f.string) if f.string is not None else ''
     except AttributeError:
         pass  # No fields found for this part.
     return fields
