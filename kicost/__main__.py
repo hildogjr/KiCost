@@ -34,7 +34,7 @@ import time
 # import inspect # To get the internal module and informations of a module/class.
 
 # Debug, language and default configurations.
-from .global_vars import wxPythonNotPresent, logger, DEBUG_OBSESSIVE
+from .global_vars import wxPythonNotPresent, logger, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W
 
 # KiCost definitions and modules/packages functions.
 from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions.
@@ -173,6 +173,12 @@ def main():
                         type=str,
                         default='USD',
                         help='Define the priority currency. Use the ISO4217 for currency (`USD`, `EUR`). Default: `USD`.')
+    parser.add_argument('--max_column_width',
+                        nargs='?',
+                        type=int,
+                        default=DEF_MAX_COLUMN_W,
+                        metavar='WIDTH',
+                        help='Maximum column width. Using 0 disables the cell size adjust. Default: ' + str(DEF_MAX_COLUMN_W) + '.')
     parser.add_argument('--gui',
                         nargs='+',
                         type=str,
@@ -320,15 +326,11 @@ def main():
                                               sys.version_info.micro)
                )
 
-    # try:
     kicost(in_file=args.input, eda_name=args.eda,
            out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
            user_fields=args.fields, ignore_fields=args.ignore_fields,
            group_fields=args.group_fields, translate_fields=args.translate_fields,
-           variant=args.variant,
-           dist_list=dist_list, currency=args.currency)
-    # except Exception as e:
-    #     sys.exit(e)
+           variant=args.variant, dist_list=dist_list, currency=args.currency, max_column_width=args.max_column_width)
 
 
 ###############################################################################

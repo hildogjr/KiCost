@@ -48,6 +48,9 @@ SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 DEFAULT_LANGUAGE = 'en_US'
 DEFAULT_CURRENCY = 'USD'  # Default currency assigned.
 
+# Default maximum column width for the cell adjust
+DEF_MAX_COLUMN_W = 32
+
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
