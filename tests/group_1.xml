@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/Parts-to-test-grouping--field-ignore.sch</source>
+    <date>2021-01-02</date>
+    <tool>Eeschema 5.1.9+dfsg1-1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Parts to test grouping, field ignore</title>
+        <company>KiCOST TEST</company>
+        <rev></rev>
+        <date>2021-05-04</date>
+        <source>manual_edit</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C1' with value '1nF'</field>
+      </fields>
+    </comp>
+    <comp ref="C2">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C2' with value '1nF'</field>
+      </fields>
+    </comp>
+    <comp ref="C10">
+      <value>1uF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C10' with value '1uF'</field>
+      </fields>
+    </comp>
+    <comp ref="C20">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C20' with value '1nF'</field>
+      </fields>
+    </comp>
+    <comp ref="C5">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">OTHERCOMP-1nF</field>
+        <field name="comment">Comment for 'C5' with value '1nF'</field>
+      </fields>
+    </comp>
+  </components>
+</export>
