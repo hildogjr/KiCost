@@ -1,0 +1,27 @@
+Prj:,All possible part nbr fields and comments,,,,,,,,,Board Qty:,100
+Prj date:,2021-01-02,,,,,,,,,Total Cost:,0
+Global Part Info,,,,,,,,,,,
+Refs,Value,comment,S1MN,S1PN,S2MN,S2PN,Footprint,Manf#,Qty,Unit$,Ext$
+C1,1nF,,,,,,,Field-mpn,100,,0
+C10,10nF,,,,,,,None,100,,0
+C11,11nF,,,,,,,None,100,,0
+C12,12nF,,,,,,,None,100,,0
+C13,13nF,,,,,,,None,100,,0
+C14,14nF,,,,,,,None,100,,0
+C15,15nF,,,,,,,None,100,,0
+C16,16nF,,,,,,,None,100,,0
+C17,17nF,,,,,,,None,100,,0
+C18,18nF,,,,,,,None,100,,0
+C19,19nF,,,,,,,None,100,,0
+C2,2nF,,,,,,,None,100,,0
+C20,20nF,,,,,,,None,100,,0
+C21,21nF,,,,,,,None,100,,0
+C3,3nF,,,,,,,None,100,,0
+C4,4nF,,,,,,,None,100,,0
+C5,5nF,,,,,,,None,100,,0
+C6,6nF,,,,,,,None,100,,0
+C7,7nF,,,,,,,None,100,,0
+C8,8nF,,,,,,,None,100,,0
+C9,9nF,,,,,,,None,100,,0
+
+

@@ -298,6 +298,13 @@ def test_manf_no_manf_num():
     run_test_check('manf_no_manf_num')
 
 
+def test_parts_and_comments():
+    # Two similar parts, but from different manufacturer and no manf#
+    # Issue #474
+    run_test_check('parts_and_comments', extra=['--ignore_fields','h','comment',
+            '--no_collapse','-f','comment','S1MN','S1PN','S2MN','S2PN'], price=False)
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

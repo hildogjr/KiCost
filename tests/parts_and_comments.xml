@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/All-possible-part-nbr-fields-and-comments.sch</source>
+    <date>2021-01-02</date>
+    <tool>Eeschema 5.1.9+dfsg1-1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>All possible part nbr fields and comments</title>
+        <company>KiCOST TEST</company>
+        <rev></rev>
+        <date>2021-05-04</date>
+        <source>manual_edit</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="comment">Field 'mpn' is 'Field-mpn'</field>
+        <field name="mpn">Field-mpn</field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C2">
+      <value>2nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="comment">Field 'pn' is 'Field-pn'</field>
+        <field name="pn">Field-pn</field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C3">
+      <value>3nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="comment">Field 'p#' is 'Field-p_'</field>
+        <field name="p#">Field-p_</field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C4">
+      <value>4nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="comment">Field 'part_num' is 'Field-part_num'</field>
+        <field name="part_num">Field-part_num</field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C5">
+      <value>5nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="comment">Field 'part-num' is 'Field-part-num'</field>
+        <field name="part-num">Field-part-num</field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C6">
+      <value>6nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="comment">Field 'part#' is 'Field-part_'</field>
+        <field name="part#">Field-part_</field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C7">
+      <value>7nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="comment">Field 'manf_num' is 'Field-manf_num'</field>
+        <field name="manf_num">Field-manf_num</field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C8">
+      <value>8nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="comment">Field 'manf-num' is 'Field-manf-num'</field>
+        <field name="manf-num">Field-manf-num</field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C9">
+      <value>9nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="comment">Field 'manf#' is 'Field-manf_'</field>
+        <field name="manf#">Field-manf_</field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C10">
+      <value>10nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="comment">Field 'man_num' is 'Field-man_num'</field>
+        <field name="man_num">Field-man_num</field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C11">
+      <value>11nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="comment">Field 'man-num' is 'Field-man-num'</field>
+        <field name="man-num">Field-man-num</field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C12">
+      <value>12nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="comment">Field 'man#' is 'Field-man_'</field>
+        <field name="man#">Field-man_</field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C13">
+      <value>13nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="comment">Field 'mfg_num' is 'Field-mfg_num'</field>
+        <field name="mfg_num">Field-mfg_num</field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C14">
+      <value>14nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="comment">Field 'mfg-num' is 'Field-mfg-num'</field>
+        <field name="mfg-num">Field-mfg-num</field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C15">
+      <value>15nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="comment">Field 'mfg#' is 'Field-mfg_'</field>
+        <field name="mfg#">Field-mfg_</field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C16">
+      <value>16nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="comment">Field 'mfr_num' is 'Field-mfr_num'</field>
+        <field name="mfr_num">Field-mfr_num</field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C17">
+      <value>17nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="comment">Field 'mfr-num' is 'Field-mfr-num'</field>
+        <field name="mfr-num">Field-mfr-num</field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C18">
+      <value>18nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="comment">Field 'mfr#' is 'Field-mfr_'</field>
+        <field name="mfr#">Field-mfr_</field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C19">
+      <value>19nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="comment">Field 'mnf_num' is 'Field-mnf_num'</field>
+        <field name="mnf_num">Field-mnf_num</field>
+        <field name="mnf-num"></field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C20">
+      <value>20nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="comment">Field 'mnf-num' is 'Field-mnf-num'</field>
+        <field name="mnf-num">Field-mnf-num</field>
+        <field name="mnf#"></field>
+      </fields>
+    </comp>
+    <comp ref="C21">
+      <value>21nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="mpn"></field>
+        <field name="pn"></field>
+        <field name="p#"></field>
+        <field name="part_num"></field>
+        <field name="part-num"></field>
+        <field name="part#"></field>
+        <field name="manf_num"></field>
+        <field name="manf-num"></field>
+        <field name="manf#"></field>
+        <field name="man_num"></field>
+        <field name="man-num"></field>
+        <field name="man#"></field>
+        <field name="mfg_num"></field>
+        <field name="mfg-num"></field>
+        <field name="mfg#"></field>
+        <field name="mfr_num"></field>
+        <field name="mfr-num"></field>
+        <field name="mfr#"></field>
+        <field name="mnf_num"></field>
+        <field name="mnf-num"></field>
+        <field name="comment">Field 'mnf#' is 'Field-mnf_'</field>
+        <field name="mnf#">Field-mnf_</field>
+      </fields>
+    </comp>
+  </components>
+</export>
