@@ -306,7 +306,9 @@ in future versions of KiCost.
 Some parts in a schematic are not intended for insertion on the final board assembly.
 These "do not populate" (DNP) parts can be assigned a field called ``DNP`` or ``NOPOP``.
 Setting the value of this field to a non-zero number or any string will cause this part
-to be omitted from the cost calculation spreadsheet.
+to be omitted from the cost calculation spreadsheet. Note that empty strings will be
+interpreted as zero (i.e. ``kicost.VARIANT:dnp=""`` and ``kicost.VARIANT:dnp=" "`` will
+be interpreted as ``kicost.VARIANT:dnp="0"``)
 
 -----------------------------------------------
 Showing Extra Part Data in the Spreadsheet

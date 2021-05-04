@@ -179,7 +179,10 @@ class eda_class(object):
         accepted_components = OrderedDict()
         for ref, fields in components.items():
             # Remove DNPs.
-            dnp = fields.get('dnp', 0)
+            dnp = fields.get('dnp', '0')
+            # Interpret empty strings as 0. See #471 discussion.
+            if dnp == '':
+                dnp = '0'
             try:
                 dnp = float(dnp)
             except ValueError:
