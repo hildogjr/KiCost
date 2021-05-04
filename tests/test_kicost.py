@@ -300,10 +300,9 @@ def test_manf_no_manf_num():
 
 
 def test_parts_and_comments():
-    # Two similar parts, but from different manufacturer and no manf#
-    # Issue #474
-    run_test_check('parts_and_comments', extra=['--ignore_fields','h','comment',
-            '--no_collapse','-f','comment','S1MN','S1PN','S2MN','S2PN'], price=False)
+    # Similar to test_no_empty_overwrite, tests all possible manf# aliases
+    run_test_check('parts_and_comments', extra=['--group_fields', 'h', 'comment',
+                   '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'], price=False)
 
 
 def test_no_empty_overwrite():
