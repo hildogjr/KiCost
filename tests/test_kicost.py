@@ -15,8 +15,10 @@ import subprocess
 import logging
 import os
 
-# Defined as True to collect real world queries
+# Uncomment the 2nd line below to temporary define
+#   as True to collect real world queries (see README.md)
 ADD_QUERY_TO_KNOWN = False
+#ADD_QUERY_TO_KNOWN = True
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -271,6 +273,10 @@ def test_variants_3():
 def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
 
+def test_complex_multipart():
+    # This testcase has to be updated once multipart custom pricing has been better defined
+    test_name = 'complex_multipart'
+    run_test_check(test_name, 'complex_multipart', price=True)
 
 def test_include_1():
     # Explicitly request digikey and mouser
