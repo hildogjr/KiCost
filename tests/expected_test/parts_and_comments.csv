@@ -1,0 +1,27 @@
+Prj:,All possible part nbr fields and comments,,,,,,,,,Board Qty:,100
+Prj date:,2021-01-02,,,,,,,,,Total Cost:,0
+Global Part Info,,,,,,,,,,,
+Refs,Value,comment,S1MN,S1PN,S2MN,S2PN,Footprint,Manf#,Qty,Unit$,Ext$
+C1,1nF,Field 'mpn' is 'Field-mpn',,,,,,Field-mpn,100,,0
+C10,10nF,Field 'man_num' is 'Field-man_num',,,,,,Field-man_num,100,,0
+C11,11nF,Field 'man-num' is 'Field-man-num',,,,,,Field-man-num,100,,0
+C12,12nF,Field 'man#' is 'Field-man_',,,,,,Field-man_,100,,0
+C13,13nF,Field 'mfg_num' is 'Field-mfg_num',,,,,,Field-mfg_num,100,,0
+C14,14nF,Field 'mfg-num' is 'Field-mfg-num',,,,,,Field-mfg-num,100,,0
+C15,15nF,Field 'mfg#' is 'Field-mfg_',,,,,,Field-mfg_,100,,0
+C16,16nF,Field 'mfr_num' is 'Field-mfr_num',,,,,,Field-mfr_num,100,,0
+C17,17nF,Field 'mfr-num' is 'Field-mfr-num',,,,,,Field-mfr-num,100,,0
+C18,18nF,Field 'mfr#' is 'Field-mfr_',,,,,,Field-mfr_,100,,0
+C19,19nF,Field 'mnf_num' is 'Field-mnf_num',,,,,,Field-mnf_num,100,,0
+C2,2nF,Field 'pn' is 'Field-pn',,,,,,Field-pn,100,,0
+C20,20nF,Field 'mnf-num' is 'Field-mnf-num',,,,,,Field-mnf-num,100,,0
+C21,21nF,Field 'mnf#' is 'Field-mnf_',,,,,,Field-mnf_,100,,0
+C3,3nF,Field 'p#' is 'Field-p_',,,,,,Field-p_,100,,0
+C4,4nF,Field 'part_num' is 'Field-part_num',,,,,,Field-part_num,100,,0
+C5,5nF,Field 'part-num' is 'Field-part-num',,,,,,Field-part-num,100,,0
+C6,6nF,Field 'part#' is 'Field-part_',,,,,,Field-part_,100,,0
+C7,7nF,Field 'manf_num' is 'Field-manf_num',,,,,,Field-manf_num,100,,0
+C8,8nF,Field 'manf-num' is 'Field-manf-num',,,,,,Field-manf-num,100,,0
+C9,9nF,Field 'manf#' is 'Field-manf_',,,,,,Field-manf_,100,,0
+
+
