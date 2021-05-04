@@ -1,0 +1,11 @@
+Prj:,SubPartGroupTest_266.xml,,,,Board Qty:,100
+Co.:,,,,,Unit Cost:,0
+Prj date:,"2018 June 07, Thursday 20:20:40",,,,Total Cost:,0
+Global Part Info,,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$
+D1#1,LED - p1/3,,LTST-C193KGKT-5A,100,,0
+D1#2,LED - p2/3,,LMC_040_CTP,100,,0
+D1#3,LED - p3/3,,RTN_100,100,,0
+"D2,D3",LED,,,200,,0
+
+
