@@ -28,3 +28,20 @@ pytest-3 -k test_300_010
 ```bash
 pytest-3 -co
 ```
+
+# Creating tests
+
+## Using a script
+
+Some tests may be easier to generate using a script.
+See `../tools/genGroupTest.sh` and  `../tools/genPartsAndCommentsTest.sh` for examples.
+
+
+## Storing KitSpace values as test values.
+
+1. In `test_kicost.py` define `ADD_QUERY_TO_KNOWN` to `True`
+2. Run the test
+3. Check you got the queries recorded in `tests/kitspace_queries.txt`
+3. Revert `ADD_QUERY_TO_KNOWN` to `False`
+
+Now you'll get the recorded replies
