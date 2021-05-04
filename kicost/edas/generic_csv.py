@@ -88,7 +88,7 @@ def correspondent_header_value(key, vals, header, header_file):
     return value
 
 
-def extract_fields(row, header, header_file, dialect, ign_fields, gen_cntr):
+def extract_fields(row, header, header_file, dialect, gen_cntr):
     fields = {}
 
     try:
@@ -109,36 +109,35 @@ def extract_fields(row, header, header_file, dialect, ign_fields, gen_cntr):
         else:
             ref_str = GENERIC_PREFIX + '{0}'.format(gen_cntr)
         gen_cntr += qty
-        fields['qty'] = qty
+        fields['qty'] = str(qty)
     else:
         qty = 1
         ref_str = GENERIC_PREFIX + '{0}'.format(gen_cntr)
         gen_cntr += qty
-        fields['qty'] = qty
+        fields['qty'] = str(qty)
     refs = split_refs(ref_str)
 
     # Extract each value.
     for (h_file, h) in zip(header_file, header):
-        if h not in (ign_fields + ['refs', 'qty']):
+        if h not in ('refs', 'qty'):
             if sys.version_info >= (3, 0):
                 # This is for Python 3 where the values are already unicode.
                 value = vals.get(h_file)
             else:
                 # For Python 2, create unicode versions of strings.
                 value = vals.get(h_file, '').decode('utf-8')
-            if value:
-                try:
-                    if fields[h] != value:
-                        logger.warning('Found different duplicated information for {} in the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'
-                                       .format(refs, h, h_file, fields[h], value, value)
-                                       )
-                except KeyError:
-                    pass
-                finally:
-                    # Use the translated header title, this is used to deal
-                    # with duplicated information that could be found by
-                    # translating header titles that are the same for KiCost.
-                    fields[h] = value
+            try:
+                if value and fields[h] != value:
+                    logger.warning('Found different duplicated information for {} in the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'
+                                   .format(refs, h, h_file, fields[h], value, value)
+                                   )
+            except KeyError:
+                pass
+            finally:
+                # Use the translated header title, this is used to deal
+                # with duplicated information that could be found by
+                # translating header titles that are the same for KiCost.
+                fields[h] = value
     # Set some key with default values, needed for KiCost.
     # Have to be created after the loop above because of the
     # warning in the case of trying to re-write a key.
@@ -148,18 +147,16 @@ def extract_fields(row, header, header_file, dialect, ign_fields, gen_cntr):
         fields['footprint'] = 'Foot:???'
     if 'value' not in fields:
         fields['value'] = '???'
+    print(fields)
 
     return refs, fields, gen_cntr
 
 
-def get_part_groups(in_file, ignore_fields, distributors):
+def get_part_groups(in_file, distributors):
     '''Get groups of identical parts from an generic CSV file and return them as a dictionary.
        @param in_file `str()` with the file name.
-       @param ignore_fields `list()` fields do be ignored on the read action.
        @return `dict()` of the parts designed. The keys are the components references.
     '''
-    ign_fields = [str(f.lower()) for f in ignore_fields]
-
     logger.log(DEBUG_OVERVIEW, '# Getting from CSV \'{}\' BoM...'.format(
                                     os.path.basename(in_file)))
     try:
@@ -230,7 +227,7 @@ def get_part_groups(in_file, ignore_fields, distributors):
     gen_cntr = 0
     for row in content:
         # Get the values for the fields in each library part (if any).
-        refs, fields, gen_cntr = extract_fields(row, header, header_file, dialect, ign_fields, gen_cntr)
+        refs, fields, gen_cntr = extract_fields(row, header, header_file, dialect, gen_cntr)
         for ref in refs:
             accepted_components[ref] = fields
 
@@ -248,8 +245,8 @@ class generic_csv(eda_class):
     desc = 'CSV module reader for hand made BoM. Compatible with the software: Proteus and Eagle.'
 
     @staticmethod
-    def get_part_groups(in_file, ignore_fields, variant, distributors):
-        return get_part_groups(in_file, ignore_fields, distributors)
+    def get_part_groups(in_file, distributors):
+        return get_part_groups(in_file, distributors)
 
     @staticmethod
     def file_eda_match(content, extension):

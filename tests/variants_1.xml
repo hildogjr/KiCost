@@ -24,7 +24,7 @@
       <datasheet>~</datasheet>
       <fields>
         <field name="kicost.default:dnp">1</field>
-        <field name="kicost.production:nopop"> </field>
+        <field name="kicost.production:nopop">a</field>
         <field name="kicost.test:dnp">0.0</field>
       </fields>
       <libsource lib="Device" part="C" description="Unpolarized capacitor"/>

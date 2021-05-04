@@ -1,0 +1,9 @@
+Prj:,KiBom Variant 2,,,,,Board Qty:,100
+Prj date:,2021-01-02,,,,,Total Cost:,0
+Global Part Info,,,,,,,
+Refs,Value,Desc,Footprint,Manf#,Qty,Unit$,Ext$
+C1,1nF,We should get manf#=XXXX,,XXXX,100,,0
+C2,1nF,We should get manf#='',,,100,,0
+C3,1nF,We should get manf#=YYYY,,YYYY,100,,0
+
+

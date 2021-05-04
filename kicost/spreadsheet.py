@@ -27,7 +27,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Debug, language and default configurations.
-from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEBUG_OVERVIEW, DEBUG_DETAILED
+from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W
 
 # Python libraries.
 import os
@@ -67,7 +67,7 @@ class Spreadsheet(object):
     # If they are bigger than MAX_COL_WIDTH try to make them taller
     ADJUST_ROW_AND_COL_SIZE = True
     # Limit the cells width to this size
-    MAX_COL_WIDTH = 32
+    MAX_COL_WIDTH = DEF_MAX_COLUMN_W
     # Don't adjust bellow this width
     MIN_COL_WIDTH = 6
     # Constant used to fine tune the cell adjust
@@ -366,7 +366,7 @@ class Spreadsheet(object):
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currency=DEFAULT_CURRENCY,
-                       collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' '):
+                       collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' ', max_column_width=DEF_MAX_COLUMN_W):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     basename = os.path.basename(spreadsheet_filename)
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(basename))
@@ -391,6 +391,11 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currenc
         Spreadsheet.SUPPRESS_CAT_URL = suppress_cat_url
         Spreadsheet.USER_FIELDS = user_fields
         Spreadsheet.DISTRIBUTORS = dist_list
+        if max_column_width:
+            Spreadsheet.ADJUST_ROW_AND_COL_SIZE = True
+            Spreadsheet.MAX_COL_WIDTH = max_column_width
+        else:
+            Spreadsheet.ADJUST_ROW_AND_COL_SIZE = False
         ss = Spreadsheet(workbook, worksheet_name, prj_info, currency)
         create_worksheet(ss, logger, parts)
 

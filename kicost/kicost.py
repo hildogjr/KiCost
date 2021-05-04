@@ -58,7 +58,7 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, get_logger
+from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
@@ -79,7 +79,7 @@ def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
 
 
 def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields,
-           variant, dist_list, collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY):
+           variant, dist_list, collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY, max_column_width=DEF_MAX_COLUMN_W):
     ''' @brief Run KiCost.
 
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -222,7 +222,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, dist_list, currency, collapse_refs, suppress_cat_url,
-                       user_fields, '-'.join(variant) if len(variant) > 1 else variant[0])
+                       user_fields, '-'.join(variant) if len(variant) > 1 else variant[0], max_column_width)
 
     # Print component groups for debugging purposes.
     if logger.isEnabledFor(DEBUG_DETAILED):

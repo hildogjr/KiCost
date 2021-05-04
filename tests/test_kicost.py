@@ -261,6 +261,7 @@ def test_variants_2():
 
 def test_variants_3():
     # This test doesn't have any kind of manf# or DISTRIBUTOR#
+    # Tests some variant overwrites
     test_name = 'variants_3'
     run_test_check(test_name, 'variants_3', price=False)
     # Run a test with parameter "variant1"
@@ -296,6 +297,30 @@ def test_manf_no_manf_num():
     # Two similar parts, but from different manufacturer and no manf#
     # Issue #474
     run_test_check('manf_no_manf_num')
+
+
+def test_parts_and_comments():
+    # Similar to test_no_empty_overwrite, tests all possible manf# aliases
+    run_test_check('parts_and_comments', extra=['--group_fields', 'h', 'comment',
+                   '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'], price=False)
+
+
+def test_group_1():
+    # Similar to test_no_empty_overwrite, tests all possible manf# aliases
+    run_test_check('group_1_group_fields', 'group_1', output='group_1_group_fields',
+                   extra=['--group_fields', 'h', 'comment',
+                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                   price=False)
+    run_test_check('group_1_ignore_comment', 'group_1', output='group_1_ignore_comment',
+                   extra=['--ignore_fields', 'h', 'comment',
+                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                   price=False)
+
+
+def test_no_empty_overwrite():
+    # Test some cases where we overwrite a field using an alias (i.e. mnp changes manf#)
+    # See discusion on #471
+    run_test_check('no_empty_overwrite', price=False)
 
 
 class TestKicost(unittest.TestCase):
