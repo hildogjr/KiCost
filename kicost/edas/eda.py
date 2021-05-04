@@ -96,7 +96,7 @@ class eda_class(object):
     def process_fields(parts, variant, ignore_fields, distributors):
         new_parts = OrderedDict()
         for ref, fields in parts.items():
-            new_fields = {}
+            new_fields = OrderedDict()
             # Add the fields from lowest to highest priority.
             # We even add empty fields, so we can "clear" a field using a higher priority mechanism.
             # 1) All fields without SEPRTR (lowest priority)

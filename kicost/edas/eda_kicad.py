@@ -85,7 +85,9 @@ def get_part_groups(in_file):
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Getting parts library...')
-    libparts = {}
+    # Here the order of the dict is important
+    # The fields from the library must be easily redefined by the component
+    libparts = OrderedDict()
     if root.find('libparts'):
         for p in root.find('libparts').find_all('libpart'):
 
@@ -123,7 +125,7 @@ def get_part_groups(in_file):
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)
         # (Use an empty dict if no part exists in the library.)
-        fields = libparts.get(libpart, dict()).copy()  # Make a copy! Don't use reference!
+        fields = libparts.get(libpart, OrderedDict()).copy()  # Make a copy! Don't use reference!
 
         # Store the part key and its value.
         fields['libpart'] = libpart
