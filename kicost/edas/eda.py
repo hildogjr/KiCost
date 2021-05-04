@@ -94,7 +94,7 @@ class eda_class(object):
 
     @staticmethod
     def process_fields(parts, variant, ignore_fields, distributors):
-        new_parts = {}
+        new_parts = OrderedDict()
         for ref, fields in parts.items():
             new_fields = {}
             # Add the fields from lowest to highest priority.
@@ -139,8 +139,6 @@ class eda_class(object):
                 eda_class.process_kicost_field(name, v, new_fields, ignore_fields, distributors, f, ref)
             # TODO: What about the other cases?
             # * Has ':' but doesn't start with "kicost"
-
-            # Now remove empty fields
             new_parts[ref] = new_fields
         return new_parts
 
