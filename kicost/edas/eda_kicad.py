@@ -36,7 +36,9 @@ __all__ = ['eda_kicad']
 
 def extract_fields(part):
     ''' Extract XML fields from the part in a library or schematic. '''
-    fields = {}
+    # Here the order of the dict is important
+    # The fields from the library must be easily redefined by the component
+    fields = OrderedDict()
     try:
         for f in part.find('fields').find_all('field'):
             name = str(f['name'])
@@ -85,9 +87,7 @@ def get_part_groups(in_file):
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
     logger.log(DEBUG_OVERVIEW, 'Getting parts library...')
-    # Here the order of the dict is important
-    # The fields from the library must be easily redefined by the component
-    libparts = OrderedDict()
+    libparts = {}
     if root.find('libparts'):
         for p in root.find('libparts').find_all('libpart'):
 
