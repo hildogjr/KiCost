@@ -3,7 +3,7 @@
 History
 -------
 
-1.1.5 (2020-??-??)
+1.1.5 (2021-05-??)
 ______________________
 * Fix the Farnell import code order
 * Fix LCSC link and add BOM import links of all

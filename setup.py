@@ -6,8 +6,6 @@ import os
 import re
 import kicost
 
-SHOW_LAST_HISTORY = 3
-
 try:
     from setuptools import setup
     from setuptools.command.develop import develop
@@ -63,11 +61,17 @@ class PostInstallCommand(install):
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 with open(os.path.join('kicost', 'HISTORY.rst')) as history_file:
-    history = history_file.read()
+    history_full = history_file.read()
     try:
-        history_full = history.replace('.. :changelog:', '')
-        update_format = r'History\s\-+\s(.|\n|\r|\_)*?((.|\n|\r)*?\s{2,}){'+str(SHOW_LAST_HISTORY)+'}'
-        history_lastest = re.findall(update_format, history_full)[0][0]
+        SHOW_LAST_HISTORY = 3
+        RE_TITLE_SEPARATOR = r'(.|\n|\r|\_)'
+        update_format = (r'(?P<last_history>'
+                         r'History\s\-+\s' + RE_TITLE_SEPARATOR +
+                         r'*?(' + RE_TITLE_SEPARATOR +
+                         r'*?\s{2,}){'+str(SHOW_LAST_HISTORY)+'}'
+                         r')'
+                        )
+        history_lastest = re.search(update_format, history_full).group('last_history').strip()
         if history_lastest:
             if SHOW_LAST_HISTORY == 1:
                 history_lastest = history_lastest.replace('History', 'Latest update')
