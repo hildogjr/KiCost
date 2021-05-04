@@ -22,7 +22,8 @@
 import os
 import re
 from collections import OrderedDict
-from ..global_vars import logger, DEBUG_OVERVIEW
+from ..global_vars import logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_OBSESSIVE
+from .tools import field_name_translations
 
 __all__ = ['eda_class']
 
@@ -45,8 +46,101 @@ class eda_class(object):
            @return `dict()` of the parts designed. The keys are the componentes references.
            @return `dict()` of project information.
         '''
-        parts, prj_info = eda_class.registered[eda].get_part_groups(in_file, ignore_fields, variant, distributors)
+        parts, prj_info = eda_class.registered[eda].get_part_groups(in_file, distributors)
+        parts = eda_class.process_fields(parts, variant, ignore_fields, distributors)
         return eda_class.remove_dnp_parts(parts, variant), prj_info
+
+    @staticmethod
+    def process_kicost_field(f, v, new_fields, ignore_fields, distributors, name_ori, ref):
+        f = f.strip()
+        if SEPRTR in f:
+            # DISTRIBUTOR:FIELD
+            # Separate the distributor from the field name
+            idx = f.index(SEPRTR)
+            dist = f[:idx]
+            # Is this a supported distributor?
+            dist_l = dist.lower()
+            if dist_l in distributors:
+                # Use the lower case version
+                dist = dist_l
+            # Translate the field name
+            f = f[idx+1:].lower()
+            if f in ignore_fields:
+                return
+            f = field_name_translations.get(f, f)
+            if f in ignore_fields:
+                return
+            # Join both again
+            f = dist + SEPRTR + f
+        else:
+            # FIELD
+            # No distributor in the name
+            # Adapt it
+            f = f.lower()
+            if f in ignore_fields:
+                return
+            f = field_name_translations.get(f, f)
+            if f in ignore_fields:
+                return
+            # Is distributor related?
+            if f in ('cat#', 'pricing', 'link'):
+                # Add it to the default local distributor
+                logger.log(DEBUG_OBSESSIVE, 'Assigning name "{}" to "Local" distributor'.format(f))
+                f = 'Local:' + f
+        # Note: here we allow a field to "clear" another definition (assigning an empty value)
+        # This is because we assume that "kicost*" fields are defined on purpose, not just inherited from the library
+        new_fields[f] = v.strip()
+        logger.log(DEBUG_OBSESSIVE, '{} Field {} -> {}={}'.format(ref, name_ori, f, v))
+
+    @staticmethod
+    def process_fields(parts, variant, ignore_fields, distributors):
+        new_parts = OrderedDict()
+        for ref, fields in parts.items():
+            new_fields = OrderedDict()
+            # Add the fields from lowest to highest priority.
+            # We even add empty fields, so we can "clear" a field using a higher priority mechanism.
+            # 1) All fields without SEPRTR (lowest priority)
+            for f, v in fields.items():
+                old_name = f
+                if SEPRTR in f:
+                    continue
+                # Just translate it
+                f = f.lower().strip()
+                if f in ignore_fields:
+                    continue
+                f = field_name_translations.get(f, f)
+                if f in ignore_fields:
+                    continue
+                # Trim extra spaces in the value
+                v = v.strip()
+                already_defined = f in new_fields
+                if not v and already_defined:
+                    # For regular fields we avoid one alias clearing another.
+                    # Example: if manf# was defined as XXX and now we have mnp='' we avoid getting manf#=''
+                    continue
+                if already_defined and new_fields[f]:
+                    logger.warning('Warning: in {} overwriting {}={} with {}={}'.format(ref, f, new_fields[f], old_name, v))
+                new_fields[f] = v
+            # 2) kicost:FIELD
+            for f, v in fields.items():
+                if f.startswith('kicost' + SEPRTR):
+                    eda_class.process_kicost_field(f[7:], v, new_fields, ignore_fields, distributors, f, ref)
+            # 3) kicost.VARIANT:  (highest priority)
+            for f, v in fields.items():
+                if not (SEPRTR in f and f.startswith('kicost.')):
+                    continue
+                sep_pos = f.index(SEPRTR)
+                var = f[7:sep_pos]
+                if not re.match(variant, var, flags=re.IGNORECASE):
+                    # Not for the current variant
+                    continue
+                name = f[sep_pos+1:]
+                logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + var + '.' + name)
+                eda_class.process_kicost_field(name, v, new_fields, ignore_fields, distributors, f, ref)
+            # TODO: What about the other cases?
+            # * Has ':' but doesn't start with "kicost"
+            new_parts[ref] = new_fields
+        return new_parts
 
     @staticmethod
     def file_eda_match(file_name):
@@ -85,15 +179,17 @@ class eda_class(object):
         accepted_components = OrderedDict()
         for ref, fields in components.items():
             # Remove DNPs.
-            dnp = fields.get('local:dnp', fields.get('dnp', 0))
+            dnp = fields.get('dnp', 0)
             try:
                 dnp = float(dnp)
             except ValueError:
-                pass  # The field value must have been a string.
+                # The field value must have been a string.
+                # The docs says "any string" is DNP enabled.
+                dnp = 1
             if dnp:
                 continue
             # Get part variant. Prioritize local variants over global ones.
-            variants = fields.get('local:variant', fields.get('variant', None))
+            variants = fields.get('variant', None)
             # Remove parts that are not assigned to the current variant.
             # If a part is not assigned to any variant, then it is never removed.
             if variants:
