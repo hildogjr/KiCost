@@ -15,8 +15,10 @@ import subprocess
 import logging
 import os
 
-# Defined as True to collect real world queries
+# Uncomment the 2nd line below to temporary define
+#   as True to collect real world queries (see README.md)
 ADD_QUERY_TO_KNOWN = False
+#ADD_QUERY_TO_KNOWN = True
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
