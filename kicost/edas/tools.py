@@ -470,6 +470,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 subparts_manf_code[field_code] = subparts
         if not fields_found:
             split_components[part_ref] = part
+            # TODO What about other fields?
             continue  # If not manf/distributor code pass to next.
         # Divide the `manf` manufacture name.
         subparts_manf = subpart_list(part.get('manf', ''))
