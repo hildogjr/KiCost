@@ -79,10 +79,15 @@ class S(BaseHTTPRequestHandler):
             self.wfile.write(queries[post_data].encode("utf8"))
             print("Known query "+comments[post_data])
         else:
-            data = unquote(post_data.replace('+', ' '))
-            print('Unknown query, len={}\n{}\n{}'.format(content_length, post_data, data))
-            content = "<html><body><h1>POST!</h1><pre>{}</pre></body></html>".format(post_data)
-            self.wfile.write(content.encode("utf8"))
+            post_data = post_data.replace('%7E', '~')
+            if post_data in queries:
+                self.wfile.write(queries[post_data].encode("utf8"))
+                print("Known query (7E replaced) "+comments[post_data])
+            else:
+                data = unquote(post_data.replace('+', ' '))
+                print('Unknown query, len={}\n{}\n{}'.format(content_length, post_data, data))
+                content = "<html><body><h1>POST!</h1><pre>{}</pre></body></html>".format(post_data)
+                self.wfile.write(content.encode("utf8"))
         sys.stdout.flush()
 
 
