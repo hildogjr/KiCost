@@ -554,34 +554,28 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     split_components[ref] = subpart_actual
             else:
                 part_actual = part.copy()
-                part_qty_prior = []  # Use this last cycle variable to warning the user about
-                p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
-                field_manf_dist_code_prior = []
+                part_qty_prior = None     # Use this last cycle variable to warning the user about
+                p_manf_code_prior = None  # different quantities in the fields `manf#` and `cat#`.
+                field_manf_dist_code_prior = None
                 for field_manf_dist_code in fields_found:
                     # When one "single subpart" also use the logic of quantity.
-                    try:
-                        p_manf_code = subparts_manf_code[field_manf_dist_code][0]
-                        part_qty, part_part = manf_code_qtypart(p_manf_code)
-
-                        # Warning the user about different quantities signed to different `manf#`
-                        # and catalogue number of same part/subpart. Which may be a type error by
-                        # the user.
-                        if p_manf_code and p_manf_code_prior and part_qty_prior != part_qty:
-                            logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
-                                                f=field_manf_dist_code, fl=field_manf_dist_code_prior,
-                                                c=p_manf_code, cl=p_manf_code_prior,
-                                                r=order_refs(list(components.keys()))
-                                            ))
-                        part_qty_prior = part_qty
-                        p_manf_code_prior = p_manf_code
-                        field_manf_dist_code_prior = field_manf_dist_code
-
-                        part_actual[field_manf_dist_code] = part_part
-                        part_actual[field_manf_dist_code+'_qty'] = part_qty
-                        logger.log(DEBUG_OBSESSIVE, part)
-                        split_components[part_ref] = part_actual
-                    except IndexError:
-                        pass
+                    p_manf_code = subparts_manf_code[field_manf_dist_code][0]
+                    part_qty, part_part = manf_code_qtypart(p_manf_code)
+                    part_actual[field_manf_dist_code] = part_part
+                    part_actual[field_manf_dist_code+'_qty'] = part_qty
+                    logger.log(DEBUG_OBSESSIVE, part)
+                    split_components[part_ref] = part_actual
+                    # Warning the user about different quantities signed to different `manf#`
+                    # and catalogue number of same part/subpart. Which may be a type error by
+                    # the user.
+                    if p_manf_code and p_manf_code_prior and part_qty_prior != part_qty:
+                        logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
+                                            f=field_manf_dist_code, fl=field_manf_dist_code_prior,
+                                            c=p_manf_code, cl=p_manf_code_prior,
+                                            r=order_refs(list(components.keys()))))
+                    part_qty_prior = part_qty
+                    p_manf_code_prior = p_manf_code
+                    field_manf_dist_code_prior = field_manf_dist_code
         except KeyError:
             continue
 
