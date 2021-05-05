@@ -518,26 +518,25 @@ def subpartqty_split(components, distributors, split_extra_fields):
                         # U1.1:{'manf#':'PARTG1', 'mouser#':'PARTM1'}
                         # U1.2:{'manf#':'PARTG2', 'mouser#':'PARTM2'}
                         # U1.3:{'manf#':'PARTG3'}
-                        try:
-                            p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
-                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
-                            subpart_actual[field_manf_dist_code] = subpart_part
-                            subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
-                            logger.log(DEBUG_OBSESSIVE, subpart_actual)
-                            # Warn the user about different quantities asigned to different `manf#`
-                            # and catalogue number of same part/subpart. Which may be a type error by
-                            # the user.
-                            if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
-                                logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
-                                                    f=field_manf_dist_code, fl=field_manf_dist_code_prior,
-                                                    c=p_manf_code, cl=p_manf_code_prior,
-                                                    r=order_refs(list(components.keys()))))
-                            # Memorize prior value for the above warning
-                            subpart_qty_prior = subpart_qty
-                            p_manf_code_prior = p_manf_code
-                            field_manf_dist_code_prior = field_manf_dist_code
-                        except IndexError:
-                            pass
+                        if subparts_index >= len(subparts_manf_code[field_manf_dist_code]):
+                            continue
+                        p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
+                        subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
+                        subpart_actual[field_manf_dist_code] = subpart_part
+                        subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
+                        logger.log(DEBUG_OBSESSIVE, subpart_actual)
+                        # Warn the user about different quantities asigned to different `manf#`
+                        # and catalogue number of same part/subpart. Which may be a type error by
+                        # the user.
+                        if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
+                            logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
+                                                f=field_manf_dist_code, fl=field_manf_dist_code_prior,
+                                                c=p_manf_code, cl=p_manf_code_prior,
+                                                r=order_refs(list(components.keys()))))
+                        # Memorize prior value for the above warning
+                        subpart_qty_prior = subpart_qty
+                        p_manf_code_prior = p_manf_code
+                        field_manf_dist_code_prior = field_manf_dist_code
                     # Update other fields
                     for field, values in subparts_extra.items():
                         subpart_actual[field] = values[subparts_index] if subparts_index < len(values) else values[-1]
