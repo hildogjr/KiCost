@@ -336,6 +336,12 @@ def test_423():
     run_test_check('Test 423 XML Wrong', 'test_423_wrong', 'test_423_xml_wrong')
 
 
+def test_sub_part_group_propagate_266():
+    # Test Issue #266
+    #  SubPart manf# field should also propagate
+    run_test_check('SubPartGroupTest_266', price=False)
+
+
 def test_no_empty_overwrite():
     # Test some cases where we overwrite a field using an alias (i.e. mnp changes manf#)
     # See discusion on #471
