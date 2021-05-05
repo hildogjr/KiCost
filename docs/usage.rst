@@ -226,9 +226,10 @@ Parts With Subparts
 Some parts consist of two or more subparts.
 For example, a two-pin jumper might have an associated shunt.
 This is represented by placing the part number for each subpart into the ``manf#`` field, separated
-by a ";" like so: ``JMP1A45;SH3QQ5``. The ``manf`` (manufacture name) also allow this division, empty or replicate the last one (use "~" character to replicate the last one).
+by a ";" (or a ",") like so: ``JMP1A45;SH3QQ5``. The ``manf`` (manufacturer name) also allows this division.
+You can leave a position empty or replicate the last one (use "~" character to replicate the last one).
 Each subpart will be placed on a separate row of the spreadsheet with its associated part number
-and a part reference formed from the original part reference with an added "#" and a number. 
+and a part reference created from the original part reference adding "#" and a number.
 For example, if the two-pin jumper had a part reference of ``JP6``, then there
 would be two rows in the spreadsheet containing data like this:
 
@@ -245,7 +246,7 @@ The multiplier can be either an integer, float or fraction
 and it can precede or follow the part code (e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``).
 
 In the case of ``distributor#`` and ``manf#`` for one sub part only, the other should have a blank
-value discriminated. As exemple:
+value discriminated. As example:
 
 ::
 
@@ -253,7 +254,12 @@ value discriminated. As exemple:
     digikey# =  ;;; 398-1010-ND; 398-1019-ND
     rs#      =  ;;; 180-7357; 286-361
 
-See that just the last two ``manf#`` have a correspondent ``digikey#`` and ``rs#`` catalogue code.
+See that just the last two ``manf#`` have a corresponding ``digikey#`` and ``rs#`` catalogue code.
+
+This mechanism is applied to the following fields: ``manf``, ``manf#`` and any ``DISTRIBUTOR#`` field.
+A similar mechanism is applied to the ``pricing`` field, but the separator must be "," (";" is not allowed
+because this is the separator used for the prices) and the multiplier mechanism isn't applied.
+If you want to process more fields add them using the ``--split_extra_fields`` option.
     
 
 ------------------------
