@@ -41,32 +41,6 @@ from .tools import field_name_translations, split_refs
 from .eda import eda_class
 
 
-# Add to deal with the generic CSV header purchase list.
-field_name_translations.update(
-    {
-        'stock code': 'manf#',
-        'mfr. no': 'manf#',
-        'manpartno': 'manf#',
-        'quantity': 'qty',
-        'order qty': 'qty',
-        'references': 'refs',
-        'reference': 'refs',
-        'ref': 'refs',
-        'customer no': 'refs',
-        'parts': 'refs',
-        'part': 'refs',
-        'value': 'value',
-        'package': 'footprint',
-        'pcb package': 'footprint',  # Used at Proteus.
-        '': '',  # This is here because the header row may contain an empty field.
-        # Use on `http://upverter.com/`.
-        'manufacturer part number': 'manf#',
-        'pcb footprint': 'footprint',
-        'reference designator': 'refs',
-        'part reference': 'refs',
-    }
-)
-
 GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are present.
 
 __all__ = ['generic_csv']

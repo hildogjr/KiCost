@@ -39,16 +39,6 @@ from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
 from .tools import field_name_translations, PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
 
-# Add to deal with the fileds of Altium and WEB tools.
-field_name_translations.update(
-    {
-        'designator': 'refs',
-        'quantity': 'qty',
-        'manufacturer name': 'manf',  # Used for some web site tools to part generator in Altium.
-        'manufacturer part number': 'manf#'
-    }
-)
-
 ALTIUM_NONE = '[NoParam]'  # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*'  # Separator for the part numbers in a list, remove the lateral spaces.
 FILE_REGEX = r'\<GRID[\s\S]+<COLUMNS>[\s\S]+<COLUMN[\s\S]+<\/COLUMNS>[\s\S]+<ROWS>[\s\S]+\<ROW[\s\S]+\<\/ROWS>[\s\S]+\<\/GRID>'
