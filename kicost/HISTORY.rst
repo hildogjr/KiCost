@@ -8,6 +8,7 @@ ______________________
 * Fix the Farnell import code order
 * Fix LCSC link and add BOM import links of all
 * Add the user custom field capability to order quote
+* Add cell size adjust algorithm (use --max_column_width 0 to disable it)
 
 
 1.1.4 (2020-03-24)
