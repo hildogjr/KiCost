@@ -79,7 +79,7 @@ def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
 
 
 def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields,
-           variant, dist_list, collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY, max_column_width=DEF_MAX_COLUMN_W):
+           variant, dist_list, collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY, max_column_width=DEF_MAX_COLUMN_W, split_extra_fields=[]):
     ''' @brief Run KiCost.
 
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -151,7 +151,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     prj_info = list()
     for i_prj in range(c_files):
         p, info = get_part_groups(eda_name[i_prj], in_file[i_prj], ignore_fields, variant[i_prj], dist_list)
-        p = subpartqty_split(p)
+        p = subpartqty_split(p, dist_list, split_extra_fields)
         # In the case of multiple BOM files, add the project prefix identifier
         # to each reference/designator. Use the field 'manf#_qty' to control
         # each quantity goes to each project creating a `list()` with length

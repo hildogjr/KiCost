@@ -38,6 +38,7 @@ __all__ = ['partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'gr
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
 PART_SEPRTR = r'(?<!\\)\s*[;,]\s*'  # Separator for the part numbers in a list, remove the lateral spaces.
+PART_SEPRTR_RESTRICTED = r'(?<!\\)\s*,\s*'  # Restricted version has less options because this can be used for pricing (which uses ; as separator)
 ESC_FIND = r'\\\s*([;,:])\s*'      # Used to remove backslash from escaped qty & manf# separators.
 REPLICATE_MANF = '~'  # Character used to replicate the last manufacture name (`manf` field) in multi-parts.
 SGROUP_SEPRTR = '\n'  # Separator of the semi identical parts groups (parts that have the filed ignored to group).
@@ -418,7 +419,7 @@ def groups_sort(new_component_groups):
     return new_component_groups
 
 
-def subpartqty_split(components):
+def subpartqty_split(components, distributors, split_extra_fields):
     '''@brief Split the components with subparts in different components.
 
        Take each part and the all manufacture/distributors combination
@@ -433,8 +434,10 @@ def subpartqty_split(components):
     '''
     logger.log(DEBUG_OVERVIEW, 'Splitting subparts in the manufacture / distributors codes...')
 
-    FIELDS_MANF = [d+'#' for d in get_distributors_iter()]
+    FIELDS_MANF = [d+'#' for d in distributors]
     FIELDS_MANF.append('manf#')
+    split_extra_fields.append('pricing')
+    split_extra_fields = [f.lower() for f in split_extra_fields]
 
     split_components = OrderedDict()
     for part_ref, part in components.items():
@@ -444,13 +447,14 @@ def subpartqty_split(components):
             # First search for the used fields to manufacture/distributor numbers
             # and how many subparts are in them. Use the loop also to extract the
             # manufacture/distributor codes in list. Use the maximum of them.
-            founded_fields = []
+            fields_found = []
             subparts_qty = 0
             subparts_manf_code = dict()
             field_code_last = None
             for field_code in FIELDS_MANF:
                 if field_code in part:
-                    subparts_qty_field = len(subpart_list(part[field_code]))
+                    subparts = subpart_list(part[field_code])
+                    subparts_qty_field = len(subparts)
                     subparts_qty = max(subparts_qty, subparts_qty_field)  # Quantity of sub parts.
                     # Print a warning and an user tip in the case of different subpart quantities
                     # associated in different `manf#`/distributors# of the same component.
@@ -463,10 +467,9 @@ def subpartqty_split(components):
                                                m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field)))
                                        )
                     field_code_last = field_code
-
-                    founded_fields += [field_code]
-                    subparts_manf_code[field_code] = subpart_list(part[field_code])
-            if not founded_fields:
+                    fields_found.append(field_code)
+                    subparts_manf_code[field_code] = subparts
+            if not fields_found:
                 split_components[part_ref] = part
                 continue  # If not manf/distributor code pass to next.
             # Divide the `manf` manufacture name.
@@ -482,8 +485,14 @@ def subpartqty_split(components):
             except KeyError:
                 subparts_manf = ['']*subparts_qty
                 pass
+            # Divide the pricing fields (won't apply quantity, this is why this is a separated list)
+            subparts_extra = {}
+            for field, value in part.items():
+                for extra_field in split_extra_fields:
+                    if field == extra_field or field.endswith(':' + extra_field):
+                        subparts_extra[field] = subpart_list(value, restricted=True)
 
-            logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, founded_fields))
+            logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, fields_found))
 
             # Second, if more than one subpart, split the sub parts as
             # new components with the same description, footprint, and
@@ -503,7 +512,7 @@ def subpartqty_split(components):
                     subpart_qty_prior = []  # Use this last cycle variable to warning the user about
                     p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
                     field_manf_dist_code_prior = []
-                    for field_manf_dist_code in founded_fields:
+                    for field_manf_dist_code in fields_found:
                         # For each manufacture/distributor code take the same order of
                         # the code list and split in each subpart. When not founded one
                         # part, do not add.
@@ -538,6 +547,9 @@ def subpartqty_split(components):
                             logger.log(DEBUG_OBSESSIVE, subpart_actual)
                         except IndexError:
                             pass
+                    # Update other fields
+                    for field, values in subparts_extra.items():
+                        subpart_actual[field] = values[subparts_index] if subparts_index < len(values) else values[-1]
                     # Update the split `manf`(manufactures names).
                     if subparts_manf[subparts_index] != REPLICATE_MANF:
                         # If the actual manufacture name is the defined as `REPLICATE_MANF`
@@ -552,7 +564,7 @@ def subpartqty_split(components):
                 part_qty_prior = []  # Use this last cycle variable to warning the user about
                 p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
                 field_manf_dist_code_prior = []
-                for field_manf_dist_code in founded_fields:
+                for field_manf_dist_code in fields_found:
                     # When one "single subpart" also use the logic of quantity.
                     try:
                         p_manf_code = subparts_manf_code[field_manf_dist_code][0]
@@ -629,7 +641,7 @@ def partgroup_qty(component):
     return string, number
 
 
-def subpart_list(part):
+def subpart_list(part, restricted=False):
     '''
     @brief Split the subpart by the `PART_SEPRTR`definition.
 
@@ -641,7 +653,7 @@ def subpart_list(part):
     @param part Manufacture code part `str`.
     @return List of manufacture code parts.
     '''
-    return re.split(PART_SEPRTR, part.strip())
+    return re.split(PART_SEPRTR_RESTRICTED, part.strip()) if restricted else re.split(PART_SEPRTR, part.strip())
 
 
 def manf_code_qtypart(subpart):
@@ -660,7 +672,6 @@ def manf_code_qtypart(subpart):
        @param Part that way have different than ONE quantity. Intended as one element of the list of `subpart_list()`.
        @return (qty, manf#) Quantity and the manufacture code.
     '''
-    subpart = re.sub(ESC_FIND, r'\1', subpart)  # Remove any escape backslashes preceding PART_SEPRTR.
     strings = re.split(QTY_SEPRTR, subpart)
     if len(strings) == 2:
         # Search for numbers, matching with simple, frac and decimal ones.
@@ -691,6 +702,7 @@ def manf_code_qtypart(subpart):
     else:
         qty = '1'
         part = ''.join(strings)
+    part = re.sub(ESC_FIND, r'\1', part)  # Remove any escape backslashes preceding PART_SEPRTR.
     logger.log(DEBUG_OBSESSIVE, 'part/qty>> {}\t\tpart>>{}\tqty>>{}'.format(subpart, part, qty))
     return qty, part
 

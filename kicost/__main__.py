@@ -135,6 +135,12 @@ def main():
                         help='Declare part fields to merge when grouping parts.',
                         metavar='NAME',
                         type=str)
+    parser.add_argument('--split_extra_fields',
+                        nargs='+',
+                        default=[],
+                        help='Declare part fields to include in multipart split process.',
+                        metavar='NAME',
+                        type=str)
     parser.add_argument('--debug',
                         nargs='?',
                         type=int,
@@ -330,7 +336,8 @@ def main():
            out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
            user_fields=args.fields, ignore_fields=args.ignore_fields,
            group_fields=args.group_fields, translate_fields=args.translate_fields,
-           variant=args.variant, dist_list=dist_list, currency=args.currency, max_column_width=args.max_column_width)
+           variant=args.variant, dist_list=dist_list, currency=args.currency, max_column_width=args.max_column_width,
+           split_extra_fields=args.split_extra_fields)
 
 
 ###############################################################################

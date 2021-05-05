@@ -24,14 +24,14 @@
       <datasheet>https://katalog.we-online.de/em/datasheet/696101000002.pdf</datasheet>
       <fields>
         <field name="comment">How to specify custom multipart pricing?</field>
-        <field name="S1MN">Eaton;;Cover clip?</field>
+        <field name="S1MN">Eaton,,Cover clip?</field>
         <field name="S1PL">https://www.eaton.com/content/dam/eaton/products/electronic-components/resources/data-sheet/eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf</field>
-        <field name="S1PN">BK-1A3399-10-R:2;;Cover clip?</field>
-        <field name="S2MN">Bussman;;Cover clip?</field>
+        <field name="S1PN">BK-1A3399-10-R:2,,Cover clip?</field>
+        <field name="S2MN">Bussman,,Cover clip?</field>
         <field name="S2PL">https://www.eaton.com/content/dam/eaton/products/electronic-components/resources/data-sheet/eaton-1axxxx-pcb-fuse-clips-atc-atm-blade-data-sheet.pdf</field>
-        <field name="S2PN">1A3399-10-R:2;;Cover clip?</field>
+        <field name="S2PN">1A3399-10-R:2,,Cover clip?</field>
         <field name="desc">FUSE HOLDER for fuse 5mm x 20mm</field>
-        <field name="kicost:we:pricing">1:EUR0.07;0:0;1:EUR0.03</field>
+        <field name="kicost:we:pricing">1:EUR0.07,0:0,1:EUR0.03;100:EUR0.01</field>
         <field name="manf">Wurth Electronik;Bel Fuse;Wurth Electronik</field>
         <field name="manf#">696101000002;5MF 6-R;695120004001</field>
         <field name="mouser#">710-696101000002;530-5MF6-R;</field>

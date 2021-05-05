@@ -277,7 +277,8 @@ def test_user_fields_1():
 def test_complex_multipart():
     # This testcase has to be updated once multipart custom pricing has been better defined
     test_name = 'complex_multipart'
-    run_test_check(test_name, 'complex_multipart', price=True)
+    fields = ['S1MN', 'S1PN', 'S2MN', 'S2PN']
+    run_test_check(test_name, 'complex_multipart', extra=['--split_extra_fields'] + fields + ['-f'] + fields, price=True)
 
 
 def test_include_1():
