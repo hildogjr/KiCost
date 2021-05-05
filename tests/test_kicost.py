@@ -18,7 +18,8 @@ import os
 # Uncomment the 2nd line below to temporary define
 #   as True to collect real world queries (see README.md)
 ADD_QUERY_TO_KNOWN = False
-#ADD_QUERY_TO_KNOWN = True
+if 0:  # Change to 'if 1' when the query result must be saved, then revert to 'if 0'
+    ADD_QUERY_TO_KNOWN = True
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -267,16 +268,18 @@ def test_variants_3():
     test_name = 'variants_3'
     run_test_check(test_name, 'variants_3', price=False)
     # Run a test with parameter "variant1"
-    run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$','--fields','Comment'], price=False)
+    run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$', '--fields', 'Comment'], price=False)
 
 
 def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
 
+
 def test_complex_multipart():
     # This testcase has to be updated once multipart custom pricing has been better defined
     test_name = 'complex_multipart'
     run_test_check(test_name, 'complex_multipart', price=True)
+
 
 def test_include_1():
     # Explicitly request digikey and mouser
@@ -315,11 +318,13 @@ def test_group_1():
     # Similar to test_no_empty_overwrite, tests all possible manf# aliases
     run_test_check('group_1_group_fields', 'group_1', output='group_1_group_fields',
                    extra=['--group_fields', 'h', 'comment',
-                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                          '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'
+                          ],
                    price=False)
     run_test_check('group_1_ignore_comment', 'group_1', output='group_1_ignore_comment',
                    extra=['--ignore_fields', 'h', 'comment',
-                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                          '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'
+                          ],
                    price=False)
 
 
