@@ -324,7 +324,7 @@ def group_parts(components, fields_merge, c_prjs):
     # These will become the field values for ALL members of that group.
     logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
-        grp_fields = {}
+        grp_fields = OrderedDict()
         # Multiprojects has a list of qty's
         # So we use a list and reduce it to one single element if needed
         grp_qtys = [0]*c_prjs
@@ -441,157 +441,122 @@ def subpartqty_split(components, distributors, split_extra_fields):
 
     split_components = OrderedDict()
     for part_ref, part in components.items():
-        try:
-            # Divide the subparts in different parts keeping the other fields
-            # (reference, description, ...).
-            # First search for the used fields to manufacture/distributor numbers
-            # and how many subparts are in them. Use the loop also to extract the
-            # manufacture/distributor codes in list. Use the maximum of them.
-            fields_found = []
-            subparts_qty = 0
-            subparts_manf_code = dict()
-            field_code_last = None
-            for field_code in FIELDS_MANF:
-                if field_code in part:
-                    subparts = subpart_list(part[field_code])
-                    subparts_qty_field = len(subparts)
-                    subparts_qty = max(subparts_qty, subparts_qty_field)  # Quantity of sub parts.
-                    # Print a warning and an user tip in the case of different subpart quantities
-                    # associated in different `manf#`/distributors# of the same component.
-                    if subparts_qty_field != subparts_qty:
-                        problem_manf_code = (field_code if subparts_qty > subparts_qty_field else field_code_last)
-                        logger.warning('Found a different subpart quantity between the code fields {c} and {lc}.\n'
-                                       '\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'
-                                       .format(c=field_code_last, lc=field_code, r=part_ref,
-                                               pc=problem_manf_code,
-                                               m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field)))
-                                       )
-                    field_code_last = field_code
-                    fields_found.append(field_code)
-                    subparts_manf_code[field_code] = subparts
-            if not fields_found:
-                split_components[part_ref] = part
-                continue  # If not manf/distributor code pass to next.
-            # Divide the `manf` manufacture name.
-            try:
-                subparts_manf = subpart_list(part['manf'])
-                if len(subparts_manf) != subparts_qty:
-                    if len(subparts_manf) == 1:
-                        # If just one `manf`assumes that is for all.
-                        subparts_manf = [subparts_manf[0]]*subparts_qty
-                    else:
-                        # Exception `manf` and `manf#` length doesn't match, fill with '' at the end.
-                        subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
-            except KeyError:
-                subparts_manf = ['']*subparts_qty
-                pass
-            # Divide the pricing fields (won't apply quantity, this is why this is a separated list)
-            subparts_extra = {}
-            for field, value in part.items():
-                for extra_field in split_extra_fields:
-                    if field == extra_field or field.endswith(':' + extra_field):
-                        subparts_extra[field] = subpart_list(value, restricted=True)
-
-            logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, fields_found))
-
-            # Second, if more than one subpart, split the sub parts as
-            # new components with the same description, footprint, and
-            # so on... Get the subpart.
-            if subparts_qty > 1:
-                # Remove the actual part from the list.
-                part_actual = part
-                part_actual_value = part_actual['value']
-                subpart_part = ''
-                subpart_qty = ''
-                # Add the split subparts.
-                for subparts_index in range(subparts_qty):
-                    # Create a sub component based on the main component with
-                    # the subparts. Modify the designator and the part. Create
-                    # a sub quantity field.
-                    subpart_actual = part_actual.copy()
-                    subpart_qty_prior = []  # Use this last cycle variable to warning the user about
-                    p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
-                    field_manf_dist_code_prior = []
-                    for field_manf_dist_code in fields_found:
-                        # For each manufacture/distributor code take the same order of
-                        # the code list and split in each subpart. When not founded one
-                        # part, do not add.
-                        # e.g. U1:{'manf#':'PARTG1;PARTG2;PARTG3', 'mouser#''PARTM1;PARTM2'}
-                        # result:
-                        # U1.1:{'manf#':'PARTG1', 'mouser#':'PARTM1'}
-                        # U1.2:{'manf#':'PARTG2', 'mouser#':'PARTM2'}
-                        # U1.3:{'manf#':'PARTG3'}
-                        try:
-                            p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
-                            subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
-                                            v=part_actual_value,
-                                            idx=subparts_index+1,
-                                            total=subparts_qty)
-                            subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
-
-                            # Warning the user about different quantities signed to different `manf#`
-                            # and catalogue number of same part/subpart. Which may be a type error by
-                            # the user.
-                            if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
-                                logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
-                                                    f=field_manf_dist_code, fl=field_manf_dist_code_prior,
-                                                    c=p_manf_code, cl=p_manf_code_prior,
-                                                    r=order_refs(list(components.keys()))
-                                                ))
-                            subpart_qty_prior = subpart_qty
-                            p_manf_code_prior = p_manf_code
-                            field_manf_dist_code_prior = field_manf_dist_code
-
-                            subpart_actual[field_manf_dist_code] = subpart_part
-                            subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
-                            logger.log(DEBUG_OBSESSIVE, subpart_actual)
-                        except IndexError:
-                            pass
-                    # Update other fields
-                    for field, values in subparts_extra.items():
-                        subpart_actual[field] = values[subparts_index] if subparts_index < len(values) else values[-1]
-                    # Update the split `manf`(manufactures names).
-                    if subparts_manf[subparts_index] != REPLICATE_MANF:
-                        # If the actual manufacture name is the defined as `REPLICATE_MANF`
-                        # replicate the last one.
-                        p_manf = subparts_manf[subparts_index]
-                    subpart_actual['manf'] = p_manf
-                    # Update the description and reference of the part.
-                    ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
-                    split_components[ref] = subpart_actual
+        # Divide the subparts in different parts keeping the other fields
+        # (reference, description, ...).
+        # First search for the used fields to manufacture/distributor numbers
+        # and how many subparts are in them. Use the loop also to extract the
+        # manufacture/distributor codes in list. Use the maximum of them.
+        fields_found = []
+        subparts_qty = 0
+        subparts_manf_code = dict()
+        field_code_last = None
+        for field_code in FIELDS_MANF:
+            if field_code in part:
+                subparts = subpart_list(part[field_code])
+                subparts_qty_field = len(subparts)
+                subparts_qty = max(subparts_qty, subparts_qty_field)  # Quantity of sub parts.
+                # Print a warning and an user tip in the case of different subpart quantities
+                # associated in different `manf#`/distributors# of the same component.
+                if subparts_qty_field != subparts_qty:
+                    problem_manf_code = (field_code if subparts_qty > subparts_qty_field else field_code_last)
+                    logger.warning('Found a different subpart quantity between the code fields {c} and {lc}.\n'
+                                   '\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'
+                                   .format(c=field_code_last, lc=field_code, r=part_ref,
+                                           pc=problem_manf_code,
+                                           m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field)))
+                                   )
+                field_code_last = field_code
+                fields_found.append(field_code)
+                subparts_manf_code[field_code] = subparts
+        if not fields_found:
+            split_components[part_ref] = part
+            # TODO What about other fields?
+            continue  # If not manf/distributor code pass to next.
+        # Divide the `manf` manufacture name.
+        subparts_manf = subpart_list(part.get('manf', ''))
+        if len(subparts_manf) != subparts_qty:
+            if len(subparts_manf) == 1:
+                # If just one `manf`assumes that is for all.
+                subparts_manf = [subparts_manf[0]]*subparts_qty
             else:
-                part_actual = part.copy()
-                part_qty_prior = []  # Use this last cycle variable to warning the user about
-                p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
-                field_manf_dist_code_prior = []
-                for field_manf_dist_code in fields_found:
-                    # When one "single subpart" also use the logic of quantity.
-                    try:
-                        p_manf_code = subparts_manf_code[field_manf_dist_code][0]
-                        part_qty, part_part = manf_code_qtypart(p_manf_code)
+                # Exception `manf` and `manf#` length doesn't match, fill with '' at the end.
+                subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
+        # Divide the pricing fields (won't apply quantity, this is why this is a separated list)
+        subparts_extra = {}
+        for field, value in part.items():
+            for extra_field in split_extra_fields:
+                if field == extra_field or field.endswith(':' + extra_field):
+                    subparts_extra[field] = subpart_list(value, restricted=True)
 
-                        # Warning the user about different quantities signed to different `manf#`
-                        # and catalogue number of same part/subpart. Which may be a type error by
-                        # the user.
-                        if p_manf_code and p_manf_code_prior and part_qty_prior != part_qty:
-                            logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
-                                                f=field_manf_dist_code, fl=field_manf_dist_code_prior,
-                                                c=p_manf_code, cl=p_manf_code_prior,
-                                                r=order_refs(list(components.keys()))
-                                            ))
-                        part_qty_prior = part_qty
-                        p_manf_code_prior = p_manf_code
-                        field_manf_dist_code_prior = field_manf_dist_code
+        logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, fields_found))
 
-                        part_actual[field_manf_dist_code] = part_part
-                        part_actual[field_manf_dist_code+'_qty'] = part_qty
-                        logger.log(DEBUG_OBSESSIVE, part)
-                        split_components[part_ref] = part_actual
-                    except IndexError:
-                        pass
-        except KeyError:
-            continue
-
+        # Second, if more than one subpart, split the sub parts as
+        # new components with the same description, footprint, and
+        # so on... Get the subpart.
+        is_multi = subparts_qty > 1
+        part_actual = part
+        part_actual_value = part_actual['value']
+        subpart_part = ''
+        subpart_qty = ''
+        p_manf = None
+        # Add the split subparts.
+        for subparts_index in range(subparts_qty):
+            # Create a sub component based on the main component with
+            # the subparts. Modify the designator and the part. Create
+            # a sub quantity field.
+            if is_multi:
+                subpart_actual = part_actual.copy()
+                subpart_actual['value'] = '{v} - p{idx}/{total}'.format(v=part_actual_value, idx=subparts_index+1, total=subparts_qty)
+            else:
+                subpart_actual = part_actual
+            subpart_qty_prior = None  # Use the last cycle variable to warn the user about
+            p_manf_code_prior = None  # different quantities in the fields `manf#` and `cat#`.
+            field_manf_dist_code_prior = None
+            for field_manf_dist_code in fields_found:
+                # For each manufacture/distributor code take the same order of
+                # the code list and split in each subpart. When not founded one
+                # part, do not add.
+                # e.g. U1:{'manf#':'PARTG1;PARTG2;PARTG3', 'mouser#''PARTM1;PARTM2'}
+                # result:
+                # U1.1:{'manf#':'PARTG1', 'mouser#':'PARTM1'}
+                # U1.2:{'manf#':'PARTG2', 'mouser#':'PARTM2'}
+                # U1.3:{'manf#':'PARTG3'}
+                if subparts_index >= len(subparts_manf_code[field_manf_dist_code]):
+                    continue
+                p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
+                subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
+                subpart_actual[field_manf_dist_code] = subpart_part
+                subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
+                logger.log(DEBUG_OBSESSIVE, subpart_actual)
+                # Warn the user about different quantities asigned to different `manf#`
+                # and catalogue number of same part/subpart. Which may be a type error by
+                # the user.
+                if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
+                    logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
+                                        f=field_manf_dist_code, fl=field_manf_dist_code_prior,
+                                        c=p_manf_code, cl=p_manf_code_prior,
+                                        r=order_refs(list(components.keys()))))
+                # Memorize prior value for the above warning
+                subpart_qty_prior = subpart_qty
+                p_manf_code_prior = p_manf_code
+                field_manf_dist_code_prior = field_manf_dist_code
+            if is_multi:
+                # Update other fields
+                for field, values in subparts_extra.items():
+                    subpart_actual[field] = values[subparts_index] if subparts_index < len(values) else ''
+                # Update the split `manf`(manufactures names).
+                if subparts_manf[subparts_index] != REPLICATE_MANF:
+                    # If the actual manufacture name is the defined as `REPLICATE_MANF`
+                    # replicate the last one.
+                    p_manf = subparts_manf[subparts_index]
+                elif p_manf is None:
+                    logger.warning('Asking to repeat a manufacturer in the first entry (at {})'.format(order_refs(list(components.keys()))))
+                subpart_actual['manf'] = p_manf
+                # Update the reference of the part.
+                ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
+            else:
+                ref = part_ref
+            split_components[ref] = subpart_actual
     return split_components
 
 

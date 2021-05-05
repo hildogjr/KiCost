@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/tmp/subparts/subparts.sch</source>
+    <date>jue 18 mar 2021 15:46:06</date>
+    <tool>Eeschema 5.1.9+dfsg1-1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>KiCost subparts test</title>
+        <company>KiBot</company>
+        <rev>r1</rev>
+        <date>2021-03-16</date>
+        <source>subparts.sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="Q1">
+      <value>2N2222A</value>
+      <footprint>Package_TO_SOT_THT:TO-18-3</footprint>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Description">TRANS NPN 40V 0.8A TO-18 + Heatsink</field>
+        <field name="digikey#">~; HS100-ND</field>
+        <field name="manf">~; Aavid</field>
+        <field name="manf#">2N2222A PBFREE; 322400B00000G</field>
+      </fields>
+      <libsource lib="Device" part="Q_NPN_BCE" description="NPN transistor, base/collector/emitter"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>60640F08</tstamp>
+    </comp>
+  </components>
+</export>
