@@ -18,7 +18,7 @@ import os
 # Uncomment the 2nd line below to temporary define
 #   as True to collect real world queries (see README.md)
 ADD_QUERY_TO_KNOWN = False
-#ADD_QUERY_TO_KNOWN = True
+# ADD_QUERY_TO_KNOWN = True
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -322,10 +322,18 @@ def test_group_1():
                      '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
                    price=False)
 
+
 def test_423():
-    # This currently requires a manual check - the excel field for the manf# field
-    # should not appear as a number
-    run_test_check('test_423',price=False)
+    # Test for issue #423
+    # This test checks that we interpret a numeric manf# code as a string
+    # The "OK" tests uses the real manf#
+    # The "Wrong" tests uses an invalid value, reported in #423
+    # Checking how it looks in the spreadsheet software needs manual inspect, but currently we use "write_string".
+    # Any "scientic notation" is a bug in the spreadsheet software. MS Excel does it right.
+    run_test_check('Test 423 CSV Ok', 'test_423_ok.csv', 'test_423_csv_ok')
+    run_test_check('Test 423 CSV Wrong', 'test_423_wrong.csv', 'test_423_csv_wrong')
+    run_test_check('Test 423 XML Ok', 'test_423_ok', 'test_423_xml_ok')
+    run_test_check('Test 423 XML Wrong', 'test_423_wrong', 'test_423_xml_wrong')
 
 
 def test_no_empty_overwrite():
