@@ -473,18 +473,14 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 split_components[part_ref] = part
                 continue  # If not manf/distributor code pass to next.
             # Divide the `manf` manufacture name.
-            try:
-                subparts_manf = subpart_list(part['manf'])
-                if len(subparts_manf) != subparts_qty:
-                    if len(subparts_manf) == 1:
-                        # If just one `manf`assumes that is for all.
-                        subparts_manf = [subparts_manf[0]]*subparts_qty
-                    else:
-                        # Exception `manf` and `manf#` length doesn't match, fill with '' at the end.
-                        subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
-            except KeyError:
-                subparts_manf = ['']*subparts_qty
-                pass
+            subparts_manf = subpart_list(part.get('manf', ''))
+            if len(subparts_manf) != subparts_qty:
+                if len(subparts_manf) == 1:
+                    # If just one `manf`assumes that is for all.
+                    subparts_manf = [subparts_manf[0]]*subparts_qty
+                else:
+                    # Exception `manf` and `manf#` length doesn't match, fill with '' at the end.
+                    subparts_manf.extend(['']*(subparts_qty-len(subparts_manf)))
             # Divide the pricing fields (won't apply quantity, this is why this is a separated list)
             subparts_extra = {}
             for field, value in part.items():
