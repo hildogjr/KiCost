@@ -324,7 +324,7 @@ def group_parts(components, fields_merge, c_prjs):
     # These will become the field values for ALL members of that group.
     logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
     for grp in new_component_groups:
-        grp_fields = {}
+        grp_fields = OrderedDict()
         # Multiprojects has a list of qty's
         # So we use a list and reduce it to one single element if needed
         grp_qtys = [0]*c_prjs
