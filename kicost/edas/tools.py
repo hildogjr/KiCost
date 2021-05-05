@@ -552,7 +552,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                 split_components[ref] = subpart_actual
         else:
-            part_actual = part.copy()
+            part_actual = part
             part_qty_prior = None     # Use this last cycle variable to warning the user about
             p_manf_code_prior = None  # different quantities in the fields `manf#` and `cat#`.
             field_manf_dist_code_prior = None
@@ -563,7 +563,6 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 part_actual[field_manf_dist_code] = part_part
                 part_actual[field_manf_dist_code+'_qty'] = part_qty
                 logger.log(DEBUG_OBSESSIVE, part)
-                split_components[part_ref] = part_actual
                 # Warning the user about different quantities signed to different `manf#`
                 # and catalogue number of same part/subpart. Which may be a type error by
                 # the user.
@@ -575,6 +574,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 part_qty_prior = part_qty
                 p_manf_code_prior = p_manf_code
                 field_manf_dist_code_prior = field_manf_dist_code
+            split_components[part_ref] = part_actual
     return split_components
 
 
