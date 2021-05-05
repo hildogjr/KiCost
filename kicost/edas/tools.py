@@ -508,6 +508,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     subpart_qty_prior = []  # Use this last cycle variable to warning the user about
                     p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
                     field_manf_dist_code_prior = []
+                    subpart_actual['value'] = '{v} - p{idx}/{total}'.format(v=part_actual_value, idx=subparts_index+1, total=subparts_qty)
                     for field_manf_dist_code in fields_found:
                         # For each manufacture/distributor code take the same order of
                         # the code list and split in each subpart. When not founded one
@@ -519,10 +520,6 @@ def subpartqty_split(components, distributors, split_extra_fields):
                         # U1.3:{'manf#':'PARTG3'}
                         try:
                             p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
-                            subpart_actual['value'] = '{v} - p{idx}/{total}'.format(
-                                            v=part_actual_value,
-                                            idx=subparts_index+1,
-                                            total=subparts_qty)
                             subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
 
                             # Warning the user about different quantities signed to different `manf#`
