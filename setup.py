@@ -69,8 +69,7 @@ with open(os.path.join('kicost', 'HISTORY.rst')) as history_file:
                          r'History\s\-+\s' + RE_TITLE_SEPARATOR +
                          r'*?(' + RE_TITLE_SEPARATOR +
                          r'*?\s{2,}){'+str(SHOW_LAST_HISTORY)+'}'
-                         r')'
-                        )
+                         r')')
         history_lastest = re.search(update_format, history_full).group('last_history').strip()
         if history_lastest:
             if SHOW_LAST_HISTORY == 1:

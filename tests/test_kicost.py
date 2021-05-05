@@ -267,16 +267,18 @@ def test_variants_3():
     test_name = 'variants_3'
     run_test_check(test_name, 'variants_3', price=False)
     # Run a test with parameter "variant1"
-    run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$','--fields','Comment'], price=False)
+    run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$', '--fields', 'Comment'], price=False)
 
 
 def test_user_fields_1():
     run_test_check('user_fields_1', '300-010', 'user_fields_1', extra=['--fields', "Resistance", "Capacitance", "Voltage", "Tolerance"])
 
+
 def test_complex_multipart():
     # This testcase has to be updated once multipart custom pricing has been better defined
     test_name = 'complex_multipart'
     run_test_check(test_name, 'complex_multipart', price=True)
+
 
 def test_include_1():
     # Explicitly request digikey and mouser
@@ -314,12 +316,10 @@ def test_parts_and_comments():
 def test_group_1():
     # Similar to test_no_empty_overwrite, tests all possible manf# aliases
     run_test_check('group_1_group_fields', 'group_1', output='group_1_group_fields',
-                   extra=['--group_fields', 'h', 'comment',
-                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                   extra=['--group_fields', 'h', 'comment', '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
                    price=False)
     run_test_check('group_1_ignore_comment', 'group_1', output='group_1_ignore_comment',
-                   extra=['--ignore_fields', 'h', 'comment',
-                     '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
+                   extra=['--ignore_fields', 'h', 'comment', '--no_collapse', '-f', 'comment', 'S1MN', 'S1PN', 'S2MN', 'S2PN'],
                    price=False)
 
 
