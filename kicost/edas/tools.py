@@ -548,7 +548,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 elif p_manf is None:
                     logger.warning('Asking to repeat a manufacturer in the first entry (at {})'.format(order_refs(list(components.keys()))))
                 subpart_actual['manf'] = p_manf
-                # Update the description and reference of the part.
+                # Update the reference of the part.
                 ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
                 split_components[ref] = subpart_actual
         else:
