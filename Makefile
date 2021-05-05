@@ -18,6 +18,8 @@ help:
 	@echo "install - install the package to the active Python's site-packages"
 	@echo "release-test test of release at https://test.pypi.org/ server"
 	@echo "update-rates - update the currency exchange rates"
+	@echo "deb - create a Debian package"
+	@echo "deb-clean - clean after making a Debian package"
 
 clean: clean-build clean-pyc clean-test
 
@@ -40,9 +42,9 @@ clean-test:
 	-rm -fr htmlcov/
 
 lint:
-	flake8 kicost tests
+	flake8
 
-test:
+test: lint
 	$(PYTEST)
 
 test-all:
@@ -84,3 +86,9 @@ install: clean
 
 update-rates:
 	$(PYTHON) tools/get_rates.py > kicost/currency_converter/default_rates.py
+
+deb: update-rates
+	DEB_BUILD_OPTIONS=nocheck fakeroot dpkg-buildpackage -uc -b
+
+deb-clean: clean
+	fakeroot debian/rules clean
