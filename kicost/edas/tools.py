@@ -539,7 +539,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                         field_manf_dist_code_prior = field_manf_dist_code
                     # Update other fields
                     for field, values in subparts_extra.items():
-                        subpart_actual[field] = values[subparts_index] if subparts_index < len(values) else values[-1]
+                        subpart_actual[field] = values[subparts_index] if subparts_index < len(values) else ''
                     # Update the split `manf`(manufactures names).
                     if subparts_manf[subparts_index] != REPLICATE_MANF:
                         # If the actual manufacture name is the defined as `REPLICATE_MANF`
