@@ -209,6 +209,11 @@ def test_subparts():
     run_test_check('subparts')
 
 
+def test_subparts_err1():
+    # Here we ask to repeat the manufacturer, but in the first position, nothing to repeat
+    run_test_check('subparts_err1')
+
+
 def test_1():
     run_test_check('test')
 
