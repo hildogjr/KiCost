@@ -267,7 +267,7 @@ def test_variants_3():
     test_name = 'variants_3'
     run_test_check(test_name, 'variants_3', price=False)
     # Run a test with parameter "variant1"
-    run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$'], price=False)
+    run_test_check(test_name + '(variant1)', 'variants_3', 'variants_3_variant1', ['--variant', '^(variant1)$','--fields','Comment'], price=False)
 
 
 def test_user_fields_1():
