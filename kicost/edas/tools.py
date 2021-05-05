@@ -505,10 +505,10 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     # the subparts. Modify the designator and the part. Create
                     # a sub quantity field.
                     subpart_actual = part_actual.copy()
+                    subpart_actual['value'] = '{v} - p{idx}/{total}'.format(v=part_actual_value, idx=subparts_index+1, total=subparts_qty)
                     subpart_qty_prior = []  # Use this last cycle variable to warning the user about
                     p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
                     field_manf_dist_code_prior = []
-                    subpart_actual['value'] = '{v} - p{idx}/{total}'.format(v=part_actual_value, idx=subparts_index+1, total=subparts_qty)
                     for field_manf_dist_code in fields_found:
                         # For each manufacture/distributor code take the same order of
                         # the code list and split in each subpart. When not founded one
@@ -521,23 +521,21 @@ def subpartqty_split(components, distributors, split_extra_fields):
                         try:
                             p_manf_code = subparts_manf_code[field_manf_dist_code][subparts_index]
                             subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
-
-                            # Warning the user about different quantities signed to different `manf#`
+                            subpart_actual[field_manf_dist_code] = subpart_part
+                            subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
+                            logger.log(DEBUG_OBSESSIVE, subpart_actual)
+                            # Warn the user about different quantities asigned to different `manf#`
                             # and catalogue number of same part/subpart. Which may be a type error by
                             # the user.
                             if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
                                 logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
                                                     f=field_manf_dist_code, fl=field_manf_dist_code_prior,
                                                     c=p_manf_code, cl=p_manf_code_prior,
-                                                    r=order_refs(list(components.keys()))
-                                                ))
+                                                    r=order_refs(list(components.keys()))))
+                            # Memorize prior value for the above warning
                             subpart_qty_prior = subpart_qty
                             p_manf_code_prior = p_manf_code
                             field_manf_dist_code_prior = field_manf_dist_code
-
-                            subpart_actual[field_manf_dist_code] = subpart_part
-                            subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
-                            logger.log(DEBUG_OBSESSIVE, subpart_actual)
                         except IndexError:
                             pass
                     # Update other fields
