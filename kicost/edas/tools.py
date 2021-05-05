@@ -506,9 +506,9 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     # a sub quantity field.
                     subpart_actual = part_actual.copy()
                     subpart_actual['value'] = '{v} - p{idx}/{total}'.format(v=part_actual_value, idx=subparts_index+1, total=subparts_qty)
-                    subpart_qty_prior = []  # Use this last cycle variable to warning the user about
-                    p_manf_code_prior = []  # different quantities in the fields `manf#` and `cat#`.
-                    field_manf_dist_code_prior = []
+                    subpart_qty_prior = None  # Use the last cycle variable to warn the user about
+                    p_manf_code_prior = None  # different quantities in the fields `manf#` and `cat#`.
+                    field_manf_dist_code_prior = None
                     for field_manf_dist_code in fields_found:
                         # For each manufacture/distributor code take the same order of
                         # the code list and split in each subpart. When not founded one
