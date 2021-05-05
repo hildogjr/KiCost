@@ -42,7 +42,7 @@ clean-test:
 	-rm -fr htmlcov/
 
 lint:
-	flake8
+	flake8 --exclude lib
 
 test: lint
 	$(PYTEST)
