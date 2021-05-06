@@ -37,9 +37,8 @@ __all__ = ['partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'gr
 
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
-PART_SEPRTR = r'(?<!\\)\s*[;,]\s*'  # Separator for the part numbers in a list, remove the lateral spaces.
-PART_SEPRTR_PRICE = r'(?<!\\)\s*,\s*'  # Only , because pricing uses ; as separator
-PART_SEPRTR_USER = r'(?<!\\)\s*;\s*'  # Only ; because , is too common
+PART_SEPRTR = r'(?<!\\)\s*\|\s*'             # Separator for the part numbers in a list, remove the lateral spaces.
+PART_SEPRTR_LEGACY = r'(?<!\\)\s*[;,\|]\s*'  # Legacy version
 ESC_FIND = r'\\\s*([;,:])\s*'      # Used to remove backslash from escaped qty & manf# separators.
 REPLICATE_MANF = '~'  # Character used to replicate the last manufacture name (`manf` field) in multi-parts.
 SGROUP_SEPRTR = '\n'  # Separator of the semi identical parts groups (parts that have the filed ignored to group).
@@ -503,7 +502,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
         for field, value in part.items():
             for extra_field in split_extra_fields:
                 if field == extra_field or field.endswith(':' + extra_field):
-                    subparts_extra[field] = subpart_list(value, PART_SEPRTR_PRICE if extra_field == 'pricing' else PART_SEPRTR_USER)
+                    subparts_extra[field] = subpart_list(value, legacy=False)
 
         logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, fields_found))
 
@@ -623,7 +622,7 @@ def partgroup_qty(component):
     return string, number
 
 
-def subpart_list(part, regex=PART_SEPRTR):
+def subpart_list(part, legacy=True):
     '''
     @brief Split the subpart by the `PART_SEPRTR`definition.
 
@@ -635,7 +634,9 @@ def subpart_list(part, regex=PART_SEPRTR):
     @param part Manufacture code part `str`.
     @return List of manufacture code parts.
     '''
-    return re.split(regex, part.strip())
+    result = re.split(PART_SEPRTR_LEGACY if legacy else PART_SEPRTR, part.strip())
+    print(f'{legacy} {part} {result}')
+    return re.split(PART_SEPRTR_LEGACY if legacy else PART_SEPRTR, part.strip())
 
 
 def manf_code_qtypart(subpart):

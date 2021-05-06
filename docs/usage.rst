@@ -226,7 +226,7 @@ Parts With Subparts
 Some parts consist of two or more subparts.
 For example, a two-pin jumper might have an associated shunt.
 This is represented by placing the part number for each subpart into the ``manf#`` field, separated
-by a ";" (or a ",") like so: ``JMP1A45;SH3QQ5``. The ``manf`` (manufacturer name) also allows this division.
+by a "|" (ASCII 124) like so: ``JMP1A45|SH3QQ5``. The ``manf`` (manufacturer name) also allows this division.
 You can leave a position empty or replicate the last one (use "~" character to replicate the last one).
 Each subpart will be placed on a separate row of the spreadsheet with its associated part number
 and a part reference created from the original part reference adding "#" and a number.
@@ -241,7 +241,7 @@ would be two rows in the spreadsheet containing data like this:
 You can also specify multipliers for each subpart by either prepending or appending
 the subpart part number with a multiplier separated by a ":".
 To illustrate, a 2x2 jumper paired with two shunts would have a part number of
-``JMP2B26; SH3QQ5:2``.
+``JMP2B26| SH3QQ5:2``.
 The multiplier can be either an integer, float or fraction
 and it can precede or follow the part code (e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``).
 
@@ -250,16 +250,18 @@ value discriminated. As example:
 
 ::
 
-    manf#    =  0022232061;0022012067; 6: 08-50-0114;  LA 55-P; lv 25-P
-    digikey# =  ;;; 398-1010-ND; 398-1019-ND
-    rs#      =  ;;; 180-7357; 286-361
+    manf#    =  0022232061|0022012067| 6: 08-50-0114|  LA 55-P| lv 25-P
+    digikey# =  ||| 398-1010-ND| 398-1019-ND
+    rs#      =  ||| 180-7357| 286-361
 
 See that just the last two ``manf#`` have a corresponding ``digikey#`` and ``rs#`` catalogue code.
 
 This mechanism is applied to the following fields: ``manf``, ``manf#`` and any ``DISTRIBUTOR#`` field.
-A similar mechanism is applied to the ``pricing`` field, but the separator must be "," (";" is not allowed
-because this is the separator used for the prices) and the multiplier mechanism isn't applied.
+A similar mechanism is applied to the ``pricing`` field, but the multiplier mechanism isn't applied.
 If you want to process more fields add them using the ``--split_extra_fields`` option.
+
+For compatibility with older versions of KiCost you can also use "," or ";" as separator for ``manf``,
+``manf#`` and any ``DISTRIBUTOR#`` field.
     
 
 ------------------------
