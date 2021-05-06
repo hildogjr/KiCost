@@ -110,11 +110,12 @@ class dist_local_template(distributor_class):
                 p.fields[dist + ':cat#'] = cat_num  # Store generated cat#.
                 p.part_num[dist] = cat_num
 
-                url_parts = list(urlsplit(link))
-                if url_parts[0] == '':
-                    url_parts[0] = u'http'
-                link = urlunsplit(url_parts)
-                if not link:
+                if link:
+                    url_parts = list(urlsplit(link))
+                    if url_parts[0] == '':
+                        url_parts[0] = u'http'
+                    link = urlunsplit(url_parts)
+                else:
                     # This happens when no part URL is found.
                     distributor_class.logger.log(DEBUG_OBSESSIVE, 'No part URL found for local \'{}\' distributor!'.format(dist))
                 p.url[dist] = link
