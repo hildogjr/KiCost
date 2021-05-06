@@ -15,10 +15,9 @@ import subprocess
 import logging
 import os
 
-# Uncomment the 2nd line below to temporary define
-#   as True to collect real world queries (see README.md)
-ADD_QUERY_TO_KNOWN = False
-# ADD_QUERY_TO_KNOWN = True
+# Collect real world queries (see README.md)
+# Change to 1 when the query result must be saved, then revert to 0
+ADD_QUERY_TO_KNOWN = 0
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -340,6 +339,12 @@ def test_423():
     run_test_check('Test 423 CSV Wrong', 'test_423_wrong.csv', 'test_423_csv_wrong')
     run_test_check('Test 423 XML Ok', 'test_423_ok', 'test_423_xml_ok')
     run_test_check('Test 423 XML Wrong', 'test_423_wrong', 'test_423_xml_wrong')
+
+
+def disabled_test_sub_part_group_propagate_266():
+    # Test Issue #266
+    #  SubPart manf# field should also propagate
+    run_test_check('SubPartGroupTest_266', price=False)
 
 
 def test_no_empty_overwrite():
