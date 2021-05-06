@@ -133,9 +133,11 @@ class KiCostThread(Thread):
                    dist_list=args.include, currency=args.currency)
         except Exception as e:
             logger.log(DEBUG_OVERVIEW, e)
+            # We are done, notify the main thread
+            wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
             return
         finally:
-            init_distributor_dict()  # Restore distributors removed during the execution of KiCost motor.
+            init_distributor_dict()  # Restore distributors modified during the execution of KiCost motor.
         logger.log(DEBUG_OVERVIEW, 'Elapsed time: {} seconds'.format(time.time() - start_time))
         # Convert to ODS
         try:
