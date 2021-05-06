@@ -41,8 +41,16 @@ clean-test:
 	-rm -f .coverage
 	-rm -fr htmlcov/
 
+
+#
+# lint
+#  Check the coding style of this project
+#  Note: `flake8` configurations are set in `.flake8`
+#
+.PHONY: lint
 lint:
 	flake8
+
 
 test: lint
 	$(PYTEST)
