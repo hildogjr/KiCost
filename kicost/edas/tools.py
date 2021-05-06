@@ -634,8 +634,6 @@ def subpart_list(part, legacy=True):
     @param part Manufacture code part `str`.
     @return List of manufacture code parts.
     '''
-    result = re.split(PART_SEPRTR_LEGACY if legacy else PART_SEPRTR, part.strip())
-    print(f'{legacy} {part} {result}')
     return re.split(PART_SEPRTR_LEGACY if legacy else PART_SEPRTR, part.strip())
 
 
