@@ -38,7 +38,8 @@ __all__ = ['partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'gr
 # Qty and part separators are escaped by preceding with '\' = (?<!\\)
 QTY_SEPRTR = r'(?<!\\)\s*[:]\s*'  # Separator for the subpart quantity and the part number, remove the lateral spaces.
 PART_SEPRTR = r'(?<!\\)\s*[;,]\s*'  # Separator for the part numbers in a list, remove the lateral spaces.
-PART_SEPRTR_RESTRICTED = r'(?<!\\)\s*,\s*'  # Restricted version has less options because this can be used for pricing (which uses ; as separator)
+PART_SEPRTR_PRICE = r'(?<!\\)\s*,\s*'  # Only , because pricing uses ; as separator
+PART_SEPRTR_USER = r'(?<!\\)\s*;\s*'  # Only ; because , is too common
 ESC_FIND = r'\\\s*([;,:])\s*'      # Used to remove backslash from escaped qty & manf# separators.
 REPLICATE_MANF = '~'  # Character used to replicate the last manufacture name (`manf` field) in multi-parts.
 SGROUP_SEPRTR = '\n'  # Separator of the semi identical parts groups (parts that have the filed ignored to group).
@@ -452,8 +453,8 @@ def subpartqty_split(components, distributors, split_extra_fields):
 
     FIELDS_MANF = [d+'#' for d in distributors]
     FIELDS_MANF.append('manf#')
-    split_extra_fields.append('pricing')
     split_extra_fields = [f.lower() for f in split_extra_fields]
+    split_extra_fields.append('pricing')
 
     split_components = OrderedDict()
     for part_ref, part in components.items():
@@ -502,7 +503,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
         for field, value in part.items():
             for extra_field in split_extra_fields:
                 if field == extra_field or field.endswith(':' + extra_field):
-                    subparts_extra[field] = subpart_list(value, restricted=True)
+                    subparts_extra[field] = subpart_list(value, PART_SEPRTR_PRICE if extra_field == 'pricing' else PART_SEPRTR_USER)
 
         logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, fields_found))
 
@@ -622,7 +623,7 @@ def partgroup_qty(component):
     return string, number
 
 
-def subpart_list(part, restricted=False):
+def subpart_list(part, regex=PART_SEPRTR):
     '''
     @brief Split the subpart by the `PART_SEPRTR`definition.
 
@@ -634,7 +635,7 @@ def subpart_list(part, restricted=False):
     @param part Manufacture code part `str`.
     @return List of manufacture code parts.
     '''
-    return re.split(PART_SEPRTR_RESTRICTED, part.strip()) if restricted else re.split(PART_SEPRTR, part.strip())
+    return re.split(regex, part.strip())
 
 
 def manf_code_qtypart(subpart):
