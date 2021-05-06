@@ -43,6 +43,15 @@ else:
         return val.encode('utf-8')
 
 
+def make_unique_catalog_number(p, dist):
+    FIELDS_MANFCAT = ([d + '#' for d in distributor_class.get_distributors_iter()] + ['manf#'])
+    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_class.get_distributors_iter()])
+    # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
+    hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
+    hash_fields['dist'] = dist
+    return '#' + hashlib.md5(to_bytes(str(tuple(sorted(hash_fields.items()))))).hexdigest()
+
+
 class dist_local_template(distributor_class):
     name = 'Local'
     type = 'local'
@@ -97,46 +106,42 @@ class dist_local_template(distributor_class):
                 if cat_num is None and pricing is None and link is None:
                     continue
 
-                def make_unique_catalog_number(p):
-                    FIELDS_MANFCAT = ([d + '#' for d in distributor_class.get_distributors_iter()] + ['manf#'])
-                    FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_class.get_distributors_iter()])
-                    # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
-                    hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
-                    hash_fields['dist'] = dist
-                    print(p.refs)
-                    print(hash_fields)
-                    return '#' + hashlib.md5(to_bytes(str(tuple(sorted(hash_fields.items()))))).hexdigest()
-
-                cat_num = cat_num or pn or make_unique_catalog_number(p)
+                cat_num = cat_num or pn or make_unique_catalog_number(p, dist)
                 p.fields[dist + ':cat#'] = cat_num  # Store generated cat#.
                 p.part_num[dist] = cat_num
 
-                try:
-                    url_parts = list(urlsplit(link))
-                    if url_parts[0] == '':
-                        url_parts[0] = u'http'
-                    link = urlunsplit(url_parts)
-                except Exception:
+                url_parts = list(urlsplit(link))
+                if url_parts[0] == '':
+                    url_parts[0] = u'http'
+                link = urlunsplit(url_parts)
+                if not link:
                     # This happens when no part URL is found.
-                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No part URL found to local \'{}\' distributor!'.format(dist))
+                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No part URL found for local \'{}\' distributor!'.format(dist))
                 p.url[dist] = link
 
                 price_tiers = {}
                 try:
-                    try:
-                        local_currency = re.findall('[a-zA-Z]{3}', pricing)[0].upper()
-                    except Exception:
-                        local_currency = currency
-                    pricing = re.sub('[^0-9.;:]', '', pricing)  # Keep only digits, decimals, delimiters.
-                    for qty_price in pricing.split(';'):
-                        qty, price = qty_price.split(SEPRTR)
+                    local_currency = re.findall('[a-zA-Z]{3}', pricing)[0].upper()
+                except Exception:
+                    local_currency = currency
+                old_pricing = pricing
+                pricing = re.sub('[^0-9.;:]', '', pricing)  # Keep only digits, decimals, delimiters.
+                for qty_price in pricing.split(';'):
+                    splitted = qty_price.split(SEPRTR)
+                    if len(splitted) == 2:
+                        qty, price = splitted
                         if local_currency:
                             p.currency[dist] = local_currency
-                        price_tiers[int(qty)] = float(price)
-                    # p.moq[dist] = min(price_tiers.keys())
-                except AttributeError:
+                        try:
+                            price_tiers[int(qty)] = float(price)
+                        except ValueError:
+                            distributor_class.logger.warning('Malformed pricing number: `{}` at {}'.format(old_pricing, p.refs))
+                    else:
+                        distributor_class.logger.warning('Malformed pricing entry: `{}` at {}'.format(qty_price, p.refs))
+                # p.moq[dist] = min(price_tiers.keys())
+                if not price_tiers:
                     # This happens when no pricing info is found.
-                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No pricing information found to local \'{}\' distributor!'.format(dist))
+                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No pricing information found for local \'{}\' distributor!'.format(dist))
                 p.price_tiers[dist] = price_tiers
 
 

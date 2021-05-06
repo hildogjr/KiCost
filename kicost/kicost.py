@@ -201,24 +201,23 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     # check if is asked to scrape a distributor that do not have any code in the
     # parts so, exclude this distributors for the scrap list. This decrease the
     # warning messages given during the process.
-    if dist_list:
-        all_fields = set()
-        for p in parts:
-            all_fields.update(p.fields)
-        if 'manf#' not in all_fields:
-            new_list = []
-            for d in dist_list:
-                if d+'#' not in all_fields:
-                    logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                                   d, get_distributor_info(d).label.name)
-                else:
-                    new_list.append(d)
-            dist_list = new_list
-        # Debug the resulting list
-        if logger.isEnabledFor(DEBUG_DETAILED):
-            logger.log(DEBUG_DETAILED, pprint.pformat(dist_list))
-        # Get the distributor pricing/qty/etc for each part.
-        query_part_info(parts, dist_list, currency)
+    all_fields = set()
+    for p in parts:
+        all_fields.update(p.fields)
+    if 'manf#' not in all_fields:
+        new_list = []
+        for d in dist_list:
+            if d+'#' not in all_fields:
+                logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
+                               d, get_distributor_info(d).label.name)
+            else:
+                new_list.append(d)
+        dist_list = new_list
+    # Debug the resulting list
+    if logger.isEnabledFor(DEBUG_DETAILED):
+        logger.log(DEBUG_DETAILED, pprint.pformat(dist_list))
+    # Get the distributor pricing/qty/etc for each part.
+    query_part_info(parts, dist_list, currency)
 
     # Create the part pricing spreadsheet.
     create_spreadsheet(parts, prj_info, out_filename, dist_list, currency, collapse_refs, suppress_cat_url,

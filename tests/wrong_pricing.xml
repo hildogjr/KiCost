@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:/xesscorp/PRODUCTS/StickIt_2nd_gen/StickIt-RotaryEncoder/pcb/StickIt-RotaryEncoder.sch</source>
+    <date>05/28/2016 12:02:31 AM</date>
+    <tool>Eeschema (2016-05-20 BZR 6816, Git 1e0a72d)-product</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>StickIt-RotaryEncoder Module</title>
+        <company>XESS Corp.</company>
+        <rev>2.0</rev>
+        <date>2016-05-11</date>
+        <source>StickIt-RotaryEncoder.sch</source>
+        <comment number="1" value="(c) 2016"/>
+        <comment number="2" value="OSHW"/>
+        <comment number="3" value="CC BY 4.0"/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="STK1">
+      <value>STICKIT2_HDR</value>
+      <footprint>XESS:STICKIT2_HDR</footprint>
+      <fields>
+        <field name="kicost:pricing">1:USDos</field>
+        <field name="kicost:link">http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html</field>
+      </fields>
+      <libsource lib="xess" part="STICKIT2_HDR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5523634F</tstamp>
+    </comp>
+    <comp ref="JP1">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5524AC0C</tstamp>
+    </comp>
+    <comp ref="JP2">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57179D3C</tstamp>
+    </comp>
+    <comp ref="ROT1">
+      <value>ROT_ENC_SW</value>
+      <footprint>XESS:ROT_ENC_EC11E</footprint>
+      <fields>
+        <field name="manf#">PEC11R-4220F-S0024</field>
+        <field name="manf">Bourns</field>
+        <field name="kicost:pricing">1:0.372</field>
+      </fields>
+      <libsource lib="xess" part="ROT_ENC_SW"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>573223B3</tstamp>
+    </comp>
+    <comp ref="RN1">
+      <value>4K7</value>
+      <footprint>XESS:CTS_742C163</footprint>
+      <fields>
+        <field name="manf">OMRON</field>
+        <field name="manf#">B3U-1000P</field>
+      </fields>
+      <libsource lib="xess" part="RN8"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>573227AB</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57322853</tstamp>
+    </comp>
+    <comp ref="C2">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>573228BF</tstamp>
+    </comp>
+    <comp ref="C3">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57322964</tstamp>
+    </comp>
+    <comp ref="RN2">
+      <value>1K</value>
+      <footprint>XESS:CTS_742C163</footprint>
+      <libsource lib="xess" part="RN8"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57329B8B</tstamp>
+    </comp>
+    <comp ref="ROT2">
+      <value>ROT_ENC_SW</value>
+      <footprint>XESS:ROT_ENC_EC11E</footprint>
+      <libsource lib="xess" part="ROT_ENC_SW"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FEB3</tstamp>
+    </comp>
+    <comp ref="C4">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FEC5</tstamp>
+    </comp>
+    <comp ref="C5">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FECB</tstamp>
+    </comp>
+    <comp ref="C6">
+      <value>C-NONPOL</value>
+      <footprint>Capacitors_SMD:C_0603_HandSoldering</footprint>
+      <libsource lib="xess" part="C-NONPOL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5732FED1</tstamp>
+    </comp>
+    <comp ref="JP3">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57332D8A</tstamp>
+    </comp>
+    <comp ref="JP4">
+      <value>JUMPER</value>
+      <footprint>XESS:HDR_1x2</footprint>
+      <libsource lib="device" part="JUMPER"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57332D93</tstamp>
+    </comp>
+    <comp ref="PCB1">
+      <value>PCB</value>
+      <fields>
+        <field name="kicost:pricing">1:0.32:wrong</field>
+      </fields>
+      <libsource lib="xess" part="PCB"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>57491612</tstamp>
+    </comp>
+  </components>
+</export>
