@@ -37,7 +37,7 @@ from math import ceil
 from textwrap import wrap
 import re  # Regular expression parser.
 import xlsxwriter  # XLSX file interpreter.
-from xlsxwriter.utility import xl_rowcol_to_cell, xl_range, xl_range_abs
+from xlsxwriter.utility import xl_rowcol_to_cell, xl_range_abs
 from babel import numbers  # For currency presentation.
 from validators import url as validate_url  # URL validator.
 
@@ -50,6 +50,15 @@ from .currency_converter import CurrencyConverter
 currency_convert = CurrencyConverter().convert
 
 __all__ = ['create_spreadsheet', 'create_worksheet', 'Spreadsheet']
+
+
+# This function is not the same for all xlsxwriter version, generating uncosistent outputs
+def xl_range(first_row, first_col, last_row, last_col):
+    range1 = xl_rowcol_to_cell(first_row, first_col)
+    range2 = xl_rowcol_to_cell(last_row, last_col)
+    if range1 == range2:
+        return range1
+    return range1 + ':' + range2
 
 
 # This class is used to configure the spreadsheet creation.

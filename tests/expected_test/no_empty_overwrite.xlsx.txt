@@ -1,0 +1,107 @@
+Variables:
+BoardQty = 'no_empty_overwrite'!$H$1
+TotalCost = 'no_empty_overwrite'!$H$3
+global_part_data = 'no_empty_overwrite'!$A$5:$H$9
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "KiBom Variant 2"
+ Col: G
+   "Board Qty:"
+ Col: H
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "KiCOST TEST"
+ Col: G
+   "Unit Cost:"
+ Col: H
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "2021-01-02"
+ Col: G
+   "Total Cost:"
+ Col: H
+   0
+  Formula: SUM(H7:H9)
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Desc"
+ Col: D
+   "Footprint"
+ Col: E
+   "Manf#"
+ Col: F
+   "Qty"
+ Col: G
+   "Unit$"
+ Col: H
+   "Ext$"
+Row: 7
+ Col: A
+   "C1"
+ Col: B
+   "1nF"
+ Col: C
+   "We should get manf#=XXXX"
+ Col: E
+   "XXXX"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: H
+   0
+  Formula: iferror(F7*G7,"")
+Row: 8
+ Col: A
+   "C2"
+ Col: B
+   "1nF"
+ Col: C
+   "We should get manf#=''"
+ Col: E
+   "*NONE*"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: H
+   0
+  Formula: iferror(F8*G8,"")
+Row: 9
+ Col: A
+   "C3"
+ Col: B
+   "1nF"
+ Col: C
+   "We should get manf#=YYYY"
+ Col: E
+   "YYYY"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: H
+   0
+  Formula: iferror(F9*G9,"")
+Row: 12
+ Col: A1
+   "*FILTERED*"

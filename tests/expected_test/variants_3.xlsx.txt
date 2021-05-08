@@ -1,0 +1,139 @@
+Variables:
+BoardQty = 'variants_3'!$I$1
+TotalCost = 'variants_3'!$I$3
+global_part_data = 'variants_3'!$A$5:$I$11
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "KiBom Variants 3"
+ Col: H
+   "Board Qty:"
+ Col: I
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "KiCOST TEST"
+ Col: H
+   "Unit Cost:"
+ Col: I
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "2021-01-02"
+ Col: H
+   "Total Cost:"
+ Col: I
+   0
+  Formula: SUM(I7:I11)
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Desc"
+ Col: D
+   "Footprint"
+ Col: E
+   "Manf"
+ Col: F
+   "Manf#"
+ Col: G
+   "Qty"
+ Col: H
+   "Unit$"
+ Col: I
+   "Ext$"
+Row: 7
+ Col: A
+   "C1"
+ Col: B
+   "1nF"
+ Col: C
+   "Manf is defaultmanf, except when variant1"
+ Col: E
+   "defaultmanf"
+ Col: G
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: I
+   0
+  Formula: iferror(G7*H7,"")
+Row: 8
+ Col: A
+   "C2"
+ Col: B
+   "2nF"
+ Col: C
+   "Manf is defaultmanf, except when variant1 (check impact of field order)"
+ Col: E
+   "defaultmanf"
+ Col: G
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: I
+   0
+  Formula: iferror(G8*H8,"")
+Row: 9
+ Col: A
+   "C6"
+ Col: B
+   "6nF"
+ Col: C
+   "Not placed when variant1"
+ Col: E
+   "defaultmanf"
+ Col: G
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: I
+   0
+  Formula: iferror(G9*H9,"")
+Row: 10
+ Col: A1
+   "C7"
+ Col: B1
+   "7nF"
+ Col: C1
+   "Should only appear in the default"
+ Col: E1
+   "defaultmanf"
+ Col: G1
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: I1
+   0
+  Formula: iferror(G10*H10,"")
+Row: 11
+ Col: A1
+   "C8"
+ Col: B1
+   "8nF"
+ Col: C1
+   "Should not appear in variant1 description"
+ Col: E1
+   "defaultmanf"
+ Col: G1
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: I1
+   0
+  Formula: iferror(G11*H11,"")
+Row: 14
+ Col: A1
+   "*FILTERED*"
