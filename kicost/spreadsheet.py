@@ -690,7 +690,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         dist_qty_purchased = []
         dist_code_avail = []
         dist_ext_prices = []
-        for dist in ss.DISTRIBUTORS:
+        for dist in sorted(ss.DISTRIBUTORS):
 
             # Get the currencies used among all distributors.
             used_currencies.add(part.currency.get(dist, DEFAULT_CURRENCY))
