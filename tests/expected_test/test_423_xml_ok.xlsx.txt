@@ -1,0 +1,349 @@
+Variables:
+BoardQty = 'test_423_xml_ok'!$G$1
+PURCHASE_DESCRIPTION = 'test_423_xml_ok'!$G$10
+TotalCost = 'test_423_xml_ok'!$G$3
+arrow_part_data = 'test_423_xml_ok'!$H$5:$L$7
+digikey_part_data = 'test_423_xml_ok'!$M$5:$Q$7
+farnell_part_data = 'test_423_xml_ok'!$R$5:$V$7
+global_part_data = 'test_423_xml_ok'!$A$5:$G$7
+lcsc_part_data = 'test_423_xml_ok'!$W$5:$AA$7
+mouser_part_data = 'test_423_xml_ok'!$AB$5:$AF$7
+newark_part_data = 'test_423_xml_ok'!$AG$5:$AK$7
+rs_part_data = 'test_423_xml_ok'!$AL$5:$AP$7
+tme_part_data = 'test_423_xml_ok'!$AQ$5:$AU$7
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "See #423"
+ Col: F
+   "Board Qty:"
+ Col: G
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "KiCOST TEST"
+ Col: F
+   "Unit Cost:"
+ Col: G
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "2021-05-04"
+ Col: F
+   "Total Cost:"
+ Col: G
+   0
+  Formula: SUM(G7)
+ Col: K
+   0
+  Formula: SUM(K7)
+ Col: L
+   0
+  Formula: (COUNTA(K7)&" of "&ROWS(K7)&" parts found")
+ Col: P
+   0
+  Formula: SUM(P7)
+ Col: Q
+   0
+  Formula: (COUNTA(P7)&" of "&ROWS(P7)&" parts found")
+ Col: U
+   0
+  Formula: SUM(U7)
+ Col: V
+   0
+  Formula: (COUNTA(U7)&" of "&ROWS(U7)&" parts found")
+ Col: Z
+   0
+  Formula: SUM(Z7)
+ Col: AA
+   0
+  Formula: (COUNTA(Z7)&" of "&ROWS(Z7)&" parts found")
+ Col: AE
+   0
+  Formula: SUM(AE7)
+ Col: AF
+   0
+  Formula: (COUNTA(AE7)&" of "&ROWS(AE7)&" parts found")
+ Col: AJ
+   0
+  Formula: SUM(AJ7)
+ Col: AK
+   0
+  Formula: (COUNTA(AJ7)&" of "&ROWS(AJ7)&" parts found")
+ Col: AO
+   0
+  Formula: SUM(AO7)
+ Col: AP
+   0
+  Formula: (COUNTA(AO7)&" of "&ROWS(AO7)&" parts found")
+ Col: AT
+   0
+  Formula: SUM(AT7)
+ Col: AU
+   0
+  Formula: (COUNTA(AT7)&" of "&ROWS(AT7)&" parts found")
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+ Col: H
+   "Arrow"
+ Col: M
+   "Digi-Key"
+ Col: R
+   "Farnell"
+ Col: W
+   "LCSC"
+ Col: AB
+   "Mouser"
+ Col: AG
+   "Newark"
+ Col: AL
+   "RS Components"
+ Col: AQ
+   "TME"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Footprint"
+ Col: D
+   "Manf#"
+ Col: E
+   "Qty"
+ Col: F
+   "Unit$"
+ Col: G
+   "Ext$"
+ Col: H
+   "Avail"
+ Col: I
+   "Purch"
+ Col: J
+   "Unit$"
+ Col: K
+   "Ext$"
+ Col: L
+   "Cat#"
+ Col: M
+   "Avail"
+ Col: N
+   "Purch"
+ Col: O
+   "Unit$"
+ Col: P
+   "Ext$"
+ Col: Q
+   "Cat#"
+ Col: R
+   "Avail"
+ Col: S
+   "Purch"
+ Col: T
+   "Unit$"
+ Col: U
+   "Ext$"
+ Col: V
+   "Cat#"
+ Col: W
+   "Avail"
+ Col: X
+   "Purch"
+ Col: Y
+   "Unit$"
+ Col: Z
+   "Ext$"
+ Col: AA
+   "Cat#"
+ Col: AB
+   "Avail"
+ Col: AC
+   "Purch"
+ Col: AD
+   "Unit$"
+ Col: AE
+   "Ext$"
+ Col: AF
+   "Cat#"
+ Col: AG
+   "Avail"
+ Col: AH
+   "Purch"
+ Col: AI
+   "Unit$"
+ Col: AJ
+   "Ext$"
+ Col: AK
+   "Cat#"
+ Col: AL
+   "Avail"
+ Col: AM
+   "Purch"
+ Col: AN
+   "Unit$"
+ Col: AO
+   "Ext$"
+ Col: AP
+   "Cat#"
+ Col: AQ
+   "Avail"
+ Col: AR
+   "Purch"
+ Col: AS
+   "Unit$"
+ Col: AT
+   "Ext$"
+ Col: AU
+   "Cat#"
+Row: 7
+ Col: A
+   "DB9"
+ Col: B
+   "1nF"
+ Col: D
+   <a href="http://datasheet.octopart.com/09551667812741-HARTING-Elektronik-datasheet-62046650.pdf">09551667812741</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: F
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G
+   0
+  Formula: iferror(E7*F7,"")
+ Col: M
+   490
+ Col: O
+   0
+  Formula: iferror(lookup(if(N7="",E7,N7),{0,1,10,25,50,140,280,700,980,1400,3500},{0.0,4.49,4.315,3.9552,3.7754,3.59557,3.14614,3.05626,2.78659,2.60681,2.42703}),"")
+ Col: P
+   0
+  Formula: iferror(if(N7="",E7,N7)*O7,"")
+ Col: Q
+   <a href="https://octopart.com/click/track?ai=8078&sig=03d4f92&sid=459&ppid=9579109&vpid=579712565&ct=offers">1195-8194-1-ND</a>
+ Col: AB
+   "NonStk"
+ Col: AD
+   0
+  Formula: iferror(lookup(if(AC7="",E7,AC7),{0,1,10,50,100,1000,10000},{0.0,5.0,4.2,4.2,4.2,2.88,2.73}),"")
+ Col: AE
+   0
+  Formula: iferror(if(AC7="",E7,AC7)*AD7,"")
+ Col: AF
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01d56b0&sid=2401&ppid=9579109&vpid=229657380&ct=offers">61709551667812741</a>
+Row: 9
+ Col: F
+   "Total Purchase:"
+ Col: G
+   0
+  Formula: SUM(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+3)))
+ Col: H
+   <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
+ Col: I
+   0
+  Formula: IFERROR(IF(OR(I7),COUNTIFS(I7,">0",K7,"<>")&" of "&(ROWS(K7)-COUNTBLANK(K7))&" parts purchased",""),"")
+ Col: K
+   0
+  Formula: SUMIF(I7,">0",K7)
+ Col: M
+   <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
+ Col: N
+   0
+  Formula: IFERROR(IF(OR(N7),COUNTIFS(N7,">0",P7,"<>")&" of "&(ROWS(P7)-COUNTBLANK(P7))&" parts purchased",""),"")
+ Col: P
+   0
+  Formula: SUMIF(N7,">0",P7)
+ Col: R
+   <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
+ Col: S
+   0
+  Formula: IFERROR(IF(OR(S7),COUNTIFS(S7,">0",U7,"<>")&" of "&(ROWS(U7)-COUNTBLANK(U7))&" parts purchased",""),"")
+ Col: U
+   0
+  Formula: SUMIF(S7,">0",U7)
+ Col: W
+   <a href="https://lcsc.com/bom.html">Buy here</a>
+ Col: X
+   0
+  Formula: IFERROR(IF(OR(X7),COUNTIFS(X7,">0",Z7,"<>")&" of "&(ROWS(Z7)-COUNTBLANK(Z7))&" parts purchased",""),"")
+ Col: Z
+   0
+  Formula: SUMIF(X7,">0",Z7)
+ Col: AB
+   <a href="https://mouser.com/bom/">Buy here</a>
+ Col: AC
+   0
+  Formula: IFERROR(IF(OR(AC7),COUNTIFS(AC7,">0",AE7,"<>")&" of "&(ROWS(AE7)-COUNTBLANK(AE7))&" parts purchased",""),"")
+ Col: AE
+   0
+  Formula: SUMIF(AC7,">0",AE7)
+ Col: AG
+   <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
+ Col: AH
+   0
+  Formula: IFERROR(IF(OR(AH7),COUNTIFS(AH7,">0",AJ7,"<>")&" of "&(ROWS(AJ7)-COUNTBLANK(AJ7))&" parts purchased",""),"")
+ Col: AJ
+   0
+  Formula: SUMIF(AH7,">0",AJ7)
+ Col: AL
+   <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
+ Col: AM
+   0
+  Formula: IFERROR(IF(OR(AM7),COUNTIFS(AM7,">0",AO7,"<>")&" of "&(ROWS(AO7)-COUNTBLANK(AO7))&" parts purchased",""),"")
+ Col: AO
+   0
+  Formula: SUMIF(AM7,">0",AO7)
+ Col: AQ
+   <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
+ Col: AR
+   0
+  Formula: IFERROR(IF(OR(AR7),COUNTIFS(AR7,">0",AT7,"<>")&" of "&(ROWS(AT7)-COUNTBLANK(AT7))&" parts purchased",""),"")
+ Col: AT
+   0
+  Formula: SUMIF(AR7,">0",AT7)
+Row: 10
+ Col: A1
+   "*FILTERED*"
+ Col: F1
+   "Purchase description:"
+ Col: I1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(L7,SMALL(IF(ISNUMBER(I7),IF(I7>0,IF(L7<>"",ROW(I7)-MIN(ROW(I7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(I7,SMALL(IF(ISNUMBER(I7),IF(I7>0,IF(L7<>"",ROW(I7)-MIN(ROW(I7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(I7),IF(I7>0,IF(L7<>"",ROW(I7)-MIN(ROW(I7))+1))),ROW()-ROW(A$10)+1)),",",";")),"")
+ Col: N1
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(N7,SMALL(IF(ISNUMBER(N7),IF(N7>0,IF(Q7<>"",ROW(N7)-MIN(ROW(N7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",INDEX(Q7,SMALL(IF(ISNUMBER(N7),IF(N7>0,IF(Q7<>"",ROW(N7)-MIN(ROW(N7))+1))),ROW()-ROW(A$10)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(N7),IF(N7>0,IF(Q7<>"",ROW(N7)-MIN(ROW(N7))+1))),ROW()-ROW(A$10)+1)),",",";")),"")
+ Col: S1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(V7,SMALL(IF(ISNUMBER(S7),IF(S7>0,IF(V7<>"",ROW(S7)-MIN(ROW(S7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(S7,SMALL(IF(ISNUMBER(S7),IF(S7>0,IF(V7<>"",ROW(S7)-MIN(ROW(S7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",,",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(S7),IF(S7>0,IF(V7<>"",ROW(S7)-MIN(ROW(S7))+1))),ROW()-ROW(A$10)+1)),",",";"),"\n",";"),30)),"")
+ Col: X1
+   0
+  Formula: IFERROR(IF(COUNTIFS(X7,">0",Z7,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)",""),"")
+ Col: AC1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AF7,SMALL(IF(ISNUMBER(AC7),IF(AC7>0,IF(AF7<>"",ROW(AC7)-MIN(ROW(AC7))+1))),ROW()-ROW(A$10)+1)),"|",TEXT(INDEX(AC7,SMALL(IF(ISNUMBER(AC7),IF(AC7>0,IF(AF7<>"",ROW(AC7)-MIN(ROW(AC7))+1))),ROW()-ROW(A$10)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AC7),IF(AC7>0,IF(AF7<>"",ROW(AC7)-MIN(ROW(AC7))+1))),ROW()-ROW(A$10)+1)),"|",";")," ","_")),"")
+ Col: AH1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AK7,SMALL(IF(ISNUMBER(AH7),IF(AH7>0,IF(AK7<>"",ROW(AH7)-MIN(ROW(AH7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(AH7,SMALL(IF(ISNUMBER(AH7),IF(AH7>0,IF(AK7<>"",ROW(AH7)-MIN(ROW(AH7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AH7),IF(AH7>0,IF(AK7<>"",ROW(AH7)-MIN(ROW(AH7))+1))),ROW()-ROW(A$10)+1)),",",";"),"\n",";"),",",),"")
+ Col: AM1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AP7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(AM7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",,",",,",",,",",INDEX(D7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),",",";")),"")
+ Col: AR1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AU7,SMALL(IF(ISNUMBER(AR7),IF(AR7>0,IF(AU7<>"",ROW(AR7)-MIN(ROW(AR7))+1))),ROW()-ROW(A$10)+1))," ",TEXT(INDEX(AR7,SMALL(IF(ISNUMBER(AR7),IF(AR7>0,IF(AU7<>"",ROW(AR7)-MIN(ROW(AR7))+1))),ROW()-ROW(A$10)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AR7),IF(AR7>0,IF(AU7<>"",ROW(AR7)-MIN(ROW(AR7))+1))),ROW()-ROW(A$10)+1))," ",";")),"")
+Row: 11
+ Col: X1
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(X7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1)),",",";"),",",INDEX(AA7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1))),"")

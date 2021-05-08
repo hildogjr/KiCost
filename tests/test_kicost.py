@@ -15,12 +15,142 @@ import subprocess
 import logging
 import os
 import re
+import sys
+import shutil
+import xml.etree.ElementTree as ET
 
 # Collect real world queries (see README.md)
 # Change to 1 when the query result must be saved, then revert to 0
 ADD_QUERY_TO_KNOWN = 0
+# Used to regenerate the references
+CREATE_REF = 0
 TESTDIR = os.path.dirname(os.path.realpath(__file__))
 last_err = None
+# Text we want to filter in the XLSX to TXT conversion
+XLSX_FILTERS = (('$ date:', None), ('Prj date:', '(file'), ('KiCost', 0))
+
+
+def to_str(s):
+    if s is None or sys.version_info[0] >= 3:
+        return s
+    return s.encode('utf-8')
+
+
+def xlsx_to_txt(filename, subdir='result_test', sheet=1):
+    filename = os.path.join(TESTDIR, filename + '.xlsx')
+    logging.debug('Extracting data from ' + filename)
+    tmpdir = TESTDIR + '/desc'
+    assert not os.path.isdir(tmpdir), "Destination for XLSX uncompress is there, remove it and investigate"
+    subprocess.call(['unzip', filename, '-d', tmpdir])
+    # Some XMLs are stored with 0600
+    subprocess.call(['chmod', '-R', 'og+r', tmpdir])
+    # Read the table
+    worksheet = os.path.join(tmpdir, 'xl', 'worksheets', 'sheet'+str(sheet)+'.xml')
+    if not os.path.isfile(worksheet):
+        return False
+    rows = []
+    forms = {}
+    root = ET.parse(worksheet).getroot()
+    ns = '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
+    for r in root.iter(ns+'row'):
+        rcur = int(r.attrib['r'])
+        cols = []
+        for cell in r.iter(ns+'c'):
+            if 't' in cell.attrib:
+                type = cell.attrib['t']
+            else:
+                type = 'n'   # default: number
+            pos = cell.attrib['r']
+            value = cell.find(ns+'v')
+            if value is not None:
+                if type == 'n':
+                    # Numbers as integers
+                    value = float(value.text)
+                else:
+                    value = value.text
+            cols.append((pos, value))
+            form = cell.find(ns+'f')
+            if form is not None:
+                text = str(form.text)
+                forms[pos] = text.replace('\n', r'\n')
+        rows.append((rcur, cols))
+    # Links are "Relationship"s
+    links = {}
+    urls = {}
+    nr = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
+    hlinks = root.find(ns+'hyperlinks')
+    if hlinks:
+        for r in hlinks.iter(ns+'hyperlink'):
+            links[r.attrib['ref']] = r.attrib[nr+'id']
+    # Read the strings
+    strings = os.path.join(tmpdir, 'xl', 'sharedStrings.xml')
+    # The cast to str is to support obsolete Python versions
+    strs = [to_str(t.text) for t in ET.parse(strings).getroot().iter(ns+'t')]
+    # Translate the links
+    if links:
+        # Read the relationships
+        worksheet = os.path.join(tmpdir, 'xl', 'worksheets', '_rels', 'sheet'+str(sheet)+'.xml.rels')
+        root = ET.parse(worksheet).getroot()
+        rels = {}
+        for r in root:
+            rels[r.attrib['Id']] = r.attrib['Target']
+        for pos, id in links.items():
+            urls[pos] = rels[id]
+    # Get the global definitions
+    workbook = os.path.join(tmpdir, 'xl', 'workbook.xml')
+    dnames = ET.parse(workbook).getroot().find(ns+'definedNames')
+    vars = {}
+    for dname in dnames.iter(ns+'definedName'):
+        name = dname.attrib['name']
+        vars[name] = dname.text
+    name = os.path.basename(filename)
+    pos_re = re.compile(r'(\w+)(\d+)')
+    with open(os.path.join(TESTDIR, subdir, name + '.txt'), 'wt') as f:
+        f.write('Variables:\n')
+        for name, val in sorted(vars.items()):
+            f.write(name + ' = ' + val + '\n')
+        f.write('-'*80+'\n')
+        for r in rows:
+            f.write('Row: ' + str(r[0]) + '\n')
+            skip_next_col = False
+            skip_str = None
+            for col in r[1]:
+                pos = col[0]
+                m = pos_re.match(pos)
+                cell = col[1]
+                form = forms.get(pos)
+                if cell is None and form is None:
+                    continue
+                f.write(' Col: ' + m.group(1) + '\n   ')
+                if isinstance(cell, str):
+                    text = '*NONE*' if cell == 'None' else strs[int(cell)]
+                    if text is None:
+                        text = '*NONE*'
+                    # Filter variable fields
+                    if skip_next_col and (skip_str is None or skip_str in text):
+                        f.write('*FILTERED*\n')
+                        skip_next_col = False
+                        continue
+                    for filter in XLSX_FILTERS:
+                        if text.startswith(filter[0]):
+                            if filter[1] == 0:
+                                text = '*FILTERED*'
+                                break
+                            skip_next_col = True
+                            skip_str = filter[1]
+                    url = urls.get(pos)
+                    if url:
+                        f.write('<a href="{}">{}</a>'.format(url, text))
+                    else:
+                        f.write('"' + text + '"')
+                else:
+                    # Python 2.7 str(float) has only 12 digits, force 16
+                    f.write("{:.16g}".format(cell))
+                if form:
+                    f.write('\n  Formula: ' + form)
+                f.write('\n')
+    shutil.rmtree(tmpdir)
+    return True
 
 
 def run_test(inputs, output, extra=None, price=True):
@@ -83,6 +213,16 @@ def run_test(inputs, output, extra=None, price=True):
         cmd = ['diff', '-u', ref_csv, res_csv]
         logging.debug('Running '+str(cmd))
         subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+        # Convert to TXT
+        if CREATE_REF:
+            xlsx_to_txt(output, 'expected_test')
+        else:
+            xlsx_to_txt(output, 'result_test')
+            ref_txt = os.path.join(TESTDIR, 'expected_test', output + '.xlsx.txt')
+            res_txt = os.path.join(TESTDIR, 'result_test', output + '.xlsx.txt')
+            cmd = ['diff', '-u', ref_txt, res_txt]
+            logging.debug('Running '+str(cmd))
+            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
     finally:
         # Kill the server
         if server is not None:
@@ -107,7 +247,7 @@ def run_test_check(name, inputs=None, output=None, extra=None, price=True):
     except subprocess.CalledProcessError as e:
         logging.error('Failed test: ' + name)
         if e.output:
-            logging.error('Output from command: ' + e.output.decode())
+            logging.error('Output from command: ' + e.output.decode('utf-8'))
         raise e
 
 

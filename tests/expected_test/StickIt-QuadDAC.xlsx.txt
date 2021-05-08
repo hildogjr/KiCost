@@ -1,0 +1,1009 @@
+Variables:
+BoardQty = 'StickIt-QuadDAC'!$I$1
+Local_part_data = 'StickIt-QuadDAC'!$AX$5:$BB$15
+PURCHASE_DESCRIPTION = 'StickIt-QuadDAC'!$I$18
+TotalCost = 'StickIt-QuadDAC'!$I$3
+USD_EUR = 'StickIt-QuadDAC'!$C$18
+USD_GBP = 'StickIt-QuadDAC'!$C$19
+arrow_part_data = 'StickIt-QuadDAC'!$J$5:$N$15
+digikey_part_data = 'StickIt-QuadDAC'!$O$5:$S$15
+farnell_part_data = 'StickIt-QuadDAC'!$T$5:$X$15
+global_part_data = 'StickIt-QuadDAC'!$A$5:$I$15
+lcsc_part_data = 'StickIt-QuadDAC'!$Y$5:$AC$15
+mouser_part_data = 'StickIt-QuadDAC'!$AD$5:$AH$15
+newark_part_data = 'StickIt-QuadDAC'!$AI$5:$AM$15
+rs_part_data = 'StickIt-QuadDAC'!$AN$5:$AR$15
+tme_part_data = 'StickIt-QuadDAC'!$AS$5:$AW$15
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "StickIt-QuadDAC Module"
+ Col: H
+   "Board Qty:"
+ Col: I
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "XESS Corp."
+ Col: H
+   "Unit Cost:"
+ Col: I
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "06/12/2016 11:01:25 PM"
+ Col: H
+   "Total Cost:"
+ Col: I
+   0
+  Formula: SUM(I7:I15)
+ Col: M
+   0
+  Formula: SUM(M7:M15)
+ Col: N
+   0
+  Formula: (COUNTA(M7:M15)&" of "&ROWS(M7:M15)&" parts found")
+ Col: R
+   0
+  Formula: SUM(R7:R15)
+ Col: S
+   0
+  Formula: (COUNTA(R7:R15)&" of "&ROWS(R7:R15)&" parts found")
+ Col: W
+   0
+  Formula: SUM(W7:W15)
+ Col: X
+   0
+  Formula: (COUNTA(W7:W15)&" of "&ROWS(W7:W15)&" parts found")
+ Col: AB
+   0
+  Formula: SUM(AB7:AB15)
+ Col: AC
+   0
+  Formula: (COUNTA(AB7:AB15)&" of "&ROWS(AB7:AB15)&" parts found")
+ Col: AG
+   0
+  Formula: SUM(AG7:AG15)
+ Col: AH
+   0
+  Formula: (COUNTA(AG7:AG15)&" of "&ROWS(AG7:AG15)&" parts found")
+ Col: AL
+   0
+  Formula: SUM(AL7:AL15)
+ Col: AM
+   0
+  Formula: (COUNTA(AL7:AL15)&" of "&ROWS(AL7:AL15)&" parts found")
+ Col: AQ
+   0
+  Formula: SUM(AQ7:AQ15)
+ Col: AR
+   0
+  Formula: (COUNTA(AQ7:AQ15)&" of "&ROWS(AQ7:AQ15)&" parts found")
+ Col: AV
+   0
+  Formula: SUM(AV7:AV15)
+ Col: AW
+   0
+  Formula: (COUNTA(AV7:AV15)&" of "&ROWS(AV7:AV15)&" parts found")
+ Col: BA
+   0
+  Formula: SUM(BA7:BA15)
+ Col: BB
+   0
+  Formula: (COUNTA(BA7:BA15)&" of "&ROWS(BA7:BA15)&" parts found")
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+ Col: J
+   "Arrow"
+ Col: O
+   "Digi-Key"
+ Col: T
+   "Farnell"
+ Col: Y
+   "LCSC"
+ Col: AD
+   "Mouser"
+ Col: AI
+   "Newark"
+ Col: AN
+   "RS Components"
+ Col: AS
+   "TME"
+ Col: AX
+   "Local"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Desc"
+ Col: D
+   "Footprint"
+ Col: E
+   "Manf"
+ Col: F
+   "Manf#"
+ Col: G
+   "Qty"
+ Col: H
+   "Unit$"
+ Col: I
+   "Ext$"
+ Col: J
+   "Avail"
+ Col: K
+   "Purch"
+ Col: L
+   "Unit$"
+ Col: M
+   "Ext$"
+ Col: N
+   "Cat#"
+ Col: O
+   "Avail"
+ Col: P
+   "Purch"
+ Col: Q
+   "Unit$"
+ Col: R
+   "Ext$"
+ Col: S
+   "Cat#"
+ Col: T
+   "Avail"
+ Col: U
+   "Purch"
+ Col: V
+   "Unit$"
+ Col: W
+   "Ext$"
+ Col: X
+   "Cat#"
+ Col: Y
+   "Avail"
+ Col: Z
+   "Purch"
+ Col: AA
+   "Unit$"
+ Col: AB
+   "Ext$"
+ Col: AC
+   "Cat#"
+ Col: AD
+   "Avail"
+ Col: AE
+   "Purch"
+ Col: AF
+   "Unit$"
+ Col: AG
+   "Ext$"
+ Col: AH
+   "Cat#"
+ Col: AI
+   "Avail"
+ Col: AJ
+   "Purch"
+ Col: AK
+   "Unit$"
+ Col: AL
+   "Ext$"
+ Col: AM
+   "Cat#"
+ Col: AN
+   "Avail"
+ Col: AO
+   "Purch"
+ Col: AP
+   "Unit$"
+ Col: AQ
+   "Ext$"
+ Col: AR
+   "Cat#"
+ Col: AS
+   "Avail"
+ Col: AT
+   "Purch"
+ Col: AU
+   "Unit$"
+ Col: AV
+   "Ext$"
+ Col: AW
+   "Cat#"
+ Col: AX
+   "Avail"
+ Col: AY
+   "Purch"
+ Col: AZ
+   "Unit$"
+ Col: BA
+   "Ext$"
+ Col: BB
+   "Cat#"
+Row: 7
+ Col: A
+   "C1-C7"
+ Col: B
+   "1.0uF"
+ Col: D
+   "C_0603_HandSoldering"
+ Col: E
+   "Yageo"
+ Col: F
+   <a href="http://datasheet.octopart.com/CC0201KRX5R7BB103-Yageo-datasheet-86397281.pdf">CC0201KRX5R7BB103</a>
+ Col: G
+   700
+  Formula: CEILING(BoardQty*7.0,1)
+ Col: H
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I
+   0
+  Formula: iferror(G7*H7,"")
+ Col: O
+   584720
+ Col: Q
+   0
+  Formula: iferror(lookup(if(P7="",G7,P7),{0,1,10,50,100,500,1000,2500,5000,15000},{0.0,0.1,0.017,0.009,0.0074,0.00528,0.00414,0.00377,0.00346,0.00301}),"")
+ Col: R
+   0
+  Formula: iferror(if(P7="",G7,P7)*Q7,"")
+ Col: S
+   <a href="https://octopart.com/click/track?ai=8078&sig=086f94f&sid=459&ppid=57080721&vpid=193845867&ct=offers">311-1596-1-ND</a>
+ Col: T
+   135000
+ Col: V
+   0
+  Formula: iferror(USD_GBP*lookup(if(U7="",G7,U7),{0,1,10,100,150,500,2500,7500,15000,75000},{0.0,0.0145,0.0145,0.0107,0.0107,0.0064,0.0042,0.0035,0.0031,0.0022}),"")
+ Col: W
+   0
+  Formula: iferror(if(U7="",G7,U7)*V7,"")
+ Col: X
+   <a href="https://octopart.com/click/track?ai=8078&sig=0a06846&sid=11744&ppid=57080721&vpid=667996601&ct=offers">3369041</a>
+ Col: AD
+   134231
+ Col: AF
+   0
+  Formula: iferror(lookup(if(AE7="",G7,AE7),{0,1,10,50,100,1000,10000},{0.0,0.1,0.017,0.017,0.008,0.006,0.004}),"")
+ Col: AG
+   0
+  Formula: iferror(if(AE7="",G7,AE7)*AF7,"")
+ Col: AH
+   <a href="https://octopart.com/click/track?ai=8078&sig=0981ce8&sid=2401&ppid=57080721&vpid=250155475&ct=offers">603CC201KRX5R7BB103</a>
+ Col: AI
+   135000
+ Col: AK
+   0
+  Formula: iferror(lookup(if(AJ7="",G7,AJ7),{0,1,15000},{0.0,0.004,0.004}),"")
+ Col: AL
+   0
+  Formula: iferror(if(AJ7="",G7,AJ7)*AK7,"")
+ Col: AM
+   <a href="https://octopart.com/click/track?ai=8078&sig=0d62247&sid=2402&ppid=57080721&vpid=658256593&ct=offers">69AH7060</a>
+Row: 8
+ Col: A
+   "JP1-JP10"
+ Col: B
+   "JUMPER"
+ Col: D
+   "HDR_1x2"
+ Col: G
+   1000
+  Formula: CEILING(BoardQty*10,1)
+ Col: H
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I
+   0
+  Formula: iferror(G8*H8,"")
+ Col: AX
+   "NonStk"
+ Col: AZ
+   0
+  Formula: iferror(lookup(if(AY8="",G8,AY8),{0,1},{0.0,0.01}),"")
+ Col: BA
+   0
+  Formula: iferror(if(AY8="",G8,AY8)*AZ8,"")
+ Col: BB
+   "#e7291ef23ae6018624822a51e6512040"
+Row: 9
+ Col: A
+   "PCB1"
+ Col: B
+   "PCB"
+ Col: G
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: H
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I
+   0
+  Formula: iferror(G9*H9,"")
+ Col: AX
+   "NonStk"
+ Col: AZ
+   0
+  Formula: iferror(lookup(if(AY9="",G9,AY9),{0,1},{0.0,0.32}),"")
+ Col: BA
+   0
+  Formula: iferror(if(AY9="",G9,AY9)*AZ9,"")
+ Col: BB
+   "#80355edbb34cde72d2f70c1fa450b679"
+Row: 10
+ Col: A1
+   "PM1"
+ Col: B1
+   "PMOD_SCKT-12"
+ Col: D1
+   "PMOD_SCKT-12"
+ Col: E1
+   "Ho Chien"
+ Col: F1
+   "2553-2x6G"
+ Col: G1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: H1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I1
+   0
+  Formula: iferror(G10*H10,"")
+ Col: AX1
+   "NonStk"
+ Col: AZ1
+   0
+  Formula: iferror(lookup(if(AY10="",G10,AY10),{0,1},{0.0,0.21}),"")
+ Col: BA1
+   0
+  Formula: iferror(if(AY10="",G10,AY10)*AZ10,"")
+ Col: BB1
+   <a href="http:///www.beyondcomponents.com">2553-2x6G</a>
+Row: 11
+ Col: A1
+   "RN1"
+ Col: B1
+   "4K7"
+ Col: D1
+   "CTS_742C043"
+ Col: F1
+   "742c043472"
+ Col: G1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: H1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I1
+   0
+  Formula: iferror(G11*H11,"")
+Row: 12
+ Col: A1
+   "STK1"
+ Col: B1
+   "STICKIT2_HDR"
+ Col: D1
+   "STICKIT2_HDR"
+ Col: G1
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: H1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I1
+   0
+  Formula: iferror(G12*H12,"")
+ Col: AX1
+   "NonStk"
+ Col: AZ1
+   0
+  Formula: iferror(lookup(if(AY12="",G12,AY12),{0,1},{0.0,0.09}),"")
+ Col: BA1
+   0
+  Formula: iferror(if(AY12="",G12,AY12)*AZ12,"")
+ Col: BB1
+   "#d87861a75380989ab3600cd2120241ff"
+Row: 13
+ Col: A1
+   "U1,U2"
+ Col: B1
+   "MCP48X2"
+ Col: C1
+   "Dual DAC"
+ Col: D1
+   "xess-MICROCHIP-8_MSOP"
+ Col: E1
+   "Microchip"
+ Col: F1
+   <a href="http://datasheet.octopart.com/MCP4802-E/MS-Microchip-datasheet-8699770.pdf">MCP4802-E/MS</a>
+ Col: G1
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+ Col: H1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I1
+   0
+  Formula: iferror(G13*H13,"")
+ Col: O1
+   2
+ Col: Q1
+   0
+  Formula: iferror(lookup(if(P13="",G13,P13),{0,1,25,100},{0.0,1.55,1.29,1.18}),"")
+ Col: R1
+   0
+  Formula: iferror(if(P13="",G13,P13)*Q13,"")
+ Col: S1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0d400b3&sid=459&ppid=13188512&vpid=33801773&ct=offers">MCP4802-E/MS-ND</a>
+ Col: T1
+   2
+ Col: V1
+   0
+  Formula: iferror(USD_GBP*lookup(if(U13="",G13,U13),{0,1,25,100},{0.0,1.48,1.23,1.12}),"")
+ Col: W1
+   0
+  Formula: iferror(if(U13="",G13,U13)*V13,"")
+ Col: X1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0715359&sid=11744&ppid=13188512&vpid=541125443&ct=offers">3102799</a>
+ Col: Y1
+   9
+ Col: AA1
+   0
+  Formula: iferror(lookup(if(Z13="",G13,Z13),{0,1,10,30,100,500,1000},{0.0,3.0386,2.2253,2.0774,1.9277,1.861,1.8286}),"")
+ Col: AB1
+   0
+  Formula: iferror(if(Z13="",G13,Z13)*AA13,"")
+ Col: AC1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0eb1580&sid=27971&ppid=13188512&vpid=490105183&ct=offers">C185622</a>
+ Col: AD1
+   191
+ Col: AF1
+   0
+  Formula: iferror(lookup(if(AE13="",G13,AE13),{0,1,10,50,100,1000,10000},{0.0,1.55,1.55,1.29,1.18,1.18,1.18}),"")
+ Col: AG1
+   0
+  Formula: iferror(if(AE13="",G13,AE13)*AF13,"")
+ Col: AH1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0639b9a&sid=2401&ppid=13188512&vpid=37684734&ct=offers">579MCP4802E/MS</a>
+ Col: AI1
+   2
+ Col: AK1
+   0
+  Formula: iferror(lookup(if(AJ13="",G13,AJ13),{0,1,10,25,50,300},{0.0,1.85,1.7,1.54,1.48,1.48}),"")
+ Col: AL1
+   0
+  Formula: iferror(if(AJ13="",G13,AJ13)*AK13,"")
+ Col: AM1
+   <a href="https://octopart.com/click/track?ai=8078&sig=04ee537&sid=2402&ppid=13188512&vpid=549529530&ct=offers">02AH4494</a>
+ Col: AN1
+   45
+ Col: AP1
+   0
+  Formula: iferror(USD_GBP*lookup(if(AO13="",G13,AO13),{0,1,5,25,100},{0.0,1.186,1.186,1.15,1.11}),"")
+ Col: AQ1
+   0
+  Formula: iferror(if(AO13="",G13,AO13)*AP13,"")
+ Col: AR1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0635cc8&sid=10022&ppid=13188512&vpid=202912404&ct=offers">7263908</a>
+ Col: AS1
+   "NonStk"
+ Col: AU1
+   0
+  Formula: iferror(USD_EUR*lookup(if(AT13="",G13,AT13),{0,1,5,25,100},{0.0,1.27,1.23,1.17,1.03}),"")
+ Col: AV1
+   0
+  Formula: iferror(if(AT13="",G13,AT13)*AU13,"")
+ Col: AW1
+   <a href="https://octopart.com/click/track?ai=8078&sig=03d037e&sid=1532&ppid=13188512&vpid=709082102&ct=offers">MCP4802E/MS</a>
+Row: 14
+ Col: A1
+   "U3"
+ Col: B1
+   "MCP43X1"
+ Col: C1
+   "digital pot A"
+ Col: D1
+   "xess-MICROCHIP-20_TSSOP"
+ Col: E1
+   "Microchip"
+ Col: F1
+   <a href="http://datasheet.octopart.com/MCP4361-503E/ST-Microchip-datasheet-8502179.pdf">MCP4361-503E/ST</a>
+ Col: G1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: H1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I1
+   0
+  Formula: iferror(G14*H14,"")
+ Col: O1
+   215
+ Col: Q1
+   0
+  Formula: iferror(lookup(if(P14="",G14,P14),{0,1,25,100},{0.0,1.97,1.65,1.49}),"")
+ Col: R1
+   0
+  Formula: iferror(if(P14="",G14,P14)*Q14,"")
+ Col: S1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0584784&sid=459&ppid=12962638&vpid=33801487&ct=offers">MCP4361-503E/ST-ND</a>
+ Col: T1
+   "NonStk"
+ Col: V1
+   0
+  Formula: iferror(USD_GBP*lookup(if(U14="",G14,U14),{0,1,10,100,250,500},{0.0,1.76,1.48,1.22,1.16,1.08}),"")
+ Col: W1
+   0
+  Formula: iferror(if(U14="",G14,U14)*V14,"")
+ Col: X1
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=04a2e4c&sid=819&ppid=12962638&vpid=244959717&ct=offers">1840707</a>
+ Col: AD1
+   93
+ Col: AF1
+   0
+  Formula: iferror(lookup(if(AE14="",G14,AE14),{0,1,10,50,100,1000,10000},{0.0,1.97,1.97,1.65,1.49,1.49,1.49}),"")
+ Col: AG1
+   0
+  Formula: iferror(if(AE14="",G14,AE14)*AF14,"")
+ Col: AH1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0dd549d&sid=2401&ppid=12962638&vpid=37821105&ct=offers">579MCP4361503E/ST</a>
+ Col: AI1
+   "NonStk"
+ Col: AK1
+   0
+  Formula: iferror(lookup(if(AJ14="",G14,AJ14),{0,1,296},{0.0,1.49,1.49}),"")
+ Col: AL1
+   0
+  Formula: iferror(if(AJ14="",G14,AJ14)*AK14,"")
+ Col: AM1
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=02a5720&sid=2402&ppid=12962638&vpid=31771664&ct=offers">53R0046</a>
+Row: 15
+ Col: A1
+   "VoA2"
+ Col: B1
+   "COAX_CONN"
+ Col: D1
+   "SMA_EDGE_AMP_132322"
+ Col: E1
+   "amphenol"
+ Col: F1
+   <a href="http://datasheet.octopart.com/132322-Amphenol-RF-datasheet-12881824.pdf">132322</a>
+ Col: G1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: H1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: I1
+   0
+  Formula: iferror(G15*H15,"")
+ Col: O1
+   2315
+ Col: Q1
+   0
+  Formula: iferror(lookup(if(P15="",G15,P15),{0,1,10,25,50,100,250,500,1000},{0.0,7.73,7.411,6.7668,6.4446,6.1224,5.47792,5.15568,4.51123}),"")
+ Col: R1
+   0
+  Formula: iferror(if(P15="",G15,P15)*Q15,"")
+ Col: S1
+   <a href="https://octopart.com/click/track?ai=8078&sig=087912f&sid=459&ppid=50123640&vpid=214802411&ct=offers">ACX1652-ND</a>
+ Col: T1
+   1002
+ Col: V1
+   0
+  Formula: iferror(USD_GBP*lookup(if(U15="",G15,U15),{0,1,10,100,250,500,1000},{0.0,6.07,5.06,4.8,4.3,4.04,3.78}),"")
+ Col: W1
+   0
+  Formula: iferror(if(U15="",G15,U15)*V15,"")
+ Col: X1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0f430f7&sid=819&ppid=50123640&vpid=267150275&ct=offers">2579819</a>
+ Col: AD1
+   "NonStk"
+ Col: AF1
+   0
+  Formula: iferror(lookup(if(AE15="",G15,AE15),{0,1,10,50,100,1000,10000},{0.0,8.35,6.96,6.96,6.61,4.87,4.87}),"")
+ Col: AG1
+   0
+  Formula: iferror(if(AE15="",G15,AE15)*AF15,"")
+ Col: AH1
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0e628a3&sid=2401&ppid=50123640&vpid=37846414&ct=offers">523132322</a>
+ Col: AI1
+   597
+ Col: AK1
+   0
+  Formula: iferror(lookup(if(AJ15="",G15,AJ15),{0,1,5,10,25,50,100},{0.0,7.87,7.22,6.57,6.46,6.34,6.23}),"")
+ Col: AL1
+   0
+  Formula: iferror(if(AJ15="",G15,AJ15)*AK15,"")
+ Col: AM1
+   <a href="https://octopart.com/click/track?ai=8078&sig=06a9d9b&sid=2402&ppid=50123640&vpid=216878985&ct=offers">99H5141</a>
+ Col: AN1
+   235
+ Col: AP1
+   0
+  Formula: iferror(USD_GBP*lookup(if(AO15="",G15,AO15),{0,1,10,20,50,100},{0.0,6.07,5.08,4.94,4.75,4.69}),"")
+ Col: AQ1
+   0
+  Formula: iferror(if(AO15="",G15,AO15)*AP15,"")
+ Col: AR1
+   <a href="https://octopart.com/click/track?ai=8078&sig=0ea36df&sid=10022&ppid=50123640&vpid=669481604&ct=offers">1440918</a>
+ Col: AS1
+   89
+ Col: AU1
+   0
+  Formula: iferror(USD_EUR*lookup(if(AT15="",G15,AT15),{0,1,5,20,50},{0.0,7.12,6.41,5.7,4.98}),"")
+ Col: AV1
+   0
+  Formula: iferror(if(AT15="",G15,AT15)*AU15,"")
+ Col: AW1
+   <a href="https://octopart.com/click/track?ai=8078&sig=07af61d&sid=1532&ppid=50123640&vpid=707767643&ct=offers">132322</a>
+ Col: AX1
+   "NonStk"
+ Col: AZ1
+   0
+  Formula: iferror(lookup(if(AY15="",G15,AY15),{0,1},{0.0,0.244}),"")
+ Col: BA1
+   0
+  Formula: iferror(if(AY15="",G15,AY15)*AZ15,"")
+ Col: BB1
+   <a href="http://www.aliexpress.com/item/10pcs-SMA-Female-Jack-Solder-Edge-PCB-Mount-Straight-RF-Connector/32429747943.html">132322</a>
+Row: 17
+ Col: B1
+   "Used currency rates:"
+ Col: H1
+   "Total Purchase:"
+ Col: I1
+   0
+  Formula: SUM(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+3)))
+ Col: J1
+   <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
+ Col: K1
+   0
+  Formula: IFERROR(IF(OR(K7:K15),COUNTIFS(K7:K15,">0",M7:M15,"<>")&" of "&(ROWS(M7:M15)-COUNTBLANK(M7:M15))&" parts purchased",""),"")
+ Col: M1
+   0
+  Formula: SUMIF(K7:K15,">0",M7:M15)
+ Col: O1
+   <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
+ Col: P1
+   0
+  Formula: IFERROR(IF(OR(P7:P15),COUNTIFS(P7:P15,">0",R7:R15,"<>")&" of "&(ROWS(R7:R15)-COUNTBLANK(R7:R15))&" parts purchased",""),"")
+ Col: R1
+   0
+  Formula: SUMIF(P7:P15,">0",R7:R15)
+ Col: T1
+   <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
+ Col: U1
+   0
+  Formula: IFERROR(IF(OR(U7:U15),COUNTIFS(U7:U15,">0",W7:W15,"<>")&" of "&(ROWS(W7:W15)-COUNTBLANK(W7:W15))&" parts purchased",""),"")
+ Col: W1
+   0
+  Formula: SUMIF(U7:U15,">0",W7:W15)
+ Col: Y1
+   <a href="https://lcsc.com/bom.html">Buy here</a>
+ Col: Z1
+   0
+  Formula: IFERROR(IF(OR(Z7:Z15),COUNTIFS(Z7:Z15,">0",AB7:AB15,"<>")&" of "&(ROWS(AB7:AB15)-COUNTBLANK(AB7:AB15))&" parts purchased",""),"")
+ Col: AB1
+   0
+  Formula: SUMIF(Z7:Z15,">0",AB7:AB15)
+ Col: AD1
+   <a href="https://mouser.com/bom/">Buy here</a>
+ Col: AE1
+   0
+  Formula: IFERROR(IF(OR(AE7:AE15),COUNTIFS(AE7:AE15,">0",AG7:AG15,"<>")&" of "&(ROWS(AG7:AG15)-COUNTBLANK(AG7:AG15))&" parts purchased",""),"")
+ Col: AG1
+   0
+  Formula: SUMIF(AE7:AE15,">0",AG7:AG15)
+ Col: AI1
+   <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
+ Col: AJ1
+   0
+  Formula: IFERROR(IF(OR(AJ7:AJ15),COUNTIFS(AJ7:AJ15,">0",AL7:AL15,"<>")&" of "&(ROWS(AL7:AL15)-COUNTBLANK(AL7:AL15))&" parts purchased",""),"")
+ Col: AL1
+   0
+  Formula: SUMIF(AJ7:AJ15,">0",AL7:AL15)
+ Col: AN1
+   <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
+ Col: AO1
+   0
+  Formula: IFERROR(IF(OR(AO7:AO15),COUNTIFS(AO7:AO15,">0",AQ7:AQ15,"<>")&" of "&(ROWS(AQ7:AQ15)-COUNTBLANK(AQ7:AQ15))&" parts purchased",""),"")
+ Col: AQ1
+   0
+  Formula: SUMIF(AO7:AO15,">0",AQ7:AQ15)
+ Col: AS1
+   <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
+ Col: AT1
+   0
+  Formula: IFERROR(IF(OR(AT7:AT15),COUNTIFS(AT7:AT15,">0",AV7:AV15,"<>")&" of "&(ROWS(AV7:AV15)-COUNTBLANK(AV7:AV15))&" parts purchased",""),"")
+ Col: AV1
+   0
+  Formula: SUMIF(AT7:AT15,">0",AV7:AV15)
+ Col: AY1
+   0
+  Formula: IFERROR(IF(OR(AY7:AY15),COUNTIFS(AY7:AY15,">0",BA7:BA15,"<>")&" of "&(ROWS(BA7:BA15)-COUNTBLANK(BA7:BA15))&" parts purchased",""),"")
+ Col: BA1
+   0
+  Formula: SUMIF(AY7:AY15,">0",BA7:BA15)
+Row: 18
+ Col: B1
+   "USD($)/EUR(€):"
+ Col: C1
+   1.1873
+ Col: H1
+   "Purchase description:"
+ Col: K1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P1
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z1
+   0
+  Formula: IFERROR(IF(COUNTIFS(Z7:Z15,">0",AB7:AB15,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)",""),"")
+ Col: AE1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 19
+ Col: B1
+   "USD($)/GBP(£):"
+ Col: C1
+   1.375941592305018
+ Col: K1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P1
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z1
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY1
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 20
+ Col: K2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 21
+ Col: A2
+   "*FILTERED*"
+ Col: K2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 22
+ Col: K2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 23
+ Col: K2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 24
+ Col: K2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 25
+ Col: K2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 26
+ Col: K2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(N7:N15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(K7:K15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(K7:K15),IF(K7:K15>0,IF(N7:N15<>"",ROW(K7:K15)-MIN(ROW(K7:K15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: P2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(P7:P15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",INDEX(S7:S15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(P7:P15),IF(P7:P15>0,IF(S7:S15<>"",ROW(P7:P15)-MIN(ROW(P7:P15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: U2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(X7:X15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(U7:U15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(U7:U15),IF(U7:U15>0,IF(X7:X15<>"",ROW(U7:U15)-MIN(ROW(U7:U15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),30)),"")
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")
+ Col: AE2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AH7:AH15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",TEXT(INDEX(AE7:AE15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AE7:AE15),IF(AE7:AE15>0,IF(AH7:AH15<>"",ROW(AE7:AE15)-MIN(ROW(AE7:AE15))+1))),ROW()-ROW(A$18)+1)),"|",";")," ","_")),"")
+ Col: AJ2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AM7:AM15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AJ7:AJ15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C15,SMALL(IF(ISNUMBER(AJ7:AJ15),IF(AJ7:AJ15>0,IF(AM7:AM15<>"",ROW(AJ7:AJ15)-MIN(ROW(AJ7:AJ15))+1))),ROW()-ROW(A$18)+1)),",",";"),"\n",";")),"")
+ Col: AO2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AR7:AR15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AO7:AO15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",,",",,",",,",",INDEX(F7:F15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AO7:AO15),IF(AO7:AO15>0,IF(AR7:AR15<>"",ROW(AO7:AO15)-MIN(ROW(AO7:AO15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+ Col: AT2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(AW7:AW15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",TEXT(INDEX(AT7:AT15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AT7:AT15),IF(AT7:AT15>0,IF(AW7:AW15<>"",ROW(AT7:AT15)-MIN(ROW(AT7:AT15))+1))),ROW()-ROW(A$18)+1))," ",";")),"")
+ Col: AY2
+   0
+  Formula: IFERROR(CONCATENATE(INDEX(BB7:BB15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",TEXT(INDEX(AY7:AY15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(AY7:AY15),IF(AY7:AY15>0,IF(BB7:BB15<>"",ROW(AY7:AY15)-MIN(ROW(AY7:AY15))+1))),ROW()-ROW(A$18)+1)),",",";")),"")
+Row: 27
+ Col: Z2
+   0
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(Z7:Z15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&D7:D15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1)),",",";"),",",INDEX(AC7:AC15,SMALL(IF(ISNUMBER(Z7:Z15),IF(Z7:Z15>0,IF(AC7:AC15<>"",ROW(Z7:Z15)-MIN(ROW(Z7:Z15))+1))),ROW()-ROW(A$19)+1))),"")

@@ -1,0 +1,175 @@
+Variables:
+BoardQty = 'variants_3_variant1^_variant1_$'!$J$1
+TotalCost = 'variants_3_variant1^_variant1_$'!$J$3
+global_part_data = 'variants_3_variant1^_variant1_$'!$A$5:$J$13
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "KiBom Variants 3"
+ Col: I
+   "Board Qty:"
+ Col: J
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "KiCOST TEST"
+ Col: I
+   "Unit Cost:"
+ Col: J
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "2021-01-02"
+ Col: I
+   "Total Cost:"
+ Col: J
+   0
+  Formula: SUM(J7:J13)
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Desc"
+ Col: D
+   "Comment"
+ Col: E
+   "Footprint"
+ Col: F
+   "Manf"
+ Col: G
+   "Manf#"
+ Col: H
+   "Qty"
+ Col: I
+   "Unit$"
+ Col: J
+   "Ext$"
+Row: 7
+ Col: A
+   "C1"
+ Col: B
+   "1nF"
+ Col: C
+   "Manf is defaultmanf, except when variant1"
+ Col: F
+   "variant1manf"
+ Col: H
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: J
+   0
+  Formula: iferror(H7*I7,"")
+Row: 8
+ Col: A
+   "C2"
+ Col: B
+   "2nF"
+ Col: C
+   "Manf is defaultmanf, except when variant1 (check impact of field order)"
+ Col: F
+   "variant1manf"
+ Col: H
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: J
+   0
+  Formula: iferror(H8*I8,"")
+Row: 9
+ Col: A
+   "C3"
+ Col: B
+   "3nF"
+ Col: C
+   "Placed only when variant1"
+ Col: F
+   "defaultmanf"
+ Col: H
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: J
+   0
+  Formula: iferror(H9*I9,"")
+Row: 10
+ Col: A1
+   "C4"
+ Col: B1
+   "4nF"
+ Col: C1
+   "Placed only when variant1"
+ Col: F1
+   "defaultmanf"
+ Col: H1
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: J1
+   0
+  Formula: iferror(H10*I10,"")
+Row: 11
+ Col: A1
+   "C5"
+ Col: B1
+   "5nF"
+ Col: C1
+   "Placed only when variant1"
+ Col: F1
+   "defaultmanf"
+ Col: H1
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: J1
+   0
+  Formula: iferror(H11*I11,"")
+Row: 12
+ Col: A1
+   "C7"
+ Col: B1
+   "7nF"
+ Col: C1
+   "Should appear in variant1"
+ Col: D1
+   "*NONE*"
+ Col: F1
+   "defaultmanf"
+ Col: H1
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: J1
+   0
+  Formula: iferror(H12*I12,"")
+Row: 13
+ Col: A1
+   "C8"
+ Col: B1
+   "8nF"
+ Col: C1
+   "*NONE*"
+ Col: D1
+   "Variant 1 comment"
+ Col: F1
+   "defaultmanf"
+ Col: H1
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: J1
+   0
+  Formula: iferror(H13*I13,"")
+Row: 16
+ Col: A1
+   "*FILTERED*"

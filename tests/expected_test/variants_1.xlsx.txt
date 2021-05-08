@@ -1,0 +1,82 @@
+Variables:
+BoardQty = 'variants_1'!$G$1
+TotalCost = 'variants_1'!$G$3
+global_part_data = 'variants_1'!$A$5:$G$8
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "KiBom Test Schematic"
+ Col: F
+   "Board Qty:"
+ Col: G
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   <a href="https://github.com/SchrodingersGat/KiBom">https://github.com/SchrodingersGat/KiBom</a>
+ Col: F
+   "Unit Cost:"
+ Col: G
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "mar 30 mar 2021 09:46:24"
+ Col: F
+   "Total Cost:"
+ Col: G
+   0
+  Formula: SUM(G7:G8)
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Footprint"
+ Col: D
+   "Manf#"
+ Col: E
+   "Qty"
+ Col: F
+   "Unit$"
+ Col: G
+   "Ext$"
+Row: 7
+ Col: A
+   "C1"
+ Col: B
+   "1nF"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: G
+   0
+  Formula: iferror(E7*F7,"")
+Row: 8
+ Col: A
+   "R1"
+ Col: B
+   "1k"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: G
+   0
+  Formula: iferror(E8*F8,"")
+Row: 11
+ Col: A1
+   "*FILTERED*"

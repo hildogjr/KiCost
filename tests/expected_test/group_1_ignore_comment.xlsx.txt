@@ -1,0 +1,109 @@
+Variables:
+BoardQty = 'group_1_ignore_comment'!$L$1
+TotalCost = 'group_1_ignore_comment'!$L$3
+global_part_data = 'group_1_ignore_comment'!$A$5:$L$9
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "Parts to test grouping, field ignore"
+ Col: K
+   "Board Qty:"
+ Col: L
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "KiCOST TEST"
+ Col: K
+   "Unit Cost:"
+ Col: L
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "2021-01-02"
+ Col: K
+   "Total Cost:"
+ Col: L
+   0
+  Formula: SUM(L7:L9)
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "comment"
+ Col: D
+   "S1MN"
+ Col: E
+   "S1PN"
+ Col: F
+   "S2MN"
+ Col: G
+   "S2PN"
+ Col: H
+   "Footprint"
+ Col: I
+   "Manf#"
+ Col: J
+   "Qty"
+ Col: K
+   "Unit$"
+ Col: L
+   "Ext$"
+Row: 7
+ Col: A
+   "C1,C2,C20"
+ Col: B
+   "1nF"
+ Col: I
+   "COMP-1nF"
+ Col: J
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+ Col: L
+   0
+  Formula: iferror(J7*K7,"")
+Row: 8
+ Col: A
+   "C10"
+ Col: B
+   "1uF"
+ Col: I
+   "COMP-1nF"
+ Col: J
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L
+   0
+  Formula: iferror(J8*K8,"")
+Row: 9
+ Col: A
+   "C5"
+ Col: B
+   "1nF"
+ Col: I
+   "OTHERCOMP-1nF"
+ Col: J
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L
+   0
+  Formula: iferror(J9*K9,"")
+Row: 12
+ Col: A1
+   "*FILTERED*"
