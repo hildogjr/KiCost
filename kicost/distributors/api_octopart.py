@@ -41,9 +41,11 @@ from .distributor import distributor_class
 __author__ = 'XESS Corporation'
 __webpage__ = 'info@xess.com'
 
+# SET: The following isn't need in all KiCost, I don't think is really needed here.
+#      If you think this is needed contact me, we can use the same tricks used in the rest of the code.
 # Python2/3 compatibility.
-from future import standard_library
-standard_library.install_aliases()
+# from future import standard_library
+# standard_library.install_aliases()
 
 OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 
