@@ -53,6 +53,7 @@ DEF_MAX_COLUMN_W = 32
 
 # Error codes
 ERR_KICADCONFIG = 3  # An error related to KiCad configuration
+ERR_KICOSTCONFIG = 4  # An error related to KiCost configuration
 
 
 class PartHtmlError(Exception):
