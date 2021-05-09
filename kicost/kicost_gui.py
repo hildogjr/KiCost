@@ -61,8 +61,10 @@ if sys.platform.startswith("win32"):
     from .os_windows import reg_enum_keys, reg_get
     if sys.version_info < (3, 0):
         from _winreg import HKEY_LOCAL_MACHINE
+        ConnectRegistryError = WindowsError
     else:
         from winreg import HKEY_LOCAL_MACHINE
+        ConnectRegistryError = PermissionError  # noqa: F821
 
 __all__ = ['kicost_gui', 'kicost_gui_runterminal']
 # TODO this variable was used locally and referred globally
@@ -409,7 +411,7 @@ class formKiCost(wx.Frame):
                         os.path.join(libreoffice_reg, os.path.join(libreoffice_reg, libreoffice_installations[-1]), 'Path'),
                         HKEY_LOCAL_MACHINE)
                 logger.log(DEBUG_OVERVIEW, 'Last LibreOffice installation at {}.'.format(libreoffice_executable))
-            except Exception:
+            except ConnectRegistryError:
                 logger.log(DEBUG_OVERVIEW, 'LibreOffice not found.')
                 libreoffice_executable = None
         else:
