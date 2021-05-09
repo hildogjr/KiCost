@@ -1,11 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-test_kicost
-----------------------------------
+# MIT license
+#
+# Copyright (c) 2021 Salvador E. Tropea
+# Copyright (c) 2021 Instituto Nacional de Tecnologïa Industrial
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
 
-Tests for `kicost` module.
+"""
+KiCost test module
+
+Tests for `kicost`. From the root of the projectr run:
 
 pytest-3 --log-cli-level debug
 """
@@ -18,6 +40,11 @@ import re
 import sys
 import shutil
 import xml.etree.ElementTree as ET
+
+# Author information.
+__author__ = 'Salvador Eduardo Tropea'
+__webpage__ = 'https://github.com/set-soft/'
+__company__ = 'INTI-CMNB - Argentina'
 
 # Collect real world queries (see README.md)
 # Change to 1 when the query result must be saved, then revert to 0
@@ -36,9 +63,13 @@ def to_str(s):
     return s.encode('utf-8')
 
 
+def log_running(what, cmd):
+    logging.debug('{} using: {}'.format(what, ' '.join(cmd)))
+
+
 def xlsx_to_txt(filename, subdir='result_test', sheet=1):
     filename = os.path.join(TESTDIR, filename + '.xlsx')
-    logging.debug('Extracting data from ' + filename)
+    logging.debug('Converting to TXT')
     tmpdir = TESTDIR + '/desc'
     assert not os.path.isdir(tmpdir), "Destination for XLSX uncompress is there, remove it and investigate"
     subprocess.call(['unzip', filename, '-d', tmpdir])
@@ -153,6 +184,33 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
     return True
 
 
+def xlsx_to_csv(filename, subdir='result_test', price=True):
+    res_csv = os.path.join(TESTDIR, subdir, filename + '.csv')
+    out_xlsx = os.path.join(TESTDIR, filename + '.xlsx')
+    # Convert to CSV
+    logging.debug('Converting to CSV')
+    cmd = ['xlsx2csv']
+    if not price:
+        cmd.append('--skipemptycolumns')
+    cmd.append(out_xlsx)
+    p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    # Filter it
+    filter = r'\$ date|Prj date:.*\(file|kicost'
+    if not price:
+        filter += '|Total purchase'
+    with open(res_csv, 'w') as f:
+        p2 = subprocess.Popen(['egrep', '-i', '-v', '(' + filter + ')'], stdin=p1.stdout, stdout=f)
+        p2.communicate()[0]
+
+
+def check_diff(filename):
+    ref = os.path.join(TESTDIR, 'expected_test', filename)
+    res = os.path.join(TESTDIR, 'result_test', filename)
+    cmd = ['diff', '-u', ref, res]
+    log_running('Comparing', cmd)
+    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+
+
 def run_test(inputs, output, extra=None, price=True):
     if not os.path.isdir(TESTDIR + '/result_test'):
         os.mkdir(TESTDIR + '/result_test')
@@ -184,7 +242,7 @@ def run_test(inputs, output, extra=None, price=True):
         out_xlsx = TESTDIR + '/' + output + '.xlsx'
         cmd.extend(['-o', out_xlsx])
         cmd.extend(['-wi'] + [TESTDIR + '/' + n for n in inputs])
-        logging.debug('Running '+str(cmd))
+        log_running('Testing', cmd)
         log_err = open(TESTDIR + '/log_test/' + output + '_error.log', 'w+t')
         log_out = open(TESTDIR + '/log_test/' + output + '_out.log', 'w+t')
         subprocess.check_call(cmd, stderr=log_err, stdout=log_out)
@@ -193,36 +251,15 @@ def run_test(inputs, output, extra=None, price=True):
         last_err = log_err.read()
         log_err.close()
         log_out.close()
-        res_csv = TESTDIR + '/result_test/' + output + '.csv'
-        # Convert to CSV
-        logging.debug('Converting to CSV')
-        cmd = ['xlsx2csv']
-        if not price:
-            cmd.append('--skipemptycolumns')
-        cmd.append(out_xlsx)
-        p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-        # Filter it
-        filter = r'\$ date|Prj date:.*\(file|kicost'
-        if not price:
-            filter += '|Total purchase'
-        with open(res_csv, 'w') as f:
-            p2 = subprocess.Popen(['egrep', '-i', '-v', '(' + filter + ')'], stdin=p1.stdout, stdout=f)
-            p2.communicate()[0]
-        # Check with diff
-        ref_csv = TESTDIR + '/expected_test/' + output + '.csv'
-        cmd = ['diff', '-u', ref_csv, res_csv]
-        logging.debug('Running '+str(cmd))
-        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
-        # Convert to TXT
+        # Convert to CSV/TXT
         if CREATE_REF:
+            xlsx_to_csv(output, 'expected_test', price)
             xlsx_to_txt(output, 'expected_test')
         else:
+            xlsx_to_csv(output, 'result_test', price)
+            check_diff(output + '.csv')
             xlsx_to_txt(output, 'result_test')
-            ref_txt = os.path.join(TESTDIR, 'expected_test', output + '.xlsx.txt')
-            res_txt = os.path.join(TESTDIR, 'result_test', output + '.xlsx.txt')
-            cmd = ['diff', '-u', ref_txt, res_txt]
-            logging.debug('Running '+str(cmd))
-            subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+            check_diff(output + '.xlsx.txt')
     finally:
         # Kill the server
         if server is not None:
