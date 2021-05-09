@@ -37,7 +37,7 @@ try:
     import sexpdata  # Try to use a external updated library.
 except ImportError:
     from . import sexpdata  # Use the local file.
-from .global_vars import PLATFORM_MACOS_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH  # Debug, language and default configurations.
+from .global_vars import PLATFORM_MACOS_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH, KiCostError, ERR_KICADCONFIG  # Debug, language and default configurations.
 
 __all__ = ['get_app_config_path',
            'PATH_KICAD_CONFIG', 'PATH_EESCHEMA_CONFIG',
@@ -63,7 +63,7 @@ def get_app_config_path(appname):
 
 PATH_KICAD_CONFIG = get_app_config_path('kicad')
 if not PATH_KICAD_CONFIG:
-    raise('KiCad configuration folder not found.')
+    raise KiCostError('KiCad configuration folder not found.', ERR_KICADCONFIG)
 PATH_EESCHEMA_CONFIG = os.path.join(PATH_KICAD_CONFIG, "eeschema")
 
 

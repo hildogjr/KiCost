@@ -51,6 +51,9 @@ DEFAULT_CURRENCY = 'USD'  # Default currency assigned.
 # Default maximum column width for the cell adjust
 DEF_MAX_COLUMN_W = 32
 
+# Error codes
+ERR_KICADCONFIG = 3  # An error related to KiCad configuration
+
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
@@ -60,6 +63,14 @@ class PartHtmlError(Exception):
 class wxPythonNotPresent(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
+
+
+class KiCostError(Exception):
+    '''Exception for any error while running kicost().'''
+    def __init__(self, msg, id):
+        super(self.__class__, self).__init__(msg)
+        self.msg = msg
+        self.id = id
 
 
 def get_logger():

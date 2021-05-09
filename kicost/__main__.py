@@ -31,7 +31,7 @@ import time
 import tqdm
 import logging
 # Debug, language and default configurations.
-from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger
+from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger, KiCostError
 # Import log first to set the domain and assign it to the global logger
 from . import log
 log.set_domain('kicost')
@@ -116,7 +116,7 @@ class ProgressConsole(object):
 ###############################################################################
 
 
-def main():
+def main_real():
 
     parser = ap.ArgumentParser(
         description='Build cost spreadsheet for a KiCAD project.')
@@ -373,6 +373,14 @@ def main():
            group_fields=args.group_fields, translate_fields=args.translate_fields,
            variant=args.variant, dist_list=dist_list, currency=args.currency, max_column_width=args.max_column_width,
            split_extra_fields=args.split_extra_fields)
+
+
+def main():
+    try:
+        main_real()
+    except KiCostError as e:
+        logger.error(e.msg)
+        sys.exit(e.id)
 
 
 ###############################################################################
