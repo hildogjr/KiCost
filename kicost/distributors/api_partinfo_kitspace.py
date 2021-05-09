@@ -21,8 +21,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import print_function
-
 # Author information.
 __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
@@ -42,16 +40,16 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError
 # Distributors definitions.
 from .distributor import distributor_class
 
 
+# Uncomment for debug
 # Use `debug('x + 1')` for instance.
-def debug(expression):
-    frame = sys._getframe(1)
-    print(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
-
+# def debug(expression):
+#     frame = sys._getframe(1)
+#     distributor_class.logger.info(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
 
 MAX_PARTS_PER_QUERY = 20  # Maximum number of parts in a single query.
 
@@ -138,15 +136,16 @@ class api_partinfo_kitspace(distributor_class):
             results = json.loads(response.text)
             return results
         elif response.status_code == requests.codes['not_found']:  # 404
-            raise Exception('Kitspace server not found check your internet connection.')
+            raise KiCostError('Kitspace server not found check your internet connection.', ERR_SCRAPE)
         elif response.status_code == requests.codes['request_timeout']:  # 408
-            raise Exception('KitSpace is not responding.')
+            raise KiCostError('KitSpace is not responding.', ERR_SCRAPE)
         elif response.status_code == requests.codes['bad_request']:  # 400
-            raise Exception('Bad request to Kitspace server probably due to an incorrect string format check your `manf#` codes and contact the suport team.')
+            raise KiCostError('Bad request to Kitspace server probably due to an incorrect string '
+                              'format check your `manf#` codes and contact the suport team.', ERR_SCRAPE)
         elif response.status_code == requests.codes['gateway_timeout']:  # 504
-            raise Exception('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.')
+            raise KiCostError('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.', ERR_SCRAPE)
         else:
-            raise Exception('Kitspace error: ' + str(response.status_code))
+            raise KiCostError('Kitspace error: ' + str(response.status_code), ERR_SCRAPE)
 
     @staticmethod
     def get_value(data, item, default=None):
@@ -161,6 +160,7 @@ class api_partinfo_kitspace(distributor_class):
                     continue
             return default
         except Exception:
+            # TODO What?!
             return default
 
     @staticmethod
@@ -265,7 +265,7 @@ class api_partinfo_kitspace(distributor_class):
                         part.qty_avail[dist] = offer.get('in_stock_quantity')  # In stock.
                     ign_stock_code = distributor_class.get_distributor_info(dist).ignore_cat
                     valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
-                    # debug('part.part_num[dist]') # Uncomment to debug
+                    # debug('part.part_num[dist]')  # Uncomment to debug
                     # debug('part.qty_increment[dist]')  # Uncomment to debug
                     if (valid_part and
                         (not part.part_num.get(dist) or

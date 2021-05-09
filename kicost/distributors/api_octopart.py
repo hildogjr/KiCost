@@ -33,7 +33,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW
+from ..global_vars import DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -42,7 +42,6 @@ __author__ = 'XESS Corporation'
 __webpage__ = 'info@xess.com'
 
 # Python2/3 compatibility.
-# from __future__ import (unicode_literals, print_function, division, absolute_import
 from future import standard_library
 standard_library.install_aliases()
 
@@ -96,11 +95,11 @@ class api_octopart(distributor_class):
             results = json.loads(response.text).get('results')
             return results
         elif response.status_code == requests.codes['not_found']:  # 404
-            raise Exception('Octopart server not found.')
+            raise KiCostError('Octopart server not found.', ERR_SCRAPE)
         elif response.status_code == 403 or 'Invalid API key' in response.text:
-            raise Exception('Octopart KEY invalid, registre one at "https://www.octopart.com".')
+            raise KiCostError('Octopart KEY invalid, registre one at "https://www.octopart.com".', ERR_SCRAPE)
         else:
-            raise Exception('Octopart error: ' + str(response.status_code))
+            raise KiCostError('Octopart error: ' + str(response.status_code), ERR_SCRAPE)
 
     def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
