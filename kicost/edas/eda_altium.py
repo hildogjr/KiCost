@@ -35,7 +35,7 @@ import copy  # Necessary because Py2 doesn't have copy in list.
 from datetime import datetime
 from bs4 import BeautifulSoup  # To Read XML files.
 import re  # Regular expression parser.
-from ..global_vars import DEBUG_OVERVIEW  # Debug configurations.
+from ..global_vars import DEBUG_OVERVIEW, ERR_INPUTFILE, KiCostError  # Debug configurations.
 from .tools import field_name_translations, PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
 
@@ -64,7 +64,7 @@ def extract_fields_row(row, header):
     header_translated = [field_name_translations.get(hdr.lower(), hdr.lower()) for hdr in header]
     hdr_refs = [i for i, x in enumerate(header_translated) if x == "refs"]
     if not hdr_refs:
-        raise ValueError('No part designators/references found in the BOM.\nTry to generate the file again with Altium.')
+        raise KiCostError('No part designators/references found in the BOM.\nTry to generate the file again with Altium.', ERR_INPUTFILE)
     else:
         hdr_refs = hdr_refs[0]
     refs = re.split(ALTIUM_PART_SEPRTR, extract_field(row, header[hdr_refs].lower()))
@@ -75,8 +75,8 @@ def extract_fields_row(row, header):
         qty = int(extract_field(row, header[hdr_qty].lower()))
         header_valid.remove(header[hdr_qty])
         if qty != len(refs):
-            raise ValueError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, `'
-                             ' to `,` or better, use `;` instead `,`.')
+            raise KiCostError('Not recognize the division elements in the Altium BOM.\nIf you are using subparts, try to replace the separator from `, `'
+                              ' to `,` or better, use `;` instead `,`.', ERR_INPUTFILE)
     except Exception:
         qty = len(refs)
 

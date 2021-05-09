@@ -36,7 +36,7 @@ from datetime import datetime
 from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
-from ..global_vars import DEBUG_OVERVIEW  # Debug configurations.
+from ..global_vars import DEBUG_OVERVIEW, ERR_INPUTFILE, KiCostError  # Debug configurations.
 from .tools import field_name_translations, split_refs
 from .eda import eda_class
 
@@ -71,7 +71,7 @@ def extract_fields(row, header, header_file, dialect, gen_cntr):
         # If had a error when tried to read a line maybe a 'EmptyLine',
         # normally at the end of the file or after the header and before
         # the first part.
-        raise Exception('EmptyLine')
+        raise KiCostError('Empty line in CSV?!', ERR_INPUTFILE)
 
     if 'refs' in header:
         ref_str = correspondent_header_value('refs', vals, header, header_file).strip()

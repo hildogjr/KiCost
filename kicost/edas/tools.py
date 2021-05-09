@@ -30,7 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 from collections import OrderedDict
 from .. import PartGroup
-from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL
+from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL, ERR_FIELDS, KiCostError
 from ..distributors import get_distributors_iter
 from .eda import eda_class, field_name_translations
 
@@ -127,7 +127,8 @@ def group_parts(components, fields_merge, c_prjs):
     fields_merge = list([field_name_translations.get(f.lower(), f.lower()) for f in fields_merge])
     for c in FIELDS_NOT_HASH:
         if c in fields_merge:
-            raise ValueError('Manufacturer/distributor codes and manufacture company "{}" can\'t be ignored to create the components groups.'.format(c))
+            raise KiCostError('Manufacturer/distributor codes and manufacture company "{}"'
+                              ' can\'t be ignored to create the components groups.'.format(c), ERR_FIELDS)
     FIELDS_NOT_HASH = FIELDS_NOT_HASH + fields_merge  # Not use the fields do merge to create the hash.
 
     # Now partition the parts into groups of like components.
@@ -289,8 +290,8 @@ def group_parts(components, fields_merge, c_prjs):
                     continue  # so ignore it.
                 if grp_fields.get(key):  # This field has been seen before.
                     if grp_fields[key] != val:  # Flag if new field value not the same as old.
-                        raise ValueError('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'
-                                         .format(ref, key, val, grp_fields[key], grp.refs))
+                        raise KiCostError('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'
+                                          .format(ref, key, val, grp_fields[key], grp.refs), ERR_FIELDS)
                 else:  # First time this field has been seen in the group, so store it.
                     grp_fields[key] = val
             # Add this component to the total quantity
@@ -683,7 +684,7 @@ def order_refs(refs, collapse=True, ref_sep=None):
             # The not `match` happens when the user schematic designer use
             # not recognized characters by the `PART_REF_REGEX` definition
             # into the components references.
-            raise ValueError('Not recognized characters used in <' + ref + '> reference. Advise: edit it in your BOM/Schematic.')
+            raise KiCostError('Not recognized characters used in <' + ref + '> reference. Advise: edit it in your BOM/Schematic.', ERR_FIELDS)
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.

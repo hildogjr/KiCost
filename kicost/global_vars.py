@@ -57,6 +57,8 @@ ERR_ARGS = 2  # Command line arguments
 ERR_KICADCONFIG = 3  # An error related to KiCad configuration
 ERR_KICOSTCONFIG = 4  # An error related to KiCost configuration
 ERR_SCRAPE = 5  # Error trying to get prices
+ERR_INPUTFILE = 6  # Error parsing input files
+ERR_FIELDS = 7  # Some inconsistency with the fields
 
 
 class PartHtmlError(Exception):
