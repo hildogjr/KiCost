@@ -27,7 +27,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Debug, language and default configurations.
-from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W
+from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger
 
 # Python libraries.
 import os
@@ -378,6 +378,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currenc
                        collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' ', max_column_width=DEF_MAX_COLUMN_W):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     basename = os.path.basename(spreadsheet_filename)
+    logger = get_logger()
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(basename))
     # Adjust the name of the work_sheet (add variant and limit len)
     worksheet_name = os.path.splitext(basename)[0]  # Default name for pricing worksheet.
