@@ -128,7 +128,7 @@ def set_verbosity(logger, debug, quiet):
     elif quiet is True:
         log_level = logging.ERROR
     else:
-        log_level = logging.WARNING
+        log_level = logging.INFO
     logger.setLevel(log_level)
 
 
