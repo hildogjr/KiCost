@@ -29,8 +29,10 @@ __webpage__ = 'https://github.com/mmmaisel/'
 import copy
 import os
 import logging
+import sys
 import tqdm
 from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+from ..log import CustomFormatter
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
@@ -51,7 +53,6 @@ class TqdmLoggingHandler(logging.Handler):
             raise
         except Exception:
             self.handleError(record)
-        pass
 
 
 class distributor_class(object):
@@ -80,24 +81,20 @@ class distributor_class(object):
 
     @staticmethod
     def _redirect_log_to_tqdm():
-        # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
-        # Get handles to default sys.stdout logging handler and the
-        # new "tqdm" logging handler.
-        print(__name__)
-        print(distributor_class.logger.__dict__)
-        if len(distributor_class.logger.handlers) > 0:
-            distributor_class.logDefaultHandler = distributor_class.logger.handlers[0]
-            distributor_class.logTqdmHandler = TqdmLoggingHandler(distributor_class.logDefaultHandler.stream)
-            # Replace default handler with "tqdm" handler.
-            distributor_class.logger.addHandler(distributor_class.logTqdmHandler)
-            distributor_class.logger.removeHandler(distributor_class.logDefaultHandler)
+        ''' Change the logging print channel to `tqdm` to keep the process bar to the end of terminal. '''
+        # Create a handler that emits using TQDM
+        distributor_class.logTqdmHandler = TqdmLoggingHandler(sys.stderr)
+        # Apply our custom formatter
+        distributor_class.logTqdmHandler.setFormatter(CustomFormatter(sys.stderr))
+        # Add as a handler and avoid propagating to the base class
+        distributor_class.logger.addHandler(distributor_class.logTqdmHandler)
+        distributor_class.logger.propagate = False
 
     @staticmethod
     def _restore_log():
-        # Restore the logging print channel now that the progress bar is no longer needed.
-        if len(distributor_class.logger.handlers) > 0:
-            distributor_class.logger.addHandler(distributor_class.logDefaultHandler)
-            distributor_class.logger.removeHandler(distributor_class.logTqdmHandler)
+        # Remove the TQDM handler and use the KiCost main module handlers
+        distributor_class.logger.removeHandler(distributor_class.logTqdmHandler)
+        distributor_class.logger.propagate = True
 
     @staticmethod
     def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
