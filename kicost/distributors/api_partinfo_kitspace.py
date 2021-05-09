@@ -31,7 +31,6 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import json
 import requests
-import tqdm
 import re
 import sys
 import os
@@ -330,7 +329,7 @@ class api_partinfo_kitspace(distributor_class):
                 query_part_stock_code.append(part_dist_use_manfpn)
 
         # Setup progress bar to track progress of server queries.
-        progress = tqdm.tqdm(desc='Progress', total=len(query_parts), unit='part', miniters=1)
+        progress = distributor_class.progress(len(query_parts), distributor_class.logger)
 
         # Slice the queries into batches of the largest allowed size and gather
         # the part data for each batch.
@@ -341,7 +340,7 @@ class api_partinfo_kitspace(distributor_class):
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
-        del progress
+        progress.close()
 
 
 distributor_class.register(api_partinfo_kitspace, 50)

@@ -29,8 +29,8 @@ __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
-from .global_vars import (logger, wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
-                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEFAULT_LANGUAGE)
+from .global_vars import (wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
+                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEFAULT_LANGUAGE, get_logger)
 
 # Libraries.
 try:
@@ -41,12 +41,12 @@ import webbrowser  # To update informations.
 import sys
 import os
 import subprocess  # To access OS commands and run in the shell.
-import logging
 from threading import Thread
 import time  # To elapse time.
 import tempfile  # To create the temporary log file.
 from datetime import datetime  # To create the log name, when asked to save.
 from distutils.version import StrictVersion  # To comparative of versions.
+from traceback import format_tb
 import re  # Regular expression parser.
 import locale
 import babel  # For country location, language and currency presentation.
@@ -56,8 +56,9 @@ import requests
 # KiCost libraries.
 from . import __version__  # Version control by @xesscorp and collaborator.
 from .kicost import kicost, output_filename  # kicost core functions.
-from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label
+from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label, set_distributors_progress
 from .edas import file_eda_match, get_registered_eda_names, get_eda_label, get_registered_eda_labels
+from .log import CustomFormatter
 if sys.platform.startswith("win32"):
     from .os_windows import reg_enum_keys, reg_get
     if sys.version_info < (3, 0):
@@ -93,6 +94,8 @@ PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
 PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
+
+logger = get_logger()
 
 
 # ======================================================================
@@ -132,7 +135,13 @@ class KiCostThread(Thread):
                    variant=args.variant,
                    dist_list=args.include, currency=args.currency)
         except Exception as e:
-            logger.log(DEBUG_OVERVIEW, e)
+            if logger.isEnabledFor(DEBUG_OVERVIEW):
+                # Inform a traceback
+                (type, value, traceback) = sys.exc_info()
+                trace = format_tb(traceback)
+                for line in trace:
+                    logger.info(line[:-1])
+            logger.error(e)
             # We are done, notify the main thread
             wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
             return
@@ -881,7 +890,7 @@ class formKiCost(wx.Frame):
         ''' @brief Set the current proprieties of the graphical elements.'''
 
         # Current distributors module recognized.
-        distributors_list = sorted([get_distributor_info(d).label.name for d in get_distributors_iter() if get_distributor_info(d).is_local()])
+        distributors_list = sorted([get_distributor_info(d).label.name for d in get_distributors_iter() if not get_distributor_info(d).is_local()])
         self.m_checkList_dist.Clear()
         for d in distributors_list:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)
@@ -1098,52 +1107,53 @@ class formKiCost(wx.Frame):
 
 #######################################################################
 
-def kicost_gui(files=None, log_level=logging.WARNING):
+class GUI_Stream(object):
+    def __init__(self, aWxTextCtrl):
+        self.area = aWxTextCtrl
+
+    def write(self, msg):
+        # Let the main thread update the message
+        wx.CallAfter(self.area.AppendText, msg)
+
+    def flush(self):
+        sys.__stderr__.flush()
+
+    def isatty(self):
+        return False
+
+
+class ProgressGUI(object):
+    frame = None
+
+    def __init__(self, total, logger):
+        self.total = total
+        self.cur = 0
+
+    def update(self, val):
+        self.cur += val
+        wx.CallAfter(ProgressGUI.frame.m_gauge_process.SetValue, self.cur/self.total*100)  # Porcentual
+        wx.CallAfter(ProgressGUI.frame.m_staticText_progressInfo.SetLabel, '{}/{}'.format(self.cur, self.total))  # Eta.
+
+    def close(self):
+        pass
+
+
+def kicost_gui(files=None):
     ''' @brief Load the graphical interface.
         @param String file file names or list.
         (it will be used for plugin implementation on future KiCad6-Eeschema).
     '''
     app = wx.App(redirect=False)
     frame = formKiCost(None)
-
-    class GUI_LoggerHandler(object):
-        def __init__(self, aWxTextCtrl):
-            # super(self.__class__, self).__init__()
-            self.area = aWxTextCtrl
-
-        def write(self, msg):
-            # Let the main thread update the message
-            wx.CallAfter(self.area.AppendText, msg)
-
-        def flush(self):
-            sys.__stdout__.flush()
-
-    class GUI_ETAHandler(object):
-        def __init__(self):
-            pass
-
-        def write(self, msg):
-            try:
-                # Try to read a process bar model, with error, is really a error message.
-                # Model:
-                # Progress: 100%|###############################| 24/24 [00:26<00:00,  1.56s/part]
-                # Second https://github.com/tqdm/tqdm/issues/172 is necessary this work around,
-                # until they finish the v5.
-                wx.CallAfter(frame.m_gauge_process.SetValue, int(re.findall(r'^.*\s(\d+)\%', msg)[0]))  # Perceptual.
-                wx.CallAfter(frame.m_staticText_progressInfo.SetLabel, re.findall(r'\|+?\s(.*)$', msg)[0])  # Eta.
-            except Exception:
-                sys.__stderr__.write(msg)
-
-        def flush(self):
-            sys.__stderr__.flush()
-
-    # Redirect stdout to the messages in the GUI
-    logger_handler = GUI_LoggerHandler(frame.m_textCtrl_messages)
-    sys.stdout = logger_handler
-    # Redirect stderr to the progress bar handler
-    sys.stderr = GUI_ETAHandler()
-    # Redirect the logger to the GUI area.
-    logging.basicConfig(level=log_level, format='%(message)s', stream=logger_handler)
+    # Use the GUI for progress
+    set_distributors_progress(ProgressGUI)
+    ProgressGUI.frame = frame
+    # Redirect the logging system to the GUI area
+    logger_stream = GUI_Stream(frame.m_textCtrl_messages)
+    for handler in logger.handlers:
+        handler.setStream(logger_stream)
+        # Reset the formatter so it realizes that we aren't using a terminal
+        handler.setFormatter(CustomFormatter(logger_stream))
 
     if files:
         frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
@@ -1154,8 +1164,10 @@ def kicost_gui(files=None, log_level=logging.WARNING):
 
     # Restore the channel print output to terminal.
     # Necessary if KiCost was called by other software?
-    sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
+    for handler in logger.handlers:
+        handler.setStream(sys.stderr)
+        handler.setFormatter(CustomFormatter(sys.stderr))
 
 
 def kicost_gui_runterminal(args):

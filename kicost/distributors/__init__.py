@@ -75,5 +75,10 @@ def set_distributors_logger(logger):
     distributor_class.logger = logger
 
 
+def set_distributors_progress(cls):
+    ''' Configures the class used to indicate progress '''
+    distributor_class.progress = cls
+
+
 # Init distributor dict during import.
 init_distributor_dict()

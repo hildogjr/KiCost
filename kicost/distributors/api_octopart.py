@@ -23,7 +23,6 @@
 # Libraries.
 import json
 import requests
-import tqdm
 import re
 import os
 import sys
@@ -154,7 +153,7 @@ class api_octopart(distributor_class):
         distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
         # Setup progress bar to track progress of Octopart queries.
-        progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
+        progress = distributor_class.progress(len(parts), distributor_class.logger)
 
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
@@ -327,7 +326,7 @@ class api_octopart(distributor_class):
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
-        del progress
+        progress.close()
 
 
 key = os.environ.get('KICOST_OCTOPART_KEY_V3')

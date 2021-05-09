@@ -30,6 +30,8 @@ import os
 import sys
 import platform
 import time
+import tqdm
+import logging
 # Debug, language and default configurations.
 from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger
 # Import log first to set the domain and assign it to the global logger
@@ -46,7 +48,7 @@ except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
-from .distributors import get_distributors_list, set_distributors_logger  # noqa: E402
+from .distributors import get_distributors_list, set_distributors_logger, set_distributors_progress  # noqa: E402
 from . import __version__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
 ###############################################################################
@@ -70,6 +72,46 @@ def kicost_version_info():
         version_info_str += 'No graphical library installed for the GUI.'
     # version_info_str += r'\n'
     return version_info_str
+
+
+class TqdmLoggingHandler(logging.Handler):
+    '''Overload the class to write the logging through the `tqdm`.'''
+    def __init__(self, stream, level=logging.NOTSET):
+        super(self.__class__, self).__init__(level)
+        self.stream = stream
+
+    def emit(self, record):
+        # print('emit: '+str(record))
+        try:
+            msg = self.format(record)
+            tqdm.tqdm.write(msg, file=self.stream)  # , nolock=True)
+            self.flush()
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception:
+            self.handleError(record)
+
+
+class ProgressConsole(object):
+    def __init__(self, total, logger):
+        # Create a handler that emits using TQDM
+        self.logTqdmHandler = TqdmLoggingHandler(sys.stderr)
+        # Apply our custom formatter
+        self.logTqdmHandler.setFormatter(log.CustomFormatter(sys.stderr))
+        # Add as a handler and avoid propagating to the base class
+        logger.addHandler(self.logTqdmHandler)
+        logger.propagate = False
+        self.logger = logger
+        # Create the progress object
+        self.progress = tqdm.tqdm(desc='Progress', total=total, unit='part', miniters=1, file=sys.stderr)
+
+    def update(self, val):
+        self.progress.update(val)
+
+    def close(self):
+        self.progress.close()
+        self.logger.removeHandler(self.logTqdmHandler)
+        self.logger.propagate = True
 
 
 ###############################################################################
@@ -219,6 +261,7 @@ def main():
     # Set up logging.
     log.set_verbosity(logger, args.debug, args.quiet)
     set_distributors_logger(log.get_logger('kicost.distributors'))
+    set_distributors_progress(ProgressConsole)
     set_edas_logger(log.get_logger('kicost.edas'))
 
     if args.show_dist_list:
@@ -259,14 +302,14 @@ def main():
 
     if args.gui:
         try:
-            kicost_gui([os.path.abspath(fileName) for fileName in args.gui], log_level=log_level)
+            kicost_gui([os.path.abspath(fileName) for fileName in args.gui])
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
 
     if args.input is None:
         try:
-            kicost_gui(log_level=log_level)  # Use the user gui if no input is given.
+            kicost_gui()  # Use the user gui if no input is given.
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return

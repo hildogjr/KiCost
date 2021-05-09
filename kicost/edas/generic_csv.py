@@ -121,7 +121,6 @@ def extract_fields(row, header, header_file, dialect, gen_cntr):
         fields['footprint'] = 'Foot:???'
     if 'value' not in fields:
         fields['value'] = '???'
-    print(fields)
 
     return refs, fields, gen_cntr
 

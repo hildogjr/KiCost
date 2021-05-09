@@ -2,7 +2,8 @@
 
 # MIT license
 #
-# Copyright (C) 2018 by XESS Corporation / Max Maisel / Hildo Guillardi Júnior
+# Copyright (c) 2020-2021 Salvador E. Tropea
+# Copyright (c) 2020-2021 Instituto Nacional de Tecnología Industrial
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,16 +24,15 @@
 # THE SOFTWARE.
 
 # Author information.
-__author__ = 'Max Maisel'
-__webpage__ = 'https://github.com/mmmaisel/'
+__author__ = 'Salvador Eduardo Tropea'
+__webpage__ = 'https://github.com/set-soft/'
+__company__ = 'INTI-CMNB - Argentina'
 
 import copy
 import os
 import logging
-import sys
 import tqdm
 from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
-from ..log import CustomFormatter
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
@@ -80,30 +80,11 @@ class distributor_class(object):
         distributor_class.priorities.insert(index, priority)
 
     @staticmethod
-    def _redirect_log_to_tqdm():
-        ''' Change the logging print channel to `tqdm` to keep the process bar to the end of terminal. '''
-        # Create a handler that emits using TQDM
-        distributor_class.logTqdmHandler = TqdmLoggingHandler(sys.stderr)
-        # Apply our custom formatter
-        distributor_class.logTqdmHandler.setFormatter(CustomFormatter(sys.stderr))
-        # Add as a handler and avoid propagating to the base class
-        distributor_class.logger.addHandler(distributor_class.logTqdmHandler)
-        distributor_class.logger.propagate = False
-
-    @staticmethod
-    def _restore_log():
-        # Remove the TQDM handler and use the KiCost main module handlers
-        distributor_class.logger.removeHandler(distributor_class.logTqdmHandler)
-        distributor_class.logger.propagate = True
-
-    @staticmethod
     def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
         ''' Get the parts info using the modules API/Scrape/Local.'''
-        distributor_class._redirect_log_to_tqdm()
         for api in distributor_class.registered:
             if api.enabled:
                 api.query_part_info(parts, distributors, currency)
-        distributor_class._restore_log()
 
     @staticmethod
     def init_dist_dict():
