@@ -27,7 +27,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Debug, language and default configurations.
-from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger
+from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, W_NOPURCH, W_NOQTY
 
 # Python libraries.
 import os
@@ -1293,7 +1293,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 info_range = columns_global[col]
             else:
                 info_range = ""
-                logger.warning("Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
+                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
             info_range = xl_range(PART_INFO_FIRST_ROW, info_range,
                                   PART_INFO_LAST_ROW, info_range)
             # If the correspondent information is some description, it is allow to add the general
@@ -1317,7 +1317,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             purchase_code = start_col + columns_global['manf#']
         else:
             purchase_code = ""
-            logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=label))
+            logger.warning(W_NOQTY+"Not valid quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=label))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code, PART_INFO_LAST_ROW, purchase_code)
         purchase_qty = start_col + columns['purch']['col']
         purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)

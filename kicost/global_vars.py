@@ -60,6 +60,22 @@ ERR_SCRAPE = 5  # Error trying to get prices
 ERR_INPUTFILE = 6  # Error parsing input files
 ERR_FIELDS = 7  # Some inconsistency with the fields
 
+# Warning codes
+W_TRANS = '(WC001) '  # Problem wit field translate
+W_NOMANP = '(WC002) '  # No manf# or distributor#
+W_CONF = '(WC003) '  # Problem during --un/setup
+W_NOPURCH = '(WC004) '  # No valid field for purchase
+W_NOQTY = '(WC005) '  # No valid qty for purchase
+W_ASSQTY = '(WC006) '  # Assigned qty during scrape
+W_NOINFO = '(WC007) '  # No info during scrape
+NO_PRICE = '(WC008) '  # No price during scrape
+W_BADPRICE = '(WC009) '  # Some problem with the local price tier
+W_FLDOVR = '(WC010) '  # Field overwrite
+W_DUPWRONG = '(WC011) '  # Inconsistency in duplicated data
+W_INCQTY = '(WC012) '  # Inconsistency in qty
+W_REPMAN = '(WC013) '  # Asking to repeat a manufacturer
+W_MANQTY = '(WC014) '  # Malformed manf#_qty
+
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''

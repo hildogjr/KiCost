@@ -40,7 +40,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -180,7 +180,7 @@ class api_partinfo_kitspace(distributor_class):
         for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
 
             if not result:
-                distributor_class.logger.warning('No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                distributor_class.logger.warning(W_NOINFO+'No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
 
             else:
 
@@ -201,7 +201,8 @@ class api_partinfo_kitspace(distributor_class):
                     try:
                         price_tiers = {}  # Empty dict in case of exception.
                         if not offer['prices']:
-                            distributor_class.logger.warning('No price information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                            distributor_class.logger.warning(NO_PRICE+'No price information found for parts \'{}\' query `{}`'.
+                                                             format(part.refs, str(part_query)))
                         else:
                             dist_currency = list(offer['prices'].keys())
 

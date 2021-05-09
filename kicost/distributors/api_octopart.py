@@ -33,7 +33,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError
+from ..global_vars import DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_ASSQTY
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -301,7 +301,7 @@ class api_octopart(distributor_class):
                     # general sub quantity of the current part.
                     try:
                         part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                        distributor_class.logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                        distributor_class.logger.warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                                 q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                                 f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                     except KeyError:

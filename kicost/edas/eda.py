@@ -22,7 +22,7 @@
 import os
 import re
 from collections import OrderedDict
-from ..global_vars import logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_OBSESSIVE
+from ..global_vars import logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_OBSESSIVE, W_FLDOVR
 from ..distributors import get_distributors_iter
 
 __all__ = ['eda_class', 'field_name_translations']
@@ -187,7 +187,7 @@ class eda_class(object):
                     # Example: if manf# was defined as XXX and now we have mnp='' we avoid getting manf#=''
                     continue
                 if already_defined and new_fields[f]:
-                    logger.warning('Warning: in {} overwriting {}={} with {}={}'.format(ref, f, new_fields[f], old_name, v))
+                    logger.warning(W_FLDOVR+'Warning: in {} overwriting {}={} with {}={}'.format(ref, f, new_fields[f], old_name, v))
                 new_fields[f] = v
             # 2) kicost:FIELD
             for f, v in fields.items():

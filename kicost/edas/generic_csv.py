@@ -36,7 +36,7 @@ from datetime import datetime
 from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
-from ..global_vars import DEBUG_OVERVIEW, ERR_INPUTFILE, KiCostError  # Debug configurations.
+from ..global_vars import DEBUG_OVERVIEW, ERR_INPUTFILE, KiCostError, W_DUPWRONG
 from .tools import field_name_translations, split_refs
 from .eda import eda_class
 
@@ -54,7 +54,7 @@ def correspondent_header_value(key, vals, header, header_file):
     value = None
     for i in idx:
         if len(idx) > 1 and value is not None and value != vals[header_file[i]]:
-            eda_class.logger.warning('Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
+            eda_class.logger.warning(W_DUPWRONG+'Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
                 key, value, vals[header_file[i]]))
         value = vals[header_file[i]]
         if value:
@@ -102,7 +102,7 @@ def extract_fields(row, header, header_file, dialect, gen_cntr):
                 value = vals.get(h_file, '').decode('utf-8')
             try:
                 if value and fields[h] != value:
-                    eda_class.logger.warning('Found different duplicated information for {} in '
+                    eda_class.logger.warning(W_DUPWRONG+'Found different duplicated information for {} in '
                                              'the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'.
                                              format(refs, h, h_file, fields[h], value, value))
             except KeyError:
@@ -157,7 +157,7 @@ def get_part_groups(in_file, distributors):
     eda_class.logger.log(DEBUG_OVERVIEW, 'Getting CSV header...')
     header_file = next(csv.reader(content, delimiter=dialect.delimiter))
     if len(set(header_file)) < len(header_file):
-        eda_class.logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
+        eda_class.logger.warning(W_DUPWRONG+'There is a duplicated header title in the file. This could cause loss of information.')
 
     # Standardize the header titles and remove the spaces before
     # and after, striping the text improve the user experience.

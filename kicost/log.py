@@ -90,10 +90,10 @@ class MyLogger(logging.Logger):
             MyLogger.warn_hash[buf] += 1
             return
         # Apply the filters
-        if filters and buf.startswith('(W'):
+        if filters and buf.startswith('(WC'):
             pos_end = buf.find(')')
             if pos_end > 0:
-                number = int(buf[2:pos_end])
+                number = int(buf[3:pos_end])
                 for f in filters:
                     if f.number == number and f.regex.search(buf):
                         MyLogger.n_filtered += 1

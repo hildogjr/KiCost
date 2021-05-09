@@ -34,7 +34,7 @@ __company__ = 'University of Campinas - Brazil'
 import os
 import sys
 from .global_vars import (PLATFORM_WINDOWS_STARTS_WITH, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, get_logger, KiCostError, ERR_KICADCONFIG,
-                          ERR_KICOSTCONFIG)
+                          ERR_KICOSTCONFIG, W_CONF)
 from .kicad_config import get_app_config_path, bom_plugin_add_entry, bom_plugin_remove_entry, fields_add_entry, fields_remove_entry
 if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
     from .os_windows import reg_set, reg_del, reg_get
@@ -76,7 +76,7 @@ def create_os_contex_menu(kicost_path):
         cmd_opt = '-wi'
     icon_path = os.path.join(kicost_path, 'kicost.ico')
     if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
-        logger.warning('I don\'t know how to create the context menu on OSX')
+        logger.warning(W_CONF+'I don\'t know how to create the context menu on OSX')
         return False
     elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
         reg_set(r'xmlfile\shell\KiCost\command', None, 'kicost {opt} "%1"'.format(opt=cmd_opt), winreg.HKEY_CLASSES_ROOT)
@@ -85,14 +85,14 @@ def create_os_contex_menu(kicost_path):
         reg_set(r'csvfile\shell\KiCost', 'Icon', icon_path, winreg.HKEY_CLASSES_ROOT)
         return True
     elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
-        logger.warning('I don\'t know how to create the context menu on Linux')
+        logger.warning(W_CONF+'I don\'t know how to create the context menu on Linux')
         return False
 
 
 def delete_os_contex_menu():
     '''Delete the OS context menu to recognized KiCost files (XML/CSV).'''
     if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
-        logger.warning('I don\'t know how to create the context menu on OSX.')
+        logger.warning(W_CONF+'I don\'t know how to create the context menu on OSX.')
         return False
     elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
         return (reg_del(r'xmlfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and
@@ -100,7 +100,7 @@ def delete_os_contex_menu():
                 reg_del(r'csvfile\shell\KiCost\command', winreg.HKEY_CLASSES_ROOT) and
                 reg_del(r'csvfile\shell\KiCost', winreg.HKEY_CLASSES_ROOT))
     elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
-        logger.warning('I don\'t know how to create the context menu on Linux.')
+        logger.warning(W_CONF+'I don\'t know how to create the context menu on Linux.')
         return False
 
 
@@ -137,7 +137,7 @@ def create_shortcut(target, directory, name, icon, location=None,
         os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
         return True
     else:
-        logger.warning('Unrecognized OS.\nShortcut not created!')
+        logger.warning(W_CONF+'Unrecognized OS.\nShortcut not created!')
         return False
     return
 
@@ -205,19 +205,19 @@ def kicost_setup():
     if have_gui:
         logger.info('Creating app shortcuts...')
         if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
-            logger.warning('I don\'t know the desktop folder of mac-OS.')
+            logger.warning(W_CONF+'I don\'t know the desktop folder of mac-OS.')
             shotcut_directories = []
         elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
             shotcut_directories = [os.path.normpath(reg_get(WIN_USR_FOLDERS, 'Desktop'))]
         elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):
             shotcut_directories = [os.path.expanduser(os.path.join("~", "Desktop"))]
         else:
-            logger.warning('Not recognized OS.\nShortcut not created!')
+            logger.warning(W_CONF+'Not recognized OS.\nShortcut not created!')
         for shotcut_directory in shotcut_directories:
             if not create_shortcut('kicost', shotcut_directory,
                                    'KiCost', os.path.join(kicost_path, 'kicost.ico'), '',
                                    'Generate a Cost Bill of Material for EDA softwares', 'BOM'):
-                logger.warning('Failed to create the KiCost shortcut!')
+                logger.warning(W_CONF+'Failed to create the KiCost shortcut!')
                 break
         logger.info('Check your desktop for the KiCost shortcut.')
 
@@ -225,7 +225,7 @@ def kicost_setup():
     if create_os_contex_menu(kicost_path):
         logger.info('KiCost listed at the OS context menu for the associated files.')
     else:
-        logger.warning('Failed to create KiCost OS context menu integration.')
+        logger.warning(W_CONF+'Failed to create KiCost OS context menu integration.')
 
     if have_gui:
         logger.info('Setting the GUI to display the NEWS message...')
@@ -235,7 +235,7 @@ def kicost_setup():
             configHandle.Write(GUI_NEWS_MESSAGE_ENTRY, 'True')
             logger.info('The user interface will display the NEWS message on first startup.')
         except Exception:
-            logger.warning('Failed to set to display the news message on GUI.')
+            logger.warning(W_CONF+'Failed to set to display the news message on GUI.')
 
     logger.info('Creating KiCad integration...')
     if not os.path.isfile(os.path.join(kicad_config_path, 'eeschema')):
@@ -250,15 +250,15 @@ def kicost_setup():
                     bom_plugin_add_entry(kicost_file_path, 'kicost -qwi "%I"', 'KiCost')
                 logger.info('KiCost added to KiCad plugin list.')
             except Exception:
-                logger.warning('Fail to add KiCost to Eeschema plugin list.')
+                logger.warning(W_CONF+'Fail to add KiCost to Eeschema plugin list.')
             logger.info('Adding the KiCost fields to Eeschema template...')
             try:
                 fields_add_entry(EESCHEMA_KICOST_FIELDS)
                 logger.info('{} fields added to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
             except Exception:
-                logger.warning('Failed to add {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
+                logger.warning(W_CONF+'Failed to add {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
         except Exception:
-            logger.warning('Fail to create KiCad-KiCost integration.')
+            logger.warning(W_CONF+'Fail to create KiCad-KiCost integration.')
 
     logger.info('KiCost setup configuration finished.')
     return
@@ -272,18 +272,18 @@ def kicost_unsetup():
         bom_plugin_remove_entry('KiCost')
         logger.info('BOM plugin entry removed from Eeschema configuration.')
     except Exception:
-        logger.warning('Error to remove KiCost from Eeschema plugin list.')
+        logger.warning(W_CONF+'Error to remove KiCost from Eeschema plugin list.')
 
     logger.info('Removing KiCost fields to Eeschema template...')
     try:
         fields_remove_entry(EESCHEMA_KICOST_FIELDS)
         logger.info('{} fields removed to Eeschema template.'.format(EESCHEMA_KICOST_FIELDS))
     except Exception:
-        logger.warning('Error to remove {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
+        logger.warning(W_CONF+'Error to remove {} to Eeschema fields template.'.format(EESCHEMA_KICOST_FIELDS))
 
     logger.info('Deleting KiCost shortcuts...')
     if sys.platform.startswith(PLATFORM_MACOS_STARTS_WITH):  # Mac-OS.
-        logger.warning('I don\'t kwon the desktop folder of mac-OS.')
+        logger.warning(W_CONF+'I don\'t kwon the desktop folder of mac-OS.')
         kicost_shortcuts = []
     elif sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
         kicost_shortcuts = [os.path.normpath(reg_get(WIN_USR_FOLDERS, 'Desktop'))]
@@ -293,7 +293,7 @@ def kicost_unsetup():
         for count in range(len(kicost_shortcuts)):
             kicost_shortcuts[count] = os.path.join(kicost_shortcuts[count], 'KiCost.desktop')
     else:
-        logger.warning('Unrecognized OS.\nShortcut not created!')
+        logger.warning(W_CONF+'Unrecognized OS.\nShortcut not created!')
     try:
         for kicost_shortcut in kicost_shortcuts:
             kicost_shortcut = os.path.expandvars(kicost_shortcut)
@@ -302,7 +302,7 @@ def kicost_unsetup():
             except OSError:
                 pass
     except Exception:
-        logger.warning('Fail to remove kiCost shortcuts.')
+        logger.warning(W_CONF+'Fail to remove kiCost shortcuts.')
     logger.info('KiCost shortcuts deleted.')
 
     logger.info('Removing KiCost from the \'Open with...\' OS context menu...')
@@ -310,7 +310,7 @@ def kicost_unsetup():
         delete_os_contex_menu()
         logger.info('KiCost removed from the \'Open with...\' OS context menu.')
     except Exception:
-        logger.warning('Fail to remove kiCost from OS context menu.')
+        logger.warning(W_CONF+'Fail to remove kiCost from OS context menu.')
 
     logger.info('KiCost setup configuration finished.')
     return

@@ -56,7 +56,8 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, ERR_KICOSTCONFIG, ERR_ARGS, KiCostError
+from .global_vars import (DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, ERR_KICOSTCONFIG, ERR_ARGS, KiCostError,
+                          W_TRANS, W_NOMANP)
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
@@ -108,9 +109,8 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         for c in range(0, len(translate_fields), 2):
             # field_name_translations.keys(), field_name_translations.values()
             if translate_fields[c] in field_name_translations.values():
-                logger.warning("Not possible re-translate \"{}\" to \"{}\", this is used as internal field names.".format(
-                        translate_fields[c].lower(), translate_fields[c+1].lower()
-                    ))
+                logger.warning(W_TRANS+"Unable to re-translate \"{}\" to \"{}\", this is used as an internal field name.".format(
+                               translate_fields[c].lower(), translate_fields[c+1].lower()))
                 continue
             if translate_fields[c+1] != '~':
                 field_name_translations.update({translate_fields[c].lower(): translate_fields[c+1].lower()})
@@ -125,7 +125,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     user_fields = list(OrderedDict([(lv, 1) for lv in user_fields]))  # Avoid repeated fields
     for f in user_fields:
         if f.lower() in field_name_translations:
-            logger.warning("\"{f}\" field is a reserved field and can not be used as user field."
+            logger.warning(W_TRANS+"\"{f}\" field is a reserved field and can not be used as user field."
                            " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
             user_fields.remove(f)
 
@@ -205,7 +205,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         new_list = []
         for d in dist_list:
             if d+'#' not in all_fields:
-                logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
+                logger.warning(W_NOMANP+"No 'manf#' and '%s#' field in any part: no information by '%s'.",
                                d, get_distributor_info(d).label.name)
             else:
                 new_list.append(d)

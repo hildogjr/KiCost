@@ -30,7 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 from collections import OrderedDict
 from .. import PartGroup
-from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL, ERR_FIELDS, KiCostError
+from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL, ERR_FIELDS, KiCostError, W_INCQTY, W_REPMAN, W_MANQTY
 from ..distributors import get_distributors_iter
 from .eda import eda_class, field_name_translations
 
@@ -411,7 +411,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 # associated in different `manf#`/distributors# of the same component.
                 if subparts_qty_field != subparts_qty:
                     problem_manf_code = (field_code if subparts_qty > subparts_qty_field else field_code_last)
-                    eda_class.logger.warning('Found a different subpart quantity between the code fields {c} and {lc}.\n'
+                    eda_class.logger.warning(W_INCQTY+'Found a different subpart quantity between the code fields {c} and {lc}.\n'
                                              '\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'
                                              .format(c=field_code_last, lc=field_code, r=part_ref,
                                                      pc=problem_manf_code,
@@ -483,10 +483,9 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 # and catalogue number of same part/subpart. Which may be a type error by
                 # the user.
                 if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
-                    eda_class.logger.warning('Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.format(
-                                        f=field_manf_dist_code, fl=field_manf_dist_code_prior,
-                                        c=p_manf_code, cl=p_manf_code_prior,
-                                        r=order_refs(list(components.keys()))))
+                    eda_class.logger.warning(W_INCQTY+'Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.
+                                             format(f=field_manf_dist_code, fl=field_manf_dist_code_prior,
+                                                    c=p_manf_code, cl=p_manf_code_prior, r=order_refs(list(components.keys()))))
                 # Memorize prior value for the above warning
                 subpart_qty_prior = subpart_qty
                 p_manf_code_prior = p_manf_code
@@ -501,7 +500,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     # replicate the last one.
                     p_manf = subparts_manf[subparts_index]
                 elif p_manf is None:
-                    eda_class.logger.warning('Asking to repeat a manufacturer in the first entry (at {})'.format(order_refs(list(components.keys()))))
+                    eda_class.logger.warning(W_REPMAN+'Asking to repeat a manufacturer in the first entry (at {})'.format(order_refs(list(components.keys()))))
                 subpart_actual['manf'] = p_manf
                 # Update the reference of the part.
                 ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
@@ -518,7 +517,7 @@ def qty2float(value):
             return float(vals[0])/float(vals[1])
         return float(value)
     except ValueError:
-        eda_class.logger.warning('Malformed `manf#_qty`: ' + str(value))
+        eda_class.logger.warning(W_MANQTY+'Malformed `manf#_qty`: ' + str(value))
         return 1.0
 
 
