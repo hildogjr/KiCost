@@ -39,8 +39,6 @@
 """
 
 
-from __future__ import print_function
-
 # Libraries.
 import sys
 import os
@@ -58,7 +56,7 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger
+from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, ERR_KICOSTCONFIG, ERR_ARGS, KiCostError
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
@@ -106,7 +104,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     # re-translate default field names.
     if translate_fields:
         if len(translate_fields) % 2 == 1:
-            raise Exception('Translation fields argument should have an even number of words.')
+            raise KiCostError('Translation fields argument should have an even number of words.', ERR_ARGS)
         for c in range(0, len(translate_fields), 2):
             # field_name_translations.keys(), field_name_translations.values()
             if translate_fields[c] in field_name_translations.values():
@@ -284,9 +282,10 @@ def output_filename(files_input):
 
 
 def kicost_gui_notdependences():
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip3 install -U wxPython # For Windows & macOS')
-
-    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
-    sys.exit(1)
+    logger.error('You don\'t have the wxPython dependence to run the GUI interface.')
+    logger.error('Run once of the following commands in a terminal to install it:')
+    logger.error('pip3 install -U wxPython # For Windows & macOS')
+    logger.error('sudo apt-get install python3-wxgtk4.0 # Modern Linux derived from Debian, like Ubuntu')
+    logger.error('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    logger.error('Or download the last version from <https://wxpython.org/pages/downloads/>')
+    sys.exit(ERR_KICOSTCONFIG)
