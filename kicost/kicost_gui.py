@@ -1110,8 +1110,24 @@ class formKiCost(wx.Frame):
 class GUI_Stream(object):
     def __init__(self, aWxTextCtrl):
         self.area = aWxTextCtrl
+        self.cyan = wx.TextAttr(wx.CYAN)
+        self.white = wx.TextAttr(wx.WHITE)
+        self.yellow = wx.TextAttr(wx.YELLOW)
+        self.red = wx.TextAttr(wx.RED)
+        self.cur = self.white
 
     def write(self, msg):
+        if msg.startswith('DEBUG:'):
+            color = self.cyan
+        elif msg.startswith('WARNING:'):
+            color = self.yellow
+        elif msg.startswith('ERROR:'):
+            color = self.red
+        else:
+            color = self.white
+        if color != self.cur:
+            wx.CallAfter(self.area.SetDefaultStyle, color)
+            self.cur = color
         # Let the main thread update the message
         wx.CallAfter(self.area.AppendText, msg)
 
