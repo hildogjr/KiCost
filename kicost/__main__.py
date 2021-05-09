@@ -22,8 +22,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import print_function
-
 # Libraries.
 import argparse as ap  # Command argument parser.
 import os
@@ -81,7 +79,6 @@ class TqdmLoggingHandler(logging.Handler):
         self.stream = stream
 
     def emit(self, record):
-        # print('emit: '+str(record))
         try:
             msg = self.format(record)
             tqdm.tqdm.write(msg, file=self.stream)  # , nolock=True)
@@ -265,11 +262,11 @@ def main():
     set_edas_logger(log.get_logger('kicost.edas'))
 
     if args.show_dist_list:
-        print('Distributor list:', *sorted(get_distributors_list()))
-        return
+        logger.info('Distributor list: ' + ' '.join(sorted(get_distributors_list())))
+        sys.exit(0)
     if args.show_eda_list:
-        print('EDA supported list:', *sorted(get_registered_eda_names()))
-        return
+        logger.info('EDA supported list: ' + ' '.join(sorted(get_registered_eda_names())))
+        sys.exit(0)
 
     # Set up spreadsheet output file.
     if args.output is None:
