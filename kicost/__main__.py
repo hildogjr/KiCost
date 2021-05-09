@@ -294,7 +294,7 @@ def main_real():
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
         if not args.overwrite:
-            logger.critical('Output file {} already exists!\nUse the --overwrite option to replace it.'.format(args.output))
+            logger.error('Output file {} already exists!\nUse the --overwrite option to replace it.'.format(args.output))
             sys.exit(2)
 
     if args.gui:
