@@ -22,8 +22,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import print_function
-
 # Author information.
 __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
@@ -182,7 +180,7 @@ def open_file(filepath):
     elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):  # Linux.
         subprocess.call(('xdg-open', filepath))
     else:
-        print('Not recognized OS. The spreadsheet file will not be automatically opened.')
+        logger.info('Not recognized OS. The spreadsheet file will not be automatically opened.')
 
 
 # ======================================================================
@@ -819,7 +817,7 @@ class formKiCost(wx.Frame):
         args.input = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
         for f in args.input:
             if not os.path.isfile(f):
-                print('No valid file(s) selected.')
+                logger.info('No valid file(s) selected.')
                 self.m_button_run.Enable()
                 return  # Not a valid file(s).
 
@@ -834,7 +832,7 @@ class formKiCost(wx.Frame):
                 result = dlg.ShowModal()
                 dlg.Destroy()
                 if result == wx.ID_NO:
-                    print('Not able to overwrite \'{}\'...'.format(os.path.basename(spreadsheet_file)))
+                    logger.info('Not able to overwrite \'{}\'...'.format(os.path.basename(spreadsheet_file)))
                     return
         spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.xlsx'  # Force the output (for the CLI interface) to be .XLSX.
         args.output = spreadsheet_file
