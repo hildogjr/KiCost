@@ -189,22 +189,22 @@ def loads(string, **kwds):
     :keyword  line_comment: Beginning of line comment.
                             Default is ``';'``.
 
-    >>> loads("(a b)")
+    >>> loads('(a b)')
     [Symbol('a'), Symbol('b')]
-    >>> loads("a")
+    >>> loads('a')
     Symbol('a')
-    >>> loads("(a 'b)")
+    >>> loads('(a \'b)')
     [Symbol('a'), Quoted(Symbol('b'))]
-    >>> loads("(a '(b))")
+    >>> loads('(a \'(b))')
     [Symbol('a'), Quoted([Symbol('b')])]
     >>> loads('''
     ... ;; This is a line comment.
-    ... ("a" "b")  ; this is also a comment.
+    ... 'a' 'b')  ; this is also a comment.
     ... ''')
     ['a', 'b']
     >>> loads('''
     ... # This is a line comment.
-    ... ("a" "b")  # this is also a comment.
+    ... ('a' 'b')  # this is also a comment.
     ... ''', line_comment='#')
     ['a', 'b']
 
@@ -212,31 +212,31 @@ def loads(string, **kwds):
     keyword argument `nil` to change what symbol must be interpreted
     as nil:
 
-    >>> loads("nil")
+    >>> loads('nil')
     []
-    >>> loads("null", nil='null')
+    >>> loads('null', nil='null')
     []
-    >>> loads("nil", nil=None)
+    >>> loads('nil', nil=None)
     Symbol('nil')
 
     ``t`` is converted to True by default.  You can use keyword
     argument `true` to change what symbol must be converted to True.:
 
-    >>> loads("t")
+    >>> loads('t')
     True
-    >>> loads("#t", true='#t')
+    >>> loads('#t', true='#t')
     True
-    >>> loads("t", true=None)
+    >>> loads('t', true=None)
     Symbol('t')
 
     No symbol is converted to False by default.  You can use keyword
     argument `false` to convert a symbol to False.
 
-    >>> loads("#f")
+    >>> loads('#f')
     Symbol('#f')
-    >>> loads("#f", false='#f')
+    >>> loads('#f', false='#f')
     False
-    >>> loads("nil", false='nil', nil=None)
+    >>> loads('nil', false='nil', nil=None)
     False
 
     """
@@ -288,7 +288,7 @@ def dumps(obj, **kwds):
     Basic usage:
 
     >>> print(dumps(['a', 'b']))
-    ("a" "b")
+    ('a' 'b')
     >>> print(dumps(['a', 'b'], str_as='symbol'))
     (a b)
     >>> print(dumps(dict(a=1)))
@@ -299,9 +299,9 @@ def dumps(obj, **kwds):
     ...             none_as='null', true_as='#t', false_as='#f'))
     (null #t #f ())
     >>> print(dumps(('a', 'b')))
-    ("a" "b")
+    ('a' 'b')
     >>> print(dumps(('a', 'b'), tuple_as='array'))
-    ["a" "b"]
+    ['a' 'b']
 
     More verbose usage:
 
@@ -531,8 +531,7 @@ class ExpectNothing(Exception):
 class Parser(object):
 
     closing_brackets = set(BRACKETS.values())
-    _atom_end_basic = \
-        set(BRACKETS) | set(closing_brackets) | set('"\'') | set(whitespace)
+    _atom_end_basic = set(BRACKETS) | set(closing_brackets) | set('"\'') | set(whitespace)
     _atom_end_basic_or_escape_regexp = "|".join(map(re.escape,
                                                     _atom_end_basic | set('\\')))
     quote_or_escape_re = re.compile(r'"|\\')
@@ -546,9 +545,7 @@ class Parser(object):
         self.string_to = (lambda x: x) if string_to is None else string_to
         self.line_comment = line_comment
         self.atom_end = set([line_comment]) | self._atom_end_basic
-        self.atom_end_or_escape_re = \
-            re.compile("{0}|{1}".format(self._atom_end_basic_or_escape_regexp,
-                                        re.escape(line_comment)))
+        self.atom_end_or_escape_re = re.compile("{0}|{1}".format(self._atom_end_basic_or_escape_regexp, re.escape(line_comment)))
 
     def parse_str(self, i):
         string = self.string
@@ -666,13 +663,13 @@ def parse(string, **kwds):
     """
     Parse s-expression.
 
-    >>> parse("(a b)")
+    >>> parse('(a b)')
     [[Symbol('a'), Symbol('b')]]
-    >>> parse("a")
+    >>> parse('a')
     [Symbol('a')]
-    >>> parse("(a 'b)")
+    >>> parse('(a \'b)')
     [[Symbol('a'), Quoted(Symbol('b'))]]
-    >>> parse("(a '(b))")
+    >>> parse('(a \'(b))')
     [[Symbol('a'), Quoted([Symbol('b')])]]
 
     """
