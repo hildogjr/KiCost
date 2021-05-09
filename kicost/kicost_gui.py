@@ -49,7 +49,6 @@ import re  # Regular expression parser.
 import locale
 import babel  # For country location, language and currency presentation.
 import requests
-# from .wxAnyThread import anythread
 
 # KiCost libraries.
 from . import __version__  # Version control by @xesscorp and collaborator.
@@ -803,7 +802,6 @@ class formKiCost(wx.Frame):
         return
 
     # ----------------------------------------------------------------------
-    # @anythread
     def run(self):
         ''' @brief Run KiCost.
             Run KiCost in the GUI interface updating the process bar and messages.'''
