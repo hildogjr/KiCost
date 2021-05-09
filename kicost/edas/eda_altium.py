@@ -35,7 +35,7 @@ import copy  # Necessary because Py2 doesn't have copy in list.
 from datetime import datetime
 from bs4 import BeautifulSoup  # To Read XML files.
 import re  # Regular expression parser.
-from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
+from ..global_vars import DEBUG_OVERVIEW  # Debug configurations.
 from .tools import field_name_translations, PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
 
@@ -101,7 +101,7 @@ def get_part_groups(in_file):
        @return `dict()` of the parts designed. The keys are the componentes references.
     '''
     # Read-in the schematic XML file to get a tree and get its root.
-    logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' Altium BoM...'.format(
+    eda_class.logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' Altium BoM...'.format(
                                     os.path.basename(in_file)))
     file_h = open(in_file)
     root = BeautifulSoup(file_h, 'lxml')
@@ -109,10 +109,10 @@ def get_part_groups(in_file):
 
     # Get the header of the XML file of Altium, so KiCost is able to to
     # to get all the informations in the file.
-    logger.log(DEBUG_OVERVIEW, 'Getting the XML table header...')
+    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting the XML table header...')
     header = [extract_field(entry, 'name') for entry in root.find('columns').find_all('column')]
 
-    logger.log(DEBUG_OVERVIEW, 'Getting components...')
+    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting components...')
     accepted_components = {}
     for row in root.find('rows').find_all('row'):
 

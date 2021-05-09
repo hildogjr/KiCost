@@ -83,6 +83,8 @@ class distributor_class(object):
         # Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.
         # Get handles to default sys.stdout logging handler and the
         # new "tqdm" logging handler.
+        print(__name__)
+        print(distributor_class.logger.__dict__)
         if len(distributor_class.logger.handlers) > 0:
             distributor_class.logDefaultHandler = distributor_class.logger.handlers[0]
             distributor_class.logTqdmHandler = TqdmLoggingHandler(distributor_class.logDefaultHandler.stream)

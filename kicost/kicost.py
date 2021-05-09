@@ -66,7 +66,7 @@ from .edas import get_part_groups
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import create_spreadsheet
 # Import the scrape API
-from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info, set_distributors_logger
+from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info
 
 logger = get_logger()
 
@@ -102,7 +102,6 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
-    set_distributors_logger(logger)
     # Add or remove field translations, ignore in case the trying to
     # re-translate default field names.
     if translate_fields:

@@ -32,7 +32,7 @@ PLATFORM_MACOS_STARTS_WITH = 'darwin'
 
 # The root logger of the application. This has to be the root logger to catch
 # output from libraries (e.g. requests) as well.
-logger = logging.getLogger('')
+logger = None
 
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
@@ -64,3 +64,8 @@ class wxPythonNotPresent(Exception):
 
 def get_logger():
     return logger
+
+
+def set_logger(lg):
+    global logger
+    logger = lg

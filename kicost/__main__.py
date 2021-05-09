@@ -29,23 +29,25 @@ import argparse as ap  # Command argument parser.
 import os
 import sys
 import platform
-import logging
 import time
-# import inspect # To get the internal module and informations of a module/class.
-
 # Debug, language and default configurations.
-from .global_vars import wxPythonNotPresent, logger, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W
+from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger
+# Import log first to set the domain and assign it to the global logger
+from . import log
+log.set_domain('kicost')
+logger = log.init()
+set_logger(logger)
 
 # KiCost definitions and modules/packages functions.
-from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions.
+from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions. # noqa: E402
 try:
     from .kicost_gui import kicost_gui, kicost_gui_runterminal  # User guide.
 except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
-from .edas import get_registered_eda_names
-from .distributors import get_distributors_list
-from . import __version__  # Version control by @xesscorp and collaborator.
+from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
+from .distributors import get_distributors_list, set_distributors_logger  # noqa: E402
+from . import __version__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
 ###############################################################################
 # Additional functions
@@ -215,16 +217,9 @@ def main():
         return
 
     # Set up logging.
-    if args.debug is not None:
-        log_level = logging.DEBUG + 1 - args.debug
-    elif args.quiet is True:
-        log_level = logging.ERROR
-    else:
-        log_level = logging.WARNING
-    # The GUI needs to redirect the logger
-    # So we initialize it only if no GUI
-    if not (args.gui or args.user or args.input is None):
-        logging.basicConfig(level=log_level, format='%(message)s')
+    log.set_verbosity(logger, args.debug, args.quiet)
+    set_distributors_logger(log.get_logger('kicost.distributors'))
+    set_edas_logger(log.get_logger('kicost.edas'))
 
     if args.show_dist_list:
         print('Distributor list:', *sorted(get_distributors_list()))
@@ -346,4 +341,4 @@ def main():
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
+    logger.log(DEBUG_OBSESSIVE, 'Elapsed time: %f seconds', time.time() - start_time)

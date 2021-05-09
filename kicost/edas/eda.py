@@ -23,13 +23,81 @@ import os
 import re
 from collections import OrderedDict
 from ..global_vars import logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_OBSESSIVE
-from .tools import field_name_translations
+from ..distributors import get_distributors_iter
 
-__all__ = ['eda_class']
+__all__ = ['eda_class', 'field_name_translations']
+
+
+# Generate a dictionary to translate all the different ways people might want
+# to refer to part numbers, vendor numbers, manufacture name and such.
+field_name_translations = {
+    # footprint
+    'package': 'footprint',
+    'pcb footprint': 'footprint',
+    'pcb package': 'footprint',  # Used at Proteus.
+    # manf#
+    'mpn': 'manf#',
+    'pn': 'manf#',
+    'manf_num': 'manf#',
+    'manf-num': 'manf#',
+    'mfg_num': 'manf#',
+    'mfg-num': 'manf#',
+    'mfg#': 'manf#',
+    'mfg part#': 'manf#',
+    'mfr. no': 'manf#',
+    'man#': 'manf#',
+    'man_num': 'manf#',
+    'man-num': 'manf#',
+    'manpartno': 'manf#',
+    'manufacturer part number': 'manf#',  # Use on `http://upverter.com/`.
+    'mnf_num': 'manf#',
+    'mnf-num': 'manf#',
+    'mnf#': 'manf#',
+    'mfr_num': 'manf#',
+    'mfr-num': 'manf#',
+    'mfr#': 'manf#',
+    'part-num': 'manf#',
+    'part_num': 'manf#',
+    'p#': 'manf#',
+    'part#': 'manf#',
+    'stock code': 'manf#',
+    # manf
+    'manufacturer': 'manf',
+    'manufacturer name': 'manf',  # Used for some web site tools to part generator in Altium.
+    'mnf': 'manf',
+    'man': 'manf',
+    'mfg': 'manf',
+    'mfr': 'manf',
+    # refs
+    'designator': 'refs',
+    'part reference': 'refs',
+    'reference': 'refs',
+    'reference designator': 'refs',
+    'references': 'refs',
+    'customer no': 'refs',
+    'parts': 'refs',
+    'part': 'refs',
+    # qty
+    'order qty': 'qty',
+    'quantity': 'qty',
+    # Others fields used by KiCost and that have to be standardized.
+    'pdf': 'datasheet',
+    'description': 'desc',
+    'nopop': 'dnp',
+    'version': 'variant',
+}
+# Create the fields translate for each distributor submodule.
+for stub in ['part#', '#', 'p#', 'pn', 'vendor#', 'vp#', 'vpn', 'num']:
+    for dist in get_distributors_iter():
+        if stub != '#':
+            field_name_translations[dist + stub] = dist + '#'
+        field_name_translations[dist + '_' + stub] = dist + '#'
+        field_name_translations[dist + '-' + stub] = dist + '#'
 
 
 class eda_class(object):
     registered = {}
+    logger = None
 
     @staticmethod
     def register(eda):
