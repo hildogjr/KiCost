@@ -28,7 +28,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 from .global_vars import (wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
-                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEFAULT_LANGUAGE, get_logger, KiCostError)
+                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, get_logger, KiCostError)
 
 # Libraries.
 try:
@@ -47,7 +47,7 @@ from distutils.version import StrictVersion  # To comparative of versions.
 from traceback import format_tb
 import re  # Regular expression parser.
 import locale
-import babel  # For country location, language and currency presentation.
+from .currency_converter import list_currencies, get_currency_symbol, get_currency_name
 import requests
 
 # KiCost libraries.
@@ -912,19 +912,18 @@ class formKiCost(wx.Frame):
 
         # Get all the currencies present.
         loc = locale.getdefaultlocale()[0]
-        currencyList = sorted(list(babel.numbers.list_currencies()))
+        currencyList = sorted(list(list_currencies()))
         for c in range(len(currencyList)):
             currency = currencyList[c]
             currencyList[c] = '({a} {s}) {n}'.format(a=currency,
-                                                     s=babel.numbers.get_currency_symbol(currency, locale=loc),
-                                                     n=babel.numbers.get_currency_name(currency, locale=loc)
+                                                     s=get_currency_symbol(currency, locale=loc),
+                                                     n=get_currency_name(currency, locale=loc)
                                                      )
         self.m_comboBox_currency.Insert(currencyList, 0)
 
-        # Get all languages possible.
-        languages = '{n} ({s})'.format(n=babel.Locale(DEFAULT_LANGUAGE).get_language_name(),
-                                       s=DEFAULT_LANGUAGE,
-                                       )
+        # Get all languages we support ... well just one ;-)
+        # languages = '{n} ({s})'.format(n=babel.Locale(DEFAULT_LANGUAGE).get_language_name(), s=DEFAULT_LANGUAGE),
+        languages = 'American English (en_US)',
         self.m_comboBox_language.Insert(languages, 0)
 
         # Credits and other informations, search by `AUTHOR.rst` file.

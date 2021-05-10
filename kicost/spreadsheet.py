@@ -39,7 +39,6 @@ from textwrap import wrap
 import re  # Regular expression parser.
 import xlsxwriter  # XLSX file interpreter.
 from xlsxwriter.utility import xl_rowcol_to_cell, xl_range_abs
-from babel import numbers  # For currency presentation.
 from validators import url as validate_url  # URL validator.
 
 # KiCost libraries.
@@ -47,7 +46,7 @@ from .version import __version__  # Version control by @xesscorp and collaborato
 from .distributors import get_distributor_info, ORDER_COL_USERFIELDS
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
 
-from .currency_converter import CurrencyConverter
+from .currency_converter import CurrencyConverter, get_currency_symbol, format_currency
 currency_convert = CurrencyConverter().convert
 
 __all__ = ['create_spreadsheet', 'create_worksheet', 'Spreadsheet']
@@ -279,7 +278,7 @@ class Spreadsheet(object):
     def set_currency(self, currency):
         if currency:
             self.currency_alpha3 = currency.strip().upper()
-            self.currency_symbol = numbers.get_currency_symbol(self.currency_alpha3, locale=DEFAULT_LANGUAGE)
+            self.currency_symbol = get_currency_symbol(self.currency_alpha3, locale=DEFAULT_LANGUAGE)
             self.currency_format = self.currency_symbol + '#,##0.00'
         else:
             self.currency_alpha3 = DEFAULT_CURRENCY
@@ -855,7 +854,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         if used_currency != ss.currency_alpha3:
             wks.write(next_line, start_col + col['value'],
                       '{c}({c_s})/{d}({d_s}):'.format(c=ss.currency_alpha3, d=used_currency, c_s=ss.currency_symbol,
-                                                      d_s=numbers.get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
+                                                      d_s=get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
                                                       ),
                       ss.wrk_formats['description']
                       )
@@ -1011,13 +1010,13 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                         prices=','.join([str(price_tiers[q]) for q in qtys])), ss.wrk_formats['currency'])
 
             # Add a comment to the cell showing the qty/price breaks.
-            dist_currency_symbol = numbers.get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
+            dist_currency_symbol = get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
             price_break_info = 'Qty/Price Breaks ({c}):\n  Qty  -  Unit{s}  -  Ext{s}\n================'.format(c=dist_currency, s=dist_currency_symbol)
             for q in qtys[1 if minimum_order_qty == 1 else 2:]:
                 # Skip the unity quantity for the tip balloon if it not allow to purchase in the distributor.
                 price = price_tiers[q]
-                price_fmt = numbers.format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE)
-                priceq_fmt = numbers.format_currency(price*q, dist_currency, locale=DEFAULT_LANGUAGE)
+                price_fmt = format_currency(price, dist_currency, locale=DEFAULT_LANGUAGE)
+                priceq_fmt = format_currency(price*q, dist_currency, locale=DEFAULT_LANGUAGE)
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(q, price_fmt, priceq_fmt)
             wks.write_comment(row, unit_price_col, price_break_info)
 
