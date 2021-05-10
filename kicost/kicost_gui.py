@@ -28,7 +28,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 from .global_vars import (wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
-                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEFAULT_LANGUAGE, get_logger)
+                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEFAULT_LANGUAGE, get_logger, KiCostError)
 
 # Libraries.
 try:
@@ -124,6 +124,7 @@ class KiCostThread(Thread):
         args = self.args
         # Run KiCost main function and print in the log the elapsed time.
         start_time = time.time()
+        logger.info('Starting cost processing ...')
         try:
             # print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
             #       '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
@@ -133,6 +134,11 @@ class KiCostThread(Thread):
                    group_fields=args.group_fields, translate_fields=args.translate_fields,
                    variant=args.variant,
                    dist_list=args.include, currency=args.currency)
+        except KiCostError as e:
+            logger.error(e)
+            # We are done, notify the main thread
+            wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
+            return
         except Exception as e:
             if logger.isEnabledFor(DEBUG_OVERVIEW):
                 # Inform a traceback
@@ -140,13 +146,14 @@ class KiCostThread(Thread):
                 trace = format_tb(traceback)
                 for line in trace:
                     logger.info(line[:-1])
-            logger.error(e)
+            logger.error('Internal error: ' + str(e))
             # We are done, notify the main thread
             wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
             return
         finally:
             init_distributor_dict()  # Restore distributors modified during the execution of KiCost motor.
         logger.log(DEBUG_OVERVIEW, 'Elapsed time: {} seconds'.format(time.time() - start_time))
+        logger.info('Finished cost processing.')
         # Convert to ODS
         try:
             if args.convert_to_ods:
