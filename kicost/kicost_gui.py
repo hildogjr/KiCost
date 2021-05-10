@@ -126,8 +126,8 @@ class KiCostThread(Thread):
         start_time = time.time()
         logger.info('Starting cost processing ...')
         try:
-            # print(args.input, '\n', args.eda_name, '\n', args.output, '\n', args.collapse_refs,
-            #       '\n', args.fields, '\n', args.ignore_fields, '\n', args.include, '\n', args.currency)
+            if logger.isEnabledFor(DEBUG_OBSESSIVE):
+                logger.debug('Arguments for kicost: ' + str(args.__dict__))
             kicost(in_file=args.input, eda_name=args.eda_name,
                    out_filename=args.output, collapse_refs=args.collapse_refs,
                    user_fields=args.fields, ignore_fields=args.ignore_fields,
