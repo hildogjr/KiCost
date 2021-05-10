@@ -70,8 +70,8 @@ docs:
 	sphinx-apidoc -o docs/ kicost
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
+	$(MAKE) -C docs singlehtml
 	open docs/_build/html/index.html
-	$(MAKE) -C ./docs/make singlehtml
 
 release-test: clean
 	$(PYTHON) setup.py sdist
