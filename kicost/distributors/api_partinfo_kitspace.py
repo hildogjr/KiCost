@@ -329,8 +329,11 @@ class api_partinfo_kitspace(distributor_class):
                 # List of distributors without an specific part number
                 query_part_stock_code.append(part_dist_use_manfpn)
 
+        n_queries = len(query_parts)
+        if not n_queries:
+            return
         # Setup progress bar to track progress of server queries.
-        progress = distributor_class.progress(len(query_parts), distributor_class.logger)
+        progress = distributor_class.progress(n_queries, distributor_class.logger)
 
         # Slice the queries into batches of the largest allowed size and gather
         # the part data for each batch.
