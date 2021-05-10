@@ -22,6 +22,12 @@ except ImportError:
     default_rates = {}
     default_date = ''
 from .download_rates import download_rates
+try:
+    from .currency_tables import currency_symbols, currency_names
+except ImportError:
+    # Only useful to boostrap
+    currency_symbols = {}
+    currency_names = {}
 
 # Author information.
 __author__ = 'Salvador Eduardo Tropea'
@@ -64,3 +70,19 @@ class CurrencyConverter(object):
         r1 = self.rates[new_currency]
 
         return float(amount) / r0 * r1
+
+
+def list_currencies():
+    return currency_symbols.keys()
+
+
+def get_currency_symbol(currency, locale=None):
+    return currency_symbols.get(currency, '$')
+
+
+def get_currency_name(currency, locale=None):
+    return currency_names.get(currency, '')
+
+
+def format_currency(price, currency, locale=None):
+    return currency_symbols.get(currency, '$') + '{:,.2f}'.format(price)

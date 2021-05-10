@@ -94,6 +94,7 @@ install: clean
 
 update-rates:
 	$(PYTHON) tools/get_rates.py > kicost/currency_converter/default_rates.py
+	$(PYTHON) tools/gen_currency_tables.py > kicost/currency_converter/currency_tables.py
 
 deb: update-rates
 	DEB_BUILD_OPTIONS=nocheck fakeroot dpkg-buildpackage -uc -b
