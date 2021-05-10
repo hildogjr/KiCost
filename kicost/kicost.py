@@ -212,7 +212,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         dist_list = new_list
     # Debug the resulting list
     if logger.isEnabledFor(DEBUG_DETAILED):
-        logger.log(DEBUG_DETAILED, pprint.pformat(dist_list))
+        logger.log(DEBUG_DETAILED, 'Distributors: ' + pprint.pformat(dist_list))
     # Get the distributor pricing/qty/etc for each part.
     query_part_info(parts, dist_list, currency)
 
