@@ -14,6 +14,15 @@ This version only supports conversions for the last exchange rates, not
 historic ones.
 
 On the other hand this version always tries to get the last rates.
+-----------------------------------------------------------------------
+list_currencies, get_currency_symbol get_currency_name and
+format_currency:
+
+These functions are replacements for Babel
+(http://babel.pocoo.org/en/latest/index.html).
+
+Babel is really nice, but a huge overkill for what we need. In
+particular KiCost cunrrently supports only 'en_US'.
 """
 try:
     from .default_rates import default_rates, default_date
@@ -73,16 +82,20 @@ class CurrencyConverter(object):
 
 
 def list_currencies():
+    ''' Get a list of known currencies '''
     return currency_symbols.keys()
 
 
 def get_currency_symbol(currency, locale=None):
+    ''' Get the symbol to represent the specified ISO currency '''
     return currency_symbols.get(currency, '$')
 
 
 def get_currency_name(currency, locale=None):
+    ''' Get the name for the specified ISO currency '''
     return currency_names.get(currency, '')
 
 
 def format_currency(price, currency, locale=None):
+    ''' Format price for the specified ISO currency '''
     return currency_symbols.get(currency, '$') + '{:,.2f}'.format(price)
