@@ -27,7 +27,8 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Debug, language and default configurations.
-from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, W_NOPURCH, W_NOQTY
+from .global_vars import (SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, W_NOPURCH, W_NOQTY,
+                          ERR_FIELDS, KiCostError)
 
 # Python libraries.
 import os
@@ -859,7 +860,10 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                       ss.wrk_formats['description']
                       )
             ss.define_name_ref('{c}_{d}'.format(c=ss.currency_alpha3, d=used_currency), next_line, col['value'] + 1)
-            wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency_alpha3))
+            try:
+                wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency_alpha3))
+            except ValueError as e:
+                raise KiCostError(str(e) + ' in ' + part.collapsed_refs, ERR_FIELDS)
             next_line = next_line + 1
 
     # Return column following the globals so we know where to start next set of cells.

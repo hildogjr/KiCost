@@ -40,6 +40,7 @@ import re
 import sys
 import shutil
 import xml.etree.ElementTree as ET
+from kicost.global_vars import ERR_FIELDS
 
 # Author information.
 __author__ = 'Salvador Eduardo Tropea'
@@ -211,7 +212,7 @@ def check_diff(filename):
     subprocess.check_output(cmd, stderr=subprocess.STDOUT)
 
 
-def run_test(inputs, output, extra=None, price=True):
+def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
     if not os.path.isdir(TESTDIR + '/result_test'):
         os.mkdir(TESTDIR + '/result_test')
     if not os.path.isdir(TESTDIR + '/log_test'):
@@ -232,26 +233,35 @@ def run_test(inputs, output, extra=None, price=True):
         fo = open(TESTDIR + '/log_test/0server_stdout.log', 'at')
         fe = open(TESTDIR + '/log_test/0server_stderr.log', 'at')
         server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
-    try:
-        # Run KiCost
-        cmd = ['kicost', '--debug', '10']
-        if not price:
-            cmd.append('--no_price')
-        if extra:
-            cmd.extend(extra)
-        out_xlsx = TESTDIR + '/' + output + '.xlsx'
-        cmd.extend(['-o', out_xlsx])
-        cmd.extend(['-wi'] + [TESTDIR + '/' + n for n in inputs])
-        log_running('Testing', cmd)
-        log_err = open(TESTDIR + '/log_test/' + output + '_error.log', 'w+t')
-        log_out = open(TESTDIR + '/log_test/' + output + '_out.log', 'w+t')
-        subprocess.check_call(cmd, stderr=log_err, stdout=log_out)
-        global last_err
-        log_err.seek(0)
-        last_err = log_err.read()
-        log_err.close()
-        log_out.close()
-        # Convert to CSV/TXT
+    # Run KiCost
+    cmd = ['kicost', '--debug', '10']
+    if not price:
+        cmd.append('--no_price')
+    if extra:
+        cmd.extend(extra)
+    out_xlsx = TESTDIR + '/' + output + '.xlsx'
+    cmd.extend(['-o', out_xlsx])
+    cmd.extend(['-wi'] + [TESTDIR + '/' + n for n in inputs])
+    log_running('Testing', cmd)
+    log_err = open(TESTDIR + '/log_test/' + output + '_error.log', 'w+t')
+    log_out = open(TESTDIR + '/log_test/' + output + '_out.log', 'w+t')
+    ret = subprocess.call(cmd, stderr=log_err, stdout=log_out)
+    # Kill the server
+    if server is not None:
+        server.terminate()
+        fo.close()
+        fe.close()
+    global last_err
+    log_err.seek(0)
+    last_err = log_err.read()
+    log_err.close()
+    log_out.close()
+    # Check return value
+    if ret_err != ret:
+        logging.error('Failed test: ' + name)
+        assert False, last_err
+    # Convert to CSV/TXT
+    if not ret_err:
         if CREATE_REF:
             xlsx_to_csv(output, 'expected_test', price)
             xlsx_to_txt(output, 'expected_test')
@@ -260,16 +270,10 @@ def run_test(inputs, output, extra=None, price=True):
             check_diff(output + '.csv')
             xlsx_to_txt(output, 'result_test')
             check_diff(output + '.xlsx.txt')
-    finally:
-        # Kill the server
-        if server is not None:
-            server.terminate()
-            fo.close()
-            fe.close()
     logging.info(output+' OK')
 
 
-def run_test_check(name, inputs=None, output=None, extra=None, price=True):
+def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_err=0):
     logging.debug('Test name: ' + name)
     if inputs is None:
         inputs = name
@@ -279,13 +283,7 @@ def run_test_check(name, inputs=None, output=None, extra=None, price=True):
         output = inputs[0]
         if output.endswith('.csv'):
             output = output[:-4]
-    try:
-        run_test(inputs, output, extra, price)
-    except subprocess.CalledProcessError as e:
-        logging.error('Failed test: ' + name)
-        if e.output:
-            logging.error('Output from command: ' + e.output.decode('utf-8'))
-        raise e
+    run_test(name, inputs, output, extra, price, ret_err)
 
 
 def check_errors(errors):
@@ -550,6 +548,12 @@ def test_wrong_pricing():
     # File with errors in the pricing field
     run_test_check('wrong_pricing', extra=['--include', 'arrow', '--exclude', 'arrow'])
     check_errors([r'Malformed pricing number(.*)STK1', r'Malformed pricing entry(.*)PCB1'])
+
+
+def test_wrong_currency():
+    # File with a wrong currency
+    run_test_check('wrong_currency', extra=['--include', 'arrow', '--exclude', 'arrow'], ret_err=ERR_FIELDS)
+    check_errors([r'XXX is not a supported currency in STK1'])
 
 
 class TestKicost(unittest.TestCase):
