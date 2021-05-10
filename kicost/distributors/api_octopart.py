@@ -23,7 +23,6 @@
 # Libraries.
 import json
 import requests
-import tqdm
 import re
 import os
 import sys
@@ -34,7 +33,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW
+from ..global_vars import DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_ASSQTY
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -42,10 +41,11 @@ from .distributor import distributor_class
 __author__ = 'XESS Corporation'
 __webpage__ = 'info@xess.com'
 
+# SET: The following isn't need in all KiCost, I don't think is really needed here.
+#      If you think this is needed contact me, we can use the same tricks used in the rest of the code.
 # Python2/3 compatibility.
-# from __future__ import (unicode_literals, print_function, division, absolute_import
-from future import standard_library
-standard_library.install_aliases()
+# from future import standard_library
+# standard_library.install_aliases()
 
 OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 
@@ -97,11 +97,11 @@ class api_octopart(distributor_class):
             results = json.loads(response.text).get('results')
             return results
         elif response.status_code == requests.codes['not_found']:  # 404
-            raise Exception('Octopart server not found.')
+            raise KiCostError('Octopart server not found.', ERR_SCRAPE)
         elif response.status_code == 403 or 'Invalid API key' in response.text:
-            raise Exception('Octopart KEY invalid, registre one at "https://www.octopart.com".')
+            raise KiCostError('Octopart KEY invalid, registre one at "https://www.octopart.com".', ERR_SCRAPE)
         else:
-            raise Exception('Octopart error: ' + str(response.status_code))
+            raise KiCostError('Octopart error: ' + str(response.status_code), ERR_SCRAPE)
 
     def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
@@ -154,7 +154,7 @@ class api_octopart(distributor_class):
         distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
 
         # Setup progress bar to track progress of Octopart queries.
-        progress = tqdm.tqdm(desc='Progress', total=len(parts), unit='part', miniters=1)
+        progress = distributor_class.progress(len(parts), distributor_class.logger)
 
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
@@ -301,7 +301,7 @@ class api_octopart(distributor_class):
                     # general sub quantity of the current part.
                     try:
                         part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                        distributor_class.logger.warning("Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                        distributor_class.logger.warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                                 q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                                 f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                     except KeyError:
@@ -327,7 +327,7 @@ class api_octopart(distributor_class):
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
-        del progress
+        progress.close()
 
 
 key = os.environ.get('KICOST_OCTOPART_KEY_V3')

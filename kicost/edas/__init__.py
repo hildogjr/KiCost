@@ -56,3 +56,8 @@ def file_eda_match(file_name):
 def get_eda_label(name):
     ''' Returns a beautiful name for the EDA '''
     return eda_class.registered[name].label
+
+
+def set_edas_logger(logger):
+    ''' Sets the logger used by the class '''
+    eda_class.logger = logger

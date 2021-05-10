@@ -21,8 +21,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import print_function
-
 # Author information.
 __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
@@ -31,7 +29,6 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import json
 import requests
-import tqdm
 import re
 import sys
 import os
@@ -43,16 +40,16 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
 # Distributors definitions.
 from .distributor import distributor_class
 
 
+# Uncomment for debug
 # Use `debug('x + 1')` for instance.
-def debug(expression):
-    frame = sys._getframe(1)
-    print(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
-
+# def debug(expression):
+#     frame = sys._getframe(1)
+#     distributor_class.logger.info(expression, '=', repr(eval(expression, frame.f_globals, frame.f_locals)))
 
 MAX_PARTS_PER_QUERY = 20  # Maximum number of parts in a single query.
 
@@ -139,15 +136,16 @@ class api_partinfo_kitspace(distributor_class):
             results = json.loads(response.text)
             return results
         elif response.status_code == requests.codes['not_found']:  # 404
-            raise Exception('Kitspace server not found check your internet connection.')
+            raise KiCostError('Kitspace server not found check your internet connection.', ERR_SCRAPE)
         elif response.status_code == requests.codes['request_timeout']:  # 408
-            raise Exception('KitSpace is not responding.')
+            raise KiCostError('KitSpace is not responding.', ERR_SCRAPE)
         elif response.status_code == requests.codes['bad_request']:  # 400
-            raise Exception('Bad request to Kitspace server probably due to an incorrect string format check your `manf#` codes and contact the suport team.')
+            raise KiCostError('Bad request to Kitspace server probably due to an incorrect string '
+                              'format check your `manf#` codes and contact the suport team.', ERR_SCRAPE)
         elif response.status_code == requests.codes['gateway_timeout']:  # 504
-            raise Exception('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.')
+            raise KiCostError('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.', ERR_SCRAPE)
         else:
-            raise Exception('Kitspace error: ' + str(response.status_code))
+            raise KiCostError('Kitspace error: ' + str(response.status_code), ERR_SCRAPE)
 
     @staticmethod
     def get_value(data, item, default=None):
@@ -162,6 +160,7 @@ class api_partinfo_kitspace(distributor_class):
                     continue
             return default
         except Exception:
+            # TODO What?!
             return default
 
     @staticmethod
@@ -181,7 +180,7 @@ class api_partinfo_kitspace(distributor_class):
         for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
 
             if not result:
-                distributor_class.logger.warning('No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                distributor_class.logger.warning(W_NOINFO+'No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
 
             else:
 
@@ -202,7 +201,8 @@ class api_partinfo_kitspace(distributor_class):
                     try:
                         price_tiers = {}  # Empty dict in case of exception.
                         if not offer['prices']:
-                            distributor_class.logger.warning('No price information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                            distributor_class.logger.warning(NO_PRICE+'No price information found for parts \'{}\' query `{}`'.
+                                                             format(part.refs, str(part_query)))
                         else:
                             dist_currency = list(offer['prices'].keys())
 
@@ -266,7 +266,7 @@ class api_partinfo_kitspace(distributor_class):
                         part.qty_avail[dist] = offer.get('in_stock_quantity')  # In stock.
                     ign_stock_code = distributor_class.get_distributor_info(dist).ignore_cat
                     valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
-                    # debug('part.part_num[dist]') # Uncomment to debug
+                    # debug('part.part_num[dist]')  # Uncomment to debug
                     # debug('part.qty_increment[dist]')  # Uncomment to debug
                     if (valid_part and
                         (not part.part_num.get(dist) or
@@ -329,8 +329,11 @@ class api_partinfo_kitspace(distributor_class):
                 # List of distributors without an specific part number
                 query_part_stock_code.append(part_dist_use_manfpn)
 
+        n_queries = len(query_parts)
+        if not n_queries:
+            return
         # Setup progress bar to track progress of server queries.
-        progress = tqdm.tqdm(desc='Progress', total=len(query_parts), unit='part', miniters=1)
+        progress = distributor_class.progress(n_queries, distributor_class.logger)
 
         # Slice the queries into batches of the largest allowed size and gather
         # the part data for each batch.
@@ -341,7 +344,7 @@ class api_partinfo_kitspace(distributor_class):
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
-        del progress
+        progress.close()
 
 
 distributor_class.register(api_partinfo_kitspace, 50)

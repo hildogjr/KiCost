@@ -27,7 +27,8 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Debug, language and default configurations.
-from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, logger, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W
+from .global_vars import (SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, W_NOPURCH, W_NOQTY,
+                          ERR_FIELDS, KiCostError)
 
 # Python libraries.
 import os
@@ -378,6 +379,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currenc
                        collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' ', max_column_width=DEF_MAX_COLUMN_W):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     basename = os.path.basename(spreadsheet_filename)
+    logger = get_logger()
     logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(basename))
     # Adjust the name of the work_sheet (add variant and limit len)
     worksheet_name = os.path.splitext(basename)[0]  # Default name for pricing worksheet.
@@ -858,7 +860,10 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                       ss.wrk_formats['description']
                       )
             ss.define_name_ref('{c}_{d}'.format(c=ss.currency_alpha3, d=used_currency), next_line, col['value'] + 1)
-            wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency_alpha3))
+            try:
+                wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency_alpha3))
+            except ValueError as e:
+                raise KiCostError(str(e) + ' in ' + part.collapsed_refs, ERR_FIELDS)
             next_line = next_line + 1
 
     # Return column following the globals so we know where to start next set of cells.
@@ -1292,7 +1297,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 info_range = columns_global[col]
             else:
                 info_range = ""
-                logger.warning("Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
+                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
             info_range = xl_range(PART_INFO_FIRST_ROW, info_range,
                                   PART_INFO_LAST_ROW, info_range)
             # If the correspondent information is some description, it is allow to add the general
@@ -1316,7 +1321,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             purchase_code = start_col + columns_global['manf#']
         else:
             purchase_code = ""
-            logger.warning("Not valid  quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=label))
+            logger.warning(W_NOQTY+"Not valid quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=label))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code, PART_INFO_LAST_ROW, purchase_code)
         purchase_qty = start_col + columns['purch']['col']
         purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)

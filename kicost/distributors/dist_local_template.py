@@ -25,7 +25,7 @@ import re
 import sys
 import hashlib
 
-from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE
+from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, W_BADPRICE
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -136,9 +136,9 @@ class dist_local_template(distributor_class):
                         try:
                             price_tiers[int(qty)] = float(price)
                         except ValueError:
-                            distributor_class.logger.warning('Malformed pricing number: `{}` at {}'.format(old_pricing, p.refs))
+                            distributor_class.logger.warning(W_BADPRICE+'Malformed pricing number: `{}` at {}'.format(old_pricing, p.refs))
                     else:
-                        distributor_class.logger.warning('Malformed pricing entry: `{}` at {}'.format(qty_price, p.refs))
+                        distributor_class.logger.warning(W_BADPRICE+'Malformed pricing entry: `{}` at {}'.format(qty_price, p.refs))
                 # p.moq[dist] = min(price_tiers.keys())
                 if not price_tiers:
                     # This happens when no pricing info is found.

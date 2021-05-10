@@ -27,7 +27,7 @@ from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
-from ..global_vars import logger, DEBUG_OVERVIEW, SEPRTR
+from ..global_vars import DEBUG_OVERVIEW, SEPRTR
 from .eda import eda_class
 
 
@@ -68,14 +68,14 @@ def get_part_groups(in_file):
        @return `dict()` of the parts designed. The keys are the componentes references.
     '''
     # Read-in the schematic XML file to get a tree and get its root.
-    logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' KiCad BoM...'.format(
+    eda_class.logger.log(DEBUG_OVERVIEW, '# Getting from XML \'{}\' KiCad BoM...'.format(
                                     os.path.basename(in_file)))
     file_h = open(in_file)
     root = BeautifulSoup(file_h, 'lxml')
     file_h.close()
 
     # Get the general information of the project BoM XML file.
-    logger.log(DEBUG_OVERVIEW, 'Getting authorship data...')
+    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting authorship data...')
     title = root.find('title_block')
 
     prj_info = dict()
@@ -86,7 +86,7 @@ def get_part_groups(in_file):
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
-    logger.log(DEBUG_OVERVIEW, 'Getting parts library...')
+    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting parts library...')
     libparts = {}
     if root.find('libparts'):
         for p in root.find('libparts').find_all('libpart'):
@@ -108,7 +108,7 @@ def get_part_groups(in_file):
     # Find the components used in the schematic and elaborate
     # them with global values from the libraries and local values
     # from the schematic.
-    logger.log(DEBUG_OVERVIEW, 'Getting components...')
+    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting components...')
     components = OrderedDict()
     for c in root.find('components').find_all('comp'):
 
@@ -120,7 +120,7 @@ def get_part_groups(in_file):
             libpart = str(libsource['lib']) + SEPRTR + str(libsource['part'])
         else:
             libpart = '???'
-            logger.log(DEBUG_OVERVIEW, 'Footprint library not assigned to {}'.format(''))  # TODO
+            eda_class.logger.log(DEBUG_OVERVIEW, 'Footprint library not assigned to {}'.format(''))  # TODO
 
         # Initialize the fields from the global values in the libparts dict entry.
         # (These will get overwritten by any local values down below.)

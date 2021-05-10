@@ -32,7 +32,7 @@ PLATFORM_MACOS_STARTS_WITH = 'darwin'
 
 # The root logger of the application. This has to be the root logger to catch
 # output from libraries (e.g. requests) as well.
-logger = logging.getLogger('')
+logger = None
 
 DEBUG_OVERVIEW = logging.DEBUG
 DEBUG_DETAILED = logging.DEBUG-1
@@ -51,6 +51,31 @@ DEFAULT_CURRENCY = 'USD'  # Default currency assigned.
 # Default maximum column width for the cell adjust
 DEF_MAX_COLUMN_W = 32
 
+# Error codes
+ERR_INTERNAL = 1  # Unhandled exceptions
+ERR_ARGS = 2  # Command line arguments
+ERR_KICADCONFIG = 3  # An error related to KiCad configuration
+ERR_KICOSTCONFIG = 4  # An error related to KiCost configuration
+ERR_SCRAPE = 5  # Error trying to get prices
+ERR_INPUTFILE = 6  # Error parsing input files
+ERR_FIELDS = 7  # Some inconsistency with the fields
+
+# Warning codes
+W_TRANS = '(WC001) '  # Problem wit field translate
+W_NOMANP = '(WC002) '  # No manf# or distributor#
+W_CONF = '(WC003) '  # Problem during --un/setup
+W_NOPURCH = '(WC004) '  # No valid field for purchase
+W_NOQTY = '(WC005) '  # No valid qty for purchase
+W_ASSQTY = '(WC006) '  # Assigned qty during scrape
+W_NOINFO = '(WC007) '  # No info during scrape
+NO_PRICE = '(WC008) '  # No price during scrape
+W_BADPRICE = '(WC009) '  # Some problem with the local price tier
+W_FLDOVR = '(WC010) '  # Field overwrite
+W_DUPWRONG = '(WC011) '  # Inconsistency in duplicated data
+W_INCQTY = '(WC012) '  # Inconsistency in qty
+W_REPMAN = '(WC013) '  # Asking to repeat a manufacturer
+W_MANQTY = '(WC014) '  # Malformed manf#_qty
+
 
 class PartHtmlError(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
@@ -62,5 +87,18 @@ class wxPythonNotPresent(Exception):
     pass
 
 
+class KiCostError(Exception):
+    '''Exception for any error while running kicost().'''
+    def __init__(self, msg, id):
+        super(self.__class__, self).__init__(msg)
+        self.msg = msg
+        self.id = id
+
+
 def get_logger():
     return logger
+
+
+def set_logger(lg):
+    global logger
+    logger = lg

@@ -39,8 +39,6 @@
 """
 
 
-from __future__ import print_function
-
 # Libraries.
 import sys
 import os
@@ -58,7 +56,8 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger
+from .global_vars import (DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, ERR_KICOSTCONFIG, ERR_ARGS, KiCostError,
+                          W_TRANS, W_NOMANP)
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
@@ -66,7 +65,7 @@ from .edas import get_part_groups
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import create_spreadsheet
 # Import the scrape API
-from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info, set_distributors_logger
+from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info
 
 logger = get_logger()
 
@@ -102,18 +101,16 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     @param currency `str()` Currency in ISO4217. Default 'USD'.
     '''
 
-    set_distributors_logger(logger)
     # Add or remove field translations, ignore in case the trying to
     # re-translate default field names.
     if translate_fields:
         if len(translate_fields) % 2 == 1:
-            raise Exception('Translation fields argument should have an even number of words.')
+            raise KiCostError('Translation fields argument should have an even number of words.', ERR_ARGS)
         for c in range(0, len(translate_fields), 2):
             # field_name_translations.keys(), field_name_translations.values()
             if translate_fields[c] in field_name_translations.values():
-                logger.warning("Not possible re-translate \"{}\" to \"{}\", this is used as internal field names.".format(
-                        translate_fields[c].lower(), translate_fields[c+1].lower()
-                    ))
+                logger.warning(W_TRANS+"Unable to re-translate \"{}\" to \"{}\", this is used as an internal field name.".format(
+                               translate_fields[c].lower(), translate_fields[c+1].lower()))
                 continue
             if translate_fields[c+1] != '~':
                 field_name_translations.update({translate_fields[c].lower(): translate_fields[c+1].lower()})
@@ -128,7 +125,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     user_fields = list(OrderedDict([(lv, 1) for lv in user_fields]))  # Avoid repeated fields
     for f in user_fields:
         if f.lower() in field_name_translations:
-            logger.warning("\"{f}\" field is a reserved field and can not be used as user field."
+            logger.warning(W_TRANS+"\"{f}\" field is a reserved field and can not be used as user field."
                            " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
             user_fields.remove(f)
 
@@ -208,14 +205,14 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         new_list = []
         for d in dist_list:
             if d+'#' not in all_fields:
-                logger.warning("No 'manf#' and '%s#' field in any part: no information by '%s'.",
+                logger.warning(W_NOMANP+"No 'manf#' and '%s#' field in any part: no information by '%s'.",
                                d, get_distributor_info(d).label.name)
             else:
                 new_list.append(d)
         dist_list = new_list
     # Debug the resulting list
     if logger.isEnabledFor(DEBUG_DETAILED):
-        logger.log(DEBUG_DETAILED, pprint.pformat(dist_list))
+        logger.log(DEBUG_DETAILED, 'Distributors: ' + pprint.pformat(dist_list))
     # Get the distributor pricing/qty/etc for each part.
     query_part_info(parts, dist_list, currency)
 
@@ -285,9 +282,10 @@ def output_filename(files_input):
 
 
 def kicost_gui_notdependences():
-    print('You don\'t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:')
-    print('pip3 install -U wxPython # For Windows & macOS')
-
-    print('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    print('Or download from last version from <https://wxpython.org/pages/downloads/>')
-    sys.exit(1)
+    logger.error('You don\'t have the wxPython dependence to run the GUI interface.')
+    logger.error('Run once of the following commands in a terminal to install it:')
+    logger.error('pip3 install -U wxPython # For Windows & macOS')
+    logger.error('sudo apt-get install python3-wxgtk4.0 # Modern Linux derived from Debian, like Ubuntu')
+    logger.error('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    logger.error('Or download the last version from <https://wxpython.org/pages/downloads/>')
+    sys.exit(ERR_KICOSTCONFIG)

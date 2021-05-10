@@ -22,30 +22,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-from __future__ import print_function
-
 # Libraries.
 import argparse as ap  # Command argument parser.
 import os
 import sys
 import platform
-import logging
 import time
-# import inspect # To get the internal module and informations of a module/class.
-
+import tqdm
+import logging
 # Debug, language and default configurations.
-from .global_vars import wxPythonNotPresent, logger, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W
+from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger, KiCostError
+# Import log first to set the domain and assign it to the global logger
+from . import log
+log.set_domain('kicost')
+logger = log.init()
+set_logger(logger)
 
 # KiCost definitions and modules/packages functions.
-from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions.
+from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions. # noqa: E402
 try:
     from .kicost_gui import kicost_gui, kicost_gui_runterminal  # User guide.
 except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
-from .edas import get_registered_eda_names
-from .distributors import get_distributors_list
-from . import __version__  # Version control by @xesscorp and collaborator.
+from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
+from .distributors import get_distributors_list, set_distributors_logger, set_distributors_progress  # noqa: E402
+from . import __version__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
 ###############################################################################
 # Additional functions
@@ -70,12 +72,51 @@ def kicost_version_info():
     return version_info_str
 
 
+class TqdmLoggingHandler(logging.Handler):
+    '''Overload the class to write the logging through the `tqdm`.'''
+    def __init__(self, stream, level=logging.NOTSET):
+        super(self.__class__, self).__init__(level)
+        self.stream = stream
+
+    def emit(self, record):
+        try:
+            msg = self.format(record)
+            tqdm.tqdm.write(msg, file=self.stream)  # , nolock=True)
+            self.flush()
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except Exception:
+            self.handleError(record)
+
+
+class ProgressConsole(object):
+    def __init__(self, total, logger):
+        # Create a handler that emits using TQDM
+        self.logTqdmHandler = TqdmLoggingHandler(sys.stderr)
+        # Apply our custom formatter
+        self.logTqdmHandler.setFormatter(log.CustomFormatter(sys.stderr))
+        # Add as a handler and avoid propagating to the base class
+        logger.addHandler(self.logTqdmHandler)
+        logger.propagate = False
+        self.logger = logger
+        # Create the progress object
+        self.progress = tqdm.tqdm(desc='Progress', total=total, unit='part', miniters=1, file=sys.stderr)
+
+    def update(self, val):
+        self.progress.update(val)
+
+    def close(self):
+        self.progress.close()
+        self.logger.removeHandler(self.logTqdmHandler)
+        self.logger.propagate = True
+
+
 ###############################################################################
 # Command-line interface.
 ###############################################################################
 
 
-def main():
+def main_real():
 
     parser = ap.ArgumentParser(
         description='Build cost spreadsheet for a KiCAD project.')
@@ -215,23 +256,17 @@ def main():
         return
 
     # Set up logging.
-    if args.debug is not None:
-        log_level = logging.DEBUG + 1 - args.debug
-    elif args.quiet is True:
-        log_level = logging.ERROR
-    else:
-        log_level = logging.WARNING
-    # The GUI needs to redirect the logger
-    # So we initialize it only if no GUI
-    if not (args.gui or args.user or args.input is None):
-        logging.basicConfig(level=log_level, format='%(message)s')
+    log.set_verbosity(logger, args.debug, args.quiet)
+    set_distributors_logger(log.get_logger('kicost.distributors'))
+    set_distributors_progress(ProgressConsole)
+    set_edas_logger(log.get_logger('kicost.edas'))
 
     if args.show_dist_list:
-        print('Distributor list:', *sorted(get_distributors_list()))
-        return
+        logger.info('Distributor list: ' + ' '.join(sorted(get_distributors_list())))
+        sys.exit(0)
     if args.show_eda_list:
-        print('EDA supported list:', *sorted(get_registered_eda_names()))
-        return
+        logger.info('EDA supported list: ' + ' '.join(sorted(get_registered_eda_names())))
+        sys.exit(0)
 
     # Set up spreadsheet output file.
     if args.output is None:
@@ -259,19 +294,19 @@ def main():
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
         if not args.overwrite:
-            logger.critical('Output file {} already exists!\nUse the --overwrite option to replace it.'.format(args.output))
+            logger.error('Output file {} already exists!\nUse the --overwrite option to replace it.'.format(args.output))
             sys.exit(2)
 
     if args.gui:
         try:
-            kicost_gui([os.path.abspath(fileName) for fileName in args.gui], log_level=log_level)
+            kicost_gui([os.path.abspath(fileName) for fileName in args.gui])
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
 
     if args.input is None:
         try:
-            kicost_gui(log_level=log_level)  # Use the user gui if no input is given.
+            kicost_gui()  # Use the user gui if no input is given.
         except (ImportError, NameError):
             kicost_gui_notdependences()
         return
@@ -340,10 +375,18 @@ def main():
            split_extra_fields=args.split_extra_fields)
 
 
+def main():
+    try:
+        main_real()
+    except KiCostError as e:
+        logger.error(e.msg)
+        sys.exit(e.id)
+
+
 ###############################################################################
 # Main entrypoint.
 ###############################################################################
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    logger.log(logging.DEBUG-2, 'Elapsed time: %f seconds', time.time() - start_time)
+    logger.log(DEBUG_OBSESSIVE, 'Elapsed time: %f seconds', time.time() - start_time)

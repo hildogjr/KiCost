@@ -36,7 +36,7 @@ from datetime import datetime
 from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
-from ..global_vars import logger, DEBUG_OVERVIEW  # Debug configurations.
+from ..global_vars import DEBUG_OVERVIEW, ERR_INPUTFILE, KiCostError, W_DUPWRONG
 from .tools import field_name_translations, split_refs
 from .eda import eda_class
 
@@ -54,7 +54,7 @@ def correspondent_header_value(key, vals, header, header_file):
     value = None
     for i in idx:
         if len(idx) > 1 and value is not None and value != vals[header_file[i]]:
-            logger.warning('Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
+            eda_class.logger.warning(W_DUPWRONG+'Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
                 key, value, vals[header_file[i]]))
         value = vals[header_file[i]]
         if value:
@@ -71,7 +71,7 @@ def extract_fields(row, header, header_file, dialect, gen_cntr):
         # If had a error when tried to read a line maybe a 'EmptyLine',
         # normally at the end of the file or after the header and before
         # the first part.
-        raise Exception('EmptyLine')
+        raise KiCostError('Empty line in CSV?!', ERR_INPUTFILE)
 
     if 'refs' in header:
         ref_str = correspondent_header_value('refs', vals, header, header_file).strip()
@@ -102,9 +102,9 @@ def extract_fields(row, header, header_file, dialect, gen_cntr):
                 value = vals.get(h_file, '').decode('utf-8')
             try:
                 if value and fields[h] != value:
-                    logger.warning('Found different duplicated information for {} in the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'
-                                   .format(refs, h, h_file, fields[h], value, value)
-                                   )
+                    eda_class.logger.warning(W_DUPWRONG+'Found different duplicated information for {} in '
+                                             'the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'.
+                                             format(refs, h, h_file, fields[h], value, value))
             except KeyError:
                 pass
             finally:
@@ -121,7 +121,6 @@ def extract_fields(row, header, header_file, dialect, gen_cntr):
         fields['footprint'] = 'Foot:???'
     if 'value' not in fields:
         fields['value'] = '???'
-    print(fields)
 
     return refs, fields, gen_cntr
 
@@ -131,7 +130,7 @@ def get_part_groups(in_file, distributors):
        @param in_file `str()` with the file name.
        @return `dict()` of the parts designed. The keys are the components references.
     '''
-    logger.log(DEBUG_OVERVIEW, '# Getting from CSV \'{}\' BoM...'.format(
+    eda_class.logger.log(DEBUG_OVERVIEW, '# Getting from CSV \'{}\' BoM...'.format(
                                     os.path.basename(in_file)))
     try:
         file_h = open(in_file, 'r')
@@ -155,10 +154,10 @@ def get_part_groups(in_file, distributors):
 
     # The first line in the file must be the column header.
     content = content.splitlines()
-    logger.log(DEBUG_OVERVIEW, 'Getting CSV header...')
+    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting CSV header...')
     header_file = next(csv.reader(content, delimiter=dialect.delimiter))
     if len(set(header_file)) < len(header_file):
-        logger.warning('There is a duplicated header title in the file. This could cause loss of information.')
+        eda_class.logger.warning(W_DUPWRONG+'There is a duplicated header title in the file. This could cause loss of information.')
 
     # Standardize the header titles and remove the spaces before
     # and after, striping the text improve the user experience.
@@ -194,7 +193,7 @@ def get_part_groups(in_file, distributors):
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
-    logger.log(DEBUG_OVERVIEW, 'Getting parts...')
+    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting parts...')
 
     # Read the each line content.
     accepted_components = OrderedDict()

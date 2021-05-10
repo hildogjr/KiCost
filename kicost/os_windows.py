@@ -30,6 +30,8 @@ __company__ = 'University of Campinas - Brazil'
 # shortcuts, plugins, ...
 
 import sys
+from .global_vars import get_logger
+logger = get_logger()
 
 if sys.platform.startswith('win32'):
     # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
@@ -66,7 +68,8 @@ if sys.platform.startswith('win32'):
             # CloseKey(reg)
             # return value
         except WindowsError:
-            return None
+            pass
+        return None
 
     def reg_enum_keys(path, key=HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
@@ -87,7 +90,8 @@ if sys.platform.startswith('win32'):
             CloseKey(reg)
             return sub_keys
         except WindowsError:
-            return None
+            pass
+        return None
 
     def reg_get(path, name, key=HKEY_CURRENT_USER):
         # Read variable from Windows Registry.
@@ -101,7 +105,8 @@ if sys.platform.startswith('win32'):
             CloseKey(reg)
             return value
         except WindowsError:
-            return None
+            pass
+        return None
 
     def reg_set(path, name, value, key=HKEY_CURRENT_USER, key_type=REG_SZ):
         # Write in the Windows Registry.
@@ -118,9 +123,10 @@ if sys.platform.startswith('win32'):
             # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except ConnectRegistryError:
-            print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
+            logger.error('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
-            return False
+            pass
+        return False
 
     def reg_del(name, key=HKEY_CURRENT_USER):
         # Delete a registry key on Windows.
@@ -133,6 +139,7 @@ if sys.platform.startswith('win32'):
             # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except ConnectRegistryError:
-            print('You should run this command as system administrator: run the terminal as administrator and type the command again.')
+            logger.error('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
-            return False
+            pass
+        return False
