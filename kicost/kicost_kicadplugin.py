@@ -20,6 +20,14 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+"""
+    @package
+    Generate an XLSX BOM with costs from internet.
+
+    Command line:
+    kicost --gui "%I"
+    kicost -qwi "%I"
+"""
 
 # Author information.
 __author__ = 'Hildo Guillardi Junior'
@@ -56,15 +64,15 @@ class kicost_kicadplugin(ActionPlugin):
     def defaults(self):
         self.name = "KiCost"
         self.category = "BOM"
-        self.description = "Create a Cost Bill of Materials spreadsheet using price information on web distributos."
+        self.description = "Create a Cost Bill of Materials spreadsheet using price information on web distributors."
 
     def Run(self):
         BOM_FILEEXTENSION = '.xml'
         bom_file = os.path.splitext(GetBoard().GetFileName())[0] + BOM_FILEEXTENSION
         if not os.path.isfile(bom_file):
-            debug_dialog('The file \'{}\' not exist yet.\nReturn to Eeschma and update/generate it.'.format(bom_file))
+            debug_dialog('The file \'{}\' doesn\'t exist yet.\nReturn to Eeschma and update/generate it.'.format(bom_file))
         elif bom_file == BOM_FILEEXTENSION:
-            debug_dialog('This boad have not BOM associated.')
+            debug_dialog('This board have not BOM associated.')
             bom_file = ''
         try:
             try:
