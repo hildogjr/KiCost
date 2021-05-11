@@ -82,13 +82,13 @@ Row: 7
   Formula: iferror(J7*K7,"")
 Row: 8
  Col: A
-   "C10"
+   "C2"
  Col: B
-   "10nF"
+   "2nF"
  Col: C
-   "Field 'man_num' is 'Field-man_num'"
+   "Field 'pn' is 'Field-pn'"
  Col: I
-   "Field-man_num"
+   "Field-pn"
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -97,13 +97,13 @@ Row: 8
   Formula: iferror(J8*K8,"")
 Row: 9
  Col: A
-   "C11"
+   "C3"
  Col: B
-   "11nF"
+   "3nF"
  Col: C
-   "Field 'man-num' is 'Field-man-num'"
+   "Field 'p#' is 'Field-p_'"
  Col: I
-   "Field-man-num"
+   "Field-p_"
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -111,6 +111,126 @@ Row: 9
    0
   Formula: iferror(J9*K9,"")
 Row: 10
+ Col: A1
+   "C4"
+ Col: B1
+   "4nF"
+ Col: C1
+   "Field 'part_num' is 'Field-part_num'"
+ Col: I1
+   "Field-part_num"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J10*K10,"")
+Row: 11
+ Col: A1
+   "C5"
+ Col: B1
+   "5nF"
+ Col: C1
+   "Field 'part-num' is 'Field-part-num'"
+ Col: I1
+   "Field-part-num"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J11*K11,"")
+Row: 12
+ Col: A1
+   "C6"
+ Col: B1
+   "6nF"
+ Col: C1
+   "Field 'part#' is 'Field-part_'"
+ Col: I1
+   "Field-part_"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J12*K12,"")
+Row: 13
+ Col: A1
+   "C7"
+ Col: B1
+   "7nF"
+ Col: C1
+   "Field 'manf_num' is 'Field-manf_num'"
+ Col: I1
+   "Field-manf_num"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J13*K13,"")
+Row: 14
+ Col: A1
+   "C8"
+ Col: B1
+   "8nF"
+ Col: C1
+   "Field 'manf-num' is 'Field-manf-num'"
+ Col: I1
+   "Field-manf-num"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J14*K14,"")
+Row: 15
+ Col: A1
+   "C9"
+ Col: B1
+   "9nF"
+ Col: C1
+   "Field 'manf#' is 'Field-manf_'"
+ Col: I1
+   "Field-manf_"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J15*K15,"")
+Row: 16
+ Col: A1
+   "C10"
+ Col: B1
+   "10nF"
+ Col: C1
+   "Field 'man_num' is 'Field-man_num'"
+ Col: I1
+   "Field-man_num"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J16*K16,"")
+Row: 17
+ Col: A1
+   "C11"
+ Col: B1
+   "11nF"
+ Col: C1
+   "Field 'man-num' is 'Field-man-num'"
+ Col: I1
+   "Field-man-num"
+ Col: J1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: L1
+   0
+  Formula: iferror(J17*K17,"")
+Row: 18
  Col: A1
    "C12"
  Col: B1
@@ -124,8 +244,8 @@ Row: 10
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J10*K10,"")
-Row: 11
+  Formula: iferror(J18*K18,"")
+Row: 19
  Col: A1
    "C13"
  Col: B1
@@ -139,136 +259,16 @@ Row: 11
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J11*K11,"")
-Row: 12
- Col: A1
-   "C14"
- Col: B1
-   "14nF"
- Col: C1
-   "Field 'mfg-num' is 'Field-mfg-num'"
- Col: I1
-   "Field-mfg-num"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
-  Formula: iferror(J12*K12,"")
-Row: 13
- Col: A1
-   "C15"
- Col: B1
-   "15nF"
- Col: C1
-   "Field 'mfg#' is 'Field-mfg_'"
- Col: I1
-   "Field-mfg_"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
-  Formula: iferror(J13*K13,"")
-Row: 14
- Col: A1
-   "C16"
- Col: B1
-   "16nF"
- Col: C1
-   "Field 'mfr_num' is 'Field-mfr_num'"
- Col: I1
-   "Field-mfr_num"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
-  Formula: iferror(J14*K14,"")
-Row: 15
- Col: A1
-   "C17"
- Col: B1
-   "17nF"
- Col: C1
-   "Field 'mfr-num' is 'Field-mfr-num'"
- Col: I1
-   "Field-mfr-num"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
-  Formula: iferror(J15*K15,"")
-Row: 16
- Col: A1
-   "C18"
- Col: B1
-   "18nF"
- Col: C1
-   "Field 'mfr#' is 'Field-mfr_'"
- Col: I1
-   "Field-mfr_"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
-  Formula: iferror(J16*K16,"")
-Row: 17
- Col: A1
-   "C19"
- Col: B1
-   "19nF"
- Col: C1
-   "Field 'mnf_num' is 'Field-mnf_num'"
- Col: I1
-   "Field-mnf_num"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
-  Formula: iferror(J17*K17,"")
-Row: 18
- Col: A1
-   "C2"
- Col: B1
-   "2nF"
- Col: C1
-   "Field 'pn' is 'Field-pn'"
- Col: I1
-   "Field-pn"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
-  Formula: iferror(J18*K18,"")
-Row: 19
- Col: A1
-   "C20"
- Col: B1
-   "20nF"
- Col: C1
-   "Field 'mnf-num' is 'Field-mnf-num'"
- Col: I1
-   "Field-mnf-num"
- Col: J1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: L1
-   0
   Formula: iferror(J19*K19,"")
 Row: 20
  Col: A2
-   "C21"
+   "C14"
  Col: B2
-   "21nF"
+   "14nF"
  Col: C2
-   "Field 'mnf#' is 'Field-mnf_'"
+   "Field 'mfg-num' is 'Field-mfg-num'"
  Col: I2
-   "Field-mnf_"
+   "Field-mfg-num"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -277,13 +277,13 @@ Row: 20
   Formula: iferror(J20*K20,"")
 Row: 21
  Col: A2
-   "C3"
+   "C15"
  Col: B2
-   "3nF"
+   "15nF"
  Col: C2
-   "Field 'p#' is 'Field-p_'"
+   "Field 'mfg#' is 'Field-mfg_'"
  Col: I2
-   "Field-p_"
+   "Field-mfg_"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -292,13 +292,13 @@ Row: 21
   Formula: iferror(J21*K21,"")
 Row: 22
  Col: A2
-   "C4"
+   "C16"
  Col: B2
-   "4nF"
+   "16nF"
  Col: C2
-   "Field 'part_num' is 'Field-part_num'"
+   "Field 'mfr_num' is 'Field-mfr_num'"
  Col: I2
-   "Field-part_num"
+   "Field-mfr_num"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -307,13 +307,13 @@ Row: 22
   Formula: iferror(J22*K22,"")
 Row: 23
  Col: A2
-   "C5"
+   "C17"
  Col: B2
-   "5nF"
+   "17nF"
  Col: C2
-   "Field 'part-num' is 'Field-part-num'"
+   "Field 'mfr-num' is 'Field-mfr-num'"
  Col: I2
-   "Field-part-num"
+   "Field-mfr-num"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -322,13 +322,13 @@ Row: 23
   Formula: iferror(J23*K23,"")
 Row: 24
  Col: A2
-   "C6"
+   "C18"
  Col: B2
-   "6nF"
+   "18nF"
  Col: C2
-   "Field 'part#' is 'Field-part_'"
+   "Field 'mfr#' is 'Field-mfr_'"
  Col: I2
-   "Field-part_"
+   "Field-mfr_"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -337,13 +337,13 @@ Row: 24
   Formula: iferror(J24*K24,"")
 Row: 25
  Col: A2
-   "C7"
+   "C19"
  Col: B2
-   "7nF"
+   "19nF"
  Col: C2
-   "Field 'manf_num' is 'Field-manf_num'"
+   "Field 'mnf_num' is 'Field-mnf_num'"
  Col: I2
-   "Field-manf_num"
+   "Field-mnf_num"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -352,13 +352,13 @@ Row: 25
   Formula: iferror(J25*K25,"")
 Row: 26
  Col: A2
-   "C8"
+   "C20"
  Col: B2
-   "8nF"
+   "20nF"
  Col: C2
-   "Field 'manf-num' is 'Field-manf-num'"
+   "Field 'mnf-num' is 'Field-mnf-num'"
  Col: I2
-   "Field-manf-num"
+   "Field-mnf-num"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -367,13 +367,13 @@ Row: 26
   Formula: iferror(J26*K26,"")
 Row: 27
  Col: A2
-   "C9"
+   "C21"
  Col: B2
-   "9nF"
+   "21nF"
  Col: C2
-   "Field 'manf#' is 'Field-manf_'"
+   "Field 'mnf#' is 'Field-mnf_'"
  Col: I2
-   "Field-manf_"
+   "Field-mnf_"
  Col: J2
    100
   Formula: CEILING(BoardQty*1.0,1)

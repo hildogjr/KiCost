@@ -26,5 +26,53 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5523634F</tstamp>
     </comp>
+    <comp ref="A:C1">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C1' with value '1nF' from project 'A'</field>
+      </fields>
+    </comp>
+    <comp ref="A:C2">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C2' with value '1nF' from project 'A'</field>
+      </fields>
+    </comp>
+    <comp ref="A:C3">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C3' with value '1nF' from project 'A'</field>
+      </fields>
+    </comp>
+    <comp ref="B:C3">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C3' with value '1nF' from project 'B'</field>
+      </fields>
+    </comp>
+    <comp ref="B:C4">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C4' with value '1nF' from project 'B'</field>
+      </fields>
+    </comp>
+    <comp ref="B:C5">
+      <value>1nF</value>
+      <datasheet></datasheet>
+      <fields>
+        <field name="manf#">COMP-1nF</field>
+        <field name="comment">Comment for 'C5' with value '1nF' from project 'B'</field>
+      </fields>
+    </comp>
   </components>
 </export>

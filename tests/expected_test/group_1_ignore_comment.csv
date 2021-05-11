@@ -3,7 +3,7 @@ Prj date:,2021-01-02,,,,,,,,,Total Cost:,0
 Global Part Info,,,,,,,,,,,
 Refs,Value,comment,S1MN,S1PN,S2MN,S2PN,Footprint,Manf#,Qty,Unit$,Ext$
 "C1,C2,C20",1nF,,,,,,,COMP-1nF,300,,0
-C10,1uF,,,,,,,COMP-1nF,100,,0
 C5,1nF,,,,,,,OTHERCOMP-1nF,100,,0
+C10,1uF,,,,,,,COMP-1nF,100,,0
 
 

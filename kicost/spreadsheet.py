@@ -618,12 +618,15 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
     # e.g. J3, J2, J1, J6 => J1-J3, J6.. # `collapse=True`
     for part in parts:
-        part.collapsed_refs = order_refs(part.refs, collapse=ss.COLLAPSE_REFS, ref_sep=ss.PART_NSEQ_SEPRTR)
+        part.collapsed_refs, part.first_ref = order_refs(part.refs, collapse=ss.COLLAPSE_REFS, ref_sep=ss.PART_NSEQ_SEPRTR)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
     def get_ref_key(part):
-        match = re.match(PART_REF_REGEX, part.collapsed_refs)
-        return [match.group('prefix'), match.group('ref_num'), match.group('subpart_num')]
+        match = PART_REF_REGEX.match(part.first_ref)
+        if not match:
+            return [part.collapsed_refs, 0, 0]
+        subpart_num = match.group('subpart_num')
+        return [match.group('prefix'), int(match.group('ref_num')), int(subpart_num) if subpart_num else 0]
     parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.

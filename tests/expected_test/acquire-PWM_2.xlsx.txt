@@ -308,21 +308,109 @@ Row: 8
    <a href="https://octopart.com/click/track?ai=8078&sig=0077022&sid=10022&ppid=53914194&vpid=199198395&ct=offers">8396536</a>
 Row: 9
  Col: A
-   "C106,C107"
+   "C102-C105,C108,C109,C111,C201-C204,C301-C304,C401-C404,C501-C504,C701-C703,C706,C713,C802,C803,C805-C808,C902,C903,C905-C908,C1002,C1003,C1005-C1008,C1102,C1103,C1105-C1108,C1201-C1205,C1302-C1304,C1401-C1403,C1406,C1413,C1502,C1503,C1505-C1508,C1602,C1603,C1605-C1608,C1702,C1703,C1705-C1708,C1802,C1803,C1805-C1808,C1901-C1903,C1906,C1913,C2002,C2003,C2005-C2008,C2102,C2103,C2105-C2108,C2202,C2203,C2205-C2208,C2302,C2303,C2305-C2308,C2401-C2403,C2406,C2413,C2502,C2503,C2505-C2508,C2602,C2603,C2605-C2608,C2702,C2703,C2705-C2708,C2802,C2803,C2805-C2808"
  Col: B
-   "4.7uF"
+   "100nF"
  Col: C
    "C_0805_HandSoldering"
+ Col: D
+   <a href="http://datasheet.octopart.com/C0805C104K5RAC-TU-Kemet-datasheet-5313890.pdf">C0805C104K5RACTU</a>
  Col: E
-   200
-  Formula: CEILING(BoardQty*2,1)
+   14700
+  Formula: CEILING(BoardQty*147.0,1)
  Col: F
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G
    0
   Formula: iferror(E9*F9,"")
+ Col: M
+   2312919
+ Col: O
+   0
+  Formula: iferror(lookup(if(N9="",E9,N9),{0,1,10,50,100,500,1000,4000},{0.0,0.15,0.11,0.0622,0.0515,0.03612,0.02991,0.02547}),"")
+ Col: P
+   0
+  Formula: iferror(if(N9="",E9,N9)*O9,"")
+ Col: Q
+   <a href="https://octopart.com/click/track?ai=8078&sig=05630d9&sid=459&ppid=143926&vpid=1580637&ct=offers">399-1170-1-ND</a>
+ Col: R
+   14820000
+ Col: T
+   0
+  Formula: iferror(USD_GBP*lookup(if(S9="",E9,S9),{0,1,10,100,150,500,1000,2000,4000},{0.0,0.0781,0.0781,0.0581,0.0581,0.0391,0.0345,0.0309,0.0276}),"")
+ Col: U
+   0
+  Formula: iferror(if(S9="",E9,S9)*T9,"")
+ Col: V
+   <a href="https://octopart.com/click/track?ai=8078&sig=04f3645&sid=819&ppid=143926&vpid=138967316&ct=offers">1414664RL</a>
+ Col: W
+   180200
+ Col: Y
+   0
+  Formula: iferror(lookup(if(X9="",E9,X9),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0169,0.0169,0.0129,0.0121,0.0114,0.0111,0.0109}),"")
+ Col: Z
+   0
+  Formula: iferror(if(X9="",E9,X9)*Y9,"")
+ Col: AA
+   <a href="https://octopart.com/click/track?ai=8078&sig=0646820&sid=27971&ppid=143926&vpid=705357166&ct=offers">C75414</a>
+ Col: AB
+   2058848
+ Col: AD
+   0
+  Formula: iferror(lookup(if(AC9="",E9,AC9),{0,1,10,50,100,1000,10000},{0.0,0.15,0.06,0.06,0.05,0.029,0.022}),"")
+ Col: AE
+   0
+  Formula: iferror(if(AC9="",E9,AC9)*AD9,"")
+ Col: AF
+   <a href="https://octopart.com/click/track?ai=8078&sig=069f674&sid=2401&ppid=143926&vpid=44736965&ct=offers">80C0805C104K5R</a>
+ Col: AG
+   14816000
+ Col: AI
+   0
+  Formula: iferror(lookup(if(AH9="",E9,AH9),{0,1,10,25,50,100,250,500,1000,4000},{0.0,0.363,0.321,0.201,0.163,0.123,0.108,0.09,0.076,0.054}),"")
+ Col: AJ
+   0
+  Formula: iferror(if(AH9="",E9,AH9)*AI9,"")
+ Col: AK
+   <a href="https://octopart.com/click/track?ai=8078&sig=066c407&sid=2402&ppid=143926&vpid=16452119&ct=offers">19C6015</a>
+ Col: AL
+   35350
+ Col: AN
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM9="",E9,AM9),{0,1,25,375,750,1500},{0.0,0.083,0.083,0.044,0.028,0.022}),"")
+ Col: AO
+   0
+  Formula: iferror(if(AM9="",E9,AM9)*AN9,"")
+ Col: AP
+   <a href="https://octopart.com/click/track?ai=8078&sig=00d2c5e&sid=10022&ppid=143926&vpid=199040055&ct=offers">2644416</a>
+ Col: AQ
+   288499
+ Col: AS
+   0
+  Formula: iferror(USD_EUR*lookup(if(AR9="",E9,AR9),{0,1,100,300,1000,4000,12000},{0.0,0.02788,0.02788,0.01813,0.01329,0.0101,0.00941}),"")
+ Col: AT
+   0
+  Formula: iferror(if(AR9="",E9,AR9)*AS9,"")
+ Col: AU
+   <a href="https://octopart.com/click/track?ai=8078&sig=07b4cd6&sid=1532&ppid=143926&vpid=709038289&ct=offers">C0805C104K5RAC</a>
 Row: 10
+ Col: A1
+   "C106,C107"
+ Col: B1
+   "4.7uF"
+ Col: C1
+   "C_0805_HandSoldering"
+ Col: E1
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: F1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G1
+   0
+  Formula: iferror(E10*F10,"")
+Row: 11
  Col: A1
    "C704,C707,C709,C711,C1404,C1407,C1409,C1411,C1904,C1907,C1909,C1911,C2404,C2407,C2409,C2411"
  Col: B1
@@ -337,8 +425,8 @@ Row: 10
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G1
    0
-  Formula: iferror(E10*F10,"")
-Row: 11
+  Formula: iferror(E11*F11,"")
+Row: 12
  Col: A1
    "C705,C708,C710,C712,C1405,C1408,C1410,C1412,C1905,C1908,C1910,C1912,C2405,C2408,C2410,C2412"
  Col: B1
@@ -353,8 +441,8 @@ Row: 11
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G1
    0
-  Formula: iferror(E11*F11,"")
-Row: 12
+  Formula: iferror(E12*F12,"")
+Row: 13
  Col: A1
    "C801,C804,C901,C904,C1001,C1004,C1101,C1104,C1501,C1504,C1601,C1604,C1701,C1704,C1801,C1804,C2001,C2004,C2101,C2104,C2201,C2204,C2301,C2304,C2501,C2504,C2601,C2604,C2701,C2704,C2801,C2804"
  Col: B1
@@ -371,58 +459,58 @@ Row: 12
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G1
    0
-  Formula: iferror(E12*F12,"")
+  Formula: iferror(E13*F13,"")
  Col: M1
    156426
  Col: O1
    0
-  Formula: iferror(lookup(if(N12="",E12,N12),{0,1,10,50,100,500,1000,2500},{0.0,0.36,0.252,0.1762,0.1511,0.11334,0.0957,0.09066}),"")
+  Formula: iferror(lookup(if(N13="",E13,N13),{0,1,10,50,100,500,1000,2500},{0.0,0.36,0.252,0.1762,0.1511,0.11334,0.0957,0.09066}),"")
  Col: P1
    0
-  Formula: iferror(if(N12="",E12,N12)*O12,"")
+  Formula: iferror(if(N13="",E13,N13)*O13,"")
  Col: Q1
    <a href="https://octopart.com/click/track?ai=8078&sig=039f404&sid=459&ppid=22577609&vpid=50104129&ct=offers">399-7409-1-ND</a>
  Col: R1
    55588
  Col: T1
    0
-  Formula: iferror(USD_GBP*lookup(if(S12="",E12,S12),{0,1,5,50,150,250,500,1000,2500},{0.0,0.176,0.176,0.132,0.132,0.108,0.0843,0.0738,0.0736}),"")
+  Formula: iferror(USD_GBP*lookup(if(S13="",E13,S13),{0,1,5,50,150,250,500,1000,2500},{0.0,0.176,0.176,0.132,0.132,0.108,0.0843,0.0738,0.0736}),"")
  Col: U1
    0
-  Formula: iferror(if(S12="",E12,S12)*T12,"")
+  Formula: iferror(if(S13="",E13,S13)*T13,"")
  Col: V1
    <a href="https://octopart.com/click/track?ai=8078&sig=0f8f97a&sid=819&ppid=22577609&vpid=138967344&ct=offers">2118131</a>
  Col: AB1
    179846
  Col: AD1
    0
-  Formula: iferror(lookup(if(AC12="",E12,AC12),{0,1,10,50,100,1000,10000},{0.0,0.36,0.177,0.177,0.152,0.096,0.09}),"")
+  Formula: iferror(lookup(if(AC13="",E13,AC13),{0,1,10,50,100,1000,10000},{0.0,0.36,0.177,0.177,0.152,0.096,0.09}),"")
  Col: AE1
    0
-  Formula: iferror(if(AC12="",E12,AC12)*AD12,"")
+  Formula: iferror(if(AC13="",E13,AC13)*AD13,"")
  Col: AF1
    <a href="https://octopart.com/click/track?ai=8078&sig=041c16c&sid=2401&ppid=22577609&vpid=48462145&ct=offers">80C0805C105K5R</a>
  Col: AG1
    3876
  Col: AI1
    0
-  Formula: iferror(lookup(if(AH12="",E12,AH12),{0,1,10,25,50,100,2500,5000,10000,15000,25000},{0.0,0.438,0.211,0.201,0.191,0.181,0.079,0.076,0.074,0.073,0.072}),"")
+  Formula: iferror(lookup(if(AH13="",E13,AH13),{0,1,10,25,50,100,2500,5000,10000,15000,25000},{0.0,0.438,0.211,0.201,0.191,0.181,0.079,0.076,0.074,0.073,0.072}),"")
  Col: AJ1
    0
-  Formula: iferror(if(AH12="",E12,AH12)*AI12,"")
+  Formula: iferror(if(AH13="",E13,AH13)*AI13,"")
  Col: AK1
    <a href="https://octopart.com/click/track?ai=8078&sig=07d53d8&sid=2402&ppid=22577609&vpid=497208448&ct=offers">16AC3951</a>
  Col: AQ1
    500
  Col: AS1
    0
-  Formula: iferror(USD_EUR*lookup(if(AR12="",E12,AR12),{0,1,10,100,1000,2500},{0.0,0.09754,0.09754,0.06215,0.04445,0.04143}),"")
+  Formula: iferror(USD_EUR*lookup(if(AR13="",E13,AR13),{0,1,10,100,1000,2500},{0.0,0.09754,0.09754,0.06215,0.04445,0.04143}),"")
  Col: AT1
    0
-  Formula: iferror(if(AR12="",E12,AR12)*AS12,"")
+  Formula: iferror(if(AR13="",E13,AR13)*AS13,"")
  Col: AU1
    <a href="https://octopart.com/click/track?ai=8078&sig=0e171d6&sid=1532&ppid=22577609&vpid=709038310&ct=offers">C0805C105K5RAC</a>
-Row: 13
+Row: 14
  Col: A1
    "C809,C909,C1009,C1109,C1509,C1609,C1709,C1809,C2009,C2109,C2209,C2309,C2509,C2609,C2709,C2809"
  Col: B1
@@ -437,95 +525,7 @@ Row: 13
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G1
    0
-  Formula: iferror(E13*F13,"")
-Row: 14
- Col: A1
-   "C102-C105,C108,C109,C111,C201-C204,C301-C304,C401-C404,C501-C504,C701-C703,C706,C713,C802,C803,C805-C808,C902,C903,C905-C908,C1002,C1003,C1005-C1008,C1102,C1103,C1105-C1108,C1201-C1205,C1302-C1304,C1401-C1403,C1406,C1413,C1502,C1503,C1505-C1508,C1602,C1603,C1605-C1608,C1702,C1703,C1705-C1708,C1802,C1803,C1805-C1808,C1901-C1903,C1906,C1913,C2002,C2003,C2005-C2008,C2102,C2103,C2105-C2108,C2202,C2203,C2205-C2208,C2302,C2303,C2305-C2308,C2401-C2403,C2406,C2413,C2502,C2503,C2505-C2508,C2602,C2603,C2605-C2608,C2702,C2703,C2705-C2708,C2802,C2803,C2805-C2808"
- Col: B1
-   "100nF"
- Col: C1
-   "C_0805_HandSoldering"
- Col: D1
-   <a href="http://datasheet.octopart.com/C0805C104K5RAC-TU-Kemet-datasheet-5313890.pdf">C0805C104K5RACTU</a>
- Col: E1
-   14700
-  Formula: CEILING(BoardQty*147.0,1)
- Col: F1
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G1
-   0
   Formula: iferror(E14*F14,"")
- Col: M1
-   2312919
- Col: O1
-   0
-  Formula: iferror(lookup(if(N14="",E14,N14),{0,1,10,50,100,500,1000,4000},{0.0,0.15,0.11,0.0622,0.0515,0.03612,0.02991,0.02547}),"")
- Col: P1
-   0
-  Formula: iferror(if(N14="",E14,N14)*O14,"")
- Col: Q1
-   <a href="https://octopart.com/click/track?ai=8078&sig=05630d9&sid=459&ppid=143926&vpid=1580637&ct=offers">399-1170-1-ND</a>
- Col: R1
-   14820000
- Col: T1
-   0
-  Formula: iferror(USD_GBP*lookup(if(S14="",E14,S14),{0,1,10,100,150,500,1000,2000,4000},{0.0,0.0781,0.0781,0.0581,0.0581,0.0391,0.0345,0.0309,0.0276}),"")
- Col: U1
-   0
-  Formula: iferror(if(S14="",E14,S14)*T14,"")
- Col: V1
-   <a href="https://octopart.com/click/track?ai=8078&sig=04f3645&sid=819&ppid=143926&vpid=138967316&ct=offers">1414664RL</a>
- Col: W1
-   180200
- Col: Y1
-   0
-  Formula: iferror(lookup(if(X14="",E14,X14),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0169,0.0169,0.0129,0.0121,0.0114,0.0111,0.0109}),"")
- Col: Z1
-   0
-  Formula: iferror(if(X14="",E14,X14)*Y14,"")
- Col: AA1
-   <a href="https://octopart.com/click/track?ai=8078&sig=0646820&sid=27971&ppid=143926&vpid=705357166&ct=offers">C75414</a>
- Col: AB1
-   2058848
- Col: AD1
-   0
-  Formula: iferror(lookup(if(AC14="",E14,AC14),{0,1,10,50,100,1000,10000},{0.0,0.15,0.06,0.06,0.05,0.029,0.022}),"")
- Col: AE1
-   0
-  Formula: iferror(if(AC14="",E14,AC14)*AD14,"")
- Col: AF1
-   <a href="https://octopart.com/click/track?ai=8078&sig=069f674&sid=2401&ppid=143926&vpid=44736965&ct=offers">80C0805C104K5R</a>
- Col: AG1
-   14816000
- Col: AI1
-   0
-  Formula: iferror(lookup(if(AH14="",E14,AH14),{0,1,10,25,50,100,250,500,1000,4000},{0.0,0.363,0.321,0.201,0.163,0.123,0.108,0.09,0.076,0.054}),"")
- Col: AJ1
-   0
-  Formula: iferror(if(AH14="",E14,AH14)*AI14,"")
- Col: AK1
-   <a href="https://octopart.com/click/track?ai=8078&sig=066c407&sid=2402&ppid=143926&vpid=16452119&ct=offers">19C6015</a>
- Col: AL1
-   35350
- Col: AN1
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM14="",E14,AM14),{0,1,25,375,750,1500},{0.0,0.083,0.083,0.044,0.028,0.022}),"")
- Col: AO1
-   0
-  Formula: iferror(if(AM14="",E14,AM14)*AN14,"")
- Col: AP1
-   <a href="https://octopart.com/click/track?ai=8078&sig=00d2c5e&sid=10022&ppid=143926&vpid=199040055&ct=offers">2644416</a>
- Col: AQ1
-   288499
- Col: AS1
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR14="",E14,AR14),{0,1,100,300,1000,4000,12000},{0.0,0.02788,0.02788,0.01813,0.01329,0.0101,0.00941}),"")
- Col: AT1
-   0
-  Formula: iferror(if(AR14="",E14,AR14)*AS14,"")
- Col: AU1
-   <a href="https://octopart.com/click/track?ai=8078&sig=07b4cd6&sid=1532&ppid=143926&vpid=709038289&ct=offers">C0805C104K5RAC</a>
 Row: 15
  Col: A1
    "CNN2901#1"
@@ -616,16 +616,16 @@ Row: 18
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=05af49f&sid=459&ppid=10554350&vpid=33565353&ct=offers">296-23541-ND</a>
 Row: 19
  Col: A1
-   "D601,D602,D605,D606"
+   "D201-D203,D301-D303,D401-D403,D501-D503"
  Col: B1
-   "L4148"
+   "LED red"
  Col: C1
-   "D_0805"
+   "LED_0805_HandSoldering"
  Col: D1
-   <a href="http://datasheet.octopart.com/LL4148-ON-Semiconductor-datasheet-100088444.pdf">LL4148</a>
+   <a href="http://datasheet.octopart.com/CMD17-21VRD-TR8-Visual-Communications-datasheet-86420146.pdf">CMD17-21VRD/TR8</a>
  Col: E1
-   400
-  Formula: CEILING(BoardQty*4.0,1)
+   1200
+  Formula: CEILING(BoardQty*12.0,1)
  Col: F1
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
@@ -633,76 +633,134 @@ Row: 19
    0
   Formula: iferror(E19*F19,"")
  Col: M1
-   108938
+   95156
  Col: O1
    0
-  Formula: iferror(lookup(if(N19="",E19,N19),{0,1,10,100,500,1000,2500,5000,12500,25000,62500},{0.0,0.11,0.101,0.0551,0.03388,0.0231,0.01964,0.01771,0.0154,0.01386,0.01232}),"")
+  Formula: iferror(lookup(if(N19="",E19,N19),{0,1,10,100,1000,3000,6000,15000},{0.0,0.58,0.356,0.2048,0.16027,0.14692,0.13356,0.126}),"")
  Col: P1
    0
   Formula: iferror(if(N19="",E19,N19)*O19,"")
  Col: Q1
-   <a href="https://octopart.com/click/track?ai=8078&sig=0f8ca29&sid=459&ppid=84329682&vpid=452469226&ct=offers">LL4148FSCT-ND</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=0da5824&sid=459&ppid=26668842&vpid=69897819&ct=offers">L62501CT-ND</a>
  Col: R1
-   47500
+   3391
  Col: T1
    0
-  Formula: iferror(USD_GBP*lookup(if(S19="",E19,S19),{0,1,5,10,100,150,500,2500},{0.0,0.117,0.117,0.0946,0.0326,0.0326,0.0319,0.0158}),"")
+  Formula: iferror(USD_GBP*lookup(if(S19="",E19,S19),{0,1,25,50,100,250,500,1000},{0.0,0.535,0.387,0.32,0.252,0.209,0.166,0.129}),"")
  Col: U1
    0
   Formula: iferror(if(S19="",E19,S19)*T19,"")
  Col: V1
-   <a href="https://octopart.com/click/track?ai=8078&sig=02d7dd6&sid=819&ppid=84329682&vpid=464889965&ct=offers">2822552</a>
- Col: W1
-   74100
- Col: Y1
-   0
-  Formula: iferror(lookup(if(X19="",E19,X19),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0182,0.0182,0.0138,0.013,0.0122,0.0119,0.0117}),"")
- Col: Z1
-   0
-  Formula: iferror(if(X19="",E19,X19)*Y19,"")
- Col: AA1
-   <a href="https://octopart.com/click/track?ai=8078&sig=0b1a7c3&sid=27971&ppid=84329682&vpid=478445462&ct=offers">C84135</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=0ed4d45&sid=11744&ppid=26668842&vpid=575116064&ct=offers">3218361</a>
  Col: AB1
-   635745
+   2240
  Col: AD1
    0
-  Formula: iferror(lookup(if(AC19="",E19,AC19),{0,1,10,50,100,1000,10000},{0.0,0.11,0.088,0.088,0.033,0.023,0.014}),"")
+  Formula: iferror(lookup(if(AC19="",E19,AC19),{0,1,10,50,100,1000,10000},{0.0,0.64,0.377,0.377,0.254,0.17,0.128}),"")
  Col: AE1
    0
   Formula: iferror(if(AC19="",E19,AC19)*AD19,"")
  Col: AF1
-   <a href="https://octopart.com/click/track?ai=8078&sig=0c83245&sid=2401&ppid=84329682&vpid=438585188&ct=offers">512LL4148</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=0604f07&sid=2401&ppid=26668842&vpid=198441181&ct=offers">606CMD1721VRD</a>
  Col: AG1
-   90000
+   3391
  Col: AI1
    0
-  Formula: iferror(lookup(if(AH19="",E19,AH19),{0,1,10,100,500,2500,5000,7500,10000,15000,20000,25000,37500},{0.0,0.101,0.069,0.037,0.029,0.016,0.014,0.015,0.014,0.014,0.014,0.013,0.013}),"")
+  Formula: iferror(lookup(if(AH19="",E19,AH19),{0,1,25,50,100,3000,6000,12000,18000,30000},{0.0,0.6,0.369,0.29,0.211,0.126,0.118,0.112,0.108,0.107}),"")
  Col: AJ1
    0
   Formula: iferror(if(AH19="",E19,AH19)*AI19,"")
  Col: AK1
-   <a href="https://octopart.com/click/track?ai=8078&sig=031c652&sid=2402&ppid=84329682&vpid=439872081&ct=offers">05W3302</a>
- Col: AL1
-   45000
- Col: AN1
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM19="",E19,AM19),{0,1,5,150,300,625,1250,2500,7500},{0.0,0.078,0.078,0.074,0.062,0.058,0.054,0.012,0.011}),"")
- Col: AO1
-   0
-  Formula: iferror(if(AM19="",E19,AM19)*AN19,"")
- Col: AP1
-   <a href="https://octopart.com/click/track?ai=8078&sig=0a5ee1c&sid=10022&ppid=84329682&vpid=454564700&ct=offers">6708826</a>
- Col: AQ1
-   4145
- Col: AS1
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR19="",E19,AR19),{0,1,25,100,500,2500,10000},{0.0,0.02417,0.02417,0.0101,0.00807,0.00725,0.00677}),"")
- Col: AT1
-   0
-  Formula: iferror(if(AR19="",E19,AR19)*AS19,"")
- Col: AU1
-   <a href="https://octopart.com/click/track?ai=8078&sig=0297d0c&sid=1532&ppid=84329682&vpid=709119957&ct=offers">LL4148FAI</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=089d2b8&sid=2402&ppid=26668842&vpid=448742142&ct=offers">45X6246</a>
 Row: 20
+ Col: A2
+   "D601,D602,D605,D606"
+ Col: B2
+   "L4148"
+ Col: C2
+   "D_0805"
+ Col: D2
+   <a href="http://datasheet.octopart.com/LL4148-ON-Semiconductor-datasheet-100088444.pdf">LL4148</a>
+ Col: E2
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+ Col: F2
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G2
+   0
+  Formula: iferror(E20*F20,"")
+ Col: M2
+   108938
+ Col: O2
+   0
+  Formula: iferror(lookup(if(N20="",E20,N20),{0,1,10,100,500,1000,2500,5000,12500,25000,62500},{0.0,0.11,0.101,0.0551,0.03388,0.0231,0.01964,0.01771,0.0154,0.01386,0.01232}),"")
+ Col: P2
+   0
+  Formula: iferror(if(N20="",E20,N20)*O20,"")
+ Col: Q2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0f8ca29&sid=459&ppid=84329682&vpid=452469226&ct=offers">LL4148FSCT-ND</a>
+ Col: R2
+   47500
+ Col: T2
+   0
+  Formula: iferror(USD_GBP*lookup(if(S20="",E20,S20),{0,1,5,10,100,150,500,2500},{0.0,0.117,0.117,0.0946,0.0326,0.0326,0.0319,0.0158}),"")
+ Col: U2
+   0
+  Formula: iferror(if(S20="",E20,S20)*T20,"")
+ Col: V2
+   <a href="https://octopart.com/click/track?ai=8078&sig=02d7dd6&sid=819&ppid=84329682&vpid=464889965&ct=offers">2822552</a>
+ Col: W2
+   74100
+ Col: Y2
+   0
+  Formula: iferror(lookup(if(X20="",E20,X20),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0182,0.0182,0.0138,0.013,0.0122,0.0119,0.0117}),"")
+ Col: Z2
+   0
+  Formula: iferror(if(X20="",E20,X20)*Y20,"")
+ Col: AA2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0b1a7c3&sid=27971&ppid=84329682&vpid=478445462&ct=offers">C84135</a>
+ Col: AB2
+   635745
+ Col: AD2
+   0
+  Formula: iferror(lookup(if(AC20="",E20,AC20),{0,1,10,50,100,1000,10000},{0.0,0.11,0.088,0.088,0.033,0.023,0.014}),"")
+ Col: AE2
+   0
+  Formula: iferror(if(AC20="",E20,AC20)*AD20,"")
+ Col: AF2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0c83245&sid=2401&ppid=84329682&vpid=438585188&ct=offers">512LL4148</a>
+ Col: AG2
+   90000
+ Col: AI2
+   0
+  Formula: iferror(lookup(if(AH20="",E20,AH20),{0,1,10,100,500,2500,5000,7500,10000,15000,20000,25000,37500},{0.0,0.101,0.069,0.037,0.029,0.016,0.014,0.015,0.014,0.014,0.014,0.013,0.013}),"")
+ Col: AJ2
+   0
+  Formula: iferror(if(AH20="",E20,AH20)*AI20,"")
+ Col: AK2
+   <a href="https://octopart.com/click/track?ai=8078&sig=031c652&sid=2402&ppid=84329682&vpid=439872081&ct=offers">05W3302</a>
+ Col: AL2
+   45000
+ Col: AN2
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM20="",E20,AM20),{0,1,5,150,300,625,1250,2500,7500},{0.0,0.078,0.078,0.074,0.062,0.058,0.054,0.012,0.011}),"")
+ Col: AO2
+   0
+  Formula: iferror(if(AM20="",E20,AM20)*AN20,"")
+ Col: AP2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0a5ee1c&sid=10022&ppid=84329682&vpid=454564700&ct=offers">6708826</a>
+ Col: AQ2
+   4145
+ Col: AS2
+   0
+  Formula: iferror(USD_EUR*lookup(if(AR20="",E20,AR20),{0,1,25,100,500,2500,10000},{0.0,0.02417,0.02417,0.0101,0.00807,0.00725,0.00677}),"")
+ Col: AT2
+   0
+  Formula: iferror(if(AR20="",E20,AR20)*AS20,"")
+ Col: AU2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0297d0c&sid=1532&ppid=84329682&vpid=709119957&ct=offers">LL4148FAI</a>
+Row: 21
  Col: A2
    "D603,D604,D607,D608,D1301-D1304"
  Col: B2
@@ -719,252 +777,48 @@ Row: 20
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G2
    0
-  Formula: iferror(E20*F20,"")
+  Formula: iferror(E21*F21,"")
  Col: M2
    9156
  Col: O2
    0
-  Formula: iferror(lookup(if(N20="",E20,N20),{0,1,10,100,1000,3000,6000,15000},{0.0,0.54,0.335,0.1926,0.15073,0.13817,0.12561,0.1185}),"")
- Col: P2
-   0
-  Formula: iferror(if(N20="",E20,N20)*O20,"")
- Col: Q2
-   <a href="https://octopart.com/click/track?ai=8078&sig=012801a&sid=459&ppid=26668840&vpid=69897817&ct=offers">L62505CT-ND</a>
- Col: R2
-   "NonStk"
- Col: T2
-   0
-  Formula: iferror(USD_GBP*lookup(if(S20="",E20,S20),{0,1,5,10,100,150,500,1000,3000,6000,12000,18000,30000},{0.0,0.416,0.416,0.237,0.142,0.142,0.121,0.0961,0.0985,0.0961,0.0953,0.0938,0.093}),"")
- Col: U2
-   0
-  Formula: iferror(if(S20="",E20,S20)*T20,"")
- Col: V2
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0e829e6&sid=11744&ppid=26668840&vpid=424008672&ct=offers">2750622</a>
- Col: AB2
-   3908
- Col: AD2
-   0
-  Formula: iferror(lookup(if(AC20="",E20,AC20),{0,1,10,50,100,1000,10000},{0.0,0.64,0.376,0.376,0.254,0.169,0.128}),"")
- Col: AE2
-   0
-  Formula: iferror(if(AC20="",E20,AC20)*AD20,"")
- Col: AF2
-   <a href="https://octopart.com/click/track?ai=8078&sig=0af9335&sid=2401&ppid=26668840&vpid=198313374&ct=offers">606CMD1721VGD</a>
- Col: AG2
-   2830
- Col: AI2
-   0
-  Formula: iferror(lookup(if(AH20="",E20,AH20),{0,1,25,50,100,3000,6000,12000,18000,30000},{0.0,0.45,0.277,0.218,0.159,0.111,0.104,0.101,0.097,0.094}),"")
- Col: AJ2
-   0
-  Formula: iferror(if(AH20="",E20,AH20)*AI20,"")
- Col: AK2
-   <a href="https://octopart.com/click/track?ai=8078&sig=03122b8&sid=2402&ppid=26668840&vpid=99485507&ct=offers">34C8662</a>
-Row: 21
- Col: A2
-   "D801,D803,D901,D903,D1001,D1003,D1101,D1103,D1501,D1503,D1601,D1603,D1701,D1703,D1801,D1803,D2001,D2003,D2101,D2103,D2201,D2203,D2301,D2303,D2501,D2503,D2601,D2603,D2701,D2703,D2801,D2803"
- Col: B2
-   "BAT46Z"
- Col: C2
-   "D_SOD-123"
- Col: D2
-   <a href="http://datasheet.octopart.com/BAT46ZFILM-STMicroelectronics-datasheet-10836768.pdf">BAT46ZFILM</a>
- Col: E2
-   3200
-  Formula: CEILING(BoardQty*32.0,1)
- Col: F2
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G2
-   0
-  Formula: iferror(E21*F21,"")
- Col: M2
-   1928
- Col: O2
-   0
-  Formula: iferror(lookup(if(N21="",E21,N21),{0,1,10,100,500,1000,3000,6000,15000},{0.0,0.37,0.274,0.1551,0.10272,0.07875,0.06848,0.06163,0.05653}),"")
+  Formula: iferror(lookup(if(N21="",E21,N21),{0,1,10,100,1000,3000,6000,15000},{0.0,0.54,0.335,0.1926,0.15073,0.13817,0.12561,0.1185}),"")
  Col: P2
    0
   Formula: iferror(if(N21="",E21,N21)*O21,"")
  Col: Q2
-   <a href="https://octopart.com/click/track?ai=8078&sig=066063b&sid=459&ppid=658190&vpid=1275747&ct=offers">497-5559-1-ND</a>
- Col: R2
-   14740
- Col: T2
-   0
-  Formula: iferror(USD_GBP*lookup(if(S21="",E21,S21),{0,1,5,10,100,150,500,1000,3000},{0.0,0.379,0.379,0.245,0.102,0.102,0.0801,0.0539,0.0539}),"")
- Col: U2
-   0
-  Formula: iferror(if(S21="",E21,S21)*T21,"")
- Col: V2
-   <a href="https://octopart.com/click/track?ai=8078&sig=0876591&sid=11744&ppid=658190&vpid=132623007&ct=offers">2341640</a>
- Col: W2
-   7055
- Col: Y2
-   0
-  Formula: iferror(lookup(if(X21="",E21,X21),{0,1,5,50,150,500,2500,5000},{0.0,0.0834,0.0834,0.0651,0.0617,0.0583,0.0568,0.0561}),"")
- Col: Z2
-   0
-  Formula: iferror(if(X21="",E21,X21)*Y21,"")
- Col: AA2
-   <a href="https://octopart.com/click/track?ai=8078&sig=048ed3c&sid=27971&ppid=658190&vpid=506744005&ct=offers">C283255</a>
- Col: AB2
-   3096
- Col: AD2
-   0
-  Formula: iferror(lookup(if(AC21="",E21,AC21),{0,1,10,50,100,1000,10000},{0.0,0.35,0.227,0.227,0.114,0.06,0.06}),"")
- Col: AE2
-   0
-  Formula: iferror(if(AC21="",E21,AC21)*AD21,"")
- Col: AF2
-   <a href="https://octopart.com/click/track?ai=8078&sig=07d290c&sid=2401&ppid=658190&vpid=37697735&ct=offers">511BAT46ZFILM</a>
- Col: AG2
-   542
- Col: AI2
-   0
-  Formula: iferror(lookup(if(AH21="",E21,AH21),{0,1,10,25,50,100,3000,6000,12000,18000,30000},{0.0,0.31,0.232,0.192,0.153,0.113,0.049,0.048,0.047,0.046,0.044}),"")
- Col: AJ2
-   0
-  Formula: iferror(if(AH21="",E21,AH21)*AI21,"")
- Col: AK2
-   <a href="https://octopart.com/click/track?ai=8078&sig=0da9f5d&sid=2402&ppid=658190&vpid=90500052&ct=offers">05X9522</a>
- Col: AL2
-   13100
- Col: AN2
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM21="",E21,AM21),{0,1,100,500,1000,2500,3000,5000},{0.0,0.072,0.072,0.068,0.064,0.061,0.041,0.058}),"")
- Col: AO2
-   0
-  Formula: iferror(if(AM21="",E21,AM21)*AN21,"")
- Col: AP2
-   <a href="https://octopart.com/click/track?ai=8078&sig=0e6b039&sid=10022&ppid=658190&vpid=199116757&ct=offers">7146850</a>
- Col: AQ2
-   8988
- Col: AS2
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR21="",E21,AR21),{0,1,10,50,250,1000,3000},{0.0,0.06042,0.06042,0.04238,0.03746,0.03366,0.03142}),"")
- Col: AT2
-   0
-  Formula: iferror(if(AR21="",E21,AR21)*AS21,"")
- Col: AU2
-   <a href="https://octopart.com/click/track?ai=8078&sig=01394ee&sid=1532&ppid=658190&vpid=709199891&ct=offers">BAT46ZFILM</a>
-Row: 22
- Col: A2
-   "D802,D902,D1002,D1102,D1502,D1602,D1702,D1802,D2002,D2102,D2202,D2302,D2502,D2602,D2702,D2802"
- Col: B2
-   "LED green"
- Col: C2
-   "LED_0805"
- Col: D2
-   <a href="http://datasheet.octopart.com/CMD17-21VGD-TR8-Visual-Communications-datasheet-86420146.pdf">CMD17-21VGD/TR8</a>
- Col: E2
-   1600
-  Formula: CEILING(BoardQty*16.0,1)
- Col: F2
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G2
-   0
-  Formula: iferror(E22*F22,"")
- Col: M2
-   9156
- Col: O2
-   0
-  Formula: iferror(lookup(if(N22="",E22,N22),{0,1,10,100,1000,3000,6000,15000},{0.0,0.54,0.335,0.1926,0.15073,0.13817,0.12561,0.1185}),"")
- Col: P2
-   0
-  Formula: iferror(if(N22="",E22,N22)*O22,"")
- Col: Q2
    <a href="https://octopart.com/click/track?ai=8078&sig=012801a&sid=459&ppid=26668840&vpid=69897817&ct=offers">L62505CT-ND</a>
  Col: R2
    "NonStk"
  Col: T2
    0
-  Formula: iferror(USD_GBP*lookup(if(S22="",E22,S22),{0,1,5,10,100,150,500,1000,3000,6000,12000,18000,30000},{0.0,0.416,0.416,0.237,0.142,0.142,0.121,0.0961,0.0985,0.0961,0.0953,0.0938,0.093}),"")
+  Formula: iferror(USD_GBP*lookup(if(S21="",E21,S21),{0,1,5,10,100,150,500,1000,3000,6000,12000,18000,30000},{0.0,0.416,0.416,0.237,0.142,0.142,0.121,0.0961,0.0985,0.0961,0.0953,0.0938,0.093}),"")
  Col: U2
    0
-  Formula: iferror(if(S22="",E22,S22)*T22,"")
+  Formula: iferror(if(S21="",E21,S21)*T21,"")
  Col: V2
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0e829e6&sid=11744&ppid=26668840&vpid=424008672&ct=offers">2750622</a>
  Col: AB2
    3908
  Col: AD2
    0
-  Formula: iferror(lookup(if(AC22="",E22,AC22),{0,1,10,50,100,1000,10000},{0.0,0.64,0.376,0.376,0.254,0.169,0.128}),"")
+  Formula: iferror(lookup(if(AC21="",E21,AC21),{0,1,10,50,100,1000,10000},{0.0,0.64,0.376,0.376,0.254,0.169,0.128}),"")
  Col: AE2
    0
-  Formula: iferror(if(AC22="",E22,AC22)*AD22,"")
+  Formula: iferror(if(AC21="",E21,AC21)*AD21,"")
  Col: AF2
    <a href="https://octopart.com/click/track?ai=8078&sig=0af9335&sid=2401&ppid=26668840&vpid=198313374&ct=offers">606CMD1721VGD</a>
  Col: AG2
    2830
  Col: AI2
    0
-  Formula: iferror(lookup(if(AH22="",E22,AH22),{0,1,25,50,100,3000,6000,12000,18000,30000},{0.0,0.45,0.277,0.218,0.159,0.111,0.104,0.101,0.097,0.094}),"")
+  Formula: iferror(lookup(if(AH21="",E21,AH21),{0,1,25,50,100,3000,6000,12000,18000,30000},{0.0,0.45,0.277,0.218,0.159,0.111,0.104,0.101,0.097,0.094}),"")
  Col: AJ2
    0
-  Formula: iferror(if(AH22="",E22,AH22)*AI22,"")
+  Formula: iferror(if(AH21="",E21,AH21)*AI21,"")
  Col: AK2
    <a href="https://octopart.com/click/track?ai=8078&sig=03122b8&sid=2402&ppid=26668840&vpid=99485507&ct=offers">34C8662</a>
-Row: 23
- Col: A2
-   "D201-D203,D301-D303,D401-D403,D501-D503"
- Col: B2
-   "LED red"
- Col: C2
-   "LED_0805_HandSoldering"
- Col: D2
-   <a href="http://datasheet.octopart.com/CMD17-21VRD-TR8-Visual-Communications-datasheet-86420146.pdf">CMD17-21VRD/TR8</a>
- Col: E2
-   1200
-  Formula: CEILING(BoardQty*12.0,1)
- Col: F2
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G2
-   0
-  Formula: iferror(E23*F23,"")
- Col: M2
-   95156
- Col: O2
-   0
-  Formula: iferror(lookup(if(N23="",E23,N23),{0,1,10,100,1000,3000,6000,15000},{0.0,0.58,0.356,0.2048,0.16027,0.14692,0.13356,0.126}),"")
- Col: P2
-   0
-  Formula: iferror(if(N23="",E23,N23)*O23,"")
- Col: Q2
-   <a href="https://octopart.com/click/track?ai=8078&sig=0da5824&sid=459&ppid=26668842&vpid=69897819&ct=offers">L62501CT-ND</a>
- Col: R2
-   3391
- Col: T2
-   0
-  Formula: iferror(USD_GBP*lookup(if(S23="",E23,S23),{0,1,25,50,100,250,500,1000},{0.0,0.535,0.387,0.32,0.252,0.209,0.166,0.129}),"")
- Col: U2
-   0
-  Formula: iferror(if(S23="",E23,S23)*T23,"")
- Col: V2
-   <a href="https://octopart.com/click/track?ai=8078&sig=0ed4d45&sid=11744&ppid=26668842&vpid=575116064&ct=offers">3218361</a>
- Col: AB2
-   2240
- Col: AD2
-   0
-  Formula: iferror(lookup(if(AC23="",E23,AC23),{0,1,10,50,100,1000,10000},{0.0,0.64,0.377,0.377,0.254,0.17,0.128}),"")
- Col: AE2
-   0
-  Formula: iferror(if(AC23="",E23,AC23)*AD23,"")
- Col: AF2
-   <a href="https://octopart.com/click/track?ai=8078&sig=0604f07&sid=2401&ppid=26668842&vpid=198441181&ct=offers">606CMD1721VRD</a>
- Col: AG2
-   3391
- Col: AI2
-   0
-  Formula: iferror(lookup(if(AH23="",E23,AH23),{0,1,25,50,100,3000,6000,12000,18000,30000},{0.0,0.6,0.369,0.29,0.211,0.126,0.118,0.112,0.108,0.107}),"")
- Col: AJ2
-   0
-  Formula: iferror(if(AH23="",E23,AH23)*AI23,"")
- Col: AK2
-   <a href="https://octopart.com/click/track?ai=8078&sig=089d2b8&sid=2402&ppid=26668842&vpid=448742142&ct=offers">45X6246</a>
-Row: 24
+Row: 22
  Col: A2
    "D609-D611"
  Col: B2
@@ -981,37 +835,183 @@ Row: 24
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G2
    0
-  Formula: iferror(E24*F24,"")
+  Formula: iferror(E22*F22,"")
  Col: M2
    60634
  Col: O2
    0
-  Formula: iferror(lookup(if(N24="",E24,N24),{0,1,10,100,1000,3000,6000,15000},{0.0,0.65,0.403,0.2316,0.18126,0.16615,0.15105,0.1425}),"")
+  Formula: iferror(lookup(if(N22="",E22,N22),{0,1,10,100,1000,3000,6000,15000},{0.0,0.65,0.403,0.2316,0.18126,0.16615,0.15105,0.1425}),"")
  Col: P2
    0
-  Formula: iferror(if(N24="",E24,N24)*O24,"")
+  Formula: iferror(if(N22="",E22,N22)*O22,"")
  Col: Q2
    <a href="https://octopart.com/click/track?ai=8078&sig=06d121f&sid=459&ppid=26668844&vpid=69897823&ct=offers">L62507CT-ND</a>
  Col: AB2
    3211
  Col: AD2
    0
-  Formula: iferror(lookup(if(AC24="",E24,AC24),{0,1,10,50,100,1000,10000},{0.0,0.56,0.37,0.37,0.285,0.172,0.14}),"")
+  Formula: iferror(lookup(if(AC22="",E22,AC22),{0,1,10,50,100,1000,10000},{0.0,0.56,0.37,0.37,0.285,0.172,0.14}),"")
  Col: AE2
    0
-  Formula: iferror(if(AC24="",E24,AC24)*AD24,"")
+  Formula: iferror(if(AC22="",E22,AC22)*AD22,"")
  Col: AF2
    <a href="https://octopart.com/click/track?ai=8078&sig=0598ef5&sid=2401&ppid=26668844&vpid=198313376&ct=offers">606CMD1721VYD/TR8</a>
  Col: AG2
    "NonStk"
  Col: AI2
    0
-  Formula: iferror(lookup(if(AH24="",E24,AH24),{0,1,3000,6000,12000,18000,30000},{0.0,0.133,0.133,0.127,0.122,0.119,0.118}),"")
+  Formula: iferror(lookup(if(AH22="",E22,AH22),{0,1,3000,6000,12000,18000,30000},{0.0,0.133,0.133,0.127,0.122,0.119,0.118}),"")
+ Col: AJ2
+   0
+  Formula: iferror(if(AH22="",E22,AH22)*AI22,"")
+ Col: AK2
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=04ceae4&sid=2402&ppid=26668844&vpid=99485511&ct=offers">07J1781</a>
+Row: 23
+ Col: A2
+   "D801,D803,D901,D903,D1001,D1003,D1101,D1103,D1501,D1503,D1601,D1603,D1701,D1703,D1801,D1803,D2001,D2003,D2101,D2103,D2201,D2203,D2301,D2303,D2501,D2503,D2601,D2603,D2701,D2703,D2801,D2803"
+ Col: B2
+   "BAT46Z"
+ Col: C2
+   "D_SOD-123"
+ Col: D2
+   <a href="http://datasheet.octopart.com/BAT46ZFILM-STMicroelectronics-datasheet-10836768.pdf">BAT46ZFILM</a>
+ Col: E2
+   3200
+  Formula: CEILING(BoardQty*32.0,1)
+ Col: F2
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G2
+   0
+  Formula: iferror(E23*F23,"")
+ Col: M2
+   1928
+ Col: O2
+   0
+  Formula: iferror(lookup(if(N23="",E23,N23),{0,1,10,100,500,1000,3000,6000,15000},{0.0,0.37,0.274,0.1551,0.10272,0.07875,0.06848,0.06163,0.05653}),"")
+ Col: P2
+   0
+  Formula: iferror(if(N23="",E23,N23)*O23,"")
+ Col: Q2
+   <a href="https://octopart.com/click/track?ai=8078&sig=066063b&sid=459&ppid=658190&vpid=1275747&ct=offers">497-5559-1-ND</a>
+ Col: R2
+   14740
+ Col: T2
+   0
+  Formula: iferror(USD_GBP*lookup(if(S23="",E23,S23),{0,1,5,10,100,150,500,1000,3000},{0.0,0.379,0.379,0.245,0.102,0.102,0.0801,0.0539,0.0539}),"")
+ Col: U2
+   0
+  Formula: iferror(if(S23="",E23,S23)*T23,"")
+ Col: V2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0876591&sid=11744&ppid=658190&vpid=132623007&ct=offers">2341640</a>
+ Col: W2
+   7055
+ Col: Y2
+   0
+  Formula: iferror(lookup(if(X23="",E23,X23),{0,1,5,50,150,500,2500,5000},{0.0,0.0834,0.0834,0.0651,0.0617,0.0583,0.0568,0.0561}),"")
+ Col: Z2
+   0
+  Formula: iferror(if(X23="",E23,X23)*Y23,"")
+ Col: AA2
+   <a href="https://octopart.com/click/track?ai=8078&sig=048ed3c&sid=27971&ppid=658190&vpid=506744005&ct=offers">C283255</a>
+ Col: AB2
+   3096
+ Col: AD2
+   0
+  Formula: iferror(lookup(if(AC23="",E23,AC23),{0,1,10,50,100,1000,10000},{0.0,0.35,0.227,0.227,0.114,0.06,0.06}),"")
+ Col: AE2
+   0
+  Formula: iferror(if(AC23="",E23,AC23)*AD23,"")
+ Col: AF2
+   <a href="https://octopart.com/click/track?ai=8078&sig=07d290c&sid=2401&ppid=658190&vpid=37697735&ct=offers">511BAT46ZFILM</a>
+ Col: AG2
+   542
+ Col: AI2
+   0
+  Formula: iferror(lookup(if(AH23="",E23,AH23),{0,1,10,25,50,100,3000,6000,12000,18000,30000},{0.0,0.31,0.232,0.192,0.153,0.113,0.049,0.048,0.047,0.046,0.044}),"")
+ Col: AJ2
+   0
+  Formula: iferror(if(AH23="",E23,AH23)*AI23,"")
+ Col: AK2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0da9f5d&sid=2402&ppid=658190&vpid=90500052&ct=offers">05X9522</a>
+ Col: AL2
+   13100
+ Col: AN2
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM23="",E23,AM23),{0,1,100,500,1000,2500,3000,5000},{0.0,0.072,0.072,0.068,0.064,0.061,0.041,0.058}),"")
+ Col: AO2
+   0
+  Formula: iferror(if(AM23="",E23,AM23)*AN23,"")
+ Col: AP2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0e6b039&sid=10022&ppid=658190&vpid=199116757&ct=offers">7146850</a>
+ Col: AQ2
+   8988
+ Col: AS2
+   0
+  Formula: iferror(USD_EUR*lookup(if(AR23="",E23,AR23),{0,1,10,50,250,1000,3000},{0.0,0.06042,0.06042,0.04238,0.03746,0.03366,0.03142}),"")
+ Col: AT2
+   0
+  Formula: iferror(if(AR23="",E23,AR23)*AS23,"")
+ Col: AU2
+   <a href="https://octopart.com/click/track?ai=8078&sig=01394ee&sid=1532&ppid=658190&vpid=709199891&ct=offers">BAT46ZFILM</a>
+Row: 24
+ Col: A2
+   "D802,D902,D1002,D1102,D1502,D1602,D1702,D1802,D2002,D2102,D2202,D2302,D2502,D2602,D2702,D2802"
+ Col: B2
+   "LED green"
+ Col: C2
+   "LED_0805"
+ Col: D2
+   <a href="http://datasheet.octopart.com/CMD17-21VGD-TR8-Visual-Communications-datasheet-86420146.pdf">CMD17-21VGD/TR8</a>
+ Col: E2
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+ Col: F2
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G2
+   0
+  Formula: iferror(E24*F24,"")
+ Col: M2
+   9156
+ Col: O2
+   0
+  Formula: iferror(lookup(if(N24="",E24,N24),{0,1,10,100,1000,3000,6000,15000},{0.0,0.54,0.335,0.1926,0.15073,0.13817,0.12561,0.1185}),"")
+ Col: P2
+   0
+  Formula: iferror(if(N24="",E24,N24)*O24,"")
+ Col: Q2
+   <a href="https://octopart.com/click/track?ai=8078&sig=012801a&sid=459&ppid=26668840&vpid=69897817&ct=offers">L62505CT-ND</a>
+ Col: R2
+   "NonStk"
+ Col: T2
+   0
+  Formula: iferror(USD_GBP*lookup(if(S24="",E24,S24),{0,1,5,10,100,150,500,1000,3000,6000,12000,18000,30000},{0.0,0.416,0.416,0.237,0.142,0.142,0.121,0.0961,0.0985,0.0961,0.0953,0.0938,0.093}),"")
+ Col: U2
+   0
+  Formula: iferror(if(S24="",E24,S24)*T24,"")
+ Col: V2
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0e829e6&sid=11744&ppid=26668840&vpid=424008672&ct=offers">2750622</a>
+ Col: AB2
+   3908
+ Col: AD2
+   0
+  Formula: iferror(lookup(if(AC24="",E24,AC24),{0,1,10,50,100,1000,10000},{0.0,0.64,0.376,0.376,0.254,0.169,0.128}),"")
+ Col: AE2
+   0
+  Formula: iferror(if(AC24="",E24,AC24)*AD24,"")
+ Col: AF2
+   <a href="https://octopart.com/click/track?ai=8078&sig=0af9335&sid=2401&ppid=26668840&vpid=198313374&ct=offers">606CMD1721VGD</a>
+ Col: AG2
+   2830
+ Col: AI2
+   0
+  Formula: iferror(lookup(if(AH24="",E24,AH24),{0,1,25,50,100,3000,6000,12000,18000,30000},{0.0,0.45,0.277,0.218,0.159,0.111,0.104,0.101,0.097,0.094}),"")
  Col: AJ2
    0
   Formula: iferror(if(AH24="",E24,AH24)*AI24,"")
  Col: AK2
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=04ceae4&sid=2402&ppid=26668844&vpid=99485511&ct=offers">07J1781</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=03122b8&sid=2402&ppid=26668840&vpid=99485507&ct=offers">34C8662</a>
 Row: 25
  Col: A2
    "Half-Bridge_DO1301"
@@ -1124,97 +1124,33 @@ Row: 28
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=06c58b1&sid=459&ppid=51306&vpid=2091842&ct=offers">277-1578-ND</a>
 Row: 29
  Col: A2
-   "J1201"
+   "J201,J301,J401,J501"
  Col: B2
-   "Conn_01x08"
+   "Semikron arm 1"
  Col: C2
-   "Pin_Header_Straight_1x08_Pitch2.54mm"
+   "he10-14d"
+ Col: D2
+   <a href="http://datasheet.octopart.com/3020-14-0100-00-CNC-Tech-datasheet-138895858.pdf">3020-14-0100-00</a>
  Col: E2
-   100
-  Formula: CEILING(BoardQty*1,1)
+   400
+  Formula: CEILING(BoardQty*4.0,1)
  Col: F2
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G2
    0
   Formula: iferror(E29*F29,"")
-Row: 30
- Col: A3
-   "J1301"
- Col: B3
-   "Conn_02x12"
- Col: C3
-   "Pin_Header_Straight_2x12_Pitch2.54mm"
- Col: E3
-   100
-  Formula: CEILING(BoardQty*1,1)
- Col: F3
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G3
-   0
-  Formula: iferror(E30*F30,"")
-Row: 31
- Col: A3
-   "J1302"
- Col: B3
-   "Conn_02x04_Odd_Even"
- Col: C3
-   "Pin_Header_Straight_2x04_Pitch2.54mm"
- Col: E3
-   100
-  Formula: CEILING(BoardQty*1,1)
- Col: F3
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G3
-   0
-  Formula: iferror(E31*F31,"")
-Row: 32
- Col: A3
-   "J1303"
- Col: B3
-   "Conn_02x05"
- Col: C3
-   "Pin_Header_Straight_2x05_Pitch2.54mm"
- Col: E3
-   100
-  Formula: CEILING(BoardQty*1,1)
- Col: F3
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G3
-   0
-  Formula: iferror(E32*F32,"")
-Row: 33
- Col: A3
-   "J201,J301,J401,J501"
- Col: B3
-   "Semikron arm 1"
- Col: C3
-   "he10-14d"
- Col: D3
-   <a href="http://datasheet.octopart.com/3020-14-0100-00-CNC-Tech-datasheet-138895858.pdf">3020-14-0100-00</a>
- Col: E3
-   400
-  Formula: CEILING(BoardQty*4.0,1)
- Col: F3
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G3
-   0
-  Formula: iferror(E33*F33,"")
- Col: M3
+ Col: M2
    "NonStk"
- Col: O3
+ Col: O2
    0
-  Formula: iferror(lookup(if(N33="",E33,N33),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"")
- Col: P3
+  Formula: iferror(lookup(if(N29="",E29,N29),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"")
+ Col: P2
    0
-  Formula: iferror(if(N33="",E33,N33)*O33,"")
- Col: Q3
+  Formula: iferror(if(N29="",E29,N29)*O29,"")
+ Col: Q2
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0612b02&sid=459&ppid=23165639&vpid=77893036&ct=offers">1175-1610-ND</a>
-Row: 34
+Row: 30
  Col: A3
    "J202,J302,J402,J502"
  Col: B3
@@ -1231,18 +1167,18 @@ Row: 34
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G3
    0
-  Formula: iferror(E34*F34,"")
+  Formula: iferror(E30*F30,"")
  Col: M3
    "NonStk"
  Col: O3
    0
-  Formula: iferror(lookup(if(N34="",E34,N34),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"")
+  Formula: iferror(lookup(if(N30="",E30,N30),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"")
  Col: P3
    0
-  Formula: iferror(if(N34="",E34,N34)*O34,"")
+  Formula: iferror(if(N30="",E30,N30)*O30,"")
  Col: Q3
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0612b02&sid=459&ppid=23165639&vpid=77893036&ct=offers">1175-1610-ND</a>
-Row: 35
+Row: 31
  Col: A3
    "J203,J303,J403,J503"
  Col: B3
@@ -1259,26 +1195,26 @@ Row: 35
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G3
    0
-  Formula: iferror(E35*F35,"")
+  Formula: iferror(E31*F31,"")
  Col: M3
    "NonStk"
  Col: O3
    0
-  Formula: iferror(lookup(if(N35="",E35,N35),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"")
+  Formula: iferror(lookup(if(N31="",E31,N31),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"")
  Col: P3
    0
-  Formula: iferror(if(N35="",E35,N35)*O35,"")
+  Formula: iferror(if(N31="",E31,N31)*O31,"")
  Col: Q3
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0612b02&sid=459&ppid=23165639&vpid=77893036&ct=offers">1175-1610-ND</a>
-Row: 36
+Row: 32
  Col: A3
-   "J2901"
+   "J606#1"
  Col: B3
-   "Serial iso"
+   "Conn_01x06 - p1/3"
  Col: C3
-   "DB9MD"
+   "Molex_KK-6410-06_06x2.54mm_Straight"
  Col: D3
-   <a href="http://datasheet.octopart.com/A-DS-09-PP-Z-Assmann-Electronics-datasheet-68296897.pdf">A-DS 09 PP/Z</a>
+   <a href="http://datasheet.octopart.com/022232061-Molex-datasheet-8339045.pdf">0022232061</a>
  Col: E3
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -1287,37 +1223,287 @@ Row: 36
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G3
    0
-  Formula: iferror(E36*F36,"")
+  Formula: iferror(E32*F32,"")
  Col: M3
-   1519
+   26644
  Col: O3
    0
-  Formula: iferror(lookup(if(N36="",E36,N36),{0,1,10,25,50,100,250,450,950,2400},{0.0,0.68,0.633,0.57,0.5066,0.4855,0.44328,0.42218,0.34829,0.31663}),"")
+  Formula: iferror(lookup(if(N32="",E32,N32),{0,1,10,100,1000,5000,10000},{0.0,0.43,0.348,0.2555,0.20326,0.17422,0.16261}),"")
  Col: P3
    0
-  Formula: iferror(if(N36="",E36,N36)*O36,"")
+  Formula: iferror(if(N32="",E32,N32)*O32,"")
  Col: Q3
-   <a href="https://octopart.com/click/track?ai=8078&sig=0e15713&sid=459&ppid=20477049&vpid=107635205&ct=offers">AE10973-ND</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=0a424de&sid=459&ppid=2059&vpid=50127374&ct=offers">WM4204-ND</a>
+ Col: R3
+   24077
+ Col: T3
+   0
+  Formula: iferror(USD_GBP*lookup(if(S32="",E32,S32),{0,1,10,50,100,500,1000},{0.0,0.338,0.199,0.175,0.151,0.142,0.132}),"")
+ Col: U3
+   0
+  Formula: iferror(if(S32="",E32,S32)*T32,"")
+ Col: V3
+   <a href="https://octopart.com/click/track?ai=8078&sig=08537f5&sid=819&ppid=2059&vpid=139014170&ct=offers">1462922</a>
+ Col: W3
+   2857
+ Col: Y3
+   0
+  Formula: iferror(lookup(if(X32="",E32,X32),{0,1,10,30,100,500,1000},{0.0,0.2159,0.1693,0.1608,0.1522,0.1484,0.1465}),"")
+ Col: Z3
+   0
+  Formula: iferror(if(X32="",E32,X32)*Y32,"")
+ Col: AA3
+   <a href="https://octopart.com/click/track?ai=8078&sig=071db7e&sid=27971&ppid=2059&vpid=625447927&ct=offers">C240820</a>
+ Col: AB3
+   98
+ Col: AD3
+   0
+  Formula: iferror(lookup(if(AC32="",E32,AC32),{0,1,10,50,100,1000,10000},{0.0,0.42,0.345,0.345,0.253,0.202,0.159}),"")
+ Col: AE3
+   0
+  Formula: iferror(if(AC32="",E32,AC32)*AD32,"")
+ Col: AF3
+   <a href="https://octopart.com/click/track?ai=8078&sig=00bef79&sid=2401&ppid=2059&vpid=37606336&ct=offers">53822232061</a>
+ Col: AG3
+   21542
+ Col: AI3
+   0
+  Formula: iferror(lookup(if(AH32="",E32,AH32),{0,1,10,25,50,100,250},{0.0,0.209,0.192,0.192,0.177,0.177,0.177}),"")
+ Col: AJ3
+   0
+  Formula: iferror(if(AH32="",E32,AH32)*AI32,"")
+ Col: AK3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0ad9997&sid=2402&ppid=2059&vpid=179179921&ct=offers">59M4899</a>
  Col: AL3
-   1290
+   1797
  Col: AN3
    0
-  Formula: iferror(USD_GBP*lookup(if(AM36="",E36,AM36),{0,1,5,25,50,125,500},{0.0,0.56,0.56,0.466,0.418,0.396,0.348}),"")
+  Formula: iferror(USD_GBP*lookup(if(AM32="",E32,AM32),{0,1,10,200,750,3000,6000},{0.0,0.254,0.254,0.213,0.182,0.14,0.136}),"")
  Col: AO3
    0
-  Formula: iferror(if(AM36="",E36,AM36)*AN36,"")
+  Formula: iferror(if(AM32="",E32,AM32)*AN32,"")
  Col: AP3
-   <a href="https://octopart.com/click/track?ai=8078&sig=0a74761&sid=10022&ppid=20477049&vpid=576750525&ct=offers">6740791</a>
-Row: 37
+   <a href="https://octopart.com/click/track?ai=8078&sig=04b2b84&sid=10022&ppid=2059&vpid=199067242&ct=offers">6795593</a>
+ Col: AQ3
+   692
+ Col: AS3
+   0
+  Formula: iferror(USD_EUR*lookup(if(AR32="",E32,AR32),{0,1,5,20,100,500,2000},{0.0,0.1674,0.1674,0.1236,0.0931,0.0752,0.0658}),"")
+ Col: AT3
+   0
+  Formula: iferror(if(AR32="",E32,AR32)*AS32,"")
+ Col: AU3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0cb5872&sid=1532&ppid=2059&vpid=709091931&ct=offers">MX22232061</a>
+Row: 33
  Col: A3
-   "J2902"
+   "J606#2"
  Col: B3
-   "SPI"
+   "Conn_01x06 - p2/3"
  Col: C3
-   "Pin_Header_Straight_1x06_Pitch2.54mm"
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D3
+   <a href="http://datasheet.octopart.com/22-01-2067-Molex-datasheet-10978798.pdf">0022012067</a>
  Col: E3
    100
-  Formula: CEILING(BoardQty*1,1)
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: F3
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G3
+   0
+  Formula: iferror(E33*F33,"")
+ Col: M3
+   7713
+ Col: O3
+   0
+  Formula: iferror(lookup(if(N33="",E33,N33),{0,1,10,100,1000,2500},{0.0,0.28,0.221,0.1589,0.12435,0.11399}),"")
+ Col: P3
+   0
+  Formula: iferror(if(N33="",E33,N33)*O33,"")
+ Col: Q3
+   <a href="https://octopart.com/click/track?ai=8078&sig=054d710&sid=459&ppid=4918&vpid=56968614&ct=offers">WM2015-ND</a>
+ Col: R3
+   15308
+ Col: T3
+   0
+  Formula: iferror(USD_GBP*lookup(if(S33="",E33,S33),{0,1,10,50,100,500,1000},{0.0,0.212,0.15,0.134,0.117,0.107,0.0968}),"")
+ Col: U3
+   0
+  Formula: iferror(if(S33="",E33,S33)*T33,"")
+ Col: V3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0fa56a1&sid=11744&ppid=4918&vpid=132408249&ct=offers">1756789</a>
+ Col: W3
+   1945
+ Col: Y3
+   0
+  Formula: iferror(lookup(if(X33="",E33,X33),{0,1,5,50,150,500,2500,5000},{0.0,0.101,0.101,0.0773,0.0729,0.0686,0.0666,0.0657}),"")
+ Col: Z3
+   0
+  Formula: iferror(if(X33="",E33,X33)*Y33,"")
+ Col: AA3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0b5d4b3&sid=27971&ppid=4918&vpid=656931022&ct=offers">C185197</a>
+ Col: AB3
+   17871
+ Col: AD3
+   0
+  Formula: iferror(lookup(if(AC33="",E33,AC33),{0,1,10,50,100,1000,10000},{0.0,0.27,0.219,0.219,0.158,0.124,0.095}),"")
+ Col: AE3
+   0
+  Formula: iferror(if(AC33="",E33,AC33)*AD33,"")
+ Col: AF3
+   <a href="https://octopart.com/click/track?ai=8078&sig=04856b0&sid=2401&ppid=4918&vpid=37606779&ct=offers">53822012067</a>
+ Col: AG3
+   1539
+ Col: AI3
+   0
+  Formula: iferror(lookup(if(AH33="",E33,AH33),{0,1,10,25,50,100,250,500,1000},{0.0,0.295,0.213,0.201,0.186,0.174,0.171,0.167,0.139}),"")
+ Col: AJ3
+   0
+  Formula: iferror(if(AH33="",E33,AH33)*AI33,"")
+ Col: AK3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0b98990&sid=2402&ppid=4918&vpid=13276116&ct=offers">55H8909</a>
+ Col: AL3
+   2990
+ Col: AN3
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM33="",E33,AM33),{0,1,10,250,1000,5000,10000},{0.0,0.16,0.16,0.13,0.09,0.085,0.08}),"")
+ Col: AO3
+   0
+  Formula: iferror(if(AM33="",E33,AM33)*AN33,"")
+ Col: AP3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0839400&sid=10022&ppid=4918&vpid=199067052&ct=offers">6795331</a>
+Row: 34
+ Col: A3
+   "J606#3"
+ Col: B3
+   "Conn_01x06 - p3/3"
+ Col: C3
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D3
+   <a href="http://datasheet.octopart.com/50291638-Molex-datasheet-148162718.pdf">08-50-0114</a>
+ Col: E3
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+ Col: F3
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G3
+   0
+  Formula: iferror(E34*F34,"")
+ Col: M3
+   116
+ Col: O3
+   0
+  Formula: iferror(lookup(if(N34="",E34,N34),{0,1,10,100,250,1000,5000,10000,12000,24000},{0.0,0.17,0.122,0.1002,0.08736,0.07339,0.07217,0.07017,0.05591,0.05067}),"")
+ Col: P3
+   0
+  Formula: iferror(if(N34="",E34,N34)*O34,"")
+ Col: Q3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0678860&sid=459&ppid=42&vpid=440645362&ct=offers">WM16786-ND</a>
+ Col: R3
+   24933
+ Col: T3
+   0
+  Formula: iferror(USD_GBP*lookup(if(S34="",E34,S34),{0,1,10,50,100,500,1000,2500,5000,10000,20000},{0.0,0.134,0.0803,0.0618,0.0433,0.0422,0.0412,0.035,0.0345,0.034,0.0242}),"")
+ Col: U3
+   0
+  Formula: iferror(if(S34="",E34,S34)*T34,"")
+ Col: V3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0c65fc9&sid=819&ppid=42&vpid=535556279&ct=offers">3049946</a>
+ Col: AB3
+   229487
+ Col: AD3
+   0
+  Formula: iferror(lookup(if(AC34="",E34,AC34),{0,1,10,50,100,1000,10000},{0.0,0.2,0.122,0.122,0.087,0.073,0.055}),"")
+ Col: AE3
+   0
+  Formula: iferror(if(AC34="",E34,AC34)*AD34,"")
+ Col: AF3
+   <a href="https://octopart.com/click/track?ai=8078&sig=00c2a06&sid=2401&ppid=42&vpid=232400144&ct=offers">53850291638</a>
+ Col: AG3
+   8800
+ Col: AI3
+   0
+  Formula: iferror(lookup(if(AH34="",E34,AH34),{0,1,10,25,50,100,250},{0.0,0.176,0.107,0.091,0.073,0.057,0.056}),"")
+ Col: AJ3
+   0
+  Formula: iferror(if(AH34="",E34,AH34)*AI34,"")
+ Col: AK3
+   <a href="https://octopart.com/click/track?ai=8078&sig=07f25a1&sid=2402&ppid=42&vpid=547453603&ct=offers">01AH1317</a>
+ Col: AL3
+   43200
+ Col: AN3
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM34="",E34,AM34),{0,1,100,1000,3000,7500,15000},{0.0,0.072,0.072,0.054,0.049,0.047,0.046}),"")
+ Col: AO3
+   0
+  Formula: iferror(if(AM34="",E34,AM34)*AN34,"")
+ Col: AP3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0293d95&sid=10022&ppid=42&vpid=229320219&ct=offers">1729178</a>
+ Col: AQ3
+   24440
+ Col: AS3
+   0
+  Formula: iferror(USD_EUR*lookup(if(AR34="",E34,AR34),{0,1,10,100,500,2000,6000},{0.0,0.07809,0.07809,0.04529,0.02814,0.02155,0.01963}),"")
+ Col: AT3
+   0
+  Formula: iferror(if(AR34="",E34,AR34)*AS34,"")
+ Col: AU3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0f9b65b&sid=1532&ppid=42&vpid=709090775&ct=offers">MX08500114</a>
+Row: 35
+ Col: A3
+   "J801,J901,J1001,J1101,J1501,J1601,J1701,J1801,J2001,J2101,J2201,J2301,J2501,J2601,J2701,J2801"
+ Col: B3
+   "Bornier"
+ Col: C3
+   "bornier2"
+ Col: D3
+   <a href="http://datasheet.octopart.com/PT1%2C5-2-5.0-H-Phoenix-Contact-datasheet-20683003.pdf">http://datasheet.octopart.com/PT1%2C5-2-5.0-H-Phoenix-Contact-datasheet-20683003.pdf</a>
+ Col: E3
+   1600
+  Formula: CEILING(BoardQty*16,1)
+ Col: F3
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G3
+   0
+  Formula: iferror(E35*F35,"")
+ Col: M3
+   "NonStk"
+ Col: O3
+   0
+  Formula: iferror(lookup(if(N35="",E35,N35),{0,1,10,50,100,250,500,1000},{0.0,0.43,0.414,0.396,0.3852,0.36,0.3312,0.306}),"")
+ Col: P3
+   0
+  Formula: iferror(if(N35="",E35,N35)*O35,"")
+ Col: Q3
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=08a63b4&sid=459&ppid=114664&vpid=1496254&ct=offers">277-1667-ND</a>
+Row: 36
+ Col: A3
+   "J802#1,J902#1,J1002#1,J1102#1,J1502#1,J1602#1,J1702#1,J1802#1,J2002#1,J2102#1,J2202#1,J2302#1,J2502#1,J2602#1,J2702#1,J2802#1"
+ Col: B3
+   "Molex_01x06 - p1/4"
+ Col: C3
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: E3
+   1600
+  Formula: CEILING(BoardQty*16,1)
+ Col: F3
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G3
+   0
+  Formula: iferror(E36*F36,"")
+Row: 37
+ Col: A3
+   "J802#2,J902#2,J1002#2,J1102#2,J1502#2,J1602#2,J1702#2,J1802#2,J2002#2,J2102#2,J2202#2,J2302#2,J2502#2,J2602#2,J2702#2,J2802#2"
+ Col: B3
+   "Molex_01x06 - p2/4"
+ Col: C3
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: E3
+   1600
+  Formula: CEILING(BoardQty*16,1)
  Col: F3
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
@@ -1326,14 +1512,14 @@ Row: 37
   Formula: iferror(E37*F37,"")
 Row: 38
  Col: A3
-   "J2903"
+   "J802#3,J902#3,J1002#3,J1102#3,J1502#3,J1602#3,J1702#3,J1802#3,J2002#3,J2102#3,J2202#3,J2302#3,J2502#3,J2602#3,J2702#3,J2802#3"
  Col: B3
-   "Conn_01x26"
+   "Molex_01x06 - p3/4"
  Col: C3
-   "Pin_Header_Straight_1x26_Pitch2.54mm"
+   "Molex_KK-6410-06_06x2.54mm_Straight"
  Col: E3
-   100
-  Formula: CEILING(BoardQty*1,1)
+   1600
+  Formula: CEILING(BoardQty*16,1)
  Col: F3
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
@@ -1342,21 +1528,193 @@ Row: 38
   Formula: iferror(E38*F38,"")
 Row: 39
  Col: A3
-   "J2904"
+   "J802#4,J902#4,J1002#4,J1102#4,J1502#4,J1602#4,J1702#4,J1802#4,J2002#4,J2102#4,J2202#4,J2302#4,J2502#4,J2602#4,J2702#4,J2802#4"
  Col: B3
-   "Conn_01x29"
+   "Molex_01x06 - p4/4"
  Col: C3
-   "Pin_Header_Straight_1x29_Pitch2.54mm"
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D3
+   <a href="http://datasheet.octopart.com/LA-55-P-LEM-datasheet-14709090.pdf">http://datasheet.octopart.com/LA-55-P-LEM-datasheet-14709090.pdf</a>
  Col: E3
-   100
-  Formula: CEILING(BoardQty*1,1)
+   1600
+  Formula: CEILING(BoardQty*16,1)
  Col: F3
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G3
    0
   Formula: iferror(E39*F39,"")
+ Col: M3
+   174
+ Col: O3
+   0
+  Formula: iferror(lookup(if(N39="",E39,N39),{0,1,5,10,25,50,100,500},{0.0,24.86,23.73,21.47,19.7752,17.515,16.95,15.82}),"")
+ Col: P3
+   0
+  Formula: iferror(if(N39="",E39,N39)*O39,"")
+ Col: Q3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0c0a085&sid=459&ppid=2150325&vpid=2014380&ct=offers">398-1010-ND</a>
+ Col: AL3
+   566
+ Col: AN3
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM39="",E39,AM39),{0,1,5,10},{0.0,19.99,19.38,18.56}),"")
+ Col: AO3
+   0
+  Formula: iferror(if(AM39="",E39,AM39)*AN39,"")
+ Col: AP3
+   <a href="https://octopart.com/click/track?ai=8078&sig=0a2ce4a&sid=10022&ppid=2150325&vpid=199043173&ct=offers">1807357</a>
 Row: 40
+ Col: A4
+   "J1201"
+ Col: B4
+   "Conn_01x08"
+ Col: C4
+   "Pin_Header_Straight_1x08_Pitch2.54mm"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E40*F40,"")
+Row: 41
+ Col: A4
+   "J1301"
+ Col: B4
+   "Conn_02x12"
+ Col: C4
+   "Pin_Header_Straight_2x12_Pitch2.54mm"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E41*F41,"")
+Row: 42
+ Col: A4
+   "J1302"
+ Col: B4
+   "Conn_02x04_Odd_Even"
+ Col: C4
+   "Pin_Header_Straight_2x04_Pitch2.54mm"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E42*F42,"")
+Row: 43
+ Col: A4
+   "J1303"
+ Col: B4
+   "Conn_02x05"
+ Col: C4
+   "Pin_Header_Straight_2x05_Pitch2.54mm"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E43*F43,"")
+Row: 44
+ Col: A4
+   "J2901"
+ Col: B4
+   "Serial iso"
+ Col: C4
+   "DB9MD"
+ Col: D4
+   <a href="http://datasheet.octopart.com/A-DS-09-PP-Z-Assmann-Electronics-datasheet-68296897.pdf">A-DS 09 PP/Z</a>
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E44*F44,"")
+ Col: M4
+   1519
+ Col: O4
+   0
+  Formula: iferror(lookup(if(N44="",E44,N44),{0,1,10,25,50,100,250,450,950,2400},{0.0,0.68,0.633,0.57,0.5066,0.4855,0.44328,0.42218,0.34829,0.31663}),"")
+ Col: P4
+   0
+  Formula: iferror(if(N44="",E44,N44)*O44,"")
+ Col: Q4
+   <a href="https://octopart.com/click/track?ai=8078&sig=0e15713&sid=459&ppid=20477049&vpid=107635205&ct=offers">AE10973-ND</a>
+ Col: AL4
+   1290
+ Col: AN4
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM44="",E44,AM44),{0,1,5,25,50,125,500},{0.0,0.56,0.56,0.466,0.418,0.396,0.348}),"")
+ Col: AO4
+   0
+  Formula: iferror(if(AM44="",E44,AM44)*AN44,"")
+ Col: AP4
+   <a href="https://octopart.com/click/track?ai=8078&sig=0a74761&sid=10022&ppid=20477049&vpid=576750525&ct=offers">6740791</a>
+Row: 45
+ Col: A4
+   "J2902"
+ Col: B4
+   "SPI"
+ Col: C4
+   "Pin_Header_Straight_1x06_Pitch2.54mm"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E45*F45,"")
+Row: 46
+ Col: A4
+   "J2903"
+ Col: B4
+   "Conn_01x26"
+ Col: C4
+   "Pin_Header_Straight_1x26_Pitch2.54mm"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E46*F46,"")
+Row: 47
+ Col: A4
+   "J2904"
+ Col: B4
+   "Conn_01x29"
+ Col: C4
+   "Pin_Header_Straight_1x29_Pitch2.54mm"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: F4
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G4
+   0
+  Formula: iferror(E47*F47,"")
+Row: 48
  Col: A4
    "J2905"
  Col: B4
@@ -1373,395 +1731,37 @@ Row: 40
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G4
    0
-  Formula: iferror(E40*F40,"")
+  Formula: iferror(E48*F48,"")
  Col: M4
    41
  Col: O4
    0
-  Formula: iferror(lookup(if(N40="",E40,N40),{0,1},{0.0,62.09}),"")
+  Formula: iferror(lookup(if(N48="",E48,N48),{0,1},{0.0,62.09}),"")
  Col: P4
    0
-  Formula: iferror(if(N40="",E40,N40)*O40,"")
+  Formula: iferror(if(N48="",E48,N48)*O48,"")
  Col: Q4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0fa6865&sid=459&ppid=24911244&vpid=63970435&ct=offers">1188-1099-ND</a>
  Col: AB4
    238
  Col: AD4
    0
-  Formula: iferror(lookup(if(AC40="",E40,AC40),{0,1,10,50,100,1000,10000},{0.0,65.83,65.83,65.83,65.83,65.83,65.83}),"")
+  Formula: iferror(lookup(if(AC48="",E48,AC48),{0,1,10,50,100,1000,10000},{0.0,65.83,65.83,65.83,65.83,65.83,65.83}),"")
  Col: AE4
    0
-  Formula: iferror(if(AC40="",E40,AC40)*AD40,"")
+  Formula: iferror(if(AC48="",E48,AC48)*AD48,"")
  Col: AF4
    <a href="https://octopart.com/click/track?ai=8078&sig=0a5a884&sid=2401&ppid=24911244&vpid=58028855&ct=offers">909TMS320XDS100V3</a>
  Col: AQ4
    6
  Col: AS4
    0
-  Formula: iferror(USD_EUR*lookup(if(AR40="",E40,AR40),{0,1,3,10},{0.0,55.68,52.22,45.75}),"")
+  Formula: iferror(USD_EUR*lookup(if(AR48="",E48,AR48),{0,1,3,10},{0.0,55.68,52.22,45.75}),"")
  Col: AT4
    0
-  Formula: iferror(if(AR40="",E40,AR40)*AS40,"")
+  Formula: iferror(if(AR48="",E48,AR48)*AS48,"")
  Col: AU4
    <a href="https://octopart.com/click/track?ai=8078&sig=013f6ee&sid=1532&ppid=24911244&vpid=709114900&ct=offers">TMS320XDS100V3</a>
-Row: 41
- Col: A4
-   "J606#1"
- Col: B4
-   "Conn_01x06 - p1/3"
- Col: C4
-   "Molex_KK-6410-06_06x2.54mm_Straight"
- Col: D4
-   <a href="http://datasheet.octopart.com/022232061-Molex-datasheet-8339045.pdf">0022232061</a>
- Col: E4
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E41*F41,"")
- Col: M4
-   26644
- Col: O4
-   0
-  Formula: iferror(lookup(if(N41="",E41,N41),{0,1,10,100,1000,5000,10000},{0.0,0.43,0.348,0.2555,0.20326,0.17422,0.16261}),"")
- Col: P4
-   0
-  Formula: iferror(if(N41="",E41,N41)*O41,"")
- Col: Q4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0a424de&sid=459&ppid=2059&vpid=50127374&ct=offers">WM4204-ND</a>
- Col: R4
-   24077
- Col: T4
-   0
-  Formula: iferror(USD_GBP*lookup(if(S41="",E41,S41),{0,1,10,50,100,500,1000},{0.0,0.338,0.199,0.175,0.151,0.142,0.132}),"")
- Col: U4
-   0
-  Formula: iferror(if(S41="",E41,S41)*T41,"")
- Col: V4
-   <a href="https://octopart.com/click/track?ai=8078&sig=08537f5&sid=819&ppid=2059&vpid=139014170&ct=offers">1462922</a>
- Col: W4
-   2857
- Col: Y4
-   0
-  Formula: iferror(lookup(if(X41="",E41,X41),{0,1,10,30,100,500,1000},{0.0,0.2159,0.1693,0.1608,0.1522,0.1484,0.1465}),"")
- Col: Z4
-   0
-  Formula: iferror(if(X41="",E41,X41)*Y41,"")
- Col: AA4
-   <a href="https://octopart.com/click/track?ai=8078&sig=071db7e&sid=27971&ppid=2059&vpid=625447927&ct=offers">C240820</a>
- Col: AB4
-   98
- Col: AD4
-   0
-  Formula: iferror(lookup(if(AC41="",E41,AC41),{0,1,10,50,100,1000,10000},{0.0,0.42,0.345,0.345,0.253,0.202,0.159}),"")
- Col: AE4
-   0
-  Formula: iferror(if(AC41="",E41,AC41)*AD41,"")
- Col: AF4
-   <a href="https://octopart.com/click/track?ai=8078&sig=00bef79&sid=2401&ppid=2059&vpid=37606336&ct=offers">53822232061</a>
- Col: AG4
-   21542
- Col: AI4
-   0
-  Formula: iferror(lookup(if(AH41="",E41,AH41),{0,1,10,25,50,100,250},{0.0,0.209,0.192,0.192,0.177,0.177,0.177}),"")
- Col: AJ4
-   0
-  Formula: iferror(if(AH41="",E41,AH41)*AI41,"")
- Col: AK4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0ad9997&sid=2402&ppid=2059&vpid=179179921&ct=offers">59M4899</a>
- Col: AL4
-   1797
- Col: AN4
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM41="",E41,AM41),{0,1,10,200,750,3000,6000},{0.0,0.254,0.254,0.213,0.182,0.14,0.136}),"")
- Col: AO4
-   0
-  Formula: iferror(if(AM41="",E41,AM41)*AN41,"")
- Col: AP4
-   <a href="https://octopart.com/click/track?ai=8078&sig=04b2b84&sid=10022&ppid=2059&vpid=199067242&ct=offers">6795593</a>
- Col: AQ4
-   692
- Col: AS4
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR41="",E41,AR41),{0,1,5,20,100,500,2000},{0.0,0.1674,0.1674,0.1236,0.0931,0.0752,0.0658}),"")
- Col: AT4
-   0
-  Formula: iferror(if(AR41="",E41,AR41)*AS41,"")
- Col: AU4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0cb5872&sid=1532&ppid=2059&vpid=709091931&ct=offers">MX22232061</a>
-Row: 42
- Col: A4
-   "J606#2"
- Col: B4
-   "Conn_01x06 - p2/3"
- Col: C4
-   "Molex_KK-6410-06_06x2.54mm_Straight"
- Col: D4
-   <a href="http://datasheet.octopart.com/22-01-2067-Molex-datasheet-10978798.pdf">0022012067</a>
- Col: E4
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E42*F42,"")
- Col: M4
-   7713
- Col: O4
-   0
-  Formula: iferror(lookup(if(N42="",E42,N42),{0,1,10,100,1000,2500},{0.0,0.28,0.221,0.1589,0.12435,0.11399}),"")
- Col: P4
-   0
-  Formula: iferror(if(N42="",E42,N42)*O42,"")
- Col: Q4
-   <a href="https://octopart.com/click/track?ai=8078&sig=054d710&sid=459&ppid=4918&vpid=56968614&ct=offers">WM2015-ND</a>
- Col: R4
-   15308
- Col: T4
-   0
-  Formula: iferror(USD_GBP*lookup(if(S42="",E42,S42),{0,1,10,50,100,500,1000},{0.0,0.212,0.15,0.134,0.117,0.107,0.0968}),"")
- Col: U4
-   0
-  Formula: iferror(if(S42="",E42,S42)*T42,"")
- Col: V4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0fa56a1&sid=11744&ppid=4918&vpid=132408249&ct=offers">1756789</a>
- Col: W4
-   1945
- Col: Y4
-   0
-  Formula: iferror(lookup(if(X42="",E42,X42),{0,1,5,50,150,500,2500,5000},{0.0,0.101,0.101,0.0773,0.0729,0.0686,0.0666,0.0657}),"")
- Col: Z4
-   0
-  Formula: iferror(if(X42="",E42,X42)*Y42,"")
- Col: AA4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0b5d4b3&sid=27971&ppid=4918&vpid=656931022&ct=offers">C185197</a>
- Col: AB4
-   17871
- Col: AD4
-   0
-  Formula: iferror(lookup(if(AC42="",E42,AC42),{0,1,10,50,100,1000,10000},{0.0,0.27,0.219,0.219,0.158,0.124,0.095}),"")
- Col: AE4
-   0
-  Formula: iferror(if(AC42="",E42,AC42)*AD42,"")
- Col: AF4
-   <a href="https://octopart.com/click/track?ai=8078&sig=04856b0&sid=2401&ppid=4918&vpid=37606779&ct=offers">53822012067</a>
- Col: AG4
-   1539
- Col: AI4
-   0
-  Formula: iferror(lookup(if(AH42="",E42,AH42),{0,1,10,25,50,100,250,500,1000},{0.0,0.295,0.213,0.201,0.186,0.174,0.171,0.167,0.139}),"")
- Col: AJ4
-   0
-  Formula: iferror(if(AH42="",E42,AH42)*AI42,"")
- Col: AK4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0b98990&sid=2402&ppid=4918&vpid=13276116&ct=offers">55H8909</a>
- Col: AL4
-   2990
- Col: AN4
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM42="",E42,AM42),{0,1,10,250,1000,5000,10000},{0.0,0.16,0.16,0.13,0.09,0.085,0.08}),"")
- Col: AO4
-   0
-  Formula: iferror(if(AM42="",E42,AM42)*AN42,"")
- Col: AP4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0839400&sid=10022&ppid=4918&vpid=199067052&ct=offers">6795331</a>
-Row: 43
- Col: A4
-   "J606#3"
- Col: B4
-   "Conn_01x06 - p3/3"
- Col: C4
-   "Molex_KK-6410-06_06x2.54mm_Straight"
- Col: D4
-   <a href="http://datasheet.octopart.com/50291638-Molex-datasheet-148162718.pdf">08-50-0114</a>
- Col: E4
-   600
-  Formula: CEILING(BoardQty*6.0,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E43*F43,"")
- Col: M4
-   116
- Col: O4
-   0
-  Formula: iferror(lookup(if(N43="",E43,N43),{0,1,10,100,250,1000,5000,10000,12000,24000},{0.0,0.17,0.122,0.1002,0.08736,0.07339,0.07217,0.07017,0.05591,0.05067}),"")
- Col: P4
-   0
-  Formula: iferror(if(N43="",E43,N43)*O43,"")
- Col: Q4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0678860&sid=459&ppid=42&vpid=440645362&ct=offers">WM16786-ND</a>
- Col: R4
-   24933
- Col: T4
-   0
-  Formula: iferror(USD_GBP*lookup(if(S43="",E43,S43),{0,1,10,50,100,500,1000,2500,5000,10000,20000},{0.0,0.134,0.0803,0.0618,0.0433,0.0422,0.0412,0.035,0.0345,0.034,0.0242}),"")
- Col: U4
-   0
-  Formula: iferror(if(S43="",E43,S43)*T43,"")
- Col: V4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0c65fc9&sid=819&ppid=42&vpid=535556279&ct=offers">3049946</a>
- Col: AB4
-   229487
- Col: AD4
-   0
-  Formula: iferror(lookup(if(AC43="",E43,AC43),{0,1,10,50,100,1000,10000},{0.0,0.2,0.122,0.122,0.087,0.073,0.055}),"")
- Col: AE4
-   0
-  Formula: iferror(if(AC43="",E43,AC43)*AD43,"")
- Col: AF4
-   <a href="https://octopart.com/click/track?ai=8078&sig=00c2a06&sid=2401&ppid=42&vpid=232400144&ct=offers">53850291638</a>
- Col: AG4
-   8800
- Col: AI4
-   0
-  Formula: iferror(lookup(if(AH43="",E43,AH43),{0,1,10,25,50,100,250},{0.0,0.176,0.107,0.091,0.073,0.057,0.056}),"")
- Col: AJ4
-   0
-  Formula: iferror(if(AH43="",E43,AH43)*AI43,"")
- Col: AK4
-   <a href="https://octopart.com/click/track?ai=8078&sig=07f25a1&sid=2402&ppid=42&vpid=547453603&ct=offers">01AH1317</a>
- Col: AL4
-   43200
- Col: AN4
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM43="",E43,AM43),{0,1,100,1000,3000,7500,15000},{0.0,0.072,0.072,0.054,0.049,0.047,0.046}),"")
- Col: AO4
-   0
-  Formula: iferror(if(AM43="",E43,AM43)*AN43,"")
- Col: AP4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0293d95&sid=10022&ppid=42&vpid=229320219&ct=offers">1729178</a>
- Col: AQ4
-   24440
- Col: AS4
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR43="",E43,AR43),{0,1,10,100,500,2000,6000},{0.0,0.07809,0.07809,0.04529,0.02814,0.02155,0.01963}),"")
- Col: AT4
-   0
-  Formula: iferror(if(AR43="",E43,AR43)*AS43,"")
- Col: AU4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0f9b65b&sid=1532&ppid=42&vpid=709090775&ct=offers">MX08500114</a>
-Row: 44
- Col: A4
-   "J801,J901,J1001,J1101,J1501,J1601,J1701,J1801,J2001,J2101,J2201,J2301,J2501,J2601,J2701,J2801"
- Col: B4
-   "Bornier"
- Col: C4
-   "bornier2"
- Col: D4
-   <a href="http://datasheet.octopart.com/PT1%2C5-2-5.0-H-Phoenix-Contact-datasheet-20683003.pdf">http://datasheet.octopart.com/PT1%2C5-2-5.0-H-Phoenix-Contact-datasheet-20683003.pdf</a>
- Col: E4
-   1600
-  Formula: CEILING(BoardQty*16,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E44*F44,"")
- Col: M4
-   "NonStk"
- Col: O4
-   0
-  Formula: iferror(lookup(if(N44="",E44,N44),{0,1,10,50,100,250,500,1000},{0.0,0.43,0.414,0.396,0.3852,0.36,0.3312,0.306}),"")
- Col: P4
-   0
-  Formula: iferror(if(N44="",E44,N44)*O44,"")
- Col: Q4
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=08a63b4&sid=459&ppid=114664&vpid=1496254&ct=offers">277-1667-ND</a>
-Row: 45
- Col: A4
-   "J802#1,J902#1,J1002#1,J1102#1,J1502#1,J1602#1,J1702#1,J1802#1,J2002#1,J2102#1,J2202#1,J2302#1,J2502#1,J2602#1,J2702#1,J2802#1"
- Col: B4
-   "Molex_01x06 - p1/4"
- Col: C4
-   "Molex_KK-6410-06_06x2.54mm_Straight"
- Col: E4
-   1600
-  Formula: CEILING(BoardQty*16,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E45*F45,"")
-Row: 46
- Col: A4
-   "J802#2,J902#2,J1002#2,J1102#2,J1502#2,J1602#2,J1702#2,J1802#2,J2002#2,J2102#2,J2202#2,J2302#2,J2502#2,J2602#2,J2702#2,J2802#2"
- Col: B4
-   "Molex_01x06 - p2/4"
- Col: C4
-   "Molex_KK-6410-06_06x2.54mm_Straight"
- Col: E4
-   1600
-  Formula: CEILING(BoardQty*16,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E46*F46,"")
-Row: 47
- Col: A4
-   "J802#3,J902#3,J1002#3,J1102#3,J1502#3,J1602#3,J1702#3,J1802#3,J2002#3,J2102#3,J2202#3,J2302#3,J2502#3,J2602#3,J2702#3,J2802#3"
- Col: B4
-   "Molex_01x06 - p3/4"
- Col: C4
-   "Molex_KK-6410-06_06x2.54mm_Straight"
- Col: E4
-   1600
-  Formula: CEILING(BoardQty*16,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E47*F47,"")
-Row: 48
- Col: A4
-   "J802#4,J902#4,J1002#4,J1102#4,J1502#4,J1602#4,J1702#4,J1802#4,J2002#4,J2102#4,J2202#4,J2302#4,J2502#4,J2602#4,J2702#4,J2802#4"
- Col: B4
-   "Molex_01x06 - p4/4"
- Col: C4
-   "Molex_KK-6410-06_06x2.54mm_Straight"
- Col: D4
-   <a href="http://datasheet.octopart.com/LA-55-P-LEM-datasheet-14709090.pdf">http://datasheet.octopart.com/LA-55-P-LEM-datasheet-14709090.pdf</a>
- Col: E4
-   1600
-  Formula: CEILING(BoardQty*16,1)
- Col: F4
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G4
-   0
-  Formula: iferror(E48*F48,"")
- Col: M4
-   174
- Col: O4
-   0
-  Formula: iferror(lookup(if(N48="",E48,N48),{0,1,5,10,25,50,100,500},{0.0,24.86,23.73,21.47,19.7752,17.515,16.95,15.82}),"")
- Col: P4
-   0
-  Formula: iferror(if(N48="",E48,N48)*O48,"")
- Col: Q4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0c0a085&sid=459&ppid=2150325&vpid=2014380&ct=offers">398-1010-ND</a>
- Col: AL4
-   566
- Col: AN4
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM48="",E48,AM48),{0,1,5,10},{0.0,19.99,19.38,18.56}),"")
- Col: AO4
-   0
-  Formula: iferror(if(AM48="",E48,AM48)*AN48,"")
- Col: AP4
-   <a href="https://octopart.com/click/track?ai=8078&sig=0a2ce4a&sid=10022&ppid=2150325&vpid=199043173&ct=offers">1807357</a>
 Row: 49
  Col: A4
    "K601-K604"
@@ -1944,16 +1944,16 @@ Row: 52
    <a href="https://octopart.com/click/track?ai=8078&sig=0927500&sid=1532&ppid=129565&vpid=709118680&ct=offers">BC847BLT1G</a>
 Row: 53
  Col: A5
-   "R2902,R3015,R3016,R3019,R3021,R3023"
+   "R201-R203,R301-R303,R401-R403,R501-R503"
  Col: B5
-   "4k7"
+   "560R"
  Col: C5
    "R_0805_HandSoldering"
  Col: D5
-   <a href="http://datasheet.octopart.com/RMCF0805JT4K70-Stackpole-Electronics-datasheet-141193804.pdf">RMCF0805JT4K70</a>
+   <a href="http://datasheet.octopart.com/RMCF0805JT560R-Stackpole-Electronics-datasheet-141193804.pdf">RMCF0805JT560R</a>
  Col: E5
-   600
-  Formula: CEILING(BoardQty*6.0,1)
+   1200
+  Formula: CEILING(BoardQty*12.0,1)
  Col: F5
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
@@ -1961,7 +1961,7 @@ Row: 53
    0
   Formula: iferror(E53*F53,"")
  Col: M5
-   167218
+   70279
  Col: O5
    0
   Formula: iferror(lookup(if(N53="",E53,N53),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"")
@@ -1969,17 +1969,7 @@ Row: 53
    0
   Formula: iferror(if(N53="",E53,N53)*O53,"")
  Col: Q5
-   <a href="https://octopart.com/click/track?ai=8078&sig=0636edd&sid=459&ppid=19214579&vpid=34422761&ct=offers">RMCF0805JT4K70CT-ND</a>
- Col: AG5
-   155000
- Col: AI5
-   0
-  Formula: iferror(lookup(if(AH53="",E53,AH53),{0,1,5000,10000,20000},{0.0,0.003,0.003,0.003,0.003}),"")
- Col: AJ5
-   0
-  Formula: iferror(if(AH53="",E53,AH53)*AI53,"")
- Col: AK5
-   <a href="https://octopart.com/click/track?ai=8078&sig=0a03a00&sid=2402&ppid=19214579&vpid=634331635&ct=offers">32AC2765</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=0158f4f&sid=459&ppid=19214588&vpid=34422773&ct=offers">RMCF0805JT560RCT-ND</a>
 Row: 54
  Col: A5
    "R601,R602,R605,R606"
@@ -2334,16 +2324,16 @@ Row: 68
    <a href="https://octopart.com/click/track?ai=8078&sig=02fd352&sid=459&ppid=19214477&vpid=34422585&ct=offers">RMCF0805JT10K0CT-ND</a>
 Row: 69
  Col: A6
-   "R201-R203,R301-R303,R401-R403,R501-R503"
+   "R2902,R3015,R3016,R3019,R3021,R3023"
  Col: B6
-   "560R"
+   "4k7"
  Col: C6
    "R_0805_HandSoldering"
  Col: D6
-   <a href="http://datasheet.octopart.com/RMCF0805JT560R-Stackpole-Electronics-datasheet-141193804.pdf">RMCF0805JT560R</a>
+   <a href="http://datasheet.octopart.com/RMCF0805JT4K70-Stackpole-Electronics-datasheet-141193804.pdf">RMCF0805JT4K70</a>
  Col: E6
-   1200
-  Formula: CEILING(BoardQty*12.0,1)
+   600
+  Formula: CEILING(BoardQty*6.0,1)
  Col: F6
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
@@ -2351,7 +2341,7 @@ Row: 69
    0
   Formula: iferror(E69*F69,"")
  Col: M6
-   70279
+   167218
  Col: O6
    0
   Formula: iferror(lookup(if(N69="",E69,N69),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"")
@@ -2359,7 +2349,17 @@ Row: 69
    0
   Formula: iferror(if(N69="",E69,N69)*O69,"")
  Col: Q6
-   <a href="https://octopart.com/click/track?ai=8078&sig=0158f4f&sid=459&ppid=19214588&vpid=34422773&ct=offers">RMCF0805JT560RCT-ND</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=0636edd&sid=459&ppid=19214579&vpid=34422761&ct=offers">RMCF0805JT4K70CT-ND</a>
+ Col: AG6
+   155000
+ Col: AI6
+   0
+  Formula: iferror(lookup(if(AH69="",E69,AH69),{0,1,5000,10000,20000},{0.0,0.003,0.003,0.003,0.003}),"")
+ Col: AJ6
+   0
+  Formula: iferror(if(AH69="",E69,AH69)*AI69,"")
+ Col: AK6
+   <a href="https://octopart.com/click/track?ai=8078&sig=0a03a00&sid=2402&ppid=19214579&vpid=634331635&ct=offers">32AC2765</a>
 Row: 70
  Col: A7
    "SW601"
@@ -3086,132 +3086,6 @@ Row: 83
    <a href="https://octopart.com/click/track?ai=8078&sig=09b84d2&sid=1532&ppid=30954567&vpid=707843544&ct=offers">AP2114H3.3TRG1</a>
 Row: 84
  Col: A8
-   "U1202#1"
- Col: B8
-   "LM4040 - p1/2"
- Col: C8
-   "SOT-23"
- Col: D8
-   <a href="http://www.tme.eu/fr/Document/ced3461ed31ea70a3c416fb648e0cde7/APE8865-3.pdf">LM4040DEX3-3.3+T</a>
- Col: E8
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: F8
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G8
-   0
-  Formula: iferror(E84*F84,"")
- Col: M8
-   27
- Col: O8
-   0
-  Formula: iferror(lookup(if(N84="",E84,N84),{0,1,10,25,100,250,500,1000,2500},{0.0,0.74,0.661,0.6272,0.5152,0.4816,0.4256,0.364,0.364}),"")
- Col: P8
-   0
-  Formula: iferror(if(N84="",E84,N84)*O84,"")
- Col: Q8
-   <a href="https://octopart.com/click/track?ai=8078&sig=0500764&sid=459&ppid=39622607&vpid=444884022&ct=offers">LM4040DEX3-3.3+TCT-ND</a>
- Col: R8
-   2611
- Col: T8
-   0
-  Formula: iferror(USD_GBP*lookup(if(S84="",E84,S84),{0,1,10,100,150,500,1000,2500,5000},{0.0,0.567,0.481,0.327,0.327,0.311,0.283,0.277,0.272}),"")
- Col: U8
-   0
-  Formula: iferror(if(S84="",E84,S84)*T84,"")
- Col: V8
-   <a href="https://octopart.com/click/track?ai=8078&sig=0bb6d6e&sid=11744&ppid=39622607&vpid=252252279&ct=offers">2511252</a>
- Col: AB8
-   "NonStk"
- Col: AD8
-   0
-  Formula: iferror(lookup(if(AC84="",E84,AC84),{0,1,10,50,100,1000,10000},{0.0,0.74,0.661,0.628,0.51,0.373,0.372}),"")
- Col: AE8
-   0
-  Formula: iferror(if(AC84="",E84,AC84)*AD84,"")
- Col: AF8
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0c05be9&sid=2401&ppid=39622607&vpid=165380952&ct=offers">700LM4040DEX33.3T</a>
- Col: AG8
-   2411
- Col: AI8
-   0
-  Formula: iferror(lookup(if(AH84="",E84,AH84),{0,1,10,25,50,100,250},{0.0,0.73,0.656,0.622,0.619,0.478,0.422}),"")
- Col: AJ8
-   0
-  Formula: iferror(if(AH84="",E84,AH84)*AI84,"")
- Col: AK8
-   <a href="https://octopart.com/click/track?ai=8078&sig=070ed00&sid=2402&ppid=39622607&vpid=252529884&ct=offers">73Y1824</a>
- Col: AL8
-   "NonStk"
- Col: AN8
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM84="",E84,AM84),{0,1,100,250,500,1000},{0.0,0.358,0.358,0.311,0.292,0.279}),"")
- Col: AO8
-   0
-  Formula: iferror(if(AM84="",E84,AM84)*AN84,"")
- Col: AP8
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0431880&sid=10022&ppid=39622607&vpid=591111640&ct=offers">1921462P</a>
-Row: 85
- Col: A8
-   "U1202#2"
- Col: B8
-   "LM4040 - p2/2"
- Col: C8
-   "SOT-23"
- Col: D8
-   <a href="http://www.tme.eu/fr/Document/ced3461ed31ea70a3c416fb648e0cde7/APE8865-3.pdf">LM4040DIX3-5.0+T</a>
- Col: E8
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: F8
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G8
-   0
-  Formula: iferror(E85*F85,"")
- Col: M8
-   1478
- Col: O8
-   0
-  Formula: iferror(lookup(if(N85="",E85,N85),{0,1,10,25,100,250,500,1000},{0.0,0.94,0.844,0.8012,0.6153,0.54376,0.51516,0.40068}),"")
- Col: P8
-   0
-  Formula: iferror(if(N85="",E85,N85)*O85,"")
- Col: Q8
-   <a href="https://octopart.com/click/track?ai=8078&sig=0f8dfea&sid=459&ppid=39622620&vpid=252007338&ct=offers">LM4040DIX3-5.0+TCT-ND</a>
- Col: R8
-   1459
- Col: T8
-   0
-  Formula: iferror(USD_GBP*lookup(if(S85="",E85,S85),{0,1,10,100,150,500,1000,2500,5000},{0.0,0.583,0.491,0.339,0.339,0.313,0.297,0.281,0.265}),"")
- Col: U8
-   0
-  Formula: iferror(if(S85="",E85,S85)*T85,"")
- Col: V8
-   <a href="https://octopart.com/click/track?ai=8078&sig=070f603&sid=11744&ppid=39622620&vpid=494602855&ct=offers">2909708</a>
- Col: AB8
-   2202
- Col: AD8
-   0
-  Formula: iferror(lookup(if(AC85="",E85,AC85),{0,1,10,50,100,1000,10000},{0.0,0.94,0.841,0.802,0.613,0.399,0.373}),"")
- Col: AE8
-   0
-  Formula: iferror(if(AC85="",E85,AC85)*AD85,"")
- Col: AF8
-   <a href="https://octopart.com/click/track?ai=8078&sig=0a9171f&sid=2401&ppid=39622620&vpid=179753948&ct=offers">700LM4040DIX35.0T</a>
- Col: AG8
-   1459
- Col: AI8
-   0
-  Formula: iferror(lookup(if(AH85="",E85,AH85),{0,1,10,25,50,100,250},{0.0,0.89,0.797,0.756,0.668,0.58,0.513}),"")
- Col: AJ8
-   0
-  Formula: iferror(if(AH85="",E85,AH85)*AI85,"")
- Col: AK8
-   <a href="https://octopart.com/click/track?ai=8078&sig=0520c42&sid=2402&ppid=39622620&vpid=494758317&ct=offers">68AC5236</a>
-Row: 86
- Col: A8
    "U201,U301,U401,U501"
  Col: B8
    "MC14504B"
@@ -3227,68 +3101,68 @@ Row: 86
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G8
    0
-  Formula: iferror(E86*F86,"")
+  Formula: iferror(E84*F84,"")
  Col: M8
    "NonStk"
  Col: O8
    0
-  Formula: iferror(lookup(if(N86="",E86,N86),{0,1,10,25,100,250,500,1000,2500},{0.0,1.38,1.231,1.1684,0.9596,0.897,0.79272,0.62582,0.5904}),"")
+  Formula: iferror(lookup(if(N84="",E84,N84),{0,1,10,25,100,250,500,1000,2500},{0.0,1.38,1.231,1.1684,0.9596,0.897,0.79272,0.62582,0.5904}),"")
  Col: P8
    0
-  Formula: iferror(if(N86="",E86,N86)*O86,"")
+  Formula: iferror(if(N84="",E84,N84)*O84,"")
  Col: Q8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0489646&sid=459&ppid=883816&vpid=34060437&ct=offers">MC14504BDTR2GOSCT-ND</a>
  Col: R8
    1459
  Col: T8
    0
-  Formula: iferror(USD_GBP*lookup(if(S86="",E86,S86),{0,1,5,10,100,500,2500},{0.0,1.41,1.41,1.12,0.807,0.563,0.526}),"")
+  Formula: iferror(USD_GBP*lookup(if(S84="",E84,S84),{0,1,5,10,100,500,2500},{0.0,1.41,1.41,1.12,0.807,0.563,0.526}),"")
  Col: U8
    0
-  Formula: iferror(if(S86="",E86,S86)*T86,"")
+  Formula: iferror(if(S84="",E84,S84)*T84,"")
  Col: V8
    <a href="https://octopart.com/click/track?ai=8078&sig=09ffc11&sid=819&ppid=883816&vpid=259429167&ct=offers">2534387</a>
  Col: W8
    2207
  Col: Y8
    0
-  Formula: iferror(lookup(if(X86="",E86,X86),{0,1,10,30,100,500,1000},{0.0,1.1235,0.853,0.8043,0.7538,0.7322,0.7214}),"")
+  Formula: iferror(lookup(if(X84="",E84,X84),{0,1,10,30,100,500,1000},{0.0,1.1235,0.853,0.8043,0.7538,0.7322,0.7214}),"")
  Col: Z8
    0
-  Formula: iferror(if(X86="",E86,X86)*Y86,"")
+  Formula: iferror(if(X84="",E84,X84)*Y84,"")
  Col: AA8
    <a href="https://octopart.com/click/track?ai=8078&sig=01be0ae&sid=27971&ppid=883816&vpid=499990478&ct=offers">C233582</a>
  Col: AB8
    255
  Col: AD8
    0
-  Formula: iferror(lookup(if(AC86="",E86,AC86),{0,1,10,50,100,1000,10000},{0.0,1.38,1.17,1.17,0.96,0.626,0.584}),"")
+  Formula: iferror(lookup(if(AC84="",E84,AC84),{0,1,10,50,100,1000,10000},{0.0,1.38,1.17,1.17,0.96,0.626,0.584}),"")
  Col: AE8
    0
-  Formula: iferror(if(AC86="",E86,AC86)*AD86,"")
+  Formula: iferror(if(AC84="",E84,AC84)*AD84,"")
  Col: AF8
    <a href="https://octopart.com/click/track?ai=8078&sig=0348706&sid=2401&ppid=883816&vpid=78247006&ct=offers">863MC14504BDTR2G</a>
  Col: AG8
    5000
  Col: AI8
    0
-  Formula: iferror(lookup(if(AH86="",E86,AH86),{0,1,5,10,100,2500,5000,10000,15000,20000,25000,250000},{0.0,1.55,1.55,1.39,1.08,0.463,0.451,0.439,0.427,0.415,0.408,0.403}),"")
+  Formula: iferror(lookup(if(AH84="",E84,AH84),{0,1,5,10,100,2500,5000,10000,15000,20000,25000,250000},{0.0,1.55,1.55,1.39,1.08,0.463,0.451,0.439,0.427,0.415,0.408,0.403}),"")
  Col: AJ8
    0
-  Formula: iferror(if(AH86="",E86,AH86)*AI86,"")
+  Formula: iferror(if(AH84="",E84,AH84)*AI84,"")
  Col: AK8
    <a href="https://octopart.com/click/track?ai=8078&sig=060ee05&sid=2402&ppid=883816&vpid=260423003&ct=offers">81Y6572</a>
  Col: AL8
    4220
  Col: AN8
    0
-  Formula: iferror(USD_GBP*lookup(if(AM86="",E86,AM86),{0,1,10,100,500,1000,2500,5000},{0.0,0.824,0.824,0.615,0.544,0.429,0.401,0.4}),"")
+  Formula: iferror(USD_GBP*lookup(if(AM84="",E84,AM84),{0,1,10,100,500,1000,2500,5000},{0.0,0.824,0.824,0.615,0.544,0.429,0.401,0.4}),"")
  Col: AO8
    0
-  Formula: iferror(if(AM86="",E86,AM86)*AN86,"")
+  Formula: iferror(if(AM84="",E84,AM84)*AN84,"")
  Col: AP8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=03c7a11&sid=10022&ppid=883816&vpid=562640331&ct=offers">1869328</a>
-Row: 87
+Row: 85
  Col: A8
    "U202,U302,U402,U502"
  Col: B8
@@ -3305,86 +3179,156 @@ Row: 87
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G8
    0
-  Formula: iferror(E87*F87,"")
+  Formula: iferror(E85*F85,"")
  Col: M8
    "NonStk"
  Col: O8
    0
-  Formula: iferror(lookup(if(N87="",E87,N87),{0,1,25,100,1000},{0.0,2.22,2.1388,2.0566,2.025}),"")
+  Formula: iferror(lookup(if(N85="",E85,N85),{0,1,25,100,1000},{0.0,2.22,2.1388,2.0566,2.025}),"")
  Col: P8
    0
-  Formula: iferror(if(N87="",E87,N87)*O87,"")
+  Formula: iferror(if(N85="",E85,N85)*O85,"")
  Col: Q8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0eda97f&sid=459&ppid=19971113&vpid=37591752&ct=offers">336-2115-5-ND</a>
  Col: R8
    "NonStk"
  Col: T8
    0
-  Formula: iferror(USD_GBP*lookup(if(S87="",E87,S87),{0,1,10,25,50,100},{0.0,2.39,2.21,2.03,2.0,1.96}),"")
+  Formula: iferror(USD_GBP*lookup(if(S85="",E85,S85),{0,1,10,25,50,100},{0.0,2.39,2.21,2.03,2.0,1.96}),"")
  Col: U8
    0
-  Formula: iferror(if(S87="",E87,S87)*T87,"")
+  Formula: iferror(if(S85="",E85,S85)*T85,"")
  Col: V8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0de621c&sid=819&ppid=19971113&vpid=139684241&ct=offers">2423337</a>
  Col: AB8
    1873
  Col: AD8
    0
-  Formula: iferror(lookup(if(AC87="",E87,AC87),{0,1,10,50,100,1000,10000},{0.0,2.34,2.34,2.34,2.34,2.34,2.34}),"")
+  Formula: iferror(lookup(if(AC85="",E85,AC85),{0,1,10,50,100,1000,10000},{0.0,2.34,2.34,2.34,2.34,2.34,2.34}),"")
  Col: AE8
    0
-  Formula: iferror(if(AC87="",E87,AC87)*AD87,"")
+  Formula: iferror(if(AC85="",E85,AC85)*AD85,"")
  Col: AF8
    <a href="https://octopart.com/click/track?ai=8078&sig=091c79e&sid=2401&ppid=19971113&vpid=39393905&ct=offers">634SI8660BABIS1</a>
  Col: AG8
    "NonStk"
  Col: AI8
    0
-  Formula: iferror(lookup(if(AH87="",E87,AH87),{0,1,10,25,50,100},{0.0,2.58,2.51,2.46,2.42,2.37}),"")
+  Formula: iferror(lookup(if(AH85="",E85,AH85),{0,1,10,25,50,100},{0.0,2.58,2.51,2.46,2.42,2.37}),"")
  Col: AJ8
    0
-  Formula: iferror(if(AH87="",E87,AH87)*AI87,"")
+  Formula: iferror(if(AH85="",E85,AH85)*AI85,"")
  Col: AK8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0faa394&sid=2402&ppid=19971113&vpid=120973261&ct=offers">54X5750</a>
  Col: AL8
    24
  Col: AN8
    0
-  Formula: iferror(USD_GBP*lookup(if(AM87="",E87,AM87),{0,1,10,15,20,25,48,96,240,480},{0.0,1.69,1.66,1.61,1.59,1.57,1.619,1.571,1.522,1.458}),"")
+  Formula: iferror(USD_GBP*lookup(if(AM85="",E85,AM85),{0,1,10,15,20,25,48,96,240,480},{0.0,1.69,1.66,1.61,1.59,1.57,1.619,1.571,1.522,1.458}),"")
  Col: AO8
    0
-  Formula: iferror(if(AM87="",E87,AM87)*AN87,"")
+  Formula: iferror(if(AM85="",E85,AM85)*AN85,"")
  Col: AP8
    <a href="https://octopart.com/click/track?ai=8078&sig=04464b3&sid=10022&ppid=19971113&vpid=199134852&ct=offers">7532529</a>
  Col: AQ8
    "NonStk"
  Col: AS8
    0
-  Formula: iferror(USD_EUR*lookup(if(AR87="",E87,AR87),{0,1,3,10},{0.0,3.26,2.88,2.59}),"")
+  Formula: iferror(USD_EUR*lookup(if(AR85="",E85,AR85),{0,1,3,10},{0.0,3.26,2.88,2.59}),"")
  Col: AT8
    0
-  Formula: iferror(if(AR87="",E87,AR87)*AS87,"")
+  Formula: iferror(if(AR85="",E85,AR85)*AS85,"")
  Col: AU8
    <a href="https://octopart.com/click/track?ai=8078&sig=046ccb3&sid=1532&ppid=19971113&vpid=709188773&ct=offers">SI8660BABIS1</a>
-Row: 88
+Row: 86
  Col: A8
-   "U2901,U2902"
+   "U203-U205,U303-U305,U403-U405,U503-U505,U601-U607"
  Col: B8
-   "MCP4922-E_P"
+   "FOD814"
  Col: C8
-   "DIP-14_W7.62mm"
+   "SMDIP-4_W9.53mm"
  Col: D8
-   "MCP4922-E/P-ND"
+   <a href="http://datasheet.octopart.com/FOD814ASD-ON-Semiconductor-datasheet-11629806.pdf">FOD814ASD</a>
  Col: E8
-   200
-  Formula: CEILING(BoardQty*2.0,1)
+   1900
+  Formula: CEILING(BoardQty*19.0,1)
  Col: F8
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G8
    0
-  Formula: iferror(E88*F88,"")
-Row: 89
+  Formula: iferror(E86*F86,"")
+ Col: M8
+   "NonStk"
+ Col: O8
+   0
+  Formula: iferror(lookup(if(N86="",E86,N86),{0,1,10,100,1000,2000,5000},{0.0,0.61,0.401,0.265,0.20464,0.18492,0.17445}),"")
+ Col: P8
+   0
+  Formula: iferror(if(N86="",E86,N86)*O86,"")
+ Col: Q8
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0bd3a00&sid=459&ppid=84327511&vpid=452465575&ct=offers">FOD814ASDCT-ND</a>
+ Col: R8
+   "NonStk"
+ Col: T8
+   0
+  Formula: iferror(USD_GBP*lookup(if(S86="",E86,S86),{0,1,5,10,100,500,1000},{0.0,0.548,0.548,0.417,0.206,0.183,0.159}),"")
+ Col: U8
+   0
+  Formula: iferror(if(S86="",E86,S86)*T86,"")
+ Col: V8
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0dec7c3&sid=819&ppid=84327511&vpid=440254039&ct=offers">2322513</a>
+ Col: W8
+   475
+ Col: Y8
+   0
+  Formula: iferror(lookup(if(X86="",E86,X86),{0,1,10,30,100,500,1000},{0.0,0.3556,0.2733,0.2581,0.243,0.2363,0.2329}),"")
+ Col: Z8
+   0
+  Formula: iferror(if(X86="",E86,X86)*Y86,"")
+ Col: AA8
+   <a href="https://octopart.com/click/track?ai=8078&sig=06c3226&sid=27971&ppid=84327511&vpid=496216716&ct=offers">C258231</a>
+ Col: AB8
+   "NonStk"
+ Col: AD8
+   0
+  Formula: iferror(lookup(if(AC86="",E86,AC86),{0,1,10,50,100,1000,10000},{0.0,0.58,0.401,0.401,0.265,0.204,0.166}),"")
+ Col: AE8
+   0
+  Formula: iferror(if(AC86="",E86,AC86)*AD86,"")
+ Col: AF8
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01da11a&sid=2401&ppid=84327511&vpid=438583339&ct=offers">512FOD814ASD</a>
+ Col: AG8
+   "NonStk"
+ Col: AI8
+   0
+  Formula: iferror(lookup(if(AH86="",E86,AH86),{0,1,5,10,100,500,1000,2000,3000,6000,12000,18000,30000},{0.0,0.584,0.57,0.391,0.263,0.236,0.214,0.214,0.209,0.194,0.183,0.171,0.164}),"")
+ Col: AJ8
+   0
+  Formula: iferror(if(AH86="",E86,AH86)*AI86,"")
+ Col: AK8
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=061aa6d&sid=2402&ppid=84327511&vpid=439866489&ct=offers">63W3020</a>
+ Col: AL8
+   225
+ Col: AN8
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM86="",E86,AM86),{0,1,25,125,250,500,750,1000,3000},{0.0,0.344,0.344,0.275,0.25,0.229,0.211,0.146,0.136}),"")
+ Col: AO8
+   0
+  Formula: iferror(if(AM86="",E86,AM86)*AN86,"")
+ Col: AP8
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=04c0156&sid=10022&ppid=84327511&vpid=562639752&ct=offers">1844790</a>
+ Col: AQ8
+   3
+ Col: AS8
+   0
+  Formula: iferror(USD_EUR*lookup(if(AR86="",E86,AR86),{0,1,2,10,50,250,1000},{0.0,0.3021,0.3021,0.1623,0.145,0.1174,0.1088}),"")
+ Col: AT8
+   0
+  Formula: iferror(if(AR86="",E86,AR86)*AS86,"")
+ Col: AU8
+   <a href="https://octopart.com/click/track?ai=8078&sig=00ca31f&sid=1532&ppid=84327511&vpid=709119622&ct=offers">FOD814ASD</a>
+Row: 87
  Col: A8
    "U701,U1201,U1401,U1901,U2401"
  Col: B8
@@ -3401,134 +3345,134 @@ Row: 89
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G8
    0
-  Formula: iferror(E89*F89,"")
+  Formula: iferror(E87*F87,"")
  Col: M8
    635
  Col: O8
    0
-  Formula: iferror(lookup(if(N89="",E89,N89),{0,1,10,25,100,250,500,1000,2500},{0.0,3.34,2.997,2.8332,2.4556,2.32968,2.0904,1.98396,1.98396}),"")
+  Formula: iferror(lookup(if(N87="",E87,N87),{0,1,10,25,100,250,500,1000,2500},{0.0,3.34,2.997,2.8332,2.4556,2.32968,2.0904,1.98396,1.98396}),"")
  Col: P8
    0
-  Formula: iferror(if(N89="",E89,N89)*O89,"")
+  Formula: iferror(if(N87="",E87,N87)*O87,"")
  Col: Q8
    <a href="https://octopart.com/click/track?ai=8078&sig=090b872&sid=459&ppid=75179706&vpid=277833942&ct=offers">296-45059-1-ND</a>
  Col: R8
    970
  Col: T8
    0
-  Formula: iferror(USD_GBP*lookup(if(S89="",E89,S89),{0,1,10,25,50,100,250,500,1000},{0.0,2.79,2.22,2.1,1.91,1.72,1.56,1.5,1.25}),"")
+  Formula: iferror(USD_GBP*lookup(if(S87="",E87,S87),{0,1,10,25,50,100,250,500,1000},{0.0,2.79,2.22,2.1,1.91,1.72,1.56,1.5,1.25}),"")
  Col: U8
    0
-  Formula: iferror(if(S89="",E89,S89)*T89,"")
+  Formula: iferror(if(S87="",E87,S87)*T87,"")
  Col: V8
    <a href="https://octopart.com/click/track?ai=8078&sig=0f170f9&sid=819&ppid=75179706&vpid=584144267&ct=offers">3117606</a>
  Col: AB8
    12182
  Col: AD8
    0
-  Formula: iferror(lookup(if(AC89="",E89,AC89),{0,1,10,50,100,1000,10000},{0.0,3.33,3.0,2.84,2.33,1.68,1.61}),"")
+  Formula: iferror(lookup(if(AC87="",E87,AC87),{0,1,10,50,100,1000,10000},{0.0,3.33,3.0,2.84,2.33,1.68,1.61}),"")
  Col: AE8
    0
-  Formula: iferror(if(AC89="",E89,AC89)*AD89,"")
+  Formula: iferror(if(AC87="",E87,AC87)*AD87,"")
  Col: AF8
    <a href="https://octopart.com/click/track?ai=8078&sig=0cdfa5f&sid=2401&ppid=75179706&vpid=277694264&ct=offers">595OPA4197IDR</a>
  Col: AG8
    3448
  Col: AI8
    0
-  Formula: iferror(lookup(if(AH89="",E89,AH89),{0,1,10,25,50,100,250},{0.0,4.34,4.04,3.81,3.58,3.34,3.08}),"")
+  Formula: iferror(lookup(if(AH87="",E87,AH87),{0,1,10,25,50,100,250},{0.0,4.34,4.04,3.81,3.58,3.34,3.08}),"")
  Col: AJ8
    0
-  Formula: iferror(if(AH89="",E89,AH89)*AI89,"")
+  Formula: iferror(if(AH87="",E87,AH87)*AI87,"")
  Col: AK8
    <a href="https://octopart.com/click/track?ai=8078&sig=0bbbf45&sid=2402&ppid=75179706&vpid=585373316&ct=offers">33AH4611</a>
-Row: 90
- Col: A9
+Row: 88
+ Col: A8
    "U801,U901,U1001,U1101,U1501,U1601,U1701,U1801,U2001,U2101,U2201,U2301,U2501,U2601,U2701,U2801"
- Col: B9
+ Col: B8
    "SN6501"
- Col: C9
+ Col: C8
    "SN6501QDBVRQ1"
- Col: D9
+ Col: D8
    <a href="https://octopart.com/click/track?ai=8078&ct=datasheets&sig=04e6c66&at=physicalpart&sid=370&ppid=22292126&hlid=30066789">SN6501DBVR</a>
- Col: E9
+ Col: E8
    1600
   Formula: CEILING(BoardQty*16.0,1)
- Col: F9
+ Col: F8
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G9
+ Col: G8
    0
-  Formula: iferror(E90*F90,"")
- Col: M9
+  Formula: iferror(E88*F88,"")
+ Col: M8
    "NonStk"
- Col: O9
+ Col: O8
    0
-  Formula: iferror(lookup(if(N90="",E90,N90),{0,1,10,25,100,250,500,1000,3000},{0.0,2.06,1.854,1.7488,1.4901,1.3992,1.2243,1.1022,1.1022}),"")
- Col: P9
+  Formula: iferror(lookup(if(N88="",E88,N88),{0,1,10,25,100,250,500,1000,3000},{0.0,2.06,1.854,1.7488,1.4901,1.3992,1.2243,1.1022,1.1022}),"")
+ Col: P8
    0
-  Formula: iferror(if(N90="",E90,N90)*O90,"")
- Col: Q9
+  Formula: iferror(if(N88="",E88,N88)*O88,"")
+ Col: Q8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01bdab6&sid=459&ppid=22292126&vpid=114397484&ct=offers">296-37700-1-ND</a>
- Col: R9
+ Col: R8
    185
- Col: T9
+ Col: T8
    0
-  Formula: iferror(USD_GBP*lookup(if(S90="",E90,S90),{0,1,10,50,100,250,500,1000,2500},{0.0,1.74,1.33,1.19,1.04,0.912,0.887,0.7,0.674}),"")
- Col: U9
+  Formula: iferror(USD_GBP*lookup(if(S88="",E88,S88),{0,1,10,50,100,250,500,1000,2500},{0.0,1.74,1.33,1.19,1.04,0.912,0.887,0.7,0.674}),"")
+ Col: U8
    0
-  Formula: iferror(if(S90="",E90,S90)*T90,"")
- Col: V9
+  Formula: iferror(if(S88="",E88,S88)*T88,"")
+ Col: V8
    <a href="https://octopart.com/click/track?ai=8078&sig=0e6348b&sid=819&ppid=22292126&vpid=575368367&ct=offers">3008489</a>
- Col: AB9
+ Col: AB8
    "NonStk"
- Col: AD9
+ Col: AD8
    0
-  Formula: iferror(lookup(if(AC90="",E90,AC90),{0,1,10,50,100,1000,10000},{0.0,2.1,1.9,1.79,1.43,0.945,0.924}),"")
- Col: AE9
+  Formula: iferror(lookup(if(AC88="",E88,AC88),{0,1,10,50,100,1000,10000},{0.0,2.1,1.9,1.79,1.43,0.945,0.924}),"")
+ Col: AE8
    0
-  Formula: iferror(if(AC90="",E90,AC90)*AD90,"")
- Col: AF9
+  Formula: iferror(if(AC88="",E88,AC88)*AD88,"")
+ Col: AF8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=00234bb&sid=2401&ppid=22292126&vpid=165577733&ct=offers">595SN6501DBVR</a>
- Col: AG9
+ Col: AG8
    173
- Col: AI9
+ Col: AI8
    0
-  Formula: iferror(lookup(if(AH90="",E90,AH90),{0,1,10,25,50,100,250},{0.0,2.67,2.49,2.35,2.2,2.05,1.89}),"")
- Col: AJ9
+  Formula: iferror(lookup(if(AH88="",E88,AH88),{0,1,10,25,50,100,250},{0.0,2.67,2.49,2.35,2.2,2.05,1.89}),"")
+ Col: AJ8
    0
-  Formula: iferror(if(AH90="",E90,AH90)*AI90,"")
- Col: AK9
+  Formula: iferror(if(AH88="",E88,AH88)*AI88,"")
+ Col: AK8
    <a href="https://octopart.com/click/track?ai=8078&sig=01c24ad&sid=2402&ppid=22292126&vpid=578995212&ct=offers">28AH4969</a>
-Row: 91
- Col: A9
+Row: 89
+ Col: A8
    "U802,U902,U1002,U1102,U1502,U1602,U1702,U1802,U2002,U2102,U2202,U2302,U2502,U2602,U2702,U2802"
- Col: B9
+ Col: B8
    "78L05"
- Col: C9
+ Col: C8
    "SOT-223-3_TabPin2"
- Col: D9
+ Col: D8
    <a href="http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf">KA78L05AMTF</a>
- Col: E9
+ Col: E8
    1600
   Formula: CEILING(BoardQty*16.0,1)
- Col: F9
+ Col: F8
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: G9
+ Col: G8
    0
-  Formula: iferror(E91*F91,"")
- Col: R9
+  Formula: iferror(E89*F89,"")
+ Col: R8
    "NonStk"
- Col: T9
+ Col: T8
    0
-  Formula: iferror(USD_GBP*lookup(if(S91="",E91,S91),{0,1,5,50,100,150,250,500,1000,5000,10000},{0.0,0.318,0.318,0.283,0.152,0.152,0.134,0.116,0.098,0.092,0.083}),"")
- Col: U9
+  Formula: iferror(USD_GBP*lookup(if(S89="",E89,S89),{0,1,5,50,100,150,250,500,1000,5000,10000},{0.0,0.318,0.318,0.283,0.152,0.152,0.134,0.116,0.098,0.092,0.083}),"")
+ Col: U8
    0
-  Formula: iferror(if(S91="",E91,S91)*T91,"")
- Col: V9
+  Formula: iferror(if(S89="",E89,S89)*T89,"")
+ Col: V8
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=00abac0&sid=11744&ppid=84329329&vpid=440102667&ct=offers">2451050</a>
-Row: 92
+Row: 90
  Col: A9
    "U803,U903,U1003,U1103,U1503,U1603,U1703,U1803,U2003,U2103,U2203,U2303,U2503,U2603,U2703,U2803"
  Col: B9
@@ -3545,145 +3489,201 @@ Row: 92
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G9
    0
-  Formula: iferror(E92*F92,"")
+  Formula: iferror(E90*F90,"")
  Col: M9
    3376
  Col: O9
    0
-  Formula: iferror(lookup(if(N92="",E92,N92),{0,1,10,25,100,250,500,1000},{0.0,5.25,4.718,4.46,3.8653,3.66708,3.29046,2.805}),"")
+  Formula: iferror(lookup(if(N90="",E90,N90),{0,1,10,25,100,250,500,1000},{0.0,5.25,4.718,4.46,3.8653,3.66708,3.29046,2.805}),"")
  Col: P9
    0
-  Formula: iferror(if(N92="",E92,N92)*O92,"")
+  Formula: iferror(if(N90="",E90,N90)*O90,"")
  Col: Q9
    <a href="https://octopart.com/click/track?ai=8078&sig=042c90a&sid=459&ppid=71128859&vpid=252143868&ct=offers">516-2598-5-ND</a>
  Col: R9
    60
  Col: T9
    0
-  Formula: iferror(USD_GBP*lookup(if(S92="",E92,S92),{0,1,10,25,50,100},{0.0,4.83,3.69,3.47,3.26,3.04}),"")
+  Formula: iferror(USD_GBP*lookup(if(S90="",E90,S90),{0,1,10,25,50,100},{0.0,4.83,3.69,3.47,3.26,3.04}),"")
  Col: U9
    0
-  Formula: iferror(if(S92="",E92,S92)*T92,"")
+  Formula: iferror(if(S90="",E90,S90)*T90,"")
  Col: V9
    <a href="https://octopart.com/click/track?ai=8078&sig=0de2cb2&sid=819&ppid=71128859&vpid=255969701&ct=offers">1113924</a>
  Col: AB9
    1411
  Col: AD9
    0
-  Formula: iferror(lookup(if(AC92="",E92,AC92),{0,1,10,50,100,1000,10000},{0.0,4.96,4.21,4.21,3.65,3.11,3.11}),"")
+  Formula: iferror(lookup(if(AC90="",E90,AC90),{0,1,10,50,100,1000,10000},{0.0,4.96,4.21,4.21,3.65,3.11,3.11}),"")
  Col: AE9
    0
-  Formula: iferror(if(AC92="",E92,AC92)*AD92,"")
+  Formula: iferror(if(AC90="",E90,AC90)*AD90,"")
  Col: AF9
    <a href="https://octopart.com/click/track?ai=8078&sig=04ca814&sid=2401&ppid=71128859&vpid=254906812&ct=offers">630HCPL7520300E</a>
  Col: AG9
    60
  Col: AI9
    0
-  Formula: iferror(lookup(if(AH92="",E92,AH92),{0,1,10,25,50,100,250},{0.0,5.7,4.84,4.62,4.42,4.2,3.98}),"")
+  Formula: iferror(lookup(if(AH90="",E90,AH90),{0,1,10,25,50,100,250},{0.0,5.7,4.84,4.62,4.42,4.2,3.98}),"")
  Col: AJ9
    0
-  Formula: iferror(if(AH92="",E92,AH92)*AI92,"")
+  Formula: iferror(if(AH90="",E90,AH90)*AI90,"")
  Col: AK9
    <a href="https://octopart.com/click/track?ai=8078&sig=078f965&sid=2402&ppid=71128859&vpid=423869888&ct=offers">92K0370</a>
  Col: AQ9
    110
  Col: AS9
    0
-  Formula: iferror(USD_EUR*lookup(if(AR92="",E92,AR92),{0,1,3,10,50},{0.0,3.35,3.04,2.88,2.56}),"")
+  Formula: iferror(USD_EUR*lookup(if(AR90="",E90,AR90),{0,1,3,10,50},{0.0,3.35,3.04,2.88,2.56}),"")
  Col: AT9
    0
-  Formula: iferror(if(AR92="",E92,AR92)*AS92,"")
+  Formula: iferror(if(AR90="",E90,AR90)*AS90,"")
  Col: AU9
    <a href="https://octopart.com/click/track?ai=8078&sig=0d2f84f&sid=1532&ppid=71128859&vpid=707818419&ct=offers">HCPL7520300E</a>
+Row: 91
+ Col: A9
+   "U1202#1"
+ Col: B9
+   "LM4040 - p1/2"
+ Col: C9
+   "SOT-23"
+ Col: D9
+   <a href="http://www.tme.eu/fr/Document/ced3461ed31ea70a3c416fb648e0cde7/APE8865-3.pdf">LM4040DEX3-3.3+T</a>
+ Col: E9
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: F9
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G9
+   0
+  Formula: iferror(E91*F91,"")
+ Col: M9
+   27
+ Col: O9
+   0
+  Formula: iferror(lookup(if(N91="",E91,N91),{0,1,10,25,100,250,500,1000,2500},{0.0,0.74,0.661,0.6272,0.5152,0.4816,0.4256,0.364,0.364}),"")
+ Col: P9
+   0
+  Formula: iferror(if(N91="",E91,N91)*O91,"")
+ Col: Q9
+   <a href="https://octopart.com/click/track?ai=8078&sig=0500764&sid=459&ppid=39622607&vpid=444884022&ct=offers">LM4040DEX3-3.3+TCT-ND</a>
+ Col: R9
+   2611
+ Col: T9
+   0
+  Formula: iferror(USD_GBP*lookup(if(S91="",E91,S91),{0,1,10,100,150,500,1000,2500,5000},{0.0,0.567,0.481,0.327,0.327,0.311,0.283,0.277,0.272}),"")
+ Col: U9
+   0
+  Formula: iferror(if(S91="",E91,S91)*T91,"")
+ Col: V9
+   <a href="https://octopart.com/click/track?ai=8078&sig=0bb6d6e&sid=11744&ppid=39622607&vpid=252252279&ct=offers">2511252</a>
+ Col: AB9
+   "NonStk"
+ Col: AD9
+   0
+  Formula: iferror(lookup(if(AC91="",E91,AC91),{0,1,10,50,100,1000,10000},{0.0,0.74,0.661,0.628,0.51,0.373,0.372}),"")
+ Col: AE9
+   0
+  Formula: iferror(if(AC91="",E91,AC91)*AD91,"")
+ Col: AF9
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0c05be9&sid=2401&ppid=39622607&vpid=165380952&ct=offers">700LM4040DEX33.3T</a>
+ Col: AG9
+   2411
+ Col: AI9
+   0
+  Formula: iferror(lookup(if(AH91="",E91,AH91),{0,1,10,25,50,100,250},{0.0,0.73,0.656,0.622,0.619,0.478,0.422}),"")
+ Col: AJ9
+   0
+  Formula: iferror(if(AH91="",E91,AH91)*AI91,"")
+ Col: AK9
+   <a href="https://octopart.com/click/track?ai=8078&sig=070ed00&sid=2402&ppid=39622607&vpid=252529884&ct=offers">73Y1824</a>
+ Col: AL9
+   "NonStk"
+ Col: AN9
+   0
+  Formula: iferror(USD_GBP*lookup(if(AM91="",E91,AM91),{0,1,100,250,500,1000},{0.0,0.358,0.358,0.311,0.292,0.279}),"")
+ Col: AO9
+   0
+  Formula: iferror(if(AM91="",E91,AM91)*AN91,"")
+ Col: AP9
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0431880&sid=10022&ppid=39622607&vpid=591111640&ct=offers">1921462P</a>
+Row: 92
+ Col: A9
+   "U1202#2"
+ Col: B9
+   "LM4040 - p2/2"
+ Col: C9
+   "SOT-23"
+ Col: D9
+   <a href="http://www.tme.eu/fr/Document/ced3461ed31ea70a3c416fb648e0cde7/APE8865-3.pdf">LM4040DIX3-5.0+T</a>
+ Col: E9
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: F9
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: G9
+   0
+  Formula: iferror(E92*F92,"")
+ Col: M9
+   1478
+ Col: O9
+   0
+  Formula: iferror(lookup(if(N92="",E92,N92),{0,1,10,25,100,250,500,1000},{0.0,0.94,0.844,0.8012,0.6153,0.54376,0.51516,0.40068}),"")
+ Col: P9
+   0
+  Formula: iferror(if(N92="",E92,N92)*O92,"")
+ Col: Q9
+   <a href="https://octopart.com/click/track?ai=8078&sig=0f8dfea&sid=459&ppid=39622620&vpid=252007338&ct=offers">LM4040DIX3-5.0+TCT-ND</a>
+ Col: R9
+   1459
+ Col: T9
+   0
+  Formula: iferror(USD_GBP*lookup(if(S92="",E92,S92),{0,1,10,100,150,500,1000,2500,5000},{0.0,0.583,0.491,0.339,0.339,0.313,0.297,0.281,0.265}),"")
+ Col: U9
+   0
+  Formula: iferror(if(S92="",E92,S92)*T92,"")
+ Col: V9
+   <a href="https://octopart.com/click/track?ai=8078&sig=070f603&sid=11744&ppid=39622620&vpid=494602855&ct=offers">2909708</a>
+ Col: AB9
+   2202
+ Col: AD9
+   0
+  Formula: iferror(lookup(if(AC92="",E92,AC92),{0,1,10,50,100,1000,10000},{0.0,0.94,0.841,0.802,0.613,0.399,0.373}),"")
+ Col: AE9
+   0
+  Formula: iferror(if(AC92="",E92,AC92)*AD92,"")
+ Col: AF9
+   <a href="https://octopart.com/click/track?ai=8078&sig=0a9171f&sid=2401&ppid=39622620&vpid=179753948&ct=offers">700LM4040DIX35.0T</a>
+ Col: AG9
+   1459
+ Col: AI9
+   0
+  Formula: iferror(lookup(if(AH92="",E92,AH92),{0,1,10,25,50,100,250},{0.0,0.89,0.797,0.756,0.668,0.58,0.513}),"")
+ Col: AJ9
+   0
+  Formula: iferror(if(AH92="",E92,AH92)*AI92,"")
+ Col: AK9
+   <a href="https://octopart.com/click/track?ai=8078&sig=0520c42&sid=2402&ppid=39622620&vpid=494758317&ct=offers">68AC5236</a>
 Row: 93
  Col: A9
-   "U203-U205,U303-U305,U403-U405,U503-U505,U601-U607"
+   "U2901,U2902"
  Col: B9
-   "FOD814"
+   "MCP4922-E_P"
  Col: C9
-   "SMDIP-4_W9.53mm"
+   "DIP-14_W7.62mm"
  Col: D9
-   <a href="http://datasheet.octopart.com/FOD814ASD-ON-Semiconductor-datasheet-11629806.pdf">FOD814ASD</a>
+   "MCP4922-E/P-ND"
  Col: E9
-   1900
-  Formula: CEILING(BoardQty*19.0,1)
+   200
+  Formula: CEILING(BoardQty*2.0,1)
  Col: F9
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: G9
    0
   Formula: iferror(E93*F93,"")
- Col: M9
-   "NonStk"
- Col: O9
-   0
-  Formula: iferror(lookup(if(N93="",E93,N93),{0,1,10,100,1000,2000,5000},{0.0,0.61,0.401,0.265,0.20464,0.18492,0.17445}),"")
- Col: P9
-   0
-  Formula: iferror(if(N93="",E93,N93)*O93,"")
- Col: Q9
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0bd3a00&sid=459&ppid=84327511&vpid=452465575&ct=offers">FOD814ASDCT-ND</a>
- Col: R9
-   "NonStk"
- Col: T9
-   0
-  Formula: iferror(USD_GBP*lookup(if(S93="",E93,S93),{0,1,5,10,100,500,1000},{0.0,0.548,0.548,0.417,0.206,0.183,0.159}),"")
- Col: U9
-   0
-  Formula: iferror(if(S93="",E93,S93)*T93,"")
- Col: V9
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0dec7c3&sid=819&ppid=84327511&vpid=440254039&ct=offers">2322513</a>
- Col: W9
-   475
- Col: Y9
-   0
-  Formula: iferror(lookup(if(X93="",E93,X93),{0,1,10,30,100,500,1000},{0.0,0.3556,0.2733,0.2581,0.243,0.2363,0.2329}),"")
- Col: Z9
-   0
-  Formula: iferror(if(X93="",E93,X93)*Y93,"")
- Col: AA9
-   <a href="https://octopart.com/click/track?ai=8078&sig=06c3226&sid=27971&ppid=84327511&vpid=496216716&ct=offers">C258231</a>
- Col: AB9
-   "NonStk"
- Col: AD9
-   0
-  Formula: iferror(lookup(if(AC93="",E93,AC93),{0,1,10,50,100,1000,10000},{0.0,0.58,0.401,0.401,0.265,0.204,0.166}),"")
- Col: AE9
-   0
-  Formula: iferror(if(AC93="",E93,AC93)*AD93,"")
- Col: AF9
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01da11a&sid=2401&ppid=84327511&vpid=438583339&ct=offers">512FOD814ASD</a>
- Col: AG9
-   "NonStk"
- Col: AI9
-   0
-  Formula: iferror(lookup(if(AH93="",E93,AH93),{0,1,5,10,100,500,1000,2000,3000,6000,12000,18000,30000},{0.0,0.584,0.57,0.391,0.263,0.236,0.214,0.214,0.209,0.194,0.183,0.171,0.164}),"")
- Col: AJ9
-   0
-  Formula: iferror(if(AH93="",E93,AH93)*AI93,"")
- Col: AK9
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=061aa6d&sid=2402&ppid=84327511&vpid=439866489&ct=offers">63W3020</a>
- Col: AL9
-   225
- Col: AN9
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM93="",E93,AM93),{0,1,25,125,250,500,750,1000,3000},{0.0,0.344,0.344,0.275,0.25,0.229,0.211,0.146,0.136}),"")
- Col: AO9
-   0
-  Formula: iferror(if(AM93="",E93,AM93)*AN93,"")
- Col: AP9
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=04c0156&sid=10022&ppid=84327511&vpid=562639752&ct=offers">1844790</a>
- Col: AQ9
-   3
- Col: AS9
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR93="",E93,AR93),{0,1,2,10,50,250,1000},{0.0,0.3021,0.3021,0.1623,0.145,0.1174,0.1088}),"")
- Col: AT9
-   0
-  Formula: iferror(if(AR93="",E93,AR93)*AS93,"")
- Col: AU9
-   <a href="https://octopart.com/click/track?ai=8078&sig=00ca31f&sid=1532&ppid=84327511&vpid=709119622&ct=offers">FOD814ASD</a>
 Row: 94
  Col: A9
    "sbRIO_Power_output1301"

@@ -80,11 +80,11 @@ Row: 7
   Formula: iferror(J7*K7,"")
 Row: 8
  Col: A
-   "C10"
+   "C5"
  Col: B
-   "1uF"
+   "1nF"
  Col: I
-   "COMP-1nF"
+   "OTHERCOMP-1nF"
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -93,11 +93,11 @@ Row: 8
   Formula: iferror(J8*K8,"")
 Row: 9
  Col: A
-   "C5"
+   "C10"
  Col: B
-   "1nF"
+   "1uF"
  Col: I
-   "OTHERCOMP-1nF"
+   "COMP-1nF"
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)

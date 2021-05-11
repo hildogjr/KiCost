@@ -445,26 +445,6 @@ Row: 12
   Formula: iferror(F12*G12,"")
 Row: 13
  Col: A1
-   "SW4"
- Col: B1
-   "Wurth_431481031816"
- Col: C1
-   "Wurth_431481031816"
- Col: D1
-   "Wurth Elektronik"
- Col: E1
-   "431481"
- Col: F1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: G1
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: H1
-   0
-  Formula: iferror(F13*G13,"")
-Row: 14
- Col: A1
    "SW1-SW3,SW5-SW9"
  Col: B1
    "Wurth_431481031816"
@@ -477,6 +457,26 @@ Row: 14
  Col: F1
    800
   Formula: CEILING(BoardQty*8.0,1)
+ Col: G1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: H1
+   0
+  Formula: iferror(F13*G13,"")
+Row: 14
+ Col: A1
+   "SW4"
+ Col: B1
+   "Wurth_431481031816"
+ Col: C1
+   "Wurth_431481031816"
+ Col: D1
+   "Wurth Elektronik"
+ Col: E1
+   "431481"
+ Col: F1
+   100
+  Formula: CEILING(BoardQty*1.0,1)
  Col: G1
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))

@@ -68,19 +68,6 @@ Row: 7
   Formula: iferror(E7*F7,"")
 Row: 8
  Col: A
-   "C18,C19"
- Col: B
-   "2.2uF"
- Col: C
-   "SM0805"
- Col: E
-   200
-  Formula: CEILING(BoardQty*2,1)
- Col: G
-   0
-  Formula: iferror(E8*F8,"")
-Row: 9
- Col: A
    "C2,C4,C6-C17,C20-C24,C26,C31-C34,C41,C42,C45,C46,C51,C52,C55,C57,C59,C61-C65"
  Col: B
    "0.1uF"
@@ -91,8 +78,34 @@ Row: 9
   Formula: CEILING(BoardQty*38,1)
  Col: G
    0
+  Formula: iferror(E8*F8,"")
+Row: 9
+ Col: A
+   "C5"
+ Col: B
+   "NC"
+ Col: C
+   "SM0805"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: G
+   0
   Formula: iferror(E9*F9,"")
 Row: 10
+ Col: A1
+   "C18,C19"
+ Col: B1
+   "2.2uF"
+ Col: C1
+   "SM0805"
+ Col: E1
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: G1
+   0
+  Formula: iferror(E10*F10,"")
+Row: 11
  Col: A1
    "C37,C38"
  Col: B1
@@ -102,19 +115,6 @@ Row: 10
  Col: E1
    200
   Formula: CEILING(BoardQty*2,1)
- Col: G1
-   0
-  Formula: iferror(E10*F10,"")
-Row: 11
- Col: A1
-   "C5"
- Col: B1
-   "NC"
- Col: C1
-   "SM0805"
- Col: E1
-   100
-  Formula: CEILING(BoardQty*1,1)
  Col: G1
    0
   Formula: iferror(E11*F11,"")
@@ -237,19 +237,6 @@ Row: 20
   Formula: iferror(E20*F20,"")
 Row: 21
  Col: A2
-   "K19-K22"
- Col: B2
-   "RTE24005F"
- Col: C2
-   "RTE24005F"
- Col: E2
-   400
-  Formula: CEILING(BoardQty*4,1)
- Col: G2
-   0
-  Formula: iferror(E21*F21,"")
-Row: 22
- Col: A2
    "K2-K9,K15,K29-K32"
  Col: B2
    "IMO3TS"
@@ -258,6 +245,19 @@ Row: 22
  Col: E2
    1300
   Formula: CEILING(BoardQty*13,1)
+ Col: G2
+   0
+  Formula: iferror(E21*F21,"")
+Row: 22
+ Col: A2
+   "K19-K22"
+ Col: B2
+   "RTE24005F"
+ Col: C2
+   "RTE24005F"
+ Col: E2
+   400
+  Formula: CEILING(BoardQty*4,1)
  Col: G2
    0
   Formula: iferror(E22*F22,"")
@@ -276,19 +276,6 @@ Row: 23
   Formula: iferror(E23*F23,"")
 Row: 24
  Col: A2
-   "P12"
- Col: B2
-   "QSE-014-01-L-D-DP-A"
- Col: C2
-   "QSE-014-01-L-D-DP-A"
- Col: E2
-   100
-  Formula: CEILING(BoardQty*1,1)
- Col: G2
-   0
-  Formula: iferror(E24*F24,"")
-Row: 25
- Col: A2
    "P2,P3"
  Col: B2
    "DC_JACK"
@@ -299,8 +286,8 @@ Row: 25
   Formula: CEILING(BoardQty*2,1)
  Col: G2
    0
-  Formula: iferror(E25*F25,"")
-Row: 26
+  Formula: iferror(E24*F24,"")
+Row: 25
  Col: A2
    "P4-P9"
  Col: B2
@@ -312,8 +299,34 @@ Row: 26
   Formula: CEILING(BoardQty*6,1)
  Col: G2
    0
+  Formula: iferror(E25*F25,"")
+Row: 26
+ Col: A2
+   "P12"
+ Col: B2
+   "QSE-014-01-L-D-DP-A"
+ Col: C2
+   "QSE-014-01-L-D-DP-A"
+ Col: E2
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: G2
+   0
   Formula: iferror(E26*F26,"")
 Row: 27
+ Col: A2
+   "Q1-Q4"
+ Col: B2
+   "IRF530A"
+ Col: C2
+   "IRF530"
+ Col: E2
+   400
+  Formula: CEILING(BoardQty*4,1)
+ Col: G2
+   0
+  Formula: iferror(E27*F27,"")
+Row: 28
  Col: A2
    "Q5"
  Col: B2
@@ -325,8 +338,8 @@ Row: 27
   Formula: CEILING(BoardQty*1,1)
  Col: G2
    0
-  Formula: iferror(E27*F27,"")
-Row: 28
+  Formula: iferror(E28*F28,"")
+Row: 29
  Col: A2
    "Q7"
  Col: B2
@@ -336,19 +349,6 @@ Row: 28
  Col: E2
    100
   Formula: CEILING(BoardQty*1,1)
- Col: G2
-   0
-  Formula: iferror(E28*F28,"")
-Row: 29
- Col: A2
-   "Q1-Q4"
- Col: B2
-   "IRF530A"
- Col: C2
-   "IRF530"
- Col: E2
-   400
-  Formula: CEILING(BoardQty*4,1)
  Col: G2
    0
   Formula: iferror(E29*F29,"")
@@ -367,6 +367,71 @@ Row: 30
   Formula: iferror(E30*F30,"")
 Row: 31
  Col: A3
+   "R2-R6,R72,R75-R81,R87,R90-R96,R112-R114,R120-R123,R125-R135,R140-R147"
+ Col: B3
+   "0E"
+ Col: C3
+   "R0402"
+ Col: E3
+   4700
+  Formula: CEILING(BoardQty*47,1)
+ Col: G3
+   0
+  Formula: iferror(E31*F31,"")
+Row: 32
+ Col: A3
+   "R7-R46,R68-R71,R73,R74,R82-R86,R88,R89,R97,R148"
+ Col: B3
+   "10k"
+ Col: C3
+   "R0402"
+ Col: E3
+   5500
+  Formula: CEILING(BoardQty*55,1)
+ Col: G3
+   0
+  Formula: iferror(E32*F32,"")
+Row: 33
+ Col: A3
+   "R47-R63,R65-R67,R136-R139"
+ Col: B3
+   "100E"
+ Col: C3
+   "R0402"
+ Col: E3
+   2400
+  Formula: CEILING(BoardQty*24,1)
+ Col: G3
+   0
+  Formula: iferror(E33*F33,"")
+Row: 34
+ Col: A3
+   "R98,R100,R124"
+ Col: B3
+   "45k"
+ Col: C3
+   "R0402"
+ Col: E3
+   300
+  Formula: CEILING(BoardQty*3,1)
+ Col: G3
+   0
+  Formula: iferror(E34*F34,"")
+Row: 35
+ Col: A3
+   "R99,R101"
+ Col: B3
+   "27k"
+ Col: C3
+   "R0402"
+ Col: E3
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: G3
+   0
+  Formula: iferror(E35*F35,"")
+Row: 36
+ Col: A3
    "R102"
  Col: B3
    "240"
@@ -377,8 +442,8 @@ Row: 31
   Formula: CEILING(BoardQty*1,1)
  Col: G3
    0
-  Formula: iferror(E31*F31,"")
-Row: 32
+  Formula: iferror(E36*F36,"")
+Row: 37
  Col: A3
    "R103"
  Col: B3
@@ -390,8 +455,8 @@ Row: 32
   Formula: CEILING(BoardQty*1,1)
  Col: G3
    0
-  Formula: iferror(E32*F32,"")
-Row: 33
+  Formula: iferror(E37*F37,"")
+Row: 38
  Col: A3
    "R104,R107"
  Col: B3
@@ -403,8 +468,8 @@ Row: 33
   Formula: CEILING(BoardQty*2,1)
  Col: G3
    0
-  Formula: iferror(E33*F33,"")
-Row: 34
+  Formula: iferror(E38*F38,"")
+Row: 39
  Col: A3
    "R105,R108"
  Col: B3
@@ -416,73 +481,73 @@ Row: 34
   Formula: CEILING(BoardQty*2,1)
  Col: G3
    0
-  Formula: iferror(E34*F34,"")
-Row: 35
- Col: A3
-   "R106,R109"
- Col: B3
-   "100"
- Col: C3
-   "R0402"
- Col: E3
-   200
-  Formula: CEILING(BoardQty*2,1)
- Col: G3
-   0
-  Formula: iferror(E35*F35,"")
-Row: 36
- Col: A3
-   "R110,R118"
- Col: B3
-   "191M"
- Col: C3
-   "SM0805"
- Col: E3
-   200
-  Formula: CEILING(BoardQty*2,1)
- Col: G3
-   0
-  Formula: iferror(E36*F36,"")
-Row: 37
- Col: A3
-   "R111,R119"
- Col: B3
-   "10M"
- Col: C3
-   "SM0805"
- Col: E3
-   200
-  Formula: CEILING(BoardQty*2,1)
- Col: G3
-   0
-  Formula: iferror(E37*F37,"")
-Row: 38
- Col: A3
-   "R115"
- Col: B3
-   "0.1E_2.5W"
- Col: C3
-   "R_2.5W_Local"
- Col: E3
-   100
-  Formula: CEILING(BoardQty*1,1)
- Col: G3
-   0
-  Formula: iferror(E38*F38,"")
-Row: 39
- Col: A3
-   "R116,R117"
- Col: B3
-   "0E"
- Col: C3
-   "SM0805"
- Col: E3
-   200
-  Formula: CEILING(BoardQty*2,1)
- Col: G3
-   0
   Formula: iferror(E39*F39,"")
 Row: 40
+ Col: A4
+   "R106,R109"
+ Col: B4
+   "100"
+ Col: C4
+   "R0402"
+ Col: E4
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: G4
+   0
+  Formula: iferror(E40*F40,"")
+Row: 41
+ Col: A4
+   "R110,R118"
+ Col: B4
+   "191M"
+ Col: C4
+   "SM0805"
+ Col: E4
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: G4
+   0
+  Formula: iferror(E41*F41,"")
+Row: 42
+ Col: A4
+   "R111,R119"
+ Col: B4
+   "10M"
+ Col: C4
+   "SM0805"
+ Col: E4
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: G4
+   0
+  Formula: iferror(E42*F42,"")
+Row: 43
+ Col: A4
+   "R115"
+ Col: B4
+   "0.1E_2.5W"
+ Col: C4
+   "R_2.5W_Local"
+ Col: E4
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: G4
+   0
+  Formula: iferror(E43*F43,"")
+Row: 44
+ Col: A4
+   "R116,R117"
+ Col: B4
+   "0E"
+ Col: C4
+   "SM0805"
+ Col: E4
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: G4
+   0
+  Formula: iferror(E44*F44,"")
+Row: 45
  Col: A4
    "R149"
  Col: B4
@@ -494,8 +559,8 @@ Row: 40
   Formula: CEILING(BoardQty*1,1)
  Col: G4
    0
-  Formula: iferror(E40*F40,"")
-Row: 41
+  Formula: iferror(E45*F45,"")
+Row: 46
  Col: A4
    "R150"
  Col: B4
@@ -507,86 +572,8 @@ Row: 41
   Formula: CEILING(BoardQty*1,1)
  Col: G4
    0
-  Formula: iferror(E41*F41,"")
-Row: 42
- Col: A4
-   "R98,R100,R124"
- Col: B4
-   "45k"
- Col: C4
-   "R0402"
- Col: E4
-   300
-  Formula: CEILING(BoardQty*3,1)
- Col: G4
-   0
-  Formula: iferror(E42*F42,"")
-Row: 43
- Col: A4
-   "R99,R101"
- Col: B4
-   "27k"
- Col: C4
-   "R0402"
- Col: E4
-   200
-  Formula: CEILING(BoardQty*2,1)
- Col: G4
-   0
-  Formula: iferror(E43*F43,"")
-Row: 44
- Col: A4
-   "R2-R6,R72,R75-R81,R87,R90-R96,R112-R114,R120-R123,R125-R135,R140-R147"
- Col: B4
-   "0E"
- Col: C4
-   "R0402"
- Col: E4
-   4700
-  Formula: CEILING(BoardQty*47,1)
- Col: G4
-   0
-  Formula: iferror(E44*F44,"")
-Row: 45
- Col: A4
-   "R47-R63,R65-R67,R136-R139"
- Col: B4
-   "100E"
- Col: C4
-   "R0402"
- Col: E4
-   2400
-  Formula: CEILING(BoardQty*24,1)
- Col: G4
-   0
-  Formula: iferror(E45*F45,"")
-Row: 46
- Col: A4
-   "R7-R46,R68-R71,R73,R74,R82-R86,R88,R89,R97,R148"
- Col: B4
-   "10k"
- Col: C4
-   "R0402"
- Col: E4
-   5500
-  Formula: CEILING(BoardQty*55,1)
- Col: G4
-   0
   Formula: iferror(E46*F46,"")
 Row: 47
- Col: A4
-   "TP24,TP25"
- Col: B4
-   "TP-SMD"
- Col: C4
-   "TP_SMD"
- Col: E4
-   200
-  Formula: CEILING(BoardQty*2,1)
- Col: G4
-   0
-  Formula: iferror(E47*F47,"")
-Row: 48
  Col: A4
    "TP1-TP23"
  Col: B4
@@ -596,6 +583,19 @@ Row: 48
  Col: E4
    2300
   Formula: CEILING(BoardQty*23,1)
+ Col: G4
+   0
+  Formula: iferror(E47*F47,"")
+Row: 48
+ Col: A4
+   "TP24,TP25"
+ Col: B4
+   "TP-SMD"
+ Col: C4
+   "TP_SMD"
+ Col: E4
+   200
+  Formula: CEILING(BoardQty*2,1)
  Col: G4
    0
   Formula: iferror(E48*F48,"")
@@ -614,6 +614,32 @@ Row: 49
   Formula: iferror(E49*F49,"")
 Row: 50
  Col: A5
+   "U2-U5"
+ Col: B5
+   "74HC595"
+ Col: C5
+   "74HC595_SO-16"
+ Col: E5
+   400
+  Formula: CEILING(BoardQty*4,1)
+ Col: G5
+   0
+  Formula: iferror(E50*F50,"")
+Row: 51
+ Col: A5
+   "U6-U9"
+ Col: B5
+   "ULN2803A"
+ Col: C5
+   "ULN2803A_SOIC_18P_WIDE"
+ Col: E5
+   400
+  Formula: CEILING(BoardQty*4,1)
+ Col: G5
+   0
+  Formula: iferror(E51*F51,"")
+Row: 52
+ Col: A5
    "U10,U11"
  Col: B5
    "74LVCH8T245PW118"
@@ -624,8 +650,8 @@ Row: 50
   Formula: CEILING(BoardQty*2,1)
  Col: G5
    0
-  Formula: iferror(E50*F50,"")
-Row: 51
+  Formula: iferror(E52*F52,"")
+Row: 53
  Col: A5
    "U12,U13"
  Col: B5
@@ -637,8 +663,8 @@ Row: 51
   Formula: CEILING(BoardQty*2,1)
  Col: G5
    0
-  Formula: iferror(E51*F51,"")
-Row: 52
+  Formula: iferror(E53*F53,"")
+Row: 54
  Col: A5
    "U14"
  Col: B5
@@ -650,8 +676,8 @@ Row: 52
   Formula: CEILING(BoardQty*1,1)
  Col: G5
    0
-  Formula: iferror(E52*F52,"")
-Row: 53
+  Formula: iferror(E54*F54,"")
+Row: 55
  Col: A5
    "U15,U16"
  Col: B5
@@ -663,8 +689,8 @@ Row: 53
   Formula: CEILING(BoardQty*2,1)
  Col: G5
    0
-  Formula: iferror(E53*F53,"")
-Row: 54
+  Formula: iferror(E55*F55,"")
+Row: 56
  Col: A5
    "U17"
  Col: B5
@@ -674,32 +700,6 @@ Row: 54
  Col: E5
    100
   Formula: CEILING(BoardQty*1,1)
- Col: G5
-   0
-  Formula: iferror(E54*F54,"")
-Row: 55
- Col: A5
-   "U2-U5"
- Col: B5
-   "74HC595"
- Col: C5
-   "74HC595_SO-16"
- Col: E5
-   400
-  Formula: CEILING(BoardQty*4,1)
- Col: G5
-   0
-  Formula: iferror(E55*F55,"")
-Row: 56
- Col: A5
-   "U6-U9"
- Col: B5
-   "ULN2803A"
- Col: C5
-   "ULN2803A_SOIC_18P_WIDE"
- Col: E5
-   400
-  Formula: CEILING(BoardQty*4,1)
  Col: G5
    0
   Formula: iferror(E56*F56,"")

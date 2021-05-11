@@ -722,23 +722,23 @@ Row: 19
   Formula: iferror(H19*I19,"")
 Row: 20
  Col: A2
-   "prj0:SW4#1"
+   "prj0:SW1-prj0:SW3,prj0:SW5-prj0:SW9,prj1:SW1-prj1:SW3,prj1:SW5-prj1:SW9"
  Col: B2
-   "Wurth_431481031816 - p1/4"
+   "Wurth_431481031816"
  Col: C2
    "Wurth_431481031816"
  Col: D2
    "Wurth Elektronik"
  Col: E2
-   "431481"
+   "431481031816"
  Col: F2
-   100
-  Formula: BoardQty0*(1.0)
+   800
+  Formula: BoardQty0*(8.0)
  Col: G2
-   0
-  Formula: BoardQty1*(0.0)
+   800
+  Formula: BoardQty1*(8.0)
  Col: H2
-   100
+   1600
   Formula: CEILING(SUM(F20:G20),1)
  Col: I2
    0
@@ -748,9 +748,9 @@ Row: 20
   Formula: iferror(H20*I20,"")
 Row: 21
  Col: A2
-   "prj0:SW4#2"
+   "prj0:SW4#1"
  Col: B2
-   "Wurth_431481031816 - p2/4"
+   "Wurth_431481031816 - p1/4"
  Col: C2
    "Wurth_431481031816"
  Col: D2
@@ -774,9 +774,9 @@ Row: 21
   Formula: iferror(H21*I21,"")
 Row: 22
  Col: A2
-   "prj0:SW4#3"
+   "prj0:SW4#2"
  Col: B2
-   "Wurth_431481031816 - p3/4"
+   "Wurth_431481031816 - p2/4"
  Col: C2
    "Wurth_431481031816"
  Col: D2
@@ -800,15 +800,15 @@ Row: 22
   Formula: iferror(H22*I22,"")
 Row: 23
  Col: A2
-   "prj0:SW4#4"
+   "prj0:SW4#3"
  Col: B2
-   "Wurth_431481031816 - p4/4"
+   "Wurth_431481031816 - p3/4"
  Col: C2
    "Wurth_431481031816"
  Col: D2
    "Wurth Elektronik"
  Col: E2
-   "Q45"
+   "431481"
  Col: F2
    100
   Formula: BoardQty0*(1.0)
@@ -826,23 +826,23 @@ Row: 23
   Formula: iferror(H23*I23,"")
 Row: 24
  Col: A2
-   "prj0:SW1-prj0:SW3,prj0:SW5-prj0:SW9,prj1:SW1-prj1:SW3,prj1:SW5-prj1:SW9"
+   "prj0:SW4#4"
  Col: B2
-   "Wurth_431481031816"
+   "Wurth_431481031816 - p4/4"
  Col: C2
    "Wurth_431481031816"
  Col: D2
    "Wurth Elektronik"
  Col: E2
-   "431481031816"
+   "Q45"
  Col: F2
-   800
-  Formula: BoardQty0*(8.0)
+   100
+  Formula: BoardQty0*(1.0)
  Col: G2
-   800
-  Formula: BoardQty1*(8.0)
+   0
+  Formula: BoardQty1*(0.0)
  Col: H2
-   1600
+   100
   Formula: CEILING(SUM(F24:G24),1)
  Col: I2
    0

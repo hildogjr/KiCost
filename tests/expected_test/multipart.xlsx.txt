@@ -527,6 +527,26 @@ Row: 16
   Formula: iferror(F16*G16,"")
 Row: 17
  Col: A1
+   "SW1-SW3,SW5-SW9"
+ Col: B1
+   "Wurth_431481031816"
+ Col: C1
+   "Wurth_431481031816"
+ Col: D1
+   "Wurth Elektronik"
+ Col: E1
+   "431481031816"
+ Col: F1
+   800
+  Formula: CEILING(BoardQty*8.0,1)
+ Col: G1
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: H1
+   0
+  Formula: iferror(F17*G17,"")
+Row: 18
+ Col: A1
    "SW4#1"
  Col: B1
    "Wurth_431481031816 - p1/4"
@@ -544,8 +564,8 @@ Row: 17
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: H1
    0
-  Formula: iferror(F17*G17,"")
-Row: 18
+  Formula: iferror(F18*G18,"")
+Row: 19
  Col: A1
    "SW4#2"
  Col: B1
@@ -564,28 +584,28 @@ Row: 18
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
  Col: H1
    0
-  Formula: iferror(F18*G18,"")
-Row: 19
- Col: A1
-   "SW4#3"
- Col: B1
-   "Wurth_431481031816 - p3/4"
- Col: C1
-   "Wurth_431481031816"
- Col: D1
-   "Wurth Elektronik"
- Col: E1
-   "431481"
- Col: F1
-   100
-  Formula: CEILING(BoardQty*1.0,1)
- Col: G1
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: H1
-   0
   Formula: iferror(F19*G19,"")
 Row: 20
+ Col: A2
+   "SW4#3"
+ Col: B2
+   "Wurth_431481031816 - p3/4"
+ Col: C2
+   "Wurth_431481031816"
+ Col: D2
+   "Wurth Elektronik"
+ Col: E2
+   "431481"
+ Col: F2
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+ Col: G2
+   0
+  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+ Col: H2
+   0
+  Formula: iferror(F20*G20,"")
+Row: 21
  Col: A2
    "SW4#4"
  Col: B2
@@ -599,26 +619,6 @@ Row: 20
  Col: F2
    100
   Formula: CEILING(BoardQty*1.0,1)
- Col: G2
-   0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
- Col: H2
-   0
-  Formula: iferror(F20*G20,"")
-Row: 21
- Col: A2
-   "SW1-SW3,SW5-SW9"
- Col: B2
-   "Wurth_431481031816"
- Col: C2
-   "Wurth_431481031816"
- Col: D2
-   "Wurth Elektronik"
- Col: E2
-   "431481031816"
- Col: F2
-   800
-  Formula: CEILING(BoardQty*8.0,1)
  Col: G2
    0
   Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))

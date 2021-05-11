@@ -68,9 +68,8 @@ PART_REF_REGEX_NOT_ALLOWED = r'[\+\(\)\*\{}]'.format(SEPRTR)
 # modified by adding the project number identification followed
 # by `SEPRTR` definition.
 PART_REF_REGEX_SPECIAL_CHAR_REF = r'\+\-\=\s\_\.\(\)\$\*\&'  # Used in next definition only (because repeat).
-PART_REF_REGEX_STR = r'(?P<prefix>({p_str}(?P<prj>\d+){p_sp})?(?P<ref>[a-z{sc}\d]*[a-z{sc}]))(?P<num>((?P<ref_num>\d+(\.\d+)?)({sp}(?P<subpart_num>\d+))?)?)'
-PART_REF_REGEX = re.compile(PART_REF_REGEX_STR.format(p_str=PRJ_STR_DECLARE, p_sp=PRJPART_SPRTR, sc=PART_REF_REGEX_SPECIAL_CHAR_REF, sp=SUB_SEPRTR),
-                            re.IGNORECASE)
+PART_REF_REGEX_NUMBER = r'(?P<num>((?P<ref_num>\d+)({sp}(?P<subpart_num>\d+))?))'.format(sp=SUB_SEPRTR)
+PART_REF_REGEX = re.compile('^(?P<prefix>.*?)'+PART_REF_REGEX_NUMBER+'$', re.IGNORECASE)
 
 
 def get_manfcat(fields, f):
@@ -262,7 +261,7 @@ def group_parts(components, fields_merge, c_prjs):
                     if f == 'desc' and len(ocurrences) == 2 and '' in ocurrences:
                         value = ''.join(list(ocurrences.keys()))
                     else:
-                        value = SGROUP_SEPRTR.join([order_refs(r) + SEPRTR + ' ' + t for t, r in sorted(ocurrences.items())])
+                        value = SGROUP_SEPRTR.join([order_refs(r)[0] + SEPRTR + ' ' + t for t, r in sorted(ocurrences.items())])
                     for r in grp.refs:
                         components[r][f] = value
     if ultra_debug:
@@ -485,7 +484,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
                     eda_class.logger.warning(W_INCQTY+'Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.
                                              format(f=field_manf_dist_code, fl=field_manf_dist_code_prior,
-                                                    c=p_manf_code, cl=p_manf_code_prior, r=order_refs(list(components.keys()))))
+                                                    c=p_manf_code, cl=p_manf_code_prior, r=order_refs(list(components.keys()))[0]))
                 # Memorize prior value for the above warning
                 subpart_qty_prior = subpart_qty
                 p_manf_code_prior = p_manf_code
@@ -500,7 +499,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     # replicate the last one.
                     p_manf = subparts_manf[subparts_index]
                 elif p_manf is None:
-                    eda_class.logger.warning(W_REPMAN+'Asking to repeat a manufacturer in the first entry (at {})'.format(order_refs(list(components.keys()))))
+                    eda_class.logger.warning(W_REPMAN+'Asking to repeat a manufacturer in the first entry (at {})'.format(order_refs(list(components.keys()))[0]))
                 subpart_actual['manf'] = p_manf
                 # Update the reference of the part.
                 ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
@@ -622,6 +621,12 @@ def manf_code_qtypart(subpart):
     return qty, part
 
 
+def get_refnum(refnum):
+    if not refnum:
+        return 0
+    return int(re.match(r'\d+', refnum).group(0))
+
+
 def order_refs(refs, collapse=True, ref_sep=None):
     '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as opposite of `split_refs()`
        @param refs Designator/references `list()`.
@@ -631,9 +636,6 @@ def order_refs(refs, collapse=True, ref_sep=None):
     def convert_to_ranges(nums):
         # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
         # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
-
-        def get_refnum(refnum):
-            return int(re.match(r'\d+', refnum).group(0))
 
         def to_int(n):
             try:
@@ -675,15 +677,13 @@ def order_refs(refs, collapse=True, ref_sep=None):
     prefix_nums = OrderedDict()  # Contains a list of numbers for each distinct prefix.
     for ref in refs:
         # Partition each part reference into its beginning part prefix and ending number.
-        match = re.search(PART_REF_REGEX, ref)
+        match = PART_REF_REGEX.search(ref)
         if match:
             prefix = match.group('prefix')
             num = match.group('num')
         else:
-            # The not `match` happens when the user schematic designer use
-            # not recognized characters by the `PART_REF_REGEX` definition
-            # into the components references.
-            raise KiCostError('Not recognized characters used in <' + ref + '> reference. Advise: edit it in your BOM/Schematic.', ERR_FIELDS)
+            prefix = ref
+            num = ''
 
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
@@ -695,26 +695,29 @@ def order_refs(refs, collapse=True, ref_sep=None):
             prefix_nums[prefix] = convert_to_ranges(prefix_nums[prefix])
     else:
         for prefix in list(prefix_nums.keys()):
-            def get_refnum(refnum):
-                return int(re.match(r'\d+', refnum).group(0))
             prefix_nums[prefix].sort(key=get_refnum)
 
     # Combine the prefixes and number ranges back into part references.
     collapsed_refs = []
-    for prefix, nums in list(prefix_nums.items()):
+    first_ref = None
+    for prefix, nums in prefix_nums.items():
         for num in nums:
             if isinstance(num, list):
                 # Convert a range list into a collapsed part reference:
                 # e.g., 'R10-R15' from 'R':[10,15].
                 collapsed_refs.append('{0}{1}{3}{0}{2}'.format(prefix, num[0], num[-1], PART_SEQ_SEPRTR))
+                n = num[0]
             else:
                 # Convert a single number into a simple part reference: e.g., 'R10'.
                 collapsed_refs.append('{}{}'.format(prefix, num))
+                n = num
+            if first_ref is None:
+                first_ref = '{}{}'.format(prefix, n)
 
     if ref_sep is None:
         ref_sep = PART_NSEQ_SEPRTR
     collapsed_refs = ref_sep.join(collapsed_refs)
-    return collapsed_refs  # Return the collapsed par references.
+    return collapsed_refs, first_ref  # Return the collapsed par references.
 
 
 def split_refs(text):
@@ -767,7 +770,8 @@ def split_refs(text):
             # "\", "/" or "-" is part of the name. This characters have
             # to be removed.
             ref = re.sub(r'[\-\/\\]', '', ref.strip())
-            if not re.search(PART_REF_REGEX, ref).group('num'):
+            match = PART_REF_REGEX.search(ref)
+            if not match or not match.group('num'):
                 # Add a '0' number at the end to be compatible with KiCad/KiCost
                 # ref strings. This may be missing in the hand made BoM.
                 ref += '0'

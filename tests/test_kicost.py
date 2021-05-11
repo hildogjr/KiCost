@@ -209,7 +209,11 @@ def check_diff(filename):
     res = os.path.join(TESTDIR, 'result_test', filename)
     cmd = ['diff', '-u', ref, res]
     log_running('Comparing', cmd)
-    subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    try:
+        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as e:
+        logging.error(e.output.decode('utf-8'))
+        raise
 
 
 def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
@@ -556,9 +560,16 @@ def test_wrong_currency():
     check_errors([r'XXX is not a supported currency in STK1'])
 
 
-def disabled_test_rare_refs():
+def test_rare_refs_collapse():
     # File with a wrong currency
-    run_test_check('rare_refs', price=False)
+    name = 'rare_refs_collapse'
+    run_test_check(name, 'rare_refs', name, price=False)
+
+
+def test_rare_refs_no_collapse():
+    # File with a wrong currency, disable collapse
+    name = 'rare_refs_no_collapse'
+    run_test_check(name, 'rare_refs', name, extra=['--no_collapse'], price=False)
 
 
 class TestKicost(unittest.TestCase):

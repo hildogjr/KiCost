@@ -1,0 +1,86 @@
+Variables:
+BoardQty = 'rare_refs_no_collapse'!$G$1
+TotalCost = 'rare_refs_no_collapse'!$G$3
+global_part_data = 'rare_refs_no_collapse'!$A$5:$G$8
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "StickIt-RotaryEncoder Module"
+ Col: F
+   "Board Qty:"
+ Col: G
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "XESS Corp."
+ Col: F
+   "Unit Cost:"
+ Col: G
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "05/28/2016 12:02:31 AM"
+ Col: F
+   "Total Cost:"
+ Col: G
+   0
+  Formula: SUM(G7:G8)
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Footprint"
+ Col: D
+   "Manf#"
+ Col: E
+   "Qty"
+ Col: F
+   "Unit$"
+ Col: G
+   "Ext$"
+Row: 7
+ Col: A
+   "A:C1,A:C2,A:C3,B:C3,B:C4,B:C5"
+ Col: B
+   "1nF"
+ Col: D
+   "COMP-1nF"
+ Col: E
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+ Col: G
+   0
+  Formula: iferror(E7*F7,"")
+Row: 8
+ Col: A
+   "TEST+SUPPLY"
+ Col: B
+   "STICKIT2_HDR"
+ Col: C
+   "STICKIT2_HDR"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+ Col: G
+   0
+  Formula: iferror(E8*F8,"")
+Row: 11
+ Col: A1
+   "*FILTERED*"
