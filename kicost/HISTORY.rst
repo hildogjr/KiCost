@@ -7,6 +7,7 @@ History
 ______________________
 * Fix the Farnell import code order
 * Fix LCSC link and add BOM import links of all
+* Fix reference sorting and crashes
 * Add the user custom field capability to order quote
 * Add cell size adjust algorithm (use --max_column_width 0 to disable it)
 * Add ``pricing`` processing for subparts.
