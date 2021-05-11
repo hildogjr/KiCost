@@ -499,7 +499,8 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     # replicate the last one.
                     p_manf = subparts_manf[subparts_index]
                 elif p_manf is None:
-                    eda_class.logger.warning(W_REPMAN+'Asking to repeat a manufacturer in the first entry (at {})'.format(order_refs(list(components.keys()))[0]))
+                    eda_class.logger.warning(W_REPMAN+'Asking to repeat a manufacturer in the first entry (at {})'.
+                                             format(order_refs(list(components.keys()))[0]))
                 subpart_actual['manf'] = p_manf
                 # Update the reference of the part.
                 ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
