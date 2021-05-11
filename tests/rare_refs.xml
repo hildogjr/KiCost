@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>C:/xesscorp/PRODUCTS/StickIt_2nd_gen/StickIt-RotaryEncoder/pcb/StickIt-RotaryEncoder.sch</source>
+    <date>05/28/2016 12:02:31 AM</date>
+    <tool>Eeschema (2016-05-20 BZR 6816, Git 1e0a72d)-product</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>StickIt-RotaryEncoder Module</title>
+        <company>XESS Corp.</company>
+        <rev>2.0</rev>
+        <date>2016-05-11</date>
+        <source>StickIt-RotaryEncoder.sch</source>
+        <comment number="1" value="(c) 2016"/>
+        <comment number="2" value="OSHW"/>
+        <comment number="3" value="CC BY 4.0"/>
+        <comment number="4" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="TEST+SUPPLY">
+      <value>STICKIT2_HDR</value>
+      <footprint>XESS:STICKIT2_HDR</footprint>
+      <libsource lib="xess" part="STICKIT2_HDR"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5523634F</tstamp>
+    </comp>
+  </components>
+</export>

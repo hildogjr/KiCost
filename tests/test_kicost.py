@@ -556,6 +556,12 @@ def test_wrong_currency():
     check_errors([r'XXX is not a supported currency in STK1'])
 
 
+def disabled_test_rare_refs():
+    # File with a wrong currency
+    run_test_check('rare_refs', price=False)
+    #check_errors([r'XXX is not a supported currency in STK1'])
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):
