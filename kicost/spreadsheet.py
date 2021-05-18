@@ -176,7 +176,7 @@ class Spreadsheet(object):
             'col': 7,
             'level': 0,
             'label': 'Unit$',
-            'width': None,
+            'width': 9,  # Displays up to $99,999.999 without "###".
             'comment': 'Minimum unit price for each part across all distributors.',
             'static': False,
         },
@@ -212,7 +212,7 @@ class Spreadsheet(object):
             'col': 2,
             'level': 2,
             'label': 'Unit$',
-            'width': None,
+            'width': 9,  # Displays up to $99,999.999 without "###".
             'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price across distributors.'
         },
         'ext_price': {
@@ -255,6 +255,7 @@ class Spreadsheet(object):
         'too_few_purchased': {'bg_color': '#FFFF00'},
         'not_stocked': {'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'},
         'currency': {'valign': 'vcenter'},
+        'currency_unit': {'valign': 'vcenter'},
     }
 
     def __init__(self, workbook, worksheet_name, prj_info, currency=DEFAULT_CURRENCY):
@@ -280,10 +281,12 @@ class Spreadsheet(object):
             self.currency_alpha3 = currency.strip().upper()
             self.currency_symbol = get_currency_symbol(self.currency_alpha3, locale=DEFAULT_LANGUAGE)
             self.currency_format = self.currency_symbol + '#,##0.00'
+            # Unit cost can be very small for pasive components, we use one extra digit
+            self.currency_format_unit = self.currency_format + '0'
         else:
             self.currency_alpha3 = DEFAULT_CURRENCY
             self.currency_symbol = 'US$'
-            self.currency_format = ''
+            self.currency_format = self.currency_format_unit = ''
 
     def write_string(self, row, col, text, format):
         """ worksheet.write_string wrapper to keep track of the string sizes. """
@@ -416,6 +419,7 @@ def create_worksheet(ss, logger, parts):
     ss.WRK_FORMATS['total_cost_currency']['num_format'] = ss.currency_format
     ss.WRK_FORMATS['unit_cost_currency']['num_format'] = ss.currency_format
     ss.WRK_FORMATS['currency']['num_format'] = ss.currency_format
+    ss.WRK_FORMATS['currency_unit']['num_format'] = ss.currency_format_unit
     # Enable test wrap if we will adjust the sizes
     if ss.ADJUST_ROW_AND_COL_SIZE:
         ss.WRK_FORMATS['header']['text_wrap'] = True
@@ -756,11 +760,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         # If not asked to scrape, to correlate the prices and available quantities.
         if ss.DISTRIBUTORS:
             # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
-            wks.write_formula(
-                row, start_col + col['unit_price'],
-                '=MINA({})'.format(','.join(dist_unit_prices)),
-                ss.wrk_formats['currency']
-            )
+            wks.write_formula(row, start_col + col['unit_price'], '=MINA({})'.format(','.join(dist_unit_prices)), ss.wrk_formats['currency_unit'])
 
             # If part is unavailable from all distributors, color quantity cell red.
             wks.conditional_format(
@@ -1003,7 +1003,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                         needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                         purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                         qtys=','.join([str(q) for q in qtys]),
-                        prices=','.join([str(price_tiers[q]) for q in qtys])), ss.wrk_formats['currency'])
+                        prices=','.join([str(price_tiers[q]) for q in qtys])), ss.wrk_formats['currency_unit'])
             else:
                 wks.write_formula(
                     row, unit_price_col,
@@ -1012,7 +1012,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                         needed_qty=xl_rowcol_to_cell(row, part_qty_col),
                         purch_qty=xl_rowcol_to_cell(row, purch_qty_col),
                         qtys=','.join([str(q) for q in qtys]),
-                        prices=','.join([str(price_tiers[q]) for q in qtys])), ss.wrk_formats['currency'])
+                        prices=','.join([str(price_tiers[q]) for q in qtys])), ss.wrk_formats['currency_unit'])
 
             # Add a comment to the cell showing the qty/price breaks.
             dist_currency_symbol = get_currency_symbol(dist_currency, locale=DEFAULT_LANGUAGE)
