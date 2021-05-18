@@ -408,16 +408,16 @@ class formKiCost(wx.Frame):
         # LibreOffice identification
         global libreoffice_executable
         if sys.platform.startswith("win32"):
-            try:
-                libreoffice_reg = r'SOFTWARE\LibreOffice\LibreOffice'
-                libreoffice_installations = reg_enum_keys(libreoffice_reg, HKEY_LOCAL_MACHINE)
+            libreoffice_reg = r'SOFTWARE\LibreOffice\LibreOffice'
+            libreoffice_installations = reg_enum_keys(libreoffice_reg, HKEY_LOCAL_MACHINE)
+            if libreoffice_installations:
                 logger.log(DEBUG_OVERVIEW, 'Found LibreOffice {} installation(s) version(s).'.format(libreoffice_installations))
                 libreoffice_installations.sort(key=StrictVersion)
-                libreoffice_executable = reg_get(
-                        os.path.join(libreoffice_reg, os.path.join(libreoffice_reg, libreoffice_installations[-1]), 'Path'),
-                        HKEY_LOCAL_MACHINE)
+                # TODO: os.path.join(os.path.join?
+                libreoffice_executable = reg_get(os.path.join(libreoffice_reg, os.path.join(libreoffice_reg, libreoffice_installations[-1]), 'Path'),
+                                                 HKEY_LOCAL_MACHINE)
                 logger.log(DEBUG_OVERVIEW, 'Last LibreOffice installation at {}.'.format(libreoffice_executable))
-            except ConnectRegistryError:
+            else:
                 logger.log(DEBUG_OVERVIEW, 'LibreOffice not found.')
                 libreoffice_executable = None
         else:
