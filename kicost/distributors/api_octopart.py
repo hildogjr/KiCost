@@ -57,6 +57,7 @@ class api_octopart(distributor_class):
     type = 'api'
     enabled = False
     url = 'https://octopart.com/'  # Web site API information.
+    api_level = 3
 
     API_KEY = None
     API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
@@ -82,7 +83,10 @@ class api_octopart(distributor_class):
         # payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
         # response = requests.get(url, params=payload)
         if api_octopart.API_KEY:
-            url = 'http://octopart.com/api/v3/parts/match'
+            if api_octopart.api_level == 3:
+                url = 'http://octopart.com/api/v3/parts/match'
+            else:
+                url = 'http://octopart.com/api/v4/rest/parts/match'
             data = 'queries=%s' % json.dumps(query)
             data += '&apikey=' + api_octopart.API_KEY
         else:  # Not working 2021/04/28:
@@ -334,6 +338,13 @@ key = os.environ.get('KICOST_OCTOPART_KEY_V3')
 if key:
     api_octopart.API_KEY = key
     api_octopart.enabled = True
-elif os.environ.get('KICOST_OCTOPART'):
-    api_octopart.enabled = True
+    api_octopart.api_level = 3
+else:
+    key = os.environ.get('KICOST_OCTOPART_KEY_V4')
+    if key:
+        api_octopart.API_KEY = key
+        api_octopart.enabled = True
+        api_octopart.api_level = 4
+    elif os.environ.get('KICOST_OCTOPART'):
+        api_octopart.enabled = True
 distributor_class.register(api_octopart, 60)
