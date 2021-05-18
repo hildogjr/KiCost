@@ -453,34 +453,36 @@ def create_worksheet(ss, logger, parts):
     # Create a defined range for the global data.
     ss.define_name_range('global_part_data', START_ROW, START_COL, LAST_PART_ROW, next_col - 1)
 
-    for i_prj in range(len(prj_info)):
+    for i_prj, p_info in enumerate(prj_info):
         # Add project information to track the project (in a printed version of the BOM) and the date because of price variations.
         i_prj_str = str(i_prj) if len(prj_info) > 1 else ''
         if ss.INCLUDE_PRJ_INFO:
             wks.write(next_row, START_COL, 'Prj{}:'.format(i_prj_str), ss.wrk_formats['proj_info_field'])
-            wks.write(next_row, START_COL+1, prj_info[i_prj]['title'], ss.wrk_formats['proj_info'])
+            wks.write(next_row, START_COL+1, p_info['title'], ss.wrk_formats['proj_info'])
             wks.write(next_row+1, START_COL, 'Co.:', ss.wrk_formats['proj_info_field'])
-            wks.write(next_row+1, START_COL+1, prj_info[i_prj]['company'], ss.wrk_formats['proj_info'])
+            wks.write(next_row+1, START_COL+1, p_info['company'], ss.wrk_formats['proj_info'])
             wks.write(next_row+2, START_COL, 'Prj date:', ss.wrk_formats['proj_info_field'])
-            wks.write(next_row+2, START_COL+1, prj_info[i_prj]['date'], ss.wrk_formats['proj_info'])
+            wks.write(next_row+2, START_COL+1, p_info['date'], ss.wrk_formats['proj_info'])
 
         # Create the cell where the quantity of boards to assemble is entered.
         # Place the board qty cells near the right side of the global info.
-        ss.write_string(next_row, next_col - 2, 'Board Qty{}:'.format(i_prj_str), 'board_qty')
+        ss.write_string(next_row, next_col - 2, 'Board Qty' + i_prj_str + ':', 'board_qty')
         # Set initial board quantity.
-        wks.write(next_row, next_col - 1, ss.DEFAULT_BUILD_QTY, ss.wrk_formats['board_qty'])
+        wks.write(next_row, next_col - 1, p_info.get('qty', ss.DEFAULT_BUILD_QTY), ss.wrk_formats['board_qty'])
         # Define the named cell where the total board quantity can be found.
-        ss.define_name_ref('BoardQty{}'.format(i_prj_str), next_row, next_col - 1)
+        qty_name = 'BoardQty' + i_prj_str
+        ss.define_name_ref(qty_name, next_row, next_col - 1)
 
         # Create the cell to show total cost of board parts for each distributor.
-        ss.write_string(next_row + 2, next_col - 2, 'Total Cost{}:'.format(i_prj_str), 'total_cost_label')
+        ss.write_string(next_row + 2, next_col - 2, 'Total Cost' + i_prj_str + ':', 'total_cost_label')
         wks.write_comment(next_row + 2, next_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
         # Define the named cell where the total cost can be found.
-        ss.define_name_ref('TotalCost{}'.format(i_prj_str), next_row + 2, next_col - 1)
+        total_name = 'TotalCost' + i_prj_str
+        ss.define_name_ref(total_name, next_row + 2, next_col - 1)
 
         # Create the cell to show unit cost of (each project) board parts.
         ss.write_string(next_row+1, next_col - 2, 'Unit Cost{}:'.format(i_prj_str), 'unit_cost_label')
-        wks.write(next_row+1, next_col - 1, "=TotalCost{}/BoardQty{}".format(i_prj_str, i_prj_str), ss.wrk_formats['unit_cost_currency'])
+        wks.write(next_row+1, next_col - 1, "={}/{}".format(total_name, qty_name), ss.wrk_formats['unit_cost_currency'])
 
         next_row += ss.PRJ_INFO_ROWS
 
@@ -677,23 +679,23 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                 # the total quantity (to ceil use a Microsoft Excel
                 # compatible function.
                 total = 0
-                for i_prj in range(len(qty)):
-                    value = qty_n[i_prj] * ss.DEFAULT_BUILD_QTY
+                for i_prj, p_info in enumerate(ss.prj_info):
+                    value = qty_n[i_prj] * p_info.get('qty', ss.DEFAULT_BUILD_QTY)
                     total += value
                     id = str(i_prj)
-                    wks.write_formula(row,
-                                      start_col + col['qty_prj'+id],
-                                      qty[i_prj].format('BoardQty'+id),
-                                      ss.wrk_formats['part_format'],
-                                      value=value)
+                    # Qty.PrjN
+                    wks.write_formula(row, start_col + col['qty_prj'+id], qty[i_prj].format('BoardQty'+id), ss.wrk_formats['part_format'], value=value)
+                # Build Quantity
                 wks.write_formula(row, start_col + col['qty'],
                                   '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + col['qty_prj0']),
                                                                   xl_rowcol_to_cell(row, start_col + col['qty']-1)),
                                   ss.wrk_formats['part_format'],
                                   value=ceil(total))
             else:
+                # Build Quantity
                 wks.write_formula(row, start_col + col['qty'],
-                                  qty.format('BoardQty'), ss.wrk_formats['part_format'], value=ceil(qty_n * ss.DEFAULT_BUILD_QTY))
+                                  qty.format('BoardQty'), ss.wrk_formats['part_format'],
+                                  value=ceil(qty_n * ss.prj_info[0].get('qty', ss.DEFAULT_BUILD_QTY)))
         except KeyError:
             pass
 
@@ -813,7 +815,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         # Add each project board total.
         for i_prj in range(len(qty)):
             qty_col = start_col + col['qty_prj{}'.format(i_prj)]
-            wks.write(total_cost_row + 3*i_prj, total_cost_col,
+            wks.write(total_cost_row + ss.PRJ_INFO_ROWS*i_prj, total_cost_col,
                       '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
                             unit_price_range=unit_price_range,
                             qty_range=xl_range(PART_INFO_FIRST_ROW, qty_col,

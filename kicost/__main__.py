@@ -47,6 +47,7 @@ except wxPythonNotPresent:
     pass
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
 from .distributors import get_distributors_list, set_distributors_logger, set_distributors_progress  # noqa: E402
+from .spreadsheet import Spreadsheet  # noqa: E402
 from . import __version__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
 ###############################################################################
@@ -220,6 +221,9 @@ def main_real():
                         type=str,
                         default='USD',
                         help='Define the priority currency. Use the ISO4217 for currency (`USD`, `EUR`). Default: `USD`.')
+    parser.add_argument('-n', '--board_qty',
+                        nargs='+', type=int, default=[Spreadsheet.DEFAULT_BUILD_QTY], metavar='QTY',
+                        help='Number of boards to fabricate. Default: ' + str(Spreadsheet.DEFAULT_BUILD_QTY) + '.')
     parser.add_argument('--max_column_width',
                         nargs='?',
                         type=int,
@@ -326,6 +330,13 @@ def main_real():
             logger.error('The number of input files must match the number of variants.')
             sys.exit(2)
 
+        # Match the board quantities with the input files.
+        if len(args.board_qty) == 1:
+            args.board_qty = args.board_qty[0:1] * len(args.input)
+        if len(args.input) != len(args.board_qty):
+            logger.error('The number of input files must match the number of board quantities.')
+            sys.exit(2)
+
         # Otherwise get XML from the given file.
         for i in range(len(args.input)):
             # Set '.xml' as the default file extension, treating this exception
@@ -372,7 +383,7 @@ def main_real():
            user_fields=args.fields, ignore_fields=args.ignore_fields,
            group_fields=args.group_fields, translate_fields=args.translate_fields,
            variant=args.variant, dist_list=dist_list, currency=args.currency, max_column_width=args.max_column_width,
-           split_extra_fields=args.split_extra_fields)
+           split_extra_fields=args.split_extra_fields, board_qty=args.board_qty)
 
 
 def main():

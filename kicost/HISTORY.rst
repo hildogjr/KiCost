@@ -12,6 +12,7 @@ ______________________
 * Add cell size adjust algorithm (use --max_column_width 0 to disable it)
 * Add ``pricing`` processing for subparts.
 * Add ``--split_extra_fields`` to specify more fields to split for subparts.
+* Add ``--board_qty`` to specify the number of boards.
 
 
 1.1.4 (2020-03-24)

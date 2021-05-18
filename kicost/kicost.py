@@ -63,7 +63,7 @@ from .global_vars import (DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAIL
 from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
 from .edas import get_part_groups
 # Creation of the final XLSX spreadsheet.
-from .spreadsheet import create_spreadsheet
+from .spreadsheet import create_spreadsheet, Spreadsheet
 # Import the scrape API
 from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info
 
@@ -77,8 +77,9 @@ def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
     get_dist_parts_info(parts, dist_list, currency)
 
 
-def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields,
-           variant, dist_list, collapse_refs=True, suppress_cat_url=True, currency=DEFAULT_CURRENCY, max_column_width=DEF_MAX_COLUMN_W, split_extra_fields=[]):
+def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields, variant, dist_list, collapse_refs=True,
+           suppress_cat_url=True, currency=DEFAULT_CURRENCY, max_column_width=DEF_MAX_COLUMN_W, split_extra_fields=[],
+           board_qty=[Spreadsheet.DEFAULT_BUILD_QTY]):
     ''' @brief Run KiCost.
 
     Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.
@@ -99,6 +100,9 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     @param suppress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
     Default `True`.
     @param currency `str()` Currency in ISO4217. Default 'USD'.
+    @param max_column_width `int()` The maximum column width. If 0 disables cell size adjust. Default: DEF_MAX_COLUMN_W
+    @param split_extra_fields `list(str())` Fields that will be split using the multipart mechanism.
+    @param board_qty `list(int())` Board quantities for each project.
     '''
 
     # Add or remove field translations, ignore in case the trying to
@@ -132,6 +136,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     c_files = len(in_file)
     # Deal with some code exception (only one EDA tool or variant
     # informed in the multiple BOM files input).
+    # This code is never used when called from __main__
     if not isinstance(in_file, list):
         in_file = [in_file]
     if not isinstance(variant, list):
@@ -142,6 +147,10 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         eda_name = [eda_name] * c_files
     elif len(eda_name) != c_files:
         eda_name = [eda_name[0]] * c_files  # Assume the first as default.
+    if not isinstance(board_qty, list):
+        board_qty = [board_qty] * c_files
+    elif len(board_qty) != c_files:
+        board_qty = [board_qty[0]] * c_files  # Assume the first as default.
 
     # Get groups of identical parts.
     parts = OrderedDict()
@@ -159,14 +168,12 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
             logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
             qty_base = ['0'] * c_files  # Base zero quantity vector.
             for p_ref in list(p.keys()):
-                try:
-                    qty_base[i_prj] = p[p_ref]['manf#_qty']
-                except KeyError:
-                    qty_base[i_prj] = '1'
+                qty_base[i_prj] = p[p_ref].get('manf#_qty', '1')
                 p[p_ref]['manf#_qty'] = copy(qty_base)
                 p[PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p.pop(p_ref)
         parts.update(copy(p))
-        prj_info.append(copy(info))
+        info['qty'] = board_qty[i_prj]
+        prj_info.append(info)
 
     # Group part out of the module to be possible to merge different
     # project lists, ignore some field to merge given in the `group_fields`.

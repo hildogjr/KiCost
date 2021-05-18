@@ -442,6 +442,21 @@ def test_multiproject_1():
     run_test_check('multiproject_1', ['multipart', 'multipart2.xml'], 'multipart1+2')
 
 
+def test_board_qty_1():
+    # Check we can select 50 boards
+    run_test_check('test_board_qty_1', 'test', 'board_qty_1', ['--board_qty', '50'])
+
+
+def test_board_qty_2():
+    # Check we can select 50 and 70 boards
+    run_test_check('test_board_qty_2', ['multipart', 'multipart2.xml'], 'board_qty_2', ['--board_qty', '50', '70'])
+
+
+def test_board_qty_3():
+    # Check we can select 30 for all
+    run_test_check('test_board_qty_3', ['multipart', 'multipart2.xml'], 'board_qty_3', ['--board_qty', '30'])
+
+
 def test_variants_1():
     # This test doesn't have any kind of manf# or DISTRIBUTOR#
     test_name = 'variants_1'
