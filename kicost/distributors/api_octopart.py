@@ -99,7 +99,7 @@ class api_octopart(distributor_class):
         elif response.status_code == requests.codes['not_found']:  # 404
             raise KiCostError('Octopart server not found.', ERR_SCRAPE)
         elif response.status_code == 403 or 'Invalid API key' in response.text:
-            raise KiCostError('Octopart KEY invalid, registre one at "https://www.octopart.com".', ERR_SCRAPE)
+            raise KiCostError('Octopart KEY invalid, register one at "https://www.octopart.com".', ERR_SCRAPE)
         else:
             raise KiCostError('Octopart error: ' + str(response.status_code), ERR_SCRAPE)
 
