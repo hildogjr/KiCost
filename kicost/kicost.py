@@ -158,20 +158,22 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     for i_prj in range(c_files):
         p, info = get_part_groups(eda_name[i_prj], in_file[i_prj], ignore_fields, variant[i_prj], dist_list)
         p = subpartqty_split(p, dist_list, split_extra_fields)
-        # In the case of multiple BOM files, add the project prefix identifier
-        # to each reference/designator. Use the field 'manf#_qty' to control
-        # each quantity goes to each project creating a `list()` with length
-        # of number of BOM files. This vector will be used in the `group_parts()`
-        # to create groups with elements of same 'manf#' that came for different
-        # projects.
         if c_files > 1:
+            # In the case of multiple BOM files, add the project prefix identifier
+            # to each reference/designator. Use the field 'manf#_qty' to set
+            # the quantity for each project, creating a `list()` with length
+            # of number of BOM files. This vector will be used in the `group_parts()`
+            # to create groups with elements of same 'manf#' that came from different
+            # projects.
             logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
-            qty_base = ['0'] * c_files  # Base zero quantity vector.
-            for p_ref in list(p.keys()):
-                qty_base[i_prj] = p[p_ref].get('manf#_qty', '1')
-                p[p_ref]['manf#_qty'] = copy(qty_base)
-                p[PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p.pop(p_ref)
-        parts.update(copy(p))
+            qty_base = ['0'] * c_files  # Zero for all projects
+            for p_ref, p_fields in p.items():
+                # Copy the qty to the position corresponding to this project
+                qty_base[i_prj] = p_fields.get('manf#_qty', '1')
+                p_fields['manf#_qty'] = copy(qty_base)
+                parts[PRJ_STR_DECLARE + str(i_prj) + PRJPART_SPRTR + p_ref] = p_fields
+        else:
+            parts.update(p)
         info['qty'] = board_qty[i_prj]
         prj_info.append(info)
 
