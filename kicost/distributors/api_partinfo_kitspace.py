@@ -131,7 +131,7 @@ class api_partinfo_kitspace(distributor_class):
         data["query"] = query_type
         data["variables"] = variables
         response = requests.post(url, data)
-        distributor_class.log_response(response.text)
+        distributor_class.log_response(response)
         if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
             return results

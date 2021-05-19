@@ -136,11 +136,12 @@ class distributor_class(object):
                 f.write(data + '\n')
 
     @staticmethod
-    def log_response(text):
-        distributor_class.logger.log(DEBUG_HTTP_RESPONSES, text)
+    def log_response(response):
+        distributor_class.logger.log(DEBUG_HTTP_RESPONSES, response.text)
+        distributor_class.logger.log(DEBUG_HTTP_RESPONSES, 'Status Code: <{}>'.format(response.status_code))
         if os.environ.get('KICOST_LOG_HTTP'):
             with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
-                f.write(text + '\n')
+                f.write(response.text + '\n')
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod

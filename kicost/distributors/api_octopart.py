@@ -96,20 +96,24 @@ class api_octopart(distributor_class):
         data += '&include[]=datasheets'
         distributor_class.log_request(url, data)
         response = requests.get(url + '?' + data)
-        distributor_class.log_response(response.text)
-        if response.status_code == requests.codes['ok']:
+        distributor_class.log_response(response)
+        if response.status_code == 200:  # Ok
             results = json.loads(response.text).get('results')
             return results
-        elif response.status_code == requests.codes['not_found']:  # 404
+        elif response.status_code == 400:  # Bad request
+            raise KiCostError('Octopart missing apikey.', ERR_SCRAPE)
+        elif response.status_code == 404:  # Not found
             raise KiCostError('Octopart server not found.', ERR_SCRAPE)
         elif response.status_code == 403 or 'Invalid API key' in response.text:
             raise KiCostError('Octopart KEY invalid, register one at "https://www.octopart.com".', ERR_SCRAPE)
+        elif response.status_code == 429:  # Too many requests
+            raise KiCostError('Octopart request limit reached.', ERR_SCRAPE)
         else:
             raise KiCostError('Octopart error: ' + str(response.status_code), ERR_SCRAPE)
 
     def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
-        part_query = [{'reference': 1, 'sku': quote_plus(sku)}]
+        part_query = [{'reference': '1', 'sku': quote_plus(sku)}]
         results = api_octopart.query(part_query)
         if not results:
             return None
@@ -287,7 +291,7 @@ class api_octopart(distributor_class):
             # distributor SKU.
             manf_code = part.fields.get('manf#')
             if manf_code:
-                part_query = {'reference': i, 'mpn': quote_plus(manf_code)}
+                part_query = {'reference': str(i), 'mpn': quote_plus(manf_code)}
             else:
                 try:
                     # No MPN, so use the first distributor SKU that's found.
@@ -297,8 +301,10 @@ class api_octopart(distributor_class):
                         sku = part.fields.get(octopart_dist_sku + '#', '')
                         if sku:
                             break
+                    if not sku:
+                        continue
                     # Create the part query using SKU matching.
-                    part_query = {'reference': i, 'sku': quote_plus(sku)}
+                    part_query = {'reference': str(i), 'sku': quote_plus(sku)}
 
                     # Because was used the distributor (enrolled at Octopart list)
                     # despite the normal 'manf#' code, take the sub quantity as
