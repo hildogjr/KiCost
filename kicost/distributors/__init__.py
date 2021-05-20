@@ -80,5 +80,10 @@ def set_distributors_progress(cls):
     distributor_class.progress = cls
 
 
+def set_api_options(api, **kwargs):
+    ''' Configure an API (by name) '''
+    distributor_class.set_api_options(api, **kwargs)
+
+
 # Init distributor dict during import.
 init_distributor_dict()

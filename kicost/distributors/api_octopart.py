@@ -33,7 +33,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_ASSQTY
+from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -58,6 +58,8 @@ class api_octopart(distributor_class):
     enabled = False
     url = 'https://octopart.com/'  # Web site API information.
     api_level = 3
+    # Include specs and datasheets. Only in the Pro plan.
+    extended = False
 
     API_KEY = None
     API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
@@ -77,6 +79,24 @@ class api_octopart(distributor_class):
         if api_octopart.enabled:
             distributor_class.add_distributors(api_octopart.API_DISTRIBUTORS)
 
+    @staticmethod
+    def set_options(key, level):
+        if key:
+            if key.lower() == 'none':
+                api_octopart.enabled = False
+            else:
+                api_octopart.API_KEY = key
+                api_octopart.enabled = True
+        if level:
+            if level[-1] == 'p':
+                api_octopart.extended = True
+                level = level[:-1]
+            else:
+                api_octopart.extended = False
+            api_octopart.api_level = int(level)
+        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Octopart API configured to enabled {} key {} level {} extended {}'.
+                                     format(api_octopart.enabled, api_octopart.API_KEY, api_octopart.api_level, api_octopart.extended))
+
     def query(query):
         """Send query to Octopart and return results."""
         # url = 'http://octopart.com/api/v3/parts/match'
@@ -92,8 +112,9 @@ class api_octopart(distributor_class):
         else:  # Not working 2021/04/28:
             url = 'https://temp-octopart-proxy.kitspace.org/parts/match'
             data = 'queries=%s' % json.dumps(query)
-        data += '&include[]=specs'
-        data += '&include[]=datasheets'
+        if api_octopart.extended:
+            data += '&include[]=specs'
+            data += '&include[]=datasheets'
         distributor_class.log_request(url, data)
         response = requests.get(url + '?' + data)
         distributor_class.log_response(response)
@@ -340,6 +361,8 @@ class api_octopart(distributor_class):
         progress.close()
 
 
+# Configure the module from the environment
+# The command line will overwrite it using set_options()
 key = os.environ.get('KICOST_OCTOPART_KEY_V3')
 if key:
     api_octopart.API_KEY = key
@@ -352,5 +375,9 @@ else:
         api_octopart.enabled = True
         api_octopart.api_level = 4
     elif os.environ.get('KICOST_OCTOPART'):
+        # Currently this isn't useful, you can't do anything without a key.
+        # This is just in case we get a proxy running.
         api_octopart.enabled = True
+if os.environ.get('KICOST_OCTOPART_EXTENDED'):
+    api_octopart.extended = True
 distributor_class.register(api_octopart, 60)

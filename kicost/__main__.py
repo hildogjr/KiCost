@@ -46,7 +46,7 @@ except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
-from .distributors import get_distributors_list, set_distributors_logger, set_distributors_progress  # noqa: E402
+from .distributors import get_distributors_list, set_distributors_logger, set_distributors_progress, set_api_options  # noqa: E402
 from .spreadsheet import Spreadsheet  # noqa: E402
 from . import __version__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
@@ -246,6 +246,12 @@ def main_real():
     parser.add_argument('--unsetup',
                         action='store_true',
                         help='Undo the KiCost integration.')
+    parser.add_argument('--octopart_key',
+                        nargs='?', type=str, metavar='APIKEY',
+                        help='Enable Octopart using the provided key. Use None to disable it.')
+    parser.add_argument('--octopart_level',
+                        nargs='?', type=str, metavar='APILEVEL', choices=['3', '3p', '4', '4p'],
+                        help='Use Octopart API level. Can be 3 or 4 for basic API and 3p or 4p for PRO plans. Default: 4')
 
     args = parser.parse_args()
 
@@ -285,6 +291,9 @@ def main_real():
     else:
         # Output file was given. Make sure it has spreadsheet extension.
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
+
+    # Configure the Octopart API
+    set_api_options('Octopart', key=args.octopart_key, level=args.octopart_level)
 
     # Call the KiCost interface to alredy run KiCost, this is just to use the
     # saved user configurations of the graphical interface.

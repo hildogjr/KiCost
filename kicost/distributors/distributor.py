@@ -143,6 +143,13 @@ class distributor_class(object):
             with open(os.environ['KICOST_LOG_HTTP'], 'at') as f:
                 f.write(response.text + '\n')
 
+    @staticmethod
+    def set_api_options(api, **kwargs):
+        ''' Configure an API (by name) '''
+        # This is currently used to configure Octopart, which is always available.
+        # In the future some check could be added.
+        next(x for x in distributor_class.registered if x.name == api).set_options(**kwargs)
+
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod
     def query():
