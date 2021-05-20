@@ -675,33 +675,30 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             ss.write_string(row, n_col, field_value, cell_format)
 
         # Enter total part quantity needed.
-        try:
-            qty, qty_n = partgroup_qty(part)
-            if isinstance(qty, list):
-                # Multifiles BOM case, write each quantity and after,
-                # in the 'qty' column the total quantity as ceil of
-                # the total quantity (to ceil use a Microsoft Excel
-                # compatible function.
-                total = 0
-                for i_prj, p_info in enumerate(ss.prj_info):
-                    value = qty_n[i_prj] * p_info.get('qty', ss.DEFAULT_BUILD_QTY)
-                    total += value
-                    id = str(i_prj)
-                    # Qty.PrjN
-                    wks.write_formula(row, start_col + col['qty_prj'+id], qty[i_prj].format('BoardQty'+id), ss.wrk_formats['part_format'], value=value)
-                # Build Quantity
-                wks.write_formula(row, start_col + col['qty'],
-                                  '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + col['qty_prj0']),
-                                                                  xl_rowcol_to_cell(row, start_col + col['qty']-1)),
-                                  ss.wrk_formats['part_format'],
-                                  value=ceil(total))
-            else:
-                # Build Quantity
-                wks.write_formula(row, start_col + col['qty'],
-                                  qty.format('BoardQty'), ss.wrk_formats['part_format'],
-                                  value=ceil(qty_n * ss.prj_info[0].get('qty', ss.DEFAULT_BUILD_QTY)))
-        except KeyError:
-            pass
+        qty, qty_n = partgroup_qty(part)
+        if isinstance(qty, list):
+            # Multifiles BOM case, write each quantity and after,
+            # in the 'qty' column the total quantity as ceil of
+            # the total quantity (to ceil use a Microsoft Excel
+            # compatible function.
+            total = 0
+            for i_prj, p_info in enumerate(ss.prj_info):
+                value = qty_n[i_prj] * p_info.get('qty', ss.DEFAULT_BUILD_QTY)
+                total += value
+                id = str(i_prj)
+                # Qty.PrjN
+                wks.write_formula(row, start_col + col['qty_prj'+id], qty[i_prj].format('BoardQty'+id), ss.wrk_formats['part_format'], value=value)
+            # Build Quantity
+            wks.write_formula(row, start_col + col['qty'],
+                              '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + col['qty_prj0']),
+                                                              xl_rowcol_to_cell(row, start_col + col['qty']-1)),
+                              ss.wrk_formats['part_format'],
+                              value=ceil(total))
+        else:
+            # Build Quantity
+            wks.write_formula(row, start_col + col['qty'],
+                              qty.format('BoardQty'), ss.wrk_formats['part_format'],
+                              value=ceil(qty_n * ss.prj_info[0].get('qty', ss.DEFAULT_BUILD_QTY)))
 
         # Gather the cell references for calculating minimum unit price and part availability.
         dist_unit_prices = []
