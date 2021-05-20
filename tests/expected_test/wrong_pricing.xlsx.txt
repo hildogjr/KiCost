@@ -89,7 +89,7 @@ Row: 7
   Formula: CEILING(BoardQty*6,1)
  Col: G
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)))
+  Formula: MINA(K7)
  Col: H
    0
   Formula: iferror(F7*G7,"")
@@ -105,7 +105,7 @@ Row: 8
   Formula: CEILING(BoardQty*4,1)
  Col: G
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)))
+  Formula: MINA(K8)
  Col: H
    0
   Formula: iferror(F8*G8,"")
@@ -119,7 +119,7 @@ Row: 9
   Formula: CEILING(BoardQty*1,1)
  Col: G
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)))
+  Formula: MINA(K9)
  Col: H
    0
   Formula: iferror(F9*G9,"")
@@ -143,7 +143,7 @@ Row: 10
   Formula: CEILING(BoardQty*1.0,1)
  Col: G1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)))
+  Formula: MINA(K10)
  Col: H1
    0
   Formula: iferror(F10*G10,"")
@@ -159,7 +159,7 @@ Row: 11
   Formula: CEILING(BoardQty*1,1)
  Col: G1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)))
+  Formula: MINA(K11)
  Col: H1
    0
   Formula: iferror(F11*G11,"")
@@ -179,7 +179,7 @@ Row: 12
   Formula: CEILING(BoardQty*2.0,1)
  Col: G1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)))
+  Formula: MINA(K12)
  Col: H1
    0
   Formula: iferror(F12*G12,"")
@@ -205,7 +205,7 @@ Row: 13
   Formula: CEILING(BoardQty*1,1)
  Col: G1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+2)))
+  Formula: MINA(K13)
  Col: H1
    0
   Formula: iferror(F13*G13,"")
@@ -218,7 +218,7 @@ Row: 15
    "Total Purchase:"
  Col: H1
    0
-  Formula: SUM(INDIRECT(ADDRESS(ROW(),COLUMN(Local_part_data)+3)))
+  Formula: SUM(L15)
  Col: J1
    0
   Formula: IFERROR(IF(OR(J7:J13),COUNTIFS(J7:J13,">0",L7:L13,"<>")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")

@@ -222,7 +222,7 @@ Row: 7
   Formula: CEILING(BoardQty*1.0,1)
  Col: F
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J7,O7,T7,Y7,AD7,AI7,AN7,AS7)
  Col: G
    0
   Formula: iferror(E7*F7,"")
@@ -290,7 +290,7 @@ Row: 8
   Formula: CEILING(BoardQty*2.0,1)
  Col: F
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J8,O8,T8,Y8,AD8,AI8,AN8,AS8)
  Col: G
    0
   Formula: iferror(E8*F8,"")
@@ -378,7 +378,7 @@ Row: 9
   Formula: CEILING(BoardQty*2.0,1)
  Col: F
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J9,O9,T9,Y9,AD9,AI9,AN9,AS9)
  Col: G
    0
   Formula: iferror(E9*F9,"")
@@ -466,7 +466,7 @@ Row: 10
   Formula: CEILING(BoardQty*1.0,1)
  Col: F1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J10,O10,T10,Y10,AD10,AI10,AN10,AS10)
  Col: G1
    0
   Formula: iferror(E10*F10,"")
@@ -544,7 +544,7 @@ Row: 11
   Formula: CEILING(BoardQty*1.0,1)
  Col: F1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J11,O11,T11,Y11,AD11,AI11,AN11,AS11)
  Col: G1
    0
   Formula: iferror(E11*F11,"")
@@ -632,7 +632,7 @@ Row: 12
   Formula: CEILING(BoardQty*1.0,1)
  Col: F1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J12,O12,T12,Y12,AD12,AI12,AN12,AS12)
  Col: G1
    0
   Formula: iferror(E12*F12,"")
@@ -720,7 +720,7 @@ Row: 13
   Formula: CEILING(BoardQty*1.0,1)
  Col: F1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J13,O13,T13,Y13,AD13,AI13,AN13,AS13)
  Col: G1
    0
   Formula: iferror(E13*F13,"")
@@ -748,7 +748,7 @@ Row: 14
   Formula: CEILING(BoardQty*1.0,1)
  Col: F1
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)))
+  Formula: MINA(J14,O14,T14,Y14,AD14,AI14,AN14,AS14)
  Col: G1
    0
   Formula: iferror(E14*F14,"")
@@ -769,7 +769,7 @@ Row: 16
    "Total Purchase:"
  Col: G1
    0
-  Formula: SUM(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+3)))
+  Formula: SUM(K16,P16,U16,Z16,AE16,AJ16,AO16,AT16)
  Col: H1
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: I1

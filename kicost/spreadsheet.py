@@ -449,10 +449,19 @@ def create_worksheet(ss, logger, parts):
     LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
     next_row = ss.PRJ_INFO_START
 
+    # Make a list of alphabetically-ordered distributors with web distributors before locals.
+    logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
+    if ss.SORT_DISTRIBUTORS:
+        web_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d).is_web()])
+        local_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d).is_local()])
+        dist_list = web_dists + local_dists
+    else:
+        dist_list = ss.DISTRIBUTORS
+
     # Load the global part information (not distributor-specific) into the sheet.
     # next_col = the column immediately to the right of the global data.
     # qty_col = the column where the quantity needed of each part is stored.
-    next_line, next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts)
+    next_line, next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
     ss.globals_width = next_col - 1
     # Create a defined range for the global data.
     ss.define_name_range('global_part_data', START_ROW, START_COL, LAST_PART_ROW, next_col - 1)
@@ -505,15 +514,6 @@ def create_worksheet(ss, logger, parts):
     # allow the distributor-specific part info to scroll.
     wks.freeze_panes(COL_HDR_ROW, next_col)
 
-    # Make a list of alphabetically-ordered distributors with web distributors before locals.
-    logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
-    if ss.SORT_DISTRIBUTORS:
-        web_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d).is_web()])
-        local_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d).is_local()])
-        dist_list = web_dists + local_dists
-    else:
-        dist_list = ss.DISTRIBUTORS
-
     # Load the part information from each distributor into the sheet.
     logger.log(DEBUG_OVERVIEW, 'Writing the distributor part information...')
     for dist in dist_list:
@@ -537,7 +537,7 @@ def create_worksheet(ss, logger, parts):
         ss.adjust_row_and_col_sizes(logger)
 
 
-def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, parts):
+def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, parts, dist_list):
     '''Add global part data to the spreadsheet.'''
 
     logger.log(DEBUG_OVERVIEW, 'Writing the global part information...')
@@ -597,8 +597,17 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             columns[user_field_id] = {'level': level, 'label': label, 'width': None, 'comment': comment, 'static': True}
 
     num_cols = len(columns_list)
-
     row = start_row  # Start building global section at this row.
+
+    # Compute the columns for each distributor
+    col_dist = start_col + num_cols
+    dist_width = len(ss.DISTRIBUTOR_COLUMNS)
+    if not ss.SUPPRESS_CAT_URL:
+        dist_width += 1
+    dist_cols = {}
+    for dist in dist_list:
+        dist_cols[dist] = col_dist
+        col_dist += dist_width
 
     # Add label for global section.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1, "Global Part Info", ss.wrk_formats['global'])
@@ -705,30 +714,24 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         dist_qty_avail = []
         dist_qty_purchased = []
         dist_code_avail = []
-        dist_ext_prices = []
         for dist in sorted(ss.DISTRIBUTORS):
-
             # Get the currencies used among all distributors.
             used_currencies.add(part.currency.get(dist, DEFAULT_CURRENCY))
-
-            # Get the name of the data range for this distributor.
-            dist_data_rng = '{}_part_data'.format(dist)
-
+            # Cells we use
+            col_dist = dist_cols[dist]
+            avail_cell = xl_rowcol_to_cell(row, col_dist+0)
+            purch_cell = xl_rowcol_to_cell(row, col_dist+1)
+            unit_cell = xl_rowcol_to_cell(row, col_dist+2)
+            cat_cell = xl_rowcol_to_cell(row, col_dist+4)
             # Get the contents of the unit price cell for this part (row) and distributor (column+offset).
-            dist_unit_prices.append('INDIRECT(ADDRESS(ROW(),COLUMN({})+2))'.format(dist_data_rng))
-
+            dist_unit_prices.append(unit_cell)
             # Get the contents of the quantity purchased cell for this part and distributor
             # unless the unit price is not a number in which case return 0.
-            dist_qty_purchased.append('IF(ISNUMBER(INDIRECT(ADDRESS(ROW(),COLUMN({0})+2))),INDIRECT(ADDRESS(ROW(),COLUMN({0})+1)),0)'.format(dist_data_rng))
-
+            dist_qty_purchased.append('IF(ISNUMBER({unit}),{purch},0)'.format(unit=unit_cell, purch=purch_cell))
             # Get the contents of the quantity available cell of this part from this distributor.
-            dist_qty_avail.append('INDIRECT(ADDRESS(ROW(),COLUMN({})+0))'.format(dist_data_rng))
-
+            dist_qty_avail.append(avail_cell)
             # Get the contents of the manufacture and distributors codes.
-            dist_code_avail.append('ISBLANK(INDIRECT(ADDRESS(ROW(),COLUMN({})+4)))'.format(dist_data_rng))
-
-            # Get the contents of the manufacture and distributors codes.
-            dist_ext_prices.append('INDIRECT(ADDRESS(ROW(),COLUMN({})+3))'.format(dist_data_rng))
+            dist_code_avail.append('ISBLANK({})'.format(cat_cell))
 
         # If part do not have manf# code or distributor codes, color quantity cell gray.
         wks.conditional_format(
@@ -833,6 +836,10 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         next_line = row + 1
         ss.write_string(next_line, start_col + col['unit_price'], 'Total Purchase:', 'total_cost_label')
         wks.write_comment(next_line, start_col + col['unit_price'], 'This is the total of your cart across all distributors.')
+        dist_ext_prices = []
+        for dist in sorted(ss.DISTRIBUTORS):
+            # Get the content of the extended price
+            dist_ext_prices.append(xl_rowcol_to_cell(next_line, dist_cols[dist]+3))
         wks.write(next_line, start_col + col['ext_price'], '=SUM({})'.format(','.join(dist_ext_prices)), ss.wrk_formats['total_cost_currency'])
         # Purchase general description, it may be used to distinguish carts of different projects.
         next_line = next_line + 1
@@ -886,7 +893,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     # Columns for the various types of distributor-specific part data.
     columns = deepcopy(ss.DISTRIBUTOR_COLUMNS)
     if not ss.SUPPRESS_CAT_URL:
-        # Add a extra column to the hyperlink.
+        # Add a extra column for the hyperlink.
         columns.update({'link': {
                             'col': 5,
                             'level': 2,
@@ -895,7 +902,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                             'comment': 'Distributor catalog link (ctrl-click).'
                         }})
         columns['part_num']['comment'] = 'Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.'
-    num_cols = len(list(columns.keys()))
+    num_cols = len(columns.keys())
 
     row = start_row  # Start building distributor section at this row.
 

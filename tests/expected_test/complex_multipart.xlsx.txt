@@ -264,7 +264,7 @@ Row: 7
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(we_part_data)+2)))
+  Formula: MINA(P7,U7,Z7,AE7,AJ7,AO7,AT7,AY7,BD7)
  Col: M
    0
   Formula: iferror(K7*L7,"")
@@ -312,7 +312,7 @@ Row: 8
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(we_part_data)+2)))
+  Formula: MINA(P8,U8,Z8,AE8,AJ8,AO8,AT8,AY8,BD8)
  Col: M
    0
   Formula: iferror(K8*L8,"")
@@ -360,7 +360,7 @@ Row: 9
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: MINA(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+2)),INDIRECT(ADDRESS(ROW(),COLUMN(we_part_data)+2)))
+  Formula: MINA(P9,U9,Z9,AE9,AJ9,AO9,AT9,AY9,BD9)
  Col: M
    0
   Formula: iferror(K9*L9,"")
@@ -381,7 +381,7 @@ Row: 11
    "Total Purchase:"
  Col: M1
    0
-  Formula: SUM(INDIRECT(ADDRESS(ROW(),COLUMN(arrow_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(digikey_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(farnell_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(lcsc_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(mouser_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(newark_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(rs_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(tme_part_data)+3)),INDIRECT(ADDRESS(ROW(),COLUMN(we_part_data)+3)))
+  Formula: SUM(Q11,V11,AA11,AF11,AK11,AP11,AU11,AZ11,BE11)
  Col: N1
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: O1
