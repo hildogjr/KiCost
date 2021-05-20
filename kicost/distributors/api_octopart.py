@@ -57,7 +57,7 @@ class api_octopart(distributor_class):
     type = 'api'
     enabled = False
     url = 'https://octopart.com/'  # Web site API information.
-    api_level = 3
+    api_level = 4
     # Include specs and datasheets. Only in the Pro plan.
     extended = False
 
