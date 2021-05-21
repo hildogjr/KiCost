@@ -97,6 +97,7 @@ class api_octopart(distributor_class):
         distributor_class.logger.log(DEBUG_OBSESSIVE, 'Octopart API configured to enabled {} key {} level {} extended {}'.
                                      format(api_octopart.enabled, api_octopart.API_KEY, api_octopart.api_level, api_octopart.extended))
 
+    @staticmethod
     def query(query):
         """Send query to Octopart and return results."""
         # url = 'http://octopart.com/api/v3/parts/match'
@@ -136,6 +137,7 @@ class api_octopart(distributor_class):
         else:
             raise KiCostError('Octopart error: ' + str(response.status_code), ERR_SCRAPE)
 
+    @staticmethod
     def sku_to_mpn(sku):
         """Find manufacturer part number associated with a distributor SKU."""
         part_query = [{'reference': '1', 'sku': quote_plus(sku)}]
@@ -151,6 +153,7 @@ class api_octopart(distributor_class):
         mpn_cnts = Counter(mpns)
         return mpn_cnts.most_common(1)[0][0]  # Return the most common MPN.
 
+    @staticmethod
     def skus_to_mpns(parts, distributors):
         """Find manufaturer's part number for all parts with just distributor SKUs."""
         for i, part in enumerate(parts):
@@ -182,6 +185,7 @@ class api_octopart(distributor_class):
             mpn_cnts = Counter(mpns)
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
+    @staticmethod
     def query_part_info(parts, distributors, currency):
         """Fill-in the parts with price/qty/etc info from Octopart."""
         distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
