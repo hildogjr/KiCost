@@ -85,5 +85,15 @@ def set_api_options(api, **kwargs):
     distributor_class.set_api_options(api, **kwargs)
 
 
+def set_api_status(api, enabled):
+    ''' Enable/Disable a particular API '''
+    distributor_class.set_api_status(api, enabled)
+
+
+def get_api_status(api):
+    ''' Find if an API is enabled '''
+    return distributor_class.get_api_status(api)
+
+
 # Init distributor dict during import.
 init_distributor_dict()

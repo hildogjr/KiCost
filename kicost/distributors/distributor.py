@@ -144,11 +144,27 @@ class distributor_class(object):
                 f.write(response.text + '\n')
 
     @staticmethod
+    def _get_api(api):
+        # We currently assume the API is registered
+        return next(x for x in distributor_class.registered if x.name == api)
+
+    @staticmethod
     def set_api_options(api, **kwargs):
         ''' Configure an API (by name) '''
         # This is currently used to configure Octopart, which is always available.
         # In the future some check could be added.
-        next(x for x in distributor_class.registered if x.name == api).set_options(**kwargs)
+        distributor_class._get_api(api).set_options(**kwargs)
+
+    @staticmethod
+    def set_api_status(api, enabled):
+        ''' Enable/Disable a particular API '''
+        print(api, enabled)
+        distributor_class._get_api(api).enabled = enabled
+
+    @staticmethod
+    def get_api_status(api):
+        ''' Find if an API is enabled '''
+        return distributor_class._get_api(api).enabled
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod

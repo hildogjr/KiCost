@@ -46,7 +46,8 @@ except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
-from .distributors import get_distributors_list, set_distributors_logger, set_distributors_progress, set_api_options  # noqa: E402
+from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, set_api_options, set_api_status,  # noqa: E402
+                           get_api_status)  # noqa: E402
 from .spreadsheet import Spreadsheet  # noqa: E402
 from . import __version__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
@@ -294,6 +295,12 @@ def main_real():
 
     # Configure the Octopart API
     set_api_options('Octopart', key=args.octopart_key, level=args.octopart_level)
+    if get_api_status('Octopart'):
+        # Disable KitSpace if Octopart is enabled.
+        # Mixing both could sound useful, but KitSpace uses Octopart, so any difference is most probably an error.
+        # Keeping them separated will help to solve the errors.
+        # Additionally: people with an Octopart key can help to offload KitSpace.
+        set_api_status('KitSpace', False)
 
     # Call the KiCost interface to alredy run KiCost, this is just to use the
     # saved user configurations of the graphical interface.

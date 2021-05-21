@@ -41,12 +41,6 @@ from .distributor import distributor_class
 __author__ = 'XESS Corporation'
 __webpage__ = 'info@xess.com'
 
-# SET: The following isn't need in all KiCost, I don't think is really needed here.
-#      If you think this is needed contact me, we can use the same tricks used in the rest of the code.
-# Python2/3 compatibility.
-# from future import standard_library
-# standard_library.install_aliases()
-
 OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 
 __all__ = ['api_octopart']
@@ -62,16 +56,17 @@ class api_octopart(distributor_class):
     extended = False
 
     API_KEY = None
-    API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'mouser', 'newark', 'rs', 'tme']
-    DIST_TRANSLATION = {  # Distributor translation.
-                        'arrow': 'Arrow Electronics, Inc.',
-                        'digikey': 'Digi-Key',
-                        'farnel': 'Farnell',
-                        'mouser': 'Mouser',
-                        'newark': 'Newark',
-                        'rs': 'RS Components',
-                        'tme': 'TME',
-                        'lcsc': 'LCSC',
+    API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']
+    DIST_TRANSLATION = {  # Distributor translation. Just a few supported.
+                        'Arrow Electronics, Inc.': 'arrow',
+                        'Arrow Electronics': 'arrow',
+                        'Digi-Key': 'digikey',
+                        'Farnell': 'farnell',
+                        'Mouser': 'mouser',
+                        'Newark': 'newark',
+                        'RS Components': 'rs',
+                        'TME': 'tme',
+                        'LCSC': 'lcsc',
                        }
 
     @staticmethod
@@ -87,6 +82,8 @@ class api_octopart(distributor_class):
             else:
                 api_octopart.API_KEY = key
                 api_octopart.enabled = True
+                # Register our distributors
+                api_octopart.init_dist_dict()
         if level:
             if level[-1] == 'p':
                 api_octopart.extended = True
@@ -188,12 +185,15 @@ class api_octopart(distributor_class):
     @staticmethod
     def get_part_info(query, parts, distributors, currency='USD'):
         """Query Octopart for quantity/price info and place it into the parts list."""
-
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
-
+        # Currency priority: 1: User specified, 2: USD, 3: EUR
+        currency_prio = [currency]
+        if currency != 'USD':
+            currency_prio.append('USD')
+        if currency != 'EUR':
+            currency_prio.append('EUR')
         results = api_octopart.query(query)
-
         # Loop through the response to the query and enter info into the parts list.
         for result in results:
             i = int(result['reference'])  # Get the index into the part dict.
@@ -203,51 +203,58 @@ class api_octopart(distributor_class):
 
                 # Assign the lifecycle status 'obsolete' (others possible: 'active'
                 # and 'not recommended for new designs') but not used.
-                specs = item.get('specs')
-                if specs:
-                    lifecycle_status = specs.get('lifecycle_status')
-                    if lifecycle_status:
-                        lifecycle_status = lifecycle_status['value'][0].lower()
-                        if lifecycle_status == 'obsolete':
-                            part.lifecycle = lifecycle_status
+                part.lifecycle = None
+                try:
+                    # API v4 (production, eol ...)
+                    part.lifecycle = item['specs']['lifecyclestatus']['value'][0].lower().split(' ')[0]
+                except KeyError:
+                    try:
+                        # API v3
+                        part.lifecycle = item['specs']['lifecycle_status']['value'][0].lower()
+                    except KeyError:
+                        pass
                 # Take the datasheet provided by the distributor. This will by used
                 # in the output spreadsheet if not provide any in the BOM/schematic.
                 # This will be signed in the file.
-                datasheets = item.get('datasheets')
-                if datasheets:
-                    part.datasheet = datasheets[0]['url']
+                try:
+                    part.datasheet = item['datasheets'][0]['url']
+                except (KeyError, IndexError):
+                    pass
 
                 for offer in item['offers']:
-
                     # Get the distributor who made the offer and add their
                     # price/qty info to the parts list if its one of the accepted distributors.
                     dist = dist_xlate.get(offer['seller']['name'], '')
                     if dist in distributors:
-
+                        price_tiers = {}
+                        part_qty_increment = float("inf")
                         # Get pricing information from this distributor.
-                        try:
-                            price_tiers = {}  # Empty dict in case of exception.
-                            dist_currency = list(offer['prices'].keys())
-                            parts.currency[dist] = dist_currency[0]
-                            price_tiers = {qty: float(price) for qty, price in list(offer['prices'].values())[0]}
+                        prices = offer['prices']
+                        if prices:
+                            for curr in currency_prio:
+                                if curr in prices:
+                                    part.currency[dist] = curr
+                                    price_l = prices[curr]
+                                    break
+                            else:
+                                # Use the first entry
+                                part.currency[dist], price_l = next(iter(prices.items()))
+                            price_tiers = {qty: float(price) for qty, price in price_l}
                             # Combine price lists for multiple offers from the same distributor
                             # to build a complete list of cut-tape and reeled components.
                             if dist not in part.price_tiers:
                                 part.price_tiers[dist] = {}
                             part.price_tiers[dist].update(price_tiers)
-                        except Exception:
-                            pass  # Price list is probably missing so leave empty default dict in place.
-
-                        # Compute the quantity increment between the lowest two prices.
-                        # This will be used to distinguish the cut-tape from the reeled components.
-                        try:
-                            part_break_qtys = sorted(price_tiers.keys())
-                            part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
-                        except Exception:
-                            # This will happen if there are not enough entries in the price/qty list.
-                            # As a stop-gap measure, just assign infinity to the part increment.
-                            # A better alternative may be to examine the packaging field of the offer.
-                            part_qty_increment = float("inf")
+                            # Compute the quantity increment between the lowest two prices.
+                            # This will be used to distinguish the cut-tape from the reeled components.
+                            try:
+                                part_break_qtys = sorted(price_tiers.keys())
+                                part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
+                            except IndexError:
+                                # This will happen if there are not enough entries in the price/qty list.
+                                # As a stop-gap measure, just assign infinity to the part increment.
+                                # A better alternative may be to examine the packaging field of the offer.
+                                pass
 
                         # Select the part SKU, web page, and available quantity.
                         # Each distributor can have different stock codes for the same part in different
@@ -264,13 +271,15 @@ class api_octopart(distributor_class):
                         #      at the distributor profile.
                         if not part.part_num.get(dist):
                             qty_avail = part.qty_avail.get(dist)
-                            if not qty_avail or (offer.get('in_stock_quantity') and qty_avail < offer.get('in_stock_quantity')):
-                                # Keeps the information of more availability.
-                                part.qty_avail[dist] = offer.get('in_stock_quantity')
+                            in_stock_quantity = offer.get('in_stock_quantity')
+                            if not qty_avail or (in_stock_quantity and qty_avail < in_stock_quantity):
+                                # Keep the information with more availability.
+                                part.qty_avail[dist] = in_stock_quantity
                             moq = part.moq.get(dist)
-                            if not moq or (offer.get('moq') and moq > offer.get('moq')):
+                            moq_offer = offer.get('moq')
+                            if not moq or (moq_offer and moq > moq_offer):
                                 # Save the link, stock code, ... of the page for minimum purchase.
-                                part.moq[dist] = offer.get('moq')  # Minimum order qty.
+                                part.moq[dist] = moq_offer  # Minimum order qty.
                                 part.part_num[dist] = offer.get('sku')
                                 part.url[dist] = offer.get('product_url')
                                 part.qty_increment[dist] = part_qty_increment
@@ -279,23 +288,22 @@ class api_octopart(distributor_class):
                             # This part looks more like a cut-tape version, so
                             # update the SKU, web page, and available quantity.
                             qty_avail = part.qty_avail.get(dist)
-                            if not qty_avail or (offer.get('in_stock_quantity') and qty_avail < offer.get('in_stock_quantity')):
-                                # Keeps the information of more availability.
-                                part.qty_avail[dist] = offer.get('in_stock_quantity')
+                            in_stock_quantity = offer.get('in_stock_quantity')
+                            if not qty_avail or (in_stock_quantity and qty_avail < in_stock_quantity):
+                                # Keep the information with more availability.
+                                part.qty_avail[dist] = in_stock_quantity
+                            # Check for a valid SKU
+                            dist_part_num = offer.get('sku', '')
                             ign_stock_code = distributor_class.get_distributor_info(dist).ignore_cat
-                            # TODO dist_part_num wan't defined, I copied it from KitSpace API
-                            dist_part_num = offer.get('sku', '').get('part', '')
                             valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
-                            if valid_part and \
-                                (not part.part_num.get(dist) or
-                                 (part_qty_increment < part.qty_increment.get(dist)) or
-                                 (not part.moq.get(dist) or (offer.get('moq') and part.moq.get(dist) > offer.get('moq')))):
+                            moq_offer = offer.get('moq')
+                            if (valid_part and (not part.part_num.get(dist) or (part_qty_increment < part.qty_increment.get(dist)) or
+                                                (not part.moq.get(dist) or (moq_offer and part.moq.get(dist) > moq_offer)))):
                                 # Save the link, stock code, ... of the page for minimum purchase.
-                                part.moq[dist] = offer.get('moq')  # Minimum order qty.
-                                part.part_num[dist] = offer.get('sku')
+                                part.moq[dist] = moq_offer  # Minimum order qty.
+                                part.part_num[dist] = dist_part_num
                                 part.url[dist] = offer.get('product_url')
                                 part.qty_increment[dist] = part_qty_increment
-
                         # Don't bother with any extra info from the distributor.
                         part.info_dist[dist] = {}
 
@@ -326,46 +334,41 @@ class api_octopart(distributor_class):
             if manf_code:
                 part_query = '{"reference": "'+str(i)+'", "mpn": "'+quote_plus(manf_code)+'"}'
             else:
-                try:
-                    # No MPN, so use the first distributor SKU that's found.
-                    # skus = [part.fields.get(d + '#', '') for d in distributors_octopart
-                    #            if part.fields.get(d + '#') ]
-                    for octopart_dist_sku in distributors_octopart:
-                        sku = part.fields.get(octopart_dist_sku + '#', '')
-                        if sku:
-                            break
-                    if not sku:
-                        continue
-                    # Create the part query using SKU matching.
-                    part_query = '{"reference": "'+str(i)+'", "sku": "'+quote_plus(sku)+'"}'
-
-                    # Because was used the distributor (enrolled at Octopart list)
-                    # despite the normal 'manf#' code, take the sub quantity as
-                    # general sub quantity of the current part.
-                    try:
-                        part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                        distributor_class.logger.warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
-                                q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
-                                f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
-                    except KeyError:
-                        pass
-                except IndexError:
+                # No MPN, so use the first distributor SKU that's found.
+                for octopart_dist_sku in distributors_octopart:
+                    sku = part.fields.get(octopart_dist_sku + '#', '')
+                    if sku:
+                        break
+                if not sku:
                     # No MPN or SKU, so skip this part.
                     continue
+                # Create the part query using SKU matching.
+                part_query = '{"reference": "'+str(i)+'", "sku": "'+quote_plus(sku)+'"}'
+
+                # Because was used the distributor (enrolled at Octopart list)
+                # despite the normal 'manf#' code, take the sub quantity as
+                # general sub quantity of the current part.
+                try:
+                    part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
+                    distributor_class.logger.warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                            q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
+                            f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
+                except KeyError:
+                    pass
 
             # Add query for this part to the list of part queries.
             octopart_query.append(part_query)
 
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
             if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
-                api_octopart.get_part_info(octopart_query, parts, distributors)
+                api_octopart.get_part_info(octopart_query, parts, distributors, currency)
                 progress.update(i - prev_i)  # Update progress bar.
                 prev_i = i
                 octopart_query = []  # Get ready for next batch.
 
         # Query Octopart for the last batch of parts.
         if octopart_query:
-            api_octopart.get_part_info(octopart_query, parts, distributors)
+            api_octopart.get_part_info(octopart_query, parts, distributors, currency)
             progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
 
         # Done with the scraping progress bar so delete it or else we get an

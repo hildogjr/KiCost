@@ -104,7 +104,6 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     @param split_extra_fields `list(str())` Fields that will be split using the multipart mechanism.
     @param board_qty `list(int())` Board quantities for each project.
     '''
-
     # Add or remove field translations, ignore in case the trying to
     # re-translate default field names.
     if translate_fields:
