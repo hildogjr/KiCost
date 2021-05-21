@@ -47,6 +47,7 @@ import sys
 from urllib.parse import unquote
 from http.server import HTTPServer, BaseHTTPRequestHandler
 queries = {}
+queries_octo = {}
 comments = {}
 
 
@@ -65,8 +66,21 @@ class S(BaseHTTPRequestHandler):
         return content.encode("utf8")  # NOTE: must return a bytes object!
 
     def do_GET(self):
+        get_data = unquote(self.path)[2:]
         self._set_headers()
-        self.wfile.write(self._html("hi!"))
+        if get_data in queries_octo:
+            self.wfile.write(queries_octo[get_data].encode("utf8"))
+            print("Known octo query "+comments[get_data])
+        else:
+            get_data = get_data.replace('%7E', '~')
+            if get_data in queries_octo:
+                self.wfile.write(queries_octo[get_data].encode("utf8"))
+                print("Known query (7E replaced) "+comments[get_data])
+            else:
+                print('Unknown query, {}'.format(get_data))
+                content = "<html><body><h1>GET!</h1><pre>{}</pre></body></html>".format(get_data)
+                self.wfile.write(content.encode("utf8"))
+        sys.stdout.flush()
 
     def do_HEAD(self):
         self._set_headers()
@@ -114,10 +128,37 @@ def load_queries(file):
                 is_query = True
 
 
+def load_octo_queries(file):
+    global queries_octo
+    with open(file, 'rb') as f:
+        is_query = True
+        last_comment = None
+        id = 1
+        for line in f:
+            line = line.decode('latin1')
+            if line[0] == '#':
+                last_comment = line[1:-1].strip()
+                id = 1
+            elif is_query:
+                query = line[:-1]
+                is_query = False
+                reply = ''
+            elif line[0] == '}':
+                queries_octo[query] = reply + line
+                comments[query] = '{} ({})'.format(last_comment, id)
+                id += 1
+                is_query = True
+            else:
+                # print(query)
+                # print(len(query))
+                reply += line
+
+
 def run(server_class=HTTPServer, handler_class=S, addr="localhost", port=8000):
     server_address = (addr, port)
     httpd = server_class(server_address, handler_class)
     load_queries(op.join(op.dirname(__file__), 'kitspace_queries.txt'))
+    load_octo_queries(op.join(op.dirname(__file__), 'octopart_queries.txt'))
 
     print("Starting httpd server on {}:{}".format(addr, port))
     httpd.serve_forever()

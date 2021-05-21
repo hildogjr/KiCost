@@ -102,16 +102,20 @@ class api_octopart(distributor_class):
         # url = 'http://octopart.com/api/v3/parts/match'
         # payload = {'queries': json.dumps(query), 'include\[\]': 'specs', 'apikey': token}
         # response = requests.get(url, params=payload)
+        data = 'queries=%s' % json.dumps(query)
         if api_octopart.API_KEY:
             if api_octopart.api_level == 3:
                 url = 'http://octopart.com/api/v3/parts/match'
             else:
                 url = 'http://octopart.com/api/v4/rest/parts/match'
-            data = 'queries=%s' % json.dumps(query)
             data += '&apikey=' + api_octopart.API_KEY
         else:  # Not working 2021/04/28:
             url = 'https://temp-octopart-proxy.kitspace.org/parts/match'
-            data = 'queries=%s' % json.dumps(query)
+        # Allow changing the URL for debug purposes
+        try:
+            url = os.environ['KICOST_OCTOPART_URL']
+        except KeyError:
+            pass
         if api_octopart.extended:
             data += '&include[]=specs'
             data += '&include[]=datasheets'
@@ -202,16 +206,19 @@ class api_octopart(distributor_class):
 
                     # Assign the lifecycle status 'obsolete' (others possible: 'active'
                     # and 'not recommended for new designs') but not used.
-                    if 'lifecycle_status' in item['specs']:
-                        lifecycle_status = item['specs']['lifecycle_status']['value'][0].lower()
-                        if lifecycle_status == 'obsolete':
-                            part.lifecycle = lifecycle_status
-
+                    specs = item.get('specs')
+                    if specs:
+                        lifecycle_status = specs.get('lifecycle_status')
+                        if lifecycle_status:
+                            lifecycle_status = lifecycle_status['value'][0].lower()
+                            if lifecycle_status == 'obsolete':
+                                part.lifecycle = lifecycle_status
                     # Take the datasheet provided by the distributor. This will by used
                     # in the output spreadsheet if not provide any in the BOM/schematic.
                     # This will be signed in the file.
-                    if item['datasheets']:
-                        part.datasheet = item['datasheets'][0]['url']
+                    datasheets = item.get('datasheets')
+                    if datasheets:
+                        part.datasheet = datasheets[0]['url']
 
                     for offer in item['offers']:
 

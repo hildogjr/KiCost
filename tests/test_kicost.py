@@ -56,6 +56,7 @@ TESTDIR = os.path.dirname(os.path.realpath(__file__))
 last_err = None
 # Text we want to filter in the XLSX to TXT conversion
 XLSX_FILTERS = (('$ date:', None), ('Prj date:', '(file'), ('KiCost', 0))
+OCTOPART_KEY = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 
 
 def to_str(s):
@@ -234,6 +235,7 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
         server = None
     else:
         os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
+        os.environ['KICOST_OCTOPART_URL'] = 'http://localhost:8000'
         fo = open(TESTDIR + '/log_test/0server_stdout.log', 'at')
         fe = open(TESTDIR + '/log_test/0server_stderr.log', 'at')
         server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
@@ -585,6 +587,16 @@ def test_rare_refs_no_collapse():
     # File with a wrong currency, disable collapse
     name = 'rare_refs_no_collapse'
     run_test_check(name, 'rare_refs', name, extra=['--no_collapse'], price=False)
+
+
+def test_octopart_1p():
+    name = 'octopart_1'
+    run_test_check(name + 'p', name, name + 'p', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'])
+
+
+def test_octopart_1n():
+    name = 'octopart_1'
+    run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4'])
 
 
 class TestKicost(unittest.TestCase):
