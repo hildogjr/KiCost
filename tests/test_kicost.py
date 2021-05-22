@@ -599,6 +599,12 @@ def test_octopart_1n():
     run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4'])
 
 
+def test_octopart_1_ambi():
+    name = 'octopart_1_ambi'
+    run_test_check(name, extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'])
+    check_errors([r'Using "HH Smith" for manf#="4062"', r'Ambiguous manf#="4062" please use manf to select the right one, choices:'])
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

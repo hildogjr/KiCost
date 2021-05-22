@@ -158,7 +158,6 @@ class distributor_class(object):
     @staticmethod
     def set_api_status(api, enabled):
         ''' Enable/Disable a particular API '''
-        print(api, enabled)
         distributor_class._get_api(api).enabled = enabled
 
     @staticmethod

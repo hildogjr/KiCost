@@ -1,18 +1,18 @@
 Variables:
-BoardQty = 'octopart_1n'!$H$1
-PURCHASE_DESCRIPTION = 'octopart_1n'!$H$21
-TotalCost = 'octopart_1n'!$H$3
-USD_EUR = 'octopart_1n'!$C$21
-USD_GBP = 'octopart_1n'!$C$22
-arrow_part_data = 'octopart_1n'!$I$5:$M$18
-digikey_part_data = 'octopart_1n'!$N$5:$R$18
-farnell_part_data = 'octopart_1n'!$S$5:$W$18
-global_part_data = 'octopart_1n'!$A$5:$H$18
-lcsc_part_data = 'octopart_1n'!$X$5:$AB$18
-mouser_part_data = 'octopart_1n'!$AC$5:$AG$18
-newark_part_data = 'octopart_1n'!$AH$5:$AL$18
-rs_part_data = 'octopart_1n'!$AM$5:$AQ$18
-tme_part_data = 'octopart_1n'!$AR$5:$AV$18
+BoardQty = 'octopart_1_ambi'!$H$1
+PURCHASE_DESCRIPTION = 'octopart_1_ambi'!$H$21
+TotalCost = 'octopart_1_ambi'!$H$3
+USD_EUR = 'octopart_1_ambi'!$C$21
+USD_GBP = 'octopart_1_ambi'!$C$22
+arrow_part_data = 'octopart_1_ambi'!$I$5:$M$18
+digikey_part_data = 'octopart_1_ambi'!$N$5:$R$18
+farnell_part_data = 'octopart_1_ambi'!$S$5:$W$18
+global_part_data = 'octopart_1_ambi'!$A$5:$H$18
+lcsc_part_data = 'octopart_1_ambi'!$X$5:$AB$18
+mouser_part_data = 'octopart_1_ambi'!$AC$5:$AG$18
+newark_part_data = 'octopart_1_ambi'!$AH$5:$AL$18
+rs_part_data = 'octopart_1_ambi'!$AM$5:$AQ$18
+tme_part_data = 'octopart_1_ambi'!$AR$5:$AV$18
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -394,7 +394,7 @@ Row: 10
  Col: D1
    "Vishay Lite-On"
  Col: E1
-   "LTST-C193KSKT-5A"
+   <a href="https://datasheet.octopart.com/LTST-C193KSKT-5A-Lite-On-datasheet-11776634.pdf">LTST-C193KSKT-5A</a>
  Col: F1
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -464,7 +464,7 @@ Row: 11
  Col: D1
    "Vishay Lite-On"
  Col: E1
-   "LTST-C193KSKT-5A"
+   <a href="https://datasheet.octopart.com/LTST-C193KSKT-5A-Lite-On-datasheet-11776634.pdf">LTST-C193KSKT-5A</a>
  Col: F1
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -662,7 +662,7 @@ Row: 14
  Col: D1
    "Panasonic"
  Col: E1
-   "ERJ-3EKF3000V"
+   <a href="https://datasheet.octopart.com/ERJ-3EKF3000V-Panasonic-datasheet-13266541.pdf">ERJ-3EKF3000V</a>
  Col: F1
    300
   Formula: CEILING(BoardQty*3.0,1)
@@ -762,7 +762,7 @@ Row: 15
  Col: D1
    "Panasonic"
  Col: E1
-   "ERJ-3EKF1001V"
+   <a href="https://datasheet.octopart.com/ERJ-3EKF1001V-Panasonic-datasheet-5313456.pdf">ERJ-3EKF1001V</a>
  Col: F1
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -852,7 +852,7 @@ Row: 16
  Col: D1
    "Panasonic"
  Col: E1
-   "ERJ-3EKF6040V"
+   <a href="https://datasheet.octopart.com/ERJ-3EKF6040V-Panasonic-datasheet-13266541.pdf">ERJ-3EKF6040V</a>
  Col: F1
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -942,7 +942,7 @@ Row: 17
  Col: D1
    "Panasonic"
  Col: E1
-   "ERJ-3EKF4700V"
+   <a href="https://datasheet.octopart.com/ERJ-3EKF4700V-Panasonic-datasheet-13266541.pdf">ERJ-3EKF4700V</a>
  Col: F1
    100
   Formula: CEILING(BoardQty*1.0,1)
@@ -1040,7 +1040,7 @@ Row: 18
  Col: C1
    "None"
  Col: D1
-   "Adafruit Industries"
+   "Adafruit Industries2"
  Col: E1
    "4062"
  Col: F1
@@ -1054,44 +1054,18 @@ Row: 18
   Formula: iferror(F18*G18,"")
  Col: I1
    "NonStk"
- Col: K1
-   0
-  Formula: iferror(lookup(if(J18="",F18,J18),{0,1},{0.0,27.9}),"")
- Col: L1
-   0
-  Formula: iferror(if(J18="",F18,J18)*K18,"")
  Col: M1
-   <a href="https://octopart.com/click/track?c=1&country=US&ct=offers&ppid=97568376&sid=1106&sig=08acaa2&vpid=671388030&ai4=119816">4062</a>
- Col: N1
-   129
- Col: P1
-   0
-  Formula: iferror(lookup(if(O18="",F18,O18),{0,1},{0.0,24.95}),"")
- Col: Q1
-   0
-  Formula: iferror(if(O18="",F18,O18)*P18,"")
- Col: R1
-   <a href="https://octopart.com/click/track?country=US&ct=offers&ppid=97568376&sid=459&sig=0a152d1&vpid=524630515&ai4=119816">1528-2828-ND</a>
- Col: AC1
-   90
- Col: AE1
-   0
-  Formula: iferror(lookup(if(AD18="",F18,AD18),{0,1,10,50,100,1000,10000},{0.0,24.95,24.95,24.95,24.95,24.95,24.95}),"")
- Col: AF1
-   0
-  Formula: iferror(if(AD18="",F18,AD18)*AE18,"")
- Col: AG1
-   <a href="https://octopart.com/click/track?country=US&ct=offers&ppid=97568376&sid=2401&sig=0888bfc&vpid=531465910&ai4=119816">485-4062</a>
+   <a href="https://octopart.com/click/track?c=1&country=US&ct=offers&ppid=39732882&sid=1106&sig=0edceb1&vpid=494280595&ai4=119816">4062</a>
  Col: AH1
-   "NonStk"
+   3
  Col: AJ1
    0
-  Formula: iferror(lookup(if(AI18="",F18,AI18),{0,1},{0.0,24.95}),"")
+  Formula: iferror(lookup(if(AI18="",F18,AI18),{0,1},{0.0,29.33}),"")
  Col: AK1
    0
   Formula: iferror(if(AI18="",F18,AI18)*AJ18,"")
  Col: AL1
-   <a href="https://octopart.com/click/track?c=1&country=US&ct=offers&ppid=97568376&sid=2402&sig=08a7ecf&vpid=537359447&ai4=119816">96AC6429</a>
+   <a href="https://octopart.com/click/track?country=US&ct=offers&ppid=39732882&sid=2402&sig=037fc53&vpid=116782141&ai4=119816">30F1469</a>
 Row: 20
  Col: B2
    "Used currency rates:"

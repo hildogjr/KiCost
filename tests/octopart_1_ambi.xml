@@ -200,7 +200,7 @@
       <footprint>XXX:None</footprint>
       <datasheet>~</datasheet>
       <fields>
-        <field name="MFR">Adafruit Industries</field>
+        <field name="MFR">Adafruit Industries2</field>
         <field name="MPN">4062</field>
         <field name="Comment">Ambiguous part</field>
       </fields>

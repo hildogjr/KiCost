@@ -13,7 +13,7 @@ J1,RTC,PinHeader_1x03_P2.00mm_Vertical,Samtec,TMM-103-01-G-S,100,0,0,20,,0,0,TMM
 R2,1.0K,R_0603_1608Metric,Panasonic,ERJ-3EKF1001V,100,0,0,NonStk,,0,0,ERJ-3EKF1001V,2717266,,0,0,P1.00KHCT-ND,1175000,,0,0,2303145,,,,,,NonStk,,0,0,667-ERJ-3EKF1001V,4116,,0,0,85Y8498,30000,,0,0,1051155,NonStk,,0,0,ERJ3EKF1001V
 R3,604,R_0603_1608Metric,Panasonic,ERJ-3EKF6040V,100,0,0,181900,,0,0,ERJ-3EKF6040V,96440,,0,0,P604HCT-ND,27682,,0,0,2059316,,,,,,43027,,0,0,667-ERJ-3EKF6040V,11121,,0,0,65T8496,30000,,0,0,1065964,20000,,0,0,ERJ3EKF6040V
 R6,470R,R_0603_1608Metric,Panasonic,ERJ-3EKF4700V,100,0,0,38424,,0,0,ERJ-3EKF4700V,88340,,0,0,P470HCT-ND,420000,,0,0,2303120,10100,,0,0,C169259,NonStk,,0,0,667-ERJ-3EKF4700V,19845,,0,0,85Y8745,398980,,0,0,1755767,13000,,0,0,ERJ3EKF4700V
-X1,Feather NRF52840,None,Adafruit Industries,4062,100,0,0,NonStk,,0,0,4062,129,,0,0,1528-2828-ND,,,,,,,,,,,90,,0,0,485-4062,NonStk,,0,0,96AC6429,,,,,,,,,,
+X1,Feather NRF52840,None,Adafruit Industries2,4062,100,0,0,NonStk,,,,4062,,,,,,,,,,,,,,,,,,,,,3,,0,0,30F1469,,,,,,,,,,
 
 ,Used currency rates:,,,,,Total Purchase:,0,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,,Buy here,0,,0,
 ,USD($)/EUR(€):,1.1873,,,,Purchase description:,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,

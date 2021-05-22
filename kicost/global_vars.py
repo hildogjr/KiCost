@@ -75,6 +75,7 @@ W_DUPWRONG = '(WC011) '  # Inconsistency in duplicated data
 W_INCQTY = '(WC012) '  # Inconsistency in qty
 W_REPMAN = '(WC013) '  # Asking to repeat a manufacturer
 W_MANQTY = '(WC014) '  # Malformed manf#_qty
+W_AMBIPN = '(WC015) '  # Ambiguous mpn, needs better manf
 
 
 class PartHtmlError(Exception):

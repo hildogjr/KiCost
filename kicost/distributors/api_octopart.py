@@ -33,7 +33,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY
+from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -58,7 +58,6 @@ class api_octopart(distributor_class):
     API_KEY = None
     API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']
     DIST_TRANSLATION = {  # Distributor translation. Just a few supported.
-                        'Arrow Electronics, Inc.': 'arrow',
                         'Arrow Electronics': 'arrow',
                         'Digi-Key': 'digikey',
                         'Farnell': 'farnell',
@@ -68,6 +67,8 @@ class api_octopart(distributor_class):
                         'TME': 'tme',
                         'LCSC': 'lcsc',
                        }
+    # Dict to translate KiCost field names into Octopart distributor names
+    KICOST2OCTOPART_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
 
     @staticmethod
     def init_dist_dict():
@@ -187,6 +188,8 @@ class api_octopart(distributor_class):
         """Query Octopart for quantity/price info and place it into the parts list."""
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
+        # List of desired distributors in native format
+        native_dists = set((api_octopart.KICOST2OCTOPART_DIST[d] for d in distributors))
         # Currency priority: 1: User specified, 2: USD, 3: EUR
         currency_prio = [currency]
         if currency != 'USD':
@@ -198,114 +201,134 @@ class api_octopart(distributor_class):
         for result in results:
             i = int(result['reference'])  # Get the index into the part dict.
             part = parts[i]
-            # Loop through the offers from various dists for this particular part.
+            # Each result can match one or more components from different manufacturers
+            items = result['items']
+            # Take only the items with useful offers
+            useful_items = []
             for item in result['items']:
-
-                # Assign the lifecycle status 'obsolete' (others possible: 'active'
-                # and 'not recommended for new designs') but not used.
-                part.lifecycle = None
-                try:
-                    # API v4 (production, eol ...)
-                    part.lifecycle = item['specs']['lifecyclestatus']['value'][0].lower().split(' ')[0]
-                except KeyError:
-                    try:
-                        # API v3
-                        part.lifecycle = item['specs']['lifecycle_status']['value'][0].lower()
-                    except KeyError:
-                        pass
-                # Take the datasheet provided by the distributor. This will by used
-                # in the output spreadsheet if not provide any in the BOM/schematic.
-                # This will be signed in the file.
-                try:
-                    part.datasheet = item['datasheets'][0]['url']
-                except (KeyError, IndexError):
-                    pass
-
                 for offer in item['offers']:
-                    # Get the distributor who made the offer and add their
-                    # price/qty info to the parts list if its one of the accepted distributors.
-                    dist = dist_xlate.get(offer['seller']['name'], '')
-                    if dist in distributors:
-                        price_tiers = {}
-                        part_qty_increment = float("inf")
-                        # Get pricing information from this distributor.
-                        prices = offer['prices']
-                        if prices:
-                            for curr in currency_prio:
-                                if curr in prices:
-                                    part.currency[dist] = curr
-                                    price_l = prices[curr]
-                                    break
-                            else:
-                                # Use the first entry
-                                part.currency[dist], price_l = next(iter(prices.items()))
-                            price_tiers = {qty: float(price) for qty, price in price_l}
-                            # Combine price lists for multiple offers from the same distributor
-                            # to build a complete list of cut-tape and reeled components.
-                            if dist not in part.price_tiers:
-                                part.price_tiers[dist] = {}
-                            part.price_tiers[dist].update(price_tiers)
-                            # Compute the quantity increment between the lowest two prices.
-                            # This will be used to distinguish the cut-tape from the reeled components.
-                            try:
-                                part_break_qtys = sorted(price_tiers.keys())
-                                part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
-                            except IndexError:
-                                # This will happen if there are not enough entries in the price/qty list.
-                                # As a stop-gap measure, just assign infinity to the part increment.
-                                # A better alternative may be to examine the packaging field of the offer.
-                                pass
-
-                        # Select the part SKU, web page, and available quantity.
-                        # Each distributor can have different stock codes for the same part in different
-                        # quantities / delivery package styles: cut-tape, reel, ...
-                        # Therefore we select and overwrite a previous selection if one of the
-                        # following conditions is met:
-                        #   1. We don't have a selection for this part from this distributor yet.
-                        #   2. The MOQ is smaller than for the current selection.
-                        #   3. The part_qty_increment for this offer smaller than that of the existing selection.
-                        #      (we prefer cut-tape style packaging over reels)
-                        #   4. For DigiKey, we can't use part_qty_increment to distinguish between
-                        #      reel and cut-tape, so we need to look at the actual DigiKey part number.
-                        #      This procedure is made by the definition `distributors_info[dist]['ignore_cat#_re']`
-                        #      at the distributor profile.
-                        if not part.part_num.get(dist):
-                            qty_avail = part.qty_avail.get(dist)
-                            in_stock_quantity = offer.get('in_stock_quantity')
-                            if not qty_avail or (in_stock_quantity and qty_avail < in_stock_quantity):
-                                # Keep the information with more availability.
-                                part.qty_avail[dist] = in_stock_quantity
-                            moq = part.moq.get(dist)
-                            moq_offer = offer.get('moq')
-                            if not moq or (moq_offer and moq > moq_offer):
-                                # Save the link, stock code, ... of the page for minimum purchase.
-                                part.moq[dist] = moq_offer  # Minimum order qty.
-                                part.part_num[dist] = offer.get('sku')
-                                part.url[dist] = offer.get('product_url')
-                                part.qty_increment[dist] = part_qty_increment
-                        # Otherwise, check qty increment and see if its the smallest for this part & dist.
-                        elif part_qty_increment < part.qty_increment.get(dist):
-                            # This part looks more like a cut-tape version, so
-                            # update the SKU, web page, and available quantity.
-                            qty_avail = part.qty_avail.get(dist)
-                            in_stock_quantity = offer.get('in_stock_quantity')
-                            if not qty_avail or (in_stock_quantity and qty_avail < in_stock_quantity):
-                                # Keep the information with more availability.
-                                part.qty_avail[dist] = in_stock_quantity
-                            # Check for a valid SKU
-                            dist_part_num = offer.get('sku', '')
-                            ign_stock_code = distributor_class.get_distributor_info(dist).ignore_cat
-                            valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
-                            moq_offer = offer.get('moq')
-                            if (valid_part and (not part.part_num.get(dist) or (part_qty_increment < part.qty_increment.get(dist)) or
-                                                (not part.moq.get(dist) or (moq_offer and part.moq.get(dist) > moq_offer)))):
-                                # Save the link, stock code, ... of the page for minimum purchase.
-                                part.moq[dist] = moq_offer  # Minimum order qty.
-                                part.part_num[dist] = dist_part_num
-                                part.url[dist] = offer.get('product_url')
-                                part.qty_increment[dist] = part_qty_increment
-                        # Don't bother with any extra info from the distributor.
-                        part.info_dist[dist] = {}
+                    if offer['seller']['name'] in native_dists:
+                        useful_items.append(item)
+                        break
+            # If more than one select the right one
+            if len(useful_items) > 1:
+                # List of possible manufacturers
+                manufacturers = {it['manufacturer']['name'].lower(): it for it in useful_items}
+                # Is the manf included?
+                item = manufacturers.get(part.fields.get('manf', 'none').lower())
+                if not item:
+                    item = useful_items[0]
+                    mpn = item['mpn']
+                    distributor_class.logger.warning(W_AMBIPN+'Using "{}" for manf#="{}"'.format(item['manufacturer']['name'], mpn))
+                    distributor_class.logger.warning(W_AMBIPN+'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
+                                                      mpn, list(manufacturers.keys())))
+            else:
+                item = useful_items[0]
+            # Assign the lifecycle status 'obsolete' (others possible: 'active' and 'not recommended for new designs') but not used.
+            part.lifecycle = None
+            try:
+                # API v4 (production, eol, nrnd, ...)
+                part.lifecycle = item['specs']['lifecyclestatus']['value'][0].lower().split(' ')[0]
+            except KeyError:
+                try:
+                    # API v3
+                    part.lifecycle = item['specs']['lifecycle_status']['value'][0].lower()
+                except KeyError:
+                    pass
+            # Take the datasheet provided by the distributor. This will by used
+            # in the output spreadsheet if not provide any in the BOM/schematic.
+            # This will be signed in the file.
+            try:
+                part.datasheet = item['datasheets'][0]['url']
+            except (KeyError, IndexError):
+                pass
+            # Loop through the offers from various dists for this particular part.
+            for offer in item['offers']:
+                # Get the distributor who made the offer and add their
+                # price/qty info to the parts list if its one of the accepted distributors.
+                dist = dist_xlate.get(offer['seller']['name'], '')
+                if dist not in distributors:
+                    # Unknown or excluded seller
+                    continue
+                price_tiers = {}
+                part_qty_increment = float("inf")
+                # Get pricing information from this distributor.
+                prices = offer['prices']
+                if prices:
+                    for curr in currency_prio:
+                        if curr in prices:
+                            part.currency[dist] = curr
+                            price_l = prices[curr]
+                            break
+                    else:
+                        # Use the first entry
+                        part.currency[dist], price_l = next(iter(prices.items()))
+                    price_tiers = {qty: float(price) for qty, price in price_l}
+                    # Combine price lists for multiple offers from the same distributor
+                    # to build a complete list of cut-tape and reeled components.
+                    if dist not in part.price_tiers:
+                        part.price_tiers[dist] = {}
+                    part.price_tiers[dist].update(price_tiers)
+                    # Compute the quantity increment between the lowest two prices.
+                    # This will be used to distinguish the cut-tape from the reeled components.
+                    try:
+                        part_break_qtys = sorted(price_tiers.keys())
+                        part_qty_increment = part_break_qtys[1] - part_break_qtys[0]
+                    except IndexError:
+                        # This will happen if there are not enough entries in the price/qty list.
+                        # As a stop-gap measure, just assign infinity to the part increment.
+                        # A better alternative may be to examine the packaging field of the offer.
+                        pass
+                # Select the part SKU, web page, and available quantity.
+                # Each distributor can have different stock codes for the same part in different
+                # quantities / delivery package styles: cut-tape, reel, ...
+                # Therefore we select and overwrite a previous selection if one of the
+                # following conditions is met:
+                #   1. We don't have a selection for this part from this distributor yet.
+                #   2. The MOQ is smaller than for the current selection.
+                #   3. The part_qty_increment for this offer smaller than that of the existing selection.
+                #      (we prefer cut-tape style packaging over reels)
+                #   4. For DigiKey, we can't use part_qty_increment to distinguish between
+                #      reel and cut-tape, so we need to look at the actual DigiKey part number.
+                #      This procedure is made by the definition `distributors_info[dist]['ignore_cat#_re']`
+                #      at the distributor profile.
+                if not part.part_num.get(dist):
+                    qty_avail = part.qty_avail.get(dist)
+                    in_stock_quantity = offer.get('in_stock_quantity')
+                    if not qty_avail or (in_stock_quantity and qty_avail < in_stock_quantity):
+                        # Keep the information with more availability.
+                        part.qty_avail[dist] = in_stock_quantity
+                    moq = part.moq.get(dist)
+                    moq_offer = offer.get('moq')
+                    if not moq or (moq_offer and moq > moq_offer):
+                        # Save the link, stock code, ... of the page for minimum purchase.
+                        part.moq[dist] = moq_offer  # Minimum order qty.
+                        part.part_num[dist] = offer.get('sku')
+                        part.url[dist] = offer.get('product_url')
+                        part.qty_increment[dist] = part_qty_increment
+                # Otherwise, check qty increment and see if its the smallest for this part & dist.
+                elif part_qty_increment < part.qty_increment.get(dist):
+                    # This part looks more like a cut-tape version, so
+                    # update the SKU, web page, and available quantity.
+                    qty_avail = part.qty_avail.get(dist)
+                    in_stock_quantity = offer.get('in_stock_quantity')
+                    if not qty_avail or (in_stock_quantity and qty_avail < in_stock_quantity):
+                        # Keep the information with more availability.
+                        part.qty_avail[dist] = in_stock_quantity
+                    # Check for a valid SKU
+                    dist_part_num = offer.get('sku', '')
+                    ign_stock_code = distributor_class.get_distributor_info(dist).ignore_cat
+                    valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
+                    moq_offer = offer.get('moq')
+                    if (valid_part and (not part.part_num.get(dist) or (part_qty_increment < part.qty_increment.get(dist)) or
+                                        (not part.moq.get(dist) or (moq_offer and part.moq.get(dist) > moq_offer)))):
+                        # Save the link, stock code, ... of the page for minimum purchase.
+                        part.moq[dist] = moq_offer  # Minimum order qty.
+                        part.part_num[dist] = dist_part_num
+                        part.url[dist] = offer.get('product_url')
+                        part.qty_increment[dist] = part_qty_increment
+                # Don't bother with any extra info from the distributor.
+                part.info_dist[dist] = {}
 
     @staticmethod
     def query_part_info(parts, distributors, currency):
