@@ -26,6 +26,7 @@ import requests
 import re
 import os
 import sys
+import difflib
 from collections import Counter
 if sys.version_info[0] < 3:
     from urllib import quote_plus
@@ -212,11 +213,17 @@ class api_octopart(distributor_class):
             # If more than one select the right one
             if len(useful_items) > 1:
                 # List of possible manufacturers
+                # TODO: Can we get more than one hit for the same manf?
                 manufacturers = {it['manufacturer']['name'].lower(): it for it in useful_items}
                 # Is the manf included?
-                item = manufacturers.get(part.fields.get('manf', 'none').lower())
+                manf = part.fields.get('manf', 'none').lower()
+                item = manufacturers.get(manf)
                 if not item:
-                    item = useful_items[0]
+                    if manf == 'none':
+                        item = useful_items[0]
+                    else:
+                        best_match = difflib.get_close_matches(manf, manufacturers.keys())[0]
+                        item = manufacturers[best_match]
                     mpn = item['mpn']
                     distributor_class.logger.warning(W_AMBIPN+'Using "{}" for manf#="{}"'.format(item['manufacturer']['name'], mpn))
                     distributor_class.logger.warning(W_AMBIPN+'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
