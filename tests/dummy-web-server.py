@@ -118,6 +118,9 @@ def load_queries(file):
                 id = 1
             elif is_query:
                 query = line
+                # Octopart changed it. It was before we collected the queries.
+                # To avoid collecting all of them we currently patch the queries.
+                query = query.replace('Arrow+Electronics%2C+Inc.', 'Arrow+Electronics')
                 is_query = False
             else:
                 # print(query)

@@ -96,7 +96,7 @@ class api_partinfo_kitspace(distributor_class):
                         'Newark': 'newark',
                         'RS': 'rs',
                         'TME': 'tme',
-                        'Arrow Electronics, Inc.': 'arrow',
+                        'Arrow Electronics': 'arrow',
                         'LCSC': 'lcsc',
                        }
     # Dict to translate KiCost field names into KitSpace distributor names
