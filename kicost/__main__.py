@@ -57,20 +57,14 @@ from . import __version__  # Version control by @xesscorp and collaborator.  # n
 
 
 def kicost_version_info():
-    version_info_str = r'KiCost v.{}.'.format(__version__)
-    version_info_str += r'at Python {}.{}.{}.'.format(
-                                                      sys.version_info.major,
-                                                      sys.version_info.minor,
-                                                      sys.version_info.micro)
-    version_info_str += r'on {}({}).'.format(
-                                              platform.platform(),
-                                              platform.architecture()[0])
+    version_info_str = r'KiCost v.{}'.format(__version__)
+    version_info_str += r' at Python {}.{}.{}'.format(sys.version_info.major, sys.version_info.minor, sys.version_info.micro)
+    version_info_str += r' on {}({}). '.format(platform.platform(), platform.architecture()[0])
     try:
         import wx
         version_info_str += 'Graphical library: {}.'.format(wx.version())
     except ImportError:
         version_info_str += 'No graphical library installed for the GUI.'
-    # version_info_str += r'\n'
     return version_info_str
 
 
@@ -385,14 +379,7 @@ def main_real():
         for d in args.exclude:
             dist_list.remove(d)
 
-    logger.log(DEBUG_OBSESSIVE, 'Started KiCost v.{} on {}({}) Python {}.{}.{}'.format(
-                                              __version__,
-                                              platform.platform(),
-                                              platform.architecture()[0],
-                                              sys.version_info.major,
-                                              sys.version_info.minor,
-                                              sys.version_info.micro)
-               )
+    logger.log(DEBUG_OBSESSIVE, 'Started ' + kicost_version_info())
 
     kicost(in_file=args.input, eda_name=args.eda,
            out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
