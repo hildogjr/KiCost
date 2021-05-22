@@ -202,7 +202,6 @@ class api_octopart(distributor_class):
             i = int(result['reference'])  # Get the index into the part dict.
             part = parts[i]
             # Each result can match one or more components from different manufacturers
-            items = result['items']
             # Take only the items with useful offers
             useful_items = []
             for item in result['items']:
