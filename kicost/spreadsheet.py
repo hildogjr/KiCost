@@ -1263,6 +1263,13 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         delimiter = ',"' + order.delimiter + '",'  # Function delimiter plus distributor code delimiter.
         order_part_info = []
         for col in cols:
+            # Deal with conversion and string replacement necessary to make the order valid
+            if col is None or (col not in columns and col not in columns_global):
+                # Create an empty column escaping all the information, same when is asked
+                # for a not present filed at the global column (`columns_global`) part or
+                # distributors columns part (`columns`).
+                order_part_info.append('')
+                continue  # Doesn't need to calculate range or references, go check the next field.
             # Look for the `col` name into the distributors spreadsheet part.
             if col in columns:
                 info_range = start_col + columns[col]['col']
@@ -1273,19 +1280,11 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 info_range = 0
                 logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
             info_range = xl_range(PART_INFO_FIRST_ROW, info_range, PART_INFO_LAST_ROW, info_range)
-            # Deal with conversion and string replace necessary to the correct distributors
-            # code understanding.
-            if col is None or (col not in columns and col not in columns_global):
-                # Create an empty column escaping all the information, same when is asked
-                # for a not present filed at the global column (`columns_global`) part or
-                # distributors columns part (`columns`).
-                order_part_info.append('')
-                continue  # Doesn't need to calculate range or references, go check the next field.
             if col == 'purch':
-                # Add text conversion if is a numeric cell.
-                order_part_info.append('TEXT({},"##0")'.format(order_info_func_model))
+                # Convert it to text (is a number)
+                cell = 'TEXT({},"##0")'.format(order_info_func_model)
             elif col in ['part_num', 'manf#']:
-                order_part_info.append(order_info_func_model)
+                cell = order_info_func_model
             else:
                 # All comment and description columns (that are not quantity and catalogue code)
                 # should respect the allowed characters. These are text informative columns.
@@ -1294,24 +1293,20 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 #     order_info_func_parcial = 'REGEX({f},"\{c}\d+","","g")'.format(f=order_info_func_model,c=SUB_SEPRTR)
                 #     This is not supported by Microsoft Excel. ## TODO
                 # else:
-                order_info_func_parcial = order_info_func_model
+                cell = order_info_func_model
                 if order.not_allowed_char and order.replace_by_char:
                     multi_replace = len(order.replace_by_char) > 1
                     for c, not_allowed_char in enumerate(order.not_allowed_char):
                         replace_by_char = order.replace_by_char[c if multi_replace else 0]
-                        order_info_func_parcial = 'SUBSTITUTE({t},"{o}","{n}")'.format(t=order_info_func_parcial, o=not_allowed_char, n=replace_by_char)
+                        cell = 'SUBSTITUTE({t},"{o}","{n}")'.format(t=cell, o=not_allowed_char, n=replace_by_char)
                 if order.limit:
-                    order_info_func_parcial = 'LEFT({},{})'.format(order_info_func_parcial, order.limit)
-                order_part_info.append(order_info_func_parcial)
+                    cell = 'LEFT({},{})'.format(cell, order.limit)
                 # Add the purchase description
                 info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(ss.purchase_description_seprtr) + '&' + info_range
-            # Create the part of formula that refers with one specific information.
-            order_part_info[-1] = order_part_info[-1].format(
-                        get_range=info_range,
-                        qty='{qty}',  # keep all other for future replacement.
-                        code='{code}',
-                        rng='{rng}',
-                        order_first_row='{order_first_row}')
+            # Solve the get_range part of the formula
+            order_part_info.append(cell.format(get_range=info_range,
+                                               # keep all other for future replacement.
+                                               qty='{qty}', code='{code}', rng='{rng}', order_first_row='{order_first_row}'))
         # If already have some information, add the delimiter for
         # Microsoft Excel/LibreOffice Calc function.
         order_func = order_func.format(delimiter.join(order_part_info))
