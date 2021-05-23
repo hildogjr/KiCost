@@ -230,29 +230,28 @@ class api_octopart(distributor_class):
                                                       mpn, list(manufacturers.keys())))
             else:
                 item = useful_items[0]
-            # Assign the lifecycle status 'obsolete' (others possible: 'active' and 'not recommended for new designs') but not used.
-            part.lifecycle = None
-            try:
-                # API v4 (production, eol, nrnd, ...)
-                part.lifecycle = item['specs']['lifecyclestatus']['value'][0].lower().split(' ')[0]
-            except KeyError:
+            if api_octopart.extended:
+                # Assign the lifecycle status 'obsolete' (others possible: 'active' and 'not recommended for new designs') but not used.
                 try:
-                    # API v3
-                    part.lifecycle = item['specs']['lifecycle_status']['value'][0].lower()
+                    # API v4 (production, eol, nrnd, ...) we take the first word
+                    part.lifecycle = item['specs']['lifecyclestatus']['value'][0].lower().split(' ')[0]
                 except KeyError:
+                    try:
+                        # API v3
+                        part.lifecycle = item['specs']['lifecycle_status']['value'][0].lower()
+                    except KeyError:
+                        # No lifecyclestatus (current name) nor lifecycle_status (old name)
+                        pass
+                # Take the datasheet provided by the distributor. This will by used
+                # in the output spreadsheet if not provide any in the BOM/schematic.
+                # This will be signed in the file.
+                try:
+                    part.datasheet = item['datasheets'][0]['url']
+                except (KeyError, IndexError):
+                    # No datasheet key (KeyError) or empty (IndexError)
                     pass
-            # Take the datasheet provided by the distributor. This will by used
-            # in the output spreadsheet if not provide any in the BOM/schematic.
-            # This will be signed in the file.
-            try:
-                part.datasheet = item['datasheets'][0]['url']
-            except (KeyError, IndexError):
-                pass
-            # Misc data collected, currently not used inside KiCost
-            try:
+                # Misc data collected, currently not used inside KiCost
                 part.update_specs({code: (info['metadata']['name'], ', '.join(info['value'])) for code, info in item['specs'].items()})
-            except KeyError:
-                pass
             # Loop through the offers from various dists for this particular part.
             for offer in item['offers']:
                 # Get the distributor who made the offer and add their
