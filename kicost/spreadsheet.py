@@ -1243,8 +1243,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         # 6) If any error occurs (which usually means the indexed cell
         #    contents were blank), then a blank is printed. Otherwise,
         #    the string from step #5 is printed in this cell.
-        order_func = 'IFERROR(CONCATENATE({}),"")'
         # rng is just a range with num_parts height, needed to make the parallel computation
+        rng = 'A1:A'+str(num_parts)
         # order_first_row is the row used for the order
         order_info_func_model = '''
                         INDEX(
@@ -1258,7 +1258,17 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                         )
         '''
         order_info_func_model = re.sub(r'[\s\n]', '', order_info_func_model)  # Strip all the whitespace from the function string.
-
+        # These are the columns where the part catalog numbers and purchase quantities can be found.
+        if 'part_num' in cols:
+            purchase_code = start_col + columns['part_num']['col']
+        elif 'manf#' in cols:
+            purchase_code = start_col + columns_global['manf#']
+        else:
+            purchase_code = 0
+            logger.warning(W_NOQTY+"Not valid quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=label))
+        purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code, PART_INFO_LAST_ROW, purchase_code)
+        purchase_qty = start_col + columns['purch']['col']
+        purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)
         # Create the line order by the fields specified by each distributor.
         delimiter = ',"' + order.delimiter + '",'  # Function delimiter plus distributor code delimiter.
         order_part_info = []
@@ -1303,32 +1313,13 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                     cell = 'LEFT({},{})'.format(cell, order.limit)
                 # Add the purchase description
                 info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(ss.purchase_description_seprtr) + '&' + info_range
-            # Solve the get_range part of the formula
-            order_part_info.append(cell.format(get_range=info_range,
-                                               # keep all other for future replacement.
-                                               qty='{qty}', code='{code}', rng='{rng}', order_first_row='{order_first_row}'))
-        # If already have some information, add the delimiter for
-        # Microsoft Excel/LibreOffice Calc function.
-        order_func = order_func.format(delimiter.join(order_part_info))
-
-        # These are the columns where the part catalog numbers and purchase quantities can be found.
-        if 'part_num' in cols:
-            purchase_code = start_col + columns['part_num']['col']
-        elif 'manf#' in cols:
-            purchase_code = start_col + columns_global['manf#']
-        else:
-            purchase_code = ""
-            logger.warning(W_NOQTY+"Not valid quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=label))
-        purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code, PART_INFO_LAST_ROW, purchase_code)
-        purchase_qty = start_col + columns['purch']['col']
-        purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)
-        # Fill the formula with the control parameters.
-        rng = 'A1:A'+str(num_parts)
-        order_func = order_func.format(code=purchase_code, qty=purchase_qty, rng=rng, order_first_row=ORDER_FIRST_ROW)
+            # Solve the get_range part of the formula, depends on the column
+            order_part_info.append(cell.format(get_range=info_range, qty=purchase_qty, code=purchase_code, rng=rng, order_first_row=ORDER_FIRST_ROW))
+        # Put the collected data from the columns inside the concatenation
+        # Note: This is an array formula, this is why it looks like {=FORMULA}
+        order_func = '{{=IFERROR(CONCATENATE({}),"")}}'.format(delimiter.join(order_part_info))
         # Now write the order_func into every row of the order in the given column.
-        # dist_col = start_col + columns['unit_price']['col']
-        # info_col = dist_col
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
-            wks.write_array_formula(xl_range(r, ORDER_START_COL, r, ORDER_START_COL), '{{={f}}}'.format(f=order_func))
+            wks.write_array_formula(xl_range(r, ORDER_START_COL, r, ORDER_START_COL), order_func)
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
