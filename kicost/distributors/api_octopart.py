@@ -249,7 +249,10 @@ class api_octopart(distributor_class):
             except (KeyError, IndexError):
                 pass
             # Misc data collected, currently not used inside KiCost
-            part.update_specs({code: (info['metadata']['name'], ', '.join(info['value'])) for code, info in item['specs'].items()})
+            try:
+                part.update_specs({code: (info['metadata']['name'], ', '.join(info['value'])) for code, info in item['specs'].items()})
+            except KeyError:
+                pass
             # Loop through the offers from various dists for this particular part.
             for offer in item['offers']:
                 # Get the distributor who made the offer and add their
