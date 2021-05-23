@@ -35,4 +35,3 @@ class PartGroup(object):
                 if value not in old_value:
                     value = old_value + ', ' + value
             self.specs[code] = (name, value)
-
