@@ -333,8 +333,6 @@ class api_octopart(distributor_class):
                         part.part_num[dist] = dist_part_num
                         part.url[dist] = offer.get('product_url')
                         part.qty_increment[dist] = part_qty_increment
-                # Don't bother with any extra info from the distributor.
-                part.info_dist[dist] = {}
 
     @staticmethod
     def query_part_info(parts, distributors, currency):

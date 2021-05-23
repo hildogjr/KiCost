@@ -19,6 +19,6 @@ class PartGroup(object):
         self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]
         self.qty_avail = {}  # Available quantity.
         self.qty_increment = {}
-        self.info_dist = {}
+        self.info_dist = {}  # Currently unused.
         self.currency = {}  # Default currency.
         self.moq = {}  # Minimum order quantity allowd by the distributor.

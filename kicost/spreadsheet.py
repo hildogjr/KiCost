@@ -948,13 +948,11 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         else:
             if ss.SUPPRESS_CAT_URL:
                 dist_part_num = 'Link'  # To use as text for the link.
-        try:
-            # Add a comment in the 'cat#' column with extra information gotten in the distributor web page.
-            comment = '\n'.join(sorted([k.capitalize()+SEPRTR+' '+v for k, v in dist_info_dist.items() if k in ss.extra_info_display]))
-            if comment:
-                wks.write_comment(row, start_col + columns['part_num']['col'], comment)
-        except Exception:
-            pass
+        # Add a comment in the 'cat#' column with extra information gotten in the distributor web page.
+        # Note: Not supported by any of the current APIs
+        comment = '\n'.join(sorted([k.capitalize()+SEPRTR+' '+v for k, v in dist_info_dist.items() if k in ss.extra_info_display]))
+        if comment:
+            wks.write_comment(row, start_col + columns['part_num']['col'], comment)
 
         # Enter a link to the distributor webpage for this part, even if there
         # is no valid quantity or pricing for the part (see next conditional).
