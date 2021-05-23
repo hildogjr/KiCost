@@ -220,7 +220,6 @@ Row: 15
    0
   Formula: SUM(L15)
  Col: J1
-   0
   Formula: IFERROR(IF(OR(J7:J13),COUNTIFS(J7:J13,">0",L7:L13,"<>")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")
  Col: L1
    0

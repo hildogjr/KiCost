@@ -597,7 +597,6 @@ Row: 15
  Col: J1
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: K1
-   0
   Formula: IFERROR(IF(OR(K7:K13),COUNTIFS(K7:K13,">0",M7:M13,"<>")&" of "&(ROWS(M7:M13)-COUNTBLANK(M7:M13))&" parts purchased",""),"")
  Col: M1
    0
@@ -605,7 +604,6 @@ Row: 15
  Col: O1
    <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
  Col: P1
-   0
   Formula: IFERROR(IF(OR(P7:P13),COUNTIFS(P7:P13,">0",R7:R13,"<>")&" of "&(ROWS(R7:R13)-COUNTBLANK(R7:R13))&" parts purchased",""),"")
  Col: R1
    0
@@ -613,7 +611,6 @@ Row: 15
  Col: T1
    <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
  Col: U1
-   0
   Formula: IFERROR(IF(OR(U7:U13),COUNTIFS(U7:U13,">0",W7:W13,"<>")&" of "&(ROWS(W7:W13)-COUNTBLANK(W7:W13))&" parts purchased",""),"")
  Col: W1
    0
@@ -621,7 +618,6 @@ Row: 15
  Col: Y1
    <a href="https://lcsc.com/bom.html">Buy here</a>
  Col: Z1
-   0
   Formula: IFERROR(IF(OR(Z7:Z13),COUNTIFS(Z7:Z13,">0",AB7:AB13,"<>")&" of "&(ROWS(AB7:AB13)-COUNTBLANK(AB7:AB13))&" parts purchased",""),"")
  Col: AB1
    0
@@ -629,7 +625,6 @@ Row: 15
  Col: AD1
    <a href="https://mouser.com/bom/">Buy here</a>
  Col: AE1
-   0
   Formula: IFERROR(IF(OR(AE7:AE13),COUNTIFS(AE7:AE13,">0",AG7:AG13,"<>")&" of "&(ROWS(AG7:AG13)-COUNTBLANK(AG7:AG13))&" parts purchased",""),"")
  Col: AG1
    0
@@ -637,7 +632,6 @@ Row: 15
  Col: AI1
    <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
  Col: AJ1
-   0
   Formula: IFERROR(IF(OR(AJ7:AJ13),COUNTIFS(AJ7:AJ13,">0",AL7:AL13,"<>")&" of "&(ROWS(AL7:AL13)-COUNTBLANK(AL7:AL13))&" parts purchased",""),"")
  Col: AL1
    0
@@ -645,7 +639,6 @@ Row: 15
  Col: AN1
    <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
  Col: AO1
-   0
   Formula: IFERROR(IF(OR(AO7:AO13),COUNTIFS(AO7:AO13,">0",AQ7:AQ13,"<>")&" of "&(ROWS(AQ7:AQ13)-COUNTBLANK(AQ7:AQ13))&" parts purchased",""),"")
  Col: AQ1
    0
@@ -653,7 +646,6 @@ Row: 15
  Col: AS1
    <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
  Col: AT1
-   0
   Formula: IFERROR(IF(OR(AT7:AT13),COUNTIFS(AT7:AT13,">0",AV7:AV13,"<>")&" of "&(ROWS(AV7:AV13)-COUNTBLANK(AV7:AV13))&" parts purchased",""),"")
  Col: AV1
    0
@@ -675,7 +667,6 @@ Row: 16
    0
   Formula: IFERROR(CONCATENATE(INDEX(X7:X13,SMALL(IF(ISNUMBER(U7:U13)*(U7:U13>0)*(X7:X13<>""),ROW(A1:A7)),ROW()-15)),",",TEXT(INDEX(U7:U13,SMALL(IF(ISNUMBER(U7:U13)*(U7:U13>0)*(X7:X13<>""),ROW(A1:A7)),ROW()-15)),"##0"),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&C7:C13,SMALL(IF(ISNUMBER(U7:U13)*(U7:U13>0)*(X7:X13<>""),ROW(A1:A7)),ROW()-15)),",",";"),"\n",";"),30),",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7:A13,SMALL(IF(ISNUMBER(U7:U13)*(U7:U13>0)*(X7:X13<>""),ROW(A1:A7)),ROW()-15)),",",";"),"\n",";"),30)),"")
  Col: Z1
-   0
   Formula: IFERROR(IF(COUNTIFS(Z7:Z13,">0",AB7:AB13,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)",""),"")
  Col: AE1
    0

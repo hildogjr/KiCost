@@ -577,7 +577,6 @@ Row: 24
  Col: I2
    <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
  Col: J2
-   0
   Formula: IFERROR(IF(OR(J7:J22),COUNTIFS(J7:J22,">0",L7:L22,"<>")&" of "&(ROWS(L7:L22)-COUNTBLANK(L7:L22))&" parts purchased",""),"")
  Col: L2
    0
@@ -585,19 +584,16 @@ Row: 24
  Col: N2
    <a href="https://mouser.com/bom/">Buy here</a>
  Col: O2
-   0
   Formula: IFERROR(IF(OR(O7:O22),COUNTIFS(O7:O22,">0",Q7:Q22,"<>")&" of "&(ROWS(Q7:Q22)-COUNTBLANK(Q7:Q22))&" parts purchased",""),"")
  Col: Q2
    0
   Formula: SUMIF(O7:O22,">0",Q7:Q22)
  Col: T2
-   0
   Formula: IFERROR(IF(OR(T7:T22),COUNTIFS(T7:T22,">0",V7:V22,"<>")&" of "&(ROWS(V7:V22)-COUNTBLANK(V7:V22))&" parts purchased",""),"")
  Col: V2
    0
   Formula: SUMIF(T7:T22,">0",V7:V22)
  Col: Y2
-   0
   Formula: IFERROR(IF(OR(Y7:Y22),COUNTIFS(Y7:Y22,">0",AA7:AA22,"<>")&" of "&(ROWS(AA7:AA22)-COUNTBLANK(AA7:AA22))&" parts purchased",""),"")
  Col: AA2
    0

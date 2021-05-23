@@ -1175,7 +1175,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col, PART_INFO_LAST_ROW, purch_qty_col),
             count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col, PART_INFO_LAST_ROW, ext_price_col)
         ),
-        ss.wrk_formats['found_part_pct']
+        ss.wrk_formats['found_part_pct'], value=''
     )
     wks.write_comment(ORDER_HEADER, purch_qty_col, 'Copy the information below to the BOM import page of the distributor web site.')
     if order.url:
@@ -1213,7 +1213,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                                   count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
                                                              PART_INFO_LAST_ROW, ext_price_col),
                                   header=order.header),
-                          ss.wrk_formats['found_part_pct'])
+                          ss.wrk_formats['found_part_pct'], value='')
         if order.info:
             wks.write_comment(ORDER_FIRST_ROW, ORDER_START_COL, order.info)
         ORDER_FIRST_ROW = ORDER_FIRST_ROW + 1  # Push all the code list one row.
@@ -1323,6 +1323,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         order_func = '{{=IFERROR(CONCATENATE({}),"")}}'.format(delimiter.join(order_part_info))
         # Now write the order_func into every row of the order in the given column.
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
+            wks.merge_range(r, ORDER_START_COL, r, ORDER_START_COL + 3, '')
             wks.write_array_formula(xl_range(r, ORDER_START_COL, r, ORDER_START_COL), order_func)
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
