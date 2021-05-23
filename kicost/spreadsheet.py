@@ -1260,9 +1260,19 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         order_info_func_model = re.sub(r'[\s\n]', '', order_info_func_model)  # Strip all the whitespace from the function string.
 
         # Create the line order by the fields specified by each distributor.
-        delimier = ',"' + order.delimiter + '",'  # Function delimiter plus distributor code delimiter.
+        delimiter = ',"' + order.delimiter + '",'  # Function delimiter plus distributor code delimiter.
         order_part_info = []
         for col in cols:
+            # Look for the `col` name into the distributors spreadsheet part.
+            if col in columns:
+                info_range = start_col + columns[col]['col']
+            elif col in columns_global:
+                # If not there it belongs to the global part.
+                info_range = columns_global[col]
+            else:
+                info_range = 0
+                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
+            info_range = xl_range(PART_INFO_FIRST_ROW, info_range, PART_INFO_LAST_ROW, info_range)
             # Deal with conversion and string replace necessary to the correct distributors
             # code understanding.
             if col is None or (col not in columns and col not in columns_global):
@@ -1274,7 +1284,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             if col == 'purch':
                 # Add text conversion if is a numeric cell.
                 order_part_info.append('TEXT({},"##0")'.format(order_info_func_model))
-            elif col not in ['part_num', 'purch', 'manf#']:
+            elif col in ['part_num', 'manf#']:
+                order_part_info.append(order_info_func_model)
+            else:
                 # All comment and description columns (that are not quantity and catalogue code)
                 # should respect the allowed characters. These are text informative columns.
                 # if col=='refs':
@@ -1291,22 +1303,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 if order.limit:
                     order_info_func_parcial = 'LEFT({},{})'.format(order_info_func_parcial, order.limit)
                 order_part_info.append(order_info_func_parcial)
-            else:
-                order_part_info.append(order_info_func_model)
-            # Look for the `col` name into the distributor spreadsheet part
-            # with don't find, it belongs to the global part.
-            if col in columns:
-                info_range = start_col + columns[col]['col']
-            elif col in columns_global:
-                info_range = columns_global[col]
-            else:
-                info_range = ""
-                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
-            info_range = xl_range(PART_INFO_FIRST_ROW, info_range,
-                                  PART_INFO_LAST_ROW, info_range)
-            # If the correspondent information is some description, it is allow to add the general
-            # purchase designator. it is placed inside the "not allow characters" restriction.
-            if col not in ['part_num', 'purch', 'manf#']:
+                # Add the purchase description
                 info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(ss.purchase_description_seprtr) + '&' + info_range
             # Create the part of formula that refers with one specific information.
             order_part_info[-1] = order_part_info[-1].format(
@@ -1317,7 +1314,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                         order_first_row='{order_first_row}')
         # If already have some information, add the delimiter for
         # Microsoft Excel/LibreOffice Calc function.
-        order_func = order_func.format(delimier.join(order_part_info))
+        order_func = order_func.format(delimiter.join(order_part_info))
 
         # These are the columns where the part catalog numbers and purchase quantities can be found.
         if 'part_num' in cols:
