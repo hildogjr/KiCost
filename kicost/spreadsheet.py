@@ -847,7 +847,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         wks.write_comment(next_line, start_col + col['unit_price'],
                           'This description will be added to all purchased parts label and may be used to distinguish the ' +
                           'component of different projects.')
-        ss.define_name_ref('PURCHASE_DESCRIPTION', next_line, col['ext_price'])
+        ss.define_name_ref('PURCH_DESC', next_line, col['ext_price'])
 
     # Get the actual currency rate to use.
     next_line = row + 1
@@ -1229,7 +1229,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         # 1) Computes the set of row index in the part data that have
         #    non-empty cells in sel_range1 and sel_range2. (Innermost
         #    nested IF and ROW commands.) sel_range1 and sel_range2 are
-        #    the part's catalog number and purchase quantity.
+        #    the part's catalog number and purchase quantity. (qty and code)
         # 2) Selects the k'th smallest of the row index where k is the
         #    number of rows between the current part row in the order and the
         #    top row of the order (SMALL()) command).
@@ -1243,7 +1243,10 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         # 6) If any error occurs (which usually means the indexed cell
         #    contents were blank), then a blank is printed. Otherwise,
         #    the string from step #5 is printed in this cell.
-        # rng is just a range with num_parts height, needed to make the parallel computation
+        # Notes:
+        # - rng is just a range with num_parts height, needed to make the parallel computation
+        # - This formula is huge, but is the same for each row. As the file is compressed the resulting size is small.
+        #   SET: I tried to make it smaller (compressed 70%) but the XLSX becomes bigger (upto 10%)
         rng = 'A1:A'+str(num_parts)
         # order_first_row is the row used for the order
         order_info_func_model = '''
@@ -1265,7 +1268,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             purchase_code = start_col + columns_global['manf#']
         else:
             purchase_code = 0
-            logger.warning(W_NOQTY+"Not valid quantity/code field `{f}` for purchase list at {d}.".format(f=col, d=label))
+            logger.warning(W_NOQTY+"The purchase list for {d} doesn't include the part number.".format(d=label))
         purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code, PART_INFO_LAST_ROW, purchase_code)
         purchase_qty = start_col + columns['purch']['col']
         purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)
@@ -1312,7 +1315,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 if order.limit:
                     cell = 'LEFT({},{})'.format(cell, order.limit)
                 # Add the purchase description
-                info_range = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(ss.purchase_description_seprtr) + '&' + info_range
+                info_range = 'IF(PURCH_DESC<>"",PURCH_DESC&"{}","")'.format(ss.purchase_description_seprtr) + '&' + info_range
             # Solve the get_range part of the formula, depends on the column
             order_part_info.append(cell.format(get_range=info_range, qty=purchase_qty, code=purchase_code, rng=rng, order_first_row=ORDER_FIRST_ROW))
         # Put the collected data from the columns inside the concatenation
