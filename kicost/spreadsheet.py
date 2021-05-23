@@ -1244,23 +1244,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         #    contents were blank), then a blank is printed. Otherwise,
         #    the string from step #5 is printed in this cell.
         order_func = 'IFERROR(CONCATENATE({}),"")'
-    #         order_info_func_model = '''
-    #                         INDEX(
-    #                             {get_range},
-    #                             SMALL(
-    #                                 IF( ISNUMBER({qty}),
-    #                                     IF( {qty} > 0,
-    #                                         IF( {code} <> "",
-    #                                             ROW({qty}) - MIN(ROW({qty})) + 1
-    #                                         )
-    #                                     )
-    #                                 ),
-    #                                 ROW()-ROW({order_first_row})+1
-    #                             )
-    #                         )
-    #         '''
         # rng is just a range with num_parts height, needed to make the parallel computation
-        # rel_row is the row relative to the beginning
+        # order_first_row is the row used for the order
         order_info_func_model = '''
                         INDEX(
                             {get_range},
@@ -1268,7 +1253,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                                 IF( ISNUMBER({qty}) * ({qty} > 0) * ({code} <> ""),
                                     ROW({rng})
                                 ),
-                                {rel_row}
+                                ROW()-{order_first_row}
                             )
                         )
         '''
@@ -1329,7 +1314,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                         qty='{qty}',  # keep all other for future replacement.
                         code='{code}',
                         rng='{rng}',
-                        rel_row='{rel_row}')
+                        order_first_row='{order_first_row}')
         # If already have some information, add the delimiter for
         # Microsoft Excel/LibreOffice Calc function.
         order_func = order_func.format(delimier.join(order_part_info))
@@ -1347,12 +1332,11 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)
         # Fill the formula with the control parameters.
         rng = 'A1:A'+str(num_parts)
-        order_func = order_func.format(code=purchase_code, qty=purchase_qty, rng=rng, rel_row='{rel_row}')
+        order_func = order_func.format(code=purchase_code, qty=purchase_qty, rng=rng, order_first_row=ORDER_FIRST_ROW)
         # Now write the order_func into every row of the order in the given column.
         # dist_col = start_col + columns['unit_price']['col']
         # info_col = dist_col
         for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
-            func = order_func.format(rel_row=r - ORDER_FIRST_ROW + 1)
-            wks.write_array_formula(xl_range(r, ORDER_START_COL, r, ORDER_START_COL), '{{={f}}}'.format(f=func))
+            wks.write_array_formula(xl_range(r, ORDER_START_COL, r, ORDER_START_COL), '{{={f}}}'.format(f=order_func))
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.
