@@ -256,6 +256,7 @@ class Spreadsheet(object):
         'not_stocked': {'font_color': '#909090', 'align': 'right', 'valign': 'vcenter'},
         'currency': {'valign': 'vcenter'},
         'currency_unit': {'valign': 'vcenter'},
+        'order': {'valign': 'top', 'text_wrap': True},
     }
 
     def __init__(self, workbook, worksheet_name, prj_info, currency=DEFAULT_CURRENCY):
@@ -847,7 +848,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         wks.write_comment(next_line, start_col + col['unit_price'],
                           'This description will be added to all purchased parts label and may be used to distinguish the ' +
                           'component of different projects.')
-        ss.define_name_ref('PURCH_DESC', next_line, col['ext_price'])
+        ss.define_name_ref('PURCHASE_DESCRIPTION', next_line, col['ext_price'])
 
     # Get the actual currency rate to use.
     next_line = row + 1
@@ -1154,7 +1155,6 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     # Add list of part numbers and purchase quantities for ordering from this distributor.
     ORDER_START_COL = start_col + 1
     ORDER_FIRST_ROW = PART_INFO_LAST_ROW + 3
-    ORDER_LAST_ROW = ORDER_FIRST_ROW + num_parts - 1
 
     # Write the header and how many parts are being purchased.
     purch_qty_col = start_col + columns['purch']['col']
@@ -1204,126 +1204,107 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         logger.log(DEBUG_OVERVIEW, "Add the {f} information for the {d} purchase list code.".format(d=label, f=cols_user))
         cols[idx:idx] = cols_user
 
-    # Create the header of the purchase codes, if present the definition.
+    if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
+        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(d=label))
+        return start_col + num_cols  # Skip the order creation.
+
+    # Create the order using the fields specified by each distributor.
+    ORDER_FIRST_ROW = ORDER_FIRST_ROW + num_parts + 1
+    first_part = PART_INFO_FIRST_ROW
+    last_part = PART_INFO_FIRST_ROW + num_parts - 1
+    # The columns needed for this distributor
+    order_part_info = []
+    # Format the columns
+    for col in cols:
+        # Look for the `col` name into the distributor spreadsheet part
+        # with don't find, it belongs to the global part.
+        if col in columns:
+            info_col = start_col + columns[col]['col']
+        elif col in columns_global:
+            info_col = columns_global[col]
+        else:
+            info_col = 0
+            logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
+        cell = xl_range(first_part, info_col, last_part, info_col)
+        # Deal with conversion and string replace necessary to the correct distributors
+        # code understanding.
+        if col is None or (col not in columns and col not in columns_global):
+            # Create an empty column escaping all the information, same when is asked
+            # for a not present filed at the global column (`columns_global`) part or
+            # distributors columns part (`columns`).
+            order_part_info.append('""')
+        elif col == 'purch':
+            # Add text conversion if is a numeric cell.
+            order_part_info.append('TEXT({},"##0")'.format(cell))
+        elif col in ['part_num', 'manf#']:
+            # Part number goes without changes
+            order_part_info.append(cell)
+        else:
+            # All comment and description columns (that are not quantity and catalogue code)
+            # These are text informative columns.
+            # They can include the purchase designator
+            cell = 'IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&"{}","")'.format(ss.purchase_description_seprtr) + '&' + cell
+            # They should respect the allowed characters.
+            if order.not_allowed_char and order.replace_by_char:
+                multi_replace = len(order.replace_by_char) > 1
+                for c, not_allowed_char in enumerate(order.not_allowed_char):
+                    replace_by_char = order.replace_by_char[c if multi_replace else 0]
+                    cell = 'SUBSTITUTE({t},"{o}","{n}")'.format(t=cell, o=not_allowed_char, n=replace_by_char)
+            # A limit could be applied
+            if order.limit:
+                cell = 'LEFT({},{})'.format(cell, order.limit)
+            order_part_info.append(cell)
+    #
+    # Join the columns
+    #
+    # These are the columns where the part catalog numbers and purchase quantities can be found.
+    if 'part_num' in cols:
+        part_col = start_col + columns['part_num']['col']
+    elif 'manf#' in cols:
+        part_col = start_col + columns_global['manf#']
+    else:
+        part_col = 0
+        logger.warning(W_NOQTY+"The {d} distributor order info doesn't include the part number.")
+    part_range = xl_range(first_part, part_col, last_part, part_col)
+    qty_col = start_col + columns['purch']['col']
+    qty_range = xl_range(first_part, qty_col, last_part, qty_col)
+    conditional = '=IF(ISNUMBER({qty})*({qty}>0)*({catn}<>""),{{}}&CHAR(10),"")'.format(qty=qty_range, catn=part_range)
+    array_range = xl_range(ORDER_FIRST_ROW, ORDER_START_COL, ORDER_FIRST_ROW + num_parts - 1, ORDER_START_COL)
+    # Concatenation operator plus distributor code delimiter.
+    delimiter = '&"' + order.delimiter + '"&'
+    # Write a parallel formula to compute all the lines in one operation (array formula)
+    wks.write_array_formula(array_range, conditional.format(delimiter.join(order_part_info)), value='')
+    # Hide the individual results, but make them twice as high, so we can see the value and \n when visible
+    for r in range(num_parts):
+        wks.set_row(ORDER_FIRST_ROW + r, 30, None, {'hidden': 1})
+    #
+    # Consolidate the order using CONCATENATE
+    #
+    # CONCATENATE doesn't work with ranges (some implementations does others don't), so we list the cells manually
+    order_cells = [xl_rowcol_to_cell(ORDER_FIRST_ROW + r, ORDER_START_COL) for r in range(num_parts)]
+    # Create the header of the purchase codes (only for some distributors)
     if order.header:
-        wks.write_formula(ORDER_FIRST_ROW, ORDER_START_COL,
-                          '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}",""),"")'
+        cur_row = ORDER_FIRST_ROW + num_parts
+        wks.write_formula(cur_row, ORDER_START_COL,
+                          '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}"&CHAR(10),""),"")'
                           .format(count_range=xl_range(PART_INFO_FIRST_ROW, purch_qty_col,
                                                        PART_INFO_LAST_ROW, purch_qty_col),
                                   count_range_price=xl_range(PART_INFO_FIRST_ROW, ext_price_col,
                                                              PART_INFO_LAST_ROW, ext_price_col),
-                                  header=order.header),
-                          ss.wrk_formats['found_part_pct'], value='')
-        if order.info:
-            wks.write_comment(ORDER_FIRST_ROW, ORDER_START_COL, order.info)
-        ORDER_FIRST_ROW = ORDER_FIRST_ROW + 1  # Push all the code list one row.
-        ORDER_LAST_ROW = ORDER_LAST_ROW + 1
-
-    if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
-        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(d=label))
-    else:
-        # This script enters a function into a spreadsheet cell that
-        # prints the information found in info_col into the order_col column
-        # of the order.
-        # This is  a very complicated spreadsheet function which does the following:
-        # 1) Computes the set of row index in the part data that have
-        #    non-empty cells in sel_range1 and sel_range2. (Innermost
-        #    nested IF and ROW commands.) sel_range1 and sel_range2 are
-        #    the part's catalog number and purchase quantity. (qty and code)
-        # 2) Selects the k'th smallest of the row index where k is the
-        #    number of rows between the current part row in the order and the
-        #    top row of the order (SMALL()) command).
-        # 3) Gets the cell contents  from the get_range using the k'th
-        #    smallest row index found in step #2. (INDEX() command.)
-        # 4) Converts the cell contents to a string if it is numeric.
-        #    (num_to_text_func is used.) Otherwise, it's already a string.
-        # 5) CONCATENATES the string from step #4 with the delimiter
-        #    that goes between fields of an order for a part.
-        #    (CONCATENATE() command.)
-        # 6) If any error occurs (which usually means the indexed cell
-        #    contents were blank), then a blank is printed. Otherwise,
-        #    the string from step #5 is printed in this cell.
-        # Notes:
-        # - rng is just a range with num_parts height, needed to make the parallel computation
-        # - This formula is huge, but is the same for each row. As the file is compressed the resulting size is small.
-        #   SET: I tried to make it smaller (compressed 70%) but the XLSX becomes bigger (upto 10%)
-        rng = 'A1:A'+str(num_parts)
-        # order_first_row is the row used for the order
-        order_info_func_model = '''
-                        INDEX(
-                            {get_range},
-                            SMALL(
-                                IF( ISNUMBER({qty}) * ({qty} > 0) * ({code} <> ""),
-                                    ROW({rng})
-                                ),
-                                ROW()-{order_first_row}
-                            )
-                        )
-        '''
-        order_info_func_model = re.sub(r'[\s\n]', '', order_info_func_model)  # Strip all the whitespace from the function string.
-        # These are the columns where the part catalog numbers and purchase quantities can be found.
-        if 'part_num' in cols:
-            purchase_code = start_col + columns['part_num']['col']
-        elif 'manf#' in cols:
-            purchase_code = start_col + columns_global['manf#']
-        else:
-            purchase_code = 0
-            logger.warning(W_NOQTY+"The purchase list for {d} doesn't include the part number.".format(d=label))
-        purchase_code = xl_range(PART_INFO_FIRST_ROW, purchase_code, PART_INFO_LAST_ROW, purchase_code)
-        purchase_qty = start_col + columns['purch']['col']
-        purchase_qty = xl_range(PART_INFO_FIRST_ROW, purchase_qty, PART_INFO_LAST_ROW, purchase_qty)
-        # Create the line order by the fields specified by each distributor.
-        delimiter = ',"' + order.delimiter + '",'  # Function delimiter plus distributor code delimiter.
-        order_part_info = []
-        for col in cols:
-            # Deal with conversion and string replacement necessary to make the order valid
-            if col is None or (col not in columns and col not in columns_global):
-                # Create an empty column escaping all the information, same when is asked
-                # for a not present filed at the global column (`columns_global`) part or
-                # distributors columns part (`columns`).
-                order_part_info.append('')
-                continue  # Doesn't need to calculate range or references, go check the next field.
-            # Look for the `col` name into the distributors spreadsheet part.
-            if col in columns:
-                info_range = start_col + columns[col]['col']
-            elif col in columns_global:
-                # If not there it belongs to the global part.
-                info_range = columns_global[col]
-            else:
-                info_range = 0
-                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
-            info_range = xl_range(PART_INFO_FIRST_ROW, info_range, PART_INFO_LAST_ROW, info_range)
-            if col == 'purch':
-                # Convert it to text (is a number)
-                cell = 'TEXT({},"##0")'.format(order_info_func_model)
-            elif col in ['part_num', 'manf#']:
-                cell = order_info_func_model
-            else:
-                # All comment and description columns (that are not quantity and catalogue code)
-                # should respect the allowed characters. These are text informative columns.
-                # if col=='refs':
-                #     # If 'refs' column an additional rule to remove the subpart counter.
-                #     order_info_func_parcial = 'REGEX({f},"\{c}\d+","","g")'.format(f=order_info_func_model,c=SUB_SEPRTR)
-                #     This is not supported by Microsoft Excel. ## TODO
-                # else:
-                cell = order_info_func_model
-                if order.not_allowed_char and order.replace_by_char:
-                    multi_replace = len(order.replace_by_char) > 1
-                    for c, not_allowed_char in enumerate(order.not_allowed_char):
-                        replace_by_char = order.replace_by_char[c if multi_replace else 0]
-                        cell = 'SUBSTITUTE({t},"{o}","{n}")'.format(t=cell, o=not_allowed_char, n=replace_by_char)
-                if order.limit:
-                    cell = 'LEFT({},{})'.format(cell, order.limit)
-                # Add the purchase description
-                info_range = 'IF(PURCH_DESC<>"",PURCH_DESC&"{}","")'.format(ss.purchase_description_seprtr) + '&' + info_range
-            # Solve the get_range part of the formula, depends on the column
-            order_part_info.append(cell.format(get_range=info_range, qty=purchase_qty, code=purchase_code, rng=rng, order_first_row=ORDER_FIRST_ROW))
-        # Put the collected data from the columns inside the concatenation
-        # Note: This is an array formula, this is why it looks like {=FORMULA}
-        order_func = '{{=IFERROR(CONCATENATE({}),"")}}'.format(delimiter.join(order_part_info))
-        # Now write the order_func into every row of the order in the given column.
-        for r in range(ORDER_FIRST_ROW, ORDER_LAST_ROW + 1):
-            wks.merge_range(r, ORDER_START_COL, r, ORDER_START_COL + 3, '')
-            wks.write_array_formula(xl_range(r, ORDER_START_COL, r, ORDER_START_COL), order_func)
+                                  header=order.header), value='')
+        # Insert the header as the first line
+        order_cells.insert(0, xl_rowcol_to_cell(cur_row, ORDER_START_COL))
+        # Hide it
+        wks.set_row(cur_row, 30, None, {'hidden': 1})
+    # Merge the cells to provide enough space for the order
+    first_row = ORDER_FIRST_ROW - num_parts - 1
+    wks.merge_range(first_row, ORDER_START_COL, ORDER_FIRST_ROW - 1, ORDER_START_COL + 3, '')
+    # Now the final order is ready
+    # We also put the order.info text here, to make it more visible, will go away as soon a component is purchased
+    value = order.info if order.info else ''
+    # Just join the texts using CONCATENATE
+    wks.write_formula(first_row, ORDER_START_COL, '=CONCATENATE({})'.format(','.join(order_cells)), ss.wrk_formats['order'], value=value)
+    if value:
+        wks.write_comment(first_row, ORDER_START_COL, value)
 
     return start_col + num_cols  # Return column following the globals so we know where to start next set of cells.

@@ -117,8 +117,11 @@ distributors_info = {
                     url='https://lcsc.com/bom.html',
                     header='Quantity,Comment,Designator,Footprint,LCSC Part #(optional)',
                     cols=['purch', 'refs', 'footprint', 'part_num'],
-                    info='Copy this header and order to CSV file and use for JLCPCB manufacture PCB housing. '
-                         'The multipart components that use "#" symbol is not allowed at JLCPCB.'),
+                    info='Copy this header and order to a CSV\n'
+                         'file and use it for JLCPCB \n'
+                         'manufacturer PCB house.\n'
+                         'The multipart components that use\n'
+                         '"#" symbol are not allowed by JLCPCB.'),
                 label=DistributorLabel('LCSC', 'https://lcsc.com/', '#1166DD')),  # LCSC blue.
     'local_template': DistributorInfo(
                 type='local',
