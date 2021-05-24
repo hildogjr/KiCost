@@ -45,7 +45,7 @@ REPLICATE_MANF = '~'  # Character used to replicate the last manufacture name (`
 SGROUP_SEPRTR = '\n'  # Separator of the semi identical parts groups (parts that have the filed ignored to group).
 PRJ_STR_DECLARE = 'prj'  # Project string declaration attached to the beginning of each reference correspondent to one project in the multi-project files case.
 PRJPART_SPRTR = SEPRTR  # Separator between part designator and reference string. `PRJ_STR_DECLARE` + \d + `PRJPART_SPRTR` + ref
-PRJ_REGEX = re.compile('^(' + PRJ_STR_DECLARE  + r'(\d+)' + PRJPART_SPRTR + ')(.*)')
+PRJ_REGEX = re.compile('^(' + PRJ_STR_DECLARE + r'(\d+)' + PRJPART_SPRTR + ')(.*)')
 # Control for the group-collapse presentation.
 PART_SEQ_SEPRTR = '-'  # Part separator for sequential grouping.
 PART_NSEQ_SEPRTR = ','  # Part separator for non-sequential grouping.
@@ -682,7 +682,7 @@ def order_refs(refs, collapse=True, ref_sep=None):
         # Partition each part reference into its beginning part prefix and ending number.
         match = PART_REF_REGEX.search(ref)
         if match:
-            a_prefix = prefix = match.group('prefix')
+            prefix = match.group('prefix')
             num = match.group('num')
         else:
             prefix = ref
