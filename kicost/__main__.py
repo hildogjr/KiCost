@@ -42,9 +42,10 @@ set_logger(logger)
 from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions. # noqa: E402
 try:
     from .kicost_gui import kicost_gui
+    GUI_ENABLED = True
 except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
-    pass
+    GUI_ENABLED = False
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
 from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, set_api_options, set_api_status,  # noqa: E402
                            get_api_status)  # noqa: E402
@@ -297,15 +298,14 @@ def main_real():
         # Additionally: people with an Octopart key can help to offload KitSpace.
         set_api_status('KitSpace', False)
 
-    # SET: This is half imlemented. Not currently working.
+    # SET: This is half implemented. Not currently working.
     #     # Call the KiCost interface to alredy run KiCost, this is just to use the
     #     # saved user configurations of the graphical interface.
     #     if args.user:
-    #         try:
-    #             kicost_gui_runterminal(args)
-    #         except wxPythonNotPresent:
+    #         if not GUI_ENABLED:
     #             kicost_gui_notdependences()
-    #         return
+    #         kicost_gui_runterminal(args)
+    #         sys.exit(0)
 
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
@@ -314,18 +314,16 @@ def main_real():
             sys.exit(2)
 
     if args.gui:
-        try:
-            kicost_gui([os.path.abspath(fileName) for fileName in args.gui])
-        except (ImportError, NameError):
+        if not GUI_ENABLED:
             kicost_gui_notdependences()
-        return
+        kicost_gui([os.path.abspath(fileName) for fileName in args.gui])
+        sys.exit(0)
 
     if args.input is None:
-        try:
-            kicost_gui()  # Use the user gui if no input is given.
-        except (ImportError, NameError):
+        if not GUI_ENABLED:
             kicost_gui_notdependences()
-        return
+        kicost_gui()  # Use the user gui if no input is given.
+        sys.exit(0)
     else:
         # Match the EDA tool formats with the input files.
         if len(args.eda) == 1:
