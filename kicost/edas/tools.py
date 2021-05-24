@@ -677,7 +677,6 @@ def order_refs(refs, collapse=True, ref_sep=None):
        @return References in a organized view way.
     '''
     prefix_nums = OrderedDict()  # Contains a list of numbers for each distinct prefix.
-    a_prefix = ''
     for ref in refs:
         # Partition each part reference into its beginning part prefix and ending number.
         match = PART_REF_REGEX.search(ref)
