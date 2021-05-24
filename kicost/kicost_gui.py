@@ -28,7 +28,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 from .global_vars import (wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
-                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, get_logger, KiCostError)
+                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, get_logger, KiCostError, W_LOCFAIL)
 
 # Libraries.
 try:
@@ -1164,6 +1164,11 @@ def kicost_gui(files=None):
         (it will be used for plugin implementation on future KiCad6-Eeschema).
     '''
     app = wx.App(redirect=False)
+    loc = wx.Locale(wx.LANGUAGE_DEFAULT)
+    if not loc.IsOk():
+        logger.warning(W_LOCFAIL+"Failed to set the locale")
+    else:
+        logger.debug('wxWidgets locale {} ({}) system: {}'.format(loc.GetLocale(), loc.GetName(), locale.getlocale()))
     frame = formKiCost(None)
     # Use the GUI for progress
     set_distributors_progress(ProgressGUI)
