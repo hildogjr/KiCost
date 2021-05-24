@@ -1,6 +1,6 @@
 Variables:
 BoardQty = 'single_component'!$G$1
-PURCHASE_DESCRIPTION = 'single_component'!$G$10
+PURCH_DESC = 'single_component'!$G$10
 TotalCost = 'single_component'!$G$3
 USD_GBP = 'single_component'!$C$10
 arrow_part_data = 'single_component'!$H$5:$L$7
@@ -274,7 +274,6 @@ Row: 9
  Col: H
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: I
-   0
   Formula: IFERROR(IF(OR(I7),COUNTIFS(I7,">0",K7,"<>")&" of "&(ROWS(K7)-COUNTBLANK(K7))&" parts purchased",""),"")
  Col: K
    0
@@ -282,7 +281,6 @@ Row: 9
  Col: M
    <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
  Col: N
-   0
   Formula: IFERROR(IF(OR(N7),COUNTIFS(N7,">0",P7,"<>")&" of "&(ROWS(P7)-COUNTBLANK(P7))&" parts purchased",""),"")
  Col: P
    0
@@ -290,7 +288,6 @@ Row: 9
  Col: R
    <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
  Col: S
-   0
   Formula: IFERROR(IF(OR(S7),COUNTIFS(S7,">0",U7,"<>")&" of "&(ROWS(U7)-COUNTBLANK(U7))&" parts purchased",""),"")
  Col: U
    0
@@ -298,7 +295,6 @@ Row: 9
  Col: W
    <a href="https://lcsc.com/bom.html">Buy here</a>
  Col: X
-   0
   Formula: IFERROR(IF(OR(X7),COUNTIFS(X7,">0",Z7,"<>")&" of "&(ROWS(Z7)-COUNTBLANK(Z7))&" parts purchased",""),"")
  Col: Z
    0
@@ -306,7 +302,6 @@ Row: 9
  Col: AB
    <a href="https://mouser.com/bom/">Buy here</a>
  Col: AC
-   0
   Formula: IFERROR(IF(OR(AC7),COUNTIFS(AC7,">0",AE7,"<>")&" of "&(ROWS(AE7)-COUNTBLANK(AE7))&" parts purchased",""),"")
  Col: AE
    0
@@ -314,7 +309,6 @@ Row: 9
  Col: AG
    <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
  Col: AH
-   0
   Formula: IFERROR(IF(OR(AH7),COUNTIFS(AH7,">0",AJ7,"<>")&" of "&(ROWS(AJ7)-COUNTBLANK(AJ7))&" parts purchased",""),"")
  Col: AJ
    0
@@ -322,7 +316,6 @@ Row: 9
  Col: AL
    <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
  Col: AM
-   0
   Formula: IFERROR(IF(OR(AM7),COUNTIFS(AM7,">0",AO7,"<>")&" of "&(ROWS(AO7)-COUNTBLANK(AO7))&" parts purchased",""),"")
  Col: AO
    0
@@ -330,7 +323,6 @@ Row: 9
  Col: AQ
    <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
  Col: AR
-   0
   Formula: IFERROR(IF(OR(AR7),COUNTIFS(AR7,">0",AT7,"<>")&" of "&(ROWS(AT7)-COUNTBLANK(AT7))&" parts purchased",""),"")
  Col: AT
    0
@@ -344,32 +336,31 @@ Row: 10
    "Purchase description:"
  Col: I1
    0
-  Formula: IFERROR(CONCATENATE(INDEX(L7,SMALL(IF(ISNUMBER(I7),IF(I7>0,IF(L7<>"",ROW(I7)-MIN(ROW(I7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(I7,SMALL(IF(ISNUMBER(I7),IF(I7>0,IF(L7<>"",ROW(I7)-MIN(ROW(I7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(I7),IF(I7>0,IF(L7<>"",ROW(I7)-MIN(ROW(I7))+1))),ROW()-ROW(A$10)+1)),",",";")),"")
+  Formula: IFERROR(CONCATENATE(INDEX(L7,SMALL(IF(ISNUMBER(I7)*(I7>0)*(L7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(I7,SMALL(IF(ISNUMBER(I7)*(I7>0)*(L7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(I7)*(I7>0)*(L7<>""),ROW(A1:A1)),ROW()-9)),",",";")),"")
  Col: N1
    0
-  Formula: IFERROR(CONCATENATE(TEXT(INDEX(N7,SMALL(IF(ISNUMBER(N7),IF(N7>0,IF(Q7<>"",ROW(N7)-MIN(ROW(N7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",INDEX(Q7,SMALL(IF(ISNUMBER(N7),IF(N7>0,IF(Q7<>"",ROW(N7)-MIN(ROW(N7))+1))),ROW()-ROW(A$10)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(N7),IF(N7>0,IF(Q7<>"",ROW(N7)-MIN(ROW(N7))+1))),ROW()-ROW(A$10)+1)),",",";")),"")
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(N7,SMALL(IF(ISNUMBER(N7)*(N7>0)*(Q7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",INDEX(Q7,SMALL(IF(ISNUMBER(N7)*(N7>0)*(Q7<>""),ROW(A1:A1)),ROW()-9)),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(N7)*(N7>0)*(Q7<>""),ROW(A1:A1)),ROW()-9)),",",";")),"")
  Col: S1
    0
-  Formula: IFERROR(CONCATENATE(INDEX(V7,SMALL(IF(ISNUMBER(S7),IF(S7>0,IF(V7<>"",ROW(S7)-MIN(ROW(S7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(S7,SMALL(IF(ISNUMBER(S7),IF(S7>0,IF(V7<>"",ROW(S7)-MIN(ROW(S7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",,",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(S7),IF(S7>0,IF(V7<>"",ROW(S7)-MIN(ROW(S7))+1))),ROW()-ROW(A$10)+1)),",",";"),"\n",";"),30)),"")
+  Formula: IFERROR(CONCATENATE(INDEX(V7,SMALL(IF(ISNUMBER(S7)*(S7>0)*(V7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(S7,SMALL(IF(ISNUMBER(S7)*(S7>0)*(V7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",,",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(S7)*(S7>0)*(V7<>""),ROW(A1:A1)),ROW()-9)),",",";"),"\n",";"),30)),"")
  Col: X1
-   0
   Formula: IFERROR(IF(COUNTIFS(X7,">0",Z7,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)",""),"")
  Col: AC1
    0
-  Formula: IFERROR(CONCATENATE(INDEX(AF7,SMALL(IF(ISNUMBER(AC7),IF(AC7>0,IF(AF7<>"",ROW(AC7)-MIN(ROW(AC7))+1))),ROW()-ROW(A$10)+1)),"|",TEXT(INDEX(AC7,SMALL(IF(ISNUMBER(AC7),IF(AC7>0,IF(AF7<>"",ROW(AC7)-MIN(ROW(AC7))+1))),ROW()-ROW(A$10)+1)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AC7),IF(AC7>0,IF(AF7<>"",ROW(AC7)-MIN(ROW(AC7))+1))),ROW()-ROW(A$10)+1)),"|",";")," ","_")),"")
+  Formula: IFERROR(CONCATENATE(INDEX(AF7,SMALL(IF(ISNUMBER(AC7)*(AC7>0)*(AF7<>""),ROW(A1:A1)),ROW()-9)),"|",TEXT(INDEX(AC7,SMALL(IF(ISNUMBER(AC7)*(AC7>0)*(AF7<>""),ROW(A1:A1)),ROW()-9)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AC7)*(AC7>0)*(AF7<>""),ROW(A1:A1)),ROW()-9)),"|",";")," ","_")),"")
  Col: AH1
    0
-  Formula: IFERROR(CONCATENATE(INDEX(AK7,SMALL(IF(ISNUMBER(AH7),IF(AH7>0,IF(AK7<>"",ROW(AH7)-MIN(ROW(AH7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(AH7,SMALL(IF(ISNUMBER(AH7),IF(AH7>0,IF(AK7<>"",ROW(AH7)-MIN(ROW(AH7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AH7),IF(AH7>0,IF(AK7<>"",ROW(AH7)-MIN(ROW(AH7))+1))),ROW()-ROW(A$10)+1)),",",";"),"\n",";"),",",),"")
+  Formula: IFERROR(CONCATENATE(INDEX(AK7,SMALL(IF(ISNUMBER(AH7)*(AH7>0)*(AK7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(AH7,SMALL(IF(ISNUMBER(AH7)*(AH7>0)*(AK7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AH7)*(AH7>0)*(AK7<>""),ROW(A1:A1)),ROW()-9)),",",";"),"\n",";"),",",),"")
  Col: AM1
    0
-  Formula: IFERROR(CONCATENATE(INDEX(AP7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),",",TEXT(INDEX(AM7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),"##0"),",",,",",,",",,",",INDEX(D7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AM7),IF(AM7>0,IF(AP7<>"",ROW(AM7)-MIN(ROW(AM7))+1))),ROW()-ROW(A$10)+1)),",",";")),"")
+  Formula: IFERROR(CONCATENATE(INDEX(AP7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(AM7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",,",",,",",,",",INDEX(D7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),",",";")),"")
  Col: AR1
    0
-  Formula: IFERROR(CONCATENATE(INDEX(AU7,SMALL(IF(ISNUMBER(AR7),IF(AR7>0,IF(AU7<>"",ROW(AR7)-MIN(ROW(AR7))+1))),ROW()-ROW(A$10)+1))," ",TEXT(INDEX(AR7,SMALL(IF(ISNUMBER(AR7),IF(AR7>0,IF(AU7<>"",ROW(AR7)-MIN(ROW(AR7))+1))),ROW()-ROW(A$10)+1)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(AR7),IF(AR7>0,IF(AU7<>"",ROW(AR7)-MIN(ROW(AR7))+1))),ROW()-ROW(A$10)+1))," ",";")),"")
+  Formula: IFERROR(CONCATENATE(INDEX(AU7,SMALL(IF(ISNUMBER(AR7)*(AR7>0)*(AU7<>""),ROW(A1:A1)),ROW()-9))," ",TEXT(INDEX(AR7,SMALL(IF(ISNUMBER(AR7)*(AR7>0)*(AU7<>""),ROW(A1:A1)),ROW()-9)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AR7)*(AR7>0)*(AU7<>""),ROW(A1:A1)),ROW()-9))," ",";")),"")
 Row: 11
  Col: X1
    0
-  Formula: IFERROR(CONCATENATE(TEXT(INDEX(X7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1)),",",";"),",",INDEX(AA7,SMALL(IF(ISNUMBER(X7),IF(X7>0,IF(AA7<>"",ROW(X7)-MIN(ROW(X7))+1))),ROW()-ROW(A$11)+1))),"")
+  Formula: IFERROR(CONCATENATE(TEXT(INDEX(X7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&C7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10)),",",";"),",",INDEX(AA7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10))),"")
 Row: 12
  Col: A1
    "*FILTERED*"

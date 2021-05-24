@@ -98,7 +98,7 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
             if value is not None:
                 if type == 'n':
                     # Numbers as integers
-                    value = float(value.text)
+                    value = float(value.text) if value.text is not None else None
                 else:
                     value = value.text
             cols.append((pos, value))
@@ -154,9 +154,15 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                 form = forms.get(pos)
                 if cell is None and form is None:
                     continue
-                f.write(' Col: ' + m.group(1) + '\n   ')
+                f.write(' Col: ' + m.group(1) + '\n')
+                if cell is not None:
+                    f.write('   ')
                 if isinstance(cell, str):
-                    text = '*NONE*' if cell == 'None' else strs[int(cell)]
+                    try:
+                        text = '*NONE*' if cell == 'None' else strs[int(cell)]
+                    except ValueError:
+                        # Special cases where the text is there
+                        text = cell
                     if text is None:
                         text = '*NONE*'
                     # Filter variable fields
@@ -176,12 +182,13 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                         f.write('<a href="{}">{}</a>'.format(url, text))
                     else:
                         f.write('"' + text + '"')
-                else:
+                elif cell is not None:
                     # Python 2.7 str(float) has only 12 digits, force 16
                     f.write("{:.16g}".format(cell))
+                if cell is not None:
+                    f.write('\n')
                 if form:
-                    f.write('\n  Formula: ' + form)
-                f.write('\n')
+                    f.write('  Formula: ' + form + '\n')
     shutil.rmtree(tmpdir)
     return True
 
