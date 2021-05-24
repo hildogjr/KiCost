@@ -346,7 +346,8 @@ Row: 9
    "Cat#"
 Row: 10
  Col: A1
-   "prj0:J1,prj1:J1"
+   "prj0:J1
+prj1:J1"
  Col: B1
    "ST-LINK_Debug_Header"
  Col: C1
@@ -422,7 +423,8 @@ Row: 10
    <a href="https://octopart.com/click/track?ai=8078&sig=07caf84&sid=10022&ppid=653378&vpid=210613535&ct=offers">8273587</a>
 Row: 11
  Col: A1
-   "prj0:J2,prj1:J2"
+   "prj0:J2
+prj1:J2"
  Col: B1
    "DF12(5.0)-30DP-0.5V(86)"
  Col: C1
@@ -498,23 +500,21 @@ Row: 11
    <a href="https://octopart.com/click/track?ai=8078&sig=04af992&sid=10022&ppid=39521406&vpid=199028271&ct=offers">6082193</a>
 Row: 12
  Col: A1
-   "prj0:J3#1"
+   "prj1:J3"
  Col: B1
-   "BLE113_Debug_Header - p1/3"
+   "BLE113_Debug_Header"
  Col: C1
    "CNC-Tech_3220-10-0300-00"
- Col: D1
-   "*NONE*"
  Col: E1
    <a href="http://datasheet.octopart.com/3220-10-0300-00-CNC-Tech-datasheet-138895896.pdf">3220-10-0300-00</a>
  Col: F1
-   30
-  Formula: BoardQty0*(1.0)
- Col: G1
    0
-  Formula: BoardQty1*(0.0)
+  Formula: BoardQty0*(0.0)
+ Col: G1
+   300
+  Formula: BoardQty1*(10.0)
  Col: H1
-   30
+   300
   Formula: CEILING(SUM(F12:G12),1)
  Col: I1
    0
@@ -534,6 +534,42 @@ Row: 12
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=07741a2&sid=459&ppid=26681657&vpid=81558127&ct=offers">1175-1629-ND</a>
 Row: 13
  Col: A1
+   "prj0:J3#1"
+ Col: B1
+   "BLE113_Debug_Header - p1/3"
+ Col: C1
+   "CNC-Tech_3220-10-0300-00"
+ Col: D1
+   "*NONE*"
+ Col: E1
+   <a href="http://datasheet.octopart.com/3220-10-0300-00-CNC-Tech-datasheet-138895896.pdf">3220-10-0300-00</a>
+ Col: F1
+   30
+  Formula: BoardQty0*(1.0)
+ Col: G1
+   0
+  Formula: BoardQty1*(0.0)
+ Col: H1
+   30
+  Formula: CEILING(SUM(F13:G13),1)
+ Col: I1
+   0
+  Formula: MINA(M13,R13,W13,AB13,AG13,AL13,AQ13,AV13)
+ Col: J1
+   0
+  Formula: iferror(H13*I13,"")
+ Col: P1
+   50992
+ Col: R1
+   0
+  Formula: iferror(lookup(if(Q13="",H13,Q13),{0,1,10,80,440,3200,6400,12800},{0.0,0.74,0.697,0.53425,0.46459,0.34845,0.33683,0.30896}),"")
+ Col: S1
+   0
+  Formula: iferror(if(Q13="",H13,Q13)*R13,"")
+ Col: T1
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=07741a2&sid=459&ppid=26681657&vpid=81558127&ct=offers">1175-1629-ND</a>
+Row: 14
+ Col: A1
    "prj0:J3#2"
  Col: B1
    "BLE113_Debug_Header - p2/3"
@@ -551,14 +587,14 @@ Row: 13
   Formula: BoardQty1*(0.0)
  Col: H1
    60
-  Formula: CEILING(SUM(F13:G13),1)
+  Formula: CEILING(SUM(F14:G14),1)
  Col: I1
    0
-  Formula: MINA(M13,R13,W13,AB13,AG13,AL13,AQ13,AV13)
+  Formula: MINA(M14,R14,W14,AB14,AG14,AL14,AQ14,AV14)
  Col: J1
    0
-  Formula: iferror(H13*I13,"")
-Row: 14
+  Formula: iferror(H14*I14,"")
+Row: 15
  Col: A1
    "prj0:J3#3"
  Col: B1
@@ -577,16 +613,17 @@ Row: 14
   Formula: BoardQty1*(0.0)
  Col: H1
    36
-  Formula: CEILING(SUM(F14:G14),1)
+  Formula: CEILING(SUM(F15:G15),1)
  Col: I1
    0
-  Formula: MINA(M14,R14,W14,AB14,AG14,AL14,AQ14,AV14)
+  Formula: MINA(M15,R15,W15,AB15,AG15,AL15,AQ15,AV15)
  Col: J1
    0
-  Formula: iferror(H14*I14,"")
-Row: 15
+  Formula: iferror(H15*I15,"")
+Row: 16
  Col: A1
-   "prj0:R1,prj1:R1"
+   "prj0:R1
+prj1:R1"
  Col: B1
    "DNI"
  Col: C1
@@ -599,16 +636,17 @@ Row: 15
   Formula: BoardQty1*(1.0)
  Col: H1
    60
-  Formula: CEILING(SUM(F15:G15),1)
+  Formula: CEILING(SUM(F16:G16),1)
  Col: I1
    0
-  Formula: MINA(M15,R15,W15,AB15,AG15,AL15,AQ15,AV15)
+  Formula: MINA(M16,R16,W16,AB16,AG16,AL16,AQ16,AV16)
  Col: J1
    0
-  Formula: iferror(H15*I15,"")
-Row: 16
+  Formula: iferror(H16*I16,"")
+Row: 17
  Col: A1
-   "prj0:R2,prj0:R3,prj1:R2,prj1:R3"
+   "prj0:R2,R3
+prj1:R2,R3"
  Col: B1
    "0"
  Col: C1
@@ -625,24 +663,24 @@ Row: 16
   Formula: BoardQty1*(2.0)
  Col: H1
    120
-  Formula: CEILING(SUM(F16:G16),1)
+  Formula: CEILING(SUM(F17:G17),1)
  Col: I1
    0
-  Formula: MINA(M16,R16,W16,AB16,AG16,AL16,AQ16,AV16)
+  Formula: MINA(M17,R17,W17,AB17,AG17,AL17,AQ17,AV17)
  Col: J1
    0
-  Formula: iferror(H16*I16,"")
+  Formula: iferror(H17*I17,"")
  Col: P1
    6920000
  Col: R1
    0
-  Formula: iferror(lookup(if(Q16="",H16,Q16),{0,1,10,25,50,100,250,500,1000,10000,30000,50000},{0.0,0.1,0.042,0.0304,0.023,0.017,0.01296,0.01036,0.00763,0.00475,0.00418,0.00392}),"")
+  Formula: iferror(lookup(if(Q17="",H17,Q17),{0,1,10,25,50,100,250,500,1000,10000,30000,50000},{0.0,0.1,0.042,0.0304,0.023,0.017,0.01296,0.01036,0.00763,0.00475,0.00418,0.00392}),"")
  Col: S1
    0
-  Formula: iferror(if(Q16="",H16,Q16)*R16,"")
+  Formula: iferror(if(Q17="",H17,Q17)*R17,"")
  Col: T1
    <a href="https://octopart.com/click/track?ai=8078&sig=04cd5ba&sid=459&ppid=60632&vpid=72530002&ct=offers">1276-3480-1-ND</a>
-Row: 17
+Row: 18
  Col: A1
    "prj0:S1#1"
  Col: B1
@@ -661,14 +699,14 @@ Row: 17
   Formula: BoardQty1*(0.0)
  Col: H1
    30
-  Formula: CEILING(SUM(F17:G17),1)
+  Formula: CEILING(SUM(F18:G18),1)
  Col: I1
    0
-  Formula: MINA(M17,R17,W17,AB17,AG17,AL17,AQ17,AV17)
+  Formula: MINA(M18,R18,W18,AB18,AG18,AL18,AQ18,AV18)
  Col: J1
    0
-  Formula: iferror(H17*I17,"")
-Row: 18
+  Formula: iferror(H18*I18,"")
+Row: 19
  Col: A1
    "prj0:S1#2"
  Col: B1
@@ -687,32 +725,6 @@ Row: 18
   Formula: BoardQty1*(0.0)
  Col: H1
    75
-  Formula: CEILING(SUM(F18:G18),1)
- Col: I1
-   0
-  Formula: MINA(M18,R18,W18,AB18,AG18,AL18,AQ18,AV18)
- Col: J1
-   0
-  Formula: iferror(H18*I18,"")
-Row: 19
- Col: A1
-   "prj0:S2,prj1:S1,prj1:S2"
- Col: B1
-   "Coto_CL-SB-22A-01T"
- Col: C1
-   "Coto_CL-SB-22A"
- Col: D1
-   "Coto"
- Col: E1
-   "CL-SB-22A-01T"
- Col: F1
-   30
-  Formula: BoardQty0*(1.0)
- Col: G1
-   60
-  Formula: BoardQty1*(2.0)
- Col: H1
-   90
   Formula: CEILING(SUM(F19:G19),1)
  Col: I1
    0
@@ -722,7 +734,35 @@ Row: 19
   Formula: iferror(H19*I19,"")
 Row: 20
  Col: A2
-   "prj0:SW1-prj0:SW3,prj0:SW5-prj0:SW9,prj1:SW1-prj1:SW3,prj1:SW5-prj1:SW9"
+   "prj0:S2
+prj1:S1,S2"
+ Col: B2
+   "Coto_CL-SB-22A-01T"
+ Col: C2
+   "Coto_CL-SB-22A"
+ Col: D2
+   "Coto"
+ Col: E2
+   "CL-SB-22A-01T"
+ Col: F2
+   30
+  Formula: BoardQty0*(1.0)
+ Col: G2
+   60
+  Formula: BoardQty1*(2.0)
+ Col: H2
+   90
+  Formula: CEILING(SUM(F20:G20),1)
+ Col: I2
+   0
+  Formula: MINA(M20,R20,W20,AB20,AG20,AL20,AQ20,AV20)
+ Col: J2
+   0
+  Formula: iferror(H20*I20,"")
+Row: 21
+ Col: A2
+   "prj0:SW1-SW3,SW5-SW9
+prj1:SW1-SW3,SW5-SW9"
  Col: B2
    "Wurth_431481031816"
  Col: C2
@@ -739,32 +779,6 @@ Row: 20
   Formula: BoardQty1*(8.0)
  Col: H2
    480
-  Formula: CEILING(SUM(F20:G20),1)
- Col: I2
-   0
-  Formula: MINA(M20,R20,W20,AB20,AG20,AL20,AQ20,AV20)
- Col: J2
-   0
-  Formula: iferror(H20*I20,"")
-Row: 21
- Col: A2
-   "prj0:SW4#1"
- Col: B2
-   "Wurth_431481031816 - p1/4"
- Col: C2
-   "Wurth_431481031816"
- Col: D2
-   "Wurth Elektronik"
- Col: E2
-   "431481"
- Col: F2
-   30
-  Formula: BoardQty0*(1.0)
- Col: G2
-   0
-  Formula: BoardQty1*(0.0)
- Col: H2
-   30
   Formula: CEILING(SUM(F21:G21),1)
  Col: I2
    0
@@ -774,9 +788,9 @@ Row: 21
   Formula: iferror(H21*I21,"")
 Row: 22
  Col: A2
-   "prj0:SW4#2"
+   "prj1:SW4"
  Col: B2
-   "Wurth_431481031816 - p2/4"
+   "Wurth_431481031816"
  Col: C2
    "Wurth_431481031816"
  Col: D2
@@ -784,11 +798,11 @@ Row: 22
  Col: E2
    "431481"
  Col: F2
-   30
-  Formula: BoardQty0*(1.0)
- Col: G2
    0
-  Formula: BoardQty1*(0.0)
+  Formula: BoardQty0*(0.0)
+ Col: G2
+   30
+  Formula: BoardQty1*(1.0)
  Col: H2
    30
   Formula: CEILING(SUM(F22:G22),1)
@@ -800,9 +814,9 @@ Row: 22
   Formula: iferror(H22*I22,"")
 Row: 23
  Col: A2
-   "prj0:SW4#3"
+   "prj0:SW4#1"
  Col: B2
-   "Wurth_431481031816 - p3/4"
+   "Wurth_431481031816 - p1/4"
  Col: C2
    "Wurth_431481031816"
  Col: D2
@@ -826,15 +840,15 @@ Row: 23
   Formula: iferror(H23*I23,"")
 Row: 24
  Col: A2
-   "prj0:SW4#4"
+   "prj0:SW4#2"
  Col: B2
-   "Wurth_431481031816 - p4/4"
+   "Wurth_431481031816 - p2/4"
  Col: C2
    "Wurth_431481031816"
  Col: D2
    "Wurth Elektronik"
  Col: E2
-   "Q45"
+   "431481"
  Col: F2
    30
   Formula: BoardQty0*(1.0)
@@ -852,43 +866,9 @@ Row: 24
   Formula: iferror(H24*I24,"")
 Row: 25
  Col: A2
-   "prj1:J3"
+   "prj0:SW4#3"
  Col: B2
-   "BLE113_Debug_Header"
- Col: C2
-   "CNC-Tech_3220-10-0300-00"
- Col: E2
-   <a href="http://datasheet.octopart.com/3220-10-0300-00-CNC-Tech-datasheet-138895896.pdf">3220-10-0300-00</a>
- Col: F2
-   0
-  Formula: BoardQty0*(0.0)
- Col: G2
-   300
-  Formula: BoardQty1*(10.0)
- Col: H2
-   300
-  Formula: CEILING(SUM(F25:G25),1)
- Col: I2
-   0
-  Formula: MINA(M25,R25,W25,AB25,AG25,AL25,AQ25,AV25)
- Col: J2
-   0
-  Formula: iferror(H25*I25,"")
- Col: P2
-   50992
- Col: R2
-   0
-  Formula: iferror(lookup(if(Q25="",H25,Q25),{0,1,10,80,440,3200,6400,12800},{0.0,0.74,0.697,0.53425,0.46459,0.34845,0.33683,0.30896}),"")
- Col: S2
-   0
-  Formula: iferror(if(Q25="",H25,Q25)*R25,"")
- Col: T2
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=07741a2&sid=459&ppid=26681657&vpid=81558127&ct=offers">1175-1629-ND</a>
-Row: 26
- Col: A2
-   "prj1:SW4"
- Col: B2
-   "Wurth_431481031816"
+   "Wurth_431481031816 - p3/4"
  Col: C2
    "Wurth_431481031816"
  Col: D2
@@ -896,11 +876,37 @@ Row: 26
  Col: E2
    "431481"
  Col: F2
-   0
-  Formula: BoardQty0*(0.0)
- Col: G2
    30
-  Formula: BoardQty1*(1.0)
+  Formula: BoardQty0*(1.0)
+ Col: G2
+   0
+  Formula: BoardQty1*(0.0)
+ Col: H2
+   30
+  Formula: CEILING(SUM(F25:G25),1)
+ Col: I2
+   0
+  Formula: MINA(M25,R25,W25,AB25,AG25,AL25,AQ25,AV25)
+ Col: J2
+   0
+  Formula: iferror(H25*I25,"")
+Row: 26
+ Col: A2
+   "prj0:SW4#4"
+ Col: B2
+   "Wurth_431481031816 - p4/4"
+ Col: C2
+   "Wurth_431481031816"
+ Col: D2
+   "Wurth Elektronik"
+ Col: E2
+   "Q45"
+ Col: F2
+   30
+  Formula: BoardQty0*(1.0)
+ Col: G2
+   0
+  Formula: BoardQty1*(0.0)
  Col: H2
    30
   Formula: CEILING(SUM(F26:G26),1)

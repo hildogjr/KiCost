@@ -45,6 +45,7 @@ REPLICATE_MANF = '~'  # Character used to replicate the last manufacture name (`
 SGROUP_SEPRTR = '\n'  # Separator of the semi identical parts groups (parts that have the filed ignored to group).
 PRJ_STR_DECLARE = 'prj'  # Project string declaration attached to the beginning of each reference correspondent to one project in the multi-project files case.
 PRJPART_SPRTR = SEPRTR  # Separator between part designator and reference string. `PRJ_STR_DECLARE` + \d + `PRJPART_SPRTR` + ref
+PRJ_REGEX = re.compile('^(' + PRJ_STR_DECLARE  + r'(\d+)' + PRJPART_SPRTR + ')(.*)')
 # Control for the group-collapse presentation.
 PART_SEQ_SEPRTR = '-'  # Part separator for sequential grouping.
 PART_NSEQ_SEPRTR = ','  # Part separator for non-sequential grouping.
@@ -628,64 +629,64 @@ def get_refnum(refnum):
     return int(re.match(r'\d+', refnum).group(0))
 
 
+def convert_to_ranges(nums):
+    # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
+    # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
+
+    def to_int(n):
+        try:
+            return int(n)
+        except ValueError:
+            return n
+
+    nums.sort(key=get_refnum)  # Sort all the numbers.
+    nums = [to_int(n) for n in nums]  # Convert strings to `int` if possible.
+    num_ranges = []  # No ranges found yet since we just started.
+    range_start = 0  # First possible range is at the start of the list of numbers.
+
+    # Go through the list of numbers looking for 3 or more sequential numbers.
+    while range_start < len(nums):
+        num_range = nums[range_start]  # Current range starts off as a single number.
+        next_range_start = range_start + 1  # The next possible start of a range.
+        # Part references with subparts are never included in ref ranges.
+        if not isinstance(num_range, int):
+            num_ranges.append(num_range)
+            range_start = next_range_start
+            continue
+        # Look for sequences of three or more sequential numbers.
+        for range_end in range(range_start + 2, len(nums)):
+            if not isinstance(nums[range_end], int):
+                break  # Ref with subpart, so can't be in a ref range.
+            if range_end - range_start != nums[range_end] - nums[range_start]:
+                break  # Non-sequential numbers found, so break out of loop.
+            # Otherwise, extend the current range.
+            num_range = [nums[range_start], nums[range_end]]
+            # 3 or more sequential numbers found, so next possible range must start after this one.
+            next_range_start = range_end + 1
+        # Append the range (or single number) just found to the list of range.
+        num_ranges.append(num_range)
+        # Point to the start of the next possible range and keep looking.
+        range_start = next_range_start
+
+    return num_ranges
+
+
 def order_refs(refs, collapse=True, ref_sep=None):
     '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as opposite of `split_refs()`
        @param refs Designator/references `list()`.
        @return References in a organized view way.
     '''
-
-    def convert_to_ranges(nums):
-        # Collapse a list of numbers into sorted, comma-separated, hyphenated ranges.
-        # e.g.: 3,4,7,8,9,10,11,13,14 => 3,4,7-11,13,14
-
-        def to_int(n):
-            try:
-                return int(n)
-            except ValueError:
-                return n
-
-        nums.sort(key=get_refnum)  # Sort all the numbers.
-        nums = [to_int(n) for n in nums]  # Convert strings to `int` if possible.
-        num_ranges = []  # No ranges found yet since we just started.
-        range_start = 0  # First possible range is at the start of the list of numbers.
-
-        # Go through the list of numbers looking for 3 or more sequential numbers.
-        while range_start < len(nums):
-            num_range = nums[range_start]  # Current range starts off as a single number.
-            next_range_start = range_start + 1  # The next possible start of a range.
-            # Part references with subparts are never included in ref ranges.
-            if not isinstance(num_range, int):
-                num_ranges.append(num_range)
-                range_start = next_range_start
-                continue
-            # Look for sequences of three or more sequential numbers.
-            for range_end in range(range_start + 2, len(nums)):
-                if not isinstance(nums[range_end], int):
-                    break  # Ref with subpart, so can't be in a ref range.
-                if range_end - range_start != nums[range_end] - nums[range_start]:
-                    break  # Non-sequential numbers found, so break out of loop.
-                # Otherwise, extend the current range.
-                num_range = [nums[range_start], nums[range_end]]
-                # 3 or more sequential numbers found, so next possible range must start after this one.
-                next_range_start = range_end + 1
-            # Append the range (or single number) just found to the list of range.
-            num_ranges.append(num_range)
-            # Point to the start of the next possible range and keep looking.
-            range_start = next_range_start
-
-        return num_ranges
-
     prefix_nums = OrderedDict()  # Contains a list of numbers for each distinct prefix.
+    a_prefix = ''
     for ref in refs:
         # Partition each part reference into its beginning part prefix and ending number.
         match = PART_REF_REGEX.search(ref)
         if match:
-            prefix = match.group('prefix')
+            a_prefix = prefix = match.group('prefix')
             num = match.group('num')
         else:
             prefix = ref
             num = ''
-
         # Append the number to the list of numbers for this prefix, or create a list
         # with a single number if this is the first time a particular prefix was encountered.
         prefix_nums.setdefault(prefix, []).append(num)
@@ -701,21 +702,40 @@ def order_refs(refs, collapse=True, ref_sep=None):
     # Combine the prefixes and number ranges back into part references.
     collapsed_refs = []
     first_ref = None
+
     for prefix, nums in prefix_nums.items():
+        # Is this a multiproject ref?
+        match = PRJ_REGEX.search(prefix)
+        if match:
+            prj_prefix = match.group(1)
+            prefix = match.group(3)
+        else:
+            prj_prefix = None
+        # Work on this group of references
+        refs = []
         for num in nums:
             if isinstance(num, list):
                 # Convert a range list into a collapsed part reference:
                 # e.g., 'R10-R15' from 'R':[10,15].
-                collapsed_refs.append('{0}{1}{3}{0}{2}'.format(prefix, num[0], num[-1], PART_SEQ_SEPRTR))
+                refs.append('{0}{1}{3}{0}{2}'.format(prefix, num[0], num[-1], PART_SEQ_SEPRTR))
                 n = num[0]
             else:
                 # Convert a single number into a simple part reference: e.g., 'R10'.
-                collapsed_refs.append('{}{}'.format(prefix, num))
+                refs.append('{}{}'.format(prefix, num))
                 n = num
             if first_ref is None:
                 first_ref = '{}{}'.format(prefix, n)
+        # Add them to the list
+        if prj_prefix:
+            # Add one entry for mutiprojects, it contains all the similar refs for this project
+            collapsed_refs.append(prj_prefix + ref_sep.join(refs))
+        else:
+            collapsed_refs.extend(refs)
 
-    if ref_sep is None:
+    if prj_prefix is not None:
+        # Separate multiproject refs in different lines
+        ref_sep = '\n'
+    elif ref_sep is None:
         ref_sep = PART_NSEQ_SEPRTR
     collapsed_refs = ref_sep.join(collapsed_refs)
     return collapsed_refs, first_ref  # Return the collapsed par references.

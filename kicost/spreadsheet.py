@@ -303,6 +303,8 @@ class Spreadsheet(object):
 
     def compute_cell_size(self, row, col, text, format):
         """ Compute cell size adjusts """
+        if not text:
+            return
         # Compute a scale factor
         multiplier = 1.0
         if format:
@@ -313,15 +315,18 @@ class Spreadsheet(object):
             multiplier += (size - 11) * 0.08 + (0.1 if bold else 0.0)
         multiplier *= self.ADJUST_WEIGHT
         # Adjust the sizes
-        l_text = ceil(len(text) * multiplier)
-        if l_text > Spreadsheet.MIN_COL_WIDTH:
-            cur_l = self.col_widths.get(col, Spreadsheet.MIN_COL_WIDTH)
-            self.col_widths[col] = min(max(l_text, cur_l), Spreadsheet.MAX_COL_WIDTH)
-            if l_text > Spreadsheet.MAX_COL_WIDTH:
-                h = len(wrap(text, Spreadsheet.MAX_COL_WIDTH))
-                cur_h = self.row_heights.get(row, 1)
-                if h > cur_h:
-                    self.row_heights[row] = h
+        lines = []
+        for t in text.splitlines():
+            lines.extend(wrap(t, Spreadsheet.MAX_COL_WIDTH))
+        h = len(lines)
+        w = ceil(max(map(len, lines)) * multiplier)
+        if w > Spreadsheet.MIN_COL_WIDTH:
+            cur_w = self.col_widths.get(col, Spreadsheet.MIN_COL_WIDTH)
+            self.col_widths[col] = min(max(w, cur_w), Spreadsheet.MAX_COL_WIDTH)
+        if h > 1:
+            cur_h = self.row_heights.get(row, 1)
+            if h > cur_h:
+                self.row_heights[row] = h
 
     def adjust_row_and_col_sizes(self, logger):
         """ Adjust the column and row sizes using the values computed by compute_cell_size """
