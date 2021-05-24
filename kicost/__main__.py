@@ -41,7 +41,7 @@ set_logger(logger)
 # KiCost definitions and modules/packages functions.
 from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions. # noqa: E402
 try:
-    from .kicost_gui import kicost_gui, kicost_gui_runterminal  # User guide.
+    from .kicost_gui import kicost_gui
 except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     pass
@@ -231,10 +231,11 @@ def main_real():
                         metavar='FILE.XML',
                         help='Start the GUI to run KiCost passing the file parameter give by "--input",'
                              ' all others parameters are ignored.')
-    parser.add_argument('--user',
-                        action='store_true',
-                        help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from'
-                             ' terminal take priority.')
+    # SET: This is half imlemented. Not currently working.
+    #     parser.add_argument('--user',
+    #                         action='store_true',
+    #                         help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from'
+    #                              ' terminal take priority.')
     parser.add_argument('--setup',
                         action='store_true',
                         help='Run KiCost integration (with KiCad and OS) configuration script.')
@@ -296,14 +297,15 @@ def main_real():
         # Additionally: people with an Octopart key can help to offload KitSpace.
         set_api_status('KitSpace', False)
 
-    # Call the KiCost interface to alredy run KiCost, this is just to use the
-    # saved user configurations of the graphical interface.
-    if args.user:
-        try:
-            kicost_gui_runterminal(args, log_level=log_level)
-        except (ImportError, NameError):
-            kicost_gui_notdependences()
-        return
+    # SET: This is half imlemented. Not currently working.
+    #     # Call the KiCost interface to alredy run KiCost, this is just to use the
+    #     # saved user configurations of the graphical interface.
+    #     if args.user:
+    #         try:
+    #             kicost_gui_runterminal(args)
+    #         except wxPythonNotPresent:
+    #             kicost_gui_notdependences()
+    #         return
 
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):

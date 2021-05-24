@@ -65,7 +65,7 @@ if sys.platform.startswith("win32"):
         from winreg import HKEY_LOCAL_MACHINE
         ConnectRegistryError = PermissionError  # noqa: F821
 
-__all__ = ['kicost_gui', 'kicost_gui_runterminal']
+__all__ = ['kicost_gui']  # , 'kicost_gui_runterminal'
 # TODO this variable was used locally and referred globally
 libreoffice_executable = None
 
@@ -1190,36 +1190,46 @@ def kicost_gui(files=None):
         handler.setFormatter(CustomFormatter(sys.stderr))
 
 
-def kicost_gui_runterminal(args):
-    ''' @brief Execute the `fileName` under KiCost loading the
-        graphical interface.
-
-        The difference of the normal execution is that the log and
-        process bar is not redirected to the GUI, staying on terminal.
-
-        @param List of the file name.
-    '''
-    wx.App(redirect=False)
-    frame = formKiCost(None)
-
-    files = args.input
-    frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
-    frame.updateOutputFilename()
-
-    options_cmd = ''
-    for k_a in list(args.__dict__.keys()):
-        if k_a == 'input' or k_a == 'user' or k_a == 'guide' or k_a == 'help':
-            pass
-        elif isinstance(args.__dict__[k_a], bool) and args.__dict__[k_a]:
-            options_cmd += '--' + k_a
-        elif isinstance(args.__dict__[k_a], float) or isinstance(args.__dict__[k_a], int) and args.__dict__[k_a]:
-            options_cmd += '--' + k_a + str(args.__dict__[k_a])
-        elif isinstance(args.__dict__[k_a], list) and args.__dict__[k_a]:
-            options_cmd += '--' + k_a + ' '.join(args.__dict__[k_a])
-        # else args.__dict__[k_a]:
-        #     options_cmd += '--' + k_a + ' '.join(args.__dict__[k_a])
-
-    frame.m_textCtrlextracmd.SetValue(options_cmd)
-
-    frame.updateEDAselection()
-    frame.run()
+# SET: This is half imlemented, the m_textCtrlextracmd isn't there
+# def kicost_gui_runterminal(args):
+#     ''' @brief Execute the `fileName` under KiCost loading the
+#         graphical interface.
+#
+#         The difference of the normal execution is that the log and
+#         process bar is not redirected to the GUI, staying on terminal.
+#
+#         @param List of the file name.
+#     '''
+#     app = wx.App(redirect=False)
+#     frame = formKiCost(None)
+#
+#     files = args.input
+#     if files:
+#         frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
+#     frame.updateOutputFilename()
+#
+#     options_cmd = ''
+#     for k_a in list(args.__dict__.keys()):
+#         values = args.__dict__[k_a]
+#         if k_a == 'input' or k_a == 'user' or k_a == 'guide' or k_a == 'help':
+#             pass
+#         elif isinstance(values, bool) and values:
+#             options_cmd += ' --' + k_a
+#         elif isinstance(values, float) or isinstance(values, int) and values:
+#             options_cmd += ' --' + k_a + ' "' + str(values) + '"'
+#         elif isinstance(values, list) and values:
+#             print(values)
+#             if isinstance(values[0], int):
+#                 values = [str(v) for v in values]
+#             else:
+#                 values = ['"'+str(v)+'"' for v in values]
+#             print(values)
+#             options_cmd += ' --' + k_a + ' ' + ' '.join(values)
+#             print(options_cmd)
+#         # else values:
+#         #     options_cmd += '--' + k_a + ' '.join(values)
+#
+#     frame.m_textCtrlextracmd.SetValue(options_cmd)
+#
+#     frame.updateEDAselection()
+#     frame.run()
