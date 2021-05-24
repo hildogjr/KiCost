@@ -421,8 +421,13 @@ def test_1():
     run_test_check('test')
 
 
-def test_2():
+def test_2a():
     run_test_check('test2')
+
+
+def test_2e():
+    name = 'test_2e'
+    run_test_check(name, 'test2', name, extra=['--currency', 'EUR'])
 
 
 def test_3_():
