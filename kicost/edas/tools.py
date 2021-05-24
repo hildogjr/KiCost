@@ -256,7 +256,7 @@ def group_parts(components, fields_merge, c_prjs):
             components_grp = [components[i] for i in grp.refs]
             for f in fields_merge:
                 values_field = set([cmp.get(f, '') for cmp in components_grp])  # Different values
-                ocurrences = {v_g: [r for r in grp.refs if components[r].get(f, '') == v_g] for v_g in values_field}
+                ocurrences = {v_g: [r for r in grp.refs if components[r].get(f, '') == v_g] for v_g in values_field if v_g}
                 if len(ocurrences) > 1:
                     if f == 'desc' and len(ocurrences) == 2 and '' in ocurrences:
                         value = ''.join(list(ocurrences.keys()))

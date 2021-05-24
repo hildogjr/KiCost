@@ -617,6 +617,11 @@ def test_octopart_1_ambi():
     check_errors([r'Using "Adafruit Industries" for manf#="4062"', r'Ambiguous manf#="4062" please use manf to select the right one, choices:'])
 
 
+def test_337():
+    # Test for issue #337
+    run_test_check('test_337_UserFieldCombining', extra=['--field', 'Supplier'], price=False)
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

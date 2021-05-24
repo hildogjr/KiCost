@@ -1,0 +1,75 @@
+Variables:
+BoardQty = 'test_337_UserFieldCombining'!$H$1
+TotalCost = 'test_337_UserFieldCombining'!$H$3
+global_part_data = 'test_337_UserFieldCombining'!$A$5:$H$7
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "test_337_UserFieldCombining.xml"
+ Col: G
+   "Board Qty:"
+ Col: H
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: G
+   "Unit Cost:"
+ Col: H
+   0
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "2018 October 26, Friday 12:35:56"
+ Col: G
+   "Total Cost:"
+ Col: H
+   0
+  Formula: SUM(H7)
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Supplier"
+ Col: D
+   "Footprint"
+ Col: E
+   "Manf#"
+ Col: F
+   "Qty"
+ Col: G
+   "Unit$"
+ Col: H
+   "Ext$"
+Row: 7
+ Col: A
+   "R1,R2"
+ Col: B
+   "1k"
+ Col: C
+   "foobar"
+ Col: D
+   "R_0603"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2,1)
+ Col: H
+   0
+  Formula: iferror(F7*G7,"")
+Row: 10
+ Col: A1
+   "*FILTERED*"
