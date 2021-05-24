@@ -7,6 +7,14 @@ F1#2,F-6A/250V - p2/3,FUSE HOLDER for fuse 5mm x 20mm,,,,,,Bel Fuse,5MF 6-R,100,
 F1#3,F-6A/250V - p3/3,FUSE HOLDER for fuse 5mm x 20mm,Cover clip?,Cover clip?,Cover clip?,Cover clip?,,Wurth Electronik,695120004001,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0,0,695120004001
 
 ,Used currency rates:,,,,,,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,,,,0,
-,USD($)/EUR(€):,1.1873,,,,,,,,,Purchase description:,,,0,,,,,0,,,,,0,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,USD($)/EUR(€):,1.1873,,,,,,,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
+file and use it for JLCPCB 
+manufacturer PCB house.
+The multipart components that use
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
+
+
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ,,,,,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

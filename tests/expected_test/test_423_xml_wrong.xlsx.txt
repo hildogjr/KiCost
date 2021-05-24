@@ -1,6 +1,6 @@
 Variables:
 BoardQty = 'test_423_xml_wrong'!$G$1
-PURCH_DESC = 'test_423_xml_wrong'!$G$10
+PURCHASE_DESCRIPTION = 'test_423_xml_wrong'!$G$10
 TotalCost = 'test_423_xml_wrong'!$G$3
 arrow_part_data = 'test_423_xml_wrong'!$H$5:$L$7
 digikey_part_data = 'test_423_xml_wrong'!$M$5:$Q$7
@@ -312,29 +312,43 @@ Row: 10
  Col: F1
    "Purchase description:"
  Col: I1
-   0
-  Formula: IFERROR(CONCATENATE(INDEX(L7,SMALL(IF(ISNUMBER(I7)*(I7>0)*(L7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(I7,SMALL(IF(ISNUMBER(I7)*(I7>0)*(L7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(I7)*(I7>0)*(L7<>""),ROW(A1:A1)),ROW()-9)),",",";")),"")
+  Formula: CONCATENATE(I12)
  Col: N1
-   0
-  Formula: IFERROR(CONCATENATE(TEXT(INDEX(N7,SMALL(IF(ISNUMBER(N7)*(N7>0)*(Q7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",INDEX(Q7,SMALL(IF(ISNUMBER(N7)*(N7>0)*(Q7<>""),ROW(A1:A1)),ROW()-9)),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(N7)*(N7>0)*(Q7<>""),ROW(A1:A1)),ROW()-9)),",",";")),"")
+  Formula: CONCATENATE(N12)
  Col: S1
-   0
-  Formula: IFERROR(CONCATENATE(INDEX(V7,SMALL(IF(ISNUMBER(S7)*(S7>0)*(V7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(S7,SMALL(IF(ISNUMBER(S7)*(S7>0)*(V7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",,",",LEFT(SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(S7)*(S7>0)*(V7<>""),ROW(A1:A1)),ROW()-9)),",",";"),"\n",";"),30)),"")
+  Formula: CONCATENATE(S12)
  Col: X1
-  Formula: IFERROR(IF(COUNTIFS(X7,">0",Z7,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)",""),"")
+   "Copy this header and order to a CSV
+file and use it for JLCPCB 
+manufacturer PCB house.
+The multipart components that use
+"#" symbol are not allowed by JLCPCB."
+  Formula: CONCATENATE(X13,X12)
  Col: AC1
-   0
-  Formula: IFERROR(CONCATENATE(INDEX(AF7,SMALL(IF(ISNUMBER(AC7)*(AC7>0)*(AF7<>""),ROW(A1:A1)),ROW()-9)),"|",TEXT(INDEX(AC7,SMALL(IF(ISNUMBER(AC7)*(AC7>0)*(AF7<>""),ROW(A1:A1)),ROW()-9)),"##0"),"|",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AC7)*(AC7>0)*(AF7<>""),ROW(A1:A1)),ROW()-9)),"|",";")," ","_")),"")
+  Formula: CONCATENATE(AC12)
  Col: AH1
-   0
-  Formula: IFERROR(CONCATENATE(INDEX(AK7,SMALL(IF(ISNUMBER(AH7)*(AH7>0)*(AK7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(AH7,SMALL(IF(ISNUMBER(AH7)*(AH7>0)*(AK7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",SUBSTITUTE(SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AH7)*(AH7>0)*(AK7<>""),ROW(A1:A1)),ROW()-9)),",",";"),"\n",";"),",",),"")
+  Formula: CONCATENATE(AH12)
  Col: AM1
-   0
-  Formula: IFERROR(CONCATENATE(INDEX(AP7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),",",TEXT(INDEX(AM7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),"##0"),",",,",",,",",,",",INDEX(D7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),ROW(A1:A1)),ROW()-9)),",",";")),"")
+  Formula: CONCATENATE(AM12)
  Col: AR1
-   0
-  Formula: IFERROR(CONCATENATE(INDEX(AU7,SMALL(IF(ISNUMBER(AR7)*(AR7>0)*(AU7<>""),ROW(A1:A1)),ROW()-9))," ",TEXT(INDEX(AR7,SMALL(IF(ISNUMBER(AR7)*(AR7>0)*(AU7<>""),ROW(A1:A1)),ROW()-9)),"##0")," ",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(AR7)*(AR7>0)*(AU7<>""),ROW(A1:A1)),ROW()-9))," ",";")),"")
-Row: 11
+  Formula: CONCATENATE(AR12)
+Row: 12
+ Col: I1
+  Formula: IF(ISNUMBER(I7)*(I7>0)*(L7<>""),L7&","&TEXT(I7,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,",",";")&CHAR(10),"")
+ Col: N1
+  Formula: IF(ISNUMBER(N7)*(N7>0)*(Q7<>""),TEXT(N7,"##0")&","&Q7&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,",",";")&CHAR(10),"")
+ Col: S1
+  Formula: IF(ISNUMBER(S7)*(S7>0)*(V7<>""),V7&","&TEXT(S7,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,",",";"),"\n",";"),30)&CHAR(10),"")
  Col: X1
-   0
-  Formula: IFERROR(CONCATENATE(TEXT(INDEX(X7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10)),"##0"),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&A7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10)),",",";"),",",SUBSTITUTE(INDEX(IF(PURCH_DESC<>"",PURCH_DESC&":","")&C7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10)),",",";"),",",INDEX(AA7,SMALL(IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),ROW(A1:A1)),ROW()-10))),"")
+  Formula: IF(ISNUMBER(X7)*(X7>0)*(AA7<>""),TEXT(X7,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,",",";")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7,",",";")&","&AA7&CHAR(10),"")
+ Col: AC1
+  Formula: IF(ISNUMBER(AC7)*(AC7>0)*(AF7<>""),AF7&"|"&TEXT(AC7,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,"|",";")," ","_")&CHAR(10),"")
+ Col: AH1
+  Formula: IF(ISNUMBER(AH7)*(AH7>0)*(AK7<>""),AK7&","&TEXT(AH7,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,",",";"),"\n",";")&","&""&CHAR(10),"")
+ Col: AM1
+  Formula: IF(ISNUMBER(AM7)*(AM7>0)*(AP7<>""),AP7&","&TEXT(AM7,"##0")&","&""&","&""&","&""&","&D7&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7,",",";")&CHAR(10),"")
+ Col: AR1
+  Formula: IF(ISNUMBER(AR7)*(AR7>0)*(AU7<>""),AU7&" "&TEXT(AR7,"##0")&" "&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7," ",";")&CHAR(10),"")
+Row: 13
+ Col: X1
+  Formula: IFERROR(IF(COUNTIFS(X7,">0",Z7,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")

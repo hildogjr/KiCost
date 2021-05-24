@@ -6,5 +6,10 @@ Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purc
 X1,RESONATOR,,20021321-00024T4LF,100,0,0,,,,,,1464,,0,0,609-3774-ND,2412,,0,0,2910266,,,,,,1502,,0,0,64922132100024T4LF,2412,,0,0,82R8850,,,,,,,,,,
 
 ,Used currency rates:,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
-,USD($)/GBP(£):,1.375941592305018,,,Purchase description:,,,0,,,,,0,,,,,0,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,,,,,,,,,,,,,,,0,,,,,,,,,,,,,,,,,,,,,,,
+,USD($)/GBP(£):,1.375941592305018,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
+file and use it for JLCPCB 
+manufacturer PCB house.
+The multipart components that use
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,
+
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
