@@ -286,7 +286,7 @@ Row: 9
    0
   Formula: iferror(if(AX9="",F9,AX9)*AY9,"")
  Col: BA
-   "#366f609df3bc7c9c3a6b12ed2f74360f"
+   "#NO_CATALOG0002"
 Row: 10
  Col: A1
    "RN1"
@@ -478,7 +478,7 @@ Row: 13
    0
   Formula: iferror(if(AX13="",F13,AX13)*AY13,"")
  Col: BA1
-   <a href="http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html">#3f51439c827f96224aa51bee7a1fdd3e</a>
+   <a href="http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html">#NO_CATALOG0001</a>
 Row: 15
  Col: B1
    "Used currency rates:"

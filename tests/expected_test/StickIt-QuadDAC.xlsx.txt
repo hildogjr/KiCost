@@ -318,7 +318,7 @@ Row: 8
    0
   Formula: iferror(if(AY8="",G8,AY8)*AZ8,"")
  Col: BB
-   "#e7291ef23ae6018624822a51e6512040"
+   "#NO_CATALOG0002"
 Row: 9
  Col: A
    "PCB1"
@@ -342,7 +342,7 @@ Row: 9
    0
   Formula: iferror(if(AY9="",G9,AY9)*AZ9,"")
  Col: BB
-   "#80355edbb34cde72d2f70c1fa450b679"
+   "#NO_CATALOG0003"
 Row: 10
  Col: A1
    "PM1"
@@ -416,7 +416,7 @@ Row: 12
    0
   Formula: iferror(if(AY12="",G12,AY12)*AZ12,"")
  Col: BB1
-   "#d87861a75380989ab3600cd2120241ff"
+   "#NO_CATALOG0001"
 Row: 13
  Col: A1
    "U1,U2"

@@ -43,13 +43,21 @@ else:
         return val.encode('utf-8')
 
 
+unique_catalogs = {}
+
+
 def make_unique_catalog_number(p, dist):
     FIELDS_MANFCAT = ([d + '#' for d in distributor_class.get_distributors_iter()] + ['manf#'])
     FIELDS_NOT_HASH = (['manf#_qty', 'manf'] + FIELDS_MANFCAT + [d + '#_qty' for d in distributor_class.get_distributors_iter()])
     # TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).
     hash_fields = {k: p.fields[k] for k in p.fields if k not in FIELDS_NOT_HASH}
     hash_fields['dist'] = dist
-    return '#' + hashlib.md5(to_bytes(str(tuple(sorted(hash_fields.items()))))).hexdigest()
+    id = hashlib.md5(to_bytes(str(tuple(sorted(hash_fields.items()))))).hexdigest()
+    num = unique_catalogs.get(id)
+    if num is None:
+        num = len(unique_catalogs) + 1
+        unique_catalogs[id] = num
+    return '#NO_CATALOG%04d' % num
 
 
 class dist_local_template(distributor_class):
