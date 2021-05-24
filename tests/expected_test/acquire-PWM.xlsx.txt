@@ -4253,7 +4253,7 @@ Row: 87
  Col: C8
    "SOIC-14_3.9x8.7mm_Pitch1.27mm"
  Col: D8
-   "OPA4197IDR"
+   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADA4807-1_4807-2_4807-4.pdf">OPA4197IDR</a>
  Col: E8
    500
   Formula: CEILING(BoardQty*5.0,1)
