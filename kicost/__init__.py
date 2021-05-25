@@ -3,7 +3,7 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 # Export .version.__version__ as a module version
-from .version import __version__  # noqa: F401
+from .version import __version__, __build__  # noqa: F401
 
 
 # Class for storing part group information.

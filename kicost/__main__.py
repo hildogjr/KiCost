@@ -50,7 +50,7 @@ from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
 from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, set_api_options, set_api_status,  # noqa: E402
                            get_api_status)  # noqa: E402
 from .spreadsheet import Spreadsheet  # noqa: E402
-from . import __version__  # Version control by @xesscorp and collaborator.  # noqa: E402
+from . import __version__, __build__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
 ###############################################################################
 # Additional functions
@@ -58,7 +58,7 @@ from . import __version__  # Version control by @xesscorp and collaborator.  # n
 
 
 def kicost_version_info():
-    version_info_str = r'KiCost v{}'.format(__version__)
+    version_info_str = r'KiCost v{} ({})'.format(__version__, __build__)
     version_info_str += r' at Python {}.{}.{}'.format(sys.version_info.major, sys.version_info.minor, sys.version_info.micro)
     version_info_str += r' on {}({}). '.format(platform.platform(), platform.architecture()[0])
     try:

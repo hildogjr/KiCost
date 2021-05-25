@@ -5,6 +5,7 @@ import setuptools
 import os
 import re
 import kicost
+import subprocess
 
 try:
     from setuptools import setup
@@ -101,6 +102,15 @@ test_requirements = [
 data_files = [
     # ('kicost', ['kicost/kicost.ico']), # Icon to the user guide. Added via `MANIFEST.in`.
 ]
+
+with open('kicost/version.py', 'rt') as f:
+    version_py = f.read()
+with open('kicost/version.py', 'wt') as f:
+    try:
+        res = subprocess.check_output(['git', 'log', '-1', '--pretty=format:%h-%as']).decode('ascii')
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        res = 'unknown'
+    f.write(re.sub("__build__ = '(.*)'", "__build__ = '{}'".format(res), version_py))
 
 setup(
     name='kicost',
