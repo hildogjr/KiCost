@@ -15,6 +15,7 @@ class PartGroup(object):
         self.lifecycle = None
         self.specs = {}  # Miscellaneous data from the queries
         # Distributor data
+        # TODO: distributor data should be a class and we should have a hash dist -> data
         self.part_num = {}  # Distributor catalogue number.
         self.url = {}  # Purchase distributor URL for the spefic part.
         self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]

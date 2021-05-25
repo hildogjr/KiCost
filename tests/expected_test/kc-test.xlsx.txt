@@ -227,8 +227,8 @@ Row: 7
  Col: M
    4622
  Col: O
-   0
-  Formula: iferror(lookup(if(N7="",E7,N7),{0,1,25,100},{0.0,3.15,2.63,2.38}),"")
+   2.38
+  Formula: IFERROR(LOOKUP(IF(N7="",E7,N7),{0,1,25,100},{0.0,3.15,2.63,2.38}),"")
  Col: P
    0
   Formula: iferror(if(N7="",E7,N7)*O7,"")
@@ -237,8 +237,8 @@ Row: 7
  Col: R
    6489
  Col: T
-   0
-  Formula: iferror(USD_GBP*lookup(if(S7="",E7,S7),{0,1,25,100},{0.0,2.9,2.43,2.19}),"")
+   3.013312087147989
+  Formula: IFERROR(USD_GBP*LOOKUP(IF(S7="",E7,S7),{0,1,25,100},{0.0,2.9,2.43,2.19}),"")
  Col: U
    0
   Formula: iferror(if(S7="",E7,S7)*T7,"")
@@ -247,8 +247,8 @@ Row: 7
  Col: W
    223
  Col: Y
-   0
-  Formula: iferror(lookup(if(X7="",E7,X7),{0,1,10,30,100,500,1000},{0.0,3.0223,2.2956,2.1622,2.0287,1.971,1.9404}),"")
+   2.0287
+  Formula: IFERROR(LOOKUP(IF(X7="",E7,X7),{0,1,10,30,100,500,1000},{0.0,3.0223,2.2956,2.1622,2.0287,1.971,1.9404}),"")
  Col: Z
    0
   Formula: iferror(if(X7="",E7,X7)*Y7,"")
@@ -257,8 +257,8 @@ Row: 7
  Col: AB
    4335
  Col: AD
-   0
-  Formula: iferror(lookup(if(AC7="",E7,AC7),{0,1,10,50,100,1000,10000},{0.0,3.15,3.15,2.63,2.38,2.38,2.38}),"")
+   2.38
+  Formula: IFERROR(LOOKUP(IF(AC7="",E7,AC7),{0,1,10,50,100,1000,10000},{0.0,3.15,3.15,2.63,2.38,2.38,2.38}),"")
  Col: AE
    0
   Formula: iferror(if(AC7="",E7,AC7)*AD7,"")
@@ -267,8 +267,8 @@ Row: 7
  Col: AG
    3709
  Col: AI
-   0
-  Formula: iferror(lookup(if(AH7="",E7,AH7),{0,1,10,25,50,100,200},{0.0,3.15,2.89,2.63,2.51,2.38,2.74}),"")
+   2.38
+  Formula: IFERROR(LOOKUP(IF(AH7="",E7,AH7),{0,1,10,25,50,100,200},{0.0,3.15,2.89,2.63,2.51,2.38,2.74}),"")
  Col: AJ
    0
   Formula: iferror(if(AH7="",E7,AH7)*AI7,"")
@@ -277,8 +277,8 @@ Row: 7
  Col: AL
    1674
  Col: AN
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM7="",E7,AM7),{0,1,2,10,24,100},{0.0,2.405,2.405,2.075,1.93,1.785}),"")
+   2.456055742264457
+  Formula: IFERROR(USD_GBP*LOOKUP(IF(AM7="",E7,AM7),{0,1,2,10,24,100},{0.0,2.405,2.405,2.075,1.93,1.785}),"")
  Col: AO
    0
   Formula: iferror(if(AM7="",E7,AM7)*AN7,"")
@@ -287,8 +287,8 @@ Row: 7
  Col: AQ
    1
  Col: AS
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR7="",E7,AR7),{0,1,5,25,100},{0.0,2.19,2.08,1.82,1.68}),"")
+   1.994664
+  Formula: IFERROR(USD_EUR*LOOKUP(IF(AR7="",E7,AR7),{0,1,5,25,100},{0.0,2.19,2.08,1.82,1.68}),"")
  Col: AT
    0
   Formula: iferror(if(AR7="",E7,AR7)*AS7,"")
@@ -313,8 +313,8 @@ Row: 8
  Col: M
    1950
  Col: O
-   0
-  Formula: iferror(lookup(if(N8="",E8,N8),{0,1,10,25,100,250,500,1000},{0.0,1.41,1.263,1.1992,0.985,0.92072,0.81366,0.67468}),"")
+   0.985
+  Formula: IFERROR(LOOKUP(IF(N8="",E8,N8),{0,1,10,25,100,250,500,1000},{0.0,1.41,1.263,1.1992,0.985,0.92072,0.81366,0.67468}),"")
  Col: P
    0
   Formula: iferror(if(N8="",E8,N8)*O8,"")
@@ -323,8 +323,8 @@ Row: 8
  Col: AB
    366
  Col: AD
-   0
-  Formula: iferror(lookup(if(AC8="",E8,AC8),{0,1,10,50,100,1000,10000},{0.0,1.4,1.27,1.27,0.921,0.599,0.545}),"")
+   0.921
+  Formula: IFERROR(LOOKUP(IF(AC8="",E8,AC8),{0,1,10,50,100,1000,10000},{0.0,1.4,1.27,1.27,0.921,0.599,0.545}),"")
  Col: AE
    0
   Formula: iferror(if(AC8="",E8,AC8)*AD8,"")
@@ -349,8 +349,8 @@ Row: 9
  Col: M
    "NonStk"
  Col: O
-   0
-  Formula: iferror(lookup(if(N9="",E9,N9),{0,1,10,25,100,250,500,1000},{0.0,12.53,11.518,11.0404,9.7275,9.25008,8.65332,8.445}),"")
+   9.727499999999999
+  Formula: IFERROR(LOOKUP(IF(N9="",E9,N9),{0,1,10,25,100,250,500,1000},{0.0,12.53,11.518,11.0404,9.7275,9.25008,8.65332,8.445}),"")
  Col: P
    0
   Formula: iferror(if(N9="",E9,N9)*O9,"")
@@ -359,8 +359,8 @@ Row: 9
  Col: R
    "NonStk"
  Col: T
-   0
-  Formula: iferror(USD_GBP*lookup(if(S9="",E9,S9),{0,1,10,25,50,100,250},{0.0,10.1,8.76,8.4,8.16,7.04,6.58}),"")
+   9.686628809827328
+  Formula: IFERROR(USD_GBP*LOOKUP(IF(S9="",E9,S9),{0,1,10,25,50,100,250},{0.0,10.1,8.76,8.4,8.16,7.04,6.58}),"")
  Col: U
    0
   Formula: iferror(if(S9="",E9,S9)*T9,"")
@@ -369,8 +369,8 @@ Row: 9
  Col: AB
    "NonStk"
  Col: AD
-   0
-  Formula: iferror(lookup(if(AC9="",E9,AC9),{0,1,10,50,100,1000,10000},{0.0,11.82,10.86,10.11,8.72,8.16,8.16}),"")
+   8.720000000000001
+  Formula: IFERROR(LOOKUP(IF(AC9="",E9,AC9),{0,1,10,50,100,1000,10000},{0.0,11.82,10.86,10.11,8.72,8.16,8.16}),"")
  Col: AE
    0
   Formula: iferror(if(AC9="",E9,AC9)*AD9,"")
@@ -379,8 +379,8 @@ Row: 9
  Col: AL
    296
  Col: AN
-   0
-  Formula: iferror(USD_GBP*lookup(if(AM9="",E9,AM9),{0,1,37},{0.0,8.92,7.861}),"")
+   10.81627685710975
+  Formula: IFERROR(USD_GBP*LOOKUP(IF(AM9="",E9,AM9),{0,1,37},{0.0,8.92,7.861}),"")
  Col: AO
    0
   Formula: iferror(if(AM9="",E9,AM9)*AN9,"")
@@ -389,8 +389,8 @@ Row: 9
  Col: AQ
    "NonStk"
  Col: AS
-   0
-  Formula: iferror(USD_EUR*lookup(if(AR9="",E9,AR9),{0,1,3,10,37},{0.0,9.83,8.67,7.79,7.28}),"")
+   8.643544
+  Formula: IFERROR(USD_EUR*LOOKUP(IF(AR9="",E9,AR9),{0,1,3,10,37},{0.0,9.83,8.67,7.79,7.28}),"")
  Col: AT
    0
   Formula: iferror(if(AR9="",E9,AR9)*AS9,"")
@@ -415,8 +415,8 @@ Row: 10
  Col: R1
    "NonStk"
  Col: T1
-   0
-  Formula: iferror(USD_GBP*lookup(if(S10="",E10,S10),{0,1,5,50,150,250,500,1500,3000,15000},{0.0,0.376,0.376,0.284,0.284,0.258,0.211,0.199,0.186,0.182}),"")
+   0.3907674122146251
+  Formula: IFERROR(USD_GBP*LOOKUP(IF(S10="",E10,S10),{0,1,5,50,150,250,500,1500,3000,15000},{0.0,0.376,0.376,0.284,0.284,0.258,0.211,0.199,0.186,0.182}),"")
  Col: U1
    0
   Formula: iferror(if(S10="",E10,S10)*T10,"")

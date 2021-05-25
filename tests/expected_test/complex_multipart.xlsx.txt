@@ -271,8 +271,8 @@ Row: 7
  Col: AH
    767
  Col: AJ
-   0
-  Formula: iferror(lookup(if(AI7="",K7,AI7),{0,1,10,50,100,1000,10000},{0.0,0.66,0.627,0.595,0.531,0.382,0.382}),"")
+   0.531
+  Formula: IFERROR(LOOKUP(IF(AI7="",K7,AI7),{0,1,10,50,100,1000,10000},{0.0,0.66,0.627,0.595,0.531,0.382,0.382}),"")
  Col: AK
    0
   Formula: iferror(if(AI7="",K7,AI7)*AJ7,"")
@@ -281,8 +281,8 @@ Row: 7
  Col: BB
    "NonStk"
  Col: BD
-   0
-  Formula: iferror(USD_EUR*lookup(if(BC7="",K7,BC7),{0,1},{0.0,0.07}),"")
+   0.083111
+  Formula: IFERROR(USD_EUR*LOOKUP(IF(BC7="",K7,BC7),{0,1},{0.0,0.07}),"")
  Col: BE
    0
   Formula: iferror(if(BC7="",K7,BC7)*BD7,"")
@@ -319,8 +319,8 @@ Row: 8
  Col: AH
    7857
  Col: AJ
-   0
-  Formula: iferror(lookup(if(AI8="",K8,AI8),{0,1,10,50,100,1000,10000},{0.0,0.22,0.205,0.19,0.171,0.12,0.095}),"")
+   0.171
+  Formula: IFERROR(LOOKUP(IF(AI8="",K8,AI8),{0,1,10,50,100,1000,10000},{0.0,0.22,0.205,0.19,0.171,0.12,0.095}),"")
  Col: AK
    0
   Formula: iferror(if(AI8="",K8,AI8)*AJ8,"")
@@ -330,7 +330,7 @@ Row: 8
    "NonStk"
  Col: BD
    0
-  Formula: iferror(lookup(if(BC8="",K8,BC8),{0},{0.0}),"")
+  Formula: IFERROR(LOOKUP(IF(BC8="",K8,BC8),{0},{0.0}),"")
  Col: BE
    0
   Formula: iferror(if(BC8="",K8,BC8)*BD8,"")
@@ -367,8 +367,8 @@ Row: 9
  Col: BB
    "NonStk"
  Col: BD
-   0
-  Formula: iferror(USD_EUR*lookup(if(BC9="",K9,BC9),{0,1,100},{0.0,0.03,0.01}),"")
+   0.011873
+  Formula: IFERROR(USD_EUR*LOOKUP(IF(BC9="",K9,BC9),{0,1,100},{0.0,0.03,0.01}),"")
  Col: BE
    0
   Formula: iferror(if(BC9="",K9,BC9)*BD9,"")
