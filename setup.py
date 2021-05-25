@@ -16,6 +16,11 @@ except ImportError:
     from distutils.core.command.develop import develop
     from distutils.core.command.install import install
 
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
 
 def post_install_setup():
     # Run the KiCost integration script.
