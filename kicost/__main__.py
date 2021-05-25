@@ -58,7 +58,7 @@ from . import __version__  # Version control by @xesscorp and collaborator.  # n
 
 
 def kicost_version_info():
-    version_info_str = r'KiCost v.{}'.format(__version__)
+    version_info_str = r'KiCost v{}'.format(__version__)
     version_info_str += r' at Python {}.{}.{}'.format(sys.version_info.major, sys.version_info.minor, sys.version_info.micro)
     version_info_str += r' on {}({}). '.format(platform.platform(), platform.architecture()[0])
     try:
@@ -119,7 +119,7 @@ def main_real():
         description='Build cost spreadsheet for a KiCAD project.')
     parser.add_argument('-v', '--version',
                         action='version',
-                        version='KiCost v.{}'.format(__version__))
+                        version='KiCost v{}'.format(__version__))
     parser.add_argument('--info',
                         action='version',
                         version=kicost_version_info(),

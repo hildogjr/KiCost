@@ -625,12 +625,12 @@ class formKiCost(wx.Frame):
         # self.SetSizeHints(wx.Size(40, 40), wx.DefaultSize) # Only available on wxPython4.
 
         # Set the application windows title and configurations.
-        self.SetTitle('KiCost v.' + __version__)
+        self.SetTitle('KiCost v' + __version__)
         self.SetIcon(wx.Icon(os.path.join(kicostPath, 'kicost.ico'), wx.BITMAP_TYPE_ICO))
 
         self.set_properties()
         self.SetDropTarget(FileDropTarget(self))  # Start the drop file in all the window.
-        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v.' + __version__)
+        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v' + __version__)
 
         # Set up event handler for any worker thread results
         # It will receive notifications from the KiCost thread
@@ -1102,7 +1102,7 @@ class formKiCost(wx.Frame):
         news = re.search(search_news, history)
         dlg = wx.MessageDialog(self,
                                news.group('news'),
-                               'NEWS of KiCost v.{v} release from {d}'.format(v=news.group('version'), d=news.group('data')),
+                               'NEWS of KiCost v{v} release from {d}'.format(v=news.group('version'), d=news.group('data')),
                                wx.OK | wx.ICON_INFORMATION)
         dlg.ShowModal()
         dlg.Destroy()

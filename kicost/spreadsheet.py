@@ -97,7 +97,7 @@ class Spreadsheet(object):
     # Default value for number of boards to build.
     DEFAULT_BUILD_QTY = 100
     # About and credit message at the end of the spreadsheet.
-    ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v.' + __version__
+    ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v' + __version__
     # Try to group references as ranges
     COLLAPSE_REFS = True
     # Don't add the link column
