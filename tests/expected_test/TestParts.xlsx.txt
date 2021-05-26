@@ -54,7 +54,7 @@ Row: 3
    0
   Formula: (COUNTA(R7:R13)&" of "&ROWS(R7:R13)&" parts found")
  Col: W
-   1132.51000579
+   1132.51
   Formula: SUM(W7:W13)
  Col: X
    0
@@ -78,13 +78,13 @@ Row: 3
    0
   Formula: (COUNTA(AL7:AL13)&" of "&ROWS(AL7:AL13)&" parts found")
  Col: AQ
-   368.752346738
+   368.7523
   Formula: SUM(AQ7:AQ13)
  Col: AR
    0
   Formula: (COUNTA(AQ7:AQ13)&" of "&ROWS(AQ7:AQ13)&" parts found")
  Col: AV
-   851.638417
+   851.6384
   Formula: SUM(AV7:AV13)
  Col: AW
    0
@@ -250,7 +250,7 @@ Row: 7
    0.0246293545023
   Formula: IFERROR(USD_GBP*LOOKUP(IF(U7="",G7,U7),{0,1,10,100,150,500,2500,5000,10000},{0.0,0.0216,0.0216,0.0179,0.0179,0.0086,0.0079,0.0065,0.005}),"")
  Col: W
-   4.92587090045
+   4.9259
   Formula: IFERROR(IF(U7="",G7,U7)*V7,"")
  Col: X
    <a href="https://octopart.com/click/track?ai=8078&sig=0bc3414&sid=11744&ppid=149444&vpid=132342828&ct=offers">1414584</a>
@@ -280,7 +280,7 @@ Row: 7
    0.0110075327384
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AO7="",G7,AO7),{0,1,1000,2000,5000,10000},{0.0,0.008,0.008,0.007,0.007,0.006}),"")
  Col: AQ
-   2.20150654769
+   2.2015
   Formula: IFERROR(IF(AO7="",G7,AO7)*AP7,"")
  Col: AR
    <a href="https://octopart.com/click/track?ai=8078&sig=0e3b1a9&sid=10022&ppid=149444&vpid=199039861&ct=offers">146973</a>
@@ -290,7 +290,7 @@ Row: 7
    0.012644745
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AT7="",G7,AT7),{0,1,100,1000,10000,40000},{0.0,0.01065,0.01065,0.00336,0.00183,0.00178}),"")
  Col: AV
-   2.528949
+   2.5289
   Formula: IFERROR(IF(AT7="",G7,AT7)*AU7,"")
  Col: AW
    <a href="https://octopart.com/click/track?ai=8078&sig=0bfb911&sid=1532&ppid=149444&vpid=709037619&ct=offers">C0402C270J5GAC</a>
@@ -354,7 +354,7 @@ Row: 9
    2.75188318461
   Formula: IFERROR(USD_GBP*LOOKUP(IF(U9="",G9,U9),{0,1,10,100,250,500,1000},{0.0,2.51,2.26,2.0,1.68,1.53,1.41}),"")
  Col: W
-   275.188318461
+   275.1883
   Formula: IFERROR(IF(U9="",G9,U9)*V9,"")
  Col: X
    <a href="https://octopart.com/click/track?ai=8078&sig=0898d28&sid=819&ppid=275697&vpid=139467745&ct=offers">1667761</a>
@@ -384,7 +384,7 @@ Row: 9
    3.15090624638
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AO9="",G9,AO9),{0,1,20,75,300,600},{0.0,3.27,2.71,2.29,2.12,1.96}),"")
  Col: AQ
-   315.090624638
+   315.0906
   Formula: IFERROR(IF(AO9="",G9,AO9)*AP9,"")
  Col: AR
    <a href="https://octopart.com/click/track?ai=8078&sig=0c5e011&sid=10022&ppid=275697&vpid=199121966&ct=offers">7676774</a>
@@ -448,7 +448,7 @@ Row: 11
    7.36128751883
   Formula: IFERROR(USD_GBP*LOOKUP(IF(U11="",G11,U11),{0,1,10,25,50,100,250,500,1000},{0.0,5.66,5.55,5.43,5.36,5.35,5.34,5.33,5.32}),"")
  Col: W1
-   736.128751883
+   736.1288
   Formula: IFERROR(IF(U11="",G11,U11)*V11,"")
  Col: X1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0baf0d6&sid=819&ppid=20009198&vpid=139691335&ct=offers">2071148</a>
@@ -542,7 +542,7 @@ Row: 13
    1.1626706455
   Formula: IFERROR(USD_GBP*LOOKUP(IF(U13="",G13,U13),{0,1,5,10,50,250,500,1500,3000,15000},{0.0,1.25,1.25,1.25,0.845,0.756,0.668,0.654,0.641,0.531}),"")
  Col: W1
-   116.26706455
+   116.2671
   Formula: IFERROR(IF(U13="",G13,U13)*V13,"")
  Col: X1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0cae49d&sid=11744&ppid=657767&vpid=190438356&ct=offers">1838935RL</a>
@@ -572,7 +572,7 @@ Row: 13
    0.514602155522
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AO13="",G13,AO13),{0,1,50,100,500,1500,3000,12000},{0.0,0.426,0.426,0.374,0.354,0.296,0.235,0.228}),"")
  Col: AQ1
-   51.4602155522
+   51.4602
   Formula: IFERROR(IF(AO13="",G13,AO13)*AP13,"")
  Col: AR1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0fb5e0e&sid=10022&ppid=657767&vpid=562559442&ct=offers">1712773P</a>
@@ -582,7 +582,7 @@ Row: 13
    0.55993068
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AT13="",G13,AT13),{0,1,2,10,100,1000,3000},{0.0,0.8321,0.8321,0.5903,0.4716,0.387,0.3502}),"")
  Col: AV1
-   55.993068
+   55.9931
   Formula: IFERROR(IF(AT13="",G13,AT13)*AU13,"")
  Col: AW1
    <a href="https://octopart.com/click/track?ai=8078&sig=0c4f505&sid=1532&ppid=657767&vpid=707750255&ct=offers">ABS0732.768KHZ7</a>

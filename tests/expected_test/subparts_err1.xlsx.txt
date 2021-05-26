@@ -55,7 +55,7 @@ Row: 3
    0
   Formula: (COUNTA(R7:R8)&" of "&ROWS(R7:R8)&" parts found")
  Col: W
-   211.895005215
+   211.895
   Formula: SUM(W7:W8)
  Col: X
    0
@@ -281,7 +281,7 @@ Row: 8
    2.11895005215
   Formula: IFERROR(USD_GBP*LOOKUP(IF(U8="",G8,U8),{0,1,10,25,50,100},{0.0,2.63,2.1,1.98,1.85,1.54}),"")
  Col: W
-   211.895005215
+   211.895
   Formula: IFERROR(IF(U8="",G8,U8)*V8,"")
  Col: X
    <a href="https://octopart.com/click/track?ai=8078&sig=0e43cfc&sid=819&ppid=381806&vpid=138099605&ct=offers">2295717</a>

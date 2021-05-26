@@ -1003,7 +1003,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                               needed_qty=part_qty_cell,
                               purch_qty=purch_cell,
                               unit_price=xl_rowcol_to_cell(row, col_unit_price)), ss.wrk_formats['currency'],
-                              value=ext_price)
+                              # Limit the resolution (to make it more reproducible)
+                              value=round(ext_price, 4))
             #
             # Conditional formats:
             #
@@ -1056,7 +1057,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
 
     # Sum the extended prices for all the parts to get the total cost from this distributor.
     wks.write_formula(total_cost_row, col_ext_price, '=SUM({sum_range})'.format(sum_range=ext_price_range), ss.wrk_formats['total_cost_currency'],
-                      value=total_cost)
+                      # Limit the resolution (to make it more reproducible)
+                      value=round(total_cost, 4))
     # Show how many parts were found at this distributor.
     wks.write(total_cost_row, col_part_num,
               # '=COUNTIF({count_range},"<>")&" of "&ROWS({count_range})&" parts found"'.format(

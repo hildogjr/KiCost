@@ -54,7 +54,7 @@ Row: 3
    0
   Formula: (COUNTA(P7:P10)&" of "&ROWS(P7:P10)&" parts found")
  Col: U
-   1309.07083092
+   1309.0708
   Formula: SUM(U7:U10)
  Col: V
    0
@@ -78,7 +78,7 @@ Row: 3
    0
   Formula: (COUNTA(AJ7:AJ10)&" of "&ROWS(AJ7:AJ10)&" parts found")
  Col: AO
-   1327.23325994
+   1327.2333
   Formula: SUM(AO7:AO10)
  Col: AP
    0
@@ -240,7 +240,7 @@ Row: 7
    3.01331208715
   Formula: IFERROR(USD_GBP*LOOKUP(IF(S7="",E7,S7),{0,1,25,100},{0.0,2.9,2.43,2.19}),"")
  Col: U
-   301.331208715
+   301.3312
   Formula: IFERROR(IF(S7="",E7,S7)*T7,"")
  Col: V
    <a href="https://octopart.com/click/track?ai=8078&sig=09893a7&sid=819&ppid=438323&vpid=139007676&ct=offers">1439414</a>
@@ -280,7 +280,7 @@ Row: 7
    2.45605574226
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AM7="",E7,AM7),{0,1,2,10,24,100},{0.0,2.405,2.405,2.075,1.93,1.785}),"")
  Col: AO
-   245.605574226
+   245.6056
   Formula: IFERROR(IF(AM7="",E7,AM7)*AN7,"")
  Col: AP
    <a href="https://octopart.com/click/track?ai=8078&sig=0f8ba8d&sid=10022&ppid=438323&vpid=199061725&ct=offers">6696304</a>
@@ -362,7 +362,7 @@ Row: 9
    9.68662880983
   Formula: IFERROR(USD_GBP*LOOKUP(IF(S9="",E9,S9),{0,1,10,25,50,100,250},{0.0,10.1,8.76,8.4,8.16,7.04,6.58}),"")
  Col: U
-   968.662880983
+   968.6629
   Formula: IFERROR(IF(S9="",E9,S9)*T9,"")
  Col: V
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0390e18&sid=819&ppid=18901679&vpid=138563883&ct=offers">2062027</a>
@@ -382,7 +382,7 @@ Row: 9
    10.8162768571
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AM9="",E9,AM9),{0,1,37},{0.0,8.92,7.861}),"")
  Col: AO
-   1081.62768571
+   1081.6277
   Formula: IFERROR(IF(AM9="",E9,AM9)*AN9,"")
  Col: AP
    <a href="https://octopart.com/click/track?ai=8078&sig=05a8713&sid=10022&ppid=18901679&vpid=448603363&ct=offers">7427809P</a>
@@ -418,7 +418,7 @@ Row: 10
    0.390767412215
   Formula: IFERROR(USD_GBP*LOOKUP(IF(S10="",E10,S10),{0,1,5,50,150,250,500,1500,3000,15000},{0.0,0.376,0.376,0.284,0.284,0.258,0.211,0.199,0.186,0.182}),"")
  Col: U1
-   39.0767412215
+   39.0767
   Formula: IFERROR(IF(S10="",E10,S10)*T10,"")
  Col: V1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=057eeca&sid=819&ppid=314394&vpid=139132810&ct=offers">1615352</a>

@@ -1,17 +1,17 @@
 Prj:,StickIt-QuadDAC Module,,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,XESS Corp.,,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,06/12/2016 11:01:25 PM,,,,,,Total Cost:,0,,,,0,0,,,,1000.936,0,,,,1142.691974,0,,,,385.54,0,,,,1051.6,0,,,,1070.8,0,,,,950.77564,0,,,,835.8592,0,,,,96.4,0
+Prj date:,06/12/2016 11:01:25 PM,,,,,,Total Cost:,0,,,,0,0,,,,1000.936,0,,,,1142.692,0,,,,385.54,0,,,,1051.6,0,,,,1070.8,0,,,,950.7756,0,,,,835.8592,0,,,,96.4,0
 Global Part Info,,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,,Local,,,,
 Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-C1-C7,1.0uF,,C_0603_HandSoldering,Yageo,CC0201KRX5R7BB103,700,0,0,,,,,,584720,,0.00528,3.696,311-1596-1-ND,135000,,0.008806,6.164218,3369041,,,,,,134231,,0.008,5.6,603CC201KRX5R7BB103,135000,,0.004,2.8,69AH7060,,,,,,,,,,,,,,,
+C1-C7,1.0uF,,C_0603_HandSoldering,Yageo,CC0201KRX5R7BB103,700,0,0,,,,,,584720,,0.00528,3.696,311-1596-1-ND,135000,,0.008806,6.1642,3369041,,,,,,134231,,0.008,5.6,603CC201KRX5R7BB103,135000,,0.004,2.8,69AH7060,,,,,,,,,,,,,,,
 JP1-JP10,JUMPER,,HDR_1x2,,,1000,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.01,10,#NO_CATALOG0002
 PCB1,PCB,,,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.32,32,#NO_CATALOG0003
 PM1,PMOD_SCKT-12,,PMOD_SCKT-12,Ho Chien,2553-2x6G,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.21,21,2553-2x6G
 RN1,4K7,,CTS_742C043,,742c043472,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 STK1,STICKIT2_HDR,,STICKIT2_HDR,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.09,9,#NO_CATALOG0001
-"U1,U2",MCP48X2,Dual DAC,xess-MICROCHIP-8_MSOP,Microchip,MCP4802-E/MS,200,0,0,,,,,,2,,1.18,236,MCP4802-E/MS-ND,2,,1.541055,308.210917,3102799,9,,1.9277,385.54,C185622,191,,1.18,236,579MCP4802E/MS,2,,1.48,296,02AH4494,45,,1.527295,305.459033,7263908,NonStk,,1.222919,244.5838,MCP4802E/MS,,,,,
-U3,MCP43X1,digital pot A,xess-MICROCHIP-20_TSSOP,Microchip,MCP4361-503E/ST,100,0,0,,,,,,215,,1.49,149,MCP4361-503E/ST-ND,NonStk,,1.678649,167.864874,1840707,,,,,,93,,1.49,149,579MCP4361503E/ST,NonStk,,1.49,149,53R0046,,,,,,,,,,,,,,,
-VoA2,COAX_CONN,,SMA_EDGE_AMP_132322,amphenol,132322,100,0,0,,,,,,2315,,6.1224,612.24,ACX1652-ND,1002,,6.60452,660.451964,2579819,,,,,,NonStk,,6.61,661,523132322,597,,6.23,623,99H5141,235,,6.453166,645.316607,1440918,89,,5.912754,591.2754,132322,NonStk,,0.244,24.4,132322
+"U1,U2",MCP48X2,Dual DAC,xess-MICROCHIP-8_MSOP,Microchip,MCP4802-E/MS,200,0,0,,,,,,2,,1.18,236,MCP4802-E/MS-ND,2,,1.541055,308.2109,3102799,9,,1.9277,385.54,C185622,191,,1.18,236,579MCP4802E/MS,2,,1.48,296,02AH4494,45,,1.527295,305.459,7263908,NonStk,,1.222919,244.5838,MCP4802E/MS,,,,,
+U3,MCP43X1,digital pot A,xess-MICROCHIP-20_TSSOP,Microchip,MCP4361-503E/ST,100,0,0,,,,,,215,,1.49,149,MCP4361-503E/ST-ND,NonStk,,1.678649,167.8649,1840707,,,,,,93,,1.49,149,579MCP4361503E/ST,NonStk,,1.49,149,53R0046,,,,,,,,,,,,,,,
+VoA2,COAX_CONN,,SMA_EDGE_AMP_132322,amphenol,132322,100,0,0,,,,,,2315,,6.1224,612.24,ACX1652-ND,1002,,6.60452,660.452,2579819,,,,,,NonStk,,6.61,661,523132322,597,,6.23,623,99H5141,235,,6.453166,645.3166,1440918,89,,5.912754,591.2754,132322,NonStk,,0.244,24.4,132322
 
 ,Used currency rates:,,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,,,,0,
 ,USD($)/EUR(€):,1.1873,,,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV

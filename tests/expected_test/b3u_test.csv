@@ -1,14 +1,14 @@
 Prj:,StickIt-RotaryEncoder Module,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,XESS Corp.,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,05/28/2016 12:02:31 AM,,,,,Total Cost:,0,,,,0,0,,,,289.096,0,,,,328.850041,0,,,,27.18,0,,,,276.5,0,,,,274.5,0,,,,0,0,,,,199.4664,0,,,,115.4,0
+Prj date:,05/28/2016 12:02:31 AM,,,,,Total Cost:,0,,,,0,0,,,,289.096,0,,,,328.85,0,,,,27.18,0,,,,276.5,0,,,,274.5,0,,,,0,0,,,,199.4664,0,,,,115.4,0
 Global Part Info,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,,Local,,,,
 Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 C1-C6,C-NONPOL,C_0603_HandSoldering,,,600,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 JP1-JP4,JUMPER,HDR_1x2,,,400,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 PCB1,PCB,,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.32,32,#NO_CATALOG0002
-RN1,4K7,CTS_742C163,OMRON,B3U-1000P,100,0,0,,,,,,108878,,0.7235,72.35,SW1020CT-ND,2080,,0.800798,80.079801,2500851,5025,,0.2718,27.18,C231329,11098,,0.645,64.5,653B3U1000P,2080,,0.645,64.5,34M5295,,,,,,,,,,,,,,,
+RN1,4K7,CTS_742C163,OMRON,B3U-1000P,100,0,0,,,,,,108878,,0.7235,72.35,SW1020CT-ND,2080,,0.800798,80.0798,2500851,5025,,0.2718,27.18,C231329,11098,,0.645,64.5,653B3U1000P,2080,,0.645,64.5,34M5295,,,,,,,,,,,,,,,
 RN2,1K,CTS_742C163,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-"ROT1,ROT2",ROT_ENC_SW,ROT_ENC_EC11E,Bourns,PEC11R-4220F-S0024,200,0,0,,,,,,NonStk,,1.08373,216.746,PEC11R-4220F-S0024-ND,NonStk,,1.243851,248.77024,2663527,,,,,,NonStk,,1.06,212,652PEC11R4220FS24,10,,1.05,210,53W9535,,,,,,NonStk,,0.997332,199.4664,PEC11R4220FS0024,NonStk,,0.372,74.4,PEC11R-4220F-S0024
+"ROT1,ROT2",ROT_ENC_SW,ROT_ENC_EC11E,Bourns,PEC11R-4220F-S0024,200,0,0,,,,,,NonStk,,1.08373,216.746,PEC11R-4220F-S0024-ND,NonStk,,1.243851,248.7702,2663527,,,,,,NonStk,,1.06,212,652PEC11R4220FS24,10,,1.05,210,53W9535,,,,,,NonStk,,0.997332,199.4664,PEC11R4220FS0024,NonStk,,0.372,74.4,PEC11R-4220F-S0024
 STK1,STICKIT2_HDR,STICKIT2_HDR,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.09,9,#NO_CATALOG0001
 
 ,Used currency rates:,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,,,,0,
