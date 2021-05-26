@@ -41,25 +41,25 @@ Row: 3
    97.03
   Formula: SUM(L7:L22)
  Col: M
-   0
+   "7 of 16 parts found"
   Formula: (COUNTA(L7:L22)&" of "&ROWS(L7:L22)&" parts found")
  Col: Q
    70.5
   Formula: SUM(Q7:Q22)
  Col: R
-   0
+   "6 of 16 parts found"
   Formula: (COUNTA(Q7:Q22)&" of "&ROWS(Q7:Q22)&" parts found")
  Col: V
    63
   Formula: SUM(V7:V22)
  Col: W
-   0
+   "1 of 16 parts found"
   Formula: (COUNTA(V7:V22)&" of "&ROWS(V7:V22)&" parts found")
  Col: AA
    12.5
   Formula: SUM(AA7:AA22)
  Col: AB
-   0
+   "2 of 16 parts found"
   Formula: (COUNTA(AA7:AA22)&" of "&ROWS(AA7:AA22)&" parts found")
 Row: 4
  Col: A

@@ -47,55 +47,55 @@ Row: 3
    0
   Formula: SUM(Q7:Q9)
  Col: R
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(Q7:Q9)&" of "&ROWS(Q7:Q9)&" parts found")
  Col: V
    0
   Formula: SUM(V7:V9)
  Col: W
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(V7:V9)&" of "&ROWS(V7:V9)&" parts found")
  Col: AA
    0
   Formula: SUM(AA7:AA9)
  Col: AB
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AA7:AA9)&" of "&ROWS(AA7:AA9)&" parts found")
  Col: AF
    0
   Formula: SUM(AF7:AF9)
  Col: AG
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AF7:AF9)&" of "&ROWS(AF7:AF9)&" parts found")
  Col: AK
    70.2
   Formula: SUM(AK7:AK9)
  Col: AL
-   0
+   "2 of 3 parts found"
   Formula: (COUNTA(AK7:AK9)&" of "&ROWS(AK7:AK9)&" parts found")
  Col: AP
    0
   Formula: SUM(AP7:AP9)
  Col: AQ
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AP7:AP9)&" of "&ROWS(AP7:AP9)&" parts found")
  Col: AU
    0
   Formula: SUM(AU7:AU9)
  Col: AV
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AU7:AU9)&" of "&ROWS(AU7:AU9)&" parts found")
  Col: AZ
    0
   Formula: SUM(AZ7:AZ9)
  Col: BA
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AZ7:AZ9)&" of "&ROWS(AZ7:AZ9)&" parts found")
  Col: BE
    9.4984
   Formula: SUM(BE7:BE9)
  Col: BF
-   0
+   "3 of 3 parts found"
   Formula: (COUNTA(BE7:BE9)&" of "&ROWS(BE7:BE9)&" parts found")
 Row: 4
  Col: A

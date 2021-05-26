@@ -1,6 +1,6 @@
 Prj:,StickIt! Motherboard / Raspberry Pi B+ Hat,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,XESS Corp.,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,07/02/2015 12:40:36 PM,,,,Total Cost:,0,,,,0,0,,,,146.37,0,,,,104.9155,0,,,,23.91,0,,,,140,0,,,,141.4,0,,,,90.8121,0,,,,29.6718,0,,,,3,0
+Prj date:,07/02/2015 12:40:36 PM,,,,Total Cost:,0,,,,0,0 of 8 parts found,,,,146.37,7 of 8 parts found,,,,104.9155,6 of 8 parts found,,,,23.91,2 of 8 parts found,,,,140,7 of 8 parts found,,,,141.4,6 of 8 parts found,,,,90.8121,4 of 8 parts found,,,,29.6718,3 of 8 parts found,,,,3,1 of 8 parts found
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,,Local,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 C1,22uF,c_elec_5x5.3,UWX1C220MCL1GB,100,0,0,,,,,,37955,,0.1251,12.51,493-2101-1-ND,304,,0.149978,14.9978,8823030,8810,,0.054,5.4,C433198,206,,0.113,11.3,647UWX1C220MCL1,109,,0.113,11.3,58R3621,4130,,0.188504,18.8504,7395550,4900,,0.090354,9.0354,UWX1C220MCL1GB,,,,,

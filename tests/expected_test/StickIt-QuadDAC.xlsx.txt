@@ -48,55 +48,55 @@ Row: 3
    0
   Formula: SUM(M7:M15)
  Col: N
-   0
+   "0 of 9 parts found"
   Formula: (COUNTA(M7:M15)&" of "&ROWS(M7:M15)&" parts found")
  Col: R
    1000.936
   Formula: SUM(R7:R15)
  Col: S
-   0
+   "4 of 9 parts found"
   Formula: (COUNTA(R7:R15)&" of "&ROWS(R7:R15)&" parts found")
  Col: W
    1142.692
   Formula: SUM(W7:W15)
  Col: X
-   0
+   "4 of 9 parts found"
   Formula: (COUNTA(W7:W15)&" of "&ROWS(W7:W15)&" parts found")
  Col: AB
    385.54
   Formula: SUM(AB7:AB15)
  Col: AC
-   0
+   "1 of 9 parts found"
   Formula: (COUNTA(AB7:AB15)&" of "&ROWS(AB7:AB15)&" parts found")
  Col: AG
    1051.6
   Formula: SUM(AG7:AG15)
  Col: AH
-   0
+   "4 of 9 parts found"
   Formula: (COUNTA(AG7:AG15)&" of "&ROWS(AG7:AG15)&" parts found")
  Col: AL
    1070.8
   Formula: SUM(AL7:AL15)
  Col: AM
-   0
+   "4 of 9 parts found"
   Formula: (COUNTA(AL7:AL15)&" of "&ROWS(AL7:AL15)&" parts found")
  Col: AQ
    950.7756
   Formula: SUM(AQ7:AQ15)
  Col: AR
-   0
+   "2 of 9 parts found"
   Formula: (COUNTA(AQ7:AQ15)&" of "&ROWS(AQ7:AQ15)&" parts found")
  Col: AV
    835.8592
   Formula: SUM(AV7:AV15)
  Col: AW
-   0
+   "2 of 9 parts found"
   Formula: (COUNTA(AV7:AV15)&" of "&ROWS(AV7:AV15)&" parts found")
  Col: BA
    96.4
   Formula: SUM(BA7:BA15)
  Col: BB
-   0
+   "5 of 9 parts found"
   Formula: (COUNTA(BA7:BA15)&" of "&ROWS(BA7:BA15)&" parts found")
 Row: 4
  Col: A

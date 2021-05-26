@@ -45,49 +45,49 @@ Row: 3
    0
   Formula: SUM(K7:K367)
  Col: L
-   0
+   "0 of 361 parts found"
   Formula: (COUNTA(K7:K367)&" of "&ROWS(K7:K367)&" parts found")
  Col: P
    26751.554
   Formula: SUM(P7:P367)
  Col: Q
-   0
+   "299 of 361 parts found"
   Formula: (COUNTA(P7:P367)&" of "&ROWS(P7:P367)&" parts found")
  Col: U
    17108.9118
   Formula: SUM(U7:U367)
  Col: V
-   0
+   "248 of 361 parts found"
   Formula: (COUNTA(U7:U367)&" of "&ROWS(U7:U367)&" parts found")
  Col: Z
    2925.88
   Formula: SUM(Z7:Z367)
  Col: AA
-   0
+   "102 of 361 parts found"
   Formula: (COUNTA(Z7:Z367)&" of "&ROWS(Z7:Z367)&" parts found")
  Col: AE
    23468.7
   Formula: SUM(AE7:AE367)
  Col: AF
-   0
+   "263 of 361 parts found"
   Formula: (COUNTA(AE7:AE367)&" of "&ROWS(AE7:AE367)&" parts found")
  Col: AJ
    16656.7
   Formula: SUM(AJ7:AJ367)
  Col: AK
-   0
+   "245 of 361 parts found"
   Formula: (COUNTA(AJ7:AJ367)&" of "&ROWS(AJ7:AJ367)&" parts found")
  Col: AO
    107977.9796
   Formula: SUM(AO7:AO367)
  Col: AP
-   0
+   "139 of 361 parts found"
   Formula: (COUNTA(AO7:AO367)&" of "&ROWS(AO7:AO367)&" parts found")
  Col: AT
    10927.2871
   Formula: SUM(AT7:AT367)
  Col: AU
-   0
+   "126 of 361 parts found"
   Formula: (COUNTA(AT7:AT367)&" of "&ROWS(AT7:AT367)&" parts found")
 Row: 4
  Col: A

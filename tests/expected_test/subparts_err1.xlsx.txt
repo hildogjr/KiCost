@@ -46,49 +46,49 @@ Row: 3
    0
   Formula: SUM(M7:M8)
  Col: N
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(M7:M8)&" of "&ROWS(M7:M8)&" parts found")
  Col: R
    145.02
   Formula: SUM(R7:R8)
  Col: S
-   0
+   "1 of 2 parts found"
   Formula: (COUNTA(R7:R8)&" of "&ROWS(R7:R8)&" parts found")
  Col: W
    211.895
   Formula: SUM(W7:W8)
  Col: X
-   0
+   "1 of 2 parts found"
   Formula: (COUNTA(W7:W8)&" of "&ROWS(W7:W8)&" parts found")
  Col: AB
    0
   Formula: SUM(AB7:AB8)
  Col: AC
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(AB7:AB8)&" of "&ROWS(AB7:AB8)&" parts found")
  Col: AG
    295
   Formula: SUM(AG7:AG8)
  Col: AH
-   0
+   "2 of 2 parts found"
   Formula: (COUNTA(AG7:AG8)&" of "&ROWS(AG7:AG8)&" parts found")
  Col: AL
    131
   Formula: SUM(AL7:AL8)
  Col: AM
-   0
+   "1 of 2 parts found"
   Formula: (COUNTA(AL7:AL8)&" of "&ROWS(AL7:AL8)&" parts found")
  Col: AQ
    0
   Formula: SUM(AQ7:AQ8)
  Col: AR
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(AQ7:AQ8)&" of "&ROWS(AQ7:AQ8)&" parts found")
  Col: AV
    0
   Formula: SUM(AV7:AV8)
  Col: AW
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(AV7:AV8)&" of "&ROWS(AV7:AV8)&" parts found")
 Row: 4
  Col: A

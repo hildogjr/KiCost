@@ -1,6 +1,6 @@
 Prj:,TestParts.xml,,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,,,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,20/03/2016 13:22:35,,,,,,Total Cost:,0,,,,0,0,,,,1528.613,0,,,,1132.51,0,,,,0,0,,,,1215.5,0,,,,1376.2,0,,,,368.7523,0,,,,851.6384,0
+Prj date:,20/03/2016 13:22:35,,,,,,Total Cost:,0,,,,0,0 of 7 parts found,,,,1528.613,4 of 7 parts found,,,,1132.51,4 of 7 parts found,,,,0,0 of 7 parts found,,,,1215.5,4 of 7 parts found,,,,1376.2,4 of 7 parts found,,,,368.7523,3 of 7 parts found,,,,851.6384,3 of 7 parts found
 Global Part Info,,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 "C1,C2",000004V1RA,CAP CER 27PF 50V NP0 0402,C_0402,Kemet,C0402C270J5GACTU,200,0,0,,,,,,1198178,,0.0158,3.16,399-1016-1-ND,76509,,0.024629,4.9259,1414584,,,,,,206337,,0.016,3.2,80C0402C270J5G,76509,,0.021,4.2,01J3306,28000,,0.011008,2.2015,146973,NonStk,,0.012645,2.5289,C0402C270J5GAC

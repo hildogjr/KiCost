@@ -38,7 +38,7 @@ Row: 3
    74.4
   Formula: SUM(L7:L13)
  Col: M
-   0
+   "1 of 7 parts found"
   Formula: (COUNTA(L7:L13)&" of "&ROWS(L7:L13)&" parts found")
 Row: 4
  Col: A

@@ -44,49 +44,49 @@ Row: 3
    0
   Formula: SUM(K7)
  Col: L
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(K7)&" of "&ROWS(K7)&" parts found")
  Col: P
    168.28
   Formula: SUM(P7)
  Col: Q
-   0
+   "1 of 1 parts found"
   Formula: (COUNTA(P7)&" of "&ROWS(P7)&" parts found")
  Col: U
    218.7747
   Formula: SUM(U7)
  Col: V
-   0
+   "1 of 1 parts found"
   Formula: (COUNTA(U7)&" of "&ROWS(U7)&" parts found")
  Col: Z
    0
   Formula: SUM(Z7)
  Col: AA
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(Z7)&" of "&ROWS(Z7)&" parts found")
  Col: AE
    174
   Formula: SUM(AE7)
  Col: AF
-   0
+   "1 of 1 parts found"
   Formula: (COUNTA(AE7)&" of "&ROWS(AE7)&" parts found")
  Col: AJ
    187
   Formula: SUM(AJ7)
  Col: AK
-   0
+   "1 of 1 parts found"
   Formula: (COUNTA(AJ7)&" of "&ROWS(AJ7)&" parts found")
  Col: AO
    0
   Formula: SUM(AO7)
  Col: AP
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(AO7)&" of "&ROWS(AO7)&" parts found")
  Col: AT
    0
   Formula: SUM(AT7)
  Col: AU
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(AT7)&" of "&ROWS(AT7)&" parts found")
 Row: 4
  Col: A

@@ -47,49 +47,49 @@ Row: 3
    0
   Formula: SUM(K7:K30)
  Col: L
-   0
+   "0 of 24 parts found"
   Formula: (COUNTA(K7:K30)&" of "&ROWS(K7:K30)&" parts found")
  Col: P
    83.27
   Formula: SUM(P7:P30)
  Col: Q
-   0
+   "2 of 24 parts found"
   Formula: (COUNTA(P7:P30)&" of "&ROWS(P7:P30)&" parts found")
  Col: U
    51.5978
   Formula: SUM(U7:U30)
  Col: V
-   0
+   "1 of 24 parts found"
   Formula: (COUNTA(U7:U30)&" of "&ROWS(U7:U30)&" parts found")
  Col: Z
    20.69
   Formula: SUM(Z7:Z30)
  Col: AA
-   0
+   "1 of 24 parts found"
   Formula: (COUNTA(Z7:Z30)&" of "&ROWS(Z7:Z30)&" parts found")
  Col: AE
    51.8
   Formula: SUM(AE7:AE30)
  Col: AF
-   0
+   "1 of 24 parts found"
   Formula: (COUNTA(AE7:AE30)&" of "&ROWS(AE7:AE30)&" parts found")
  Col: AJ
    47
   Formula: SUM(AJ7:AJ30)
  Col: AK
-   0
+   "1 of 24 parts found"
   Formula: (COUNTA(AJ7:AJ30)&" of "&ROWS(AJ7:AJ30)&" parts found")
  Col: AO
    47.6076
   Formula: SUM(AO7:AO30)
  Col: AP
-   0
+   "1 of 24 parts found"
   Formula: (COUNTA(AO7:AO30)&" of "&ROWS(AO7:AO30)&" parts found")
  Col: AT
    31.5822
   Formula: SUM(AT7:AT30)
  Col: AU
-   0
+   "1 of 24 parts found"
   Formula: (COUNTA(AT7:AT30)&" of "&ROWS(AT7:AT30)&" parts found")
 Row: 4
  Col: A

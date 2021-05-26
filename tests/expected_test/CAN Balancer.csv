@@ -1,6 +1,6 @@
 Prj:,CAN Balancer.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,jue 10 ago 2017 17:31:30 ART,,,,Total Cost:,0,,,,0,0,,,,7057.531,0,,,,1988.8961,0,,,,759.76,0,,,,2070.4,0,,,,5443.7,0,,,,1038.4231,0,,,,452.3886,0
+Prj date:,jue 10 ago 2017 17:31:30 ART,,,,Total Cost:,0,,,,0,0 of 40 parts found,,,,7057.531,21 of 40 parts found,,,,1988.8961,17 of 40 parts found,,,,759.76,8 of 40 parts found,,,,2070.4,17 of 40 parts found,,,,5443.7,20 of 40 parts found,,,,1038.4231,10 of 40 parts found,,,,452.3886,11 of 40 parts found
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 "C1,C2,C101-C106,C203,C205-C208,C301,C302,C401,C402,C501,C502,C601,C602,C701,C702,C801,C802",100nF,C_0603,CL10B104KA8NNNC,2500,0,0,,,,,,6326310,,0.00702,17.55,1276-1006-1-ND,,,,,,,,,,,NonStk,,0.007,17.5,187CL10B104KA8NNNC,,,,,,596000,,0.005504,13.7594,7664816,269900,,0.009035,22.5884,CL10B104KA8NNNC

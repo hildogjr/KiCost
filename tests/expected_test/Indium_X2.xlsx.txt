@@ -47,49 +47,49 @@ Row: 3
    0
   Formula: SUM(M7:M31)
  Col: N
-   0
+   "0 of 25 parts found"
   Formula: (COUNTA(M7:M31)&" of "&ROWS(M7:M31)&" parts found")
  Col: R
    716.098
   Formula: SUM(R7:R31)
  Col: S
-   0
+   "19 of 25 parts found"
   Formula: (COUNTA(R7:R31)&" of "&ROWS(R7:R31)&" parts found")
  Col: W
    566.5852
   Formula: SUM(W7:W31)
  Col: X
-   0
+   "15 of 25 parts found"
   Formula: (COUNTA(W7:W31)&" of "&ROWS(W7:W31)&" parts found")
  Col: AB
    118.16
   Formula: SUM(AB7:AB31)
  Col: AC
-   0
+   "5 of 25 parts found"
   Formula: (COUNTA(AB7:AB31)&" of "&ROWS(AB7:AB31)&" parts found")
  Col: AG
    635.9
   Formula: SUM(AG7:AG31)
  Col: AH
-   0
+   "18 of 25 parts found"
   Formula: (COUNTA(AG7:AG31)&" of "&ROWS(AG7:AG31)&" parts found")
  Col: AL
    763.4
   Formula: SUM(AL7:AL31)
  Col: AM
-   0
+   "18 of 25 parts found"
   Formula: (COUNTA(AL7:AL31)&" of "&ROWS(AL7:AL31)&" parts found")
  Col: AQ
    887.6199
   Formula: SUM(AQ7:AQ31)
  Col: AR
-   0
+   "13 of 25 parts found"
   Formula: (COUNTA(AQ7:AQ31)&" of "&ROWS(AQ7:AQ31)&" parts found")
  Col: AV
    240.731
   Formula: SUM(AV7:AV31)
  Col: AW
-   0
+   "10 of 25 parts found"
   Formula: (COUNTA(AV7:AV31)&" of "&ROWS(AV7:AV31)&" parts found")
 Row: 4
  Col: A

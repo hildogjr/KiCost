@@ -44,49 +44,49 @@ Row: 3
    0
   Formula: SUM(L7:L14)
  Col: M
-   0
+   "0 of 8 parts found"
   Formula: (COUNTA(L7:L14)&" of "&ROWS(L7:L14)&" parts found")
  Col: Q
    629.21
   Formula: SUM(Q7:Q14)
  Col: R
-   0
+   "4 of 8 parts found"
   Formula: (COUNTA(Q7:Q14)&" of "&ROWS(Q7:Q14)&" parts found")
  Col: V
    174.607
   Formula: SUM(V7:V14)
  Col: W
-   0
+   "2 of 8 parts found"
   Formula: (COUNTA(V7:V14)&" of "&ROWS(V7:V14)&" parts found")
  Col: AA
    0
   Formula: SUM(AA7:AA14)
  Col: AB
-   0
+   "0 of 8 parts found"
   Formula: (COUNTA(AA7:AA14)&" of "&ROWS(AA7:AA14)&" parts found")
  Col: AF
    161.7
   Formula: SUM(AF7:AF14)
  Col: AG
-   0
+   "2 of 8 parts found"
   Formula: (COUNTA(AF7:AF14)&" of "&ROWS(AF7:AF14)&" parts found")
  Col: AK
    183.6
   Formula: SUM(AK7:AK14)
  Col: AL
-   0
+   "2 of 8 parts found"
   Formula: (COUNTA(AK7:AK14)&" of "&ROWS(AK7:AK14)&" parts found")
  Col: AP
    138.9701
   Formula: SUM(AP7:AP14)
  Col: AQ
-   0
+   "2 of 8 parts found"
   Formula: (COUNTA(AP7:AP14)&" of "&ROWS(AP7:AP14)&" parts found")
  Col: AU
    0
   Formula: SUM(AU7:AU14)
  Col: AV
-   0
+   "0 of 8 parts found"
   Formula: (COUNTA(AU7:AU14)&" of "&ROWS(AU7:AU14)&" parts found")
 Row: 4
  Col: A

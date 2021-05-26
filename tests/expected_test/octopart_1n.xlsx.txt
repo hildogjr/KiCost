@@ -45,49 +45,49 @@ Row: 3
    2891.19
   Formula: SUM(L7:L18)
  Col: M
-   0
+   "9 of 12 parts found"
   Formula: (COUNTA(L7:L18)&" of "&ROWS(L7:L18)&" parts found")
  Col: Q
    2686.94
   Formula: SUM(Q7:Q18)
  Col: R
-   0
+   "11 of 12 parts found"
   Formula: (COUNTA(Q7:Q18)&" of "&ROWS(Q7:Q18)&" parts found")
  Col: V
    97.0864
   Formula: SUM(V7:V18)
  Col: W
-   0
+   "7 of 12 parts found"
   Formula: (COUNTA(V7:V18)&" of "&ROWS(V7:V18)&" parts found")
  Col: AA
    8.55
   Formula: SUM(AA7:AA18)
  Col: AB
-   0
+   "3 of 12 parts found"
   Formula: (COUNTA(AA7:AA18)&" of "&ROWS(AA7:AA18)&" parts found")
  Col: AF
    2637.4
   Formula: SUM(AF7:AF18)
  Col: AG
-   0
+   "10 of 12 parts found"
   Formula: (COUNTA(AF7:AF18)&" of "&ROWS(AF7:AF18)&" parts found")
  Col: AK
    2620.1
   Formula: SUM(AK7:AK18)
  Col: AL
-   0
+   "8 of 12 parts found"
   Formula: (COUNTA(AK7:AK18)&" of "&ROWS(AK7:AK18)&" parts found")
  Col: AP
    93.7
   Formula: SUM(AP7:AP18)
  Col: AQ
-   0
+   "8 of 12 parts found"
   Formula: (COUNTA(AP7:AP18)&" of "&ROWS(AP7:AP18)&" parts found")
  Col: AU
    86.6278
   Formula: SUM(AU7:AU18)
  Col: AV
-   0
+   "8 of 12 parts found"
   Formula: (COUNTA(AU7:AU18)&" of "&ROWS(AU7:AU18)&" parts found")
 Row: 4
  Col: A

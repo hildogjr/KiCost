@@ -555,6 +555,15 @@ def create_worksheet(ss, logger, parts):
         ss.adjust_row_and_col_sizes(logger)
 
 
+def get_ref_key(part):
+    ''' Helper function to sort the references '''
+    match = PART_REF_REGEX.match(part.first_ref)
+    if not match:
+        return [part.collapsed_refs, 0, 0]
+    subpart_num = match.group('subpart_num')
+    return [match.group('prefix'), int(match.group('ref_num')), int(subpart_num) if subpart_num else 0]
+
+
 def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, parts, dist_list):
     '''Add global part data to the spreadsheet.'''
 
@@ -654,12 +663,6 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         part.collapsed_refs, part.first_ref = order_refs(part.refs, collapse=ss.COLLAPSE_REFS, ref_sep=ss.PART_NSEQ_SEPRTR)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
-    def get_ref_key(part):
-        match = PART_REF_REGEX.match(part.first_ref)
-        if not match:
-            return [part.collapsed_refs, 0, 0]
-        subpart_num = match.group('subpart_num')
-        return [match.group('prefix'), int(match.group('ref_num')), int(subpart_num) if subpart_num else 0]
     parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.
@@ -856,7 +859,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             next_line = next_line + 1
 
     # Return column following the globals so we know where to start next set of cells.
-    # Also return the columns where the references and quantity needed of each part is stored.
+    # Also return the columns where the references and quantity needed of each part are stored.
     return next_line, start_col + num_cols, col_refs, col_qty, col
 
 
@@ -900,6 +903,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     col_unit_price = start_col + columns['unit_price']['col']
     col_ext_price = start_col + columns['ext_price']['col']
     total_cost = 0
+    n_price_found = 0
     for part in parts:
         dist_part_num = part.part_num.get(dist)  # Get the distributor part number.
         price_tiers = part.price_tiers.get(dist, {})  # Extract price tiers from distributor HTML page tree.
@@ -948,6 +952,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
 
         # Add pricing information if it exists. (Unit$/Ext$)
         if price_tiers:
+            n_price_found += 1
             part_qty_cell = xl_rowcol_to_cell(row, part_qty_col)
             purch_cell = xl_rowcol_to_cell(row, col_purch)
             # Add the price for a single unit if it doesn't already exist in the tiers.
@@ -1037,20 +1042,15 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         for i_prj in range(num_prj):
             # Sum the extended prices (unit multiplied by quantity) for each file/BOM.
             qty_prj_col = part_qty_col - (num_prj - i_prj)
+            qty_prj_range = xl_range(PART_INFO_FIRST_ROW, qty_prj_col, PART_INFO_LAST_ROW, qty_prj_col)
             row = total_cost_row + i_prj * 3
-            wks.write(row, col_ext_price,
-                      '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
-                            qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
-                                               PART_INFO_LAST_ROW, qty_prj_col),
-                            unit_price_range=xl_range(PART_INFO_FIRST_ROW, col_unit_price,
-                                                      PART_INFO_LAST_ROW, col_unit_price)),
+            wks.write(row, col_ext_price, '=SUMPRODUCT({qty_range},{unit_price_range})'.format(qty_range=qty_prj_range,
+                      unit_price_range=xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW, col_unit_price)),
                       ss.wrk_formats['total_cost_currency'])
             # Show how many parts were found at this distributor.
             wks.write(row, col_part_num,
                       '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",'
-                      '{qty_range},"<>")&" parts found"'.format(price_range=ext_price_range,
-                                                                qty_range=xl_range(PART_INFO_FIRST_ROW, qty_prj_col,
-                                                                                   PART_INFO_LAST_ROW, qty_prj_col)),
+                      '{qty_range},"<>")&" parts found"'.format(price_range=ext_price_range, qty_range=qty_prj_range),
                       ss.wrk_formats['found_part_pct'])
             wks.write_comment(row, col_part_num, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
         total_cost_row = PART_INFO_FIRST_ROW - 3  # Shift the total price in this distributor.
@@ -1060,11 +1060,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                       # Limit the resolution (to make it more reproducible)
                       value=round(total_cost, 4))
     # Show how many parts were found at this distributor.
-    wks.write(total_cost_row, col_part_num,
-              # '=COUNTIF({count_range},"<>")&" of "&ROWS({count_range})&" parts found"'.format(
-              '=(COUNTA({count_range})&" of "&ROWS({count_range})&"'
-              ' parts found")'.format(count_range=ext_price_range),
-              ss.wrk_formats['found_part_pct'])
+    # Note: the formula could help the user to remove prices and add parts
+    wks.write_formula(total_cost_row, col_part_num, '=(COUNTA({count_range})&" of "&ROWS({count_range})&" parts found")'.format(
+                      count_range=ext_price_range), ss.wrk_formats['found_part_pct'], value='{} of {} parts found'.format(n_price_found, num_parts))
     wks.write_comment(total_cost_row, col_part_num, 'Number of parts found at this distributor.')
 
     # Add list of part numbers and purchase quantities for ordering from this distributor.
@@ -1073,23 +1071,15 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
 
     # Write the header and how many parts are being purchased.
     ORDER_HEADER = PART_INFO_LAST_ROW + 2
-    wks.write_formula(  # Expended many in this distributor.
-        ORDER_HEADER, col_ext_price,
-        '=SUMIF({count_range},">0",{price_range})'.format(
-            count_range=xl_range(PART_INFO_FIRST_ROW, col_purch, PART_INFO_LAST_ROW, col_purch),
-            price_range=ext_price_range,
-        ),
-        ss.wrk_formats['total_cost_currency']
-    )
-    wks.write_formula(  # Quantity of purchased part in this distributor.
-        ORDER_HEADER, col_purch,
-        '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&'
-        '(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.format(
-            count_range=xl_range(PART_INFO_FIRST_ROW, col_purch, PART_INFO_LAST_ROW, col_purch),
-            count_range_price=ext_price_range
-        ),
-        ss.wrk_formats['found_part_pct'], value=''
-    )
+    purch_range = xl_range(PART_INFO_FIRST_ROW, col_purch, PART_INFO_LAST_ROW, col_purch)
+    # Expended in this distributor.
+    wks.write_formula(ORDER_HEADER, col_ext_price, '=SUMIF({count_range},">0",{price_range})'.format(
+                      count_range=purch_range,
+                      price_range=ext_price_range), ss.wrk_formats['total_cost_currency'])
+    # Quantity of purchased parts in this distributor.
+    wks.write_formula(ORDER_HEADER, col_purch, '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&'
+                      '(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.
+                      format(count_range=purch_range, count_range_price=ext_price_range), ss.wrk_formats['found_part_pct'], value='')
     wks.write_comment(ORDER_HEADER, col_purch, 'Copy the information below to the BOM import page of the distributor web site.')
     if order.url:
         ss.write_url(ORDER_HEADER, col_purch-1, order.url, string='Buy here')
@@ -1200,10 +1190,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         cur_row = ORDER_FIRST_ROW + num_parts
         wks.write_formula(cur_row, ORDER_START_COL,
                           '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}"&CHAR(10),""),"")'
-                          .format(count_range=xl_range(PART_INFO_FIRST_ROW, col_purch,
-                                                       PART_INFO_LAST_ROW, col_purch),
-                                  count_range_price=ext_price_range,
-                                  header=order.header), value='')
+                          .format(count_range=purch_range, count_range_price=ext_price_range, header=order.header), value='')
         # Insert the header as the first line
         order_cells.insert(0, xl_rowcol_to_cell(cur_row, ORDER_START_COL))
         # Hide it
