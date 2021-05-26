@@ -183,8 +183,9 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                     else:
                         f.write('"' + text + '"')
                 elif cell is not None:
-                    # Python 2.7 str(float) has only 12 digits, force 16
-                    f.write("{:.16g}".format(cell))
+                    # Python 2.7 str(float) has only 12 digits
+                    # Forcing 16 fails in some cases
+                    f.write("{:.12g}".format(cell))
                 if cell is not None:
                     f.write('\n')
                 if form:

@@ -278,7 +278,7 @@ Row: 8
  Col: T
    717
  Col: V
-   2.118950052149728
+   2.11895005215
   Formula: IFERROR(USD_GBP*LOOKUP(IF(U8="",G8,U8),{0,1,10,25,50,100},{0.0,2.63,2.1,1.98,1.85,1.54}),"")
  Col: W
    0
@@ -373,7 +373,7 @@ Row: 11
  Col: B1
    "USD($)/GBP(£):"
  Col: C1
-   1.375941592305018
+   1.37594159231
  Col: H1
    "Purchase description:"
  Col: K1
