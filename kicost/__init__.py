@@ -14,6 +14,7 @@ class PartGroup(object):
         self.datasheet = None
         self.lifecycle = None
         self.specs = {}  # Miscellaneous data from the queries
+        self.min_price = None  # Filled by the spreadsheet code, expressed in the main currency
         # Distributor data
         # TODO: distributor data should be a class and we should have a hash dist -> data
         self.part_num = {}  # Distributor catalogue number.

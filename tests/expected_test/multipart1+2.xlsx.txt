@@ -357,7 +357,7 @@ prj1:J1"
    200
   Formula: CEILING(SUM(F10:G10),1)
  Col: I1
-   0
+   0.597
   Formula: MINA(M10,R10,W10,AB10,AG10,AL10,AQ10,AV10)
  Col: J1
    0
@@ -434,7 +434,7 @@ prj1:J2"
    200
   Formula: CEILING(SUM(F11:G11),1)
  Col: I1
-   0
+   0.770527291691
   Formula: MINA(M11,R11,W11,AB11,AG11,AL11,AQ11,AV11)
  Col: J1
    0
@@ -508,7 +508,7 @@ Row: 12
    1000
   Formula: CEILING(SUM(F12:G12),1)
  Col: I1
-   0
+   0.46459
   Formula: MINA(M12,R12,W12,AB12,AG12,AL12,AQ12,AV12)
  Col: J1
    0
@@ -544,7 +544,7 @@ Row: 13
    100
   Formula: CEILING(SUM(F13:G13),1)
  Col: I1
-   0
+   0.53425
   Formula: MINA(M13,R13,W13,AB13,AG13,AL13,AQ13,AV13)
  Col: J1
    0
@@ -656,7 +656,7 @@ prj1:R2,R3"
    400
   Formula: CEILING(SUM(F17:G17),1)
  Col: I1
-   0
+   0.01296
   Formula: MINA(M17,R17,W17,AB17,AG17,AL17,AQ17,AV17)
  Col: J1
    0

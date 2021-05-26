@@ -3,10 +3,10 @@ Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Prj date:,04/21/2017 4:03:40 PM,,,,Total Cost:,0,,,,0,0 of 4 parts found,,,,1309.25,3 of 4 parts found,,,,1309.0708,3 of 4 parts found,,,,202.87,1 of 4 parts found,,,,1202.1,3 of 4 parts found,,,,238,1 of 4 parts found,,,,1327.2333,2 of 4 parts found,,,,1063.8208,2 of 4 parts found
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-U1,MCP4822,,MCP4822-E/SN,100,0,0,,,,,,4622,,2.38,238,MCP4822-E/SN-ND,6489,,3.013312,301.3312,1439414,223,,2.0287,202.87,C16040,4335,,2.38,238,579MCP4822E/SN,3709,,2.38,238,58M8927,1674,,2.456056,245.6056,6696304,1,,1.994664,199.4664,MCP4822E/SN
-U2,OPA2347,,OPA2347EA/250,100,0,0,,,,,,1950,,0.985,98.5,296-44981-1-ND,,,,,,,,,,,366,,0.921,92.1,595OPA2347EA/250,,,,,,,,,,,,,,,
-U3,ADM3053,,ADM3053BRWZ,100,0,0,,,,,,NonStk,,9.7275,972.75,ADM3053BRWZ-ND,NonStk,,9.686629,968.6629,2062027,,,,,,NonStk,,8.72,872,584ADM3053BRWZ,,,,,,296,,10.816277,1081.6277,7427809P,NonStk,,8.643544,864.3544,ADM3053BRWZ
-X1,RESONATOR,,CSTCE8M00G55Z-R0,100,0,0,,,,,,,,,,,NonStk,,0.390767,39.0767,1615352,,,,,,,,,,,NonStk,,,,80P4001,,,,,,,,,,
+U1,MCP4822,,MCP4822-E/SN,100,1.994664,0,,,,,,4622,,2.38,238,MCP4822-E/SN-ND,6489,,3.013312,301.3312,1439414,223,,2.0287,202.87,C16040,4335,,2.38,238,579MCP4822E/SN,3709,,2.38,238,58M8927,1674,,2.456056,245.6056,6696304,1,,1.994664,199.4664,MCP4822E/SN
+U2,OPA2347,,OPA2347EA/250,100,0.921,0,,,,,,1950,,0.985,98.5,296-44981-1-ND,,,,,,,,,,,366,,0.921,92.1,595OPA2347EA/250,,,,,,,,,,,,,,,
+U3,ADM3053,,ADM3053BRWZ,100,8.643544,0,,,,,,NonStk,,9.7275,972.75,ADM3053BRWZ-ND,NonStk,,9.686629,968.6629,2062027,,,,,,NonStk,,8.72,872,584ADM3053BRWZ,,,,,,296,,10.816277,1081.6277,7427809P,NonStk,,8.643544,864.3544,ADM3053BRWZ
+X1,RESONATOR,,CSTCE8M00G55Z-R0,100,0.390767,0,,,,,,,,,,,NonStk,,0.390767,39.0767,1615352,,,,,,,,,,,NonStk,,,,80P4001,,,,,,,,,,
 
 ,Used currency rates:,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
 ,USD($)/EUR(€):,1.1873,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV

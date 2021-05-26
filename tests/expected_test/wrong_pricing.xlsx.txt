@@ -176,7 +176,7 @@ Row: 12
    200
   Formula: CEILING(BoardQty*2.0,1)
  Col: G1
-   0
+   0.372
   Formula: MINA(K12)
  Col: H1
    0

@@ -424,7 +424,7 @@ Row: 20
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: F2
-   0
+   0.2069
   Formula: MINA(J20,O20,T20,Y20,AD20,AI20,AN20,AS20)
  Col: G2
    0
@@ -592,7 +592,7 @@ Row: 26
    3600
   Formula: CEILING(BoardQty*36.0,1)
  Col: F2
-   0
+   0.00695
   Formula: MINA(J26,O26,T26,Y26,AD26,AI26,AN26,AS26)
  Col: G2
    0

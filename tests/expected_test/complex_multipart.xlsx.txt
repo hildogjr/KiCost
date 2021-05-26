@@ -253,7 +253,7 @@ Row: 7
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
-   0
+   0.083111
   Formula: MINA(P7,U7,Z7,AE7,AJ7,AO7,AT7,AY7,BD7)
  Col: M
    0
@@ -349,7 +349,7 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
-   0
+   0.011873
   Formula: MINA(P9,U9,Z9,AE9,AJ9,AO9,AT9,AY9,BD9)
  Col: M
    0

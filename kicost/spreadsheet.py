@@ -743,6 +743,7 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         col_dist += dist_width
     col_ext_price = start_col + col['ext_price']
     col_qty = start_col + col['qty']
+    col_unit_price = start_col + col['unit_price']
 
     for part in parts:
         # Gather the cell references for calculating minimum unit price and part availability.
@@ -777,12 +778,13 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         # Enter the spreadsheet formula for calculating the minimum extended price (based on the unit price found on next formula).
         wks.write_formula(row, col_ext_price, '=iferror({qty}*{unit_price},"")'.format(
                           qty=xl_rowcol_to_cell(row, col_qty),
-                          unit_price=xl_rowcol_to_cell(row, start_col + col['unit_price'])), ss.wrk_formats['currency'])
+                          unit_price=xl_rowcol_to_cell(row, col_unit_price)), ss.wrk_formats['currency'])
 
         # Minimum unit price
         if ss.DISTRIBUTORS:
             # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
-            wks.write_formula(row, start_col + col['unit_price'], '=MINA({})'.format(','.join(dist_unit_prices)), ss.wrk_formats['currency_unit'])
+            value = part.min_price if part.min_price is not None else 0
+            wks.write_formula(row, col_unit_price, '=MINA({})'.format(','.join(dist_unit_prices)), ss.wrk_formats['currency_unit'], value=value)
             # If part is unavailable from all distributors, color quantity cell red.
             ss.conditional_format(row, col_qty, '=IF(SUM({})=0,1,0)'.format(','.join(dist_qty_avail)), 'not_available')
             # If total available part quantity is less than needed quantity, color cell orange.
@@ -798,8 +800,7 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     total_cost_col = col_ext_price
     num_prj = len(ss.prj_info)
     if num_prj > 1:
-        unit_price_col = start_col + col['unit_price']
-        unit_price_range = xl_range(PART_INFO_FIRST_ROW, unit_price_col, PART_INFO_LAST_ROW, unit_price_col)
+        unit_price_range = xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW, col_unit_price)
         # Add each project board total.
         for i_prj in range(num_prj):
             qty_col = start_col + col['qty_prj{}'.format(i_prj)]
@@ -822,8 +823,8 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     # Add the total purchase and others purchase informations.
     if ss.DISTRIBUTORS:
         next_line = row + 1
-        ss.write_string(next_line, start_col + col['unit_price'], 'Total Purchase:', 'total_cost_label')
-        wks.write_comment(next_line, start_col + col['unit_price'], 'This is the total of your cart across all distributors.')
+        ss.write_string(next_line, col_unit_price, 'Total Purchase:', 'total_cost_label')
+        wks.write_comment(next_line, col_unit_price, 'This is the total of your cart across all distributors.')
         dist_ext_prices = []
         for dist in sorted(ss.DISTRIBUTORS):
             # Get the content of the extended price
@@ -831,8 +832,8 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         wks.write(next_line, col_ext_price, '=SUM({})'.format(','.join(dist_ext_prices)), ss.wrk_formats['total_cost_currency'])
         # Purchase general description, it may be used to distinguish carts of different projects.
         next_line = next_line + 1
-        ss.write_string(next_line, start_col + col['unit_price'], 'Purchase description:', 'description')
-        wks.write_comment(next_line, start_col + col['unit_price'],
+        ss.write_string(next_line, col_unit_price, 'Purchase description:', 'description')
+        wks.write_comment(next_line, col_unit_price,
                           'This description will be added to all purchased parts label and may be used to distinguish the ' +
                           'component of different projects.')
         ss.define_name_ref('PURCHASE_DESCRIPTION', next_line, col['ext_price'])
@@ -994,6 +995,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(q, price_fmt, priceq_fmt)
             # Add the formula
             unit_price *= rate_n
+            if part.min_price is None or unit_price < part.min_price:
+                # TODO: I don't think we should take values with moq > part.qty_total_spreadsheet (SET)
+                part.min_price = unit_price
             wks.write_formula(row, col_unit_price, '=IFERROR({rate}LOOKUP(IF({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
                               rate=rate,
                               needed_qty=part_qty_cell,
