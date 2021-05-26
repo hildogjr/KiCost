@@ -66,7 +66,7 @@ Row: 7
   Formula: CEILING(BoardQty*6.0,1)
  Col: G
    0
-  Formula: iferror(E7*F7,"")
+  Formula: IFERROR(E7*F7,"")
 Row: 8
  Col: A
    "TEST+SUPPLY"
@@ -79,7 +79,7 @@ Row: 8
   Formula: CEILING(BoardQty*1,1)
  Col: G
    0
-  Formula: iferror(E8*F8,"")
+  Formula: IFERROR(E8*F8,"")
 Row: 11
  Col: A1
    "*FILTERED*"

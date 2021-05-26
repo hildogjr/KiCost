@@ -90,7 +90,7 @@ Row: 7
   Formula: MINA(K7)
  Col: H
    0
-  Formula: iferror(F7*G7,"")
+  Formula: IFERROR(F7*G7,"")
 Row: 8
  Col: A
    "JP1-JP4"
@@ -106,7 +106,7 @@ Row: 8
   Formula: MINA(K8)
  Col: H
    0
-  Formula: iferror(F8*G8,"")
+  Formula: IFERROR(F8*G8,"")
 Row: 9
  Col: A
    "PCB1"
@@ -120,7 +120,7 @@ Row: 9
   Formula: MINA(K9)
  Col: H
    0
-  Formula: iferror(F9*G9,"")
+  Formula: IFERROR(F9*G9,"")
  Col: I
    "NonStk"
  Col: M
@@ -144,7 +144,7 @@ Row: 10
   Formula: MINA(K10)
  Col: H1
    0
-  Formula: iferror(F10*G10,"")
+  Formula: IFERROR(F10*G10,"")
 Row: 11
  Col: A1
    "RN2"
@@ -160,7 +160,7 @@ Row: 11
   Formula: MINA(K11)
  Col: H1
    0
-  Formula: iferror(F11*G11,"")
+  Formula: IFERROR(F11*G11,"")
 Row: 12
  Col: A1
    "ROT1,ROT2"
@@ -179,8 +179,8 @@ Row: 12
    0.372
   Formula: MINA(K12)
  Col: H1
-   0
-  Formula: iferror(F12*G12,"")
+   74.4
+  Formula: IFERROR(F12*G12,"")
  Col: I1
    "NonStk"
  Col: K1
@@ -206,7 +206,7 @@ Row: 13
   Formula: MINA(K13)
  Col: H1
    0
-  Formula: iferror(F13*G13,"")
+  Formula: IFERROR(F13*G13,"")
  Col: I1
    "NonStk"
  Col: M1

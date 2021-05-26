@@ -68,7 +68,7 @@ Row: 7
   Formula: CEILING(BoardQty*2,1)
  Col: H
    0
-  Formula: iferror(F7*G7,"")
+  Formula: IFERROR(F7*G7,"")
 Row: 10
  Col: A1
    "*FILTERED*"

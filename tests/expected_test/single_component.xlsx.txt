@@ -212,8 +212,8 @@ Row: 7
    1.6828
   Formula: MINA(J7,O7,T7,Y7,AD7,AI7,AN7,AS7)
  Col: G
-   0
-  Formula: iferror(E7*F7,"")
+   168.28
+  Formula: IFERROR(E7*F7,"")
  Col: M
    1464
  Col: O

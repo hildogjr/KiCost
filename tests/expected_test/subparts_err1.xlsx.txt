@@ -222,8 +222,8 @@ Row: 7
    1.64
   Formula: MINA(L7,Q7,V7,AA7,AF7,AK7,AP7,AU7)
  Col: I
-   0
-  Formula: iferror(G7*H7,"")
+   164
+  Formula: IFERROR(G7*H7,"")
  Col: AD
    30803
  Col: AF
@@ -254,8 +254,8 @@ Row: 8
    1.31
   Formula: MINA(L8,Q8,V8,AA8,AF8,AK8,AP8,AU8)
  Col: I
-   0
-  Formula: iferror(G8*H8,"")
+   131
+  Formula: IFERROR(G8*H8,"")
  Col: O
    2753
  Col: Q

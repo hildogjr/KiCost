@@ -145,8 +145,8 @@ Row: 7
    0.113
   Formula: MINA(U7,Z7,K7,P7)
  Col: H
-   0
-  Formula: iferror(F7*G7,"")
+   22.6
+  Formula: IFERROR(F7*G7,"")
  Col: I
    "NonStk"
  Col: K
@@ -183,8 +183,8 @@ Row: 8
    0.098
   Formula: MINA(U8,Z8,K8,P8)
  Col: H
-   0
-  Formula: iferror(F8*G8,"")
+   19.6
+  Formula: IFERROR(F8*G8,"")
  Col: I
    3433
  Col: K
@@ -221,8 +221,8 @@ Row: 9
    0.033
   Formula: MINA(U9,Z9,K9,P9)
  Col: H
-   0
-  Formula: iferror(F9*G9,"")
+   3.3
+  Formula: IFERROR(F9*G9,"")
  Col: I
    13115714
  Col: K
@@ -258,7 +258,7 @@ Row: 10
   Formula: MINA(U10,Z10,K10,P10)
  Col: H1
    0
-  Formula: iferror(F10*G10,"")
+  Formula: IFERROR(F10*G10,"")
 Row: 11
  Col: A1
    "GPIO1"
@@ -274,7 +274,7 @@ Row: 11
   Formula: MINA(U11,Z11,K11,P11)
  Col: H1
    0
-  Formula: iferror(F11*G11,"")
+  Formula: IFERROR(F11*G11,"")
 Row: 12
  Col: A1
    "GR1-GR3"
@@ -290,7 +290,7 @@ Row: 12
   Formula: MINA(U12,Z12,K12,P12)
  Col: H1
    0
-  Formula: iferror(F12*G12,"")
+  Formula: IFERROR(F12*G12,"")
 Row: 13
  Col: A1
    "J1"
@@ -306,7 +306,7 @@ Row: 13
   Formula: MINA(U13,Z13,K13,P13)
  Col: H1
    0
-  Formula: iferror(F13*G13,"")
+  Formula: IFERROR(F13*G13,"")
 Row: 14
  Col: A1
    "J3-J5"
@@ -322,7 +322,7 @@ Row: 14
   Formula: MINA(U14,Z14,K14,P14)
  Col: H1
    0
-  Formula: iferror(F14*G14,"")
+  Formula: IFERROR(F14*G14,"")
 Row: 15
  Col: A1
    "JP1-JP3"
@@ -337,8 +337,8 @@ Row: 15
    0.015
   Formula: MINA(U15,Z15,K15,P15)
  Col: H1
-   0
-  Formula: iferror(F15*G15,"")
+   4.5
+  Formula: IFERROR(F15*G15,"")
  Col: X1
    "NonStk"
  Col: Z1
@@ -363,8 +363,8 @@ Row: 16
    0.01
   Formula: MINA(U16,Z16,K16,P16)
  Col: H1
-   0
-  Formula: iferror(F16*G16,"")
+   8
+  Formula: IFERROR(F16*G16,"")
  Col: X1
    "NonStk"
  Col: Z1
@@ -393,8 +393,8 @@ Row: 17
    0.21
   Formula: MINA(U17,Z17,K17,P17)
  Col: H1
-   0
-  Formula: iferror(F17*G17,"")
+   63
+  Formula: IFERROR(F17*G17,"")
  Col: S1
    "NonStk"
  Col: U1
@@ -421,8 +421,8 @@ Row: 18
    0.009
   Formula: MINA(U18,Z18,K18,P18)
  Col: H1
-   0
-  Formula: iferror(F18*G18,"")
+   0.9
+  Formula: IFERROR(F18*G18,"")
  Col: I1
    190871
  Col: K1
@@ -459,8 +459,8 @@ Row: 19
    0.056
   Formula: MINA(U19,Z19,K19,P19)
  Col: H1
-   0
-  Formula: iferror(F19*G19,"")
+   5.6
+  Formula: IFERROR(F19*G19,"")
  Col: I1
    23427
  Col: K1
@@ -496,7 +496,7 @@ Row: 20
   Formula: MINA(U20,Z20,K20,P20)
  Col: H2
    0
-  Formula: iferror(F20*G20,"")
+  Formula: IFERROR(F20*G20,"")
 Row: 21
  Col: A2
    "U1"
@@ -513,8 +513,8 @@ Row: 21
    0.1868
   Formula: MINA(U21,Z21,K21,P21)
  Col: H2
-   0
-  Formula: iferror(F21*G21,"")
+   18.68
+  Formula: IFERROR(F21*G21,"")
  Col: I2
    "NonStk"
  Col: K2
@@ -541,8 +541,8 @@ Row: 22
    0.1674
   Formula: MINA(U22,Z22,K22,P22)
  Col: H2
-   0
-  Formula: iferror(F22*G22,"")
+   16.74
+  Formula: IFERROR(F22*G22,"")
  Col: I2
    "NonStk"
  Col: K2

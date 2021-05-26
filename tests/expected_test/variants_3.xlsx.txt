@@ -72,7 +72,7 @@ Row: 7
   Formula: CEILING(BoardQty*1,1)
  Col: I
    0
-  Formula: iferror(G7*H7,"")
+  Formula: IFERROR(G7*H7,"")
 Row: 8
  Col: A
    "C2"
@@ -87,7 +87,7 @@ Row: 8
   Formula: CEILING(BoardQty*1,1)
  Col: I
    0
-  Formula: iferror(G8*H8,"")
+  Formula: IFERROR(G8*H8,"")
 Row: 9
  Col: A
    "C6"
@@ -102,7 +102,7 @@ Row: 9
   Formula: CEILING(BoardQty*1,1)
  Col: I
    0
-  Formula: iferror(G9*H9,"")
+  Formula: IFERROR(G9*H9,"")
 Row: 10
  Col: A1
    "C7"
@@ -117,7 +117,7 @@ Row: 10
   Formula: CEILING(BoardQty*1,1)
  Col: I1
    0
-  Formula: iferror(G10*H10,"")
+  Formula: IFERROR(G10*H10,"")
 Row: 11
  Col: A1
    "C8"
@@ -132,7 +132,7 @@ Row: 11
   Formula: CEILING(BoardQty*1,1)
  Col: I1
    0
-  Formula: iferror(G11*H11,"")
+  Formula: IFERROR(G11*H11,"")
 Row: 14
  Col: A1
    "*FILTERED*"

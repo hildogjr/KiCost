@@ -73,7 +73,7 @@ C2: Manf is defaultmanf, except when variant1 (check impact of field order)"
   Formula: CEILING(BoardQty*2,1)
  Col: I
    0
-  Formula: iferror(G7*H7,"")
+  Formula: IFERROR(G7*H7,"")
 Row: 8
  Col: A
    "C3"
@@ -88,7 +88,7 @@ Row: 8
   Formula: CEILING(BoardQty*1,1)
  Col: I
    0
-  Formula: iferror(G8*H8,"")
+  Formula: IFERROR(G8*H8,"")
 Row: 11
  Col: A1
    "*FILTERED*"

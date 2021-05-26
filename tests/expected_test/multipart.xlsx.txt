@@ -218,8 +218,8 @@ Row: 7
    0.597
   Formula: MINA(K7,P7,U7,Z7,AE7,AJ7,AO7,AT7)
  Col: H
-   0
-  Formula: iferror(F7*G7,"")
+   59.7
+  Formula: IFERROR(F7*G7,"")
  Col: N
    6484
  Col: P
@@ -288,8 +288,8 @@ Row: 8
    0.770527291691
   Formula: MINA(K8,P8,U8,Z8,AE8,AJ8,AO8,AT8)
  Col: H
-   0
-  Formula: iferror(F8*G8,"")
+   77.0527
+  Formula: IFERROR(F8*G8,"")
  Col: N
    1237
  Col: P
@@ -358,8 +358,8 @@ Row: 9
    0.53425
   Formula: MINA(K9,P9,U9,Z9,AE9,AJ9,AO9,AT9)
  Col: H
-   0
-  Formula: iferror(F9*G9,"")
+   53.425
+  Formula: IFERROR(F9*G9,"")
  Col: N
    50992
  Col: P
@@ -389,7 +389,7 @@ Row: 10
   Formula: MINA(K10,P10,U10,Z10,AE10,AJ10,AO10,AT10)
  Col: H1
    0
-  Formula: iferror(F10*G10,"")
+  Formula: IFERROR(F10*G10,"")
 Row: 11
  Col: A1
    "J3#3"
@@ -409,7 +409,7 @@ Row: 11
   Formula: MINA(K11,P11,U11,Z11,AE11,AJ11,AO11,AT11)
  Col: H1
    0
-  Formula: iferror(F11*G11,"")
+  Formula: IFERROR(F11*G11,"")
 Row: 12
  Col: A1
    "R1"
@@ -425,7 +425,7 @@ Row: 12
   Formula: MINA(K12,P12,U12,Z12,AE12,AJ12,AO12,AT12)
  Col: H1
    0
-  Formula: iferror(F12*G12,"")
+  Formula: IFERROR(F12*G12,"")
 Row: 13
  Col: A1
    "R2,R3"
@@ -444,8 +444,8 @@ Row: 13
    0.017
   Formula: MINA(K13,P13,U13,Z13,AE13,AJ13,AO13,AT13)
  Col: H1
-   0
-  Formula: iferror(F13*G13,"")
+   3.4
+  Formula: IFERROR(F13*G13,"")
  Col: N1
    6920000
  Col: P1
@@ -475,7 +475,7 @@ Row: 14
   Formula: MINA(K14,P14,U14,Z14,AE14,AJ14,AO14,AT14)
  Col: H1
    0
-  Formula: iferror(F14*G14,"")
+  Formula: IFERROR(F14*G14,"")
 Row: 15
  Col: A1
    "S1#2"
@@ -495,7 +495,7 @@ Row: 15
   Formula: MINA(K15,P15,U15,Z15,AE15,AJ15,AO15,AT15)
  Col: H1
    0
-  Formula: iferror(F15*G15,"")
+  Formula: IFERROR(F15*G15,"")
 Row: 16
  Col: A1
    "S2"
@@ -515,7 +515,7 @@ Row: 16
   Formula: MINA(K16,P16,U16,Z16,AE16,AJ16,AO16,AT16)
  Col: H1
    0
-  Formula: iferror(F16*G16,"")
+  Formula: IFERROR(F16*G16,"")
 Row: 17
  Col: A1
    "SW1-SW3,SW5-SW9"
@@ -535,7 +535,7 @@ Row: 17
   Formula: MINA(K17,P17,U17,Z17,AE17,AJ17,AO17,AT17)
  Col: H1
    0
-  Formula: iferror(F17*G17,"")
+  Formula: IFERROR(F17*G17,"")
 Row: 18
  Col: A1
    "SW4#1"
@@ -555,7 +555,7 @@ Row: 18
   Formula: MINA(K18,P18,U18,Z18,AE18,AJ18,AO18,AT18)
  Col: H1
    0
-  Formula: iferror(F18*G18,"")
+  Formula: IFERROR(F18*G18,"")
 Row: 19
  Col: A1
    "SW4#2"
@@ -575,7 +575,7 @@ Row: 19
   Formula: MINA(K19,P19,U19,Z19,AE19,AJ19,AO19,AT19)
  Col: H1
    0
-  Formula: iferror(F19*G19,"")
+  Formula: IFERROR(F19*G19,"")
 Row: 20
  Col: A2
    "SW4#3"
@@ -595,7 +595,7 @@ Row: 20
   Formula: MINA(K20,P20,U20,Z20,AE20,AJ20,AO20,AT20)
  Col: H2
    0
-  Formula: iferror(F20*G20,"")
+  Formula: IFERROR(F20*G20,"")
 Row: 21
  Col: A2
    "SW4#4"
@@ -615,7 +615,7 @@ Row: 21
   Formula: MINA(K21,P21,U21,Z21,AE21,AJ21,AO21,AT21)
  Col: H2
    0
-  Formula: iferror(F21*G21,"")
+  Formula: IFERROR(F21*G21,"")
 Row: 23
  Col: B2
    "Used currency rates:"

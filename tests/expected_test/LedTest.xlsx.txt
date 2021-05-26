@@ -211,7 +211,7 @@ Row: 7
   Formula: MINA(J7,O7,T7,Y7,AD7,AI7,AN7,AS7)
  Col: G
    0
-  Formula: iferror(E7*F7,"")
+  Formula: IFERROR(E7*F7,"")
 Row: 8
  Col: A
    "IC1"
@@ -227,7 +227,7 @@ Row: 8
   Formula: MINA(J8,O8,T8,Y8,AD8,AI8,AN8,AS8)
  Col: G
    0
-  Formula: iferror(E8*F8,"")
+  Formula: IFERROR(E8*F8,"")
 Row: 9
  Col: A
    "P1"
@@ -243,7 +243,7 @@ Row: 9
   Formula: MINA(J9,O9,T9,Y9,AD9,AI9,AN9,AS9)
  Col: G
    0
-  Formula: iferror(E9*F9,"")
+  Formula: IFERROR(E9*F9,"")
 Row: 10
  Col: A1
    "P2"
@@ -259,7 +259,7 @@ Row: 10
   Formula: MINA(J10,O10,T10,Y10,AD10,AI10,AN10,AS10)
  Col: G1
    0
-  Formula: iferror(E10*F10,"")
+  Formula: IFERROR(E10*F10,"")
 Row: 11
  Col: A1
    "R1-R8"
@@ -273,7 +273,7 @@ Row: 11
   Formula: MINA(J11,O11,T11,Y11,AD11,AI11,AN11,AS11)
  Col: G1
    0
-  Formula: iferror(E11*F11,"")
+  Formula: IFERROR(E11*F11,"")
 Row: 12
  Col: A1
    "U1"
@@ -290,8 +290,8 @@ Row: 12
    0.361
   Formula: MINA(J12,O12,T12,Y12,AD12,AI12,AN12,AS12)
  Col: G1
-   0
-  Formula: iferror(E12*F12,"")
+   36.1
+  Formula: IFERROR(E12*F12,"")
  Col: M1
    73
  Col: O1

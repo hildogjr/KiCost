@@ -214,7 +214,7 @@ Row: 7
   Formula: MINA(J7,O7,T7,Y7,AD7,AI7,AN7,AS7)
  Col: G
    0
-  Formula: iferror(E7*F7,"")
+  Formula: IFERROR(E7*F7,"")
 Row: 9
  Col: F
    "Total Purchase:"

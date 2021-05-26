@@ -216,8 +216,8 @@ Row: 7
    0.116
   Formula: MINA(J7,O7,T7,Y7,AD7,AI7,AN7,AS7)
  Col: G
-   0
-  Formula: iferror(E7*F7,"")
+   301.6
+  Formula: IFERROR(E7*F7,"")
  Col: M
    430748
  Col: O
@@ -284,8 +284,8 @@ Row: 8
    0.148
   Formula: MINA(J8,O8,T8,Y8,AD8,AI8,AN8,AS8)
  Col: G
-   0
-  Formula: iferror(E8*F8,"")
+   59.2
+  Formula: IFERROR(E8*F8,"")
  Col: M
    44
  Col: O
@@ -352,8 +352,8 @@ Row: 9
    0.0114
   Formula: MINA(J9,O9,T9,Y9,AD9,AI9,AN9,AS9)
  Col: G
-   0
-  Formula: iferror(E9*F9,"")
+   167.58
+  Formula: IFERROR(E9*F9,"")
  Col: H
    "NonStk"
  Col: J
@@ -449,7 +449,7 @@ Row: 10
   Formula: MINA(J10,O10,T10,Y10,AD10,AI10,AN10,AS10)
  Col: G1
    0
-  Formula: iferror(E10*F10,"")
+  Formula: IFERROR(E10*F10,"")
 Row: 11
  Col: A1
    "C704,C707,C709,C711,C1404,C1407,C1409,C1411,C1904,C1907,C1909,C1911,C2404,C2407,C2409,C2411"
@@ -465,7 +465,7 @@ Row: 11
   Formula: MINA(J11,O11,T11,Y11,AD11,AI11,AN11,AS11)
  Col: G1
    0
-  Formula: iferror(E11*F11,"")
+  Formula: IFERROR(E11*F11,"")
 Row: 12
  Col: A1
    "C705,C708,C710,C712,C1405,C1408,C1410,C1412,C1905,C1908,C1910,C1912,C2405,C2408,C2410,C2412"
@@ -481,7 +481,7 @@ Row: 12
   Formula: MINA(J12,O12,T12,Y12,AD12,AI12,AN12,AS12)
  Col: G1
    0
-  Formula: iferror(E12*F12,"")
+  Formula: IFERROR(E12*F12,"")
 Row: 13
  Col: A1
    "C801,C804,C901,C904,C1001,C1004,C1101,C1104,C1501,C1504,C1601,C1604,C1701,C1704,C1801,C1804,C2001,C2004,C2101,C2104,C2201,C2204,C2301,C2304,C2501,C2504,C2601,C2604,C2701,C2704,C2801,C2804"
@@ -498,8 +498,8 @@ Row: 13
    0.057211651408
   Formula: MINA(J13,O13,T13,Y13,AD13,AI13,AN13,AS13)
  Col: G1
-   0
-  Formula: iferror(E13*F13,"")
+   183.0773
+  Formula: IFERROR(E13*F13,"")
  Col: H1
    "NonStk"
  Col: J1
@@ -575,7 +575,7 @@ Row: 14
   Formula: MINA(J14,O14,T14,Y14,AD14,AI14,AN14,AS14)
  Col: G1
    0
-  Formula: iferror(E14*F14,"")
+  Formula: IFERROR(E14*F14,"")
 Row: 15
  Col: A1
    "CNN2901#1"
@@ -592,8 +592,8 @@ Row: 15
    2.66
   Formula: MINA(J15,O15,T15,Y15,AD15,AI15,AN15,AS15)
  Col: G1
-   0
-  Formula: iferror(E15*F15,"")
+   266
+  Formula: IFERROR(E15*F15,"")
  Col: AG1
    "NonStk"
  Col: AI1
@@ -620,8 +620,8 @@ Row: 16
    80.44
   Formula: MINA(J16,O16,T16,Y16,AD16,AI16,AN16,AS16)
  Col: G1
-   0
-  Formula: iferror(E16*F16,"")
+   8044
+  Formula: IFERROR(E16*F16,"")
  Col: H1
    "NonStk"
  Col: J1
@@ -688,8 +688,8 @@ Row: 17
    80.44
   Formula: MINA(J17,O17,T17,Y17,AD17,AI17,AN17,AS17)
  Col: G1
-   0
-  Formula: iferror(E17*F17,"")
+   8044
+  Formula: IFERROR(E17*F17,"")
  Col: H1
    "NonStk"
  Col: J1
@@ -746,8 +746,8 @@ Row: 18
    73.3
   Formula: MINA(J18,O18,T18,Y18,AD18,AI18,AN18,AS18)
  Col: G1
-   0
-  Formula: iferror(E18*F18,"")
+   7330
+  Formula: IFERROR(E18*F18,"")
  Col: H1
    "NonStk"
  Col: J1
@@ -804,8 +804,8 @@ Row: 19
    0.126
   Formula: MINA(J19,O19,T19,Y19,AD19,AI19,AN19,AS19)
  Col: G1
-   0
-  Formula: iferror(E19*F19,"")
+   151.2
+  Formula: IFERROR(E19*F19,"")
  Col: H1
    "NonStk"
  Col: J1
@@ -872,8 +872,8 @@ Row: 20
    0.013952047746
   Formula: MINA(J20,O20,T20,Y20,AD20,AI20,AN20,AS20)
  Col: G2
-   0
-  Formula: iferror(E20*F20,"")
+   5.5808
+  Formula: IFERROR(E20*F20,"")
  Col: H2
    25698
  Col: J2
@@ -960,8 +960,8 @@ Row: 21
    0.159
   Formula: MINA(J21,O21,T21,Y21,AD21,AI21,AN21,AS21)
  Col: G2
-   0
-  Formula: iferror(E21*F21,"")
+   127.2
+  Formula: IFERROR(E21*F21,"")
  Col: H2
    "NonStk"
  Col: J2
@@ -1028,8 +1028,8 @@ Row: 22
    0.1325
   Formula: MINA(J22,O22,T22,Y22,AD22,AI22,AN22,AS22)
  Col: G2
-   0
-  Formula: iferror(E22*F22,"")
+   39.75
+  Formula: IFERROR(E22*F22,"")
  Col: H2
    2980
  Col: J2
@@ -1086,8 +1086,8 @@ Row: 23
    0.0433834384054
   Formula: MINA(J23,O23,T23,Y23,AD23,AI23,AN23,AS23)
  Col: G2
-   0
-  Formula: iferror(E23*F23,"")
+   138.827
+  Formula: IFERROR(E23*F23,"")
  Col: H2
    30000
  Col: J2
@@ -1184,8 +1184,8 @@ Row: 24
    0.15073
   Formula: MINA(J24,O24,T24,Y24,AD24,AI24,AN24,AS24)
  Col: G2
-   0
-  Formula: iferror(E24*F24,"")
+   241.168
+  Formula: IFERROR(E24*F24,"")
  Col: H2
    "NonStk"
  Col: J2
@@ -1251,7 +1251,7 @@ Row: 25
   Formula: MINA(J25,O25,T25,Y25,AD25,AI25,AN25,AS25)
  Col: G2
    0
-  Formula: iferror(E25*F25,"")
+  Formula: IFERROR(E25*F25,"")
 Row: 26
  Col: A2
    "I801,I901,I1001,I1101,I1501,I1601,I1701,I1801,I2001,I2101,I2201,I2301,I2501,I2601,I2701,I2801"
@@ -1268,8 +1268,8 @@ Row: 26
    0.61085
   Formula: MINA(J26,O26,T26,Y26,AD26,AI26,AN26,AS26)
  Col: G2
-   0
-  Formula: iferror(E26*F26,"")
+   977.36
+  Formula: IFERROR(E26*F26,"")
  Col: H2
    "NonStk"
  Col: J2
@@ -1316,8 +1316,8 @@ Row: 27
    0.385
   Formula: MINA(J27,O27,T27,Y27,AD27,AI27,AN27,AS27)
  Col: G2
-   0
-  Formula: iferror(E27*F27,"")
+   38.5
+  Formula: IFERROR(E27*F27,"")
  Col: H2
    "NonStk"
  Col: J2
@@ -1394,8 +1394,8 @@ Row: 28
    0.4385
   Formula: MINA(J28,O28,T28,Y28,AD28,AI28,AN28,AS28)
  Col: G2
-   0
-  Formula: iferror(E28*F28,"")
+   263.1
+  Formula: IFERROR(E28*F28,"")
  Col: H2
    "NonStk"
  Col: J2
@@ -1472,8 +1472,8 @@ Row: 29
    0.34
   Formula: MINA(J29,O29,T29,Y29,AD29,AI29,AN29,AS29)
  Col: G2
-   0
-  Formula: iferror(E29*F29,"")
+   136
+  Formula: IFERROR(E29*F29,"")
  Col: H2
    "NonStk"
  Col: J2
@@ -1510,8 +1510,8 @@ Row: 30
    0.34
   Formula: MINA(J30,O30,T30,Y30,AD30,AI30,AN30,AS30)
  Col: G3
-   0
-  Formula: iferror(E30*F30,"")
+   136
+  Formula: IFERROR(E30*F30,"")
  Col: H3
    "NonStk"
  Col: J3
@@ -1548,8 +1548,8 @@ Row: 31
    0.34
   Formula: MINA(J31,O31,T31,Y31,AD31,AI31,AN31,AS31)
  Col: G3
-   0
-  Formula: iferror(E31*F31,"")
+   136
+  Formula: IFERROR(E31*F31,"")
  Col: H3
    "NonStk"
  Col: J3
@@ -1586,8 +1586,8 @@ Row: 32
    0.128512944721
   Formula: MINA(J32,O32,T32,Y32,AD32,AI32,AN32,AS32)
  Col: G3
-   0
-  Formula: iferror(E32*F32,"")
+   12.8513
+  Formula: IFERROR(E32*F32,"")
  Col: H3
    "NonStk"
  Col: J3
@@ -1684,8 +1684,8 @@ Row: 33
    0.0725
   Formula: MINA(J33,O33,T33,Y33,AD33,AI33,AN33,AS33)
  Col: G3
-   0
-  Formula: iferror(E33*F33,"")
+   7.25
+  Formula: IFERROR(E33*F33,"")
  Col: H3
    3984
  Col: J3
@@ -1772,8 +1772,8 @@ Row: 34
    0.0872346969521
   Formula: MINA(J34,O34,T34,Y34,AD34,AI34,AN34,AS34)
  Col: G3
-   0
-  Formula: iferror(E34*F34,"")
+   52.3408
+  Formula: IFERROR(E34*F34,"")
  Col: H3
    24000
  Col: J3
@@ -1850,8 +1850,8 @@ Row: 35
    0.306
   Formula: MINA(J35,O35,T35,Y35,AD35,AI35,AN35,AS35)
  Col: G3
-   0
-  Formula: iferror(E35*F35,"")
+   489.6
+  Formula: IFERROR(E35*F35,"")
  Col: H3
    "NonStk"
  Col: J3
@@ -1928,8 +1928,8 @@ Row: 36
    0.103883590219
   Formula: MINA(J36,O36,T36,Y36,AD36,AI36,AN36,AS36)
  Col: G3
-   0
-  Formula: iferror(E36*F36,"")
+   166.2137
+  Formula: IFERROR(E36*F36,"")
  Col: H3
    "NonStk"
  Col: J3
@@ -2026,8 +2026,8 @@ Row: 37
    0.0638
   Formula: MINA(J37,O37,T37,Y37,AD37,AI37,AN37,AS37)
  Col: G3
-   0
-  Formula: iferror(E37*F37,"")
+   102.08
+  Formula: IFERROR(E37*F37,"")
  Col: H3
    3984
  Col: J3
@@ -2114,8 +2114,8 @@ Row: 38
    0.0474699849345
   Formula: MINA(J38,O38,T38,Y38,AD38,AI38,AN38,AS38)
  Col: G3
-   0
-  Formula: iferror(E38*F38,"")
+   455.7119
+  Formula: IFERROR(E38*F38,"")
  Col: H3
    24000
  Col: J3
@@ -2192,8 +2192,8 @@ Row: 39
    13.9255
   Formula: MINA(J39,O39,T39,Y39,AD39,AI39,AN39,AS39)
  Col: G3
-   0
-  Formula: iferror(E39*F39,"")
+   22280.8
+  Formula: IFERROR(E39*F39,"")
  Col: M3
    1794
  Col: O3
@@ -2259,7 +2259,7 @@ Row: 40
   Formula: MINA(J40,O40,T40,Y40,AD40,AI40,AN40,AS40)
  Col: G4
    0
-  Formula: iferror(E40*F40,"")
+  Formula: IFERROR(E40*F40,"")
 Row: 41
  Col: A4
    "J1301"
@@ -2275,7 +2275,7 @@ Row: 41
   Formula: MINA(J41,O41,T41,Y41,AD41,AI41,AN41,AS41)
  Col: G4
    0
-  Formula: iferror(E41*F41,"")
+  Formula: IFERROR(E41*F41,"")
 Row: 42
  Col: A4
    "J1302"
@@ -2291,7 +2291,7 @@ Row: 42
   Formula: MINA(J42,O42,T42,Y42,AD42,AI42,AN42,AS42)
  Col: G4
    0
-  Formula: iferror(E42*F42,"")
+  Formula: IFERROR(E42*F42,"")
 Row: 43
  Col: A4
    "J1303"
@@ -2307,7 +2307,7 @@ Row: 43
   Formula: MINA(J43,O43,T43,Y43,AD43,AI43,AN43,AS43)
  Col: G4
    0
-  Formula: iferror(E43*F43,"")
+  Formula: IFERROR(E43*F43,"")
 Row: 44
  Col: A4
    "J2901"
@@ -2324,8 +2324,8 @@ Row: 44
    0.4855
   Formula: MINA(J44,O44,T44,Y44,AD44,AI44,AN44,AS44)
  Col: G4
-   0
-  Formula: iferror(E44*F44,"")
+   48.55
+  Formula: IFERROR(E44*F44,"")
  Col: H4
    "NonStk"
  Col: L4
@@ -2365,7 +2365,7 @@ Row: 45
   Formula: MINA(J45,O45,T45,Y45,AD45,AI45,AN45,AS45)
  Col: G4
    0
-  Formula: iferror(E45*F45,"")
+  Formula: IFERROR(E45*F45,"")
 Row: 46
  Col: A4
    "J2903"
@@ -2381,7 +2381,7 @@ Row: 46
   Formula: MINA(J46,O46,T46,Y46,AD46,AI46,AN46,AS46)
  Col: G4
    0
-  Formula: iferror(E46*F46,"")
+  Formula: IFERROR(E46*F46,"")
 Row: 47
  Col: A4
    "J2904"
@@ -2397,7 +2397,7 @@ Row: 47
   Formula: MINA(J47,O47,T47,Y47,AD47,AI47,AN47,AS47)
  Col: G4
    0
-  Formula: iferror(E47*F47,"")
+  Formula: IFERROR(E47*F47,"")
 Row: 48
  Col: A4
    "J2905"
@@ -2414,8 +2414,8 @@ Row: 48
    63.1832379186
   Formula: MINA(J48,O48,T48,Y48,AD48,AI48,AN48,AS48)
  Col: G4
-   0
-  Formula: iferror(E48*F48,"")
+   6318.3238
+  Formula: IFERROR(E48*F48,"")
  Col: M4
    35
  Col: O4
@@ -2462,8 +2462,8 @@ Row: 49
    0.8513
   Formula: MINA(J49,O49,T49,Y49,AD49,AI49,AN49,AS49)
  Col: G4
-   0
-  Formula: iferror(E49*F49,"")
+   340.52
+  Formula: IFERROR(E49*F49,"")
  Col: H4
    "NonStk"
  Col: J4
@@ -2529,7 +2529,7 @@ Row: 50
   Formula: MINA(J50,O50,T50,Y50,AD50,AI50,AN50,AS50)
  Col: G5
    0
-  Formula: iferror(E50*F50,"")
+  Formula: IFERROR(E50*F50,"")
 Row: 51
  Col: A5
    "Power_input1301"
@@ -2546,8 +2546,8 @@ Row: 51
    0.1769
   Formula: MINA(J51,O51,T51,Y51,AD51,AI51,AN51,AS51)
  Col: G5
-   0
-  Formula: iferror(E51*F51,"")
+   17.69
+  Formula: IFERROR(E51*F51,"")
  Col: H5
    1025
  Col: J5
@@ -2644,8 +2644,8 @@ Row: 52
    0.0126311438174
   Formula: MINA(J52,O52,T52,Y52,AD52,AI52,AN52,AS52)
  Col: G5
-   0
-  Formula: iferror(E52*F52,"")
+   7.5787
+  Formula: IFERROR(E52*F52,"")
  Col: H5
    46108
  Col: J5
@@ -2732,8 +2732,8 @@ Row: 53
    0.00366
   Formula: MINA(J53,O53,T53,Y53,AD53,AI53,AN53,AS53)
  Col: G5
-   0
-  Formula: iferror(E53*F53,"")
+   4.392
+  Formula: IFERROR(E53*F53,"")
  Col: H5
    5034
  Col: J5
@@ -2770,8 +2770,8 @@ Row: 54
    0.003
   Formula: MINA(J54,O54,T54,Y54,AD54,AI54,AN54,AS54)
  Col: G5
-   0
-  Formula: iferror(E54*F54,"")
+   1.2
+  Formula: IFERROR(E54*F54,"")
  Col: H5
    158
  Col: J5
@@ -2818,8 +2818,8 @@ Row: 55
    0.004
   Formula: MINA(J55,O55,T55,Y55,AD55,AI55,AN55,AS55)
  Col: G5
-   0
-  Formula: iferror(E55*F55,"")
+   1.6
+  Formula: IFERROR(E55*F55,"")
  Col: H5
    "NonStk"
  Col: J5
@@ -2865,7 +2865,7 @@ Row: 56
   Formula: MINA(J56,O56,T56,Y56,AD56,AI56,AN56,AS56)
  Col: G5
    0
-  Formula: iferror(E56*F56,"")
+  Formula: IFERROR(E56*F56,"")
 Row: 57
  Col: A5
    "R611"
@@ -2882,8 +2882,8 @@ Row: 57
    0.0023
   Formula: MINA(J57,O57,T57,Y57,AD57,AI57,AN57,AS57)
  Col: G5
-   0
-  Formula: iferror(E57*F57,"")
+   0.23
+  Formula: IFERROR(E57*F57,"")
  Col: H5
    45000
  Col: J5
@@ -2919,7 +2919,7 @@ Row: 58
   Formula: MINA(J58,O58,T58,Y58,AD58,AI58,AN58,AS58)
  Col: G5
    0
-  Formula: iferror(E58*F58,"")
+  Formula: IFERROR(E58*F58,"")
 Row: 59
  Col: A5
    "R702,R707,R712,R717,R1402,R1407,R1412,R1417,R1902,R1907,R1912,R1917,R2402,R2407,R2412,R2417"
@@ -2935,7 +2935,7 @@ Row: 59
   Formula: MINA(J59,O59,T59,Y59,AD59,AI59,AN59,AS59)
  Col: G5
    0
-  Formula: iferror(E59*F59,"")
+  Formula: IFERROR(E59*F59,"")
 Row: 60
  Col: A6
    "R705,R710,R715,R720,R1405,R1410,R1415,R1420,R1905,R1910,R1915,R1920,R2405,R2410,R2415,R2420"
@@ -2951,7 +2951,7 @@ Row: 60
   Formula: MINA(J60,O60,T60,Y60,AD60,AI60,AN60,AS60)
  Col: G6
    0
-  Formula: iferror(E60*F60,"")
+  Formula: IFERROR(E60*F60,"")
 Row: 61
  Col: A6
    "R801,R901,R1001,R1101,R1301-R1304,R1501,R1601,R1701,R1801,R2001,R2101,R2201,R2301,R2501,R2601,R2701,R2801"
@@ -2968,8 +2968,8 @@ Row: 61
    0.003
   Formula: MINA(J61,O61,T61,Y61,AD61,AI61,AN61,AS61)
  Col: G6
-   0
-  Formula: iferror(E61*F61,"")
+   6
+  Formula: IFERROR(E61*F61,"")
  Col: H6
    5000
  Col: J6
@@ -3015,7 +3015,7 @@ Row: 62
   Formula: MINA(J62,O62,T62,Y62,AD62,AI62,AN62,AS62)
  Col: G6
    0
-  Formula: iferror(E62*F62,"")
+  Formula: IFERROR(E62*F62,"")
 Row: 63
  Col: A6
    "R803,R808,R903,R908,R1003,R1008,R1103,R1108,R1503,R1508,R1603,R1608,R1703,R1708,R1803,R1808,R2003,R2008,R2103,R2108,R2203,R2208,R2303,R2308,R2503,R2508,R2603,R2608,R2703,R2708,R2803,R2808"
@@ -3031,7 +3031,7 @@ Row: 63
   Formula: MINA(J63,O63,T63,Y63,AD63,AI63,AN63,AS63)
  Col: G6
    0
-  Formula: iferror(E63*F63,"")
+  Formula: IFERROR(E63*F63,"")
 Row: 64
  Col: A6
    "R804,R809,R904,R909,R1004,R1009,R1104,R1109,R1504,R1509,R1604,R1609,R1704,R1709,R1804,R1809,R2004,R2009,R2104,R2109,R2204,R2209,R2304,R2309,R2504,R2509,R2604,R2609,R2704,R2709,R2804,R2809"
@@ -3047,7 +3047,7 @@ Row: 64
   Formula: MINA(J64,O64,T64,Y64,AD64,AI64,AN64,AS64)
  Col: G6
    0
-  Formula: iferror(E64*F64,"")
+  Formula: IFERROR(E64*F64,"")
 Row: 65
  Col: A6
    "R805,R810,R905,R910,R1005,R1010,R1105,R1110,R1505,R1510,R1605,R1610,R1705,R1710,R1805,R1810,R2005,R2010,R2105,R2110,R2205,R2210,R2305,R2310,R2505,R2510,R2605,R2610,R2705,R2710,R2805,R2810"
@@ -3063,7 +3063,7 @@ Row: 65
   Formula: MINA(J65,O65,T65,Y65,AD65,AI65,AN65,AS65)
  Col: G6
    0
-  Formula: iferror(E65*F65,"")
+  Formula: IFERROR(E65*F65,"")
 Row: 66
  Col: A6
    "R806,R906,R1006,R1106,R1506,R1606,R1706,R1806,R2006,R2106,R2206,R2306,R2506,R2606,R2706,R2806"
@@ -3079,7 +3079,7 @@ Row: 66
   Formula: MINA(J66,O66,T66,Y66,AD66,AI66,AN66,AS66)
  Col: G6
    0
-  Formula: iferror(E66*F66,"")
+  Formula: IFERROR(E66*F66,"")
 Row: 67
  Col: A6
    "R811,R911,R1011,R1111,R1511,R1611,R1711,R1811,R2011,R2111,R2211,R2311,R2511,R2611,R2711,R2811"
@@ -3096,8 +3096,8 @@ Row: 67
    0.0122
   Formula: MINA(J67,O67,T67,Y67,AD67,AI67,AN67,AS67)
  Col: G6
-   0
-  Formula: iferror(E67*F67,"")
+   19.52
+  Formula: IFERROR(E67*F67,"")
  Col: H6
    7744
  Col: J6
@@ -3144,8 +3144,8 @@ Row: 68
    0.00318
   Formula: MINA(J68,O68,T68,Y68,AD68,AI68,AN68,AS68)
  Col: G6
-   0
-  Formula: iferror(E68*F68,"")
+   7.95
+  Formula: IFERROR(E68*F68,"")
  Col: H6
    215000
  Col: J6
@@ -3182,8 +3182,8 @@ Row: 69
    0.003
   Formula: MINA(J69,O69,T69,Y69,AD69,AI69,AN69,AS69)
  Col: G6
-   0
-  Formula: iferror(E69*F69,"")
+   1.8
+  Formula: IFERROR(E69*F69,"")
  Col: H6
    65000
  Col: J6
@@ -3231,7 +3231,7 @@ Row: 70
   Formula: MINA(J70,O70,T70,Y70,AD70,AI70,AN70,AS70)
  Col: G7
    0
-  Formula: iferror(E70*F70,"")
+  Formula: IFERROR(E70*F70,"")
 Row: 71
  Col: A7
    "SW602"
@@ -3248,8 +3248,8 @@ Row: 71
    0.0657700081122
   Formula: MINA(J71,O71,T71,Y71,AD71,AI71,AN71,AS71)
  Col: G7
-   0
-  Formula: iferror(E71*F71,"")
+   6.577
+  Formula: IFERROR(E71*F71,"")
  Col: H7
    27514
  Col: J7
@@ -3336,8 +3336,8 @@ Row: 72
    0.0657700081122
   Formula: MINA(J72,O72,T72,Y72,AD72,AI72,AN72,AS72)
  Col: G7
-   0
-  Formula: iferror(E72*F72,"")
+   6.577
+  Formula: IFERROR(E72*F72,"")
  Col: H7
    27514
  Col: J7
@@ -3424,8 +3424,8 @@ Row: 73
    0.0657700081122
   Formula: MINA(J73,O73,T73,Y73,AD73,AI73,AN73,AS73)
  Col: G7
-   0
-  Formula: iferror(E73*F73,"")
+   6.577
+  Formula: IFERROR(E73*F73,"")
  Col: H7
    27514
  Col: J7
@@ -3512,8 +3512,8 @@ Row: 74
    0.0657700081122
   Formula: MINA(J74,O74,T74,Y74,AD74,AI74,AN74,AS74)
  Col: G7
-   0
-  Formula: iferror(E74*F74,"")
+   6.577
+  Formula: IFERROR(E74*F74,"")
  Col: H7
    27514
  Col: J7
@@ -3600,8 +3600,8 @@ Row: 75
    0.0657700081122
   Formula: MINA(J75,O75,T75,Y75,AD75,AI75,AN75,AS75)
  Col: G7
-   0
-  Formula: iferror(E75*F75,"")
+   6.577
+  Formula: IFERROR(E75*F75,"")
  Col: H7
    27514
  Col: J7
@@ -3687,7 +3687,7 @@ Row: 76
   Formula: MINA(J76,O76,T76,Y76,AD76,AI76,AN76,AS76)
  Col: G7
    0
-  Formula: iferror(E76*F76,"")
+  Formula: IFERROR(E76*F76,"")
 Row: 77
  Col: A7
    "Simultaneous_AI1301"
@@ -3703,7 +3703,7 @@ Row: 77
   Formula: MINA(J77,O77,T77,Y77,AD77,AI77,AN77,AS77)
  Col: G7
    0
-  Formula: iferror(E77*F77,"")
+  Formula: IFERROR(E77*F77,"")
 Row: 78
  Col: A7
    "Sinking_DO_&_Relays1301"
@@ -3719,7 +3719,7 @@ Row: 78
   Formula: MINA(J78,O78,T78,Y78,AD78,AI78,AN78,AS78)
  Col: G7
    0
-  Formula: iferror(E78*F78,"")
+  Formula: IFERROR(E78*F78,"")
 Row: 79
  Col: A7
    "Sourcing_DI1301"
@@ -3735,7 +3735,7 @@ Row: 79
   Formula: MINA(J79,O79,T79,Y79,AD79,AI79,AN79,AS79)
  Col: G7
    0
-  Formula: iferror(E79*F79,"")
+  Formula: IFERROR(E79*F79,"")
 Row: 80
  Col: A8
    "T801,T901,T1001,T1101,T1501,T1601,T1701,T1801,T2001,T2101,T2201,T2301,T2501,T2601,T2701,T2801"
@@ -3752,8 +3752,8 @@ Row: 80
    1.19001
   Formula: MINA(J80,O80,T80,Y80,AD80,AI80,AN80,AS80)
  Col: G8
-   0
-  Formula: iferror(E80*F80,"")
+   1904.016
+  Formula: IFERROR(E80*F80,"")
  Col: M8
    "NonStk"
  Col: O8
@@ -3810,8 +3810,8 @@ Row: 81
    0.240789778653
   Formula: MINA(J81,O81,T81,Y81,AD81,AI81,AN81,AS81)
  Col: G8
-   0
-  Formula: iferror(E81*F81,"")
+   48.158
+  Formula: IFERROR(E81*F81,"")
  Col: H8
    1900
  Col: J8
@@ -3898,8 +3898,8 @@ Row: 82
    0.20914312203
   Formula: MINA(J82,O82,T82,Y82,AD82,AI82,AN82,AS82)
  Col: G8
-   0
-  Formula: iferror(E82*F82,"")
+   20.9143
+  Formula: IFERROR(E82*F82,"")
  Col: R8
    "NonStk"
  Col: T8
@@ -3926,8 +3926,8 @@ Row: 83
    0.103470807741
   Formula: MINA(J83,O83,T83,Y83,AD83,AI83,AN83,AS83)
  Col: G8
-   0
-  Formula: iferror(E83*F83,"")
+   10.3471
+  Formula: IFERROR(E83*F83,"")
  Col: H8
    "NonStk"
  Col: L8
@@ -3998,8 +3998,8 @@ Row: 84
    0.551752578514
   Formula: MINA(J84,O84,T84,Y84,AD84,AI84,AN84,AS84)
  Col: G8
-   0
-  Formula: iferror(E84*F84,"")
+   220.701
+  Formula: IFERROR(E84*F84,"")
  Col: H8
    "NonStk"
  Col: J8
@@ -4086,8 +4086,8 @@ Row: 85
    2.0566
   Formula: MINA(J85,O85,T85,Y85,AD85,AI85,AN85,AS85)
  Col: G8
-   0
-  Formula: iferror(E85*F85,"")
+   822.64
+  Formula: IFERROR(E85*F85,"")
  Col: M8
    "NonStk"
  Col: O8
@@ -4154,8 +4154,8 @@ Row: 86
    0.15025282188
   Formula: MINA(J86,O86,T86,Y86,AD86,AI86,AN86,AS86)
  Col: G8
-   0
-  Formula: iferror(E86*F86,"")
+   285.4804
+  Formula: IFERROR(E86*F86,"")
  Col: H8
    "NonStk"
  Col: J8
@@ -4252,8 +4252,8 @@ Row: 87
    2.0904
   Formula: MINA(J87,O87,T87,Y87,AD87,AI87,AN87,AS87)
  Col: G8
-   0
-  Formula: iferror(E87*F87,"")
+   1045.2
+  Formula: IFERROR(E87*F87,"")
  Col: H8
    "NonStk"
  Col: J8
@@ -4320,8 +4320,8 @@ Row: 88
    1.0207
   Formula: MINA(J88,O88,T88,Y88,AD88,AI88,AN88,AS88)
  Col: G8
-   0
-  Formula: iferror(E88*F88,"")
+   1633.12
+  Formula: IFERROR(E88*F88,"")
  Col: M8
    "NonStk"
  Col: O8
@@ -4388,8 +4388,8 @@ Row: 89
    0.134842276046
   Formula: MINA(J89,O89,T89,Y89,AD89,AI89,AN89,AS89)
  Col: G8
-   0
-  Formula: iferror(E89*F89,"")
+   215.7476
+  Formula: IFERROR(E89*F89,"")
  Col: R8
    "NonStk"
  Col: T8
@@ -4416,8 +4416,8 @@ Row: 90
    3.0855
   Formula: MINA(J90,O90,T90,Y90,AD90,AI90,AN90,AS90)
  Col: G9
-   0
-  Formula: iferror(E90*F90,"")
+   4936.8
+  Formula: IFERROR(E90*F90,"")
  Col: M9
    2885
  Col: O9
@@ -4484,8 +4484,8 @@ Row: 91
    0.449932900684
   Formula: MINA(J91,O91,T91,Y91,AD91,AI91,AN91,AS91)
  Col: G9
-   0
-  Formula: iferror(E91*F91,"")
+   44.9933
+  Formula: IFERROR(E91*F91,"")
  Col: M9
    2413
  Col: O9
@@ -4542,8 +4542,8 @@ Row: 92
    0.466444199791
   Formula: MINA(J92,O92,T92,Y92,AD92,AI92,AN92,AS92)
  Col: G9
-   0
-  Formula: iferror(E92*F92,"")
+   46.6444
+  Formula: IFERROR(E92*F92,"")
  Col: M9
    1478
  Col: O9
@@ -4601,7 +4601,7 @@ Row: 93
   Formula: MINA(J93,O93,T93,Y93,AD93,AI93,AN93,AS93)
  Col: G9
    0
-  Formula: iferror(E93*F93,"")
+  Formula: IFERROR(E93*F93,"")
 Row: 94
  Col: A9
    "sbRIO_Power_output1301"
@@ -4618,8 +4618,8 @@ Row: 94
    0.385
   Formula: MINA(J94,O94,T94,Y94,AD94,AI94,AN94,AS94)
  Col: G9
-   0
-  Formula: iferror(E94*F94,"")
+   38.5
+  Formula: IFERROR(E94*F94,"")
  Col: H9
    "NonStk"
  Col: J9

@@ -256,8 +256,8 @@ Row: 7
    0.083111
   Formula: MINA(P7,U7,Z7,AE7,AJ7,AO7,AT7,AY7,BD7)
  Col: M
-   0
-  Formula: iferror(K7*L7,"")
+   8.3111
+  Formula: IFERROR(K7*L7,"")
  Col: AH
    767
  Col: AJ
@@ -305,7 +305,7 @@ Row: 8
   Formula: MINA(P8,U8,Z8,AE8,AJ8,AO8,AT8,AY8,BD8)
  Col: M
    0
-  Formula: iferror(K8*L8,"")
+  Formula: IFERROR(K8*L8,"")
  Col: AH
    7857
  Col: AJ
@@ -352,8 +352,8 @@ Row: 9
    0.011873
   Formula: MINA(P9,U9,Z9,AE9,AJ9,AO9,AT9,AY9,BD9)
  Col: M
-   0
-  Formula: iferror(K9*L9,"")
+   1.1873
+  Formula: IFERROR(K9*L9,"")
  Col: BB
    "NonStk"
  Col: BD

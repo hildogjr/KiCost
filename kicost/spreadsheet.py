@@ -775,16 +775,16 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
                                                    d=(','.join(dist_code_avail) if dist_code_avail else 'TRUE()'))
         ss.conditional_format(row, col_qty, criteria, 'not_manf_codes')
 
+        unit_price = part.min_price if part.min_price is not None else 0
+        ext_price = part.qty_total_spreadsheet * unit_price
         # Enter the spreadsheet formula for calculating the minimum extended price (based on the unit price found on next formula).
-        wks.write_formula(row, col_ext_price, '=iferror({qty}*{unit_price},"")'.format(
-                          qty=xl_rowcol_to_cell(row, col_qty),
-                          unit_price=xl_rowcol_to_cell(row, col_unit_price)), ss.wrk_formats['currency'])
+        formula = '=IFERROR({qty}*{unit_price},"")'.format(qty=xl_rowcol_to_cell(row, col_qty), unit_price=xl_rowcol_to_cell(row, col_unit_price))
+        wks.write_formula(row, col_ext_price, formula, ss.wrk_formats['currency'], value=round(ext_price, 4))
 
         # Minimum unit price
         if ss.DISTRIBUTORS:
             # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
-            value = part.min_price if part.min_price is not None else 0
-            wks.write_formula(row, col_unit_price, '=MINA({})'.format(','.join(dist_unit_prices)), ss.wrk_formats['currency_unit'], value=value)
+            wks.write_formula(row, col_unit_price, '=MINA({})'.format(','.join(dist_unit_prices)), ss.wrk_formats['currency_unit'], value=unit_price)
             # If part is unavailable from all distributors, color quantity cell red.
             ss.conditional_format(row, col_qty, '=IF(SUM({})=0,1,0)'.format(','.join(dist_qty_avail)), 'not_available')
             # If total available part quantity is less than needed quantity, color cell orange.
