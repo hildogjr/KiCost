@@ -1165,8 +1165,18 @@ def kicost_gui(files=None):
     '''
     app = wx.App(redirect=False)
     loc = wx.Locale(wx.LANGUAGE_DEFAULT)
+    locale_retry = False
     if not loc.IsOk():
-        logger.warning(W_LOCFAIL+"Failed to set the locale")
+        logger.warning(W_LOCFAIL+"Failed to set the default locale")
+        locale_retry = True
+    elif not loc.GetLocale() and not loc.GetName():
+        logger.warning(W_LOCFAIL+"Unsupported locale")
+        locale_retry = True
+    if locale_retry:
+        loc = wx.Locale(wx.LANGUAGE_ENGLISH_US)
+        logger.warning(W_LOCFAIL+"Trying with US english locale")
+    if not loc.IsOk():
+        logger.warning(W_LOCFAIL+"Failed to set the en_US locale")
     else:
         logger.debug('wxWidgets locale {} ({}) system: {}'.format(loc.GetLocale(), loc.GetName(), locale.getlocale()))
     frame = formKiCost(None)
