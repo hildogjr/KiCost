@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'part_list_big'!$G$370
 TotalCost = 'part_list_big'!$G$3
 USD_EUR = 'part_list_big'!$C$370
 USD_GBP = 'part_list_big'!$C$371
-arrow_part_data = 'part_list_big'!$H$5:$L$367
-digikey_part_data = 'part_list_big'!$M$5:$Q$367
-farnell_part_data = 'part_list_big'!$R$5:$V$367
-global_part_data = 'part_list_big'!$A$5:$G$367
-lcsc_part_data = 'part_list_big'!$W$5:$AA$367
-mouser_part_data = 'part_list_big'!$AB$5:$AF$367
-newark_part_data = 'part_list_big'!$AG$5:$AK$367
-rs_part_data = 'part_list_big'!$AL$5:$AP$367
-tme_part_data = 'part_list_big'!$AQ$5:$AU$367
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

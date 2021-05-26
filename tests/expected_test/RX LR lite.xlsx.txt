@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'RX LR lite'!$G$75
 TotalCost = 'RX LR lite'!$G$3
 USD_EUR = 'RX LR lite'!$C$75
 USD_GBP = 'RX LR lite'!$C$76
-arrow_part_data = 'RX LR lite'!$H$5:$L$72
-digikey_part_data = 'RX LR lite'!$M$5:$Q$72
-farnell_part_data = 'RX LR lite'!$R$5:$V$72
-global_part_data = 'RX LR lite'!$A$5:$G$72
-lcsc_part_data = 'RX LR lite'!$W$5:$AA$72
-mouser_part_data = 'RX LR lite'!$AB$5:$AF$72
-newark_part_data = 'RX LR lite'!$AG$5:$AK$72
-rs_part_data = 'RX LR lite'!$AL$5:$AP$72
-tme_part_data = 'RX LR lite'!$AQ$5:$AU$72
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

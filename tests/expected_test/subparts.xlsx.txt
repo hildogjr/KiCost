@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'subparts'!$I$21
 TotalCost = 'subparts'!$I$3
 USD_EUR = 'subparts'!$C$21
 USD_GBP = 'subparts'!$C$22
-arrow_part_data = 'subparts'!$J$5:$N$18
-digikey_part_data = 'subparts'!$O$5:$S$18
-farnell_part_data = 'subparts'!$T$5:$X$18
-global_part_data = 'subparts'!$A$5:$I$18
-lcsc_part_data = 'subparts'!$Y$5:$AC$18
-mouser_part_data = 'subparts'!$AD$5:$AH$18
-newark_part_data = 'subparts'!$AI$5:$AM$18
-rs_part_data = 'subparts'!$AN$5:$AR$18
-tme_part_data = 'subparts'!$AS$5:$AW$18
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

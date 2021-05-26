@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'test3'!$I$36
 TotalCost = 'test3'!$I$3
 USD_EUR = 'test3'!$C$36
 USD_GBP = 'test3'!$C$37
-arrow_part_data = 'test3'!$J$5:$N$33
-digikey_part_data = 'test3'!$O$5:$S$33
-farnell_part_data = 'test3'!$T$5:$X$33
-global_part_data = 'test3'!$A$5:$I$33
-lcsc_part_data = 'test3'!$Y$5:$AC$33
-mouser_part_data = 'test3'!$AD$5:$AH$33
-newark_part_data = 'test3'!$AI$5:$AM$33
-rs_part_data = 'test3'!$AN$5:$AR$33
-tme_part_data = 'test3'!$AS$5:$AW$33
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

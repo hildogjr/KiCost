@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'Receiver_1W'!$G$62
 TotalCost = 'Receiver_1W'!$G$3
 USD_EUR = 'Receiver_1W'!$C$62
 USD_GBP = 'Receiver_1W'!$C$63
-arrow_part_data = 'Receiver_1W'!$H$5:$L$59
-digikey_part_data = 'Receiver_1W'!$M$5:$Q$59
-farnell_part_data = 'Receiver_1W'!$R$5:$V$59
-global_part_data = 'Receiver_1W'!$A$5:$G$59
-lcsc_part_data = 'Receiver_1W'!$W$5:$AA$59
-mouser_part_data = 'Receiver_1W'!$AB$5:$AF$59
-newark_part_data = 'Receiver_1W'!$AG$5:$AK$59
-rs_part_data = 'Receiver_1W'!$AL$5:$AP$59
-tme_part_data = 'Receiver_1W'!$AQ$5:$AU$59
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

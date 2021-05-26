@@ -1,12 +1,7 @@
 Variables:
-BeyondComponents_part_data = 'exclude_1'!$S$5:$W$22
 BoardQty = 'exclude_1'!$H$1
-Local_part_data = 'exclude_1'!$X$5:$AB$22
 PURCHASE_DESCRIPTION = 'exclude_1'!$H$25
 TotalCost = 'exclude_1'!$H$3
-digikey_part_data = 'exclude_1'!$I$5:$M$22
-global_part_data = 'exclude_1'!$A$5:$H$22
-mouser_part_data = 'exclude_1'!$N$5:$R$22
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

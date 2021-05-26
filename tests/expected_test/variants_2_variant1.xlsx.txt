@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'variants_2_variant1.variant1'!$I$1
 TotalCost = 'variants_2_variant1.variant1'!$I$3
-global_part_data = 'variants_2_variant1.variant1'!$A$5:$I$8
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

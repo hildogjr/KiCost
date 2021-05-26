@@ -3,15 +3,6 @@ BoardQty = 'multipart'!$H$1
 PURCHASE_DESCRIPTION = 'multipart'!$H$24
 TotalCost = 'multipart'!$H$3
 USD_GBP = 'multipart'!$C$24
-arrow_part_data = 'multipart'!$I$5:$M$21
-digikey_part_data = 'multipart'!$N$5:$R$21
-farnell_part_data = 'multipart'!$S$5:$W$21
-global_part_data = 'multipart'!$A$5:$H$21
-lcsc_part_data = 'multipart'!$X$5:$AB$21
-mouser_part_data = 'multipart'!$AC$5:$AG$21
-newark_part_data = 'multipart'!$AH$5:$AL$21
-rs_part_data = 'multipart'!$AM$5:$AQ$21
-tme_part_data = 'multipart'!$AR$5:$AV$21
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

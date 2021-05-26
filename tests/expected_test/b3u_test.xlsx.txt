@@ -1,19 +1,9 @@
 Variables:
 BoardQty = 'b3u_test'!$H$1
-Local_part_data = 'b3u_test'!$AW$5:$BA$13
 PURCHASE_DESCRIPTION = 'b3u_test'!$H$16
 TotalCost = 'b3u_test'!$H$3
 USD_EUR = 'b3u_test'!$C$16
 USD_GBP = 'b3u_test'!$C$17
-arrow_part_data = 'b3u_test'!$I$5:$M$13
-digikey_part_data = 'b3u_test'!$N$5:$R$13
-farnell_part_data = 'b3u_test'!$S$5:$W$13
-global_part_data = 'b3u_test'!$A$5:$H$13
-lcsc_part_data = 'b3u_test'!$X$5:$AB$13
-mouser_part_data = 'b3u_test'!$AC$5:$AG$13
-newark_part_data = 'b3u_test'!$AH$5:$AL$13
-rs_part_data = 'b3u_test'!$AM$5:$AQ$13
-tme_part_data = 'b3u_test'!$AR$5:$AV$13
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

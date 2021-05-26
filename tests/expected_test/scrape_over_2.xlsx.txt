@@ -1,18 +1,8 @@
 Variables:
 BoardQty = 'scrape_over_2'!$H$1
-Local_part_data = 'scrape_over_2'!$AR$5:$AV$22
 PURCHASE_DESCRIPTION = 'scrape_over_2'!$H$25
-RS_part_data = 'scrape_over_2'!$AW$5:$BA$22
 TotalCost = 'scrape_over_2'!$H$3
 USD_GBP = 'scrape_over_2'!$C$25
-arrow_part_data = 'scrape_over_2'!$I$5:$M$22
-digikey_part_data = 'scrape_over_2'!$N$5:$R$22
-farnell_part_data = 'scrape_over_2'!$S$5:$W$22
-global_part_data = 'scrape_over_2'!$A$5:$H$22
-lcsc_part_data = 'scrape_over_2'!$X$5:$AB$22
-mouser_part_data = 'scrape_over_2'!$AC$5:$AG$22
-newark_part_data = 'scrape_over_2'!$AH$5:$AL$22
-tme_part_data = 'scrape_over_2'!$AM$5:$AQ$22
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

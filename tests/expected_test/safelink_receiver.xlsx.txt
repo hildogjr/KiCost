@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'safelink_receiver'!$H$56
 TotalCost = 'safelink_receiver'!$H$3
 USD_EUR = 'safelink_receiver'!$C$56
 USD_GBP = 'safelink_receiver'!$C$57
-arrow_part_data = 'safelink_receiver'!$I$5:$M$53
-digikey_part_data = 'safelink_receiver'!$N$5:$R$53
-farnell_part_data = 'safelink_receiver'!$S$5:$W$53
-global_part_data = 'safelink_receiver'!$A$5:$H$53
-lcsc_part_data = 'safelink_receiver'!$X$5:$AB$53
-mouser_part_data = 'safelink_receiver'!$AC$5:$AG$53
-newark_part_data = 'safelink_receiver'!$AH$5:$AL$53
-rs_part_data = 'safelink_receiver'!$AM$5:$AQ$53
-tme_part_data = 'safelink_receiver'!$AR$5:$AV$53
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

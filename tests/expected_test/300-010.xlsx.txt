@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = '300-010'!$I$45
 TotalCost = '300-010'!$I$3
 USD_EUR = '300-010'!$C$45
 USD_GBP = '300-010'!$C$46
-arrow_part_data = '300-010'!$J$5:$N$42
-digikey_part_data = '300-010'!$O$5:$S$42
-farnell_part_data = '300-010'!$T$5:$X$42
-global_part_data = '300-010'!$A$5:$I$42
-lcsc_part_data = '300-010'!$Y$5:$AC$42
-mouser_part_data = '300-010'!$AD$5:$AH$42
-newark_part_data = '300-010'!$AI$5:$AM$42
-rs_part_data = '300-010'!$AN$5:$AR$42
-tme_part_data = '300-010'!$AS$5:$AW$42
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

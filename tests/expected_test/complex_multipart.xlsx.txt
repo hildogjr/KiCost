@@ -3,16 +3,6 @@ BoardQty = 'complex_multipart'!$M$1
 PURCHASE_DESCRIPTION = 'complex_multipart'!$M$12
 TotalCost = 'complex_multipart'!$M$3
 USD_EUR = 'complex_multipart'!$C$12
-arrow_part_data = 'complex_multipart'!$N$5:$R$9
-digikey_part_data = 'complex_multipart'!$S$5:$W$9
-farnell_part_data = 'complex_multipart'!$X$5:$AB$9
-global_part_data = 'complex_multipart'!$A$5:$M$9
-lcsc_part_data = 'complex_multipart'!$AC$5:$AG$9
-mouser_part_data = 'complex_multipart'!$AH$5:$AL$9
-newark_part_data = 'complex_multipart'!$AM$5:$AQ$9
-rs_part_data = 'complex_multipart'!$AR$5:$AV$9
-tme_part_data = 'complex_multipart'!$AW$5:$BA$9
-we_part_data = 'complex_multipart'!$BB$5:$BF$9
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

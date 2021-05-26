@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'StickIt-Hat-old'!$G$25
 TotalCost = 'StickIt-Hat-old'!$G$3
 USD_EUR = 'StickIt-Hat-old'!$C$25
 USD_GBP = 'StickIt-Hat-old'!$C$26
-arrow_part_data = 'StickIt-Hat-old'!$H$5:$L$22
-digikey_part_data = 'StickIt-Hat-old'!$M$5:$Q$22
-farnell_part_data = 'StickIt-Hat-old'!$R$5:$V$22
-global_part_data = 'StickIt-Hat-old'!$A$5:$G$22
-lcsc_part_data = 'StickIt-Hat-old'!$W$5:$AA$22
-mouser_part_data = 'StickIt-Hat-old'!$AB$5:$AF$22
-newark_part_data = 'StickIt-Hat-old'!$AG$5:$AK$22
-rs_part_data = 'StickIt-Hat-old'!$AL$5:$AP$22
-tme_part_data = 'StickIt-Hat-old'!$AQ$5:$AU$22
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'TestParts'!$I$16
 TotalCost = 'TestParts'!$I$3
 USD_EUR = 'TestParts'!$C$16
 USD_GBP = 'TestParts'!$C$17
-arrow_part_data = 'TestParts'!$J$5:$N$13
-digikey_part_data = 'TestParts'!$O$5:$S$13
-farnell_part_data = 'TestParts'!$T$5:$X$13
-global_part_data = 'TestParts'!$A$5:$I$13
-lcsc_part_data = 'TestParts'!$Y$5:$AC$13
-mouser_part_data = 'TestParts'!$AD$5:$AH$13
-newark_part_data = 'TestParts'!$AI$5:$AM$13
-rs_part_data = 'TestParts'!$AN$5:$AR$13
-tme_part_data = 'TestParts'!$AS$5:$AW$13
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

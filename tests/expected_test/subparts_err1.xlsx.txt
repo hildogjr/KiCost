@@ -3,15 +3,6 @@ BoardQty = 'subparts_err1'!$I$1
 PURCHASE_DESCRIPTION = 'subparts_err1'!$I$11
 TotalCost = 'subparts_err1'!$I$3
 USD_GBP = 'subparts_err1'!$C$11
-arrow_part_data = 'subparts_err1'!$J$5:$N$8
-digikey_part_data = 'subparts_err1'!$O$5:$S$8
-farnell_part_data = 'subparts_err1'!$T$5:$X$8
-global_part_data = 'subparts_err1'!$A$5:$I$8
-lcsc_part_data = 'subparts_err1'!$Y$5:$AC$8
-mouser_part_data = 'subparts_err1'!$AD$5:$AH$8
-newark_part_data = 'subparts_err1'!$AI$5:$AM$8
-rs_part_data = 'subparts_err1'!$AN$5:$AR$8
-tme_part_data = 'subparts_err1'!$AS$5:$AW$8
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

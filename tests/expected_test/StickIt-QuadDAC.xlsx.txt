@@ -1,19 +1,9 @@
 Variables:
 BoardQty = 'StickIt-QuadDAC'!$I$1
-Local_part_data = 'StickIt-QuadDAC'!$AX$5:$BB$15
 PURCHASE_DESCRIPTION = 'StickIt-QuadDAC'!$I$18
 TotalCost = 'StickIt-QuadDAC'!$I$3
 USD_EUR = 'StickIt-QuadDAC'!$C$18
 USD_GBP = 'StickIt-QuadDAC'!$C$19
-arrow_part_data = 'StickIt-QuadDAC'!$J$5:$N$15
-digikey_part_data = 'StickIt-QuadDAC'!$O$5:$S$15
-farnell_part_data = 'StickIt-QuadDAC'!$T$5:$X$15
-global_part_data = 'StickIt-QuadDAC'!$A$5:$I$15
-lcsc_part_data = 'StickIt-QuadDAC'!$Y$5:$AC$15
-mouser_part_data = 'StickIt-QuadDAC'!$AD$5:$AH$15
-newark_part_data = 'StickIt-QuadDAC'!$AI$5:$AM$15
-rs_part_data = 'StickIt-QuadDAC'!$AN$5:$AR$15
-tme_part_data = 'StickIt-QuadDAC'!$AS$5:$AW$15
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

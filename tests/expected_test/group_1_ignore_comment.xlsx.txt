@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'group_1_ignore_comment'!$L$1
 TotalCost = 'group_1_ignore_comment'!$L$3
-global_part_data = 'group_1_ignore_comment'!$A$5:$L$9
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

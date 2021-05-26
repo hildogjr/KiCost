@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'RPi-Test'!$H$100
 TotalCost = 'RPi-Test'!$H$3
 USD_EUR = 'RPi-Test'!$C$100
 USD_GBP = 'RPi-Test'!$C$101
-arrow_part_data = 'RPi-Test'!$I$5:$M$97
-digikey_part_data = 'RPi-Test'!$N$5:$R$97
-farnell_part_data = 'RPi-Test'!$S$5:$W$97
-global_part_data = 'RPi-Test'!$A$5:$H$97
-lcsc_part_data = 'RPi-Test'!$X$5:$AB$97
-mouser_part_data = 'RPi-Test'!$AC$5:$AG$97
-newark_part_data = 'RPi-Test'!$AH$5:$AL$97
-rs_part_data = 'RPi-Test'!$AM$5:$AQ$97
-tme_part_data = 'RPi-Test'!$AR$5:$AV$97
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

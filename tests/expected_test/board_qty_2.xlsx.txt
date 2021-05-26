@@ -6,15 +6,6 @@ TotalCost = 'board_qty_2.-'!$J$7
 TotalCost0 = 'board_qty_2.-'!$J$3
 TotalCost1 = 'board_qty_2.-'!$J$6
 USD_GBP = 'board_qty_2.-'!$C$29
-arrow_part_data = 'board_qty_2.-'!$K$8:$O$26
-digikey_part_data = 'board_qty_2.-'!$P$8:$T$26
-farnell_part_data = 'board_qty_2.-'!$U$8:$Y$26
-global_part_data = 'board_qty_2.-'!$A$8:$J$26
-lcsc_part_data = 'board_qty_2.-'!$Z$8:$AD$26
-mouser_part_data = 'board_qty_2.-'!$AE$8:$AI$26
-newark_part_data = 'board_qty_2.-'!$AJ$8:$AN$26
-rs_part_data = 'board_qty_2.-'!$AO$8:$AS$26
-tme_part_data = 'board_qty_2.-'!$AT$8:$AX$26
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

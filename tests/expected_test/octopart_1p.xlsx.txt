@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'octopart_1p'!$H$21
 TotalCost = 'octopart_1p'!$H$3
 USD_EUR = 'octopart_1p'!$C$21
 USD_GBP = 'octopart_1p'!$C$22
-arrow_part_data = 'octopart_1p'!$I$5:$M$18
-digikey_part_data = 'octopart_1p'!$N$5:$R$18
-farnell_part_data = 'octopart_1p'!$S$5:$W$18
-global_part_data = 'octopart_1p'!$A$5:$H$18
-lcsc_part_data = 'octopart_1p'!$X$5:$AB$18
-mouser_part_data = 'octopart_1p'!$AC$5:$AG$18
-newark_part_data = 'octopart_1p'!$AH$5:$AL$18
-rs_part_data = 'octopart_1p'!$AM$5:$AQ$18
-tme_part_data = 'octopart_1p'!$AR$5:$AV$18
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

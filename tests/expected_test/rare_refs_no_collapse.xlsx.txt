@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'rare_refs_no_collapse'!$G$1
 TotalCost = 'rare_refs_no_collapse'!$G$3
-global_part_data = 'rare_refs_no_collapse'!$A$5:$G$8
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

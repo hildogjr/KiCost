@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'kc-test'!$G$13
 TotalCost = 'kc-test'!$G$3
 USD_EUR = 'kc-test'!$C$13
 USD_GBP = 'kc-test'!$C$14
-arrow_part_data = 'kc-test'!$H$5:$L$10
-digikey_part_data = 'kc-test'!$M$5:$Q$10
-farnell_part_data = 'kc-test'!$R$5:$V$10
-global_part_data = 'kc-test'!$A$5:$G$10
-lcsc_part_data = 'kc-test'!$W$5:$AA$10
-mouser_part_data = 'kc-test'!$AB$5:$AF$10
-newark_part_data = 'kc-test'!$AG$5:$AK$10
-rs_part_data = 'kc-test'!$AL$5:$AP$10
-tme_part_data = 'kc-test'!$AQ$5:$AU$10
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

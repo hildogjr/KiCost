@@ -2,15 +2,6 @@ Variables:
 BoardQty = 'test_423_csv_ok'!$G$1
 PURCHASE_DESCRIPTION = 'test_423_csv_ok'!$G$10
 TotalCost = 'test_423_csv_ok'!$G$3
-arrow_part_data = 'test_423_csv_ok'!$H$5:$L$7
-digikey_part_data = 'test_423_csv_ok'!$M$5:$Q$7
-farnell_part_data = 'test_423_csv_ok'!$R$5:$V$7
-global_part_data = 'test_423_csv_ok'!$A$5:$G$7
-lcsc_part_data = 'test_423_csv_ok'!$W$5:$AA$7
-mouser_part_data = 'test_423_csv_ok'!$AB$5:$AF$7
-newark_part_data = 'test_423_csv_ok'!$AG$5:$AK$7
-rs_part_data = 'test_423_csv_ok'!$AL$5:$AP$7
-tme_part_data = 'test_423_csv_ok'!$AQ$5:$AU$7
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

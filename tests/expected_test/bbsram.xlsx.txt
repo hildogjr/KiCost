@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'bbsram'!$G$33
 TotalCost = 'bbsram'!$G$3
 USD_EUR = 'bbsram'!$C$33
 USD_GBP = 'bbsram'!$C$34
-arrow_part_data = 'bbsram'!$H$5:$L$30
-digikey_part_data = 'bbsram'!$M$5:$Q$30
-farnell_part_data = 'bbsram'!$R$5:$V$30
-global_part_data = 'bbsram'!$A$5:$G$30
-lcsc_part_data = 'bbsram'!$W$5:$AA$30
-mouser_part_data = 'bbsram'!$AB$5:$AF$30
-newark_part_data = 'bbsram'!$AG$5:$AK$30
-rs_part_data = 'bbsram'!$AL$5:$AP$30
-tme_part_data = 'bbsram'!$AQ$5:$AU$30
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

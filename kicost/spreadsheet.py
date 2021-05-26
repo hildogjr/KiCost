@@ -477,8 +477,6 @@ def create_worksheet(ss, logger, parts):
     # qty_col = the column where the quantity needed of each part is stored.
     next_line, next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
     ss.globals_width = next_col - 1
-    # Create a defined range for the global data.
-    ss.define_name_range('global_part_data', START_ROW, START_COL, LAST_PART_ROW, next_col - 1)
 
     for i_prj, p_info in enumerate(prj_info):
         # Add project information to track the project (in a printed version of the BOM) and the date because of price variations.
@@ -540,8 +538,6 @@ def create_worksheet(ss, logger, parts):
                                          START_ROW, dist_start_col,
                                          UNIT_COST_ROW, TOTAL_COST_ROW,
                                          refs_col, qty_col, dist, parts)
-        # Create a defined range for each set of distributor part data.
-        ss.define_name_range('{}_part_data'.format(dist), START_ROW, dist_start_col, LAST_PART_ROW, next_col - 1)
 
     # Add general information of the scrap to track price modifications.
     if ss.ADD_DATE_BOTTOM:

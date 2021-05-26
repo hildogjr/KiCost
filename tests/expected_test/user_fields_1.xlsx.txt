@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'user_fields_1'!$M$45
 TotalCost = 'user_fields_1'!$M$3
 USD_EUR = 'user_fields_1'!$C$45
 USD_GBP = 'user_fields_1'!$C$46
-arrow_part_data = 'user_fields_1'!$N$5:$R$42
-digikey_part_data = 'user_fields_1'!$S$5:$W$42
-farnell_part_data = 'user_fields_1'!$X$5:$AB$42
-global_part_data = 'user_fields_1'!$A$5:$M$42
-lcsc_part_data = 'user_fields_1'!$AC$5:$AG$42
-mouser_part_data = 'user_fields_1'!$AH$5:$AL$42
-newark_part_data = 'user_fields_1'!$AM$5:$AQ$42
-rs_part_data = 'user_fields_1'!$AR$5:$AV$42
-tme_part_data = 'user_fields_1'!$AW$5:$BA$42
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'Indium_X2'!$I$34
 TotalCost = 'Indium_X2'!$I$3
 USD_EUR = 'Indium_X2'!$C$34
 USD_GBP = 'Indium_X2'!$C$35
-arrow_part_data = 'Indium_X2'!$J$5:$N$31
-digikey_part_data = 'Indium_X2'!$O$5:$S$31
-farnell_part_data = 'Indium_X2'!$T$5:$X$31
-global_part_data = 'Indium_X2'!$A$5:$I$31
-lcsc_part_data = 'Indium_X2'!$Y$5:$AC$31
-mouser_part_data = 'Indium_X2'!$AD$5:$AH$31
-newark_part_data = 'Indium_X2'!$AI$5:$AM$31
-rs_part_data = 'Indium_X2'!$AN$5:$AR$31
-tme_part_data = 'Indium_X2'!$AS$5:$AW$31
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

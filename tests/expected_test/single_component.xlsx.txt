@@ -3,15 +3,6 @@ BoardQty = 'single_component'!$G$1
 PURCHASE_DESCRIPTION = 'single_component'!$G$10
 TotalCost = 'single_component'!$G$3
 USD_GBP = 'single_component'!$C$10
-arrow_part_data = 'single_component'!$H$5:$L$7
-digikey_part_data = 'single_component'!$M$5:$Q$7
-farnell_part_data = 'single_component'!$R$5:$V$7
-global_part_data = 'single_component'!$A$5:$G$7
-lcsc_part_data = 'single_component'!$W$5:$AA$7
-mouser_part_data = 'single_component'!$AB$5:$AF$7
-newark_part_data = 'single_component'!$AG$5:$AK$7
-rs_part_data = 'single_component'!$AL$5:$AP$7
-tme_part_data = 'single_component'!$AQ$5:$AU$7
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

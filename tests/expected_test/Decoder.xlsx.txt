@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'Decoder'!$G$36
 TotalCost = 'Decoder'!$G$3
 USD_EUR = 'Decoder'!$C$36
 USD_GBP = 'Decoder'!$C$37
-arrow_part_data = 'Decoder'!$H$5:$L$33
-digikey_part_data = 'Decoder'!$M$5:$Q$33
-farnell_part_data = 'Decoder'!$R$5:$V$33
-global_part_data = 'Decoder'!$A$5:$G$33
-lcsc_part_data = 'Decoder'!$W$5:$AA$33
-mouser_part_data = 'Decoder'!$AB$5:$AF$33
-newark_part_data = 'Decoder'!$AG$5:$AK$33
-rs_part_data = 'Decoder'!$AL$5:$AP$33
-tme_part_data = 'Decoder'!$AQ$5:$AU$33
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

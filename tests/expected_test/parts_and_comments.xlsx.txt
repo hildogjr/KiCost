@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'parts_and_comments'!$L$1
 TotalCost = 'parts_and_comments'!$L$3
-global_part_data = 'parts_and_comments'!$A$5:$L$27
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

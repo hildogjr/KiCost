@@ -1,20 +1,9 @@
 Variables:
 BoardQty = 'test'!$H$1
-Local_part_data = 'test'!$AW$5:$BA$23
 PURCHASE_DESCRIPTION = 'test'!$H$26
 TotalCost = 'test'!$H$3
 USD_EUR = 'test'!$C$26
 USD_GBP = 'test'!$C$27
-arrow_part_data = 'test'!$I$5:$M$23
-digikey_part_data = 'test'!$N$5:$R$23
-farnell_part_data = 'test'!$S$5:$W$23
-global_part_data = 'test'!$A$5:$H$23
-lcsc_part_data = 'test'!$X$5:$AB$23
-mine_part_data = 'test'!$BB$5:$BF$23
-mouser_part_data = 'test'!$AC$5:$AG$23
-newark_part_data = 'test'!$AH$5:$AL$23
-rs_part_data = 'test'!$AM$5:$AQ$23
-tme_part_data = 'test'!$AR$5:$AV$23
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

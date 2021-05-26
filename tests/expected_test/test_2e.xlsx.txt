@@ -2,18 +2,8 @@ Variables:
 BoardQty = 'test_2e'!$G$1
 EUR_GBP = 'test_2e'!$C$17
 EUR_USD = 'test_2e'!$C$18
-Local_part_data = 'test_2e'!$AV$5:$AZ$14
 PURCHASE_DESCRIPTION = 'test_2e'!$G$17
 TotalCost = 'test_2e'!$G$3
-arrow_part_data = 'test_2e'!$H$5:$L$14
-digikey_part_data = 'test_2e'!$M$5:$Q$14
-farnell_part_data = 'test_2e'!$R$5:$V$14
-global_part_data = 'test_2e'!$A$5:$G$14
-lcsc_part_data = 'test_2e'!$W$5:$AA$14
-mouser_part_data = 'test_2e'!$AB$5:$AF$14
-newark_part_data = 'test_2e'!$AG$5:$AK$14
-rs_part_data = 'test_2e'!$AL$5:$AP$14
-tme_part_data = 'test_2e'!$AQ$5:$AU$14
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

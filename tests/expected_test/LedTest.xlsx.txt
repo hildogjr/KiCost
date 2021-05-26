@@ -3,15 +3,6 @@ BoardQty = 'LedTest'!$G$1
 PURCHASE_DESCRIPTION = 'LedTest'!$G$15
 TotalCost = 'LedTest'!$G$3
 USD_GBP = 'LedTest'!$C$15
-arrow_part_data = 'LedTest'!$H$5:$L$12
-digikey_part_data = 'LedTest'!$M$5:$Q$12
-farnell_part_data = 'LedTest'!$R$5:$V$12
-global_part_data = 'LedTest'!$A$5:$G$12
-lcsc_part_data = 'LedTest'!$W$5:$AA$12
-mouser_part_data = 'LedTest'!$AB$5:$AF$12
-newark_part_data = 'LedTest'!$AG$5:$AK$12
-rs_part_data = 'LedTest'!$AL$5:$AP$12
-tme_part_data = 'LedTest'!$AQ$5:$AU$12
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

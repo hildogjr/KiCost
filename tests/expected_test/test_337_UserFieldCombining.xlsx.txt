@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'test_337_UserFieldCombining'!$H$1
 TotalCost = 'test_337_UserFieldCombining'!$H$3
-global_part_data = 'test_337_UserFieldCombining'!$A$5:$H$7
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

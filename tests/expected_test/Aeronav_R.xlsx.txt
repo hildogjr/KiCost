@@ -4,15 +4,6 @@ PURCHASE_DESCRIPTION = 'Aeronav_R'!$G$111
 TotalCost = 'Aeronav_R'!$G$3
 USD_EUR = 'Aeronav_R'!$C$111
 USD_GBP = 'Aeronav_R'!$C$112
-arrow_part_data = 'Aeronav_R'!$H$5:$L$108
-digikey_part_data = 'Aeronav_R'!$M$5:$Q$108
-farnell_part_data = 'Aeronav_R'!$R$5:$V$108
-global_part_data = 'Aeronav_R'!$A$5:$G$108
-lcsc_part_data = 'Aeronav_R'!$W$5:$AA$108
-mouser_part_data = 'Aeronav_R'!$AB$5:$AF$108
-newark_part_data = 'Aeronav_R'!$AG$5:$AK$108
-rs_part_data = 'Aeronav_R'!$AL$5:$AP$108
-tme_part_data = 'Aeronav_R'!$AQ$5:$AU$108
 --------------------------------------------------------------------------------
 Row: 1
  Col: A

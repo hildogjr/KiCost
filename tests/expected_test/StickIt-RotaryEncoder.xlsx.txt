@@ -1,20 +1,9 @@
 Variables:
 BoardQty = 'StickIt-RotaryEncoder'!$H$1
-Local_part_data = 'StickIt-RotaryEncoder'!$AW$5:$BA$13
 PURCHASE_DESCRIPTION = 'StickIt-RotaryEncoder'!$H$16
 TotalCost = 'StickIt-RotaryEncoder'!$H$3
 USD_EUR = 'StickIt-RotaryEncoder'!$C$16
 USD_GBP = 'StickIt-RotaryEncoder'!$C$17
-aliexpress_part_data = 'StickIt-RotaryEncoder'!$BB$5:$BF$13
-arrow_part_data = 'StickIt-RotaryEncoder'!$I$5:$M$13
-digikey_part_data = 'StickIt-RotaryEncoder'!$N$5:$R$13
-farnell_part_data = 'StickIt-RotaryEncoder'!$S$5:$W$13
-global_part_data = 'StickIt-RotaryEncoder'!$A$5:$H$13
-lcsc_part_data = 'StickIt-RotaryEncoder'!$X$5:$AB$13
-mouser_part_data = 'StickIt-RotaryEncoder'!$AC$5:$AG$13
-newark_part_data = 'StickIt-RotaryEncoder'!$AH$5:$AL$13
-rs_part_data = 'StickIt-RotaryEncoder'!$AM$5:$AQ$13
-tme_part_data = 'StickIt-RotaryEncoder'!$AR$5:$AV$13
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
