@@ -189,8 +189,8 @@ Row: 12
    0.372
   Formula: IFERROR(LOOKUP(IF(J12="",F12,J12),{0,1},{0.0,0.372}),"")
  Col: L1
-   0
-  Formula: iferror(if(J12="",F12,J12)*K12,"")
+   74.4
+  Formula: IFERROR(IF(J12="",F12,J12)*K12,"")
  Col: M1
    "PEC11R-4220F-S0024"
 Row: 13

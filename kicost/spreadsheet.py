@@ -899,6 +899,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     col_purch = start_col + columns['purch']['col']
     col_unit_price = start_col + columns['unit_price']['col']
     col_ext_price = start_col + columns['ext_price']['col']
+    total_cost = 0
     for part in parts:
         dist_part_num = part.part_num.get(dist)  # Get the distributor part number.
         price_tiers = part.price_tiers.get(dist, {})  # Extract price tiers from distributor HTML page tree.
@@ -983,22 +984,26 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 priceq_fmt = format_currency(price*q, dist_currency, locale=DEFAULT_LANGUAGE)
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(q, price_fmt, priceq_fmt)
             # Add the formula
+            purch_price *= rate_n
             wks.write_formula(row, col_unit_price, '=IFERROR({rate}LOOKUP(IF({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
                               rate=rate,
                               needed_qty=part_qty_cell,
                               purch_qty=purch_cell,
                               qtys=','.join([str(q) for q in qtys]),
                               prices=','.join([str(price_tiers[q]) for q in qtys])), ss.wrk_formats['currency_unit'],
-                              value=purch_price*rate_n)
+                              value=purch_price)
             # Add the comment
             wks.write_comment(row, col_unit_price, price_break_info)
             #
             # Ext$ (purch qty * unit price.)
             #
-            wks.write_formula(row, col_ext_price, '=iferror(if({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
+            ext_price = purch_price*part.qty_total_spreadsheet
+            total_cost += ext_price
+            wks.write_formula(row, col_ext_price, '=IFERROR(IF({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
                               needed_qty=part_qty_cell,
                               purch_qty=purch_cell,
-                              unit_price=xl_rowcol_to_cell(row, col_unit_price)), ss.wrk_formats['currency'])
+                              unit_price=xl_rowcol_to_cell(row, col_unit_price)), ss.wrk_formats['currency'],
+                              value=ext_price)
             #
             # Conditional formats:
             #

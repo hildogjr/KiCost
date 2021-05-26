@@ -250,8 +250,8 @@ Row: 8
    0.333
   Formula: IFERROR(LOOKUP(IF(AD8="",F8,AD8),{0,1,10,50,100,1000,10000},{0.0,0.46,0.377,0.353,0.333,0.302,0.302}),"")
  Col: AF
-   0
-  Formula: iferror(if(AD8="",F8,AD8)*AE8,"")
+   33.3
+  Formula: IFERROR(IF(AD8="",F8,AD8)*AE8,"")
  Col: AG
    <a href="https://octopart.com/click/track?ai=8078&sig=0928c01&sid=2401&ppid=20085586&vpid=37913446&ct=offers">789ACCAANEG5201</a>
 Row: 9
@@ -278,8 +278,8 @@ Row: 9
    0.26
   Formula: IFERROR(LOOKUP(IF(AD9="",F9,AD9),{0,1,10,50,100,1000,10000},{0.0,0.36,0.295,0.276,0.26,0.236,0.236}),"")
  Col: AF
-   0
-  Formula: iferror(if(AD9="",F9,AD9)*AE9,"")
+   26
+  Formula: IFERROR(IF(AD9="",F9,AD9)*AE9,"")
  Col: AG
    <a href="https://octopart.com/click/track?ai=8078&sig=0c09d71&sid=2401&ppid=20083658&vpid=37897388&ct=offers">789ACCAAPOS5223</a>
 Row: 10
@@ -306,8 +306,8 @@ Row: 10
    0.579
   Formula: IFERROR(LOOKUP(IF(AD10="",F10,AD10),{0,1,10,50,100,1000,10000},{0.0,0.8,0.655,0.615,0.579,0.526,0.526}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD10="",F10,AD10)*AE10,"")
+   57.9
+  Formula: IFERROR(IF(AD10="",F10,AD10)*AE10,"")
  Col: AG1
    <a href="https://octopart.com/click/track?ai=8078&sig=0640417&sid=2401&ppid=20083740&vpid=37898007&ct=offers">789ACCAADBL5212</a>
 Row: 11
@@ -336,8 +336,8 @@ Row: 11
    0.207767180438
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T11="",F11,T11),{0,1,5,50,150,250,500},{0.0,0.453,0.453,0.258,0.258,0.203,0.151}),"")
  Col: V1
-   0
-  Formula: iferror(if(T11="",F11,T11)*U11,"")
+   249.320616526
+  Formula: IFERROR(IF(T11="",F11,T11)*U11,"")
  Col: W1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0692c06&sid=819&ppid=197457&vpid=139138799&ct=offers">1828828</a>
  Col: X1
@@ -346,8 +346,8 @@ Row: 11
    0.0272
   Formula: IFERROR(LOOKUP(IF(Y11="",F11,Y11),{0,1,10,100,300,1000,5000,10000},{0.0,0.0438,0.0438,0.0317,0.0294,0.0272,0.0262,0.0257}),"")
  Col: AA1
-   0
-  Formula: iferror(if(Y11="",F11,Y11)*Z11,"")
+   32.64
+  Formula: IFERROR(IF(Y11="",F11,Y11)*Z11,"")
  Col: AB1
    <a href="https://octopart.com/click/track?ai=8078&sig=0b32ccc&sid=27971&ppid=197457&vpid=447876204&ct=offers">C86038</a>
  Col: AR1
@@ -356,8 +356,8 @@ Row: 11
    0.064506009
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS11="",F11,AS11),{0,1,10,100,1000,3000,12000},{0.0,0.20277,0.20277,0.07348,0.05433,0.04697,0.04558}),"")
  Col: AU1
-   0
-  Formula: iferror(if(AS11="",F11,AS11)*AT11,"")
+   77.4072108
+  Formula: IFERROR(IF(AS11="",F11,AS11)*AT11,"")
  Col: AV1
    <a href="https://octopart.com/click/track?ai=8078&sig=0123a99&sid=1532&ppid=197457&vpid=709097845&ct=offers">GRM21BR71A106KE51L</a>
 Row: 12
@@ -386,8 +386,8 @@ Row: 12
    0.233910070692
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T12="",F12,T12),{0,1,5,50,150,250,500,3000},{0.0,0.443,0.443,0.231,0.231,0.17,0.133,0.0926}),"")
  Col: V1
-   0
-  Formula: iferror(if(T12="",F12,T12)*U12,"")
+   70.1730212076
+  Formula: IFERROR(IF(T12="",F12,T12)*U12,"")
  Col: W1
    <a href="https://octopart.com/click/track?ai=8078&sig=0afdeef&sid=11744&ppid=601372&vpid=133114468&ct=offers">1735541</a>
  Col: X1
@@ -396,8 +396,8 @@ Row: 12
    0.0305
   Formula: IFERROR(LOOKUP(IF(Y12="",F12,Y12),{0,1,10,100,300,1000,5000,10000},{0.0,0.0448,0.0448,0.0327,0.0305,0.0282,0.0272,0.0268}),"")
  Col: AA1
-   0
-  Formula: iferror(if(Y12="",F12,Y12)*Z12,"")
+   9.15
+  Formula: IFERROR(IF(Y12="",F12,Y12)*Z12,"")
  Col: AB1
    <a href="https://octopart.com/click/track?ai=8078&sig=0ce59c6&sid=27971&ppid=601372&vpid=445987168&ct=offers">C77083</a>
  Col: AH1
@@ -406,8 +406,8 @@ Row: 12
    0.218
   Formula: IFERROR(LOOKUP(IF(AI12="",F12,AI12),{0,1,3000},{0.0,0.218,0.218}),"")
  Col: AK1
-   0
-  Formula: iferror(if(AI12="",F12,AI12)*AJ12,"")
+   65.4
+  Formula: IFERROR(IF(AI12="",F12,AI12)*AJ12,"")
  Col: AL1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=06edc02&sid=2402&ppid=601372&vpid=20243565&ct=offers">24R6342</a>
 Row: 13
@@ -436,8 +436,8 @@ Row: 13
    0.02842
   Formula: IFERROR(LOOKUP(IF(O13="",F13,O13),{0,1,10,50,100,500,1000,4000},{0.0,0.12,0.086,0.049,0.0405,0.02842,0.02352,0.01742}),"")
  Col: Q1
-   0
-  Formula: iferror(if(O13="",F13,O13)*P13,"")
+   22.736
+  Formula: IFERROR(IF(O13="",F13,O13)*P13,"")
  Col: R1
    <a href="https://octopart.com/click/track?ai=8078&sig=08a8a3d&sid=459&ppid=44502619&vpid=482067802&ct=offers">1292-1643-1-ND</a>
  Col: S1
@@ -446,8 +446,8 @@ Row: 13
    0.0403150886545
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T13="",F13,T13),{0,1,10,100,150,500,1000,2000,4000,20000},{0.0,0.0546,0.0546,0.0449,0.0449,0.0293,0.0133,0.0124,0.0082,0.0052}),"")
  Col: V1
-   0
-  Formula: iferror(if(T13="",F13,T13)*U13,"")
+   32.2520709236
+  Formula: IFERROR(IF(T13="",F13,T13)*U13,"")
  Col: W1
    <a href="https://octopart.com/click/track?ai=8078&sig=0d52408&sid=819&ppid=44502619&vpid=238084202&ct=offers">2496834</a>
  Col: AC1
@@ -456,8 +456,8 @@ Row: 13
    0.04
   Formula: IFERROR(LOOKUP(IF(AD13="",F13,AD13),{0,1,10,50,100,1000,10000},{0.0,0.1,0.1,0.074,0.04,0.017,0.016}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD13="",F13,AD13)*AE13,"")
+   32
+  Formula: IFERROR(IF(AD13="",F13,AD13)*AE13,"")
  Col: AG1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0cc481a&sid=2401&ppid=44502619&vpid=522250554&ct=offers">7910603B104K500CT</a>
  Col: AH1
@@ -466,8 +466,8 @@ Row: 13
    0.007
   Formula: IFERROR(LOOKUP(IF(AI13="",F13,AI13),{0,1,4000,8000},{0.0,0.007,0.007,0.006}),"")
  Col: AK1
-   0
-  Formula: iferror(if(AI13="",F13,AI13)*AJ13,"")
+   5.6
+  Formula: IFERROR(IF(AI13="",F13,AI13)*AJ13,"")
  Col: AL1
    <a href="https://octopart.com/click/track?ai=8078&sig=039dacc&sid=2402&ppid=44502619&vpid=231885762&ct=offers">58Y7710</a>
  Col: AM1
@@ -476,8 +476,8 @@ Row: 13
    0.0357744813999
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN13="",F13,AN13),{0,1,500,1000,2000,4000,8000,20000,40000},{0.0,0.026,0.026,0.026,0.025,0.022,0.022,0.021,0.021}),"")
  Col: AP1
-   0
-  Formula: iferror(if(AN13="",F13,AN13)*AO13,"")
+   28.6195851199
+  Formula: IFERROR(IF(AN13="",F13,AN13)*AO13,"")
  Col: AQ1
    <a href="https://octopart.com/click/track?ai=8078&sig=0c0cdc1&sid=10022&ppid=44502619&vpid=511779650&ct=offers">1763035</a>
  Col: AR1
@@ -486,8 +486,8 @@ Row: 13
    0.017287088
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS13="",F13,AS13),{0,1,100,1000,4000,12000,20000},{0.0,0.01456,0.01456,0.00427,0.00253,0.00244,0.00236}),"")
  Col: AU1
-   0
-  Formula: iferror(if(AS13="",F13,AS13)*AT13,"")
+   13.8296704
+  Formula: IFERROR(IF(AS13="",F13,AS13)*AT13,"")
  Col: AV1
    <a href="https://octopart.com/click/track?ai=8078&sig=03560b8&sid=1532&ppid=44502619&vpid=709247349&ct=offers">0603B104K500CT</a>
 Row: 14
@@ -516,8 +516,8 @@ Row: 14
    0.0327
   Formula: IFERROR(LOOKUP(IF(O14="",F14,O14),{0,1,10,50,100,500,1000,4000},{0.0,0.1,0.073,0.04,0.0327,0.02334,0.01834,0.01534}),"")
  Col: Q1
-   0
-  Formula: iferror(if(O14="",F14,O14)*P14,"")
+   3.27
+  Formula: IFERROR(IF(O14="",F14,O14)*P14,"")
  Col: R1
    <a href="https://octopart.com/click/track?ai=8078&sig=0adea7b&sid=459&ppid=133094&vpid=1065893&ct=offers">399-1091-1-ND</a>
  Col: S1
@@ -526,8 +526,8 @@ Row: 14
    0.0500842739599
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T14="",F14,T14),{0,1,10,100,150,500,1000,2000,4000},{0.0,0.0449,0.0449,0.0364,0.0364,0.0244,0.0183,0.0179,0.014}),"")
  Col: V1
-   0
-  Formula: iferror(if(T14="",F14,T14)*U14,"")
+   5.00842739599
+  Formula: IFERROR(IF(T14="",F14,T14)*U14,"")
  Col: W1
    <a href="https://octopart.com/click/track?ai=8078&sig=022a52b&sid=819&ppid=133094&vpid=138966444&ct=offers">1414609</a>
  Col: X1
@@ -536,8 +536,8 @@ Row: 14
    0.0122
   Formula: IFERROR(LOOKUP(IF(Y14="",F14,Y14),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0122,0.0122,0.0093,0.0088,0.0083,0.008,0.0079}),"")
  Col: AA1
-   0
-  Formula: iferror(if(Y14="",F14,Y14)*Z14,"")
+   1.22
+  Formula: IFERROR(IF(Y14="",F14,Y14)*Z14,"")
  Col: AB1
    <a href="https://octopart.com/click/track?ai=8078&sig=0d24a7b&sid=27971&ppid=133094&vpid=495886591&ct=offers">C141077</a>
  Col: AC1
@@ -546,8 +546,8 @@ Row: 14
    0.044
   Formula: IFERROR(LOOKUP(IF(AD14="",F14,AD14),{0,1,10,50,100,1000,10000},{0.0,0.16,0.063,0.063,0.044,0.03,0.021}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD14="",F14,AD14)*AE14,"")
+   4.4
+  Formula: IFERROR(IF(AD14="",F14,AD14)*AE14,"")
  Col: AG1
    <a href="https://octopart.com/click/track?ai=8078&sig=0979636&sid=2401&ppid=133094&vpid=58418532&ct=offers">80C0603C103K5R7867</a>
  Col: AH1
@@ -556,8 +556,8 @@ Row: 14
    0.071
   Formula: IFERROR(LOOKUP(IF(AI14="",F14,AI14),{0,1,25,50,100,250,500,1000,4000,8000},{0.0,0.251,0.101,0.088,0.071,0.068,0.061,0.05,0.034,0.033}),"")
  Col: AK1
-   0
-  Formula: iferror(if(AI14="",F14,AI14)*AJ14,"")
+   7.1
+  Formula: IFERROR(IF(AI14="",F14,AI14)*AJ14,"")
  Col: AL1
    <a href="https://octopart.com/click/track?ai=8078&sig=0a245f7&sid=2402&ppid=133094&vpid=16452214&ct=offers">30C5334</a>
  Col: AM1
@@ -566,8 +566,8 @@ Row: 14
    0.0784286707614
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN14="",F14,AN14),{0,1,25,1250,2500,12500,25000},{0.0,0.057,0.057,0.014,0.014,0.009,0.009}),"")
  Col: AP1
-   0
-  Formula: iferror(if(AN14="",F14,AN14)*AO14,"")
+   7.84286707614
+  Formula: IFERROR(IF(AN14="",F14,AN14)*AO14,"")
  Col: AQ1
    <a href="https://octopart.com/click/track?ai=8078&sig=083d744&sid=10022&ppid=133094&vpid=199039907&ct=offers">2644595</a>
  Col: AR1
@@ -576,8 +576,8 @@ Row: 14
    0.019436101
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS14="",F14,AS14),{0,1,100,1000,4000,20000},{0.0,0.01637,0.01637,0.00691,0.00527,0.00491}),"")
  Col: AU1
-   0
-  Formula: iferror(if(AS14="",F14,AS14)*AT14,"")
+   1.9436101
+  Formula: IFERROR(IF(AS14="",F14,AS14)*AT14,"")
  Col: AV1
    <a href="https://octopart.com/click/track?ai=8078&sig=0dd9aa9&sid=1532&ppid=133094&vpid=709037762&ct=offers">C0603C103K5RAC</a>
 Row: 15
@@ -606,8 +606,8 @@ Row: 15
    0.1216
   Formula: IFERROR(LOOKUP(IF(O15="",F15,O15),{0,1,10,50,100,500,1000,4000},{0.0,0.31,0.215,0.143,0.1216,0.08584,0.07511,0.06617}),"")
  Col: Q1
-   0
-  Formula: iferror(if(O15="",F15,O15)*P15,"")
+   24.32
+  Formula: IFERROR(IF(O15="",F15,O15)*P15,"")
  Col: R1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0cf7945&sid=459&ppid=39203794&vpid=172161843&ct=offers">490-10476-1-ND</a>
  Col: S1
@@ -616,8 +616,8 @@ Row: 15
    0.194007764515
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T15="",F15,T15),{0,1,10,100,150,500,1000,2000,4000,20000},{0.0,0.201,0.201,0.141,0.141,0.112,0.101,0.0848,0.0422,0.0412}),"")
  Col: V1
-   0
-  Formula: iferror(if(T15="",F15,T15)*U15,"")
+   38.801552903
+  Formula: IFERROR(IF(T15="",F15,T15)*U15,"")
  Col: W1
    <a href="https://octopart.com/click/track?ai=8078&sig=0541767&sid=819&ppid=39203794&vpid=139137503&ct=offers">2426957</a>
  Col: X1
@@ -626,8 +626,8 @@ Row: 15
    0.0268
   Formula: IFERROR(LOOKUP(IF(Y15="",F15,Y15),{0,1,10,100,300,1000,5000,10000},{0.0,0.0367,0.0367,0.0268,0.025,0.0232,0.0224,0.022}),"")
  Col: AA1
-   0
-  Formula: iferror(if(Y15="",F15,Y15)*Z15,"")
+   5.36
+  Formula: IFERROR(IF(Y15="",F15,Y15)*Z15,"")
  Col: AB1
    <a href="https://octopart.com/click/track?ai=8078&sig=0ca92aa&sid=27971&ppid=39203794&vpid=494565045&ct=offers">C84419</a>
  Col: AC1
@@ -636,8 +636,8 @@ Row: 15
    0.117
   Formula: IFERROR(LOOKUP(IF(AD15="",F15,AD15),{0,1,10,50,100,1000,10000},{0.0,0.3,0.137,0.137,0.117,0.072,0.063}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD15="",F15,AD15)*AE15,"")
+   23.4
+  Formula: IFERROR(IF(AD15="",F15,AD15)*AE15,"")
  Col: AG1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=098d48d&sid=2401&ppid=39203794&vpid=176275162&ct=offers">81GRM188R61A226ME5D</a>
  Col: AH1
@@ -646,8 +646,8 @@ Row: 15
    0.07
   Formula: IFERROR(LOOKUP(IF(AI15="",F15,AI15),{0,1,10,25,50,100,250,500,1000,40000},{0.0,0.119,0.119,0.103,0.086,0.07,0.061,0.051,0.046,0.046}),"")
  Col: AK1
-   0
-  Formula: iferror(if(AI15="",F15,AI15)*AJ15,"")
+   14
+  Formula: IFERROR(IF(AI15="",F15,AI15)*AJ15,"")
  Col: AL1
    <a href="https://octopart.com/click/track?ai=8078&sig=078c4e7&sid=2402&ppid=39203794&vpid=173672488&ct=offers">68X2786</a>
  Col: AM1
@@ -656,8 +656,8 @@ Row: 15
    0.165112991077
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN15="",F15,AN15),{0,1,50,250,1250},{0.0,0.12,0.12,0.069,0.04}),"")
  Col: AP1
-   0
-  Formula: iferror(if(AN15="",F15,AN15)*AO15,"")
+   33.0225982153
+  Formula: IFERROR(IF(AN15="",F15,AN15)*AO15,"")
  Col: AQ1
    <a href="https://octopart.com/click/track?ai=8078&sig=02e2897&sid=10022&ppid=39203794&vpid=273950140&ct=offers">8847258</a>
  Col: AR1
@@ -666,8 +666,8 @@ Row: 15
    0.097881012
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS15="",F15,AS15),{0,1,10,100,1000,4000},{0.0,0.22428,0.22428,0.08244,0.05888,0.04356}),"")
  Col: AU1
-   0
-  Formula: iferror(if(AS15="",F15,AS15)*AT15,"")
+   19.5762024
+  Formula: IFERROR(IF(AS15="",F15,AS15)*AT15,"")
  Col: AV1
    <a href="https://octopart.com/click/track?ai=8078&sig=03fb115&sid=1532&ppid=39203794&vpid=709097735&ct=offers">GRM188R61A226ME15D</a>
 Row: 16
@@ -696,8 +696,8 @@ Row: 16
    0.0515
   Formula: IFERROR(LOOKUP(IF(O16="",F16,O16),{0,1,10,50,100,500,1000,4000},{0.0,0.15,0.11,0.0622,0.0515,0.03612,0.02991,0.02215}),"")
  Col: Q1
-   0
-  Formula: iferror(if(O16="",F16,O16)*P16,"")
+   5.15
+  Formula: IFERROR(IF(O16="",F16,O16)*P16,"")
  Col: R1
    <a href="https://octopart.com/click/track?ai=8078&sig=03ed878&sid=459&ppid=87666&vpid=1868169&ct=offers">399-1055-1-ND</a>
  Col: S1
@@ -706,8 +706,8 @@ Row: 16
    0.0778782941245
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T16="",F16,T16),{0,1,10,100,150,500,1000,2000,4000},{0.0,0.069,0.069,0.0566,0.0566,0.0361,0.0269,0.0263,0.0214}),"")
  Col: V1
-   0
-  Formula: iferror(if(T16="",F16,T16)*U16,"")
+   7.78782941245
+  Formula: IFERROR(IF(T16="",F16,T16)*U16,"")
  Col: W1
    <a href="https://octopart.com/click/track?ai=8078&sig=09d7ee8&sid=11744&ppid=87666&vpid=133110008&ct=offers">1414633</a>
  Col: AC1
@@ -716,8 +716,8 @@ Row: 16
    0.05
   Formula: IFERROR(LOOKUP(IF(AD16="",F16,AD16),{0,1,10,50,100,1000,10000},{0.0,0.15,0.06,0.06,0.05,0.029,0.021}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD16="",F16,AD16)*AE16,"")
+   5
+  Formula: IFERROR(IF(AD16="",F16,AD16)*AE16,"")
  Col: AG1
    <a href="https://octopart.com/click/track?ai=8078&sig=06a1a86&sid=2401&ppid=87666&vpid=37720064&ct=offers">80C0603C330J5G</a>
  Col: AH1
@@ -726,8 +726,8 @@ Row: 16
    0.076
   Formula: IFERROR(LOOKUP(IF(AI16="",F16,AI16),{0,1,10,25,50,100,250,500,1000,4000},{0.0,0.238,0.211,0.147,0.113,0.076,0.065,0.054,0.046,0.037}),"")
  Col: AK1
-   0
-  Formula: iferror(if(AI16="",F16,AI16)*AJ16,"")
+   7.6
+  Formula: IFERROR(IF(AI16="",F16,AI16)*AJ16,"")
  Col: AL1
    <a href="https://octopart.com/click/track?ai=8078&sig=084e0c3&sid=2402&ppid=87666&vpid=73974810&ct=offers">53M7204</a>
  Col: AM1
@@ -736,8 +736,8 @@ Row: 16
    0.110075327384
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN16="",F16,AN16),{0,1,25,250,625,1250,2500},{0.0,0.08,0.08,0.034,0.027,0.02,0.019}),"")
  Col: AP1
-   0
-  Formula: iferror(if(AN16="",F16,AN16)*AO16,"")
+   11.0075327384
+  Formula: IFERROR(IF(AN16="",F16,AN16)*AO16,"")
  Col: AQ1
    <a href="https://octopart.com/click/track?ai=8078&sig=05974a2&sid=10022&ppid=87666&vpid=199039972&ct=offers">2989337</a>
  Col: AR1
@@ -746,8 +746,8 @@ Row: 16
    0.021893812
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS16="",F16,AS16),{0,1,100,1000,4000,16000},{0.0,0.01844,0.01844,0.01178,0.00961,0.00927}),"")
  Col: AU1
-   0
-  Formula: iferror(if(AS16="",F16,AS16)*AT16,"")
+   2.1893812
+  Formula: IFERROR(IF(AS16="",F16,AS16)*AT16,"")
  Col: AV1
    <a href="https://octopart.com/click/track?ai=8078&sig=04ab10f&sid=1532&ppid=87666&vpid=709037965&ct=offers">C0603C330J5GAC</a>
 Row: 17
@@ -776,8 +776,8 @@ Row: 17
    0.1408
   Formula: IFERROR(LOOKUP(IF(O17="",F17,O17),{0,1,10,50,100,500,1000,4000},{0.0,0.36,0.248,0.1656,0.1408,0.09936,0.08694,0.07659}),"")
  Col: Q1
-   0
-  Formula: iferror(if(O17="",F17,O17)*P17,"")
+   28.16
+  Formula: IFERROR(IF(O17="",F17,O17)*P17,"")
  Col: R1
    <a href="https://octopart.com/click/track?ai=8078&sig=05e8eb5&sid=459&ppid=38819091&vpid=210890820&ct=offers">490-10733-1-ND</a>
  Col: S1
@@ -786,8 +786,8 @@ Row: 17
    0.163737049484
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T17="",F17,T17),{0,1,10,100,150,500,1000,2000,4000,20000},{0.0,0.146,0.146,0.119,0.119,0.0717,0.0627,0.0614,0.048,0.0452}),"")
  Col: V1
-   0
-  Formula: iferror(if(T17="",F17,T17)*U17,"")
+   32.7474098969
+  Formula: IFERROR(IF(T17="",F17,T17)*U17,"")
  Col: W1
    <a href="https://octopart.com/click/track?ai=8078&sig=0ca20c0&sid=819&ppid=38819091&vpid=270812919&ct=offers">2611925</a>
  Col: X1
@@ -796,8 +796,8 @@ Row: 17
    0.0487
   Formula: IFERROR(LOOKUP(IF(Y17="",F17,Y17),{0,1,5,50,150,500,2500,5000},{0.0,0.0717,0.0717,0.0523,0.0487,0.0452,0.0436,0.0428}),"")
  Col: AA1
-   0
-  Formula: iferror(if(Y17="",F17,Y17)*Z17,"")
+   9.74
+  Formula: IFERROR(IF(Y17="",F17,Y17)*Z17,"")
  Col: AB1
    <a href="https://octopart.com/click/track?ai=8078&sig=044ba1e&sid=27971&ppid=38819091&vpid=511656471&ct=offers">C162273</a>
  Col: AC1
@@ -806,8 +806,8 @@ Row: 17
    0.135
   Formula: IFERROR(LOOKUP(IF(AD17="",F17,AD17),{0,1,10,50,100,1000,10000},{0.0,0.35,0.159,0.159,0.135,0.084,0.073}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD17="",F17,AD17)*AE17,"")
+   27
+  Formula: IFERROR(IF(AD17="",F17,AD17)*AE17,"")
  Col: AG1
    <a href="https://octopart.com/click/track?ai=8078&sig=07ee297&sid=2401&ppid=38819091&vpid=179840688&ct=offers">81GRM188R61H225KE1D</a>
  Col: AH1
@@ -816,8 +816,8 @@ Row: 17
    0.136
   Formula: IFERROR(LOOKUP(IF(AI17="",F17,AI17),{0,1,10,25,50,100,4000,8000},{0.0,0.228,0.228,0.197,0.167,0.136,0.065,0.063}),"")
  Col: AK1
-   0
-  Formula: iferror(if(AI17="",F17,AI17)*AJ17,"")
+   27.2
+  Formula: IFERROR(IF(AI17="",F17,AI17)*AJ17,"")
  Col: AL1
    <a href="https://octopart.com/click/track?ai=8078&sig=0116aeb&sid=2402&ppid=38819091&vpid=271767187&ct=offers">96Y9258</a>
  Col: AM1
@@ -826,8 +826,8 @@ Row: 17
    0.246293545023
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN17="",F17,AN17),{0,1,50,250,1250},{0.0,0.179,0.179,0.108,0.072}),"")
  Col: AP1
-   0
-  Formula: iferror(if(AN17="",F17,AN17)*AO17,"")
+   49.2587090045
+  Formula: IFERROR(IF(AN17="",F17,AN17)*AO17,"")
  Col: AQ1
    <a href="https://octopart.com/click/track?ai=8078&sig=0c8489e&sid=10022&ppid=38819091&vpid=265310603&ct=offers">8847289</a>
 Row: 18
@@ -856,8 +856,8 @@ Row: 18
    0.0364
   Formula: IFERROR(LOOKUP(IF(O18="",F18,O18),{0,1,10,50,100,500,1000,4000},{0.0,0.11,0.077,0.0438,0.0364,0.0255,0.02111,0.01798}),"")
  Col: Q1
-   0
-  Formula: iferror(if(O18="",F18,O18)*P18,"")
+   7.28
+  Formula: IFERROR(IF(O18="",F18,O18)*P18,"")
  Col: R1
    <a href="https://octopart.com/click/track?ai=8078&sig=02834a7&sid=459&ppid=196153&vpid=1286530&ct=offers">490-1435-1-ND</a>
  Col: S1
@@ -866,8 +866,8 @@ Row: 18
    0.0499466798007
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T18="",F18,T18),{0,1,10,100,150,500,1000,4000,20000},{0.0,0.087,0.087,0.0363,0.0363,0.0228,0.0182,0.0142,0.0118}),"")
  Col: V1
-   0
-  Formula: iferror(if(T18="",F18,T18)*U18,"")
+   9.98933596013
+  Formula: IFERROR(IF(T18="",F18,T18)*U18,"")
  Col: W1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0c0f581&sid=11744&ppid=196153&vpid=132492401&ct=offers">1118167</a>
  Col: AC1
@@ -876,8 +876,8 @@ Row: 18
    0.037
   Formula: IFERROR(LOOKUP(IF(AD18="",F18,AD18),{0,1,10,50,100,1000,10000},{0.0,0.11,0.044,0.044,0.037,0.022,0.018}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD18="",F18,AD18)*AE18,"")
+   7.4
+  Formula: IFERROR(IF(AD18="",F18,AD18)*AE18,"")
  Col: AG1
    <a href="https://octopart.com/click/track?ai=8078&sig=0dbc4ba&sid=2401&ppid=196153&vpid=37708165&ct=offers">81GRM39C221J050</a>
  Col: AR1
@@ -886,8 +886,8 @@ Row: 18
    0.02683298
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS18="",F18,AS18),{0,1,100,500,1000,4000,20000},{0.0,0.0226,0.0226,0.01056,0.00829,0.00514,0.00486}),"")
  Col: AU1
-   0
-  Formula: iferror(if(AS18="",F18,AS18)*AT18,"")
+   5.366596
+  Formula: IFERROR(IF(AS18="",F18,AS18)*AT18,"")
  Col: AV1
    <a href="https://octopart.com/click/track?ai=8078&sig=0e038f2&sid=1532&ppid=196153&vpid=709097703&ct=offers">GRM1885C1H221JA01D</a>
 Row: 19
@@ -916,8 +916,8 @@ Row: 19
    0.0245
   Formula: IFERROR(LOOKUP(IF(O19="",F19,O19),{0,1,10,50,100,500,1000,4000},{0.0,0.1,0.055,0.03,0.0245,0.0175,0.01376,0.01151}),"")
  Col: Q1
-   0
-  Formula: iferror(if(O19="",F19,O19)*P19,"")
+   4.9
+  Formula: IFERROR(IF(O19="",F19,O19)*P19,"")
  Col: R1
    <a href="https://octopart.com/click/track?ai=8078&sig=0905a15&sid=459&ppid=23758941&vpid=482068069&ct=offers">1292-1477-1-ND</a>
  Col: S1
@@ -926,8 +926,8 @@ Row: 19
    0.0335729748522
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T19="",F19,T19),{0,1,10,100,150,500,1000,2000,4000,20000},{0.0,0.0418,0.0418,0.0244,0.0244,0.0172,0.0133,0.0116,0.0081,0.007}),"")
  Col: V1
-   0
-  Formula: iferror(if(T19="",F19,T19)*U19,"")
+   6.71459497045
+  Formula: IFERROR(IF(T19="",F19,T19)*U19,"")
  Col: W1
    <a href="https://octopart.com/click/track?ai=8078&sig=0d6d3b8&sid=11744&ppid=23758941&vpid=237958808&ct=offers">2496882</a>
  Col: AC1
@@ -936,8 +936,8 @@ Row: 19
    0.027
   Formula: IFERROR(LOOKUP(IF(AD19="",F19,AD19),{0,1,10,50,100,1000,10000},{0.0,0.1,0.1,0.052,0.027,0.011,0.009}),"")
  Col: AF1
-   0
-  Formula: iferror(if(AD19="",F19,AD19)*AE19,"")
+   5.4
+  Formula: IFERROR(IF(AD19="",F19,AD19)*AE19,"")
  Col: AG1
    <a href="https://octopart.com/click/track?ai=8078&sig=012b354&sid=2401&ppid=23758941&vpid=531501290&ct=offers">7910603N102J500CT</a>
  Col: AH1
@@ -946,8 +946,8 @@ Row: 19
    0.01
   Formula: IFERROR(LOOKUP(IF(AI19="",F19,AI19),{0,1,4000,8000},{0.0,0.01,0.01,0.009}),"")
  Col: AK1
-   0
-  Formula: iferror(if(AI19="",F19,AI19)*AJ19,"")
+   2
+  Formula: IFERROR(IF(AI19="",F19,AI19)*AJ19,"")
  Col: AL1
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0a9ff5a&sid=2402&ppid=23758941&vpid=231885810&ct=offers">58Y7758</a>
  Col: AM1
@@ -956,8 +956,8 @@ Row: 19
    0.0220150654769
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN19="",F19,AN19),{0,1,500,1000,2000},{0.0,0.016,0.016,0.013,0.013}),"")
  Col: AP1
-   0
-  Formula: iferror(if(AN19="",F19,AN19)*AO19,"")
+   4.40301309538
+  Formula: IFERROR(IF(AN19="",F19,AN19)*AO19,"")
  Col: AQ1
    <a href="https://octopart.com/click/track?ai=8078&sig=07ba045&sid=10022&ppid=23758941&vpid=511779706&ct=offers">1763293</a>
  Col: AR1
@@ -966,8 +966,8 @@ Row: 19
    0.017595786
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS19="",F19,AS19),{0,1,100,1000,4000,16000},{0.0,0.01482,0.01482,0.00553,0.0039,0.00377}),"")
  Col: AU1
-   0
-  Formula: iferror(if(AS19="",F19,AS19)*AT19,"")
+   3.5191572
+  Formula: IFERROR(IF(AS19="",F19,AS19)*AT19,"")
  Col: AV1
    <a href="https://octopart.com/click/track?ai=8078&sig=0b33448&sid=1532&ppid=23758941&vpid=709247393&ct=offers">0603N102J500CT</a>
 Row: 20
@@ -996,8 +996,8 @@ Row: 20
    1.72
   Formula: IFERROR(LOOKUP(IF(AD20="",F20,AD20),{0,1,10,50,100,1000,10000},{0.0,2.2,1.8,1.8,1.72,1.22,1.08}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD20="",F20,AD20)*AE20,"")
+   172
+  Formula: IFERROR(IF(AD20="",F20,AD20)*AE20,"")
  Col: AG2
    <a href="https://octopart.com/click/track?ai=8078&sig=0031692&sid=2401&ppid=45705621&vpid=276382890&ct=offers">57120411261</a>
 Row: 21
@@ -1024,8 +1024,8 @@ Row: 21
    2.88947734384
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T21="",F21,T21),{0,1,10,100,250,500,1000},{0.0,2.64,2.37,2.1,2.06,2.02,1.97}),"")
  Col: V2
-   0
-  Formula: iferror(if(T21="",F21,T21)*U21,"")
+   288.947734384
+  Formula: IFERROR(IF(T21="",F21,T21)*U21,"")
  Col: W2
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01965cb&sid=819&ppid=113640&vpid=139154284&ct=offers">8314535</a>
  Col: AC2
@@ -1034,8 +1034,8 @@ Row: 21
    2.91
   Formula: IFERROR(LOOKUP(IF(AD21="",F21,AD21),{0,1,10,50,100,1000,10000},{0.0,3.73,3.43,3.35,2.91,2.76,2.73}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD21="",F21,AD21)*AE21,"")
+   291
+  Formula: IFERROR(IF(AD21="",F21,AD21)*AE21,"")
  Col: AG2
    <a href="https://octopart.com/click/track?ai=8078&sig=0cb9f0f&sid=2401&ppid=113640&vpid=37602923&ct=offers">568NP2X</a>
  Col: AH2
@@ -1044,8 +1044,8 @@ Row: 21
    2.94
   Formula: IFERROR(LOOKUP(IF(AI21="",F21,AI21),{0,1,10,25,50,100,200},{0.0,3.71,3.48,3.18,3.03,2.94,2.88}),"")
  Col: AK2
-   0
-  Formula: iferror(if(AI21="",F21,AI21)*AJ21,"")
+   294
+  Formula: IFERROR(IF(AI21="",F21,AI21)*AJ21,"")
  Col: AL2
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=03e7207&sid=2402&ppid=113640&vpid=410244359&ct=offers">38K6076</a>
  Col: AM2
@@ -1054,8 +1054,8 @@ Row: 21
    2.8069208483
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN21="",F21,AN21),{0,1,5,10,25,50},{0.0,2.56,2.41,2.3,2.18,2.04}),"")
  Col: AP2
-   0
-  Formula: iferror(if(AN21="",F21,AN21)*AO21,"")
+   280.69208483
+  Formula: IFERROR(IF(AN21="",F21,AN21)*AO21,"")
  Col: AQ2
    <a href="https://octopart.com/click/track?ai=8078&sig=049870e&sid=10022&ppid=113640&vpid=199079730&ct=offers">166327</a>
  Col: AR2
@@ -1064,8 +1064,8 @@ Row: 21
    2.813901
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS21="",F21,AS21),{0,1,5,25,100},{0.0,3.4,3.06,2.72,2.37}),"")
  Col: AU2
-   0
-  Formula: iferror(if(AS21="",F21,AS21)*AT21,"")
+   281.3901
+  Formula: IFERROR(IF(AS21="",F21,AS21)*AT21,"")
  Col: AV2
    <a href="https://octopart.com/click/track?ai=8078&sig=03461c4&sid=1532&ppid=113640&vpid=709099913&ct=offers">NTRNP2X</a>
 Row: 22
@@ -1092,8 +1092,8 @@ Row: 22
    2.28406304323
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T22="",F22,T22),{0,1,10,100,250,500,1000},{0.0,2.33,2.0,1.66,1.63,1.59,1.56}),"")
  Col: V2
-   0
-  Formula: iferror(if(T22="",F22,T22)*U22,"")
+   228.406304323
+  Formula: IFERROR(IF(T22="",F22,T22)*U22,"")
  Col: W2
    <a href="https://octopart.com/click/track?ai=8078&sig=0826e5c&sid=11744&ppid=11688853&vpid=132604404&ct=offers">1813715</a>
  Col: AC2
@@ -1102,8 +1102,8 @@ Row: 22
    1.98
   Formula: IFERROR(LOOKUP(IF(AD22="",F22,AD22),{0,1,10,50,100,1000,10000},{0.0,2.54,2.33,2.28,1.98,1.88,1.86}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD22="",F22,AD22)*AE22,"")
+   198
+  Formula: IFERROR(IF(AD22="",F22,AD22)*AE22,"")
  Col: AG2
    <a href="https://octopart.com/click/track?ai=8078&sig=08326c3&sid=2401&ppid=11688853&vpid=53498628&ct=offers">568RT3FCB</a>
  Col: AH2
@@ -1112,8 +1112,8 @@ Row: 22
    3.13
   Formula: IFERROR(LOOKUP(IF(AI22="",F22,AI22),{0,1,100,250,500,1000},{0.0,3.75,3.13,2.89,2.71,2.57}),"")
  Col: AK2
-   0
-  Formula: iferror(if(AI22="",F22,AI22)*AJ22,"")
+   313
+  Formula: IFERROR(IF(AI22="",F22,AI22)*AJ22,"")
  Col: AL2
    <a href="https://octopart.com/click/track?ai=8078&sig=00cf0d5&sid=2402&ppid=11688853&vpid=73975821&ct=offers">78R9013</a>
  Col: AM2
@@ -1122,8 +1122,8 @@ Row: 22
    2.21526596361
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN22="",F22,AN22),{0,1,15,50,100},{0.0,2.26,2.05,1.8,1.61}),"")
  Col: AP2
-   0
-  Formula: iferror(if(AN22="",F22,AN22)*AO22,"")
+   221.526596361
+  Formula: IFERROR(IF(AN22="",F22,AN22)*AO22,"")
  Col: AQ2
    <a href="https://octopart.com/click/track?ai=8078&sig=0718df4&sid=10022&ppid=42597834&vpid=596940170&ct=offers">6949374</a>
 Row: 23
@@ -1150,8 +1150,8 @@ Row: 23
    0.604038359022
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T23="",F23,T23),{0,1,10,100,250,500,1000,2500},{0.0,0.542,0.542,0.439,0.399,0.372,0.353,0.338}),"")
  Col: V2
-   0
-  Formula: iferror(if(T23="",F23,T23)*U23,"")
+   60.4038359022
+  Formula: IFERROR(IF(T23="",F23,T23)*U23,"")
  Col: W2
    <a href="https://octopart.com/click/track?ai=8078&sig=0c9e556&sid=819&ppid=31111583&vpid=139413169&ct=offers">2383458</a>
  Col: AC2
@@ -1160,8 +1160,8 @@ Row: 23
    0.39
   Formula: IFERROR(LOOKUP(IF(AD23="",F23,AD23),{0,1,10,50,100,1000,10000},{0.0,0.5,0.464,0.453,0.39,0.374,0.369}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD23="",F23,AD23)*AE23,"")
+   39
+  Formula: IFERROR(IF(AD23="",F23,AD23)*AE23,"")
  Col: AG2
    <a href="https://octopart.com/click/track?ai=8078&sig=015976d&sid=2401&ppid=31111583&vpid=90919746&ct=offers">568BRTL</a>
  Col: AH2
@@ -1170,8 +1170,8 @@ Row: 23
    1.03
   Formula: IFERROR(LOOKUP(IF(AI23="",F23,AI23),{0,1,10,250,500,1000,5000},{0.0,1.03,1.03,0.794,0.714,0.65,0.595}),"")
  Col: AK2
-   0
-  Formula: iferror(if(AI23="",F23,AI23)*AJ23,"")
+   103
+  Formula: IFERROR(IF(AI23="",F23,AI23)*AJ23,"")
  Col: AL2
    <a href="https://octopart.com/click/track?ai=8078&sig=0af24e3&sid=2402&ppid=31111583&vpid=120969214&ct=offers">29X6993</a>
 Row: 24
@@ -1200,8 +1200,8 @@ Row: 24
    0.18723721
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS24="",F24,AS24),{0,1,3,10,50,250,1000},{0.0,0.2253,0.2253,0.2088,0.1863,0.1577,0.1421}),"")
  Col: AU2
-   0
-  Formula: iferror(if(AS24="",F24,AS24)*AT24,"")
+   93.618605
+  Formula: IFERROR(IF(AS24="",F24,AS24)*AT24,"")
  Col: AV2
    <a href="https://octopart.com/click/track?ai=8078&sig=058118b&sid=1532&ppid=13152659&vpid=707847524&ct=offers">ZHCS1000</a>
 Row: 25
@@ -1230,8 +1230,8 @@ Row: 25
    0.2219
   Formula: IFERROR(LOOKUP(IF(O25="",F25,O25),{0,1,10,100,1000,2000,5000,10000},{0.0,0.63,0.386,0.2219,0.17363,0.15916,0.14469,0.1365}),"")
  Col: Q2
-   0
-  Formula: iferror(if(O25="",F25,O25)*P25,"")
+   22.19
+  Formula: IFERROR(IF(O25="",F25,O25)*P25,"")
  Col: R2
    <a href="https://octopart.com/click/track?ai=8078&sig=0583e83&sid=459&ppid=71130955&vpid=252146383&ct=offers">516-1311-ND</a>
  Col: S2
@@ -1240,8 +1240,8 @@ Row: 25
    0.233910070692
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T25="",F25,T25),{0,1,5,10,100,500,1000},{0.0,0.523,0.523,0.333,0.17,0.152,0.134}),"")
  Col: V2
-   0
-  Formula: iferror(if(T25="",F25,T25)*U25,"")
+   23.3910070692
+  Formula: IFERROR(IF(T25="",F25,T25)*U25,"")
  Col: W2
    <a href="https://octopart.com/click/track?ai=8078&sig=032d322&sid=11744&ppid=71130955&vpid=255877645&ct=offers">1003206</a>
  Col: AC2
@@ -1250,8 +1250,8 @@ Row: 25
    0.209
   Formula: IFERROR(LOOKUP(IF(AD25="",F25,AD25),{0,1,10,50,100,1000,10000},{0.0,0.56,0.364,0.364,0.209,0.164,0.127}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD25="",F25,AD25)*AE25,"")
+   20.9
+  Formula: IFERROR(IF(AD25="",F25,AD25)*AE25,"")
  Col: AG2
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=044573e&sid=2401&ppid=71130955&vpid=254908078&ct=offers">630HLMPK150</a>
  Col: AH2
@@ -1260,8 +1260,8 @@ Row: 25
    0.238
   Formula: IFERROR(LOOKUP(IF(AI25="",F25,AI25),{0,1,10,100,500,1000,2500,10000,25000},{0.0,0.596,0.396,0.238,0.215,0.192,0.163,0.154,0.15}),"")
  Col: AK2
-   0
-  Formula: iferror(if(AI25="",F25,AI25)*AJ25,"")
+   23.8
+  Formula: IFERROR(IF(AI25="",F25,AI25)*AJ25,"")
  Col: AL2
    <a href="https://octopart.com/click/track?ai=8078&sig=0b1ff70&sid=2402&ppid=71130955&vpid=255814941&ct=offers">39K9989</a>
  Col: AM2
@@ -1270,8 +1270,8 @@ Row: 25
    0.220150654769
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN25="",F25,AN25),{0,1,5,25,100,250,500},{0.0,0.434,0.434,0.282,0.16,0.152,0.142}),"")
  Col: AP2
-   0
-  Formula: iferror(if(AN25="",F25,AN25)*AO25,"")
+   22.0150654769
+  Formula: IFERROR(IF(AN25="",F25,AN25)*AO25,"")
  Col: AQ2
    <a href="https://octopart.com/click/track?ai=8078&sig=06ce2d0&sid=10022&ppid=71130955&vpid=262343161&ct=offers">826515</a>
  Col: AR2
@@ -1280,8 +1280,8 @@ Row: 25
    0.19697307
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS25="",F25,AS25),{0,1,2,10,50,250,1000},{0.0,0.3031,0.3031,0.1972,0.1659,0.1481,0.1299}),"")
  Col: AU2
-   0
-  Formula: iferror(if(AS25="",F25,AS25)*AT25,"")
+   19.697307
+  Formula: IFERROR(IF(AS25="",F25,AS25)*AT25,"")
  Col: AV2
    <a href="https://octopart.com/click/track?ai=8078&sig=061b7af&sid=1532&ppid=71130955&vpid=707818905&ct=offers">HLMPK150</a>
 Row: 26
@@ -1310,8 +1310,8 @@ Row: 26
    0.2324
   Formula: IFERROR(LOOKUP(IF(O26="",F26,O26),{0,1,10,100,500,1000,2000,5000,10000},{0.0,0.5,0.373,0.2324,0.15902,0.12232,0.11009,0.10398,0.10098}),"")
  Col: Q2
-   0
-  Formula: iferror(if(O26="",F26,O26)*P26,"")
+   23.24
+  Formula: IFERROR(IF(O26="",F26,O26)*P26,"")
  Col: R2
    <a href="https://octopart.com/click/track?ai=8078&sig=0d5c447&sid=459&ppid=349958&vpid=33522634&ct=offers">497-7892-1-ND</a>
  Col: S2
@@ -1320,8 +1320,8 @@ Row: 26
    0.206391238846
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T26="",F26,T26),{0,1,5,50,150,250,1000,2500,5000},{0.0,0.348,0.348,0.15,0.15,0.126,0.101,0.0991,0.0866}),"")
  Col: V2
-   0
-  Formula: iferror(if(T26="",F26,T26)*U26,"")
+   20.6391238846
+  Formula: IFERROR(IF(T26="",F26,T26)*U26,"")
  Col: W2
    <a href="https://octopart.com/click/track?ai=8078&sig=0abf43d&sid=11744&ppid=349958&vpid=132625209&ct=offers">1749305</a>
  Col: X2
@@ -1330,8 +1330,8 @@ Row: 26
    0.0883
   Formula: IFERROR(LOOKUP(IF(Y26="",F26,Y26),{0,1,5,50,150,500,2500,5000},{0.0,0.1152,0.1152,0.0883,0.0834,0.0785,0.0763,0.0752}),"")
  Col: AA2
-   0
-  Formula: iferror(if(Y26="",F26,Y26)*Z26,"")
+   8.83
+  Formula: IFERROR(IF(Y26="",F26,Y26)*Z26,"")
  Col: AB2
    <a href="https://octopart.com/click/track?ai=8078&sig=094ece1&sid=27971&ppid=349958&vpid=450391005&ct=offers">C132948</a>
  Col: AC2
@@ -1340,8 +1340,8 @@ Row: 26
    0.149
   Formula: IFERROR(LOOKUP(IF(AD26="",F26,AD26),{0,1,10,50,100,1000,10000},{0.0,0.46,0.318,0.318,0.149,0.116,0.089}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD26="",F26,AD26)*AE26,"")
+   14.9
+  Formula: IFERROR(IF(AD26="",F26,AD26)*AE26,"")
  Col: AG2
    <a href="https://octopart.com/click/track?ai=8078&sig=0797bca&sid=2401&ppid=349958&vpid=99580868&ct=offers">511SMAJ18ATR</a>
  Col: AH2
@@ -1350,8 +1350,8 @@ Row: 26
    0.167
   Formula: IFERROR(LOOKUP(IF(AI26="",F26,AI26),{0,1,5,10,25,50,100,5000,10000,15000,20000,30000,50000},{0.0,0.491,0.491,0.34,0.283,0.225,0.167,0.121,0.113,0.098,0.095,0.092,0.082}),"")
  Col: AK2
-   0
-  Formula: iferror(if(AI26="",F26,AI26)*AJ26,"")
+   16.7
+  Formula: IFERROR(IF(AI26="",F26,AI26)*AJ26,"")
  Col: AL2
    <a href="https://octopart.com/click/track?ai=8078&sig=0e65a20&sid=2402&ppid=349958&vpid=20764954&ct=offers">33R1022</a>
  Col: AM2
@@ -1360,8 +1360,8 @@ Row: 26
    0.323346274192
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN26="",F26,AN26),{0,1,25,125,250,625,1250},{0.0,0.235,0.235,0.221,0.209,0.198,0.188}),"")
  Col: AP2
-   0
-  Formula: iferror(if(AN26="",F26,AN26)*AO26,"")
+   32.3346274192
+  Formula: IFERROR(IF(AN26="",F26,AN26)*AO26,"")
  Col: AQ2
    <a href="https://octopart.com/click/track?ai=8078&sig=02dcec1&sid=10022&ppid=349958&vpid=199118320&ct=offers">7931377</a>
  Col: AR2
@@ -1370,8 +1370,8 @@ Row: 26
    0.061324045
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS26="",F26,AS26),{0,1,5,25,100,250,1000},{0.0,0.12132,0.12132,0.05485,0.05165,0.04211,0.03977}),"")
  Col: AU2
-   0
-  Formula: iferror(if(AS26="",F26,AS26)*AT26,"")
+   6.1324045
+  Formula: IFERROR(IF(AS26="",F26,AS26)*AT26,"")
  Col: AV2
    <a href="https://octopart.com/click/track?ai=8078&sig=02fe3cd&sid=1532&ppid=349958&vpid=709202923&ct=offers">SMAJ18ATR</a>
 Row: 27
@@ -1418,8 +1418,8 @@ Row: 28
    3.78
   Formula: IFERROR(LOOKUP(IF(AD28="",F28,AD28),{0,1,10,50,100,1000,10000},{0.0,5.22,4.27,4.01,3.78,3.43,3.43}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD28="",F28,AD28)*AE28,"")
+   378
+  Formula: IFERROR(IF(AD28="",F28,AD28)*AE28,"")
  Col: AG2
    <a href="https://octopart.com/click/track?ai=8078&sig=01f45cd&sid=2401&ppid=56695983&vpid=192388370&ct=offers">789S3A361413</a>
 Row: 29
@@ -1448,8 +1448,8 @@ Row: 29
    2.0914312203
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T29="",F29,T29),{0,1,10,100,250,500,1000},{0.0,2.77,1.73,1.52,1.4,1.38,1.35}),"")
  Col: V2
-   0
-  Formula: iferror(if(T29="",F29,T29)*U29,"")
+   209.14312203
+  Formula: IFERROR(IF(T29="",F29,T29)*U29,"")
  Col: W2
    <a href="https://octopart.com/click/track?ai=8078&sig=093b0bd&sid=819&ppid=24632811&vpid=139413283&ct=offers">2383452</a>
  Col: AC2
@@ -1458,8 +1458,8 @@ Row: 29
    1.69
   Formula: IFERROR(LOOKUP(IF(AD29="",F29,AD29),{0,1,10,50,100,1000,10000},{0.0,2.17,1.99,1.95,1.69,1.61,1.59}),"")
  Col: AF2
-   0
-  Formula: iferror(if(AD29="",F29,AD29)*AE29,"")
+   169
+  Formula: IFERROR(IF(AD29="",F29,AD29)*AE29,"")
  Col: AG2
    <a href="https://octopart.com/click/track?ai=8078&sig=0ab45b7&sid=2401&ppid=24632811&vpid=55696496&ct=offers">568RT3MPR</a>
  Col: AH2
@@ -1468,8 +1468,8 @@ Row: 29
    2.68
   Formula: IFERROR(LOOKUP(IF(AI29="",F29,AI29),{0,1,100,250,500,1000},{0.0,3.21,2.68,2.48,2.33,2.2}),"")
  Col: AK2
-   0
-  Formula: iferror(if(AI29="",F29,AI29)*AJ29,"")
+   268
+  Formula: IFERROR(IF(AI29="",F29,AI29)*AJ29,"")
  Col: AL2
    <a href="https://octopart.com/click/track?ai=8078&sig=0961a37&sid=2402&ppid=24632811&vpid=120969221&ct=offers">29X7329</a>
 Row: 30
@@ -1498,8 +1498,8 @@ Row: 30
    0.75814381736
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T30="",F30,T30),{0,1,10,50,100,250,500,1000,5000},{0.0,1.4,1.4,0.8,0.717,0.634,0.551,0.456,0.447}),"")
  Col: V3
-   0
-  Formula: iferror(if(T30="",F30,T30)*U30,"")
+   454.886290416
+  Formula: IFERROR(IF(T30="",F30,T30)*U30,"")
  Col: W3
    <a href="https://octopart.com/click/track?ai=8078&sig=0596178&sid=819&ppid=30061074&vpid=138766995&ct=offers">2408105RL</a>
  Col: AC3
@@ -1508,8 +1508,8 @@ Row: 30
    0.89
   Formula: IFERROR(LOOKUP(IF(AD30="",F30,AD30),{0,1,10,50,100,1000,10000},{0.0,1.08,0.904,0.89,0.89,0.551,0.507}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD30="",F30,AD30)*AE30,"")
+   534
+  Formula: IFERROR(IF(AD30="",F30,AD30)*AE30,"")
  Col: AG3
    <a href="https://octopart.com/click/track?ai=8078&sig=0772854&sid=2401&ppid=30061074&vpid=456353103&ct=offers">994LPS4018103MRB</a>
 Row: 31
@@ -1538,8 +1538,8 @@ Row: 31
    0.986550121683
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T31="",F31,T31),{0,1,10,50,100,250,500,1000,5000},{0.0,1.37,1.37,0.8,0.717,0.634,0.551,0.456,0.447}),"")
  Col: V3
-   0
-  Formula: iferror(if(T31="",F31,T31)*U31,"")
+   98.6550121683
+  Formula: IFERROR(IF(T31="",F31,T31)*U31,"")
  Col: W3
    <a href="https://octopart.com/click/track?ai=8078&sig=0367588&sid=819&ppid=30061082&vpid=138767008&ct=offers">2408106RL</a>
  Col: AC3
@@ -1548,8 +1548,8 @@ Row: 31
    0.89
   Formula: IFERROR(LOOKUP(IF(AD31="",F31,AD31),{0,1,10,50,100,1000,10000},{0.0,1.08,0.904,0.89,0.89,0.551,0.507}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD31="",F31,AD31)*AE31,"")
+   89
+  Formula: IFERROR(IF(AD31="",F31,AD31)*AE31,"")
  Col: AG3
    <a href="https://octopart.com/click/track?ai=8078&sig=0ea8eb5&sid=2401&ppid=30061082&vpid=456353111&ct=offers">994LPS4018153MRB</a>
 Row: 32
@@ -1578,8 +1578,8 @@ Row: 32
    0.89
   Formula: IFERROR(LOOKUP(IF(AD32="",F32,AD32),{0,1,10,50,100,1000,10000},{0.0,1.08,0.904,0.89,0.89,0.551,0.507}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD32="",F32,AD32)*AE32,"")
+   89
+  Formula: IFERROR(IF(AD32="",F32,AD32)*AE32,"")
  Col: AG3
    <a href="https://octopart.com/click/track?ai=8078&sig=0e09f12&sid=2401&ppid=30061103&vpid=456353131&ct=offers">994LPS4018473MRB</a>
 Row: 33
@@ -1628,8 +1628,8 @@ Row: 34
    0.0246
   Formula: IFERROR(LOOKUP(IF(O34="",F34,O34),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.061,0.0246,0.01106,0.0096,0.00793}),"")
  Col: Q3
-   0
-  Formula: iferror(if(O34="",F34,O34)*P34,"")
+   7.38
+  Formula: IFERROR(IF(O34="",F34,O34)*P34,"")
  Col: R3
    <a href="https://octopart.com/click/track?ai=8078&sig=075f06d&sid=459&ppid=55421533&vpid=188060680&ct=offers">P180KHCT-ND</a>
  Col: S3
@@ -1638,8 +1638,8 @@ Row: 34
    0.0177496465407
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T34="",F34,T34),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0311,0.0311,0.0129,0.0129,0.0101,0.0073,0.0069,0.0065,0.0058}),"")
  Col: V3
-   0
-  Formula: iferror(if(T34="",F34,T34)*U34,"")
+   5.32489396222
+  Formula: IFERROR(IF(T34="",F34,T34)*U34,"")
  Col: W3
    <a href="https://octopart.com/click/track?ai=8078&sig=08a63b0&sid=11744&ppid=55421533&vpid=176742096&ct=offers">2303247</a>
  Col: X3
@@ -1648,8 +1648,8 @@ Row: 34
    0.0096
   Formula: IFERROR(LOOKUP(IF(Y34="",F34,Y34),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0096,0.0096,0.0074,0.007,0.0066,0.0065,0.0064}),"")
  Col: AA3
-   0
-  Formula: iferror(if(Y34="",F34,Y34)*Z34,"")
+   2.88
+  Formula: IFERROR(IF(Y34="",F34,Y34)*Z34,"")
  Col: AB3
    <a href="https://octopart.com/click/track?ai=8078&sig=02b04a0&sid=27971&ppid=55421533&vpid=586530493&ct=offers">C403035</a>
  Col: AC3
@@ -1658,8 +1658,8 @@ Row: 34
    0.013
   Formula: IFERROR(LOOKUP(IF(AD34="",F34,AD34),{0,1,10,50,100,1000,10000},{0.0,0.1,0.032,0.032,0.013,0.006,0.004}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD34="",F34,AD34)*AE34,"")
+   3.9
+  Formula: IFERROR(IF(AD34="",F34,AD34)*AE34,"")
  Col: AG3
    <a href="https://octopart.com/click/track?ai=8078&sig=006aefb&sid=2401&ppid=55421533&vpid=187839744&ct=offers">667ERJ3EKF1803V</a>
  Col: AH3
@@ -1668,8 +1668,8 @@ Row: 34
    0.004
   Formula: IFERROR(LOOKUP(IF(AI34="",F34,AI34),{0,1,10,25,50,100,250,500,1000,5000,10000},{0.0,0.004,0.035,0.004,0.004,0.004,0.004,0.004,0.004,0.021,0.016}),"")
  Col: AK3
-   0
-  Formula: iferror(if(AI34="",F34,AI34)*AJ34,"")
+   1.2
+  Formula: IFERROR(IF(AI34="",F34,AI34)*AJ34,"")
  Col: AL3
    <a href="https://octopart.com/click/track?ai=8078&sig=0e35f4f&sid=2402&ppid=55421533&vpid=191370251&ct=offers">64R5326</a>
  Col: AM3
@@ -1678,8 +1678,8 @@ Row: 34
    0.00550376636922
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN34="",F34,AN34),{0,1,5000},{0.0,0.004,0.004}),"")
  Col: AP3
-   0
-  Formula: iferror(if(AN34="",F34,AN34)*AO34,"")
+   1.65112991077
+  Formula: IFERROR(IF(AN34="",F34,AN34)*AO34,"")
  Col: AQ3
    <a href="https://octopart.com/click/track?ai=8078&sig=099edee&sid=10022&ppid=55421533&vpid=501238621&ct=offers">1755749</a>
  Col: AR3
@@ -1688,8 +1688,8 @@ Row: 34
    0.023852857
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS34="",F34,AS34),{0,1,100,1000,5000},{0.0,0.02009,0.02009,0.00928,0.00631}),"")
  Col: AU3
-   0
-  Formula: iferror(if(AS34="",F34,AS34)*AT34,"")
+   7.1558571
+  Formula: IFERROR(IF(AS34="",F34,AS34)*AT34,"")
  Col: AV3
    <a href="https://octopart.com/click/track?ai=8078&sig=00476cc&sid=1532&ppid=55421533&vpid=709131197&ct=offers">ERJ3EKF1803V</a>
 Row: 35
@@ -1718,8 +1718,8 @@ Row: 35
    0.0149
   Formula: IFERROR(LOOKUP(IF(O35="",F35,O35),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.037,0.0149,0.0067,0.00582,0.00481}),"")
  Col: Q3
-   0
-  Formula: iferror(if(O35="",F35,O35)*P35,"")
+   7.45
+  Formula: IFERROR(IF(O35="",F35,O35)*P35,"")
  Col: R3
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0a1c860&sid=459&ppid=55403647&vpid=188060332&ct=offers">P10.0KHCT-ND</a>
  Col: S3
@@ -1728,8 +1728,8 @@ Row: 35
    0.0138970100823
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T35="",F35,T35),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.032,0.032,0.0128,0.0128,0.0101,0.0073,0.007,0.0058,0.0054}),"")
  Col: V3
-   0
-  Formula: iferror(if(T35="",F35,T35)*U35,"")
+   6.94850504114
+  Formula: IFERROR(IF(T35="",F35,T35)*U35,"")
  Col: W3
    <a href="https://octopart.com/click/track?ai=8078&sig=010a9c4&sid=819&ppid=55403647&vpid=139317569&ct=offers">2303192</a>
  Col: AC3
@@ -1738,8 +1738,8 @@ Row: 35
    0.017
   Formula: IFERROR(LOOKUP(IF(AD35="",F35,AD35),{0,1,10,50,100,1000,10000},{0.0,0.1,0.04,0.04,0.017,0.008,0.003}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD35="",F35,AD35)*AE35,"")
+   8.5
+  Formula: IFERROR(IF(AD35="",F35,AD35)*AE35,"")
  Col: AG3
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0d8ee68&sid=2401&ppid=55403647&vpid=187839574&ct=offers">667ERJ3EKF1002V</a>
  Col: AH3
@@ -1748,8 +1748,8 @@ Row: 35
    0.106
   Formula: IFERROR(LOOKUP(IF(AI35="",F35,AI35),{0,1,10,25,50,100,250,500,1000,5000,10000},{0.0,0.062,0.626,0.408,0.288,0.163,0.137,0.106,0.064,0.005,0.005}),"")
  Col: AK3
-   0
-  Formula: iferror(if(AI35="",F35,AI35)*AJ35,"")
+   53
+  Formula: IFERROR(IF(AI35="",F35,AI35)*AJ35,"")
  Col: AL3
    <a href="https://octopart.com/click/track?ai=8078&sig=05cd3d1&sid=2402&ppid=55403647&vpid=423915378&ct=offers">85Y8500</a>
  Col: AM3
@@ -1758,8 +1758,8 @@ Row: 35
    0.0137594159231
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN35="",F35,AN35),{0,1,5000},{0.0,0.01,0.01}),"")
  Col: AP3
-   0
-  Formula: iferror(if(AN35="",F35,AN35)*AO35,"")
+   6.87970796153
+  Formula: IFERROR(IF(AN35="",F35,AN35)*AO35,"")
  Col: AQ3
    <a href="https://octopart.com/click/track?ai=8078&sig=03113cb&sid=10022&ppid=55403647&vpid=265115565&ct=offers">1051156</a>
  Col: AR3
@@ -1768,8 +1768,8 @@ Row: 35
    0.023829111
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS35="",F35,AS35),{0,1,100,1000,5000},{0.0,0.02007,0.02007,0.00927,0.0063}),"")
  Col: AU3
-   0
-  Formula: iferror(if(AS35="",F35,AS35)*AT35,"")
+   11.9145555
+  Formula: IFERROR(IF(AS35="",F35,AS35)*AT35,"")
  Col: AV3
    <a href="https://octopart.com/click/track?ai=8078&sig=0734927&sid=1532&ppid=55403647&vpid=709131063&ct=offers">ERJ3EKF1002V</a>
 Row: 36
@@ -1798,8 +1798,8 @@ Row: 36
    0.0145
   Formula: IFERROR(LOOKUP(IF(O36="",F36,O36),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.036,0.0145,0.00652,0.00566,0.00468}),"")
  Col: Q3
-   0
-  Formula: iferror(if(O36="",F36,O36)*P36,"")
+   1.45
+  Formula: IFERROR(IF(O36="",F36,O36)*P36,"")
  Col: R3
    <a href="https://octopart.com/click/track?ai=8078&sig=0d1b5fe&sid=459&ppid=40014462&vpid=115262504&ct=offers">541-3.30KHCT-ND</a>
  Col: S3
@@ -1808,8 +1808,8 @@ Row: 36
    0.02325341291
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T36="",F36,T36),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0392,0.0392,0.0169,0.0169,0.0118,0.0066,0.0062,0.0042,0.0037}),"")
  Col: V3
-   0
-  Formula: iferror(if(T36="",F36,T36)*U36,"")
+   2.325341291
+  Formula: IFERROR(IF(T36="",F36,T36)*U36,"")
  Col: W3
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=045f7b0&sid=11744&ppid=40014462&vpid=249313435&ct=offers">1469793</a>
  Col: AC3
@@ -1818,8 +1818,8 @@ Row: 36
    0.015
   Formula: IFERROR(LOOKUP(IF(AD36="",F36,AD36),{0,1,10,50,100,1000,10000},{0.0,0.1,0.034,0.034,0.015,0.006,0.005}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD36="",F36,AD36)*AE36,"")
+   1.5
+  Formula: IFERROR(IF(AD36="",F36,AD36)*AE36,"")
  Col: AG3
    <a href="https://octopart.com/click/track?ai=8078&sig=0782198&sid=2401&ppid=40014462&vpid=114828834&ct=offers">71CRCW06033.3KE3</a>
  Col: AH3
@@ -1828,8 +1828,8 @@ Row: 36
    0.016
   Formula: IFERROR(LOOKUP(IF(AI36="",F36,AI36),{0,1,10,25,50,100,5000},{0.0,0.125,0.125,0.039,0.028,0.016,0.005}),"")
  Col: AK3
-   0
-  Formula: iferror(if(AI36="",F36,AI36)*AJ36,"")
+   1.6
+  Formula: IFERROR(IF(AI36="",F36,AI36)*AJ36,"")
  Col: AL3
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=077b35c&sid=2402&ppid=40014462&vpid=115415822&ct=offers">61M5375</a>
  Col: AM3
@@ -1838,8 +1838,8 @@ Row: 36
    0.049533897323
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN36="",F36,AN36),{0,1,50,250,500,750,1000},{0.0,0.036,0.036,0.032,0.027,0.022,0.018}),"")
  Col: AP3
-   0
-  Formula: iferror(if(AN36="",F36,AN36)*AO36,"")
+   4.9533897323
+  Formula: IFERROR(IF(AN36="",F36,AN36)*AO36,"")
  Col: AQ3
    <a href="https://octopart.com/click/track?ai=8078&sig=09e50ac&sid=10022&ppid=40014462&vpid=199182473&ct=offers">6790311</a>
 Row: 37
@@ -1868,8 +1868,8 @@ Row: 37
    0.0097
   Formula: IFERROR(LOOKUP(IF(O37="",F37,O37),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.024,0.0097,0.00436,0.00378,0.00312}),"")
  Col: Q3
-   0
-  Formula: iferror(if(O37="",F37,O37)*P37,"")
+   0.97
+  Formula: IFERROR(IF(O37="",F37,O37)*P37,"")
  Col: R3
    <a href="https://octopart.com/click/track?ai=8078&sig=0a4c276&sid=459&ppid=1369017&vpid=115263533&ct=offers">311-47.0KHRCT-ND</a>
  Col: S3
@@ -1878,8 +1878,8 @@ Row: 37
    0.00908121450921
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T37="",F37,T37),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0187,0.0187,0.0066,0.0066,0.0055,0.0046,0.0041,0.0041,0.0027}),"")
  Col: V3
-   0
-  Formula: iferror(if(T37="",F37,T37)*U37,"")
+   0.908121450921
+  Formula: IFERROR(IF(T37="",F37,T37)*U37,"")
  Col: W3
    <a href="https://octopart.com/click/track?ai=8078&sig=0566f01&sid=11744&ppid=1369017&vpid=478973458&ct=offers">9238689</a>
  Col: AC3
@@ -1888,8 +1888,8 @@ Row: 37
    0.007
   Formula: IFERROR(LOOKUP(IF(AD37="",F37,AD37),{0,1,10,50,100,1000,10000},{0.0,0.1,0.018,0.018,0.007,0.004,0.002}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD37="",F37,AD37)*AE37,"")
+   0.7
+  Formula: IFERROR(IF(AD37="",F37,AD37)*AE37,"")
  Col: AG3
    <a href="https://octopart.com/click/track?ai=8078&sig=01dcbc5&sid=2401&ppid=1369017&vpid=115540568&ct=offers">603RC0603FR0747KL</a>
  Col: AH3
@@ -1898,8 +1898,8 @@ Row: 37
    0.006
   Formula: IFERROR(LOOKUP(IF(AI37="",F37,AI37),{0,1,10,25,50,100,5000},{0.0,0.018,0.018,0.014,0.01,0.006,0.003}),"")
  Col: AK3
-   0
-  Formula: iferror(if(AI37="",F37,AI37)*AJ37,"")
+   0.6
+  Formula: IFERROR(IF(AI37="",F37,AI37)*AJ37,"")
  Col: AL3
    <a href="https://octopart.com/click/track?ai=8078&sig=040a8c9&sid=2402&ppid=1369017&vpid=22463883&ct=offers">26M6759</a>
  Col: AR3
@@ -1908,8 +1908,8 @@ Row: 37
    0.03158218
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS37="",F37,AS37),{0,1,100,1000,5000,15000,50000},{0.0,0.0266,0.0266,0.00958,0.00388,0.00328,0.00279}),"")
  Col: AU3
-   0
-  Formula: iferror(if(AS37="",F37,AS37)*AT37,"")
+   3.158218
+  Formula: IFERROR(IF(AS37="",F37,AS37)*AT37,"")
  Col: AV3
    <a href="https://octopart.com/click/track?ai=8078&sig=04c36d8&sid=1532&ppid=1369017&vpid=709257963&ct=offers">RC0603FR0747K</a>
 Row: 38
@@ -1938,8 +1938,8 @@ Row: 38
    0.0210519063623
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T38="",F38,T38),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0166,0.0166,0.0153,0.0153,0.0119,0.0097,0.0078,0.0067,0.0045}),"")
  Col: V3
-   0
-  Formula: iferror(if(T38="",F38,T38)*U38,"")
+   2.10519063623
+  Formula: IFERROR(IF(T38="",F38,T38)*U38,"")
  Col: W3
    <a href="https://octopart.com/click/track?ai=8078&sig=05407bd&sid=819&ppid=42623638&vpid=508509558&ct=offers">9238620</a>
  Col: AH3
@@ -1948,8 +1948,8 @@ Row: 38
    0.017
   Formula: IFERROR(LOOKUP(IF(AI38="",F38,AI38),{0,1,10,25,50,100,250},{0.0,0.049,0.049,0.031,0.022,0.017,0.013}),"")
  Col: AK3
-   0
-  Formula: iferror(if(AI38="",F38,AI38)*AJ38,"")
+   1.7
+  Formula: IFERROR(IF(AI38="",F38,AI38)*AJ38,"")
  Col: AL3
    <a href="https://octopart.com/click/track?ai=8078&sig=002509f&sid=2402&ppid=42623638&vpid=115424084&ct=offers">98K7358</a>
 Row: 39
@@ -1978,8 +1978,8 @@ Row: 39
    0.0149
   Formula: IFERROR(LOOKUP(IF(O39="",F39,O39),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.037,0.0149,0.0067,0.00582,0.00481}),"")
  Col: Q3
-   0
-  Formula: iferror(if(O39="",F39,O39)*P39,"")
+   1.49
+  Formula: IFERROR(IF(O39="",F39,O39)*P39,"")
  Col: R3
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=03e0696&sid=459&ppid=55404994&vpid=188060340&ct=offers">P1.00MHCT-ND</a>
  Col: S3
@@ -1988,8 +1988,8 @@ Row: 39
    0.019125588133
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T39="",F39,T39),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0347,0.0347,0.0139,0.0139,0.0106,0.0072,0.0068,0.0064,0.0057}),"")
  Col: V3
-   0
-  Formula: iferror(if(T39="",F39,T39)*U39,"")
+   1.9125588133
+  Formula: IFERROR(IF(T39="",F39,T39)*U39,"")
  Col: W3
    <a href="https://octopart.com/click/track?ai=8078&sig=0fba7a6&sid=819&ppid=55404994&vpid=139317587&ct=offers">2303325</a>
  Col: X3
@@ -1998,8 +1998,8 @@ Row: 39
    0.0096
   Formula: IFERROR(LOOKUP(IF(Y39="",F39,Y39),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0096,0.0096,0.0074,0.007,0.0066,0.0065,0.0064}),"")
  Col: AA3
-   0
-  Formula: iferror(if(Y39="",F39,Y39)*Z39,"")
+   0.96
+  Formula: IFERROR(IF(Y39="",F39,Y39)*Z39,"")
  Col: AB3
    <a href="https://octopart.com/click/track?ai=8078&sig=00af5de&sid=27971&ppid=55404994&vpid=530412098&ct=offers">C193390</a>
  Col: AC3
@@ -2008,8 +2008,8 @@ Row: 39
    0.016
   Formula: IFERROR(LOOKUP(IF(AD39="",F39,AD39),{0,1,10,50,100,1000,10000},{0.0,0.1,0.039,0.039,0.016,0.007,0.004}),"")
  Col: AF3
-   0
-  Formula: iferror(if(AD39="",F39,AD39)*AE39,"")
+   1.6
+  Formula: IFERROR(IF(AD39="",F39,AD39)*AE39,"")
  Col: AG3
    <a href="https://octopart.com/click/track?ai=8078&sig=0c2c8cc&sid=2401&ppid=55404994&vpid=187839579&ct=offers">667ERJ3EKF1004V</a>
  Col: AH3
@@ -2018,8 +2018,8 @@ Row: 39
    0.017
   Formula: IFERROR(LOOKUP(IF(AI39="",F39,AI39),{0,1,25,50,100,250,500,1000,5000,10000},{0.0,0.062,0.041,0.029,0.017,0.014,0.01,0.007,0.005,0.005}),"")
  Col: AK3
-   0
-  Formula: iferror(if(AI39="",F39,AI39)*AJ39,"")
+   1.7
+  Formula: IFERROR(IF(AI39="",F39,AI39)*AJ39,"")
  Col: AL3
    <a href="https://octopart.com/click/track?ai=8078&sig=015a211&sid=2402&ppid=55404994&vpid=423915380&ct=offers">85Y8504</a>
  Col: AM3
@@ -2028,8 +2028,8 @@ Row: 39
    0.00550376636922
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN39="",F39,AN39),{0,1,5000},{0.0,0.004,0.004}),"")
  Col: AP3
-   0
-  Formula: iferror(if(AN39="",F39,AN39)*AO39,"")
+   0.550376636922
+  Formula: IFERROR(IF(AN39="",F39,AN39)*AO39,"")
  Col: AQ3
    <a href="https://octopart.com/click/track?ai=8078&sig=07d933a&sid=10022&ppid=55404994&vpid=267445247&ct=offers">1051157</a>
  Col: AR3
@@ -2038,8 +2038,8 @@ Row: 39
    0.023829111
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS39="",F39,AS39),{0,1,100,1000,5000},{0.0,0.02007,0.02007,0.00927,0.0063}),"")
  Col: AU3
-   0
-  Formula: iferror(if(AS39="",F39,AS39)*AT39,"")
+   2.3829111
+  Formula: IFERROR(IF(AS39="",F39,AS39)*AT39,"")
  Col: AV3
    <a href="https://octopart.com/click/track?ai=8078&sig=064d731&sid=1532&ppid=55404994&vpid=709131065&ct=offers">ERJ3EKF1004V</a>
 Row: 40
@@ -2068,8 +2068,8 @@ Row: 40
    0.0097
   Formula: IFERROR(LOOKUP(IF(O40="",F40,O40),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.024,0.0097,0.00436,0.00378,0.00312}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O40="",F40,O40)*P40,"")
+   0.97
+  Formula: IFERROR(IF(O40="",F40,O40)*P40,"")
  Col: R4
    <a href="https://octopart.com/click/track?ai=8078&sig=0aa49cf&sid=459&ppid=46507937&vpid=211684106&ct=offers">YAG3328CT-ND</a>
  Col: S4
@@ -2078,8 +2078,8 @@ Row: 40
    0.00908121450921
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T40="",F40,T40),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0187,0.0187,0.0066,0.0066,0.0055,0.0046,0.0041,0.0037,0.0026}),"")
  Col: V4
-   0
-  Formula: iferror(if(T40="",F40,T40)*U40,"")
+   0.908121450921
+  Formula: IFERROR(IF(T40="",F40,T40)*U40,"")
  Col: W4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0e685ad&sid=819&ppid=46507937&vpid=478818761&ct=offers">9238875</a>
  Col: AC4
@@ -2088,8 +2088,8 @@ Row: 40
    0.006
   Formula: IFERROR(LOOKUP(IF(AD40="",F40,AD40),{0,1,10,50,100,1000,10000},{0.0,0.1,0.018,0.018,0.006,0.005,0.003}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD40="",F40,AD40)*AE40,"")
+   0.6
+  Formula: IFERROR(IF(AD40="",F40,AD40)*AE40,"")
  Col: AG4
    <a href="https://octopart.com/click/track?ai=8078&sig=0b67c4e&sid=2401&ppid=46507937&vpid=165627701&ct=offers">603RC0603FR071M8L</a>
  Col: AH4
@@ -2098,8 +2098,8 @@ Row: 40
    0.006
   Formula: IFERROR(LOOKUP(IF(AI40="",F40,AI40),{0,1,10,25,50,100},{0.0,0.018,0.018,0.014,0.01,0.006}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI40="",F40,AI40)*AJ40,"")
+   0.6
+  Formula: IFERROR(IF(AI40="",F40,AI40)*AJ40,"")
  Col: AL4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=033c77f&sid=2402&ppid=46507937&vpid=479779005&ct=offers">98K7371</a>
  Col: AR4
@@ -2108,8 +2108,8 @@ Row: 40
    0.025740664
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS40="",F40,AS40),{0,1,100,1000,5000,15000},{0.0,0.02168,0.02168,0.00781,0.00316,0.00267}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS40="",F40,AS40)*AT40,"")
+   2.5740664
+  Formula: IFERROR(IF(AS40="",F40,AS40)*AT40,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=00280e6&sid=1532&ppid=46507937&vpid=709257844&ct=offers">RC0603FR071M8L</a>
 Row: 41
@@ -2138,8 +2138,8 @@ Row: 41
    0.0149
   Formula: IFERROR(LOOKUP(IF(O41="",F41,O41),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.037,0.0149,0.0067,0.00582,0.00481}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O41="",F41,O41)*P41,"")
+   1.49
+  Formula: IFERROR(IF(O41="",F41,O41)*P41,"")
  Col: R4
    <a href="https://octopart.com/click/track?ai=8078&sig=0400c47&sid=459&ppid=55421572&vpid=188060755&ct=offers">P200KHCT-ND</a>
  Col: S4
@@ -2148,8 +2148,8 @@ Row: 41
    0.0176120523815
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T41="",F41,T41),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.032,0.032,0.0128,0.0128,0.01,0.0072,0.0068,0.0064,0.0056}),"")
  Col: V4
-   0
-  Formula: iferror(if(T41="",F41,T41)*U41,"")
+   1.76120523815
+  Formula: IFERROR(IF(T41="",F41,T41)*U41,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=00c4b27&sid=819&ppid=55421572&vpid=139318538&ct=offers">2059509</a>
  Col: X4
@@ -2158,8 +2158,8 @@ Row: 41
    0.0096
   Formula: IFERROR(LOOKUP(IF(Y41="",F41,Y41),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0096,0.0096,0.0074,0.007,0.0066,0.0064,0.0064}),"")
  Col: AA4
-   0
-  Formula: iferror(if(Y41="",F41,Y41)*Z41,"")
+   0.96
+  Formula: IFERROR(IF(Y41="",F41,Y41)*Z41,"")
  Col: AB4
    <a href="https://octopart.com/click/track?ai=8078&sig=0eb7a6b&sid=27971&ppid=55421572&vpid=530412104&ct=offers">C118142</a>
  Col: AC4
@@ -2168,8 +2168,8 @@ Row: 41
    0.013
   Formula: IFERROR(LOOKUP(IF(AD41="",F41,AD41),{0,1,10,50,100,1000,10000},{0.0,0.1,0.032,0.032,0.013,0.006,0.004}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD41="",F41,AD41)*AE41,"")
+   1.3
+  Formula: IFERROR(IF(AD41="",F41,AD41)*AE41,"")
  Col: AG4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01f06cd&sid=2401&ppid=55421572&vpid=187839774&ct=offers">667ERJ3EKF2003V</a>
  Col: AH4
@@ -2178,8 +2178,8 @@ Row: 41
    0.017
   Formula: IFERROR(LOOKUP(IF(AI41="",F41,AI41),{0,1,10,25,50,100,250,500,1000,5000,10000,50000},{0.0,0.062,0.04,0.041,0.029,0.017,0.014,0.01,0.007,0.005,0.005,0.005}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI41="",F41,AI41)*AJ41,"")
+   1.7
+  Formula: IFERROR(IF(AI41="",F41,AI41)*AJ41,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=0312215&sid=2402&ppid=55421572&vpid=191370298&ct=offers">65T8368</a>
  Col: AM4
@@ -2188,8 +2188,8 @@ Row: 41
    0.00687970796153
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN41="",F41,AN41),{0,1,5000},{0.0,0.005,0.005}),"")
  Col: AP4
-   0
-  Formula: iferror(if(AN41="",F41,AN41)*AO41,"")
+   0.687970796153
+  Formula: IFERROR(IF(AN41="",F41,AN41)*AO41,"")
  Col: AQ4
    <a href="https://octopart.com/click/track?ai=8078&sig=0add5d3&sid=10022&ppid=55421572&vpid=501238637&ct=offers">1755753</a>
  Col: AR4
@@ -2198,8 +2198,8 @@ Row: 41
    0.023852857
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS41="",F41,AS41),{0,1,100,1000,5000},{0.0,0.02009,0.02009,0.00928,0.00631}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS41="",F41,AS41)*AT41,"")
+   2.3852857
+  Formula: IFERROR(IF(AS41="",F41,AS41)*AT41,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=0b04386&sid=1532&ppid=55421572&vpid=709131221&ct=offers">ERJ3EKF2003V</a>
 Row: 42
@@ -2228,8 +2228,8 @@ Row: 42
    0.00694
   Formula: IFERROR(LOOKUP(IF(O42="",F42,O42),{0,1,10,25,50,100,250,500,1000,5000,10000,25000,50000},{0.0,0.1,0.028,0.0204,0.0154,0.0114,0.00868,0.00694,0.00511,0.00367,0.00318,0.0028,0.00262}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O42="",F42,O42)*P42,"")
+   6.246
+  Formula: IFERROR(IF(O42="",F42,O42)*P42,"")
  Col: R4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=003184e&sid=459&ppid=39556096&vpid=114978156&ct=offers">541-0.0GCT-ND</a>
  Col: S4
@@ -2238,8 +2238,8 @@ Row: 42
    0.0103195619423
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T42="",F42,T42),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.019,0.019,0.0085,0.0085,0.0075,0.0064,0.0061,0.0041,0.0033}),"")
  Col: V4
-   0
-  Formula: iferror(if(T42="",F42,T42)*U42,"")
+   9.28760574806
+  Formula: IFERROR(IF(T42="",F42,T42)*U42,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=04773cc&sid=11744&ppid=39556096&vpid=249312378&ct=offers">1469739</a>
  Col: AC4
@@ -2248,8 +2248,8 @@ Row: 42
    0.007
   Formula: IFERROR(LOOKUP(IF(AD42="",F42,AD42),{0,1,10,50,100,1000,10000},{0.0,0.1,0.016,0.016,0.007,0.006,0.004}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD42="",F42,AD42)*AE42,"")
+   6.3
+  Formula: IFERROR(IF(AD42="",F42,AD42)*AE42,"")
  Col: AG4
    <a href="https://octopart.com/click/track?ai=8078&sig=03f3a73&sid=2401&ppid=39556096&vpid=114828649&ct=offers">71CRCW06030E3</a>
  Col: AH4
@@ -2258,8 +2258,8 @@ Row: 42
    0.009
   Formula: IFERROR(LOOKUP(IF(AI42="",F42,AI42),{0,1,10,25,50,100,5000},{0.0,0.125,0.02,0.016,0.013,0.009,0.006}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI42="",F42,AI42)*AJ42,"")
+   8.1
+  Formula: IFERROR(IF(AI42="",F42,AI42)*AJ42,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=0ec622b&sid=2402&ppid=39556096&vpid=115415157&ct=offers">61M5327</a>
  Col: AR4
@@ -2268,8 +2268,8 @@ Row: 42
    0.00759872
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS42="",F42,AS42),{0,1,100,500,1000,5000},{0.0,0.01231,0.01231,0.0064,0.00499,0.00285}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS42="",F42,AS42)*AT42,"")
+   6.838848
+  Formula: IFERROR(IF(AS42="",F42,AS42)*AT42,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=0da3353&sid=1532&ppid=39556096&vpid=709240254&ct=offers">CRCW06030000Z0EA</a>
 Row: 43
@@ -2298,8 +2298,8 @@ Row: 43
    0.0149
   Formula: IFERROR(LOOKUP(IF(O43="",F43,O43),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.037,0.0149,0.0067,0.00582,0.00481}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O43="",F43,O43)*P43,"")
+   1.49
+  Formula: IFERROR(IF(O43="",F43,O43)*P43,"")
  Col: R4
    <a href="https://octopart.com/click/track?ai=8078&sig=0af4665&sid=459&ppid=55421634&vpid=188061002&ct=offers">P249KHCT-ND</a>
  Col: S4
@@ -2308,8 +2308,8 @@ Row: 43
    0.0183000231777
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T43="",F43,T43),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.032,0.032,0.0133,0.0133,0.0103,0.0074,0.007,0.0066,0.0058}),"")
  Col: V4
-   0
-  Formula: iferror(if(T43="",F43,T43)*U43,"")
+   1.83000231777
+  Formula: IFERROR(IF(T43="",F43,T43)*U43,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=0728cdc&sid=11744&ppid=55421634&vpid=132579945&ct=offers">2059513</a>
  Col: X4
@@ -2318,8 +2318,8 @@ Row: 43
    0.0096
   Formula: IFERROR(LOOKUP(IF(Y43="",F43,Y43),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0096,0.0096,0.0074,0.007,0.0066,0.0065,0.0064}),"")
  Col: AA4
-   0
-  Formula: iferror(if(Y43="",F43,Y43)*Z43,"")
+   0.96
+  Formula: IFERROR(IF(Y43="",F43,Y43)*Z43,"")
  Col: AB4
    <a href="https://octopart.com/click/track?ai=8078&sig=021e314&sid=27971&ppid=55421634&vpid=586530555&ct=offers">C403102</a>
  Col: AC4
@@ -2328,8 +2328,8 @@ Row: 43
    0.013
   Formula: IFERROR(LOOKUP(IF(AD43="",F43,AD43),{0,1,10,50,100,1000,10000},{0.0,0.1,0.032,0.032,0.013,0.006,0.004}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD43="",F43,AD43)*AE43,"")
+   1.3
+  Formula: IFERROR(IF(AD43="",F43,AD43)*AE43,"")
  Col: AG4
    <a href="https://octopart.com/click/track?ai=8078&sig=0712b80&sid=2401&ppid=55421634&vpid=187839849&ct=offers">667ERJ3EKF2493V</a>
  Col: AH4
@@ -2338,8 +2338,8 @@ Row: 43
    0.004
   Formula: IFERROR(LOOKUP(IF(AI43="",F43,AI43),{0,1,10,25,50,100,250,500,1000,5000,10000,50000},{0.0,0.004,0.032,0.004,0.004,0.004,0.004,0.004,0.004,0.005,0.005,0.005}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI43="",F43,AI43)*AJ43,"")
+   0.4
+  Formula: IFERROR(IF(AI43="",F43,AI43)*AJ43,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=060803a&sid=2402&ppid=55421634&vpid=191370382&ct=offers">65T8397</a>
  Col: AM4
@@ -2348,8 +2348,8 @@ Row: 43
    0.00687970796153
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN43="",F43,AN43),{0,1,5000},{0.0,0.005,0.005}),"")
  Col: AP4
-   0
-  Formula: iferror(if(AN43="",F43,AN43)*AO43,"")
+   0.687970796153
+  Formula: IFERROR(IF(AN43="",F43,AN43)*AO43,"")
  Col: AQ4
    <a href="https://octopart.com/click/track?ai=8078&sig=0315235&sid=10022&ppid=55421634&vpid=274637073&ct=offers">1229239</a>
  Col: AR4
@@ -2358,8 +2358,8 @@ Row: 43
    0.023852857
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS43="",F43,AS43),{0,1,100,1000,5000},{0.0,0.02009,0.02009,0.00928,0.00631}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS43="",F43,AS43)*AT43,"")
+   2.3852857
+  Formula: IFERROR(IF(AS43="",F43,AS43)*AT43,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=00f2cce&sid=1532&ppid=55421634&vpid=709131271&ct=offers">ERJ3EKF2493V</a>
 Row: 44
@@ -2388,8 +2388,8 @@ Row: 44
    0.0149
   Formula: IFERROR(LOOKUP(IF(O44="",F44,O44),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.037,0.0149,0.0067,0.00582,0.00481}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O44="",F44,O44)*P44,"")
+   1.49
+  Formula: IFERROR(IF(O44="",F44,O44)*P44,"")
  Col: R4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0607326&sid=459&ppid=55403648&vpid=188060337&ct=offers">P100KHCT-ND</a>
  Col: S4
@@ -2398,8 +2398,8 @@ Row: 44
    0.0138970100823
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T44="",F44,T44),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.032,0.032,0.0101,0.0101,0.0088,0.0074,0.007,0.0058,0.0054}),"")
  Col: V4
-   0
-  Formula: iferror(if(T44="",F44,T44)*U44,"")
+   1.38970100823
+  Formula: IFERROR(IF(T44="",F44,T44)*U44,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=0eee5c2&sid=11744&ppid=55403648&vpid=132579334&ct=offers">2303232</a>
  Col: X4
@@ -2408,8 +2408,8 @@ Row: 44
    0.0105
   Formula: IFERROR(LOOKUP(IF(Y44="",F44,Y44),{0,1,50,500,1500,5000,25000,50000},{0.0,0.0105,0.0105,0.0083,0.0079,0.0075,0.0074,0.0073}),"")
  Col: AA4
-   0
-  Formula: iferror(if(Y44="",F44,Y44)*Z44,"")
+   1.05
+  Formula: IFERROR(IF(Y44="",F44,Y44)*Z44,"")
  Col: AB4
    <a href="https://octopart.com/click/track?ai=8078&sig=0a2df07&sid=27971&ppid=55403648&vpid=478448325&ct=offers">C189597</a>
  Col: AC4
@@ -2418,8 +2418,8 @@ Row: 44
    0.013
   Formula: IFERROR(LOOKUP(IF(AD44="",F44,AD44),{0,1,10,50,100,1000,10000},{0.0,0.1,0.032,0.032,0.013,0.006,0.003}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD44="",F44,AD44)*AE44,"")
+   1.3
+  Formula: IFERROR(IF(AD44="",F44,AD44)*AE44,"")
  Col: AG4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0403bef&sid=2401&ppid=55403648&vpid=187839577&ct=offers">667ERJ3EKF1003V</a>
  Col: AH4
@@ -2428,8 +2428,8 @@ Row: 44
    0.016
   Formula: IFERROR(LOOKUP(IF(AI44="",F44,AI44),{0,1,10,25,50,100,250,500,1000,5000,10000,20000},{0.0,0.062,0.652,0.04,0.028,0.016,0.014,0.012,0.008,0.007,0.007,0.019}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI44="",F44,AI44)*AJ44,"")
+   1.6
+  Formula: IFERROR(IF(AI44="",F44,AI44)*AJ44,"")
  Col: AL4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=06e62b3&sid=2402&ppid=55403648&vpid=190851461&ct=offers">64R5310</a>
  Col: AM4
@@ -2438,8 +2438,8 @@ Row: 44
    0.00687970796153
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN44="",F44,AN44),{0,1,5000,10000,20000},{0.0,0.005,0.005,0.005,0.004}),"")
  Col: AP4
-   0
-  Formula: iferror(if(AN44="",F44,AN44)*AO44,"")
+   0.687970796153
+  Formula: IFERROR(IF(AN44="",F44,AN44)*AO44,"")
  Col: AQ4
    <a href="https://octopart.com/click/track?ai=8078&sig=02cb397&sid=10022&ppid=55403648&vpid=501238554&ct=offers">1755734</a>
  Col: AR4
@@ -2448,8 +2448,8 @@ Row: 44
    0.023829111
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS44="",F44,AS44),{0,1,100,1000,5000},{0.0,0.02007,0.02007,0.00927,0.0063}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS44="",F44,AS44)*AT44,"")
+   2.3829111
+  Formula: IFERROR(IF(AS44="",F44,AS44)*AT44,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=04affbb&sid=1532&ppid=55403648&vpid=709131064&ct=offers">ERJ3EKF1003V</a>
 Row: 45
@@ -2478,8 +2478,8 @@ Row: 45
    0.0097
   Formula: IFERROR(LOOKUP(IF(O45="",F45,O45),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.024,0.0097,0.00436,0.00378,0.00312}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O45="",F45,O45)*P45,"")
+   3.88
+  Formula: IFERROR(IF(O45="",F45,O45)*P45,"")
  Col: R4
    <a href="https://octopart.com/click/track?ai=8078&sig=0d97615&sid=459&ppid=55402879&vpid=188128876&ct=offers">311-100HRCT-ND</a>
  Col: S4
@@ -2488,8 +2488,8 @@ Row: 45
    0.0104571561015
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T45="",F45,T45),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0187,0.0187,0.0076,0.0076,0.0067,0.0054,0.0047,0.0053,0.0031}),"")
  Col: V4
-   0
-  Formula: iferror(if(T45="",F45,T45)*U45,"")
+   4.18286244061
+  Formula: IFERROR(IF(T45="",F45,T45)*U45,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=0a330ad&sid=11744&ppid=55402879&vpid=478973385&ct=offers">2131804</a>
  Col: AC4
@@ -2498,8 +2498,8 @@ Row: 45
    0.006
   Formula: IFERROR(LOOKUP(IF(AD45="",F45,AD45),{0,1,10,50,100,1000,10000},{0.0,0.1,0.018,0.018,0.006,0.005,0.003}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD45="",F45,AD45)*AE45,"")
+   2.4
+  Formula: IFERROR(IF(AD45="",F45,AD45)*AE45,"")
  Col: AG4
    <a href="https://octopart.com/click/track?ai=8078&sig=0230807&sid=2401&ppid=55402879&vpid=187885219&ct=offers">603RC0603FR07100RL</a>
  Col: AH4
@@ -2508,8 +2508,8 @@ Row: 45
    0.006
   Formula: IFERROR(LOOKUP(IF(AI45="",F45,AI45),{0,1,10,25,50,100,5000},{0.0,0.1,0.1,0.018,0.012,0.006,0.003}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI45="",F45,AI45)*AJ45,"")
+   2.4
+  Formula: IFERROR(IF(AI45="",F45,AI45)*AJ45,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=0a9c80e&sid=2402&ppid=55402879&vpid=479778998&ct=offers">98K7334</a>
  Col: AM4
@@ -2518,8 +2518,8 @@ Row: 45
    0.00687970796153
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN45="",F45,AN45),{0,1,100,500,1000,2000,5000},{0.0,0.005,0.005,0.005,0.004,0.004,0.003}),"")
  Col: AP4
-   0
-  Formula: iferror(if(AN45="",F45,AN45)*AO45,"")
+   2.75188318461
+  Formula: IFERROR(IF(AN45="",F45,AN45)*AO45,"")
  Col: AQ4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0832603&sid=10022&ppid=55402879&vpid=694057358&ct=offers">1995441</a>
  Col: AR4
@@ -2528,8 +2528,8 @@ Row: 45
    0.018462515
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS45="",F45,AS45),{0,1,100,1000,5000,15000,50000},{0.0,0.01555,0.01555,0.00326,0.00132,0.00124,0.0012}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS45="",F45,AS45)*AT45,"")
+   7.385006
+  Formula: IFERROR(IF(AS45="",F45,AS45)*AT45,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=006c1c5&sid=1532&ppid=55402879&vpid=187873617&ct=offers">RC0603FR07100R</a>
 Row: 46
@@ -2558,8 +2558,8 @@ Row: 46
    0.04125
   Formula: IFERROR(LOOKUP(IF(O46="",F46,O46),{0,1,5000},{0.0,0.04125,0.04125}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O46="",F46,O46)*P46,"")
+   12.375
+  Formula: IFERROR(IF(O46="",F46,O46)*P46,"")
  Col: R4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0a28a0b&sid=459&ppid=22608833&vpid=511792430&ct=offers">ERJ-P03F47R0V-ND</a>
  Col: S4
@@ -2568,8 +2568,8 @@ Row: 46
    0.118330976938
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T46="",F46,T46),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.13,0.13,0.086,0.086,0.0475,0.0323,0.0276,0.0228,0.0223}),"")
  Col: V4
-   0
-  Formula: iferror(if(T46="",F46,T46)*U46,"")
+   35.4992930815
+  Formula: IFERROR(IF(T46="",F46,T46)*U46,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=0c61c65&sid=819&ppid=22608833&vpid=139336923&ct=offers">1750655</a>
  Col: X4
@@ -2578,8 +2578,8 @@ Row: 46
    0.0426
   Formula: IFERROR(LOOKUP(IF(Y46="",F46,Y46),{0,1,10,100,300,1000,5000,10000},{0.0,0.0582,0.0582,0.045,0.0426,0.0402,0.0391,0.0386}),"")
  Col: AA4
-   0
-  Formula: iferror(if(Y46="",F46,Y46)*Z46,"")
+   12.78
+  Formula: IFERROR(IF(Y46="",F46,Y46)*Z46,"")
  Col: AB4
    <a href="https://octopart.com/click/track?ai=8078&sig=0b59b7e&sid=27971&ppid=22608833&vpid=609064395&ct=offers">C427294</a>
  Col: AC4
@@ -2588,8 +2588,8 @@ Row: 46
    0.098
   Formula: IFERROR(LOOKUP(IF(AD46="",F46,AD46),{0,1,10,50,100,1000,10000},{0.0,0.31,0.175,0.145,0.098,0.045,0.033}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD46="",F46,AD46)*AE46,"")
+   29.4
+  Formula: IFERROR(IF(AD46="",F46,AD46)*AE46,"")
  Col: AG4
    <a href="https://octopart.com/click/track?ai=8078&sig=0407fb1&sid=2401&ppid=22608833&vpid=458474084&ct=offers">667ERJP03F47R0V</a>
  Col: AH4
@@ -2598,8 +2598,8 @@ Row: 46
    0.098
   Formula: IFERROR(LOOKUP(IF(AI46="",F46,AI46),{0,1,10,25,50,100,5000,10000,20000},{0.0,0.175,0.175,0.16,0.145,0.098,0.04,0.039,0.037}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI46="",F46,AI46)*AJ46,"")
+   29.4
+  Formula: IFERROR(IF(AI46="",F46,AI46)*AJ46,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=0a5b6b9&sid=2402&ppid=22608833&vpid=265591907&ct=offers">62W9653</a>
 Row: 47
@@ -2628,8 +2628,8 @@ Row: 47
    0.0097
   Formula: IFERROR(LOOKUP(IF(O47="",F47,O47),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.024,0.0097,0.00436,0.00378,0.00312}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O47="",F47,O47)*P47,"")
+   1.94
+  Formula: IFERROR(IF(O47="",F47,O47)*P47,"")
  Col: R4
    <a href="https://octopart.com/click/track?ai=8078&sig=0fe2519&sid=459&ppid=55402882&vpid=188128906&ct=offers">311-1.00KHRCT-ND</a>
  Col: S4
@@ -2638,8 +2638,8 @@ Row: 47
    0.0115579093754
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T47="",F47,T47),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0234,0.0234,0.0084,0.0084,0.0068,0.0051,0.0045,0.0072,0.0036}),"")
  Col: V4
-   0
-  Formula: iferror(if(T47="",F47,T47)*U47,"")
+   2.31158187507
+  Formula: IFERROR(IF(T47="",F47,T47)*U47,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=05332ea&sid=819&ppid=55402882&vpid=508509601&ct=offers">9238484</a>
  Col: AC4
@@ -2648,8 +2648,8 @@ Row: 47
    0.007
   Formula: IFERROR(LOOKUP(IF(AD47="",F47,AD47),{0,1,10,50,100,1000,10000},{0.0,0.1,0.018,0.018,0.007,0.004,0.002}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD47="",F47,AD47)*AE47,"")
+   1.4
+  Formula: IFERROR(IF(AD47="",F47,AD47)*AE47,"")
  Col: AG4
    <a href="https://octopart.com/click/track?ai=8078&sig=0fb13ef&sid=2401&ppid=55402882&vpid=187885225&ct=offers">603RC0603FR071KL</a>
  Col: AH4
@@ -2658,8 +2658,8 @@ Row: 47
    0.006
   Formula: IFERROR(LOOKUP(IF(AI47="",F47,AI47),{0,1,5000},{0.0,0.006,0.006}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI47="",F47,AI47)*AJ47,"")
+   1.2
+  Formula: IFERROR(IF(AI47="",F47,AI47)*AJ47,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=04c6071&sid=2402&ppid=55402882&vpid=190899751&ct=offers">66R1908</a>
  Col: AM4
@@ -2668,8 +2668,8 @@ Row: 47
    0.00687970796153
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN47="",F47,AN47),{0,1,100,500,1000,2000,5000,10000,15000,20000},{0.0,0.005,0.005,0.005,0.004,0.004,0.003,0.003,0.003,0.002}),"")
  Col: AP4
-   0
-  Formula: iferror(if(AN47="",F47,AN47)*AO47,"")
+   1.37594159231
+  Formula: IFERROR(IF(AN47="",F47,AN47)*AO47,"")
  Col: AQ4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0651374&sid=10022&ppid=55402882&vpid=694057393&ct=offers">1995479</a>
  Col: AR4
@@ -2678,8 +2678,8 @@ Row: 47
    0.017488929
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS47="",F47,AS47),{0,1,100,1000,5000,15000,50000},{0.0,0.01473,0.01473,0.00323,0.00132,0.00121,0.00117}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS47="",F47,AS47)*AT47,"")
+   3.4977858
+  Formula: IFERROR(IF(AS47="",F47,AS47)*AT47,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=065289d&sid=1532&ppid=55402882&vpid=187873629&ct=offers">RC0603FR071K</a>
 Row: 48
@@ -2708,8 +2708,8 @@ Row: 48
    0.0194
   Formula: IFERROR(LOOKUP(IF(O48="",F48,O48),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.048,0.0194,0.00872,0.00756,0.00625}),"")
  Col: Q4
-   0
-  Formula: iferror(if(O48="",F48,O48)*P48,"")
+   3.88
+  Formula: IFERROR(IF(O48="",F48,O48)*P48,"")
  Col: R4
    <a href="https://octopart.com/click/track?ai=8078&sig=09256e4&sid=459&ppid=40254886&vpid=119671172&ct=offers">311-10.0HRCT-ND</a>
  Col: S4
@@ -2718,8 +2718,8 @@ Row: 48
    0.0177496465407
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T48="",F48,T48),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0361,0.0361,0.0129,0.0129,0.0119,0.0079,0.0072,0.0098,0.0043}),"")
  Col: V4
-   0
-  Formula: iferror(if(T48="",F48,T48)*U48,"")
+   3.54992930815
+  Formula: IFERROR(IF(T48="",F48,T48)*U48,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=05206be&sid=11744&ppid=40254886&vpid=480880100&ct=offers">9238247</a>
  Col: AC4
@@ -2728,8 +2728,8 @@ Row: 48
    0.012
   Formula: IFERROR(LOOKUP(IF(AD48="",F48,AD48),{0,1,10,50,100,1000,10000},{0.0,0.1,0.036,0.036,0.012,0.008,0.004}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD48="",F48,AD48)*AE48,"")
+   2.4
+  Formula: IFERROR(IF(AD48="",F48,AD48)*AE48,"")
  Col: AG4
    <a href="https://octopart.com/click/track?ai=8078&sig=02945a3&sid=2401&ppid=40254886&vpid=114830345&ct=offers">603RC0603FR0710RL</a>
  Col: AH4
@@ -2738,8 +2738,8 @@ Row: 48
    0.012
   Formula: IFERROR(LOOKUP(IF(AI48="",F48,AI48),{0,1,10,25,50,100,5000},{0.0,0.15,0.15,0.036,0.024,0.012,0.006}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI48="",F48,AI48)*AJ48,"")
+   2.4
+  Formula: IFERROR(IF(AI48="",F48,AI48)*AJ48,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=01d165b&sid=2402&ppid=40254886&vpid=115424067&ct=offers">68R0050</a>
  Col: AM4
@@ -2748,8 +2748,8 @@ Row: 48
    0.00550376636922
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN48="",F48,AN48),{0,1,5000},{0.0,0.004,0.004}),"")
  Col: AP4
-   0
-  Formula: iferror(if(AN48="",F48,AN48)*AO48,"")
+   1.10075327384
+  Formula: IFERROR(IF(AN48="",F48,AN48)*AO48,"")
  Col: AQ4
    <a href="https://octopart.com/click/track?ai=8078&sig=0d15557&sid=10022&ppid=40254886&vpid=655980886&ct=offers">1995444</a>
  Col: AR4
@@ -2758,8 +2758,8 @@ Row: 48
    0.036936903
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS48="",F48,AS48),{0,1,100,1000,5000,15000,50000},{0.0,0.03111,0.03111,0.01127,0.00455,0.00384,0.00327}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS48="",F48,AS48)*AT48,"")
+   7.3873806
+  Formula: IFERROR(IF(AS48="",F48,AS48)*AT48,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=0a4d9df&sid=1532&ppid=40254886&vpid=709257735&ct=offers">RC0603FR0710R</a>
 Row: 49
@@ -2788,8 +2788,8 @@ Row: 49
    0.205015297253
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T49="",F49,T49),{0,1,10,50,100,500},{0.0,0.268,0.268,0.164,0.149,0.134}),"")
  Col: V4
-   0
-  Formula: iferror(if(T49="",F49,T49)*U49,"")
+   20.5015297253
+  Formula: IFERROR(IF(T49="",F49,T49)*U49,"")
  Col: W4
    <a href="https://octopart.com/click/track?ai=8078&sig=0edbe3f&sid=11744&ppid=1057284&vpid=132032475&ct=offers">2056827</a>
  Col: AC4
@@ -2798,8 +2798,8 @@ Row: 49
    0.283
   Formula: IFERROR(LOOKUP(IF(AD49="",F49,AD49),{0,1,10,50,100,1000,10000},{0.0,0.38,0.38,0.32,0.283,0.258,0.258}),"")
  Col: AF4
-   0
-  Formula: iferror(if(AD49="",F49,AD49)*AE49,"")
+   28.3
+  Formula: IFERROR(IF(AD49="",F49,AD49)*AE49,"")
  Col: AG4
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0964667&sid=2401&ppid=1057284&vpid=37640219&ct=offers">688SKHHLQ</a>
  Col: AH4
@@ -2808,8 +2808,8 @@ Row: 49
    0.235
   Formula: IFERROR(LOOKUP(IF(AI49="",F49,AI49),{0,1,1000},{0.0,0.235,0.235}),"")
  Col: AK4
-   0
-  Formula: iferror(if(AI49="",F49,AI49)*AJ49,"")
+   23.5
+  Formula: IFERROR(IF(AI49="",F49,AI49)*AJ49,"")
  Col: AL4
    <a href="https://octopart.com/click/track?ai=8078&sig=0c51736&sid=2402&ppid=1057284&vpid=634285311&ct=offers">98AC2569</a>
  Col: AM4
@@ -2818,8 +2818,8 @@ Row: 49
    0.368752346738
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN49="",F49,AN49),{0,1,20,500,2000,10000},{0.0,0.268,0.268,0.182,0.172,0.164}),"")
  Col: AP4
-   0
-  Formula: iferror(if(AN49="",F49,AN49)*AO49,"")
+   36.8752346738
+  Formula: IFERROR(IF(AN49="",F49,AN49)*AO49,"")
  Col: AQ4
    <a href="https://octopart.com/click/track?ai=8078&sig=0b25c3c&sid=10022&ppid=1057284&vpid=198976677&ct=offers">7581991</a>
  Col: AR4
@@ -2828,8 +2828,8 @@ Row: 49
    0.29836849
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS49="",F49,AS49),{0,1,2,10,50,250,1000},{0.0,0.30329,0.30329,0.2773,0.2513,0.21664,0.19064}),"")
  Col: AU4
-   0
-  Formula: iferror(if(AS49="",F49,AS49)*AT49,"")
+   29.836849
+  Formula: IFERROR(IF(AS49="",F49,AS49)*AT49,"")
  Col: AV4
    <a href="https://octopart.com/click/track?ai=8078&sig=0baac1a&sid=1532&ppid=1057284&vpid=707766947&ct=offers">SKHHLQA010</a>
 Row: 50
@@ -2858,8 +2858,8 @@ Row: 50
    0.3307
   Formula: IFERROR(LOOKUP(IF(O50="",F50,O50),{0,1,10,25,100,250,500,1000,3000,6000,15000},{0.0,0.56,0.477,0.4452,0.3307,0.27984,0.26712,0.19716,0.19716,0.18444,0.18}),"")
  Col: Q5
-   0
-  Formula: iferror(if(O50="",F50,O50)*P50,"")
+   33.07
+  Formula: IFERROR(IF(O50="",F50,O50)*P50,"")
  Col: R5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0dd5803&sid=459&ppid=30954677&vpid=95776379&ct=offers">AP3211KTR-G1DICT-ND</a>
  Col: S5
@@ -2868,8 +2868,8 @@ Row: 50
    0.290323675976
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T50="",F50,T50),{0,1,5,10,100,500,1000,5000,10000},{0.0,0.509,0.509,0.394,0.211,0.178,0.144,0.141,0.138}),"")
  Col: V5
-   0
-  Formula: iferror(if(T50="",F50,T50)*U50,"")
+   29.0323675976
+  Formula: IFERROR(IF(T50="",F50,T50)*U50,"")
  Col: W5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0152cc6&sid=11744&ppid=30954677&vpid=626849354&ct=offers">3482897</a>
  Col: AC5
@@ -2878,8 +2878,8 @@ Row: 50
    0.28
   Formula: IFERROR(LOOKUP(IF(AD50="",F50,AD50),{0,1,10,50,100,1000,10000},{0.0,0.56,0.446,0.446,0.28,0.198,0.176}),"")
  Col: AF5
-   0
-  Formula: iferror(if(AD50="",F50,AD50)*AE50,"")
+   28
+  Formula: IFERROR(IF(AD50="",F50,AD50)*AE50,"")
  Col: AG5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=026e685&sid=2401&ppid=30954677&vpid=165355817&ct=offers">621AP3211KTRG1</a>
  Col: AH5
@@ -2888,8 +2888,8 @@ Row: 50
    0.394
   Formula: IFERROR(LOOKUP(IF(AI50="",F50,AI50),{0,1,5,10,25,50,100,250,3000},{0.0,0.663,0.663,0.569,0.53,0.463,0.394,0.333,0.176}),"")
  Col: AK5
-   0
-  Formula: iferror(if(AI50="",F50,AI50)*AJ50,"")
+   39.4
+  Formula: IFERROR(IF(AI50="",F50,AI50)*AJ50,"")
  Col: AL5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0236e9a&sid=2402&ppid=30954677&vpid=628074282&ct=offers">76AH4714</a>
  Col: AR5
@@ -2898,8 +2898,8 @@ Row: 50
    0.201841
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS50="",F50,AS50),{0,1,3,25,100,500,3000},{0.0,0.22,0.22,0.2,0.17,0.16,0.15}),"")
  Col: AU5
-   0
-  Formula: iferror(if(AS50="",F50,AS50)*AT50,"")
+   20.1841
+  Formula: IFERROR(IF(AS50="",F50,AS50)*AT50,"")
  Col: AV5
    <a href="https://octopart.com/click/track?ai=8078&sig=0a5f4e1&sid=1532&ppid=30954677&vpid=707843697&ct=offers">AP3211KTRG1</a>
 Row: 51
@@ -2928,8 +2928,8 @@ Row: 51
    0.2503
   Formula: IFERROR(LOOKUP(IF(O51="",F51,O51),{0,1,10,25,100,250,500,1000,3000,6000,15000,30000},{0.0,0.45,0.368,0.3364,0.2503,0.22688,0.18774,0.14081,0.12908,0.12125,0.11343,0.1107}),"")
  Col: Q5
-   0
-  Formula: iferror(if(O51="",F51,O51)*P51,"")
+   25.03
+  Formula: IFERROR(IF(O51="",F51,O51)*P51,"")
  Col: R5
    <a href="https://octopart.com/click/track?ai=8078&sig=08140e2&sid=459&ppid=84330810&vpid=452472154&ct=offers">NC7SZ74K8XCT-ND</a>
  Col: S5
@@ -2938,8 +2938,8 @@ Row: 51
    0.203639355661
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T51="",F51,T51),{0,1,5,10,100,150,500,3000,6000,9000,12000,18000,24000,30000,45000},{0.0,0.406,0.406,0.293,0.148,0.148,0.109,0.0941,0.0969,0.0887,0.0953,0.0938,0.0843,0.0915,0.08}),"")
  Col: V5
-   0
-  Formula: iferror(if(T51="",F51,T51)*U51,"")
+   20.3639355661
+  Formula: IFERROR(IF(T51="",F51,T51)*U51,"")
  Col: W5
    <a href="https://octopart.com/click/track?ai=8078&sig=026377d&sid=11744&ppid=84330810&vpid=440104040&ct=offers">1417652</a>
  Col: X5
@@ -2948,8 +2948,8 @@ Row: 51
    0.1499
   Formula: IFERROR(LOOKUP(IF(Y51="",F51,Y51),{0,1,10,30,100,500,1000},{0.0,0.2045,0.1646,0.1572,0.1499,0.1467,0.145}),"")
  Col: AA5
-   0
-  Formula: iferror(if(Y51="",F51,Y51)*Z51,"")
+   14.99
+  Formula: IFERROR(IF(Y51="",F51,Y51)*Z51,"")
  Col: AB5
    <a href="https://octopart.com/click/track?ai=8078&sig=0ae45cc&sid=27971&ppid=84330810&vpid=476993917&ct=offers">C128370</a>
  Col: AC5
@@ -2958,8 +2958,8 @@ Row: 51
    0.227
   Formula: IFERROR(LOOKUP(IF(AD51="",F51,AD51),{0,1,10,50,100,1000,10000},{0.0,0.45,0.337,0.337,0.227,0.141,0.113}),"")
  Col: AF5
-   0
-  Formula: iferror(if(AD51="",F51,AD51)*AE51,"")
+   22.7
+  Formula: IFERROR(IF(AD51="",F51,AD51)*AE51,"")
  Col: AG5
    <a href="https://octopart.com/click/track?ai=8078&sig=014e535&sid=2401&ppid=84330810&vpid=438586445&ct=offers">512NC7SZ74K8X</a>
  Col: AH5
@@ -2968,8 +2968,8 @@ Row: 51
    0.178
   Formula: IFERROR(LOOKUP(IF(AI51="",F51,AI51),{0,1,10,100,500,3000,9000,24000,45000},{0.0,0.43,0.318,0.178,0.149,0.117,0.107,0.098,0.094}),"")
  Col: AK5
-   0
-  Formula: iferror(if(AI51="",F51,AI51)*AJ51,"")
+   17.8
+  Formula: IFERROR(IF(AI51="",F51,AI51)*AJ51,"")
  Col: AL5
    <a href="https://octopart.com/click/track?ai=8078&sig=000b38d&sid=2402&ppid=84330810&vpid=439875216&ct=offers">58K9468</a>
  Col: AM5
@@ -2978,8 +2978,8 @@ Row: 51
    0.187128056553
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN51="",F51,AN51),{0,1,5,10,100,1000,3000},{0.0,0.328,0.328,0.242,0.136,0.102,0.086}),"")
  Col: AP5
-   0
-  Formula: iferror(if(AN51="",F51,AN51)*AO51,"")
+   18.7128056553
+  Formula: IFERROR(IF(AN51="",F51,AN51)*AO51,"")
  Col: AQ5
    <a href="https://octopart.com/click/track?ai=8078&sig=091bf75&sid=10022&ppid=84330810&vpid=454566365&ct=offers">7390082</a>
  Col: AR5
@@ -2988,8 +2988,8 @@ Row: 51
    0.11540556
   Formula: IFERROR(USD_EUR*LOOKUP(IF(AS51="",F51,AS51),{0,1,5,25,100,500},{0.0,0.1386,0.1386,0.1119,0.0972,0.0824}),"")
  Col: AU5
-   0
-  Formula: iferror(if(AS51="",F51,AS51)*AT51,"")
+   11.540556
+  Formula: IFERROR(IF(AS51="",F51,AS51)*AT51,"")
  Col: AV5
    <a href="https://octopart.com/click/track?ai=8078&sig=0697ef0&sid=1532&ppid=84330810&vpid=709122466&ct=offers">NC7SZ74K8X</a>
 Row: 52
@@ -3016,8 +3016,8 @@ Row: 52
    0.7728
   Formula: IFERROR(LOOKUP(IF(O52="",F52,O52),{0,1,10,25,100,250,500,1000,3000},{0.0,1.11,0.991,0.9408,0.7728,0.72244,0.63844,0.52939,0.52939}),"")
  Col: Q5
-   0
-  Formula: iferror(if(O52="",F52,O52)*P52,"")
+   154.56
+  Formula: IFERROR(IF(O52="",F52,O52)*P52,"")
  Col: R5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0c9fde0&sid=459&ppid=439915&vpid=1809505&ct=offers">296-17151-1-ND</a>
  Col: S5
@@ -3026,8 +3026,8 @@ Row: 52
    0.912249275698
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T52="",F52,T52),{0,1,10,50,100,250,500,1000,2500},{0.0,1.16,0.919,0.791,0.663,0.585,0.555,0.431,0.409}),"")
  Col: V5
-   0
-  Formula: iferror(if(T52="",F52,T52)*U52,"")
+   182.44985514
+  Formula: IFERROR(IF(T52="",F52,T52)*U52,"")
  Col: W5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0cb1068&sid=819&ppid=439915&vpid=547775477&ct=offers">1461062</a>
  Col: X5
@@ -3036,8 +3036,8 @@ Row: 52
    0.853
   Formula: IFERROR(LOOKUP(IF(Y52="",F52,Y52),{0,1,10,30,100,500,1000},{0.0,1.1109,0.9233,0.8873,0.853,0.8386,0.8296}),"")
  Col: AA5
-   0
-  Formula: iferror(if(Y52="",F52,Y52)*Z52,"")
+   170.6
+  Formula: IFERROR(IF(Y52="",F52,Y52)*Z52,"")
  Col: AB5
    <a href="https://octopart.com/click/track?ai=8078&sig=0ca421c&sid=27971&ppid=439915&vpid=445993233&ct=offers">C9841</a>
  Col: AC5
@@ -3046,8 +3046,8 @@ Row: 52
    0.723
   Formula: IFERROR(LOOKUP(IF(AD52="",F52,AD52),{0,1,10,50,100,1000,10000},{0.0,1.1,0.992,0.992,0.723,0.471,0.446}),"")
  Col: AF5
-   0
-  Formula: iferror(if(AD52="",F52,AD52)*AE52,"")
+   144.6
+  Formula: IFERROR(IF(AD52="",F52,AD52)*AE52,"")
  Col: AG5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0ada6e6&sid=2401&ppid=439915&vpid=37760659&ct=offers">595TPS61070DDCR</a>
  Col: AH5
@@ -3056,8 +3056,8 @@ Row: 52
    0.92
   Formula: IFERROR(LOOKUP(IF(AI52="",F52,AI52),{0,1,25,50,100,250,500},{0.0,1.04,0.941,0.93,0.92,0.909,0.899}),"")
  Col: AK5
-   0
-  Formula: iferror(if(AI52="",F52,AI52)*AJ52,"")
+   184
+  Formula: IFERROR(IF(AI52="",F52,AI52)*AJ52,"")
  Col: AL5
    <a href="https://octopart.com/click/track?ai=8078&sig=084be08&sid=2402&ppid=439915&vpid=12943787&ct=offers">64M3125</a>
  Col: AM5
@@ -3066,8 +3066,8 @@ Row: 52
    0.853083787229
   Formula: IFERROR(USD_GBP*LOOKUP(IF(AN52="",F52,AN52),{0,1,5,50,100},{0.0,1.02,1.02,0.812,0.62}),"")
  Col: AP5
-   0
-  Formula: iferror(if(AN52="",F52,AN52)*AO52,"")
+   170.616757446
+  Formula: IFERROR(IF(AN52="",F52,AN52)*AO52,"")
  Col: AQ5
    <a href="https://octopart.com/click/track?ai=8078&sig=0856945&sid=10022&ppid=439915&vpid=199171287&ct=offers">389372</a>
 Row: 53
@@ -3094,8 +3094,8 @@ Row: 53
    2.7016
   Formula: IFERROR(LOOKUP(IF(O53="",F53,O53),{0,1,10,25,100,250,500,1000},{0.0,3.67,3.297,3.1172,2.7016,2.56304,2.2998,2.18269}),"")
  Col: Q5
-   0
-  Formula: iferror(if(O53="",F53,O53)*P53,"")
+   270.16
+  Formula: IFERROR(IF(O53="",F53,O53)*P53,"")
  Col: R5
    <a href="https://octopart.com/click/track?ai=8078&sig=06dc0d3&sid=459&ppid=24812992&vpid=57587021&ct=offers">LM2611BMF/NOPBCT-ND</a>
  Col: S5
@@ -3104,8 +3104,8 @@ Row: 53
    2.29782245915
   Formula: IFERROR(USD_GBP*LOOKUP(IF(T53="",F53,T53),{0,1,10,25,50,100,150,200,250,500,1000},{0.0,2.71,2.16,2.04,1.86,1.67,1.72,1.61,1.5,1.45,1.35}),"")
  Col: V5
-   0
-  Formula: iferror(if(T53="",F53,T53)*U53,"")
+   229.782245915
+  Formula: IFERROR(IF(T53="",F53,T53)*U53,"")
  Col: W5
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=08eefde&sid=819&ppid=24812992&vpid=529195813&ct=offers">2115112</a>
  Col: AC5
@@ -3114,8 +3114,8 @@ Row: 53
    2.57
   Formula: IFERROR(LOOKUP(IF(AD53="",F53,AD53),{0,1,10,50,100,1000,10000},{0.0,3.67,3.3,3.12,2.57,1.84,1.77}),"")
  Col: AF5
-   0
-  Formula: iferror(if(AD53="",F53,AD53)*AE53,"")
+   257
+  Formula: IFERROR(IF(AD53="",F53,AD53)*AE53,"")
  Col: AG5
    <a href="https://octopart.com/click/track?ai=8078&sig=09f3e02&sid=2401&ppid=24812992&vpid=57203868&ct=offers">926LM2611BMF/NOPB</a>
  Col: AH5
@@ -3124,8 +3124,8 @@ Row: 53
    3.02
   Formula: IFERROR(LOOKUP(IF(AI53="",F53,AI53),{0,1,10,25,50,100,250},{0.0,3.17,3.13,3.09,3.06,3.02,2.99}),"")
  Col: AK5
-   0
-  Formula: iferror(if(AI53="",F53,AI53)*AJ53,"")
+   302
+  Formula: IFERROR(IF(AI53="",F53,AI53)*AJ53,"")
  Col: AL5
    <a href="https://octopart.com/click/track?ai=8078&sig=08db91b&sid=2402&ppid=24812992&vpid=69913398&ct=offers">41K3930</a>
 Row: 55

@@ -239,8 +239,8 @@ Row: 7
    1.64
   Formula: IFERROR(LOOKUP(IF(AE7="",G7,AE7),{0,1,10,50,100,1000,10000},{0.0,2.48,1.99,1.99,1.64,1.18,1.08}),"")
  Col: AG
-   0
-  Formula: iferror(if(AE7="",G7,AE7)*AF7,"")
+   164
+  Formula: IFERROR(IF(AE7="",G7,AE7)*AF7,"")
  Col: AH
    <a href="https://octopart.com/click/track?ai=8078&sig=0bec95d&sid=2401&ppid=38924313&vpid=614092373&ct=offers">6102N2222A</a>
 Row: 8
@@ -271,8 +271,8 @@ Row: 8
    1.4502
   Formula: IFERROR(LOOKUP(IF(P8="",G8,P8),{0,1,10,25,50,100,250,500,1000,5000},{0.0,1.71,1.621,1.5784,1.5356,1.4502,1.36492,1.27962,1.19432,1.15167}),"")
  Col: R
-   0
-  Formula: iferror(if(P8="",G8,P8)*Q8,"")
+   145.02
+  Formula: IFERROR(IF(P8="",G8,P8)*Q8,"")
  Col: S
    <a href="https://octopart.com/click/track?ai=8078&sig=0a4bbfc&sid=459&ppid=381806&vpid=1187617&ct=offers">HS100-ND</a>
  Col: T
@@ -281,8 +281,8 @@ Row: 8
    2.11895005215
   Formula: IFERROR(USD_GBP*LOOKUP(IF(U8="",G8,U8),{0,1,10,25,50,100},{0.0,2.63,2.1,1.98,1.85,1.54}),"")
  Col: W
-   0
-  Formula: iferror(if(U8="",G8,U8)*V8,"")
+   211.895005215
+  Formula: IFERROR(IF(U8="",G8,U8)*V8,"")
  Col: X
    <a href="https://octopart.com/click/track?ai=8078&sig=0e43cfc&sid=819&ppid=381806&vpid=138099605&ct=offers">2295717</a>
  Col: AD
@@ -291,8 +291,8 @@ Row: 8
    1.31
   Formula: IFERROR(LOOKUP(IF(AE8="",G8,AE8),{0,1,10,50,100,1000,10000},{0.0,1.54,1.47,1.38,1.31,1.08,1.04}),"")
  Col: AG
-   0
-  Formula: iferror(if(AE8="",G8,AE8)*AF8,"")
+   131
+  Formula: IFERROR(IF(AE8="",G8,AE8)*AF8,"")
  Col: AH
    <a href="https://octopart.com/click/track?ai=8078&sig=00ca156&sid=2401&ppid=381806&vpid=37663924&ct=offers">532322400B00</a>
  Col: AI
@@ -301,8 +301,8 @@ Row: 8
    1.31
   Formula: IFERROR(LOOKUP(IF(AJ8="",G8,AJ8),{0,1,10,25,50,100,250,3000},{0.0,1.54,1.47,1.42,1.38,1.31,1.24,1.4}),"")
  Col: AL
-   0
-  Formula: iferror(if(AJ8="",G8,AJ8)*AK8,"")
+   131
+  Formula: IFERROR(IF(AJ8="",G8,AJ8)*AK8,"")
  Col: AM
    <a href="https://octopart.com/click/track?ai=8078&sig=0ae40ed&sid=2402&ppid=381806&vpid=605875841&ct=offers">99Y9862</a>
 Row: 10

@@ -230,8 +230,8 @@ Row: 7
    3.7754
   Formula: IFERROR(LOOKUP(IF(N7="",E7,N7),{0,1,10,25,50,140,280,700,980,1400,3500},{0.0,4.49,4.315,3.9552,3.7754,3.59557,3.14614,3.05626,2.78659,2.60681,2.42703}),"")
  Col: P
-   0
-  Formula: iferror(if(N7="",E7,N7)*O7,"")
+   377.54
+  Formula: IFERROR(IF(N7="",E7,N7)*O7,"")
  Col: Q
    <a href="https://octopart.com/click/track?ai=8078&sig=03d4f92&sid=459&ppid=9579109&vpid=579712565&ct=offers">1195-8194-1-ND</a>
  Col: AB
@@ -240,8 +240,8 @@ Row: 7
    4.2
   Formula: IFERROR(LOOKUP(IF(AC7="",E7,AC7),{0,1,10,50,100,1000,10000},{0.0,5.0,4.2,4.2,4.2,2.88,2.73}),"")
  Col: AE
-   0
-  Formula: iferror(if(AC7="",E7,AC7)*AD7,"")
+   420
+  Formula: IFERROR(IF(AC7="",E7,AC7)*AD7,"")
  Col: AF
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01d56b0&sid=2401&ppid=9579109&vpid=229657380&ct=offers">61709551667812741</a>
 Row: 9
