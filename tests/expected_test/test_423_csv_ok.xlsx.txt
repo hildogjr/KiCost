@@ -46,7 +46,7 @@ Row: 3
    0
   Formula: (COUNTA(K7)&" of "&ROWS(K7)&" parts found")
  Col: P
-   0
+   377.54
   Formula: SUM(P7)
  Col: Q
    0
@@ -64,7 +64,7 @@ Row: 3
    0
   Formula: (COUNTA(Z7)&" of "&ROWS(Z7)&" parts found")
  Col: AE
-   0
+   420
   Formula: SUM(AE7)
  Col: AF
    0

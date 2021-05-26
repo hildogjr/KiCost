@@ -68,7 +68,7 @@ Row: 3
    0
   Formula: (COUNTA(AF7:AF9)&" of "&ROWS(AF7:AF9)&" parts found")
  Col: AK
-   0
+   70.2
   Formula: SUM(AK7:AK9)
  Col: AL
    0
@@ -92,7 +92,7 @@ Row: 3
    0
   Formula: (COUNTA(AZ7:AZ9)&" of "&ROWS(AZ7:AZ9)&" parts found")
  Col: BE
-   0
+   9.4984
   Formula: SUM(BE7:BE9)
  Col: BF
    0

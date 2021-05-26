@@ -38,25 +38,25 @@ Row: 3
    0
   Formula: SUM(H7:H22)
  Col: L
-   0
+   97.03
   Formula: SUM(L7:L22)
  Col: M
    0
   Formula: (COUNTA(L7:L22)&" of "&ROWS(L7:L22)&" parts found")
  Col: Q
-   0
+   70.5
   Formula: SUM(Q7:Q22)
  Col: R
    0
   Formula: (COUNTA(Q7:Q22)&" of "&ROWS(Q7:Q22)&" parts found")
  Col: V
-   0
+   63
   Formula: SUM(V7:V22)
  Col: W
    0
   Formula: (COUNTA(V7:V22)&" of "&ROWS(V7:V22)&" parts found")
  Col: AA
-   0
+   12.5
   Formula: SUM(AA7:AA22)
  Col: AB
    0

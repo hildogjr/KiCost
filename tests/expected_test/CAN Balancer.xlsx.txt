@@ -48,43 +48,43 @@ Row: 3
    0
   Formula: (COUNTA(K7:K46)&" of "&ROWS(K7:K46)&" parts found")
  Col: P
-   0
+   7057.531
   Formula: SUM(P7:P46)
  Col: Q
    0
   Formula: (COUNTA(P7:P46)&" of "&ROWS(P7:P46)&" parts found")
  Col: U
-   0
+   1988.89605285
   Formula: SUM(U7:U46)
  Col: V
    0
   Formula: (COUNTA(U7:U46)&" of "&ROWS(U7:U46)&" parts found")
  Col: Z
-   0
+   759.76
   Formula: SUM(Z7:Z46)
  Col: AA
    0
   Formula: (COUNTA(Z7:Z46)&" of "&ROWS(Z7:Z46)&" parts found")
  Col: AE
-   0
+   2070.4
   Formula: SUM(AE7:AE46)
  Col: AF
    0
   Formula: (COUNTA(AE7:AE46)&" of "&ROWS(AE7:AE46)&" parts found")
  Col: AJ
-   0
+   5443.7
   Formula: SUM(AJ7:AJ46)
  Col: AK
    0
   Formula: (COUNTA(AJ7:AJ46)&" of "&ROWS(AJ7:AJ46)&" parts found")
  Col: AO
-   0
+   1038.42311971
   Formula: SUM(AO7:AO46)
  Col: AP
    0
   Formula: (COUNTA(AO7:AO46)&" of "&ROWS(AO7:AO46)&" parts found")
  Col: AT
-   0
+   452.3886079
   Formula: SUM(AT7:AT46)
  Col: AU
    0

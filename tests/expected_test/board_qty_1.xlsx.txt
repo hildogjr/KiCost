@@ -52,55 +52,55 @@ Row: 3
    0
   Formula: (COUNTA(L7:L23)&" of "&ROWS(L7:L23)&" parts found")
  Col: Q
-   0
+   120.91
   Formula: SUM(Q7:Q23)
  Col: R
    0
   Formula: (COUNTA(Q7:Q23)&" of "&ROWS(Q7:Q23)&" parts found")
  Col: V
-   0
+   83.4646169892
   Formula: SUM(V7:V23)
  Col: W
    0
   Formula: (COUNTA(V7:V23)&" of "&ROWS(V7:V23)&" parts found")
  Col: AA
-   0
+   15.105
   Formula: SUM(AA7:AA23)
  Col: AB
    0
   Formula: (COUNTA(AA7:AA23)&" of "&ROWS(AA7:AA23)&" parts found")
  Col: AF
-   0
+   124.4
   Formula: SUM(AF7:AF23)
  Col: AG
    0
   Formula: (COUNTA(AF7:AF23)&" of "&ROWS(AF7:AF23)&" parts found")
  Col: AK
-   0
+   93.65
   Formula: SUM(AK7:AK23)
  Col: AL
    0
   Formula: (COUNTA(AK7:AK23)&" of "&ROWS(AK7:AK23)&" parts found")
  Col: AP
-   0
+   65.7012110326
   Formula: SUM(AP7:AP23)
  Col: AQ
    0
   Formula: (COUNTA(AP7:AP23)&" of "&ROWS(AP7:AP23)&" parts found")
  Col: AU
-   0
+   20.10633185
   Formula: SUM(AU7:AU23)
  Col: AV
    0
   Formula: (COUNTA(AU7:AU23)&" of "&ROWS(AU7:AU23)&" parts found")
  Col: AZ
-   0
+   39
   Formula: SUM(AZ7:AZ23)
  Col: BA
    0
   Formula: (COUNTA(AZ7:AZ23)&" of "&ROWS(AZ7:AZ23)&" parts found")
  Col: BE
-   0
+   4
   Formula: SUM(BE7:BE23)
  Col: BF
    0

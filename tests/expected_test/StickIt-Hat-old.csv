@@ -1,6 +1,6 @@
 Prj:,StickIt! Motherboard / Raspberry Pi B+ Hat,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,XESS Corp.,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,07/02/2015 12:40:36 PM,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
+Prj date:,07/02/2015 12:40:36 PM,,,,Total Cost:,0,,,,0,0,,,,215.52,0,,,,130.98964,0,,,,29.31,0,,,,203.6,0,,,,167.2,0,,,,114.065558,0,,,,41.009342,0
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 "C1,C3",22uF,c_elec_5x5.3,UWX1C220MCL1GB,200,0,0,,,,,,37955,,0.1251,25.02,493-2101-1-ND,304,,0.149978,29.995527,8823030,8810,,0.054,10.8,C433198,206,,0.113,22.6,647UWX1C220MCL1,109,,0.113,22.6,58R3621,4130,,0.188504,37.7008,7395550,4900,,0.090354,18.070706,UWX1C220MCL1GB

@@ -1,6 +1,6 @@
 Prj:,PWM aquisition and comunication for Texas DSP and NI sbRIO,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,University of Campinas (UNICAMP) - LCEE,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,Qui 30 Nov 2017 08:39:29 -02,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
+Prj date:,Qui 30 Nov 2017 08:39:29 -02,,,,Total Cost:,0,,,,35082.99,0,,,,70309.451,0,,,,86272.41844,0,,,,26395.5,0,,,,44564.2,0,,,,82342.9,0,,,,44713.973925,0,,,,14503.76455,0
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 "AO101-AO108,GND101,GNDA101,AI701-AI704,AI1401-AI1404,AI1901-AI1904,AI2401-AI2404",Pin,Pin_d1.0mm_L10.0mm,5001,2600,0,0,,,,,,430748,,0.1818,472.68,36-5001-ND,79794,,0.174745,454.335914,1463077,34018,,0.1597,415.22,C238122,240157,,0.171,444.6,5345001,79814,,0.116,301.6,62W5135,,,,,,,,,,

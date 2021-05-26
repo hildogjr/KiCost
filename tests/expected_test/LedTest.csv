@@ -1,6 +1,6 @@
 Prj:,LedTest.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,12/21/2015 9:45:38 AM,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
+Prj date:,12/21/2015 9:45:38 AM,,,,Total Cost:,0,,,,0,0,,,,46.95,0,,,,0,0,,,,0,0,,,,57.1,0,,,,36.1,0,,,,72.649716,0,,,,0,0
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 D1-D8,Led_Small,,,800,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

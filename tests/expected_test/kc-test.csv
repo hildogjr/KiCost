@@ -1,6 +1,6 @@
 Prj:,kc-test.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,04/21/2017 4:03:40 PM,,,,Total Cost:,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0,,,,0,0
+Prj date:,04/21/2017 4:03:40 PM,,,,Total Cost:,0,,,,0,0,,,,1309.25,0,,,,1309.070831,0,,,,202.87,0,,,,1202.1,0,,,,238,0,,,,1327.23326,0,,,,1063.8208,0
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 U1,MCP4822,,MCP4822-E/SN,100,0,0,,,,,,4622,,2.38,238,MCP4822-E/SN-ND,6489,,3.013312,301.331209,1439414,223,,2.0287,202.87,C16040,4335,,2.38,238,579MCP4822E/SN,3709,,2.38,238,58M8927,1674,,2.456056,245.605574,6696304,1,,1.994664,199.4664,MCP4822E/SN

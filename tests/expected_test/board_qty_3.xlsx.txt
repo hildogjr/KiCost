@@ -183,13 +183,13 @@ Row: 7
    0
   Formula: (COUNTA(N10:N26)&" of "&ROWS(N10:N26)&" parts found")
  Col: S
-   0
+   295.365
   Formula: SUM(S10:S26)
  Col: T
    0
   Formula: (COUNTA(S10:S26)&" of "&ROWS(S10:S26)&" parts found")
  Col: X
-   0
+   111.616381968
   Formula: SUM(X10:X26)
  Col: Y
    0
@@ -201,19 +201,19 @@ Row: 7
    0
   Formula: (COUNTA(AC10:AC26)&" of "&ROWS(AC10:AC26)&" parts found")
  Col: AH
-   0
+   106.2
   Formula: SUM(AH10:AH26)
  Col: AI
    0
   Formula: (COUNTA(AH10:AH26)&" of "&ROWS(AH10:AH26)&" parts found")
  Col: AM
-   0
+   113.64
   Formula: SUM(AM10:AM26)
  Col: AN
    0
   Formula: (COUNTA(AM10:AM26)&" of "&ROWS(AM10:AM26)&" parts found")
  Col: AR
-   0
+   88.335450226
   Formula: SUM(AR10:AR26)
  Col: AS
    0
