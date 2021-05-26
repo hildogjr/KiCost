@@ -187,6 +187,7 @@ class Spreadsheet(object):
             'comment': 'Minimum extended price for each part across all distributors.',
             'static': False,
         },
+        # TODO: 'short' Slack quantity. (Not handled, yet.)
     }
     DISTRIBUTOR_COLUMNS = {
         'avail': {
@@ -461,7 +462,6 @@ def create_worksheet(ss, logger, parts):
     START_ROW = ss.START_ROW
     LABEL_ROW = START_ROW + 1
     COL_HDR_ROW = LABEL_ROW + 1
-    LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
     if not ss.SUPPRESS_CAT_URL:
         # Add a extra column for the hyperlink.
         ss.DISTRIBUTOR_COLUMNS.update({'link': {'col': 5, 'level': 2, 'label': 'URL', 'width': 15, 'comment': 'Distributor catalog link (ctrl-click).'}})
@@ -477,9 +477,10 @@ def create_worksheet(ss, logger, parts):
         dist_list = ss.DISTRIBUTORS
 
     # Fill the global information (not distributor-specific)
+    # Skip the prices, will fill them after we fill the distributors
     # dist_1st_col = the column immediately to the right of the global data.
     # qty_col = the column where the quantity needed of each part is stored.
-    next_line, dist_1st_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
+    dist_1st_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
     ss.globals_width = dist_1st_col - 1
 
     # Fill the distributors information
@@ -487,6 +488,9 @@ def create_worksheet(ss, logger, parts):
     next_col = dist_1st_col
     for dist in dist_list:
         next_col = add_dist_to_worksheet(ss, logger, columns_global, START_ROW, next_col, UNIT_COST_ROW, TOTAL_COST_ROW, refs_col, qty_col, dist, parts)
+
+    # Fill the global prices
+    next_line = add_global_prices_to_workheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list, columns_global)
 
     for i_prj, p_info in enumerate(prj_info):
         # Add project information to track the project (in a printed version of the BOM) and the date because of price variations.
@@ -619,14 +623,6 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     num_cols = len(columns_list)
     row = start_row  # Start building global section at this row.
 
-    # Compute the columns for each distributor
-    col_dist = start_col + num_cols
-    dist_width = len(ss.DISTRIBUTOR_COLUMNS)
-    dist_cols = {}
-    for dist in dist_list:
-        dist_cols[dist] = col_dist
-        col_dist += dist_width
-
     # Add label for global section.
     wks.merge_range(row, start_col, row, start_col + num_cols - 1, "Global Part Info", ss.wrk_formats['global'])
     row += 1  # Go to next row.
@@ -642,10 +638,6 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         col[k] = c
     row += 1  # Go to next row.
 
-    num_parts = len(parts)
-    PART_INFO_FIRST_ROW = row  # Starting row of part info.
-    PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
-
     # Add data for each part to the spreadsheet.
     # Order the references and collapse, if asked:
     # e.g. J3, J2, J1, J6 => J1, J2, J3 J6. # `collapse=False`
@@ -659,14 +651,12 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # Add the global part data to the spreadsheet.
     col_qty = start_col + col['qty']
     col_refs = start_col + col['refs']
-    col_ext_price = start_col + col['ext_price']
-    used_currencies = set()
     for part in parts:
 
         # Enter part references.
         ss.write_string(row, col_refs, part.collapsed_refs, 'part_format')
 
-        # Enter more static data for the part.
+        # Fill the static data for the part (value, desc, footprint, manf, manf#)
         for field in columns_list:
             if columns[field]['static'] is False:
                 continue
@@ -726,7 +716,35 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                               qty.format('BoardQty'), ss.wrk_formats['part_format'],
                               value=total)
         part.qty_total_spreadsheet = total
+        row += 1  # Go to next row.
 
+    # Return column following the globals so we know where to start next set of cells.
+    # Also return the columns where the references and quantity needed of each part are stored.
+    return start_col + num_cols, col_refs, col_qty, col
+
+
+def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_row, parts, dist_list, col):
+    '''Add global prices data to the spreadsheet.'''
+
+    logger.log(DEBUG_OVERVIEW, 'Writing the global prices information...')
+    wks = ss.wks
+    num_cols = len(col)
+    num_parts = len(parts)
+    used_currencies = set()
+    row = start_row + 2
+    PART_INFO_FIRST_ROW = row  # Starting row of part info.
+    PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
+    # Compute the columns for each distributor
+    col_dist = start_col + num_cols
+    dist_width = len(ss.DISTRIBUTOR_COLUMNS)
+    dist_cols = {}
+    for dist in dist_list:
+        dist_cols[dist] = col_dist
+        col_dist += dist_width
+    col_ext_price = start_col + col['ext_price']
+    col_qty = start_col + col['qty']
+
+    for part in parts:
         # Gather the cell references for calculating minimum unit price and part availability.
         dist_unit_prices = []
         dist_qty_avail = []
@@ -761,7 +779,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                           qty=xl_rowcol_to_cell(row, col_qty),
                           unit_price=xl_rowcol_to_cell(row, start_col + col['unit_price'])), ss.wrk_formats['currency'])
 
-        # If not asked to scrape, to correlate the prices and available quantities.
+        # Minimum unit price
         if ss.DISTRIBUTORS:
             # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
             wks.write_formula(row, start_col + col['unit_price'], '=MINA({})'.format(','.join(dist_unit_prices)), ss.wrk_formats['currency_unit'])
@@ -772,23 +790,18 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             # If total purchased part quantity is less than needed quantity, color cell yellow.
             ss.conditional_format(row, col_qty, '>', 'too_few_purchased', '=SUM({})'.format(','.join(dist_qty_purchased)))
 
-        # Enter part shortage quantity.
-        try:
-            wks.write(row, start_col + col['short'], 0)  # slack quantity. (Not handled, yet.)
-        except KeyError:
-            pass
-
         row += 1  # Go to next row.
 
     # Sum the extended prices for all the parts to get the total minimum cost.
     # If have read multiple BOM file calculate it by `SUMPRODUCT()` of the
     # board project quantity components 'qty_prj*' by unitary price 'Unit$'.
     total_cost_col = col_ext_price
-    if isinstance(qty, list):
+    num_prj = len(ss.prj_info)
+    if num_prj > 1:
         unit_price_col = start_col + col['unit_price']
         unit_price_range = xl_range(PART_INFO_FIRST_ROW, unit_price_col, PART_INFO_LAST_ROW, unit_price_col)
         # Add each project board total.
-        for i_prj in range(len(qty)):
+        for i_prj in range(num_prj):
             qty_col = start_col + col['qty_prj{}'.format(i_prj)]
             wks.write(total_cost_row + ss.PRJ_INFO_ROWS*i_prj, total_cost_col,
                       '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
@@ -843,15 +856,12 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                       ss.wrk_formats['description']
                       )
             ss.define_name_ref('{c}_{d}'.format(c=ss.currency, d=used_currency), next_line, col['value'] + 1)
-            try:
-                wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency))
-            except ValueError as e:
-                raise KiCostError(str(e) + ' in ' + part.collapsed_refs, ERR_FIELDS)
+            wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency))
             next_line = next_line + 1
 
     # Return column following the globals so we know where to start next set of cells.
     # Also return the columns where the references and quantity needed of each part are stored.
-    return next_line, start_col + num_cols, col_refs, col_qty, col
+    return next_line
 
 
 def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
@@ -962,7 +972,10 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                 # The distributor currency isn't the one used for all the rest.
                 # We must apply a conversion rate.
                 rate = '{c}_{d}*'.format(c=ss.currency, d=dist_currency)
-                rate_n = currency_convert(1, dist_currency, ss.currency)
+                try:
+                    rate_n = currency_convert(1, dist_currency, ss.currency)
+                except ValueError as e:
+                    raise KiCostError(str(e) + ' in ' + part.collapsed_refs, ERR_FIELDS)
             #
             # Unit$
             #
