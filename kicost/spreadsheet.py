@@ -449,9 +449,10 @@ def create_worksheet(ss, logger, parts):
         hdr_format = base_hdr_format.copy()
         hdr_format.update(get_distributor_info(d).label.format)
         ss.wrk_formats[d] = ss.workbook.add_format(hdr_format)
-
+    # Define some useful shortcuts
     wks = ss.wks
     prj_info = ss.prj_info
+    next_row = ss.PRJ_INFO_START
     # Set the row & column for entering the part information in the sheet.
     START_COL = 0
     BOARD_QTY_ROW = ss.PRJ_INFO_START
@@ -461,7 +462,10 @@ def create_worksheet(ss, logger, parts):
     LABEL_ROW = START_ROW + 1
     COL_HDR_ROW = LABEL_ROW + 1
     LAST_PART_ROW = COL_HDR_ROW + len(parts) - 1
-    next_row = ss.PRJ_INFO_START
+    if not ss.SUPPRESS_CAT_URL:
+        # Add a extra column for the hyperlink.
+        ss.DISTRIBUTOR_COLUMNS.update({'link': {'col': 5, 'level': 2, 'label': 'URL', 'width': 15, 'comment': 'Distributor catalog link (ctrl-click).'}})
+        ss.DISTRIBUTOR_COLUMNS['part_num']['comment'] = 'Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.'
 
     # Make a list of alphabetically-ordered distributors with web distributors before locals.
     logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
@@ -472,11 +476,17 @@ def create_worksheet(ss, logger, parts):
     else:
         dist_list = ss.DISTRIBUTORS
 
-    # Load the global part information (not distributor-specific) into the sheet.
-    # next_col = the column immediately to the right of the global data.
+    # Fill the global information (not distributor-specific)
+    # dist_1st_col = the column immediately to the right of the global data.
     # qty_col = the column where the quantity needed of each part is stored.
-    next_line, next_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
-    ss.globals_width = next_col - 1
+    next_line, dist_1st_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
+    ss.globals_width = dist_1st_col - 1
+
+    # Fill the distributors information
+    logger.log(DEBUG_OVERVIEW, 'Writing the distributors information...')
+    next_col = dist_1st_col
+    for dist in dist_list:
+        next_col = add_dist_to_worksheet(ss, logger, columns_global, START_ROW, next_col, UNIT_COST_ROW, TOTAL_COST_ROW, refs_col, qty_col, dist, parts)
 
     for i_prj, p_info in enumerate(prj_info):
         # Add project information to track the project (in a printed version of the BOM) and the date because of price variations.
@@ -491,23 +501,23 @@ def create_worksheet(ss, logger, parts):
 
         # Create the cell where the quantity of boards to assemble is entered.
         # Place the board qty cells near the right side of the global info.
-        ss.write_string(next_row, next_col - 2, 'Board Qty' + i_prj_str + ':', 'board_qty')
+        ss.write_string(next_row, dist_1st_col - 2, 'Board Qty' + i_prj_str + ':', 'board_qty')
         # Set initial board quantity.
-        wks.write(next_row, next_col - 1, p_info.get('qty', ss.DEFAULT_BUILD_QTY), ss.wrk_formats['board_qty'])
+        wks.write(next_row, dist_1st_col - 1, p_info.get('qty', ss.DEFAULT_BUILD_QTY), ss.wrk_formats['board_qty'])
         # Define the named cell where the total board quantity can be found.
         qty_name = 'BoardQty' + i_prj_str
-        ss.define_name_ref(qty_name, next_row, next_col - 1)
+        ss.define_name_ref(qty_name, next_row, dist_1st_col - 1)
 
         # Create the cell to show total cost of board parts for each distributor.
-        ss.write_string(next_row + 2, next_col - 2, 'Total Cost' + i_prj_str + ':', 'total_cost_label')
-        wks.write_comment(next_row + 2, next_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
+        ss.write_string(next_row + 2, dist_1st_col - 2, 'Total Cost' + i_prj_str + ':', 'total_cost_label')
+        wks.write_comment(next_row + 2, dist_1st_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
         # Define the named cell where the total cost can be found.
         total_name = 'TotalCost' + i_prj_str
-        ss.define_name_ref(total_name, next_row + 2, next_col - 1)
+        ss.define_name_ref(total_name, next_row + 2, dist_1st_col - 1)
 
         # Create the cell to show unit cost of (each project) board parts.
-        ss.write_string(next_row+1, next_col - 2, 'Unit Cost{}:'.format(i_prj_str), 'unit_cost_label')
-        wks.write(next_row+1, next_col - 1, "={}/{}".format(total_name, qty_name), ss.wrk_formats['unit_cost_currency'])
+        ss.write_string(next_row+1, dist_1st_col - 2, 'Unit Cost{}:'.format(i_prj_str), 'unit_cost_label')
+        wks.write(next_row+1, dist_1st_col - 1, "={}/{}".format(total_name, qty_name), ss.wrk_formats['unit_cost_currency'])
 
         next_row += ss.PRJ_INFO_ROWS
 
@@ -517,27 +527,14 @@ def create_worksheet(ss, logger, parts):
     # Add the total cost of all projects together.
     if len(prj_info) > 1:
         # Create the row to show total cost of board parts for each distributor.
-        ss.write_string(next_row, next_col - 2, 'Total Prjs Cost:', 'total_cost_label')
+        ss.write_string(next_row, dist_1st_col - 2, 'Total Prjs Cost:', 'total_cost_label')
         # Define the named cell where the total cost can be found.
-        ss.define_name_ref('TotalCost', next_row, next_col - 1)
+        ss.define_name_ref('TotalCost', next_row, dist_1st_col - 1)
     next_row += 1
 
     # Freeze view of the global information and the column headers, but
     # allow the distributor-specific part info to scroll.
-    wks.freeze_panes(COL_HDR_ROW, next_col)
-
-    # Load the part information from each distributor into the sheet.
-    logger.log(DEBUG_OVERVIEW, 'Writing the distributor part information...')
-    if not ss.SUPPRESS_CAT_URL:
-        # Add a extra column for the hyperlink.
-        ss.DISTRIBUTOR_COLUMNS.update({'link': {'col': 5, 'level': 2, 'label': 'URL', 'width': 15, 'comment': 'Distributor catalog link (ctrl-click).'}})
-        ss.DISTRIBUTOR_COLUMNS['part_num']['comment'] = 'Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.'
-    for dist in dist_list:
-        dist_start_col = next_col
-        next_col = add_dist_to_worksheet(ss, logger, columns_global,
-                                         START_ROW, dist_start_col,
-                                         UNIT_COST_ROW, TOTAL_COST_ROW,
-                                         refs_col, qty_col, dist, parts)
+    wks.freeze_panes(COL_HDR_ROW, dist_1st_col)
 
     # Add general information of the scrap to track price modifications.
     if ss.ADD_DATE_BOTTOM:
@@ -563,7 +560,7 @@ def get_ref_key(part):
 def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, parts, dist_list):
     '''Add global part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, 'Writing the global part information...')
+    logger.log(DEBUG_OVERVIEW, 'Writing the global information...')
 
     wks = ss.wks
     # Columns for the various types of global part data.
@@ -625,8 +622,6 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     # Compute the columns for each distributor
     col_dist = start_col + num_cols
     dist_width = len(ss.DISTRIBUTOR_COLUMNS)
-    if not ss.SUPPRESS_CAT_URL:
-        dist_width += 1
     dist_cols = {}
     for dist in dist_list:
         dist_cols[dist] = col_dist
