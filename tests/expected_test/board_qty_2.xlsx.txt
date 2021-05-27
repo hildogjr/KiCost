@@ -38,49 +38,49 @@ Row: 3
    0
   Formula: SUMPRODUCT(F10:F26,M10:M26)
  Col: O
-   0
+   "0 of 15 parts found"
   Formula: COUNTIFS(N10:N26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: S
-   0
+   117.16
   Formula: SUMPRODUCT(F10:F26,R10:R26)
  Col: T
-   0
+   "4 of 15 parts found"
   Formula: COUNTIFS(S10:S26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: X
-   0
+   87.3035
   Formula: SUMPRODUCT(F10:F26,W10:W26)
  Col: Y
-   0
+   "2 of 15 parts found"
   Formula: COUNTIFS(X10:X26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: AC
    0
   Formula: SUMPRODUCT(F10:F26,AB10:AB26)
  Col: AD
-   0
+   "0 of 15 parts found"
   Formula: COUNTIFS(AC10:AC26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: AH
-   0
+   80.85
   Formula: SUMPRODUCT(F10:F26,AG10:AG26)
  Col: AI
-   0
+   "2 of 15 parts found"
   Formula: COUNTIFS(AH10:AH26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: AM
-   0
+   91.8
   Formula: SUMPRODUCT(F10:F26,AL10:AL26)
  Col: AN
-   0
+   "2 of 15 parts found"
   Formula: COUNTIFS(AM10:AM26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: AR
-   0
+   69.4851
   Formula: SUMPRODUCT(F10:F26,AQ10:AQ26)
  Col: AS
-   0
+   "2 of 15 parts found"
   Formula: COUNTIFS(AR10:AR26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: AW
    0
   Formula: SUMPRODUCT(F10:F26,AV10:AV26)
  Col: AX
-   0
+   "0 of 15 parts found"
   Formula: COUNTIFS(AW10:AW26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
 Row: 4
  Col: A
@@ -113,49 +113,49 @@ Row: 6
    0
   Formula: SUMPRODUCT(G10:G26,M10:M26)
  Col: O
-   0
+   "0 of 8 parts found"
   Formula: COUNTIFS(N10:N26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
  Col: S
-   0
+   440.447
   Formula: SUMPRODUCT(G10:G26,R10:R26)
  Col: T
-   0
+   "4 of 8 parts found"
   Formula: COUNTIFS(S10:S26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
  Col: X
-   0
+   122.2249
   Formula: SUMPRODUCT(G10:G26,W10:W26)
  Col: Y
-   0
+   "2 of 8 parts found"
   Formula: COUNTIFS(X10:X26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
  Col: AC
    0
   Formula: SUMPRODUCT(G10:G26,AB10:AB26)
  Col: AD
-   0
+   "0 of 8 parts found"
   Formula: COUNTIFS(AC10:AC26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
  Col: AH
-   0
+   113.19
   Formula: SUMPRODUCT(G10:G26,AG10:AG26)
  Col: AI
-   0
+   "2 of 8 parts found"
   Formula: COUNTIFS(AH10:AH26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
  Col: AM
-   0
+   128.52
   Formula: SUMPRODUCT(G10:G26,AL10:AL26)
  Col: AN
-   0
+   "2 of 8 parts found"
   Formula: COUNTIFS(AM10:AM26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
  Col: AR
-   0
+   97.2791
   Formula: SUMPRODUCT(G10:G26,AQ10:AQ26)
  Col: AS
-   0
+   "2 of 8 parts found"
   Formula: COUNTIFS(AR10:AR26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
  Col: AW
    0
   Formula: SUMPRODUCT(G10:G26,AV10:AV26)
  Col: AX
-   0
+   "0 of 8 parts found"
   Formula: COUNTIFS(AW10:AW26,"<>",G10:G26,"<>0",G10:G26,"<>")&" of "&COUNTIFS(G10:G26,"<>0",G10:G26,"<>")&" parts found"
 Row: 7
  Col: A

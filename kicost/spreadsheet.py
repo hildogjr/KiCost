@@ -475,6 +475,10 @@ def create_worksheet(ss, logger, parts):
         dist_list = web_dists + local_dists
     else:
         dist_list = ss.DISTRIBUTORS
+    # Make sure we have the number of boards for each project
+    for p_info in prj_info:
+        if 'qty' not in p_info:
+            p_info['qty'] = ss.DEFAULT_BUILD_QTY
 
     # Fill the global information (not distributor-specific)
     # Skip the prices, will fill them after we fill the distributors
@@ -507,7 +511,7 @@ def create_worksheet(ss, logger, parts):
         # Place the board qty cells near the right side of the global info.
         ss.write_string(next_row, dist_1st_col - 2, 'Board Qty' + i_prj_str + ':', 'board_qty')
         # Set initial board quantity.
-        wks.write(next_row, dist_1st_col - 1, p_info.get('qty', ss.DEFAULT_BUILD_QTY), ss.wrk_formats['board_qty'])
+        wks.write(next_row, dist_1st_col - 1, p_info['qty'], ss.wrk_formats['board_qty'])
         # Define the named cell where the total board quantity can be found.
         qty_name = 'BoardQty' + i_prj_str
         ss.define_name_ref(qty_name, next_row, dist_1st_col - 1)
@@ -581,11 +585,11 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     columns_list = [c for c in columns_list if c]
 
     # Add quantity columns to deal with different quantities in the BOM files. The
-    # original quantity column will be the total of each item. For check the number
-    # of BOM files read, see the length of p[?]['manf#_qty'], if it is a `list()`
-    # instance, if don't, the length is always `1`.
-    num_prj = max([len(part.fields.get('manf#_qty', [])) if isinstance(part.fields.get('manf#_qty', []), list) else 1 for part in parts])
+    # original quantity column will be the total of each item.
+    num_prj = len(ss.prj_info)
     if num_prj > 1:
+        # Number of parts for each project
+        ss.num_parts = [0]*num_prj
         insert_idx = columns_list.index('qty')
         for i_prj in range(num_prj):
             # Add one column to quantify the quantity for each project.
@@ -690,14 +694,16 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
         # Enter total part quantity needed.
         qty, qty_n = partgroup_qty(part)
-        if isinstance(qty, list):
+        if num_prj > 1:
             # Multifiles BOM case, write each quantity and after,
             # in the 'qty' column the total quantity as ceil of
             # the total quantity (to ceil use a Microsoft Excel
             # compatible function.
             total = 0
             for i_prj, p_info in enumerate(ss.prj_info):
-                value = qty_n[i_prj] * p_info.get('qty', ss.DEFAULT_BUILD_QTY)
+                value = qty_n[i_prj] * p_info['qty']
+                if qty_n[i_prj]:
+                    ss.num_parts[i_prj] += 1
                 total += value
                 id = str(i_prj)
                 # Qty.PrjN
@@ -711,7 +717,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                               value=total)
         else:
             # Build Quantity
-            total = ceil(qty_n * ss.prj_info[0].get('qty', ss.DEFAULT_BUILD_QTY))
+            total = ceil(qty_n * ss.prj_info[0]['qty'])
             wks.write_formula(row, col_qty,
                               qty.format('BoardQty'), ss.wrk_formats['part_format'],
                               value=total)
@@ -905,7 +911,11 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     col_unit_price = start_col + columns['unit_price']['col']
     col_ext_price = start_col + columns['ext_price']['col']
     total_cost = 0
+    # How many parts were found at this distributor
     n_price_found = 0
+    if num_prj > 1:
+        n_price_found_l = [0]*num_prj
+        total_cost_l = [0]*num_prj
     for part in parts:
         dist_part_num = part.part_num.get(dist)  # Get the distributor part number.
         price_tiers = part.price_tiers.get(dist, {})  # Extract price tiers from distributor HTML page tree.
@@ -954,6 +964,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
 
         # Add pricing information if it exists. (Unit$/Ext$)
         if price_tiers:
+            # Update the "parts found information"
             n_price_found += 1
             part_qty_cell = xl_rowcol_to_cell(row, part_qty_col)
             purch_cell = xl_rowcol_to_cell(row, col_purch)
@@ -1018,6 +1029,13 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                               unit_price=xl_rowcol_to_cell(row, col_unit_price)), ss.wrk_formats['currency'],
                               # Limit the resolution (to make it more reproducible)
                               value=round(ext_price, 4))
+            # Update the number of parts found and total cost for multiprojects
+            if num_prj > 1:
+                qty, qty_n = partgroup_qty(part)
+                for i, q in enumerate(qty_n):
+                    if q:
+                        n_price_found_l[i] += 1
+                        total_cost_l[i] += q * unit_price * ss.prj_info[i]['qty']
             #
             # Conditional formats:
             #
@@ -1052,14 +1070,13 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
             qty_prj_col = part_qty_col - (num_prj - i_prj)
             qty_prj_range = xl_range(PART_INFO_FIRST_ROW, qty_prj_col, PART_INFO_LAST_ROW, qty_prj_col)
             row = total_cost_row + i_prj * 3
-            wks.write(row, col_ext_price, '=SUMPRODUCT({qty_range},{unit_price_range})'.format(qty_range=qty_prj_range,
-                      unit_price_range=xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW, col_unit_price)),
-                      ss.wrk_formats['total_cost_currency'])
+            wks.write_formula(row, col_ext_price, '=SUMPRODUCT({qty_range},{unit_price_range})'.format(qty_range=qty_prj_range,
+                              unit_price_range=xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW, col_unit_price)),
+                              ss.wrk_formats['total_cost_currency'], value=round(total_cost_l[i_prj], 4))
             # Show how many parts were found at this distributor.
-            wks.write(row, col_part_num,
-                      '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",'
-                      '{qty_range},"<>")&" parts found"'.format(price_range=ext_price_range, qty_range=qty_prj_range),
-                      ss.wrk_formats['found_part_pct'])
+            wks.write_formula(row, col_part_num, '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",'
+                              '{qty_range},"<>")&" parts found"'.format(price_range=ext_price_range, qty_range=qty_prj_range),
+                              ss.wrk_formats['found_part_pct'], value='{} of {} parts found'.format(n_price_found_l[i_prj], ss.num_parts[i_prj]))
             wks.write_comment(row, col_part_num, 'Number of parts found at this distributor for the project {}.'.format(i_prj))
         total_cost_row = PART_INFO_FIRST_ROW - 3  # Shift the total price in this distributor.
 
