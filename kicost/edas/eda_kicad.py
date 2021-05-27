@@ -22,7 +22,6 @@
 
 # Libraries.
 import os
-import time
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup

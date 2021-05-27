@@ -30,7 +30,6 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import sys
 import os
-import time
 import copy  # Necessary because Py2 doesn't have copy in list.
 from datetime import datetime
 from bs4 import BeautifulSoup  # To Read XML files.

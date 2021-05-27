@@ -31,7 +31,6 @@ __company__ = 'University of Campinas - Brazil'
 # Libraries.
 import sys
 import os
-import time
 from datetime import datetime
 from collections import OrderedDict
 import csv  # CSV file reader.
