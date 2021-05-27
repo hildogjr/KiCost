@@ -1,6 +1,6 @@
 Prj:,RPi-Test.xml,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,13/06/16 23:18:59,,,,,Total Cost:,0,,,,0,0 of 91 parts found,,,,4771.919,47 of 91 parts found,,,,3685.033,28 of 91 parts found,,,,1109.55,12 of 91 parts found,,,,3471.5,31 of 91 parts found,,,,3626,32 of 91 parts found,,,,2237.0058,15 of 91 parts found,,,,786.5886,18 of 91 parts found
+Prj date:,13/06/16 23:18:59,,,,,Total Cost:,3999.5086,,,,0,0 of 91 parts found,,,,4771.919,47 of 91 parts found,,,,3685.033,28 of 91 parts found,,,,1109.55,12 of 91 parts found,,,,3471.5,31 of 91 parts found,,,,3626,32 of 91 parts found,,,,2237.0058,15 of 91 parts found,,,,786.5886,18 of 91 parts found
 Global Part Info,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
 B101,CR2032,BattHolder_CR2032_THvertical,Keystone,1065,100,1.389141,138.9141,,,,,,2894,,1.7262,172.62,36-1065-ND,7179,,1.967596,196.7596,1339840,,,,,,1141,,1.6,160,5341065,5843,,1.52,152,59K0293,,,,,,462,,1.389141,138.9141,KEYS1065

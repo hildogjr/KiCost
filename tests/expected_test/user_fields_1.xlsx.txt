@@ -32,7 +32,7 @@ Row: 3
  Col: L
    "Total Cost:"
  Col: M
-   0
+   1230.9189
   Formula: SUM(M7:M42)
  Col: Q
    0

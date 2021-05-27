@@ -165,7 +165,7 @@ Row: 7
  Col: I
    "Total Prjs Cost:"
  Col: J
-   0
+   528.2463
   Formula: SUM(J10:J26)
  Col: N
    0

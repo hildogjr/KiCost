@@ -31,7 +31,7 @@ Row: 3
  Col: F
    "Total Cost:"
  Col: G
-   0
+   68434.4924
   Formula: SUM(G7:G94)
  Col: K
    35082.99
