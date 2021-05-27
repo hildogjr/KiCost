@@ -204,10 +204,10 @@ def get_part_groups(in_file, distributors):
         for ref in refs:
             accepted_components[ref] = fields
 
-    # Not founded project information at the file content.
+    # No project information in CSVs
     prj_info = {'title': os.path.basename(in_file),
                 'company': None,
-                'date': datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y').strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
+                'date': datetime.fromtimestamp(os.path.getmtime(in_file)).strftime("%Y-%m-%d %H:%M:%S") + ' (file)'}
 
     return accepted_components, prj_info
 

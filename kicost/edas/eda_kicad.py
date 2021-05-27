@@ -81,8 +81,7 @@ def get_part_groups(in_file):
     prj_info = dict()
     prj_info['title'] = title_find_all(title, 'title') or os.path.basename(in_file)
     prj_info['company'] = title_find_all(title, 'company')
-    prj_info['date'] = title_find_all(root, 'date') or (datetime.strptime(time.ctime(os.path.getmtime(in_file)), '%a %b %d %H:%M:%S %Y')
-                                                        .strftime("%Y-%m-%d %H:%M:%S") + ' (file)')
+    prj_info['date'] = title_find_all(root, 'date') or (datetime.fromtimestamp(os.path.getmtime(in_file)).strftime("%Y-%m-%d %H:%M:%S") + ' (file)')
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
