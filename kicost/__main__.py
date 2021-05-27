@@ -237,6 +237,9 @@ def main_real():
     #                         action='store_true',
     #                         help='Run KiCost on terminal using the parameters in the GUI memory, all passed parameters from'
     #                              ' terminal take priority.')
+    parser.add_argument('--force_en_us',
+                        action='store_true',
+                        help='Workaround for broken wxWidgets locale on some Windows systems.')
     parser.add_argument('--setup',
                         action='store_true',
                         help='Run KiCost integration (with KiCad and OS) configuration script.')
@@ -316,13 +319,13 @@ def main_real():
     if args.gui:
         if not GUI_ENABLED:
             kicost_gui_notdependences()
-        kicost_gui([os.path.abspath(fileName) for fileName in args.gui])
+        kicost_gui(args.force_en_us, [os.path.abspath(fileName) for fileName in args.gui])
         sys.exit(0)
 
     if args.input is None:
         if not GUI_ENABLED:
             kicost_gui_notdependences()
-        kicost_gui()  # Use the user gui if no input is given.
+        kicost_gui(args.force_en_us)  # Use the user gui if no input is given.
         sys.exit(0)
     else:
         # Match the EDA tool formats with the input files.

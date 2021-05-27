@@ -1158,25 +1158,20 @@ class ProgressGUI(object):
         pass
 
 
-def kicost_gui(files=None):
+def kicost_gui(force_en_us=False, files=None):
     ''' @brief Load the graphical interface.
         @param String file file names or list.
         (it will be used for plugin implementation on future KiCad6-Eeschema).
     '''
     app = wx.App(redirect=False)
-    loc = wx.Locale(wx.LANGUAGE_DEFAULT)
-    locale_retry = False
+    loc = wx.Locale(wx.LANGUAGE_DEFAULT if not force_en_us else wx.LANGUAGE_ENGLISH_US)
     if not loc.IsOk():
-        logger.warning(W_LOCFAIL+"Failed to set the default locale")
-        locale_retry = True
+        if not force_en_us:
+            logger.warning(W_LOCFAIL+"Failed to set the default locale, try using `--force_en_us`")
+        else:
+            logger.warning(W_LOCFAIL+"`--force_en_us` doesn't seem to help")
     elif not loc.GetLocale() and not loc.GetName():
-        logger.warning(W_LOCFAIL+"Unsupported locale")
-        locale_retry = True
-    if locale_retry:
-        loc = wx.Locale(wx.LANGUAGE_ENGLISH_US)
-        logger.warning(W_LOCFAIL+"Trying with US english locale")
-    if not loc.IsOk():
-        logger.warning(W_LOCFAIL+"Failed to set the en_US locale")
+        logger.warning(W_LOCFAIL+"Unsupported locale"+(", try using `--force_en_us`" if not force_en_us else ""))
     else:
         logger.debug('wxWidgets locale {} ({}) system: {}'.format(loc.GetLocale(), loc.GetName(), locale.getlocale()))
     frame = formKiCost(None)
