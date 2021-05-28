@@ -66,6 +66,8 @@ Row: 7
  Col: F
    200
   Formula: CEILING(BoardQty*2,1)
+  Styles:
+  - =AND(ISBLANK(E7),TRUE()) -> -/FFAAAAAA (1)
  Col: H
    0
   Formula: IFERROR(F7*G7,"")

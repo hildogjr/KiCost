@@ -74,6 +74,8 @@ Row: 7
  Col: J
    300
   Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(I7),TRUE()) -> -/FFAAAAAA (1)
  Col: L
    0
   Formula: IFERROR(J7*K7,"")
@@ -87,6 +89,8 @@ Row: 8
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I8),TRUE()) -> -/FFAAAAAA (2)
  Col: L
    0
   Formula: IFERROR(J8*K8,"")
@@ -100,6 +104,8 @@ Row: 9
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I9),TRUE()) -> -/FFAAAAAA (3)
  Col: L
    0
   Formula: IFERROR(J9*K9,"")

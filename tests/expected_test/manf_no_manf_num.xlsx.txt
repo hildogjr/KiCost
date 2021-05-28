@@ -70,6 +70,8 @@ Row: 7
  Col: G
    100
   Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(F7),TRUE()) -> -/FFAAAAAA (1)
  Col: I
    0
   Formula: IFERROR(G7*H7,"")
@@ -85,6 +87,8 @@ Row: 8
  Col: G
    100
   Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(F8),TRUE()) -> -/FFAAAAAA (2)
  Col: I
    0
   Formula: IFERROR(G8*H8,"")

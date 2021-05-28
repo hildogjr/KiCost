@@ -76,6 +76,8 @@ Row: 7
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I7),TRUE()) -> -/FFAAAAAA (1)
  Col: L
    0
   Formula: IFERROR(J7*K7,"")
@@ -91,6 +93,8 @@ Row: 8
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I8),TRUE()) -> -/FFAAAAAA (2)
  Col: L
    0
   Formula: IFERROR(J8*K8,"")
@@ -106,6 +110,8 @@ Row: 9
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I9),TRUE()) -> -/FFAAAAAA (3)
  Col: L
    0
   Formula: IFERROR(J9*K9,"")
@@ -121,6 +127,8 @@ Row: 10
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I10),TRUE()) -> -/FFAAAAAA (4)
  Col: L
    0
   Formula: IFERROR(J10*K10,"")
@@ -136,6 +144,8 @@ Row: 11
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I11),TRUE()) -> -/FFAAAAAA (5)
  Col: L
    0
   Formula: IFERROR(J11*K11,"")
@@ -151,6 +161,8 @@ Row: 12
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I12),TRUE()) -> -/FFAAAAAA (6)
  Col: L
    0
   Formula: IFERROR(J12*K12,"")
@@ -166,6 +178,8 @@ Row: 13
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I13),TRUE()) -> -/FFAAAAAA (7)
  Col: L
    0
   Formula: IFERROR(J13*K13,"")
@@ -181,6 +195,8 @@ Row: 14
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I14),TRUE()) -> -/FFAAAAAA (8)
  Col: L
    0
   Formula: IFERROR(J14*K14,"")
@@ -196,6 +212,8 @@ Row: 15
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I15),TRUE()) -> -/FFAAAAAA (9)
  Col: L
    0
   Formula: IFERROR(J15*K15,"")
@@ -211,6 +229,8 @@ Row: 16
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I16),TRUE()) -> -/FFAAAAAA (10)
  Col: L
    0
   Formula: IFERROR(J16*K16,"")
@@ -226,6 +246,8 @@ Row: 17
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I17),TRUE()) -> -/FFAAAAAA (11)
  Col: L
    0
   Formula: IFERROR(J17*K17,"")
@@ -241,6 +263,8 @@ Row: 18
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I18),TRUE()) -> -/FFAAAAAA (12)
  Col: L
    0
   Formula: IFERROR(J18*K18,"")
@@ -256,6 +280,8 @@ Row: 19
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I19),TRUE()) -> -/FFAAAAAA (13)
  Col: L
    0
   Formula: IFERROR(J19*K19,"")
@@ -271,6 +297,8 @@ Row: 20
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I20),TRUE()) -> -/FFAAAAAA (14)
  Col: L
    0
   Formula: IFERROR(J20*K20,"")
@@ -286,6 +314,8 @@ Row: 21
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I21),TRUE()) -> -/FFAAAAAA (15)
  Col: L
    0
   Formula: IFERROR(J21*K21,"")
@@ -301,6 +331,8 @@ Row: 22
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I22),TRUE()) -> -/FFAAAAAA (16)
  Col: L
    0
   Formula: IFERROR(J22*K22,"")
@@ -316,6 +348,8 @@ Row: 23
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I23),TRUE()) -> -/FFAAAAAA (17)
  Col: L
    0
   Formula: IFERROR(J23*K23,"")
@@ -331,6 +365,8 @@ Row: 24
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I24),TRUE()) -> -/FFAAAAAA (18)
  Col: L
    0
   Formula: IFERROR(J24*K24,"")
@@ -346,6 +382,8 @@ Row: 25
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I25),TRUE()) -> -/FFAAAAAA (19)
  Col: L
    0
   Formula: IFERROR(J25*K25,"")
@@ -361,6 +399,8 @@ Row: 26
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I26),TRUE()) -> -/FFAAAAAA (20)
  Col: L
    0
   Formula: IFERROR(J26*K26,"")
@@ -376,6 +416,8 @@ Row: 27
  Col: J
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(I27),TRUE()) -> -/FFAAAAAA (21)
  Col: L
    0
   Formula: IFERROR(J27*K27,"")

@@ -107,6 +107,36 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                 text = str(form.text)
                 forms[pos] = text.replace('\n', r'\n')
         rows.append((rcur, cols))
+    # Conditional formatting
+    # Styles first
+    styles = os.path.join(tmpdir, 'xl', 'styles.xml')
+    dxfs = []
+    for d in ET.parse(styles).getroot().find(ns+'dxfs').iter(ns+'dxf'):
+        fg = '-'
+        font = d.find(ns+'font')
+        if font:
+            fg = font.find(ns+'color').attrib['rgb']
+        bg = '-'
+        fill = d.find(ns+'fill')
+        if fill:
+            fill = fill.find(ns+'patternFill')
+            if fill:
+                bg = fill.find(ns+'bgColor').attrib['rgb']
+        dxfs.append(fg+'/'+bg)
+    # Now the conditions
+    cond_f = {}
+    for c in root.iter(ns+'conditionalFormatting'):
+        pos = c.attrib['sqref']
+        conds = []
+        for rule in c.iter(ns+'cfRule'):
+            form = rule.find(ns+'formula')
+            type = rule.attrib['type']
+            if type == 'cellIs':
+                txt = rule.attrib['operator'] + ' ' + form.text
+            else:
+                txt = '=' + form.text
+            conds.append((txt, dxfs[int(rule.attrib['dxfId'])], int(rule.attrib['priority'])))
+        cond_f[pos] = conds
     # Links are "Relationship"s
     links = {}
     urls = {}
@@ -190,6 +220,11 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                     f.write('\n')
                 if form:
                     f.write('  Formula: ' + form + '\n')
+                styles = cond_f.get(pos)
+                if styles:
+                    f.write('  Styles:\n')
+                    for style in styles:
+                        f.write('  - {} -> {} ({})\n'.format(style[0], style[1], style[2]))
     shutil.rmtree(tmpdir)
     return True
 

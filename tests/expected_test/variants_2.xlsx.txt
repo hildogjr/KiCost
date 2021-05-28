@@ -71,6 +71,8 @@ C2: Manf is defaultmanf, except when variant1 (check impact of field order)"
  Col: G
    200
   Formula: CEILING(BoardQty*2,1)
+  Styles:
+  - =AND(ISBLANK(F7),TRUE()) -> -/FFAAAAAA (1)
  Col: I
    0
   Formula: IFERROR(G7*H7,"")

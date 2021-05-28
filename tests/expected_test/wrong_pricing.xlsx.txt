@@ -85,6 +85,11 @@ Row: 7
  Col: F
    600
   Formula: CEILING(BoardQty*6,1)
+  Styles:
+  - =AND(ISBLANK(E7),ISBLANK(M7)) -> -/FFAAAAAA (4)
+  - =IF(SUM(I7)=0,1,0) -> FFFFFFFF/FFFF0000 (5)
+  - greaterThan SUM(I7) -> FF000000/FFFF9900 (6)
+  - greaterThan SUM(IF(ISNUMBER(K7),J7,0)) -> -/FFFFFF00 (7)
  Col: G
    0
   Formula: MINA(K7)
@@ -101,6 +106,11 @@ Row: 8
  Col: F
    400
   Formula: CEILING(BoardQty*4,1)
+  Styles:
+  - =AND(ISBLANK(E8),ISBLANK(M8)) -> -/FFAAAAAA (8)
+  - =IF(SUM(I8)=0,1,0) -> FFFFFFFF/FFFF0000 (9)
+  - greaterThan SUM(I8) -> FF000000/FFFF9900 (10)
+  - greaterThan SUM(IF(ISNUMBER(K8),J8,0)) -> -/FFFFFF00 (11)
  Col: G
    0
   Formula: MINA(K8)
@@ -115,6 +125,11 @@ Row: 9
  Col: F
    100
   Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(E9),ISBLANK(M9)) -> -/FFAAAAAA (12)
+  - =IF(SUM(I9)=0,1,0) -> FFFFFFFF/FFFF0000 (13)
+  - greaterThan SUM(I9) -> FF000000/FFFF9900 (14)
+  - greaterThan SUM(IF(ISNUMBER(K9),J9,0)) -> -/FFFFFF00 (15)
  Col: G
    0
   Formula: MINA(K9)
@@ -139,6 +154,11 @@ Row: 10
  Col: F
    100
   Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E10),ISBLANK(M10)) -> -/FFAAAAAA (16)
+  - =IF(SUM(I10)=0,1,0) -> FFFFFFFF/FFFF0000 (17)
+  - greaterThan SUM(I10) -> FF000000/FFFF9900 (18)
+  - greaterThan SUM(IF(ISNUMBER(K10),J10,0)) -> -/FFFFFF00 (19)
  Col: G
    0
   Formula: MINA(K10)
@@ -155,6 +175,11 @@ Row: 11
  Col: F
    100
   Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(E11),ISBLANK(M11)) -> -/FFAAAAAA (20)
+  - =IF(SUM(I11)=0,1,0) -> FFFFFFFF/FFFF0000 (21)
+  - greaterThan SUM(I11) -> FF000000/FFFF9900 (22)
+  - greaterThan SUM(IF(ISNUMBER(K11),J11,0)) -> -/FFFFFF00 (23)
  Col: G
    0
   Formula: MINA(K11)
@@ -175,6 +200,11 @@ Row: 12
  Col: F
    200
   Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E12),ISBLANK(M12)) -> -/FFAAAAAA (24)
+  - =IF(SUM(I12)=0,1,0) -> FFFFFFFF/FFFF0000 (25)
+  - greaterThan SUM(I12) -> FF000000/FFFF9900 (26)
+  - greaterThan SUM(IF(ISNUMBER(K12),J12,0)) -> -/FFFFFF00 (27)
  Col: G
    0.372
   Formula: MINA(K12)
@@ -183,6 +213,9 @@ Row: 12
   Formula: IFERROR(F12*G12,"")
  Col: I
    "NonStk"
+  Styles:
+  - equal 0 -> FFFFFFFF/FFFF0000 (1)
+  - lessThan F12 -> FF000000/FFFF9900 (2)
  Col: K
    0.372
   Formula: IFERROR(LOOKUP(IF(J12="",F12,J12),{0,1},{0.0,0.372}),"")
@@ -201,6 +234,11 @@ Row: 13
  Col: F
    100
   Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(E13),ISBLANK(M13)) -> -/FFAAAAAA (28)
+  - =IF(SUM(I13)=0,1,0) -> FFFFFFFF/FFFF0000 (29)
+  - greaterThan SUM(I13) -> FF000000/FFFF9900 (30)
+  - greaterThan SUM(IF(ISNUMBER(K13),J13,0)) -> -/FFFFFF00 (31)
  Col: G
    0
   Formula: MINA(K13)
