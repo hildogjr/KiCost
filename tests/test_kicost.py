@@ -137,7 +137,7 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
         name = dname.attrib['name']
         vars[name] = dname.text
     name = os.path.basename(filename)
-    pos_re = re.compile(r'(\w+)(\d+)')
+    pos_re = re.compile(r'(\D+)(\d+)')
     with open(os.path.join(TESTDIR, subdir, name + '.txt'), 'wt') as f:
         f.write('Variables:\n')
         for name, val in sorted(vars.items()):

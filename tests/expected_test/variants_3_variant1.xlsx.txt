@@ -106,69 +106,69 @@ Row: 9
    0
   Formula: IFERROR(H9*I9,"")
 Row: 10
- Col: A1
+ Col: A
    "C4"
- Col: B1
+ Col: B
    "4nF"
- Col: C1
+ Col: C
    "Placed only when variant1"
- Col: F1
+ Col: F
    "defaultmanf"
- Col: H1
+ Col: H
    100
   Formula: CEILING(BoardQty*1,1)
- Col: J1
+ Col: J
    0
   Formula: IFERROR(H10*I10,"")
 Row: 11
- Col: A1
+ Col: A
    "C5"
- Col: B1
+ Col: B
    "5nF"
- Col: C1
+ Col: C
    "Placed only when variant1"
- Col: F1
+ Col: F
    "defaultmanf"
- Col: H1
+ Col: H
    100
   Formula: CEILING(BoardQty*1,1)
- Col: J1
+ Col: J
    0
   Formula: IFERROR(H11*I11,"")
 Row: 12
- Col: A1
+ Col: A
    "C7"
- Col: B1
+ Col: B
    "7nF"
- Col: C1
+ Col: C
    "Should appear in variant1"
- Col: D1
+ Col: D
    "*NONE*"
- Col: F1
+ Col: F
    "defaultmanf"
- Col: H1
+ Col: H
    100
   Formula: CEILING(BoardQty*1,1)
- Col: J1
+ Col: J
    0
   Formula: IFERROR(H12*I12,"")
 Row: 13
- Col: A1
+ Col: A
    "C8"
- Col: B1
+ Col: B
    "8nF"
- Col: C1
+ Col: C
    "*NONE*"
- Col: D1
+ Col: D
    "Variant 1 comment"
- Col: F1
+ Col: F
    "defaultmanf"
- Col: H1
+ Col: H
    100
   Formula: CEILING(BoardQty*1,1)
- Col: J1
+ Col: J
    0
   Formula: IFERROR(H13*I13,"")
 Row: 16
- Col: A1
+ Col: A
    "*FILTERED*"

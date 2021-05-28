@@ -89,5 +89,5 @@ Row: 8
    0
   Formula: IFERROR(G8*H8,"")
 Row: 11
- Col: A1
+ Col: A
    "*FILTERED*"

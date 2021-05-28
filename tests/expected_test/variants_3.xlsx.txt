@@ -104,35 +104,35 @@ Row: 9
    0
   Formula: IFERROR(G9*H9,"")
 Row: 10
- Col: A1
+ Col: A
    "C7"
- Col: B1
+ Col: B
    "7nF"
- Col: C1
+ Col: C
    "Should only appear in the default"
- Col: E1
+ Col: E
    "defaultmanf"
- Col: G1
+ Col: G
    100
   Formula: CEILING(BoardQty*1,1)
- Col: I1
+ Col: I
    0
   Formula: IFERROR(G10*H10,"")
 Row: 11
- Col: A1
+ Col: A
    "C8"
- Col: B1
+ Col: B
    "8nF"
- Col: C1
+ Col: C
    "Should not appear in variant1 description"
- Col: E1
+ Col: E
    "defaultmanf"
- Col: G1
+ Col: G
    100
   Formula: CEILING(BoardQty*1,1)
- Col: I1
+ Col: I
    0
   Formula: IFERROR(G11*H11,"")
 Row: 14
- Col: A1
+ Col: A
    "*FILTERED*"

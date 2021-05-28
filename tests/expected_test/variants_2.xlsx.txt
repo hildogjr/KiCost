@@ -75,5 +75,5 @@ C2: Manf is defaultmanf, except when variant1 (check impact of field order)"
    0
   Formula: IFERROR(G7*H7,"")
 Row: 10
- Col: A1
+ Col: A
    "*FILTERED*"

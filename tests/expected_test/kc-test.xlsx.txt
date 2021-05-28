@@ -388,203 +388,203 @@ Row: 9
  Col: AU
    <a href="https://octopart.com/click/track?ai=8078&sig=0326bce&sid=1532&ppid=18901679&vpid=707783969&ct=offers">ADM3053BRWZ</a>
 Row: 10
- Col: A1
+ Col: A
    "X1"
- Col: B1
+ Col: B
    "RESONATOR"
- Col: D1
+ Col: D
    <a href="http://datasheet.octopart.com/CSTCE8M00G55Z-R0-Murata-datasheet-141258351.pdf">CSTCE8M00G55Z-R0</a>
- Col: E1
+ Col: E
    100
   Formula: CEILING(BoardQty*1.0,1)
- Col: F1
+ Col: F
    0.390767412215
   Formula: MINA(J10,O10,T10,Y10,AD10,AI10,AN10,AS10)
- Col: G1
+ Col: G
    39.0767
   Formula: IFERROR(E10*F10,"")
- Col: R1
+ Col: R
    "NonStk"
- Col: T1
+ Col: T
    0.390767412215
   Formula: IFERROR(USD_GBP*LOOKUP(IF(S10="",E10,S10),{0,1,5,50,150,250,500,1500,3000,15000},{0.0,0.376,0.376,0.284,0.284,0.258,0.211,0.199,0.186,0.182}),"")
- Col: U1
+ Col: U
    39.0767
   Formula: IFERROR(IF(S10="",E10,S10)*T10,"")
- Col: V1
+ Col: V
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=057eeca&sid=819&ppid=314394&vpid=139132810&ct=offers">1615352</a>
- Col: AG1
+ Col: AG
    "NonStk"
- Col: AK1
+ Col: AK
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=070c3ef&sid=2402&ppid=314394&vpid=17276023&ct=offers">80P4001</a>
 Row: 12
- Col: B1
+ Col: B
    "Used currency rates:"
- Col: F1
+ Col: F
    "Total Purchase:"
- Col: G1
+ Col: G
    0
   Formula: SUM(K12,P12,U12,Z12,AE12,AJ12,AO12,AT12)
- Col: H1
+ Col: H
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
- Col: I1
+ Col: I
   Formula: IFERROR(IF(OR(I7:I10),COUNTIFS(I7:I10,">0",K7:K10,"<>")&" of "&(ROWS(K7:K10)-COUNTBLANK(K7:K10))&" parts purchased",""),"")
- Col: K1
+ Col: K
    0
   Formula: SUMIF(I7:I10,">0",K7:K10)
- Col: M1
+ Col: M
    <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
- Col: N1
+ Col: N
   Formula: IFERROR(IF(OR(N7:N10),COUNTIFS(N7:N10,">0",P7:P10,"<>")&" of "&(ROWS(P7:P10)-COUNTBLANK(P7:P10))&" parts purchased",""),"")
- Col: P1
+ Col: P
    0
   Formula: SUMIF(N7:N10,">0",P7:P10)
- Col: R1
+ Col: R
    <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
- Col: S1
+ Col: S
   Formula: IFERROR(IF(OR(S7:S10),COUNTIFS(S7:S10,">0",U7:U10,"<>")&" of "&(ROWS(U7:U10)-COUNTBLANK(U7:U10))&" parts purchased",""),"")
- Col: U1
+ Col: U
    0
   Formula: SUMIF(S7:S10,">0",U7:U10)
- Col: W1
+ Col: W
    <a href="https://lcsc.com/bom.html">Buy here</a>
- Col: X1
+ Col: X
   Formula: IFERROR(IF(OR(X7:X10),COUNTIFS(X7:X10,">0",Z7:Z10,"<>")&" of "&(ROWS(Z7:Z10)-COUNTBLANK(Z7:Z10))&" parts purchased",""),"")
- Col: Z1
+ Col: Z
    0
   Formula: SUMIF(X7:X10,">0",Z7:Z10)
- Col: AB1
+ Col: AB
    <a href="https://mouser.com/bom/">Buy here</a>
- Col: AC1
+ Col: AC
   Formula: IFERROR(IF(OR(AC7:AC10),COUNTIFS(AC7:AC10,">0",AE7:AE10,"<>")&" of "&(ROWS(AE7:AE10)-COUNTBLANK(AE7:AE10))&" parts purchased",""),"")
- Col: AE1
+ Col: AE
    0
   Formula: SUMIF(AC7:AC10,">0",AE7:AE10)
- Col: AG1
+ Col: AG
    <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
- Col: AH1
+ Col: AH
   Formula: IFERROR(IF(OR(AH7:AH10),COUNTIFS(AH7:AH10,">0",AJ7:AJ10,"<>")&" of "&(ROWS(AJ7:AJ10)-COUNTBLANK(AJ7:AJ10))&" parts purchased",""),"")
- Col: AJ1
+ Col: AJ
    0
   Formula: SUMIF(AH7:AH10,">0",AJ7:AJ10)
- Col: AL1
+ Col: AL
    <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
- Col: AM1
+ Col: AM
   Formula: IFERROR(IF(OR(AM7:AM10),COUNTIFS(AM7:AM10,">0",AO7:AO10,"<>")&" of "&(ROWS(AO7:AO10)-COUNTBLANK(AO7:AO10))&" parts purchased",""),"")
- Col: AO1
+ Col: AO
    0
   Formula: SUMIF(AM7:AM10,">0",AO7:AO10)
- Col: AQ1
+ Col: AQ
    <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
- Col: AR1
+ Col: AR
   Formula: IFERROR(IF(OR(AR7:AR10),COUNTIFS(AR7:AR10,">0",AT7:AT10,"<>")&" of "&(ROWS(AT7:AT10)-COUNTBLANK(AT7:AT10))&" parts purchased",""),"")
- Col: AT1
+ Col: AT
    0
   Formula: SUMIF(AR7:AR10,">0",AT7:AT10)
 Row: 13
- Col: B1
+ Col: B
    "USD($)/EUR(€):"
- Col: C1
+ Col: C
    1.1873
- Col: F1
+ Col: F
    "Purchase description:"
- Col: I1
+ Col: I
   Formula: CONCATENATE(I18,I19,I20,I21)
- Col: N1
+ Col: N
   Formula: CONCATENATE(N18,N19,N20,N21)
- Col: S1
+ Col: S
   Formula: CONCATENATE(S18,S19,S20,S21)
- Col: X1
+ Col: X
    "Copy this header and order to a CSV
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
 "#" symbol are not allowed by JLCPCB."
   Formula: CONCATENATE(X22,X18,X19,X20,X21)
- Col: AC1
+ Col: AC
   Formula: CONCATENATE(AC18,AC19,AC20,AC21)
- Col: AH1
+ Col: AH
   Formula: CONCATENATE(AH18,AH19,AH20,AH21)
- Col: AM1
+ Col: AM
   Formula: CONCATENATE(AM18,AM19,AM20,AM21)
- Col: AR1
+ Col: AR
   Formula: CONCATENATE(AR18,AR19,AR20,AR21)
 Row: 14
- Col: B1
+ Col: B
    "USD($)/GBP(£):"
- Col: C1
+ Col: C
    1.37594159231
 Row: 16
- Col: A1
+ Col: A
    "*FILTERED*"
 Row: 18
- Col: I1
+ Col: I
   Formula: IF(ISNUMBER(I7:I10)*(I7:I10>0)*(L7:L10<>""),L7:L10&","&TEXT(I7:I10,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10,",",";")&CHAR(10),"")
- Col: N1
+ Col: N
   Formula: IF(ISNUMBER(N7:N10)*(N7:N10>0)*(Q7:Q10<>""),TEXT(N7:N10,"##0")&","&Q7:Q10&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10,",",";")&CHAR(10),"")
- Col: S1
+ Col: S
   Formula: IF(ISNUMBER(S7:S10)*(S7:S10>0)*(V7:V10<>""),V7:V10&","&TEXT(S7:S10,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10,",",";"),"\n",";"),30)&CHAR(10),"")
- Col: X1
+ Col: X
   Formula: IF(ISNUMBER(X7:X10)*(X7:X10>0)*(AA7:AA10<>""),TEXT(X7:X10,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10,",",";")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C10,",",";")&","&AA7:AA10&CHAR(10),"")
- Col: AC1
+ Col: AC
   Formula: IF(ISNUMBER(AC7:AC10)*(AC7:AC10>0)*(AF7:AF10<>""),AF7:AF10&"|"&TEXT(AC7:AC10,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10,"|",";")," ","_")&CHAR(10),"")
- Col: AH1
+ Col: AH
   Formula: IF(ISNUMBER(AH7:AH10)*(AH7:AH10>0)*(AK7:AK10<>""),AK7:AK10&","&TEXT(AH7:AH10,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10,",",";"),"\n",";")&","&""&CHAR(10),"")
- Col: AM1
+ Col: AM
   Formula: IF(ISNUMBER(AM7:AM10)*(AM7:AM10>0)*(AP7:AP10<>""),AP7:AP10&","&TEXT(AM7:AM10,"##0")&","&""&","&""&","&""&","&D7:D10&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10,",",";")&CHAR(10),"")
- Col: AR1
+ Col: AR
   Formula: IF(ISNUMBER(AR7:AR10)*(AR7:AR10>0)*(AU7:AU10<>""),AU7:AU10&" "&TEXT(AR7:AR10,"##0")&" "&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A10," ",";")&CHAR(10),"")
 Row: 19
- Col: I1
+ Col: I
    0
- Col: N1
+ Col: N
    0
- Col: S1
+ Col: S
    0
- Col: X1
+ Col: X
    0
- Col: AC1
+ Col: AC
    0
- Col: AH1
+ Col: AH
    0
- Col: AM1
+ Col: AM
    0
- Col: AR1
+ Col: AR
    0
 Row: 20
- Col: I2
+ Col: I
    0
- Col: N2
+ Col: N
    0
- Col: S2
+ Col: S
    0
- Col: X2
+ Col: X
    0
- Col: AC2
+ Col: AC
    0
- Col: AH2
+ Col: AH
    0
- Col: AM2
+ Col: AM
    0
- Col: AR2
+ Col: AR
    0
 Row: 21
- Col: I2
+ Col: I
    0
- Col: N2
+ Col: N
    0
- Col: S2
+ Col: S
    0
- Col: X2
+ Col: X
    0
- Col: AC2
+ Col: AC
    0
- Col: AH2
+ Col: AH
    0
- Col: AM2
+ Col: AM
    0
- Col: AR2
+ Col: AR
    0
 Row: 22
- Col: X2
+ Col: X
   Formula: IFERROR(IF(COUNTIFS(X7:X10,">0",Z7:Z10,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")

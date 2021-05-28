@@ -70,5 +70,5 @@ Row: 7
    0
   Formula: IFERROR(F7*G7,"")
 Row: 10
- Col: A1
+ Col: A
    "*FILTERED*"

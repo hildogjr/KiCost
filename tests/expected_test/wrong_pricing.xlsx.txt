@@ -126,127 +126,127 @@ Row: 9
  Col: M
    "#NO_CATALOG0002"
 Row: 10
- Col: A1
+ Col: A
    "RN1"
- Col: B1
+ Col: B
    "4K7"
- Col: C1
+ Col: C
    "CTS_742C163"
- Col: D1
+ Col: D
    "OMRON"
- Col: E1
+ Col: E
    "B3U-1000P"
- Col: F1
+ Col: F
    100
   Formula: CEILING(BoardQty*1.0,1)
- Col: G1
+ Col: G
    0
   Formula: MINA(K10)
- Col: H1
+ Col: H
    0
   Formula: IFERROR(F10*G10,"")
 Row: 11
- Col: A1
+ Col: A
    "RN2"
- Col: B1
+ Col: B
    "1K"
- Col: C1
+ Col: C
    "CTS_742C163"
- Col: F1
+ Col: F
    100
   Formula: CEILING(BoardQty*1,1)
- Col: G1
+ Col: G
    0
   Formula: MINA(K11)
- Col: H1
+ Col: H
    0
   Formula: IFERROR(F11*G11,"")
 Row: 12
- Col: A1
+ Col: A
    "ROT1,ROT2"
- Col: B1
+ Col: B
    "ROT_ENC_SW"
- Col: C1
+ Col: C
    "ROT_ENC_EC11E"
- Col: D1
+ Col: D
    "Bourns"
- Col: E1
+ Col: E
    "PEC11R-4220F-S0024"
- Col: F1
+ Col: F
    200
   Formula: CEILING(BoardQty*2.0,1)
- Col: G1
+ Col: G
    0.372
   Formula: MINA(K12)
- Col: H1
+ Col: H
    74.4
   Formula: IFERROR(F12*G12,"")
- Col: I1
+ Col: I
    "NonStk"
- Col: K1
+ Col: K
    0.372
   Formula: IFERROR(LOOKUP(IF(J12="",F12,J12),{0,1},{0.0,0.372}),"")
- Col: L1
+ Col: L
    74.4
   Formula: IFERROR(IF(J12="",F12,J12)*K12,"")
- Col: M1
+ Col: M
    "PEC11R-4220F-S0024"
 Row: 13
- Col: A1
+ Col: A
    "STK1"
- Col: B1
+ Col: B
    "STICKIT2_HDR"
- Col: C1
+ Col: C
    "STICKIT2_HDR"
- Col: F1
+ Col: F
    100
   Formula: CEILING(BoardQty*1,1)
- Col: G1
+ Col: G
    0
   Formula: MINA(K13)
- Col: H1
+ Col: H
    0
   Formula: IFERROR(F13*G13,"")
- Col: I1
+ Col: I
    "NonStk"
- Col: M1
+ Col: M
    <a href="http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html">#NO_CATALOG0001</a>
 Row: 15
- Col: G1
+ Col: G
    "Total Purchase:"
- Col: H1
+ Col: H
    0
   Formula: SUM(L15)
- Col: J1
+ Col: J
   Formula: IFERROR(IF(OR(J7:J13),COUNTIFS(J7:J13,">0",L7:L13,"<>")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")
- Col: L1
+ Col: L
    0
   Formula: SUMIF(J7:J13,">0",L7:L13)
 Row: 16
- Col: A1
+ Col: A
    "*FILTERED*"
- Col: G1
+ Col: G
    "Purchase description:"
- Col: J1
+ Col: J
   Formula: CONCATENATE(J24,J25,J26,J27,J28,J29,J30)
 Row: 24
- Col: J2
+ Col: J
   Formula: IF(ISNUMBER(J7:J13)*(J7:J13>0)*(M7:M13<>""),M7:M13&","&TEXT(J7:J13,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A13,",",";")&CHAR(10),"")
 Row: 25
- Col: J2
+ Col: J
    0
 Row: 26
- Col: J2
+ Col: J
    0
 Row: 27
- Col: J2
+ Col: J
    0
 Row: 28
- Col: J2
+ Col: J
    0
 Row: 29
- Col: J2
+ Col: J
    0
 Row: 30
- Col: J3
+ Col: J
    0
