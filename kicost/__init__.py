@@ -18,6 +18,7 @@ class PartGroup(object):
         # Values derived from manf#_qty
         self.qty = None  # Quantity for each project, just a number if only 1 project
         self.qty_str = None  # Formulas to compute the quantity in the spreadsheet
+        self.qty_total_spreadsheet = 0  # Total quantity for all projects for the spreadsheet
         # Distributor data
         # TODO: distributor data should be a class and we should have a hash dist -> data
         self.part_num = {}  # Distributor catalogue number.

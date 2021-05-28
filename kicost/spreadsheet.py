@@ -52,7 +52,9 @@ __all__ = ['create_spreadsheet', 'create_worksheet', 'Spreadsheet']
 
 
 # This function is not the same for all xlsxwriter version, generating uncosistent outputs
-def xl_range(first_row, first_col, last_row, last_col):
+def xl_range(first_row, first_col, last_row, last_col=None):
+    if last_col is None:
+        last_col = first_col
     range1 = xl_rowcol_to_cell(first_row, first_col)
     range2 = xl_rowcol_to_cell(last_row, last_col)
     if range1 == range2:
@@ -811,13 +813,13 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     # board project quantity components 'qty_prj*' by unitary price 'Unit$'.
     total_cost_col = col_ext_price
     if num_prj > 1:
-        unit_price_range = xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW, col_unit_price)
+        unit_price_range = xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW)
         # Add the cost for 1 board and for the total of boards
         for i_prj in range(num_prj):
             qty_col = start_col + col['qty_prj{}'.format(i_prj)]
             row_tc = total_cost_row + ss.PRJ_INFO_ROWS*i_prj
             wks.write_formula(row_tc, total_cost_col, '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
-                              unit_price_range=unit_price_range, qty_range=xl_range(PART_INFO_FIRST_ROW, qty_col, PART_INFO_LAST_ROW, qty_col)),
+                              unit_price_range=unit_price_range, qty_range=xl_range(PART_INFO_FIRST_ROW, qty_col, PART_INFO_LAST_ROW)),
                               ss.wrk_formats['total_cost_currency'], value=round(total_cost_l[i_prj] * ss.prj_info[i_prj]['qty'], 4))
             # Create the cell to show unit cost of (each project) board parts.
             wks.write_formula(row_tc - 1, total_cost_col, "=TotalCost{0}/BoardQty{0}".format(i_prj), ss.wrk_formats['unit_cost_currency'],
@@ -831,7 +833,7 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         # Cost for 1 board when we only have 1 project
         wks.write_formula(total_cost_row - 1, total_cost_col, "=TotalCost/BoardQty", ss.wrk_formats['unit_cost_currency'],
                           value=round(total_cost/ss.prj_info[0]['qty'], 4))
-    total_cost_range = xl_range(PART_INFO_FIRST_ROW, total_cost_col, PART_INFO_LAST_ROW, total_cost_col)
+    total_cost_range = xl_range(PART_INFO_FIRST_ROW, total_cost_col, PART_INFO_LAST_ROW)
     wks.write_formula(total_cost_row, total_cost_col, '=SUM({})'.format(total_cost_range), ss.wrk_formats['total_cost_currency'], value=round(total_cost, 4))
 
     # Add the total purchase and others purchase informations.
@@ -866,10 +868,8 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         if used_currency != ss.currency:
             wks.write(next_line, start_col + col['value'],
                       '{c}({c_s})/{d}({d_s}):'.format(c=ss.currency, d=used_currency, c_s=ss.currency_symbol,
-                                                      d_s=get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)
-                                                      ),
-                      ss.wrk_formats['description']
-                      )
+                                                      d_s=get_currency_symbol(used_currency, locale=DEFAULT_LANGUAGE)),
+                      ss.wrk_formats['description'])
             ss.define_name_ref('{c}_{d}'.format(c=ss.currency, d=used_currency), next_line, col['value'] + 1)
             wks.write(next_line, col['value'] + 1, currency_convert(1, used_currency, ss.currency))
             next_line = next_line + 1
@@ -879,9 +879,7 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     return next_line
 
 
-def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
-                          unit_cost_row, total_cost_row, part_ref_col, part_qty_col,
-                          dist, parts):
+def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit_cost_row, total_cost_row, part_ref_col, part_qty_col, dist, parts):
     '''Add distributor-specific part data to the spreadsheet.'''
 
     info = get_distributor_info(dist)
@@ -1070,15 +1068,15 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     # If more than one file (multi-files mode) show how many
     # parts of each BOM we found at this distributor and
     # the correspondent total price.
-    ext_price_range = xl_range(PART_INFO_FIRST_ROW, col_ext_price, PART_INFO_LAST_ROW, col_ext_price)
+    ext_price_range = xl_range(PART_INFO_FIRST_ROW, col_ext_price, PART_INFO_LAST_ROW)
     if num_prj > 1:
         for i_prj in range(num_prj):
             # Sum the extended prices (unit multiplied by quantity) for each file/BOM.
             qty_prj_col = part_qty_col - (num_prj - i_prj)
-            qty_prj_range = xl_range(PART_INFO_FIRST_ROW, qty_prj_col, PART_INFO_LAST_ROW, qty_prj_col)
+            qty_prj_range = xl_range(PART_INFO_FIRST_ROW, qty_prj_col, PART_INFO_LAST_ROW)
             row = total_cost_row + i_prj * 3
             wks.write_formula(row, col_ext_price, '=SUMPRODUCT({qty_range},{unit_price_range})'.format(qty_range=qty_prj_range,
-                              unit_price_range=xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW, col_unit_price)),
+                              unit_price_range=xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW)),
                               ss.wrk_formats['total_cost_currency'], value=round(total_cost_l[i_prj], 4))
             # Show how many parts were found at this distributor.
             wks.write_formula(row, col_part_num, '=COUNTIFS({price_range},"<>",{qty_range},"<>0",{qty_range},"<>")&" of "&COUNTIFS({qty_range},"<>0",'
@@ -1103,7 +1101,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
 
     # Write the header and how many parts are being purchased.
     ORDER_HEADER = PART_INFO_LAST_ROW + 2
-    purch_range = xl_range(PART_INFO_FIRST_ROW, col_purch, PART_INFO_LAST_ROW, col_purch)
+    purch_range = xl_range(PART_INFO_FIRST_ROW, col_purch, PART_INFO_LAST_ROW)
     # Expended in this distributor.
     wks.write_formula(ORDER_HEADER, col_ext_price, '=SUMIF({count_range},">0",{price_range})'.format(
                       count_range=purch_range,
@@ -1160,7 +1158,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
         else:
             info_col = 0
             logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
-        cell = xl_range(first_part, info_col, last_part, info_col)
+        cell = xl_range(first_part, info_col, last_part)
         # Deal with conversion and string replace necessary to the correct distributors
         # code understanding.
         if col is None or (col not in columns and col not in columns_global):
@@ -1200,11 +1198,11 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
     else:
         part_col = 0
         logger.warning(W_NOQTY+"The {d} distributor order info doesn't include the part number.")
-    part_range = xl_range(first_part, part_col, last_part, part_col)
+    part_range = xl_range(first_part, part_col, last_part)
     qty_col = col_purch
-    qty_range = xl_range(first_part, qty_col, last_part, qty_col)
+    qty_range = xl_range(first_part, qty_col, last_part)
     conditional = '=IF(ISNUMBER({qty})*({qty}>0)*({catn}<>""),{{}}&CHAR(10),"")'.format(qty=qty_range, catn=part_range)
-    array_range = xl_range(ORDER_FIRST_ROW, ORDER_START_COL, ORDER_FIRST_ROW + num_parts - 1, ORDER_START_COL)
+    array_range = xl_range(ORDER_FIRST_ROW, ORDER_START_COL, ORDER_FIRST_ROW + num_parts - 1)
     # Concatenation operator plus distributor code delimiter.
     delimiter = '&"' + order.delimiter + '"&'
     # Write a parallel formula to compute all the lines in one operation (array formula)
