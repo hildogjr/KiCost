@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Usage &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -34,7 +34,8 @@
         <li class="right" >
           <a href="installation.html" title="Installation"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Usage</a></li> 
       </ul>
     </div>  
 
@@ -66,12 +67,12 @@ The allowable field names for part numbers are:</p>
 </ol>
 <p>Distributors stock code can be also used through the specific field name listed bellow and
 they are prioritized to get the part information.</p>
-<dl class="simple">
-<dt>Digi-Key: digikey#         digikey_#    digikey-#    digikeypn#    digikey_pn#    digikey-pn#</dt><dd><p>digikeypn        …
-digikeyvendor#   …
-digikeynum       …
-digikeyvp#       …
-digikeyvpn       …</p>
+<dl>
+<dt>Digi-Key: digikey#         digikey_#    digikey-#    digikeypn#    digikey_pn#    digikey-pn#</dt><dd><p>digikeypn        …</p>
+<p>digikeyvendor#   …</p>
+<p>digikeynum       …</p>
+<p>digikeyvp#       …</p>
+<p>digikeyvpn       …</p>
 </dd>
 </dl>
 <p>Mouser:   mouser# ….
@@ -149,7 +150,7 @@ following in the <code class="docutils literal notranslate"><span class="pre">Co
 </div>
 <p>To access KiCost through a graphical user interface, just use the <cite>kicost</cite>
 command without parameters.</p>
-<img alt="https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png" src="https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png" />
+<img alt="_images/guide_screen.png" src="_images/guide_screen.png" />
 </div>
 <div class="section" id="custom-bom-list">
 <h2>Custom BOM list<a class="headerlink" href="#custom-bom-list" title="Permalink to this headline">¶</a></h2>
@@ -260,9 +261,10 @@ field because it is in a different namespace.</p></li>
 <p>Some parts consist of two or more subparts.
 For example, a two-pin jumper might have an associated shunt.
 This is represented by placing the part number for each subpart into the <code class="docutils literal notranslate"><span class="pre">manf#</span></code> field, separated
-by a “;” like so: <code class="docutils literal notranslate"><span class="pre">JMP1A45;SH3QQ5</span></code>. The <code class="docutils literal notranslate"><span class="pre">manf</span></code> (manufacture name) also allow this division, empty or replicate the last one (use “~” character to replicate the last one).
+by a “|” (ASCII 124) like so: <code class="docutils literal notranslate"><span class="pre">JMP1A45|SH3QQ5</span></code>. The <code class="docutils literal notranslate"><span class="pre">manf</span></code> (manufacturer name) also allows this division.
+You can leave a position empty or replicate the last one (use “~” character to replicate the last one).
 Each subpart will be placed on a separate row of the spreadsheet with its associated part number
-and a part reference formed from the original part reference with an added “#” and a number.
+and a part reference created from the original part reference adding “#” and a number.
 For example, if the two-pin jumper had a part reference of <code class="docutils literal notranslate"><span class="pre">JP6</span></code>, then there
 would be two rows in the spreadsheet containing data like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">JP6</span><span class="c1">#1  ...  JMP1A45</span>
@@ -272,17 +274,22 @@ would be two rows in the spreadsheet containing data like this:</p>
 <p>You can also specify multipliers for each subpart by either prepending or appending
 the subpart part number with a multiplier separated by a “:”.
 To illustrate, a 2x2 jumper paired with two shunts would have a part number of
-<code class="docutils literal notranslate"><span class="pre">JMP2B26;</span> <span class="pre">SH3QQ5:2</span></code>.
+<code class="docutils literal notranslate"><span class="pre">JMP2B26|</span> <span class="pre">SH3QQ5:2</span></code>.
 The multiplier can be either an integer, float or fraction
 and it can precede or follow the part code (e.g. <code class="docutils literal notranslate"><span class="pre">SH3QQ5:2</span></code> or <code class="docutils literal notranslate"><span class="pre">2:SH3QQ5</span></code>).</p>
 <p>In the case of <code class="docutils literal notranslate"><span class="pre">distributor#</span></code> and <code class="docutils literal notranslate"><span class="pre">manf#</span></code> for one sub part only, the other should have a blank
-value discriminated. As exemple:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">manf</span><span class="c1">#    =  0022232061;0022012067; 6: 08-50-0114;  LA 55-P; lv 25-P</span>
-<span class="n">digikey</span><span class="c1"># =  ;;; 398-1010-ND; 398-1019-ND</span>
-<span class="n">rs</span><span class="c1">#      =  ;;; 180-7357; 286-361</span>
+value discriminated. As example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">manf</span><span class="c1">#    =  0022232061|0022012067| 6: 08-50-0114|  LA 55-P| lv 25-P</span>
+<span class="n">digikey</span><span class="c1"># =  ||| 398-1010-ND| 398-1019-ND</span>
+<span class="n">rs</span><span class="c1">#      =  ||| 180-7357| 286-361</span>
 </pre></div>
 </div>
-<p>See that just the last two <code class="docutils literal notranslate"><span class="pre">manf#</span></code> have a correspondent <code class="docutils literal notranslate"><span class="pre">digikey#</span></code> and <code class="docutils literal notranslate"><span class="pre">rs#</span></code> catalogue code.</p>
+<p>See that just the last two <code class="docutils literal notranslate"><span class="pre">manf#</span></code> have a corresponding <code class="docutils literal notranslate"><span class="pre">digikey#</span></code> and <code class="docutils literal notranslate"><span class="pre">rs#</span></code> catalogue code.</p>
+<p>This mechanism is applied to the following fields: <code class="docutils literal notranslate"><span class="pre">manf</span></code>, <code class="docutils literal notranslate"><span class="pre">manf#</span></code> and any <code class="docutils literal notranslate"><span class="pre">DISTRIBUTOR#</span></code> field.
+A similar mechanism is applied to the <code class="docutils literal notranslate"><span class="pre">pricing</span></code> field, but the multiplier mechanism isn’t applied.
+If you want to process more fields add them using the <code class="docutils literal notranslate"><span class="pre">--split_extra_fields</span></code> option.</p>
+<p>For compatibility with older versions of KiCost you can also use “,” or “;” as separator for <code class="docutils literal notranslate"><span class="pre">manf</span></code>,
+<code class="docutils literal notranslate"><span class="pre">manf#</span></code> and any <code class="docutils literal notranslate"><span class="pre">DISTRIBUTOR#</span></code> field.</p>
 </div>
 <div class="section" id="schematic-variants">
 <h2>Schematic Variants<a class="headerlink" href="#schematic-variants" title="Permalink to this headline">¶</a></h2>
@@ -327,7 +334,9 @@ in future versions of KiCost.</p>
 <p>Some parts in a schematic are not intended for insertion on the final board assembly.
 These “do not populate” (DNP) parts can be assigned a field called <code class="docutils literal notranslate"><span class="pre">DNP</span></code> or <code class="docutils literal notranslate"><span class="pre">NOPOP</span></code>.
 Setting the value of this field to a non-zero number or any string will cause this part
-to be omitted from the cost calculation spreadsheet.</p>
+to be omitted from the cost calculation spreadsheet. Note that empty strings will be
+interpreted as zero (i.e. <code class="docutils literal notranslate"><span class="pre">kicost.VARIANT:dnp=&quot;&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">kicost.VARIANT:dnp=&quot;</span> <span class="pre">&quot;</span></code> will
+be interpreted as <code class="docutils literal notranslate"><span class="pre">kicost.VARIANT:dnp=&quot;0&quot;</span></code>)</p>
 </div>
 <div class="section" id="showing-extra-part-data-in-the-spreadsheet">
 <h2>Showing Extra Part Data in the Spreadsheet<a class="headerlink" href="#showing-extra-part-data-in-the-spreadsheet" title="Permalink to this headline">¶</a></h2>
@@ -344,12 +353,11 @@ of the spreadsheet:</p>
 <h2>Visual Cues in the Spreadsheet<a class="headerlink" href="#visual-cues-in-the-spreadsheet" title="Permalink to this headline">¶</a></h2>
 <p>In addition to the part cost information, the spreadsheet output by KiCost
 provides additional cues:</p>
-<ol class="arabic">
+<ol class="arabic simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">Manf#</span></code> cell is colored to warning the part lifecyle status:</p>
 <ul class="simple">
-<li><p>Purple if the part is asign as ‘obsolete’ or ‘not recommended for new designs’</p></li>
+<li><p>Purple if the part is asign as ‘obsolete’ or ‘not recommended for new designs’ by one of the distributors accessed.</p></li>
 </ul>
-<p>by one of the distributors accessed.</p>
 </li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">Qty</span></code> cell is colored to show the availability of a given part:</p>
 <ul class="simple">
@@ -395,124 +403,79 @@ you can restrict scraping from only a subset of them as follows:</p>
 </div>
 <div class="section" id="command-line-options">
 <h2>Command-Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
-<dl class="simple">
-<dt>usage: kicost [-h] [-v] [–info] [-i FILE.XML [FILE.XML …]] [-o [FILE.XLSX]]</dt><dd><p>[-f NAME [NAME …]] [–translate_fields NAME [NAME …]]
-[–variant VARIANT [VARIANT …]] [-w] [-q]
-[–ignore_fields NAME [NAME …]]
-[–group_fields NAME [NAME …]] [–debug [LEVEL]]
-[–eda {kicad,altium,csv} [{kicad,altium,csv} …]]
-[–show_dist_list] [–show_eda_list] [–no_collapse]
-[–show_cat_url] [-e DIST [DIST …]]
-[–include DIST [DIST …]] [–no_price] [–currency [CURRENCY]]
-[–gui FILE.XML [FILE.XML …]] [–user] [–setup] [–unsetup]</p>
-</dd>
-</dl>
-<p>Build cost spreadsheet for a KiCAD project.</p>
-<dl>
-<dt>optional arguments:</dt><dd><dl class="option-list">
-<dt><kbd><span class="option">-h</span>, <span class="option">--help</span></kbd></dt>
-<dd><p>show this help message and exit</p>
-</dd>
-<dt><kbd><span class="option">-v</span>, <span class="option">--version</span></kbd></dt>
-<dd><p>show program’s version number and exit</p>
-</dd>
-<dt><kbd><span class="option">--info</span></kbd></dt>
-<dd><p>Show program’ and library information and version.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>-i FILE.XML [FILE.XML …], –input FILE.XML [FILE.XML …]</dt><dd><p>One or more schematic BOM XML files.</p>
-</dd>
-<dt>-o [FILE.XLSX], –output [FILE.XLSX]</dt><dd><p>Generated cost spreadsheet.</p>
-</dd>
-<dt>-f NAME [NAME …], –fields NAME [NAME …]</dt><dd><p>Specify the names of additional part fields to extract
-and insert in the global data section of the
-spreadsheet.</p>
-</dd>
-<dt>–translate_fields NAME [NAME …]</dt><dd><p>Specify or remove field translation (–translate X1 Y1
-X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
-remove X3 for the internal dictionary).</p>
-</dd>
-<dt>–variant VARIANT [VARIANT …]</dt><dd><p>schematic variant name filter using regular expression.</p>
-</dd>
-</dl>
-<dl class="option-list">
-<dt><kbd><span class="option">-w</span>, <span class="option">--overwrite</span></kbd></dt>
-<dd><p>Allow overwriting of an existing spreadsheet.</p>
-</dd>
-<dt><kbd><span class="option">-q</span>, <span class="option">--quiet</span></kbd></dt>
-<dd><p>Enable quiet mode with no warnings.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>–ignore_fields NAME [NAME …]</dt><dd><p>Declare part fields to ignore when reading the BoM
-file.</p>
-</dd>
-<dt>–group_fields NAME [NAME …]</dt><dd><p>Declare part fields to merge when grouping parts.</p>
-</dd>
-</dl>
-<p>–debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
-–eda {kicad,altium,csv} [{kicad,altium,csv} …]</p>
-<blockquote>
-<div><p>Choose EDA tool from which the XML BOM file
-originated, or use csv for .CSV files.</p>
-</div></blockquote>
-<dl class="option-list">
-<dt><kbd><span class="option">--show_dist_list</span></kbd></dt>
-<dd><p>Show list of distributors that can be scraped for cost
-data, then exit.</p>
-</dd>
-<dt><kbd><span class="option">--show_eda_list</span></kbd></dt>
-<dd><p>Show list of EDA tools whose files KiCost can read,
-then exit.</p>
-</dd>
-<dt><kbd><span class="option">--no_collapse</span></kbd></dt>
-<dd><p>Do not collapse the part references in the
-spreadsheet.</p>
-</dd>
-<dt><kbd><span class="option">--show_cat_url</span></kbd></dt>
-<dd><p>Do not suppress the catalogue links into the catalogue
-code in the spreadsheet.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>-e DIST [DIST …], –exclude DIST [DIST …]</dt><dd><p>Excludes the given distributor(s) from the scraping
-process.</p>
-</dd>
-<dt>–include DIST [DIST …]</dt><dd><p>Includes only the given distributor(s) in the scraping
-process.</p>
-</dd>
-</dl>
-<dl class="option-list">
-<dt><kbd><span class="option">--no_price</span></kbd></dt>
-<dd><p>Create a spreadsheet without scraping part data from
-distributor websites.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>–currency [CURRENCY]</dt><dd><p>Define the priority currency. Use the ISO4217 for
-currency (<cite>USD</cite>, <cite>EUR</cite>). Default: <cite>USD</cite>.</p>
-</dd>
-<dt>–gui FILE.XML [FILE.XML …]</dt><dd><p>Start the GUI to run KiCost passing the file parameter
-give by “–input”, all others parameters are ignored.</p>
-</dd>
-</dl>
-<dl class="option-list">
-<dt><kbd><span class="option">--user</span></kbd></dt>
-<dd><p>Run KiCost on terminal using the parameters in the GUI
-memory, all passed parameters from terminal take
-priority.</p>
-</dd>
-<dt><kbd><span class="option">--setup</span></kbd></dt>
-<dd><p>Run KiCost integration (with KiCad and OS)
-configuration script.</p>
-</dd>
-<dt><kbd><span class="option">--unsetup</span></kbd></dt>
-<dd><p>Undo the KiCost integration.</p>
-</dd>
-</dl>
-</dd>
-</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: kicost [-h] [-v] [--info] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
+              [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
+              [--variant VARIANT [VARIANT ...]] [-w] [-q]
+              [--ignore_fields NAME [NAME ...]]
+              [--group_fields NAME [NAME ...]] [--debug [LEVEL]]
+              [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
+              [--show_dist_list] [--show_eda_list] [--no_collapse]
+              [--show_cat_url] [-e DIST [DIST ...]]
+              [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
+              [--gui FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
+
+
+Build cost spreadsheet for a KiCAD project.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -v, --version         show program&#39;s version number and exit
+  --info                Show program&#39; and library information and version.
+  -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
+                        One or more schematic BOM XML files.
+  -o [FILE.XLSX], --output [FILE.XLSX]
+                        Generated cost spreadsheet.
+  -f NAME [NAME ...], --fields NAME [NAME ...]
+                        Specify the names of additional part fields to extract
+                        and insert in the global data section of the
+                        spreadsheet.
+  --translate_fields NAME [NAME ...]
+                        Specify or remove field translation (--translate X1 Y1
+                        X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
+                        remove X3 for the internal dictionary).
+  --variant VARIANT [VARIANT ...]
+                        schematic variant name filter using regular expression.
+  -w, --overwrite       Allow overwriting of an existing spreadsheet.
+  -q, --quiet           Enable quiet mode with no warnings.
+  --ignore_fields NAME [NAME ...]
+                        Declare part fields to ignore when reading the BoM
+                        file.
+  --group_fields NAME [NAME ...]
+                        Declare part fields to merge when grouping parts.
+  --debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
+  --eda {kicad,altium,csv} [{kicad,altium,csv} ...]
+                        Choose EDA tool from which the XML BOM file
+                        originated, or use csv for .CSV files.
+  --show_dist_list      Show list of distributors that can be scraped for cost
+                        data, then exit.
+  --show_eda_list       Show list of EDA tools whose files KiCost can read,
+                        then exit.
+  --no_collapse         Do not collapse the part references in the
+                        spreadsheet.
+  --show_cat_url        Do not suppress the catalogue links into the catalogue
+                        code in the spreadsheet.
+  -e DIST [DIST ...], --exclude DIST [DIST ...]
+                        Excludes the given distributor(s) from the scraping
+                        process.
+  --include DIST [DIST ...]
+                        Includes only the given distributor(s) in the scraping
+                        process.
+  --no_price            Create a spreadsheet without scraping part data from
+                        distributor websites.
+  --currency [CURRENCY]
+                        Define the priority currency. Use the ISO4217 for
+                        currency (`USD`, `EUR`). Default: `USD`.
+  --gui FILE.XML [FILE.XML ...]
+                        Start the GUI to run KiCost passing the file parameter
+                        give by &quot;--input&quot;, all others parameters are ignored.
+  --user                Run KiCost on terminal using the parameters in the GUI
+                        memory, all passed parameters from terminal take
+                        priority.
+  --setup               Run KiCost integration (with KiCad and OS)
+                        configuration script.
+  --unsetup             Undo the KiCost integration.
+</pre></div>
+</div>
 </div>
 <div class="section" id="adding-kicost-to-the-context-menu-windows-only">
 <h2>Adding KiCost to the Context Menu (Windows Only)<a class="headerlink" href="#adding-kicost-to-the-context-menu-windows-only" title="Permalink to this headline">¶</a></h2>
@@ -557,6 +520,7 @@ which distributors to use, currency and others definitions.</p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -606,7 +570,7 @@ which distributors to use, currency and others definitions.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -626,12 +590,13 @@ which distributors to use, currency and others definitions.</p>
         <li class="right" >
           <a href="installation.html" title="Installation"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Usage</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

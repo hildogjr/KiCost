@@ -39,4 +39,4 @@ Features
     ordering page of each distributor.
 
 ![image](docs/block_diag.png)
-![image](gui.png)
+![image](docs/gui.png)

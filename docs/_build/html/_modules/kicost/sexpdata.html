@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.sexpdata &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,7 +27,9 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.sexpdata</a></li> 
       </ul>
     </div>  
 
@@ -115,13 +117,13 @@
 <span class="p">]</span>
 
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">string</span> <span class="k">import</span> <span class="n">whitespace</span>
+<span class="kn">from</span> <span class="nn">string</span> <span class="kn">import</span> <span class="n">whitespace</span>
 <span class="kn">import</span> <span class="nn">functools</span>
 
 <span class="n">BRACKETS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;(&#39;</span><span class="p">:</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;[&#39;</span><span class="p">:</span> <span class="s1">&#39;]&#39;</span><span class="p">}</span>
 
 
-<span class="c1">### Python 3 compatibility</span>
+<span class="c1"># ** Python 3 compatibility</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="n">unicode</span>
@@ -136,7 +138,7 @@
     <span class="k">return</span> <span class="n">tounicode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 
 
-<span class="c1">### Utility</span>
+<span class="c1"># ** Utility</span>
 
 <span class="k">def</span> <span class="nf">tounicode</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -188,7 +190,7 @@
     <span class="k">return</span> <span class="n">wrapper</span>
 
 
-<span class="c1">### Interface</span>
+<span class="c1"># ** Interface</span>
 
 <div class="viewcode-block" id="load"><a class="viewcode-back" href="../../kicost.html#kicost.sexpdata.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filelike</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -228,22 +230,22 @@
 <span class="sd">    :keyword  line_comment: Beginning of line comment.</span>
 <span class="sd">                            Default is ``&#39;;&#39;``.</span>
 
-<span class="sd">    &gt;&gt;&gt; loads(&quot;(a b)&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;(a b)&#39;)</span>
 <span class="sd">    [Symbol(&#39;a&#39;), Symbol(&#39;b&#39;)]</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;a&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;a&#39;)</span>
 <span class="sd">    Symbol(&#39;a&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;(a &#39;b)&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;(a \&#39;b)&#39;)</span>
 <span class="sd">    [Symbol(&#39;a&#39;), Quoted(Symbol(&#39;b&#39;))]</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;(a &#39;(b))&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;(a \&#39;(b))&#39;)</span>
 <span class="sd">    [Symbol(&#39;a&#39;), Quoted([Symbol(&#39;b&#39;)])]</span>
 <span class="sd">    &gt;&gt;&gt; loads(&#39;&#39;&#39;</span>
 <span class="sd">    ... ;; This is a line comment.</span>
-<span class="sd">    ... (&quot;a&quot; &quot;b&quot;)  ; this is also a comment.</span>
+<span class="sd">    ... &#39;a&#39; &#39;b&#39;)  ; this is also a comment.</span>
 <span class="sd">    ... &#39;&#39;&#39;)</span>
 <span class="sd">    [&#39;a&#39;, &#39;b&#39;]</span>
 <span class="sd">    &gt;&gt;&gt; loads(&#39;&#39;&#39;</span>
 <span class="sd">    ... # This is a line comment.</span>
-<span class="sd">    ... (&quot;a&quot; &quot;b&quot;)  # this is also a comment.</span>
+<span class="sd">    ... (&#39;a&#39; &#39;b&#39;)  # this is also a comment.</span>
 <span class="sd">    ... &#39;&#39;&#39;, line_comment=&#39;#&#39;)</span>
 <span class="sd">    [&#39;a&#39;, &#39;b&#39;]</span>
 
@@ -251,31 +253,31 @@
 <span class="sd">    keyword argument `nil` to change what symbol must be interpreted</span>
 <span class="sd">    as nil:</span>
 
-<span class="sd">    &gt;&gt;&gt; loads(&quot;nil&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;nil&#39;)</span>
 <span class="sd">    []</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;null&quot;, nil=&#39;null&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;null&#39;, nil=&#39;null&#39;)</span>
 <span class="sd">    []</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;nil&quot;, nil=None)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;nil&#39;, nil=None)</span>
 <span class="sd">    Symbol(&#39;nil&#39;)</span>
 
 <span class="sd">    ``t`` is converted to True by default.  You can use keyword</span>
 <span class="sd">    argument `true` to change what symbol must be converted to True.:</span>
 
-<span class="sd">    &gt;&gt;&gt; loads(&quot;t&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;t&#39;)</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;#t&quot;, true=&#39;#t&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;#t&#39;, true=&#39;#t&#39;)</span>
 <span class="sd">    True</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;t&quot;, true=None)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;t&#39;, true=None)</span>
 <span class="sd">    Symbol(&#39;t&#39;)</span>
 
 <span class="sd">    No symbol is converted to False by default.  You can use keyword</span>
 <span class="sd">    argument `false` to convert a symbol to False.</span>
 
-<span class="sd">    &gt;&gt;&gt; loads(&quot;#f&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;#f&#39;)</span>
 <span class="sd">    Symbol(&#39;#f&#39;)</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;#f&quot;, false=&#39;#f&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;#f&#39;, false=&#39;#f&#39;)</span>
 <span class="sd">    False</span>
-<span class="sd">    &gt;&gt;&gt; loads(&quot;nil&quot;, false=&#39;nil&#39;, nil=None)</span>
+<span class="sd">    &gt;&gt;&gt; loads(&#39;nil&#39;, false=&#39;nil&#39;, nil=None)</span>
 <span class="sd">    False</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -327,7 +329,7 @@
 <span class="sd">    Basic usage:</span>
 
 <span class="sd">    &gt;&gt;&gt; print(dumps([&#39;a&#39;, &#39;b&#39;]))</span>
-<span class="sd">    (&quot;a&quot; &quot;b&quot;)</span>
+<span class="sd">    (&#39;a&#39; &#39;b&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; print(dumps([&#39;a&#39;, &#39;b&#39;], str_as=&#39;symbol&#39;))</span>
 <span class="sd">    (a b)</span>
 <span class="sd">    &gt;&gt;&gt; print(dumps(dict(a=1)))</span>
@@ -338,9 +340,9 @@
 <span class="sd">    ...             none_as=&#39;null&#39;, true_as=&#39;#t&#39;, false_as=&#39;#f&#39;))</span>
 <span class="sd">    (null #t #f ())</span>
 <span class="sd">    &gt;&gt;&gt; print(dumps((&#39;a&#39;, &#39;b&#39;)))</span>
-<span class="sd">    (&quot;a&quot; &quot;b&quot;)</span>
+<span class="sd">    (&#39;a&#39; &#39;b&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; print(dumps((&#39;a&#39;, &#39;b&#39;), tuple_as=&#39;array&#39;))</span>
-<span class="sd">    [&quot;a&quot; &quot;b&quot;]</span>
+<span class="sd">    [&#39;a&#39; &#39;b&#39;]</span>
 
 <span class="sd">    More verbose usage:</span>
 
@@ -395,7 +397,7 @@
     <span class="k">return</span> <span class="n">obj</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span></div>
 
 
-<span class="c1">### Core</span>
+<span class="c1"># ** Core</span>
 
 <span class="k">def</span> <span class="nf">tosexp</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">str_as</span><span class="o">=</span><span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="n">tuple_as</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">,</span>
            <span class="n">true_as</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">false_as</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">,</span> <span class="n">none_as</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">):</span>
@@ -408,9 +410,9 @@
 <span class="sd">    &lt;http://hyperpolyglot.org/lisp&gt;`_</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_tosexp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">tosexp</span><span class="p">(</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">str_as</span><span class="o">=</span><span class="n">str_as</span><span class="p">,</span> <span class="n">tuple_as</span><span class="o">=</span><span class="n">tuple_as</span><span class="p">,</span>
-        <span class="n">true_as</span><span class="o">=</span><span class="n">true_as</span><span class="p">,</span> <span class="n">false_as</span><span class="o">=</span><span class="n">false_as</span><span class="p">,</span> <span class="n">none_as</span><span class="o">=</span><span class="n">none_as</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_tosexp</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="n">tosexp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">str_as</span><span class="o">=</span><span class="n">str_as</span><span class="p">,</span> <span class="n">tuple_as</span><span class="o">=</span><span class="n">tuple_as</span><span class="p">,</span> <span class="n">true_as</span><span class="o">=</span><span class="n">true_as</span><span class="p">,</span> <span class="n">false_as</span><span class="o">=</span><span class="n">false_as</span><span class="p">,</span> <span class="n">none_as</span><span class="o">=</span><span class="n">none_as</span><span class="p">)</span>
+
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Bracket</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">tosexp</span><span class="p">(</span><span class="n">_tosexp</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
@@ -454,13 +456,13 @@
 
 <span class="k">class</span> <span class="nc">SExpBase</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_val</span> <span class="o">=</span> <span class="n">val</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">uformat</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">(</span><span class="si">{1!r}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">_val</span>
         <span class="k">else</span><span class="p">:</span>
@@ -526,14 +528,14 @@
 
 <span class="k">class</span> <span class="nc">Bracket</span><span class="p">(</span><span class="n">SExpBase</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">bra</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">bra</span><span class="p">):</span>
         <span class="k">assert</span> <span class="n">bra</span> <span class="ow">in</span> <span class="n">BRACKETS</span>  <span class="c1"># FIXME: raise an appropriate error</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Bracket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bra</span> <span class="o">=</span> <span class="n">bra</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">uformat</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">(</span><span class="si">{1!r}</span><span class="s2">, </span><span class="si">{2!r}</span><span class="s2">)&quot;</span><span class="p">,</span>
-            <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bra</span><span class="p">)</span>
+                       <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bra</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">tosexp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tosexp</span><span class="o">=</span><span class="n">tosexp</span><span class="p">):</span>
         <span class="n">bra</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bra</span>
@@ -551,7 +553,7 @@
 
 <span class="k">class</span> <span class="nc">ExpectClosingBracket</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">got</span><span class="p">,</span> <span class="n">expect</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">got</span><span class="p">,</span> <span class="n">expect</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ExpectClosingBracket</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">uformat</span><span class="p">(</span>
             <span class="s2">&quot;Not enough closing brackets. &quot;</span>
             <span class="s2">&quot;Expected </span><span class="si">{0!r}</span><span class="s2"> to be the last letter in the sexp. &quot;</span>
@@ -560,7 +562,7 @@
 
 <span class="k">class</span> <span class="nc">ExpectNothing</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">got</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">got</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ExpectNothing</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">uformat</span><span class="p">(</span>
             <span class="s2">&quot;Too many closing brackets. &quot;</span>
             <span class="s2">&quot;Expected no character left in the sexp. &quot;</span>
@@ -570,13 +572,12 @@
 <span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="n">closing_brackets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">BRACKETS</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-    <span class="n">_atom_end_basic</span> <span class="o">=</span> \
-        <span class="nb">set</span><span class="p">(</span><span class="n">BRACKETS</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">closing_brackets</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">whitespace</span><span class="p">)</span>
+    <span class="n">_atom_end_basic</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">BRACKETS</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">closing_brackets</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;&quot;</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">whitespace</span><span class="p">)</span>
     <span class="n">_atom_end_basic_or_escape_regexp</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">,</span>
                                                     <span class="n">_atom_end_basic</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)))</span>
     <span class="n">quote_or_escape_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&quot;|</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">string_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="s1">&#39;nil&#39;</span><span class="p">,</span> <span class="n">true</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">false</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">string_to</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="s1">&#39;nil&#39;</span><span class="p">,</span> <span class="n">true</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">false</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">line_comment</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">string</span> <span class="o">=</span> <span class="n">string</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nil</span> <span class="o">=</span> <span class="n">nil</span>
@@ -585,9 +586,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">string_to</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">string_to</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">string_to</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">line_comment</span> <span class="o">=</span> <span class="n">line_comment</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">atom_end</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">line_comment</span><span class="p">])</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">_atom_end_basic</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">atom_end_or_escape_re</span> <span class="o">=</span> \
-            <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">|</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_atom_end_basic_or_escape_regexp</span><span class="p">,</span>
-                                        <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">line_comment</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">atom_end_or_escape_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{0}</span><span class="s2">|</span><span class="si">{1}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_atom_end_basic_or_escape_regexp</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">line_comment</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">parse_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
         <span class="n">string</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">string</span>
@@ -705,19 +704,20 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse s-expression.</span>
 
-<span class="sd">    &gt;&gt;&gt; parse(&quot;(a b)&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; parse(&#39;(a b)&#39;)</span>
 <span class="sd">    [[Symbol(&#39;a&#39;), Symbol(&#39;b&#39;)]]</span>
-<span class="sd">    &gt;&gt;&gt; parse(&quot;a&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; parse(&#39;a&#39;)</span>
 <span class="sd">    [Symbol(&#39;a&#39;)]</span>
-<span class="sd">    &gt;&gt;&gt; parse(&quot;(a &#39;b)&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; parse(&#39;(a \&#39;b)&#39;)</span>
 <span class="sd">    [[Symbol(&#39;a&#39;), Quoted(Symbol(&#39;b&#39;))]]</span>
-<span class="sd">    &gt;&gt;&gt; parse(&quot;(a &#39;(b))&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; parse(&#39;(a \&#39;(b))&#39;)</span>
 <span class="sd">    [[Symbol(&#39;a&#39;), Quoted([Symbol(&#39;b&#39;)])]]</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Parser</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -732,7 +732,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -747,12 +747,14 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.sexpdata</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

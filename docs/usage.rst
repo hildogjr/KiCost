@@ -24,10 +24,15 @@ they are prioritized to get the part information.
 
 Digi-Key: digikey#         digikey_#    digikey-#    digikeypn#    digikey_pn#    digikey-pn#
           digikeypn        ...
+
           digikeyvendor#   ...
+
           digikeynum       ...
+
           digikeyvp#       ...
+
           digikeyvpn       ...
+
 Mouser:   mouser# ....
 ...
 
@@ -109,7 +114,7 @@ To read and merge different projects BOMs, even those from different EDA tools::
 To access KiCost through a graphical user interface, just use the `kicost`
 command without parameters.
 
-.. image:: https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png
+.. image:: guide_screen.png
 
 ------------------------
 Custom BOM list
@@ -339,8 +344,7 @@ provides additional cues:
 
 #. The ``Manf#`` cell is colored to warning the part lifecyle status:
 
-   * Purple if the part is asign as 'obsolete' or 'not recommended for new designs'
-   by one of the distributors accessed.
+   * Purple if the part is asign as 'obsolete' or 'not recommended for new designs' by one of the distributors accessed.
 
 #. The ``Qty`` cell is colored to show the availability of a given part:
 
@@ -387,77 +391,77 @@ Command-Line Options
 
 ::
 
-usage: kicost [-h] [-v] [--info] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
-              [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
-              [--variant VARIANT [VARIANT ...]] [-w] [-q]
-              [--ignore_fields NAME [NAME ...]]
-              [--group_fields NAME [NAME ...]] [--debug [LEVEL]]
-              [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
-              [--show_dist_list] [--show_eda_list] [--no_collapse]
-              [--show_cat_url] [-e DIST [DIST ...]]
-              [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
-              [--gui FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
-
-
-Build cost spreadsheet for a KiCAD project.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -v, --version         show program's version number and exit
-  --info                Show program' and library information and version.
-  -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
-                        One or more schematic BOM XML files.
-  -o [FILE.XLSX], --output [FILE.XLSX]
-                        Generated cost spreadsheet.
-  -f NAME [NAME ...], --fields NAME [NAME ...]
-                        Specify the names of additional part fields to extract
-                        and insert in the global data section of the
-                        spreadsheet.
-  --translate_fields NAME [NAME ...]
-                        Specify or remove field translation (--translate X1 Y1
-                        X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
-                        remove X3 for the internal dictionary).
-  --variant VARIANT [VARIANT ...]
-                        schematic variant name filter using regular expression.
-  -w, --overwrite       Allow overwriting of an existing spreadsheet.
-  -q, --quiet           Enable quiet mode with no warnings.
-  --ignore_fields NAME [NAME ...]
-                        Declare part fields to ignore when reading the BoM
-                        file.
-  --group_fields NAME [NAME ...]
-                        Declare part fields to merge when grouping parts.
-  --debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
-  --eda {kicad,altium,csv} [{kicad,altium,csv} ...]
-                        Choose EDA tool from which the XML BOM file
-                        originated, or use csv for .CSV files.
-  --show_dist_list      Show list of distributors that can be scraped for cost
-                        data, then exit.
-  --show_eda_list       Show list of EDA tools whose files KiCost can read,
-                        then exit.
-  --no_collapse         Do not collapse the part references in the
-                        spreadsheet.
-  --show_cat_url        Do not suppress the catalogue links into the catalogue
-                        code in the spreadsheet.
-  -e DIST [DIST ...], --exclude DIST [DIST ...]
-                        Excludes the given distributor(s) from the scraping
-                        process.
-  --include DIST [DIST ...]
-                        Includes only the given distributor(s) in the scraping
-                        process.
-  --no_price            Create a spreadsheet without scraping part data from
-                        distributor websites.
-  --currency [CURRENCY]
-                        Define the priority currency. Use the ISO4217 for
-                        currency (`USD`, `EUR`). Default: `USD`.
-  --gui FILE.XML [FILE.XML ...]
-                        Start the GUI to run KiCost passing the file parameter
-                        give by "--input", all others parameters are ignored.
-  --user                Run KiCost on terminal using the parameters in the GUI
-                        memory, all passed parameters from terminal take
-                        priority.
-  --setup               Run KiCost integration (with KiCad and OS)
-                        configuration script.
-  --unsetup             Undo the KiCost integration.
+ usage: kicost [-h] [-v] [--info] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
+               [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
+               [--variant VARIANT [VARIANT ...]] [-w] [-q]
+               [--ignore_fields NAME [NAME ...]]
+               [--group_fields NAME [NAME ...]] [--debug [LEVEL]]
+               [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
+               [--show_dist_list] [--show_eda_list] [--no_collapse]
+               [--show_cat_url] [-e DIST [DIST ...]]
+               [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
+               [--gui FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
+ 
+ 
+ Build cost spreadsheet for a KiCAD project.
+ 
+ optional arguments:
+   -h, --help            show this help message and exit
+   -v, --version         show program's version number and exit
+   --info                Show program' and library information and version.
+   -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
+                         One or more schematic BOM XML files.
+   -o [FILE.XLSX], --output [FILE.XLSX]
+                         Generated cost spreadsheet.
+   -f NAME [NAME ...], --fields NAME [NAME ...]
+                         Specify the names of additional part fields to extract
+                         and insert in the global data section of the
+                         spreadsheet.
+   --translate_fields NAME [NAME ...]
+                         Specify or remove field translation (--translate X1 Y1
+                         X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
+                         remove X3 for the internal dictionary).
+   --variant VARIANT [VARIANT ...]
+                         schematic variant name filter using regular expression.
+   -w, --overwrite       Allow overwriting of an existing spreadsheet.
+   -q, --quiet           Enable quiet mode with no warnings.
+   --ignore_fields NAME [NAME ...]
+                         Declare part fields to ignore when reading the BoM
+                         file.
+   --group_fields NAME [NAME ...]
+                         Declare part fields to merge when grouping parts.
+   --debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
+   --eda {kicad,altium,csv} [{kicad,altium,csv} ...]
+                         Choose EDA tool from which the XML BOM file
+                         originated, or use csv for .CSV files.
+   --show_dist_list      Show list of distributors that can be scraped for cost
+                         data, then exit.
+   --show_eda_list       Show list of EDA tools whose files KiCost can read,
+                         then exit.
+   --no_collapse         Do not collapse the part references in the
+                         spreadsheet.
+   --show_cat_url        Do not suppress the catalogue links into the catalogue
+                         code in the spreadsheet.
+   -e DIST [DIST ...], --exclude DIST [DIST ...]
+                         Excludes the given distributor(s) from the scraping
+                         process.
+   --include DIST [DIST ...]
+                         Includes only the given distributor(s) in the scraping
+                         process.
+   --no_price            Create a spreadsheet without scraping part data from
+                         distributor websites.
+   --currency [CURRENCY]
+                         Define the priority currency. Use the ISO4217 for
+                         currency (`USD`, `EUR`). Default: `USD`.
+   --gui FILE.XML [FILE.XML ...]
+                         Start the GUI to run KiCost passing the file parameter
+                         give by "--input", all others parameters are ignored.
+   --user                Run KiCost on terminal using the parameters in the GUI
+                         memory, all passed parameters from terminal take
+                         priority.
+   --setup               Run KiCost integration (with KiCad and OS)
+                         configuration script.
+   --unsetup             Undo the KiCost integration.
 
 
 

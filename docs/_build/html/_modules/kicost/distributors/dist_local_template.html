@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.distributors.dist_local_template &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -28,7 +28,9 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.dist_local_template</a></li> 
       </ul>
     </div>  
 
@@ -61,45 +63,60 @@
 <span class="c1"># THE SOFTWARE.</span>
 
 <span class="c1"># Libraries.</span>
-<span class="kn">import</span> <span class="nn">copy</span><span class="o">,</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
 
+<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">SEPRTR</span><span class="p">,</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="n">W_BADPRICE</span>
 <span class="c1"># Distributors definitions.</span>
-<span class="kn">from</span> <span class="nn">.distributor</span> <span class="k">import</span> <span class="n">distributor_class</span>
-<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dist_local_template&#39;</span><span class="p">]</span>
 
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urlparse</span> <span class="kn">import</span> <span class="n">urlsplit</span><span class="p">,</span> <span class="n">urlunsplit</span>
+
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlsplit</span><span class="p">,</span> <span class="n">urlunsplit</span>
+
+    <span class="k">def</span> <span class="nf">to_bytes</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">val</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+
+
+<span class="n">unique_catalogs</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">def</span> <span class="nf">make_unique_catalog_number</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">dist</span><span class="p">):</span>
+    <span class="n">FIELDS_MANFCAT</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributors_iter</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">])</span>
+    <span class="n">FIELDS_NOT_HASH</span> <span class="o">=</span> <span class="p">([</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">,</span> <span class="s1">&#39;manf&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">FIELDS_MANFCAT</span> <span class="o">+</span> <span class="p">[</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#_qty&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributors_iter</span><span class="p">()])</span>
+    <span class="c1"># TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).</span>
+    <span class="n">hash_fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">fields</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_NOT_HASH</span><span class="p">}</span>
+    <span class="n">hash_fields</span><span class="p">[</span><span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">to_bytes</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">hash_fields</span><span class="o">.</span><span class="n">items</span><span class="p">())))))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="n">num</span> <span class="o">=</span> <span class="n">unique_catalogs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">num</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_catalogs</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">unique_catalogs</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span>
+    <span class="k">return</span> <span class="s1">&#39;#NO_CATALOG</span><span class="si">%04d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">num</span>
+
+
 <div class="viewcode-block" id="dist_local_template"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.dist_local_template.dist_local_template">[docs]</a><span class="k">class</span> <span class="nc">dist_local_template</span><span class="p">(</span><span class="n">distributor_class</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Local&#39;</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;local&#39;</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="dist_local_template.init_dist_dict"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.dist_local_template.dist_local_template.init_dist_dict">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">init_dist_dict</span><span class="p">():</span>
-        <span class="n">distributor_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="s1">&#39;local_template&#39;</span><span class="p">:</span> <span class="p">{</span>
-                <span class="s1">&#39;module&#39;</span><span class="p">:</span> <span class="s1">&#39;local&#39;</span><span class="p">,</span> <span class="c1"># The directory name containing this file.</span>
-                <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;local&#39;</span><span class="p">,</span> <span class="c1"># Allowable values: &#39;api&#39;, &#39;scrape&#39; or &#39;local&#39;.</span>
-                <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>  <span class="c1"># Sort-order for online orders.</span>
-                    <span class="s1">&#39;delimiter&#39;</span><span class="p">:</span> <span class="s1">&#39; &#39;</span>  <span class="c1"># Delimiter for online orders.</span>
-                <span class="p">},</span>
-                <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
-                    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;Local&#39;</span><span class="p">,</span>  <span class="c1"># Distributor label used in spreadsheet columns.</span>
-                    <span class="c1"># Formatting for distributor header in worksheet; bold, font and align are</span>
-                    <span class="c1"># `spreadsheet.py` defined but can by overload heve.</span>
-                    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="s1">&#39;white&#39;</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="s1">&#39;#008000&#39;</span><span class="p">},</span>  <span class="c1"># Darker green.</span>
-                <span class="p">},</span>
-            <span class="p">}</span>
-        <span class="p">})</span>
-        <span class="n">distributors_modules_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;local_template&#39;</span><span class="p">:{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;local&#39;</span><span class="p">,</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}})</span></div>
+        <span class="c1"># We don&#39;t add distributors here, they are collected in query_part_info</span>
+        <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="dist_local_template.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.dist_local_template.dist_local_template.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Fill-in part information for locally-sourced parts not handled by Octopart.&quot;&quot;&quot;</span>
-
-        <span class="c1"># If this module is not enabled, do not add any price values conrrespondent to the local distributors.</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;local_template&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]:</span>
-            <span class="k">return</span>
-
+    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Fill-in part information for locally-sourced parts not handled by Octopart.</span>
+<span class="sd">            IMPORTANT: `distributors` can be modified. &quot;&quot;&quot;</span>
         <span class="c1"># This loops through all the parts and finds any that are sourced from</span>
         <span class="c1"># local distributors that are not normally searched and places them into</span>
         <span class="c1"># the distributor disctionary.</span>
@@ -115,22 +132,14 @@
                 <span class="c1"># If the distributor is not in the list of web-scrapable distributors,</span>
                 <span class="c1"># then it&#39;s a local distributor. Copy the local distributor template</span>
                 <span class="c1"># and add it to the table of distributors.</span>
+                <span class="c1"># Note: If the user excludes a web-scrapable distributors (using --exclude)</span>
+                <span class="c1"># and then adds it as a local distributor (using fields) it will be added.</span>
                 <span class="k">if</span> <span class="n">dist</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Creating </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> local distributor profile...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
-                    <span class="n">distributors</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">distributors</span><span class="p">[</span><span class="s1">&#39;local_template&#39;</span><span class="p">])</span>
-                    <span class="n">distributors</span><span class="p">[</span><span class="n">dist</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span>  <span class="c1"># Set dist name for spreadsheet header.</span>
-
-        <span class="c1"># Set part info to default blank values for all the distributors.</span>
-        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span> <span class="c1">## TODO create this for just the current active distributor inside each module.</span>
-            <span class="c1"># These bellow variable are all the data the each distributor/local API/scrap module needs to fill.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Distributor catalogue number.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Purchase distributor URL for the spefic part.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Price break tiers; [[qty1, price1][qty2, price2]...]</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Available quantity.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">info_dist</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="n">DEFAULT_CURRENCY</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Default currency.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">}</span> <span class="c1"># Minimum order quantity allowd by the distributor.</span>
+                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Creating </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> local distributor profile...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+                    <span class="n">new_dist</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_template</span><span class="p">(</span><span class="s1">&#39;local_template&#39;</span><span class="p">)</span>
+                    <span class="n">new_dist</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">dist</span>  <span class="c1"># Set dist name for spreadsheet header.</span>
+                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">add_distributor</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">new_dist</span><span class="p">)</span>
+                    <span class="n">distributors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
 
         <span class="c1"># Loop through the parts looking for those sourced by local distributors</span>
         <span class="c1"># that won&#39;t be found online. Place any user-added info for these parts</span>
@@ -147,54 +156,50 @@
                 <span class="k">if</span> <span class="n">cat_num</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">pricing</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">link</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">continue</span>
 
-                <span class="k">def</span> <span class="nf">make_random_catalog_number</span><span class="p">(</span><span class="n">p</span><span class="p">):</span>
-                    <span class="n">FIELDS_MANFCAT</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">])</span>
-                    <span class="n">FIELDS_NOT_HASH</span> <span class="o">=</span> <span class="p">([</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">,</span> <span class="s1">&#39;manf&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">FIELDS_MANFCAT</span> <span class="o">+</span> <span class="p">[</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#_qty&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">])</span>
-                    <span class="c1">#TODO unify the `FIELDS_NOT_HASH` configuration (used also in `edas/tools.py`).</span>
-                    <span class="n">hash_fields</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">fields</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_NOT_HASH</span><span class="p">}</span>
-                    <span class="n">hash_fields</span><span class="p">[</span><span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist</span>
-                    <span class="k">return</span> <span class="s1">&#39;#</span><span class="si">{0:08X}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">hash_fields</span><span class="o">.</span><span class="n">items</span><span class="p">())))))</span>
-
-                <span class="n">cat_num</span> <span class="o">=</span> <span class="n">cat_num</span> <span class="ow">or</span> <span class="n">pn</span> <span class="ow">or</span> <span class="n">make_random_catalog_number</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="n">cat_num</span> <span class="o">=</span> <span class="n">cat_num</span> <span class="ow">or</span> <span class="n">pn</span> <span class="ow">or</span> <span class="n">make_unique_catalog_number</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
                 <span class="n">p</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">dist</span> <span class="o">+</span> <span class="s1">&#39;:cat#&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_num</span>  <span class="c1"># Store generated cat#.</span>
                 <span class="n">p</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">cat_num</span>
 
-                <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">link</span><span class="p">:</span>
                     <span class="n">url_parts</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">urlsplit</span><span class="p">(</span><span class="n">link</span><span class="p">))</span>
                     <span class="k">if</span> <span class="n">url_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
                         <span class="n">url_parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="sa">u</span><span class="s1">&#39;http&#39;</span>
                     <span class="n">link</span> <span class="o">=</span> <span class="n">urlunsplit</span><span class="p">(</span><span class="n">url_parts</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># This happens when no part URL is found.</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;No part URL found to local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;No part URL found for local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
                 <span class="n">p</span><span class="o">.</span><span class="n">url</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">link</span>
 
                 <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{}</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="n">local_currency</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;[a-zA-Z]</span><span class="si">{3}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pricing</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-                    <span class="k">except</span><span class="p">:</span>
-                        <span class="n">local_currency</span> <span class="o">=</span> <span class="n">DEFAULT_CURRENCY</span>
-                    <span class="n">pricing</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9.;:]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pricing</span><span class="p">)</span>  <span class="c1"># Keep only digits, decimals, delimiters.</span>
-                    <span class="k">for</span> <span class="n">qty_price</span> <span class="ow">in</span> <span class="n">pricing</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">):</span>
-                        <span class="n">qty</span><span class="p">,</span> <span class="n">price</span> <span class="o">=</span> <span class="n">qty_price</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">SEPRTR</span><span class="p">)</span>
+                    <span class="n">local_currency</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s1">&#39;[a-zA-Z]</span><span class="si">{3}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">pricing</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                    <span class="n">local_currency</span> <span class="o">=</span> <span class="n">currency</span>
+                <span class="n">old_pricing</span> <span class="o">=</span> <span class="n">pricing</span>
+                <span class="n">pricing</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[^0-9.;:]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">pricing</span><span class="p">)</span>  <span class="c1"># Keep only digits, decimals, delimiters.</span>
+                <span class="k">for</span> <span class="n">qty_price</span> <span class="ow">in</span> <span class="n">pricing</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">):</span>
+                    <span class="n">splitted</span> <span class="o">=</span> <span class="n">qty_price</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">SEPRTR</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">splitted</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                        <span class="n">qty</span><span class="p">,</span> <span class="n">price</span> <span class="o">=</span> <span class="n">splitted</span>
                         <span class="k">if</span> <span class="n">local_currency</span><span class="p">:</span>
                             <span class="n">p</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_currency</span>
-                        <span class="n">price_tiers</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">qty</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
-                    <span class="c1">#p.moq[dist] = min(price_tiers.keys())</span>
-                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">price_tiers</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">qty</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+                        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                            <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_BADPRICE</span><span class="o">+</span><span class="s1">&#39;Malformed pricing number: `</span><span class="si">{}</span><span class="s1">` at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">old_pricing</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_BADPRICE</span><span class="o">+</span><span class="s1">&#39;Malformed pricing entry: `</span><span class="si">{}</span><span class="s1">` at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qty_price</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
+                <span class="c1"># p.moq[dist] = min(price_tiers.keys())</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">price_tiers</span><span class="p">:</span>
                     <span class="c1"># This happens when no pricing info is found.</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;No pricing information found to local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
-                <span class="n">p</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">price_tiers</span>
+                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;No pricing information found for local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+                <span class="n">p</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">price_tiers</span></div></div>
 
-        <span class="c1"># Remove the local distributor template so it won&#39;t be processed later on.</span>
-        <span class="c1"># It has served its purpose.</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">del</span> <span class="n">distributors</span><span class="p">[</span><span class="s1">&#39;local_template&#39;</span><span class="p">]</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span></div></div>
+
+<span class="n">distributor_class</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">dist_local_template</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -209,7 +214,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -225,12 +230,14 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.dist_local_template</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

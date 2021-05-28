@@ -92,7 +92,7 @@ def get_manfcat(fields, f):
 
 
 def group_parts(components, fields_merge, c_prjs):
-    '''@brief Group common parts after preprocessing from XML or CSV files.
+    """@brief Group common parts after preprocessing from XML or CSV files.
 
        Group common parts looking in the existent files that could be merged
        by the use of `fields_merge`. First group all designed parts without
@@ -104,10 +104,10 @@ def group_parts(components, fields_merge, c_prjs):
        field, this is important to merge subparts of different parts and
        parts of different BOMs (in the mode of multifiles).
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
-       @param fields_merge Data fields of the `dict()` variable to be merged and ignored to make the
-              identical components group (before be scraped in the distributors web site).
+       @param fields_merge Data fields of the `dict()` variable to be merged and ignored to make the identical components group
+       (before be scraped in the distributors web site).
        @return `list()` of `dict()`
-    '''
+    """
 
     eda_class.logger.log(DEBUG_OVERVIEW, '# Grouping parts...')
     ultra_debug = eda_class.logger.getEffectiveLevel() <= DEBUG_FULL

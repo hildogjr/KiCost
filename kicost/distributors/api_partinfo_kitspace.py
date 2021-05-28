@@ -149,7 +149,7 @@ class api_partinfo_kitspace(distributor_class):
 
     @staticmethod
     def get_spec(data, item, default=None):
-        '''Get the value of `value` field of a dictionary if the `name`field identifier.
+        '''Get the value of `value` field of a dictionary if the `name` field identifier.
         Used to get information from the JSON response.'''
         for d in data['specs']:
             if d['key'] == item:

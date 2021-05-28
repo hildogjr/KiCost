@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.edas &#8212; kicost 1.1.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.edas</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.edas</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2018 by XESS Corporation / Hildo G Jr</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+
+<span class="kn">from</span> <span class="nn">.eda</span> <span class="kn">import</span> <span class="n">eda_class</span>
+<span class="c1"># Import and register here the file read modules.</span>
+<span class="kn">from</span> <span class="nn">.eda_kicad</span> <span class="kn">import</span> <span class="n">eda_kicad</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.eda_altium</span> <span class="kn">import</span> <span class="n">eda_altium</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.generic_csv</span> <span class="kn">import</span> <span class="n">generic_csv</span>  <span class="c1"># noqa: F401</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Junior&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;University of Campinas - Brazil&#39;</span>
+
+
+<div class="viewcode-block" id="get_registered_eda_names"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_registered_eda_names">[docs]</a><span class="k">def</span> <span class="nf">get_registered_eda_names</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Get the names of the registered EDAs &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">registered</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_registered_eda_labels"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_registered_eda_labels">[docs]</a><span class="k">def</span> <span class="nf">get_registered_eda_labels</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Get the labels of the registered EDAs &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">eda</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">eda</span> <span class="ow">in</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">registered</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="get_part_groups"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_part_groups">[docs]</a><span class="k">def</span> <span class="nf">get_part_groups</span><span class="p">(</span><span class="n">eda</span><span class="p">,</span> <span class="n">in_file</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">distributors</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Get the parts for a file using the indicated EDA &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">get_part_groups</span><span class="p">(</span><span class="n">eda</span><span class="p">,</span> <span class="n">in_file</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">distributors</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="file_eda_match"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.file_eda_match">[docs]</a><span class="k">def</span> <span class="nf">file_eda_match</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Check which EDA is suitable for this file &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">file_eda_match</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_eda_label"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_eda_label">[docs]</a><span class="k">def</span> <span class="nf">get_eda_label</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Returns a beautiful name for the EDA &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">registered</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">label</span></div>
+
+
+<div class="viewcode-block" id="set_edas_logger"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.set_edas_logger">[docs]</a><span class="k">def</span> <span class="nf">set_edas_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Sets the logger used by the class &#39;&#39;&#39;</span>
+    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.edas</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

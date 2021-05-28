@@ -147,6 +147,7 @@ class eda_altium(eda_class):
 
     @staticmethod
     def file_eda_match(content, extension):
+        ''' Returns True if this EDA can handle this file. '''
         return extension == '.xml' and re.search(FILE_REGEX, content, re.IGNORECASE)
 
 

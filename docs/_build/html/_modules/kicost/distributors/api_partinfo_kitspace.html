@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.distributors.api_partinfo_kitspace &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -28,7 +28,9 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_partinfo_kitspace</a></li> 
       </ul>
     </div>  
 
@@ -61,42 +63,42 @@
 <span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
 <span class="c1"># THE SOFTWARE.</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
-
-
 <span class="c1"># Author information.</span>
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Júnior&#39;</span>
 <span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/&#39;</span>
 <span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;University of Campinas - Brazil&#39;</span>
 
 <span class="c1"># Libraries.</span>
-<span class="kn">import</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">requests</span>
-<span class="kn">import</span> <span class="nn">logging</span><span class="o">,</span> <span class="nn">tqdm</span>
-<span class="kn">import</span> <span class="nn">copy</span><span class="o">,</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Counter</span>
-<span class="c1">#from urllib.parse import quote_plus as urlquote</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">quote_plus</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
 
 <span class="c1"># KiCost definitions.</span>
-<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span> <span class="c1"># Debug information, `distributor_dict` and `SEPRTR`.</span>
-<span class="kn">from</span> <span class="nn">..edas.tools</span> <span class="k">import</span> <span class="n">order_refs</span>
-
+<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">NO_PRICE</span>
 <span class="c1"># Distributors definitions.</span>
-<span class="kn">from</span> <span class="nn">.distributor</span> <span class="k">import</span> <span class="n">distributor_class</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span>
 
-<span class="c1"># Define debug function</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 
+<span class="c1"># Uncomment for debug</span>
 <span class="c1"># Use `debug(&#39;x + 1&#39;)` for instance.</span>
-<span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="n">expression</span><span class="p">):</span>
-    <span class="n">frame</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">_getframe</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="nb">repr</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">expression</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_locals</span><span class="p">)))</span>
+<span class="c1"># def debug(expression):</span>
+<span class="c1">#     frame = sys._getframe(1)</span>
+<span class="c1">#     distributor_class.logger.info(expression, &#39;=&#39;, repr(eval(expression, frame.f_globals, frame.f_locals)))</span>
 
-<span class="n">MAX_PARTS_PER_QUERY</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># Maximum number of parts in a single query.</span>
+<span class="n">MAX_PARTS_PER_QUERY</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Maximum number of parts in a single query.</span>
 
 <span class="c1"># Information to return from PartInfo KitSpace server.</span>
 
-<span class="n">QUERY_AVAIABLE_CURRENCIES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;GBP&#39;</span><span class="p">,</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span> <span class="s1">&#39;USD&#39;</span><span class="p">}</span>
-<span class="c1">#DEFAULT_CURRENCY</span>
+<span class="n">QUERY_AVAIABLE_CURRENCIES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GBP&#39;</span><span class="p">,</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span> <span class="s1">&#39;USD&#39;</span><span class="p">]</span>
+<span class="c1"># DEFAULT_CURRENCY</span>
 <span class="n">QUERY_ANSWER</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    mpn{manufacturer, part},</span>
 <span class="s1">    datasheet,</span>
@@ -111,8 +113,8 @@
 <span class="s1">        prices{&#39;&#39;&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">QUERY_AVAIABLE_CURRENCIES</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;}</span>
 <span class="s1">        }</span>
 <span class="s1">&#39;&#39;&#39;</span>
-<span class="c1">#Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location</span>
-<span class="n">QUERY_ANSWER</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[\s</span><span class="se">\n</span><span class="s1">]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">QUERY_ANSWER</span><span class="p">)</span>
+<span class="c1"># Informations not used: type,specs{key, name, value},image {url, credit_string, credit_url},stock_location</span>
+<span class="n">QUERY_ANSWER</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[\s\n]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">QUERY_ANSWER</span><span class="p">)</span>
 
 <span class="n">QUERY_PART</span> <span class="o">=</span> <span class="s1">&#39;query ($input: MpnInput!) { part(mpn: $input) {&#39;</span> <span class="o">+</span> <span class="n">QUERY_ANSWER</span> <span class="o">+</span> <span class="s1">&#39;} }&#39;</span>
 <span class="n">QUERY_MATCH</span> <span class="o">=</span> <span class="s1">&#39;query ($input: [MpnOrSku]!){ match(parts: $input) {&#39;</span> <span class="o">+</span> <span class="n">QUERY_ANSWER</span> <span class="o">+</span> <span class="s1">&#39;} }&#39;</span>
@@ -120,301 +122,256 @@
 <span class="n">QUERY_URL</span> <span class="o">=</span> <span class="s1">&#39;https://dev-partinfo.kitspace.org/graphql&#39;</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">]</span>
-<span class="kn">from</span> <span class="nn">.distributors_info</span> <span class="k">import</span> <span class="n">distributors_info</span>
+
 
 <div class="viewcode-block" id="api_partinfo_kitspace"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace">[docs]</a><span class="k">class</span> <span class="nc">api_partinfo_kitspace</span><span class="p">(</span><span class="n">distributor_class</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;KitSpace&#39;</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;api&#39;</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://kitspace.org/&#39;</span>  <span class="c1"># Web site API information.</span>
+
+    <span class="n">API_DISTRIBUTORS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;digikey&#39;</span><span class="p">,</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">]</span>
+    <span class="n">DIST_TRANSLATION</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Distributor translation.</span>
+                        <span class="s1">&#39;Digikey&#39;</span><span class="p">:</span> <span class="s1">&#39;digikey&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Farnell&#39;</span><span class="p">:</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Mouser&#39;</span><span class="p">:</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Newark&#39;</span><span class="p">:</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;RS&#39;</span><span class="p">:</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;TME&#39;</span><span class="p">:</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Arrow Electronics&#39;</span><span class="p">:</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;LCSC&#39;</span><span class="p">:</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">,</span>
+                       <span class="p">}</span>
+    <span class="c1"># Dict to translate KiCost field names into KitSpace distributor names</span>
+    <span class="n">KICOST2KITSPACE_DIST</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">DIST_TRANSLATION</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <div class="viewcode-block" id="api_partinfo_kitspace.init_dist_dict"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.init_dist_dict">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">init_dist_dict</span><span class="p">():</span>
-        <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;digikey&#39;</span><span class="p">,</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">]</span>
-        <span class="n">dists</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">distributors_info</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">api_distributors</span><span class="p">}</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;enabled&#39;</span> <span class="ow">in</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">]:</span>
-             <span class="c1"># First module load.</span>
-            <span class="n">distributors_modules_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">:{</span>
-                                            <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;api&#39;</span><span class="p">,</span> <span class="s1">&#39;url&#39;</span><span class="p">:</span> <span class="s1">&#39;https://kitspace.org/&#39;</span><span class="p">,</span> <span class="c1"># Web site API information.</span>
-                                            <span class="s1">&#39;distributors&#39;</span><span class="p">:</span> <span class="n">dists</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="c1"># Avaliable web distributors in this api.</span>
-                                            <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="c1"># Default status of the module (it&#39;s load but can be not calle).</span>
-                                            <span class="s1">&#39;param&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="c1"># Configuration parameters.</span>
-                                            <span class="s1">&#39;dist_translation&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="c1"># Distributor translation.</span>
-                                                                    <span class="s1">&#39;Digikey&#39;</span><span class="p">:</span> <span class="s1">&#39;digikey&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;Farnell&#39;</span><span class="p">:</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;Mouser&#39;</span><span class="p">:</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;Newark&#39;</span><span class="p">:</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;RS&#39;</span><span class="p">:</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;TME&#39;</span><span class="p">:</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;Arrow Electronics, Inc.&#39;</span><span class="p">:</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span>
-                                                                    <span class="s1">&#39;LCSC&#39;</span><span class="p">:</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">,</span>
-                                                                <span class="p">}</span>
-                                                <span class="p">}</span>
-                                            <span class="p">})</span>
-        <span class="c1"># Update the `distributor_dict` with the available distributor in this module with the module is enabled.</span>
-        <span class="c1"># It can be not enabled by the GUI saved configurations.</span>
-        <span class="k">if</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">][</span><span class="s1">&#39;enabled&#39;</span><span class="p">]:</span>
-            <span class="n">distributor_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">dists</span><span class="p">)</span></div>
-
+        <span class="k">if</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="n">distributor_class</span><span class="o">.</span><span class="n">add_distributors</span><span class="p">(</span><span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">API_DISTRIBUTORS</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="api_partinfo_kitspace.query"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="n">query_parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">query_type</span><span class="o">=</span><span class="n">QUERY_MATCH</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Send query to server and return results.&#39;&#39;&#39;</span>
-        
-        <span class="c1">##TODO this `dist_xlate` have to be better coded into this file.</span>
-        <span class="n">dist_xlate</span> <span class="o">=</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">][</span><span class="s1">&#39;dist_translation&#39;</span><span class="p">]</span>
-        <span class="k">def</span> <span class="nf">find_key</span><span class="p">(</span><span class="n">input_dict</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-            <span class="k">return</span> <span class="nb">next</span><span class="p">((</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">input_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">value</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
-        <span class="n">distributors</span> <span class="o">=</span> <span class="p">([</span><span class="n">find_key</span><span class="p">(</span><span class="n">dist_xlate</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">])</span>
-        
-        <span class="n">query_type</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;\{DISTRIBUTORS\}&#39;</span><span class="p">,</span> <span class="s1">&#39;[&quot;&#39;</span><span class="o">+</span> <span class="s1">&#39;&quot;,&quot;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">distributors</span><span class="p">)</span> <span class="o">+</span><span class="s1">&#39;&quot;]&#39;</span> <span class="p">,</span> <span class="n">query_type</span><span class="p">)</span>
-        <span class="c1">#r = requests.post(QUERY_URL, {&quot;query&quot;: QUERY_SEARCH, &quot;variables&quot;: variables}) #TODO future use for ISSUE #17</span>
-        <span class="n">variables</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\&quot;</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">query_parts</span><span class="p">))</span>
-        <span class="n">variables</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;\s&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
-        <span class="c1"># Python 2 prepends a &#39;u&#39; before the query strings and this makes PartInfo</span>
-        <span class="c1"># complain, so remove them.</span>
-        <span class="n">variables</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;:u&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;:&quot;&#39;</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
-        <span class="n">variables</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;{u&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;{&quot;&#39;</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
-        <span class="n">variables</span> <span class="o">=</span> <span class="s1">&#39;{{&quot;input&quot;:</span><span class="si">{}</span><span class="s1">}}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
-        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">QUERY_URL</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;query&#39;</span><span class="p">:</span> <span class="n">query_type</span><span class="p">,</span> <span class="s2">&quot;variables&quot;</span><span class="p">:</span> <span class="n">variables</span><span class="p">})</span>
-        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span> <span class="c1">#200</span>
+
+        <span class="n">distributors</span> <span class="o">=</span> <span class="p">[</span><span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">KICOST2KITSPACE_DIST</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">]</span>
+        <span class="c1"># Allow changing the URL for debug purposes</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;KICOST_KITSPACE_URL&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">QUERY_URL</span>
+        <span class="c1"># Sort the distributors to create a reproducible query</span>
+        <span class="n">query_type</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\{DISTRIBUTORS\}&#39;</span><span class="p">,</span> <span class="s1">&#39;[&quot;&#39;</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">distributors</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;&quot;]&#39;</span><span class="p">,</span> <span class="n">query_type</span><span class="p">)</span>
+        <span class="c1"># r = requests.post(url, {&quot;query&quot;: QUERY_SEARCH, &quot;variables&quot;: variables}) #TODO future use for ISSUE #17</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="s1">&#39;{&quot;input&quot;:[&#39;</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query_parts</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;]}&#39;</span>
+        <span class="c1"># Remove all spaces, even inside the manf#</span>
+        <span class="c1"># SET comment: this is how the code always worked. Octopart (used by KitSpace) ignores spaces inside manf# codes.</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="n">variables</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="c1"># Do the query using POST</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;query=</span><span class="si">{}</span><span class="s1">&amp;variables=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">query_type</span><span class="p">),</span> <span class="n">quote_plus</span><span class="p">(</span><span class="n">variables</span><span class="p">))</span>
+        <span class="n">distributor_class</span><span class="o">.</span><span class="n">log_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_type</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variables</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">distributor_class</span><span class="o">.</span><span class="n">log_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>  <span class="c1"># 200</span>
             <span class="n">results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">results</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;not_found&#39;</span><span class="p">]:</span> <span class="c1">#404</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Kitspace server not found check your internet connection.&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;request_timeout&#39;</span><span class="p">]:</span> <span class="c1">#408</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;KitSpace is not responding.&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;bad_request&#39;</span><span class="p">]:</span> <span class="c1">#400</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Bad request to Kitspace server probably due to an incorrect string format check your `manf#` codes and contact the suport team.&#39;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;gateway_timeout&#39;</span><span class="p">]:</span> <span class="c1"># 504</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;not_found&#39;</span><span class="p">]:</span>  <span class="c1"># 404</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Kitspace server not found check your internet connection.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;request_timeout&#39;</span><span class="p">]:</span>  <span class="c1"># 408</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;KitSpace is not responding.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;bad_request&#39;</span><span class="p">]:</span>  <span class="c1"># 400</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Bad request to Kitspace server probably due to an incorrect string &#39;</span>
+                              <span class="s1">&#39;format check your `manf#` codes and contact the suport team.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;gateway_timeout&#39;</span><span class="p">]:</span>  <span class="c1"># 504</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Kitspace error: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">))</span></div>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Kitspace error: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="api_partinfo_kitspace.get_value"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_value">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Get the value of `value` field of a dictionary if the `name`field identifier.</span>
+<div class="viewcode-block" id="api_partinfo_kitspace.get_spec"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_spec">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_spec</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the value of `value` field of a dictionary if the `name` field identifier.</span>
 <span class="sd">        Used to get information from the JSON response.&#39;&#39;&#39;</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
-                        <span class="k">return</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;specs&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">value</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">default</span>
+        <span class="k">return</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="api_partinfo_kitspace.get_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_part_info</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">distributor_info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Query PartInfo for quantity/price info and place it into the parts list.</span>
+<span class="sd">           `distributor_info` is used to update only one distributor information (price_tiers, ...),</span>
+<span class="sd">           the proposed if use in the disambiguation procedure.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># Translate from PartInfo distributor names to the names used internally by kicost.</span>
+        <span class="n">dist_xlate</span> <span class="o">=</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">DIST_TRANSLATION</span>
+
+        <span class="n">results</span> <span class="o">=</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">distributors</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">distributor_info</span><span class="p">:</span>
+            <span class="n">distributor_info</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+
+        <span class="c1"># Loop through the response to the query and enter info into the parts list.</span>
+        <span class="k">for</span> <span class="n">part_query</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">dist_info</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">distributor_info</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;match&#39;</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="o">+</span><span class="s1">&#39;No information found for parts </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> query `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_query</span><span class="p">)))</span>
+                <span class="k">continue</span>
+            <span class="c1"># Get the information of the part.</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;datasheet&#39;</span><span class="p">)</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">get_spec</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;lifecycle_status&#39;</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="c1"># Misc data collected, currently not used inside KiCost</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">update_specs</span><span class="p">({</span><span class="n">sp</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]:</span> <span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">],</span> <span class="n">sp</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;specs&#39;</span><span class="p">]})</span>
+            <span class="c1"># Loop through the offers from various dists for this particular part.</span>
+            <span class="k">for</span> <span class="n">offer</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;offers&#39;</span><span class="p">]:</span>
+                <span class="c1"># Get the distributor who made the offer and add their</span>
+                <span class="c1"># price/qty info to the parts list if its one of the accepted distributors.</span>
+                <span class="n">dist</span> <span class="o">=</span> <span class="n">dist_xlate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">offer</span><span class="p">[</span><span class="s1">&#39;sku&#39;</span><span class="p">][</span><span class="s1">&#39;vendor&#39;</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dist_info</span> <span class="ow">and</span> <span class="n">dist</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dist_info</span><span class="p">:</span>
+                    <span class="c1"># We are updating and not for this one</span>
                     <span class="k">continue</span>
-            <span class="k">return</span> <span class="n">default</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">default</span></div>
+                <span class="k">if</span> <span class="n">dist</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
+                    <span class="c1"># Not a desired distributor</span>
+                    <span class="k">continue</span>
+                <span class="c1"># This will happen if there are not enough entries in the price/qty list.</span>
+                <span class="c1"># As a stop-gap measure, just assign infinity to the part increment.</span>
+                <span class="c1"># A better alternative may be to examine the packaging field of the offer.</span>
+                <span class="n">part_qty_increment</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+                <span class="c1"># Get pricing information from this distributor.</span>
+                <span class="n">dist_currency</span> <span class="o">=</span> <span class="p">{</span><span class="n">cur</span><span class="p">:</span> <span class="n">pri</span> <span class="k">for</span> <span class="n">cur</span><span class="p">,</span> <span class="n">pri</span> <span class="ow">in</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">pri</span><span class="p">}</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">dist_currency</span><span class="p">:</span>
+                    <span class="c1"># Some times the API returns minimum purchase 0 and a not valid `price_tiers`.</span>
+                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">NO_PRICE</span><span class="o">+</span><span class="s1">&#39;No price information found for parts </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> query `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span>
+                                                     <span class="nb">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_query</span><span class="p">)))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">prices</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="c1"># Get the price tiers prioritizing:</span>
+                    <span class="c1"># 1) The asked currency by KiCost user;</span>
+                    <span class="c1"># 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;</span>
+                    <span class="c1"># 3) The first not null tiers</span>
+                    <span class="k">if</span> <span class="n">currency</span> <span class="ow">in</span> <span class="n">dist_currency</span><span class="p">:</span>
+                        <span class="n">prices</span> <span class="o">=</span> <span class="n">dist_currency</span><span class="p">[</span><span class="n">currency</span><span class="p">]</span>
+                        <span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">currency</span>
+                    <span class="k">elif</span> <span class="n">DEFAULT_CURRENCY</span> <span class="ow">in</span> <span class="n">dist_currency</span><span class="p">:</span>
+                        <span class="n">prices</span> <span class="o">=</span> <span class="n">dist_currency</span><span class="p">[</span><span class="n">DEFAULT_CURRENCY</span><span class="p">]</span>
+                        <span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_CURRENCY</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">],</span> <span class="n">prices</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dist_currency</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+                    <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">qty</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">for</span> <span class="n">qty</span><span class="p">,</span> <span class="n">price</span> <span class="ow">in</span> <span class="n">prices</span><span class="p">}</span>
+                    <span class="c1"># Combine price lists for multiple offers from the same distributor</span>
+                    <span class="c1"># to build a complete list of cut-tape and reeled components.</span>
+                    <span class="k">if</span> <span class="n">dist</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">:</span>
+                        <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">price_tiers</span><span class="p">)</span>
+                    <span class="c1"># Compute the quantity increment between the lowest two prices.</span>
+                    <span class="c1"># This will be used to distinguish the cut-tape from the reeled components.</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">price_tiers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">part_break_qtys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">price_tiers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+                        <span class="n">part_qty_increment</span> <span class="o">=</span> <span class="n">part_break_qtys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">part_break_qtys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="c1"># Select the part SKU, web page, and available quantity.</span>
+                <span class="c1"># Each distributor can have different stock codes for the same part in different</span>
+                <span class="c1"># quantities / delivery package styles: cut-tape, reel, ...</span>
+                <span class="c1"># Therefore we select and overwrite a previous selection if one of the</span>
+                <span class="c1"># following conditions is met:</span>
+                <span class="c1">#   1. We don&#39;t have a selection for this part from this distributor yet.</span>
+                <span class="c1">#   2. The MOQ is smaller than for the current selection.</span>
+                <span class="c1">#   3. The part_qty_increment for this offer smaller than that of the existing selection.</span>
+                <span class="c1">#      (we prefer cut-tape style packaging over reels)</span>
+                <span class="c1">#   4. For DigiKey, we can&#39;t use part_qty_increment to distinguish between</span>
+                <span class="c1">#      reel and cut-tape, so we need to look at the actual DigiKey part number.</span>
+                <span class="c1">#      This procedure is made by the definition `distributors_info[dist][&#39;ignore_cat#_re&#39;]`</span>
+                <span class="c1">#      at the distributor profile.</span>
+                <span class="n">dist_part_num</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sku&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;part&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">qty_avail</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+                <span class="n">in_stock_quantity</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">qty_avail</span> <span class="ow">or</span> <span class="p">(</span><span class="n">in_stock_quantity</span> <span class="ow">and</span> <span class="n">qty_avail</span> <span class="o">&lt;</span> <span class="n">in_stock_quantity</span><span class="p">):</span>
+                    <span class="c1"># Keeps the information of more availability.</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">in_stock_quantity</span>  <span class="c1"># In stock.</span>
+                <span class="n">ign_stock_code</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="o">.</span><span class="n">ignore_cat</span>
+                <span class="n">valid_part</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span><span class="n">ign_stock_code</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ign_stock_code</span><span class="p">,</span> <span class="n">dist_part_num</span><span class="p">))</span>
+                <span class="c1"># debug(&#39;part.part_num[dist]&#39;)  # Uncomment to debug</span>
+                <span class="c1"># debug(&#39;part.qty_increment[dist]&#39;)  # Uncomment to debug</span>
+                <span class="n">moq</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">valid_part</span> <span class="ow">and</span>
+                    <span class="p">(</span><span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">part_num</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="ow">or</span>
+                     <span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">part_qty_increment</span> <span class="o">&lt;</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span> <span class="ow">or</span>
+                     <span class="p">(</span><span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">moq</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">moq</span><span class="p">)))):</span>
+                    <span class="c1"># Save the link, stock code, ... of the page for minimum purchase.</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">moq</span>  <span class="c1"># Minimum order qty.</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">url</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product_url&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># Page to purchase the minimum quantity.</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist_part_num</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">part_qty_increment</span></div>
 
 <div class="viewcode-block" id="api_partinfo_kitspace.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from KitSpace.&#39;&#39;&#39;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;# Getting part data from KitSpace...&#39;</span><span class="p">)</span>
+        <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;# Getting part data from KitSpace...&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Change the logging print channel to `tqdm` to keep the process bar to the end of terminal.</span>
-        <span class="k">class</span> <span class="nc">TqdmLoggingHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">):</span>
-            <span class="sd">&#39;&#39;&#39;Overload the class to write the logging through the `tqdm`.&#39;&#39;&#39;</span>
-            <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">):</span>
-                <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
-            <span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
-                    <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
-                <span class="k">except</span> <span class="p">(</span><span class="ne">KeyboardInterrupt</span><span class="p">,</span> <span class="ne">SystemExit</span><span class="p">):</span>
-                    <span class="k">raise</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">handleError</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
-                <span class="k">pass</span>
-        <span class="c1"># Get handles to default sys.stdout logging handler and the</span>
-        <span class="c1"># new &quot;tqdm&quot; logging handler.</span>
-        <span class="n">logDefaultHandler</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">handlers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">logTqdmHandler</span> <span class="o">=</span> <span class="n">TqdmLoggingHandler</span><span class="p">()</span>
-        <span class="c1"># Replace default handler with &quot;tqdm&quot; handler.</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logTqdmHandler</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">logDefaultHandler</span><span class="p">)</span>
-
-        <span class="n">FIELDS_CAT</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">])</span>
-        <span class="n">DISTRIBUTORS</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">])</span>
         <span class="c1"># Use just the distributors avaliable in this API.</span>
-        <span class="n">distributors</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span> <span class="nb">set</span><span class="p">(</span><span class="n">DISTRIBUTORS</span><span class="p">)</span> <span class="o">&amp;</span>
-            <span class="nb">set</span><span class="p">(</span><span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">][</span><span class="s1">&#39;distributors&#39;</span><span class="p">])</span> <span class="p">)</span>
-
-        <span class="c1"># Translate from PartInfo distributor names to the names used internally by kicost.</span>
-        <span class="n">dist_xlate</span> <span class="o">=</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">][</span><span class="s1">&#39;dist_translation&#39;</span><span class="p">]</span>
-
-        <span class="k">def</span> <span class="nf">get_part_info</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">distributor_info</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-            <span class="sd">&#39;&#39;&#39;Query PartInfo for quantity/price info and place it into the parts list.</span>
-<span class="sd">               `distributor_info` is used to update only one distributor information (price_tiers, ...),</span>
-<span class="sd">               the proposed if use in the disambiguation procedure.</span>
-<span class="sd">            &#39;&#39;&#39;</span>
-
-            <span class="n">results</span> <span class="o">=</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">distributors</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">distributor_info</span><span class="p">:</span>
-                <span class="n">distributor_info</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
-
-            <span class="c1"># Loop through the response to the query and enter info into the parts list.</span>
-            <span class="k">for</span> <span class="n">part_query</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">dist_info</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">distributor_info</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;match&#39;</span><span class="p">]):</span>
-
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;No information found for parts </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> query `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">order_refs</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_query</span><span class="p">)))</span>
-
-                <span class="k">else</span><span class="p">:</span>
-
-                    <span class="c1"># Get the information of the part.</span>
-                    <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;datasheet&#39;</span><span class="p">)</span>
-                    <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">get_value</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;specs&#39;</span><span class="p">],</span> <span class="s1">&#39;lifecycle_status&#39;</span><span class="p">,</span> <span class="s1">&#39;active&#39;</span><span class="p">)</span>
-
-                    <span class="c1"># Loop through the offers from various dists for this particular part.</span>
-                    <span class="k">for</span> <span class="n">offer</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;offers&#39;</span><span class="p">]:</span>
-                        <span class="c1"># Get the distributor who made the offer and add their</span>
-                        <span class="c1"># price/qty info to the parts list if its one of the accepted distributors.</span>
-                        <span class="n">dist</span> <span class="o">=</span> <span class="n">dist_xlate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">offer</span><span class="p">[</span><span class="s1">&#39;sku&#39;</span><span class="p">][</span><span class="s1">&#39;vendor&#39;</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-                        <span class="k">if</span> <span class="n">dist_info</span> <span class="ow">and</span> <span class="n">dist</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dist_info</span><span class="p">:</span>
-                            <span class="k">continue</span>
-                        <span class="k">if</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
-
-                            <span class="c1"># Get pricing information from this distributor.</span>
-                            <span class="k">try</span><span class="p">:</span>
-                                <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1"># Empty dict in case of exception.</span>
-                                <span class="k">if</span> <span class="ow">not</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]:</span>
-                                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;No price information found for parts </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> query `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">order_refs</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_query</span><span class="p">)))</span>
-                                <span class="k">else</span><span class="p">:</span>
-                                    <span class="n">dist_currency</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-                                    
-                                    <span class="c1"># Get the price tiers prioritizing:</span>
-                                    <span class="c1"># 1) The asked currency by KiCOst user;</span>
-                                    <span class="c1"># 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;</span>
-                                    <span class="c1"># 3) The first not null tier.s</span>
-                                    <span class="n">prices</span> <span class="o">=</span> <span class="kc">None</span>
-                                    <span class="k">if</span> <span class="n">currency</span> <span class="ow">in</span> <span class="n">dist_currency</span> <span class="ow">and</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">][</span><span class="n">currency</span><span class="p">]:</span>
-                                        <span class="n">prices</span> <span class="o">=</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">][</span><span class="n">currency</span><span class="p">]</span>
-                                        <span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">currency</span>
-                                    <span class="k">elif</span> <span class="n">DEFAULT_CURRENCY</span> <span class="ow">in</span> <span class="n">dist_currency</span> <span class="ow">and</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">][</span><span class="n">DEFAULT_CURRENCY</span><span class="p">]:</span><span class="c1"># and DEFAULT_CURRENCY!=currency:</span>
-                                        <span class="n">prices</span> <span class="o">=</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">][</span><span class="n">DEFAULT_CURRENCY</span><span class="p">]</span>
-                                        <span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">DEFAULT_CURRENCY</span>
-                                    <span class="k">else</span><span class="p">:</span>
-                                        <span class="k">for</span> <span class="n">dist_c</span> <span class="ow">in</span> <span class="n">dist_currency</span><span class="p">:</span>
-                                            <span class="k">if</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">][</span><span class="n">dist_c</span><span class="p">]:</span>
-                                                <span class="n">prices</span> <span class="o">=</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">][</span><span class="n">dist_c</span><span class="p">]</span>
-                                                <span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist_c</span>
-                                                <span class="k">break</span>
-                                    
-                                    <span class="c1"># Some times the API returns minimum purchase 0 and a not valid `price_tiers`.</span>
-                                    <span class="k">if</span> <span class="n">prices</span><span class="p">:</span>
-                                        <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">qty</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
-                                                            <span class="k">for</span> <span class="n">qty</span><span class="p">,</span> <span class="n">price</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">prices</span><span class="p">)</span>
-                                                      <span class="p">}</span>
-                                        <span class="c1"># Combine price lists for multiple offers from the same distributor</span>
-                                        <span class="c1"># to build a complete list of cut-tape and reeled components.</span>
-                                        <span class="k">if</span> <span class="ow">not</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">:</span>
-                                            <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-                                        <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">price_tiers</span><span class="p">)</span>
-                            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
-                                <span class="k">pass</span>  <span class="c1"># Price list is probably missing so leave empty default dict in place.</span>
-
-                            <span class="c1"># Compute the quantity increment between the lowest two prices.</span>
-                            <span class="c1"># This will be used to distinguish the cut-tape from the reeled components.</span>
-                            <span class="k">try</span><span class="p">:</span>
-                                <span class="n">part_break_qtys</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">price_tiers</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-                                <span class="n">part_qty_increment</span> <span class="o">=</span> <span class="n">part_break_qtys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">part_break_qtys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-                            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-                                <span class="c1"># This will happen if there are not enough entries in the price/qty list.</span>
-                                <span class="c1"># As a stop-gap measure, just assign infinity to the part increment.</span>
-                                <span class="c1"># A better alternative may be to examine the packaging field of the offer.</span>
-                                <span class="n">part_qty_increment</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
-
-                            <span class="c1"># Select the part SKU, web page, and available quantity.</span>
-                            <span class="c1"># Each distributor can have different stock codes for the same part in different</span>
-                            <span class="c1"># quantities / delivery package styles: cut-tape, reel, ...</span>
-                            <span class="c1"># Therefore we select and overwrite a previous selection if one of the</span>
-                            <span class="c1"># following conditions is met:</span>
-                            <span class="c1">#   1. We don&#39;t have a selection for this part from this distributor yet.</span>
-                            <span class="c1">#   2. The MOQ is smaller than for the current selection.</span>
-                            <span class="c1">#   3. The part_qty_increment for this offer smaller than that of the existing selection.</span>
-                            <span class="c1">#      (we prefer cut-tape style packaging over reels)</span>
-                            <span class="c1">#   4. For DigiKey, we can&#39;t use part_qty_increment to distinguish between</span>
-                            <span class="c1">#      reel and cut-tape, so we need to look at the actual DigiKey part number.</span>
-                            <span class="c1">#      This procedure is made by the definition `distributors_info[dist][&#39;ignore_cat#_re&#39;]`</span>
-                            <span class="c1">#      at the distributor profile.</span>
-                            <span class="n">dist_part_num</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sku&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;part&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-                            <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">&lt;</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)):</span>
-                                <span class="c1"># Keeps the information of more availability.</span>
-                                <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;in_stock_quantity&#39;</span><span class="p">)</span> <span class="c1"># In stock.</span>
-                            <span class="n">ign_stock_code</span> <span class="o">=</span> <span class="n">distributors_info</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ignore_cat#_re&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-                            <span class="n">valid_part</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span> <span class="n">ign_stock_code</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ign_stock_code</span><span class="p">,</span> <span class="n">dist_part_num</span><span class="p">)</span> <span class="p">)</span>
-                            <span class="c1">#debug(&#39;part.part_num[dist]&#39;) # Uncomment to debug</span>
-                            <span class="c1">#debug(&#39;part.qty_increment[dist]&#39;)  # Uncomment to debug</span>
-                            <span class="k">if</span> <span class="n">valid_part</span> <span class="ow">and</span> \
-                                <span class="p">(</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> \
-                                <span class="p">(</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">part_qty_increment</span> <span class="o">&lt;</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">[</span><span class="n">dist</span><span class="p">])</span> <span class="ow">or</span> \
-                                <span class="p">(</span><span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="ow">or</span> <span class="p">(</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span><span class="o">&gt;</span><span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)))</span> <span class="p">):</span>
-                                    <span class="c1"># Save the link, stock code, ... of the page for minimum purchase.</span>
-                                    <span class="n">part</span><span class="o">.</span><span class="n">moq</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span> <span class="c1"># Minimum order qty.</span>
-                                    <span class="n">part</span><span class="o">.</span><span class="n">url</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">offer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;product_url&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1"># Page to purchase the minimum quantity.</span>
-                                    <span class="n">part</span><span class="o">.</span><span class="n">part_num</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist_part_num</span>
-                                    <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">part_qty_increment</span>
-
-                            <span class="c1"># Don&#39;t bother with any extra info from the distributor.</span>
-                            <span class="n">part</span><span class="o">.</span><span class="n">info_dist</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-
-        <span class="c1"># Get the valid distributor names used by them part catalog</span>
-        <span class="c1"># that may be index by PartInfo. This is used to remove the</span>
-        <span class="c1"># local distributors and future not implemented in the PartInfo</span>
-        <span class="c1"># definition.</span>
-        <span class="n">distributors_name_api</span> <span class="o">=</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">][</span><span class="s1">&#39;dist_translation&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="c1"># Note: The user can use --exclude and define it with fields.</span>
+        <span class="n">distributors</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span> <span class="k">if</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">is_web</span><span class="p">()</span>
+                        <span class="ow">and</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">API_DISTRIBUTORS</span><span class="p">]</span>
+        <span class="n">FIELDS_CAT</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">])</span>
 
         <span class="c1"># Create queries to get part price/quantities from PartInfo.</span>
-        <span class="n">queries</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Each part reference query.</span>
-        <span class="n">query_parts</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Pointer to the part.</span>
-        <span class="n">query_part_stock_code</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># Used the stock code mention for disambiguation,</span>
-                                   <span class="c1"># it is used `None` for the &quot;manf#&quot;.</span>
-        <span class="k">for</span> <span class="n">part_idx</span><span class="p">,</span> <span class="n">part</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parts</span><span class="p">):</span>
-
-            <span class="c1"># Create a PartInfo query using the manufacturer&#39;s part number or </span>
-            <span class="c1"># the distributor&#39;s SKU.</span>
-            <span class="n">query</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">part_dist_use_manfpn</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">DISTRIBUTORS</span><span class="p">)</span>
+        <span class="n">queries</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Each part reference query.</span>
+        <span class="n">query_parts</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Pointer to the part.</span>
+        <span class="n">query_part_stock_code</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Used the stock code mention for disambiguation, it is used `None` for the &quot;manf#&quot;.</span>
+        <span class="c1"># Translate from PartInfo distributor names to the names used internally by kicost.</span>
+        <span class="n">available_distributors</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">API_DISTRIBUTORS</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="c1"># Create a PartInfo query using the manufacturer&#39;s part number or the distributor&#39;s SKU.</span>
+            <span class="n">part_dist_use_manfpn</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">distributors</span><span class="p">)</span>
 
             <span class="c1"># Check if that part have stock code that is accepted to use by this module (API).</span>
             <span class="c1"># KiCost will prioritize these codes under &quot;manf#&quot; that will be used for get</span>
-            <span class="c1">#information for the part hat were not filled with the distributor stock code. So</span>
+            <span class="c1"># information for the part hat were not filled with the distributor stock code. So</span>
             <span class="c1"># this is checked after the &#39;manf#&#39; buv code.</span>
+            <span class="n">found_codes_for_all_dists</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">FIELDS_CAT</span><span class="p">:</span>
                 <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">part_stock</span><span class="p">:</span>
                     <span class="n">part_catalogue_code_dist</span> <span class="o">=</span> <span class="n">d</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="k">if</span> <span class="n">part_catalogue_code_dist</span> <span class="ow">in</span> <span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">][</span><span class="s1">&#39;distributors&#39;</span><span class="p">]:</span>
-                        <span class="n">part_code_dist</span> <span class="o">=</span> <span class="nb">list</span><span class="p">({</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dist_xlate</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">part_catalogue_code_dist</span><span class="p">})[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sku&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;vendor&#39;</span><span class="p">:</span> <span class="n">part_code_dist</span><span class="p">,</span> <span class="s1">&#39;part&#39;</span><span class="p">:</span> <span class="n">part_stock</span><span class="p">}}</span>
-                        <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">part_catalogue_code_dist</span> <span class="ow">in</span> <span class="n">available_distributors</span><span class="p">:</span>
+                        <span class="n">part_code_dist</span> <span class="o">=</span> <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">KICOST2KITSPACE_DIST</span><span class="p">[</span><span class="n">part_catalogue_code_dist</span><span class="p">]</span>
+                        <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;{&quot;sku&quot;:{&quot;vendor&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">part_code_dist</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;part&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">part_stock</span> <span class="o">+</span> <span class="s1">&#39;&quot;}}&#39;</span><span class="p">)</span>
                         <span class="n">query_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
                         <span class="n">query_part_stock_code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part_catalogue_code_dist</span><span class="p">)</span>
                         <span class="n">part_dist_use_manfpn</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">part_catalogue_code_dist</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">found_codes_for_all_dists</span> <span class="o">=</span> <span class="kc">False</span>
 
             <span class="n">part_manf</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
             <span class="n">part_code</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf#&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">part_code</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FIELDS_CAT</span><span class="p">]):</span>
-                <span class="n">query</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mpn&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;manufacturer&#39;</span><span class="p">:</span> <span class="n">part_manf</span><span class="p">,</span> <span class="s1">&#39;part&#39;</span><span class="p">:</span> <span class="n">part_code</span><span class="p">}}</span>
-                <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">part_code</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">found_codes_for_all_dists</span><span class="p">:</span>
+                <span class="c1"># Not all distributors has code, include the manufaturer P/N</span>
+                <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;{&quot;mpn&quot;:{&quot;manufacturer&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">part_manf</span> <span class="o">+</span> <span class="s1">&#39;&quot;,&quot;part&quot;:&quot;&#39;</span> <span class="o">+</span> <span class="n">part_code</span> <span class="o">+</span> <span class="s1">&#39;&quot;}}&#39;</span><span class="p">)</span>
                 <span class="n">query_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+                <span class="c1"># List of distributors without an specific part number</span>
                 <span class="n">query_part_stock_code</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part_dist_use_manfpn</span><span class="p">)</span>
 
+        <span class="n">n_queries</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">query_parts</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">n_queries</span><span class="p">:</span>
+            <span class="k">return</span>
         <span class="c1"># Setup progress bar to track progress of server queries.</span>
-        <span class="n">progress</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Progress&#39;</span><span class="p">,</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">query_parts</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;part&#39;</span><span class="p">,</span> <span class="n">miniters</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">n_queries</span><span class="p">,</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
 
         <span class="c1"># Slice the queries into batches of the largest allowed size and gather</span>
         <span class="c1"># the part data for each batch.</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">),</span> <span class="n">MAX_PARTS_PER_QUERY</span><span class="p">):</span>
             <span class="n">slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="n">MAX_PARTS_PER_QUERY</span><span class="p">)</span>
-            <span class="n">get_part_info</span><span class="p">(</span><span class="n">queries</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">query_parts</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">query_part_stock_code</span><span class="p">[</span><span class="n">slc</span><span class="p">])</span>
+            <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">get_part_info</span><span class="p">(</span><span class="n">queries</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">query_parts</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">query_part_stock_code</span><span class="p">[</span><span class="n">slc</span><span class="p">])</span>
             <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">[</span><span class="n">slc</span><span class="p">]))</span>
-
-        <span class="c1"># Restore the logging print channel now that the progress bar is no longer needed.</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">logDefaultHandler</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">removeHandler</span><span class="p">(</span><span class="n">logTqdmHandler</span><span class="p">)</span>
 
         <span class="c1"># Done with the scraping progress bar so delete it or else we get an</span>
         <span class="c1"># error when the program terminates.</span>
-        <span class="k">del</span> <span class="n">progress</span></div></div>
+        <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+
+
+<span class="n">distributor_class</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">api_partinfo_kitspace</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -429,7 +386,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -445,12 +402,14 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_partinfo_kitspace</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

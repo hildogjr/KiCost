@@ -24,10 +24,15 @@ they are prioritized to get the part information.
 
 Digi-Key: digikey#         digikey_#    digikey-#    digikeypn#    digikey_pn#    digikey-pn#
           digikeypn        ...
+
           digikeyvendor#   ...
+
           digikeynum       ...
+
           digikeyvp#       ...
+
           digikeyvpn       ...
+
 Mouser:   mouser# ....
 ...
 
@@ -109,7 +114,7 @@ To read and merge different projects BOMs, even those from different EDA tools::
 To access KiCost through a graphical user interface, just use the `kicost`
 command without parameters.
 
-.. image:: https://github.com/xesscorp/KiCost/blob/master/docs/guide_screen.png
+.. image:: guide_screen.png
 
 ------------------------
 Custom BOM list
@@ -226,9 +231,10 @@ Parts With Subparts
 Some parts consist of two or more subparts.
 For example, a two-pin jumper might have an associated shunt.
 This is represented by placing the part number for each subpart into the ``manf#`` field, separated
-by a ";" like so: ``JMP1A45;SH3QQ5``. The ``manf`` (manufacture name) also allow this division, empty or replicate the last one (use "~" character to replicate the last one).
+by a "|" (ASCII 124) like so: ``JMP1A45|SH3QQ5``. The ``manf`` (manufacturer name) also allows this division.
+You can leave a position empty or replicate the last one (use "~" character to replicate the last one).
 Each subpart will be placed on a separate row of the spreadsheet with its associated part number
-and a part reference formed from the original part reference with an added "#" and a number. 
+and a part reference created from the original part reference adding "#" and a number.
 For example, if the two-pin jumper had a part reference of ``JP6``, then there
 would be two rows in the spreadsheet containing data like this:
 
@@ -240,20 +246,27 @@ would be two rows in the spreadsheet containing data like this:
 You can also specify multipliers for each subpart by either prepending or appending
 the subpart part number with a multiplier separated by a ":".
 To illustrate, a 2x2 jumper paired with two shunts would have a part number of
-``JMP2B26; SH3QQ5:2``.
+``JMP2B26| SH3QQ5:2``.
 The multiplier can be either an integer, float or fraction
 and it can precede or follow the part code (e.g. ``SH3QQ5:2`` or ``2:SH3QQ5``).
 
 In the case of ``distributor#`` and ``manf#`` for one sub part only, the other should have a blank
-value discriminated. As exemple:
+value discriminated. As example:
 
 ::
 
-    manf#    =  0022232061;0022012067; 6: 08-50-0114;  LA 55-P; lv 25-P
-    digikey# =  ;;; 398-1010-ND; 398-1019-ND
-    rs#      =  ;;; 180-7357; 286-361
+    manf#    =  0022232061|0022012067| 6: 08-50-0114|  LA 55-P| lv 25-P
+    digikey# =  ||| 398-1010-ND| 398-1019-ND
+    rs#      =  ||| 180-7357| 286-361
 
-See that just the last two ``manf#`` have a correspondent ``digikey#`` and ``rs#`` catalogue code.
+See that just the last two ``manf#`` have a corresponding ``digikey#`` and ``rs#`` catalogue code.
+
+This mechanism is applied to the following fields: ``manf``, ``manf#`` and any ``DISTRIBUTOR#`` field.
+A similar mechanism is applied to the ``pricing`` field, but the multiplier mechanism isn't applied.
+If you want to process more fields add them using the ``--split_extra_fields`` option.
+
+For compatibility with older versions of KiCost you can also use "," or ";" as separator for ``manf``,
+``manf#`` and any ``DISTRIBUTOR#`` field.
     
 
 ------------------------
@@ -306,7 +319,9 @@ in future versions of KiCost.
 Some parts in a schematic are not intended for insertion on the final board assembly.
 These "do not populate" (DNP) parts can be assigned a field called ``DNP`` or ``NOPOP``.
 Setting the value of this field to a non-zero number or any string will cause this part
-to be omitted from the cost calculation spreadsheet.
+to be omitted from the cost calculation spreadsheet. Note that empty strings will be
+interpreted as zero (i.e. ``kicost.VARIANT:dnp=""`` and ``kicost.VARIANT:dnp=" "`` will
+be interpreted as ``kicost.VARIANT:dnp="0"``)
 
 -----------------------------------------------
 Showing Extra Part Data in the Spreadsheet
@@ -329,8 +344,7 @@ provides additional cues:
 
 #. The ``Manf#`` cell is colored to warning the part lifecyle status:
 
-   * Purple if the part is asign as 'obsolete' or 'not recommended for new designs'
-   by one of the distributors accessed.
+   * Purple if the part is asign as 'obsolete' or 'not recommended for new designs' by one of the distributors accessed.
 
 #. The ``Qty`` cell is colored to show the availability of a given part:
 
@@ -377,77 +391,77 @@ Command-Line Options
 
 ::
 
-usage: kicost [-h] [-v] [--info] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
-              [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
-              [--variant VARIANT [VARIANT ...]] [-w] [-q]
-              [--ignore_fields NAME [NAME ...]]
-              [--group_fields NAME [NAME ...]] [--debug [LEVEL]]
-              [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
-              [--show_dist_list] [--show_eda_list] [--no_collapse]
-              [--show_cat_url] [-e DIST [DIST ...]]
-              [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
-              [--gui FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
-
-
-Build cost spreadsheet for a KiCAD project.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -v, --version         show program's version number and exit
-  --info                Show program' and library information and version.
-  -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
-                        One or more schematic BOM XML files.
-  -o [FILE.XLSX], --output [FILE.XLSX]
-                        Generated cost spreadsheet.
-  -f NAME [NAME ...], --fields NAME [NAME ...]
-                        Specify the names of additional part fields to extract
-                        and insert in the global data section of the
-                        spreadsheet.
-  --translate_fields NAME [NAME ...]
-                        Specify or remove field translation (--translate X1 Y1
-                        X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
-                        remove X3 for the internal dictionary).
-  --variant VARIANT [VARIANT ...]
-                        schematic variant name filter using regular expression.
-  -w, --overwrite       Allow overwriting of an existing spreadsheet.
-  -q, --quiet           Enable quiet mode with no warnings.
-  --ignore_fields NAME [NAME ...]
-                        Declare part fields to ignore when reading the BoM
-                        file.
-  --group_fields NAME [NAME ...]
-                        Declare part fields to merge when grouping parts.
-  --debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
-  --eda {kicad,altium,csv} [{kicad,altium,csv} ...]
-                        Choose EDA tool from which the XML BOM file
-                        originated, or use csv for .CSV files.
-  --show_dist_list      Show list of distributors that can be scraped for cost
-                        data, then exit.
-  --show_eda_list       Show list of EDA tools whose files KiCost can read,
-                        then exit.
-  --no_collapse         Do not collapse the part references in the
-                        spreadsheet.
-  --show_cat_url        Do not suppress the catalogue links into the catalogue
-                        code in the spreadsheet.
-  -e DIST [DIST ...], --exclude DIST [DIST ...]
-                        Excludes the given distributor(s) from the scraping
-                        process.
-  --include DIST [DIST ...]
-                        Includes only the given distributor(s) in the scraping
-                        process.
-  --no_price            Create a spreadsheet without scraping part data from
-                        distributor websites.
-  --currency [CURRENCY]
-                        Define the priority currency. Use the ISO4217 for
-                        currency (`USD`, `EUR`). Default: `USD`.
-  --gui FILE.XML [FILE.XML ...]
-                        Start the GUI to run KiCost passing the file parameter
-                        give by "--input", all others parameters are ignored.
-  --user                Run KiCost on terminal using the parameters in the GUI
-                        memory, all passed parameters from terminal take
-                        priority.
-  --setup               Run KiCost integration (with KiCad and OS)
-                        configuration script.
-  --unsetup             Undo the KiCost integration.
+ usage: kicost [-h] [-v] [--info] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
+               [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
+               [--variant VARIANT [VARIANT ...]] [-w] [-q]
+               [--ignore_fields NAME [NAME ...]]
+               [--group_fields NAME [NAME ...]] [--debug [LEVEL]]
+               [--eda {kicad,altium,csv} [{kicad,altium,csv} ...]]
+               [--show_dist_list] [--show_eda_list] [--no_collapse]
+               [--show_cat_url] [-e DIST [DIST ...]]
+               [--include DIST [DIST ...]] [--no_price] [--currency [CURRENCY]]
+               [--gui FILE.XML [FILE.XML ...]] [--user] [--setup] [--unsetup]
+ 
+ 
+ Build cost spreadsheet for a KiCAD project.
+ 
+ optional arguments:
+   -h, --help            show this help message and exit
+   -v, --version         show program's version number and exit
+   --info                Show program' and library information and version.
+   -i FILE.XML [FILE.XML ...], --input FILE.XML [FILE.XML ...]
+                         One or more schematic BOM XML files.
+   -o [FILE.XLSX], --output [FILE.XLSX]
+                         Generated cost spreadsheet.
+   -f NAME [NAME ...], --fields NAME [NAME ...]
+                         Specify the names of additional part fields to extract
+                         and insert in the global data section of the
+                         spreadsheet.
+   --translate_fields NAME [NAME ...]
+                         Specify or remove field translation (--translate X1 Y1
+                         X2 Y2 X3 ~, translates X1 to Y1 and X2 to Y2 and
+                         remove X3 for the internal dictionary).
+   --variant VARIANT [VARIANT ...]
+                         schematic variant name filter using regular expression.
+   -w, --overwrite       Allow overwriting of an existing spreadsheet.
+   -q, --quiet           Enable quiet mode with no warnings.
+   --ignore_fields NAME [NAME ...]
+                         Declare part fields to ignore when reading the BoM
+                         file.
+   --group_fields NAME [NAME ...]
+                         Declare part fields to merge when grouping parts.
+   --debug [LEVEL]       Print debugging info. (Larger LEVEL means more info.)
+   --eda {kicad,altium,csv} [{kicad,altium,csv} ...]
+                         Choose EDA tool from which the XML BOM file
+                         originated, or use csv for .CSV files.
+   --show_dist_list      Show list of distributors that can be scraped for cost
+                         data, then exit.
+   --show_eda_list       Show list of EDA tools whose files KiCost can read,
+                         then exit.
+   --no_collapse         Do not collapse the part references in the
+                         spreadsheet.
+   --show_cat_url        Do not suppress the catalogue links into the catalogue
+                         code in the spreadsheet.
+   -e DIST [DIST ...], --exclude DIST [DIST ...]
+                         Excludes the given distributor(s) from the scraping
+                         process.
+   --include DIST [DIST ...]
+                         Includes only the given distributor(s) in the scraping
+                         process.
+   --no_price            Create a spreadsheet without scraping part data from
+                         distributor websites.
+   --currency [CURRENCY]
+                         Define the priority currency. Use the ISO4217 for
+                         currency (`USD`, `EUR`). Default: `USD`.
+   --gui FILE.XML [FILE.XML ...]
+                         Start the GUI to run KiCost passing the file parameter
+                         give by "--input", all others parameters are ignored.
+   --user                Run KiCost on terminal using the parameters in the GUI
+                         memory, all passed parameters from terminal take
+                         priority.
+   --setup               Run KiCost integration (with KiCad and OS)
+                         configuration script.
+   --unsetup             Undo the KiCost integration.
 
 
 

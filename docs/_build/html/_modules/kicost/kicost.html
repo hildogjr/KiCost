@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.kicost &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,7 +27,9 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.kicost</a></li> 
       </ul>
     </div>  
 
@@ -62,11 +64,13 @@
 <span class="c1"># THE SOFTWARE.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  @package</span>
-<span class="sd">  KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.</span>
+<span class="sd">  KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and</span>
+<span class="sd">  others EDAs.</span>
 <span class="sd">  Full manual at https://xesscorp.github.io/KiCost</span>
 <span class="sd">  Development at https://github.com/xesscorp/KiCost</span>
-<span class="sd">  KiCost is powered by the Kitspace PartInfo API (https://kitspace.org/). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please donate to the Kitspace Open Collective to keep the service running. (https://opencollective.com/kitspace).</span>
-<span class="sd">  </span>
+<span class="sd">  KiCost is powered by the Kitspace PartInfo API (https://kitspace.org/). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please</span>
+<span class="sd">  donate to the Kitspace Open Collective to keep the service running. (https://opencollective.com/kitspace).</span>
+
 <span class="sd">  Command line:</span>
 <span class="sd">      kicost -i &quot;%I&quot; &quot;%O.xslx&quot;</span>
 <span class="sd">  Run Graphical User Interface:</span>
@@ -76,12 +80,12 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
-
 <span class="c1"># Libraries.</span>
-<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pprint</span>
-<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
 
 <span class="c1"># Stops UnicodeDecodeError exceptions.</span>
 <span class="k">try</span><span class="p">:</span>
@@ -90,37 +94,37 @@
 <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
     <span class="k">pass</span>  <span class="c1"># Happens if reload is attempted in Python 3.</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span><span class="s1">&#39;output_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost_gui_notdependences&#39;</span><span class="p">]</span>  <span class="c1"># Only export this routine for use by the outside world.</span>
+<span class="c1"># Only export this routine for use by the outside world.</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span> <span class="s1">&#39;output_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost_gui_notdependences&#39;</span><span class="p">,</span> <span class="s1">&#39;query_part_info&#39;</span><span class="p">]</span>
 
-<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span>
-
-<span class="c1"># TODO this 2 imports above should be removed. `kicost.py` should just import a single function that deal with all API/Scrapes/local inside</span>
-<span class="c1">#from .distributors.api_octopart import api_octopart</span>
-<span class="kn">from</span> <span class="nn">.distributors.api_partinfo_kitspace</span> <span class="k">import</span> <span class="n">api_partinfo_kitspace</span>
-<span class="kn">from</span> <span class="nn">.distributors.dist_local_template</span> <span class="k">import</span> <span class="n">dist_local_template</span>
-<span class="kn">from</span> <span class="nn">.distributors.distributor</span> <span class="k">import</span> <span class="n">distributor_class</span>
-<span class="kn">from</span> <span class="nn">.distributors.global_vars</span> <span class="k">import</span> <span class="n">distributors_modules_dict</span>
-
-<span class="c1">## Import the KiCost libraries functions.</span>
+<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">SEPRTR</span><span class="p">,</span> <span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">DEF_MAX_COLUMN_W</span><span class="p">,</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">ERR_KICOSTCONFIG</span><span class="p">,</span> <span class="n">ERR_ARGS</span><span class="p">,</span> <span class="n">KiCostError</span><span class="p">,</span>
+                          <span class="n">W_TRANS</span><span class="p">,</span> <span class="n">W_NOMANP</span><span class="p">)</span>
+<span class="c1"># * Import the KiCost libraries functions.</span>
 <span class="c1"># Import information for various EDA tools.</span>
-<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="k">import</span> <span class="n">field_name_translations</span>
-<span class="kn">from</span> <span class="nn">.edas</span> <span class="k">import</span> <span class="n">eda_modules</span>
-<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="k">import</span> <span class="n">subpartqty_split</span><span class="p">,</span> <span class="n">group_parts</span><span class="p">,</span> <span class="n">PRJ_STR_DECLARE</span><span class="p">,</span> <span class="n">PRJPART_SPRTR</span>
-<span class="c1"># Import information about various distributors.</span>
-<span class="kn">from</span> <span class="nn">.distributors.distributor</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.distributors.global_vars</span> <span class="k">import</span> <span class="n">distributor_dict</span>
+<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="kn">import</span> <span class="n">field_name_translations</span><span class="p">,</span> <span class="n">subpartqty_split</span><span class="p">,</span> <span class="n">group_parts</span><span class="p">,</span> <span class="n">PRJ_STR_DECLARE</span><span class="p">,</span> <span class="n">PRJPART_SPRTR</span>
+<span class="kn">from</span> <span class="nn">.edas</span> <span class="kn">import</span> <span class="n">get_part_groups</span>
 <span class="c1"># Creation of the final XLSX spreadsheet.</span>
-<span class="kn">from</span> <span class="nn">.spreadsheet</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.spreadsheet</span> <span class="kn">import</span> <span class="n">create_spreadsheet</span><span class="p">,</span> <span class="n">Spreadsheet</span>
+<span class="c1"># Import the scrape API</span>
+<span class="kn">from</span> <span class="nn">.distributors</span> <span class="kn">import</span> <span class="n">get_dist_parts_info</span><span class="p">,</span> <span class="n">get_registered_apis</span><span class="p">,</span> <span class="n">get_distributors_iter</span><span class="p">,</span> <span class="n">get_distributor_info</span>
 
-<div class="viewcode-block" id="kicost"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.kicost">[docs]</a><span class="k">def</span> <span class="nf">kicost</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">eda_name</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">,</span>
-        <span class="n">user_fields</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">group_fields</span><span class="p">,</span> <span class="n">translate_fields</span><span class="p">,</span>
-        <span class="n">variant</span><span class="p">,</span>
-        <span class="n">dist_list</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">distributor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
-        <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="query_part_info"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.query_part_info">[docs]</a><span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">:</span>
+        <span class="n">api_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;(Disabled)&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">enabled</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">get_registered_apis</span><span class="p">()]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Scrape API list &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">api_list</span><span class="p">))</span>
+    <span class="n">get_dist_parts_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="kicost"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.kicost">[docs]</a><span class="k">def</span> <span class="nf">kicost</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">eda_name</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">,</span> <span class="n">user_fields</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">group_fields</span><span class="p">,</span> <span class="n">translate_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+           <span class="n">suppress_cat_url</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">max_column_width</span><span class="o">=</span><span class="n">DEF_MAX_COLUMN_W</span><span class="p">,</span> <span class="n">split_extra_fields</span><span class="o">=</span><span class="p">[],</span>
+           <span class="n">board_qty</span><span class="o">=</span><span class="p">[</span><span class="n">Spreadsheet</span><span class="o">.</span><span class="n">DEFAULT_BUILD_QTY</span><span class="p">]):</span>
     <span class="sd">&#39;&#39;&#39; @brief Run KiCost.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.</span>
-<span class="sd">    </span>
+
 <span class="sd">    @param in_file `list(str())` List of the names of the input BOM files.</span>
 <span class="sd">    @param eda_name `list(str())` of the EDA modules to be used to open the `in_file`list.</span>
 <span class="sd">    @param out_filename `str()` XLSX output file name.</span>
@@ -130,29 +134,30 @@
 <span class="sd">    are not grouped by default.</span>
 <span class="sd">    @param translate_fields `list()` of the fields to translate to translate or remove (if `~` present).</span>
 <span class="sd">    @param variant `list(str())` of regular expression to the BOM variant of each file in `in_file`.</span>
-<span class="sd">    @param dist_list `list(str())` to be scraped, if empty will be scraped with all distributors</span>
+<span class="sd">    @param dist_list `list(str())` to be scraped</span>
 <span class="sd">    modules. If `None`, no web/local distributors will be scraped.</span>
 <span class="sd">    @param collapse_refs `bool()` Collapse or not the designator references in the spreadsheet.</span>
 <span class="sd">    Default `True`.</span>
 <span class="sd">    @param suppress_cat_url `bool()` Suppress the distributors catalogue links into the catalogue code in the spreadsheet.</span>
 <span class="sd">    Default `True`.</span>
 <span class="sd">    @param currency `str()` Currency in ISO4217. Default &#39;USD&#39;.</span>
+<span class="sd">    @param max_column_width `int()` The maximum column width. If 0 disables cell size adjust. Default: DEF_MAX_COLUMN_W</span>
+<span class="sd">    @param split_extra_fields `list(str())` Fields that will be split using the multipart mechanism.</span>
+<span class="sd">    @param board_qty `list(int())` Board quantities for each project.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-
     <span class="c1"># Add or remove field translations, ignore in case the trying to</span>
     <span class="c1"># re-translate default field names.</span>
     <span class="k">if</span> <span class="n">translate_fields</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">translate_fields</span><span class="p">)</span><span class="o">%</span><span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Translation fields argument should have an even number of words.&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">translate_fields</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Translation fields argument should have an even number of words.&#39;</span><span class="p">,</span> <span class="n">ERR_ARGS</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">translate_fields</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
-            <span class="c1">#field_name_translations.keys(), field_name_translations.values()</span>
+            <span class="c1"># field_name_translations.keys(), field_name_translations.values()</span>
             <span class="k">if</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="ow">in</span> <span class="n">field_name_translations</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Not possible re-translate </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2"> to </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">, this is used as internal field names.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                        <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                    <span class="p">))</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_TRANS</span><span class="o">+</span><span class="s2">&quot;Unable to re-translate </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2"> to </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">, this is used as an internal field name.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                               <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
                 <span class="k">continue</span>
-            <span class="k">if</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="s1">&#39;~&#39;</span><span class="p">:</span>
-                <span class="n">field_name_translations</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span><span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()})</span>
+            <span class="k">if</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;~&#39;</span><span class="p">:</span>
+                <span class="n">field_name_translations</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()})</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">field_name_translations</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="kc">None</span><span class="p">)</span>
 
@@ -161,137 +166,108 @@
     <span class="c1"># This is checked after the translation `dict` is complete, so an</span>
     <span class="c1"># before used name field on the translate dictionary can be used</span>
     <span class="c1"># user field.</span>
-    <span class="n">user_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">user_fields</span><span class="p">))</span>
+    <span class="n">user_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="n">lv</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">lv</span> <span class="ow">in</span> <span class="n">user_fields</span><span class="p">]))</span>  <span class="c1"># Avoid repeated fields</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">user_fields</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">field_name_translations</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">{f}</span><span class="se">\&quot;</span><span class="s2"> field is a reserved field and can not be used user filed. Try to remove it from internal dictionary using `--translate_filed </span><span class="si">{f}</span><span class="s2"> ~`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                <span class="p">))</span>
-            <span class="n">user_fields</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">field_name_translations</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_TRANS</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">{f}</span><span class="se">\&quot;</span><span class="s2"> field is a reserved field and can not be used as user field.&quot;</span>
+                           <span class="s2">&quot; Try to remove it from internal dictionary using `--translate_fields </span><span class="si">{f}</span><span class="s2"> ~`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+            <span class="n">user_fields</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-    <span class="c1"># Only keep distributors in the included list and not in the excluded list.</span>
-    <span class="k">if</span> <span class="n">dist_list</span><span class="o">!=</span><span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">dist_list</span><span class="p">:</span>
-            <span class="n">dist_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">distributor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;local_template&#39;</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">:</span>
-            <span class="n">dist_list</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;local_template&#39;</span><span class="p">]</span> <span class="c1"># Needed later for creating non-web distributors.</span>
-        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">distributor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">:</span>
-                <span class="n">distributor_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">distributor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="n">distributor_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
+    <span class="n">c_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
     <span class="c1"># Deal with some code exception (only one EDA tool or variant</span>
     <span class="c1"># informed in the multiple BOM files input).</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+    <span class="c1"># This code is never used when called from __main__</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
         <span class="n">in_file</span> <span class="o">=</span> <span class="p">[</span><span class="n">in_file</span><span class="p">]</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variant</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-        <span class="n">variant</span> <span class="o">=</span> <span class="p">[</span><span class="n">variant</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">):</span>
-        <span class="n">variant</span> <span class="o">=</span> <span class="p">[</span><span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span> <span class="c1">#Assume the first as default.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eda_name</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
-        <span class="n">eda_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">eda_name</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">eda_name</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">):</span>
-        <span class="n">eda_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">eda_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span> <span class="c1">#Assume the first as default.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">variant</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">variant</span> <span class="o">=</span> <span class="p">[</span><span class="n">variant</span><span class="p">]</span> <span class="o">*</span> <span class="n">c_files</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="o">!=</span> <span class="n">c_files</span><span class="p">:</span>
+        <span class="n">variant</span> <span class="o">=</span> <span class="p">[</span><span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">c_files</span>  <span class="c1"># Assume the first as default.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">eda_name</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">eda_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">eda_name</span><span class="p">]</span> <span class="o">*</span> <span class="n">c_files</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">eda_name</span><span class="p">)</span> <span class="o">!=</span> <span class="n">c_files</span><span class="p">:</span>
+        <span class="n">eda_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">eda_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">c_files</span>  <span class="c1"># Assume the first as default.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">board_qty</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">board_qty</span> <span class="o">=</span> <span class="p">[</span><span class="n">board_qty</span><span class="p">]</span> <span class="o">*</span> <span class="n">c_files</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">board_qty</span><span class="p">)</span> <span class="o">!=</span> <span class="n">c_files</span><span class="p">:</span>
+        <span class="n">board_qty</span> <span class="o">=</span> <span class="p">[</span><span class="n">board_qty</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">*</span> <span class="n">c_files</span>  <span class="c1"># Assume the first as default.</span>
 
     <span class="c1"># Get groups of identical parts.</span>
-    <span class="n">parts</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="n">prj_info</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">i_prj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)):</span>
-        <span class="n">eda_module</span> <span class="o">=</span> <span class="n">eda_modules</span><span class="p">[</span><span class="n">eda_name</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]]</span>
-        <span class="n">p</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">eda_module</span><span class="o">.</span><span class="n">get_part_groups</span><span class="p">(</span><span class="n">in_file</span><span class="p">[</span><span class="n">i_prj</span><span class="p">],</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">[</span><span class="n">i_prj</span><span class="p">])</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">subpartqty_split</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-        <span class="c1"># In the case of multiple BOM files, add the project prefix identifier</span>
-        <span class="c1"># to each reference/designator. Use the field &#39;manf#_qty&#39; to control</span>
-        <span class="c1"># each quantity goes to each project creating a `list()` with length</span>
-        <span class="c1"># of number of BOM files. This vector will be used in the `group_parts()`</span>
-        <span class="c1"># to create groups with elements of same &#39;manf#&#39; that came for different</span>
-        <span class="c1"># projects.</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i_prj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c_files</span><span class="p">):</span>
+        <span class="n">p</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">get_part_groups</span><span class="p">(</span><span class="n">eda_name</span><span class="p">[</span><span class="n">i_prj</span><span class="p">],</span> <span class="n">in_file</span><span class="p">[</span><span class="n">i_prj</span><span class="p">],</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">[</span><span class="n">i_prj</span><span class="p">],</span> <span class="n">dist_list</span><span class="p">)</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">subpartqty_split</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">split_extra_fields</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">c_files</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># In the case of multiple BOM files, add the project prefix identifier</span>
+            <span class="c1"># to each reference/designator. Use the field &#39;manf#_qty&#39; to set</span>
+            <span class="c1"># the quantity for each project, creating a `list()` with length</span>
+            <span class="c1"># of number of BOM files. This vector will be used in the `group_parts()`</span>
+            <span class="c1"># to create groups with elements of same &#39;manf#&#39; that came from different</span>
+            <span class="c1"># projects.</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Multi BOMs detected, attaching project identification to references...&#39;</span><span class="p">)</span>
-            <span class="n">qty_base</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span> <span class="c1"># Base zero quantity vector.</span>
-            <span class="k">for</span> <span class="n">p_ref</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">qty_base</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="n">p_ref</span><span class="p">][</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">]</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">qty_base</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
-                <span class="n">p</span><span class="p">[</span><span class="n">p_ref</span><span class="p">][</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qty_base</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                <span class="n">p</span><span class="p">[</span> <span class="n">PRJ_STR_DECLARE</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i_prj</span><span class="p">)</span> <span class="o">+</span> <span class="n">PRJPART_SPRTR</span> <span class="o">+</span> <span class="n">p_ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">p_ref</span><span class="p">)</span>
-        <span class="n">parts</span><span class="o">.</span><span class="n">update</span><span class="p">(</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="p">)</span>
-        <span class="n">prj_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">info</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="p">)</span>
+            <span class="n">qty_base</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">c_files</span>  <span class="c1"># Zero for all projects</span>
+            <span class="k">for</span> <span class="n">p_ref</span><span class="p">,</span> <span class="n">p_fields</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="c1"># Copy the qty to the position corresponding to this project</span>
+                <span class="n">qty_base</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">)</span>
+                <span class="n">p_fields</span><span class="p">[</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">qty_base</span><span class="p">)</span>
+                <span class="n">parts</span><span class="p">[</span><span class="n">PRJ_STR_DECLARE</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i_prj</span><span class="p">)</span> <span class="o">+</span> <span class="n">PRJPART_SPRTR</span> <span class="o">+</span> <span class="n">p_ref</span><span class="p">]</span> <span class="o">=</span> <span class="n">p_fields</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">parts</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">board_qty</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span>
+        <span class="n">prj_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
 
     <span class="c1"># Group part out of the module to be possible to merge different</span>
     <span class="c1"># project lists, ignore some field to merge given in the `group_fields`.</span>
     <span class="n">FIELDS_SPREADSHEET</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;refs&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="s1">&#39;footprint&#39;</span><span class="p">,</span> <span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;manf#&#39;</span><span class="p">]</span>
-    <span class="n">FIELDS_MANFCAT</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">])</span>
-    <span class="n">FIELDS_MANFQTY</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#_qty&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">])</span>
+    <span class="n">FIELDS_MANFCAT</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">get_distributors_iter</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">])</span>
+    <span class="n">FIELDS_MANFQTY</span> <span class="o">=</span> <span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#_qty&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">get_distributors_iter</span><span class="p">()]</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">])</span>
     <span class="n">FIELDS_IGNORE</span> <span class="o">=</span> <span class="n">FIELDS_SPREADSHEET</span> <span class="o">+</span> <span class="n">FIELDS_MANFCAT</span> <span class="o">+</span> <span class="n">FIELDS_MANFQTY</span> <span class="o">+</span> <span class="n">user_fields</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;pricing&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">ref</span><span class="p">,</span> <span class="n">fields</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">parts</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
             <span class="c1"># Merge all extra fields that read on the files that will</span>
             <span class="c1"># not be displayed (Needed to check `user_fields`).</span>
-            <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_IGNORE</span> <span class="ow">and</span> <span class="n">SEPRTR</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">group_fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_IGNORE</span> <span class="ow">and</span> <span class="n">SEPRTR</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">f</span> <span class="ow">and</span> <span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">group_fields</span><span class="p">:</span>
                 <span class="c1"># Not include repetitive field names or fields with the separator `:` defined on `SEPRTR`.</span>
                 <span class="n">group_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="n">f</span><span class="p">]</span>
 
     <span class="c1"># Some fields to be merged on specific EDA are enrolled bellow.</span>
     <span class="k">if</span> <span class="s1">&#39;kicad&#39;</span> <span class="ow">in</span> <span class="n">eda_name</span><span class="p">:</span>
-        <span class="n">group_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;libpart&#39;</span><span class="p">]</span> <span class="c1"># This field may be a mess on multiple sheet designs.</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">eda_name</span><span class="p">))</span><span class="o">&gt;</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">group_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;libpart&#39;</span><span class="p">]</span>  <span class="c1"># This field may be a mess on multiple sheet designs.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">eda_name</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="c1"># If more than one EDA software was used, ignore the &#39;footprint&#39;</span>
         <span class="c1"># field, because they could have different libraries names.</span>
         <span class="n">group_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;footprint&#39;</span><span class="p">]</span>
-    <span class="n">group_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="s1">&#39;var&#39;</span><span class="p">]</span> <span class="c1"># Always ignore &#39;desc&#39; (&#39;description&#39;)</span>
-                                    <span class="c1"># and &#39;var&#39; (&#39;variant&#39;) fields, merging</span>
-                                    <span class="c1"># the components in groups.</span>
+    <span class="c1"># Always ignore &#39;desc&#39; (&#39;description&#39;) and &#39;var&#39; (&#39;variant&#39;) fields, merging the components in groups.</span>
+    <span class="n">group_fields</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="s1">&#39;var&#39;</span><span class="p">]</span>
     <span class="n">group_fields</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">group_fields</span><span class="p">)</span>
-    <span class="n">parts</span> <span class="o">=</span> <span class="n">group_parts</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">group_fields</span><span class="p">)</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">group_parts</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">group_fields</span><span class="p">,</span> <span class="n">c_files</span><span class="p">)</span>
 
     <span class="c1"># If do not have the manufacture code &#39;manf#&#39; and just distributors codes,</span>
     <span class="c1"># check if is asked to scrape a distributor that do not have any code in the</span>
     <span class="c1"># parts so, exclude this distributors for the scrap list. This decrease the</span>
     <span class="c1"># warning messages given during the process.</span>
-    <span class="n">all_fields</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">all_fields</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
-        <span class="n">all_fields</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="n">all_fields</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">all_fields</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="s1">&#39;manf#&#39;</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
-        <span class="n">dist_not_rmv</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributor_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">d</span><span class="o">+</span><span class="s1">&#39;#&#39;</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">]</span>
-        <span class="n">dist_not_rmv</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;local_template&#39;</span><span class="p">]</span> <span class="c1"># Needed later for creating non-web distributors.</span>
-        <span class="c1">#distributor_scrap = {d:distributor_dict[d] for d in dist_not_rmv}</span>
-        <span class="n">distributors</span> <span class="o">=</span> <span class="n">distributor_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_not_rmv</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No &#39;manf#&#39; and &#39;</span><span class="si">%s</span><span class="s2">#&#39; field in any part: no information by &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">,</span>
-                                <span class="n">d</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
-                <span class="n">distributor_dict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-
+        <span class="n">all_fields</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;manf#&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
+        <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">d</span><span class="o">+</span><span class="s1">&#39;#&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_NOMANP</span><span class="o">+</span><span class="s2">&quot;No &#39;manf#&#39; and &#39;</span><span class="si">%s</span><span class="s2">#&#39; field in any part: no information by &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">,</span>
+                               <span class="n">d</span><span class="p">,</span> <span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">dist_list</span> <span class="o">=</span> <span class="n">new_list</span>
+    <span class="c1"># Debug the resulting list</span>
     <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">):</span>
-        <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">distributor_dict</span><span class="p">)</span>
-
+        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="s1">&#39;Distributors: &#39;</span> <span class="o">+</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">dist_list</span><span class="p">))</span>
     <span class="c1"># Get the distributor pricing/qty/etc for each part.</span>
-    <span class="k">if</span> <span class="n">dist_list</span><span class="p">:</span>
-        <span class="c1"># Set part info to default blank values for all the distributors.</span>
-        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span> <span class="c1">## TODO create this for just the current active distributor inside each module.</span>
-            <span class="c1"># These bellow variable are all the data the each distributor/local API/scrap module needs to fill.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Distributor catalogue number.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Purchase distributor URL for the specific part.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Price break tiers; [[qty1, price1][qty2, price2]...]</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Available quantity.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">info_dist</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="n">DEFAULT_CURRENCY</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Default currency.</span>
-            <span class="n">part</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="p">{</span><span class="n">dist</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">}</span> <span class="c1"># Minimum order quantity allowed by the distributor.</span>
-        <span class="c1">#distributor.get_dist_parts_info(parts, distributor_dict, dist_list, currency)</span>
-        <span class="c1">#TODO The calls bellow should became the call above of just one function in the `distributors` package/folder.</span>
-        <span class="c1">#distributor_class.get_dist_parts_info(parts, distributor_dict, currency) #TODOlocal_template.query_part_info(parts, distributor_dict, currency)</span>
-        <span class="n">dist_local_template</span><span class="o">.</span><span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
-        <span class="n">api_partinfo_kitspace</span><span class="o">.</span><span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributor_dict</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+    <span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
 
     <span class="c1"># Create the part pricing spreadsheet.</span>
-    <span class="n">create_spreadsheet</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">collapse_refs</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="p">,</span>
-                      <span class="n">user_fields</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span> <span class="k">else</span> <span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">create_spreadsheet</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">collapse_refs</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="p">,</span>
+                       <span class="n">user_fields</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">max_column_width</span><span class="p">)</span>
 
     <span class="c1"># Print component groups for debugging purposes.</span>
     <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">):</span>
@@ -302,29 +278,28 @@
                 <span class="k">elif</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;html_trees&#39;</span><span class="p">):</span>
                     <span class="k">continue</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> = &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+                    <span class="n">head</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> = &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">head</span> <span class="o">+</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">]))</span>
                     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                         <span class="c1"># Python 2.7 pprint has some problem ordering None and strings.</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">head</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">]))</span>
                     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                         <span class="k">pass</span>
-            <span class="nb">print</span><span class="p">()</span></div>
+            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
 
+<span class="c1"># Maximum length of the name of the spreadsheet output generate, this is used in the multifiles to limit the</span>
+<span class="c1"># automatic name generation.</span>
+<span class="n">FILE_OUTPUT_MAX_NAME</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="c1"># Minimum length of characters to use of the input files to create the name of the spreadsheet output file.</span>
+<span class="c1"># This is used in the multifile BoM and have prioritize in the `FILE_OUTPUT_MAX_NAME` definition.</span>
+<span class="n">FILE_OUTPUT_MIN_INPUT</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="c1"># Separator in the name of the output spreadsheet file when used multiple input file to generate automatically</span>
+<span class="c1"># the name.</span>
+<span class="n">FILE_OUTPUT_INPUT_SEP</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
 
 
-<span class="n">FILE_OUTPUT_MAX_NAME</span> <span class="o">=</span> <span class="mi">10</span> <span class="c1"># Maximum length of the name of the spreadsheet output</span>
-                          <span class="c1"># generate, this is used in the multifiles to limit the</span>
-                          <span class="c1"># automatic name generation.</span>
-<span class="n">FILE_OUTPUT_MIN_INPUT</span> <span class="o">=</span> <span class="mi">5</span> <span class="c1"># Minimum length of characters to use of the input files</span>
-                          <span class="c1"># to create the name of the spreadsheet output file. This</span>
-                          <span class="c1"># is used in the multifile BoM and have prioritize in the</span>
-                          <span class="c1"># `FILE_OUTPUT_MAX_NAME` definition.</span>
-<span class="n">FILE_OUTPUT_INPUT_SEP</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span> <span class="c1"># Separator in the name of the output spreadsheet file</span>
-                            <span class="c1"># when used multiple input file to generate automatically</span>
-                            <span class="c1"># the name.</span>
 <span class="c1"># Here because is used at `__main__.py` and `kicost_gui.py`.</span>
 <div class="viewcode-block" id="output_filename"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.output_filename">[docs]</a><span class="k">def</span> <span class="nf">output_filename</span><span class="p">(</span><span class="n">files_input</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; @brief Compose a name with the multiple BOM input file names.</span>
@@ -337,7 +312,7 @@
 <span class="sd">    @return `str()` file name for the spreadsheet.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files_input</span><span class="p">)</span><span class="o">==</span><span class="mi">1</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">files_input</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="c1"># Use the folder of the project.</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">files_input</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.xlsx&#39;</span>
     <span class="k">else</span><span class="p">:</span>
@@ -346,22 +321,26 @@
         <span class="c1"># `kicost` was called.</span>
         <span class="n">dir_output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">files_input</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">sep</span>
         <span class="k">for</span> <span class="n">dir_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">files_input</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">files_input</span><span class="p">[</span><span class="n">dir_idx</span><span class="p">])</span><span class="o">!=</span><span class="n">dir_output</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">files_input</span><span class="p">[</span><span class="n">dir_idx</span><span class="p">])</span> <span class="o">!=</span> <span class="n">dir_output</span><span class="p">:</span>
                 <span class="n">dir_output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
 
-    <span class="n">file_name</span> <span class="o">=</span> <span class="n">FILE_OUTPUT_INPUT_SEP</span><span class="o">.</span><span class="n">join</span><span class="p">(</span> <span class="p">[</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_name</span><span class="p">))[</span><span class="mi">0</span><span class="p">][:</span><span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">FILE_OUTPUT_MAX_NAME</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">files_input</span><span class="p">)),</span><span class="n">FILE_OUTPUT_MIN_INPUT</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">FILE_OUTPUT_INPUT_SEP</span><span class="p">))]</span> <span class="k">for</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="n">files_input</span> <span class="p">]</span> <span class="p">)</span>
+    <span class="n">_end</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">FILE_OUTPUT_MAX_NAME</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">files_input</span><span class="p">)),</span> <span class="n">FILE_OUTPUT_MIN_INPUT</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">FILE_OUTPUT_INPUT_SEP</span><span class="p">))</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">FILE_OUTPUT_INPUT_SEP</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_name</span><span class="p">))[</span><span class="mi">0</span><span class="p">][:</span><span class="n">_end</span><span class="p">]</span> <span class="k">for</span> <span class="n">input_name</span> <span class="ow">in</span> <span class="n">files_input</span><span class="p">])</span>
     <span class="n">file_output</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir_output</span><span class="p">,</span> <span class="n">file_name</span> <span class="o">+</span> <span class="s1">&#39;.xlsx&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">file_output</span></div>
 
-<div class="viewcode-block" id="kicost_gui_notdependences"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.kicost_gui_notdependences">[docs]</a><span class="k">def</span> <span class="nf">kicost_gui_notdependences</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;You don</span><span class="se">\&#39;</span><span class="s1">t have the wxPython dependence to run the GUI interface. Run once of the follow commands in terminal to install them:&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pip3 install -U wxPython # For Windows &amp; macOS&#39;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Or download from last version from &lt;https://wxpython.org/pages/downloads/&gt;&#39;</span><span class="p">)</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+<div class="viewcode-block" id="kicost_gui_notdependences"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.kicost_gui_notdependences">[docs]</a><span class="k">def</span> <span class="nf">kicost_gui_notdependences</span><span class="p">():</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;You don</span><span class="se">\&#39;</span><span class="s1">t have the wxPython dependence to run the GUI interface.&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Run once of the following commands in a terminal to install it:&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;pip3 install -U wxPython # For Windows &amp; macOS&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;sudo apt-get install python3-wxgtk4.0 # Modern Linux derived from Debian, like Ubuntu&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Or download the last version from &lt;https://wxpython.org/pages/downloads/&gt;&#39;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">ERR_KICOSTCONFIG</span><span class="p">)</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -376,7 +355,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -391,12 +370,14 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.kicost</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

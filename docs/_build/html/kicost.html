@@ -1,21 +1,23 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost package &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="kicost.currency_converter package" href="kicost.currency_converter.html" />
+    <link rel="prev" title="kicost" href="modules.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -26,7 +28,15 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="kicost.currency_converter.html" title="kicost.currency_converter package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="kicost"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost package</a></li> 
       </ul>
     </div>  
 
@@ -41,6 +51,18 @@
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="kicost.currency_converter.html">kicost.currency_converter package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="kicost.currency_converter.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.currency_converter.html#module-kicost.currency_converter.currency_converter">kicost.currency_converter.currency_converter module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="kicost.currency_converter.html#on-the-other-hand-this-version-always-tries-to-get-the-last-rates">On the other hand this version always tries to get the last rates.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.currency_converter.html#module-kicost.currency_converter.currency_tables">kicost.currency_converter.currency_tables module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.currency_converter.html#module-kicost.currency_converter.default_rates">kicost.currency_converter.default_rates module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.currency_converter.html#module-kicost.currency_converter.download_rates">kicost.currency_converter.download_rates module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.currency_converter.html#module-kicost.currency_converter">Module contents</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="kicost.distributors.html">kicost.distributors package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_octopart">kicost.distributors.api_octopart module</a></li>
@@ -66,17 +88,263 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
+<div class="section" id="module-kicost.ansi">
+<span id="kicost-ansi-module"></span><h2>kicost.ansi module<a class="headerlink" href="#module-kicost.ansi" title="Permalink to this headline">¶</a></h2>
+<p>This module generates ANSI character codes to printing colors to terminals.
+See: <a class="reference external" href="http://en.wikipedia.org/wiki/ANSI_escape_code">http://en.wikipedia.org/wiki/ANSI_escape_code</a></p>
+<dl class="py class">
+<dt id="kicost.ansi.AnsiBack">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.ansi.</code><code class="sig-name descname">AnsiBack</code><a class="reference internal" href="_modules/kicost/ansi.html#AnsiBack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.ansi.AnsiBack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kicost.ansi.AnsiCodes" title="kicost.ansi.AnsiCodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.ansi.AnsiCodes</span></code></a></p>
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.BLACK">
+<code class="sig-name descname">BLACK</code><em class="property"> = 40</em><a class="headerlink" href="#kicost.ansi.AnsiBack.BLACK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.BLUE">
+<code class="sig-name descname">BLUE</code><em class="property"> = 44</em><a class="headerlink" href="#kicost.ansi.AnsiBack.BLUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.CYAN">
+<code class="sig-name descname">CYAN</code><em class="property"> = 46</em><a class="headerlink" href="#kicost.ansi.AnsiBack.CYAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.GREEN">
+<code class="sig-name descname">GREEN</code><em class="property"> = 42</em><a class="headerlink" href="#kicost.ansi.AnsiBack.GREEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTBLACK_EX">
+<code class="sig-name descname">LIGHTBLACK_EX</code><em class="property"> = 100</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTBLACK_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTBLUE_EX">
+<code class="sig-name descname">LIGHTBLUE_EX</code><em class="property"> = 104</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTBLUE_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTCYAN_EX">
+<code class="sig-name descname">LIGHTCYAN_EX</code><em class="property"> = 106</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTCYAN_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTGREEN_EX">
+<code class="sig-name descname">LIGHTGREEN_EX</code><em class="property"> = 102</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTGREEN_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTMAGENTA_EX">
+<code class="sig-name descname">LIGHTMAGENTA_EX</code><em class="property"> = 105</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTMAGENTA_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTRED_EX">
+<code class="sig-name descname">LIGHTRED_EX</code><em class="property"> = 101</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTRED_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTWHITE_EX">
+<code class="sig-name descname">LIGHTWHITE_EX</code><em class="property"> = 107</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTWHITE_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.LIGHTYELLOW_EX">
+<code class="sig-name descname">LIGHTYELLOW_EX</code><em class="property"> = 103</em><a class="headerlink" href="#kicost.ansi.AnsiBack.LIGHTYELLOW_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.MAGENTA">
+<code class="sig-name descname">MAGENTA</code><em class="property"> = 45</em><a class="headerlink" href="#kicost.ansi.AnsiBack.MAGENTA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.RED">
+<code class="sig-name descname">RED</code><em class="property"> = 41</em><a class="headerlink" href="#kicost.ansi.AnsiBack.RED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.RESET">
+<code class="sig-name descname">RESET</code><em class="property"> = 49</em><a class="headerlink" href="#kicost.ansi.AnsiBack.RESET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.WHITE">
+<code class="sig-name descname">WHITE</code><em class="property"> = 47</em><a class="headerlink" href="#kicost.ansi.AnsiBack.WHITE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiBack.YELLOW">
+<code class="sig-name descname">YELLOW</code><em class="property"> = 43</em><a class="headerlink" href="#kicost.ansi.AnsiBack.YELLOW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.ansi.AnsiCodes">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.ansi.</code><code class="sig-name descname">AnsiCodes</code><a class="reference internal" href="_modules/kicost/ansi.html#AnsiCodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.ansi.AnsiCodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.ansi.AnsiFore">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.ansi.</code><code class="sig-name descname">AnsiFore</code><a class="reference internal" href="_modules/kicost/ansi.html#AnsiFore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.ansi.AnsiFore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kicost.ansi.AnsiCodes" title="kicost.ansi.AnsiCodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.ansi.AnsiCodes</span></code></a></p>
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.BLACK">
+<code class="sig-name descname">BLACK</code><em class="property"> = 30</em><a class="headerlink" href="#kicost.ansi.AnsiFore.BLACK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.BLUE">
+<code class="sig-name descname">BLUE</code><em class="property"> = 34</em><a class="headerlink" href="#kicost.ansi.AnsiFore.BLUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.CYAN">
+<code class="sig-name descname">CYAN</code><em class="property"> = 36</em><a class="headerlink" href="#kicost.ansi.AnsiFore.CYAN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.GREEN">
+<code class="sig-name descname">GREEN</code><em class="property"> = 32</em><a class="headerlink" href="#kicost.ansi.AnsiFore.GREEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTBLACK_EX">
+<code class="sig-name descname">LIGHTBLACK_EX</code><em class="property"> = 90</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTBLACK_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTBLUE_EX">
+<code class="sig-name descname">LIGHTBLUE_EX</code><em class="property"> = 94</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTBLUE_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTCYAN_EX">
+<code class="sig-name descname">LIGHTCYAN_EX</code><em class="property"> = 96</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTCYAN_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTGREEN_EX">
+<code class="sig-name descname">LIGHTGREEN_EX</code><em class="property"> = 92</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTGREEN_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTMAGENTA_EX">
+<code class="sig-name descname">LIGHTMAGENTA_EX</code><em class="property"> = 95</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTMAGENTA_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTRED_EX">
+<code class="sig-name descname">LIGHTRED_EX</code><em class="property"> = 91</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTRED_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTWHITE_EX">
+<code class="sig-name descname">LIGHTWHITE_EX</code><em class="property"> = 97</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTWHITE_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.LIGHTYELLOW_EX">
+<code class="sig-name descname">LIGHTYELLOW_EX</code><em class="property"> = 93</em><a class="headerlink" href="#kicost.ansi.AnsiFore.LIGHTYELLOW_EX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.MAGENTA">
+<code class="sig-name descname">MAGENTA</code><em class="property"> = 35</em><a class="headerlink" href="#kicost.ansi.AnsiFore.MAGENTA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.RED">
+<code class="sig-name descname">RED</code><em class="property"> = 31</em><a class="headerlink" href="#kicost.ansi.AnsiFore.RED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.RESET">
+<code class="sig-name descname">RESET</code><em class="property"> = 39</em><a class="headerlink" href="#kicost.ansi.AnsiFore.RESET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.WHITE">
+<code class="sig-name descname">WHITE</code><em class="property"> = 37</em><a class="headerlink" href="#kicost.ansi.AnsiFore.WHITE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiFore.YELLOW">
+<code class="sig-name descname">YELLOW</code><em class="property"> = 33</em><a class="headerlink" href="#kicost.ansi.AnsiFore.YELLOW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.ansi.AnsiStyle">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.ansi.</code><code class="sig-name descname">AnsiStyle</code><a class="reference internal" href="_modules/kicost/ansi.html#AnsiStyle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.ansi.AnsiStyle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kicost.ansi.AnsiCodes" title="kicost.ansi.AnsiCodes"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.ansi.AnsiCodes</span></code></a></p>
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiStyle.BRIGHT">
+<code class="sig-name descname">BRIGHT</code><em class="property"> = 1</em><a class="headerlink" href="#kicost.ansi.AnsiStyle.BRIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiStyle.DIM">
+<code class="sig-name descname">DIM</code><em class="property"> = 2</em><a class="headerlink" href="#kicost.ansi.AnsiStyle.DIM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiStyle.NORMAL">
+<code class="sig-name descname">NORMAL</code><em class="property"> = 22</em><a class="headerlink" href="#kicost.ansi.AnsiStyle.NORMAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.ansi.AnsiStyle.RESET_ALL">
+<code class="sig-name descname">RESET_ALL</code><em class="property"> = 0</em><a class="headerlink" href="#kicost.ansi.AnsiStyle.RESET_ALL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.ansi.code_to_chars">
+<code class="sig-prename descclassname">kicost.ansi.</code><code class="sig-name descname">code_to_chars</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/ansi.html#code_to_chars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.ansi.code_to_chars" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.ansi.set_title">
+<code class="sig-prename descclassname">kicost.ansi.</code><code class="sig-name descname">set_title</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">title</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/ansi.html#set_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.ansi.set_title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
 <div class="section" id="module-kicost.global_vars">
 <span id="kicost-global-vars-module"></span><h2>kicost.global_vars module<a class="headerlink" href="#module-kicost.global_vars" title="Permalink to this headline">¶</a></h2>
 <p>Stuff that everybody else needs to know about.</p>
-<dl class="exception">
+<dl class="py exception">
+<dt id="kicost.global_vars.KiCostError">
+<em class="property">exception </em><code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">KiCostError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/global_vars.html#KiCostError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.KiCostError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception for any error while running kicost().</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt id="kicost.global_vars.PartHtmlError">
 <em class="property">exception </em><code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">PartHtmlError</code><a class="reference internal" href="_modules/kicost/global_vars.html#PartHtmlError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.PartHtmlError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Exception for failed retrieval of an HTML parse tree for a part.</p>
 </dd></dl>
 
-<dl class="exception">
+<dl class="py function">
+<dt id="kicost.global_vars.get_logger">
+<code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">get_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/global_vars.html#get_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.get_logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.global_vars.set_logger">
+<code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">set_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lg</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/global_vars.html#set_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.set_logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
 <dt id="kicost.global_vars.wxPythonNotPresent">
 <em class="property">exception </em><code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">wxPythonNotPresent</code><a class="reference internal" href="_modules/kicost/global_vars.html#wxPythonNotPresent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.wxPythonNotPresent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -86,43 +354,45 @@
 </div>
 <div class="section" id="module-kicost.kicad_config">
 <span id="kicost-kicad-config-module"></span><h2>kicost.kicad_config module<a class="headerlink" href="#module-kicost.kicad_config" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="kicost.kicad_config.get_app_config_path">
-<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">get_app_config_path</code><span class="sig-paren">(</span><em class="sig-param">appname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#get_app_config_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.get_app_config_path" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicad_config.bom_plugin_add_entry">
-<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">bom_plugin_add_entry</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">cmd</em>, <em class="sig-param">nickname=None</em>, <em class="sig-param">re_flags=2</em>, <em class="sig-param">put_first=True</em>, <em class="sig-param">set_default=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#bom_plugin_add_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.bom_plugin_add_entry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">bom_plugin_add_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">cmd</span></em>, <em class="sig-param"><span class="n">nickname</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">re_flags</span><span class="o">=</span><span class="default_value">re.IGNORECASE</span></em>, <em class="sig-param"><span class="n">put_first</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">set_default</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#bom_plugin_add_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.bom_plugin_add_entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a BOM plugin entry to the Eeschema configuration file.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicad_config.bom_plugin_remove_entry">
-<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">bom_plugin_remove_entry</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">re_flags=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#bom_plugin_remove_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.bom_plugin_remove_entry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">bom_plugin_remove_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">re_flags</span><span class="o">=</span><span class="default_value">re.IGNORECASE</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#bom_plugin_remove_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.bom_plugin_remove_entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a BOM plugin entry to the Eeschema configuration file.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicad_config.fields_add_entry">
-<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">fields_add_entry</code><span class="sig-paren">(</span><em class="sig-param">values_modify</em>, <em class="sig-param">re_flags=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#fields_add_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.fields_add_entry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">fields_add_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values_modify</span></em>, <em class="sig-param"><span class="n">re_flags</span><span class="o">=</span><span class="default_value">re.IGNORECASE</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#fields_add_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.fields_add_entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a list of fields to the Eeschema template.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicad_config.fields_remove_entry">
-<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">fields_remove_entry</code><span class="sig-paren">(</span><em class="sig-param">values_modify</em>, <em class="sig-param">re_flags=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#fields_remove_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.fields_remove_entry" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">fields_remove_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values_modify</span></em>, <em class="sig-param"><span class="n">re_flags</span><span class="o">=</span><span class="default_value">re.IGNORECASE</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#fields_remove_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.fields_remove_entry" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove a list of fields from the Eeschema template.</p>
 </dd></dl>
+
+<dl class="py function">
+<dt id="kicost.kicad_config.get_app_config_path">
+<code class="sig-prename descclassname">kicost.kicad_config.</code><code class="sig-name descname">get_app_config_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">appname</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicad_config.html#get_app_config_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicad_config.get_app_config_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-kicost.kicost">
 <span id="kicost-kicost-module"></span><h2>kicost.kicost module<a class="headerlink" href="#module-kicost.kicost" title="Permalink to this headline">¶</a></h2>
 <p>&#64;package
-KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and others EDAs.
+KiCost script, also with Graphical User Interface - GUI, under MIT license for generate part-cost spreadsheets for circuit boards developed with KiCad and
+others EDAs.
 Full manual at <a class="reference external" href="https://xesscorp.github.io/KiCost">https://xesscorp.github.io/KiCost</a>
 Development at <a class="reference external" href="https://github.com/xesscorp/KiCost">https://github.com/xesscorp/KiCost</a>
-KiCost is powered by the Kitspace PartInfo API (<a class="reference external" href="https://kitspace.org/">https://kitspace.org/</a>). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please donate to the Kitspace Open Collective to keep the service running. (<a class="reference external" href="https://opencollective.com/kitspace">https://opencollective.com/kitspace</a>).</p>
+KiCost is powered by the Kitspace PartInfo API (<a class="reference external" href="https://kitspace.org/">https://kitspace.org/</a>). Partinfo hooks into paid-for 3rd party services. If you find KiCost useful please
+donate to the Kitspace Open Collective to keep the service running. (<a class="reference external" href="https://opencollective.com/kitspace">https://opencollective.com/kitspace</a>).</p>
 <dl class="simple">
 <dt>Command line:</dt><dd><p>kicost -i “%I” “%O.xslx”</p>
 </dd>
@@ -131,9 +401,9 @@ KiCost is powered by the Kitspace PartInfo API (<a class="reference external" hr
 <dt>Check for help on terminal:</dt><dd><p>kicost –help</p>
 </dd>
 </dl>
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicost.kicost">
-<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost</code><span class="sig-paren">(</span><em class="sig-param">in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields, variant, dist_list=['rs', 'newark', 'arrow', 'digikey', 'farnell', 'mouser', 'local_template', 'tme', 'lcsc'], collapse_refs=True, suppress_cat_url=True, currency='USD'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">in_file</span></em>, <em class="sig-param"><span class="n">eda_name</span></em>, <em class="sig-param"><span class="n">out_filename</span></em>, <em class="sig-param"><span class="n">user_fields</span></em>, <em class="sig-param"><span class="n">ignore_fields</span></em>, <em class="sig-param"><span class="n">group_fields</span></em>, <em class="sig-param"><span class="n">translate_fields</span></em>, <em class="sig-param"><span class="n">variant</span></em>, <em class="sig-param"><span class="n">dist_list</span></em>, <em class="sig-param"><span class="n">collapse_refs</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">suppress_cat_url</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">currency</span><span class="o">=</span><span class="default_value">'USD'</span></em>, <em class="sig-param"><span class="n">max_column_width</span><span class="o">=</span><span class="default_value">32</span></em>, <em class="sig-param"><span class="n">split_extra_fields</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">board_qty</span><span class="o">=</span><span class="default_value">[100]</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;brief Run KiCost.</p>
 <p>Take a schematic input file and create an output file with a cost spreadsheet in xlsx format.</p>
 <p>&#64;param in_file <cite>list(str())</cite> List of the names of the input BOM files.
@@ -145,18 +415,26 @@ KiCost is powered by the Kitspace PartInfo API (<a class="reference external" hr
 are not grouped by default.
 &#64;param translate_fields <cite>list()</cite> of the fields to translate to translate or remove (if <cite>~</cite> present).
 &#64;param variant <cite>list(str())</cite> of regular expression to the BOM variant of each file in <cite>in_file</cite>.
-&#64;param dist_list <cite>list(str())</cite> to be scraped, if empty will be scraped with all distributors
+&#64;param dist_list <cite>list(str())</cite> to be scraped
 modules. If <cite>None</cite>, no web/local distributors will be scraped.
 &#64;param collapse_refs <cite>bool()</cite> Collapse or not the designator references in the spreadsheet.
 Default <cite>True</cite>.
 &#64;param suppress_cat_url <cite>bool()</cite> Suppress the distributors catalogue links into the catalogue code in the spreadsheet.
 Default <cite>True</cite>.
-&#64;param currency <cite>str()</cite> Currency in ISO4217. Default ‘USD’.</p>
+&#64;param currency <cite>str()</cite> Currency in ISO4217. Default ‘USD’.
+&#64;param max_column_width <cite>int()</cite> The maximum column width. If 0 disables cell size adjust. Default: DEF_MAX_COLUMN_W
+&#64;param split_extra_fields <cite>list(str())</cite> Fields that will be split using the multipart mechanism.
+&#64;param board_qty <cite>list(int())</cite> Board quantities for each project.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
+<dt id="kicost.kicost.kicost_gui_notdependences">
+<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost_gui_notdependences</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost_gui_notdependences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost_gui_notdependences" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt id="kicost.kicost.output_filename">
-<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">output_filename</code><span class="sig-paren">(</span><em class="sig-param">files_input</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#output_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.output_filename" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">output_filename</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">files_input</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#output_filename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.output_filename" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;brief Compose a name with the multiple BOM input file names.
 Compose a name with the multiple BOM input file names, limiting to,
 at least, the first <cite>FILE_OUTPUT_MIN_INPUT</cite> characters of each name
@@ -167,21 +445,21 @@ The output folder is the folder of the first file.
 &#64;return `str()</cite> file name for the spreadsheet.</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="kicost.kicost.kicost_gui_notdependences">
-<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">kicost_gui_notdependences</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#kicost_gui_notdependences"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.kicost_gui_notdependences" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt id="kicost.kicost.query_part_info">
+<code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">dist_list</span></em>, <em class="sig-param"><span class="n">currency</span><span class="o">=</span><span class="default_value">'USD'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.query_part_info" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="module-kicost.kicost_config">
 <span id="kicost-kicost-config-module"></span><h2>kicost.kicost_config module<a class="headerlink" href="#module-kicost.kicost_config" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicost_config.kicost_setup">
 <code class="sig-prename descclassname">kicost.kicost_config.</code><code class="sig-name descname">kicost_setup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_config.html#kicost_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_config.kicost_setup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create all the configuration used by KiCost.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicost_config.kicost_unsetup">
 <code class="sig-prename descclassname">kicost.kicost_config.</code><code class="sig-name descname">kicost_unsetup</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_config.html#kicost_unsetup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_config.kicost_unsetup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create all the configuration used by KiCost.</p>
@@ -190,106 +468,177 @@ The output folder is the folder of the first file.
 </div>
 <div class="section" id="module-kicost.kicost_gui">
 <span id="kicost-kicost-gui-module"></span><h2>kicost.kicost_gui module<a class="headerlink" href="#module-kicost.kicost_gui" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.kicost_gui.kicost_gui">
-<code class="sig-prename descclassname">kicost.kicost_gui.</code><code class="sig-name descname">kicost_gui</code><span class="sig-paren">(</span><em class="sig-param">files=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui.html#kicost_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui.kicost_gui" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.kicost_gui.</code><code class="sig-name descname">kicost_gui</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">force_en_us</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">files</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui.html#kicost_gui"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui.kicost_gui" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;brief Load the graphical interface.
 &#64;param String file file names or list.
 (it will be used for plugin implementation on future KiCad6-Eeschema).</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="kicost.kicost_gui.kicost_gui_runterminal">
-<code class="sig-prename descclassname">kicost.kicost_gui.</code><code class="sig-name descname">kicost_gui_runterminal</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui.html#kicost_gui_runterminal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui.kicost_gui_runterminal" title="Permalink to this definition">¶</a></dt>
-<dd><p>&#64;brief Execute the <cite>fileName</cite> under KiCost loading the
-graphical interface.</p>
-<p>The difference of the normal execution is that the log and
-process bar is not redirected to the GUI, staying on terminal.</p>
-<p>&#64;param List of the file name.</p>
+</div>
+<div class="section" id="module-kicost.kicost_kicadplugin">
+<span id="kicost-kicost-kicadplugin-module"></span><h2>kicost.kicost_kicadplugin module<a class="headerlink" href="#module-kicost.kicost_kicadplugin" title="Permalink to this headline">¶</a></h2>
+<p>&#64;package
+Generate an XLSX BOM with costs from internet.</p>
+<p>Command line:
+kicost –gui “%I”
+kicost -qwi “%I”</p>
+<dl class="py function">
+<dt id="kicost.kicost_kicadplugin.debug_dialog">
+<code class="sig-prename descclassname">kicost.kicost_kicadplugin.</code><code class="sig-name descname">debug_dialog</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">exception</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">kind</span><span class="o">=</span><span class="default_value">4</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_kicadplugin.html#debug_dialog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_kicadplugin.debug_dialog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug dialog.</p>
 </dd></dl>
 
-</div>
-<div class="section" id="module-kicost.kicost_gui_wxFormBuilder">
-<span id="kicost-kicost-gui-wxformbuilder-module"></span><h2>kicost.kicost_gui_wxFormBuilder module<a class="headerlink" href="#module-kicost.kicost_gui_wxFormBuilder" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw">
-<em class="property">class </em><code class="sig-prename descclassname">kicost.kicost_gui_wxFormBuilder.</code><code class="sig-name descname">formKiCost_raw</code><span class="sig-paren">(</span><em class="sig-param">parent</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wx._core.Frame</span></code></p>
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.app_close">
-<code class="sig-name descname">app_close</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.app_close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.app_close" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt id="kicost.kicost_kicadplugin.install_kicost">
+<code class="sig-prename descclassname">kicost.kicost_kicadplugin.</code><code class="sig-name descname">install_kicost</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_kicadplugin.html#install_kicost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_kicadplugin.install_kicost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Install KiCost.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.kicost_kicadplugin.kicost_kicadplugin">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.kicost_kicadplugin.</code><code class="sig-name descname">kicost_kicadplugin</code><a class="reference internal" href="_modules/kicost/kicost_kicadplugin.html#kicost_kicadplugin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_kicadplugin.kicost_kicadplugin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">pcbnew.ActionPlugin</span></code></p>
+<p>KiCad PcbNew action plugin.</p>
+<dl class="py method">
+<dt id="kicost.kicost_kicadplugin.kicost_kicadplugin.Run">
+<code class="sig-name descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_kicadplugin.html#kicost_kicadplugin.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_kicadplugin.kicost_kicadplugin.Run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.button_openfile">
-<code class="sig-name descname">button_openfile</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.button_openfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.button_openfile" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.button_run">
-<code class="sig-name descname">button_run</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.button_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.button_run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.button_saveas">
-<code class="sig-name descname">button_saveas</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.button_saveas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.button_saveas" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.check_updates_click">
-<code class="sig-name descname">check_updates_click</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.check_updates_click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.check_updates_click" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.m_comboBox_files_selecthist">
-<code class="sig-name descname">m_comboBox_files_selecthist</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.m_comboBox_files_selecthist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.m_comboBox_files_selecthist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.m_textCtrl_distributors_rClick">
-<code class="sig-name descname">m_textCtrl_distributors_rClick</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.m_textCtrl_distributors_rClick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.m_textCtrl_distributors_rClick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.m_textCtrl_messages_rClick">
-<code class="sig-name descname">m_textCtrl_messages_rClick</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.m_textCtrl_messages_rClick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.m_textCtrl_messages_rClick" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_issuepage_click">
-<code class="sig-name descname">open_issuepage_click</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.open_issuepage_click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_issuepage_click" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_powered_by">
-<code class="sig-name descname">open_powered_by</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.open_powered_by"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_powered_by" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_updatepage_click">
-<code class="sig-name descname">open_updatepage_click</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.open_updatepage_click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_updatepage_click" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_webpage_click">
-<code class="sig-name descname">open_webpage_click</code><span class="sig-paren">(</span><em class="sig-param">event</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.open_webpage_click"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.open_webpage_click" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.updateEDAselection">
-<code class="sig-name descname">updateEDAselection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.updateEDAselection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.updateEDAselection" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="kicost.kicost_gui_wxFormBuilder.formKiCost_raw.updateOutputFilename">
-<code class="sig-name descname">updateOutputFilename</code><span class="sig-paren">(</span><em class="sig-param">event=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_gui_wxFormBuilder.html#formKiCost_raw.updateOutputFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_gui_wxFormBuilder.formKiCost_raw.updateOutputFilename" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="kicost.kicost_kicadplugin.kicost_kicadplugin.defaults">
+<code class="sig-name descname">defaults</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost_kicadplugin.html#kicost_kicadplugin.defaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost_kicadplugin.kicost_kicadplugin.defaults" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 </div>
-<div class="section" id="kicost-kicost-kicadplugin-module">
-<h2>kicost.kicost_kicadplugin module<a class="headerlink" href="#kicost-kicost-kicadplugin-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-kicost.log">
+<span id="kicost-log-module"></span><h2>kicost.log module<a class="headerlink" href="#module-kicost.log" title="Permalink to this headline">¶</a></h2>
+<p>Log module</p>
+<p>Handles logging initialization and formating.</p>
+<dl class="py class">
+<dt id="kicost.log.CustomFormatter">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">CustomFormatter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#CustomFormatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.CustomFormatter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">logging.Formatter</span></code></p>
+<p>Logging Formatter to add colors</p>
+<dl class="py method">
+<dt id="kicost.log.CustomFormatter.format">
+<code class="sig-name descname">format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">record</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#CustomFormatter.format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.CustomFormatter.format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format the specified record as text.</p>
+<p>The record’s attribute dictionary is used as the operand to a
+string formatting operation which yields the returned string.
+Before formatting the dictionary, a couple of preparatory steps
+are carried out. The message attribute of the record is computed
+using LogRecord.getMessage(). If the formatting string uses the
+time (as determined by a call to usesTime(), formatTime() is
+called to format the event time. If there is exception information,
+it is formatted using formatException() and appended to the message.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.log.FilterNoInfo">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">FilterNoInfo</code><a class="reference internal" href="_modules/kicost/log.html#FilterNoInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.FilterNoInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="kicost.log.FilterNoInfo.filter">
+<code class="sig-name descname">filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">record</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#FilterNoInfo.filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.FilterNoInfo.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.log.FilterOnlyInfo">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">FilterOnlyInfo</code><a class="reference internal" href="_modules/kicost/log.html#FilterOnlyInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.FilterOnlyInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="kicost.log.FilterOnlyInfo.filter">
+<code class="sig-name descname">filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">record</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#FilterOnlyInfo.filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.FilterOnlyInfo.filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.log.MyLogger">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">MyLogger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">level</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#MyLogger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.MyLogger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">logging.Logger</span></code></p>
+<dl class="py method">
+<dt id="kicost.log.MyLogger.log">
+<code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">level</span></em>, <em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#MyLogger.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.MyLogger.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log ‘msg % args’ with the integer severity ‘level’.</p>
+<p>To pass exception information, use the keyword argument exc_info with
+a true value, e.g.</p>
+<p>logger.log(level, “We have a %s”, “mysterious problem”, exc_info=1)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.log.MyLogger.log_totals">
+<code class="sig-name descname">log_totals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#MyLogger.log_totals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.MyLogger.log_totals" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.log.MyLogger.n_filtered">
+<code class="sig-name descname">n_filtered</code><em class="property"> = 0</em><a class="headerlink" href="#kicost.log.MyLogger.n_filtered" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.log.MyLogger.warn_cnt">
+<code class="sig-name descname">warn_cnt</code><em class="property"> = 0</em><a class="headerlink" href="#kicost.log.MyLogger.warn_cnt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.log.MyLogger.warn_hash">
+<code class="sig-name descname">warn_hash</code><em class="property"> = {}</em><a class="headerlink" href="#kicost.log.MyLogger.warn_hash" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.log.MyLogger.warn_tcnt">
+<code class="sig-name descname">warn_tcnt</code><em class="property"> = 0</em><a class="headerlink" href="#kicost.log.MyLogger.warn_tcnt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.log.MyLogger.warning">
+<code class="sig-name descname">warning</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#MyLogger.warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.MyLogger.warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log ‘msg % args’ with severity ‘WARNING’.</p>
+<p>To pass exception information, use the keyword argument exc_info with
+a true value, e.g.</p>
+<p>logger.warning(“Houston, we have a %s”, “bit of a problem”, exc_info=1)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log.get_logger">
+<code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">get_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#get_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.get_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a module for a submodule or the root logger if no name is provided</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log.init">
+<code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the logging feature using a custom format</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log.set_domain">
+<code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">set_domain</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#set_domain"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.set_domain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the base name for the tool</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log.set_filters">
+<code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">set_filters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#set_filters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.set_filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the list of warning filters</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log.set_verbosity">
+<code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">set_verbosity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em>, <em class="sig-param"><span class="n">debug</span></em>, <em class="sig-param"><span class="n">quiet</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#set_verbosity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.set_verbosity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-kicost.os_windows">
 <span id="kicost-os-windows-module"></span><h2>kicost.os_windows module<a class="headerlink" href="#module-kicost.os_windows" title="Permalink to this headline">¶</a></h2>
@@ -301,7 +650,7 @@ process bar is not redirected to the GUI, staying on terminal.</p>
 <p><cite>sexpdata</cite> is a simple S-expression parser/serializer.  It has
 simple <cite>load</cite> and <cite>dump</cite> functions like <cite>pickle</cite>, <cite>json</cite> or <cite>PyYAML</cite>
 module.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sexpdata</span> <span class="k">import</span> <span class="n">loads</span><span class="p">,</span> <span class="n">dumps</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sexpdata</span> <span class="kn">import</span> <span class="n">loads</span><span class="p">,</span> <span class="n">dumps</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(&quot;a&quot; &quot;b&quot;)&#39;</span><span class="p">)</span>
 <span class="go">[&#39;a&#39;, &#39;b&#39;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]))</span>
@@ -324,102 +673,90 @@ module.</p>
 <h4>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h4>
 <p><cite>sexpdata</cite> is licensed under the terms of the BSD 2-Clause License.
 See the source code for more information.</p>
-<dl class="function">
-<dt id="kicost.sexpdata.load">
-<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">filelike</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load object from S-expression stored in <cite>filelike</cite>.</p>
+<dl class="py class">
+<dt id="kicost.sexpdata.Quoted">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">Quoted</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Quoted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Quoted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.sexpdata.SExpBase</span></code></p>
+<dl class="py method">
+<dt id="kicost.sexpdata.Quoted.tosexp">
+<code class="sig-name descname">tosexp</code><span class="sig-paren">(</span><em class="sig-param">tosexp=&lt;function tosexp&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Quoted.tosexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Quoted.tosexp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode this object into an S-expression string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>filelike</strong> – A text stream object.</p>
+<dd class="field-odd"><p><strong>tosexp</strong> – A function to be used when converting sub S-expression.</p>
 </dd>
 </dl>
-<p>See <a class="reference internal" href="#kicost.sexpdata.loads" title="kicost.sexpdata.loads"><code class="xref py py-func docutils literal notranslate"><span class="pre">loads()</span></code></a> for valid keyword arguments.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">sexp</span> <span class="o">=</span> <span class="p">[</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)]</span>   <span class="c1"># let&#39;s dump and load this object</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dump</span><span class="p">(</span><span class="n">sexp</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">==</span> <span class="n">sexp</span>
-<span class="go">True</span>
-</pre></div>
-</div>
 </dd></dl>
 
-<dl class="function">
-<dt id="kicost.sexpdata.loads">
-<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">loads</code><span class="sig-paren">(</span><em class="sig-param">string</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.loads" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load object from S-expression <cite>string</cite>.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.sexpdata.String">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">String</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.String" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.sexpdata.SExpBase</span></code></p>
+<dl class="py method">
+<dt id="kicost.sexpdata.String.tosexp">
+<code class="sig-name descname">tosexp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tosexp</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#String.tosexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.String.tosexp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode this object into an S-expression string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>string</strong> – String containing an S-expression.</p></li>
-<li><p><strong>nil</strong> (<em>str</em><em> or </em><em>None</em>) – A symbol interpreted as an empty list.
-Default is <code class="docutils literal notranslate"><span class="pre">'nil'</span></code>.</p></li>
-<li><p><strong>true</strong> (<em>str</em><em> or </em><em>None</em>) – A symbol interpreted as True.
-Default is <code class="docutils literal notranslate"><span class="pre">'t'</span></code>.</p></li>
-<li><p><strong>false</strong> (<em>str</em><em> or </em><em>None</em>) – A symbol interpreted as False.
-Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
-<li><p><strong>line_comment</strong> (<em>str</em>) – Beginning of line comment.
-Default is <code class="docutils literal notranslate"><span class="pre">';'</span></code>.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>tosexp</strong> – A function to be used when converting sub S-expression.</p>
 </dd>
 </dl>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;(a b)&quot;</span><span class="p">)</span>
-<span class="go">[Symbol(&#39;a&#39;), Symbol(&#39;b&#39;)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="kicost.sexpdata.Symbol">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">Symbol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Symbol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Symbol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.sexpdata.SExpBase</span></code></p>
+<dl class="py method">
+<dt id="kicost.sexpdata.Symbol.tosexp">
+<code class="sig-name descname">tosexp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">tosexp</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Symbol.tosexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Symbol.tosexp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decode this object into an S-expression string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tosexp</strong> – A function to be used when converting sub S-expression.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.sexpdata.car">
+<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">car</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#car"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.car" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias of <code class="docutils literal notranslate"><span class="pre">obj[0]</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">car</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . b)&#39;</span><span class="p">))</span>
 <span class="go">Symbol(&#39;a&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;(a &#39;b)&quot;</span><span class="p">)</span>
-<span class="go">[Symbol(&#39;a&#39;), Quoted(Symbol(&#39;b&#39;))]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;(a &#39;(b))&quot;</span><span class="p">)</span>
-<span class="go">[Symbol(&#39;a&#39;), Quoted([Symbol(&#39;b&#39;)])]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">;; This is a line comment.</span>
-<span class="gp">... </span><span class="s1">(&quot;a&quot; &quot;b&quot;)  ; this is also a comment.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
-<span class="go">[&#39;a&#39;, &#39;b&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1"># This is a line comment.</span>
-<span class="gp">... </span><span class="s1">(&quot;a&quot; &quot;b&quot;)  # this is also a comment.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">line_comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
-<span class="go">[&#39;a&#39;, &#39;b&#39;]</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">nil</span></code> is converted to an empty list by default.  You can use
-keyword argument <cite>nil</cite> to change what symbol must be interpreted
-as nil:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;nil&quot;</span><span class="p">)</span>
-<span class="go">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;null&quot;</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="s1">&#39;null&#39;</span><span class="p">)</span>
-<span class="go">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;nil&quot;</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="go">Symbol(&#39;nil&#39;)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal notranslate"><span class="pre">t</span></code> is converted to True by default.  You can use keyword
-argument <cite>true</cite> to change what symbol must be converted to True.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;#t&quot;</span><span class="p">,</span> <span class="n">true</span><span class="o">=</span><span class="s1">&#39;#t&#39;</span><span class="p">)</span>
-<span class="go">True</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="n">true</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="go">Symbol(&#39;t&#39;)</span>
-</pre></div>
-</div>
-<p>No symbol is converted to False by default.  You can use keyword
-argument <cite>false</cite> to convert a symbol to False.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;#f&quot;</span><span class="p">)</span>
-<span class="go">Symbol(&#39;#f&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;#f&quot;</span><span class="p">,</span> <span class="n">false</span><span class="o">=</span><span class="s1">&#39;#f&#39;</span><span class="p">)</span>
-<span class="go">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s2">&quot;nil&quot;</span><span class="p">,</span> <span class="n">false</span><span class="o">=</span><span class="s1">&#39;nil&#39;</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">car</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a b)&#39;</span><span class="p">))</span>
+<span class="go">Symbol(&#39;a&#39;)</span>
 </pre></div>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
+<dt id="kicost.sexpdata.cdr">
+<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">cdr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#cdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.cdr" title="Permalink to this definition">¶</a></dt>
+<dd><p><cite>cdr</cite>-like function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . b)&#39;</span><span class="p">))</span>
+<span class="go">Symbol(&#39;b&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a b)&#39;</span><span class="p">))</span>
+<span class="go">[Symbol(&#39;b&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . (b))&#39;</span><span class="p">))</span>
+<span class="go">[Symbol(&#39;b&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a)&#39;</span><span class="p">))</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . nil)&#39;</span><span class="p">))</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
 <dt id="kicost.sexpdata.dump">
-<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">dump</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">filelike</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.dump" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">dump</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">filelike</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.dump" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write <cite>obj</cite> as an S-expression into given stream <cite>filelike</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -430,7 +767,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 </dd>
 </dl>
 <p>See <a class="reference internal" href="#kicost.sexpdata.dumps" title="kicost.sexpdata.dumps"><code class="xref py py-func docutils literal notranslate"><span class="pre">dumps()</span></code></a> for valid keyword arguments.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dump</span><span class="p">([</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)],</span> <span class="n">fp</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
@@ -439,9 +776,9 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="kicost.sexpdata.dumps">
-<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">dumps</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#dumps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.dumps" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">dumps</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#dumps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.dumps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert python object into an S-expression.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -461,8 +798,8 @@ Default is <code class="docutils literal notranslate"><span class="pre">'()'</sp
 </dd>
 </dl>
 <p>Basic usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]))</span>
-<span class="go">(&quot;a&quot; &quot;b&quot;)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">]))</span>
+<span class="go">(&#39;a&#39; &#39;b&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="n">str_as</span><span class="o">=</span><span class="s1">&#39;symbol&#39;</span><span class="p">))</span>
 <span class="go">(a b)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
@@ -473,13 +810,13 @@ Default is <code class="docutils literal notranslate"><span class="pre">'()'</sp
 <span class="gp">... </span>            <span class="n">none_as</span><span class="o">=</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="n">true_as</span><span class="o">=</span><span class="s1">&#39;#t&#39;</span><span class="p">,</span> <span class="n">false_as</span><span class="o">=</span><span class="s1">&#39;#f&#39;</span><span class="p">))</span>
 <span class="go">(null #t #f ())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">)))</span>
-<span class="go">(&quot;a&quot; &quot;b&quot;)</span>
+<span class="go">(&#39;a&#39; &#39;b&#39;)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">),</span> <span class="n">tuple_as</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">))</span>
-<span class="go">[&quot;a&quot; &quot;b&quot;]</span>
+<span class="go">[&#39;a&#39; &#39;b&#39;]</span>
 </pre></div>
 </div>
 <p>More verbose usage:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">([</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)]))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">([</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)]))</span>
 <span class="go">(a b)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">dumps</span><span class="p">(</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)))</span>
 <span class="go">a</span>
@@ -491,85 +828,97 @@ Default is <code class="docutils literal notranslate"><span class="pre">'()'</sp
 </div>
 </dd></dl>
 
-<dl class="function">
-<dt id="kicost.sexpdata.car">
-<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">car</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#car"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.car" title="Permalink to this definition">¶</a></dt>
-<dd><p>Alias of <code class="docutils literal notranslate"><span class="pre">obj[0]</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">car</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . b)&#39;</span><span class="p">))</span>
-<span class="go">Symbol(&#39;a&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">car</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a b)&#39;</span><span class="p">))</span>
-<span class="go">Symbol(&#39;a&#39;)</span>
+<dl class="py function">
+<dt id="kicost.sexpdata.load">
+<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filelike</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load object from S-expression stored in <cite>filelike</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filelike</strong> – A text stream object.</p>
+</dd>
+</dl>
+<p>See <a class="reference internal" href="#kicost.sexpdata.loads" title="kicost.sexpdata.loads"><code class="xref py py-func docutils literal notranslate"><span class="pre">loads()</span></code></a> for valid keyword arguments.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sexp</span> <span class="o">=</span> <span class="p">[</span><span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="n">Symbol</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)]</span>   <span class="c1"># let&#39;s dump and load this object</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dump</span><span class="p">(</span><span class="n">sexp</span><span class="p">,</span> <span class="n">fp</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span> <span class="o">==</span> <span class="n">sexp</span>
+<span class="go">True</span>
 </pre></div>
 </div>
 </dd></dl>
 
-<dl class="function">
-<dt id="kicost.sexpdata.cdr">
-<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">cdr</code><span class="sig-paren">(</span><em class="sig-param">obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#cdr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.cdr" title="Permalink to this definition">¶</a></dt>
-<dd><p><cite>cdr</cite>-like function.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . b)&#39;</span><span class="p">))</span>
-<span class="go">Symbol(&#39;b&#39;)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a b)&#39;</span><span class="p">))</span>
-<span class="go">[Symbol(&#39;b&#39;)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . (b))&#39;</span><span class="p">))</span>
-<span class="go">[Symbol(&#39;b&#39;)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a)&#39;</span><span class="p">))</span>
-<span class="go">[]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">cdr</span><span class="p">(</span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a . nil)&#39;</span><span class="p">))</span>
-<span class="go">[]</span>
+<dl class="py function">
+<dt id="kicost.sexpdata.loads">
+<code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">loads</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwds</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#loads"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.loads" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load object from S-expression <cite>string</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – String containing an S-expression.</p></li>
+<li><p><strong>nil</strong> (<em>str</em><em> or </em><em>None</em>) – A symbol interpreted as an empty list.
+Default is <code class="docutils literal notranslate"><span class="pre">'nil'</span></code>.</p></li>
+<li><p><strong>true</strong> (<em>str</em><em> or </em><em>None</em>) – A symbol interpreted as True.
+Default is <code class="docutils literal notranslate"><span class="pre">'t'</span></code>.</p></li>
+<li><p><strong>false</strong> (<em>str</em><em> or </em><em>None</em>) – A symbol interpreted as False.
+Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>line_comment</strong> (<em>str</em>) – Beginning of line comment.
+Default is <code class="docutils literal notranslate"><span class="pre">';'</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a b)&#39;</span><span class="p">)</span>
+<span class="go">[Symbol(&#39;a&#39;), Symbol(&#39;b&#39;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="go">Symbol(&#39;a&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a &#39;</span><span class="n">b</span><span class="p">)</span><span class="s1">&#39;)</span>
+<span class="go">[Symbol(&#39;a&#39;), Quoted(Symbol(&#39;b&#39;))]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;(a &#39;</span><span class="p">(</span><span class="n">b</span><span class="p">))</span><span class="s1">&#39;)</span>
+<span class="go">[Symbol(&#39;a&#39;), Quoted([Symbol(&#39;b&#39;)])]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">;; This is a line comment.</span>
+<span class="gp">... </span><span class="s1">&#39;a&#39; &#39;b&#39;)  ; this is also a comment.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1"># This is a line comment.</span>
+<span class="gp">... </span><span class="s1">(&#39;a&#39; &#39;b&#39;)  # this is also a comment.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="n">line_comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+<span class="go">[&#39;a&#39;, &#39;b&#39;]</span>
 </pre></div>
 </div>
-</dd></dl>
-
-<dl class="class">
-<dt id="kicost.sexpdata.Symbol">
-<em class="property">class </em><code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">Symbol</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Symbol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Symbol" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.sexpdata.SExpBase</span></code></p>
-<dl class="method">
-<dt id="kicost.sexpdata.Symbol.tosexp">
-<code class="sig-name descname">tosexp</code><span class="sig-paren">(</span><em class="sig-param">tosexp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Symbol.tosexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Symbol.tosexp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decode this object into an S-expression string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tosexp</strong> – A function to be used when converting sub S-expression.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="kicost.sexpdata.String">
-<em class="property">class </em><code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">String</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#String"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.String" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.sexpdata.SExpBase</span></code></p>
-<dl class="method">
-<dt id="kicost.sexpdata.String.tosexp">
-<code class="sig-name descname">tosexp</code><span class="sig-paren">(</span><em class="sig-param">tosexp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#String.tosexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.String.tosexp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decode this object into an S-expression string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tosexp</strong> – A function to be used when converting sub S-expression.</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="kicost.sexpdata.Quoted">
-<em class="property">class </em><code class="sig-prename descclassname">kicost.sexpdata.</code><code class="sig-name descname">Quoted</code><span class="sig-paren">(</span><em class="sig-param">val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Quoted"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Quoted" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.sexpdata.SExpBase</span></code></p>
-<dl class="method">
-<dt id="kicost.sexpdata.Quoted.tosexp">
-<code class="sig-name descname">tosexp</code><span class="sig-paren">(</span><em class="sig-param">tosexp=&lt;function tosexp&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/sexpdata.html#Quoted.tosexp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.sexpdata.Quoted.tosexp" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decode this object into an S-expression string.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tosexp</strong> – A function to be used when converting sub S-expression.</p>
-</dd>
-</dl>
-</dd></dl>
-
+<p><code class="docutils literal notranslate"><span class="pre">nil</span></code> is converted to an empty list by default.  You can use
+keyword argument <cite>nil</cite> to change what symbol must be interpreted
+as nil:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;nil&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;null&#39;</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="s1">&#39;null&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;nil&#39;</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">Symbol(&#39;nil&#39;)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">t</span></code> is converted to True by default.  You can use keyword
+argument <cite>true</cite> to change what symbol must be converted to True.:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;#t&#39;</span><span class="p">,</span> <span class="n">true</span><span class="o">=</span><span class="s1">&#39;#t&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">true</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">Symbol(&#39;t&#39;)</span>
+</pre></div>
+</div>
+<p>No symbol is converted to False by default.  You can use keyword
+argument <cite>false</cite> to convert a symbol to False.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;#f&#39;</span><span class="p">)</span>
+<span class="go">Symbol(&#39;#f&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;#f&#39;</span><span class="p">,</span> <span class="n">false</span><span class="o">=</span><span class="s1">&#39;#f&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loads</span><span class="p">(</span><span class="s1">&#39;nil&#39;</span><span class="p">,</span> <span class="n">false</span><span class="o">=</span><span class="s1">&#39;nil&#39;</span><span class="p">,</span> <span class="n">nil</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>
@@ -577,68 +926,232 @@ Default is <code class="docutils literal notranslate"><span class="pre">'()'</sp
 </div>
 <div class="section" id="module-kicost.spreadsheet">
 <span id="kicost-spreadsheet-module"></span><h2>kicost.spreadsheet module<a class="headerlink" href="#module-kicost.spreadsheet" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py class">
+<dt id="kicost.spreadsheet.Spreadsheet">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">Spreadsheet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">workbook</span></em>, <em class="sig-param"><span class="n">worksheet_name</span></em>, <em class="sig-param"><span class="n">prj_info</span></em>, <em class="sig-param"><span class="n">currency</span><span class="o">=</span><span class="default_value">'USD'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to hold the spreadsheet generation settings</p>
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.ABOUT_MSG">
+<code class="sig-name descname">ABOUT_MSG</code><em class="property"> = 'KiCost® v1.1.5'</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ABOUT_MSG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.ADD_DATE_BOTTOM">
+<code class="sig-name descname">ADD_DATE_BOTTOM</code><em class="property"> = False</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ADD_DATE_BOTTOM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.ADD_DATE_TOP">
+<code class="sig-name descname">ADD_DATE_TOP</code><em class="property"> = True</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ADD_DATE_TOP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.ADJUST_ROW_AND_COL_SIZE">
+<code class="sig-name descname">ADJUST_ROW_AND_COL_SIZE</code><em class="property"> = True</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ADJUST_ROW_AND_COL_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.ADJUST_WEIGHT">
+<code class="sig-name descname">ADJUST_WEIGHT</code><em class="property"> = 1.0</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ADJUST_WEIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.COLLAPSE_REFS">
+<code class="sig-name descname">COLLAPSE_REFS</code><em class="property"> = True</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.COLLAPSE_REFS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.DATE_FIELD_LABEL">
+<code class="sig-name descname">DATE_FIELD_LABEL</code><em class="property"> = '$ date:'</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.DATE_FIELD_LABEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.DEFAULT_BUILD_QTY">
+<code class="sig-name descname">DEFAULT_BUILD_QTY</code><em class="property"> = 100</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.DEFAULT_BUILD_QTY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.DISTRIBUTORS">
+<code class="sig-name descname">DISTRIBUTORS</code><em class="property"> = []</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.DISTRIBUTORS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.DISTRIBUTOR_COLUMNS">
+<code class="sig-name descname">DISTRIBUTOR_COLUMNS</code><em class="property"> = {'avail': {'col': 0, 'comment': 'Available quantity of each part at the distributor.\nRed -&gt; No quantity available.\nOrange -&gt; Too little quantity available.', 'label': 'Avail', 'level': 1, 'width': None}, 'ext_price': {'col': 3, 'comment': '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -&gt; Next price break is cheaper.\nGreen -&gt; Cheapest supplier.', 'label': 'Ext$', 'level': 0, 'width': 15}, 'part_num': {'col': 4, 'comment': &quot;Distributor-assigned catalog number for each part and link to it's web page (ctrl-click). Extra distributor data is shown as comment.&quot;, 'label': 'Cat#', 'level': 2, 'width': 15}, 'purch': {'col': 1, 'comment': 'Purchase quantity of each part from this distributor.\nYellow -&gt; This part have a minimum purchase quantity bigger than 1 (check the price breaks).\nRed -&gt; Purchasing more than the available quantity.', 'label': 'Purch', 'level': 2, 'width': None}, 'unit_price': {'col': 2, 'comment': 'Unit price of each part from this distributor.\nGreen -&gt; lowest price across distributors.', 'label': 'Unit$', 'level': 2, 'width': 9}}</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.DISTRIBUTOR_COLUMNS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.GLOBAL_COLUMNS">
+<code class="sig-name descname">GLOBAL_COLUMNS</code><em class="property"> = {'desc': {'col': 2, 'comment': 'Description of each part.', 'label': 'Desc', 'level': 2, 'static': True, 'width': None}, 'ext_price': {'col': 8, 'comment': 'Minimum extended price for each part across all distributors.', 'label': 'Ext$', 'level': 0, 'static': False, 'width': 15}, 'footprint': {'col': 3, 'comment': 'PCB footprint for each part.', 'label': 'Footprint', 'level': 2, 'static': True, 'width': None}, 'manf': {'col': 4, 'comment': 'Manufacturer of each part.', 'label': 'Manf', 'level': 1, 'static': True, 'width': None}, 'manf#': {'col': 5, 'comment': &quot;Manufacturer number for each part and link to it's datasheet (Ctrl-click).\nPurple -&gt; Obsolete part detected by one of the distributors.&quot;, 'label': 'Manf#', 'level': 1, 'static': True, 'width': None}, 'qty': {'col': 6, 'comment': &quot;Total number of each part needed.\nGray -&gt; No manf# provided.\nRed -&gt; No parts available.\nOrange -&gt; Not enough parts available.\nYellow -&gt; Parts available, but haven't purchased enough.&quot;, 'label': 'Qty', 'level': 1, 'static': False, 'width': None}, 'refs': {'col': 0, 'comment': 'Schematic identifier for each part.', 'label': 'Refs', 'level': 0, 'static': False, 'width': None}, 'unit_price': {'col': 7, 'comment': 'Minimum unit price for each part across all distributors.', 'label': 'Unit$', 'level': 0, 'static': False, 'width': 9}, 'value': {'col': 1, 'comment': 'Value of each part.', 'label': 'Value', 'level': 0, 'static': True, 'width': None}}</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.GLOBAL_COLUMNS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.INCLUDE_PRJ_INFO">
+<code class="sig-name descname">INCLUDE_PRJ_INFO</code><em class="property"> = True</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.INCLUDE_PRJ_INFO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.MAX_COL_WIDTH">
+<code class="sig-name descname">MAX_COL_WIDTH</code><em class="property"> = 32</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.MAX_COL_WIDTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.MAX_LEN_WORKSHEET_NAME">
+<code class="sig-name descname">MAX_LEN_WORKSHEET_NAME</code><em class="property"> = 31</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.MAX_LEN_WORKSHEET_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.MIN_COL_WIDTH">
+<code class="sig-name descname">MIN_COL_WIDTH</code><em class="property"> = 6</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.MIN_COL_WIDTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.PART_NSEQ_SEPRTR">
+<code class="sig-name descname">PART_NSEQ_SEPRTR</code><em class="property"> = ','</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.PART_NSEQ_SEPRTR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.PRJ_INFO_ROWS">
+<code class="sig-name descname">PRJ_INFO_ROWS</code><em class="property"> = 3</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.PRJ_INFO_ROWS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.PRJ_INFO_START">
+<code class="sig-name descname">PRJ_INFO_START</code><em class="property"> = 0</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.PRJ_INFO_START" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.SORT_DISTRIBUTORS">
+<code class="sig-name descname">SORT_DISTRIBUTORS</code><em class="property"> = True</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.SORT_DISTRIBUTORS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.SUPPRESS_CAT_URL">
+<code class="sig-name descname">SUPPRESS_CAT_URL</code><em class="property"> = True</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.SUPPRESS_CAT_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.USER_FIELDS">
+<code class="sig-name descname">USER_FIELDS</code><em class="property"> = []</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.USER_FIELDS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.spreadsheet.Spreadsheet.WRK_FORMATS">
+<code class="sig-name descname">WRK_FORMATS</code><em class="property"> = {'about_msg': {'align': 'left', 'font_size': 12, 'valign': 'vcenter'}, 'best_price': {'bg_color': '#80FF80'}, 'board_qty': {'align': 'right', 'bold': True, 'font_size': 13}, 'currency': {'valign': 'vcenter'}, 'currency_unit': {'valign': 'vcenter'}, 'description': {'align': 'right'}, 'found_part_pct': {'bold': True, 'font_size': 10, 'italic': True, 'valign': 'vcenter'}, 'global': {'align': 'center', 'bg_color': '#303030', 'bold': True, 'font_color': 'white', 'font_size': 14, 'valign': 'vcenter'}, 'header': {'align': 'center', 'bold': True, 'font_size': 12, 'valign': 'top'}, 'not_available': {'bg_color': '#FF0000', 'font_color': 'white'}, 'not_manf_codes': {'bg_color': '#AAAAAA'}, 'not_stocked': {'align': 'right', 'font_color': '#909090', 'valign': 'vcenter'}, 'order': {'text_wrap': True, 'valign': 'top'}, 'order_min_qty': {'bg_color': '#FFFF00'}, 'order_too_much': {'bg_color': '#FF0000', 'font_color': 'white'}, 'part_format': {'valign': 'vcenter'}, 'part_format_obsolete': {'bg_color': '#c000c0', 'valign': 'vcenter'}, 'proj_info': {'align': 'left', 'font_size': 12, 'valign': 'vcenter'}, 'proj_info_field': {'align': 'right', 'bold': True, 'font_size': 13, 'valign': 'vcenter'}, 'too_few_available': {'bg_color': '#FF9900', 'font_color': 'black'}, 'too_few_purchased': {'bg_color': '#FFFF00'}, 'total_cost_currency': {'bold': True, 'font_color': 'red', 'font_size': 13, 'valign': 'vcenter'}, 'total_cost_label': {'align': 'right', 'bold': True, 'font_size': 13, 'valign': 'vcenter'}, 'unit_cost_currency': {'bold': True, 'font_color': 'green', 'font_size': 13, 'valign': 'vcenter'}, 'unit_cost_label': {'align': 'right', 'bold': True, 'font_size': 13, 'valign': 'vcenter'}}</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.WRK_FORMATS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.add_date">
+<code class="sig-name descname">add_date</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.add_date"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.add_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.adjust_row_and_col_sizes">
+<code class="sig-name descname">adjust_row_and_col_sizes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.adjust_row_and_col_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.adjust_row_and_col_sizes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adjust the column and row sizes using the values computed by compute_cell_size</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.compute_cell_size">
+<code class="sig-name descname">compute_cell_size</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">format</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.compute_cell_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.compute_cell_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute cell size adjusts</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.conditional_format">
+<code class="sig-name descname">conditional_format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">criteria</span></em>, <em class="sig-param"><span class="n">format</span></em>, <em class="sig-param"><span class="n">value</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.conditional_format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.conditional_format" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.define_name_range">
+<code class="sig-name descname">define_name_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">row1</span></em>, <em class="sig-param"><span class="n">col1</span></em>, <em class="sig-param"><span class="n">row2</span></em>, <em class="sig-param"><span class="n">col2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.define_name_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.define_name_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a local variable assigned to an absolute range in the sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.define_name_ref">
+<code class="sig-name descname">define_name_ref</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.define_name_ref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.define_name_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a local variable assigned to an absolute position in the sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.get_for_sheet">
+<code class="sig-name descname">get_for_sheet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.get_for_sheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.get_for_sheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a name qualified for this sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.get_range">
+<code class="sig-name descname">get_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row1</span></em>, <em class="sig-param"><span class="n">col1</span></em>, <em class="sig-param"><span class="n">row2</span></em>, <em class="sig-param"><span class="n">col2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.get_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.get_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an absolute reference to a range on this sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.get_ref">
+<code class="sig-name descname">get_ref</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.get_ref"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.get_ref" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an absolute reference to row/col on this sheet</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.set_column">
+<code class="sig-name descname">set_column</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">level</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.set_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.set_column" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.set_currency">
+<code class="sig-name descname">set_currency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">currency</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.set_currency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.set_currency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.write_string">
+<code class="sig-name descname">write_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">format</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.write_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.write_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>worksheet.write_string wrapper to keep track of the string sizes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.write_url">
+<code class="sig-name descname">write_url</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">url</span></em>, <em class="sig-param"><span class="n">cell_format</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">string</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">tip</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.write_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.write_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>worksheet.write_url wrapper to keep track of the string sizes.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
 <dt id="kicost.spreadsheet.create_spreadsheet">
-<code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">create_spreadsheet</code><span class="sig-paren">(</span><em class="sig-param">parts</em>, <em class="sig-param">prj_info</em>, <em class="sig-param">spreadsheet_filename</em>, <em class="sig-param">currency='USD'</em>, <em class="sig-param">collapse_refs=True</em>, <em class="sig-param">suppress_cat_url=True</em>, <em class="sig-param">user_fields=None</em>, <em class="sig-param">variant=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">create_spreadsheet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">prj_info</span></em>, <em class="sig-param"><span class="n">spreadsheet_filename</span></em>, <em class="sig-param"><span class="n">dist_list</span></em>, <em class="sig-param"><span class="n">currency</span><span class="o">=</span><span class="default_value">'USD'</span></em>, <em class="sig-param"><span class="n">collapse_refs</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">suppress_cat_url</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">user_fields</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">variant</span><span class="o">=</span><span class="default_value">' '</span></em>, <em class="sig-param"><span class="n">max_column_width</span><span class="o">=</span><span class="default_value">32</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#create_spreadsheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.create_spreadsheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a spreadsheet using the info for the parts (including their HTML trees).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.spreadsheet.create_worksheet">
+<code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">create_worksheet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ss</span></em>, <em class="sig-param"><span class="n">logger</span></em>, <em class="sig-param"><span class="n">parts</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#create_worksheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.create_worksheet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a worksheet using the info for the parts (including their HTML trees).</p>
 </dd></dl>
 
 </div>
 <div class="section" id="module-kicost.version">
 <span id="kicost-version-module"></span><h2>kicost.version module<a class="headerlink" href="#module-kicost.version" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="kicost-wxanythread-module">
-<h2>kicost.wxAnyThread module<a class="headerlink" href="#kicost-wxanythread-module" title="Permalink to this headline">¶</a></h2>
-<p>In wxPython, methods that alter the state of the GUI are only safe to call from
-the thread running the main event loop.  Other threads must typically post
-events to the GUI thread instead of invoking methods directly.</p>
-<p>While there are builtin shortcuts for this (e.g. wx.CallAfter) they do not
-capture the full semantics of a function call.  This module provides an easy
-way to invoke methods from any thread <em>transparently</em>, propagating return
-values and exceptions back to the calling thread.</p>
-<p>The main interface is a decorator named “anythread”, which can be applied
-to methods to make them safe to call from any thread, like so:</p>
-<p>from .wxAnyThread import anythread # For correct use of the threads with the GUI in wxPython.</p>
-<blockquote>
-<div><p>class MyFrame(wx.Frame):</p>
-<blockquote>
-<div><p>&#64;anythread
-def GetSomeData():</p>
-<blockquote>
-<div><p>dlg = MyQueryDialog(self,”Enter some data”)
-if dlg.ShowModal() == wx.ID_OK:</p>
-<blockquote>
-<div><p>resp = dlg.GetResponse()
-return int(resp)</p>
-</div></blockquote>
-<dl class="simple">
-<dt>else:</dt><dd><p>raise NoDataEnteredError()</p>
-</dd>
-</dl>
-</div></blockquote>
-</div></blockquote>
-</div></blockquote>
-<p>The GetSomeData method can now be directly invoked from any thread.
-The calling thread will block while the main GUI thread shows the dialog,
-and will then receive a return value or exception as appropriate.</p>
-<dl class="function">
-<dt id="kicost.wxAnyThread.anythread">
-<code class="sig-prename descclassname">kicost.wxAnyThread.</code><code class="sig-name descname">anythread</code><span class="sig-paren">(</span><em class="sig-param">func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/wxAnyThread.html#anythread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.wxAnyThread.anythread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method decorator allowing call from any thread.</p>
-<p>The method is replaced by one that posts a MethodInvocationEvent to the
-object, then blocks waiting for it to be completed.  The target object
-is automatically connected to the _EVT_INVOKE_METHOD event if it wasn’t
-alread connected.</p>
-<p>When invoked from the main thread, the function is executed immediately.</p>
+<div class="section" id="module-kicost">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="kicost.PartGroup">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.</code><code class="sig-name descname">PartGroup</code><a class="reference internal" href="_modules/kicost.html#PartGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.PartGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>&#64;brief Class to group components.</p>
+<dl class="py method">
+<dt id="kicost.PartGroup.update_specs">
+<code class="sig-name descname">update_specs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">specs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost.html#PartGroup.update_specs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.PartGroup.update_specs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
-<div class="section" id="module-kicost">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost" title="Permalink to this headline">¶</a></h2>
-</div>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -649,13 +1162,14 @@ alread connected.</p>
 <li><a class="reference internal" href="#">kicost package</a><ul>
 <li><a class="reference internal" href="#subpackages">Subpackages</a></li>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-kicost.ansi">kicost.ansi module</a></li>
 <li><a class="reference internal" href="#module-kicost.global_vars">kicost.global_vars module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicad_config">kicost.kicad_config module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost">kicost.kicost module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost_config">kicost.kicost_config module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost_gui">kicost.kicost_gui module</a></li>
-<li><a class="reference internal" href="#module-kicost.kicost_gui_wxFormBuilder">kicost.kicost_gui_wxFormBuilder module</a></li>
-<li><a class="reference internal" href="#kicost-kicost-kicadplugin-module">kicost.kicost_kicadplugin module</a></li>
+<li><a class="reference internal" href="#module-kicost.kicost_kicadplugin">kicost.kicost_kicadplugin module</a></li>
+<li><a class="reference internal" href="#module-kicost.log">kicost.log module</a></li>
 <li><a class="reference internal" href="#module-kicost.os_windows">kicost.os_windows module</a></li>
 <li><a class="reference internal" href="#module-kicost.sexpdata">kicost.sexpdata module</a><ul>
 <li><a class="reference internal" href="#s-expression-parser-for-python">S-expression parser for Python</a><ul>
@@ -666,12 +1180,17 @@ alread connected.</p>
 </li>
 <li><a class="reference internal" href="#module-kicost.spreadsheet">kicost.spreadsheet module</a></li>
 <li><a class="reference internal" href="#module-kicost.version">kicost.version module</a></li>
-<li><a class="reference internal" href="#kicost-wxanythread-module">kicost.wxAnyThread module</a></li>
 <li><a class="reference internal" href="#module-kicost">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">kicost</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="kicost.currency_converter.html"
+                        title="next chapter">kicost.currency_converter package</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -688,7 +1207,7 @@ alread connected.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -702,12 +1221,20 @@ alread connected.</p>
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li> 
+        <li class="right" >
+          <a href="kicost.currency_converter.html" title="kicost.currency_converter package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="kicost"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost package</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

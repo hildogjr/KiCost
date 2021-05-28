@@ -1,0 +1,284 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.log &#8212; kicost 1.1.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.log</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.log</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2020-2021 Salvador E. Tropea</span>
+<span class="c1"># Copyright (c) 2020-2021 Instituto Nacional de Tecnología Industrial</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Log module</span>
+
+<span class="sd">Handles logging initialization and formating.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">no_colorama</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">colorama</span> <span class="kn">import</span> <span class="n">init</span> <span class="k">as</span> <span class="n">colorama_init</span><span class="p">,</span> <span class="n">Fore</span><span class="p">,</span> <span class="n">Back</span><span class="p">,</span> <span class="n">Style</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">no_colorama</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="c1"># If colorama isn&#39;t installed use an ANSI basic replacement</span>
+<span class="k">if</span> <span class="n">no_colorama</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.ansi</span> <span class="kn">import</span> <span class="n">Fore</span><span class="p">,</span> <span class="n">Back</span><span class="p">,</span> <span class="n">Style</span>  <span class="c1"># noqa: F811</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">colorama_init</span><span class="p">()</span>
+<span class="c1"># Default domain, base name for the tool</span>
+<span class="n">domain</span> <span class="o">=</span> <span class="s1">&#39;kilog&#39;</span>
+<span class="n">filters</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Salvador Eduardo Tropea&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/set-soft/&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;INTI-CMNB - Argentina&#39;</span>
+
+
+<div class="viewcode-block" id="get_logger"><a class="viewcode-back" href="../../kicost.html#kicost.log.get_logger">[docs]</a><span class="k">def</span> <span class="nf">get_logger</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a module for a submodule or the root logger if no name is provided&quot;&quot;&quot;</span>
+    <span class="c1"># print(&#39;get_logger &#39;+str(name))</span>
+    <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">domain</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">domain</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">domain</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_domain"><a class="viewcode-back" href="../../kicost.html#kicost.log.set_domain">[docs]</a><span class="k">def</span> <span class="nf">set_domain</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the base name for the tool&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">domain</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="n">name</span></div>
+
+
+<div class="viewcode-block" id="set_filters"><a class="viewcode-back" href="../../kicost.html#kicost.log.set_filters">[docs]</a><span class="k">def</span> <span class="nf">set_filters</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Set the list of warning filters&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">filters</span>
+    <span class="n">filters</span> <span class="o">=</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="MyLogger"><a class="viewcode-back" href="../../kicost.html#kicost.log.MyLogger">[docs]</a><span class="k">class</span> <span class="nc">MyLogger</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">):</span>
+    <span class="n">warn_hash</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">warn_tcnt</span> <span class="o">=</span> <span class="n">warn_cnt</span> <span class="o">=</span> <span class="n">n_filtered</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="MyLogger.warning"><a class="viewcode-back" href="../../kicost.html#kicost.log.MyLogger.warning">[docs]</a>    <span class="k">def</span> <span class="nf">warning</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_tcnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1"># Get the message applying optional C style expansions</span>
+        <span class="c1"># No longer used:</span>
+        <span class="c1"># if isinstance(msg, str) and len(args):</span>
+        <span class="c1">#     buf = StringIO()</span>
+        <span class="c1">#     buf.write(msg % args)</span>
+        <span class="c1">#     buf = buf.getvalue()</span>
+        <span class="c1"># else:</span>
+        <span class="n">buf</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="c1"># Avoid repeated warnings</span>
+        <span class="k">if</span> <span class="n">buf</span> <span class="ow">in</span> <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_hash</span><span class="p">:</span>
+            <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_hash</span><span class="p">[</span><span class="n">buf</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span>
+        <span class="c1"># Apply the filters</span>
+        <span class="k">if</span> <span class="n">filters</span> <span class="ow">and</span> <span class="n">buf</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;(WC&#39;</span><span class="p">):</span>
+            <span class="n">pos_end</span> <span class="o">=</span> <span class="n">buf</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pos_end</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">buf</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="n">pos_end</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">number</span> <span class="o">==</span> <span class="n">number</span> <span class="ow">and</span> <span class="n">f</span><span class="o">.</span><span class="n">regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+                        <span class="n">MyLogger</span><span class="o">.</span><span class="n">n_filtered</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">return</span>
+        <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_hash</span><span class="p">[</span><span class="n">buf</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># pragma: no cover (Py38)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MyLogger.log"><a class="viewcode-back" href="../../kicost.html#kicost.log.MyLogger.log">[docs]</a>    <span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">or</span> <span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">minor</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>  <span class="c1"># pragma: no cover (Py38)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MyLogger.log_totals"><a class="viewcode-back" href="../../kicost.html#kicost.log.MyLogger.log_totals">[docs]</a>    <span class="k">def</span> <span class="nf">log_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_cnt</span><span class="p">:</span>
+            <span class="n">filt_msg</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">MyLogger</span><span class="o">.</span><span class="n">n_filtered</span><span class="p">:</span>
+                <span class="n">filt_msg</span> <span class="o">=</span> <span class="s1">&#39;, </span><span class="si">{}</span><span class="s1"> filtered&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MyLogger</span><span class="o">.</span><span class="n">n_filtered</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Found </span><span class="si">{}</span><span class="s1"> unique warning/s (</span><span class="si">{}</span><span class="s1"> total</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_cnt</span><span class="p">,</span> <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_tcnt</span><span class="p">,</span> <span class="n">filt_msg</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="set_verbosity"><a class="viewcode-back" href="../../kicost.html#kicost.log.set_verbosity">[docs]</a><span class="k">def</span> <span class="nf">set_verbosity</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">quiet</span><span class="p">):</span>
+    <span class="c1"># Choose the log level</span>
+    <span class="k">if</span> <span class="n">debug</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">debug</span>
+    <span class="k">elif</span> <span class="n">quiet</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">log_level</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FilterOnlyInfo"><a class="viewcode-back" href="../../kicost.html#kicost.log.FilterOnlyInfo">[docs]</a><span class="k">class</span> <span class="nc">FilterOnlyInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="FilterOnlyInfo.filter"><a class="viewcode-back" href="../../kicost.html#kicost.log.FilterOnlyInfo.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">==</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span></div></div>
+
+
+<div class="viewcode-block" id="FilterNoInfo"><a class="viewcode-back" href="../../kicost.html#kicost.log.FilterNoInfo">[docs]</a><span class="k">class</span> <span class="nc">FilterNoInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="FilterNoInfo.filter"><a class="viewcode-back" href="../../kicost.html#kicost.log.FilterNoInfo.filter">[docs]</a>    <span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">record</span><span class="o">.</span><span class="n">levelno</span> <span class="o">!=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span></div></div>
+
+
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../../kicost.html#kicost.log.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Initialize the logging feature using a custom format&quot;&quot;&quot;</span>
+    <span class="c1"># Use a class to count and filter warnings</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">setLoggerClass</span><span class="p">(</span><span class="n">MyLogger</span><span class="p">)</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+    <span class="c1"># Handler for all but info.</span>
+    <span class="c1"># Outputs to stderr</span>
+    <span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+    <span class="n">ch</span><span class="o">.</span><span class="n">addFilter</span><span class="p">(</span><span class="n">FilterNoInfo</span><span class="p">())</span>
+    <span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">CustomFormatter</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+    <span class="c1"># Handler for t info.</span>
+    <span class="c1"># Outputs to stdout</span>
+    <span class="n">ch</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+    <span class="n">ch</span><span class="o">.</span><span class="n">addFilter</span><span class="p">(</span><span class="n">FilterOnlyInfo</span><span class="p">())</span>
+    <span class="n">ch</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">CustomFormatter</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">logger</span></div>
+
+
+<div class="viewcode-block" id="CustomFormatter"><a class="viewcode-back" href="../../kicost.html#kicost.log.CustomFormatter">[docs]</a><span class="k">class</span> <span class="nc">CustomFormatter</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Logging Formatter to add colors&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">stream</span><span class="o">.</span><span class="n">isatty</span><span class="p">():</span>
+            <span class="n">white</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">WHITE</span>
+            <span class="n">yellow</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span>
+            <span class="n">red</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">RED</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span>
+            <span class="n">red_alarm</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">RED</span> <span class="o">+</span> <span class="n">Back</span><span class="o">.</span><span class="n">WHITE</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span>
+            <span class="n">cyan</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">BRIGHT</span>
+            <span class="n">reset</span> <span class="o">=</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">white</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">yellow</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">red</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">red_alarm</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">cyan</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="n">reset</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># format = &quot;%(asctime)s - %(name)s - %(levelname)s - %(message)s &quot;</span>
+        <span class="c1">#          &quot;(%(filename)s:%(lineno)d)&quot;</span>
+        <span class="nb">format</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">:</span><span class="si">%(message)s</span><span class="s2"> (</span><span class="si">%(name)s</span><span class="s2"> - </span><span class="si">%(filename)s</span><span class="s2">:</span><span class="si">%(lineno)d</span><span class="s2">)&quot;</span>
+        <span class="n">format_simple</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%(message)s</span><span class="s2">&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="n">cyan</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="n">white</span> <span class="o">+</span> <span class="n">format_simple</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="n">yellow</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> <span class="n">red</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span><span class="p">,</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="n">red_alarm</span> <span class="o">+</span> <span class="nb">format</span> <span class="o">+</span> <span class="n">reset</span>
+        <span class="p">}</span>
+
+<div class="viewcode-block" id="CustomFormatter.format"><a class="viewcode-back" href="../../kicost.html#kicost.log.CustomFormatter.format">[docs]</a>    <span class="k">def</span> <span class="nf">format</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record</span><span class="p">):</span>
+        <span class="n">log_fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">FORMATS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">levelno</span><span class="p">)</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">log_fmt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">formatter</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">record</span><span class="p">)</span></div></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.log</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

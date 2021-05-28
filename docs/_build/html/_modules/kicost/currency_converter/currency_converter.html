@@ -1,0 +1,185 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.currency_converter.currency_converter &#8212; kicost 1.1.5 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.currency_converter.currency_converter</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.currency_converter.currency_converter</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Copyright (c) 2021 Salvador E. Tropea</span>
+<span class="c1"># Copyright (c) 2021 Instituto Nacional de Tecnología Industrial</span>
+<span class="c1"># License: Apache 2.0</span>
+<span class="c1"># Project: KiCost</span>
+<span class="c1"># Adapted from: https://github.com/alexprengere/currencyconverter</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">CurrencyConverter:</span>
+<span class="sd">This is reduced version of the &#39;Currency Converter&#39; by Alex Prengère.</span>
+<span class="sd">Original project: https://github.com/alexprengere/currencyconverter</span>
+
+<span class="sd">This version only supports conversions for the last exchange rates, not</span>
+<span class="sd">historic ones.</span>
+
+<span class="sd">On the other hand this version always tries to get the last rates.</span>
+<span class="sd">-----------------------------------------------------------------------</span>
+<span class="sd">list_currencies, get_currency_symbol get_currency_name and</span>
+<span class="sd">format_currency:</span>
+
+<span class="sd">These functions are replacements for Babel</span>
+<span class="sd">(http://babel.pocoo.org/en/latest/index.html).</span>
+
+<span class="sd">Babel is really nice, but a huge overkill for what we need. In</span>
+<span class="sd">particular KiCost cunrrently supports only &#39;en_US&#39;.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.default_rates</span> <span class="kn">import</span> <span class="n">default_rates</span><span class="p">,</span> <span class="n">default_date</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># Only useful to boostrap</span>
+    <span class="n">default_rates</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">default_date</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="kn">from</span> <span class="nn">.download_rates</span> <span class="kn">import</span> <span class="n">download_rates</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.currency_tables</span> <span class="kn">import</span> <span class="n">currency_symbols</span><span class="p">,</span> <span class="n">currency_names</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="c1"># Only useful to boostrap</span>
+    <span class="n">currency_symbols</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">currency_names</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Salvador Eduardo Tropea&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/set-soft/&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;INTI-CMNB - Argentina&#39;</span>
+
+
+<div class="viewcode-block" id="CurrencyConverter"><a class="viewcode-back" href="../../../kicost.currency_converter.html#kicost.currency_converter.currency_converter.CurrencyConverter">[docs]</a><span class="k">class</span> <span class="nc">CurrencyConverter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_do_init</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">download_rates</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">date</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">default_date</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rates</span> <span class="o">=</span> <span class="n">default_rates</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialized</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="CurrencyConverter.convert"><a class="viewcode-back" href="../../../kicost.currency_converter.html#kicost.currency_converter.currency_converter.CurrencyConverter.convert">[docs]</a>    <span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">new_currency</span><span class="o">=</span><span class="s1">&#39;EUR&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Convert amount from a currency to another one.</span>
+
+<span class="sd">        :param float amount: The amount of `currency` to convert.</span>
+<span class="sd">        :param str currency: The currency to convert from.</span>
+<span class="sd">        :param str new_currency: The currency to convert to.</span>
+
+<span class="sd">        :return: The value of `amount` in `new_currency`.</span>
+<span class="sd">        :rtype: float</span>
+
+<span class="sd">        &gt;&gt;&gt; c = CurrencyConverter()</span>
+<span class="sd">        &gt;&gt;&gt; c.convert(100, &#39;EUR&#39;, &#39;USD&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_do_init</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">currency</span><span class="p">,</span> <span class="n">new_currency</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">rates</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0}</span><span class="s1"> is not a supported currency&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">))</span>
+
+        <span class="n">r0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rates</span><span class="p">[</span><span class="n">currency</span><span class="p">]</span>
+        <span class="n">r1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rates</span><span class="p">[</span><span class="n">new_currency</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">amount</span><span class="p">)</span> <span class="o">/</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">r1</span></div></div>
+
+
+<div class="viewcode-block" id="list_currencies"><a class="viewcode-back" href="../../../kicost.currency_converter.html#kicost.currency_converter.currency_converter.list_currencies">[docs]</a><span class="k">def</span> <span class="nf">list_currencies</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Get a list of known currencies &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">currency_symbols</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_currency_symbol"><a class="viewcode-back" href="../../../kicost.currency_converter.html#kicost.currency_converter.currency_converter.get_currency_symbol">[docs]</a><span class="k">def</span> <span class="nf">get_currency_symbol</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Get the symbol to represent the specified ISO currency &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">currency_symbols</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_currency_name"><a class="viewcode-back" href="../../../kicost.currency_converter.html#kicost.currency_converter.currency_converter.get_currency_name">[docs]</a><span class="k">def</span> <span class="nf">get_currency_name</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Get the name for the specified ISO currency &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">currency_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="format_currency"><a class="viewcode-back" href="../../../kicost.currency_converter.html#kicost.currency_converter.currency_converter.format_currency">[docs]</a><span class="k">def</span> <span class="nf">format_currency</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">locale</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Format price for the specified ISO currency &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">currency_symbols</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{:,.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">price</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.currency_converter.currency_converter</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

@@ -23,3 +23,4 @@ Contributors
 * johnthagen https://github.com/johnthagen
 * Frieder Schrempf https://github.com/fri-sch
 * Mario DE WEERD https://github.com/mdeweerd
+* Salvador E. Tropea https://github.com/set-soft

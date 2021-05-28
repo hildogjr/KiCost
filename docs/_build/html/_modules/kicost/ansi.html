@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.ansi &#8212; kicost 1.1.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.ansi</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.ansi</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright Jonathan Hartley 2013. BSD 3-Clause license, see LICENSE file.</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">This module generates ANSI character codes to printing colors to terminals.</span>
+<span class="sd">See: http://en.wikipedia.org/wiki/ANSI_escape_code</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">CSI</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">[&#39;</span>
+<span class="n">OSC</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\033</span><span class="s1">]&#39;</span>
+<span class="n">BEL</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\a</span><span class="s1">&#39;</span>
+<span class="n">is_a_tty</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;posix&#39;</span>
+
+
+<div class="viewcode-block" id="code_to_chars"><a class="viewcode-back" href="../../kicost.html#kicost.ansi.code_to_chars">[docs]</a><span class="k">def</span> <span class="nf">code_to_chars</span><span class="p">(</span><span class="n">code</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">CSI</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">code</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;m&#39;</span> <span class="k">if</span> <span class="n">is_a_tty</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="set_title"><a class="viewcode-back" href="../../kicost.html#kicost.ansi.set_title">[docs]</a><span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">OSC</span> <span class="o">+</span> <span class="s1">&#39;2;&#39;</span> <span class="o">+</span> <span class="n">title</span> <span class="o">+</span> <span class="n">BEL</span></div>
+
+
+<span class="c1"># def clear_screen(mode=2):</span>
+<span class="c1">#     return CSI + str(mode) + &#39;J&#39;</span>
+
+
+<span class="c1"># def clear_line(mode=2):</span>
+<span class="c1">#     return CSI + str(mode) + &#39;K&#39;</span>
+
+
+<div class="viewcode-block" id="AnsiCodes"><a class="viewcode-back" href="../../kicost.html#kicost.ansi.AnsiCodes">[docs]</a><span class="k">class</span> <span class="nc">AnsiCodes</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># the subclasses declare class attributes which are numbers.</span>
+        <span class="c1"># Upon instantiation we define instance attributes, which are the same</span>
+        <span class="c1"># as the class attributes but wrapped with the ANSI escape sequence</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">code_to_chars</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
+
+
+<span class="c1"># class AnsiCursor(object):</span>
+<span class="c1">#     def UP(self, n=1):</span>
+<span class="c1">#         return CSI + str(n) + &#39;A&#39;</span>
+<span class="c1">#</span>
+<span class="c1">#     def DOWN(self, n=1):</span>
+<span class="c1">#         return CSI + str(n) + &#39;B&#39;</span>
+<span class="c1">#</span>
+<span class="c1">#     def FORWARD(self, n=1):</span>
+<span class="c1">#         return CSI + str(n) + &#39;C&#39;</span>
+<span class="c1">#</span>
+<span class="c1">#     def BACK(self, n=1):</span>
+<span class="c1">#         return CSI + str(n) + &#39;D&#39;</span>
+<span class="c1">#</span>
+<span class="c1">#     def POS(self, x=1, y=1):</span>
+<span class="c1">#         return CSI + str(y) + &#39;;&#39; + str(x) + &#39;H&#39;</span>
+
+
+<div class="viewcode-block" id="AnsiFore"><a class="viewcode-back" href="../../kicost.html#kicost.ansi.AnsiFore">[docs]</a><span class="k">class</span> <span class="nc">AnsiFore</span><span class="p">(</span><span class="n">AnsiCodes</span><span class="p">):</span>
+    <span class="n">BLACK</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">RED</span> <span class="o">=</span> <span class="mi">31</span>
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">YELLOW</span> <span class="o">=</span> <span class="mi">33</span>
+    <span class="n">BLUE</span> <span class="o">=</span> <span class="mi">34</span>
+    <span class="n">MAGENTA</span> <span class="o">=</span> <span class="mi">35</span>
+    <span class="n">CYAN</span> <span class="o">=</span> <span class="mi">36</span>
+    <span class="n">WHITE</span> <span class="o">=</span> <span class="mi">37</span>
+    <span class="n">RESET</span> <span class="o">=</span> <span class="mi">39</span>
+
+    <span class="c1"># These are fairly well supported, but not part of the standard.</span>
+    <span class="n">LIGHTBLACK_EX</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">LIGHTRED_EX</span> <span class="o">=</span> <span class="mi">91</span>
+    <span class="n">LIGHTGREEN_EX</span> <span class="o">=</span> <span class="mi">92</span>
+    <span class="n">LIGHTYELLOW_EX</span> <span class="o">=</span> <span class="mi">93</span>
+    <span class="n">LIGHTBLUE_EX</span> <span class="o">=</span> <span class="mi">94</span>
+    <span class="n">LIGHTMAGENTA_EX</span> <span class="o">=</span> <span class="mi">95</span>
+    <span class="n">LIGHTCYAN_EX</span> <span class="o">=</span> <span class="mi">96</span>
+    <span class="n">LIGHTWHITE_EX</span> <span class="o">=</span> <span class="mi">97</span></div>
+
+
+<div class="viewcode-block" id="AnsiBack"><a class="viewcode-back" href="../../kicost.html#kicost.ansi.AnsiBack">[docs]</a><span class="k">class</span> <span class="nc">AnsiBack</span><span class="p">(</span><span class="n">AnsiCodes</span><span class="p">):</span>
+    <span class="n">BLACK</span> <span class="o">=</span> <span class="mi">40</span>
+    <span class="n">RED</span> <span class="o">=</span> <span class="mi">41</span>
+    <span class="n">GREEN</span> <span class="o">=</span> <span class="mi">42</span>
+    <span class="n">YELLOW</span> <span class="o">=</span> <span class="mi">43</span>
+    <span class="n">BLUE</span> <span class="o">=</span> <span class="mi">44</span>
+    <span class="n">MAGENTA</span> <span class="o">=</span> <span class="mi">45</span>
+    <span class="n">CYAN</span> <span class="o">=</span> <span class="mi">46</span>
+    <span class="n">WHITE</span> <span class="o">=</span> <span class="mi">47</span>
+    <span class="n">RESET</span> <span class="o">=</span> <span class="mi">49</span>
+
+    <span class="c1"># These are fairly well supported, but not part of the standard.</span>
+    <span class="n">LIGHTBLACK_EX</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">LIGHTRED_EX</span> <span class="o">=</span> <span class="mi">101</span>
+    <span class="n">LIGHTGREEN_EX</span> <span class="o">=</span> <span class="mi">102</span>
+    <span class="n">LIGHTYELLOW_EX</span> <span class="o">=</span> <span class="mi">103</span>
+    <span class="n">LIGHTBLUE_EX</span> <span class="o">=</span> <span class="mi">104</span>
+    <span class="n">LIGHTMAGENTA_EX</span> <span class="o">=</span> <span class="mi">105</span>
+    <span class="n">LIGHTCYAN_EX</span> <span class="o">=</span> <span class="mi">106</span>
+    <span class="n">LIGHTWHITE_EX</span> <span class="o">=</span> <span class="mi">107</span></div>
+
+
+<div class="viewcode-block" id="AnsiStyle"><a class="viewcode-back" href="../../kicost.html#kicost.ansi.AnsiStyle">[docs]</a><span class="k">class</span> <span class="nc">AnsiStyle</span><span class="p">(</span><span class="n">AnsiCodes</span><span class="p">):</span>
+    <span class="n">BRIGHT</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">DIM</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="n">NORMAL</span> <span class="o">=</span> <span class="mi">22</span>
+    <span class="n">RESET_ALL</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+<span class="n">Fore</span> <span class="o">=</span> <span class="n">AnsiFore</span><span class="p">()</span>
+<span class="n">Back</span> <span class="o">=</span> <span class="n">AnsiBack</span><span class="p">()</span>
+<span class="n">Style</span> <span class="o">=</span> <span class="n">AnsiStyle</span><span class="p">()</span>
+<span class="c1"># Cursor = AnsiCursor()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.ansi</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

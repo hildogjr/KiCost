@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.global_vars &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,7 +27,9 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.global_vars</a></li> 
       </ul>
     </div>  
 
@@ -63,39 +65,89 @@
 
 <span class="sd">&quot;&quot;&quot;Stuff that everybody else needs to know about.&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">logging</span>
+
 <span class="n">PLATFORM_WINDOWS_STARTS_WITH</span> <span class="o">=</span> <span class="s1">&#39;win32&#39;</span>
 <span class="n">PLATFORM_LINUX_STARTS_WITH</span> <span class="o">=</span> <span class="s1">&#39;linux&#39;</span>
 <span class="n">PLATFORM_MACOS_STARTS_WITH</span> <span class="o">=</span> <span class="s1">&#39;darwin&#39;</span>
 
-
-<span class="kn">import</span> <span class="nn">logging</span>
-
 <span class="c1"># The root logger of the application. This has to be the root logger to catch</span>
 <span class="c1"># output from libraries (e.g. requests) as well.</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="n">DEBUG_OVERVIEW</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
 <span class="n">DEBUG_DETAILED</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">1</span>
 <span class="n">DEBUG_OBSESSIVE</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">2</span>
 <span class="n">DEBUG_HTTP_HEADERS</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">3</span>
 <span class="n">DEBUG_HTTP_RESPONSES</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">4</span>
+<span class="n">DEBUG_FULL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">9</span>
 <span class="c1"># Minimum possible log level is logging.DEBUG-9 !</span>
 
 <span class="n">SEPRTR</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span>  <span class="c1"># Delimiter between library:component, distributor:field, etc.</span>
 
-<span class="n">DEFAULT_LANGUAGE</span> <span class="o">=</span> <span class="s1">&#39;en_US&#39;</span> <span class="c1"># Default language used by GUI and spreadsheet</span>
-                           <span class="c1"># generation and number presentation.</span>
-<span class="n">DEFAULT_CURRENCY</span> <span class="o">=</span> <span class="s1">&#39;USD&#39;</span> <span class="c1"># Default currency assigned.</span>
+<span class="c1"># Default language used by GUI and spreadsheet generation and number presentation.</span>
+<span class="n">DEFAULT_LANGUAGE</span> <span class="o">=</span> <span class="s1">&#39;en_US&#39;</span>
+<span class="n">DEFAULT_CURRENCY</span> <span class="o">=</span> <span class="s1">&#39;USD&#39;</span>  <span class="c1"># Default currency assigned.</span>
+
+<span class="c1"># Default maximum column width for the cell adjust</span>
+<span class="n">DEF_MAX_COLUMN_W</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="c1"># Error codes</span>
+<span class="n">ERR_INTERNAL</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Unhandled exceptions</span>
+<span class="n">ERR_ARGS</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Command line arguments</span>
+<span class="n">ERR_KICADCONFIG</span> <span class="o">=</span> <span class="mi">3</span>  <span class="c1"># An error related to KiCad configuration</span>
+<span class="n">ERR_KICOSTCONFIG</span> <span class="o">=</span> <span class="mi">4</span>  <span class="c1"># An error related to KiCost configuration</span>
+<span class="n">ERR_SCRAPE</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># Error trying to get prices</span>
+<span class="n">ERR_INPUTFILE</span> <span class="o">=</span> <span class="mi">6</span>  <span class="c1"># Error parsing input files</span>
+<span class="n">ERR_FIELDS</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># Some inconsistency with the fields</span>
+
+<span class="c1"># Warning codes</span>
+<span class="n">W_TRANS</span> <span class="o">=</span> <span class="s1">&#39;(WC001) &#39;</span>  <span class="c1"># Problem wit field translate</span>
+<span class="n">W_NOMANP</span> <span class="o">=</span> <span class="s1">&#39;(WC002) &#39;</span>  <span class="c1"># No manf# or distributor#</span>
+<span class="n">W_CONF</span> <span class="o">=</span> <span class="s1">&#39;(WC003) &#39;</span>  <span class="c1"># Problem during --un/setup</span>
+<span class="n">W_NOPURCH</span> <span class="o">=</span> <span class="s1">&#39;(WC004) &#39;</span>  <span class="c1"># No valid field for purchase</span>
+<span class="n">W_NOQTY</span> <span class="o">=</span> <span class="s1">&#39;(WC005) &#39;</span>  <span class="c1"># No valid qty for purchase</span>
+<span class="n">W_ASSQTY</span> <span class="o">=</span> <span class="s1">&#39;(WC006) &#39;</span>  <span class="c1"># Assigned qty during scrape</span>
+<span class="n">W_NOINFO</span> <span class="o">=</span> <span class="s1">&#39;(WC007) &#39;</span>  <span class="c1"># No info during scrape</span>
+<span class="n">NO_PRICE</span> <span class="o">=</span> <span class="s1">&#39;(WC008) &#39;</span>  <span class="c1"># No price during scrape</span>
+<span class="n">W_BADPRICE</span> <span class="o">=</span> <span class="s1">&#39;(WC009) &#39;</span>  <span class="c1"># Some problem with the local price tier</span>
+<span class="n">W_FLDOVR</span> <span class="o">=</span> <span class="s1">&#39;(WC010) &#39;</span>  <span class="c1"># Field overwrite</span>
+<span class="n">W_DUPWRONG</span> <span class="o">=</span> <span class="s1">&#39;(WC011) &#39;</span>  <span class="c1"># Inconsistency in duplicated data</span>
+<span class="n">W_INCQTY</span> <span class="o">=</span> <span class="s1">&#39;(WC012) &#39;</span>  <span class="c1"># Inconsistency in qty</span>
+<span class="n">W_REPMAN</span> <span class="o">=</span> <span class="s1">&#39;(WC013) &#39;</span>  <span class="c1"># Asking to repeat a manufacturer</span>
+<span class="n">W_MANQTY</span> <span class="o">=</span> <span class="s1">&#39;(WC014) &#39;</span>  <span class="c1"># Malformed manf#_qty</span>
+<span class="n">W_AMBIPN</span> <span class="o">=</span> <span class="s1">&#39;(WC015) &#39;</span>  <span class="c1"># Ambiguous mpn, needs better manf</span>
+<span class="n">W_LOCFAIL</span> <span class="o">=</span> <span class="s1">&#39;(WC016) &#39;</span>  <span class="c1"># Failed to set the locale</span>
+
 
 <div class="viewcode-block" id="PartHtmlError"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.PartHtmlError">[docs]</a><span class="k">class</span> <span class="nc">PartHtmlError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Exception for failed retrieval of an HTML parse tree for a part.&#39;&#39;&#39;</span>
     <span class="k">pass</span></div>
 
+
 <div class="viewcode-block" id="wxPythonNotPresent"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.wxPythonNotPresent">[docs]</a><span class="k">class</span> <span class="nc">wxPythonNotPresent</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Exception for failed retrieval of an HTML parse tree for a part.&#39;&#39;&#39;</span>
     <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="KiCostError"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.KiCostError">[docs]</a><span class="k">class</span> <span class="nc">KiCostError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Exception for any error while running kicost().&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span></div>
+
+
+<div class="viewcode-block" id="get_logger"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.get_logger">[docs]</a><span class="k">def</span> <span class="nf">get_logger</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">logger</span></div>
+
+
+<div class="viewcode-block" id="set_logger"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.set_logger">[docs]</a><span class="k">def</span> <span class="nf">set_logger</span><span class="p">(</span><span class="n">lg</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">logger</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">lg</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -110,7 +162,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -125,12 +177,14 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.global_vars</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.kicost_config &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,7 +27,9 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.kicost_config</a></li> 
       </ul>
     </div>  
 
@@ -38,7 +40,7 @@
             
   <h1>Source code for kicost.kicost_config</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!python</span>
-<span class="c1"># -*- coding: utf-8 -*- </span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1"># MIT license</span>
 <span class="c1">#</span>
 <span class="c1"># Copyright (C) 2018 by Hildo Guillardi Júnior</span>
@@ -70,81 +72,76 @@
 
 
 <span class="c1"># Python libraries.</span>
-<span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span> <span class="c1"># Debug, language and default configurations.</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="kn">import</span> <span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">,</span> <span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">,</span> <span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">,</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">ERR_KICADCONFIG</span><span class="p">,</span>
+                          <span class="n">ERR_KICOSTCONFIG</span><span class="p">,</span> <span class="n">W_CONF</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.kicad_config</span> <span class="kn">import</span> <span class="n">get_app_config_path</span><span class="p">,</span> <span class="n">bom_plugin_add_entry</span><span class="p">,</span> <span class="n">bom_plugin_remove_entry</span><span class="p">,</span> <span class="n">fields_add_entry</span><span class="p">,</span> <span class="n">fields_remove_entry</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">.os_windows</span> <span class="kn">import</span> <span class="n">reg_set</span><span class="p">,</span> <span class="n">reg_del</span><span class="p">,</span> <span class="n">reg_get</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="kn">import</span> <span class="nn">_winreg</span> <span class="k">as</span> <span class="nn">winreg</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">winreg</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kicost_setup&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost_unsetup&#39;</span><span class="p">]</span>
 
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
-    <span class="kn">from</span> <span class="nn">.os_windows</span> <span class="k">import</span> <span class="o">*</span>
-
-<span class="kn">from</span> <span class="nn">.kicad_config</span> <span class="k">import</span> <span class="o">*</span>
-
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
 <span class="n">EESCHEMA_KICOST_FIELDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;manf#&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="s1">&#39;variant&#39;</span><span class="p">]</span>
+<span class="n">WIN_USR_FOLDERS</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders&#39;</span>
 
 <span class="c1">###############################################################################</span>
-<span class="c1">## Auxiliary functions.</span>
+<span class="c1"># Auxiliary functions.</span>
 <span class="c1">###############################################################################</span>
 
 
 <span class="k">def</span> <span class="nf">install_kicad_plugin</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Create the plugin installation if KiCad present&#39;&#39;&#39;</span>
-    <span class="kn">from</span> <span class="nn">shutil</span> <span class="k">import</span> <span class="n">copyfile</span>
-    <span class="n">copyfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;kicost_kicadplugin.py&#39;</span><span class="p">),</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfile</span>
+    <span class="n">copyfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s1">&#39;kicost_kicadplugin.py&#39;</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="k">return</span>
 
 
 <span class="k">def</span> <span class="nf">create_os_contex_menu</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Create the OS context menu to recognized KiCost files (XML/CSV).&#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">wx</span> <span class="c1"># wxWidgets for Python.</span>
-        <span class="c1">#print(&#39;GUI requirements (wxPython) identified.&#39;)</span>
+        <span class="c1"># TODO: add import wx or just drop the try</span>
         <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">.kicost</span> <span class="k">import</span> <span class="n">kicost_gui_notdependences</span>
+        <span class="kn">from</span> <span class="nn">.kicost</span> <span class="kn">import</span> <span class="n">kicost_gui_notdependences</span>
         <span class="n">kicost_gui_notdependences</span>
         <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">pass</span>
     <span class="k">if</span> <span class="n">have_gui</span><span class="p">:</span>
         <span class="n">cmd_opt</span> <span class="o">=</span> <span class="s1">&#39;--gui&#39;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">cmd_opt</span> <span class="o">=</span> <span class="s1">&#39;-wi&#39;</span>
     <span class="n">icon_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">,</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Mac-OS.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on OSX&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span>  <span class="c1"># Mac-OS.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on OSX&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
-        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost\command&#39;</span><span class="p">,</span>
-                <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;kicost </span><span class="si">{opt}</span><span class="s1"> &quot;%1&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opt</span><span class="o">=</span><span class="n">cmd_opt</span><span class="p">),</span>
-                <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
-        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;Icon&#39;</span><span class="p">,</span> <span class="n">icon_path</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
-        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost\command&#39;</span><span class="p">,</span>
-                <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;kicost </span><span class="si">{opt}</span><span class="s1"> &quot;%1&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opt</span><span class="o">=</span><span class="n">cmd_opt</span><span class="p">),</span>
-                <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
-        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;Icon&#39;</span><span class="p">,</span> <span class="n">icon_path</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
+        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost\command&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;kicost </span><span class="si">{opt}</span><span class="s1"> &quot;%1&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opt</span><span class="o">=</span><span class="n">cmd_opt</span><span class="p">),</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
+        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost&#39;</span><span class="p">,</span> <span class="s1">&#39;Icon&#39;</span><span class="p">,</span> <span class="n">icon_path</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
+        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost\command&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;kicost </span><span class="si">{opt}</span><span class="s1"> &quot;%1&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">opt</span><span class="o">=</span><span class="n">cmd_opt</span><span class="p">),</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
+        <span class="n">reg_set</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost&#39;</span><span class="p">,</span> <span class="s1">&#39;Icon&#39;</span><span class="p">,</span> <span class="n">icon_path</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on Linux&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on Linux&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">def</span> <span class="nf">delete_os_contex_menu</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39;Delete the OS context menu to recognized KiCost files (XML/CSV).&#39;&#39;&#39;</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Mac-OS.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on OSX.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span>  <span class="c1"># Mac-OS.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on OSX.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost\command&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span> <span class="ow">and</span> \
-            <span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span> <span class="ow">and</span> \
-            <span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost\command&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span> <span class="ow">and</span> \
-            <span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost\command&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;xmlfile\shell\KiCost&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost\command&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="n">reg_del</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;csvfile\shell\KiCost&#39;</span><span class="p">,</span> <span class="n">winreg</span><span class="o">.</span><span class="n">HKEY_CLASSES_ROOT</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on Linux.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know how to create the context menu on Linux.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
@@ -153,8 +150,8 @@
     <span class="sd">&#39;&#39;&#39;Generic routine to create shortcuts.&#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">location</span><span class="p">:</span>
         <span class="n">location</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Windows.</span>
-        <span class="kn">from</span> <span class="nn">win32com.client</span> <span class="k">import</span> <span class="n">Dispatch</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>  <span class="c1"># Windows.</span>
+        <span class="kn">from</span> <span class="nn">win32com.client</span> <span class="kn">import</span> <span class="n">Dispatch</span>
         <span class="n">shell</span> <span class="o">=</span> <span class="n">Dispatch</span><span class="p">(</span><span class="s1">&#39;WScript.Shell&#39;</span><span class="p">)</span>
         <span class="n">shortcut_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">name</span><span class="o">+</span><span class="s1">&#39;.lnk&#39;</span><span class="p">)</span>
         <span class="n">shortcut_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">shortcut_path</span><span class="p">)</span>
@@ -164,9 +161,8 @@
         <span class="n">shortcut</span><span class="o">.</span><span class="n">IconLocation</span> <span class="o">=</span> <span class="n">icon</span>
         <span class="n">shortcut</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">True</span>
-    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Mac-OS.</span>
-        <span class="n">content</span> <span class="o">=</span> <span class="s1">&#39;[Desktop Entry]</span><span class="se">\n</span><span class="s1">Type=Application</span><span class="se">\n</span><span class="s1">Name=</span><span class="si">{name}</span><span class="se">\n</span><span class="s1">Exec=</span><span class="si">{target}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                    <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span>  <span class="c1"># Mac-OS.</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="s1">&#39;[Desktop Entry]</span><span class="se">\n</span><span class="s1">Type=Application</span><span class="se">\n</span><span class="s1">Name=</span><span class="si">{name}</span><span class="se">\n</span><span class="s1">Exec=</span><span class="si">{target}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">target</span><span class="p">)</span>
         <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Terminal=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">terminal</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">description</span><span class="p">:</span>
             <span class="n">content</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Comment=</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">+</span><span class="n">description</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span>
@@ -182,28 +178,29 @@
         <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IREAD</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWRITE</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IEXEC</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unrecognized OS.</span><span class="se">\n</span><span class="s1">Shortcut not created!&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Unrecognized OS.</span><span class="se">\n</span><span class="s1">Shortcut not created!&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">False</span>
     <span class="k">return</span>
 
 
+<span class="c1">###############################################################################</span>
+<span class="c1"># Main functions.</span>
+<span class="c1">###############################################################################</span>
 
-<span class="c1">###############################################################################</span>
-<span class="c1">## Main functions.</span>
-<span class="c1">###############################################################################</span>
 
 <span class="k">def</span> <span class="nf">get_kicost_path</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39;Get KiCost installation path.&#39;&#39;&#39;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">kicost</span>
         <span class="n">kicost_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">kicost</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">imp</span>
-            <span class="n">kicost_path</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="s1">&#39;kicost&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost module not found.</span><span class="se">\n</span><span class="s1">Post setup not executed!&#39;</span><span class="p">)</span>
-            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">imp</span>
+        <span class="n">kicost_path</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">find_module</span><span class="p">(</span><span class="s1">&#39;kicost&#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;No KiCost installation found to configure.&#39;</span><span class="p">,</span> <span class="n">ERR_KICOSTCONFIG</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">)</span>
 
 
@@ -212,157 +209,152 @@
     <span class="c1"># Check if KiCost really exist.</span>
     <span class="n">kicost_path</span> <span class="o">=</span> <span class="n">get_kicost_path</span><span class="p">()</span>
     <span class="n">kicost_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">,</span> <span class="s1">&#39;kicost.py&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">kicost_path</span><span class="p">:</span>
-        <span class="k">raise</span><span class="p">(</span><span class="s1">&#39;KiCost installation not found to configurate it.&#39;</span><span class="p">)</span>
     <span class="c1"># Check if KiCad is installed.</span>
     <span class="n">kicad_config_path</span> <span class="o">=</span> <span class="n">get_app_config_path</span><span class="p">(</span><span class="s1">&#39;kicad&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">kicad_config_path</span><span class="p">:</span>
-        <span class="k">raise</span><span class="p">(</span><span class="s1">&#39;KiCad configuration folder not found.&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost identified at </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">, proceeding with it configuration in file </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">,</span> <span class="n">kicad_config_path</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">kicad_config_path</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;KiCad configuration folder not found.&#39;</span><span class="p">,</span> <span class="n">ERR_KICADCONFIG</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;KiCost identified at </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">, proceeding with it configuration in file </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">,</span> <span class="n">kicad_config_path</span><span class="p">))</span>
     <span class="c1"># Check if wxPython is present.</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">wx</span> <span class="c1"># wxWidgets for Python.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;GUI requirements (wxPython) identified.&#39;</span><span class="p">)</span>
+        <span class="kn">import</span> <span class="nn">wx</span>  <span class="c1"># wxWidgets for Python.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;GUI requirements (wxPython) identified.&#39;</span><span class="p">)</span>
         <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">.kicost</span> <span class="k">import</span> <span class="n">kicost_gui_notdependences</span>
+        <span class="kn">from</span> <span class="nn">.kicost</span> <span class="kn">import</span> <span class="n">kicost_gui_notdependences</span>
         <span class="n">kicost_gui_notdependences</span>
         <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="c1"># TODO: Really?! What can drive us here?</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">pass</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">have_gui</span><span class="p">:</span>
         <span class="n">MESSAGE</span> <span class="o">=</span> <span class="s1">&#39;Do want to install the GUI requirement packages? (Y/n)</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
             <span class="n">ans</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">MESSAGE</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">ans</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="n">MESSAGE</span><span class="p">)</span>
+            <span class="n">ans</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="n">MESSAGE</span><span class="p">)</span>  <span class="c1"># noqa: F821</span>
         <span class="k">if</span> <span class="n">ans</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;yes&#39;</span><span class="p">]:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">pip</span> <span class="k">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">pipmain</span>
+                <span class="kn">from</span> <span class="nn">pip</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">pipmain</span>
             <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-                <span class="kn">from</span> <span class="nn">pip._internal</span> <span class="k">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">pipmain</span>
+                <span class="kn">from</span> <span class="nn">pip._internal</span> <span class="kn">import</span> <span class="n">main</span> <span class="k">as</span> <span class="n">pipmain</span>
             <span class="n">pipmain</span><span class="p">([</span><span class="s1">&#39;install&#39;</span><span class="p">,</span> <span class="s1">&#39;wxpython&#39;</span><span class="p">])</span>
-            <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># now the Graphical User Interface is installed.</span>
+            <span class="n">have_gui</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># now the Graphical User Interface is installed.</span>
 
     <span class="k">if</span> <span class="n">have_gui</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Creating app shortcuts...&#39;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Mac-OS.</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t kwon the desktop folder of mac-OS.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Creating app shortcuts...&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span>  <span class="c1"># Mac-OS.</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t know the desktop folder of mac-OS.&#39;</span><span class="p">)</span>
             <span class="n">shotcut_directories</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
-            <span class="n">shotcut_directories</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">reg_get</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders&#39;</span><span class="p">,</span> <span class="s1">&#39;Desktop&#39;</span><span class="p">))]</span>
+            <span class="n">shotcut_directories</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">reg_get</span><span class="p">(</span><span class="n">WIN_USR_FOLDERS</span><span class="p">,</span> <span class="s1">&#39;Desktop&#39;</span><span class="p">))]</span>
         <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">):</span>
             <span class="n">shotcut_directories</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">,</span> <span class="s2">&quot;Desktop&quot;</span><span class="p">))]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not recognized OS.</span><span class="se">\n</span><span class="s1">Shortcut not created!&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Not recognized OS.</span><span class="se">\n</span><span class="s1">Shortcut not created!&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">shotcut_directory</span> <span class="ow">in</span> <span class="n">shotcut_directories</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">create_shortcut</span><span class="p">(</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span> <span class="n">shotcut_directory</span><span class="p">,</span> 
-                            <span class="s1">&#39;KiCost&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">,</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-                            <span class="s1">&#39;Generate a Cost Bill of Material for EDA softwares&#39;</span><span class="p">,</span> <span class="s1">&#39;BOM&#39;</span><span class="p">):</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed to create the KiCost shortcut!&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">create_shortcut</span><span class="p">(</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span> <span class="n">shotcut_directory</span><span class="p">,</span>
+                                   <span class="s1">&#39;KiCost&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">,</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;Generate a Cost Bill of Material for EDA softwares&#39;</span><span class="p">,</span> <span class="s1">&#39;BOM&#39;</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Failed to create the KiCost shortcut!&#39;</span><span class="p">)</span>
                 <span class="k">break</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Check your desktop for the KiCost shortcut.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Check your desktop for the KiCost shortcut.&#39;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Creating OS context integration...&#39;</span><span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">create_os_contex_menu</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost listed at the OS context menu for the associated files.&#39;</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed to create KiCost OS context menu integration.&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Creating OS context integration...&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">create_os_contex_menu</span><span class="p">(</span><span class="n">kicost_path</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;KiCost listed at the OS context menu for the associated files.&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Failed to create KiCost OS context menu integration.&#39;</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">have_gui</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Setting the GUI to display the NEWS message...&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Setting the GUI to display the NEWS message...&#39;</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">.kicost_gui</span> <span class="k">import</span> <span class="n">CONFIG_FILE</span><span class="p">,</span> <span class="n">GUI_NEWS_MESSAGE_ENTRY</span>
+            <span class="kn">from</span> <span class="nn">.kicost_gui</span> <span class="kn">import</span> <span class="n">CONFIG_FILE</span><span class="p">,</span> <span class="n">GUI_NEWS_MESSAGE_ENTRY</span>
             <span class="n">configHandle</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
             <span class="n">configHandle</span><span class="o">.</span><span class="n">Write</span><span class="p">(</span><span class="n">GUI_NEWS_MESSAGE_ENTRY</span><span class="p">,</span> <span class="s1">&#39;True&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The user interface will display the NEWS message on first startup.&#39;</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed to set to display the news message on GUI.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;The user interface will display the NEWS message on first startup.&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Failed to set to display the news message on GUI.&#39;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Creating KiCad integration...&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Creating KiCad integration...&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicad_config_path</span><span class="p">,</span> <span class="s1">&#39;eeschema&#39;</span><span class="p">)):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;###  ---&gt; Eeschema was never started. start it and after run `kicost --setup` to configure.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;###  ---&gt; Eeschema was never started. start it and after run `kicost --setup` to configure.&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding KiCost to Eeschema plugin list...&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Adding KiCost to Eeschema plugin list...&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">have_gui</span><span class="p">:</span>
                     <span class="n">bom_plugin_add_entry</span><span class="p">(</span><span class="n">kicost_file_path</span><span class="p">,</span> <span class="s1">&#39;kicost --gui &quot;%I&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;KiCost&#39;</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">bom_plugin_add_entry</span><span class="p">(</span><span class="n">kicost_file_path</span><span class="p">,</span> <span class="s1">&#39;kicost -qwi &quot;%I&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;KiCost&#39;</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost added to KiCad plugin list.&#39;</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fail to add KiCost to Eeschema plugin list.&#39;</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Adding the KiCost fields to Eeschema template...&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;KiCost added to KiCad plugin list.&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Fail to add KiCost to Eeschema plugin list.&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Adding the KiCost fields to Eeschema template...&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">fields_add_entry</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> fields added to Eeschema template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error to add </span><span class="si">{}</span><span class="s1"> to Eeschema fields template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fail to create KiCad-KiCost integration.&#39;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> fields added to Eeschema template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Failed to add </span><span class="si">{}</span><span class="s1"> to Eeschema fields template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Fail to create KiCad-KiCost integration.&#39;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost setup configuration finished.&#39;</span><span class="p">)</span>
-
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;KiCost setup configuration finished.&#39;</span><span class="p">)</span>
     <span class="k">return</span></div>
 
 
 <div class="viewcode-block" id="kicost_unsetup"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_config.kicost_unsetup">[docs]</a><span class="k">def</span> <span class="nf">kicost_unsetup</span><span class="p">():</span>
     <span class="sd">&#39;&#39;&#39;Create all the configuration used by KiCost.&#39;&#39;&#39;</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Removing BOM plugin entry from Eeschema configuration...&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Removing BOM plugin entry from Eeschema configuration...&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">bom_plugin_remove_entry</span><span class="p">(</span><span class="s1">&#39;KiCost&#39;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;BOM plugin entry removed from Eeschema configuration.&#39;</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error to remove KiCost from Eeschema plugin list.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;BOM plugin entry removed from Eeschema configuration.&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Error to remove KiCost from Eeschema plugin list.&#39;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Removing KiCost fields to Eeschema template...&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Removing KiCost fields to Eeschema template...&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">fields_remove_entry</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> fields removed to Eeschema template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Error to remove </span><span class="si">{}</span><span class="s1"> to Eeschema fields template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> fields removed to Eeschema template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Error to remove </span><span class="si">{}</span><span class="s1"> to Eeschema fields template.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">EESCHEMA_KICOST_FIELDS</span><span class="p">))</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Deleting KiCost shortcuts...&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span> <span class="c1"># Mac-OS.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t kwon the desktop folder of mac-OS.&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Deleting KiCost shortcuts...&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span>  <span class="c1"># Mac-OS.</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;I don</span><span class="se">\&#39;</span><span class="s1">t kwon the desktop folder of mac-OS.&#39;</span><span class="p">)</span>
         <span class="n">kicost_shortcuts</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_WINDOWS_STARTS_WITH</span><span class="p">):</span>
-        <span class="n">kicost_shortcuts</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">reg_get</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders&#39;</span><span class="p">,</span> <span class="s1">&#39;Desktop&#39;</span><span class="p">))]</span>
+        <span class="n">kicost_shortcuts</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">reg_get</span><span class="p">(</span><span class="n">WIN_USR_FOLDERS</span><span class="p">,</span> <span class="s1">&#39;Desktop&#39;</span><span class="p">))]</span>
         <span class="n">kicost_shortcuts</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sc</span><span class="p">,</span> <span class="s1">&#39;KiCost.lnk&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">sc</span> <span class="ow">in</span> <span class="n">kicost_shortcuts</span><span class="p">]</span>
     <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_LINUX_STARTS_WITH</span><span class="p">):</span>
         <span class="n">kicost_shortcuts</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">,</span> <span class="s1">&#39;Desktop&#39;</span><span class="p">))]</span>
         <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">kicost_shortcuts</span><span class="p">)):</span>
             <span class="n">kicost_shortcuts</span><span class="p">[</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicost_shortcuts</span><span class="p">[</span><span class="n">count</span><span class="p">],</span> <span class="s1">&#39;KiCost.desktop&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unrecognized OS.</span><span class="se">\n</span><span class="s1">Shortcut not created!&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Unrecognized OS.</span><span class="se">\n</span><span class="s1">Shortcut not created!&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">kicost_shortcut</span> <span class="ow">in</span> <span class="n">kicost_shortcuts</span><span class="p">:</span>
             <span class="n">kicost_shortcut</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">kicost_shortcut</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">kicost_shortcut</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                 <span class="k">pass</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fail to remove kiCost shortcuts.&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost shortcuts deleted.&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Fail to remove kiCost shortcuts.&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;KiCost shortcuts deleted.&#39;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Removing KiCost from the </span><span class="se">\&#39;</span><span class="s1">Open with...</span><span class="se">\&#39;</span><span class="s1"> OS context menu...&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Removing KiCost from the </span><span class="se">\&#39;</span><span class="s1">Open with...</span><span class="se">\&#39;</span><span class="s1"> OS context menu...&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">delete_os_contex_menu</span><span class="p">()</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost removed from the </span><span class="se">\&#39;</span><span class="s1">Open with...</span><span class="se">\&#39;</span><span class="s1"> OS context menu.&#39;</span><span class="p">)</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fail to remove kiCost from OS context menu.&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;KiCost removed from the </span><span class="se">\&#39;</span><span class="s1">Open with...</span><span class="se">\&#39;</span><span class="s1"> OS context menu.&#39;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONF</span><span class="o">+</span><span class="s1">&#39;Fail to remove kiCost from OS context menu.&#39;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;KiCost setup configuration finished.&#39;</span><span class="p">)</span>
-
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;KiCost setup configuration finished.&#39;</span><span class="p">)</span>
     <span class="k">return</span></div>
-
 
 
 <span class="c1">###############################################################################</span>
@@ -372,6 +364,7 @@
     <span class="n">kicost_setup</span><span class="p">()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -386,7 +379,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -401,12 +394,14 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.kicost_config</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

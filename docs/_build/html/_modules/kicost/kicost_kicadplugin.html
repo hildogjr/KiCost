@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.kicost_kicadplugin &#8212; kicost 1.1.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.kicost_kicadplugin</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.kicost_kicadplugin</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2018 by Hildo Guillardi Junior</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    @package</span>
+<span class="sd">    Generate an XLSX BOM with costs from internet.</span>
+
+<span class="sd">    Command line:</span>
+<span class="sd">    kicost --gui &quot;%I&quot;</span>
+<span class="sd">    kicost -qwi &quot;%I&quot;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Junior&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;University of Campinas - Brazil&#39;</span>
+
+<span class="c1"># Libraries.</span>
+<span class="kn">from</span> <span class="nn">pcbnew</span> <span class="kn">import</span> <span class="n">ActionPlugin</span><span class="p">,</span> <span class="n">GetBoard</span>  <span class="c1"># KiCad Python library.</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+
+<span class="kn">import</span> <span class="nn">traceback</span>  <span class="c1"># For debug.</span>
+<span class="kn">import</span> <span class="nn">wx</span>
+
+
+<div class="viewcode-block" id="debug_dialog"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_kicadplugin.debug_dialog">[docs]</a><span class="k">def</span> <span class="nf">debug_dialog</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">OK</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Debug dialog.&#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">msg</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">),</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()))</span>
+    <span class="n">dlg</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">MessageDialog</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">kind</span><span class="p">)</span>
+    <span class="n">dlg</span><span class="o">.</span><span class="n">ShowModal</span><span class="p">()</span>
+    <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="install_kicost"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_kicadplugin.install_kicost">[docs]</a><span class="k">def</span> <span class="nf">install_kicost</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;Install KiCost.&#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">pip</span>
+    <span class="n">pip</span><span class="o">.</span><span class="n">main</span><span class="p">([</span><span class="s1">&#39;install&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost&#39;</span><span class="p">])</span>
+    <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="kicost_kicadplugin"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_kicadplugin.kicost_kicadplugin">[docs]</a><span class="k">class</span> <span class="nc">kicost_kicadplugin</span><span class="p">(</span><span class="n">ActionPlugin</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;KiCad PcbNew action plugin.&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="kicost_kicadplugin.defaults"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_kicadplugin.kicost_kicadplugin.defaults">[docs]</a>    <span class="k">def</span> <span class="nf">defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;KiCost&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="s2">&quot;BOM&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Create a Cost Bill of Materials spreadsheet using price information on web distributors.&quot;</span></div>
+
+<div class="viewcode-block" id="kicost_kicadplugin.Run"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_kicadplugin.kicost_kicadplugin.Run">[docs]</a>    <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">BOM_FILEEXTENSION</span> <span class="o">=</span> <span class="s1">&#39;.xml&#39;</span>
+        <span class="n">bom_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">GetBoard</span><span class="p">()</span><span class="o">.</span><span class="n">GetFileName</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">BOM_FILEEXTENSION</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">bom_file</span><span class="p">):</span>
+            <span class="n">debug_dialog</span><span class="p">(</span><span class="s1">&#39;The file </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> doesn</span><span class="se">\&#39;</span><span class="s1">t exist yet.</span><span class="se">\n</span><span class="s1">Return to Eeschma and update/generate it.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">bom_file</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">bom_file</span> <span class="o">==</span> <span class="n">BOM_FILEEXTENSION</span><span class="p">:</span>
+            <span class="n">debug_dialog</span><span class="p">(</span><span class="s1">&#39;This board have not BOM associated.&#39;</span><span class="p">)</span>
+            <span class="n">bom_file</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">kicost.kicost_gui</span> <span class="kn">import</span> <span class="n">kicost_gui</span>
+                <span class="n">kicost_gui</span><span class="p">(</span><span class="n">bom_file</span><span class="p">)</span>  <span class="c1"># If KiCad and KiCost share the same Python installation.</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">((</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span> <span class="s1">&#39;--guide&#39;</span><span class="p">,</span> <span class="n">bom_file</span><span class="p">),</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># os.system(&#39;kicost --guide \&quot;{}\&quot;&#39;.format(bom_file)) # If using different Python installation.</span>
+                <span class="c1"># os.system(&#39;eeschema&#39;)</span>
+                <span class="c1"># subprocess.call(&#39;eeschema&#39;)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">debug_dialog</span><span class="p">(</span><span class="s1">&#39;Error trying to run KiCost as plugin or subprocess,</span><span class="se">\n\</span>
+<span class="s1">                KiCost is not available or accessible.</span><span class="se">\n\</span>
+<span class="s1">                Do you want to try to install KiCost?&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">YES_NO</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dlg</span> <span class="o">==</span> <span class="n">wx</span><span class="o">.</span><span class="n">YES</span><span class="p">:</span>
+                <span class="n">debug_dialog</span><span class="p">(</span><span class="s1">&#39;YES&#39;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+
+
+<span class="c1"># Start point.</span>
+<span class="n">kicost_kicadplugin</span><span class="p">()</span><span class="o">.</span><span class="n">register</span><span class="p">()</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.kicost_kicadplugin</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

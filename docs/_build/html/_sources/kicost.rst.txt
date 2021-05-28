@@ -5,12 +5,22 @@ Subpackages
 -----------
 
 .. toctree::
+   :maxdepth: 4
 
+   kicost.currency_converter
    kicost.distributors
    kicost.edas
 
 Submodules
 ----------
+
+kicost.ansi module
+------------------
+
+.. automodule:: kicost.ansi
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 kicost.global\_vars module
 --------------------------
@@ -52,18 +62,18 @@ kicost.kicost\_gui module
    :undoc-members:
    :show-inheritance:
 
-kicost.kicost\_gui\_wxFormBuilder module
-----------------------------------------
-
-.. automodule:: kicost.kicost_gui_wxFormBuilder
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 kicost.kicost\_kicadplugin module
 ---------------------------------
 
 .. automodule:: kicost.kicost_kicadplugin
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+kicost.log module
+-----------------
+
+.. automodule:: kicost.log
    :members:
    :undoc-members:
    :show-inheritance:
@@ -99,15 +109,6 @@ kicost.version module
    :members:
    :undoc-members:
    :show-inheritance:
-
-kicost.wxAnyThread module
--------------------------
-
-.. automodule:: kicost.wxAnyThread
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 
 Module contents
 ---------------

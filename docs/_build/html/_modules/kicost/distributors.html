@@ -1,18 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.distributors &#8212; kicost 1.1.5 documentation</title>
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -27,7 +27,9 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors</a></li> 
       </ul>
     </div>  
 
@@ -63,31 +65,82 @@
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;XESS Corporation&#39;</span>
 <span class="n">__email__</span> <span class="o">=</span> <span class="s1">&#39;info@xess.com&#39;</span>
 
-<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="k">import</span> <span class="o">*</span>
-
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span>
+<span class="c1"># Export the ORDER_COL_USERFIELDS content</span>
+<span class="kn">from</span> <span class="nn">.distributors_info</span> <span class="kn">import</span> <span class="n">ORDER_COL_USERFIELDS</span>  <span class="c1"># noqa: F401</span>
 
 <span class="c1"># Import and register here the API / local / scrape modules.</span>
+<span class="kn">from</span> <span class="nn">.dist_local_template</span> <span class="kn">import</span> <span class="n">dist_local_template</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.api_octopart</span> <span class="kn">import</span> <span class="n">api_octopart</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.api_partinfo_kitspace</span> <span class="kn">import</span> <span class="n">api_partinfo_kitspace</span>  <span class="c1"># noqa: F401</span>
 
-<span class="kn">from</span> <span class="nn">.dist_local_template</span> <span class="k">import</span> <span class="o">*</span> <span class="c1"># Template for local distributors entry.</span>
-<span class="c1">#from .api_octopart import *</span>
-<span class="kn">from</span> <span class="nn">.api_partinfo_kitspace</span> <span class="k">import</span> <span class="o">*</span>
 
-<span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;dist_local_template&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;handle&#39;</span><span class="p">:</span> <span class="n">dist_local_template</span><span class="p">}</span>
-<span class="c1">#distributors_modules_dict[&#39;api_partinfo_kitspace&#39;] = {&#39;handle&#39;: api_octopart}</span>
-<span class="n">distributors_modules_dict</span><span class="p">[</span><span class="s1">&#39;api_partinfo_kitspace&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;handle&#39;</span><span class="p">:</span> <span class="n">api_partinfo_kitspace</span><span class="p">}</span>
-
+<span class="c1">#</span>
+<span class="c1"># Some wrappers</span>
+<span class="c1">#</span>
 <div class="viewcode-block" id="init_distributor_dict"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.init_distributor_dict">[docs]</a><span class="k">def</span> <span class="nf">init_distributor_dict</span><span class="p">():</span>
-    <span class="c1"># Clear distributor_dict, then let all distributor modules recreate their entries.</span>
-    <span class="n">distributor_dict</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;dist_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;api_&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;scrape_&quot;</span><span class="p">):</span>
-            <span class="nb">globals</span><span class="p">()[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">init_dist_dict</span><span class="p">()</span></div>
-            <span class="c1"># Import all &quot;ditributors_templates&quot; (`dist_`), APIs or scrape modules.</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">init_dist_dict</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_dist_parts_info"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_dist_parts_info">[docs]</a><span class="k">def</span> <span class="nf">get_dist_parts_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_dist_parts_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_registered_apis"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_registered_apis">[docs]</a><span class="k">def</span> <span class="nf">get_registered_apis</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">registered</span></div>
+
+
+<div class="viewcode-block" id="get_distributors_list"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_distributors_list">[docs]</a><span class="k">def</span> <span class="nf">get_distributors_list</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; List of distributors registered by the API modules &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributors_iter</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="get_distributors_iter"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_distributors_iter">[docs]</a><span class="k">def</span> <span class="nf">get_distributors_iter</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Iterator for the distributors registered by the API modules &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributors_iter</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="get_distributor_info"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_distributor_info">[docs]</a><span class="k">def</span> <span class="nf">get_distributor_info</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Gets all the information about a supported distributor.</span>
+<span class="sd">        This information comes from the list collected from the APIs, not from the fixed template. &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_dist_name_from_label"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_dist_name_from_label">[docs]</a><span class="k">def</span> <span class="nf">get_dist_name_from_label</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Returns the internal distributor name for a provided label. &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">label2name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="set_distributors_logger"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_distributors_logger">[docs]</a><span class="k">def</span> <span class="nf">set_distributors_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Sets the logger used by the class &#39;&#39;&#39;</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span></div>
+
+
+<div class="viewcode-block" id="set_distributors_progress"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_distributors_progress">[docs]</a><span class="k">def</span> <span class="nf">set_distributors_progress</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Configures the class used to indicate progress &#39;&#39;&#39;</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="bp">cls</span></div>
+
+
+<div class="viewcode-block" id="set_api_options"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_api_options">[docs]</a><span class="k">def</span> <span class="nf">set_api_options</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Configure an API (by name) &#39;&#39;&#39;</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">set_api_options</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_api_status"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_api_status">[docs]</a><span class="k">def</span> <span class="nf">set_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">enabled</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Enable/Disable a particular API &#39;&#39;&#39;</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">set_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">enabled</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_api_status"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_api_status">[docs]</a><span class="k">def</span> <span class="nf">get_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Find if an API is enabled &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">)</span></div>
+
 
 <span class="c1"># Init distributor dict during import.</span>
 <span class="n">init_distributor_dict</span><span class="p">()</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
         </div>
       </div>
@@ -102,7 +155,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -117,12 +170,14 @@
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>

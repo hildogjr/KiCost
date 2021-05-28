@@ -158,6 +158,7 @@ class eda_kicad(eda_class):
 
     @staticmethod
     def file_eda_match(content, extension):
+        ''' Returns True if this EDA can handle this file. '''
         return extension == '.xml' and re.search(r'<tool\>Eeschema.*\<\/tool\>', content, re.IGNORECASE)
 
 
