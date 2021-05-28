@@ -479,6 +479,9 @@ def create_worksheet(ss, logger, parts):
     for p_info in prj_info:
         if 'qty' not in p_info:
             p_info['qty'] = ss.DEFAULT_BUILD_QTY
+    # Compute some values needed for the parts
+    for part in parts:
+        part.qty_str, part.qty = partgroup_qty(part)
 
     # Fill the global information (not distributor-specific)
     # Skip the prices, will fill them after we fill the distributors
@@ -513,19 +516,16 @@ def create_worksheet(ss, logger, parts):
         # Set initial board quantity.
         wks.write(next_row, dist_1st_col - 1, p_info['qty'], ss.wrk_formats['board_qty'])
         # Define the named cell where the total board quantity can be found.
-        qty_name = 'BoardQty' + i_prj_str
-        ss.define_name_ref(qty_name, next_row, dist_1st_col - 1)
+        ss.define_name_ref('BoardQty' + i_prj_str, next_row, dist_1st_col - 1)
 
         # Create the cell to show total cost of board parts for each distributor.
         ss.write_string(next_row + 2, dist_1st_col - 2, 'Total Cost' + i_prj_str + ':', 'total_cost_label')
         wks.write_comment(next_row + 2, dist_1st_col - 2, 'Use the minimum extend price across distributors not taking account available quantities.')
         # Define the named cell where the total cost can be found.
-        total_name = 'TotalCost' + i_prj_str
-        ss.define_name_ref(total_name, next_row + 2, dist_1st_col - 1)
+        ss.define_name_ref('TotalCost' + i_prj_str, next_row + 2, dist_1st_col - 1)
 
         # Create the cell to show unit cost of (each project) board parts.
         ss.write_string(next_row+1, dist_1st_col - 2, 'Unit Cost{}:'.format(i_prj_str), 'unit_cost_label')
-        wks.write(next_row+1, dist_1st_col - 1, "={}/{}".format(total_name, qty_name), ss.wrk_formats['unit_cost_currency'])
 
         next_row += ss.PRJ_INFO_ROWS
 
@@ -693,7 +693,6 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             ss.write_string(row, n_col, field_value, cell_format)
 
         # Enter total part quantity needed.
-        qty, qty_n = partgroup_qty(part)
         if num_prj > 1:
             # Multifiles BOM case, write each quantity and after,
             # in the 'qty' column the total quantity as ceil of
@@ -701,13 +700,13 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             # compatible function.
             total = 0
             for i_prj, p_info in enumerate(ss.prj_info):
-                value = qty_n[i_prj] * p_info['qty']
-                if qty_n[i_prj]:
+                value = part.qty[i_prj] * p_info['qty']
+                if part.qty[i_prj]:
                     ss.num_parts[i_prj] += 1
                 total += value
                 id = str(i_prj)
                 # Qty.PrjN
-                wks.write_formula(row, start_col + col['qty_prj'+id], qty[i_prj].format('BoardQty'+id), ss.wrk_formats['part_format'], value=value)
+                wks.write_formula(row, start_col + col['qty_prj'+id], part.qty_str[i_prj].format('BoardQty'+id), ss.wrk_formats['part_format'], value=value)
             # Build Quantity
             total = ceil(total)
             wks.write_formula(row, col_qty,
@@ -717,10 +716,8 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                               value=total)
         else:
             # Build Quantity
-            total = ceil(qty_n * ss.prj_info[0]['qty'])
-            wks.write_formula(row, col_qty,
-                              qty.format('BoardQty'), ss.wrk_formats['part_format'],
-                              value=total)
+            total = ceil(part.qty * ss.prj_info[0]['qty'])
+            wks.write_formula(row, col_qty, part.qty_str.format('BoardQty'), ss.wrk_formats['part_format'], value=total)
         part.qty_total_spreadsheet = total
         row += 1  # Go to next row.
 
@@ -736,11 +733,14 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     wks = ss.wks
     num_cols = len(col)
     num_parts = len(parts)
+    num_prj = len(ss.prj_info)
     used_currencies = set()
     row = start_row + 2
     PART_INFO_FIRST_ROW = row  # Starting row of part info.
     PART_INFO_LAST_ROW = PART_INFO_FIRST_ROW + num_parts - 1  # Last row of part info.
     total_cost = 0
+    if num_prj > 1:
+        total_cost_l = [0]*num_prj  # Multiproject total cost
     # Compute the columns for each distributor
     col_dist = start_col + num_cols
     dist_width = len(ss.DISTRIBUTOR_COLUMNS)
@@ -785,6 +785,10 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         unit_price = part.min_price if part.min_price is not None else 0
         ext_price = part.qty_total_spreadsheet * unit_price
         total_cost += ext_price
+        if num_prj > 1:
+            for i, q in enumerate(part.qty):
+                if q:
+                    total_cost_l[i] += q * unit_price
         # Enter the spreadsheet formula for calculating the minimum extended price (based on the unit price found on next formula).
         formula = '=IFERROR({qty}*{unit_price},"")'.format(qty=xl_rowcol_to_cell(row, col_qty), unit_price=xl_rowcol_to_cell(row, col_unit_price))
         wks.write_formula(row, col_ext_price, formula, ss.wrk_formats['currency'], value=round(ext_price, 4))
@@ -806,23 +810,27 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     # If have read multiple BOM file calculate it by `SUMPRODUCT()` of the
     # board project quantity components 'qty_prj*' by unitary price 'Unit$'.
     total_cost_col = col_ext_price
-    num_prj = len(ss.prj_info)
     if num_prj > 1:
         unit_price_range = xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW, col_unit_price)
-        # Add each project board total.
+        # Add the cost for 1 board and for the total of boards
         for i_prj in range(num_prj):
             qty_col = start_col + col['qty_prj{}'.format(i_prj)]
-            wks.write(total_cost_row + ss.PRJ_INFO_ROWS*i_prj, total_cost_col,
-                      '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
-                            unit_price_range=unit_price_range,
-                            qty_range=xl_range(PART_INFO_FIRST_ROW, qty_col,
-                                               PART_INFO_LAST_ROW, qty_col)),
-                      ss.wrk_formats['total_cost_currency'])
+            row_tc = total_cost_row + ss.PRJ_INFO_ROWS*i_prj
+            wks.write_formula(row_tc, total_cost_col, '=SUMPRODUCT({qty_range},{unit_price_range})'.format(
+                              unit_price_range=unit_price_range, qty_range=xl_range(PART_INFO_FIRST_ROW, qty_col, PART_INFO_LAST_ROW, qty_col)),
+                              ss.wrk_formats['total_cost_currency'], value=round(total_cost_l[i_prj] * ss.prj_info[i_prj]['qty'], 4))
+            # Create the cell to show unit cost of (each project) board parts.
+            wks.write_formula(row_tc - 1, total_cost_col, "=TotalCost{0}/BoardQty{0}".format(i_prj), ss.wrk_formats['unit_cost_currency'],
+                              value=round(total_cost_l[i_prj], 4))
         # Add total of the spreadsheet, this can be equal or bigger than
         # than the sum of the above totals, because, in the case of partial
         # or fractional quantity of one part or subpart, the total quantity
         # column 'qty' will be the ceil of the sum of the other ones.
         total_cost_row = start_row - 1  # Change the position of the total price cell.
+    else:
+        # Cost for 1 board when we only have 1 project
+        wks.write_formula(total_cost_row - 1, total_cost_col, "=TotalCost/BoardQty", ss.wrk_formats['unit_cost_currency'],
+                          value=round(total_cost/ss.prj_info[0]['qty'], 4))
     total_cost_range = xl_range(PART_INFO_FIRST_ROW, total_cost_col, PART_INFO_LAST_ROW, total_cost_col)
     wks.write_formula(total_cost_row, total_cost_col, '=SUM({})'.format(total_cost_range), ss.wrk_formats['total_cost_currency'], value=round(total_cost, 4))
 
@@ -1031,8 +1039,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col,
                               value=round(ext_price, 4))
             # Update the number of parts found and total cost for multiprojects
             if num_prj > 1:
-                qty, qty_n = partgroup_qty(part)
-                for i, q in enumerate(qty_n):
+                for i, q in enumerate(part.qty):
                     if q:
                         n_price_found_l[i] += 1
                         total_cost_l[i] += q * unit_price * ss.prj_info[i]['qty']

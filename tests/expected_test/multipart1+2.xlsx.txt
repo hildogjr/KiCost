@@ -22,7 +22,7 @@ Row: 2
  Col: I
    "Unit Cost0:"
  Col: J
-   0
+   1.9277
   Formula: TotalCost0/BoardQty0
 Row: 3
  Col: A
@@ -32,7 +32,7 @@ Row: 3
  Col: I
    "Total Cost0:"
  Col: J
-   0
+   192.7697
   Formula: SUMPRODUCT(F10:F26,I10:I26)
  Col: N
    0
@@ -97,7 +97,7 @@ Row: 5
  Col: I
    "Unit Cost1:"
  Col: J
-   0
+   6.0393
   Formula: TotalCost1/BoardQty1
 Row: 6
  Col: A
@@ -107,7 +107,7 @@ Row: 6
  Col: I
    "Total Cost1:"
  Col: J
-   0
+   603.9347
   Formula: SUMPRODUCT(G10:G26,I10:I26)
  Col: N
    0

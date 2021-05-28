@@ -19,7 +19,7 @@ Row: 2
  Col: F
    "Unit Cost:"
  Col: G
-   0
+   1.6828
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
