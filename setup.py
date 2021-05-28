@@ -111,10 +111,13 @@ data_files = [
 with open('kicost/version.py', 'rt') as f:
     version_py = f.read()
 with open('kicost/version.py', 'wt') as f:
-    try:
-        res = subprocess.check_output(['git', 'log', '-1', '--pretty=format:%h-%as']).decode('ascii')
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        res = 'unknown'
+    if 'KICOST_RELEASE' in os.environ:
+        res = 'release'
+    else:
+        try:
+            res = subprocess.check_output(['git', 'log', '-1', '--pretty=format:%h-%as']).decode('ascii')
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            res = 'unknown'
     f.write(re.sub("__build__ = '(.*)'", "__build__ = '{}'".format(res), version_py))
 
 setup(
