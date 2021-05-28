@@ -30,6 +30,7 @@ import platform
 import time
 import tqdm
 import logging
+import subprocess
 # Debug, language and default configurations.
 from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger, KiCostError
 # Import log first to set the domain and assign it to the global logger
@@ -52,13 +53,32 @@ from .distributors import (get_distributors_list, set_distributors_logger, set_d
 from .spreadsheet import Spreadsheet  # noqa: E402
 from . import __version__, __build__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
+# Python 2.7 compatibility
+try:
+    FileNotFoundError
+except NameError:
+    FileNotFoundError = IOError
+
 ###############################################################################
 # Additional functions
 ###############################################################################
 
 
 def kicost_version_info():
-    version_info_str = r'KiCost v{} ({})'.format(__version__, __build__)
+    build = __build__
+    # Are we running from a repo? (including "pip install -e")
+    prev_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    if os.path.isdir(os.path.join(prev_dir, '.git')):
+        cwd = os.getcwd()
+        # Try to change to this place and find the git hash
+        try:
+            os.chdir(prev_dir)
+            build = subprocess.check_output(['git', 'log', '-1', '--pretty=format:%h-%as']).decode('ascii')
+        except (OSError, subprocess.CalledProcessError, FileNotFoundError):
+            pass
+        finally:
+            os.chdir(cwd)
+    version_info_str = r'KiCost v{} ({})'.format(__version__, build)
     version_info_str += r' at Python {}.{}.{}'.format(sys.version_info.major, sys.version_info.minor, sys.version_info.micro)
     version_info_str += r' on {}({}). '.format(platform.platform(), platform.architecture()[0])
     try:
