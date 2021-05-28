@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'variants_1_test.test'!$G$1
 TotalCost = 'variants_1_test.test'!$G$3
-global_part_data = 'variants_1_test.test'!$A$5:$G$9
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -65,7 +64,7 @@ Row: 7
   Formula: CEILING(BoardQty*1,1)
  Col: G
    0
-  Formula: iferror(E7*F7,"")
+  Formula: IFERROR(E7*F7,"")
 Row: 8
  Col: A
    "C2"
@@ -76,7 +75,7 @@ Row: 8
   Formula: CEILING(BoardQty*1,1)
  Col: G
    0
-  Formula: iferror(E8*F8,"")
+  Formula: IFERROR(E8*F8,"")
 Row: 9
  Col: A
    "R1"
@@ -87,7 +86,7 @@ Row: 9
   Formula: CEILING(BoardQty*1,1)
  Col: G
    0
-  Formula: iferror(E9*F9,"")
+  Formula: IFERROR(E9*F9,"")
 Row: 12
  Col: A1
    "*FILTERED*"

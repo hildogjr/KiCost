@@ -2,15 +2,6 @@ Variables:
 BoardQty = 'test_423_xml_ok'!$G$1
 PURCHASE_DESCRIPTION = 'test_423_xml_ok'!$G$10
 TotalCost = 'test_423_xml_ok'!$G$3
-arrow_part_data = 'test_423_xml_ok'!$H$5:$L$7
-digikey_part_data = 'test_423_xml_ok'!$M$5:$Q$7
-farnell_part_data = 'test_423_xml_ok'!$R$5:$V$7
-global_part_data = 'test_423_xml_ok'!$A$5:$G$7
-lcsc_part_data = 'test_423_xml_ok'!$W$5:$AA$7
-mouser_part_data = 'test_423_xml_ok'!$AB$5:$AF$7
-newark_part_data = 'test_423_xml_ok'!$AG$5:$AK$7
-rs_part_data = 'test_423_xml_ok'!$AL$5:$AP$7
-tme_part_data = 'test_423_xml_ok'!$AQ$5:$AU$7
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -29,7 +20,7 @@ Row: 2
  Col: F
    "Unit Cost:"
  Col: G
-   0
+   3.7754
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
@@ -39,55 +30,55 @@ Row: 3
  Col: F
    "Total Cost:"
  Col: G
-   0
+   377.54
   Formula: SUM(G7)
  Col: K
    0
   Formula: SUM(K7)
  Col: L
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(K7)&" of "&ROWS(K7)&" parts found")
  Col: P
-   0
+   377.54
   Formula: SUM(P7)
  Col: Q
-   0
+   "1 of 1 parts found"
   Formula: (COUNTA(P7)&" of "&ROWS(P7)&" parts found")
  Col: U
    0
   Formula: SUM(U7)
  Col: V
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(U7)&" of "&ROWS(U7)&" parts found")
  Col: Z
    0
   Formula: SUM(Z7)
  Col: AA
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(Z7)&" of "&ROWS(Z7)&" parts found")
  Col: AE
-   0
+   420
   Formula: SUM(AE7)
  Col: AF
-   0
+   "1 of 1 parts found"
   Formula: (COUNTA(AE7)&" of "&ROWS(AE7)&" parts found")
  Col: AJ
    0
   Formula: SUM(AJ7)
  Col: AK
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(AJ7)&" of "&ROWS(AJ7)&" parts found")
  Col: AO
    0
   Formula: SUM(AO7)
  Col: AP
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(AO7)&" of "&ROWS(AO7)&" parts found")
  Col: AT
    0
   Formula: SUM(AT7)
  Col: AU
-   0
+   "0 of 1 parts found"
   Formula: (COUNTA(AT7)&" of "&ROWS(AT7)&" parts found")
 Row: 4
  Col: A
@@ -219,29 +210,29 @@ Row: 7
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: F
-   0
+   3.7754
   Formula: MINA(J7,O7,T7,Y7,AD7,AI7,AN7,AS7)
  Col: G
-   0
-  Formula: iferror(E7*F7,"")
+   377.54
+  Formula: IFERROR(E7*F7,"")
  Col: M
    490
  Col: O
-   0
-  Formula: iferror(lookup(if(N7="",E7,N7),{0,1,10,25,50,140,280,700,980,1400,3500},{0.0,4.49,4.315,3.9552,3.7754,3.59557,3.14614,3.05626,2.78659,2.60681,2.42703}),"")
+   3.7754
+  Formula: IFERROR(LOOKUP(IF(N7="",E7,N7),{0,1,10,25,50,140,280,700,980,1400,3500},{0.0,4.49,4.315,3.9552,3.7754,3.59557,3.14614,3.05626,2.78659,2.60681,2.42703}),"")
  Col: P
-   0
-  Formula: iferror(if(N7="",E7,N7)*O7,"")
+   377.54
+  Formula: IFERROR(IF(N7="",E7,N7)*O7,"")
  Col: Q
    <a href="https://octopart.com/click/track?ai=8078&sig=03d4f92&sid=459&ppid=9579109&vpid=579712565&ct=offers">1195-8194-1-ND</a>
  Col: AB
    "NonStk"
  Col: AD
-   0
-  Formula: iferror(lookup(if(AC7="",E7,AC7),{0,1,10,50,100,1000,10000},{0.0,5.0,4.2,4.2,4.2,2.88,2.73}),"")
+   4.2
+  Formula: IFERROR(LOOKUP(IF(AC7="",E7,AC7),{0,1,10,50,100,1000,10000},{0.0,5.0,4.2,4.2,4.2,2.88,2.73}),"")
  Col: AE
-   0
-  Formula: iferror(if(AC7="",E7,AC7)*AD7,"")
+   420
+  Formula: IFERROR(IF(AC7="",E7,AC7)*AD7,"")
  Col: AF
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=01d56b0&sid=2401&ppid=9579109&vpid=229657380&ct=offers">61709551667812741</a>
 Row: 9

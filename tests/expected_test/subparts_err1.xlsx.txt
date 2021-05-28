@@ -3,15 +3,6 @@ BoardQty = 'subparts_err1'!$I$1
 PURCHASE_DESCRIPTION = 'subparts_err1'!$I$11
 TotalCost = 'subparts_err1'!$I$3
 USD_GBP = 'subparts_err1'!$C$11
-arrow_part_data = 'subparts_err1'!$J$5:$N$8
-digikey_part_data = 'subparts_err1'!$O$5:$S$8
-farnell_part_data = 'subparts_err1'!$T$5:$X$8
-global_part_data = 'subparts_err1'!$A$5:$I$8
-lcsc_part_data = 'subparts_err1'!$Y$5:$AC$8
-mouser_part_data = 'subparts_err1'!$AD$5:$AH$8
-newark_part_data = 'subparts_err1'!$AI$5:$AM$8
-rs_part_data = 'subparts_err1'!$AN$5:$AR$8
-tme_part_data = 'subparts_err1'!$AS$5:$AW$8
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -30,7 +21,7 @@ Row: 2
  Col: H
    "Unit Cost:"
  Col: I
-   0
+   2.95
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
@@ -40,55 +31,55 @@ Row: 3
  Col: H
    "Total Cost:"
  Col: I
-   0
+   295
   Formula: SUM(I7:I8)
  Col: M
    0
   Formula: SUM(M7:M8)
  Col: N
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(M7:M8)&" of "&ROWS(M7:M8)&" parts found")
  Col: R
-   0
+   145.02
   Formula: SUM(R7:R8)
  Col: S
-   0
+   "1 of 2 parts found"
   Formula: (COUNTA(R7:R8)&" of "&ROWS(R7:R8)&" parts found")
  Col: W
-   0
+   211.895
   Formula: SUM(W7:W8)
  Col: X
-   0
+   "1 of 2 parts found"
   Formula: (COUNTA(W7:W8)&" of "&ROWS(W7:W8)&" parts found")
  Col: AB
    0
   Formula: SUM(AB7:AB8)
  Col: AC
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(AB7:AB8)&" of "&ROWS(AB7:AB8)&" parts found")
  Col: AG
-   0
+   295
   Formula: SUM(AG7:AG8)
  Col: AH
-   0
+   "2 of 2 parts found"
   Formula: (COUNTA(AG7:AG8)&" of "&ROWS(AG7:AG8)&" parts found")
  Col: AL
-   0
+   131
   Formula: SUM(AL7:AL8)
  Col: AM
-   0
+   "1 of 2 parts found"
   Formula: (COUNTA(AL7:AL8)&" of "&ROWS(AL7:AL8)&" parts found")
  Col: AQ
    0
   Formula: SUM(AQ7:AQ8)
  Col: AR
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(AQ7:AQ8)&" of "&ROWS(AQ7:AQ8)&" parts found")
  Col: AV
    0
   Formula: SUM(AV7:AV8)
  Col: AW
-   0
+   "0 of 2 parts found"
   Formula: (COUNTA(AV7:AV8)&" of "&ROWS(AV7:AV8)&" parts found")
 Row: 4
  Col: A
@@ -228,19 +219,19 @@ Row: 7
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: H
-   0
+   1.64
   Formula: MINA(L7,Q7,V7,AA7,AF7,AK7,AP7,AU7)
  Col: I
-   0
-  Formula: iferror(G7*H7,"")
+   164
+  Formula: IFERROR(G7*H7,"")
  Col: AD
    30803
  Col: AF
-   0
-  Formula: iferror(lookup(if(AE7="",G7,AE7),{0,1,10,50,100,1000,10000},{0.0,2.48,1.99,1.99,1.64,1.18,1.08}),"")
+   1.64
+  Formula: IFERROR(LOOKUP(IF(AE7="",G7,AE7),{0,1,10,50,100,1000,10000},{0.0,2.48,1.99,1.99,1.64,1.18,1.08}),"")
  Col: AG
-   0
-  Formula: iferror(if(AE7="",G7,AE7)*AF7,"")
+   164
+  Formula: IFERROR(IF(AE7="",G7,AE7)*AF7,"")
  Col: AH
    <a href="https://octopart.com/click/track?ai=8078&sig=0bec95d&sid=2401&ppid=38924313&vpid=614092373&ct=offers">6102N2222A</a>
 Row: 8
@@ -260,49 +251,49 @@ Row: 8
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: H
-   0
+   1.31
   Formula: MINA(L8,Q8,V8,AA8,AF8,AK8,AP8,AU8)
  Col: I
-   0
-  Formula: iferror(G8*H8,"")
+   131
+  Formula: IFERROR(G8*H8,"")
  Col: O
    2753
  Col: Q
-   0
-  Formula: iferror(lookup(if(P8="",G8,P8),{0,1,10,25,50,100,250,500,1000,5000},{0.0,1.71,1.621,1.5784,1.5356,1.4502,1.36492,1.27962,1.19432,1.15167}),"")
+   1.4502
+  Formula: IFERROR(LOOKUP(IF(P8="",G8,P8),{0,1,10,25,50,100,250,500,1000,5000},{0.0,1.71,1.621,1.5784,1.5356,1.4502,1.36492,1.27962,1.19432,1.15167}),"")
  Col: R
-   0
-  Formula: iferror(if(P8="",G8,P8)*Q8,"")
+   145.02
+  Formula: IFERROR(IF(P8="",G8,P8)*Q8,"")
  Col: S
    <a href="https://octopart.com/click/track?ai=8078&sig=0a4bbfc&sid=459&ppid=381806&vpid=1187617&ct=offers">HS100-ND</a>
  Col: T
    717
  Col: V
-   0
-  Formula: iferror(USD_GBP*lookup(if(U8="",G8,U8),{0,1,10,25,50,100},{0.0,2.63,2.1,1.98,1.85,1.54}),"")
+   2.11895005215
+  Formula: IFERROR(USD_GBP*LOOKUP(IF(U8="",G8,U8),{0,1,10,25,50,100},{0.0,2.63,2.1,1.98,1.85,1.54}),"")
  Col: W
-   0
-  Formula: iferror(if(U8="",G8,U8)*V8,"")
+   211.895
+  Formula: IFERROR(IF(U8="",G8,U8)*V8,"")
  Col: X
    <a href="https://octopart.com/click/track?ai=8078&sig=0e43cfc&sid=819&ppid=381806&vpid=138099605&ct=offers">2295717</a>
  Col: AD
    2099
  Col: AF
-   0
-  Formula: iferror(lookup(if(AE8="",G8,AE8),{0,1,10,50,100,1000,10000},{0.0,1.54,1.47,1.38,1.31,1.08,1.04}),"")
+   1.31
+  Formula: IFERROR(LOOKUP(IF(AE8="",G8,AE8),{0,1,10,50,100,1000,10000},{0.0,1.54,1.47,1.38,1.31,1.08,1.04}),"")
  Col: AG
-   0
-  Formula: iferror(if(AE8="",G8,AE8)*AF8,"")
+   131
+  Formula: IFERROR(IF(AE8="",G8,AE8)*AF8,"")
  Col: AH
    <a href="https://octopart.com/click/track?ai=8078&sig=00ca156&sid=2401&ppid=381806&vpid=37663924&ct=offers">532322400B00</a>
  Col: AI
    713
  Col: AK
-   0
-  Formula: iferror(lookup(if(AJ8="",G8,AJ8),{0,1,10,25,50,100,250,3000},{0.0,1.54,1.47,1.42,1.38,1.31,1.24,1.4}),"")
+   1.31
+  Formula: IFERROR(LOOKUP(IF(AJ8="",G8,AJ8),{0,1,10,25,50,100,250,3000},{0.0,1.54,1.47,1.42,1.38,1.31,1.24,1.4}),"")
  Col: AL
-   0
-  Formula: iferror(if(AJ8="",G8,AJ8)*AK8,"")
+   131
+  Formula: IFERROR(IF(AJ8="",G8,AJ8)*AK8,"")
  Col: AM
    <a href="https://octopart.com/click/track?ai=8078&sig=0ae40ed&sid=2402&ppid=381806&vpid=605875841&ct=offers">99Y9862</a>
 Row: 10
@@ -373,7 +364,7 @@ Row: 11
  Col: B1
    "USD($)/GBP(£):"
  Col: C1
-   1.375941592305018
+   1.37594159231
  Col: H1
    "Purchase description:"
  Col: K1

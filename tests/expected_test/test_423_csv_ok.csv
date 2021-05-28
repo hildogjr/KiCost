@@ -1,8 +1,8 @@
 Prj:,test_423_ok.csv,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,,,,,Unit Cost:,3.7754,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-J6,???,???,09551667812741,100,0,0,,,,,,490,,0,0,1195-8194-1-ND,,,,,,,,,,,NonStk,,0,0,61709551667812741,,,,,,,,,,,,,,,
+J6,???,???,09551667812741,100,3.7754,377.54,,,,,,490,,3.7754,377.54,1195-8194-1-ND,,,,,,,,,,,NonStk,,4.2,420,61709551667812741,,,,,,,,,,,,,,,
 
 ,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
 file and use it for JLCPCB 

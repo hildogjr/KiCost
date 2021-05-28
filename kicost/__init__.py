@@ -14,7 +14,13 @@ class PartGroup(object):
         self.datasheet = None
         self.lifecycle = None
         self.specs = {}  # Miscellaneous data from the queries
+        self.min_price = None  # Filled by the spreadsheet code, expressed in the main currency
+        # Values derived from manf#_qty
+        self.qty = None  # Quantity for each project, just a number if only 1 project
+        self.qty_str = None  # Formulas to compute the quantity in the spreadsheet
+        self.qty_total_spreadsheet = 0  # Total quantity for all projects for the spreadsheet
         # Distributor data
+        # TODO: distributor data should be a class and we should have a hash dist -> data
         self.part_num = {}  # Distributor catalogue number.
         self.url = {}  # Purchase distributor URL for the spefic part.
         self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]

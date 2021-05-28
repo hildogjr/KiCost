@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'test_337_UserFieldCombining'!$H$1
 TotalCost = 'test_337_UserFieldCombining'!$H$3
-global_part_data = 'test_337_UserFieldCombining'!$A$5:$H$7
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -69,7 +68,7 @@ Row: 7
   Formula: CEILING(BoardQty*2,1)
  Col: H
    0
-  Formula: iferror(F7*G7,"")
+  Formula: IFERROR(F7*G7,"")
 Row: 10
  Col: A1
    "*FILTERED*"

@@ -3,16 +3,6 @@ BoardQty = 'complex_multipart'!$M$1
 PURCHASE_DESCRIPTION = 'complex_multipart'!$M$12
 TotalCost = 'complex_multipart'!$M$3
 USD_EUR = 'complex_multipart'!$C$12
-arrow_part_data = 'complex_multipart'!$N$5:$R$9
-digikey_part_data = 'complex_multipart'!$S$5:$W$9
-farnell_part_data = 'complex_multipart'!$X$5:$AB$9
-global_part_data = 'complex_multipart'!$A$5:$M$9
-lcsc_part_data = 'complex_multipart'!$AC$5:$AG$9
-mouser_part_data = 'complex_multipart'!$AH$5:$AL$9
-newark_part_data = 'complex_multipart'!$AM$5:$AQ$9
-rs_part_data = 'complex_multipart'!$AR$5:$AV$9
-tme_part_data = 'complex_multipart'!$AW$5:$BA$9
-we_part_data = 'complex_multipart'!$BB$5:$BF$9
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -31,7 +21,7 @@ Row: 2
  Col: L
    "Unit Cost:"
  Col: M
-   0
+   0.095
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
@@ -41,61 +31,61 @@ Row: 3
  Col: L
    "Total Cost:"
  Col: M
-   0
+   9.4984
   Formula: SUM(M7:M9)
  Col: Q
    0
   Formula: SUM(Q7:Q9)
  Col: R
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(Q7:Q9)&" of "&ROWS(Q7:Q9)&" parts found")
  Col: V
    0
   Formula: SUM(V7:V9)
  Col: W
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(V7:V9)&" of "&ROWS(V7:V9)&" parts found")
  Col: AA
    0
   Formula: SUM(AA7:AA9)
  Col: AB
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AA7:AA9)&" of "&ROWS(AA7:AA9)&" parts found")
  Col: AF
    0
   Formula: SUM(AF7:AF9)
  Col: AG
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AF7:AF9)&" of "&ROWS(AF7:AF9)&" parts found")
  Col: AK
-   0
+   70.2
   Formula: SUM(AK7:AK9)
  Col: AL
-   0
+   "2 of 3 parts found"
   Formula: (COUNTA(AK7:AK9)&" of "&ROWS(AK7:AK9)&" parts found")
  Col: AP
    0
   Formula: SUM(AP7:AP9)
  Col: AQ
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AP7:AP9)&" of "&ROWS(AP7:AP9)&" parts found")
  Col: AU
    0
   Formula: SUM(AU7:AU9)
  Col: AV
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AU7:AU9)&" of "&ROWS(AU7:AU9)&" parts found")
  Col: AZ
    0
   Formula: SUM(AZ7:AZ9)
  Col: BA
-   0
+   "0 of 3 parts found"
   Formula: (COUNTA(AZ7:AZ9)&" of "&ROWS(AZ7:AZ9)&" parts found")
  Col: BE
-   0
+   9.4984
   Formula: SUM(BE7:BE9)
  Col: BF
-   0
+   "3 of 3 parts found"
   Formula: (COUNTA(BE7:BE9)&" of "&ROWS(BE7:BE9)&" parts found")
 Row: 4
  Col: A
@@ -263,29 +253,29 @@ Row: 7
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
-   0
+   0.083111
   Formula: MINA(P7,U7,Z7,AE7,AJ7,AO7,AT7,AY7,BD7)
  Col: M
-   0
-  Formula: iferror(K7*L7,"")
+   8.3111
+  Formula: IFERROR(K7*L7,"")
  Col: AH
    767
  Col: AJ
-   0
-  Formula: iferror(lookup(if(AI7="",K7,AI7),{0,1,10,50,100,1000,10000},{0.0,0.66,0.627,0.595,0.531,0.382,0.382}),"")
+   0.531
+  Formula: IFERROR(LOOKUP(IF(AI7="",K7,AI7),{0,1,10,50,100,1000,10000},{0.0,0.66,0.627,0.595,0.531,0.382,0.382}),"")
  Col: AK
-   0
-  Formula: iferror(if(AI7="",K7,AI7)*AJ7,"")
+   53.1
+  Formula: IFERROR(IF(AI7="",K7,AI7)*AJ7,"")
  Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=0247e72&sid=2401&ppid=56808803&vpid=490212795&ct=offers">710696101000002</a>
  Col: BB
    "NonStk"
  Col: BD
-   0
-  Formula: iferror(USD_EUR*lookup(if(BC7="",K7,BC7),{0,1},{0.0,0.07}),"")
+   0.083111
+  Formula: IFERROR(USD_EUR*LOOKUP(IF(BC7="",K7,BC7),{0,1},{0.0,0.07}),"")
  Col: BE
-   0
-  Formula: iferror(if(BC7="",K7,BC7)*BD7,"")
+   8.3111
+  Formula: IFERROR(IF(BC7="",K7,BC7)*BD7,"")
  Col: BF
    "696101000002"
 Row: 8
@@ -315,25 +305,25 @@ Row: 8
   Formula: MINA(P8,U8,Z8,AE8,AJ8,AO8,AT8,AY8,BD8)
  Col: M
    0
-  Formula: iferror(K8*L8,"")
+  Formula: IFERROR(K8*L8,"")
  Col: AH
    7857
  Col: AJ
-   0
-  Formula: iferror(lookup(if(AI8="",K8,AI8),{0,1,10,50,100,1000,10000},{0.0,0.22,0.205,0.19,0.171,0.12,0.095}),"")
+   0.171
+  Formula: IFERROR(LOOKUP(IF(AI8="",K8,AI8),{0,1,10,50,100,1000,10000},{0.0,0.22,0.205,0.19,0.171,0.12,0.095}),"")
  Col: AK
-   0
-  Formula: iferror(if(AI8="",K8,AI8)*AJ8,"")
+   17.1
+  Formula: IFERROR(IF(AI8="",K8,AI8)*AJ8,"")
  Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=04c4592&sid=2401&ppid=55819047&vpid=217143194&ct=offers">5305MF6R</a>
  Col: BB
    "NonStk"
  Col: BD
    0
-  Formula: iferror(lookup(if(BC8="",K8,BC8),{0},{0.0}),"")
+  Formula: IFERROR(LOOKUP(IF(BC8="",K8,BC8),{0},{0.0}),"")
  Col: BE
    0
-  Formula: iferror(if(BC8="",K8,BC8)*BD8,"")
+  Formula: IFERROR(IF(BC8="",K8,BC8)*BD8,"")
  Col: BF
    "5MF 6-R"
 Row: 9
@@ -359,19 +349,19 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
-   0
+   0.011873
   Formula: MINA(P9,U9,Z9,AE9,AJ9,AO9,AT9,AY9,BD9)
  Col: M
-   0
-  Formula: iferror(K9*L9,"")
+   1.1873
+  Formula: IFERROR(K9*L9,"")
  Col: BB
    "NonStk"
  Col: BD
-   0
-  Formula: iferror(USD_EUR*lookup(if(BC9="",K9,BC9),{0,1,100},{0.0,0.03,0.01}),"")
+   0.011873
+  Formula: IFERROR(USD_EUR*LOOKUP(IF(BC9="",K9,BC9),{0,1,100},{0.0,0.03,0.01}),"")
  Col: BE
-   0
-  Formula: iferror(if(BC9="",K9,BC9)*BD9,"")
+   1.1873
+  Formula: IFERROR(IF(BC9="",K9,BC9)*BD9,"")
  Col: BF
    "695120004001"
 Row: 11

@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'group_1_ignore_comment'!$L$1
 TotalCost = 'group_1_ignore_comment'!$L$3
-global_part_data = 'group_1_ignore_comment'!$A$5:$L$9
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -77,7 +76,7 @@ Row: 7
   Formula: CEILING(BoardQty*3.0,1)
  Col: L
    0
-  Formula: iferror(J7*K7,"")
+  Formula: IFERROR(J7*K7,"")
 Row: 8
  Col: A
    "C5"
@@ -90,7 +89,7 @@ Row: 8
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: iferror(J8*K8,"")
+  Formula: IFERROR(J8*K8,"")
 Row: 9
  Col: A
    "C10"
@@ -103,7 +102,7 @@ Row: 9
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: iferror(J9*K9,"")
+  Formula: IFERROR(J9*K9,"")
 Row: 12
  Col: A1
    "*FILTERED*"

@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'no_empty_overwrite'!$H$1
 TotalCost = 'no_empty_overwrite'!$H$3
-global_part_data = 'no_empty_overwrite'!$A$5:$H$9
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -71,7 +70,7 @@ Row: 7
   Formula: CEILING(BoardQty*1.0,1)
  Col: H
    0
-  Formula: iferror(F7*G7,"")
+  Formula: IFERROR(F7*G7,"")
 Row: 8
  Col: A
    "C2"
@@ -86,7 +85,7 @@ Row: 8
   Formula: CEILING(BoardQty*1.0,1)
  Col: H
    0
-  Formula: iferror(F8*G8,"")
+  Formula: IFERROR(F8*G8,"")
 Row: 9
  Col: A
    "C3"
@@ -101,7 +100,7 @@ Row: 9
   Formula: CEILING(BoardQty*1.0,1)
  Col: H
    0
-  Formula: iferror(F9*G9,"")
+  Formula: IFERROR(F9*G9,"")
 Row: 12
  Col: A1
    "*FILTERED*"

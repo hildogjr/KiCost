@@ -1,7 +1,6 @@
 Variables:
 BoardQty = 'parts_and_comments'!$L$1
 TotalCost = 'parts_and_comments'!$L$3
-global_part_data = 'parts_and_comments'!$A$5:$L$27
 --------------------------------------------------------------------------------
 Row: 1
  Col: A
@@ -79,7 +78,7 @@ Row: 7
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: iferror(J7*K7,"")
+  Formula: IFERROR(J7*K7,"")
 Row: 8
  Col: A
    "C2"
@@ -94,7 +93,7 @@ Row: 8
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: iferror(J8*K8,"")
+  Formula: IFERROR(J8*K8,"")
 Row: 9
  Col: A
    "C3"
@@ -109,7 +108,7 @@ Row: 9
   Formula: CEILING(BoardQty*1.0,1)
  Col: L
    0
-  Formula: iferror(J9*K9,"")
+  Formula: IFERROR(J9*K9,"")
 Row: 10
  Col: A1
    "C4"
@@ -124,7 +123,7 @@ Row: 10
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J10*K10,"")
+  Formula: IFERROR(J10*K10,"")
 Row: 11
  Col: A1
    "C5"
@@ -139,7 +138,7 @@ Row: 11
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J11*K11,"")
+  Formula: IFERROR(J11*K11,"")
 Row: 12
  Col: A1
    "C6"
@@ -154,7 +153,7 @@ Row: 12
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J12*K12,"")
+  Formula: IFERROR(J12*K12,"")
 Row: 13
  Col: A1
    "C7"
@@ -169,7 +168,7 @@ Row: 13
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J13*K13,"")
+  Formula: IFERROR(J13*K13,"")
 Row: 14
  Col: A1
    "C8"
@@ -184,7 +183,7 @@ Row: 14
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J14*K14,"")
+  Formula: IFERROR(J14*K14,"")
 Row: 15
  Col: A1
    "C9"
@@ -199,7 +198,7 @@ Row: 15
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J15*K15,"")
+  Formula: IFERROR(J15*K15,"")
 Row: 16
  Col: A1
    "C10"
@@ -214,7 +213,7 @@ Row: 16
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J16*K16,"")
+  Formula: IFERROR(J16*K16,"")
 Row: 17
  Col: A1
    "C11"
@@ -229,7 +228,7 @@ Row: 17
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J17*K17,"")
+  Formula: IFERROR(J17*K17,"")
 Row: 18
  Col: A1
    "C12"
@@ -244,7 +243,7 @@ Row: 18
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J18*K18,"")
+  Formula: IFERROR(J18*K18,"")
 Row: 19
  Col: A1
    "C13"
@@ -259,7 +258,7 @@ Row: 19
   Formula: CEILING(BoardQty*1.0,1)
  Col: L1
    0
-  Formula: iferror(J19*K19,"")
+  Formula: IFERROR(J19*K19,"")
 Row: 20
  Col: A2
    "C14"
@@ -274,7 +273,7 @@ Row: 20
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J20*K20,"")
+  Formula: IFERROR(J20*K20,"")
 Row: 21
  Col: A2
    "C15"
@@ -289,7 +288,7 @@ Row: 21
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J21*K21,"")
+  Formula: IFERROR(J21*K21,"")
 Row: 22
  Col: A2
    "C16"
@@ -304,7 +303,7 @@ Row: 22
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J22*K22,"")
+  Formula: IFERROR(J22*K22,"")
 Row: 23
  Col: A2
    "C17"
@@ -319,7 +318,7 @@ Row: 23
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J23*K23,"")
+  Formula: IFERROR(J23*K23,"")
 Row: 24
  Col: A2
    "C18"
@@ -334,7 +333,7 @@ Row: 24
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J24*K24,"")
+  Formula: IFERROR(J24*K24,"")
 Row: 25
  Col: A2
    "C19"
@@ -349,7 +348,7 @@ Row: 25
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J25*K25,"")
+  Formula: IFERROR(J25*K25,"")
 Row: 26
  Col: A2
    "C20"
@@ -364,7 +363,7 @@ Row: 26
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J26*K26,"")
+  Formula: IFERROR(J26*K26,"")
 Row: 27
  Col: A2
    "C21"
@@ -379,7 +378,7 @@ Row: 27
   Formula: CEILING(BoardQty*1.0,1)
  Col: L2
    0
-  Formula: iferror(J27*K27,"")
+  Formula: IFERROR(J27*K27,"")
 Row: 30
  Col: A3
    "*FILTERED*"
