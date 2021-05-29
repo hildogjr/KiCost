@@ -1,14 +1,14 @@
-Prj:,See #423,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,2021-05-04,,,,Total Cost:,377.54,,,,0,0 of 1 parts found,,,,377.54,1 of 1 parts found,,,,0,0 of 1 parts found,,,,0,0 of 1 parts found,,,,420,1 of 1 parts found,,,,0,0 of 1 parts found,,,,0,0 of 1 parts found,,,,0,0 of 1 parts found
-Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
-Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-DB9,1nF,,09551667812741,100,3.7754,377.54,,,,,,490,,3.7754,377.54,1195-8194-1-ND,,,,,,,,,,,NonStk,,4.2,420,61709551667812741,,,,,,,,,,,,,,,
+Prj:,See #423,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,2021-05-04,,,,Total Cost:,377.54,,,,,0,0 of 1 parts found,,,,,377.54,1 of 1 parts found,,,,,0,0 of 1 parts found,,,,,0,0 of 1 parts found,,,,,420,1 of 1 parts found,,,,,0,0 of 1 parts found,,,,,0,0 of 1 parts found,,,,,0,0 of 1 parts found
+Global Part Info,,,,,,,Arrow,,,,,,Digi-Key,,,,,,Farnell,,,,,,LCSC,,,,,,Mouser,,,,,,Newark,,,,,,RS Components,,,,,,TME,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#
+DB9,1nF,,09551667812741,100,3.7754,377.54,,,,,,,490,,3.7754,1,377.54,1195-8194-1-ND,,,,,,,,,,,,,NonStk,,4.2,1,420,61709551667812741,,,,,,,,,,,,,,,,,,
 
-,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
+,,,,,Total Purchase:,0,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
-""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

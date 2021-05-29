@@ -72,10 +72,9 @@ C2: Manf is defaultmanf, except when variant1 (check impact of field order)"
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(F7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(F7),TRUE()) -> -/FFAAAAAA
  Col: I
-   0
-  Formula: IFERROR(G7*H7,"")
+  Formula: IF(AND(ISNUMBER(G7),ISNUMBER(H7)),G7*H7,"")
 Row: 8
  Col: A
    "C3"
@@ -89,10 +88,9 @@ Row: 8
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(F8),TRUE()) -> -/FFAAAAAA (2)
+  - =AND(ISBLANK(F8),TRUE()) -> -/FFAAAAAA
  Col: I
-   0
-  Formula: IFERROR(G8*H8,"")
+  Formula: IF(AND(ISNUMBER(G8),ISNUMBER(H8)),G8*H8,"")
 Row: 11
  Col: A
    "*FILTERED*"

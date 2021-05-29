@@ -1,30 +1,30 @@
-Prj:,LedTest.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,,,,,Unit Cost:,0.361,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,12/21/2015 9:45:38 AM,,,,Total Cost:,36.1,,,,0,0 of 6 parts found,,,,46.95,1 of 6 parts found,,,,0,0 of 6 parts found,,,,0,0 of 6 parts found,,,,57.1,1 of 6 parts found,,,,36.1,1 of 6 parts found,,,,72.6497,1 of 6 parts found,,,,0,0 of 6 parts found
-Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
-Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-D1-D8,Led_Small,,,800,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-IC1,ATTINY13A-S,SOIC-14_N,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-P1,CONN_02X03,ICSP-6pin,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-P2,CONN_01X03,Jumper_3pin,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-R1-R8,R_Small,,,800,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-U1,LTV-847,DIP-16,LTV-846S,100,0.361,36.1,,,,,,73,,0.4695,46.95,160-1365-5-ND,,,,,,,,,,,3319,,0.571,57.1,859LTV846S,NonStk,,0.361,36.1,61AC0129,200,,0.726497,72.6497,1689678,,,,,
+Prj:,LedTest.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,,,,,Unit Cost:,0.361,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,12/21/2015 9:45:38 AM,,,,Total Cost:,36.1,,,,,0,0 of 6 parts found,,,,,46.95,1 of 6 parts found,,,,,0,0 of 6 parts found,,,,,0,0 of 6 parts found,,,,,57.1,1 of 6 parts found,,,,,36.1,1 of 6 parts found,,,,,72.6497,1 of 6 parts found,,,,,0,0 of 6 parts found
+Global Part Info,,,,,,,Arrow,,,,,,Digi-Key,,,,,,Farnell,,,,,,LCSC,,,,,,Mouser,,,,,,Newark,,,,,,RS Components,,,,,,TME,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#
+D1-D8,Led_Small,,,800,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+IC1,ATTINY13A-S,SOIC-14_N,,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+P1,CONN_02X03,ICSP-6pin,,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+P2,CONN_01X03,Jumper_3pin,,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+R1-R8,R_Small,,,800,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+U1,LTV-847,DIP-16,LTV-846S,100,0.361,36.1,,,,,,,73,,0.4695,1,46.95,160-1365-5-ND,,,,,,,,,,,,,3319,,0.571,1,57.1,859LTV846S,NonStk,,0.361,25,36.1,61AC0129,200,,0.726497,25,72.6497,1689678,,,,,,
 
-,Used currency rates:,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
-,USD($)/GBP(£):,1.375941592305018,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
+,Used currency rates:,,,,Total Purchase:,0,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,
+,USD($)/GBP(£):,1.375941592305018,,,Purchase description:,,,,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
-""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 
 
 
 
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

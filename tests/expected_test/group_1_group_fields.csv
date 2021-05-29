@@ -4,8 +4,8 @@ Global Part Info,,,,,,,,,,,
 Refs,Value,comment,S1MN,S1PN,S2MN,S2PN,Footprint,Manf#,Qty,Unit$,Ext$
 "C1,C2,C20",1nF,"C1: Comment for 'C1' with value '1nF'
 C2: Comment for 'C2' with value '1nF'
-C20: Comment for 'C20' with value '1nF'",,,,,,COMP-1nF,300,,0
-C5,1nF,Comment for 'C5' with value '1nF',,,,,,OTHERCOMP-1nF,100,,0
-C10,1uF,Comment for 'C10' with value '1uF',,,,,,COMP-1nF,100,,0
+C20: Comment for 'C20' with value '1nF'",,,,,,COMP-1nF,300,,
+C5,1nF,Comment for 'C5' with value '1nF',,,,,,OTHERCOMP-1nF,100,,
+C10,1uF,Comment for 'C10' with value '1uF',,,,,,COMP-1nF,100,,
 
 

@@ -71,10 +71,9 @@ Row: 7
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(F7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(F7),TRUE()) -> -/FFAAAAAA
  Col: I
-   0
-  Formula: IFERROR(G7*H7,"")
+  Formula: IF(AND(ISNUMBER(G7),ISNUMBER(H7)),G7*H7,"")
 Row: 8
  Col: A
    "C2"
@@ -88,10 +87,9 @@ Row: 8
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(F8),TRUE()) -> -/FFAAAAAA (2)
+  - =AND(ISBLANK(F8),TRUE()) -> -/FFAAAAAA
  Col: I
-   0
-  Formula: IFERROR(G8*H8,"")
+  Formula: IF(AND(ISNUMBER(G8),ISNUMBER(H8)),G8*H8,"")
 Row: 9
  Col: A
    "C6"
@@ -105,10 +103,9 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(F9),TRUE()) -> -/FFAAAAAA (3)
+  - =AND(ISBLANK(F9),TRUE()) -> -/FFAAAAAA
  Col: I
-   0
-  Formula: IFERROR(G9*H9,"")
+  Formula: IF(AND(ISNUMBER(G9),ISNUMBER(H9)),G9*H9,"")
 Row: 10
  Col: A
    "C7"
@@ -122,10 +119,9 @@ Row: 10
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(F10),TRUE()) -> -/FFAAAAAA (4)
+  - =AND(ISBLANK(F10),TRUE()) -> -/FFAAAAAA
  Col: I
-   0
-  Formula: IFERROR(G10*H10,"")
+  Formula: IF(AND(ISNUMBER(G10),ISNUMBER(H10)),G10*H10,"")
 Row: 11
  Col: A
    "C8"
@@ -139,10 +135,9 @@ Row: 11
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(F11),TRUE()) -> -/FFAAAAAA (5)
+  - =AND(ISBLANK(F11),TRUE()) -> -/FFAAAAAA
  Col: I
-   0
-  Formula: IFERROR(G11*H11,"")
+  Formula: IF(AND(ISNUMBER(G11),ISNUMBER(H11)),G11*H11,"")
 Row: 14
  Col: A
    "*FILTERED*"

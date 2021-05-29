@@ -224,7 +224,9 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                 if styles:
                     f.write('  Styles:\n')
                     for style in styles:
-                        f.write('  - {} -> {} ({})\n'.format(style[0], style[1], style[2]))
+                        # f.write('  - {} -> {} ({})\n'.format(style[0], style[1], style[2]))
+                        # The priority doesn't look really important and generates a lot of silly diffs
+                        f.write('  - {} -> {}\n'.format(style[0], style[1]))
     shutil.rmtree(tmpdir)
     return True
 

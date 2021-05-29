@@ -3,7 +3,7 @@ Prj date:,2021-01-02,,,,,,Total Cost:,0
 Global Part Info,,,,,,,,
 Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$
 "C1,C2",1nF,"C1: Manf is defaultmanf, except when variant1
-C2: Manf is defaultmanf, except when variant1 (check impact of field order)",,variant1manf,,200,,0
-C3,1nF,Placed only when variant1,,defaultmanf,,100,,0
+C2: Manf is defaultmanf, except when variant1 (check impact of field order)",,variant1manf,,200,,
+C3,1nF,Placed only when variant1,,defaultmanf,,100,,
 
 

@@ -3,7 +3,7 @@ Co.:,https://github.com/SchrodingersGat/KiBom,,,,Unit Cost:,0
 Prj date:,mar 30 mar 2021 09:46:24,,,,Total Cost:,0
 Global Part Info,,,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$
-R1,1k,,,100,,0
-R2,1000,,,100,,0
+R1,1k,,,100,,
+R2,1000,,,100,,
 
 

@@ -79,10 +79,9 @@ C20: Comment for 'C20' with value '1nF'"
    300
   Formula: CEILING(BoardQty*3.0,1)
   Styles:
-  - =AND(ISBLANK(I7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(I7),TRUE()) -> -/FFAAAAAA
  Col: L
-   0
-  Formula: IFERROR(J7*K7,"")
+  Formula: IF(AND(ISNUMBER(J7),ISNUMBER(K7)),J7*K7,"")
 Row: 8
  Col: A
    "C5"
@@ -96,10 +95,9 @@ Row: 8
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(I8),TRUE()) -> -/FFAAAAAA (2)
+  - =AND(ISBLANK(I8),TRUE()) -> -/FFAAAAAA
  Col: L
-   0
-  Formula: IFERROR(J8*K8,"")
+  Formula: IF(AND(ISNUMBER(J8),ISNUMBER(K8)),J8*K8,"")
 Row: 9
  Col: A
    "C10"
@@ -113,10 +111,9 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(I9),TRUE()) -> -/FFAAAAAA (3)
+  - =AND(ISBLANK(I9),TRUE()) -> -/FFAAAAAA
  Col: L
-   0
-  Formula: IFERROR(J9*K9,"")
+  Formula: IF(AND(ISNUMBER(J9),ISNUMBER(K9)),J9*K9,"")
 Row: 12
  Col: A
    "*FILTERED*"

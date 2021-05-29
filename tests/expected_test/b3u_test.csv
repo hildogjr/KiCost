@@ -1,33 +1,33 @@
-Prj:,StickIt-RotaryEncoder Module,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,XESS Corp.,,,,,Unit Cost:,1.4258,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,05/28/2016 12:02:31 AM,,,,,Total Cost:,142.58,,,,0,0 of 7 parts found,,,,289.096,2 of 7 parts found,,,,328.85,2 of 7 parts found,,,,27.18,1 of 7 parts found,,,,276.5,2 of 7 parts found,,,,274.5,2 of 7 parts found,,,,0,0 of 7 parts found,,,,199.4664,1 of 7 parts found,,,,115.4,3 of 7 parts found
-Global Part Info,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,,Local,,,,
-Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-C1-C6,C-NONPOL,C_0603_HandSoldering,,,600,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-JP1-JP4,JUMPER,HDR_1x2,,,400,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-PCB1,PCB,,,,100,0.32,32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.32,32,#NO_CATALOG0002
-RN1,4K7,CTS_742C163,OMRON,B3U-1000P,100,0.2718,27.18,,,,,,108878,,0.7235,72.35,SW1020CT-ND,2080,,0.800798,80.0798,2500851,5025,,0.2718,27.18,C231329,11098,,0.645,64.5,653B3U1000P,2080,,0.645,64.5,34M5295,,,,,,,,,,,,,,,
-RN2,1K,CTS_742C163,,,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-"ROT1,ROT2",ROT_ENC_SW,ROT_ENC_EC11E,Bourns,PEC11R-4220F-S0024,200,0.372,74.4,,,,,,NonStk,,1.08373,216.746,PEC11R-4220F-S0024-ND,NonStk,,1.243851,248.7702,2663527,,,,,,NonStk,,1.06,212,652PEC11R4220FS24,10,,1.05,210,53W9535,,,,,,NonStk,,0.997332,199.4664,PEC11R4220FS0024,NonStk,,0.372,74.4,PEC11R-4220F-S0024
-STK1,STICKIT2_HDR,STICKIT2_HDR,,,100,0.09,9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.09,9,#NO_CATALOG0001
+Prj:,StickIt-RotaryEncoder Module,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,XESS Corp.,,,,,Unit Cost:,1.4258,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,05/28/2016 12:02:31 AM,,,,,Total Cost:,142.58,,,,,0,0 of 7 parts found,,,,,289.096,2 of 7 parts found,,,,,328.85,2 of 7 parts found,,,,,27.18,1 of 7 parts found,,,,,276.5,2 of 7 parts found,,,,,274.5,2 of 7 parts found,,,,,0,0 of 7 parts found,,,,,199.4664,1 of 7 parts found,,,,,115.4,3 of 7 parts found
+Global Part Info,,,,,,,,Arrow,,,,,,Digi-Key,,,,,,Farnell,,,,,,LCSC,,,,,,Mouser,,,,,,Newark,,,,,,RS Components,,,,,,TME,,,,,,Local,,,,,
+Refs,Value,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#
+C1-C6,C-NONPOL,C_0603_HandSoldering,,,600,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+JP1-JP4,JUMPER,HDR_1x2,,,400,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+PCB1,PCB,,,,100,0.32,32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.32,1,32,#NO_CATALOG0002
+RN1,4K7,CTS_742C163,OMRON,B3U-1000P,100,0.2718,27.18,,,,,,,108878,,0.7235,1,72.35,SW1020CT-ND,2080,,0.800798,1,80.0798,2500851,5025,,0.2718,1,27.18,C231329,11098,,0.645,1,64.5,653B3U1000P,2080,,0.645,1,64.5,34M5295,,,,,,,,,,,,,,,,,,
+RN2,1K,CTS_742C163,,,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+"ROT1,ROT2",ROT_ENC_SW,ROT_ENC_EC11E,Bourns,PEC11R-4220F-S0024,200,0.372,74.4,,,,,,,NonStk,,1.08373,1,216.746,PEC11R-4220F-S0024-ND,NonStk,,1.243851,1,248.7702,2663527,,,,,,,NonStk,,1.06,1,212,652PEC11R4220FS24,10,,1.05,1,210,53W9535,,,,,,,NonStk,,0.997332,1,199.4664,PEC11R4220FS0024,NonStk,,0.372,1,74.4,PEC11R-4220F-S0024
+STK1,STICKIT2_HDR,STICKIT2_HDR,,,100,0.09,9,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.09,1,9,#NO_CATALOG0001
 
-,Used currency rates:,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,,,,0,
-,USD($)/EUR(€):,1.1873,,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
+,Used currency rates:,,,,,Total Purchase:,0,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,,,,,0,
+,USD($)/EUR(€):,1.1873,,,,Purchase description:,,,,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
-""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,USD($)/GBP(£):,1.375941592305018,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,USD($)/GBP(£):,1.375941592305018,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 
 
 
 
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

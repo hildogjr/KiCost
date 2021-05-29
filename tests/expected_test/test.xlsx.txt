@@ -22,7 +22,7 @@ Row: 2
  Col: G
    "Unit Cost:"
  Col: H
-   1.8487
+   1.9398
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
@@ -32,68 +32,68 @@ Row: 3
  Col: G
    "Total Cost:"
  Col: H
-   184.8671
+   193.9771
   Formula: SUM(H7:H23)
- Col: L
-   0
-  Formula: SUM(L7:L23)
  Col: M
+   0
+  Formula: SUM(M7:M23)
+ Col: N
    "0 of 17 parts found"
-  Formula: (COUNTA(L7:L23)&" of "&ROWS(L7:L23)&" parts found")
- Col: Q
+  Formula: (COUNTA(M7:M23)&" of "&ROWS(M7:M23)&" parts found")
+ Col: S
    215.04
-  Formula: SUM(Q7:Q23)
- Col: R
+  Formula: SUM(S7:S23)
+ Col: T
    "9 of 17 parts found"
-  Formula: (COUNTA(Q7:Q23)&" of "&ROWS(Q7:Q23)&" parts found")
- Col: V
-   131.1823
-  Formula: SUM(V7:V23)
- Col: W
+  Formula: (COUNTA(S7:S23)&" of "&ROWS(S7:S23)&" parts found")
+ Col: Y
+   120.505
+  Formula: SUM(Y7:Y23)
+ Col: Z
    "7 of 17 parts found"
-  Formula: (COUNTA(V7:V23)&" of "&ROWS(V7:V23)&" parts found")
- Col: AA
+  Formula: (COUNTA(Y7:Y23)&" of "&ROWS(Y7:Y23)&" parts found")
+ Col: AE
    29.31
-  Formula: SUM(AA7:AA23)
- Col: AB
-   "2 of 17 parts found"
-  Formula: (COUNTA(AA7:AA23)&" of "&ROWS(AA7:AA23)&" parts found")
+  Formula: SUM(AE7:AE23)
  Col: AF
-   203.2
-  Formula: SUM(AF7:AF23)
- Col: AG
-   "9 of 17 parts found"
-  Formula: (COUNTA(AF7:AF23)&" of "&ROWS(AF7:AF23)&" parts found")
+   "2 of 17 parts found"
+  Formula: (COUNTA(AE7:AE23)&" of "&ROWS(AE7:AE23)&" parts found")
  Col: AK
-   167
+   203.2
   Formula: SUM(AK7:AK23)
  Col: AL
-   "7 of 17 parts found"
+   "9 of 17 parts found"
   Formula: (COUNTA(AK7:AK23)&" of "&ROWS(AK7:AK23)&" parts found")
- Col: AP
-   114.0656
-  Formula: SUM(AP7:AP23)
  Col: AQ
+   167
+  Formula: SUM(AQ7:AQ23)
+ Col: AR
+   "7 of 17 parts found"
+  Formula: (COUNTA(AQ7:AQ23)&" of "&ROWS(AQ7:AQ23)&" parts found")
+ Col: AW
+   113.6528
+  Formula: SUM(AW7:AW23)
+ Col: AX
    "5 of 17 parts found"
-  Formula: (COUNTA(AP7:AP23)&" of "&ROWS(AP7:AP23)&" parts found")
- Col: AU
+  Formula: (COUNTA(AW7:AW23)&" of "&ROWS(AW7:AW23)&" parts found")
+ Col: BC
    37.8499
-  Formula: SUM(AU7:AU23)
- Col: AV
+  Formula: SUM(BC7:BC23)
+ Col: BD
    "3 of 17 parts found"
-  Formula: (COUNTA(AU7:AU23)&" of "&ROWS(AU7:AU23)&" parts found")
- Col: AZ
+  Formula: (COUNTA(BC7:BC23)&" of "&ROWS(BC7:BC23)&" parts found")
+ Col: BI
    78
-  Formula: SUM(AZ7:AZ23)
- Col: BA
+  Formula: SUM(BI7:BI23)
+ Col: BJ
    "2 of 17 parts found"
-  Formula: (COUNTA(AZ7:AZ23)&" of "&ROWS(AZ7:AZ23)&" parts found")
- Col: BE
+  Formula: (COUNTA(BI7:BI23)&" of "&ROWS(BI7:BI23)&" parts found")
+ Col: BO
    5
-  Formula: SUM(BE7:BE23)
- Col: BF
+  Formula: SUM(BO7:BO23)
+ Col: BP
    "1 of 17 parts found"
-  Formula: (COUNTA(BE7:BE23)&" of "&ROWS(BE7:BE23)&" parts found")
+  Formula: (COUNTA(BO7:BO23)&" of "&ROWS(BO7:BO23)&" parts found")
 Row: 4
  Col: A
    "$ date:"
@@ -104,23 +104,23 @@ Row: 5
    "Global Part Info"
  Col: I
    "Arrow"
- Col: N
+ Col: O
    "Digi-Key"
- Col: S
+ Col: U
    "Farnell"
- Col: X
+ Col: AA
    "LCSC"
- Col: AC
+ Col: AG
    "Mouser"
- Col: AH
-   "Newark"
  Col: AM
+   "Newark"
+ Col: AS
    "RS Components"
- Col: AR
+ Col: AY
    "TME"
- Col: AW
+ Col: BE
    "Local"
- Col: BB
+ Col: BK
    "mine"
 Row: 6
  Col: A
@@ -146,55 +146,55 @@ Row: 6
  Col: K
    "Unit$"
  Col: L
-   "Ext$"
+   "MOQ"
  Col: M
-   "Cat#"
+   "Ext$"
  Col: N
-   "Avail"
+   "Cat#"
  Col: O
-   "Purch"
+   "Avail"
  Col: P
-   "Unit$"
+   "Purch"
  Col: Q
-   "Ext$"
+   "Unit$"
  Col: R
-   "Cat#"
+   "MOQ"
  Col: S
-   "Avail"
+   "Ext$"
  Col: T
-   "Purch"
+   "Cat#"
  Col: U
-   "Unit$"
+   "Avail"
  Col: V
-   "Ext$"
+   "Purch"
  Col: W
-   "Cat#"
+   "Unit$"
  Col: X
-   "Avail"
+   "MOQ"
  Col: Y
-   "Purch"
+   "Ext$"
  Col: Z
-   "Unit$"
+   "Cat#"
  Col: AA
-   "Ext$"
+   "Avail"
  Col: AB
-   "Cat#"
+   "Purch"
  Col: AC
-   "Avail"
+   "Unit$"
  Col: AD
-   "Purch"
+   "MOQ"
  Col: AE
-   "Unit$"
- Col: AF
    "Ext$"
- Col: AG
+ Col: AF
    "Cat#"
- Col: AH
+ Col: AG
    "Avail"
- Col: AI
+ Col: AH
    "Purch"
- Col: AJ
+ Col: AI
    "Unit$"
+ Col: AJ
+   "MOQ"
  Col: AK
    "Ext$"
  Col: AL
@@ -206,38 +206,58 @@ Row: 6
  Col: AO
    "Unit$"
  Col: AP
-   "Ext$"
+   "MOQ"
  Col: AQ
-   "Cat#"
+   "Ext$"
  Col: AR
-   "Avail"
+   "Cat#"
  Col: AS
-   "Purch"
+   "Avail"
  Col: AT
-   "Unit$"
+   "Purch"
  Col: AU
-   "Ext$"
+   "Unit$"
  Col: AV
-   "Cat#"
+   "MOQ"
  Col: AW
-   "Avail"
+   "Ext$"
  Col: AX
-   "Purch"
- Col: AY
-   "Unit$"
- Col: AZ
-   "Ext$"
- Col: BA
    "Cat#"
- Col: BB
+ Col: AY
    "Avail"
- Col: BC
+ Col: AZ
    "Purch"
- Col: BD
+ Col: BA
    "Unit$"
- Col: BE
+ Col: BB
+   "MOQ"
+ Col: BC
    "Ext$"
+ Col: BD
+   "Cat#"
+ Col: BE
+   "Avail"
  Col: BF
+   "Purch"
+ Col: BG
+   "Unit$"
+ Col: BH
+   "MOQ"
+ Col: BI
+   "Ext$"
+ Col: BJ
+   "Cat#"
+ Col: BK
+   "Avail"
+ Col: BL
+   "Purch"
+ Col: BM
+   "Unit$"
+ Col: BN
+   "MOQ"
+ Col: BO
+   "Ext$"
+ Col: BP
    "Cat#"
 Row: 7
  Col: A
@@ -252,134 +272,148 @@ Row: 7
    200
   Formula: CEILING(BoardQty*2.0,1)
   Styles:
-  - =AND(ISBLANK(E7),ISBLANK(BA7),ISBLANK(M7),ISBLANK(R7),ISBLANK(W7),ISBLANK(AB7),ISBLANK(BF7),ISBLANK(AG7),ISBLANK(AL7),ISBLANK(AQ7),ISBLANK(AV7)) -> -/FFAAAAAA (241)
-  - =IF(SUM(AW7,I7,N7,S7,X7,BB7,AC7,AH7,AM7,AR7)=0,1,0) -> FFFFFFFF/FFFF0000 (242)
-  - greaterThan SUM(AW7,I7,N7,S7,X7,BB7,AC7,AH7,AM7,AR7) -> FF000000/FFFF9900 (243)
-  - greaterThan SUM(IF(ISNUMBER(AY7),AX7,0),IF(ISNUMBER(K7),J7,0),IF(ISNUMBER(P7),O7,0),IF(ISNUMBER(U7),T7,0),IF(ISNUMBER(Z7),Y7,0),IF(ISNUMBER(BD7),BC7,0),IF(ISNUMBER(AE7),AD7,0),IF(ISNUMBER(AJ7),AI7,0),IF(ISNUMBER(AO7),AN7,0),IF(ISNUMBER(AT7),AS7,0)) -> -/FFFFFF00 (244)
+  - =AND(ISBLANK(E7),ISBLANK(BI7),ISBLANK(M7),ISBLANK(S7),ISBLANK(Y7),ISBLANK(AE7),ISBLANK(BO7),ISBLANK(AK7),ISBLANK(AQ7),ISBLANK(AW7),ISBLANK(BC7)) -> -/FFAAAAAA
+  - =IF(SUM(BE7,I7,O7,U7,AA7,BK7,AG7,AM7,AS7,AY7)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE7,I7,O7,U7,AA7,BK7,AG7,AM7,AS7,AY7) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG7),BF7,0),IF(ISNUMBER(K7),J7,0),IF(ISNUMBER(Q7),P7,0),IF(ISNUMBER(W7),V7,0),IF(ISNUMBER(AC7),AB7,0),IF(ISNUMBER(BM7),BL7,0),IF(ISNUMBER(AI7),AH7,0),IF(ISNUMBER(AO7),AN7,0),IF(ISNUMBER(AU7),AT7,0),IF(ISNUMBER(BA7),AZ7,0)) -> -/FFFFFF00
  Col: G
    0.054
-  Formula: MINA(AY7,K7,P7,U7,Z7,BD7,AE7,AJ7,AO7,AT7)
+  Formula: IF(MIN(BG7,K7,Q7,W7,AC7,BM7,AI7,AO7,AU7,BA7)<>0,MIN(BG7,K7,Q7,W7,AC7,BM7,AI7,AO7,AU7,BA7),"")
  Col: H
    10.8
-  Formula: IFERROR(F7*G7,"")
- Col: N
+  Formula: IF(AND(ISNUMBER(F7),ISNUMBER(G7)),F7*G7,"")
+ Col: O
    37955
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (1)
-  - lessThan F7 -> FF000000/FFFF9900 (2)
- Col: P
-   0.1251
-  Formula: IFERROR(LOOKUP(IF(O7="",F7,O7),{0,1,10,50,100,500,1000},{0.0,0.32,0.221,0.1472,0.1251,0.08832,0.07728}),"")
-  Styles:
-  - lessThanOrEqual G7 -> -/FF80FF80 (5)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F7 -> FF000000/FFFF9900
  Col: Q
-   25.02
-  Formula: IFERROR(IF(O7="",F7,O7)*P7,"")
+   0.1251
+  Formula: IFERROR(IF(OR(P7>=R7,F7>=R7),LOOKUP(IF(P7="",F7,P7),{0,1,10,50,100,500,1000},{0.0,0.32,0.221,0.1472,0.1251,0.08832,0.07728}),"MOQ="&R7),"")
   Styles:
-  - lessThanOrEqual H7 -> -/FF80FF80 (4)
+  - lessThanOrEqual G7 -> -/FF80FF80
  Col: R
-   <a href="https://octopart.com/click/track?ai=8078&sig=0f3426d&sid=459&ppid=203108&vpid=2003538&ct=offers">493-2101-1-ND</a>
+   1
  Col: S
+   25.02
+  Formula: IFERROR(IF(P7="",F7,P7)*Q7,"")
+  Styles:
+  - lessThanOrEqual H7 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?ai=8078&sig=0f3426d&sid=459&ppid=203108&vpid=2003538&ct=offers">493-2101-1-ND</a>
+ Col: U
    304
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (46)
-  - lessThan F7 -> FF000000/FFFF9900 (47)
- Col: U
-   0.149977633561
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(T7="",F7,T7),{0,1,50,100,150,250,500,1000,5000},{0.0,0.2,0.134,0.109,0.109,0.0947,0.0837,0.075,0.0581}),"")
-  Styles:
-  - lessThanOrEqual G7 -> -/FF80FF80 (50)
- Col: V
-   29.9955
-  Formula: IFERROR(IF(T7="",F7,T7)*U7,"")
-  Styles:
-  - lessThanOrEqual H7 -> -/FF80FF80 (49)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F7 -> FF000000/FFFF9900
  Col: W
-   <a href="https://octopart.com/click/track?ai=8078&sig=008b7c9&sid=11744&ppid=203108&vpid=133221579&ct=offers">8823030</a>
+   0.149977633561
+  Formula: IFERROR(IF(OR(V7>=X7,F7>=X7),USD_GBP*LOOKUP(IF(V7="",F7,V7),{0,1,50,100,150,250,500,1000,5000},{0.0,0.2,0.134,0.109,0.109,0.0947,0.0837,0.075,0.0581}),"MOQ="&X7),"")
+  Styles:
+  - lessThanOrEqual G7 -> -/FF80FF80
  Col: X
+   1
+ Col: Y
+   29.9955
+  Formula: IFERROR(IF(V7="",F7,V7)*W7,"")
+  Styles:
+  - lessThanOrEqual H7 -> -/FF80FF80
+ Col: Z
+   <a href="https://octopart.com/click/track?ai=8078&sig=008b7c9&sid=11744&ppid=203108&vpid=133221579&ct=offers">8823030</a>
+ Col: AA
    8810
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (87)
-  - lessThan F7 -> FF000000/FFFF9900 (88)
- Col: Z
-   0.054
-  Formula: IFERROR(LOOKUP(IF(Y7="",F7,Y7),{0,1,10,100,300,1000,5000,10000},{0.0,0.0697,0.0697,0.054,0.0512,0.0483,0.047,0.0464}),"")
-  Styles:
-  - lessThanOrEqual G7 -> -/FF80FF80 (92)
- Col: AA
-   10.8
-  Formula: IFERROR(IF(Y7="",F7,Y7)*Z7,"")
-  Styles:
-  - lessThanOrEqual H7 -> -/FF80FF80 (91)
- Col: AB
-   <a href="https://octopart.com/click/track?ai=8078&sig=05736e7&sid=27971&ppid=203108&vpid=658201137&ct=offers">C433198</a>
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F7 -> FF000000/FFFF9900
  Col: AC
+   0.054
+  Formula: IFERROR(IF(OR(AB7>=AD7,F7>=AD7),LOOKUP(IF(AB7="",F7,AB7),{0,1,10,100,300,1000,5000,10000},{0.0,0.0697,0.0697,0.054,0.0512,0.0483,0.047,0.0464}),"MOQ="&AD7),"")
+  Styles:
+  - lessThanOrEqual G7 -> -/FF80FF80
+ Col: AD
+   10
+ Col: AE
+   10.8
+  Formula: IFERROR(IF(AB7="",F7,AB7)*AC7,"")
+  Styles:
+  - lessThanOrEqual H7 -> -/FF80FF80
+ Col: AF
+   <a href="https://octopart.com/click/track?ai=8078&sig=05736e7&sid=27971&ppid=203108&vpid=658201137&ct=offers">C433198</a>
+ Col: AG
    206
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (98)
-  - lessThan F7 -> FF000000/FFFF9900 (99)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F7 -> FF000000/FFFF9900
+ Col: AI
    0.113
-  Formula: IFERROR(LOOKUP(IF(AD7="",F7,AD7),{0,1,10,50,100,1000,10000},{0.0,0.29,0.198,0.132,0.113,0.069,0.059}),"")
+  Formula: IFERROR(IF(OR(AH7>=AJ7,F7>=AJ7),LOOKUP(IF(AH7="",F7,AH7),{0,1,10,50,100,1000,10000},{0.0,0.29,0.198,0.132,0.113,0.069,0.059}),"MOQ="&AJ7),"")
   Styles:
-  - lessThanOrEqual G7 -> -/FF80FF80 (102)
- Col: AF
-   22.6
-  Formula: IFERROR(IF(AD7="",F7,AD7)*AE7,"")
-  Styles:
-  - lessThanOrEqual H7 -> -/FF80FF80 (101)
- Col: AG
-   <a href="https://octopart.com/click/track?ai=8078&sig=0594752&sid=2401&ppid=203108&vpid=39050972&ct=offers">647UWX1C220MCL1</a>
- Col: AH
-   109
-  Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (143)
-  - lessThan F7 -> FF000000/FFFF9900 (144)
+  - lessThanOrEqual G7 -> -/FF80FF80
  Col: AJ
-   0.113
-  Formula: IFERROR(LOOKUP(IF(AI7="",F7,AI7),{0,1,10,25,50,100,250,3000,5000},{0.0,0.29,0.198,0.132,0.123,0.113,0.109,0.065,0.059}),"")
-  Styles:
-  - lessThanOrEqual G7 -> -/FF80FF80 (147)
+   1
  Col: AK
    22.6
-  Formula: IFERROR(IF(AI7="",F7,AI7)*AJ7,"")
+  Formula: IFERROR(IF(AH7="",F7,AH7)*AI7,"")
   Styles:
-  - lessThanOrEqual H7 -> -/FF80FF80 (146)
+  - lessThanOrEqual H7 -> -/FF80FF80
  Col: AL
-   <a href="https://octopart.com/click/track?ai=8078&sig=0f155e8&sid=2402&ppid=203108&vpid=21432073&ct=offers">58R3621</a>
+   <a href="https://octopart.com/click/track?ai=8078&sig=0594752&sid=2401&ppid=203108&vpid=39050972&ct=offers">647UWX1C220MCL1</a>
  Col: AM
-   4130
+   109
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (179)
-  - lessThan F7 -> FF000000/FFFF9900 (180)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F7 -> FF000000/FFFF9900
  Col: AO
-   0.188503998146
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(AN7="",F7,AN7),{0,1,10,250,1000,1500,2000},{0.0,0.137,0.137,0.078,0.059,0.056,0.049}),"")
+   0.113
+  Formula: IFERROR(IF(OR(AN7>=AP7,F7>=AP7),LOOKUP(IF(AN7="",F7,AN7),{0,1,10,25,50,100,250,3000,5000},{0.0,0.29,0.198,0.132,0.123,0.113,0.109,0.065,0.059}),"MOQ="&AP7),"")
   Styles:
-  - lessThanOrEqual G7 -> -/FF80FF80 (184)
+  - lessThanOrEqual G7 -> -/FF80FF80
  Col: AP
-   37.7008
+   1
+ Col: AQ
+   22.6
   Formula: IFERROR(IF(AN7="",F7,AN7)*AO7,"")
   Styles:
-  - lessThanOrEqual H7 -> -/FF80FF80 (183)
- Col: AQ
-   <a href="https://octopart.com/click/track?ai=8078&sig=093114a&sid=10022&ppid=203108&vpid=199081833&ct=offers">7395550</a>
+  - lessThanOrEqual H7 -> -/FF80FF80
  Col: AR
+   <a href="https://octopart.com/click/track?ai=8078&sig=0f155e8&sid=2402&ppid=203108&vpid=21432073&ct=offers">58R3621</a>
+ Col: AS
+   4130
+  Styles:
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F7 -> FF000000/FFFF9900
+ Col: AU
+   0.188503998146
+  Formula: IFERROR(IF(OR(AT7>=AV7,F7>=AV7),USD_GBP*LOOKUP(IF(AT7="",F7,AT7),{0,1,10,250,1000,1500,2000},{0.0,0.137,0.137,0.078,0.059,0.056,0.049}),"MOQ="&AV7),"")
+  Styles:
+  - lessThanOrEqual G7 -> -/FF80FF80
+ Col: AV
+   10
+ Col: AW
+   37.7008
+  Formula: IFERROR(IF(AT7="",F7,AT7)*AU7,"")
+  Styles:
+  - lessThanOrEqual H7 -> -/FF80FF80
+ Col: AX
+   <a href="https://octopart.com/click/track?ai=8078&sig=093114a&sid=10022&ppid=203108&vpid=199081833&ct=offers">7395550</a>
+ Col: AY
    4900
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (208)
-  - lessThan F7 -> FF000000/FFFF9900 (209)
- Col: AT
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F7 -> FF000000/FFFF9900
+ Col: BA
    0.09035353
-  Formula: IFERROR(USD_EUR*LOOKUP(IF(AS7="",F7,AS7),{0,1,25,100,500,1000},{0.0,0.09165,0.09165,0.0761,0.0625,0.05181}),"")
+  Formula: IFERROR(IF(OR(AZ7>=BB7,F7>=BB7),USD_EUR*LOOKUP(IF(AZ7="",F7,AZ7),{0,1,25,100,500,1000},{0.0,0.09165,0.09165,0.0761,0.0625,0.05181}),"MOQ="&BB7),"")
   Styles:
-  - lessThanOrEqual G7 -> -/FF80FF80 (213)
- Col: AU
+  - lessThanOrEqual G7 -> -/FF80FF80
+ Col: BB
+   25
+ Col: BC
    18.0707
-  Formula: IFERROR(IF(AS7="",F7,AS7)*AT7,"")
+  Formula: IFERROR(IF(AZ7="",F7,AZ7)*BA7,"")
   Styles:
-  - lessThanOrEqual H7 -> -/FF80FF80 (212)
- Col: AV
+  - lessThanOrEqual H7 -> -/FF80FF80
+ Col: BD
    <a href="https://octopart.com/click/track?ai=8078&sig=0e6161c&sid=1532&ppid=203108&vpid=709109129&ct=offers">UWX1C220MCL1GB</a>
 Row: 8
  Col: A
@@ -394,83 +428,93 @@ Row: 8
    200
   Formula: CEILING(BoardQty*2.0,1)
   Styles:
-  - =AND(ISBLANK(E8),ISBLANK(BA8),ISBLANK(M8),ISBLANK(R8),ISBLANK(W8),ISBLANK(AB8),ISBLANK(BF8),ISBLANK(AG8),ISBLANK(AL8),ISBLANK(AQ8),ISBLANK(AV8)) -> -/FFAAAAAA (245)
-  - =IF(SUM(AW8,I8,N8,S8,X8,BB8,AC8,AH8,AM8,AR8)=0,1,0) -> FFFFFFFF/FFFF0000 (246)
-  - greaterThan SUM(AW8,I8,N8,S8,X8,BB8,AC8,AH8,AM8,AR8) -> FF000000/FFFF9900 (247)
-  - greaterThan SUM(IF(ISNUMBER(AY8),AX8,0),IF(ISNUMBER(K8),J8,0),IF(ISNUMBER(P8),O8,0),IF(ISNUMBER(U8),T8,0),IF(ISNUMBER(Z8),Y8,0),IF(ISNUMBER(BD8),BC8,0),IF(ISNUMBER(AE8),AD8,0),IF(ISNUMBER(AJ8),AI8,0),IF(ISNUMBER(AO8),AN8,0),IF(ISNUMBER(AT8),AS8,0)) -> -/FFFFFF00 (248)
+  - =AND(ISBLANK(E8),ISBLANK(BI8),ISBLANK(M8),ISBLANK(S8),ISBLANK(Y8),ISBLANK(AE8),ISBLANK(BO8),ISBLANK(AK8),ISBLANK(AQ8),ISBLANK(AW8),ISBLANK(BC8)) -> -/FFAAAAAA
+  - =IF(SUM(BE8,I8,O8,U8,AA8,BK8,AG8,AM8,AS8,AY8)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE8,I8,O8,U8,AA8,BK8,AG8,AM8,AS8,AY8) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG8),BF8,0),IF(ISNUMBER(K8),J8,0),IF(ISNUMBER(Q8),P8,0),IF(ISNUMBER(W8),V8,0),IF(ISNUMBER(AC8),AB8,0),IF(ISNUMBER(BM8),BL8,0),IF(ISNUMBER(AI8),AH8,0),IF(ISNUMBER(AO8),AN8,0),IF(ISNUMBER(AU8),AT8,0),IF(ISNUMBER(BA8),AZ8,0)) -> -/FFFFFF00
  Col: G
-   0.0533865337814
-  Formula: MINA(AY8,K8,P8,U8,Z8,BD8,AE8,AJ8,AO8,AT8)
+   0.098
+  Formula: IF(MIN(BG8,K8,Q8,W8,AC8,BM8,AI8,AO8,AU8,BA8)<>0,MIN(BG8,K8,Q8,W8,AC8,BM8,AI8,AO8,AU8,BA8),"")
  Col: H
-   10.6773
-  Formula: IFERROR(F8*G8,"")
- Col: N
+   19.6
+  Formula: IF(AND(ISNUMBER(F8),ISNUMBER(G8)),F8*G8,"")
+ Col: O
    35993
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (6)
-  - lessThan F8 -> FF000000/FFFF9900 (7)
- Col: P
-   0.1005
-  Formula: IFERROR(LOOKUP(IF(O8="",F8,O8),{0,1,10,50,100,500,1000,4000},{0.0,0.29,0.198,0.119,0.1005,0.06876,0.06084,0.0529}),"")
-  Styles:
-  - lessThanOrEqual G8 -> -/FF80FF80 (10)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F8 -> FF000000/FFFF9900
  Col: Q
-   20.1
-  Formula: IFERROR(IF(O8="",F8,O8)*P8,"")
+   0.1005
+  Formula: IFERROR(IF(OR(P8>=R8,F8>=R8),LOOKUP(IF(P8="",F8,P8),{0,1,10,50,100,500,1000,4000},{0.0,0.29,0.198,0.119,0.1005,0.06876,0.06084,0.0529}),"MOQ="&R8),"")
   Styles:
-  - lessThanOrEqual H8 -> -/FF80FF80 (9)
+  - lessThanOrEqual G8 -> -/FF80FF80
  Col: R
-   <a href="https://octopart.com/click/track?ai=8078&sig=0aee6e4&sid=459&ppid=198561&vpid=2102024&ct=offers">587-1297-1-ND</a>
+   1
  Col: S
+   20.1
+  Formula: IFERROR(IF(P8="",F8,P8)*Q8,"")
+  Styles:
+  - lessThanOrEqual H8 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?ai=8078&sig=0aee6e4&sid=459&ppid=198561&vpid=2102024&ct=offers">587-1297-1-ND</a>
+ Col: U
    20000
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (51)
-  - lessThan F8 -> FF000000/FFFF9900 (52)
- Col: U
-   0.0533865337814
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(T8="",F8,T8),{0,1,4000,8000,16000,24000},{0.0,0.0388,0.0388,0.0367,0.0346,0.0325}),"")
-  Styles:
-  - lessThanOrEqual G8 -> -/FF80FF80 (56)
- Col: V
-   10.6773
-  Formula: IFERROR(IF(T8="",F8,T8)*U8,"")
-  Styles:
-  - lessThanOrEqual H8 -> -/FF80FF80 (55)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F8 -> FF000000/FFFF9900
  Col: W
+  Formula: IFERROR(IF(OR(V8>=X8,F8>=X8),USD_GBP*LOOKUP(IF(V8="",F8,V8),{0,1,4000,8000,16000,24000},{0.0,0.0388,0.0388,0.0367,0.0346,0.0325}),"MOQ="&X8),"")
+  Styles:
+  - lessThanOrEqual G8 -> -/FF80FF80
+  - =AND(F8<4000,V8<4000) -> -/FFFFFF00
+ Col: X
+   4000
+  Styles:
+  - =AND(F8<4000,V8<4000) -> -/FFFFFF00
+ Col: Y
+  Formula: IFERROR(IF(V8="",F8,V8)*W8,"")
+  Styles:
+  - lessThanOrEqual H8 -> -/FF80FF80
+  - =AND(F8<4000,V8<4000) -> -/FFFFFF00
+ Col: Z
    <a href="https://octopart.com/click/track?ai=8078&sig=0022bb3&sid=11744&ppid=198561&vpid=132630886&ct=offers">8106496</a>
- Col: AC
+ Col: AG
    54917
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (103)
-  - lessThan F8 -> FF000000/FFFF9900 (104)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F8 -> FF000000/FFFF9900
+ Col: AI
    0.098
-  Formula: IFERROR(LOOKUP(IF(AD8="",F8,AD8),{0,1,10,50,100,1000,10000},{0.0,0.25,0.175,0.175,0.098,0.061,0.048}),"")
+  Formula: IFERROR(IF(OR(AH8>=AJ8,F8>=AJ8),LOOKUP(IF(AH8="",F8,AH8),{0,1,10,50,100,1000,10000},{0.0,0.25,0.175,0.175,0.098,0.061,0.048}),"MOQ="&AJ8),"")
   Styles:
-  - lessThanOrEqual G8 -> -/FF80FF80 (107)
- Col: AF
+  - lessThanOrEqual G8 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    19.6
-  Formula: IFERROR(IF(AD8="",F8,AD8)*AE8,"")
+  Formula: IFERROR(IF(AH8="",F8,AH8)*AI8,"")
   Styles:
-  - lessThanOrEqual H8 -> -/FF80FF80 (106)
- Col: AG
+  - lessThanOrEqual H8 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=0ccf8e7&sid=2401&ppid=198561&vpid=46006181&ct=offers">963LMK212BJ475KDT</a>
- Col: AH
+ Col: AM
    556000
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (148)
-  - lessThan F8 -> FF000000/FFFF9900 (149)
- Col: AJ
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F8 -> FF000000/FFFF9900
+ Col: AO
    0.123
-  Formula: IFERROR(LOOKUP(IF(AI8="",F8,AI8),{0,1,25,50,100,250,500,4000,8000,16000,24000},{0.0,0.313,0.219,0.171,0.123,0.105,0.086,0.061,0.06,0.04,0.035}),"")
+  Formula: IFERROR(IF(OR(AN8>=AP8,F8>=AP8),LOOKUP(IF(AN8="",F8,AN8),{0,1,25,50,100,250,500,4000,8000,16000,24000},{0.0,0.313,0.219,0.171,0.123,0.105,0.086,0.061,0.06,0.04,0.035}),"MOQ="&AP8),"")
   Styles:
-  - lessThanOrEqual G8 -> -/FF80FF80 (152)
- Col: AK
+  - lessThanOrEqual G8 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
    24.6
-  Formula: IFERROR(IF(AI8="",F8,AI8)*AJ8,"")
+  Formula: IFERROR(IF(AN8="",F8,AN8)*AO8,"")
   Styles:
-  - lessThanOrEqual H8 -> -/FF80FF80 (151)
- Col: AL
+  - lessThanOrEqual H8 -> -/FF80FF80
+ Col: AR
    <a href="https://octopart.com/click/track?ai=8078&sig=010da99&sid=2402&ppid=198561&vpid=2916768&ct=offers">18J2726</a>
 Row: 9
  Col: A
@@ -485,117 +529,129 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E9),ISBLANK(BA9),ISBLANK(M9),ISBLANK(R9),ISBLANK(W9),ISBLANK(AB9),ISBLANK(BF9),ISBLANK(AG9),ISBLANK(AL9),ISBLANK(AQ9),ISBLANK(AV9)) -> -/FFAAAAAA (249)
-  - =IF(SUM(AW9,I9,N9,S9,X9,BB9,AC9,AH9,AM9,AR9)=0,1,0) -> FFFFFFFF/FFFF0000 (250)
-  - greaterThan SUM(AW9,I9,N9,S9,X9,BB9,AC9,AH9,AM9,AR9) -> FF000000/FFFF9900 (251)
-  - greaterThan SUM(IF(ISNUMBER(AY9),AX9,0),IF(ISNUMBER(K9),J9,0),IF(ISNUMBER(P9),O9,0),IF(ISNUMBER(U9),T9,0),IF(ISNUMBER(Z9),Y9,0),IF(ISNUMBER(BD9),BC9,0),IF(ISNUMBER(AE9),AD9,0),IF(ISNUMBER(AJ9),AI9,0),IF(ISNUMBER(AO9),AN9,0),IF(ISNUMBER(AT9),AS9,0)) -> -/FFFFFF00 (252)
+  - =AND(ISBLANK(E9),ISBLANK(BI9),ISBLANK(M9),ISBLANK(S9),ISBLANK(Y9),ISBLANK(AE9),ISBLANK(BO9),ISBLANK(AK9),ISBLANK(AQ9),ISBLANK(AW9),ISBLANK(BC9)) -> -/FFAAAAAA
+  - =IF(SUM(BE9,I9,O9,U9,AA9,BK9,AG9,AM9,AS9,AY9)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE9,I9,O9,U9,AA9,BK9,AG9,AM9,AS9,AY9) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG9),BF9,0),IF(ISNUMBER(K9),J9,0),IF(ISNUMBER(Q9),P9,0),IF(ISNUMBER(W9),V9,0),IF(ISNUMBER(AC9),AB9,0),IF(ISNUMBER(BM9),BL9,0),IF(ISNUMBER(AI9),AH9,0),IF(ISNUMBER(AO9),AN9,0),IF(ISNUMBER(AU9),AT9,0),IF(ISNUMBER(BA9),AZ9,0)) -> -/FFFFFF00
  Col: G
    0.022
-  Formula: MINA(AY9,K9,P9,U9,Z9,BD9,AE9,AJ9,AO9,AT9)
+  Formula: IF(MIN(BG9,K9,Q9,W9,AC9,BM9,AI9,AO9,AU9,BA9)<>0,MIN(BG9,K9,Q9,W9,AC9,BM9,AI9,AO9,AU9,BA9),"")
  Col: H
    2.2
-  Formula: IFERROR(F9*G9,"")
- Col: N
+  Formula: IF(AND(ISNUMBER(F9),ISNUMBER(G9)),F9*G9,"")
+ Col: O
    13079784
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (11)
-  - lessThan F9 -> FF000000/FFFF9900 (12)
- Col: P
-   0.0338
-  Formula: IFERROR(LOOKUP(IF(O9="",F9,O9),{0,1,10,50,100,500,1000,4000},{0.0,0.1,0.076,0.0414,0.0338,0.02416,0.01898,0.01587}),"")
-  Styles:
-  - lessThanOrEqual G9 -> -/FF80FF80 (15)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F9 -> FF000000/FFFF9900
  Col: Q
-   3.38
-  Formula: IFERROR(IF(O9="",F9,O9)*P9,"")
+   0.0338
+  Formula: IFERROR(IF(OR(P9>=R9,F9>=R9),LOOKUP(IF(P9="",F9,P9),{0,1,10,50,100,500,1000,4000},{0.0,0.1,0.076,0.0414,0.0338,0.02416,0.01898,0.01587}),"MOQ="&R9),"")
   Styles:
-  - lessThanOrEqual H9 -> -/FF80FF80 (14)
+  - lessThanOrEqual G9 -> -/FF80FF80
  Col: R
-   <a href="https://octopart.com/click/track?ai=8078&sig=01b1845&sid=459&ppid=55386349&vpid=187969502&ct=offers">478-1395-1-ND</a>
+   1
  Col: S
+   3.38
+  Formula: IFERROR(IF(P9="",F9,P9)*Q9,"")
+  Styles:
+  - lessThanOrEqual H9 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?ai=8078&sig=01b1845&sid=459&ppid=55386349&vpid=187969502&ct=offers">478-1395-1-ND</a>
+ Col: U
    9894000
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (57)
-  - lessThan F9 -> FF000000/FFFF9900 (58)
- Col: U
-   0.0573767643991
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(T9="",F9,T9),{0,1,10,100,150,500,1000,2000,4000,20000},{0.0,0.0625,0.0625,0.0417,0.0417,0.0314,0.0268,0.0234,0.0202,0.014}),"")
-  Styles:
-  - lessThanOrEqual G9 -> -/FF80FF80 (62)
- Col: V
-   5.7377
-  Formula: IFERROR(IF(T9="",F9,T9)*U9,"")
-  Styles:
-  - lessThanOrEqual H9 -> -/FF80FF80 (61)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F9 -> FF000000/FFFF9900
  Col: W
+   0.0573767643991
+  Formula: IFERROR(IF(OR(V9>=X9,F9>=X9),USD_GBP*LOOKUP(IF(V9="",F9,V9),{0,1,10,100,150,500,1000,2000,4000,20000},{0.0,0.0625,0.0625,0.0417,0.0417,0.0314,0.0268,0.0234,0.0202,0.014}),"MOQ="&X9),"")
+  Styles:
+  - lessThanOrEqual G9 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   5.7377
+  Formula: IFERROR(IF(V9="",F9,V9)*W9,"")
+  Styles:
+  - lessThanOrEqual H9 -> -/FF80FF80
+ Col: Z
    <a href="https://octopart.com/click/track?ai=8078&sig=04e61b8&sid=11744&ppid=55386349&vpid=187353198&ct=offers">499687</a>
- Col: AC
+ Col: AG
    1854504
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (108)
-  - lessThan F9 -> FF000000/FFFF9900 (109)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F9 -> FF000000/FFFF9900
+ Col: AI
    0.033
-  Formula: IFERROR(LOOKUP(IF(AD9="",F9,AD9),{0,1,10,50,100,1000,10000},{0.0,0.1,0.04,0.04,0.033,0.019,0.015}),"")
+  Formula: IFERROR(IF(OR(AH9>=AJ9,F9>=AJ9),LOOKUP(IF(AH9="",F9,AH9),{0,1,10,50,100,1000,10000},{0.0,0.1,0.04,0.04,0.033,0.019,0.015}),"MOQ="&AJ9),"")
   Styles:
-  - lessThanOrEqual G9 -> -/FF80FF80 (112)
- Col: AF
+  - lessThanOrEqual G9 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    3.3
-  Formula: IFERROR(IF(AD9="",F9,AD9)*AE9,"")
+  Formula: IFERROR(IF(AH9="",F9,AH9)*AI9,"")
   Styles:
-  - lessThanOrEqual H9 -> -/FF80FF80 (111)
- Col: AG
+  - lessThanOrEqual H9 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=09c60b9&sid=2401&ppid=55386349&vpid=187733814&ct=offers">58108055C104K</a>
- Col: AH
+ Col: AM
    9810000
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (153)
-  - lessThan F9 -> FF000000/FFFF9900 (154)
- Col: AJ
-   0.022
-  Formula: IFERROR(LOOKUP(IF(AI9="",F9,AI9),{0,1,10,25,50,100,250,500,1000,4000},{0.0,0.022,0.147,0.022,0.022,0.022,0.02,0.019,0.03,0.026}),"")
-  Styles:
-  - lessThanOrEqual G9 -> -/FF80FF80 (157)
- Col: AK
-   2.2
-  Formula: IFERROR(IF(AI9="",F9,AI9)*AJ9,"")
-  Styles:
-  - lessThanOrEqual H9 -> -/FF80FF80 (156)
- Col: AL
-   <a href="https://octopart.com/click/track?ai=8078&sig=04f49ed&sid=2402&ppid=55386349&vpid=190823978&ct=offers">27C8438</a>
- Col: AM
-   22700
-  Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (185)
-  - lessThan F9 -> FF000000/FFFF9900 (186)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F9 -> FF000000/FFFF9900
  Col: AO
-   0.0440301309538
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(AN9="",F9,AN9),{0,1,50,250,500,1000,2000},{0.0,0.032,0.032,0.029,0.027,0.023,0.019}),"")
+   0.022
+  Formula: IFERROR(IF(OR(AN9>=AP9,F9>=AP9),LOOKUP(IF(AN9="",F9,AN9),{0,1,10,25,50,100,250,500,1000,4000},{0.0,0.022,0.147,0.022,0.022,0.022,0.02,0.019,0.03,0.026}),"MOQ="&AP9),"")
   Styles:
-  - lessThanOrEqual G9 -> -/FF80FF80 (190)
+  - lessThanOrEqual G9 -> -/FF80FF80
  Col: AP
-   4.403
+   1
+ Col: AQ
+   2.2
   Formula: IFERROR(IF(AN9="",F9,AN9)*AO9,"")
   Styles:
-  - lessThanOrEqual H9 -> -/FF80FF80 (189)
- Col: AQ
-   <a href="https://octopart.com/click/track?ai=8078&sig=082b5da&sid=10022&ppid=55386349&vpid=198971583&ct=offers">4646688</a>
+  - lessThanOrEqual H9 -> -/FF80FF80
  Col: AR
+   <a href="https://octopart.com/click/track?ai=8078&sig=04f49ed&sid=2402&ppid=55386349&vpid=190823978&ct=offers">27C8438</a>
+ Col: AS
+   22700
+  Styles:
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F9 -> FF000000/FFFF9900
+ Col: AU
+   0.0440301309538
+  Formula: IFERROR(IF(OR(AT9>=AV9,F9>=AV9),USD_GBP*LOOKUP(IF(AT9="",F9,AT9),{0,1,50,250,500,1000,2000},{0.0,0.032,0.032,0.029,0.027,0.023,0.019}),"MOQ="&AV9),"")
+  Styles:
+  - lessThanOrEqual G9 -> -/FF80FF80
+ Col: AV
+   50
+ Col: AW
+   4.403
+  Formula: IFERROR(IF(AT9="",F9,AT9)*AU9,"")
+  Styles:
+  - lessThanOrEqual H9 -> -/FF80FF80
+ Col: AX
+   <a href="https://octopart.com/click/track?ai=8078&sig=082b5da&sid=10022&ppid=55386349&vpid=198971583&ct=offers">4646688</a>
+ Col: AY
    1
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (214)
-  - lessThan F9 -> FF000000/FFFF9900 (215)
- Col: AT
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F9 -> FF000000/FFFF9900
+ Col: BA
    0.023021747
-  Formula: IFERROR(USD_EUR*LOOKUP(IF(AS9="",F9,AS9),{0,1,100,1000,4000,12000},{0.0,0.01939,0.01939,0.0141,0.0123,0.01196}),"")
+  Formula: IFERROR(IF(OR(AZ9>=BB9,F9>=BB9),USD_EUR*LOOKUP(IF(AZ9="",F9,AZ9),{0,1,100,1000,4000,12000},{0.0,0.01939,0.01939,0.0141,0.0123,0.01196}),"MOQ="&BB9),"")
   Styles:
-  - lessThanOrEqual G9 -> -/FF80FF80 (219)
- Col: AU
+  - lessThanOrEqual G9 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
    2.3022
-  Formula: IFERROR(IF(AS9="",F9,AS9)*AT9,"")
+  Formula: IFERROR(IF(AZ9="",F9,AZ9)*BA9,"")
   Styles:
-  - lessThanOrEqual H9 -> -/FF80FF80 (218)
- Col: AV
+  - lessThanOrEqual H9 -> -/FF80FF80
+ Col: BD
    <a href="https://octopart.com/click/track?ai=8078&sig=0582845&sid=1532&ppid=55386349&vpid=707794437&ct=offers">08055C104KAT2A</a>
 Row: 10
  Col: A
@@ -610,49 +666,53 @@ Row: 10
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E10),ISBLANK(BA10),ISBLANK(M10),ISBLANK(R10),ISBLANK(W10),ISBLANK(AB10),ISBLANK(BF10),ISBLANK(AG10),ISBLANK(AL10),ISBLANK(AQ10),ISBLANK(AV10)) -> -/FFAAAAAA (253)
-  - =IF(SUM(AW10,I10,N10,S10,X10,BB10,AC10,AH10,AM10,AR10)=0,1,0) -> FFFFFFFF/FFFF0000 (254)
-  - greaterThan SUM(AW10,I10,N10,S10,X10,BB10,AC10,AH10,AM10,AR10) -> FF000000/FFFF9900 (255)
-  - greaterThan SUM(IF(ISNUMBER(AY10),AX10,0),IF(ISNUMBER(K10),J10,0),IF(ISNUMBER(P10),O10,0),IF(ISNUMBER(U10),T10,0),IF(ISNUMBER(Z10),Y10,0),IF(ISNUMBER(BD10),BC10,0),IF(ISNUMBER(AE10),AD10,0),IF(ISNUMBER(AJ10),AI10,0),IF(ISNUMBER(AO10),AN10,0),IF(ISNUMBER(AT10),AS10,0)) -> -/FFFFFF00 (256)
+  - =AND(ISBLANK(E10),ISBLANK(BI10),ISBLANK(M10),ISBLANK(S10),ISBLANK(Y10),ISBLANK(AE10),ISBLANK(BO10),ISBLANK(AK10),ISBLANK(AQ10),ISBLANK(AW10),ISBLANK(BC10)) -> -/FFAAAAAA
+  - =IF(SUM(BE10,I10,O10,U10,AA10,BK10,AG10,AM10,AS10,AY10)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE10,I10,O10,U10,AA10,BK10,AG10,AM10,AS10,AY10) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG10),BF10,0),IF(ISNUMBER(K10),J10,0),IF(ISNUMBER(Q10),P10,0),IF(ISNUMBER(W10),V10,0),IF(ISNUMBER(AC10),AB10,0),IF(ISNUMBER(BM10),BL10,0),IF(ISNUMBER(AI10),AH10,0),IF(ISNUMBER(AO10),AN10,0),IF(ISNUMBER(AU10),AT10,0),IF(ISNUMBER(BA10),AZ10,0)) -> -/FFFFFF00
  Col: G
    0.392
-  Formula: MINA(AY10,K10,P10,U10,Z10,BD10,AE10,AJ10,AO10,AT10)
+  Formula: IF(MIN(BG10,K10,Q10,W10,AC10,BM10,AI10,AO10,AU10,BA10)<>0,MIN(BG10,K10,Q10,W10,AC10,BM10,AI10,AO10,AU10,BA10),"")
  Col: H
    39.2
-  Formula: IFERROR(F10*G10,"")
- Col: N
+  Formula: IF(AND(ISNUMBER(F10),ISNUMBER(G10)),F10*G10,"")
+ Col: O
    44879
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (16)
-  - lessThan F10 -> FF000000/FFFF9900 (17)
- Col: P
-   0.4321
-  Formula: IFERROR(LOOKUP(IF(O10="",F10,O10),{0,1,10,25,50,100,250,500,1000,2500},{0.0,0.6,0.564,0.5072,0.4508,0.4321,0.39452,0.37572,0.30997,0.28179}),"")
-  Styles:
-  - lessThanOrEqual G10 -> -/FF80FF80 (20)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F10 -> FF000000/FFFF9900
  Col: Q
-   43.21
-  Formula: IFERROR(IF(O10="",F10,O10)*P10,"")
+   0.4321
+  Formula: IFERROR(IF(OR(P10>=R10,F10>=R10),LOOKUP(IF(P10="",F10,P10),{0,1,10,25,50,100,250,500,1000,2500},{0.0,0.6,0.564,0.5072,0.4508,0.4321,0.39452,0.37572,0.30997,0.28179}),"MOQ="&R10),"")
   Styles:
-  - lessThanOrEqual H10 -> -/FF80FF80 (19)
+  - lessThanOrEqual G10 -> -/FF80FF80
  Col: R
+   1
+ Col: S
+   43.21
+  Formula: IFERROR(IF(P10="",F10,P10)*Q10,"")
+  Styles:
+  - lessThanOrEqual H10 -> -/FF80FF80
+ Col: T
    <a href="https://octopart.com/click/track?ai=8078&sig=0b1628f&sid=459&ppid=106233952&vpid=612419666&ct=offers">CP-002A-ND</a>
- Col: AC
+ Col: AG
    27
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (113)
-  - lessThan F10 -> FF000000/FFFF9900 (114)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F10 -> FF000000/FFFF9900
+ Col: AI
    0.392
-  Formula: IFERROR(LOOKUP(IF(AD10="",F10,AD10),{0,1,10,50,100,1000,10000},{0.0,0.59,0.448,0.448,0.392,0.308,0.268}),"")
+  Formula: IFERROR(IF(OR(AH10>=AJ10,F10>=AJ10),LOOKUP(IF(AH10="",F10,AH10),{0,1,10,50,100,1000,10000},{0.0,0.59,0.448,0.448,0.392,0.308,0.268}),"MOQ="&AJ10),"")
   Styles:
-  - lessThanOrEqual G10 -> -/FF80FF80 (117)
- Col: AF
+  - lessThanOrEqual G10 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    39.2
-  Formula: IFERROR(IF(AD10="",F10,AD10)*AE10,"")
+  Formula: IFERROR(IF(AH10="",F10,AH10)*AI10,"")
   Styles:
-  - lessThanOrEqual H10 -> -/FF80FF80 (116)
- Col: AG
+  - lessThanOrEqual H10 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=0c0aee7&sid=2401&ppid=106233952&vpid=595459897&ct=offers">490PJ002A</a>
 Row: 11
  Col: A
@@ -665,32 +725,34 @@ Row: 11
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(E11),ISBLANK(BA11),ISBLANK(M11),ISBLANK(R11),ISBLANK(W11),ISBLANK(AB11),ISBLANK(BF11),ISBLANK(AG11),ISBLANK(AL11),ISBLANK(AQ11),ISBLANK(AV11)) -> -/FFAAAAAA (257)
-  - =IF(SUM(AW11,I11,N11,S11,X11,BB11,AC11,AH11,AM11,AR11)=0,1,0) -> FFFFFFFF/FFFF0000 (258)
-  - greaterThan SUM(AW11,I11,N11,S11,X11,BB11,AC11,AH11,AM11,AR11) -> FF000000/FFFF9900 (259)
-  - greaterThan SUM(IF(ISNUMBER(AY11),AX11,0),IF(ISNUMBER(K11),J11,0),IF(ISNUMBER(P11),O11,0),IF(ISNUMBER(U11),T11,0),IF(ISNUMBER(Z11),Y11,0),IF(ISNUMBER(BD11),BC11,0),IF(ISNUMBER(AE11),AD11,0),IF(ISNUMBER(AJ11),AI11,0),IF(ISNUMBER(AO11),AN11,0),IF(ISNUMBER(AT11),AS11,0)) -> -/FFFFFF00 (260)
+  - =AND(ISBLANK(E11),ISBLANK(BI11),ISBLANK(M11),ISBLANK(S11),ISBLANK(Y11),ISBLANK(AE11),ISBLANK(BO11),ISBLANK(AK11),ISBLANK(AQ11),ISBLANK(AW11),ISBLANK(BC11)) -> -/FFAAAAAA
+  - =IF(SUM(BE11,I11,O11,U11,AA11,BK11,AG11,AM11,AS11,AY11)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE11,I11,O11,U11,AA11,BK11,AG11,AM11,AS11,AY11) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG11),BF11,0),IF(ISNUMBER(K11),J11,0),IF(ISNUMBER(Q11),P11,0),IF(ISNUMBER(W11),V11,0),IF(ISNUMBER(AC11),AB11,0),IF(ISNUMBER(BM11),BL11,0),IF(ISNUMBER(AI11),AH11,0),IF(ISNUMBER(AO11),AN11,0),IF(ISNUMBER(AU11),AT11,0),IF(ISNUMBER(BA11),AZ11,0)) -> -/FFFFFF00
  Col: G
    0.05
-  Formula: MINA(AY11,K11,P11,U11,Z11,BD11,AE11,AJ11,AO11,AT11)
+  Formula: IF(MIN(BG11,K11,Q11,W11,AC11,BM11,AI11,AO11,AU11,BA11)<>0,MIN(BG11,K11,Q11,W11,AC11,BM11,AI11,AO11,AU11,BA11),"")
  Col: H
    5
-  Formula: IFERROR(F11*G11,"")
- Col: BB
+  Formula: IF(AND(ISNUMBER(F11),ISNUMBER(G11)),F11*G11,"")
+ Col: BK
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (236)
-  - lessThan F11 -> FF000000/FFFF9900 (237)
- Col: BD
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F11 -> FF000000/FFFF9900
+ Col: BM
    0.05
-  Formula: IFERROR(LOOKUP(IF(BC11="",F11,BC11),{0,1,10,100,1000,10000},{0.0,0.1,0.08,0.05,0.03,0.01}),"")
+  Formula: IFERROR(IF(OR(BL11>=BN11,F11>=BN11),LOOKUP(IF(BL11="",F11,BL11),{0,1,10,100,1000,10000},{0.0,0.1,0.08,0.05,0.03,0.01}),"MOQ="&BN11),"")
   Styles:
-  - lessThanOrEqual G11 -> -/FF80FF80 (240)
- Col: BE
+  - lessThanOrEqual G11 -> -/FF80FF80
+ Col: BN
+   1
+ Col: BO
    5
-  Formula: IFERROR(IF(BC11="",F11,BC11)*BD11,"")
+  Formula: IFERROR(IF(BL11="",F11,BL11)*BM11,"")
   Styles:
-  - lessThanOrEqual H11 -> -/FF80FF80 (239)
- Col: BF
+  - lessThanOrEqual H11 -> -/FF80FF80
+ Col: BP
    "MMM001"
 Row: 12
  Col: A
@@ -703,16 +765,14 @@ Row: 12
    300
   Formula: CEILING(BoardQty*3,1)
   Styles:
-  - =AND(ISBLANK(E12),ISBLANK(BA12),ISBLANK(M12),ISBLANK(R12),ISBLANK(W12),ISBLANK(AB12),ISBLANK(BF12),ISBLANK(AG12),ISBLANK(AL12),ISBLANK(AQ12),ISBLANK(AV12)) -> -/FFAAAAAA (261)
-  - =IF(SUM(AW12,I12,N12,S12,X12,BB12,AC12,AH12,AM12,AR12)=0,1,0) -> FFFFFFFF/FFFF0000 (262)
-  - greaterThan SUM(AW12,I12,N12,S12,X12,BB12,AC12,AH12,AM12,AR12) -> FF000000/FFFF9900 (263)
-  - greaterThan SUM(IF(ISNUMBER(AY12),AX12,0),IF(ISNUMBER(K12),J12,0),IF(ISNUMBER(P12),O12,0),IF(ISNUMBER(U12),T12,0),IF(ISNUMBER(Z12),Y12,0),IF(ISNUMBER(BD12),BC12,0),IF(ISNUMBER(AE12),AD12,0),IF(ISNUMBER(AJ12),AI12,0),IF(ISNUMBER(AO12),AN12,0),IF(ISNUMBER(AT12),AS12,0)) -> -/FFFFFF00 (264)
+  - =AND(ISBLANK(E12),ISBLANK(BI12),ISBLANK(M12),ISBLANK(S12),ISBLANK(Y12),ISBLANK(AE12),ISBLANK(BO12),ISBLANK(AK12),ISBLANK(AQ12),ISBLANK(AW12),ISBLANK(BC12)) -> -/FFAAAAAA
+  - =IF(SUM(BE12,I12,O12,U12,AA12,BK12,AG12,AM12,AS12,AY12)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE12,I12,O12,U12,AA12,BK12,AG12,AM12,AS12,AY12) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG12),BF12,0),IF(ISNUMBER(K12),J12,0),IF(ISNUMBER(Q12),P12,0),IF(ISNUMBER(W12),V12,0),IF(ISNUMBER(AC12),AB12,0),IF(ISNUMBER(BM12),BL12,0),IF(ISNUMBER(AI12),AH12,0),IF(ISNUMBER(AO12),AN12,0),IF(ISNUMBER(AU12),AT12,0),IF(ISNUMBER(BA12),AZ12,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(AY12,K12,P12,U12,Z12,BD12,AE12,AJ12,AO12,AT12)
+  Formula: IF(MIN(BG12,K12,Q12,W12,AC12,BM12,AI12,AO12,AU12,BA12)<>0,MIN(BG12,K12,Q12,W12,AC12,BM12,AI12,AO12,AU12,BA12),"")
  Col: H
-   0
-  Formula: IFERROR(F12*G12,"")
+  Formula: IF(AND(ISNUMBER(F12),ISNUMBER(G12)),F12*G12,"")
 Row: 13
  Col: A
    "J1"
@@ -724,16 +784,14 @@ Row: 13
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(E13),ISBLANK(BA13),ISBLANK(M13),ISBLANK(R13),ISBLANK(W13),ISBLANK(AB13),ISBLANK(BF13),ISBLANK(AG13),ISBLANK(AL13),ISBLANK(AQ13),ISBLANK(AV13)) -> -/FFAAAAAA (265)
-  - =IF(SUM(AW13,I13,N13,S13,X13,BB13,AC13,AH13,AM13,AR13)=0,1,0) -> FFFFFFFF/FFFF0000 (266)
-  - greaterThan SUM(AW13,I13,N13,S13,X13,BB13,AC13,AH13,AM13,AR13) -> FF000000/FFFF9900 (267)
-  - greaterThan SUM(IF(ISNUMBER(AY13),AX13,0),IF(ISNUMBER(K13),J13,0),IF(ISNUMBER(P13),O13,0),IF(ISNUMBER(U13),T13,0),IF(ISNUMBER(Z13),Y13,0),IF(ISNUMBER(BD13),BC13,0),IF(ISNUMBER(AE13),AD13,0),IF(ISNUMBER(AJ13),AI13,0),IF(ISNUMBER(AO13),AN13,0),IF(ISNUMBER(AT13),AS13,0)) -> -/FFFFFF00 (268)
+  - =AND(ISBLANK(E13),ISBLANK(BI13),ISBLANK(M13),ISBLANK(S13),ISBLANK(Y13),ISBLANK(AE13),ISBLANK(BO13),ISBLANK(AK13),ISBLANK(AQ13),ISBLANK(AW13),ISBLANK(BC13)) -> -/FFAAAAAA
+  - =IF(SUM(BE13,I13,O13,U13,AA13,BK13,AG13,AM13,AS13,AY13)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE13,I13,O13,U13,AA13,BK13,AG13,AM13,AS13,AY13) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG13),BF13,0),IF(ISNUMBER(K13),J13,0),IF(ISNUMBER(Q13),P13,0),IF(ISNUMBER(W13),V13,0),IF(ISNUMBER(AC13),AB13,0),IF(ISNUMBER(BM13),BL13,0),IF(ISNUMBER(AI13),AH13,0),IF(ISNUMBER(AO13),AN13,0),IF(ISNUMBER(AU13),AT13,0),IF(ISNUMBER(BA13),AZ13,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(AY13,K13,P13,U13,Z13,BD13,AE13,AJ13,AO13,AT13)
+  Formula: IF(MIN(BG13,K13,Q13,W13,AC13,BM13,AI13,AO13,AU13,BA13)<>0,MIN(BG13,K13,Q13,W13,AC13,BM13,AI13,AO13,AU13,BA13),"")
  Col: H
-   0
-  Formula: IFERROR(F13*G13,"")
+  Formula: IF(AND(ISNUMBER(F13),ISNUMBER(G13)),F13*G13,"")
 Row: 14
  Col: A
    "J3-J5"
@@ -745,16 +803,14 @@ Row: 14
    300
   Formula: CEILING(BoardQty*3,1)
   Styles:
-  - =AND(ISBLANK(E14),ISBLANK(BA14),ISBLANK(M14),ISBLANK(R14),ISBLANK(W14),ISBLANK(AB14),ISBLANK(BF14),ISBLANK(AG14),ISBLANK(AL14),ISBLANK(AQ14),ISBLANK(AV14)) -> -/FFAAAAAA (269)
-  - =IF(SUM(AW14,I14,N14,S14,X14,BB14,AC14,AH14,AM14,AR14)=0,1,0) -> FFFFFFFF/FFFF0000 (270)
-  - greaterThan SUM(AW14,I14,N14,S14,X14,BB14,AC14,AH14,AM14,AR14) -> FF000000/FFFF9900 (271)
-  - greaterThan SUM(IF(ISNUMBER(AY14),AX14,0),IF(ISNUMBER(K14),J14,0),IF(ISNUMBER(P14),O14,0),IF(ISNUMBER(U14),T14,0),IF(ISNUMBER(Z14),Y14,0),IF(ISNUMBER(BD14),BC14,0),IF(ISNUMBER(AE14),AD14,0),IF(ISNUMBER(AJ14),AI14,0),IF(ISNUMBER(AO14),AN14,0),IF(ISNUMBER(AT14),AS14,0)) -> -/FFFFFF00 (272)
+  - =AND(ISBLANK(E14),ISBLANK(BI14),ISBLANK(M14),ISBLANK(S14),ISBLANK(Y14),ISBLANK(AE14),ISBLANK(BO14),ISBLANK(AK14),ISBLANK(AQ14),ISBLANK(AW14),ISBLANK(BC14)) -> -/FFAAAAAA
+  - =IF(SUM(BE14,I14,O14,U14,AA14,BK14,AG14,AM14,AS14,AY14)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE14,I14,O14,U14,AA14,BK14,AG14,AM14,AS14,AY14) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG14),BF14,0),IF(ISNUMBER(K14),J14,0),IF(ISNUMBER(Q14),P14,0),IF(ISNUMBER(W14),V14,0),IF(ISNUMBER(AC14),AB14,0),IF(ISNUMBER(BM14),BL14,0),IF(ISNUMBER(AI14),AH14,0),IF(ISNUMBER(AO14),AN14,0),IF(ISNUMBER(AU14),AT14,0),IF(ISNUMBER(BA14),AZ14,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(AY14,K14,P14,U14,Z14,BD14,AE14,AJ14,AO14,AT14)
+  Formula: IF(MIN(BG14,K14,Q14,W14,AC14,BM14,AI14,AO14,AU14,BA14)<>0,MIN(BG14,K14,Q14,W14,AC14,BM14,AI14,AO14,AU14,BA14),"")
  Col: H
-   0
-  Formula: IFERROR(F14*G14,"")
+  Formula: IF(AND(ISNUMBER(F14),ISNUMBER(G14)),F14*G14,"")
 Row: 15
  Col: A
    "JP1-JP3"
@@ -766,32 +822,34 @@ Row: 15
    300
   Formula: CEILING(BoardQty*3,1)
   Styles:
-  - =AND(ISBLANK(E15),ISBLANK(BA15),ISBLANK(M15),ISBLANK(R15),ISBLANK(W15),ISBLANK(AB15),ISBLANK(BF15),ISBLANK(AG15),ISBLANK(AL15),ISBLANK(AQ15),ISBLANK(AV15)) -> -/FFAAAAAA (273)
-  - =IF(SUM(AW15,I15,N15,S15,X15,BB15,AC15,AH15,AM15,AR15)=0,1,0) -> FFFFFFFF/FFFF0000 (274)
-  - greaterThan SUM(AW15,I15,N15,S15,X15,BB15,AC15,AH15,AM15,AR15) -> FF000000/FFFF9900 (275)
-  - greaterThan SUM(IF(ISNUMBER(AY15),AX15,0),IF(ISNUMBER(K15),J15,0),IF(ISNUMBER(P15),O15,0),IF(ISNUMBER(U15),T15,0),IF(ISNUMBER(Z15),Y15,0),IF(ISNUMBER(BD15),BC15,0),IF(ISNUMBER(AE15),AD15,0),IF(ISNUMBER(AJ15),AI15,0),IF(ISNUMBER(AO15),AN15,0),IF(ISNUMBER(AT15),AS15,0)) -> -/FFFFFF00 (276)
+  - =AND(ISBLANK(E15),ISBLANK(BI15),ISBLANK(M15),ISBLANK(S15),ISBLANK(Y15),ISBLANK(AE15),ISBLANK(BO15),ISBLANK(AK15),ISBLANK(AQ15),ISBLANK(AW15),ISBLANK(BC15)) -> -/FFAAAAAA
+  - =IF(SUM(BE15,I15,O15,U15,AA15,BK15,AG15,AM15,AS15,AY15)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE15,I15,O15,U15,AA15,BK15,AG15,AM15,AS15,AY15) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG15),BF15,0),IF(ISNUMBER(K15),J15,0),IF(ISNUMBER(Q15),P15,0),IF(ISNUMBER(W15),V15,0),IF(ISNUMBER(AC15),AB15,0),IF(ISNUMBER(BM15),BL15,0),IF(ISNUMBER(AI15),AH15,0),IF(ISNUMBER(AO15),AN15,0),IF(ISNUMBER(AU15),AT15,0),IF(ISNUMBER(BA15),AZ15,0)) -> -/FFFFFF00
  Col: G
    0.25
-  Formula: MINA(AY15,K15,P15,U15,Z15,BD15,AE15,AJ15,AO15,AT15)
+  Formula: IF(MIN(BG15,K15,Q15,W15,AC15,BM15,AI15,AO15,AU15,BA15)<>0,MIN(BG15,K15,Q15,W15,AC15,BM15,AI15,AO15,AU15,BA15),"")
  Col: H
    75
-  Formula: IFERROR(F15*G15,"")
- Col: AW
+  Formula: IF(AND(ISNUMBER(F15),ISNUMBER(G15)),F15*G15,"")
+ Col: BE
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (226)
-  - lessThan F15 -> FF000000/FFFF9900 (227)
- Col: AY
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: BG
    0.25
-  Formula: IFERROR(LOOKUP(IF(AX15="",F15,AX15),{0,1,10,100,1000},{0.0,1.0,0.5,0.25,0.12}),"")
+  Formula: IFERROR(IF(OR(BF15>=BH15,F15>=BH15),LOOKUP(IF(BF15="",F15,BF15),{0,1,10,100,1000},{0.0,1.0,0.5,0.25,0.12}),"MOQ="&BH15),"")
   Styles:
-  - lessThanOrEqual G15 -> -/FF80FF80 (230)
- Col: AZ
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: BH
+   1
+ Col: BI
    75
-  Formula: IFERROR(IF(AX15="",F15,AX15)*AY15,"")
+  Formula: IFERROR(IF(BF15="",F15,BF15)*BG15,"")
   Styles:
-  - lessThanOrEqual H15 -> -/FF80FF80 (229)
- Col: BA
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: BJ
    <a href="http://www.xess.com">#NO_CATALOG0001</a>
 Row: 16
  Col: A
@@ -804,16 +862,14 @@ Row: 16
    800
   Formula: CEILING(BoardQty*8,1)
   Styles:
-  - =AND(ISBLANK(E16),ISBLANK(BA16),ISBLANK(M16),ISBLANK(R16),ISBLANK(W16),ISBLANK(AB16),ISBLANK(BF16),ISBLANK(AG16),ISBLANK(AL16),ISBLANK(AQ16),ISBLANK(AV16)) -> -/FFAAAAAA (277)
-  - =IF(SUM(AW16,I16,N16,S16,X16,BB16,AC16,AH16,AM16,AR16)=0,1,0) -> FFFFFFFF/FFFF0000 (278)
-  - greaterThan SUM(AW16,I16,N16,S16,X16,BB16,AC16,AH16,AM16,AR16) -> FF000000/FFFF9900 (279)
-  - greaterThan SUM(IF(ISNUMBER(AY16),AX16,0),IF(ISNUMBER(K16),J16,0),IF(ISNUMBER(P16),O16,0),IF(ISNUMBER(U16),T16,0),IF(ISNUMBER(Z16),Y16,0),IF(ISNUMBER(BD16),BC16,0),IF(ISNUMBER(AE16),AD16,0),IF(ISNUMBER(AJ16),AI16,0),IF(ISNUMBER(AO16),AN16,0),IF(ISNUMBER(AT16),AS16,0)) -> -/FFFFFF00 (280)
+  - =AND(ISBLANK(E16),ISBLANK(BI16),ISBLANK(M16),ISBLANK(S16),ISBLANK(Y16),ISBLANK(AE16),ISBLANK(BO16),ISBLANK(AK16),ISBLANK(AQ16),ISBLANK(AW16),ISBLANK(BC16)) -> -/FFAAAAAA
+  - =IF(SUM(BE16,I16,O16,U16,AA16,BK16,AG16,AM16,AS16,AY16)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE16,I16,O16,U16,AA16,BK16,AG16,AM16,AS16,AY16) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG16),BF16,0),IF(ISNUMBER(K16),J16,0),IF(ISNUMBER(Q16),P16,0),IF(ISNUMBER(W16),V16,0),IF(ISNUMBER(AC16),AB16,0),IF(ISNUMBER(BM16),BL16,0),IF(ISNUMBER(AI16),AH16,0),IF(ISNUMBER(AO16),AN16,0),IF(ISNUMBER(AU16),AT16,0),IF(ISNUMBER(BA16),AZ16,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(AY16,K16,P16,U16,Z16,BD16,AE16,AJ16,AO16,AT16)
+  Formula: IF(MIN(BG16,K16,Q16,W16,AC16,BM16,AI16,AO16,AU16,BA16)<>0,MIN(BG16,K16,Q16,W16,AC16,BM16,AI16,AO16,AU16,BA16),"")
  Col: H
-   0
-  Formula: IFERROR(F16*G16,"")
+  Formula: IF(AND(ISNUMBER(F16),ISNUMBER(G16)),F16*G16,"")
 Row: 17
  Col: A
    "PM2,PM3"
@@ -825,16 +881,14 @@ Row: 17
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(E17),ISBLANK(BA17),ISBLANK(M17),ISBLANK(R17),ISBLANK(W17),ISBLANK(AB17),ISBLANK(BF17),ISBLANK(AG17),ISBLANK(AL17),ISBLANK(AQ17),ISBLANK(AV17)) -> -/FFAAAAAA (281)
-  - =IF(SUM(AW17,I17,N17,S17,X17,BB17,AC17,AH17,AM17,AR17)=0,1,0) -> FFFFFFFF/FFFF0000 (282)
-  - greaterThan SUM(AW17,I17,N17,S17,X17,BB17,AC17,AH17,AM17,AR17) -> FF000000/FFFF9900 (283)
-  - greaterThan SUM(IF(ISNUMBER(AY17),AX17,0),IF(ISNUMBER(K17),J17,0),IF(ISNUMBER(P17),O17,0),IF(ISNUMBER(U17),T17,0),IF(ISNUMBER(Z17),Y17,0),IF(ISNUMBER(BD17),BC17,0),IF(ISNUMBER(AE17),AD17,0),IF(ISNUMBER(AJ17),AI17,0),IF(ISNUMBER(AO17),AN17,0),IF(ISNUMBER(AT17),AS17,0)) -> -/FFFFFF00 (284)
+  - =AND(ISBLANK(E17),ISBLANK(BI17),ISBLANK(M17),ISBLANK(S17),ISBLANK(Y17),ISBLANK(AE17),ISBLANK(BO17),ISBLANK(AK17),ISBLANK(AQ17),ISBLANK(AW17),ISBLANK(BC17)) -> -/FFAAAAAA
+  - =IF(SUM(BE17,I17,O17,U17,AA17,BK17,AG17,AM17,AS17,AY17)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE17,I17,O17,U17,AA17,BK17,AG17,AM17,AS17,AY17) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG17),BF17,0),IF(ISNUMBER(K17),J17,0),IF(ISNUMBER(Q17),P17,0),IF(ISNUMBER(W17),V17,0),IF(ISNUMBER(AC17),AB17,0),IF(ISNUMBER(BM17),BL17,0),IF(ISNUMBER(AI17),AH17,0),IF(ISNUMBER(AO17),AN17,0),IF(ISNUMBER(AU17),AT17,0),IF(ISNUMBER(BA17),AZ17,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(AY17,K17,P17,U17,Z17,BD17,AE17,AJ17,AO17,AT17)
+  Formula: IF(MIN(BG17,K17,Q17,W17,AC17,BM17,AI17,AO17,AU17,BA17)<>0,MIN(BG17,K17,Q17,W17,AC17,BM17,AI17,AO17,AU17,BA17),"")
  Col: H
-   0
-  Formula: IFERROR(F17*G17,"")
+  Formula: IF(AND(ISNUMBER(F17),ISNUMBER(G17)),F17*G17,"")
 Row: 18
  Col: A
    "Q7"
@@ -850,16 +904,14 @@ Row: 18
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E18),ISBLANK(BA18),ISBLANK(M18),ISBLANK(R18),ISBLANK(W18),ISBLANK(AB18),ISBLANK(BF18),ISBLANK(AG18),ISBLANK(AL18),ISBLANK(AQ18),ISBLANK(AV18)) -> -/FFAAAAAA (285)
-  - =IF(SUM(AW18,I18,N18,S18,X18,BB18,AC18,AH18,AM18,AR18)=0,1,0) -> FFFFFFFF/FFFF0000 (286)
-  - greaterThan SUM(AW18,I18,N18,S18,X18,BB18,AC18,AH18,AM18,AR18) -> FF000000/FFFF9900 (287)
-  - greaterThan SUM(IF(ISNUMBER(AY18),AX18,0),IF(ISNUMBER(K18),J18,0),IF(ISNUMBER(P18),O18,0),IF(ISNUMBER(U18),T18,0),IF(ISNUMBER(Z18),Y18,0),IF(ISNUMBER(BD18),BC18,0),IF(ISNUMBER(AE18),AD18,0),IF(ISNUMBER(AJ18),AI18,0),IF(ISNUMBER(AO18),AN18,0),IF(ISNUMBER(AT18),AS18,0)) -> -/FFFFFF00 (288)
+  - =AND(ISBLANK(E18),ISBLANK(BI18),ISBLANK(M18),ISBLANK(S18),ISBLANK(Y18),ISBLANK(AE18),ISBLANK(BO18),ISBLANK(AK18),ISBLANK(AQ18),ISBLANK(AW18),ISBLANK(BC18)) -> -/FFAAAAAA
+  - =IF(SUM(BE18,I18,O18,U18,AA18,BK18,AG18,AM18,AS18,AY18)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE18,I18,O18,U18,AA18,BK18,AG18,AM18,AS18,AY18) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG18),BF18,0),IF(ISNUMBER(K18),J18,0),IF(ISNUMBER(Q18),P18,0),IF(ISNUMBER(W18),V18,0),IF(ISNUMBER(AC18),AB18,0),IF(ISNUMBER(BM18),BL18,0),IF(ISNUMBER(AI18),AH18,0),IF(ISNUMBER(AO18),AN18,0),IF(ISNUMBER(AU18),AT18,0),IF(ISNUMBER(BA18),AZ18,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(AY18,K18,P18,U18,Z18,BD18,AE18,AJ18,AO18,AT18)
+  Formula: IF(MIN(BG18,K18,Q18,W18,AC18,BM18,AI18,AO18,AU18,BA18)<>0,MIN(BG18,K18,Q18,W18,AC18,BM18,AI18,AO18,AU18,BA18),"")
  Col: H
-   0
-  Formula: IFERROR(F18*G18,"")
+  Formula: IF(AND(ISNUMBER(F18),ISNUMBER(G18)),F18*G18,"")
 Row: 19
  Col: A
    "R1"
@@ -873,100 +925,112 @@ Row: 19
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E19),ISBLANK(BA19),ISBLANK(M19),ISBLANK(R19),ISBLANK(W19),ISBLANK(AB19),ISBLANK(BF19),ISBLANK(AG19),ISBLANK(AL19),ISBLANK(AQ19),ISBLANK(AV19)) -> -/FFAAAAAA (289)
-  - =IF(SUM(AW19,I19,N19,S19,X19,BB19,AC19,AH19,AM19,AR19)=0,1,0) -> FFFFFFFF/FFFF0000 (290)
-  - greaterThan SUM(AW19,I19,N19,S19,X19,BB19,AC19,AH19,AM19,AR19) -> FF000000/FFFF9900 (291)
-  - greaterThan SUM(IF(ISNUMBER(AY19),AX19,0),IF(ISNUMBER(K19),J19,0),IF(ISNUMBER(P19),O19,0),IF(ISNUMBER(U19),T19,0),IF(ISNUMBER(Z19),Y19,0),IF(ISNUMBER(BD19),BC19,0),IF(ISNUMBER(AE19),AD19,0),IF(ISNUMBER(AJ19),AI19,0),IF(ISNUMBER(AO19),AN19,0),IF(ISNUMBER(AT19),AS19,0)) -> -/FFFFFF00 (292)
+  - =AND(ISBLANK(E19),ISBLANK(BI19),ISBLANK(M19),ISBLANK(S19),ISBLANK(Y19),ISBLANK(AE19),ISBLANK(BO19),ISBLANK(AK19),ISBLANK(AQ19),ISBLANK(AW19),ISBLANK(BC19)) -> -/FFAAAAAA
+  - =IF(SUM(BE19,I19,O19,U19,AA19,BK19,AG19,AM19,AS19,AY19)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE19,I19,O19,U19,AA19,BK19,AG19,AM19,AS19,AY19) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG19),BF19,0),IF(ISNUMBER(K19),J19,0),IF(ISNUMBER(Q19),P19,0),IF(ISNUMBER(W19),V19,0),IF(ISNUMBER(AC19),AB19,0),IF(ISNUMBER(BM19),BL19,0),IF(ISNUMBER(AI19),AH19,0),IF(ISNUMBER(AO19),AN19,0),IF(ISNUMBER(AU19),AT19,0),IF(ISNUMBER(BA19),AZ19,0)) -> -/FFFFFF00
  Col: G
-   0.00412782477692
-  Formula: MINA(AY19,K19,P19,U19,Z19,BD19,AE19,AJ19,AO19,AT19)
+   0.006
+  Formula: IF(MIN(BG19,K19,Q19,W19,AC19,BM19,AI19,AO19,AU19,BA19)<>0,MIN(BG19,K19,Q19,W19,AC19,BM19,AI19,AO19,AU19,BA19),"")
  Col: H
-   0.4128
-  Formula: IFERROR(F19*G19,"")
- Col: N
+   0.6
+  Formula: IF(AND(ISNUMBER(F19),ISNUMBER(G19)),F19*G19,"")
+ Col: O
    171051
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (21)
-  - lessThan F19 -> FF000000/FFFF9900 (22)
- Col: P
-   0.0097
-  Formula: IFERROR(LOOKUP(IF(O19="",F19,O19),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.024,0.0097,0.00436,0.00378,0.00312}),"")
-  Styles:
-  - lessThanOrEqual G19 -> -/FF80FF80 (25)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F19 -> FF000000/FFFF9900
  Col: Q
-   0.97
-  Formula: IFERROR(IF(O19="",F19,O19)*P19,"")
+   0.0097
+  Formula: IFERROR(IF(OR(P19>=R19,F19>=R19),LOOKUP(IF(P19="",F19,P19),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.024,0.0097,0.00436,0.00378,0.00312}),"MOQ="&R19),"")
   Styles:
-  - lessThanOrEqual H19 -> -/FF80FF80 (24)
+  - lessThanOrEqual G19 -> -/FF80FF80
  Col: R
-   <a href="https://octopart.com/click/track?ai=8078&sig=005d9c7&sid=459&ppid=1199079&vpid=1168302&ct=offers">311-43.2KHRCT-ND</a>
+   1
  Col: S
+   0.97
+  Formula: IFERROR(IF(P19="",F19,P19)*Q19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?ai=8078&sig=005d9c7&sid=459&ppid=1199079&vpid=1168302&ct=offers">311-43.2KHRCT-ND</a>
+ Col: U
    64850
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (63)
-  - lessThan F19 -> FF000000/FFFF9900 (64)
- Col: U
-   0.0166488932669
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(T19="",F19,T19),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0131,0.0131,0.0121,0.0121,0.0095,0.0076,0.0062,0.0053,0.0036}),"")
-  Styles:
-  - lessThanOrEqual G19 -> -/FF80FF80 (68)
- Col: V
-   1.6649
-  Formula: IFERROR(IF(T19="",F19,T19)*U19,"")
-  Styles:
-  - lessThanOrEqual H19 -> -/FF80FF80 (67)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F19 -> FF000000/FFFF9900
  Col: W
+   0.0166488932669
+  Formula: IFERROR(IF(OR(V19>=X19,F19>=X19),USD_GBP*LOOKUP(IF(V19="",F19,V19),{0,1,10,100,150,500,1000,2500,5000,25000},{0.0,0.0131,0.0131,0.0121,0.0121,0.0095,0.0076,0.0062,0.0053,0.0036}),"MOQ="&X19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   1.6649
+  Formula: IFERROR(IF(V19="",F19,V19)*W19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: Z
    <a href="https://octopart.com/click/track?ai=8078&sig=0c10ff3&sid=819&ppid=1199079&vpid=653863417&ct=offers">3495843</a>
- Col: AC
+ Col: AG
    234440
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (118)
-  - lessThan F19 -> FF000000/FFFF9900 (119)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: AI
    0.006
-  Formula: IFERROR(LOOKUP(IF(AD19="",F19,AD19),{0,1,10,50,100,1000,10000},{0.0,0.1,0.018,0.018,0.006,0.005,0.003}),"")
+  Formula: IFERROR(IF(OR(AH19>=AJ19,F19>=AJ19),LOOKUP(IF(AH19="",F19,AH19),{0,1,10,50,100,1000,10000},{0.0,0.1,0.018,0.018,0.006,0.005,0.003}),"MOQ="&AJ19),"")
   Styles:
-  - lessThanOrEqual G19 -> -/FF80FF80 (122)
- Col: AF
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    0.6
-  Formula: IFERROR(IF(AD19="",F19,AD19)*AE19,"")
+  Formula: IFERROR(IF(AH19="",F19,AH19)*AI19,"")
   Styles:
-  - lessThanOrEqual H19 -> -/FF80FF80 (121)
- Col: AG
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=0d127a2&sid=2401&ppid=1199079&vpid=57541766&ct=offers">603RC0603FR0743K2L</a>
- Col: AH
+ Col: AM
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (158)
-  - lessThan F19 -> FF000000/FFFF9900 (159)
- Col: AJ
-   0.007
-  Formula: IFERROR(LOOKUP(IF(AI19="",F19,AI19),{0,1,10,25,50,100},{0.0,0.02,0.02,0.016,0.012,0.007}),"")
-  Styles:
-  - lessThanOrEqual G19 -> -/FF80FF80 (163)
- Col: AK
-   0.7
-  Formula: IFERROR(IF(AI19="",F19,AI19)*AJ19,"")
-  Styles:
-  - lessThanOrEqual H19 -> -/FF80FF80 (162)
- Col: AL
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=048890b&sid=2402&ppid=1199079&vpid=655850405&ct=offers">82AH8161</a>
- Col: AM
-   4300
-  Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (191)
-  - lessThan F19 -> FF000000/FFFF9900 (192)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F19 -> FF000000/FFFF9900
  Col: AO
-   0.00412782477692
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(AN19="",F19,AN19),{0,1,5000,10000,15000,20000},{0.0,0.003,0.003,0.003,0.003,0.002}),"")
+   0.007
+  Formula: IFERROR(IF(OR(AN19>=AP19,F19>=AP19),LOOKUP(IF(AN19="",F19,AN19),{0,1,10,25,50,100},{0.0,0.02,0.02,0.016,0.012,0.007}),"MOQ="&AP19),"")
   Styles:
-  - lessThanOrEqual G19 -> -/FF80FF80 (196)
+  - lessThanOrEqual G19 -> -/FF80FF80
  Col: AP
-   0.4128
+   10
+ Col: AQ
+   0.7
   Formula: IFERROR(IF(AN19="",F19,AN19)*AO19,"")
   Styles:
-  - lessThanOrEqual H19 -> -/FF80FF80 (195)
- Col: AQ
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: AR
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=048890b&sid=2402&ppid=1199079&vpid=655850405&ct=offers">82AH8161</a>
+ Col: AS
+   4300
+  Styles:
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: AU
+  Formula: IFERROR(IF(OR(AT19>=AV19,F19>=AV19),USD_GBP*LOOKUP(IF(AT19="",F19,AT19),{0,1,5000,10000,15000,20000},{0.0,0.003,0.003,0.003,0.003,0.002}),"MOQ="&AV19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+  - =AND(F19<5000,AT19<5000) -> -/FFFFFF00
+ Col: AV
+   5000
+  Styles:
+  - =AND(F19<5000,AT19<5000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT19="",F19,AT19)*AU19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+  - =AND(F19<5000,AT19<5000) -> -/FFFFFF00
+ Col: AX
    <a href="https://octopart.com/click/track?ai=8078&sig=08df251&sid=10022&ppid=1199079&vpid=658005424&ct=offers">1995571</a>
 Row: 20
  Col: A
@@ -981,49 +1045,53 @@ Row: 20
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E20),ISBLANK(BA20),ISBLANK(M20),ISBLANK(R20),ISBLANK(W20),ISBLANK(AB20),ISBLANK(BF20),ISBLANK(AG20),ISBLANK(AL20),ISBLANK(AQ20),ISBLANK(AV20)) -> -/FFAAAAAA (293)
-  - =IF(SUM(AW20,I20,N20,S20,X20,BB20,AC20,AH20,AM20,AR20)=0,1,0) -> FFFFFFFF/FFFF0000 (294)
-  - greaterThan SUM(AW20,I20,N20,S20,X20,BB20,AC20,AH20,AM20,AR20) -> FF000000/FFFF9900 (295)
-  - greaterThan SUM(IF(ISNUMBER(AY20),AX20,0),IF(ISNUMBER(K20),J20,0),IF(ISNUMBER(P20),O20,0),IF(ISNUMBER(U20),T20,0),IF(ISNUMBER(Z20),Y20,0),IF(ISNUMBER(BD20),BC20,0),IF(ISNUMBER(AE20),AD20,0),IF(ISNUMBER(AJ20),AI20,0),IF(ISNUMBER(AO20),AN20,0),IF(ISNUMBER(AT20),AS20,0)) -> -/FFFFFF00 (296)
+  - =AND(ISBLANK(E20),ISBLANK(BI20),ISBLANK(M20),ISBLANK(S20),ISBLANK(Y20),ISBLANK(AE20),ISBLANK(BO20),ISBLANK(AK20),ISBLANK(AQ20),ISBLANK(AW20),ISBLANK(BC20)) -> -/FFAAAAAA
+  - =IF(SUM(BE20,I20,O20,U20,AA20,BK20,AG20,AM20,AS20,AY20)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE20,I20,O20,U20,AA20,BK20,AG20,AM20,AS20,AY20) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG20),BF20,0),IF(ISNUMBER(K20),J20,0),IF(ISNUMBER(Q20),P20,0),IF(ISNUMBER(W20),V20,0),IF(ISNUMBER(AC20),AB20,0),IF(ISNUMBER(BM20),BL20,0),IF(ISNUMBER(AI20),AH20,0),IF(ISNUMBER(AO20),AN20,0),IF(ISNUMBER(AU20),AT20,0),IF(ISNUMBER(BA20),AZ20,0)) -> -/FFFFFF00
  Col: G
    0.056
-  Formula: MINA(AY20,K20,P20,U20,Z20,BD20,AE20,AJ20,AO20,AT20)
+  Formula: IF(MIN(BG20,K20,Q20,W20,AC20,BM20,AI20,AO20,AU20,BA20)<>0,MIN(BG20,K20,Q20,W20,AC20,BM20,AI20,AO20,AU20,BA20),"")
  Col: H
    5.6
-  Formula: IFERROR(F20*G20,"")
- Col: N
+  Formula: IF(AND(ISNUMBER(F20),ISNUMBER(G20)),F20*G20,"")
+ Col: O
    25327
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (26)
-  - lessThan F20 -> FF000000/FFFF9900 (27)
- Col: P
-   0.0774
-  Formula: IFERROR(LOOKUP(IF(O20="",F20,O20),{0,1,10,25,50,100,250,500,1000,5000,10000,25000},{0.0,0.23,0.198,0.144,0.1044,0.0774,0.0594,0.0468,0.0324,0.027,0.0252,0.02394}),"")
-  Styles:
-  - lessThanOrEqual G20 -> -/FF80FF80 (30)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F20 -> FF000000/FFFF9900
  Col: Q
-   7.74
-  Formula: IFERROR(IF(O20="",F20,O20)*P20,"")
+   0.0774
+  Formula: IFERROR(IF(OR(P20>=R20,F20>=R20),LOOKUP(IF(P20="",F20,P20),{0,1,10,25,50,100,250,500,1000,5000,10000,25000},{0.0,0.23,0.198,0.144,0.1044,0.0774,0.0594,0.0468,0.0324,0.027,0.0252,0.02394}),"MOQ="&R20),"")
   Styles:
-  - lessThanOrEqual H20 -> -/FF80FF80 (29)
+  - lessThanOrEqual G20 -> -/FF80FF80
  Col: R
+   1
+ Col: S
+   7.74
+  Formula: IFERROR(IF(P20="",F20,P20)*Q20,"")
+  Styles:
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: T
    <a href="https://octopart.com/click/track?ai=8078&sig=03d2320&sid=459&ppid=5838138&vpid=44311903&ct=offers">742C083392JPCT-ND</a>
- Col: AC
+ Col: AG
    25738
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (123)
-  - lessThan F20 -> FF000000/FFFF9900 (124)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: AI
    0.056
-  Formula: IFERROR(LOOKUP(IF(AD20="",F20,AD20),{0,1,10,50,100,1000,10000},{0.0,0.28,0.236,0.236,0.056,0.039,0.028}),"")
+  Formula: IFERROR(IF(OR(AH20>=AJ20,F20>=AJ20),LOOKUP(IF(AH20="",F20,AH20),{0,1,10,50,100,1000,10000},{0.0,0.28,0.236,0.236,0.056,0.039,0.028}),"MOQ="&AJ20),"")
   Styles:
-  - lessThanOrEqual G20 -> -/FF80FF80 (127)
- Col: AF
+  - lessThanOrEqual G20 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    5.6
-  Formula: IFERROR(IF(AD20="",F20,AD20)*AE20,"")
+  Formula: IFERROR(IF(AH20="",F20,AH20)*AI20,"")
   Styles:
-  - lessThanOrEqual H20 -> -/FF80FF80 (126)
- Col: AG
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=07bfd05&sid=2401&ppid=5838138&vpid=37932844&ct=offers">774742C083392JP</a>
 Row: 21
  Col: A
@@ -1038,117 +1106,129 @@ Row: 21
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E21),ISBLANK(BA21),ISBLANK(M21),ISBLANK(R21),ISBLANK(W21),ISBLANK(AB21),ISBLANK(BF21),ISBLANK(AG21),ISBLANK(AL21),ISBLANK(AQ21),ISBLANK(AV21)) -> -/FFAAAAAA (297)
-  - =IF(SUM(AW21,I21,N21,S21,X21,BB21,AC21,AH21,AM21,AR21)=0,1,0) -> FFFFFFFF/FFFF0000 (298)
-  - greaterThan SUM(AW21,I21,N21,S21,X21,BB21,AC21,AH21,AM21,AR21) -> FF000000/FFFF9900 (299)
-  - greaterThan SUM(IF(ISNUMBER(AY21),AX21,0),IF(ISNUMBER(K21),J21,0),IF(ISNUMBER(P21),O21,0),IF(ISNUMBER(U21),T21,0),IF(ISNUMBER(Z21),Y21,0),IF(ISNUMBER(BD21),BC21,0),IF(ISNUMBER(AE21),AD21,0),IF(ISNUMBER(AJ21),AI21,0),IF(ISNUMBER(AO21),AN21,0),IF(ISNUMBER(AT21),AS21,0)) -> -/FFFFFF00 (300)
+  - =AND(ISBLANK(E21),ISBLANK(BI21),ISBLANK(M21),ISBLANK(S21),ISBLANK(Y21),ISBLANK(AE21),ISBLANK(BO21),ISBLANK(AK21),ISBLANK(AQ21),ISBLANK(AW21),ISBLANK(BC21)) -> -/FFAAAAAA
+  - =IF(SUM(BE21,I21,O21,U21,AA21,BK21,AG21,AM21,AS21,AY21)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE21,I21,O21,U21,AA21,BK21,AG21,AM21,AS21,AY21) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG21),BF21,0),IF(ISNUMBER(K21),J21,0),IF(ISNUMBER(Q21),P21,0),IF(ISNUMBER(W21),V21,0),IF(ISNUMBER(AC21),AB21,0),IF(ISNUMBER(BM21),BL21,0),IF(ISNUMBER(AI21),AH21,0),IF(ISNUMBER(AO21),AN21,0),IF(ISNUMBER(AU21),AT21,0),IF(ISNUMBER(BA21),AZ21,0)) -> -/FFFFFF00
  Col: G
    0.03
-  Formula: MINA(AY21,K21,P21,U21,Z21,BD21,AE21,AJ21,AO21,AT21)
+  Formula: IF(MIN(BG21,K21,Q21,W21,AC21,BM21,AI21,AO21,AU21,BA21)<>0,MIN(BG21,K21,Q21,W21,AC21,BM21,AI21,AO21,AU21,BA21),"")
  Col: H
    3
-  Formula: IFERROR(F21*G21,"")
- Col: N
+  Formula: IF(AND(ISNUMBER(F21),ISNUMBER(G21)),F21*G21,"")
+ Col: O
    17594
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (31)
-  - lessThan F21 -> FF000000/FFFF9900 (32)
- Col: P
-   0.6826
-  Formula: IFERROR(LOOKUP(IF(O21="",F21,O21),{0,1,10,25,100,250,500,1000,3000,6000,15000},{0.0,0.85,0.818,0.7864,0.6826,0.62288,0.57882,0.51906,0.4876,0.453,0.42154}),"")
-  Styles:
-  - lessThanOrEqual G21 -> -/FF80FF80 (35)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F21 -> FF000000/FFFF9900
  Col: Q
-   68.26
-  Formula: IFERROR(IF(O21="",F21,O21)*P21,"")
+   0.6826
+  Formula: IFERROR(IF(OR(P21>=R21,F21>=R21),LOOKUP(IF(P21="",F21,P21),{0,1,10,25,100,250,500,1000,3000,6000,15000},{0.0,0.85,0.818,0.7864,0.6826,0.62288,0.57882,0.51906,0.4876,0.453,0.42154}),"MOQ="&R21),"")
   Styles:
-  - lessThanOrEqual H21 -> -/FF80FF80 (34)
+  - lessThanOrEqual G21 -> -/FF80FF80
  Col: R
-   <a href="https://octopart.com/click/track?ai=8078&sig=0f314dc&sid=459&ppid=20490407&vpid=40472964&ct=offers">CKN10384CT-ND</a>
+   1
  Col: S
+   68.26
+  Formula: IFERROR(IF(P21="",F21,P21)*Q21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?ai=8078&sig=0f314dc&sid=459&ppid=20490407&vpid=40472964&ct=offers">CKN10384CT-ND</a>
+ Col: U
    2920
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (69)
-  - lessThan F21 -> FF000000/FFFF9900 (70)
- Col: U
-   0.381135821068
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(T21="",F21,T21),{0,1,5,100,150,250,1000,2500},{0.0,0.316,0.316,0.277,0.277,0.24,0.213,0.201}),"")
-  Styles:
-  - lessThanOrEqual G21 -> -/FF80FF80 (74)
- Col: V
-   38.1136
-  Formula: IFERROR(IF(T21="",F21,T21)*U21,"")
-  Styles:
-  - lessThanOrEqual H21 -> -/FF80FF80 (73)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F21 -> FF000000/FFFF9900
  Col: W
+   0.381135821068
+  Formula: IFERROR(IF(OR(V21>=X21,F21>=X21),USD_GBP*LOOKUP(IF(V21="",F21,V21),{0,1,5,100,150,250,1000,2500},{0.0,0.316,0.316,0.277,0.277,0.24,0.213,0.201}),"MOQ="&X21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: X
+   5
+ Col: Y
+   38.1136
+  Formula: IFERROR(IF(V21="",F21,V21)*W21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: Z
    <a href="https://octopart.com/click/track?ai=8078&sig=0998a67&sid=819&ppid=20490407&vpid=618192333&ct=offers">3263270</a>
- Col: AC
+ Col: AG
    8308
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (128)
-  - lessThan F21 -> FF000000/FFFF9900 (129)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: AI
    0.683
-  Formula: IFERROR(LOOKUP(IF(AD21="",F21,AD21),{0,1,10,50,100,1000,10000},{0.0,0.85,0.818,0.763,0.683,0.53,0.53}),"")
+  Formula: IFERROR(IF(OR(AH21>=AJ21,F21>=AJ21),LOOKUP(IF(AH21="",F21,AH21),{0,1,10,50,100,1000,10000},{0.0,0.85,0.818,0.763,0.683,0.53,0.53}),"MOQ="&AJ21),"")
   Styles:
-  - lessThanOrEqual G21 -> -/FF80FF80 (132)
- Col: AF
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    68.3
-  Formula: IFERROR(IF(AD21="",F21,AD21)*AE21,"")
+  Formula: IFERROR(IF(AH21="",F21,AH21)*AI21,"")
   Styles:
-  - lessThanOrEqual H21 -> -/FF80FF80 (131)
- Col: AG
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=0e639e9&sid=2401&ppid=25740720&vpid=480548498&ct=offers">611RS282G05A3SMRT</a>
- Col: AH
+ Col: AM
    2951
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (164)
-  - lessThan F21 -> FF000000/FFFF9900 (165)
- Col: AJ
-   0.735
-  Formula: IFERROR(LOOKUP(IF(AI21="",F21,AI21),{0,1,25,50,100,250,500,3000,15000,75000,300000},{0.0,0.735,0.735,0.735,0.735,0.679,0.679,0.882,0.588,0.516,0.412}),"")
-  Styles:
-  - lessThanOrEqual G21 -> -/FF80FF80 (168)
- Col: AK
-   73.5
-  Formula: IFERROR(IF(AI21="",F21,AI21)*AJ21,"")
-  Styles:
-  - lessThanOrEqual H21 -> -/FF80FF80 (167)
- Col: AL
-   <a href="https://octopart.com/click/track?ai=8078&sig=0b234d1&sid=2402&ppid=20490407&vpid=587930243&ct=offers">35AH5742</a>
- Col: AM
-   300
-  Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (197)
-  - lessThan F21 -> FF000000/FFFF9900 (198)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F21 -> FF000000/FFFF9900
  Col: AO
-   0.485707382084
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(AN21="",F21,AN21),{0,1,20},{0.0,962.26,0.353}),"")
+   0.735
+  Formula: IFERROR(IF(OR(AN21>=AP21,F21>=AP21),LOOKUP(IF(AN21="",F21,AN21),{0,1,25,50,100,250,500,3000,15000,75000,300000},{0.0,0.735,0.735,0.735,0.735,0.679,0.679,0.882,0.588,0.516,0.412}),"MOQ="&AP21),"")
   Styles:
-  - lessThanOrEqual G21 -> -/FF80FF80 (201)
+  - lessThanOrEqual G21 -> -/FF80FF80
  Col: AP
-   48.5707
+   1
+ Col: AQ
+   73.5
   Formula: IFERROR(IF(AN21="",F21,AN21)*AO21,"")
   Styles:
-  - lessThanOrEqual H21 -> -/FF80FF80 (200)
- Col: AQ
-   <a href="https://octopart.com/click/track?ai=8078&sig=0e638d8&sid=10022&ppid=20490407&vpid=605083600&ct=offers">1769434</a>
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: AR
+   <a href="https://octopart.com/click/track?ai=8078&sig=0b234d1&sid=2402&ppid=20490407&vpid=587930243&ct=offers">35AH5742</a>
+ Col: AS
+   300
+  Styles:
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: AU
+   0.485707382084
+  Formula: IFERROR(IF(OR(AT21>=AV21,F21>=AV21),USD_GBP*LOOKUP(IF(AT21="",F21,AT21),{0,1,20},{0.0,962.26,0.353}),"MOQ="&AV21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: AV
+   1
  Col: AW
+   48.5707
+  Formula: IFERROR(IF(AT21="",F21,AT21)*AU21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: AX
+   <a href="https://octopart.com/click/track?ai=8078&sig=0e638d8&sid=10022&ppid=20490407&vpid=605083600&ct=offers">1769434</a>
+ Col: BE
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (231)
-  - lessThan F21 -> FF000000/FFFF9900 (232)
- Col: AY
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: BG
    0.03
-  Formula: IFERROR(LOOKUP(IF(AX21="",F21,AX21),{0,1,10},{0.0,0.1,0.03}),"")
+  Formula: IFERROR(IF(OR(BF21>=BH21,F21>=BH21),LOOKUP(IF(BF21="",F21,BF21),{0,1,10},{0.0,0.1,0.03}),"MOQ="&BH21),"")
   Styles:
-  - lessThanOrEqual G21 -> -/FF80FF80 (235)
- Col: AZ
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: BH
+   1
+ Col: BI
    3
-  Formula: IFERROR(IF(AX21="",F21,AX21)*AY21,"")
+  Formula: IFERROR(IF(BF21="",F21,BF21)*BG21,"")
   Styles:
-  - lessThanOrEqual H21 -> -/FF80FF80 (234)
- Col: BA
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: BJ
    <a href="http://www.xess.com">RS-282G05A3-SM RT</a>
 Row: 22
  Col: A
@@ -1163,134 +1243,148 @@ Row: 22
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E22),ISBLANK(BA22),ISBLANK(M22),ISBLANK(R22),ISBLANK(W22),ISBLANK(AB22),ISBLANK(BF22),ISBLANK(AG22),ISBLANK(AL22),ISBLANK(AQ22),ISBLANK(AV22)) -> -/FFAAAAAA (301)
-  - =IF(SUM(AW22,I22,N22,S22,X22,BB22,AC22,AH22,AM22,AR22)=0,1,0) -> FFFFFFFF/FFFF0000 (302)
-  - greaterThan SUM(AW22,I22,N22,S22,X22,BB22,AC22,AH22,AM22,AR22) -> FF000000/FFFF9900 (303)
-  - greaterThan SUM(IF(ISNUMBER(AY22),AX22,0),IF(ISNUMBER(K22),J22,0),IF(ISNUMBER(P22),O22,0),IF(ISNUMBER(U22),T22,0),IF(ISNUMBER(Z22),Y22,0),IF(ISNUMBER(BD22),BC22,0),IF(ISNUMBER(AE22),AD22,0),IF(ISNUMBER(AJ22),AI22,0),IF(ISNUMBER(AO22),AN22,0),IF(ISNUMBER(AT22),AS22,0)) -> -/FFFFFF00 (304)
+  - =AND(ISBLANK(E22),ISBLANK(BI22),ISBLANK(M22),ISBLANK(S22),ISBLANK(Y22),ISBLANK(AE22),ISBLANK(BO22),ISBLANK(AK22),ISBLANK(AQ22),ISBLANK(AW22),ISBLANK(BC22)) -> -/FFAAAAAA
+  - =IF(SUM(BE22,I22,O22,U22,AA22,BK22,AG22,AM22,AS22,AY22)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE22,I22,O22,U22,AA22,BK22,AG22,AM22,AS22,AY22) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG22),BF22,0),IF(ISNUMBER(K22),J22,0),IF(ISNUMBER(Q22),P22,0),IF(ISNUMBER(W22),V22,0),IF(ISNUMBER(AC22),AB22,0),IF(ISNUMBER(BM22),BL22,0),IF(ISNUMBER(AI22),AH22,0),IF(ISNUMBER(AO22),AN22,0),IF(ISNUMBER(AU22),AT22,0),IF(ISNUMBER(BA22),AZ22,0)) -> -/FFFFFF00
  Col: G
    0.17477056
-  Formula: MINA(AY22,K22,P22,U22,Z22,BD22,AE22,AJ22,AO22,AT22)
+  Formula: IF(MIN(BG22,K22,Q22,W22,AC22,BM22,AI22,AO22,AU22,BA22)<>0,MIN(BG22,K22,Q22,W22,AC22,BM22,AI22,AO22,AU22,BA22),"")
  Col: H
    17.4771
-  Formula: IFERROR(F22*G22,"")
- Col: N
+  Formula: IF(AND(ISNUMBER(F22),ISNUMBER(G22)),F22*G22,"")
+ Col: O
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (36)
-  - lessThan F22 -> FF000000/FFFF9900 (37)
- Col: P
-   0.3069
-  Formula: IFERROR(LOOKUP(IF(O22="",F22,O22),{0,1,10,25,100,250,500,1000,4000,8000,12000},{0.0,0.48,0.411,0.3836,0.3069,0.28496,0.24112,0.18633,0.16989,0.15893,0.1551}),"")
-  Styles:
-  - lessThanOrEqual G22 -> -/FF80FF80 (40)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F22 -> FF000000/FFFF9900
  Col: Q
-   30.69
-  Formula: IFERROR(IF(O22="",F22,O22)*P22,"")
+   0.3069
+  Formula: IFERROR(IF(OR(P22>=R22,F22>=R22),LOOKUP(IF(P22="",F22,P22),{0,1,10,25,100,250,500,1000,4000,8000,12000},{0.0,0.48,0.411,0.3836,0.3069,0.28496,0.24112,0.18633,0.16989,0.15893,0.1551}),"MOQ="&R22),"")
   Styles:
-  - lessThanOrEqual H22 -> -/FF80FF80 (39)
+  - lessThanOrEqual G22 -> -/FF80FF80
  Col: R
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0db4a6a&sid=459&ppid=538117&vpid=34061463&ct=offers">NCP1117ST33T3GOSCT-ND</a>
+   1
  Col: S
+   30.69
+  Formula: IFERROR(IF(P22="",F22,P22)*Q22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0db4a6a&sid=459&ppid=538117&vpid=34061463&ct=offers">NCP1117ST33T3GOSCT-ND</a>
+ Col: U
    3180
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (75)
-  - lessThan F22 -> FF000000/FFFF9900 (76)
- Col: U
-   0.253173252984
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(T22="",F22,T22),{0,1,5,10,100,150,500,4000,6000,12000,18000,30000,32000,60000},{0.0,0.443,0.443,0.344,0.184,0.184,0.134,0.12,0.144,0.116,0.126,0.12,0.114,0.112}),"")
-  Styles:
-  - lessThanOrEqual G22 -> -/FF80FF80 (80)
- Col: V
-   25.3173
-  Formula: IFERROR(IF(T22="",F22,T22)*U22,"")
-  Styles:
-  - lessThanOrEqual H22 -> -/FF80FF80 (79)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F22 -> FF000000/FFFF9900
  Col: W
-   <a href="https://octopart.com/click/track?ai=8078&sig=0971ebf&sid=11744&ppid=538117&vpid=132547269&ct=offers">1652366</a>
+   0.253173252984
+  Formula: IFERROR(IF(OR(V22>=X22,F22>=X22),USD_GBP*LOOKUP(IF(V22="",F22,V22),{0,1,5,10,100,150,500,4000,6000,12000,18000,30000,32000,60000},{0.0,0.443,0.443,0.344,0.184,0.184,0.134,0.12,0.144,0.116,0.126,0.12,0.114,0.112}),"MOQ="&X22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
  Col: X
+   5
+ Col: Y
+   25.3173
+  Formula: IFERROR(IF(V22="",F22,V22)*W22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: Z
+   <a href="https://octopart.com/click/track?ai=8078&sig=0971ebf&sid=11744&ppid=538117&vpid=132547269&ct=offers">1652366</a>
+ Col: AA
    10842
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (93)
-  - lessThan F22 -> FF000000/FFFF9900 (94)
- Col: Z
-   0.1851
-  Formula: IFERROR(LOOKUP(IF(Y22="",F22,Y22),{0,1,10,30,100,500,1000},{0.0,0.2524,0.2032,0.1941,0.1851,0.1811,0.1791}),"")
-  Styles:
-  - lessThanOrEqual G22 -> -/FF80FF80 (97)
- Col: AA
-   18.51
-  Formula: IFERROR(IF(Y22="",F22,Y22)*Z22,"")
-  Styles:
-  - lessThanOrEqual H22 -> -/FF80FF80 (96)
- Col: AB
-   <a href="https://octopart.com/click/track?ai=8078&sig=08730bf&sid=27971&ppid=538117&vpid=476993942&ct=offers">C26537</a>
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F22 -> FF000000/FFFF9900
  Col: AC
+   0.1851
+  Formula: IFERROR(IF(OR(AB22>=AD22,F22>=AD22),LOOKUP(IF(AB22="",F22,AB22),{0,1,10,30,100,500,1000},{0.0,0.2524,0.2032,0.1941,0.1851,0.1811,0.1791}),"MOQ="&AD22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: AD
+   1
+ Col: AE
+   18.51
+  Formula: IFERROR(IF(AB22="",F22,AB22)*AC22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: AF
+   <a href="https://octopart.com/click/track?ai=8078&sig=08730bf&sid=27971&ppid=538117&vpid=476993942&ct=offers">C26537</a>
+ Col: AG
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (133)
-  - lessThan F22 -> FF000000/FFFF9900 (134)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: AI
    0.285
-  Formula: IFERROR(LOOKUP(IF(AD22="",F22,AD22),{0,1,10,50,100,1000,10000},{0.0,0.48,0.384,0.384,0.285,0.17,0.159}),"")
+  Formula: IFERROR(IF(OR(AH22>=AJ22,F22>=AJ22),LOOKUP(IF(AH22="",F22,AH22),{0,1,10,50,100,1000,10000},{0.0,0.48,0.384,0.384,0.285,0.17,0.159}),"MOQ="&AJ22),"")
   Styles:
-  - lessThanOrEqual G22 -> -/FF80FF80 (137)
- Col: AF
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    28.5
-  Formula: IFERROR(IF(AD22="",F22,AD22)*AE22,"")
+  Formula: IFERROR(IF(AH22="",F22,AH22)*AI22,"")
   Styles:
-  - lessThanOrEqual H22 -> -/FF80FF80 (136)
- Col: AG
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=0efe82c&sid=2401&ppid=538117&vpid=37782002&ct=offers">863NCP1117ST33T3G</a>
- Col: AH
+ Col: AM
    19660
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (169)
-  - lessThan F22 -> FF000000/FFFF9900 (170)
- Col: AJ
-   0.231
-  Formula: IFERROR(LOOKUP(IF(AI22="",F22,AI22),{0,1,5,10,100,500,4000,12000,32000,60000},{0.0,0.6,0.48,0.384,0.231,0.206,0.151,0.148,0.136,0.127}),"")
-  Styles:
-  - lessThanOrEqual G22 -> -/FF80FF80 (173)
- Col: AK
-   23.1
-  Formula: IFERROR(IF(AI22="",F22,AI22)*AJ22,"")
-  Styles:
-  - lessThanOrEqual H22 -> -/FF80FF80 (172)
- Col: AL
-   <a href="https://octopart.com/click/track?ai=8078&sig=0be1bba&sid=2402&ppid=538117&vpid=268464804&ct=offers">20X9199</a>
- Col: AM
-   4220
-  Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (202)
-  - lessThan F22 -> FF000000/FFFF9900 (203)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F22 -> FF000000/FFFF9900
  Col: AO
-   0.229782245915
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(AN22="",F22,AN22),{0,1,20,100,1000,4000,8000},{0.0,0.293,0.293,0.167,0.122,0.113,0.109}),"")
+   0.231
+  Formula: IFERROR(IF(OR(AN22>=AP22,F22>=AP22),LOOKUP(IF(AN22="",F22,AN22),{0,1,5,10,100,500,4000,12000,32000,60000},{0.0,0.6,0.48,0.384,0.231,0.206,0.151,0.148,0.136,0.127}),"MOQ="&AP22),"")
   Styles:
-  - lessThanOrEqual G22 -> -/FF80FF80 (207)
+  - lessThanOrEqual G22 -> -/FF80FF80
  Col: AP
-   22.9782
+   1
+ Col: AQ
+   23.1
   Formula: IFERROR(IF(AN22="",F22,AN22)*AO22,"")
   Styles:
-  - lessThanOrEqual H22 -> -/FF80FF80 (206)
- Col: AQ
-   <a href="https://octopart.com/click/track?ai=8078&sig=001fde0&sid=10022&ppid=538117&vpid=199087096&ct=offers">7857207</a>
+  - lessThanOrEqual H22 -> -/FF80FF80
  Col: AR
+   <a href="https://octopart.com/click/track?ai=8078&sig=0be1bba&sid=2402&ppid=538117&vpid=268464804&ct=offers">20X9199</a>
+ Col: AS
+   4220
+  Styles:
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: AU
+   0.229782245915
+  Formula: IFERROR(IF(OR(AT22>=AV22,F22>=AV22),USD_GBP*LOOKUP(IF(AT22="",F22,AT22),{0,1,20,100,1000,4000,8000},{0.0,0.293,0.293,0.167,0.122,0.113,0.109}),"MOQ="&AV22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: AV
+   20
+ Col: AW
+   22.9782
+  Formula: IFERROR(IF(AT22="",F22,AT22)*AU22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: AX
+   <a href="https://octopart.com/click/track?ai=8078&sig=001fde0&sid=10022&ppid=538117&vpid=199087096&ct=offers">7857207</a>
+ Col: AY
    3391
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (220)
-  - lessThan F22 -> FF000000/FFFF9900 (221)
- Col: AT
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: BA
    0.17477056
-  Formula: IFERROR(USD_EUR*LOOKUP(IF(AS22="",F22,AS22),{0,1,3,25,100,500,4000},{0.0,0.2078,0.2078,0.1671,0.1472,0.1334,0.1238}),"")
+  Formula: IFERROR(IF(OR(AZ22>=BB22,F22>=BB22),USD_EUR*LOOKUP(IF(AZ22="",F22,AZ22),{0,1,3,25,100,500,4000},{0.0,0.2078,0.2078,0.1671,0.1472,0.1334,0.1238}),"MOQ="&BB22),"")
   Styles:
-  - lessThanOrEqual G22 -> -/FF80FF80 (225)
- Col: AU
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: BB
+   3
+ Col: BC
    17.4771
-  Formula: IFERROR(IF(AS22="",F22,AS22)*AT22,"")
+  Formula: IFERROR(IF(AZ22="",F22,AZ22)*BA22,"")
   Styles:
-  - lessThanOrEqual H22 -> -/FF80FF80 (224)
- Col: AV
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: BD
    <a href="https://octopart.com/click/track?ai=8078&sig=0e3bb05&sid=1532&ppid=538117&vpid=709122533&ct=offers">NCP1117ST33T3G</a>
 Row: 23
  Col: A
@@ -1305,83 +1399,91 @@ Row: 23
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E23),ISBLANK(BA23),ISBLANK(M23),ISBLANK(R23),ISBLANK(W23),ISBLANK(AB23),ISBLANK(BF23),ISBLANK(AG23),ISBLANK(AL23),ISBLANK(AQ23),ISBLANK(AV23)) -> -/FFAAAAAA (305)
-  - =IF(SUM(AW23,I23,N23,S23,X23,BB23,AC23,AH23,AM23,AR23)=0,1,0) -> FFFFFFFF/FFFF0000 (306)
-  - greaterThan SUM(AW23,I23,N23,S23,X23,BB23,AC23,AH23,AM23,AR23) -> FF000000/FFFF9900 (307)
-  - greaterThan SUM(IF(ISNUMBER(AY23),AX23,0),IF(ISNUMBER(K23),J23,0),IF(ISNUMBER(P23),O23,0),IF(ISNUMBER(U23),T23,0),IF(ISNUMBER(Z23),Y23,0),IF(ISNUMBER(BD23),BC23,0),IF(ISNUMBER(AE23),AD23,0),IF(ISNUMBER(AJ23),AI23,0),IF(ISNUMBER(AO23),AN23,0),IF(ISNUMBER(AT23),AS23,0)) -> -/FFFFFF00 (308)
+  - =AND(ISBLANK(E23),ISBLANK(BI23),ISBLANK(M23),ISBLANK(S23),ISBLANK(Y23),ISBLANK(AE23),ISBLANK(BO23),ISBLANK(AK23),ISBLANK(AQ23),ISBLANK(AW23),ISBLANK(BC23)) -> -/FFAAAAAA
+  - =IF(SUM(BE23,I23,O23,U23,AA23,BK23,AG23,AM23,AS23,AY23)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(BE23,I23,O23,U23,AA23,BK23,AG23,AM23,AS23,AY23) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(BG23),BF23,0),IF(ISNUMBER(K23),J23,0),IF(ISNUMBER(Q23),P23,0),IF(ISNUMBER(W23),V23,0),IF(ISNUMBER(AC23),AB23,0),IF(ISNUMBER(BM23),BL23,0),IF(ISNUMBER(AI23),AH23,0),IF(ISNUMBER(AO23),AN23,0),IF(ISNUMBER(AU23),AT23,0),IF(ISNUMBER(BA23),AZ23,0)) -> -/FFFFFF00
  Col: G
    0.155
-  Formula: MINA(AY23,K23,P23,U23,Z23,BD23,AE23,AJ23,AO23,AT23)
+  Formula: IF(MIN(BG23,K23,Q23,W23,AC23,BM23,AI23,AO23,AU23,BA23)<>0,MIN(BG23,K23,Q23,W23,AC23,BM23,AI23,AO23,AU23,BA23),"")
  Col: H
    15.5
-  Formula: IFERROR(F23*G23,"")
- Col: N
+  Formula: IF(AND(ISNUMBER(F23),ISNUMBER(G23)),F23*G23,"")
+ Col: O
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (41)
-  - lessThan F23 -> FF000000/FFFF9900 (42)
- Col: P
-   0.1567
-  Formula: IFERROR(LOOKUP(IF(O23="",F23,O23),{0,1,10,25,50,100,250,500,1000,3000,6000,15000,30000},{0.0,0.19,0.191,0.1772,0.1764,0.1567,0.15468,0.15234,0.14826,0.14064,0.13328,0.13094,0.12782}),"")
-  Styles:
-  - lessThanOrEqual G23 -> -/FF80FF80 (45)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F23 -> FF000000/FFFF9900
  Col: Q
-   15.67
-  Formula: IFERROR(IF(O23="",F23,O23)*P23,"")
+   0.1567
+  Formula: IFERROR(IF(OR(P23>=R23,F23>=R23),LOOKUP(IF(P23="",F23,P23),{0,1,10,25,50,100,250,500,1000,3000,6000,15000,30000},{0.0,0.19,0.191,0.1772,0.1764,0.1567,0.15468,0.15234,0.14826,0.14064,0.13328,0.13094,0.12782}),"MOQ="&R23),"")
   Styles:
-  - lessThanOrEqual H23 -> -/FF80FF80 (44)
+  - lessThanOrEqual G23 -> -/FF80FF80
  Col: R
-   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=094dc74&sid=459&ppid=46637079&vpid=118264218&ct=offers">CAT24C32WI-GT3CT-ND</a>
+   1
  Col: S
+   15.67
+  Formula: IFERROR(IF(P23="",F23,P23)*Q23,"")
+  Styles:
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?c=1&ai=8078&sig=094dc74&sid=459&ppid=46637079&vpid=118264218&ct=offers">CAT24C32WI-GT3CT-ND</a>
+ Col: U
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (81)
-  - lessThan F23 -> FF000000/FFFF9900 (82)
- Col: U
-   0.1967596477
-  Formula: IFERROR(USD_GBP*LOOKUP(IF(T23="",F23,T23),{0,1,5,10,100,150,500,3000},{0.0,0.2,0.2,0.182,0.143,0.143,0.141,0.138}),"")
-  Styles:
-  - lessThanOrEqual G23 -> -/FF80FF80 (86)
- Col: V
-   19.676
-  Formula: IFERROR(IF(T23="",F23,T23)*U23,"")
-  Styles:
-  - lessThanOrEqual H23 -> -/FF80FF80 (85)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F23 -> FF000000/FFFF9900
  Col: W
+   0.1967596477
+  Formula: IFERROR(IF(OR(V23>=X23,F23>=X23),USD_GBP*LOOKUP(IF(V23="",F23,V23),{0,1,5,10,100,150,500,3000},{0.0,0.2,0.2,0.182,0.143,0.143,0.141,0.138}),"MOQ="&X23),"")
+  Styles:
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: X
+   5
+ Col: Y
+   19.676
+  Formula: IFERROR(IF(V23="",F23,V23)*W23,"")
+  Styles:
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: Z
    <a href="https://octopart.com/click/track?c=1&ai=8078&sig=00fe1ed&sid=11744&ppid=46637079&vpid=183084971&ct=offers">2463713</a>
- Col: AC
+ Col: AG
    14089
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (138)
-  - lessThan F23 -> FF000000/FFFF9900 (139)
- Col: AE
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: AI
    0.155
-  Formula: IFERROR(LOOKUP(IF(AD23="",F23,AD23),{0,1,10,50,100,1000,10000},{0.0,0.19,0.177,0.177,0.155,0.149,0.13}),"")
+  Formula: IFERROR(IF(OR(AH23>=AJ23,F23>=AJ23),LOOKUP(IF(AH23="",F23,AH23),{0,1,10,50,100,1000,10000},{0.0,0.19,0.177,0.177,0.155,0.149,0.13}),"MOQ="&AJ23),"")
   Styles:
-  - lessThanOrEqual G23 -> -/FF80FF80 (142)
- Col: AF
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
    15.5
-  Formula: IFERROR(IF(AD23="",F23,AD23)*AE23,"")
+  Formula: IFERROR(IF(AH23="",F23,AH23)*AI23,"")
   Styles:
-  - lessThanOrEqual H23 -> -/FF80FF80 (141)
- Col: AG
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: AL
    <a href="https://octopart.com/click/track?ai=8078&sig=0b7b182&sid=2401&ppid=46637079&vpid=458431801&ct=offers">698CAT24C32WIGT3</a>
- Col: AH
+ Col: AM
    233
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (174)
-  - lessThan F23 -> FF000000/FFFF9900 (175)
- Col: AJ
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: AO
    0.203
-  Formula: IFERROR(LOOKUP(IF(AI23="",F23,AI23),{0,1,10,100,500,3000,9000,24000,45000},{0.0,0.25,0.248,0.203,0.198,0.138,0.135,0.132,0.118}),"")
+  Formula: IFERROR(IF(OR(AN23>=AP23,F23>=AP23),LOOKUP(IF(AN23="",F23,AN23),{0,1,10,100,500,3000,9000,24000,45000},{0.0,0.25,0.248,0.203,0.198,0.138,0.135,0.132,0.118}),"MOQ="&AP23),"")
   Styles:
-  - lessThanOrEqual G23 -> -/FF80FF80 (178)
- Col: AK
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
    20.3
-  Formula: IFERROR(IF(AI23="",F23,AI23)*AJ23,"")
+  Formula: IFERROR(IF(AN23="",F23,AN23)*AO23,"")
   Styles:
-  - lessThanOrEqual H23 -> -/FF80FF80 (177)
- Col: AL
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: AR
    <a href="https://octopart.com/click/track?ai=8078&sig=0943c84&sid=2402&ppid=46637079&vpid=119031734&ct=offers">08R5414</a>
 Row: 25
  Col: B
@@ -1390,73 +1492,73 @@ Row: 25
    "Total Purchase:"
  Col: H
    0
-  Formula: SUM(AZ25,L25,Q25,V25,AA25,BE25,AF25,AK25,AP25,AU25)
+  Formula: SUM(BH25,L25,R25,X25,AD25,BN25,AJ25,AP25,AV25,BB25)
  Col: I
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: J
-  Formula: IFERROR(IF(OR(J7:J23),COUNTIFS(J7:J23,">0",L7:L23,"<>")&" of "&(ROWS(L7:L23)-COUNTBLANK(L7:L23))&" parts purchased",""),"")
- Col: L
+  Formula: IFERROR(IF(COUNTIFS(J7:J23,">0",M7:M23,">0")>0,COUNTIFS(J7:J23,">0",M7:M23,">0")&" of "&(ROWS(L7:L23)-COUNTBLANK(L7:L23))&" parts purchased",""),"")
+ Col: M
    0
-  Formula: SUMIF(J7:J23,">0",L7:L23)
- Col: N
-   <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
+  Formula: SUMIF(J7:J23,">0",M7:M23)
  Col: O
-  Formula: IFERROR(IF(OR(O7:O23),COUNTIFS(O7:O23,">0",Q7:Q23,"<>")&" of "&(ROWS(Q7:Q23)-COUNTBLANK(Q7:Q23))&" parts purchased",""),"")
- Col: Q
-   0
-  Formula: SUMIF(O7:O23,">0",Q7:Q23)
+   <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
+ Col: P
+  Formula: IFERROR(IF(COUNTIFS(P7:P23,">0",S7:S23,">0")>0,COUNTIFS(P7:P23,">0",S7:S23,">0")&" of "&(ROWS(R7:R23)-COUNTBLANK(R7:R23))&" parts purchased",""),"")
  Col: S
+   0
+  Formula: SUMIF(P7:P23,">0",S7:S23)
+ Col: U
    <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
- Col: T
-  Formula: IFERROR(IF(OR(T7:T23),COUNTIFS(T7:T23,">0",V7:V23,"<>")&" of "&(ROWS(V7:V23)-COUNTBLANK(V7:V23))&" parts purchased",""),"")
  Col: V
-   0
-  Formula: SUMIF(T7:T23,">0",V7:V23)
- Col: X
-   <a href="https://lcsc.com/bom.html">Buy here</a>
+  Formula: IFERROR(IF(COUNTIFS(V7:V23,">0",Y7:Y23,">0")>0,COUNTIFS(V7:V23,">0",Y7:Y23,">0")&" of "&(ROWS(X7:X23)-COUNTBLANK(X7:X23))&" parts purchased",""),"")
  Col: Y
-  Formula: IFERROR(IF(OR(Y7:Y23),COUNTIFS(Y7:Y23,">0",AA7:AA23,"<>")&" of "&(ROWS(AA7:AA23)-COUNTBLANK(AA7:AA23))&" parts purchased",""),"")
+   0
+  Formula: SUMIF(V7:V23,">0",Y7:Y23)
  Col: AA
+   <a href="https://lcsc.com/bom.html">Buy here</a>
+ Col: AB
+  Formula: IFERROR(IF(COUNTIFS(AB7:AB23,">0",AE7:AE23,">0")>0,COUNTIFS(AB7:AB23,">0",AE7:AE23,">0")&" of "&(ROWS(AD7:AD23)-COUNTBLANK(AD7:AD23))&" parts purchased",""),"")
+ Col: AE
    0
-  Formula: SUMIF(Y7:Y23,">0",AA7:AA23)
- Col: AC
+  Formula: SUMIF(AB7:AB23,">0",AE7:AE23)
+ Col: AG
    <a href="https://mouser.com/bom/">Buy here</a>
- Col: AD
-  Formula: IFERROR(IF(OR(AD7:AD23),COUNTIFS(AD7:AD23,">0",AF7:AF23,"<>")&" of "&(ROWS(AF7:AF23)-COUNTBLANK(AF7:AF23))&" parts purchased",""),"")
- Col: AF
-   0
-  Formula: SUMIF(AD7:AD23,">0",AF7:AF23)
  Col: AH
-   <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
- Col: AI
-  Formula: IFERROR(IF(OR(AI7:AI23),COUNTIFS(AI7:AI23,">0",AK7:AK23,"<>")&" of "&(ROWS(AK7:AK23)-COUNTBLANK(AK7:AK23))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIFS(AH7:AH23,">0",AK7:AK23,">0")>0,COUNTIFS(AH7:AH23,">0",AK7:AK23,">0")&" of "&(ROWS(AJ7:AJ23)-COUNTBLANK(AJ7:AJ23))&" parts purchased",""),"")
  Col: AK
    0
-  Formula: SUMIF(AI7:AI23,">0",AK7:AK23)
+  Formula: SUMIF(AH7:AH23,">0",AK7:AK23)
  Col: AM
-   <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
+   <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
  Col: AN
-  Formula: IFERROR(IF(OR(AN7:AN23),COUNTIFS(AN7:AN23,">0",AP7:AP23,"<>")&" of "&(ROWS(AP7:AP23)-COUNTBLANK(AP7:AP23))&" parts purchased",""),"")
- Col: AP
+  Formula: IFERROR(IF(COUNTIFS(AN7:AN23,">0",AQ7:AQ23,">0")>0,COUNTIFS(AN7:AN23,">0",AQ7:AQ23,">0")&" of "&(ROWS(AP7:AP23)-COUNTBLANK(AP7:AP23))&" parts purchased",""),"")
+ Col: AQ
    0
-  Formula: SUMIF(AN7:AN23,">0",AP7:AP23)
- Col: AR
-   <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
+  Formula: SUMIF(AN7:AN23,">0",AQ7:AQ23)
  Col: AS
-  Formula: IFERROR(IF(OR(AS7:AS23),COUNTIFS(AS7:AS23,">0",AU7:AU23,"<>")&" of "&(ROWS(AU7:AU23)-COUNTBLANK(AU7:AU23))&" parts purchased",""),"")
- Col: AU
+   <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
+ Col: AT
+  Formula: IFERROR(IF(COUNTIFS(AT7:AT23,">0",AW7:AW23,">0")>0,COUNTIFS(AT7:AT23,">0",AW7:AW23,">0")&" of "&(ROWS(AV7:AV23)-COUNTBLANK(AV7:AV23))&" parts purchased",""),"")
+ Col: AW
    0
-  Formula: SUMIF(AS7:AS23,">0",AU7:AU23)
- Col: AX
-  Formula: IFERROR(IF(OR(AX7:AX23),COUNTIFS(AX7:AX23,">0",AZ7:AZ23,"<>")&" of "&(ROWS(AZ7:AZ23)-COUNTBLANK(AZ7:AZ23))&" parts purchased",""),"")
+  Formula: SUMIF(AT7:AT23,">0",AW7:AW23)
+ Col: AY
+   <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
  Col: AZ
-   0
-  Formula: SUMIF(AX7:AX23,">0",AZ7:AZ23)
+  Formula: IFERROR(IF(COUNTIFS(AZ7:AZ23,">0",BC7:BC23,">0")>0,COUNTIFS(AZ7:AZ23,">0",BC7:BC23,">0")&" of "&(ROWS(BB7:BB23)-COUNTBLANK(BB7:BB23))&" parts purchased",""),"")
  Col: BC
-  Formula: IFERROR(IF(OR(BC7:BC23),COUNTIFS(BC7:BC23,">0",BE7:BE23,"<>")&" of "&(ROWS(BE7:BE23)-COUNTBLANK(BE7:BE23))&" parts purchased",""),"")
- Col: BE
    0
-  Formula: SUMIF(BC7:BC23,">0",BE7:BE23)
+  Formula: SUMIF(AZ7:AZ23,">0",BC7:BC23)
+ Col: BF
+  Formula: IFERROR(IF(COUNTIFS(BF7:BF23,">0",BI7:BI23,">0")>0,COUNTIFS(BF7:BF23,">0",BI7:BI23,">0")&" of "&(ROWS(BH7:BH23)-COUNTBLANK(BH7:BH23))&" parts purchased",""),"")
+ Col: BI
+   0
+  Formula: SUMIF(BF7:BF23,">0",BI7:BI23)
+ Col: BL
+  Formula: IFERROR(IF(COUNTIFS(BL7:BL23,">0",BO7:BO23,">0")>0,COUNTIFS(BL7:BL23,">0",BO7:BO23,">0")&" of "&(ROWS(BN7:BN23)-COUNTBLANK(BN7:BN23))&" parts purchased",""),"")
+ Col: BO
+   0
+  Formula: SUMIF(BL7:BL23,">0",BO7:BO23)
 Row: 26
  Col: B
    "USD($)/EUR(€):"
@@ -1466,29 +1568,29 @@ Row: 26
    "Purchase description:"
  Col: J
   Formula: CONCATENATE(J44,J45,J46,J47,J48,J49,J50,J51,J52,J53,J54,J55,J56,J57,J58,J59,J60)
- Col: O
-  Formula: CONCATENATE(O44,O45,O46,O47,O48,O49,O50,O51,O52,O53,O54,O55,O56,O57,O58,O59,O60)
- Col: T
-  Formula: CONCATENATE(T44,T45,T46,T47,T48,T49,T50,T51,T52,T53,T54,T55,T56,T57,T58,T59,T60)
- Col: Y
+ Col: P
+  Formula: CONCATENATE(P44,P45,P46,P47,P48,P49,P50,P51,P52,P53,P54,P55,P56,P57,P58,P59,P60)
+ Col: V
+  Formula: CONCATENATE(V44,V45,V46,V47,V48,V49,V50,V51,V52,V53,V54,V55,V56,V57,V58,V59,V60)
+ Col: AB
    "Copy this header and order to a CSV
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
 "#" symbol are not allowed by JLCPCB."
-  Formula: CONCATENATE(Y61,Y44,Y45,Y46,Y47,Y48,Y49,Y50,Y51,Y52,Y53,Y54,Y55,Y56,Y57,Y58,Y59,Y60)
- Col: AD
-  Formula: CONCATENATE(AD44,AD45,AD46,AD47,AD48,AD49,AD50,AD51,AD52,AD53,AD54,AD55,AD56,AD57,AD58,AD59,AD60)
- Col: AI
-  Formula: CONCATENATE(AI44,AI45,AI46,AI47,AI48,AI49,AI50,AI51,AI52,AI53,AI54,AI55,AI56,AI57,AI58,AI59,AI60)
+  Formula: CONCATENATE(AB61,AB44,AB45,AB46,AB47,AB48,AB49,AB50,AB51,AB52,AB53,AB54,AB55,AB56,AB57,AB58,AB59,AB60)
+ Col: AH
+  Formula: CONCATENATE(AH44,AH45,AH46,AH47,AH48,AH49,AH50,AH51,AH52,AH53,AH54,AH55,AH56,AH57,AH58,AH59,AH60)
  Col: AN
   Formula: CONCATENATE(AN44,AN45,AN46,AN47,AN48,AN49,AN50,AN51,AN52,AN53,AN54,AN55,AN56,AN57,AN58,AN59,AN60)
- Col: AS
-  Formula: CONCATENATE(AS44,AS45,AS46,AS47,AS48,AS49,AS50,AS51,AS52,AS53,AS54,AS55,AS56,AS57,AS58,AS59,AS60)
- Col: AX
-  Formula: CONCATENATE(AX44,AX45,AX46,AX47,AX48,AX49,AX50,AX51,AX52,AX53,AX54,AX55,AX56,AX57,AX58,AX59,AX60)
- Col: BC
-  Formula: CONCATENATE(BC44,BC45,BC46,BC47,BC48,BC49,BC50,BC51,BC52,BC53,BC54,BC55,BC56,BC57,BC58,BC59,BC60)
+ Col: AT
+  Formula: CONCATENATE(AT44,AT45,AT46,AT47,AT48,AT49,AT50,AT51,AT52,AT53,AT54,AT55,AT56,AT57,AT58,AT59,AT60)
+ Col: AZ
+  Formula: CONCATENATE(AZ44,AZ45,AZ46,AZ47,AZ48,AZ49,AZ50,AZ51,AZ52,AZ53,AZ54,AZ55,AZ56,AZ57,AZ58,AZ59,AZ60)
+ Col: BF
+  Formula: CONCATENATE(BF44,BF45,BF46,BF47,BF48,BF49,BF50,BF51,BF52,BF53,BF54,BF55,BF56,BF57,BF58,BF59,BF60)
+ Col: BL
+  Formula: CONCATENATE(BL44,BL45,BL46,BL47,BL48,BL49,BL50,BL51,BL52,BL53,BL54,BL55,BL56,BL57,BL58,BL59,BL60)
 Row: 27
  Col: B
    "USD($)/GBP(£):"
@@ -1499,361 +1601,361 @@ Row: 29
    "*FILTERED*"
 Row: 44
  Col: J
-  Formula: IF(ISNUMBER(J7:J23)*(J7:J23>0)*(M7:M23<>""),M7:M23&","&TEXT(J7:J23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
- Col: O
-  Formula: IF(ISNUMBER(O7:O23)*(O7:O23>0)*(R7:R23<>""),TEXT(O7:O23,"##0")&","&R7:R23&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
- Col: T
-  Formula: IF(ISNUMBER(T7:T23)*(T7:T23>0)*(W7:W23<>""),W7:W23&","&TEXT(T7:T23,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";"),"\n",";"),30)&CHAR(10),"")
- Col: Y
-  Formula: IF(ISNUMBER(Y7:Y23)*(Y7:Y23>0)*(AB7:AB23<>""),TEXT(Y7:Y23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C23,",",";")&","&AB7:AB23&CHAR(10),"")
- Col: AD
-  Formula: IF(ISNUMBER(AD7:AD23)*(AD7:AD23>0)*(AG7:AG23<>""),AG7:AG23&"|"&TEXT(AD7:AD23,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,"|",";")," ","_")&CHAR(10),"")
- Col: AI
-  Formula: IF(ISNUMBER(AI7:AI23)*(AI7:AI23>0)*(AL7:AL23<>""),AL7:AL23&","&TEXT(AI7:AI23,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";"),"\n",";")&","&""&CHAR(10),"")
+  Formula: IF(ISNUMBER(J7:J23)*(J7:J23>=L7:L23)*(N7:N23<>""),N7:N23&","&TEXT(J7:J23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
+ Col: P
+  Formula: IF(ISNUMBER(P7:P23)*(P7:P23>=R7:R23)*(T7:T23<>""),TEXT(P7:P23,"##0")&","&T7:T23&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
+ Col: V
+  Formula: IF(ISNUMBER(V7:V23)*(V7:V23>=X7:X23)*(Z7:Z23<>""),Z7:Z23&","&TEXT(V7:V23,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";"),"\n",";"),30)&CHAR(10),"")
+ Col: AB
+  Formula: IF(ISNUMBER(AB7:AB23)*(AB7:AB23>=AD7:AD23)*(AF7:AF23<>""),TEXT(AB7:AB23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C23,",",";")&","&AF7:AF23&CHAR(10),"")
+ Col: AH
+  Formula: IF(ISNUMBER(AH7:AH23)*(AH7:AH23>=AJ7:AJ23)*(AL7:AL23<>""),AL7:AL23&"|"&TEXT(AH7:AH23,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,"|",";")," ","_")&CHAR(10),"")
  Col: AN
-  Formula: IF(ISNUMBER(AN7:AN23)*(AN7:AN23>0)*(AQ7:AQ23<>""),AQ7:AQ23&","&TEXT(AN7:AN23,"##0")&","&""&","&""&","&""&","&E7:E23&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
- Col: AS
-  Formula: IF(ISNUMBER(AS7:AS23)*(AS7:AS23>0)*(AV7:AV23<>""),AV7:AV23&" "&TEXT(AS7:AS23,"##0")&" "&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23," ",";")&CHAR(10),"")
- Col: AX
-  Formula: IF(ISNUMBER(AX7:AX23)*(AX7:AX23>0)*(BA7:BA23<>""),BA7:BA23&","&TEXT(AX7:AX23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
- Col: BC
-  Formula: IF(ISNUMBER(BC7:BC23)*(BC7:BC23>0)*(BF7:BF23<>""),BF7:BF23&","&TEXT(BC7:BC23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(AN7:AN23)*(AN7:AN23>=AP7:AP23)*(AR7:AR23<>""),AR7:AR23&","&TEXT(AN7:AN23,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";"),"\n",";")&","&""&CHAR(10),"")
+ Col: AT
+  Formula: IF(ISNUMBER(AT7:AT23)*(AT7:AT23>=AV7:AV23)*(AX7:AX23<>""),AX7:AX23&","&TEXT(AT7:AT23,"##0")&","&""&","&""&","&""&","&E7:E23&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
+ Col: AZ
+  Formula: IF(ISNUMBER(AZ7:AZ23)*(AZ7:AZ23>=BB7:BB23)*(BD7:BD23<>""),BD7:BD23&" "&TEXT(AZ7:AZ23,"##0")&" "&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23," ",";")&CHAR(10),"")
+ Col: BF
+  Formula: IF(ISNUMBER(BF7:BF23)*(BF7:BF23>=BH7:BH23)*(BJ7:BJ23<>""),BJ7:BJ23&","&TEXT(BF7:BF23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
+ Col: BL
+  Formula: IF(ISNUMBER(BL7:BL23)*(BL7:BL23>=BN7:BN23)*(BP7:BP23<>""),BP7:BP23&","&TEXT(BL7:BL23,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A23,",",";")&CHAR(10),"")
 Row: 45
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 46
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 47
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 48
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 49
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 50
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 51
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 52
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 53
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 54
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 55
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 56
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 57
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 58
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 59
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 60
  Col: J
    0
- Col: O
+ Col: P
    0
- Col: T
+ Col: V
    0
- Col: Y
+ Col: AB
    0
- Col: AD
-   0
- Col: AI
+ Col: AH
    0
  Col: AN
    0
- Col: AS
+ Col: AT
    0
- Col: AX
+ Col: AZ
    0
- Col: BC
+ Col: BF
+   0
+ Col: BL
    0
 Row: 61
- Col: Y
-  Formula: IFERROR(IF(COUNTIFS(Y7:Y23,">0",AA7:AA23,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+ Col: AB
+  Formula: IFERROR(IF(COUNTIFS(AB7:AB23,">0",AE7:AE23,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")

@@ -32,12 +32,12 @@ Row: 3
  Col: H
    74.4
   Formula: SUM(H7:H13)
- Col: L
-   74.4
-  Formula: SUM(L7:L13)
  Col: M
+   74.4
+  Formula: SUM(M7:M13)
+ Col: N
    "1 of 7 parts found"
-  Formula: (COUNTA(L7:L13)&" of "&ROWS(L7:L13)&" parts found")
+  Formula: (COUNTA(M7:M13)&" of "&ROWS(M7:M13)&" parts found")
 Row: 4
  Col: A
    "$ date:"
@@ -72,8 +72,10 @@ Row: 6
  Col: K
    "Unit$"
  Col: L
-   "Ext$"
+   "MOQ"
  Col: M
+   "Ext$"
+ Col: N
    "Cat#"
 Row: 7
  Col: A
@@ -86,16 +88,14 @@ Row: 7
    600
   Formula: CEILING(BoardQty*6,1)
   Styles:
-  - =AND(ISBLANK(E7),ISBLANK(M7)) -> -/FFAAAAAA (4)
-  - =IF(SUM(I7)=0,1,0) -> FFFFFFFF/FFFF0000 (5)
-  - greaterThan SUM(I7) -> FF000000/FFFF9900 (6)
-  - greaterThan SUM(IF(ISNUMBER(K7),J7,0)) -> -/FFFFFF00 (7)
+  - =AND(ISBLANK(E7),ISBLANK(M7)) -> -/FFAAAAAA
+  - =IF(SUM(I7)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I7) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K7),J7,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(K7)
+  Formula: IF(MIN(K7)<>0,MIN(K7),"")
  Col: H
-   0
-  Formula: IFERROR(F7*G7,"")
+  Formula: IF(AND(ISNUMBER(F7),ISNUMBER(G7)),F7*G7,"")
 Row: 8
  Col: A
    "JP1-JP4"
@@ -107,16 +107,14 @@ Row: 8
    400
   Formula: CEILING(BoardQty*4,1)
   Styles:
-  - =AND(ISBLANK(E8),ISBLANK(M8)) -> -/FFAAAAAA (8)
-  - =IF(SUM(I8)=0,1,0) -> FFFFFFFF/FFFF0000 (9)
-  - greaterThan SUM(I8) -> FF000000/FFFF9900 (10)
-  - greaterThan SUM(IF(ISNUMBER(K8),J8,0)) -> -/FFFFFF00 (11)
+  - =AND(ISBLANK(E8),ISBLANK(M8)) -> -/FFAAAAAA
+  - =IF(SUM(I8)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I8) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K8),J8,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(K8)
+  Formula: IF(MIN(K8)<>0,MIN(K8),"")
  Col: H
-   0
-  Formula: IFERROR(F8*G8,"")
+  Formula: IF(AND(ISNUMBER(F8),ISNUMBER(G8)),F8*G8,"")
 Row: 9
  Col: A
    "PCB1"
@@ -126,19 +124,17 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(E9),ISBLANK(M9)) -> -/FFAAAAAA (12)
-  - =IF(SUM(I9)=0,1,0) -> FFFFFFFF/FFFF0000 (13)
-  - greaterThan SUM(I9) -> FF000000/FFFF9900 (14)
-  - greaterThan SUM(IF(ISNUMBER(K9),J9,0)) -> -/FFFFFF00 (15)
+  - =AND(ISBLANK(E9),ISBLANK(M9)) -> -/FFAAAAAA
+  - =IF(SUM(I9)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I9) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K9),J9,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(K9)
+  Formula: IF(MIN(K9)<>0,MIN(K9),"")
  Col: H
-   0
-  Formula: IFERROR(F9*G9,"")
+  Formula: IF(AND(ISNUMBER(F9),ISNUMBER(G9)),F9*G9,"")
  Col: I
    "NonStk"
- Col: M
+ Col: N
    "#NO_CATALOG0002"
 Row: 10
  Col: A
@@ -155,16 +151,14 @@ Row: 10
    100
   Formula: CEILING(BoardQty*1.0,1)
   Styles:
-  - =AND(ISBLANK(E10),ISBLANK(M10)) -> -/FFAAAAAA (16)
-  - =IF(SUM(I10)=0,1,0) -> FFFFFFFF/FFFF0000 (17)
-  - greaterThan SUM(I10) -> FF000000/FFFF9900 (18)
-  - greaterThan SUM(IF(ISNUMBER(K10),J10,0)) -> -/FFFFFF00 (19)
+  - =AND(ISBLANK(E10),ISBLANK(M10)) -> -/FFAAAAAA
+  - =IF(SUM(I10)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I10) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K10),J10,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(K10)
+  Formula: IF(MIN(K10)<>0,MIN(K10),"")
  Col: H
-   0
-  Formula: IFERROR(F10*G10,"")
+  Formula: IF(AND(ISNUMBER(F10),ISNUMBER(G10)),F10*G10,"")
 Row: 11
  Col: A
    "RN2"
@@ -176,16 +170,14 @@ Row: 11
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(E11),ISBLANK(M11)) -> -/FFAAAAAA (20)
-  - =IF(SUM(I11)=0,1,0) -> FFFFFFFF/FFFF0000 (21)
-  - greaterThan SUM(I11) -> FF000000/FFFF9900 (22)
-  - greaterThan SUM(IF(ISNUMBER(K11),J11,0)) -> -/FFFFFF00 (23)
+  - =AND(ISBLANK(E11),ISBLANK(M11)) -> -/FFAAAAAA
+  - =IF(SUM(I11)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I11) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K11),J11,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(K11)
+  Formula: IF(MIN(K11)<>0,MIN(K11),"")
  Col: H
-   0
-  Formula: IFERROR(F11*G11,"")
+  Formula: IF(AND(ISNUMBER(F11),ISNUMBER(G11)),F11*G11,"")
 Row: 12
  Col: A
    "ROT1,ROT2"
@@ -201,28 +193,30 @@ Row: 12
    200
   Formula: CEILING(BoardQty*2.0,1)
   Styles:
-  - =AND(ISBLANK(E12),ISBLANK(M12)) -> -/FFAAAAAA (24)
-  - =IF(SUM(I12)=0,1,0) -> FFFFFFFF/FFFF0000 (25)
-  - greaterThan SUM(I12) -> FF000000/FFFF9900 (26)
-  - greaterThan SUM(IF(ISNUMBER(K12),J12,0)) -> -/FFFFFF00 (27)
+  - =AND(ISBLANK(E12),ISBLANK(M12)) -> -/FFAAAAAA
+  - =IF(SUM(I12)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I12) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K12),J12,0)) -> -/FFFFFF00
  Col: G
    0.372
-  Formula: MINA(K12)
+  Formula: IF(MIN(K12)<>0,MIN(K12),"")
  Col: H
    74.4
-  Formula: IFERROR(F12*G12,"")
+  Formula: IF(AND(ISNUMBER(F12),ISNUMBER(G12)),F12*G12,"")
  Col: I
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000 (1)
-  - lessThan F12 -> FF000000/FFFF9900 (2)
+  - equal 0 -> FFFFFFFF/FFFF0000
+  - lessThan F12 -> FF000000/FFFF9900
  Col: K
    0.372
-  Formula: IFERROR(LOOKUP(IF(J12="",F12,J12),{0,1},{0.0,0.372}),"")
+  Formula: IFERROR(IF(OR(J12>=L12,F12>=L12),LOOKUP(IF(J12="",F12,J12),{0,1},{0.0,0.372}),"MOQ="&L12),"")
  Col: L
+   1
+ Col: M
    74.4
   Formula: IFERROR(IF(J12="",F12,J12)*K12,"")
- Col: M
+ Col: N
    "PEC11R-4220F-S0024"
 Row: 13
  Col: A
@@ -235,19 +229,17 @@ Row: 13
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(E13),ISBLANK(M13)) -> -/FFAAAAAA (28)
-  - =IF(SUM(I13)=0,1,0) -> FFFFFFFF/FFFF0000 (29)
-  - greaterThan SUM(I13) -> FF000000/FFFF9900 (30)
-  - greaterThan SUM(IF(ISNUMBER(K13),J13,0)) -> -/FFFFFF00 (31)
+  - =AND(ISBLANK(E13),ISBLANK(M13)) -> -/FFAAAAAA
+  - =IF(SUM(I13)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I13) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K13),J13,0)) -> -/FFFFFF00
  Col: G
-   0
-  Formula: MINA(K13)
+  Formula: IF(MIN(K13)<>0,MIN(K13),"")
  Col: H
-   0
-  Formula: IFERROR(F13*G13,"")
+  Formula: IF(AND(ISNUMBER(F13),ISNUMBER(G13)),F13*G13,"")
  Col: I
    "NonStk"
- Col: M
+ Col: N
    <a href="http://www.aliexpress.com/item/100pcs-lot-2-54mm-Pitch-2-x-40-Pins-Male-Double-Row-Right-Angle-Pin/32356294930.html">#NO_CATALOG0001</a>
 Row: 15
  Col: G
@@ -256,10 +248,10 @@ Row: 15
    0
   Formula: SUM(L15)
  Col: J
-  Formula: IFERROR(IF(OR(J7:J13),COUNTIFS(J7:J13,">0",L7:L13,"<>")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")
- Col: L
+  Formula: IFERROR(IF(COUNTIFS(J7:J13,">0",M7:M13,">0")>0,COUNTIFS(J7:J13,">0",M7:M13,">0")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")
+ Col: M
    0
-  Formula: SUMIF(J7:J13,">0",L7:L13)
+  Formula: SUMIF(J7:J13,">0",M7:M13)
 Row: 16
  Col: A
    "*FILTERED*"
@@ -269,7 +261,7 @@ Row: 16
   Formula: CONCATENATE(J24,J25,J26,J27,J28,J29,J30)
 Row: 24
  Col: J
-  Formula: IF(ISNUMBER(J7:J13)*(J7:J13>0)*(M7:M13<>""),M7:M13&","&TEXT(J7:J13,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A13,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(J7:J13)*(J7:J13>=L7:L13)*(N7:N13<>""),N7:N13&","&TEXT(J7:J13,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A13,",",";")&CHAR(10),"")
 Row: 25
  Col: J
    0

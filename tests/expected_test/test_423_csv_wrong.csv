@@ -1,14 +1,14 @@
-Prj:,test_423_wrong.csv,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
-Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-J6,???,???,9551667812741,100,0,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj:,test_423_wrong.csv,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,,,,,Unit Cost:,0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Global Part Info,,,,,,,Arrow,,,,,,Digi-Key,,,,,,Farnell,,,,,,LCSC,,,,,,Mouser,,,,,,Newark,,,,,,RS Components,,,,,,TME,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#
+J6,???,???,9551667812741,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
+,,,,,Total Purchase:,0,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
-""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

@@ -2,7 +2,7 @@ Prj:,KiBom Variant 2,,,,,,Board Qty:,100
 Prj date:,2021-01-02,,,,,,Total Cost:,0
 Global Part Info,,,,,,,,
 Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$
-C1,1nF,"One manufacturer, unknown manf#",,variant1manf,,100,,0
-C2,1nF,"Another manufacturer, unknown manf#",,defaultmanf,,100,,0
+C1,1nF,"One manufacturer, unknown manf#",,variant1manf,,100,,
+C2,1nF,"Another manufacturer, unknown manf#",,defaultmanf,,100,,
 
 

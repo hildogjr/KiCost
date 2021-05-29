@@ -63,10 +63,9 @@ Row: 7
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(D7),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E7*F7,"")
+  Formula: IF(AND(ISNUMBER(E7),ISNUMBER(F7)),E7*F7,"")
 Row: 8
  Col: A
    "R1"
@@ -76,10 +75,9 @@ Row: 8
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D8),TRUE()) -> -/FFAAAAAA (2)
+  - =AND(ISBLANK(D8),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E8*F8,"")
+  Formula: IF(AND(ISNUMBER(E8),ISNUMBER(F8)),E8*F8,"")
 Row: 9
  Col: A
    "R2"
@@ -89,10 +87,9 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D9),TRUE()) -> -/FFAAAAAA (3)
+  - =AND(ISBLANK(D9),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E9*F9,"")
+  Formula: IF(AND(ISNUMBER(E9),ISNUMBER(F9)),E9*F9,"")
 Row: 12
  Col: A
    "*FILTERED*"

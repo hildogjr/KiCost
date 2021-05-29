@@ -1,14 +1,14 @@
-Prj:,test_423_ok.csv,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,,,,,Unit Cost:,3.7754,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
-Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-J6,???,???,09551667812741,100,3.7754,377.54,,,,,,490,,3.7754,377.54,1195-8194-1-ND,,,,,,,,,,,NonStk,,4.2,420,61709551667812741,,,,,,,,,,,,,,,
+Prj:,test_423_ok.csv,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,,,,,Unit Cost:,3.7754,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Global Part Info,,,,,,,Arrow,,,,,,Digi-Key,,,,,,Farnell,,,,,,LCSC,,,,,,Mouser,,,,,,Newark,,,,,,RS Components,,,,,,TME,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#
+J6,???,???,09551667812741,100,3.7754,377.54,,,,,,,490,,3.7754,1,377.54,1195-8194-1-ND,,,,,,,,,,,,,NonStk,,4.2,1,420,61709551667812741,,,,,,,,,,,,,,,,,,
 
-,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
+,,,,,Total Purchase:,0,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
-""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

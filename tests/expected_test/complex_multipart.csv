@@ -1,20 +1,20 @@
-Prj:,Complex multipart,,,,,,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,2021-01-02,,,,,,,,,,Total Cost:,9.4984,,,,0,0 of 3 parts found,,,,0,0 of 3 parts found,,,,0,0 of 3 parts found,,,,0,0 of 3 parts found,,,,70.2,2 of 3 parts found,,,,0,0 of 3 parts found,,,,0,0 of 3 parts found,,,,0,0 of 3 parts found,,,,9.4984,3 of 3 parts found
-Global Part Info,,,,,,,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,,we,,,,
-Refs,Value,Desc,S1MN,S1PN,S2MN,S2PN,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-F1#1,F-6A/250V - p1/3,FUSE HOLDER for fuse 5mm x 20mm,Eaton,BK-1A3399-10-R:2,Bussman,1A3399-10-R:2,,Wurth Electronik,696101000002,100,0.083111,8.3111,,,,,,,,,,,,,,,,,,,,,767,,0.531,53.1,710696101000002,,,,,,,,,,,,,,,,NonStk,,0.083111,8.3111,696101000002
-F1#2,F-6A/250V - p2/3,FUSE HOLDER for fuse 5mm x 20mm,,,,,,Bel Fuse,5MF 6-R,100,0,0,,,,,,,,,,,,,,,,,,,,,7857,,0.171,17.1,5305MF6R,,,,,,,,,,,,,,,,NonStk,,0,0,5MF 6-R
-F1#3,F-6A/250V - p3/3,FUSE HOLDER for fuse 5mm x 20mm,Cover clip?,Cover clip?,Cover clip?,Cover clip?,,Wurth Electronik,695120004001,100,0.011873,1.1873,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.011873,1.1873,695120004001
+Prj:,Complex multipart,,,,,,,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,2021-01-02,,,,,,,,,,Total Cost:,9.4984,,,,,0,0 of 3 parts found,,,,,0,0 of 3 parts found,,,,,0,0 of 3 parts found,,,,,0,0 of 3 parts found,,,,,70.2,2 of 3 parts found,,,,,0,0 of 3 parts found,,,,,0,0 of 3 parts found,,,,,0,0 of 3 parts found,,,,,9.4984,3 of 3 parts found
+Global Part Info,,,,,,,,,,,,,Arrow,,,,,,Digi-Key,,,,,,Farnell,,,,,,LCSC,,,,,,Mouser,,,,,,Newark,,,,,,RS Components,,,,,,TME,,,,,,we,,,,,
+Refs,Value,Desc,S1MN,S1PN,S2MN,S2PN,Footprint,Manf,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#
+F1#1,F-6A/250V - p1/3,FUSE HOLDER for fuse 5mm x 20mm,Eaton,BK-1A3399-10-R:2,Bussman,1A3399-10-R:2,,Wurth Electronik,696101000002,100,0.083111,8.3111,,,,,,,,,,,,,,,,,,,,,,,,,767,,0.531,1,53.1,710696101000002,,,,,,,,,,,,,,,,,,,NonStk,,0.083111,1,8.3111,696101000002
+F1#2,F-6A/250V - p2/3,FUSE HOLDER for fuse 5mm x 20mm,,,,,,Bel Fuse,5MF 6-R,100,,,,,,,,,,,,,,,,,,,,,,,,,,,7857,,0.171,1,17.1,5305MF6R,,,,,,,,,,,,,,,,,,,NonStk,,0,0,0,5MF 6-R
+F1#3,F-6A/250V - p3/3,FUSE HOLDER for fuse 5mm x 20mm,Cover clip?,Cover clip?,Cover clip?,Cover clip?,,Wurth Electronik,695120004001,100,0.011873,1.1873,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NonStk,,0.011873,1,1.1873,695120004001
 
-,Used currency rates:,,,,,,,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,,,,0,
-,USD($)/EUR(€):,1.1873,,,,,,,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
+,Used currency rates:,,,,,,,,,,Total Purchase:,0,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,,,,,0,
+,USD($)/EUR(€):,1.1873,,,,,,,,,Purchase description:,,,,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
-""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
 
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-,,,,,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,,,0,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,,,0,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

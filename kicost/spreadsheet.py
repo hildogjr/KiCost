@@ -52,7 +52,9 @@ __all__ = ['create_spreadsheet', 'create_worksheet', 'Spreadsheet']
 
 
 # This function is not the same for all xlsxwriter version, generating uncosistent outputs
-def xl_range(first_row, first_col, last_row, last_col=None):
+def xl_range(first_row, first_col, last_row=None, last_col=None):
+    if last_row is None:
+        last_row = first_row
     if last_col is None:
         last_col = first_col
     range1 = xl_rowcol_to_cell(first_row, first_col)
@@ -217,15 +219,23 @@ class Spreadsheet(object):
             'width': 9,  # Displays up to $99,999.999 without "###".
             'comment': 'Unit price of each part from this distributor.\nGreen -> lowest price across distributors.'
         },
-        'ext_price': {
+        'moq': {
             'col': 3,
+            'level': 3,
+            'label': 'MOQ',
+            'width': None,
+            'collapsed': 1,
+            'comment': 'Minimum Order Quantity. You must buy at least this ammount of components.'
+        },
+        'ext_price': {
+            'col': 4,
             'level': 0,
             'label': 'Ext$',
             'width': 15,  # Displays up to $9,999,999.99 without "###".
             'comment': '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -> Next price break is cheaper.\nGreen -> Cheapest supplier.'
         },
         'part_num': {
-            'col': 4,
+            'col': 5,
             'level': 2,
             'label': 'Cat#',
             'width': 15,
@@ -278,6 +288,7 @@ class Spreadsheet(object):
         self.col_widths = {}
         self.row_heights = {}
         self.col_levels = {}
+        self.collapsed = set()
 
     def set_currency(self, currency):
         if currency:
@@ -339,23 +350,34 @@ class Spreadsheet(object):
         for i, width in self.col_widths.items():
             level = self.col_levels.get(i, 0)
             if level:
-                self.wks.set_column(i, i, width + 1, None, {'level': level})
+                ops = {'level': level}
+                if i in self.collapsed:
+                    # Libreoffice 7 workaround: collapsed cols aren't collapsed at start-up
+                    ops['hidden'] = 1
+                    ops['collapsed'] = 1
+                self.wks.set_column(i, i, width + 1, None, ops)
             else:
                 self.wks.set_column(i, i, width + 1)
         # Set the level for the columns that we didn't adjust
         for i, level in self.col_levels.items():
             if i not in self.col_widths:
-                self.wks.set_column(i, i, None, None, {'level': level})
+                ops = {'level': level}
+                if i in self.collapsed:
+                    ops['hidden'] = 1
+                    ops['collapsed'] = 1
+                self.wks.set_column(i, i, None, None, ops)
         for r, height in self.row_heights.items():
             self.wks.set_row(r, 15.0 * height * self.ADJUST_WEIGHT)
 
-    def set_column(self, col, width, level):
+    def set_column(self, col, width, level, collapsed=None):
         if self.ADJUST_ROW_AND_COL_SIZE:
             # Add it to the computation
             if width is not None:
                 self.col_widths[col] = max(self.col_widths.get(col, 0), width)
             if level:
                 self.col_levels[col] = level
+            if collapsed:
+                self.collapsed.add(col)
         else:
             # Do it now
             self.wks.set_column(col, col, width, None, {'level': level})
@@ -384,14 +406,18 @@ class Spreadsheet(object):
         self.wks.write(row, col, self.DATE_FIELD_LABEL, self.wrk_formats['proj_info_field'])
         self.wks.write(row, col+1, datetime.now().strftime("%Y-%m-%d %H:%M:%S"), self.wrk_formats['proj_info'])
 
-    def conditional_format(self, row, col, criteria, format, value=None):
+    def conditional_format_r(self, rng, criteria, format, value=None):
+        # Ranges didn't seem to be working on LibreOffice 7.0.4.2
         if value is None:
             ops = {'type': 'formula'}
         else:
             ops = {'type': 'cell', 'value': value}
         ops['criteria'] = criteria
         ops['format'] = self.wrk_formats[format]
-        self.wks.conditional_format(row, col, row, col, ops)
+        self.wks.conditional_format(rng, ops)
+
+    def conditional_format(self, row, col, criteria, format, value=None):
+        self.conditional_format_r(xl_range(row, col, row), criteria, format, value)
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currency=DEFAULT_CURRENCY,
@@ -466,7 +492,8 @@ def create_worksheet(ss, logger, parts):
     COL_HDR_ROW = LABEL_ROW + 1
     if not ss.SUPPRESS_CAT_URL:
         # Add a extra column for the hyperlink.
-        ss.DISTRIBUTOR_COLUMNS.update({'link': {'col': 5, 'level': 2, 'label': 'URL', 'width': 15, 'comment': 'Distributor catalog link (ctrl-click).'}})
+        d_width = len(ss.DISTRIBUTOR_COLUMNS)
+        ss.DISTRIBUTOR_COLUMNS.update({'link': {'col': d_width, 'level': 2, 'label': 'URL', 'width': 15, 'comment': 'Distributor catalog link (ctrl-click).'}})
         ss.DISTRIBUTOR_COLUMNS['part_num']['comment'] = 'Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.'
 
     # Make a list of alphabetically-ordered distributors with web distributors before locals.
@@ -792,13 +819,16 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
                 if q:
                     total_cost_l[i] += q * unit_price
         # Enter the spreadsheet formula for calculating the minimum extended price (based on the unit price found on next formula).
-        formula = '=IFERROR({qty}*{unit_price},"")'.format(qty=xl_rowcol_to_cell(row, col_qty), unit_price=xl_rowcol_to_cell(row, col_unit_price))
-        wks.write_formula(row, col_ext_price, formula, ss.wrk_formats['currency'], value=round(ext_price, 4))
+        formula = '=IF(AND(ISNUMBER({qty}),ISNUMBER({unit_price})),{qty}*{unit_price},"")'.format(
+                  qty=xl_rowcol_to_cell(row, col_qty), unit_price=xl_rowcol_to_cell(row, col_unit_price))
+        wks.write_formula(row, col_ext_price, formula, ss.wrk_formats['currency'], value=round(ext_price, 4) if ext_price else '')
 
         # Minimum unit price
         if ss.DISTRIBUTORS:
             # Enter the spreadsheet formula to find this part's minimum unit price across all distributors.
-            wks.write_formula(row, col_unit_price, '=MINA({})'.format(','.join(dist_unit_prices)), ss.wrk_formats['currency_unit'], value=unit_price)
+            values = ','.join(dist_unit_prices)
+            wks.write_formula(row, col_unit_price, '=IF(MIN({v})<>0,MIN({v}),"")'.format(v=values), ss.wrk_formats['currency_unit'],
+                              value=unit_price if unit_price else '')
             # If part is unavailable from all distributors, color quantity cell red.
             ss.conditional_format(row, col_qty, '=IF(SUM({})=0,1,0)'.format(','.join(dist_qty_avail)), 'not_available')
             # If total available part quantity is less than needed quantity, color cell orange.
@@ -903,7 +933,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
         col = start_col + v['col']  # Column index for this column.
         ss.write_string(row, col, v['label'], 'header')
         wks.write_comment(row, col, v['comment'])
-        ss.set_column(col, v['width'], v['level'])
+        ss.set_column(col, v['width'], v['level'], v.get('collapsed'))
     row += 1  # Go to next row.
 
     num_parts = len(parts)
@@ -916,6 +946,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     col_purch = start_col + columns['purch']['col']
     col_unit_price = start_col + columns['unit_price']['col']
     col_ext_price = start_col + columns['ext_price']['col']
+    col_moq = start_col + columns['moq']['col']
     total_cost = 0
     # How many parts were found at this distributor
     n_price_found = 0
@@ -1012,29 +1043,37 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
                 price_break_info += '\n{:>6d} {:>7s} {:>10s}'.format(q, price_fmt, priceq_fmt)
             # Add the formula
             unit_price *= rate_n
-            if part.min_price is None or unit_price < part.min_price:
-                # TODO: I don't think we should take values with moq > part.qty_total_spreadsheet (SET)
-                part.min_price = unit_price
-            wks.write_formula(row, col_unit_price, '=IFERROR({rate}LOOKUP(IF({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}}),"")'.format(
-                              rate=rate,
-                              needed_qty=part_qty_cell,
-                              purch_qty=purch_cell,
-                              qtys=','.join([str(q) for q in qtys]),
-                              prices=','.join([str(price_tiers[q]) for q in qtys])), ss.wrk_formats['currency_unit'],
-                              value=unit_price)
+            # This is the price lookup
+            uprice_f = ('{rate}LOOKUP(IF({purch_qty}="",{needed_qty},{purch_qty}),{{{qtys}}},{{{prices}}})'.
+                        format(rate=rate, needed_qty=part_qty_cell, purch_qty=purch_cell, qtys=','.join([str(q) for q in qtys]),
+                               prices=','.join([str(price_tiers[q]) for q in qtys])))
+            # But discard it if the ammount isn't enough to cover the MOQ
+            moq_cell = xl_rowcol_to_cell(row, col_moq)
+            uprice_f = 'IF(OR({purch}>={moq},{qty}>={moq}),{price},"MOQ="&{moq})'.format(
+                        purch=purch_cell, moq=moq_cell, qty=part_qty_cell, price=uprice_f)
+            blank_up = part.qty_total_spreadsheet < minimum_order_qty
+            # Add the formula, but blank the cell on error
+            wks.write_formula(row, col_unit_price, '=IFERROR({},"")'.format(uprice_f), ss.wrk_formats['currency_unit'], value='' if blank_up else unit_price)
             # Add the comment
             wks.write_comment(row, col_unit_price, price_break_info)
+            if not blank_up and (part.min_price is None or unit_price < part.min_price):
+                part.min_price = unit_price
+            #
+            # MOQ
+            #
+            wks.write(row, col_moq, minimum_order_qty, ss.wrk_formats['part_format'])
             #
             # Ext$ (purch qty * unit price.)
             #
             ext_price = part.qty_total_spreadsheet*unit_price
-            total_cost += ext_price
+            if not blank_up:
+                total_cost += ext_price
             wks.write_formula(row, col_ext_price, '=IFERROR(IF({purch_qty}="",{needed_qty},{purch_qty})*{unit_price},"")'.format(
                               needed_qty=part_qty_cell,
                               purch_qty=purch_cell,
                               unit_price=xl_rowcol_to_cell(row, col_unit_price)), ss.wrk_formats['currency'],
                               # Limit the resolution (to make it more reproducible)
-                              value=round(ext_price, 4))
+                              value='' if blank_up else round(ext_price, 4))
             # Update the number of parts found and total cost for multiprojects
             if num_prj > 1:
                 for i, q in enumerate(part.qty):
@@ -1062,6 +1101,14 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
                 # Unit price cell that contains the best price.
                 # part_qty_col+1 is the global data cell holding the minimum unit price for this part.
                 ss.conditional_format(row, col_unit_price, '<=', 'best_price', xl_rowcol_to_cell(row, part_qty_col+1))
+                # Mark cells with a MOQ bigger than what we need
+                if blank_up:
+                    criteria = '=AND({qt}<{moq},{q}<{moq})'.format(qt=part_qty_cell, q=purch_cell, moq=minimum_order_qty)
+                    # Libreoffice 7 woraround: conditional formats applied to ranges only affects the first cell, so we use just cells
+                    ss.conditional_format(row, col_unit_price, criteria, 'order_min_qty')
+                    ss.conditional_format(row, col_moq, criteria, 'order_min_qty')
+                    ss.conditional_format(row, col_ext_price, criteria, 'order_min_qty')
+
         # Finished processing distributor data for this part.
         row += 1  # Go to next row.
 
@@ -1069,6 +1116,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     # parts of each BOM we found at this distributor and
     # the correspondent total price.
     ext_price_range = xl_range(PART_INFO_FIRST_ROW, col_ext_price, PART_INFO_LAST_ROW)
+    moq_range = xl_range(PART_INFO_FIRST_ROW, col_moq, PART_INFO_LAST_ROW)
     if num_prj > 1:
         for i_prj in range(num_prj):
             # Sum the extended prices (unit multiplied by quantity) for each file/BOM.
@@ -1107,9 +1155,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
                       count_range=purch_range,
                       price_range=ext_price_range), ss.wrk_formats['total_cost_currency'])
     # Quantity of purchased parts in this distributor.
-    wks.write_formula(ORDER_HEADER, col_purch, '=IFERROR(IF(OR({count_range}),COUNTIFS({count_range},">0",{count_range_price},"<>")&" of "&'
-                      '(ROWS({count_range_price})-COUNTBLANK({count_range_price}))&" parts purchased",""),"")'.
-                      format(count_range=purch_range, count_range_price=ext_price_range), ss.wrk_formats['found_part_pct'], value='')
+    do_count = 'COUNTIFS({range},">0",{range_price},">0")'.format(range=purch_range, range_price=ext_price_range)
+    wks.write_formula(ORDER_HEADER, col_purch, '=IFERROR(IF({count}>0,{count}&" of "&(ROWS({range_moq})-COUNTBLANK({range_moq}))&" parts purchased",""),"")'.
+                      format(count=do_count, range_moq=moq_range), ss.wrk_formats['found_part_pct'], value='')
     wks.write_comment(ORDER_HEADER, col_purch, 'Copy the information below to the BOM import page of the distributor web site.')
     if order.url:
         ss.write_url(ORDER_HEADER, col_purch-1, order.url, string='Buy here')
@@ -1201,7 +1249,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     part_range = xl_range(first_part, part_col, last_part)
     qty_col = col_purch
     qty_range = xl_range(first_part, qty_col, last_part)
-    conditional = '=IF(ISNUMBER({qty})*({qty}>0)*({catn}<>""),{{}}&CHAR(10),"")'.format(qty=qty_range, catn=part_range)
+    conditional = '=IF(ISNUMBER({qty})*({qty}>={moq})*({catn}<>""),{{}}&CHAR(10),"")'.format(qty=qty_range, catn=part_range, moq=moq_range)
     array_range = xl_range(ORDER_FIRST_ROW, ORDER_START_COL, ORDER_FIRST_ROW + num_parts - 1)
     # Concatenation operator plus distributor code delimiter.
     delimiter = '&"' + order.delimiter + '"&'

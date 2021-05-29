@@ -2,10 +2,10 @@ Prj:,KiBom Variants 3,,,,,,Board Qty:,100
 Prj date:,2021-01-02,,,,,,Total Cost:,0
 Global Part Info,,,,,,,,
 Refs,Value,Desc,Footprint,Manf,Manf#,Qty,Unit$,Ext$
-C1,1nF,"Manf is defaultmanf, except when variant1",,defaultmanf,,100,,0
-C2,2nF,"Manf is defaultmanf, except when variant1 (check impact of field order)",,defaultmanf,,100,,0
-C6,6nF,Not placed when variant1,,defaultmanf,,100,,0
-C7,7nF,Should only appear in the default,,defaultmanf,,100,,0
-C8,8nF,Should not appear in variant1 description,,defaultmanf,,100,,0
+C1,1nF,"Manf is defaultmanf, except when variant1",,defaultmanf,,100,,
+C2,2nF,"Manf is defaultmanf, except when variant1 (check impact of field order)",,defaultmanf,,100,,
+C6,6nF,Not placed when variant1,,defaultmanf,,100,,
+C7,7nF,Should only appear in the default,,defaultmanf,,100,,
+C8,8nF,Should not appear in variant1 description,,defaultmanf,,100,,
 
 

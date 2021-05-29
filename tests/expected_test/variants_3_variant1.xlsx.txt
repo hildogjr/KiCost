@@ -73,10 +73,9 @@ Row: 7
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(G7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(G7),TRUE()) -> -/FFAAAAAA
  Col: J
-   0
-  Formula: IFERROR(H7*I7,"")
+  Formula: IF(AND(ISNUMBER(H7),ISNUMBER(I7)),H7*I7,"")
 Row: 8
  Col: A
    "C2"
@@ -90,10 +89,9 @@ Row: 8
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(G8),TRUE()) -> -/FFAAAAAA (2)
+  - =AND(ISBLANK(G8),TRUE()) -> -/FFAAAAAA
  Col: J
-   0
-  Formula: IFERROR(H8*I8,"")
+  Formula: IF(AND(ISNUMBER(H8),ISNUMBER(I8)),H8*I8,"")
 Row: 9
  Col: A
    "C3"
@@ -107,10 +105,9 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(G9),TRUE()) -> -/FFAAAAAA (3)
+  - =AND(ISBLANK(G9),TRUE()) -> -/FFAAAAAA
  Col: J
-   0
-  Formula: IFERROR(H9*I9,"")
+  Formula: IF(AND(ISNUMBER(H9),ISNUMBER(I9)),H9*I9,"")
 Row: 10
  Col: A
    "C4"
@@ -124,10 +121,9 @@ Row: 10
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(G10),TRUE()) -> -/FFAAAAAA (4)
+  - =AND(ISBLANK(G10),TRUE()) -> -/FFAAAAAA
  Col: J
-   0
-  Formula: IFERROR(H10*I10,"")
+  Formula: IF(AND(ISNUMBER(H10),ISNUMBER(I10)),H10*I10,"")
 Row: 11
  Col: A
    "C5"
@@ -141,10 +137,9 @@ Row: 11
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(G11),TRUE()) -> -/FFAAAAAA (5)
+  - =AND(ISBLANK(G11),TRUE()) -> -/FFAAAAAA
  Col: J
-   0
-  Formula: IFERROR(H11*I11,"")
+  Formula: IF(AND(ISNUMBER(H11),ISNUMBER(I11)),H11*I11,"")
 Row: 12
  Col: A
    "C7"
@@ -160,10 +155,9 @@ Row: 12
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(G12),TRUE()) -> -/FFAAAAAA (6)
+  - =AND(ISBLANK(G12),TRUE()) -> -/FFAAAAAA
  Col: J
-   0
-  Formula: IFERROR(H12*I12,"")
+  Formula: IF(AND(ISNUMBER(H12),ISNUMBER(I12)),H12*I12,"")
 Row: 13
  Col: A
    "C8"
@@ -179,10 +173,9 @@ Row: 13
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(G13),TRUE()) -> -/FFAAAAAA (7)
+  - =AND(ISBLANK(G13),TRUE()) -> -/FFAAAAAA
  Col: J
-   0
-  Formula: IFERROR(H13*I13,"")
+  Formula: IF(AND(ISNUMBER(H13),ISNUMBER(I13)),H13*I13,"")
 Row: 16
  Col: A
    "*FILTERED*"

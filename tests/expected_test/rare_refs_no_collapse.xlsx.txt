@@ -65,10 +65,9 @@ Row: 7
    600
   Formula: CEILING(BoardQty*6.0,1)
   Styles:
-  - =AND(ISBLANK(D7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(D7),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E7*F7,"")
+  Formula: IF(AND(ISNUMBER(E7),ISNUMBER(F7)),E7*F7,"")
 Row: 8
  Col: A
    "TEST+SUPPLY"
@@ -80,10 +79,9 @@ Row: 8
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D8),TRUE()) -> -/FFAAAAAA (2)
+  - =AND(ISBLANK(D8),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E8*F8,"")
+  Formula: IF(AND(ISNUMBER(E8),ISNUMBER(F8)),E8*F8,"")
 Row: 11
  Col: A
    "*FILTERED*"

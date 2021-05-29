@@ -63,10 +63,9 @@ Row: 7
    400
   Formula: CEILING(BoardQty*4,1)
   Styles:
-  - =AND(ISBLANK(D7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(D7),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E7*F7,"")
+  Formula: IF(AND(ISNUMBER(E7),ISNUMBER(F7)),E7*F7,"")
 Row: 8
  Col: A
    "C2,C4,C6-C17,C20-C24,C26,C31-C34,C41,C42,C45,C46,C51,C52,C55,C57,C59,C61-C65"
@@ -78,10 +77,9 @@ Row: 8
    3800
   Formula: CEILING(BoardQty*38,1)
   Styles:
-  - =AND(ISBLANK(D8),TRUE()) -> -/FFAAAAAA (2)
+  - =AND(ISBLANK(D8),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E8*F8,"")
+  Formula: IF(AND(ISNUMBER(E8),ISNUMBER(F8)),E8*F8,"")
 Row: 9
  Col: A
    "C5"
@@ -93,10 +91,9 @@ Row: 9
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D9),TRUE()) -> -/FFAAAAAA (3)
+  - =AND(ISBLANK(D9),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E9*F9,"")
+  Formula: IF(AND(ISNUMBER(E9),ISNUMBER(F9)),E9*F9,"")
 Row: 10
  Col: A
    "C18,C19"
@@ -108,10 +105,9 @@ Row: 10
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D10),TRUE()) -> -/FFAAAAAA (4)
+  - =AND(ISBLANK(D10),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E10*F10,"")
+  Formula: IF(AND(ISNUMBER(E10),ISNUMBER(F10)),E10*F10,"")
 Row: 11
  Col: A
    "C37,C38"
@@ -123,10 +119,9 @@ Row: 11
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D11),TRUE()) -> -/FFAAAAAA (5)
+  - =AND(ISBLANK(D11),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E11*F11,"")
+  Formula: IF(AND(ISNUMBER(E11),ISNUMBER(F11)),E11*F11,"")
 Row: 12
  Col: A
    "C53"
@@ -138,10 +133,9 @@ Row: 12
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D12),TRUE()) -> -/FFAAAAAA (6)
+  - =AND(ISBLANK(D12),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E12*F12,"")
+  Formula: IF(AND(ISNUMBER(E12),ISNUMBER(F12)),E12*F12,"")
 Row: 13
  Col: A
    "C54,C56,C58,C60,C66"
@@ -153,10 +147,9 @@ Row: 13
    500
   Formula: CEILING(BoardQty*5,1)
   Styles:
-  - =AND(ISBLANK(D13),TRUE()) -> -/FFAAAAAA (7)
+  - =AND(ISBLANK(D13),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E13*F13,"")
+  Formula: IF(AND(ISNUMBER(E13),ISNUMBER(F13)),E13*F13,"")
 Row: 14
  Col: A
    "C67"
@@ -168,10 +161,9 @@ Row: 14
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D14),TRUE()) -> -/FFAAAAAA (8)
+  - =AND(ISBLANK(D14),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E14*F14,"")
+  Formula: IF(AND(ISNUMBER(E14),ISNUMBER(F14)),E14*F14,"")
 Row: 15
  Col: A
    "D1-D6"
@@ -183,10 +175,9 @@ Row: 15
    600
   Formula: CEILING(BoardQty*6,1)
   Styles:
-  - =AND(ISBLANK(D15),TRUE()) -> -/FFAAAAAA (9)
+  - =AND(ISBLANK(D15),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E15*F15,"")
+  Formula: IF(AND(ISNUMBER(E15),ISNUMBER(F15)),E15*F15,"")
 Row: 16
  Col: A
    "J1"
@@ -198,10 +189,9 @@ Row: 16
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D16),TRUE()) -> -/FFAAAAAA (10)
+  - =AND(ISBLANK(D16),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E16*F16,"")
+  Formula: IF(AND(ISNUMBER(E16),ISNUMBER(F16)),E16*F16,"")
 Row: 17
  Col: A
    "J2,J3,J6,J11,J12"
@@ -213,10 +203,9 @@ Row: 17
    500
   Formula: CEILING(BoardQty*5,1)
   Styles:
-  - =AND(ISBLANK(D17),TRUE()) -> -/FFAAAAAA (11)
+  - =AND(ISBLANK(D17),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E17*F17,"")
+  Formula: IF(AND(ISNUMBER(E17),ISNUMBER(F17)),E17*F17,"")
 Row: 18
  Col: A
    "J4,J5"
@@ -228,10 +217,9 @@ Row: 18
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D18),TRUE()) -> -/FFAAAAAA (12)
+  - =AND(ISBLANK(D18),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E18*F18,"")
+  Formula: IF(AND(ISNUMBER(E18),ISNUMBER(F18)),E18*F18,"")
 Row: 19
  Col: A
    "J7-J10,J13"
@@ -243,10 +231,9 @@ Row: 19
    500
   Formula: CEILING(BoardQty*5,1)
   Styles:
-  - =AND(ISBLANK(D19),TRUE()) -> -/FFAAAAAA (13)
+  - =AND(ISBLANK(D19),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E19*F19,"")
+  Formula: IF(AND(ISNUMBER(E19),ISNUMBER(F19)),E19*F19,"")
 Row: 20
  Col: A
    "K1,K10-K14,K16-K18,K23-K28"
@@ -258,10 +245,9 @@ Row: 20
    1500
   Formula: CEILING(BoardQty*15,1)
   Styles:
-  - =AND(ISBLANK(D20),TRUE()) -> -/FFAAAAAA (14)
+  - =AND(ISBLANK(D20),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E20*F20,"")
+  Formula: IF(AND(ISNUMBER(E20),ISNUMBER(F20)),E20*F20,"")
 Row: 21
  Col: A
    "K2-K9,K15,K29-K32"
@@ -273,10 +259,9 @@ Row: 21
    1300
   Formula: CEILING(BoardQty*13,1)
   Styles:
-  - =AND(ISBLANK(D21),TRUE()) -> -/FFAAAAAA (15)
+  - =AND(ISBLANK(D21),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E21*F21,"")
+  Formula: IF(AND(ISNUMBER(E21),ISNUMBER(F21)),E21*F21,"")
 Row: 22
  Col: A
    "K19-K22"
@@ -288,10 +273,9 @@ Row: 22
    400
   Formula: CEILING(BoardQty*4,1)
   Styles:
-  - =AND(ISBLANK(D22),TRUE()) -> -/FFAAAAAA (16)
+  - =AND(ISBLANK(D22),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E22*F22,"")
+  Formula: IF(AND(ISNUMBER(E22),ISNUMBER(F22)),E22*F22,"")
 Row: 23
  Col: A
    "P1"
@@ -303,10 +287,9 @@ Row: 23
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D23),TRUE()) -> -/FFAAAAAA (17)
+  - =AND(ISBLANK(D23),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E23*F23,"")
+  Formula: IF(AND(ISNUMBER(E23),ISNUMBER(F23)),E23*F23,"")
 Row: 24
  Col: A
    "P2,P3"
@@ -318,10 +301,9 @@ Row: 24
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D24),TRUE()) -> -/FFAAAAAA (18)
+  - =AND(ISBLANK(D24),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E24*F24,"")
+  Formula: IF(AND(ISNUMBER(E24),ISNUMBER(F24)),E24*F24,"")
 Row: 25
  Col: A
    "P4-P9"
@@ -333,10 +315,9 @@ Row: 25
    600
   Formula: CEILING(BoardQty*6,1)
   Styles:
-  - =AND(ISBLANK(D25),TRUE()) -> -/FFAAAAAA (19)
+  - =AND(ISBLANK(D25),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E25*F25,"")
+  Formula: IF(AND(ISNUMBER(E25),ISNUMBER(F25)),E25*F25,"")
 Row: 26
  Col: A
    "P12"
@@ -348,10 +329,9 @@ Row: 26
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D26),TRUE()) -> -/FFAAAAAA (20)
+  - =AND(ISBLANK(D26),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E26*F26,"")
+  Formula: IF(AND(ISNUMBER(E26),ISNUMBER(F26)),E26*F26,"")
 Row: 27
  Col: A
    "Q1-Q4"
@@ -363,10 +343,9 @@ Row: 27
    400
   Formula: CEILING(BoardQty*4,1)
   Styles:
-  - =AND(ISBLANK(D27),TRUE()) -> -/FFAAAAAA (21)
+  - =AND(ISBLANK(D27),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E27*F27,"")
+  Formula: IF(AND(ISNUMBER(E27),ISNUMBER(F27)),E27*F27,"")
 Row: 28
  Col: A
    "Q5"
@@ -378,10 +357,9 @@ Row: 28
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D28),TRUE()) -> -/FFAAAAAA (22)
+  - =AND(ISBLANK(D28),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E28*F28,"")
+  Formula: IF(AND(ISNUMBER(E28),ISNUMBER(F28)),E28*F28,"")
 Row: 29
  Col: A
    "Q7"
@@ -393,10 +371,9 @@ Row: 29
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D29),TRUE()) -> -/FFAAAAAA (23)
+  - =AND(ISBLANK(D29),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E29*F29,"")
+  Formula: IF(AND(ISNUMBER(E29),ISNUMBER(F29)),E29*F29,"")
 Row: 30
  Col: A
    "R1"
@@ -408,10 +385,9 @@ Row: 30
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D30),TRUE()) -> -/FFAAAAAA (24)
+  - =AND(ISBLANK(D30),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E30*F30,"")
+  Formula: IF(AND(ISNUMBER(E30),ISNUMBER(F30)),E30*F30,"")
 Row: 31
  Col: A
    "R2-R6,R72,R75-R81,R87,R90-R96,R112-R114,R120-R123,R125-R135,R140-R147"
@@ -423,10 +399,9 @@ Row: 31
    4700
   Formula: CEILING(BoardQty*47,1)
   Styles:
-  - =AND(ISBLANK(D31),TRUE()) -> -/FFAAAAAA (25)
+  - =AND(ISBLANK(D31),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E31*F31,"")
+  Formula: IF(AND(ISNUMBER(E31),ISNUMBER(F31)),E31*F31,"")
 Row: 32
  Col: A
    "R7-R46,R68-R71,R73,R74,R82-R86,R88,R89,R97,R148"
@@ -438,10 +413,9 @@ Row: 32
    5500
   Formula: CEILING(BoardQty*55,1)
   Styles:
-  - =AND(ISBLANK(D32),TRUE()) -> -/FFAAAAAA (26)
+  - =AND(ISBLANK(D32),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E32*F32,"")
+  Formula: IF(AND(ISNUMBER(E32),ISNUMBER(F32)),E32*F32,"")
 Row: 33
  Col: A
    "R47-R63,R65-R67,R136-R139"
@@ -453,10 +427,9 @@ Row: 33
    2400
   Formula: CEILING(BoardQty*24,1)
   Styles:
-  - =AND(ISBLANK(D33),TRUE()) -> -/FFAAAAAA (27)
+  - =AND(ISBLANK(D33),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E33*F33,"")
+  Formula: IF(AND(ISNUMBER(E33),ISNUMBER(F33)),E33*F33,"")
 Row: 34
  Col: A
    "R98,R100,R124"
@@ -468,10 +441,9 @@ Row: 34
    300
   Formula: CEILING(BoardQty*3,1)
   Styles:
-  - =AND(ISBLANK(D34),TRUE()) -> -/FFAAAAAA (28)
+  - =AND(ISBLANK(D34),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E34*F34,"")
+  Formula: IF(AND(ISNUMBER(E34),ISNUMBER(F34)),E34*F34,"")
 Row: 35
  Col: A
    "R99,R101"
@@ -483,10 +455,9 @@ Row: 35
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D35),TRUE()) -> -/FFAAAAAA (29)
+  - =AND(ISBLANK(D35),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E35*F35,"")
+  Formula: IF(AND(ISNUMBER(E35),ISNUMBER(F35)),E35*F35,"")
 Row: 36
  Col: A
    "R102"
@@ -498,10 +469,9 @@ Row: 36
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D36),TRUE()) -> -/FFAAAAAA (30)
+  - =AND(ISBLANK(D36),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E36*F36,"")
+  Formula: IF(AND(ISNUMBER(E36),ISNUMBER(F36)),E36*F36,"")
 Row: 37
  Col: A
    "R103"
@@ -513,10 +483,9 @@ Row: 37
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D37),TRUE()) -> -/FFAAAAAA (31)
+  - =AND(ISBLANK(D37),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E37*F37,"")
+  Formula: IF(AND(ISNUMBER(E37),ISNUMBER(F37)),E37*F37,"")
 Row: 38
  Col: A
    "R104,R107"
@@ -528,10 +497,9 @@ Row: 38
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D38),TRUE()) -> -/FFAAAAAA (32)
+  - =AND(ISBLANK(D38),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E38*F38,"")
+  Formula: IF(AND(ISNUMBER(E38),ISNUMBER(F38)),E38*F38,"")
 Row: 39
  Col: A
    "R105,R108"
@@ -543,10 +511,9 @@ Row: 39
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D39),TRUE()) -> -/FFAAAAAA (33)
+  - =AND(ISBLANK(D39),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E39*F39,"")
+  Formula: IF(AND(ISNUMBER(E39),ISNUMBER(F39)),E39*F39,"")
 Row: 40
  Col: A
    "R106,R109"
@@ -558,10 +525,9 @@ Row: 40
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D40),TRUE()) -> -/FFAAAAAA (34)
+  - =AND(ISBLANK(D40),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E40*F40,"")
+  Formula: IF(AND(ISNUMBER(E40),ISNUMBER(F40)),E40*F40,"")
 Row: 41
  Col: A
    "R110,R118"
@@ -573,10 +539,9 @@ Row: 41
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D41),TRUE()) -> -/FFAAAAAA (35)
+  - =AND(ISBLANK(D41),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E41*F41,"")
+  Formula: IF(AND(ISNUMBER(E41),ISNUMBER(F41)),E41*F41,"")
 Row: 42
  Col: A
    "R111,R119"
@@ -588,10 +553,9 @@ Row: 42
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D42),TRUE()) -> -/FFAAAAAA (36)
+  - =AND(ISBLANK(D42),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E42*F42,"")
+  Formula: IF(AND(ISNUMBER(E42),ISNUMBER(F42)),E42*F42,"")
 Row: 43
  Col: A
    "R115"
@@ -603,10 +567,9 @@ Row: 43
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D43),TRUE()) -> -/FFAAAAAA (37)
+  - =AND(ISBLANK(D43),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E43*F43,"")
+  Formula: IF(AND(ISNUMBER(E43),ISNUMBER(F43)),E43*F43,"")
 Row: 44
  Col: A
    "R116,R117"
@@ -618,10 +581,9 @@ Row: 44
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D44),TRUE()) -> -/FFAAAAAA (38)
+  - =AND(ISBLANK(D44),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E44*F44,"")
+  Formula: IF(AND(ISNUMBER(E44),ISNUMBER(F44)),E44*F44,"")
 Row: 45
  Col: A
    "R149"
@@ -633,10 +595,9 @@ Row: 45
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D45),TRUE()) -> -/FFAAAAAA (39)
+  - =AND(ISBLANK(D45),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E45*F45,"")
+  Formula: IF(AND(ISNUMBER(E45),ISNUMBER(F45)),E45*F45,"")
 Row: 46
  Col: A
    "R150"
@@ -648,10 +609,9 @@ Row: 46
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D46),TRUE()) -> -/FFAAAAAA (40)
+  - =AND(ISBLANK(D46),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E46*F46,"")
+  Formula: IF(AND(ISNUMBER(E46),ISNUMBER(F46)),E46*F46,"")
 Row: 47
  Col: A
    "TP1-TP23"
@@ -663,10 +623,9 @@ Row: 47
    2300
   Formula: CEILING(BoardQty*23,1)
   Styles:
-  - =AND(ISBLANK(D47),TRUE()) -> -/FFAAAAAA (41)
+  - =AND(ISBLANK(D47),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E47*F47,"")
+  Formula: IF(AND(ISNUMBER(E47),ISNUMBER(F47)),E47*F47,"")
 Row: 48
  Col: A
    "TP24,TP25"
@@ -678,10 +637,9 @@ Row: 48
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D48),TRUE()) -> -/FFAAAAAA (42)
+  - =AND(ISBLANK(D48),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E48*F48,"")
+  Formula: IF(AND(ISNUMBER(E48),ISNUMBER(F48)),E48*F48,"")
 Row: 49
  Col: A
    "U1"
@@ -693,10 +651,9 @@ Row: 49
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D49),TRUE()) -> -/FFAAAAAA (43)
+  - =AND(ISBLANK(D49),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E49*F49,"")
+  Formula: IF(AND(ISNUMBER(E49),ISNUMBER(F49)),E49*F49,"")
 Row: 50
  Col: A
    "U2-U5"
@@ -708,10 +665,9 @@ Row: 50
    400
   Formula: CEILING(BoardQty*4,1)
   Styles:
-  - =AND(ISBLANK(D50),TRUE()) -> -/FFAAAAAA (44)
+  - =AND(ISBLANK(D50),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E50*F50,"")
+  Formula: IF(AND(ISNUMBER(E50),ISNUMBER(F50)),E50*F50,"")
 Row: 51
  Col: A
    "U6-U9"
@@ -723,10 +679,9 @@ Row: 51
    400
   Formula: CEILING(BoardQty*4,1)
   Styles:
-  - =AND(ISBLANK(D51),TRUE()) -> -/FFAAAAAA (45)
+  - =AND(ISBLANK(D51),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E51*F51,"")
+  Formula: IF(AND(ISNUMBER(E51),ISNUMBER(F51)),E51*F51,"")
 Row: 52
  Col: A
    "U10,U11"
@@ -738,10 +693,9 @@ Row: 52
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D52),TRUE()) -> -/FFAAAAAA (46)
+  - =AND(ISBLANK(D52),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E52*F52,"")
+  Formula: IF(AND(ISNUMBER(E52),ISNUMBER(F52)),E52*F52,"")
 Row: 53
  Col: A
    "U12,U13"
@@ -753,10 +707,9 @@ Row: 53
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D53),TRUE()) -> -/FFAAAAAA (47)
+  - =AND(ISBLANK(D53),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E53*F53,"")
+  Formula: IF(AND(ISNUMBER(E53),ISNUMBER(F53)),E53*F53,"")
 Row: 54
  Col: A
    "U14"
@@ -768,10 +721,9 @@ Row: 54
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D54),TRUE()) -> -/FFAAAAAA (48)
+  - =AND(ISBLANK(D54),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E54*F54,"")
+  Formula: IF(AND(ISNUMBER(E54),ISNUMBER(F54)),E54*F54,"")
 Row: 55
  Col: A
    "U15,U16"
@@ -783,10 +735,9 @@ Row: 55
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(D55),TRUE()) -> -/FFAAAAAA (49)
+  - =AND(ISBLANK(D55),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E55*F55,"")
+  Formula: IF(AND(ISNUMBER(E55),ISNUMBER(F55)),E55*F55,"")
 Row: 56
  Col: A
    "U17"
@@ -798,10 +749,9 @@ Row: 56
    100
   Formula: CEILING(BoardQty*1,1)
   Styles:
-  - =AND(ISBLANK(D56),TRUE()) -> -/FFAAAAAA (50)
+  - =AND(ISBLANK(D56),TRUE()) -> -/FFAAAAAA
  Col: G
-   0
-  Formula: IFERROR(E56*F56,"")
+  Formula: IF(AND(ISNUMBER(E56),ISNUMBER(F56)),E56*F56,"")
 Row: 59
  Col: A
    "*FILTERED*"

@@ -67,10 +67,9 @@ Row: 7
    200
   Formula: CEILING(BoardQty*2,1)
   Styles:
-  - =AND(ISBLANK(E7),TRUE()) -> -/FFAAAAAA (1)
+  - =AND(ISBLANK(E7),TRUE()) -> -/FFAAAAAA
  Col: H
-   0
-  Formula: IFERROR(F7*G7,"")
+  Formula: IF(AND(ISNUMBER(F7),ISNUMBER(G7)),F7*G7,"")
 Row: 10
  Col: A
    "*FILTERED*"

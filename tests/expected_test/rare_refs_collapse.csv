@@ -3,7 +3,7 @@ Co.:,XESS Corp.,,,,Unit Cost:,0
 Prj date:,05/28/2016 12:02:31 AM,,,,Total Cost:,0
 Global Part Info,,,,,,
 Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$
-"A:C1-A:C3,B:C3-B:C5",1nF,,COMP-1nF,600,,0
-TEST+SUPPLY,STICKIT2_HDR,STICKIT2_HDR,,100,,0
+"A:C1-A:C3,B:C3-B:C5",1nF,,COMP-1nF,600,,
+TEST+SUPPLY,STICKIT2_HDR,STICKIT2_HDR,,100,,
 
 

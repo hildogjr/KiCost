@@ -1,15 +1,15 @@
-Prj:,single_component.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,,,,,Unit Cost:,1.6828,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,04/21/2017 4:03:40 PM,,,,Total Cost:,168.28,,,,0,0 of 1 parts found,,,,168.28,1 of 1 parts found,,,,218.7747,1 of 1 parts found,,,,0,0 of 1 parts found,,,,174,1 of 1 parts found,,,,187,1 of 1 parts found,,,,0,0 of 1 parts found,,,,0,0 of 1 parts found
-Global Part Info,,,,,,,Arrow,,,,,Digi-Key,,,,,Farnell,,,,,LCSC,,,,,Mouser,,,,,Newark,,,,,RS Components,,,,,TME,,,,
-Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#,Avail,Purch,Unit$,Ext$,Cat#
-X1,RESONATOR,,20021321-00024T4LF,100,1.6828,168.28,,,,,,1464,,1.6828,168.28,609-3774-ND,2412,,2.187747,218.7747,2910266,,,,,,1502,,1.74,174,64922132100024T4LF,2412,,1.87,187,82R8850,,,,,,,,,,
+Prj:,single_component.xml,,,,Board Qty:,100,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Co.:,,,,,Unit Cost:,1.6828,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,04/21/2017 4:03:40 PM,,,,Total Cost:,168.28,,,,,0,0 of 1 parts found,,,,,168.28,1 of 1 parts found,,,,,218.7747,1 of 1 parts found,,,,,0,0 of 1 parts found,,,,,174,1 of 1 parts found,,,,,187,1 of 1 parts found,,,,,0,0 of 1 parts found,,,,,0,0 of 1 parts found
+Global Part Info,,,,,,,Arrow,,,,,,Digi-Key,,,,,,Farnell,,,,,,LCSC,,,,,,Mouser,,,,,,Newark,,,,,,RS Components,,,,,,TME,,,,,
+Refs,Value,Footprint,Manf#,Qty,Unit$,Ext$,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#,Avail,Purch,Unit$,MOQ,Ext$,Cat#
+X1,RESONATOR,,20021321-00024T4LF,100,1.6828,168.28,,,,,,,1464,,1.6828,1,168.28,609-3774-ND,2412,,2.187747,1,218.7747,2910266,,,,,,,1502,,1.74,1,174,64922132100024T4LF,2412,,1.87,1,187,82R8850,,,,,,,,,,,,
 
-,Used currency rates:,,,,Total Purchase:,0,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,,Buy here,,,0,
-,USD($)/GBP(£):,1.375941592305018,,,Purchase description:,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
+,Used currency rates:,,,,Total Purchase:,0,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,,Buy here,,,,0,
+,USD($)/GBP(£):,1.375941592305018,,,Purchase description:,,,,,,,,,,,,,,,,,,,,,"Copy this header and order to a CSV
 file and use it for JLCPCB 
 manufacturer PCB house.
 The multipart components that use
-""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,
+""#"" symbol are not allowed by JLCPCB.",,,,,,,,,,,,,,,,,,,,,,,,,,,,
 
-,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
