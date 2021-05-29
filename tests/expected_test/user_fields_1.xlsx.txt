@@ -3752,56 +3752,56 @@ Row: 44
  Col: N
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: O
-  Formula: IFERROR(IF(COUNTIFS(O7:O42,">0",R7:R42,">0")>0,COUNTIFS(O7:O42,">0",R7:R42,">0")&" of "&(ROWS(Q7:Q42)-COUNTBLANK(Q7:Q42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(O7:O42,">0")>0,COUNTIF(O7:O42,">0")&" of "&(ROWS(Q7:Q42)-COUNTBLANK(Q7:Q42))&" parts purchased",""),"")
  Col: R
    0
   Formula: SUMIF(O7:O42,">0",R7:R42)
  Col: T
    <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
  Col: U
-  Formula: IFERROR(IF(COUNTIFS(U7:U42,">0",X7:X42,">0")>0,COUNTIFS(U7:U42,">0",X7:X42,">0")&" of "&(ROWS(W7:W42)-COUNTBLANK(W7:W42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(U7:U42,">0")>0,COUNTIF(U7:U42,">0")&" of "&(ROWS(W7:W42)-COUNTBLANK(W7:W42))&" parts purchased",""),"")
  Col: X
    0
   Formula: SUMIF(U7:U42,">0",X7:X42)
  Col: Z
    <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
  Col: AA
-  Formula: IFERROR(IF(COUNTIFS(AA7:AA42,">0",AD7:AD42,">0")>0,COUNTIFS(AA7:AA42,">0",AD7:AD42,">0")&" of "&(ROWS(AC7:AC42)-COUNTBLANK(AC7:AC42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(AA7:AA42,">0")>0,COUNTIF(AA7:AA42,">0")&" of "&(ROWS(AC7:AC42)-COUNTBLANK(AC7:AC42))&" parts purchased",""),"")
  Col: AD
    0
   Formula: SUMIF(AA7:AA42,">0",AD7:AD42)
  Col: AF
    <a href="https://lcsc.com/bom.html">Buy here</a>
  Col: AG
-  Formula: IFERROR(IF(COUNTIFS(AG7:AG42,">0",AJ7:AJ42,">0")>0,COUNTIFS(AG7:AG42,">0",AJ7:AJ42,">0")&" of "&(ROWS(AI7:AI42)-COUNTBLANK(AI7:AI42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(AG7:AG42,">0")>0,COUNTIF(AG7:AG42,">0")&" of "&(ROWS(AI7:AI42)-COUNTBLANK(AI7:AI42))&" parts purchased",""),"")
  Col: AJ
    0
   Formula: SUMIF(AG7:AG42,">0",AJ7:AJ42)
  Col: AL
    <a href="https://mouser.com/bom/">Buy here</a>
  Col: AM
-  Formula: IFERROR(IF(COUNTIFS(AM7:AM42,">0",AP7:AP42,">0")>0,COUNTIFS(AM7:AM42,">0",AP7:AP42,">0")&" of "&(ROWS(AO7:AO42)-COUNTBLANK(AO7:AO42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(AM7:AM42,">0")>0,COUNTIF(AM7:AM42,">0")&" of "&(ROWS(AO7:AO42)-COUNTBLANK(AO7:AO42))&" parts purchased",""),"")
  Col: AP
    0
   Formula: SUMIF(AM7:AM42,">0",AP7:AP42)
  Col: AR
    <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
  Col: AS
-  Formula: IFERROR(IF(COUNTIFS(AS7:AS42,">0",AV7:AV42,">0")>0,COUNTIFS(AS7:AS42,">0",AV7:AV42,">0")&" of "&(ROWS(AU7:AU42)-COUNTBLANK(AU7:AU42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(AS7:AS42,">0")>0,COUNTIF(AS7:AS42,">0")&" of "&(ROWS(AU7:AU42)-COUNTBLANK(AU7:AU42))&" parts purchased",""),"")
  Col: AV
    0
   Formula: SUMIF(AS7:AS42,">0",AV7:AV42)
  Col: AX
    <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
  Col: AY
-  Formula: IFERROR(IF(COUNTIFS(AY7:AY42,">0",BB7:BB42,">0")>0,COUNTIFS(AY7:AY42,">0",BB7:BB42,">0")&" of "&(ROWS(BA7:BA42)-COUNTBLANK(BA7:BA42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(AY7:AY42,">0")>0,COUNTIF(AY7:AY42,">0")&" of "&(ROWS(BA7:BA42)-COUNTBLANK(BA7:BA42))&" parts purchased",""),"")
  Col: BB
    0
   Formula: SUMIF(AY7:AY42,">0",BB7:BB42)
  Col: BD
    <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
  Col: BE
-  Formula: IFERROR(IF(COUNTIFS(BE7:BE42,">0",BH7:BH42,">0")>0,COUNTIFS(BE7:BE42,">0",BH7:BH42,">0")&" of "&(ROWS(BG7:BG42)-COUNTBLANK(BG7:BG42))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(BE7:BE42,">0")>0,COUNTIF(BE7:BE42,">0")&" of "&(ROWS(BG7:BG42)-COUNTBLANK(BG7:BG42))&" parts purchased",""),"")
  Col: BH
    0
   Formula: SUMIF(BE7:BE42,">0",BH7:BH42)
@@ -3843,21 +3843,21 @@ Row: 48
    "*FILTERED*"
 Row: 82
  Col: O
-  Formula: IF(ISNUMBER(O7:O42)*(O7:O42>=Q7:Q42)*(S7:S42<>""),S7:S42&","&TEXT(O7:O42,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(O7:O42)*(O7:O42>=Q7:Q42)*(S7:S42<>""),S7:S42&","&TEXT(ROUNDUP(O7:O42/IF(ISNUMBER(Q7:Q42),Q7:Q42,1))*Q7:Q42,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&CHAR(10),"")
  Col: U
-  Formula: IF(ISNUMBER(U7:U42)*(U7:U42>=W7:W42)*(Y7:Y42<>""),TEXT(U7:U42,"##0")&","&Y7:Y42&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(U7:U42)*(U7:U42>=W7:W42)*(Y7:Y42<>""),TEXT(ROUNDUP(U7:U42/IF(ISNUMBER(W7:W42),W7:W42,1))*W7:W42,"##0")&","&Y7:Y42&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&CHAR(10),"")
  Col: AA
-  Formula: IF(ISNUMBER(AA7:AA42)*(AA7:AA42>=AC7:AC42)*(AE7:AE42<>""),AE7:AE42&","&TEXT(AA7:AA42,"##0")&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C42,",",";"),"\n",";"),30)&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";"),"\n",";"),30)&CHAR(10),"")
+  Formula: IF(ISNUMBER(AA7:AA42)*(AA7:AA42>=AC7:AC42)*(AE7:AE42<>""),AE7:AE42&","&TEXT(ROUNDUP(AA7:AA42/IF(ISNUMBER(AC7:AC42),AC7:AC42,1))*AC7:AC42,"##0")&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C42,",",";"),"\n",";"),30)&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";"),"\n",";"),30)&CHAR(10),"")
  Col: AG
-  Formula: IF(ISNUMBER(AG7:AG42)*(AG7:AG42>=AI7:AI42)*(AK7:AK42<>""),TEXT(AG7:AG42,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&H7:H42,",",";")&","&AK7:AK42&CHAR(10),"")
+  Formula: IF(ISNUMBER(AG7:AG42)*(AG7:AG42>=AI7:AI42)*(AK7:AK42<>""),TEXT(ROUNDUP(AG7:AG42/IF(ISNUMBER(AI7:AI42),AI7:AI42,1))*AI7:AI42,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&H7:H42,",",";")&","&AK7:AK42&CHAR(10),"")
  Col: AM
-  Formula: IF(ISNUMBER(AM7:AM42)*(AM7:AM42>=AO7:AO42)*(AQ7:AQ42<>""),AQ7:AQ42&"|"&TEXT(AM7:AM42,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,"|",";")," ","_")&CHAR(10),"")
+  Formula: IF(ISNUMBER(AM7:AM42)*(AM7:AM42>=AO7:AO42)*(AQ7:AQ42<>""),AQ7:AQ42&"|"&TEXT(ROUNDUP(AM7:AM42/IF(ISNUMBER(AO7:AO42),AO7:AO42,1))*AO7:AO42,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,"|",";")," ","_")&CHAR(10),"")
  Col: AS
-  Formula: IF(ISNUMBER(AS7:AS42)*(AS7:AS42>=AU7:AU42)*(AW7:AW42<>""),AW7:AW42&","&TEXT(AS7:AS42,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";"),"\n",";")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C42,",",";"),"\n",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(AS7:AS42)*(AS7:AS42>=AU7:AU42)*(AW7:AW42<>""),AW7:AW42&","&TEXT(ROUNDUP(AS7:AS42/IF(ISNUMBER(AU7:AU42),AU7:AU42,1))*AU7:AU42,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";"),"\n",";")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C42,",",";"),"\n",";")&CHAR(10),"")
  Col: AY
-  Formula: IF(ISNUMBER(AY7:AY42)*(AY7:AY42>=BA7:BA42)*(BC7:BC42<>""),BC7:BC42&","&TEXT(AY7:AY42,"##0")&","&""&","&""&","&""&","&J7:J42&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(AY7:AY42)*(AY7:AY42>=BA7:BA42)*(BC7:BC42<>""),BC7:BC42&","&TEXT(ROUNDUP(AY7:AY42/IF(ISNUMBER(BA7:BA42),BA7:BA42,1))*BA7:BA42,"##0")&","&""&","&""&","&""&","&J7:J42&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42,",",";")&CHAR(10),"")
  Col: BE
-  Formula: IF(ISNUMBER(BE7:BE42)*(BE7:BE42>=BG7:BG42)*(BI7:BI42<>""),BI7:BI42&" "&TEXT(BE7:BE42,"##0")&" "&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42," ",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(BE7:BE42)*(BE7:BE42>=BG7:BG42)*(BI7:BI42<>""),BI7:BI42&" "&TEXT(ROUNDUP(BE7:BE42/IF(ISNUMBER(BG7:BG42),BG7:BG42,1))*BG7:BG42,"##0")&" "&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A42," ",";")&CHAR(10),"")
 Row: 83
  Col: O
    0

@@ -1089,7 +1089,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             ss.conditional_format(row, col_avail, '<', 'too_few_available', part_qty_cell)
             # Minimum order quantity not respected.
             if minimum_order_qty > 1:
-                criteria = '=AND({q}>0,{q}<{moq})'.format(q=purch_cell, moq=minimum_order_qty)
+                criteria = '=AND({q}>0,{q}/{moq}<>INT({q}/{moq}))'.format(q=purch_cell, moq=minimum_order_qty)
                 ss.conditional_format(row, col_purch, criteria, 'order_min_qty')
             # Purchase quantity is more than what is available.
             ss.conditional_format(row, col_purch, '>', 'order_too_much', xl_rowcol_to_cell(row, col_avail))
@@ -1155,7 +1155,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
                       count_range=purch_range,
                       price_range=ext_price_range), ss.wrk_formats['total_cost_currency'])
     # Quantity of purchased parts in this distributor.
-    do_count = 'COUNTIFS({range},">0",{range_price},">0")'.format(range=purch_range, range_price=ext_price_range)
+    do_count = 'COUNTIF({range},">0")'.format(range=purch_range)
     wks.write_formula(ORDER_HEADER, col_purch, '=IFERROR(IF({count}>0,{count}&" of "&(ROWS({range_moq})-COUNTBLANK({range_moq}))&" parts purchased",""),"")'.
                       format(count=do_count, range_moq=moq_range), ss.wrk_formats['found_part_pct'], value='')
     wks.write_comment(ORDER_HEADER, col_purch, 'Copy the information below to the BOM import page of the distributor web site.')
@@ -1216,7 +1216,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             order_part_info.append('""')
         elif col == 'purch':
             # Add text conversion if is a numeric cell.
-            order_part_info.append('TEXT({},"##0")'.format(cell))
+            # Also make it a multiple of the MOQ.
+            # Note: IF(ISNUMBER({moq}),{moq},1) prevents a /0 error
+            order_part_info.append('TEXT(ROUNDUP({purch}/IF(ISNUMBER({moq}),{moq},1))*{moq},"##0")'.format(purch=cell, moq=moq_range))
         elif col in ['part_num', 'manf#']:
             # Part number goes without changes
             order_part_info.append(cell)

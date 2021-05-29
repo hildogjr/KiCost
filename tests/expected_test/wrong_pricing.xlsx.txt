@@ -248,7 +248,7 @@ Row: 15
    0
   Formula: SUM(L15)
  Col: J
-  Formula: IFERROR(IF(COUNTIFS(J7:J13,">0",M7:M13,">0")>0,COUNTIFS(J7:J13,">0",M7:M13,">0")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")
+  Formula: IFERROR(IF(COUNTIF(J7:J13,">0")>0,COUNTIF(J7:J13,">0")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")
  Col: M
    0
   Formula: SUMIF(J7:J13,">0",M7:M13)
@@ -261,7 +261,7 @@ Row: 16
   Formula: CONCATENATE(J24,J25,J26,J27,J28,J29,J30)
 Row: 24
  Col: J
-  Formula: IF(ISNUMBER(J7:J13)*(J7:J13>=L7:L13)*(N7:N13<>""),N7:N13&","&TEXT(J7:J13,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A13,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(J7:J13)*(J7:J13>=L7:L13)*(N7:N13<>""),N7:N13&","&TEXT(ROUNDUP(J7:J13/IF(ISNUMBER(L7:L13),L7:L13,1))*L7:L13,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A13,",",";")&CHAR(10),"")
 Row: 25
  Col: J
    0
