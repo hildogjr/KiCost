@@ -382,3 +382,7 @@ Row: 12
 Row: 13
  Col: AA
   Formula: IFERROR(IF(COUNTIFS(AA7,">0",AD7,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AG7
+ - greaterThan AF7 -> FFFFFFFF/FFFF0000
+Cell: O7
+ - greaterThan N7 -> FFFFFFFF/FFFF0000

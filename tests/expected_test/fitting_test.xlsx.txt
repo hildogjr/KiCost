@@ -1761,3 +1761,91 @@ Row: 57
 Row: 58
  Col: AB
   Formula: IFERROR(IF(COUNTIFS(AB7:AB22,">0",AE7:AE22,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AB21
+ - =AND(AB21>0,AB21/5<>INT(AB21/5)) -> -/FFFFFF00
+ - greaterThan AA21 -> FFFFFFFF/FFFF0000
+Cell: AB7
+ - =AND(AB7>0,AB7/10<>INT(AB7/10)) -> -/FFFFFF00
+ - greaterThan AA7 -> FFFFFFFF/FFFF0000
+Cell: AH18
+ - greaterThan AG18 -> FFFFFFFF/FFFF0000
+Cell: AH19
+ - greaterThan AG19 -> FFFFFFFF/FFFF0000
+Cell: AH21
+ - greaterThan AG21 -> FFFFFFFF/FFFF0000
+Cell: AH22
+ - greaterThan AG22 -> FFFFFFFF/FFFF0000
+Cell: AH7
+ - greaterThan AG7 -> FFFFFFFF/FFFF0000
+Cell: AH8
+ - greaterThan AG8 -> FFFFFFFF/FFFF0000
+Cell: AH9
+ - greaterThan AG9 -> FFFFFFFF/FFFF0000
+Cell: AN18
+ - greaterThan AM18 -> FFFFFFFF/FFFF0000
+Cell: AN21
+ - =AND(AN21>0,AN21/5<>INT(AN21/5)) -> -/FFFFFF00
+ - greaterThan AM21 -> FFFFFFFF/FFFF0000
+Cell: AN22
+ - greaterThan AM22 -> FFFFFFFF/FFFF0000
+Cell: AN7
+ - greaterThan AM7 -> FFFFFFFF/FFFF0000
+Cell: AN8
+ - greaterThan AM8 -> FFFFFFFF/FFFF0000
+Cell: AN9
+ - greaterThan AM9 -> FFFFFFFF/FFFF0000
+Cell: AT18
+ - =AND(AT18>0,AT18/5000<>INT(AT18/5000)) -> -/FFFFFF00
+ - greaterThan AS18 -> FFFFFFFF/FFFF0000
+Cell: AT7
+ - =AND(AT7>0,AT7/10<>INT(AT7/10)) -> -/FFFFFF00
+ - greaterThan AS7 -> FFFFFFFF/FFFF0000
+Cell: AT9
+ - =AND(AT9>0,AT9/50<>INT(AT9/50)) -> -/FFFFFF00
+ - greaterThan AS9 -> FFFFFFFF/FFFF0000
+Cell: AZ18
+ - =AND(AZ18>0,AZ18/100<>INT(AZ18/100)) -> -/FFFFFF00
+ - greaterThan AY18 -> FFFFFFFF/FFFF0000
+Cell: AZ7
+ - =AND(AZ7>0,AZ7/25<>INT(AZ7/25)) -> -/FFFFFF00
+ - greaterThan AY7 -> FFFFFFFF/FFFF0000
+Cell: AZ9
+ - =AND(AZ9>0,AZ9/100<>INT(AZ9/100)) -> -/FFFFFF00
+ - greaterThan AY9 -> FFFFFFFF/FFFF0000
+Cell: BF17
+ - greaterThan BE17 -> FFFFFFFF/FFFF0000
+Cell: BL15
+ - greaterThan BK15 -> FFFFFFFF/FFFF0000
+Cell: BL16
+ - greaterThan BK16 -> FFFFFFFF/FFFF0000
+Cell: P18
+ - greaterThan O18 -> FFFFFFFF/FFFF0000
+Cell: P19
+ - greaterThan O19 -> FFFFFFFF/FFFF0000
+Cell: P21
+ - greaterThan O21 -> FFFFFFFF/FFFF0000
+Cell: P22
+ - greaterThan O22 -> FFFFFFFF/FFFF0000
+Cell: P7
+ - greaterThan O7 -> FFFFFFFF/FFFF0000
+Cell: P8
+ - greaterThan O8 -> FFFFFFFF/FFFF0000
+Cell: P9
+ - greaterThan O9 -> FFFFFFFF/FFFF0000
+Cell: V18
+ - =AND(V18>0,V18/10<>INT(V18/10)) -> -/FFFFFF00
+ - greaterThan U18 -> FFFFFFFF/FFFF0000
+Cell: V21
+ - =AND(V21>0,V21/5<>INT(V21/5)) -> -/FFFFFF00
+ - greaterThan U21 -> FFFFFFFF/FFFF0000
+Cell: V22
+ - =AND(V22>0,V22/5<>INT(V22/5)) -> -/FFFFFF00
+ - greaterThan U22 -> FFFFFFFF/FFFF0000
+Cell: V7
+ - greaterThan U7 -> FFFFFFFF/FFFF0000
+Cell: V8
+ - =AND(V8>0,V8/4000<>INT(V8/4000)) -> -/FFFFFF00
+ - greaterThan U8 -> FFFFFFFF/FFFF0000
+Cell: V9
+ - =AND(V9>0,V9/10<>INT(V9/10)) -> -/FFFFFF00
+ - greaterThan U9 -> FFFFFFFF/FFFF0000

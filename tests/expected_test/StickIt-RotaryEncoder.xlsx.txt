@@ -818,3 +818,19 @@ Row: 30
 Row: 31
  Col: AB
   Formula: IFERROR(IF(COUNTIFS(AB7:AB13,">0",AE7:AE13,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AH12
+ - greaterThan AG12 -> FFFFFFFF/FFFF0000
+Cell: AN12
+ - greaterThan AM12 -> FFFFFFFF/FFFF0000
+Cell: AZ12
+ - greaterThan AY12 -> FFFFFFFF/FFFF0000
+Cell: BF12
+ - greaterThan BE12 -> FFFFFFFF/FFFF0000
+Cell: BF9
+ - greaterThan BE9 -> FFFFFFFF/FFFF0000
+Cell: BL13
+ - greaterThan BK13 -> FFFFFFFF/FFFF0000
+Cell: P12
+ - greaterThan O12 -> FFFFFFFF/FFFF0000
+Cell: V12
+ - greaterThan U12 -> FFFFFFFF/FFFF0000

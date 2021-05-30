@@ -604,3 +604,13 @@ Row: 27
 Row: 28
  Col: AA
   Formula: IFERROR(IF(COUNTIFS(AA7:AA12,">0",AD7:AD12,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AG12
+ - greaterThan AF12 -> FFFFFFFF/FFFF0000
+Cell: AM12
+ - =AND(AM12>0,AM12/25<>INT(AM12/25)) -> -/FFFFFF00
+ - greaterThan AL12 -> FFFFFFFF/FFFF0000
+Cell: AS12
+ - =AND(AS12>0,AS12/25<>INT(AS12/25)) -> -/FFFFFF00
+ - greaterThan AR12 -> FFFFFFFF/FFFF0000
+Cell: O12
+ - greaterThan N12 -> FFFFFFFF/FFFF0000

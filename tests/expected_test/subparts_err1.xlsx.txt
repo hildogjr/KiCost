@@ -499,3 +499,13 @@ Row: 15
 Row: 16
  Col: AC
   Formula: IFERROR(IF(COUNTIFS(AC7:AC8,">0",AF7:AF8,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AI7
+ - greaterThan AH7 -> FFFFFFFF/FFFF0000
+Cell: AI8
+ - greaterThan AH8 -> FFFFFFFF/FFFF0000
+Cell: AO8
+ - greaterThan AN8 -> FFFFFFFF/FFFF0000
+Cell: Q8
+ - greaterThan P8 -> FFFFFFFF/FFFF0000
+Cell: W8
+ - greaterThan V8 -> FFFFFFFF/FFFF0000

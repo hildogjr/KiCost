@@ -1488,3 +1488,30 @@ Row: 63
 Row: 64
  Col: AD
   Formula: IFERROR(IF(COUNTIFS(AD10:AD26,">0",AG10:AG26,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AJ10
+ - greaterThan AI10 -> FFFFFFFF/FFFF0000
+Cell: AJ11
+ - greaterThan AI11 -> FFFFFFFF/FFFF0000
+Cell: AP10
+ - greaterThan AO10 -> FFFFFFFF/FFFF0000
+Cell: AP11
+ - greaterThan AO11 -> FFFFFFFF/FFFF0000
+Cell: AV10
+ - greaterThan AU10 -> FFFFFFFF/FFFF0000
+Cell: AV11
+ - greaterThan AU11 -> FFFFFFFF/FFFF0000
+Cell: R10
+ - greaterThan Q10 -> FFFFFFFF/FFFF0000
+Cell: R11
+ - greaterThan Q11 -> FFFFFFFF/FFFF0000
+Cell: R12
+ - greaterThan Q12 -> FFFFFFFF/FFFF0000
+Cell: R13
+ - greaterThan Q13 -> FFFFFFFF/FFFF0000
+Cell: R17
+ - greaterThan Q17 -> FFFFFFFF/FFFF0000
+Cell: X10
+ - =AND(X10>0,X10/10<>INT(X10/10)) -> -/FFFFFF00
+ - greaterThan W10 -> FFFFFFFF/FFFF0000
+Cell: X11
+ - greaterThan W11 -> FFFFFFFF/FFFF0000

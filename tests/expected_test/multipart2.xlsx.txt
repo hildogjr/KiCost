@@ -864,3 +864,28 @@ Row: 33
 Row: 34
  Col: AB
   Formula: IFERROR(IF(COUNTIFS(AB7:AB14,">0",AE7:AE14,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AH7
+ - greaterThan AG7 -> FFFFFFFF/FFFF0000
+Cell: AH8
+ - greaterThan AG8 -> FFFFFFFF/FFFF0000
+Cell: AN7
+ - greaterThan AM7 -> FFFFFFFF/FFFF0000
+Cell: AN8
+ - greaterThan AM8 -> FFFFFFFF/FFFF0000
+Cell: AT7
+ - greaterThan AS7 -> FFFFFFFF/FFFF0000
+Cell: AT8
+ - greaterThan AS8 -> FFFFFFFF/FFFF0000
+Cell: P11
+ - greaterThan O11 -> FFFFFFFF/FFFF0000
+Cell: P7
+ - greaterThan O7 -> FFFFFFFF/FFFF0000
+Cell: P8
+ - greaterThan O8 -> FFFFFFFF/FFFF0000
+Cell: P9
+ - greaterThan O9 -> FFFFFFFF/FFFF0000
+Cell: V7
+ - =AND(V7>0,V7/10<>INT(V7/10)) -> -/FFFFFF00
+ - greaterThan U7 -> FFFFFFFF/FFFF0000
+Cell: V8
+ - greaterThan U8 -> FFFFFFFF/FFFF0000

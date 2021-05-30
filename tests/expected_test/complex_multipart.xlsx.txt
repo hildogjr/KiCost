@@ -602,3 +602,13 @@ Row: 18
 Row: 19
  Col: AG
   Formula: IFERROR(IF(COUNTIFS(AG7:AG9,">0",AJ7:AJ9,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AM7
+ - greaterThan AL7 -> FFFFFFFF/FFFF0000
+Cell: AM8
+ - greaterThan AL8 -> FFFFFFFF/FFFF0000
+Cell: BK7
+ - greaterThan BJ7 -> FFFFFFFF/FFFF0000
+Cell: BK8
+ - greaterThan BJ8 -> FFFFFFFF/FFFF0000
+Cell: BK9
+ - greaterThan BJ9 -> FFFFFFFF/FFFF0000

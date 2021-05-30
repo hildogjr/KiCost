@@ -970,3 +970,35 @@ Row: 57
    0
  Col: AB
    0
+Cell: AB15
+ - greaterThan AA15 -> FFFFFFFF/FFFF0000
+Cell: AB16
+ - greaterThan AA16 -> FFFFFFFF/FFFF0000
+Cell: J18
+ - greaterThan I18 -> FFFFFFFF/FFFF0000
+Cell: J19
+ - greaterThan I19 -> FFFFFFFF/FFFF0000
+Cell: J21
+ - greaterThan I21 -> FFFFFFFF/FFFF0000
+Cell: J22
+ - greaterThan I22 -> FFFFFFFF/FFFF0000
+Cell: J7
+ - greaterThan I7 -> FFFFFFFF/FFFF0000
+Cell: J8
+ - greaterThan I8 -> FFFFFFFF/FFFF0000
+Cell: J9
+ - greaterThan I9 -> FFFFFFFF/FFFF0000
+Cell: P18
+ - greaterThan O18 -> FFFFFFFF/FFFF0000
+Cell: P19
+ - greaterThan O19 -> FFFFFFFF/FFFF0000
+Cell: P22
+ - greaterThan O22 -> FFFFFFFF/FFFF0000
+Cell: P7
+ - greaterThan O7 -> FFFFFFFF/FFFF0000
+Cell: P8
+ - greaterThan O8 -> FFFFFFFF/FFFF0000
+Cell: P9
+ - greaterThan O9 -> FFFFFFFF/FFFF0000
+Cell: V17
+ - greaterThan U17 -> FFFFFFFF/FFFF0000

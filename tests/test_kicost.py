@@ -173,16 +173,19 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
         for name, val in sorted(vars.items()):
             f.write(name + ' = ' + val + '\n')
         f.write('-'*80+'\n')
+        used_cells = set()
         for r in rows:
             f.write('Row: ' + str(r[0]) + '\n')
             skip_next_col = False
             skip_str = None
             for col in r[1]:
                 pos = col[0]
+                used_cells.add(pos)
                 m = pos_re.match(pos)
                 cell = col[1]
                 form = forms.get(pos)
-                if cell is None and form is None:
+                styles = cond_f.get(pos)
+                if cell is None and form is None and styles is None:
                     continue
                 f.write(' Col: ' + m.group(1) + '\n')
                 if cell is not None:
@@ -220,13 +223,18 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                     f.write('\n')
                 if form:
                     f.write('  Formula: ' + form + '\n')
-                styles = cond_f.get(pos)
                 if styles:
                     f.write('  Styles:\n')
                     for style in styles:
                         # f.write('  - {} -> {} ({})\n'.format(style[0], style[1], style[2]))
                         # The priority doesn't look really important and generates a lot of silly diffs
                         f.write('  - {} -> {}\n'.format(style[0], style[1]))
+        # Orphan conditional formatting
+        for pos, styles in cond_f.items():
+            if pos not in used_cells:
+                f.write('Cell: ' + pos + '\n')
+                for style in styles:
+                    f.write(' - {} -> {}\n'.format(style[0], style[1]))
     shutil.rmtree(tmpdir)
     return True
 

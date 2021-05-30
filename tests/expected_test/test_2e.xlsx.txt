@@ -1367,3 +1367,87 @@ Row: 33
 Row: 34
  Col: AA
   Formula: IFERROR(IF(COUNTIFS(AA7:AA14,">0",AD7:AD14,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AA13
+ - greaterThan Z13 -> FFFFFFFF/FFFF0000
+Cell: AA7
+ - =AND(AA7>0,AA7/10<>INT(AA7/10)) -> -/FFFFFF00
+ - greaterThan Z7 -> FFFFFFFF/FFFF0000
+Cell: AG10
+ - greaterThan AF10 -> FFFFFFFF/FFFF0000
+Cell: AG11
+ - greaterThan AF11 -> FFFFFFFF/FFFF0000
+Cell: AG12
+ - greaterThan AF12 -> FFFFFFFF/FFFF0000
+Cell: AG13
+ - greaterThan AF13 -> FFFFFFFF/FFFF0000
+Cell: AG14
+ - greaterThan AF14 -> FFFFFFFF/FFFF0000
+Cell: AG7
+ - greaterThan AF7 -> FFFFFFFF/FFFF0000
+Cell: AG8
+ - greaterThan AF8 -> FFFFFFFF/FFFF0000
+Cell: AM10
+ - greaterThan AL10 -> FFFFFFFF/FFFF0000
+Cell: AM12
+ - greaterThan AL12 -> FFFFFFFF/FFFF0000
+Cell: AM13
+ - greaterThan AL13 -> FFFFFFFF/FFFF0000
+Cell: AM14
+ - greaterThan AL14 -> FFFFFFFF/FFFF0000
+Cell: AM7
+ - greaterThan AL7 -> FFFFFFFF/FFFF0000
+Cell: AM8
+ - greaterThan AL8 -> FFFFFFFF/FFFF0000
+Cell: AS10
+ - =AND(AS10>0,AS10/5000<>INT(AS10/5000)) -> -/FFFFFF00
+ - greaterThan AR10 -> FFFFFFFF/FFFF0000
+Cell: AS12
+ - greaterThan AR12 -> FFFFFFFF/FFFF0000
+Cell: AS13
+ - =AND(AS13>0,AS13/20<>INT(AS13/20)) -> -/FFFFFF00
+ - greaterThan AR13 -> FFFFFFFF/FFFF0000
+Cell: AS7
+ - =AND(AS7>0,AS7/10<>INT(AS7/10)) -> -/FFFFFF00
+ - greaterThan AR7 -> FFFFFFFF/FFFF0000
+Cell: AY10
+ - =AND(AY10>0,AY10/100<>INT(AY10/100)) -> -/FFFFFF00
+ - greaterThan AX10 -> FFFFFFFF/FFFF0000
+Cell: AY13
+ - =AND(AY13>0,AY13/3<>INT(AY13/3)) -> -/FFFFFF00
+ - greaterThan AX13 -> FFFFFFFF/FFFF0000
+Cell: AY7
+ - =AND(AY7>0,AY7/25<>INT(AY7/25)) -> -/FFFFFF00
+ - greaterThan AX7 -> FFFFFFFF/FFFF0000
+Cell: BE12
+ - greaterThan BD12 -> FFFFFFFF/FFFF0000
+Cell: O10
+ - greaterThan N10 -> FFFFFFFF/FFFF0000
+Cell: O11
+ - greaterThan N11 -> FFFFFFFF/FFFF0000
+Cell: O12
+ - greaterThan N12 -> FFFFFFFF/FFFF0000
+Cell: O13
+ - greaterThan N13 -> FFFFFFFF/FFFF0000
+Cell: O14
+ - greaterThan N14 -> FFFFFFFF/FFFF0000
+Cell: O7
+ - greaterThan N7 -> FFFFFFFF/FFFF0000
+Cell: O8
+ - greaterThan N8 -> FFFFFFFF/FFFF0000
+Cell: U10
+ - =AND(U10>0,U10/10<>INT(U10/10)) -> -/FFFFFF00
+ - greaterThan T10 -> FFFFFFFF/FFFF0000
+Cell: U12
+ - =AND(U12>0,U12/5<>INT(U12/5)) -> -/FFFFFF00
+ - greaterThan T12 -> FFFFFFFF/FFFF0000
+Cell: U13
+ - =AND(U13>0,U13/5<>INT(U13/5)) -> -/FFFFFF00
+ - greaterThan T13 -> FFFFFFFF/FFFF0000
+Cell: U14
+ - =AND(U14>0,U14/5<>INT(U14/5)) -> -/FFFFFF00
+ - greaterThan T14 -> FFFFFFFF/FFFF0000
+Cell: U7
+ - greaterThan T7 -> FFFFFFFF/FFFF0000
+Cell: U8
+ - =AND(U8>0,U8/4000<>INT(U8/4000)) -> -/FFFFFF00
+ - greaterThan T8 -> FFFFFFFF/FFFF0000

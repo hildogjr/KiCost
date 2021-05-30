@@ -1231,3 +1231,59 @@ Row: 36
 Row: 37
  Col: AC
   Formula: IFERROR(IF(COUNTIFS(AC7:AC15,">0",AF7:AF15,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AC13
+ - greaterThan AB13 -> FFFFFFFF/FFFF0000
+Cell: AI13
+ - greaterThan AH13 -> FFFFFFFF/FFFF0000
+Cell: AI14
+ - greaterThan AH14 -> FFFFFFFF/FFFF0000
+Cell: AI15
+ - greaterThan AH15 -> FFFFFFFF/FFFF0000
+Cell: AI7
+ - greaterThan AH7 -> FFFFFFFF/FFFF0000
+Cell: AO13
+ - greaterThan AN13 -> FFFFFFFF/FFFF0000
+Cell: AO14
+ - =AND(AO14>0,AO14/296<>INT(AO14/296)) -> -/FFFFFF00
+ - greaterThan AN14 -> FFFFFFFF/FFFF0000
+Cell: AO15
+ - greaterThan AN15 -> FFFFFFFF/FFFF0000
+Cell: AO7
+ - =AND(AO7>0,AO7/15000<>INT(AO7/15000)) -> -/FFFFFF00
+ - greaterThan AN7 -> FFFFFFFF/FFFF0000
+Cell: AU13
+ - =AND(AU13>0,AU13/5<>INT(AU13/5)) -> -/FFFFFF00
+ - greaterThan AT13 -> FFFFFFFF/FFFF0000
+Cell: AU15
+ - greaterThan AT15 -> FFFFFFFF/FFFF0000
+Cell: BA13
+ - greaterThan AZ13 -> FFFFFFFF/FFFF0000
+Cell: BA15
+ - greaterThan AZ15 -> FFFFFFFF/FFFF0000
+Cell: BG10
+ - greaterThan BF10 -> FFFFFFFF/FFFF0000
+Cell: BG12
+ - greaterThan BF12 -> FFFFFFFF/FFFF0000
+Cell: BG15
+ - greaterThan BF15 -> FFFFFFFF/FFFF0000
+Cell: BG8
+ - greaterThan BF8 -> FFFFFFFF/FFFF0000
+Cell: BG9
+ - greaterThan BF9 -> FFFFFFFF/FFFF0000
+Cell: Q13
+ - greaterThan P13 -> FFFFFFFF/FFFF0000
+Cell: Q14
+ - greaterThan P14 -> FFFFFFFF/FFFF0000
+Cell: Q15
+ - greaterThan P15 -> FFFFFFFF/FFFF0000
+Cell: Q7
+ - greaterThan P7 -> FFFFFFFF/FFFF0000
+Cell: W13
+ - greaterThan V13 -> FFFFFFFF/FFFF0000
+Cell: W14
+ - greaterThan V14 -> FFFFFFFF/FFFF0000
+Cell: W15
+ - greaterThan V15 -> FFFFFFFF/FFFF0000
+Cell: W7
+ - =AND(W7>0,W7/10<>INT(W7/10)) -> -/FFFFFF00
+ - greaterThan V7 -> FFFFFFFF/FFFF0000

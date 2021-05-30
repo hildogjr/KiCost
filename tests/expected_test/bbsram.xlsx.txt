@@ -1350,3 +1350,24 @@ Row: 81
 Row: 82
  Col: AA
   Formula: IFERROR(IF(COUNTIFS(AA7:AA30,">0",AD7:AD30,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
+Cell: AA20
+ - greaterThan Z20 -> FFFFFFFF/FFFF0000
+Cell: AG20
+ - greaterThan AF20 -> FFFFFFFF/FFFF0000
+Cell: AM20
+ - =AND(AM20>0,AM20/5<>INT(AM20/5)) -> -/FFFFFF00
+ - greaterThan AL20 -> FFFFFFFF/FFFF0000
+Cell: AS20
+ - =AND(AS20>0,AS20/5<>INT(AS20/5)) -> -/FFFFFF00
+ - greaterThan AR20 -> FFFFFFFF/FFFF0000
+Cell: AY20
+ - =AND(AY20>0,AY20/3<>INT(AY20/3)) -> -/FFFFFF00
+ - greaterThan AX20 -> FFFFFFFF/FFFF0000
+Cell: O20
+ - greaterThan N20 -> FFFFFFFF/FFFF0000
+Cell: O26
+ - =AND(O26>0,O26/10000<>INT(O26/10000)) -> -/FFFFFF00
+ - greaterThan N26 -> FFFFFFFF/FFFF0000
+Cell: U20
+ - =AND(U20>0,U20/5<>INT(U20/5)) -> -/FFFFFF00
+ - greaterThan T20 -> FFFFFFFF/FFFF0000
