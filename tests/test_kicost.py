@@ -230,10 +230,10 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                         # The priority doesn't look really important and generates a lot of silly diffs
                         f.write('  - {} -> {}\n'.format(style[0], style[1]))
         # Orphan conditional formatting
-        for pos, styles in cond_f.items():
+        for pos in sorted(cond_f.keys()):
             if pos not in used_cells:
                 f.write('Cell: ' + pos + '\n')
-                for style in styles:
+                for style in cond_f[pos]:
                     f.write(' - {} -> {}\n'.format(style[0], style[1]))
     shutil.rmtree(tmpdir)
     return True
