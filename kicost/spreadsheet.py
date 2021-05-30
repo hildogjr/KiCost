@@ -1089,7 +1089,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             ss.conditional_format(row, col_avail, '<', 'too_few_available', part_qty_cell)
             # Minimum order quantity not respected.
             if minimum_order_qty > 1:
-                criteria = '=AND({q}>0,{q}/{moq}<>INT({q}/{moq}))'.format(q=purch_cell, moq=minimum_order_qty)
+                criteria = '=AND({q}>0,MOD({q},{moq})<>0)'.format(q=purch_cell, moq=moq_cell)
                 ss.conditional_format(row, col_purch, criteria, 'order_min_qty')
             # Purchase quantity is more than what is available.
             ss.conditional_format(row, col_purch, '>', 'order_too_much', xl_rowcol_to_cell(row, col_avail))

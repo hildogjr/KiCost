@@ -770,7 +770,7 @@ Cell: AG9
 Cell: AM7
  - greaterThan AL7 -> FFFFFFFF/FFFF0000
 Cell: AS7
- - =AND(AS7>0,AS7/2<>INT(AS7/2)) -> -/FFFFFF00
+ - =AND(AS7>0,MOD(AS7,AU7)<>0) -> -/FFFFFF00
  - greaterThan AR7 -> FFFFFFFF/FFFF0000
 Cell: AS9
  - greaterThan AR9 -> FFFFFFFF/FFFF0000
@@ -785,7 +785,7 @@ Cell: O8
 Cell: O9
  - greaterThan N9 -> FFFFFFFF/FFFF0000
 Cell: U10
- - =AND(U10>0,U10/5<>INT(U10/5)) -> -/FFFFFF00
+ - =AND(U10>0,MOD(U10,W10)<>0) -> -/FFFFFF00
  - greaterThan T10 -> FFFFFFFF/FFFF0000
 Cell: U7
  - greaterThan T7 -> FFFFFFFF/FFFF0000

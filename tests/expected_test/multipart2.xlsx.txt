@@ -885,7 +885,7 @@ Cell: P8
 Cell: P9
  - greaterThan O9 -> FFFFFFFF/FFFF0000
 Cell: V7
- - =AND(V7>0,V7/10<>INT(V7/10)) -> -/FFFFFF00
+ - =AND(V7>0,MOD(V7,X7)<>0) -> -/FFFFFF00
  - greaterThan U7 -> FFFFFFFF/FFFF0000
 Cell: V8
  - greaterThan U8 -> FFFFFFFF/FFFF0000

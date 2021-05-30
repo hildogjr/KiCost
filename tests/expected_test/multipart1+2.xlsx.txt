@@ -1511,7 +1511,7 @@ Cell: R13
 Cell: R17
  - greaterThan Q17 -> FFFFFFFF/FFFF0000
 Cell: X10
- - =AND(X10>0,X10/10<>INT(X10/10)) -> -/FFFFFF00
+ - =AND(X10>0,MOD(X10,Z10)<>0) -> -/FFFFFF00
  - greaterThan W10 -> FFFFFFFF/FFFF0000
 Cell: X11
  - greaterThan W11 -> FFFFFFFF/FFFF0000
