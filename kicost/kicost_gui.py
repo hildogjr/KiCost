@@ -1173,7 +1173,12 @@ def kicost_gui(force_en_us=False, files=None):
     elif not loc.GetLocale() and not loc.GetName():
         logger.warning(W_LOCFAIL+"Unsupported locale"+(", try using `--force_en_us`" if not force_en_us else ""))
     else:
-        logger.debug('wxWidgets locale {} ({}) system: {}'.format(loc.GetLocale(), loc.GetName(), locale.getlocale()))
+        try:
+            sys_loc_name = locale.getlocale()
+        except ValueError:
+            logger.warning(W_LOCFAIL+"Unsupported locale (python)"+(", try using `--force_en_us`" if not force_en_us else ""))
+            sys_loc_name = 'unsupported'
+        logger.debug('wxWidgets locale {} ({}) system: {}'.format(loc.GetLocale(), loc.GetName(), sys_loc_name))
     frame = formKiCost(None)
     # Use the GUI for progress
     set_distributors_progress(ProgressGUI)
