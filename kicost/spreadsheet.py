@@ -984,9 +984,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
         dist_url = part.url.get(dist)
         if dist_url:
             if ss.SUPPRESS_CAT_URL:
-                ss.write_url(row, col_part_num, dist_url, string=dist_part_num)
+                ss.write_url(row, col_part_num, dist_url, 'part_format', dist_part_num)
             else:
-                ss.write_url(row, start_col + columns['link']['col'], dist_url)
+                ss.write_url(row, start_col + columns['link']['col'], dist_url, 'part_format')
 
         # Available parts for this distributor unless it is None which means the part is not stocked.
         col_avail = start_col + columns['avail']['col']
