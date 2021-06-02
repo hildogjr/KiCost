@@ -120,7 +120,7 @@
         <field name="manf">Wurth Elektronik</field>
         <field name="manf#">431481031816</field>
       </fields>
-      <libsource lib="Switches" part="Wurth_431481031816"/>
+      <libsource lib="Switches" part="Wurth_431481031816B"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>57ABB9A0</tstamp>
     </comp>

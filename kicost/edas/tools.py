@@ -244,7 +244,7 @@ def group_parts(components, fields_merge, c_prjs):
         for grp in new_component_groups:
             eda_class.logger.log(DEBUG_FULL, '\n' + str(grp.refs))
             for r in grp.refs:
-                eda_class.logger.log(DEBUG_FULL, str(r) + str(components[r]))
+                eda_class.logger.log(DEBUG_FULL, str(r) + ' ' + str(components[r]))
 
     # If the identical components grouped have difference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
@@ -671,7 +671,7 @@ def convert_to_ranges(nums):
     return num_ranges
 
 
-def order_refs(refs, collapse=True, ref_sep=None):
+def order_refs(refs, collapse=True, ref_sep=PART_NSEQ_SEPRTR):
     '''@brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as opposite of `split_refs()`
        @param refs Designator/references `list()`.
        @return References in a organized view way.
@@ -734,8 +734,6 @@ def order_refs(refs, collapse=True, ref_sep=None):
     if prj_prefix is not None:
         # Separate multiproject refs in different lines
         ref_sep = '\n'
-    elif ref_sep is None:
-        ref_sep = PART_NSEQ_SEPRTR
     collapsed_refs = ref_sep.join(collapsed_refs)
     return collapsed_refs, first_ref  # Return the collapsed par references.
 
