@@ -1122,7 +1122,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             # Sum the extended prices (unit multiplied by quantity) for each file/BOM.
             qty_prj_col = part_qty_col - (num_prj - i_prj)
             qty_prj_range = xl_range(PART_INFO_FIRST_ROW, qty_prj_col, PART_INFO_LAST_ROW)
-            row = total_cost_row + i_prj * 3
+            row = total_cost_row + i_prj * ss.PRJ_INFO_ROWS
             wks.write_formula(row, col_ext_price, '=SUMPRODUCT({qty_range},{unit_price_range})'.format(qty_range=qty_prj_range,
                               unit_price_range=xl_range(PART_INFO_FIRST_ROW, col_unit_price, PART_INFO_LAST_ROW)),
                               ss.wrk_formats['total_cost_currency'], value=round(total_cost_l[i_prj], 4))
