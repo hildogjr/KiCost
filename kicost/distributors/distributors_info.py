@@ -15,7 +15,7 @@ ORDER_COL_USERFIELDS = '*__USER__FIELDS__*'
 
 class DistributorOrder(object):
     '''@brief Class to indicate how to place an order in a distributor.'''
-    def __init__(self, url=None, cols=[], header=None, delimiter=',', replace_by_char=';', not_allowed_char=',', info=None, limit=None):
+    def __init__(self, url=None, cols=[], header=None, delimiter=',', replace_by_char='; ', not_allowed_char=',\n', info=None, limit=None):
         self.url = url
         # Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.
         self.cols = cols
@@ -78,7 +78,6 @@ distributors_info = {
                     url='https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true',
                     # header='Stock#,Quantity,Descriptions,Designators,',
                     cols=['part_num', 'purch', 'desc', 'refs'],
-                    not_allowed_char=',\n',
                     limit=30),
                 label=DistributorLabel('Farnell', 'https://www.farnell.com/', '#FF6600')),  # Farnell/E14 orange.
     'mouser': DistributorInfo(
@@ -87,15 +86,14 @@ distributors_info = {
                     # header='Stock#|Quantity|Designators',
                     cols=['part_num', 'purch', 'refs'],
                     delimiter='|',
-                    not_allowed_char='| ',
-                    replace_by_char=';_'),
+                    not_allowed_char='| \n',
+                    replace_by_char=';__'),
                 label=DistributorLabel('Mouser', 'https://www.mouser.com/', '#004A85')),  # Mouser blue.
     'newark': DistributorInfo(
                 order=DistributorOrder(
                     url='https://www.newark.com/quick-order?isQuickPaste=true',
                     # header='Stock#,Quantity,Designators,Descriptions,User',
-                    cols=['part_num', 'purch', 'refs', 'desc'],
-                    not_allowed_char=',\n'),
+                    cols=['part_num', 'purch', 'refs', 'desc']),
                 label=DistributorLabel('Newark', 'https://www.newark.com/', '#A2AE06')),  # Newark/E14 olive green.
     'rs': DistributorInfo(
                 order=DistributorOrder(
@@ -109,7 +107,7 @@ distributors_info = {
                     # header='Stock# Quantity Designators',
                     cols=['part_num', 'purch', 'refs'],
                     delimiter=' ',
-                    not_allowed_char=' ',
+                    not_allowed_char=' \n',
                     replace_by_char=';'),
                 label=DistributorLabel('TME', 'https://www.tme.eu/', '#0C4DA1')),  # TME blue.
     'lcsc': DistributorInfo(
