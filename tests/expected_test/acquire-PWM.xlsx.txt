@@ -244,6 +244,9 @@ Row: 7
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E7 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N7 -> FFFFFFFF/FFFF0000
  Col: P
    0.1818
   Formula: IFERROR(IF(OR(O7>=Q7,E7>=Q7),LOOKUP(IF(O7="",E7,O7),{0,1,25,100,250,500,1000,2500,5000},{0.0,0.42,0.3408,0.3015,0.28304,0.2523,0.19884,0.1818,0.17044}),"MOQ="&Q7),"")
@@ -263,6 +266,9 @@ Row: 7
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E7 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T7 -> FFFFFFFF/FFFF0000
  Col: V
    0.174744582223
   Formula: IFERROR(IF(OR(U7>=W7,E7>=W7),USD_GBP*LOOKUP(IF(U7="",E7,U7),{0,1,5,10,20,100,500,1000,2500,10000},{0.0,0.288,15.06,0.276,13.72,0.188,0.158,0.143,0.127,0.119}),"MOQ="&W7),"")
@@ -282,6 +288,9 @@ Row: 7
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E7 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z7 -> FFFFFFFF/FFFF0000
  Col: AB
    0.1597
   Formula: IFERROR(IF(OR(AA7>=AC7,E7>=AC7),LOOKUP(IF(AA7="",E7,AA7),{0,1,10,30,100,500,1000},{0.0,0.2425,0.187,0.1767,0.1665,0.162,0.1597}),"MOQ="&AC7),"")
@@ -301,6 +310,9 @@ Row: 7
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E7 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF7 -> FFFFFFFF/FFFF0000
  Col: AH
    0.171
   Formula: IFERROR(IF(OR(AG7>=AI7,E7>=AI7),LOOKUP(IF(AG7="",E7,AG7),{0,1,10,50,100,1000,10000},{0.0,0.35,0.335,0.243,0.226,0.171,0.143}),"MOQ="&AI7),"")
@@ -320,6 +332,9 @@ Row: 7
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E7 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL7 -> FFFFFFFF/FFFF0000
  Col: AN
    0.116
   Formula: IFERROR(IF(OR(AM7>=AO7,E7>=AO7),LOOKUP(IF(AM7="",E7,AM7),{0,1,10,100,500,1000,2500,10000},{0.0,0.246,0.237,0.209,0.166,0.141,0.116,0.104}),"MOQ="&AO7),"")
@@ -362,6 +377,9 @@ Row: 8
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E8 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N8 -> FFFFFFFF/FFFF0000
  Col: P
    0.148
   Formula: IFERROR(IF(OR(O8>=Q8,E8>=Q8),LOOKUP(IF(O8="",E8,O8),{0,1,50,100,250,800},{0.0,0.22,0.191,0.166,0.148,0.129}),"MOQ="&Q8),"")
@@ -381,6 +399,9 @@ Row: 8
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E8 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T8 -> FFFFFFFF/FFFF0000
  Col: V
    0.152729516746
   Formula: IFERROR(IF(OR(U8>=W8,E8>=W8),USD_GBP*LOOKUP(IF(U8="",E8,U8),{0,1,10,50,200,400,800,4000},{0.0,0.239,0.221,0.145,0.114,0.111,0.105,0.0999}),"MOQ="&W8),"")
@@ -400,6 +421,9 @@ Row: 8
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E8 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF8 -> FFFFFFFF/FFFF0000
  Col: AH
    0.172
   Formula: IFERROR(IF(OR(AG8>=AI8,E8>=AI8),LOOKUP(IF(AG8="",E8,AG8),{0,1,10,50,100,1000,10000},{0.0,0.23,0.23,0.198,0.172,0.127,0.127}),"MOQ="&AI8),"")
@@ -419,6 +443,9 @@ Row: 8
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E8 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL8 -> FFFFFFFF/FFFF0000
  Col: AN
    0.22
   Formula: IFERROR(IF(OR(AM8>=AO8,E8>=AO8),LOOKUP(IF(AM8="",E8,AM8),{0,1,10,25,50,100,500},{0.0,0.298,0.281,0.266,0.25,0.22,0.175}),"MOQ="&AO8),"")
@@ -438,6 +465,10 @@ Row: 8
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E8 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS8>0,MOD(AS8,AU8)<>0) -> -/FFFFFF00
+  - greaterThan AR8 -> FFFFFFFF/FFFF0000
  Col: AT
    0.181624290184
   Formula: IFERROR(IF(OR(AS8>=AU8,E8>=AU8),USD_GBP*LOOKUP(IF(AS8="",E8,AS8),{0,1,25,125},{0.0,0.18,0.18,0.132}),"MOQ="&AU8),"")
@@ -480,6 +511,10 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I9>0,MOD(I9,K9)<>0) -> -/FFFFFF00
+  - greaterThan H9 -> FFFFFFFF/FFFF0000
  Col: J
    0.118
   Formula: IFERROR(IF(OR(I9>=K9,E9>=K9),LOOKUP(IF(I9="",E9,I9),{0,1,4000,40000,400000,2000000,4000000},{0.0,0.118,0.118,0.1102,0.0636,0.0375,0.0372}),"MOQ="&K9),"")
@@ -499,6 +534,9 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N9 -> FFFFFFFF/FFFF0000
  Col: P
    0.02547
   Formula: IFERROR(IF(OR(O9>=Q9,E9>=Q9),LOOKUP(IF(O9="",E9,O9),{0,1,10,50,100,500,1000,4000},{0.0,0.15,0.11,0.0622,0.0515,0.03612,0.02991,0.02547}),"MOQ="&Q9),"")
@@ -518,6 +556,9 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T9 -> FFFFFFFF/FFFF0000
  Col: V
    0.0379759879476
   Formula: IFERROR(IF(OR(U9>=W9,E9>=W9),USD_GBP*LOOKUP(IF(U9="",E9,U9),{0,1,10,25,50,100,150,500,1000,2000,4000},{0.0,0.046,0.0781,0.028,0.019,0.0581,0.0581,0.0391,0.0345,0.0309,0.0276}),"MOQ="&W9),"")
@@ -537,6 +578,10 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - =AND(AA9>0,MOD(AA9,AC9)<>0) -> -/FFFFFF00
+  - greaterThan Z9 -> FFFFFFFF/FFFF0000
  Col: AB
    0.0114
   Formula: IFERROR(IF(OR(AA9>=AC9,E9>=AC9),LOOKUP(IF(AA9="",E9,AA9),{0,1,50,500,1500,5000,25000,50000},{0.0,0.017,0.017,0.0129,0.0122,0.0114,0.0111,0.011}),"MOQ="&AC9),"")
@@ -556,6 +601,9 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF9 -> FFFFFFFF/FFFF0000
  Col: AH
    0.042
   Formula: IFERROR(IF(OR(AG9>=AI9,E9>=AI9),LOOKUP(IF(AG9="",E9,AG9),{0,1,10,50,100,1000,10000},{0.0,0.24,0.126,0.126,0.076,0.059,0.042}),"MOQ="&AI9),"")
@@ -575,6 +623,9 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL9 -> FFFFFFFF/FFFF0000
  Col: AN
    0.059
   Formula: IFERROR(IF(OR(AM9>=AO9,E9>=AO9),LOOKUP(IF(AM9="",E9,AM9),{0,1,10,25,50,100,250,500,1000,4000},{0.0,0.363,0.311,0.201,0.163,0.123,0.108,0.09,0.076,0.059}),"MOQ="&AO9),"")
@@ -594,6 +645,10 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS9>0,MOD(AS9,AU9)<>0) -> -/FFFFFF00
+  - greaterThan AR9 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0261428902538
   Formula: IFERROR(IF(OR(AS9>=AU9,E9>=AU9),USD_GBP*LOOKUP(IF(AS9="",E9,AS9),{0,1,25,375,750,1500},{0.0,0.073,0.073,0.039,0.024,0.019}),"MOQ="&AU9),"")
@@ -613,6 +668,10 @@ Row: 9
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E9 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY9>0,MOD(AY9,BA9)<>0) -> -/FFFFFF00
+  - greaterThan AX9 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.0129888886314
   Formula: IFERROR(IF(OR(AY9>=BA9,E9>=BA9),USD_GBP*LOOKUP(IF(AY9="",E9,AY9),{0,1,100,300,1000,4000,12000},{0.0,0.02798,0.02798,0.01819,0.01334,0.01014,0.00944}),"MOQ="&BA9),"")
@@ -712,6 +771,10 @@ Row: 13
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E13 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I13>0,MOD(I13,K13)<>0) -> -/FFFFFF00
+  - greaterThan H13 -> FFFFFFFF/FFFF0000
  Col: J
    0.1962
   Formula: IFERROR(IF(OR(I13>=K13,E13>=K13),LOOKUP(IF(I13="",E13,I13),{0,1,2500},{0.0,0.1962,0.1962}),"MOQ="&K13),"")
@@ -731,6 +794,9 @@ Row: 13
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E13 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N13 -> FFFFFFFF/FFFF0000
  Col: P
    0.09066
   Formula: IFERROR(IF(OR(O13>=Q13,E13>=Q13),LOOKUP(IF(O13="",E13,O13),{0,1,10,50,100,500,1000,2500},{0.0,0.36,0.252,0.1762,0.1511,0.11334,0.0957,0.09066}),"MOQ="&Q13),"")
@@ -750,6 +816,10 @@ Row: 13
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E13 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U13>0,MOD(U13,W13)<>0) -> -/FFFFFF00
+  - greaterThan T13 -> FFFFFFFF/FFFF0000
  Col: V
    0.101269301194
   Formula: IFERROR(IF(OR(U13>=W13,E13>=W13),USD_GBP*LOOKUP(IF(U13="",E13,U13),{0,1,5,50,150,250,500,1000,2500},{0.0,0.176,0.176,0.132,0.132,0.108,0.0843,0.0738,0.0736}),"MOQ="&W13),"")
@@ -769,6 +839,9 @@ Row: 13
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E13 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF13 -> FFFFFFFF/FFFF0000
  Col: AH
    0.309
   Formula: IFERROR(IF(OR(AG13>=AI13,E13>=AI13),LOOKUP(IF(AG13="",E13,AG13),{0,1,10,50,100,1000,10000},{0.0,0.9,0.6,0.6,0.374,0.309,0.288}),"MOQ="&AI13),"")
@@ -788,6 +861,9 @@ Row: 13
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E13 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL13 -> FFFFFFFF/FFFF0000
  Col: AN
    0.079
   Formula: IFERROR(IF(OR(AM13>=AO13,E13>=AO13),LOOKUP(IF(AM13="",E13,AM13),{0,1,10,25,50,100,2500,5000,10000,15000,25000},{0.0,0.438,0.211,0.201,0.191,0.181,0.079,0.076,0.074,0.073,0.072}),"MOQ="&AO13),"")
@@ -807,6 +883,10 @@ Row: 13
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E13 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY13>0,MOD(AY13,BA13)<>0) -> -/FFFFFF00
+  - greaterThan AX13 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.057211651408
   Formula: IFERROR(IF(OR(AY13>=BA13,E13>=BA13),USD_GBP*LOOKUP(IF(AY13="",E13,AY13),{0,1,10,100,1000,2500},{0.0,0.09789,0.09789,0.06238,0.04462,0.04158}),"MOQ="&BA13),"")
@@ -866,6 +946,10 @@ Row: 15
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E15 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM15>0,MOD(AM15,AO15)<>0) -> -/FFFFFF00
+  - greaterThan AL15 -> FFFFFFFF/FFFF0000
  Col: AN
   Formula: IFERROR(IF(OR(AM15>=AO15,E15>=AO15),LOOKUP(IF(AM15="",E15,AM15),{0,1,3564},{0.0,2.66,2.66}),"MOQ="&AO15),"")
   Styles:
@@ -910,6 +994,9 @@ Row: 16
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E16 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H16 -> FFFFFFFF/FFFF0000
  Col: J
    80.44
   Formula: IFERROR(IF(OR(I16>=K16,E16>=K16),LOOKUP(IF(I16="",E16,I16),{0,1,10,100,500},{0.0,82.8,82.44,80.44,79.51}),"MOQ="&K16),"")
@@ -929,6 +1016,9 @@ Row: 16
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E16 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N16 -> FFFFFFFF/FFFF0000
  Col: P
    130.8
   Formula: IFERROR(IF(OR(O16>=Q16,E16>=Q16),LOOKUP(IF(O16="",E16,O16),{0,1},{0.0,130.8}),"MOQ="&Q16),"")
@@ -948,6 +1038,9 @@ Row: 16
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E16 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T16 -> FFFFFFFF/FFFF0000
  Col: V
    95.2151581875
   Formula: IFERROR(IF(OR(U16>=W16,E16>=W16),USD_GBP*LOOKUP(IF(U16="",E16,U16),{0,1},{0.0,69.2}),"MOQ="&W16),"")
@@ -967,6 +1060,9 @@ Row: 16
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E16 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF16 -> FFFFFFFF/FFFF0000
  Col: AH
    91.77
   Formula: IFERROR(IF(OR(AG16>=AI16,E16>=AI16),LOOKUP(IF(AG16="",E16,AG16),{0,1,10,50,100,1000,10000},{0.0,91.77,91.77,91.77,91.77,91.77,91.77}),"MOQ="&AI16),"")
@@ -986,6 +1082,9 @@ Row: 16
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E16 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL16 -> FFFFFFFF/FFFF0000
  Col: AN
    86.88
   Formula: IFERROR(IF(OR(AM16>=AO16,E16>=AO16),LOOKUP(IF(AM16="",E16,AM16),{0,1,10},{0.0,88.96,86.88}),"MOQ="&AO16),"")
@@ -1028,6 +1127,9 @@ Row: 17
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E17 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H17 -> FFFFFFFF/FFFF0000
  Col: J
    80.44
   Formula: IFERROR(IF(OR(I17>=K17,E17>=K17),LOOKUP(IF(I17="",E17,I17),{0,1,10,100,500},{0.0,82.8,82.44,80.44,79.51}),"MOQ="&K17),"")
@@ -1047,6 +1149,9 @@ Row: 17
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E17 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T17 -> FFFFFFFF/FFFF0000
  Col: V
    95.2151581875
   Formula: IFERROR(IF(OR(U17>=W17,E17>=W17),USD_GBP*LOOKUP(IF(U17="",E17,U17),{0,1},{0.0,69.2}),"MOQ="&W17),"")
@@ -1066,6 +1171,9 @@ Row: 17
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E17 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF17 -> FFFFFFFF/FFFF0000
  Col: AH
    91.77
   Formula: IFERROR(IF(OR(AG17>=AI17,E17>=AI17),LOOKUP(IF(AG17="",E17,AG17),{0,1,10,50,100,1000,10000},{0.0,91.77,91.77,91.77,91.77,91.77,91.77}),"MOQ="&AI17),"")
@@ -1085,6 +1193,9 @@ Row: 17
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E17 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL17 -> FFFFFFFF/FFFF0000
  Col: AN
    86.88
   Formula: IFERROR(IF(OR(AM17>=AO17,E17>=AO17),LOOKUP(IF(AM17="",E17,AM17),{0,1,10},{0.0,88.96,86.88}),"MOQ="&AO17),"")
@@ -1127,6 +1238,9 @@ Row: 18
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E18 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H18 -> FFFFFFFF/FFFF0000
  Col: J
    75.66
   Formula: IFERROR(IF(OR(I18>=K18,E18>=K18),LOOKUP(IF(I18="",E18,I18),{0,1},{0.0,75.66}),"MOQ="&K18),"")
@@ -1146,6 +1260,9 @@ Row: 18
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E18 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N18 -> FFFFFFFF/FFFF0000
  Col: P
    73.3
   Formula: IFERROR(IF(OR(O18>=Q18,E18>=Q18),LOOKUP(IF(O18="",E18,O18),{0,1},{0.0,73.3}),"MOQ="&Q18),"")
@@ -1165,6 +1282,9 @@ Row: 18
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E18 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T18 -> FFFFFFFF/FFFF0000
  Col: V
    77.245360992
   Formula: IFERROR(IF(OR(U18>=W18,E18>=W18),USD_GBP*LOOKUP(IF(U18="",E18,U18),{0,1},{0.0,56.14}),"MOQ="&W18),"")
@@ -1184,6 +1304,9 @@ Row: 18
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E18 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL18 -> FFFFFFFF/FFFF0000
  Col: AN
    76.91
   Formula: IFERROR(IF(OR(AM18>=AO18,E18>=AO18),LOOKUP(IF(AM18="",E18,AM18),{0,1,10},{0.0,78.75,76.91}),"MOQ="&AO18),"")
@@ -1226,6 +1349,10 @@ Row: 19
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E19 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I19>0,MOD(I19,K19)<>0) -> -/FFFFFF00
+  - greaterThan H19 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I19>=K19,E19>=K19),LOOKUP(IF(I19="",E19,I19),{0,1,3000,6000,12000,27000,51000},{0.0,0.126,0.126,0.1197,0.1037,0.0876,0.0788}),"MOQ="&K19),"")
   Styles:
@@ -1247,6 +1374,9 @@ Row: 19
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E19 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N19 -> FFFFFFFF/FFFF0000
  Col: P
    0.16027
   Formula: IFERROR(IF(OR(O19>=Q19,E19>=Q19),LOOKUP(IF(O19="",E19,O19),{0,1,10,100,1000,3000,6000,15000},{0.0,0.58,0.356,0.2048,0.16027,0.14692,0.13356,0.126}),"MOQ="&Q19),"")
@@ -1266,6 +1396,9 @@ Row: 19
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E19 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T19 -> FFFFFFFF/FFFF0000
  Col: V
    0.177496465407
   Formula: IFERROR(IF(OR(U19>=W19,E19>=W19),USD_GBP*LOOKUP(IF(U19="",E19,U19),{0,1,25,50,100,250,500,1000},{0.0,0.535,0.387,0.32,0.252,0.209,0.166,0.129}),"MOQ="&W19),"")
@@ -1285,6 +1418,9 @@ Row: 19
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E19 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF19 -> FFFFFFFF/FFFF0000
  Col: AH
    0.17
   Formula: IFERROR(IF(OR(AG19>=AI19,E19>=AI19),LOOKUP(IF(AG19="",E19,AG19),{0,1,10,50,100,1000,10000},{0.0,0.64,0.377,0.377,0.254,0.17,0.128}),"MOQ="&AI19),"")
@@ -1304,6 +1440,9 @@ Row: 19
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E19 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL19 -> FFFFFFFF/FFFF0000
  Col: AN
    0.211
   Formula: IFERROR(IF(OR(AM19>=AO19,E19>=AO19),LOOKUP(IF(AM19="",E19,AM19),{0,1,25,50,100,4000,6000,12000,18000,30000},{0.0,0.6,0.369,0.29,0.211,0.126,0.118,0.112,0.108,0.107}),"MOQ="&AO19),"")
@@ -1346,6 +1485,9 @@ Row: 20
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E20 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H20 -> FFFFFFFF/FFFF0000
  Col: J
    0.0301
   Formula: IFERROR(IF(OR(I20>=K20,E20>=K20),LOOKUP(IF(I20="",E20,I20),{0,1,10,25,50,100,250,500,1000,2500,5000},{0.0,0.099,0.0908,0.0899,0.0888,0.0533,0.0301,0.0292,0.0203,0.0159,0.0098}),"MOQ="&K20),"")
@@ -1365,6 +1507,9 @@ Row: 20
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E20 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N20 -> FFFFFFFF/FFFF0000
  Col: P
    0.0576
   Formula: IFERROR(IF(OR(O20>=Q20,E20>=Q20),LOOKUP(IF(O20="",E20,O20),{0,1,10,100,500,1000,2500,5000,12500,25000,62500},{0.0,0.12,0.106,0.0576,0.03544,0.02417,0.02054,0.01853,0.01611,0.0145,0.0133}),"MOQ="&Q20),"")
@@ -1384,6 +1529,10 @@ Row: 20
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E20 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U20>0,MOD(U20,W20)<>0) -> -/FFFFFF00
+  - greaterThan T20 -> FFFFFFFF/FFFF0000
  Col: V
    0.0482955498899
   Formula: IFERROR(IF(OR(U20>=W20,E20>=W20),USD_GBP*LOOKUP(IF(U20="",E20,U20),{0,1,5,10,100,150,500,2500},{0.0,0.121,0.121,0.0971,0.0351,0.0351,0.0344,0.0158}),"MOQ="&W20),"")
@@ -1403,6 +1552,9 @@ Row: 20
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E20 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF20 -> FFFFFFFF/FFFF0000
  Col: AH
    0.06
   Formula: IFERROR(IF(OR(AG20>=AI20,E20>=AI20),LOOKUP(IF(AG20="",E20,AG20),{0,1,10,50,100,1000,10000},{0.0,0.12,0.11,0.11,0.06,0.026,0.016}),"MOQ="&AI20),"")
@@ -1422,6 +1574,9 @@ Row: 20
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E20 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL20 -> FFFFFFFF/FFFF0000
  Col: AN
    0.041
   Formula: IFERROR(IF(OR(AM20>=AO20,E20>=AO20),LOOKUP(IF(AM20="",E20,AM20),{0,1,10,100,500,2500,5000,7500,10000,15000,20000,25000,37500},{0.0,0.111,0.076,0.041,0.032,0.018,0.014,0.017,0.014,0.014,0.016,0.013,0.015}),"MOQ="&AO20),"")
@@ -1441,6 +1596,10 @@ Row: 20
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E20 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS20>0,MOD(AS20,AU20)<>0) -> -/FFFFFF00
+  - greaterThan AR20 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0853083787229
   Formula: IFERROR(IF(OR(AS20>=AU20,E20>=AU20),USD_GBP*LOOKUP(IF(AS20="",E20,AS20),{0,1,5,150,300,625,1250,2500,7500},{0.0,0.078,0.078,0.074,0.062,0.058,0.054,0.013,0.012}),"MOQ="&AU20),"")
@@ -1460,6 +1619,10 @@ Row: 20
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E20 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY20>0,MOD(AY20,BA20)<>0) -> -/FFFFFF00
+  - greaterThan AX20 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.013952047746
   Formula: IFERROR(IF(OR(AY20>=BA20,E20>=BA20),USD_GBP*LOOKUP(IF(AY20="",E20,AY20),{0,1,25,100,500,2500,10000},{0.0,0.02426,0.02426,0.01014,0.0081,0.00728,0.00679}),"MOQ="&BA20),"")
@@ -1502,6 +1665,9 @@ Row: 21
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E21 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H21 -> FFFFFFFF/FFFF0000
  Col: J
    0.4037
   Formula: IFERROR(IF(OR(I21>=K21,E21>=K21),LOOKUP(IF(I21="",E21,I21),{0,1},{0.0,0.4037}),"MOQ="&K21),"")
@@ -1521,6 +1687,9 @@ Row: 21
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E21 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N21 -> FFFFFFFF/FFFF0000
  Col: P
    0.1926
   Formula: IFERROR(IF(OR(O21>=Q21,E21>=Q21),LOOKUP(IF(O21="",E21,O21),{0,1,10,100,1000,3000,6000,15000},{0.0,0.54,0.335,0.1926,0.15073,0.13817,0.12561,0.1185}),"MOQ="&Q21),"")
@@ -1540,6 +1709,10 @@ Row: 21
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E21 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U21>0,MOD(U21,W21)<>0) -> -/FFFFFF00
+  - greaterThan T21 -> FFFFFFFF/FFFF0000
  Col: V
    0.192631822923
   Formula: IFERROR(IF(OR(U21>=W21,E21>=W21),USD_GBP*LOOKUP(IF(U21="",E21,U21),{0,1,5,10,100,150,500,1000,3000,6000,12000,18000,30000},{0.0,0.475,0.475,0.273,0.165,0.165,0.14,0.11,0.0985,0.0961,0.0953,0.0938,0.093}),"MOQ="&W21),"")
@@ -1559,6 +1732,9 @@ Row: 21
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E21 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF21 -> FFFFFFFF/FFFF0000
  Col: AH
    0.254
   Formula: IFERROR(IF(OR(AG21>=AI21,E21>=AI21),LOOKUP(IF(AG21="",E21,AG21),{0,1,10,50,100,1000,10000},{0.0,0.64,0.376,0.376,0.254,0.169,0.128}),"MOQ="&AI21),"")
@@ -1578,6 +1754,9 @@ Row: 21
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E21 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL21 -> FFFFFFFF/FFFF0000
  Col: AN
    0.159
   Formula: IFERROR(IF(OR(AM21>=AO21,E21>=AO21),LOOKUP(IF(AM21="",E21,AM21),{0,1,25,50,100,4000,8000,16000,24000,40000},{0.0,0.45,0.277,0.218,0.159,0.109,0.104,0.097,0.095,0.093}),"MOQ="&AO21),"")
@@ -1620,6 +1799,10 @@ Row: 22
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E22 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I22>0,MOD(I22,K22)<>0) -> -/FFFFFF00
+  - greaterThan H22 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I22>=K22,E22>=K22),LOOKUP(IF(I22="",E22,I22),{0,1,3000,6000,12000,27000,51000},{0.0,0.1325,0.1325,0.1209,0.114,0.1008,0.09}),"MOQ="&K22),"")
   Styles:
@@ -1641,6 +1824,9 @@ Row: 22
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E22 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N22 -> FFFFFFFF/FFFF0000
  Col: P
    0.2316
   Formula: IFERROR(IF(OR(O22>=Q22,E22>=Q22),LOOKUP(IF(O22="",E22,O22),{0,1,10,100,1000,3000,6000,15000},{0.0,0.65,0.403,0.2316,0.18126,0.16615,0.15105,0.1425}),"MOQ="&Q22),"")
@@ -1660,6 +1846,9 @@ Row: 22
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E22 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF22 -> FFFFFFFF/FFFF0000
  Col: AH
    0.285
   Formula: IFERROR(IF(OR(AG22>=AI22,E22>=AI22),LOOKUP(IF(AG22="",E22,AG22),{0,1,10,50,100,1000,10000},{0.0,0.56,0.37,0.37,0.285,0.172,0.14}),"MOQ="&AI22),"")
@@ -1679,6 +1868,10 @@ Row: 22
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E22 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM22>0,MOD(AM22,AO22)<>0) -> -/FFFFFF00
+  - greaterThan AL22 -> FFFFFFFF/FFFF0000
  Col: AN
   Formula: IFERROR(IF(OR(AM22>=AO22,E22>=AO22),LOOKUP(IF(AM22="",E22,AM22),{0,1,4000,6000,12000,18000,30000},{0.0,0.133,0.133,0.127,0.122,0.119,0.118}),"MOQ="&AO22),"")
   Styles:
@@ -1723,6 +1916,9 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H23 -> FFFFFFFF/FFFF0000
  Col: J
    0.0466
   Formula: IFERROR(IF(OR(I23>=K23,E23>=K23),LOOKUP(IF(I23="",E23,I23),{0,1,10,25,100,250,500,1000,3000,6000,15000,30000},{0.0,0.2651,0.2078,0.2057,0.1093,0.1061,0.0872,0.064,0.0466,0.0462,0.0374,0.037}),"MOQ="&K23),"")
@@ -1742,6 +1938,9 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N23 -> FFFFFFFF/FFFF0000
  Col: P
    0.06848
   Formula: IFERROR(IF(OR(O23>=Q23,E23>=Q23),LOOKUP(IF(O23="",E23,O23),{0,1,10,100,500,1000,3000,6000,15000},{0.0,0.37,0.274,0.1551,0.10272,0.07875,0.06848,0.06163,0.05653}),"MOQ="&Q23),"")
@@ -1761,6 +1960,10 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U23>0,MOD(U23,W23)<>0) -> -/FFFFFF00
+  - greaterThan T23 -> FFFFFFFF/FFFF0000
  Col: V
    0.0831068721752
   Formula: IFERROR(IF(OR(U23>=W23,E23>=W23),USD_GBP*LOOKUP(IF(U23="",E23,U23),{0,1,5,10,100,150,500,1000,3000},{0.0,0.4,0.4,0.257,0.122,0.122,0.084,0.0604,0.0604}),"MOQ="&W23),"")
@@ -1780,6 +1983,10 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - =AND(AA23>0,MOD(AA23,AC23)<>0) -> -/FFFFFF00
+  - greaterThan Z23 -> FFFFFFFF/FFFF0000
  Col: AB
    0.0653
   Formula: IFERROR(IF(OR(AA23>=AC23,E23>=AC23),LOOKUP(IF(AA23="",E23,AA23),{0,1,5,50,150,500,2500,5000},{0.0,0.0919,0.0919,0.0735,0.0701,0.0668,0.0653,0.0645}),"MOQ="&AC23),"")
@@ -1799,6 +2006,9 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF23 -> FFFFFFFF/FFFF0000
  Col: AH
    0.082
   Formula: IFERROR(IF(OR(AG23>=AI23,E23>=AI23),LOOKUP(IF(AG23="",E23,AG23),{0,1,10,50,100,1000,10000},{0.0,0.37,0.284,0.284,0.161,0.082,0.056}),"MOQ="&AI23),"")
@@ -1818,6 +2028,9 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL23 -> FFFFFFFF/FFFF0000
  Col: AN
    0.05
   Formula: IFERROR(IF(OR(AM23>=AO23,E23>=AO23),LOOKUP(IF(AM23="",E23,AM23),{0,1,10,25,50,100,3000,6000,12000,18000,30000},{0.0,0.315,0.236,0.195,0.156,0.115,0.05,0.049,0.047,0.046,0.045}),"MOQ="&AO23),"")
@@ -1837,6 +2050,10 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS23>0,MOD(AS23,AU23)<>0) -> -/FFFFFF00
+  - greaterThan AR23 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0839324371306
   Formula: IFERROR(IF(OR(AS23>=AU23,E23>=AU23),USD_GBP*LOOKUP(IF(AS23="",E23,AS23),{0,1,100,500,1000,2500,5000},{0.0,0.072,0.072,0.068,0.064,0.061,0.058}),"MOQ="&AU23),"")
@@ -1856,6 +2073,10 @@ Row: 23
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E23 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY23>0,MOD(AY23,BA23)<>0) -> -/FFFFFF00
+  - greaterThan AX23 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.0433834384054
   Formula: IFERROR(IF(OR(AY23>=BA23,E23>=BA23),USD_GBP*LOOKUP(IF(AY23="",E23,AY23),{0,1,10,50,250,1000,3000},{0.0,0.06064,0.06064,0.04254,0.0376,0.03379,0.03153}),"MOQ="&BA23),"")
@@ -1898,6 +2119,9 @@ Row: 24
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E24 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H24 -> FFFFFFFF/FFFF0000
  Col: J
    0.4037
   Formula: IFERROR(IF(OR(I24>=K24,E24>=K24),LOOKUP(IF(I24="",E24,I24),{0,1},{0.0,0.4037}),"MOQ="&K24),"")
@@ -1917,6 +2141,9 @@ Row: 24
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E24 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N24 -> FFFFFFFF/FFFF0000
  Col: P
    0.15073
   Formula: IFERROR(IF(OR(O24>=Q24,E24>=Q24),LOOKUP(IF(O24="",E24,O24),{0,1,10,100,1000,3000,6000,15000},{0.0,0.54,0.335,0.1926,0.15073,0.13817,0.12561,0.1185}),"MOQ="&Q24),"")
@@ -1936,6 +2163,10 @@ Row: 24
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E24 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U24>0,MOD(U24,W24)<>0) -> -/FFFFFF00
+  - greaterThan T24 -> FFFFFFFF/FFFF0000
  Col: V
    0.151353575154
   Formula: IFERROR(IF(OR(U24>=W24,E24>=W24),USD_GBP*LOOKUP(IF(U24="",E24,U24),{0,1,5,10,100,150,500,1000,3000,6000,12000,18000,30000},{0.0,0.475,0.475,0.273,0.165,0.165,0.14,0.11,0.0985,0.0961,0.0953,0.0938,0.093}),"MOQ="&W24),"")
@@ -1955,6 +2186,9 @@ Row: 24
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E24 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF24 -> FFFFFFFF/FFFF0000
  Col: AH
    0.169
   Formula: IFERROR(IF(OR(AG24>=AI24,E24>=AI24),LOOKUP(IF(AG24="",E24,AG24),{0,1,10,50,100,1000,10000},{0.0,0.64,0.376,0.376,0.254,0.169,0.128}),"MOQ="&AI24),"")
@@ -1974,6 +2208,9 @@ Row: 24
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E24 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL24 -> FFFFFFFF/FFFF0000
  Col: AN
    0.159
   Formula: IFERROR(IF(OR(AM24>=AO24,E24>=AO24),LOOKUP(IF(AM24="",E24,AM24),{0,1,25,50,100,4000,8000,16000,24000,40000},{0.0,0.45,0.277,0.218,0.159,0.109,0.104,0.097,0.095,0.093}),"MOQ="&AO24),"")
@@ -2035,6 +2272,10 @@ Row: 26
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E26 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I26>0,MOD(I26,K26)<>0) -> -/FFFFFF00
+  - greaterThan H26 -> FFFFFFFF/FFFF0000
  Col: J
    1.1
   Formula: IFERROR(IF(OR(I26>=K26,E26>=K26),LOOKUP(IF(I26="",E26,I26),{0,1,1200,25200,50400},{0.0,1.1,1.1,0.4308,0.4121}),"MOQ="&K26),"")
@@ -2054,6 +2295,9 @@ Row: 26
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E26 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N26 -> FFFFFFFF/FFFF0000
  Col: P
    0.61085
   Formula: IFERROR(IF(OR(O26>=Q26,E26>=Q26),LOOKUP(IF(O26="",E26,O26),{0,1,10,25,50,100,250,500,1200},{0.0,1.1,0.964,0.9072,0.8694,0.8316,0.756,0.6804,0.61085}),"MOQ="&Q26),"")
@@ -2073,6 +2317,9 @@ Row: 26
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E26 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF26 -> FFFFFFFF/FFFF0000
  Col: AH
    0.68
   Formula: IFERROR(IF(OR(AG26>=AI26,E26>=AI26),LOOKUP(IF(AG26="",E26,AG26),{0,1,10,50,100,1000,10000},{0.0,1.09,0.869,0.869,0.756,0.68,0.54}),"MOQ="&AI26),"")
@@ -2115,6 +2362,10 @@ Row: 27
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E27 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I27>0,MOD(I27,K27)<>0) -> -/FFFFFF00
+  - greaterThan H27 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I27>=K27,E27>=K27),LOOKUP(IF(I27="",E27,I27),{0,1,250,2500,25000,125000,250000},{0.0,0.43,0.43,0.4157,0.3326,0.2893,0.2889}),"MOQ="&K27),"")
   Styles:
@@ -2136,6 +2387,9 @@ Row: 27
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E27 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N27 -> FFFFFFFF/FFFF0000
  Col: P
    0.3852
   Formula: IFERROR(IF(OR(O27>=Q27,E27>=Q27),LOOKUP(IF(O27="",E27,O27),{0,1,10,50,100,250,500,1000},{0.0,0.43,0.414,0.396,0.3852,0.36,0.3312,0.306}),"MOQ="&Q27),"")
@@ -2155,6 +2409,10 @@ Row: 27
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E27 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U27>0,MOD(U27,W27)<>0) -> -/FFFFFF00
+  - greaterThan T27 -> FFFFFFFF/FFFF0000
  Col: V
    0.399023061768
   Formula: IFERROR(IF(OR(U27>=W27,E27>=W27),USD_GBP*LOOKUP(IF(U27="",E27,U27),{0,1,10,100,250,500,1000,2500},{0.0,0.312,0.312,0.29,0.271,0.249,0.231,0.222}),"MOQ="&W27),"")
@@ -2174,6 +2432,9 @@ Row: 27
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E27 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF27 -> FFFFFFFF/FFFF0000
  Col: AH
    0.385
   Formula: IFERROR(IF(OR(AG27>=AI27,E27>=AI27),LOOKUP(IF(AG27="",E27,AG27),{0,1,10,50,100,1000,10000},{0.0,0.43,0.414,0.396,0.385,0.306,0.306}),"MOQ="&AI27),"")
@@ -2193,6 +2454,9 @@ Row: 27
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E27 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL27 -> FFFFFFFF/FFFF0000
  Col: AN
    0.451
   Formula: IFERROR(IF(OR(AM27>=AO27,E27>=AO27),LOOKUP(IF(AM27="",E27,AM27),{0,1,10,50,100,250,500},{0.0,0.528,0.497,0.466,0.451,0.426,0.397}),"MOQ="&AO27),"")
@@ -2212,6 +2476,10 @@ Row: 27
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E27 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS27>0,MOD(AS27,AU27)<>0) -> -/FFFFFF00
+  - greaterThan AR27 -> FFFFFFFF/FFFF0000
  Col: AT
    0.550376636922
   Formula: IFERROR(IF(OR(AS27>=AU27,E27>=AU27),USD_GBP*LOOKUP(IF(AS27="",E27,AS27),{0,1,5,125,500,1000,2500},{0.0,0.4,0.4,0.276,0.258,0.228,0.216}),"MOQ="&AU27),"")
@@ -2254,6 +2522,9 @@ Row: 28
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E28 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H28 -> FFFFFFFF/FFFF0000
  Col: J
    0.4385
   Formula: IFERROR(IF(OR(I28>=K28,E28>=K28),LOOKUP(IF(I28="",E28,I28),{0,1,10,25,50,100,250,500,1000},{0.0,0.5917,0.5713,0.553,0.5351,0.5163,0.4781,0.4385,0.4146}),"MOQ="&K28),"")
@@ -2273,6 +2544,9 @@ Row: 28
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E28 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N28 -> FFFFFFFF/FFFF0000
  Col: P
    0.46
   Formula: IFERROR(IF(OR(O28>=Q28,E28>=Q28),LOOKUP(IF(O28="",E28,O28),{0,1,10,50,100,250,500,1000},{0.0,0.6,0.575,0.55,0.535,0.5,0.46,0.425}),"MOQ="&Q28),"")
@@ -2292,6 +2566,10 @@ Row: 28
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E28 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U28>0,MOD(U28,W28)<>0) -> -/FFFFFF00
+  - greaterThan T28 -> FFFFFFFF/FFFF0000
  Col: V
    0.476075790938
   Formula: IFERROR(IF(OR(U28>=W28,E28>=W28),USD_GBP*LOOKUP(IF(U28="",E28,U28),{0,1,10,50,100,250,500,1500},{0.0,0.433,0.433,0.414,0.403,0.377,0.346,0.32}),"MOQ="&W28),"")
@@ -2311,6 +2589,9 @@ Row: 28
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E28 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF28 -> FFFFFFFF/FFFF0000
  Col: AH
    0.535
   Formula: IFERROR(IF(OR(AG28>=AI28,E28>=AI28),LOOKUP(IF(AG28="",E28,AG28),{0,1,10,50,100,1000,10000},{0.0,0.59,0.575,0.549,0.535,0.428,0.425}),"MOQ="&AI28),"")
@@ -2330,6 +2611,9 @@ Row: 28
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E28 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL28 -> FFFFFFFF/FFFF0000
  Col: AN
    0.63
   Formula: IFERROR(IF(OR(AM28>=AO28,E28>=AO28),LOOKUP(IF(AM28="",E28,AM28),{0,1,10,50},{0.0,0.705,0.655,0.63}),"MOQ="&AO28),"")
@@ -2349,6 +2633,10 @@ Row: 28
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E28 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS28>0,MOD(AS28,AU28)<>0) -> -/FFFFFF00
+  - greaterThan AR28 -> FFFFFFFF/FFFF0000
  Col: AT
    0.553128520107
   Formula: IFERROR(IF(OR(AS28>=AU28,E28>=AU28),USD_GBP*LOOKUP(IF(AS28="",E28,AS28),{0,1,5,125,375,1000,2000},{0.0,0.468,0.468,0.434,0.402,0.374,0.354}),"MOQ="&AU28),"")
@@ -2391,6 +2679,10 @@ Row: 29
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E29 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I29>0,MOD(I29,K29)<>0) -> -/FFFFFF00
+  - greaterThan H29 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I29>=K29,E29>=K29),LOOKUP(IF(I29="",E29,I29),{0,1,1200,5000,10000},{0.0,0.34,0.34,0.3,0.27}),"MOQ="&K29),"")
   Styles:
@@ -2412,6 +2704,9 @@ Row: 29
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E29 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N29 -> FFFFFFFF/FFFF0000
  Col: P
    0.5575
   Formula: IFERROR(IF(OR(O29>=Q29,E29>=Q29),LOOKUP(IF(O29="",E29,O29),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"MOQ="&Q29),"")
@@ -2454,6 +2749,10 @@ Row: 30
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E30 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I30>0,MOD(I30,K30)<>0) -> -/FFFFFF00
+  - greaterThan H30 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I30>=K30,E30>=K30),LOOKUP(IF(I30="",E30,I30),{0,1,1200,5000,10000},{0.0,0.34,0.34,0.3,0.27}),"MOQ="&K30),"")
   Styles:
@@ -2475,6 +2774,9 @@ Row: 30
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E30 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N30 -> FFFFFFFF/FFFF0000
  Col: P
    0.5575
   Formula: IFERROR(IF(OR(O30>=Q30,E30>=Q30),LOOKUP(IF(O30="",E30,O30),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"MOQ="&Q30),"")
@@ -2517,6 +2819,10 @@ Row: 31
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E31 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I31>0,MOD(I31,K31)<>0) -> -/FFFFFF00
+  - greaterThan H31 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I31>=K31,E31>=K31),LOOKUP(IF(I31="",E31,I31),{0,1,1200,5000,10000},{0.0,0.34,0.34,0.3,0.27}),"MOQ="&K31),"")
   Styles:
@@ -2538,6 +2844,9 @@ Row: 31
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E31 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N31 -> FFFFFFFF/FFFF0000
  Col: P
    0.5575
   Formula: IFERROR(IF(OR(O31>=Q31,E31>=Q31),LOOKUP(IF(O31="",E31,O31),{0,1,10,80,440,1200,6000,10800},{0.0,0.78,0.727,0.5575,0.4848,0.39996,0.35148,0.32724}),"MOQ="&Q31),"")
@@ -2580,6 +2889,9 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H32 -> FFFFFFFF/FFFF0000
  Col: J
    0.1381
   Formula: IFERROR(IF(OR(I32>=K32,E32>=K32),LOOKUP(IF(I32="",E32,I32),{0,1},{0.0,0.1381}),"MOQ="&K32),"")
@@ -2599,6 +2911,9 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N32 -> FFFFFFFF/FFFF0000
  Col: P
    0.2682
   Formula: IFERROR(IF(OR(O32>=Q32,E32>=Q32),LOOKUP(IF(O32="",E32,O32),{0,1,10,100,1000,5000,10000},{0.0,0.45,0.366,0.2682,0.21334,0.18286,0.17067}),"MOQ="&Q32),"")
@@ -2618,6 +2933,9 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T32 -> FFFFFFFF/FFFF0000
  Col: V
    0.273812376869
   Formula: IFERROR(IF(OR(U32>=W32,E32>=W32),USD_GBP*LOOKUP(IF(U32="",E32,U32),{0,1,10,50,100,500,1000},{0.0,0.33,0.271,0.235,0.199,0.179,0.159}),"MOQ="&W32),"")
@@ -2637,6 +2955,9 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z32 -> FFFFFFFF/FFFF0000
  Col: AB
    0.1289
   Formula: IFERROR(IF(OR(AA32>=AC32,E32>=AC32),LOOKUP(IF(AA32="",E32,AA32),{0,1,10,30,100,500,1000},{0.0,0.1926,0.146,0.1375,0.1289,0.1251,0.1232}),"MOQ="&AC32),"")
@@ -2656,6 +2977,9 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF32 -> FFFFFFFF/FFFF0000
  Col: AH
    0.266
   Formula: IFERROR(IF(OR(AG32>=AI32,E32>=AI32),LOOKUP(IF(AG32="",E32,AG32),{0,1,10,50,100,1000,10000},{0.0,0.45,0.362,0.362,0.266,0.212,0.162}),"MOQ="&AI32),"")
@@ -2675,6 +2999,9 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL32 -> FFFFFFFF/FFFF0000
  Col: AN
    0.186
   Formula: IFERROR(IF(OR(AM32>=AO32,E32>=AO32),LOOKUP(IF(AM32="",E32,AM32),{0,1,10,25,50,100,250},{0.0,0.22,0.202,0.186,0.186,0.186,0.186}),"MOQ="&AO32),"")
@@ -2694,6 +3021,10 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS32>0,MOD(AS32,AU32)<>0) -> -/FFFFFF00
+  - greaterThan AR32 -> FFFFFFFF/FFFF0000
  Col: AT
    0.349489164445
   Formula: IFERROR(IF(OR(AS32>=AU32,E32>=AU32),USD_GBP*LOOKUP(IF(AS32="",E32,AS32),{0,1,10,200,750,3000,6000},{0.0,0.254,0.254,0.213,0.182,0.14,0.136}),"MOQ="&AU32),"")
@@ -2713,6 +3044,10 @@ Row: 32
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E32 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY32>0,MOD(AY32,BA32)<>0) -> -/FFFFFF00
+  - greaterThan AX32 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.128512944721
   Formula: IFERROR(IF(OR(AY32>=BA32,E32>=BA32),USD_GBP*LOOKUP(IF(AY32="",E32,AY32),{0,1,5,20,100,500,2000},{0.0,0.168,0.168,0.1241,0.0934,0.0755,0.066}),"MOQ="&BA32),"")
@@ -2755,6 +3090,9 @@ Row: 33
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E33 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H33 -> FFFFFFFF/FFFF0000
  Col: J
    0.244
   Formula: IFERROR(IF(OR(I33>=K33,E33>=K33),LOOKUP(IF(I33="",E33,I33),{0,1,5000,10000,20000},{0.0,0.244,0.0916,0.084,0.0836}),"MOQ="&K33),"")
@@ -2774,6 +3112,9 @@ Row: 33
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E33 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N33 -> FFFFFFFF/FFFF0000
  Col: P
    0.1595
   Formula: IFERROR(IF(OR(O33>=Q33,E33>=Q33),LOOKUP(IF(O33="",E33,O33),{0,1,10,100,1000,2500},{0.0,0.27,0.218,0.1595,0.12691,0.11603}),"MOQ="&Q33),"")
@@ -2793,6 +3134,9 @@ Row: 33
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E33 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T33 -> FFFFFFFF/FFFF0000
  Col: V
    0.171992699038
   Formula: IFERROR(IF(OR(U33>=W33,E33>=W33),USD_GBP*LOOKUP(IF(U33="",E33,U33),{0,1,10,50,100,500,1000},{0.0,0.212,0.172,0.149,0.125,0.111,0.0979}),"MOQ="&W33),"")
@@ -2812,6 +3156,10 @@ Row: 33
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E33 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - =AND(AA33>0,MOD(AA33,AC33)<>0) -> -/FFFFFF00
+  - greaterThan Z33 -> FFFFFFFF/FFFF0000
  Col: AB
    0.0725
   Formula: IFERROR(IF(OR(AA33>=AC33,E33>=AC33),LOOKUP(IF(AA33="",E33,AA33),{0,1,5,50,150,500,2500,5000},{0.0,0.0962,0.0962,0.0725,0.0682,0.0638,0.0619,0.0609}),"MOQ="&AC33),"")
@@ -2831,6 +3179,9 @@ Row: 33
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E33 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF33 -> FFFFFFFF/FFFF0000
  Col: AH
    0.158
   Formula: IFERROR(IF(OR(AG33>=AI33,E33>=AI33),LOOKUP(IF(AG33="",E33,AG33),{0,1,10,50,100,1000,10000},{0.0,0.27,0.216,0.216,0.158,0.126,0.096}),"MOQ="&AI33),"")
@@ -2850,6 +3201,9 @@ Row: 33
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E33 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL33 -> FFFFFFFF/FFFF0000
  Col: AN
    0.183
   Formula: IFERROR(IF(OR(AM33>=AO33,E33>=AO33),LOOKUP(IF(AM33="",E33,AM33),{0,1,10,25,50,100,250,500,1000},{0.0,0.31,0.224,0.211,0.196,0.183,0.18,0.176,0.146}),"MOQ="&AO33),"")
@@ -2869,6 +3223,10 @@ Row: 33
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E33 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS33>0,MOD(AS33,AU33)<>0) -> -/FFFFFF00
+  - greaterThan AR33 -> FFFFFFFF/FFFF0000
  Col: AT
    0.220150654769
   Formula: IFERROR(IF(OR(AS33>=AU33,E33>=AU33),USD_GBP*LOOKUP(IF(AS33="",E33,AS33),{0,1,10,250,1000,5000,10000},{0.0,0.16,0.16,0.13,0.09,0.085,0.08}),"MOQ="&AU33),"")
@@ -2911,6 +3269,10 @@ Row: 34
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E34 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I34>0,MOD(I34,K34)<>0) -> -/FFFFFF00
+  - greaterThan H34 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I34>=K34,E34>=K34),LOOKUP(IF(I34="",E34,I34),{0,1,24000,50000},{0.0,0.1027,0.1027,0.0969}),"MOQ="&K34),"")
   Styles:
@@ -2932,6 +3294,9 @@ Row: 34
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E34 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N34 -> FFFFFFFF/FFFF0000
  Col: P
    0.0874
   Formula: IFERROR(IF(OR(O34>=Q34,E34>=Q34),LOOKUP(IF(O34="",E34,O34),{0,1,10,100,1000,2500,5000,10000},{0.0,0.17,0.122,0.0874,0.07339,0.0664,0.06739,0.06107}),"MOQ="&Q34),"")
@@ -2951,6 +3316,9 @@ Row: 34
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E34 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T34 -> FFFFFFFF/FFFF0000
  Col: V
    0.0872346969521
   Formula: IFERROR(IF(OR(U34>=W34,E34>=W34),USD_GBP*LOOKUP(IF(U34="",E34,U34),{0,1,10,50,100,500,1000,2500,5000,10000,20000},{0.0,0.157,0.0958,0.0824,0.042,0.0634,0.04,0.035,0.0345,0.034,0.0333}),"MOQ="&W34),"")
@@ -2970,6 +3338,9 @@ Row: 34
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E34 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF34 -> FFFFFFFF/FFFF0000
  Col: AH
    0.096
   Formula: IFERROR(IF(OR(AG34>=AI34,E34>=AI34),LOOKUP(IF(AG34="",E34,AG34),{0,1,10,50,100,1000,10000},{0.0,0.17,0.134,0.134,0.096,0.076,0.058}),"MOQ="&AI34),"")
@@ -2989,6 +3360,9 @@ Row: 34
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E34 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL34 -> FFFFFFFF/FFFF0000
  Col: AN
    0.097
   Formula: IFERROR(IF(OR(AM34>=AO34,E34>=AO34),LOOKUP(IF(AM34="",E34,AM34),{0,1,10,25,50,100,250},{0.0,0.204,0.142,0.129,0.115,0.102,0.097}),"MOQ="&AO34),"")
@@ -3008,6 +3382,10 @@ Row: 34
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E34 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS34>0,MOD(AS34,AU34)<>0) -> -/FFFFFF00
+  - greaterThan AR34 -> FFFFFFFF/FFFF0000
  Col: AT
    0.100443736238
   Formula: IFERROR(IF(OR(AS34>=AU34,E34>=AU34),USD_GBP*LOOKUP(IF(AS34="",E34,AS34),{0,1,100,1000,3000,7500,15000},{0.0,0.073,0.073,0.056,0.05,0.048,0.047}),"MOQ="&AU34),"")
@@ -3050,6 +3428,10 @@ Row: 35
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E35 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I35>0,MOD(I35,K35)<>0) -> -/FFFFFF00
+  - greaterThan H35 -> FFFFFFFF/FFFF0000
  Col: J
    0.43
   Formula: IFERROR(IF(OR(I35>=K35,E35>=K35),LOOKUP(IF(I35="",E35,I35),{0,1,250,2500,25000,125000,250000},{0.0,0.43,0.43,0.4157,0.3326,0.2893,0.2889}),"MOQ="&K35),"")
@@ -3069,6 +3451,9 @@ Row: 35
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E35 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N35 -> FFFFFFFF/FFFF0000
  Col: P
    0.306
   Formula: IFERROR(IF(OR(O35>=Q35,E35>=Q35),LOOKUP(IF(O35="",E35,O35),{0,1,10,50,100,250,500,1000},{0.0,0.43,0.414,0.396,0.3852,0.36,0.3312,0.306}),"MOQ="&Q35),"")
@@ -3088,6 +3473,10 @@ Row: 35
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E35 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U35>0,MOD(U35,W35)<>0) -> -/FFFFFF00
+  - greaterThan T35 -> FFFFFFFF/FFFF0000
  Col: V
    0.317842507822
   Formula: IFERROR(IF(OR(U35>=W35,E35>=W35),USD_GBP*LOOKUP(IF(U35="",E35,U35),{0,1,10,100,250,500,1000,2500},{0.0,0.312,0.312,0.29,0.271,0.249,0.231,0.222}),"MOQ="&W35),"")
@@ -3107,6 +3496,9 @@ Row: 35
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E35 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF35 -> FFFFFFFF/FFFF0000
  Col: AH
    0.306
   Formula: IFERROR(IF(OR(AG35>=AI35,E35>=AI35),LOOKUP(IF(AG35="",E35,AG35),{0,1,10,50,100,1000,10000},{0.0,0.43,0.414,0.396,0.385,0.306,0.306}),"MOQ="&AI35),"")
@@ -3126,6 +3518,9 @@ Row: 35
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E35 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL35 -> FFFFFFFF/FFFF0000
  Col: AN
    0.397
   Formula: IFERROR(IF(OR(AM35>=AO35,E35>=AO35),LOOKUP(IF(AM35="",E35,AM35),{0,1,10,50,100,250,500},{0.0,0.528,0.497,0.466,0.451,0.426,0.397}),"MOQ="&AO35),"")
@@ -3145,6 +3540,10 @@ Row: 35
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E35 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS35>0,MOD(AS35,AU35)<>0) -> -/FFFFFF00
+  - greaterThan AR35 -> FFFFFFFF/FFFF0000
  Col: AT
    0.313714683046
   Formula: IFERROR(IF(OR(AS35>=AU35,E35>=AU35),USD_GBP*LOOKUP(IF(AS35="",E35,AS35),{0,1,5,125,500,1000,2500},{0.0,0.4,0.4,0.276,0.258,0.228,0.216}),"MOQ="&AU35),"")
@@ -3187,6 +3586,9 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H36 -> FFFFFFFF/FFFF0000
  Col: J
    0.1381
   Formula: IFERROR(IF(OR(I36>=K36,E36>=K36),LOOKUP(IF(I36="",E36,I36),{0,1},{0.0,0.1381}),"MOQ="&K36),"")
@@ -3206,6 +3608,9 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N36 -> FFFFFFFF/FFFF0000
  Col: P
    0.21334
   Formula: IFERROR(IF(OR(O36>=Q36,E36>=Q36),LOOKUP(IF(O36="",E36,O36),{0,1,10,100,1000,5000,10000},{0.0,0.45,0.366,0.2682,0.21334,0.18286,0.17067}),"MOQ="&Q36),"")
@@ -3225,6 +3630,9 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T36 -> FFFFFFFF/FFFF0000
  Col: V
    0.218774713176
   Formula: IFERROR(IF(OR(U36>=W36,E36>=W36),USD_GBP*LOOKUP(IF(U36="",E36,U36),{0,1,10,50,100,500,1000},{0.0,0.33,0.271,0.235,0.199,0.179,0.159}),"MOQ="&W36),"")
@@ -3244,6 +3652,9 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z36 -> FFFFFFFF/FFFF0000
  Col: AB
    0.1232
   Formula: IFERROR(IF(OR(AA36>=AC36,E36>=AC36),LOOKUP(IF(AA36="",E36,AA36),{0,1,10,30,100,500,1000},{0.0,0.1926,0.146,0.1375,0.1289,0.1251,0.1232}),"MOQ="&AC36),"")
@@ -3263,6 +3674,9 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF36 -> FFFFFFFF/FFFF0000
  Col: AH
    0.212
   Formula: IFERROR(IF(OR(AG36>=AI36,E36>=AI36),LOOKUP(IF(AG36="",E36,AG36),{0,1,10,50,100,1000,10000},{0.0,0.45,0.362,0.362,0.266,0.212,0.162}),"MOQ="&AI36),"")
@@ -3282,6 +3696,9 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL36 -> FFFFFFFF/FFFF0000
  Col: AN
    0.186
   Formula: IFERROR(IF(OR(AM36>=AO36,E36>=AO36),LOOKUP(IF(AM36="",E36,AM36),{0,1,10,25,50,100,250},{0.0,0.22,0.202,0.186,0.186,0.186,0.186}),"MOQ="&AO36),"")
@@ -3301,6 +3718,10 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS36>0,MOD(AS36,AU36)<>0) -> -/FFFFFF00
+  - greaterThan AR36 -> FFFFFFFF/FFFF0000
  Col: AT
    0.2504213698
   Formula: IFERROR(IF(OR(AS36>=AU36,E36>=AU36),USD_GBP*LOOKUP(IF(AS36="",E36,AS36),{0,1,10,200,750,3000,6000},{0.0,0.254,0.254,0.213,0.182,0.14,0.136}),"MOQ="&AU36),"")
@@ -3320,6 +3741,10 @@ Row: 36
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E36 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY36>0,MOD(AY36,BA36)<>0) -> -/FFFFFF00
+  - greaterThan AX36 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.103883590219
   Formula: IFERROR(IF(OR(AY36>=BA36,E36>=BA36),USD_GBP*LOOKUP(IF(AY36="",E36,AY36),{0,1,5,20,100,500,2000},{0.0,0.168,0.168,0.1241,0.0934,0.0755,0.066}),"MOQ="&BA36),"")
@@ -3362,6 +3787,9 @@ Row: 37
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E37 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H37 -> FFFFFFFF/FFFF0000
  Col: J
    0.244
   Formula: IFERROR(IF(OR(I37>=K37,E37>=K37),LOOKUP(IF(I37="",E37,I37),{0,1,5000,10000,20000},{0.0,0.244,0.0916,0.084,0.0836}),"MOQ="&K37),"")
@@ -3381,6 +3809,9 @@ Row: 37
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E37 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N37 -> FFFFFFFF/FFFF0000
  Col: P
    0.12691
   Formula: IFERROR(IF(OR(O37>=Q37,E37>=Q37),LOOKUP(IF(O37="",E37,O37),{0,1,10,100,1000,2500},{0.0,0.27,0.218,0.1595,0.12691,0.11603}),"MOQ="&Q37),"")
@@ -3400,6 +3831,9 @@ Row: 37
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E37 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T37 -> FFFFFFFF/FFFF0000
  Col: V
    0.134704681887
   Formula: IFERROR(IF(OR(U37>=W37,E37>=W37),USD_GBP*LOOKUP(IF(U37="",E37,U37),{0,1,10,50,100,500,1000},{0.0,0.212,0.172,0.149,0.125,0.111,0.0979}),"MOQ="&W37),"")
@@ -3419,6 +3853,10 @@ Row: 37
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E37 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - =AND(AA37>0,MOD(AA37,AC37)<>0) -> -/FFFFFF00
+  - greaterThan Z37 -> FFFFFFFF/FFFF0000
  Col: AB
    0.0638
   Formula: IFERROR(IF(OR(AA37>=AC37,E37>=AC37),LOOKUP(IF(AA37="",E37,AA37),{0,1,5,50,150,500,2500,5000},{0.0,0.0962,0.0962,0.0725,0.0682,0.0638,0.0619,0.0609}),"MOQ="&AC37),"")
@@ -3438,6 +3876,9 @@ Row: 37
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E37 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF37 -> FFFFFFFF/FFFF0000
  Col: AH
    0.126
   Formula: IFERROR(IF(OR(AG37>=AI37,E37>=AI37),LOOKUP(IF(AG37="",E37,AG37),{0,1,10,50,100,1000,10000},{0.0,0.27,0.216,0.216,0.158,0.126,0.096}),"MOQ="&AI37),"")
@@ -3457,6 +3898,9 @@ Row: 37
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E37 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL37 -> FFFFFFFF/FFFF0000
  Col: AN
    0.146
   Formula: IFERROR(IF(OR(AM37>=AO37,E37>=AO37),LOOKUP(IF(AM37="",E37,AM37),{0,1,10,25,50,100,250,500,1000},{0.0,0.31,0.224,0.211,0.196,0.183,0.18,0.176,0.146}),"MOQ="&AO37),"")
@@ -3476,6 +3920,10 @@ Row: 37
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E37 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS37>0,MOD(AS37,AU37)<>0) -> -/FFFFFF00
+  - greaterThan AR37 -> FFFFFFFF/FFFF0000
  Col: AT
    0.123834743307
   Formula: IFERROR(IF(OR(AS37>=AU37,E37>=AU37),USD_GBP*LOOKUP(IF(AS37="",E37,AS37),{0,1,10,250,1000,5000,10000},{0.0,0.16,0.16,0.13,0.09,0.085,0.08}),"MOQ="&AU37),"")
@@ -3518,6 +3966,10 @@ Row: 38
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E38 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I38>0,MOD(I38,K38)<>0) -> -/FFFFFF00
+  - greaterThan H38 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I38>=K38,E38>=K38),LOOKUP(IF(I38="",E38,I38),{0,1,24000,50000},{0.0,0.1027,0.1027,0.0969}),"MOQ="&K38),"")
   Styles:
@@ -3539,6 +3991,9 @@ Row: 38
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E38 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N38 -> FFFFFFFF/FFFF0000
  Col: P
    0.06739
   Formula: IFERROR(IF(OR(O38>=Q38,E38>=Q38),LOOKUP(IF(O38="",E38,O38),{0,1,10,100,1000,2500,5000,10000},{0.0,0.17,0.122,0.0874,0.07339,0.0664,0.06739,0.06107}),"MOQ="&Q38),"")
@@ -3558,6 +4013,9 @@ Row: 38
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E38 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T38 -> FFFFFFFF/FFFF0000
  Col: V
    0.0474699849345
   Formula: IFERROR(IF(OR(U38>=W38,E38>=W38),USD_GBP*LOOKUP(IF(U38="",E38,U38),{0,1,10,50,100,500,1000,2500,5000,10000,20000},{0.0,0.157,0.0958,0.0824,0.042,0.0634,0.04,0.035,0.0345,0.034,0.0333}),"MOQ="&W38),"")
@@ -3577,6 +4035,9 @@ Row: 38
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E38 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF38 -> FFFFFFFF/FFFF0000
  Col: AH
    0.076
   Formula: IFERROR(IF(OR(AG38>=AI38,E38>=AI38),LOOKUP(IF(AG38="",E38,AG38),{0,1,10,50,100,1000,10000},{0.0,0.17,0.134,0.134,0.096,0.076,0.058}),"MOQ="&AI38),"")
@@ -3596,6 +4057,9 @@ Row: 38
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E38 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL38 -> FFFFFFFF/FFFF0000
  Col: AN
    0.097
   Formula: IFERROR(IF(OR(AM38>=AO38,E38>=AO38),LOOKUP(IF(AM38="",E38,AM38),{0,1,10,25,50,100,250},{0.0,0.204,0.142,0.129,0.115,0.102,0.097}),"MOQ="&AO38),"")
@@ -3615,6 +4079,10 @@ Row: 38
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E38 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS38>0,MOD(AS38,AU38)<>0) -> -/FFFFFF00
+  - greaterThan AR38 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0660451964306
   Formula: IFERROR(IF(OR(AS38>=AU38,E38>=AU38),USD_GBP*LOOKUP(IF(AS38="",E38,AS38),{0,1,100,1000,3000,7500,15000},{0.0,0.073,0.073,0.056,0.05,0.048,0.047}),"MOQ="&AU38),"")
@@ -3657,6 +4125,9 @@ Row: 39
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E39 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N39 -> FFFFFFFF/FFFF0000
  Col: P
    15.82
   Formula: IFERROR(IF(OR(O39>=Q39,E39>=Q39),LOOKUP(IF(O39="",E39,O39),{0,1,5,10,25,50,100,500},{0.0,24.86,23.73,21.47,19.7752,17.515,16.95,15.82}),"MOQ="&Q39),"")
@@ -3676,6 +4147,9 @@ Row: 39
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E39 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T39 -> FFFFFFFF/FFFF0000
  Col: V
    25.2622876347
   Formula: IFERROR(IF(OR(U39>=W39,E39>=W39),USD_GBP*LOOKUP(IF(U39="",E39,U39),{0,1,5,10,20,50},{0.0,20.59,19.96,19.12,18.74,18.36}),"MOQ="&W39),"")
@@ -3695,6 +4169,9 @@ Row: 39
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E39 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z39 -> FFFFFFFF/FFFF0000
  Col: AB
    13.9255
   Formula: IFERROR(IF(OR(AA39>=AC39,E39>=AC39),LOOKUP(IF(AA39="",E39,AA39),{0,1,10,30,100,500,1000},{0.0,17.6573,15.2491,14.8068,14.3644,14.1682,13.9255}),"MOQ="&AC39),"")
@@ -3714,6 +4191,9 @@ Row: 39
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E39 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL39 -> FFFFFFFF/FFFF0000
  Col: AN
    22.16
   Formula: IFERROR(IF(OR(AM39>=AO39,E39>=AO39),LOOKUP(IF(AM39="",E39,AM39),{0,1,10,25,50,100,250},{0.0,33.02,29.43,28.57,26.92,25.07,22.16}),"MOQ="&AO39),"")
@@ -3733,6 +4213,9 @@ Row: 39
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E39 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - greaterThan AR39 -> FFFFFFFF/FFFF0000
  Col: AT
    25.5374759532
   Formula: IFERROR(IF(OR(AS39>=AU39,E39>=AU39),USD_GBP*LOOKUP(IF(AS39="",E39,AS39),{0,1,5,10},{0.0,19.99,19.38,18.56}),"MOQ="&AU39),"")
@@ -3855,6 +4338,9 @@ Row: 44
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E44 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N44 -> FFFFFFFF/FFFF0000
  Col: P
    0.4855
   Formula: IFERROR(IF(OR(O44>=Q44,E44>=Q44),LOOKUP(IF(O44="",E44,O44),{0,1,10,25,50,100,250,450,950,2400},{0.0,0.68,0.633,0.57,0.5066,0.4855,0.44328,0.42218,0.34829,0.31663}),"MOQ="&Q44),"")
@@ -3874,6 +4360,10 @@ Row: 44
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E44 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS44>0,MOD(AS44,AU44)<>0) -> -/FFFFFF00
+  - greaterThan AR44 -> FFFFFFFF/FFFF0000
  Col: AT
    0.575143585583
   Formula: IFERROR(IF(OR(AS44>=AU44,E44>=AU44),USD_GBP*LOOKUP(IF(AS44="",E44,AS44),{0,1,5,25,50,125,500},{0.0,0.56,0.56,0.466,0.418,0.396,0.348}),"MOQ="&AU44),"")
@@ -3973,6 +4463,9 @@ Row: 48
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E48 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N48 -> FFFFFFFF/FFFF0000
  Col: P
    66.18
   Formula: IFERROR(IF(OR(O48>=Q48,E48>=Q48),LOOKUP(IF(O48="",E48,O48),{0,1},{0.0,66.18}),"MOQ="&Q48),"")
@@ -3992,6 +4485,9 @@ Row: 48
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E48 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF48 -> FFFFFFFF/FFFF0000
  Col: AH
    65.83
   Formula: IFERROR(IF(OR(AG48>=AI48,E48>=AI48),LOOKUP(IF(AG48="",E48,AG48),{0,1,10,50,100,1000,10000},{0.0,65.83,65.83,65.83,65.83,65.83,65.83}),"MOQ="&AI48),"")
@@ -4011,6 +4507,9 @@ Row: 48
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E48 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - greaterThan AX48 -> FFFFFFFF/FFFF0000
  Col: AZ
    63.1832379186
   Formula: IFERROR(IF(OR(AY48>=BA48,E48>=BA48),USD_GBP*LOOKUP(IF(AY48="",E48,AY48),{0,1,3,10},{0.0,55.88,52.41,45.92}),"MOQ="&BA48),"")
@@ -4053,6 +4552,9 @@ Row: 49
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E49 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H49 -> FFFFFFFF/FFFF0000
  Col: J
    0.8513
   Formula: IFERROR(IF(OR(I49>=K49,E49>=K49),LOOKUP(IF(I49="",E49,I49),{0,1,10,25,50,100,250,500,1000},{0.0,1.2288,0.9883,0.9784,0.9538,0.8599,0.8513,0.8198,0.716}),"MOQ="&K49),"")
@@ -4072,6 +4574,9 @@ Row: 49
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E49 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N49 -> FFFFFFFF/FFFF0000
  Col: P
    0.9683
   Formula: IFERROR(IF(OR(O49>=Q49,E49>=Q49),LOOKUP(IF(O49="",E49,O49),{0,1,10,25,40,80,230,500,1000,5000},{0.0,1.45,1.362,1.2104,1.14975,1.08938,0.9683,0.90778,0.84727,0.81701}),"MOQ="&Q49),"")
@@ -4091,6 +4596,9 @@ Row: 49
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E49 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z49 -> FFFFFFFF/FFFF0000
  Col: AB
    1.4751
   Formula: IFERROR(IF(OR(AA49>=AC49,E49>=AC49),LOOKUP(IF(AA49="",E49,AA49),{0,1,10,30,100,500,1000},{0.0,2.2145,1.6735,1.5743,1.4751,1.43,1.4084}),"MOQ="&AC49),"")
@@ -4110,6 +4618,9 @@ Row: 49
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E49 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF49 -> FFFFFFFF/FFFF0000
  Col: AH
    0.923
   Formula: IFERROR(IF(OR(AG49>=AI49,E49>=AI49),LOOKUP(IF(AG49="",E49,AG49),{0,1,10,50,100,1000,10000},{0.0,1.34,1.02,1.02,0.923,0.807,0.754}),"MOQ="&AI49),"")
@@ -4129,6 +4640,9 @@ Row: 49
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E49 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL49 -> FFFFFFFF/FFFF0000
  Col: AN
    1.14
   Formula: IFERROR(IF(OR(AM49>=AO49,E49>=AO49),LOOKUP(IF(AM49="",E49,AM49),{0,1,10,25,50,100,500},{0.0,1.6,1.29,1.24,1.19,1.14,1.14}),"MOQ="&AO49),"")
@@ -4190,6 +4704,9 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H51 -> FFFFFFFF/FFFF0000
  Col: J
    0.563
   Formula: IFERROR(IF(OR(I51>=K51,E51>=K51),LOOKUP(IF(I51="",E51,I51),{0,1,10,25,100},{0.0,0.9137,0.7444,0.6408,0.563}),"MOQ="&K51),"")
@@ -4209,6 +4726,9 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N51 -> FFFFFFFF/FFFF0000
  Col: P
    0.3939
   Formula: IFERROR(IF(OR(O51>=Q51,E51>=Q51),LOOKUP(IF(O51="",E51,O51),{0,1,10,100,1000,5000,10000},{0.0,0.6,0.506,0.3939,0.30947,0.27196,0.2532}),"MOQ="&Q51),"")
@@ -4228,6 +4748,9 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T51 -> FFFFFFFF/FFFF0000
  Col: V
    0.488459265268
   Formula: IFERROR(IF(OR(U51>=W51,E51>=W51),USD_GBP*LOOKUP(IF(U51="",E51,U51),{0,1,5,10,50,100,500,1000,8000},{0.0,0.544,0.365,0.455,0.405,0.355,0.344,0.221,0.244}),"MOQ="&W51),"")
@@ -4247,6 +4770,9 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z51 -> FFFFFFFF/FFFF0000
  Col: AB
    0.1769
   Formula: IFERROR(IF(OR(AA51>=AC51,E51>=AC51),LOOKUP(IF(AA51="",E51,AA51),{0,1,10,30,100,500,1000},{0.0,0.2772,0.2039,0.1904,0.1769,0.171,0.168}),"MOQ="&AC51),"")
@@ -4266,6 +4792,9 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF51 -> FFFFFFFF/FFFF0000
  Col: AH
    0.39
   Formula: IFERROR(IF(OR(AG51>=AI51,E51>=AI51),LOOKUP(IF(AG51="",E51,AG51),{0,1,10,50,100,1000,10000},{0.0,0.59,0.503,0.503,0.39,0.306,0.246}),"MOQ="&AI51),"")
@@ -4285,6 +4814,9 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL51 -> FFFFFFFF/FFFF0000
  Col: AN
    0.415
   Formula: IFERROR(IF(OR(AM51>=AO51,E51>=AO51),LOOKUP(IF(AM51="",E51,AM51),{0,1,10,25,50,100,250,500,1000},{0.0,0.63,0.557,0.509,0.463,0.415,0.403,0.39,0.378}),"MOQ="&AO51),"")
@@ -4304,6 +4836,10 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS51>0,MOD(AS51,AU51)<>0) -> -/FFFFFF00
+  - greaterThan AR51 -> FFFFFFFF/FFFF0000
  Col: AT
    0.410030594507
   Formula: IFERROR(IF(OR(AS51>=AU51,E51>=AU51),USD_GBP*LOOKUP(IF(AS51="",E51,AS51),{0,1,5,100,375,1500},{0.0,0.422,0.422,0.298,0.282,0.212}),"MOQ="&AU51),"")
@@ -4323,6 +4859,10 @@ Row: 51
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E51 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY51>0,MOD(AY51,BA51)<>0) -> -/FFFFFF00
+  - greaterThan AX51 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.366688434349
   Formula: IFERROR(IF(OR(AY51>=BA51,E51>=BA51),USD_GBP*LOOKUP(IF(AY51="",E51,AY51),{0,1,2,10,50,200,1000},{0.0,0.4334,0.4334,0.3554,0.2665,0.2154,0.1884}),"MOQ="&BA51),"")
@@ -4365,6 +4905,10 @@ Row: 52
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E52 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I52>0,MOD(I52,K52)<>0) -> -/FFFFFF00
+  - greaterThan H52 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I52>=K52,E52>=K52),LOOKUP(IF(I52="",E52,I52),{0,1,45000},{0.0,0.0212,0.0212}),"MOQ="&K52),"")
   Styles:
@@ -4386,6 +4930,9 @@ Row: 52
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E52 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N52 -> FFFFFFFF/FFFF0000
  Col: P
    0.0415
   Formula: IFERROR(IF(OR(O52>=Q52,E52>=Q52),LOOKUP(IF(O52="",E52,O52),{0,1,10,25,100,500,1000,3000,6000,15000,30000,75000},{0.0,0.14,0.124,0.118,0.0675,0.0415,0.0283,0.02406,0.0217,0.01887,0.01698,0.01557}),"MOQ="&Q52),"")
@@ -4405,6 +4952,10 @@ Row: 52
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E52 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U52>0,MOD(U52,W52)<>0) -> -/FFFFFF00
+  - greaterThan T52 -> FFFFFFFF/FFFF0000
  Col: V
    0.058477517673
   Formula: IFERROR(IF(OR(U52>=W52,E52>=W52),USD_GBP*LOOKUP(IF(U52="",E52,U52),{0,1,5,10,100,150,500,3000},{0.0,0.143,0.143,0.117,0.0434,0.0434,0.0425,0.02}),"MOQ="&W52),"")
@@ -4424,6 +4975,10 @@ Row: 52
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E52 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - =AND(AA52>0,MOD(AA52,AC52)<>0) -> -/FFFFFF00
+  - greaterThan Z52 -> FFFFFFFF/FFFF0000
  Col: AB
    0.0179
   Formula: IFERROR(IF(OR(AA52>=AC52,E52>=AC52),LOOKUP(IF(AA52="",E52,AA52),{0,1,20,200,600,2000,10000,20000},{0.0,0.0242,0.0242,0.0189,0.0179,0.017,0.0165,0.0163}),"MOQ="&AC52),"")
@@ -4443,6 +4998,9 @@ Row: 52
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E52 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF52 -> FFFFFFFF/FFFF0000
  Col: AH
    0.068
   Formula: IFERROR(IF(OR(AG52>=AI52,E52>=AI52),LOOKUP(IF(AG52="",E52,AG52),{0,1,10,50,100,1000,10000},{0.0,0.13,0.125,0.125,0.068,0.029,0.018}),"MOQ="&AI52),"")
@@ -4462,6 +5020,9 @@ Row: 52
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E52 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL52 -> FFFFFFFF/FFFF0000
  Col: AN
    0.031
   Formula: IFERROR(IF(OR(AM52>=AO52,E52>=AO52),LOOKUP(IF(AM52="",E52,AM52),{0,1,10,100,500,3000,6000,9000,12000},{0.0,0.126,0.113,0.04,0.031,0.021,0.021,0.022,0.02}),"MOQ="&AO52),"")
@@ -4481,6 +5042,10 @@ Row: 52
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E52 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY52>0,MOD(AY52,BA52)<>0) -> -/FFFFFF00
+  - greaterThan AX52 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.0126311438174
   Formula: IFERROR(IF(OR(AY52>=BA52,E52>=BA52),USD_GBP*LOOKUP(IF(AY52="",E52,AY52),{0,1,25,100,500,3000,12000},{0.0,0.02426,0.02426,0.01135,0.00918,0.00758,0.00716}),"MOQ="&BA52),"")
@@ -4523,6 +5088,10 @@ Row: 53
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E53 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I53>0,MOD(I53,K53)<>0) -> -/FFFFFF00
+  - greaterThan H53 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I53>=K53,E53>=K53),LOOKUP(IF(I53="",E53,I53),{0,1,5000,50000,500000,2500000},{0.0,0.0061,0.0061,0.0056,0.0029,0.0017}),"MOQ="&K53),"")
   Styles:
@@ -4544,6 +5113,9 @@ Row: 53
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E53 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N53 -> FFFFFFFF/FFFF0000
  Col: P
    0.00366
   Formula: IFERROR(IF(OR(O53>=Q53,E53>=Q53),LOOKUP(IF(O53="",E53,O53),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"MOQ="&Q53),"")
@@ -4586,6 +5158,10 @@ Row: 54
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E54 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I54>0,MOD(I54,K54)<>0) -> -/FFFFFF00
+  - greaterThan H54 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I54>=K54,E54>=K54),LOOKUP(IF(I54="",E54,I54),{0,1,5000,50000,500000,2500000},{0.0,0.0061,0.0061,0.0056,0.0029,0.0017}),"MOQ="&K54),"")
   Styles:
@@ -4607,6 +5183,9 @@ Row: 54
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E54 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N54 -> FFFFFFFF/FFFF0000
  Col: P
    0.0081
   Formula: IFERROR(IF(OR(O54>=Q54,E54>=Q54),LOOKUP(IF(O54="",E54,O54),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"MOQ="&Q54),"")
@@ -4626,6 +5205,10 @@ Row: 54
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E54 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM54>0,MOD(AM54,AO54)<>0) -> -/FFFFFF00
+  - greaterThan AL54 -> FFFFFFFF/FFFF0000
  Col: AN
   Formula: IFERROR(IF(OR(AM54>=AO54,E54>=AO54),LOOKUP(IF(AM54="",E54,AM54),{0,1,5000,20000,50000},{0.0,0.003,0.003,0.003,0.003}),"MOQ="&AO54),"")
   Styles:
@@ -4670,6 +5253,10 @@ Row: 55
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E55 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I55>0,MOD(I55,K55)<>0) -> -/FFFFFF00
+  - greaterThan H55 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I55>=K55,E55>=K55),LOOKUP(IF(I55="",E55,I55),{0,1,5000,50000,500000,2500000},{0.0,0.0061,0.0061,0.0056,0.0029,0.0017}),"MOQ="&K55),"")
   Styles:
@@ -4691,6 +5278,9 @@ Row: 55
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E55 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N55 -> FFFFFFFF/FFFF0000
  Col: P
    0.0081
   Formula: IFERROR(IF(OR(O55>=Q55,E55>=Q55),LOOKUP(IF(O55="",E55,O55),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"MOQ="&Q55),"")
@@ -4710,6 +5300,10 @@ Row: 55
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E55 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM55>0,MOD(AM55,AO55)<>0) -> -/FFFFFF00
+  - greaterThan AL55 -> FFFFFFFF/FFFF0000
  Col: AN
   Formula: IFERROR(IF(OR(AM55>=AO55,E55>=AO55),LOOKUP(IF(AM55="",E55,AM55),{0,1,60000},{0.0,0.004,0.004}),"MOQ="&AO55),"")
   Styles:
@@ -4773,6 +5367,10 @@ Row: 57
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E57 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I57>0,MOD(I57,K57)<>0) -> -/FFFFFF00
+  - greaterThan H57 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I57>=K57,E57>=K57),LOOKUP(IF(I57="",E57,I57),{0,1,5000,10000},{0.0,0.0023,0.0023,0.0022}),"MOQ="&K57),"")
   Styles:
@@ -4794,6 +5392,9 @@ Row: 57
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E57 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N57 -> FFFFFFFF/FFFF0000
  Col: P
    0.0081
   Formula: IFERROR(IF(OR(O57>=Q57,E57>=Q57),LOOKUP(IF(O57="",E57,O57),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"MOQ="&Q57),"")
@@ -4893,6 +5494,9 @@ Row: 61
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E61 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H61 -> FFFFFFFF/FFFF0000
  Col: J
    0.0038
   Formula: IFERROR(IF(OR(I61>=K61,E61>=K61),LOOKUP(IF(I61="",E61,I61),{0,1,10,25,100,250,500,1000,3000},{0.0,0.0432,0.0149,0.0145,0.0075,0.0065,0.0064,0.0038,0.0028}),"MOQ="&K61),"")
@@ -4912,6 +5516,9 @@ Row: 61
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E61 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N61 -> FFFFFFFF/FFFF0000
  Col: P
    0.00366
   Formula: IFERROR(IF(OR(O61>=Q61,E61>=Q61),LOOKUP(IF(O61="",E61,O61),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"MOQ="&Q61),"")
@@ -4931,6 +5538,10 @@ Row: 61
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E61 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM61>0,MOD(AM61,AO61)<>0) -> -/FFFFFF00
+  - greaterThan AL61 -> FFFFFFFF/FFFF0000
  Col: AN
   Formula: IFERROR(IF(OR(AM61>=AO61,E61>=AO61),LOOKUP(IF(AM61="",E61,AM61),{0,1,55000},{0.0,0.003,0.003}),"MOQ="&AO61),"")
   Styles:
@@ -5070,6 +5681,9 @@ Row: 67
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E67 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H67 -> FFFFFFFF/FFFF0000
  Col: J
    0.0122
   Formula: IFERROR(IF(OR(I67>=K67,E67>=K67),LOOKUP(IF(I67="",E67,I67),{0,1,10,25,50,100,250,500,1000,5000},{0.0,0.1,0.0614,0.0497,0.0428,0.0252,0.0215,0.0185,0.0122,0.0097}),"MOQ="&K67),"")
@@ -5089,6 +5703,9 @@ Row: 67
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E67 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N67 -> FFFFFFFF/FFFF0000
  Col: P
    0.01355
   Formula: IFERROR(IF(OR(O67>=Q67,E67>=Q67),LOOKUP(IF(O67="",E67,O67),{0,1,10,25,50,100,250,500,1000,5000},{0.0,0.1,0.08,0.0556,0.0432,0.0308,0.02404,0.0191,0.01355,0.01047}),"MOQ="&Q67),"")
@@ -5108,6 +5725,9 @@ Row: 67
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E67 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF67 -> FFFFFFFF/FFFF0000
  Col: AH
    0.014
   Formula: IFERROR(IF(OR(AG67>=AI67,E67>=AI67),LOOKUP(IF(AG67="",E67,AG67),{0,1,10,50,100,1000,10000},{0.0,0.1,0.044,0.044,0.02,0.014,0.01}),"MOQ="&AI67),"")
@@ -5150,6 +5770,10 @@ Row: 68
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E68 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I68>0,MOD(I68,K68)<>0) -> -/FFFFFF00
+  - greaterThan H68 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I68>=K68,E68>=K68),LOOKUP(IF(I68="",E68,I68),{0,1,5000,50000,500000,2500000},{0.0,0.0061,0.0061,0.0056,0.0029,0.0017}),"MOQ="&K68),"")
   Styles:
@@ -5171,6 +5795,9 @@ Row: 68
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E68 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N68 -> FFFFFFFF/FFFF0000
  Col: P
    0.00318
   Formula: IFERROR(IF(OR(O68>=Q68,E68>=Q68),LOOKUP(IF(O68="",E68,O68),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"MOQ="&Q68),"")
@@ -5213,6 +5840,9 @@ Row: 69
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E69 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H69 -> FFFFFFFF/FFFF0000
  Col: J
    0.0065
   Formula: IFERROR(IF(OR(I69>=K69,E69>=K69),LOOKUP(IF(I69="",E69,I69),{0,1,10,25,100,500,1000,3000},{0.0,0.0419,0.0174,0.0158,0.0067,0.0065,0.0039,0.003}),"MOQ="&K69),"")
@@ -5232,6 +5862,9 @@ Row: 69
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E69 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N69 -> FFFFFFFF/FFFF0000
  Col: P
    0.0081
   Formula: IFERROR(IF(OR(O69>=Q69,E69>=Q69),LOOKUP(IF(O69="",E69,O69),{0,1,10,100,1000,2500,5000},{0.0,0.1,0.02,0.0081,0.00366,0.00318,0.00262}),"MOQ="&Q69),"")
@@ -5251,6 +5884,10 @@ Row: 69
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E69 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM69>0,MOD(AM69,AO69)<>0) -> -/FFFFFF00
+  - greaterThan AL69 -> FFFFFFFF/FFFF0000
  Col: AN
   Formula: IFERROR(IF(OR(AM69>=AO69,E69>=AO69),LOOKUP(IF(AM69="",E69,AM69),{0,1,5000,10000,20000},{0.0,0.003,0.003,0.003,0.003}),"MOQ="&AO69),"")
   Styles:
@@ -5316,6 +5953,9 @@ Row: 71
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E71 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H71 -> FFFFFFFF/FFFF0000
  Col: J
    0.0827
   Formula: IFERROR(IF(OR(I71>=K71,E71>=K71),LOOKUP(IF(I71="",E71,I71),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.1,0.0961,0.0925,0.0827,0.0781,0.0586,0.0526,0.0521}),"MOQ="&K71),"")
@@ -5335,6 +5975,9 @@ Row: 71
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E71 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N71 -> FFFFFFFF/FFFF0000
  Col: P
    0.087
   Formula: IFERROR(IF(OR(O71>=Q71,E71>=Q71),LOOKUP(IF(O71="",E71,O71),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.1,0.101,0.0956,0.087,0.0818,0.07484,0.06265,0.06091,0.05743}),"MOQ="&Q71),"")
@@ -5354,6 +5997,9 @@ Row: 71
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E71 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T71 -> FFFFFFFF/FFFF0000
  Col: V
    0.0897113918183
   Formula: IFERROR(IF(OR(U71>=W71,E71>=W71),USD_GBP*LOOKUP(IF(U71="",E71,U71),{0,1,10,25,50,100,500,1000,2500,5000},{0.0,0.0961,0.07,0.0868,0.0676,0.0652,0.0628,0.0562,0.0526,0.0509}),"MOQ="&W71),"")
@@ -5373,6 +6019,9 @@ Row: 71
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E71 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF71 -> FFFFFFFF/FFFF0000
  Col: AH
    0.088
   Formula: IFERROR(IF(OR(AG71>=AI71,E71>=AI71),LOOKUP(IF(AG71="",E71,AG71),{0,1,10,50,100,1000,10000},{0.0,0.1,0.09,0.09,0.088,0.06,0.053}),"MOQ="&AI71),"")
@@ -5392,6 +6041,9 @@ Row: 71
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E71 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL71 -> FFFFFFFF/FFFF0000
  Col: AN
    0.097
   Formula: IFERROR(IF(OR(AM71>=AO71,E71>=AO71),LOOKUP(IF(AM71="",E71,AM71),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.125,0.115,0.104,0.097,0.091,0.071,0.066,0.064}),"MOQ="&AO71),"")
@@ -5411,6 +6063,10 @@ Row: 71
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E71 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS71>0,MOD(AS71,AU71)<>0) -> -/FFFFFF00
+  - greaterThan AR71 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0729249043922
   Formula: IFERROR(IF(OR(AS71>=AU71,E71>=AU71),USD_GBP*LOOKUP(IF(AS71="",E71,AS71),{0,1,20,100,500,750,1000,1500,3000,4500},{0.0,0.071,0.071,0.053,0.051,0.041,0.036,0.028,0.028,0.027}),"MOQ="&AU71),"")
@@ -5430,6 +6086,10 @@ Row: 71
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E71 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY71>0,MOD(AY71,BA71)<>0) -> -/FFFFFF00
+  - greaterThan AX71 -> FFFFFFFF/FFFF0000
  Col: AZ
   Formula: IFERROR(IF(OR(AY71>=BA71,E71>=BA71),USD_GBP*LOOKUP(IF(AY71="",E71,AY71),{0,1,1500},{0.0,0.0478,0.0478}),"MOQ="&BA71),"")
   Styles:
@@ -5474,6 +6134,9 @@ Row: 72
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E72 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H72 -> FFFFFFFF/FFFF0000
  Col: J
    0.0827
   Formula: IFERROR(IF(OR(I72>=K72,E72>=K72),LOOKUP(IF(I72="",E72,I72),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.1,0.0961,0.0925,0.0827,0.0781,0.0586,0.0526,0.0521}),"MOQ="&K72),"")
@@ -5493,6 +6156,9 @@ Row: 72
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E72 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N72 -> FFFFFFFF/FFFF0000
  Col: P
    0.087
   Formula: IFERROR(IF(OR(O72>=Q72,E72>=Q72),LOOKUP(IF(O72="",E72,O72),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.1,0.101,0.0956,0.087,0.0818,0.07484,0.06265,0.06091,0.05743}),"MOQ="&Q72),"")
@@ -5512,6 +6178,9 @@ Row: 72
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E72 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T72 -> FFFFFFFF/FFFF0000
  Col: V
    0.0897113918183
   Formula: IFERROR(IF(OR(U72>=W72,E72>=W72),USD_GBP*LOOKUP(IF(U72="",E72,U72),{0,1,10,25,50,100,500,1000,2500,5000},{0.0,0.0961,0.07,0.0868,0.0676,0.0652,0.0628,0.0562,0.0526,0.0509}),"MOQ="&W72),"")
@@ -5531,6 +6200,9 @@ Row: 72
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E72 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF72 -> FFFFFFFF/FFFF0000
  Col: AH
    0.088
   Formula: IFERROR(IF(OR(AG72>=AI72,E72>=AI72),LOOKUP(IF(AG72="",E72,AG72),{0,1,10,50,100,1000,10000},{0.0,0.1,0.09,0.09,0.088,0.06,0.053}),"MOQ="&AI72),"")
@@ -5550,6 +6222,9 @@ Row: 72
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E72 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL72 -> FFFFFFFF/FFFF0000
  Col: AN
    0.097
   Formula: IFERROR(IF(OR(AM72>=AO72,E72>=AO72),LOOKUP(IF(AM72="",E72,AM72),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.125,0.115,0.104,0.097,0.091,0.071,0.066,0.064}),"MOQ="&AO72),"")
@@ -5569,6 +6244,10 @@ Row: 72
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E72 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS72>0,MOD(AS72,AU72)<>0) -> -/FFFFFF00
+  - greaterThan AR72 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0729249043922
   Formula: IFERROR(IF(OR(AS72>=AU72,E72>=AU72),USD_GBP*LOOKUP(IF(AS72="",E72,AS72),{0,1,20,100,500,750,1000,1500,3000,4500},{0.0,0.071,0.071,0.053,0.051,0.041,0.036,0.028,0.028,0.027}),"MOQ="&AU72),"")
@@ -5588,6 +6267,10 @@ Row: 72
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E72 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY72>0,MOD(AY72,BA72)<>0) -> -/FFFFFF00
+  - greaterThan AX72 -> FFFFFFFF/FFFF0000
  Col: AZ
   Formula: IFERROR(IF(OR(AY72>=BA72,E72>=BA72),USD_GBP*LOOKUP(IF(AY72="",E72,AY72),{0,1,1500},{0.0,0.0478,0.0478}),"MOQ="&BA72),"")
   Styles:
@@ -5632,6 +6315,9 @@ Row: 73
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E73 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H73 -> FFFFFFFF/FFFF0000
  Col: J
    0.0827
   Formula: IFERROR(IF(OR(I73>=K73,E73>=K73),LOOKUP(IF(I73="",E73,I73),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.1,0.0961,0.0925,0.0827,0.0781,0.0586,0.0526,0.0521}),"MOQ="&K73),"")
@@ -5651,6 +6337,9 @@ Row: 73
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E73 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N73 -> FFFFFFFF/FFFF0000
  Col: P
    0.087
   Formula: IFERROR(IF(OR(O73>=Q73,E73>=Q73),LOOKUP(IF(O73="",E73,O73),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.1,0.101,0.0956,0.087,0.0818,0.07484,0.06265,0.06091,0.05743}),"MOQ="&Q73),"")
@@ -5670,6 +6359,9 @@ Row: 73
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E73 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T73 -> FFFFFFFF/FFFF0000
  Col: V
    0.0897113918183
   Formula: IFERROR(IF(OR(U73>=W73,E73>=W73),USD_GBP*LOOKUP(IF(U73="",E73,U73),{0,1,10,25,50,100,500,1000,2500,5000},{0.0,0.0961,0.07,0.0868,0.0676,0.0652,0.0628,0.0562,0.0526,0.0509}),"MOQ="&W73),"")
@@ -5689,6 +6381,9 @@ Row: 73
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E73 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF73 -> FFFFFFFF/FFFF0000
  Col: AH
    0.088
   Formula: IFERROR(IF(OR(AG73>=AI73,E73>=AI73),LOOKUP(IF(AG73="",E73,AG73),{0,1,10,50,100,1000,10000},{0.0,0.1,0.09,0.09,0.088,0.06,0.053}),"MOQ="&AI73),"")
@@ -5708,6 +6403,9 @@ Row: 73
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E73 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL73 -> FFFFFFFF/FFFF0000
  Col: AN
    0.097
   Formula: IFERROR(IF(OR(AM73>=AO73,E73>=AO73),LOOKUP(IF(AM73="",E73,AM73),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.125,0.115,0.104,0.097,0.091,0.071,0.066,0.064}),"MOQ="&AO73),"")
@@ -5727,6 +6425,10 @@ Row: 73
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E73 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS73>0,MOD(AS73,AU73)<>0) -> -/FFFFFF00
+  - greaterThan AR73 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0729249043922
   Formula: IFERROR(IF(OR(AS73>=AU73,E73>=AU73),USD_GBP*LOOKUP(IF(AS73="",E73,AS73),{0,1,20,100,500,750,1000,1500,3000,4500},{0.0,0.071,0.071,0.053,0.051,0.041,0.036,0.028,0.028,0.027}),"MOQ="&AU73),"")
@@ -5746,6 +6448,10 @@ Row: 73
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E73 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY73>0,MOD(AY73,BA73)<>0) -> -/FFFFFF00
+  - greaterThan AX73 -> FFFFFFFF/FFFF0000
  Col: AZ
   Formula: IFERROR(IF(OR(AY73>=BA73,E73>=BA73),USD_GBP*LOOKUP(IF(AY73="",E73,AY73),{0,1,1500},{0.0,0.0478,0.0478}),"MOQ="&BA73),"")
   Styles:
@@ -5790,6 +6496,9 @@ Row: 74
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E74 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H74 -> FFFFFFFF/FFFF0000
  Col: J
    0.0827
   Formula: IFERROR(IF(OR(I74>=K74,E74>=K74),LOOKUP(IF(I74="",E74,I74),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.1,0.0961,0.0925,0.0827,0.0781,0.0586,0.0526,0.0521}),"MOQ="&K74),"")
@@ -5809,6 +6518,9 @@ Row: 74
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E74 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N74 -> FFFFFFFF/FFFF0000
  Col: P
    0.087
   Formula: IFERROR(IF(OR(O74>=Q74,E74>=Q74),LOOKUP(IF(O74="",E74,O74),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.1,0.101,0.0956,0.087,0.0818,0.07484,0.06265,0.06091,0.05743}),"MOQ="&Q74),"")
@@ -5828,6 +6540,9 @@ Row: 74
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E74 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T74 -> FFFFFFFF/FFFF0000
  Col: V
    0.0897113918183
   Formula: IFERROR(IF(OR(U74>=W74,E74>=W74),USD_GBP*LOOKUP(IF(U74="",E74,U74),{0,1,10,25,50,100,500,1000,2500,5000},{0.0,0.0961,0.07,0.0868,0.0676,0.0652,0.0628,0.0562,0.0526,0.0509}),"MOQ="&W74),"")
@@ -5847,6 +6562,9 @@ Row: 74
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E74 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF74 -> FFFFFFFF/FFFF0000
  Col: AH
    0.088
   Formula: IFERROR(IF(OR(AG74>=AI74,E74>=AI74),LOOKUP(IF(AG74="",E74,AG74),{0,1,10,50,100,1000,10000},{0.0,0.1,0.09,0.09,0.088,0.06,0.053}),"MOQ="&AI74),"")
@@ -5866,6 +6584,9 @@ Row: 74
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E74 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL74 -> FFFFFFFF/FFFF0000
  Col: AN
    0.097
   Formula: IFERROR(IF(OR(AM74>=AO74,E74>=AO74),LOOKUP(IF(AM74="",E74,AM74),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.125,0.115,0.104,0.097,0.091,0.071,0.066,0.064}),"MOQ="&AO74),"")
@@ -5885,6 +6606,10 @@ Row: 74
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E74 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS74>0,MOD(AS74,AU74)<>0) -> -/FFFFFF00
+  - greaterThan AR74 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0729249043922
   Formula: IFERROR(IF(OR(AS74>=AU74,E74>=AU74),USD_GBP*LOOKUP(IF(AS74="",E74,AS74),{0,1,20,100,500,750,1000,1500,3000,4500},{0.0,0.071,0.071,0.053,0.051,0.041,0.036,0.028,0.028,0.027}),"MOQ="&AU74),"")
@@ -5904,6 +6629,10 @@ Row: 74
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E74 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY74>0,MOD(AY74,BA74)<>0) -> -/FFFFFF00
+  - greaterThan AX74 -> FFFFFFFF/FFFF0000
  Col: AZ
   Formula: IFERROR(IF(OR(AY74>=BA74,E74>=BA74),USD_GBP*LOOKUP(IF(AY74="",E74,AY74),{0,1,1500},{0.0,0.0478,0.0478}),"MOQ="&BA74),"")
   Styles:
@@ -5948,6 +6677,9 @@ Row: 75
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E75 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H75 -> FFFFFFFF/FFFF0000
  Col: J
    0.0827
   Formula: IFERROR(IF(OR(I75>=K75,E75>=K75),LOOKUP(IF(I75="",E75,I75),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.1,0.0961,0.0925,0.0827,0.0781,0.0586,0.0526,0.0521}),"MOQ="&K75),"")
@@ -5967,6 +6699,9 @@ Row: 75
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E75 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N75 -> FFFFFFFF/FFFF0000
  Col: P
    0.087
   Formula: IFERROR(IF(OR(O75>=Q75,E75>=Q75),LOOKUP(IF(O75="",E75,O75),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.1,0.101,0.0956,0.087,0.0818,0.07484,0.06265,0.06091,0.05743}),"MOQ="&Q75),"")
@@ -5986,6 +6721,9 @@ Row: 75
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E75 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T75 -> FFFFFFFF/FFFF0000
  Col: V
    0.0897113918183
   Formula: IFERROR(IF(OR(U75>=W75,E75>=W75),USD_GBP*LOOKUP(IF(U75="",E75,U75),{0,1,10,25,50,100,500,1000,2500,5000},{0.0,0.0961,0.07,0.0868,0.0676,0.0652,0.0628,0.0562,0.0526,0.0509}),"MOQ="&W75),"")
@@ -6005,6 +6743,9 @@ Row: 75
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E75 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF75 -> FFFFFFFF/FFFF0000
  Col: AH
    0.088
   Formula: IFERROR(IF(OR(AG75>=AI75,E75>=AI75),LOOKUP(IF(AG75="",E75,AG75),{0,1,10,50,100,1000,10000},{0.0,0.1,0.09,0.09,0.088,0.06,0.053}),"MOQ="&AI75),"")
@@ -6024,6 +6765,9 @@ Row: 75
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E75 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL75 -> FFFFFFFF/FFFF0000
  Col: AN
    0.097
   Formula: IFERROR(IF(OR(AM75>=AO75,E75>=AO75),LOOKUP(IF(AM75="",E75,AM75),{0,1,10,25,100,500,1000,2500,5000},{0.0,0.125,0.115,0.104,0.097,0.091,0.071,0.066,0.064}),"MOQ="&AO75),"")
@@ -6043,6 +6787,10 @@ Row: 75
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E75 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS75>0,MOD(AS75,AU75)<>0) -> -/FFFFFF00
+  - greaterThan AR75 -> FFFFFFFF/FFFF0000
  Col: AT
    0.0729249043922
   Formula: IFERROR(IF(OR(AS75>=AU75,E75>=AU75),USD_GBP*LOOKUP(IF(AS75="",E75,AS75),{0,1,20,100,500,750,1000,1500,3000,4500},{0.0,0.071,0.071,0.053,0.051,0.041,0.036,0.028,0.028,0.027}),"MOQ="&AU75),"")
@@ -6062,6 +6810,10 @@ Row: 75
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E75 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY75>0,MOD(AY75,BA75)<>0) -> -/FFFFFF00
+  - greaterThan AX75 -> FFFFFFFF/FFFF0000
  Col: AZ
   Formula: IFERROR(IF(OR(AY75>=BA75,E75>=BA75),USD_GBP*LOOKUP(IF(AY75="",E75,AY75),{0,1,1500},{0.0,0.0478,0.0478}),"MOQ="&BA75),"")
   Styles:
@@ -6182,6 +6934,9 @@ Row: 80
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E80 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N80 -> FFFFFFFF/FFFF0000
  Col: P
    1.19001
   Formula: IFERROR(IF(OR(O80>=Q80,E80>=Q80),LOOKUP(IF(O80="",E80,O80),{0,1,10,50,100,500,1200},{0.0,1.9,1.71,1.55,1.42,1.34,1.19001}),"MOQ="&Q80),"")
@@ -6201,6 +6956,9 @@ Row: 80
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E80 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T80 -> FFFFFFFF/FFFF0000
  Col: V
    1.26311438174
   Formula: IFERROR(IF(OR(U80>=W80,E80>=W80),USD_GBP*LOOKUP(IF(U80="",E80,U80),{0,1,10,50,100,250,500,1200,6000},{0.0,2.32,2.32,1.43,1.27,1.08,1.06,0.918,0.917}),"MOQ="&W80),"")
@@ -6220,6 +6978,9 @@ Row: 80
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E80 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF80 -> FFFFFFFF/FFFF0000
  Col: AH
    1.39
   Formula: IFERROR(IF(OR(AG80>=AI80,E80>=AI80),LOOKUP(IF(AG80="",E80,AG80),{0,1,10,50,100,1000,10000},{0.0,1.97,1.77,1.61,1.47,1.39,1.23}),"MOQ="&AI80),"")
@@ -6239,6 +7000,9 @@ Row: 80
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E80 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL80 -> FFFFFFFF/FFFF0000
  Col: AN
    1.68
   Formula: IFERROR(IF(OR(AM80>=AO80,E80>=AO80),LOOKUP(IF(AM80="",E80,AM80),{0,1,10,25,50,100},{0.0,2.14,1.94,1.87,1.79,1.68}),"MOQ="&AO80),"")
@@ -6281,6 +7045,9 @@ Row: 81
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E81 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H81 -> FFFFFFFF/FFFF0000
  Col: J
    0.362
   Formula: IFERROR(IF(OR(I81>=K81,E81>=K81),LOOKUP(IF(I81="",E81,I81),{0,1,10,100,250,500,1000,2500,5000,10000,25000},{0.0,0.6705,0.5754,0.362,0.3216,0.2954,0.1918,0.1898,0.1879,0.1861,0.1842}),"MOQ="&K81),"")
@@ -6300,6 +7067,9 @@ Row: 81
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E81 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N81 -> FFFFFFFF/FFFF0000
  Col: P
    0.4387
   Formula: IFERROR(IF(OR(O81>=Q81,E81>=Q81),LOOKUP(IF(O81="",E81,O81),{0,1,10,25,100,250,500,1000,2500},{0.0,0.69,0.588,0.5484,0.4387,0.40732,0.34466,0.26634,0.25865}),"MOQ="&Q81),"")
@@ -6319,6 +7089,9 @@ Row: 81
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E81 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T81 -> FFFFFFFF/FFFF0000
  Col: V
    0.451308842276
   Formula: IFERROR(IF(OR(U81>=W81,E81>=W81),USD_GBP*LOOKUP(IF(U81="",E81,U81),{0,1,10,100,250,500,1000,2000,6000},{0.0,0.741,0.58,0.328,0.268,0.313,0.231,0.14,0.124}),"MOQ="&W81),"")
@@ -6338,6 +7111,9 @@ Row: 81
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E81 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF81 -> FFFFFFFF/FFFF0000
  Col: AH
    0.407
   Formula: IFERROR(IF(OR(AG81>=AI81,E81>=AI81),LOOKUP(IF(AG81="",E81,AG81),{0,1,10,50,100,1000,10000},{0.0,0.69,0.588,0.588,0.407,0.266,0.214}),"MOQ="&AI81),"")
@@ -6357,6 +7133,9 @@ Row: 81
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E81 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL81 -> FFFFFFFF/FFFF0000
  Col: AN
    0.378
   Formula: IFERROR(IF(OR(AM81>=AO81,E81>=AO81),LOOKUP(IF(AM81="",E81,AM81),{0,1,10,100,500,1000,2500},{0.0,0.788,0.63,0.378,0.333,0.286,0.243}),"MOQ="&AO81),"")
@@ -6376,6 +7155,10 @@ Row: 81
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E81 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS81>0,MOD(AS81,AU81)<>0) -> -/FFFFFF00
+  - greaterThan AR81 -> FFFFFFFF/FFFF0000
  Col: AT
    0.315090624638
   Formula: IFERROR(IF(OR(AS81>=AU81,E81>=AU81),USD_GBP*LOOKUP(IF(AS81="",E81,AS81),{0,1,20,75,100,150,1000,1050,2500,2550,10000,10050},{0.0,0.383,0.383,0.383,0.23,0.229,0.17,0.175,0.153,0.148,0.149,0.147}),"MOQ="&AU81),"")
@@ -6395,6 +7178,10 @@ Row: 81
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E81 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY81>0,MOD(AY81,BA81)<>0) -> -/FFFFFF00
+  - greaterThan AX81 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.240789778653
   Formula: IFERROR(IF(OR(AY81>=BA81,E81>=BA81),USD_GBP*LOOKUP(IF(AY81="",E81,AY81),{0,1,2,10,75,300,750},{0.0,0.3032,0.3032,0.2192,0.175,0.149,0.1351}),"MOQ="&BA81),"")
@@ -6437,6 +7224,10 @@ Row: 82
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E82 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U82>0,MOD(U82,W82)<>0) -> -/FFFFFF00
+  - greaterThan T82 -> FFFFFFFF/FFFF0000
  Col: V
    0.20914312203
   Formula: IFERROR(IF(OR(U82>=W82,E82>=W82),USD_GBP*LOOKUP(IF(U82="",E82,U82),{0,1,5,50,100,150,250,500,1000,5000,10000},{0.0,0.318,0.318,0.283,0.152,0.152,0.134,0.116,0.098,0.092,0.083}),"MOQ="&W82),"")
@@ -6483,6 +7274,9 @@ Row: 83
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E83 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N83 -> FFFFFFFF/FFFF0000
  Col: P
    0.2052
   Formula: IFERROR(IF(OR(O83>=Q83,E83>=Q83),LOOKUP(IF(O83="",E83,O83),{0,1,10,25,100,250,500,1000,4000,8000,12000,28000},{0.0,0.37,0.301,0.2756,0.2052,0.18596,0.15392,0.11543,0.10582,0.0994,0.09299,0.09075}),"MOQ="&Q83),"")
@@ -6502,6 +7296,10 @@ Row: 83
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E83 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U83>0,MOD(U83,W83)<>0) -> -/FFFFFF00
+  - greaterThan T83 -> FFFFFFFF/FFFF0000
  Col: V
    0.207767180438
   Formula: IFERROR(IF(OR(U83>=W83,E83>=W83),USD_GBP*LOOKUP(IF(U83="",E83,U83),{0,1,5,10,100,150,500,1000},{0.0,0.404,0.404,0.298,0.151,0.151,0.135,0.0875}),"MOQ="&W83),"")
@@ -6521,6 +7319,9 @@ Row: 83
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E83 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF83 -> FFFFFFFF/FFFF0000
  Col: AH
    0.154
   Formula: IFERROR(IF(OR(AG83>=AI83,E83>=AI83),LOOKUP(IF(AG83="",E83,AG83),{0,1,10,50,100,1000,10000},{0.0,0.37,0.276,0.276,0.154,0.106,0.092}),"MOQ="&AI83),"")
@@ -6540,6 +7341,10 @@ Row: 83
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E83 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM83>0,MOD(AM83,AO83)<>0) -> -/FFFFFF00
+  - greaterThan AL83 -> FFFFFFFF/FFFF0000
  Col: AN
    0.178
   Formula: IFERROR(IF(OR(AM83>=AO83,E83>=AO83),LOOKUP(IF(AM83="",E83,AM83),{0,1,5,10,25,50,100,4000},{0.0,0.439,0.439,0.331,0.28,0.228,0.178,0.074}),"MOQ="&AO83),"")
@@ -6559,6 +7364,10 @@ Row: 83
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E83 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY83>0,MOD(AY83,BA83)<>0) -> -/FFFFFF00
+  - greaterThan AX83 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.103470807741
   Formula: IFERROR(IF(OR(AY83>=BA83,E83>=BA83),USD_GBP*LOOKUP(IF(AY83="",E83,AY83),{0,1,5,25,100,500,4000},{0.0,0.12129,0.12129,0.08516,0.0752,0.06757,0.06307}),"MOQ="&BA83),"")
@@ -6601,6 +7410,9 @@ Row: 84
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E84 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - greaterThan H84 -> FFFFFFFF/FFFF0000
  Col: J
    0.745
   Formula: IFERROR(IF(OR(I84>=K84,E84>=K84),LOOKUP(IF(I84="",E84,I84),{0,1,10,25,100},{0.0,1.1215,1.0677,1.0517,0.745}),"MOQ="&K84),"")
@@ -6620,6 +7432,9 @@ Row: 84
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E84 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N84 -> FFFFFFFF/FFFF0000
  Col: P
    0.941
   Formula: IFERROR(IF(OR(O84>=Q84,E84>=Q84),LOOKUP(IF(O84="",E84,O84),{0,1,10,25,100,250,500,1000,2500},{0.0,1.44,1.291,1.2256,1.0067,0.941,0.83158,0.72258,0.72258}),"MOQ="&Q84),"")
@@ -6639,6 +7454,10 @@ Row: 84
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E84 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U84>0,MOD(U84,W84)<>0) -> -/FFFFFF00
+  - greaterThan T84 -> FFFFFFFF/FFFF0000
  Col: V
    1.17643006142
   Formula: IFERROR(IF(OR(U84>=W84,E84>=W84),USD_GBP*LOOKUP(IF(U84="",E84,U84),{0,1,5,10,100,500,2500},{0.0,1.5,1.5,1.18,0.855,0.596,0.558}),"MOQ="&W84),"")
@@ -6658,6 +7477,9 @@ Row: 84
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E84 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z84 -> FFFFFFFF/FFFF0000
  Col: AB
    0.7538
   Formula: IFERROR(IF(OR(AA84>=AC84,E84>=AC84),LOOKUP(IF(AA84="",E84,AA84),{0,1,10,30,100,500,1000},{0.0,1.1235,0.853,0.8043,0.7538,0.7322,0.7214}),"MOQ="&AC84),"")
@@ -6677,6 +7499,9 @@ Row: 84
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E84 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF84 -> FFFFFFFF/FFFF0000
  Col: AH
    1.01
   Formula: IFERROR(IF(OR(AG84>=AI84,E84>=AI84),LOOKUP(IF(AG84="",E84,AG84),{0,1,10,50,100,1000,10000},{0.0,1.33,1.3,1.23,1.01,0.657,0.564}),"MOQ="&AI84),"")
@@ -6696,6 +7521,10 @@ Row: 84
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E84 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - =AND(AM84>0,MOD(AM84,AO84)<>0) -> -/FFFFFF00
+  - greaterThan AL84 -> FFFFFFFF/FFFF0000
  Col: AN
    1.08
   Formula: IFERROR(IF(OR(AM84>=AO84,E84>=AO84),LOOKUP(IF(AM84="",E84,AM84),{0,1,5,10,100,2500,5000,10000,15000,20000,25000,250000},{0.0,1.55,1.55,1.39,1.08,0.475,0.469,0.461,0.454,0.448,0.439,0.434}),"MOQ="&AO84),"")
@@ -6715,6 +7544,10 @@ Row: 84
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E84 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS84>0,MOD(AS84,AU84)<>0) -> -/FFFFFF00
+  - greaterThan AR84 -> FFFFFFFF/FFFF0000
  Col: AT
   Formula: IFERROR(IF(OR(AS84>=AU84,E84>=AU84),USD_GBP*LOOKUP(IF(AS84="",E84,AS84),{0,1,2500,5000},{0.0,0.401,0.401,0.4}),"MOQ="&AU84),"")
   Styles:
@@ -6759,6 +7592,9 @@ Row: 85
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E85 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N85 -> FFFFFFFF/FFFF0000
  Col: P
    2.0566
   Formula: IFERROR(IF(OR(O85>=Q85,E85>=Q85),LOOKUP(IF(O85="",E85,O85),{0,1,25,100,1000},{0.0,2.22,2.1388,2.0566,2.025}),"MOQ="&Q85),"")
@@ -6778,6 +7614,9 @@ Row: 85
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E85 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T85 -> FFFFFFFF/FFFF0000
  Col: V
    2.69684552092
   Formula: IFERROR(IF(OR(U85>=W85,E85>=W85),USD_GBP*LOOKUP(IF(U85="",E85,U85),{0,1,10,25,50,100},{0.0,2.39,2.21,2.03,2.0,1.96}),"MOQ="&W85),"")
@@ -6797,6 +7636,9 @@ Row: 85
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E85 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF85 -> FFFFFFFF/FFFF0000
  Col: AH
    2.34
   Formula: IFERROR(IF(OR(AG85>=AI85,E85>=AI85),LOOKUP(IF(AG85="",E85,AG85),{0,1,10,50,100,1000,10000},{0.0,2.34,2.34,2.34,2.34,2.34,2.34}),"MOQ="&AI85),"")
@@ -6816,6 +7658,9 @@ Row: 85
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E85 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL85 -> FFFFFFFF/FFFF0000
  Col: AN
    2.06
   Formula: IFERROR(IF(OR(AM85>=AO85,E85>=AO85),LOOKUP(IF(AM85="",E85,AM85),{0,1,10,25,50,100},{0.0,2.22,2.18,2.14,2.1,2.06}),"MOQ="&AO85),"")
@@ -6835,6 +7680,9 @@ Row: 85
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E85 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - greaterThan AX85 -> FFFFFFFF/FFFF0000
  Col: AZ
    3.57744813999
   Formula: IFERROR(IF(OR(AY85>=BA85,E85>=BA85),USD_GBP*LOOKUP(IF(AY85="",E85,AY85),{0,1,3,10},{0.0,3.27,2.89,2.6}),"MOQ="&BA85),"")
@@ -6877,6 +7725,10 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I86>0,MOD(I86,K86)<>0) -> -/FFFFFF00
+  - greaterThan H86 -> FFFFFFFF/FFFF0000
  Col: J
    0.2044
   Formula: IFERROR(IF(OR(I86>=K86,E86>=K86),LOOKUP(IF(I86="",E86,I86),{0,1,1000,2000,5000,10000,25000,50000},{0.0,0.2044,0.2044,0.1847,0.1728,0.1669,0.1619,0.1603}),"MOQ="&K86),"")
@@ -6896,6 +7748,9 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N86 -> FFFFFFFF/FFFF0000
  Col: P
    0.2247
   Formula: IFERROR(IF(OR(O86>=Q86,E86>=Q86),LOOKUP(IF(O86="",E86,O86),{0,1,10,100,1000,2000},{0.0,0.67,0.44,0.291,0.2247,0.22348}),"MOQ="&Q86),"")
@@ -6915,6 +7770,10 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U86>0,MOD(U86,W86)<>0) -> -/FFFFFF00
+  - greaterThan T86 -> FFFFFFFF/FFFF0000
  Col: V
    0.268308610499
   Formula: IFERROR(IF(OR(U86>=W86,E86>=W86),USD_GBP*LOOKUP(IF(U86="",E86,U86),{0,1,5,10,100,500,1000},{0.0,0.634,0.634,0.428,0.253,0.246,0.195}),"MOQ="&W86),"")
@@ -6934,6 +7793,9 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z86 -> FFFFFFFF/FFFF0000
  Col: AB
    0.2371
   Formula: IFERROR(IF(OR(AA86>=AC86,E86>=AC86),LOOKUP(IF(AA86="",E86,AA86),{0,1,10,30,100,500,1000},{0.0,0.3598,0.2774,0.2623,0.2471,0.2404,0.2371}),"MOQ="&AC86),"")
@@ -6953,6 +7815,9 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF86 -> FFFFFFFF/FFFF0000
  Col: AH
    0.224
   Formula: IFERROR(IF(OR(AG86>=AI86,E86>=AI86),LOOKUP(IF(AG86="",E86,AG86),{0,1,10,50,100,1000,10000},{0.0,0.67,0.498,0.498,0.292,0.224,0.224}),"MOQ="&AI86),"")
@@ -6972,6 +7837,9 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL86 -> FFFFFFFF/FFFF0000
  Col: AN
    0.252
   Formula: IFERROR(IF(OR(AM86>=AO86,E86>=AO86),LOOKUP(IF(AM86="",E86,AM86),{0,1,5,10,100,500,1000,2000,3000,6000,12000,18000,30000},{0.0,0.642,0.713,0.471,0.313,0.26,0.252,0.252,0.246,0.23,0.217,0.204,0.197}),"MOQ="&AO86),"")
@@ -6991,6 +7859,10 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS86>0,MOD(AS86,AU86)<>0) -> -/FFFFFF00
+  - greaterThan AR86 -> FFFFFFFF/FFFF0000
  Col: AT
    0.200887472477
   Formula: IFERROR(IF(OR(AS86>=AU86,E86>=AU86),USD_GBP*LOOKUP(IF(AS86="",E86,AS86),{0,1,1000,3000},{0.0,0.146,0.146,0.136}),"MOQ="&AU86),"")
@@ -7010,6 +7882,10 @@ Row: 86
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E86 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - =AND(AY86>0,MOD(AY86,BA86)<>0) -> -/FFFFFF00
+  - greaterThan AX86 -> FFFFFFFF/FFFF0000
  Col: AZ
    0.15025282188
   Formula: IFERROR(IF(OR(AY86>=BA86,E86>=BA86),USD_GBP*LOOKUP(IF(AY86="",E86,AY86),{0,1,2,10,50,250,1000},{0.0,0.3032,0.3032,0.1629,0.1455,0.1178,0.1092}),"MOQ="&BA86),"")
@@ -7052,6 +7928,10 @@ Row: 87
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E87 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I87>0,MOD(I87,K87)<>0) -> -/FFFFFF00
+  - greaterThan H87 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I87>=K87,E87>=K87),LOOKUP(IF(I87="",E87,I87),{0,1,2500,25000,250000,1250000,2500000},{0.0,3.15,3.15,2.966,1.906,1.373,1.369}),"MOQ="&K87),"")
   Styles:
@@ -7073,6 +7953,9 @@ Row: 87
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E87 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N87 -> FFFFFFFF/FFFF0000
  Col: P
    2.0904
   Formula: IFERROR(IF(OR(O87>=Q87,E87>=Q87),LOOKUP(IF(O87="",E87,O87),{0,1,10,25,100,250,500,1000,2500},{0.0,3.34,2.997,2.8332,2.4556,2.32968,2.0904,1.98396,1.98396}),"MOQ="&Q87),"")
@@ -7092,6 +7975,9 @@ Row: 87
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E87 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T87 -> FFFFFFFF/FFFF0000
  Col: V
    2.38037895469
   Formula: IFERROR(IF(OR(U87>=W87,E87>=W87),USD_GBP*LOOKUP(IF(U87="",E87,U87),{0,1,10,25,50,100,250,500,1000},{0.0,3.11,2.48,2.35,2.19,2.03,1.91,1.73,1.68}),"MOQ="&W87),"")
@@ -7111,6 +7997,9 @@ Row: 87
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E87 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF87 -> FFFFFFFF/FFFF0000
  Col: AH
    2.46
   Formula: IFERROR(IF(OR(AG87>=AI87,E87>=AI87),LOOKUP(IF(AG87="",E87,AG87),{0,1,10,50,100,1000,10000},{0.0,3.34,3.0,2.84,2.46,2.03,1.87}),"MOQ="&AI87),"")
@@ -7130,6 +8019,9 @@ Row: 87
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E87 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL87 -> FFFFFFFF/FFFF0000
  Col: AN
    3.03
   Formula: IFERROR(IF(OR(AM87>=AO87,E87>=AO87),LOOKUP(IF(AM87="",E87,AM87),{0,1,10,25,50,100,250},{0.0,4.28,3.98,3.75,3.52,3.29,3.03}),"MOQ="&AO87),"")
@@ -7172,6 +8064,9 @@ Row: 88
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E88 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N88 -> FFFFFFFF/FFFF0000
  Col: P
    1.1022
   Formula: IFERROR(IF(OR(O88>=Q88,E88>=Q88),LOOKUP(IF(O88="",E88,O88),{0,1,10,25,100,250,500,1000,3000},{0.0,2.06,1.854,1.7488,1.4901,1.3992,1.2243,1.1022,1.1022}),"MOQ="&Q88),"")
@@ -7191,6 +8086,9 @@ Row: 88
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E88 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T88 -> FFFFFFFF/FFFF0000
  Col: V
    1.21220454282
   Formula: IFERROR(IF(OR(U88>=W88,E88>=W88),USD_GBP*LOOKUP(IF(U88="",E88,U88),{0,1,10,50,100,250,500,1000,2500},{0.0,1.92,1.44,1.33,1.22,1.16,1.01,0.881,0.824}),"MOQ="&W88),"")
@@ -7210,6 +8108,9 @@ Row: 88
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E88 -> FF000000/FFFF9900
+ Col: AA
+  Styles:
+  - greaterThan Z88 -> FFFFFFFF/FFFF0000
  Col: AB
    1.0207
   Formula: IFERROR(IF(OR(AA88>=AC88,E88>=AC88),LOOKUP(IF(AA88="",E88,AA88),{0,1,10,30,100,500,1000},{0.0,1.7168,1.2497,1.1632,1.0766,1.0387,1.0207}),"MOQ="&AC88),"")
@@ -7229,6 +8130,9 @@ Row: 88
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E88 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF88 -> FFFFFFFF/FFFF0000
  Col: AH
    1.07
   Formula: IFERROR(IF(OR(AG88>=AI88,E88>=AI88),LOOKUP(IF(AG88="",E88,AG88),{0,1,10,50,100,1000,10000},{0.0,2.06,1.86,1.75,1.49,1.07,1.0}),"MOQ="&AI88),"")
@@ -7248,6 +8152,9 @@ Row: 88
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E88 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL88 -> FFFFFFFF/FFFF0000
  Col: AN
    2.15
   Formula: IFERROR(IF(OR(AM88>=AO88,E88>=AO88),LOOKUP(IF(AM88="",E88,AM88),{0,1,10,25,50,100,250},{0.0,3.02,2.82,2.66,2.5,2.33,2.15}),"MOQ="&AO88),"")
@@ -7290,6 +8197,10 @@ Row: 89
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E89 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U89>0,MOD(U89,W89)<>0) -> -/FFFFFF00
+  - greaterThan T89 -> FFFFFFFF/FFFF0000
  Col: V
    0.134842276046
   Formula: IFERROR(IF(OR(U89>=W89,E89>=W89),USD_GBP*LOOKUP(IF(U89="",E89,U89),{0,1,5,50,100,150,250,500,1000,5000,10000},{0.0,0.318,0.318,0.283,0.152,0.152,0.134,0.116,0.098,0.092,0.083}),"MOQ="&W89),"")
@@ -7332,6 +8243,9 @@ Row: 90
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E90 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N90 -> FFFFFFFF/FFFF0000
  Col: P
    3.0855
   Formula: IFERROR(IF(OR(O90>=Q90,E90>=Q90),LOOKUP(IF(O90="",E90,O90),{0,1,10,25,100,250,500,1000},{0.0,5.78,5.189,4.906,4.2518,4.03376,3.6195,3.0855}),"MOQ="&Q90),"")
@@ -7351,6 +8265,9 @@ Row: 90
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E90 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T90 -> FFFFFFFF/FFFF0000
  Col: V
    4.38925367945
   Formula: IFERROR(IF(OR(U90>=W90,E90>=W90),USD_GBP*LOOKUP(IF(U90="",E90,U90),{0,1,10,25,50,100},{0.0,5.07,3.87,3.64,3.42,3.19}),"MOQ="&W90),"")
@@ -7370,6 +8287,9 @@ Row: 90
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E90 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF90 -> FFFFFFFF/FFFF0000
  Col: AH
    3.41
   Formula: IFERROR(IF(OR(AG90>=AI90,E90>=AI90),LOOKUP(IF(AG90="",E90,AG90),{0,1,10,50,100,1000,10000},{0.0,5.45,4.63,4.63,4.01,3.41,3.41}),"MOQ="&AI90),"")
@@ -7389,6 +8309,9 @@ Row: 90
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E90 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL90 -> FFFFFFFF/FFFF0000
  Col: AN
    3.98
   Formula: IFERROR(IF(OR(AM90>=AO90,E90>=AO90),LOOKUP(IF(AM90="",E90,AM90),{0,1,10,25,50,100,250},{0.0,5.7,4.84,4.62,4.42,4.2,3.98}),"MOQ="&AO90),"")
@@ -7408,6 +8331,9 @@ Row: 90
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E90 -> FF000000/FFFF9900
+ Col: AY
+  Styles:
+  - greaterThan AX90 -> FFFFFFFF/FFFF0000
  Col: AZ
    3.5224104763
   Formula: IFERROR(IF(OR(AY90>=BA90,E90>=BA90),USD_GBP*LOOKUP(IF(AY90="",E90,AY90),{0,1,3,10,50},{0.0,3.36,3.05,2.89,2.56}),"MOQ="&BA90),"")
@@ -7450,6 +8376,9 @@ Row: 91
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E91 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N91 -> FFFFFFFF/FFFF0000
  Col: P
    0.5152
   Formula: IFERROR(IF(OR(O91>=Q91,E91>=Q91),LOOKUP(IF(O91="",E91,O91),{0,1,10,25,100,250,500,1000,2500},{0.0,0.74,0.661,0.6272,0.5152,0.4816,0.4256,0.42,0.42}),"MOQ="&Q91),"")
@@ -7469,6 +8398,9 @@ Row: 91
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E91 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T91 -> FFFFFFFF/FFFF0000
  Col: V
    0.449932900684
   Formula: IFERROR(IF(OR(U91>=W91,E91>=W91),USD_GBP*LOOKUP(IF(U91="",E91,U91),{0,1,10,100,150,500,1000,2500,5000},{0.0,0.567,0.481,0.327,0.327,0.311,0.283,0.277,0.272}),"MOQ="&W91),"")
@@ -7488,6 +8420,9 @@ Row: 91
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E91 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF91 -> FFFFFFFF/FFFF0000
  Col: AH
    0.51
   Formula: IFERROR(IF(OR(AG91>=AI91,E91>=AI91),LOOKUP(IF(AG91="",E91,AG91),{0,1,10,50,100,1000,10000},{0.0,0.74,0.661,0.628,0.51,0.373,0.372}),"MOQ="&AI91),"")
@@ -7507,6 +8442,9 @@ Row: 91
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E91 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL91 -> FFFFFFFF/FFFF0000
  Col: AN
    0.598
   Formula: IFERROR(IF(OR(AM91>=AO91,E91>=AO91),LOOKUP(IF(AM91="",E91,AM91),{0,1,10,25,50,100,250},{0.0,0.913,0.82,0.778,0.774,0.598,0.528}),"MOQ="&AO91),"")
@@ -7549,6 +8487,9 @@ Row: 92
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E92 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N92 -> FFFFFFFF/FFFF0000
  Col: P
    0.6583
   Formula: IFERROR(IF(OR(O92>=Q92,E92>=Q92),LOOKUP(IF(O92="",E92,O92),{0,1,10,25,100,250,500,1000},{0.0,0.94,0.844,0.8012,0.6583,0.61532,0.54378,0.4293}),"MOQ="&Q92),"")
@@ -7568,6 +8509,9 @@ Row: 92
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E92 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - greaterThan T92 -> FFFFFFFF/FFFF0000
  Col: V
    0.466444199791
   Formula: IFERROR(IF(OR(U92>=W92,E92>=W92),USD_GBP*LOOKUP(IF(U92="",E92,U92),{0,1,10,100,150,500,1000,2500,5000},{0.0,0.583,0.491,0.339,0.339,0.313,0.297,0.281,0.265}),"MOQ="&W92),"")
@@ -7587,6 +8531,9 @@ Row: 92
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E92 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF92 -> FFFFFFFF/FFFF0000
  Col: AH
    0.613
   Formula: IFERROR(IF(OR(AG92>=AI92,E92>=AI92),LOOKUP(IF(AG92="",E92,AG92),{0,1,10,50,100,1000,10000},{0.0,0.94,0.841,0.802,0.613,0.399,0.373}),"MOQ="&AI92),"")
@@ -7606,6 +8553,9 @@ Row: 92
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E92 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL92 -> FFFFFFFF/FFFF0000
  Col: AN
    0.58
   Formula: IFERROR(IF(OR(AM92>=AO92,E92>=AO92),LOOKUP(IF(AM92="",E92,AM92),{0,1,10,25,50,100,250},{0.0,0.89,0.797,0.756,0.668,0.58,0.513}),"MOQ="&AO92),"")
@@ -7669,6 +8619,10 @@ Row: 94
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E94 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I94>0,MOD(I94,K94)<>0) -> -/FFFFFF00
+  - greaterThan H94 -> FFFFFFFF/FFFF0000
  Col: J
   Formula: IFERROR(IF(OR(I94>=K94,E94>=K94),LOOKUP(IF(I94="",E94,I94),{0,1,250,2500,25000,125000,250000},{0.0,0.43,0.43,0.4157,0.3326,0.2893,0.2889}),"MOQ="&K94),"")
   Styles:
@@ -7690,6 +8644,9 @@ Row: 94
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E94 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - greaterThan N94 -> FFFFFFFF/FFFF0000
  Col: P
    0.3852
   Formula: IFERROR(IF(OR(O94>=Q94,E94>=Q94),LOOKUP(IF(O94="",E94,O94),{0,1,10,50,100,250,500,1000},{0.0,0.43,0.414,0.396,0.3852,0.36,0.3312,0.306}),"MOQ="&Q94),"")
@@ -7709,6 +8666,10 @@ Row: 94
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E94 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(U94>0,MOD(U94,W94)<>0) -> -/FFFFFF00
+  - greaterThan T94 -> FFFFFFFF/FFFF0000
  Col: V
    0.399023061768
   Formula: IFERROR(IF(OR(U94>=W94,E94>=W94),USD_GBP*LOOKUP(IF(U94="",E94,U94),{0,1,10,100,250,500,1000,2500},{0.0,0.312,0.312,0.29,0.271,0.249,0.231,0.222}),"MOQ="&W94),"")
@@ -7728,6 +8689,9 @@ Row: 94
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E94 -> FF000000/FFFF9900
+ Col: AG
+  Styles:
+  - greaterThan AF94 -> FFFFFFFF/FFFF0000
  Col: AH
    0.385
   Formula: IFERROR(IF(OR(AG94>=AI94,E94>=AI94),LOOKUP(IF(AG94="",E94,AG94),{0,1,10,50,100,1000,10000},{0.0,0.43,0.414,0.396,0.385,0.306,0.306}),"MOQ="&AI94),"")
@@ -7747,6 +8711,9 @@ Row: 94
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E94 -> FF000000/FFFF9900
+ Col: AM
+  Styles:
+  - greaterThan AL94 -> FFFFFFFF/FFFF0000
  Col: AN
    0.451
   Formula: IFERROR(IF(OR(AM94>=AO94,E94>=AO94),LOOKUP(IF(AM94="",E94,AM94),{0,1,10,50,100,250,500},{0.0,0.528,0.497,0.466,0.451,0.426,0.397}),"MOQ="&AO94),"")
@@ -7766,6 +8733,10 @@ Row: 94
   Styles:
   - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E94 -> FF000000/FFFF9900
+ Col: AS
+  Styles:
+  - =AND(AS94>0,MOD(AS94,AU94)<>0) -> -/FFFFFF00
+  - greaterThan AR94 -> FFFFFFFF/FFFF0000
  Col: AT
    0.550376636922
   Formula: IFERROR(IF(OR(AS94>=AU94,E94>=AU94),USD_GBP*LOOKUP(IF(AS94="",E94,AS94),{0,1,5,125,500,1000,2500},{0.0,0.4,0.4,0.276,0.258,0.228,0.216}),"MOQ="&AU94),"")
@@ -7877,21 +8848,21 @@ Row: 99
    "*FILTERED*"
 Row: 186
  Col: I
-  Formula: IF(ISNUMBER(I7:I94)*(I7:I94>=K7:K94)*(M7:M94<>""),M7:M94&","&TEXT(ROUNDUP(I7:I94/IF(ISNUMBER(K7:K94),K7:K94,1))*K7:K94,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(I7:I94)*(I7:I94>=K7:K94)*(M7:M94<>""),M7:M94&","&TEXT(ROUNDUP(I7:I94/IF(ISNUMBER(K7:K94),K7:K94,1))*K7:K94,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n"," ")&CHAR(10),"")
  Col: O
-  Formula: IF(ISNUMBER(O7:O94)*(O7:O94>=Q7:Q94)*(S7:S94<>""),TEXT(ROUNDUP(O7:O94/IF(ISNUMBER(Q7:Q94),Q7:Q94,1))*Q7:Q94,"##0")&","&S7:S94&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(O7:O94)*(O7:O94>=Q7:Q94)*(S7:S94<>""),TEXT(ROUNDUP(O7:O94/IF(ISNUMBER(Q7:Q94),Q7:Q94,1))*Q7:Q94,"##0")&","&S7:S94&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n"," ")&CHAR(10),"")
  Col: U
-  Formula: IF(ISNUMBER(U7:U94)*(U7:U94>=W7:W94)*(Y7:Y94<>""),Y7:Y94&","&TEXT(ROUNDUP(U7:U94/IF(ISNUMBER(W7:W94),W7:W94,1))*W7:W94,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n",";"),30)&CHAR(10),"")
+  Formula: IF(ISNUMBER(U7:U94)*(U7:U94>=W7:W94)*(Y7:Y94<>""),Y7:Y94&","&TEXT(ROUNDUP(U7:U94/IF(ISNUMBER(W7:W94),W7:W94,1))*W7:W94,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n"," "),30)&CHAR(10),"")
  Col: AA
-  Formula: IF(ISNUMBER(AA7:AA94)*(AA7:AA94>=AC7:AC94)*(AE7:AE94<>""),TEXT(ROUNDUP(AA7:AA94/IF(ISNUMBER(AC7:AC94),AC7:AC94,1))*AC7:AC94,"##0")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";")&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C94,",",";")&","&AE7:AE94&CHAR(10),"")
+  Formula: IF(ISNUMBER(AA7:AA94)*(AA7:AA94>=AC7:AC94)*(AE7:AE94<>""),TEXT(ROUNDUP(AA7:AA94/IF(ISNUMBER(AC7:AC94),AC7:AC94,1))*AC7:AC94,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n"," ")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C94,",",";"),"\n"," ")&","&AE7:AE94&CHAR(10),"")
  Col: AG
-  Formula: IF(ISNUMBER(AG7:AG94)*(AG7:AG94>=AI7:AI94)*(AK7:AK94<>""),AK7:AK94&"|"&TEXT(ROUNDUP(AG7:AG94/IF(ISNUMBER(AI7:AI94),AI7:AI94,1))*AI7:AI94,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,"|",";")," ","_")&CHAR(10),"")
+  Formula: IF(ISNUMBER(AG7:AG94)*(AG7:AG94>=AI7:AI94)*(AK7:AK94<>""),AK7:AK94&"|"&TEXT(ROUNDUP(AG7:AG94/IF(ISNUMBER(AI7:AI94),AI7:AI94,1))*AI7:AI94,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,"|",";")," ","_"),"\n","_")&CHAR(10),"")
  Col: AM
-  Formula: IF(ISNUMBER(AM7:AM94)*(AM7:AM94>=AO7:AO94)*(AQ7:AQ94<>""),AQ7:AQ94&","&TEXT(ROUNDUP(AM7:AM94/IF(ISNUMBER(AO7:AO94),AO7:AO94,1))*AO7:AO94,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n",";")&","&""&CHAR(10),"")
+  Formula: IF(ISNUMBER(AM7:AM94)*(AM7:AM94>=AO7:AO94)*(AQ7:AQ94<>""),AQ7:AQ94&","&TEXT(ROUNDUP(AM7:AM94/IF(ISNUMBER(AO7:AO94),AO7:AO94,1))*AO7:AO94,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n"," ")&","&""&CHAR(10),"")
  Col: AS
-  Formula: IF(ISNUMBER(AS7:AS94)*(AS7:AS94>=AU7:AU94)*(AW7:AW94<>""),AW7:AW94&","&TEXT(ROUNDUP(AS7:AS94/IF(ISNUMBER(AU7:AU94),AU7:AU94,1))*AU7:AU94,"##0")&","&""&","&""&","&""&","&D7:D94&","&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(AS7:AS94)*(AS7:AS94>=AU7:AU94)*(AW7:AW94<>""),AW7:AW94&","&TEXT(ROUNDUP(AS7:AS94/IF(ISNUMBER(AU7:AU94),AU7:AU94,1))*AU7:AU94,"##0")&","&""&","&""&","&""&","&D7:D94&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n"," ")&CHAR(10),"")
  Col: AY
-  Formula: IF(ISNUMBER(AY7:AY94)*(AY7:AY94>=BA7:BA94)*(BC7:BC94<>""),BC7:BC94&" "&TEXT(ROUNDUP(AY7:AY94/IF(ISNUMBER(BA7:BA94),BA7:BA94,1))*BA7:BA94,"##0")&" "&SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94," ",";")&CHAR(10),"")
+  Formula: IF(ISNUMBER(AY7:AY94)*(AY7:AY94>=BA7:BA94)*(BC7:BC94<>""),BC7:BC94&" "&TEXT(ROUNDUP(AY7:AY94/IF(ISNUMBER(BA7:BA94),BA7:BA94,1))*BA7:BA94,"##0")&" "&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94," ",";"),"\n",";")&CHAR(10),"")
 Row: 187
  Col: I
    0
@@ -9374,680 +10345,3 @@ Row: 273
 Row: 274
  Col: AA
   Formula: IFERROR(IF(COUNTIFS(AA7:AA94,">0",AD7:AD94,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")
-Cell: AA23
- - =AND(AA23>0,MOD(AA23,AC23)<>0) -> -/FFFFFF00
- - greaterThan Z23 -> FFFFFFFF/FFFF0000
-Cell: AA32
- - greaterThan Z32 -> FFFFFFFF/FFFF0000
-Cell: AA33
- - =AND(AA33>0,MOD(AA33,AC33)<>0) -> -/FFFFFF00
- - greaterThan Z33 -> FFFFFFFF/FFFF0000
-Cell: AA36
- - greaterThan Z36 -> FFFFFFFF/FFFF0000
-Cell: AA37
- - =AND(AA37>0,MOD(AA37,AC37)<>0) -> -/FFFFFF00
- - greaterThan Z37 -> FFFFFFFF/FFFF0000
-Cell: AA39
- - greaterThan Z39 -> FFFFFFFF/FFFF0000
-Cell: AA49
- - greaterThan Z49 -> FFFFFFFF/FFFF0000
-Cell: AA51
- - greaterThan Z51 -> FFFFFFFF/FFFF0000
-Cell: AA52
- - =AND(AA52>0,MOD(AA52,AC52)<>0) -> -/FFFFFF00
- - greaterThan Z52 -> FFFFFFFF/FFFF0000
-Cell: AA7
- - greaterThan Z7 -> FFFFFFFF/FFFF0000
-Cell: AA84
- - greaterThan Z84 -> FFFFFFFF/FFFF0000
-Cell: AA86
- - greaterThan Z86 -> FFFFFFFF/FFFF0000
-Cell: AA88
- - greaterThan Z88 -> FFFFFFFF/FFFF0000
-Cell: AA9
- - =AND(AA9>0,MOD(AA9,AC9)<>0) -> -/FFFFFF00
- - greaterThan Z9 -> FFFFFFFF/FFFF0000
-Cell: AG13
- - greaterThan AF13 -> FFFFFFFF/FFFF0000
-Cell: AG16
- - greaterThan AF16 -> FFFFFFFF/FFFF0000
-Cell: AG17
- - greaterThan AF17 -> FFFFFFFF/FFFF0000
-Cell: AG19
- - greaterThan AF19 -> FFFFFFFF/FFFF0000
-Cell: AG20
- - greaterThan AF20 -> FFFFFFFF/FFFF0000
-Cell: AG21
- - greaterThan AF21 -> FFFFFFFF/FFFF0000
-Cell: AG22
- - greaterThan AF22 -> FFFFFFFF/FFFF0000
-Cell: AG23
- - greaterThan AF23 -> FFFFFFFF/FFFF0000
-Cell: AG24
- - greaterThan AF24 -> FFFFFFFF/FFFF0000
-Cell: AG26
- - greaterThan AF26 -> FFFFFFFF/FFFF0000
-Cell: AG27
- - greaterThan AF27 -> FFFFFFFF/FFFF0000
-Cell: AG28
- - greaterThan AF28 -> FFFFFFFF/FFFF0000
-Cell: AG32
- - greaterThan AF32 -> FFFFFFFF/FFFF0000
-Cell: AG33
- - greaterThan AF33 -> FFFFFFFF/FFFF0000
-Cell: AG34
- - greaterThan AF34 -> FFFFFFFF/FFFF0000
-Cell: AG35
- - greaterThan AF35 -> FFFFFFFF/FFFF0000
-Cell: AG36
- - greaterThan AF36 -> FFFFFFFF/FFFF0000
-Cell: AG37
- - greaterThan AF37 -> FFFFFFFF/FFFF0000
-Cell: AG38
- - greaterThan AF38 -> FFFFFFFF/FFFF0000
-Cell: AG48
- - greaterThan AF48 -> FFFFFFFF/FFFF0000
-Cell: AG49
- - greaterThan AF49 -> FFFFFFFF/FFFF0000
-Cell: AG51
- - greaterThan AF51 -> FFFFFFFF/FFFF0000
-Cell: AG52
- - greaterThan AF52 -> FFFFFFFF/FFFF0000
-Cell: AG67
- - greaterThan AF67 -> FFFFFFFF/FFFF0000
-Cell: AG7
- - greaterThan AF7 -> FFFFFFFF/FFFF0000
-Cell: AG71
- - greaterThan AF71 -> FFFFFFFF/FFFF0000
-Cell: AG72
- - greaterThan AF72 -> FFFFFFFF/FFFF0000
-Cell: AG73
- - greaterThan AF73 -> FFFFFFFF/FFFF0000
-Cell: AG74
- - greaterThan AF74 -> FFFFFFFF/FFFF0000
-Cell: AG75
- - greaterThan AF75 -> FFFFFFFF/FFFF0000
-Cell: AG8
- - greaterThan AF8 -> FFFFFFFF/FFFF0000
-Cell: AG80
- - greaterThan AF80 -> FFFFFFFF/FFFF0000
-Cell: AG81
- - greaterThan AF81 -> FFFFFFFF/FFFF0000
-Cell: AG83
- - greaterThan AF83 -> FFFFFFFF/FFFF0000
-Cell: AG84
- - greaterThan AF84 -> FFFFFFFF/FFFF0000
-Cell: AG85
- - greaterThan AF85 -> FFFFFFFF/FFFF0000
-Cell: AG86
- - greaterThan AF86 -> FFFFFFFF/FFFF0000
-Cell: AG87
- - greaterThan AF87 -> FFFFFFFF/FFFF0000
-Cell: AG88
- - greaterThan AF88 -> FFFFFFFF/FFFF0000
-Cell: AG9
- - greaterThan AF9 -> FFFFFFFF/FFFF0000
-Cell: AG90
- - greaterThan AF90 -> FFFFFFFF/FFFF0000
-Cell: AG91
- - greaterThan AF91 -> FFFFFFFF/FFFF0000
-Cell: AG92
- - greaterThan AF92 -> FFFFFFFF/FFFF0000
-Cell: AG94
- - greaterThan AF94 -> FFFFFFFF/FFFF0000
-Cell: AM13
- - greaterThan AL13 -> FFFFFFFF/FFFF0000
-Cell: AM15
- - =AND(AM15>0,MOD(AM15,AO15)<>0) -> -/FFFFFF00
- - greaterThan AL15 -> FFFFFFFF/FFFF0000
-Cell: AM16
- - greaterThan AL16 -> FFFFFFFF/FFFF0000
-Cell: AM17
- - greaterThan AL17 -> FFFFFFFF/FFFF0000
-Cell: AM18
- - greaterThan AL18 -> FFFFFFFF/FFFF0000
-Cell: AM19
- - greaterThan AL19 -> FFFFFFFF/FFFF0000
-Cell: AM20
- - greaterThan AL20 -> FFFFFFFF/FFFF0000
-Cell: AM21
- - greaterThan AL21 -> FFFFFFFF/FFFF0000
-Cell: AM22
- - =AND(AM22>0,MOD(AM22,AO22)<>0) -> -/FFFFFF00
- - greaterThan AL22 -> FFFFFFFF/FFFF0000
-Cell: AM23
- - greaterThan AL23 -> FFFFFFFF/FFFF0000
-Cell: AM24
- - greaterThan AL24 -> FFFFFFFF/FFFF0000
-Cell: AM27
- - greaterThan AL27 -> FFFFFFFF/FFFF0000
-Cell: AM28
- - greaterThan AL28 -> FFFFFFFF/FFFF0000
-Cell: AM32
- - greaterThan AL32 -> FFFFFFFF/FFFF0000
-Cell: AM33
- - greaterThan AL33 -> FFFFFFFF/FFFF0000
-Cell: AM34
- - greaterThan AL34 -> FFFFFFFF/FFFF0000
-Cell: AM35
- - greaterThan AL35 -> FFFFFFFF/FFFF0000
-Cell: AM36
- - greaterThan AL36 -> FFFFFFFF/FFFF0000
-Cell: AM37
- - greaterThan AL37 -> FFFFFFFF/FFFF0000
-Cell: AM38
- - greaterThan AL38 -> FFFFFFFF/FFFF0000
-Cell: AM39
- - greaterThan AL39 -> FFFFFFFF/FFFF0000
-Cell: AM49
- - greaterThan AL49 -> FFFFFFFF/FFFF0000
-Cell: AM51
- - greaterThan AL51 -> FFFFFFFF/FFFF0000
-Cell: AM52
- - greaterThan AL52 -> FFFFFFFF/FFFF0000
-Cell: AM54
- - =AND(AM54>0,MOD(AM54,AO54)<>0) -> -/FFFFFF00
- - greaterThan AL54 -> FFFFFFFF/FFFF0000
-Cell: AM55
- - =AND(AM55>0,MOD(AM55,AO55)<>0) -> -/FFFFFF00
- - greaterThan AL55 -> FFFFFFFF/FFFF0000
-Cell: AM61
- - =AND(AM61>0,MOD(AM61,AO61)<>0) -> -/FFFFFF00
- - greaterThan AL61 -> FFFFFFFF/FFFF0000
-Cell: AM69
- - =AND(AM69>0,MOD(AM69,AO69)<>0) -> -/FFFFFF00
- - greaterThan AL69 -> FFFFFFFF/FFFF0000
-Cell: AM7
- - greaterThan AL7 -> FFFFFFFF/FFFF0000
-Cell: AM71
- - greaterThan AL71 -> FFFFFFFF/FFFF0000
-Cell: AM72
- - greaterThan AL72 -> FFFFFFFF/FFFF0000
-Cell: AM73
- - greaterThan AL73 -> FFFFFFFF/FFFF0000
-Cell: AM74
- - greaterThan AL74 -> FFFFFFFF/FFFF0000
-Cell: AM75
- - greaterThan AL75 -> FFFFFFFF/FFFF0000
-Cell: AM8
- - greaterThan AL8 -> FFFFFFFF/FFFF0000
-Cell: AM80
- - greaterThan AL80 -> FFFFFFFF/FFFF0000
-Cell: AM81
- - greaterThan AL81 -> FFFFFFFF/FFFF0000
-Cell: AM83
- - =AND(AM83>0,MOD(AM83,AO83)<>0) -> -/FFFFFF00
- - greaterThan AL83 -> FFFFFFFF/FFFF0000
-Cell: AM84
- - =AND(AM84>0,MOD(AM84,AO84)<>0) -> -/FFFFFF00
- - greaterThan AL84 -> FFFFFFFF/FFFF0000
-Cell: AM85
- - greaterThan AL85 -> FFFFFFFF/FFFF0000
-Cell: AM86
- - greaterThan AL86 -> FFFFFFFF/FFFF0000
-Cell: AM87
- - greaterThan AL87 -> FFFFFFFF/FFFF0000
-Cell: AM88
- - greaterThan AL88 -> FFFFFFFF/FFFF0000
-Cell: AM9
- - greaterThan AL9 -> FFFFFFFF/FFFF0000
-Cell: AM90
- - greaterThan AL90 -> FFFFFFFF/FFFF0000
-Cell: AM91
- - greaterThan AL91 -> FFFFFFFF/FFFF0000
-Cell: AM92
- - greaterThan AL92 -> FFFFFFFF/FFFF0000
-Cell: AM94
- - greaterThan AL94 -> FFFFFFFF/FFFF0000
-Cell: AS20
- - =AND(AS20>0,MOD(AS20,AU20)<>0) -> -/FFFFFF00
- - greaterThan AR20 -> FFFFFFFF/FFFF0000
-Cell: AS23
- - =AND(AS23>0,MOD(AS23,AU23)<>0) -> -/FFFFFF00
- - greaterThan AR23 -> FFFFFFFF/FFFF0000
-Cell: AS27
- - =AND(AS27>0,MOD(AS27,AU27)<>0) -> -/FFFFFF00
- - greaterThan AR27 -> FFFFFFFF/FFFF0000
-Cell: AS28
- - =AND(AS28>0,MOD(AS28,AU28)<>0) -> -/FFFFFF00
- - greaterThan AR28 -> FFFFFFFF/FFFF0000
-Cell: AS32
- - =AND(AS32>0,MOD(AS32,AU32)<>0) -> -/FFFFFF00
- - greaterThan AR32 -> FFFFFFFF/FFFF0000
-Cell: AS33
- - =AND(AS33>0,MOD(AS33,AU33)<>0) -> -/FFFFFF00
- - greaterThan AR33 -> FFFFFFFF/FFFF0000
-Cell: AS34
- - =AND(AS34>0,MOD(AS34,AU34)<>0) -> -/FFFFFF00
- - greaterThan AR34 -> FFFFFFFF/FFFF0000
-Cell: AS35
- - =AND(AS35>0,MOD(AS35,AU35)<>0) -> -/FFFFFF00
- - greaterThan AR35 -> FFFFFFFF/FFFF0000
-Cell: AS36
- - =AND(AS36>0,MOD(AS36,AU36)<>0) -> -/FFFFFF00
- - greaterThan AR36 -> FFFFFFFF/FFFF0000
-Cell: AS37
- - =AND(AS37>0,MOD(AS37,AU37)<>0) -> -/FFFFFF00
- - greaterThan AR37 -> FFFFFFFF/FFFF0000
-Cell: AS38
- - =AND(AS38>0,MOD(AS38,AU38)<>0) -> -/FFFFFF00
- - greaterThan AR38 -> FFFFFFFF/FFFF0000
-Cell: AS39
- - greaterThan AR39 -> FFFFFFFF/FFFF0000
-Cell: AS44
- - =AND(AS44>0,MOD(AS44,AU44)<>0) -> -/FFFFFF00
- - greaterThan AR44 -> FFFFFFFF/FFFF0000
-Cell: AS51
- - =AND(AS51>0,MOD(AS51,AU51)<>0) -> -/FFFFFF00
- - greaterThan AR51 -> FFFFFFFF/FFFF0000
-Cell: AS71
- - =AND(AS71>0,MOD(AS71,AU71)<>0) -> -/FFFFFF00
- - greaterThan AR71 -> FFFFFFFF/FFFF0000
-Cell: AS72
- - =AND(AS72>0,MOD(AS72,AU72)<>0) -> -/FFFFFF00
- - greaterThan AR72 -> FFFFFFFF/FFFF0000
-Cell: AS73
- - =AND(AS73>0,MOD(AS73,AU73)<>0) -> -/FFFFFF00
- - greaterThan AR73 -> FFFFFFFF/FFFF0000
-Cell: AS74
- - =AND(AS74>0,MOD(AS74,AU74)<>0) -> -/FFFFFF00
- - greaterThan AR74 -> FFFFFFFF/FFFF0000
-Cell: AS75
- - =AND(AS75>0,MOD(AS75,AU75)<>0) -> -/FFFFFF00
- - greaterThan AR75 -> FFFFFFFF/FFFF0000
-Cell: AS8
- - =AND(AS8>0,MOD(AS8,AU8)<>0) -> -/FFFFFF00
- - greaterThan AR8 -> FFFFFFFF/FFFF0000
-Cell: AS81
- - =AND(AS81>0,MOD(AS81,AU81)<>0) -> -/FFFFFF00
- - greaterThan AR81 -> FFFFFFFF/FFFF0000
-Cell: AS84
- - =AND(AS84>0,MOD(AS84,AU84)<>0) -> -/FFFFFF00
- - greaterThan AR84 -> FFFFFFFF/FFFF0000
-Cell: AS86
- - =AND(AS86>0,MOD(AS86,AU86)<>0) -> -/FFFFFF00
- - greaterThan AR86 -> FFFFFFFF/FFFF0000
-Cell: AS9
- - =AND(AS9>0,MOD(AS9,AU9)<>0) -> -/FFFFFF00
- - greaterThan AR9 -> FFFFFFFF/FFFF0000
-Cell: AS94
- - =AND(AS94>0,MOD(AS94,AU94)<>0) -> -/FFFFFF00
- - greaterThan AR94 -> FFFFFFFF/FFFF0000
-Cell: AY13
- - =AND(AY13>0,MOD(AY13,BA13)<>0) -> -/FFFFFF00
- - greaterThan AX13 -> FFFFFFFF/FFFF0000
-Cell: AY20
- - =AND(AY20>0,MOD(AY20,BA20)<>0) -> -/FFFFFF00
- - greaterThan AX20 -> FFFFFFFF/FFFF0000
-Cell: AY23
- - =AND(AY23>0,MOD(AY23,BA23)<>0) -> -/FFFFFF00
- - greaterThan AX23 -> FFFFFFFF/FFFF0000
-Cell: AY32
- - =AND(AY32>0,MOD(AY32,BA32)<>0) -> -/FFFFFF00
- - greaterThan AX32 -> FFFFFFFF/FFFF0000
-Cell: AY36
- - =AND(AY36>0,MOD(AY36,BA36)<>0) -> -/FFFFFF00
- - greaterThan AX36 -> FFFFFFFF/FFFF0000
-Cell: AY48
- - greaterThan AX48 -> FFFFFFFF/FFFF0000
-Cell: AY51
- - =AND(AY51>0,MOD(AY51,BA51)<>0) -> -/FFFFFF00
- - greaterThan AX51 -> FFFFFFFF/FFFF0000
-Cell: AY52
- - =AND(AY52>0,MOD(AY52,BA52)<>0) -> -/FFFFFF00
- - greaterThan AX52 -> FFFFFFFF/FFFF0000
-Cell: AY71
- - =AND(AY71>0,MOD(AY71,BA71)<>0) -> -/FFFFFF00
- - greaterThan AX71 -> FFFFFFFF/FFFF0000
-Cell: AY72
- - =AND(AY72>0,MOD(AY72,BA72)<>0) -> -/FFFFFF00
- - greaterThan AX72 -> FFFFFFFF/FFFF0000
-Cell: AY73
- - =AND(AY73>0,MOD(AY73,BA73)<>0) -> -/FFFFFF00
- - greaterThan AX73 -> FFFFFFFF/FFFF0000
-Cell: AY74
- - =AND(AY74>0,MOD(AY74,BA74)<>0) -> -/FFFFFF00
- - greaterThan AX74 -> FFFFFFFF/FFFF0000
-Cell: AY75
- - =AND(AY75>0,MOD(AY75,BA75)<>0) -> -/FFFFFF00
- - greaterThan AX75 -> FFFFFFFF/FFFF0000
-Cell: AY81
- - =AND(AY81>0,MOD(AY81,BA81)<>0) -> -/FFFFFF00
- - greaterThan AX81 -> FFFFFFFF/FFFF0000
-Cell: AY83
- - =AND(AY83>0,MOD(AY83,BA83)<>0) -> -/FFFFFF00
- - greaterThan AX83 -> FFFFFFFF/FFFF0000
-Cell: AY85
- - greaterThan AX85 -> FFFFFFFF/FFFF0000
-Cell: AY86
- - =AND(AY86>0,MOD(AY86,BA86)<>0) -> -/FFFFFF00
- - greaterThan AX86 -> FFFFFFFF/FFFF0000
-Cell: AY9
- - =AND(AY9>0,MOD(AY9,BA9)<>0) -> -/FFFFFF00
- - greaterThan AX9 -> FFFFFFFF/FFFF0000
-Cell: AY90
- - greaterThan AX90 -> FFFFFFFF/FFFF0000
-Cell: I13
- - =AND(I13>0,MOD(I13,K13)<>0) -> -/FFFFFF00
- - greaterThan H13 -> FFFFFFFF/FFFF0000
-Cell: I16
- - greaterThan H16 -> FFFFFFFF/FFFF0000
-Cell: I17
- - greaterThan H17 -> FFFFFFFF/FFFF0000
-Cell: I18
- - greaterThan H18 -> FFFFFFFF/FFFF0000
-Cell: I19
- - =AND(I19>0,MOD(I19,K19)<>0) -> -/FFFFFF00
- - greaterThan H19 -> FFFFFFFF/FFFF0000
-Cell: I20
- - greaterThan H20 -> FFFFFFFF/FFFF0000
-Cell: I21
- - greaterThan H21 -> FFFFFFFF/FFFF0000
-Cell: I22
- - =AND(I22>0,MOD(I22,K22)<>0) -> -/FFFFFF00
- - greaterThan H22 -> FFFFFFFF/FFFF0000
-Cell: I23
- - greaterThan H23 -> FFFFFFFF/FFFF0000
-Cell: I24
- - greaterThan H24 -> FFFFFFFF/FFFF0000
-Cell: I26
- - =AND(I26>0,MOD(I26,K26)<>0) -> -/FFFFFF00
- - greaterThan H26 -> FFFFFFFF/FFFF0000
-Cell: I27
- - =AND(I27>0,MOD(I27,K27)<>0) -> -/FFFFFF00
- - greaterThan H27 -> FFFFFFFF/FFFF0000
-Cell: I28
- - greaterThan H28 -> FFFFFFFF/FFFF0000
-Cell: I29
- - =AND(I29>0,MOD(I29,K29)<>0) -> -/FFFFFF00
- - greaterThan H29 -> FFFFFFFF/FFFF0000
-Cell: I30
- - =AND(I30>0,MOD(I30,K30)<>0) -> -/FFFFFF00
- - greaterThan H30 -> FFFFFFFF/FFFF0000
-Cell: I31
- - =AND(I31>0,MOD(I31,K31)<>0) -> -/FFFFFF00
- - greaterThan H31 -> FFFFFFFF/FFFF0000
-Cell: I32
- - greaterThan H32 -> FFFFFFFF/FFFF0000
-Cell: I33
- - greaterThan H33 -> FFFFFFFF/FFFF0000
-Cell: I34
- - =AND(I34>0,MOD(I34,K34)<>0) -> -/FFFFFF00
- - greaterThan H34 -> FFFFFFFF/FFFF0000
-Cell: I35
- - =AND(I35>0,MOD(I35,K35)<>0) -> -/FFFFFF00
- - greaterThan H35 -> FFFFFFFF/FFFF0000
-Cell: I36
- - greaterThan H36 -> FFFFFFFF/FFFF0000
-Cell: I37
- - greaterThan H37 -> FFFFFFFF/FFFF0000
-Cell: I38
- - =AND(I38>0,MOD(I38,K38)<>0) -> -/FFFFFF00
- - greaterThan H38 -> FFFFFFFF/FFFF0000
-Cell: I49
- - greaterThan H49 -> FFFFFFFF/FFFF0000
-Cell: I51
- - greaterThan H51 -> FFFFFFFF/FFFF0000
-Cell: I52
- - =AND(I52>0,MOD(I52,K52)<>0) -> -/FFFFFF00
- - greaterThan H52 -> FFFFFFFF/FFFF0000
-Cell: I53
- - =AND(I53>0,MOD(I53,K53)<>0) -> -/FFFFFF00
- - greaterThan H53 -> FFFFFFFF/FFFF0000
-Cell: I54
- - =AND(I54>0,MOD(I54,K54)<>0) -> -/FFFFFF00
- - greaterThan H54 -> FFFFFFFF/FFFF0000
-Cell: I55
- - =AND(I55>0,MOD(I55,K55)<>0) -> -/FFFFFF00
- - greaterThan H55 -> FFFFFFFF/FFFF0000
-Cell: I57
- - =AND(I57>0,MOD(I57,K57)<>0) -> -/FFFFFF00
- - greaterThan H57 -> FFFFFFFF/FFFF0000
-Cell: I61
- - greaterThan H61 -> FFFFFFFF/FFFF0000
-Cell: I67
- - greaterThan H67 -> FFFFFFFF/FFFF0000
-Cell: I68
- - =AND(I68>0,MOD(I68,K68)<>0) -> -/FFFFFF00
- - greaterThan H68 -> FFFFFFFF/FFFF0000
-Cell: I69
- - greaterThan H69 -> FFFFFFFF/FFFF0000
-Cell: I71
- - greaterThan H71 -> FFFFFFFF/FFFF0000
-Cell: I72
- - greaterThan H72 -> FFFFFFFF/FFFF0000
-Cell: I73
- - greaterThan H73 -> FFFFFFFF/FFFF0000
-Cell: I74
- - greaterThan H74 -> FFFFFFFF/FFFF0000
-Cell: I75
- - greaterThan H75 -> FFFFFFFF/FFFF0000
-Cell: I81
- - greaterThan H81 -> FFFFFFFF/FFFF0000
-Cell: I84
- - greaterThan H84 -> FFFFFFFF/FFFF0000
-Cell: I86
- - =AND(I86>0,MOD(I86,K86)<>0) -> -/FFFFFF00
- - greaterThan H86 -> FFFFFFFF/FFFF0000
-Cell: I87
- - =AND(I87>0,MOD(I87,K87)<>0) -> -/FFFFFF00
- - greaterThan H87 -> FFFFFFFF/FFFF0000
-Cell: I9
- - =AND(I9>0,MOD(I9,K9)<>0) -> -/FFFFFF00
- - greaterThan H9 -> FFFFFFFF/FFFF0000
-Cell: I94
- - =AND(I94>0,MOD(I94,K94)<>0) -> -/FFFFFF00
- - greaterThan H94 -> FFFFFFFF/FFFF0000
-Cell: O13
- - greaterThan N13 -> FFFFFFFF/FFFF0000
-Cell: O16
- - greaterThan N16 -> FFFFFFFF/FFFF0000
-Cell: O18
- - greaterThan N18 -> FFFFFFFF/FFFF0000
-Cell: O19
- - greaterThan N19 -> FFFFFFFF/FFFF0000
-Cell: O20
- - greaterThan N20 -> FFFFFFFF/FFFF0000
-Cell: O21
- - greaterThan N21 -> FFFFFFFF/FFFF0000
-Cell: O22
- - greaterThan N22 -> FFFFFFFF/FFFF0000
-Cell: O23
- - greaterThan N23 -> FFFFFFFF/FFFF0000
-Cell: O24
- - greaterThan N24 -> FFFFFFFF/FFFF0000
-Cell: O26
- - greaterThan N26 -> FFFFFFFF/FFFF0000
-Cell: O27
- - greaterThan N27 -> FFFFFFFF/FFFF0000
-Cell: O28
- - greaterThan N28 -> FFFFFFFF/FFFF0000
-Cell: O29
- - greaterThan N29 -> FFFFFFFF/FFFF0000
-Cell: O30
- - greaterThan N30 -> FFFFFFFF/FFFF0000
-Cell: O31
- - greaterThan N31 -> FFFFFFFF/FFFF0000
-Cell: O32
- - greaterThan N32 -> FFFFFFFF/FFFF0000
-Cell: O33
- - greaterThan N33 -> FFFFFFFF/FFFF0000
-Cell: O34
- - greaterThan N34 -> FFFFFFFF/FFFF0000
-Cell: O35
- - greaterThan N35 -> FFFFFFFF/FFFF0000
-Cell: O36
- - greaterThan N36 -> FFFFFFFF/FFFF0000
-Cell: O37
- - greaterThan N37 -> FFFFFFFF/FFFF0000
-Cell: O38
- - greaterThan N38 -> FFFFFFFF/FFFF0000
-Cell: O39
- - greaterThan N39 -> FFFFFFFF/FFFF0000
-Cell: O44
- - greaterThan N44 -> FFFFFFFF/FFFF0000
-Cell: O48
- - greaterThan N48 -> FFFFFFFF/FFFF0000
-Cell: O49
- - greaterThan N49 -> FFFFFFFF/FFFF0000
-Cell: O51
- - greaterThan N51 -> FFFFFFFF/FFFF0000
-Cell: O52
- - greaterThan N52 -> FFFFFFFF/FFFF0000
-Cell: O53
- - greaterThan N53 -> FFFFFFFF/FFFF0000
-Cell: O54
- - greaterThan N54 -> FFFFFFFF/FFFF0000
-Cell: O55
- - greaterThan N55 -> FFFFFFFF/FFFF0000
-Cell: O57
- - greaterThan N57 -> FFFFFFFF/FFFF0000
-Cell: O61
- - greaterThan N61 -> FFFFFFFF/FFFF0000
-Cell: O67
- - greaterThan N67 -> FFFFFFFF/FFFF0000
-Cell: O68
- - greaterThan N68 -> FFFFFFFF/FFFF0000
-Cell: O69
- - greaterThan N69 -> FFFFFFFF/FFFF0000
-Cell: O7
- - greaterThan N7 -> FFFFFFFF/FFFF0000
-Cell: O71
- - greaterThan N71 -> FFFFFFFF/FFFF0000
-Cell: O72
- - greaterThan N72 -> FFFFFFFF/FFFF0000
-Cell: O73
- - greaterThan N73 -> FFFFFFFF/FFFF0000
-Cell: O74
- - greaterThan N74 -> FFFFFFFF/FFFF0000
-Cell: O75
- - greaterThan N75 -> FFFFFFFF/FFFF0000
-Cell: O8
- - greaterThan N8 -> FFFFFFFF/FFFF0000
-Cell: O80
- - greaterThan N80 -> FFFFFFFF/FFFF0000
-Cell: O81
- - greaterThan N81 -> FFFFFFFF/FFFF0000
-Cell: O83
- - greaterThan N83 -> FFFFFFFF/FFFF0000
-Cell: O84
- - greaterThan N84 -> FFFFFFFF/FFFF0000
-Cell: O85
- - greaterThan N85 -> FFFFFFFF/FFFF0000
-Cell: O86
- - greaterThan N86 -> FFFFFFFF/FFFF0000
-Cell: O87
- - greaterThan N87 -> FFFFFFFF/FFFF0000
-Cell: O88
- - greaterThan N88 -> FFFFFFFF/FFFF0000
-Cell: O9
- - greaterThan N9 -> FFFFFFFF/FFFF0000
-Cell: O90
- - greaterThan N90 -> FFFFFFFF/FFFF0000
-Cell: O91
- - greaterThan N91 -> FFFFFFFF/FFFF0000
-Cell: O92
- - greaterThan N92 -> FFFFFFFF/FFFF0000
-Cell: O94
- - greaterThan N94 -> FFFFFFFF/FFFF0000
-Cell: U13
- - =AND(U13>0,MOD(U13,W13)<>0) -> -/FFFFFF00
- - greaterThan T13 -> FFFFFFFF/FFFF0000
-Cell: U16
- - greaterThan T16 -> FFFFFFFF/FFFF0000
-Cell: U17
- - greaterThan T17 -> FFFFFFFF/FFFF0000
-Cell: U18
- - greaterThan T18 -> FFFFFFFF/FFFF0000
-Cell: U19
- - greaterThan T19 -> FFFFFFFF/FFFF0000
-Cell: U20
- - =AND(U20>0,MOD(U20,W20)<>0) -> -/FFFFFF00
- - greaterThan T20 -> FFFFFFFF/FFFF0000
-Cell: U21
- - =AND(U21>0,MOD(U21,W21)<>0) -> -/FFFFFF00
- - greaterThan T21 -> FFFFFFFF/FFFF0000
-Cell: U23
- - =AND(U23>0,MOD(U23,W23)<>0) -> -/FFFFFF00
- - greaterThan T23 -> FFFFFFFF/FFFF0000
-Cell: U24
- - =AND(U24>0,MOD(U24,W24)<>0) -> -/FFFFFF00
- - greaterThan T24 -> FFFFFFFF/FFFF0000
-Cell: U27
- - =AND(U27>0,MOD(U27,W27)<>0) -> -/FFFFFF00
- - greaterThan T27 -> FFFFFFFF/FFFF0000
-Cell: U28
- - =AND(U28>0,MOD(U28,W28)<>0) -> -/FFFFFF00
- - greaterThan T28 -> FFFFFFFF/FFFF0000
-Cell: U32
- - greaterThan T32 -> FFFFFFFF/FFFF0000
-Cell: U33
- - greaterThan T33 -> FFFFFFFF/FFFF0000
-Cell: U34
- - greaterThan T34 -> FFFFFFFF/FFFF0000
-Cell: U35
- - =AND(U35>0,MOD(U35,W35)<>0) -> -/FFFFFF00
- - greaterThan T35 -> FFFFFFFF/FFFF0000
-Cell: U36
- - greaterThan T36 -> FFFFFFFF/FFFF0000
-Cell: U37
- - greaterThan T37 -> FFFFFFFF/FFFF0000
-Cell: U38
- - greaterThan T38 -> FFFFFFFF/FFFF0000
-Cell: U39
- - greaterThan T39 -> FFFFFFFF/FFFF0000
-Cell: U51
- - greaterThan T51 -> FFFFFFFF/FFFF0000
-Cell: U52
- - =AND(U52>0,MOD(U52,W52)<>0) -> -/FFFFFF00
- - greaterThan T52 -> FFFFFFFF/FFFF0000
-Cell: U7
- - greaterThan T7 -> FFFFFFFF/FFFF0000
-Cell: U71
- - greaterThan T71 -> FFFFFFFF/FFFF0000
-Cell: U72
- - greaterThan T72 -> FFFFFFFF/FFFF0000
-Cell: U73
- - greaterThan T73 -> FFFFFFFF/FFFF0000
-Cell: U74
- - greaterThan T74 -> FFFFFFFF/FFFF0000
-Cell: U75
- - greaterThan T75 -> FFFFFFFF/FFFF0000
-Cell: U8
- - greaterThan T8 -> FFFFFFFF/FFFF0000
-Cell: U80
- - greaterThan T80 -> FFFFFFFF/FFFF0000
-Cell: U81
- - greaterThan T81 -> FFFFFFFF/FFFF0000
-Cell: U82
- - =AND(U82>0,MOD(U82,W82)<>0) -> -/FFFFFF00
- - greaterThan T82 -> FFFFFFFF/FFFF0000
-Cell: U83
- - =AND(U83>0,MOD(U83,W83)<>0) -> -/FFFFFF00
- - greaterThan T83 -> FFFFFFFF/FFFF0000
-Cell: U84
- - =AND(U84>0,MOD(U84,W84)<>0) -> -/FFFFFF00
- - greaterThan T84 -> FFFFFFFF/FFFF0000
-Cell: U85
- - greaterThan T85 -> FFFFFFFF/FFFF0000
-Cell: U86
- - =AND(U86>0,MOD(U86,W86)<>0) -> -/FFFFFF00
- - greaterThan T86 -> FFFFFFFF/FFFF0000
-Cell: U87
- - greaterThan T87 -> FFFFFFFF/FFFF0000
-Cell: U88
- - greaterThan T88 -> FFFFFFFF/FFFF0000
-Cell: U89
- - =AND(U89>0,MOD(U89,W89)<>0) -> -/FFFFFF00
- - greaterThan T89 -> FFFFFFFF/FFFF0000
-Cell: U9
- - greaterThan T9 -> FFFFFFFF/FFFF0000
-Cell: U90
- - greaterThan T90 -> FFFFFFFF/FFFF0000
-Cell: U91
- - greaterThan T91 -> FFFFFFFF/FFFF0000
-Cell: U92
- - greaterThan T92 -> FFFFFFFF/FFFF0000
-Cell: U94
- - =AND(U94>0,MOD(U94,W94)<>0) -> -/FFFFFF00
- - greaterThan T94 -> FFFFFFFF/FFFF0000
