@@ -867,7 +867,7 @@ Row: 32
    "Total Purchase:"
  Col: G
    0
-  Formula: SUM(K32,Q32,W32,AC32,AI32,AO32,AU32,BA32)
+  Formula: SUM(L32,R32,X32,AD32,AJ32,AP32,AV32,BB32)
  Col: H
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: I

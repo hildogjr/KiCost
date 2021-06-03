@@ -248,7 +248,7 @@ Row: 15
    "Total Purchase:"
  Col: H
    0
-  Formula: SUM(L15)
+  Formula: SUM(M15)
  Col: J
   Formula: IFERROR(IF(COUNTIF(J7:J13,">0")>0,COUNTIF(J7:J13,">0")&" of "&(ROWS(L7:L13)-COUNTBLANK(L7:L13))&" parts purchased",""),"")
  Col: M

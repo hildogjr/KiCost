@@ -662,7 +662,7 @@ Row: 16
    "Total Purchase:"
  Col: H
    0
-  Formula: SUM(L16,R16,X16,AD16,AJ16,AP16,AV16,BB16)
+  Formula: SUM(M16,S16,Y16,AE16,AK16,AQ16,AW16,BC16)
  Col: I
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: J

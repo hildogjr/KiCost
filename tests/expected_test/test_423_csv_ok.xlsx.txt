@@ -283,7 +283,7 @@ Row: 9
    "Total Purchase:"
  Col: G
    0
-  Formula: SUM(K9,Q9,W9,AC9,AI9,AO9,AU9,BA9)
+  Formula: SUM(L9,R9,X9,AD9,AJ9,AP9,AV9,BB9)
  Col: H
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: I

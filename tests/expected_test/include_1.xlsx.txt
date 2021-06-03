@@ -820,7 +820,7 @@ Row: 24
    "Total Purchase:"
  Col: H
    0
-  Formula: SUM(X24,AD24,L24,R24)
+  Formula: SUM(Y24,AE24,M24,S24)
  Col: I
    <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
  Col: J

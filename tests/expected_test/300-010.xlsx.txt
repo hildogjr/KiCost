@@ -3986,7 +3986,7 @@ Row: 44
    "Total Purchase:"
  Col: I
    0
-  Formula: SUM(M44,S44,Y44,AE44,AK44,AQ44,AW44,BC44)
+  Formula: SUM(N44,T44,Z44,AF44,AL44,AR44,AX44,BD44)
  Col: J
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: K

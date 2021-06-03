@@ -872,9 +872,10 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         ss.write_string(next_line, col_unit_price, 'Total Purchase:', 'total_cost_label')
         wks.write_comment(next_line, col_unit_price, 'This is the total of your cart across all distributors.')
         dist_ext_prices = []
+        col_ext_dist = ss.DISTRIBUTOR_COLUMNS['ext_price']['col']
         for dist in sorted(ss.DISTRIBUTORS):
             # Get the content of the extended price
-            dist_ext_prices.append(xl_rowcol_to_cell(next_line, dist_cols[dist]+3))
+            dist_ext_prices.append(xl_rowcol_to_cell(next_line, dist_cols[dist] + col_ext_dist))
         wks.write(next_line, col_ext_price, '=SUM({})'.format(','.join(dist_ext_prices)), ss.wrk_formats['total_cost_currency'])
         # Purchase general description, it may be used to distinguish carts of different projects.
         next_line = next_line + 1

@@ -1919,7 +1919,7 @@ Row: 20
    "Total Purchase:"
  Col: H
    0
-  Formula: SUM(L20,R20,X20,AD20,AJ20,AP20,AV20,BB20)
+  Formula: SUM(M20,S20,Y20,AE20,AK20,AQ20,AW20,BC20)
  Col: I
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: J

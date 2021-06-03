@@ -1599,7 +1599,7 @@ Row: 25
    "Total Purchase:"
  Col: H
    0
-  Formula: SUM(BH25,L25,R25,X25,AD25,BN25,AJ25,AP25,AV25,BB25)
+  Formula: SUM(BI25,M25,S25,Y25,AE25,BO25,AK25,AQ25,AW25,BC25)
  Col: I
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: J

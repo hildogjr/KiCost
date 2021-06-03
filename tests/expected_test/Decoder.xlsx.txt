@@ -3532,7 +3532,7 @@ Row: 35
    "Total Purchase:"
  Col: G
    0
-  Formula: SUM(K35,Q35,W35,AC35,AI35,AO35,AU35,BA35)
+  Formula: SUM(L35,R35,X35,AD35,AJ35,AP35,AV35,BB35)
  Col: H
    <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
  Col: I
