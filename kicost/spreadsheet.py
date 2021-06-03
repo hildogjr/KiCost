@@ -997,7 +997,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             wks.write_comment(row, col_avail, 'This part is listed but is not normally stocked.')
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
-        wks.write(row, col_purch, '', None)
+        wks.write(row, col_purch, '', ss.wrk_formats['part_format'])
 
         # Add pricing information if it exists. (Unit$/Ext$)
         if price_tiers:
