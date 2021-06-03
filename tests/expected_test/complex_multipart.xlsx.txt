@@ -284,11 +284,10 @@ Row: 7
  Col: AL
    767
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan K7 -> FF000000/FFFF9900
  Col: AM
   Styles:
-  - greaterThan AL7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AM7)),OR(AL7="NonStk",AM7>AL7)) -> FFFFFFFF/FFFF0000
  Col: AN
    0.531
   Formula: IFERROR(IF(OR(AM7>=AO7,K7>=AO7),LOOKUP(IF(AM7="",K7,AM7),{0,1,10,50,100,1000,10000},{0.0,0.66,0.627,0.595,0.531,0.382,0.382}),"MOQ="&AO7),"")
@@ -306,11 +305,10 @@ Row: 7
  Col: BJ
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan K7 -> FF000000/FFFF9900
  Col: BK
   Styles:
-  - greaterThan BJ7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BK7)),OR(BJ7="NonStk",BK7>BJ7)) -> FFFFFFFF/FFFF0000
  Col: BL
    0.083111
   Formula: IFERROR(IF(OR(BK7>=BM7,K7>=BM7),USD_EUR*LOOKUP(IF(BK7="",K7,BK7),{0,1},{0.0,0.07}),"MOQ="&BM7),"")
@@ -359,11 +357,10 @@ Row: 8
  Col: AL
    7857
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan K8 -> FF000000/FFFF9900
  Col: AM
   Styles:
-  - greaterThan AL8 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AM8)),OR(AL8="NonStk",AM8>AL8)) -> FFFFFFFF/FFFF0000
  Col: AN
    0.171
   Formula: IFERROR(IF(OR(AM8>=AO8,K8>=AO8),LOOKUP(IF(AM8="",K8,AM8),{0,1,10,50,100,1000,10000},{0.0,0.22,0.205,0.19,0.171,0.12,0.095}),"MOQ="&AO8),"")
@@ -381,11 +378,10 @@ Row: 8
  Col: BJ
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan K8 -> FF000000/FFFF9900
  Col: BK
   Styles:
-  - greaterThan BJ8 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BK8)),OR(BJ8="NonStk",BK8>BJ8)) -> FFFFFFFF/FFFF0000
  Col: BL
    0
   Formula: IFERROR(IF(OR(BK8>=BM8,K8>=BM8),LOOKUP(IF(BK8="",K8,BK8),{0},{0.0}),"MOQ="&BM8),"")
@@ -436,11 +432,10 @@ Row: 9
  Col: BJ
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan K9 -> FF000000/FFFF9900
  Col: BK
   Styles:
-  - greaterThan BJ9 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BK9)),OR(BJ9="NonStk",BK9>BJ9)) -> FFFFFFFF/FFFF0000
  Col: BL
    0.011873
   Formula: IFERROR(IF(OR(BK9>=BM9,K9>=BM9),USD_EUR*LOOKUP(IF(BK9="",K9,BK9),{0,1,100},{0.0,0.03,0.01}),"MOQ="&BM9),"")

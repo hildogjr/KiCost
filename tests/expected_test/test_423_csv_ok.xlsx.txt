@@ -239,11 +239,10 @@ Row: 7
  Col: N
    490
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E7 -> FF000000/FFFF9900
  Col: O
   Styles:
-  - greaterThan N7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(O7)),OR(N7="NonStk",O7>N7)) -> FFFFFFFF/FFFF0000
  Col: P
    3.7754
   Formula: IFERROR(IF(OR(O7>=Q7,E7>=Q7),LOOKUP(IF(O7="",E7,O7),{0,1,10,25,50,140,280,700,980,1400,3500},{0.0,4.49,4.315,3.9552,3.7754,3.59557,3.14614,3.05626,2.78659,2.60681,2.42703}),"MOQ="&Q7),"")
@@ -261,11 +260,10 @@ Row: 7
  Col: AF
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan E7 -> FF000000/FFFF9900
  Col: AG
   Styles:
-  - greaterThan AF7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AG7)),OR(AF7="NonStk",AG7>AF7)) -> FFFFFFFF/FFFF0000
  Col: AH
    4.2
   Formula: IFERROR(IF(OR(AG7>=AI7,E7>=AI7),LOOKUP(IF(AG7="",E7,AG7),{0,1,10,50,100,1000,10000},{0.0,5.0,4.2,4.2,4.2,2.88,2.73}),"MOQ="&AI7),"")

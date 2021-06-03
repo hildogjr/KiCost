@@ -269,11 +269,10 @@ Row: 7
  Col: P
    584720
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G7 -> FF000000/FFFF9900
  Col: Q
   Styles:
-  - greaterThan P7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(Q7)),OR(P7="NonStk",Q7>P7)) -> FFFFFFFF/FFFF0000
  Col: R
    0.00528
   Formula: IFERROR(IF(OR(Q7>=S7,G7>=S7),LOOKUP(IF(Q7="",G7,Q7),{0,1,10,50,100,500,1000,2500,5000,15000},{0.0,0.1,0.017,0.009,0.0074,0.00528,0.00414,0.00377,0.00346,0.00301}),"MOQ="&S7),"")
@@ -291,12 +290,11 @@ Row: 7
  Col: V
    135000
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G7 -> FF000000/FFFF9900
  Col: W
   Styles:
   - =AND(W7>0,MOD(W7,Y7)<>0) -> -/FFFFFF00
-  - greaterThan V7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(W7)),OR(V7="NonStk",W7>V7)) -> FFFFFFFF/FFFF0000
  Col: X
    0.00880602619075
   Formula: IFERROR(IF(OR(W7>=Y7,G7>=Y7),USD_GBP*LOOKUP(IF(W7="",G7,W7),{0,1,10,100,150,500,2500,7500,15000,75000},{0.0,0.0145,0.0145,0.0107,0.0107,0.0064,0.0042,0.0035,0.0031,0.0022}),"MOQ="&Y7),"")
@@ -314,11 +312,10 @@ Row: 7
  Col: AH
    134231
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G7 -> FF000000/FFFF9900
  Col: AI
   Styles:
-  - greaterThan AH7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AI7)),OR(AH7="NonStk",AI7>AH7)) -> FFFFFFFF/FFFF0000
  Col: AJ
    0.008
   Formula: IFERROR(IF(OR(AI7>=AK7,G7>=AK7),LOOKUP(IF(AI7="",G7,AI7),{0,1,10,50,100,1000,10000},{0.0,0.1,0.017,0.017,0.008,0.006,0.004}),"MOQ="&AK7),"")
@@ -336,12 +333,11 @@ Row: 7
  Col: AN
    135000
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G7 -> FF000000/FFFF9900
  Col: AO
   Styles:
   - =AND(AO7>0,MOD(AO7,AQ7)<>0) -> -/FFFFFF00
-  - greaterThan AN7 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AO7)),OR(AN7="NonStk",AO7>AN7)) -> FFFFFFFF/FFFF0000
  Col: AP
   Formula: IFERROR(IF(OR(AO7>=AQ7,G7>=AQ7),LOOKUP(IF(AO7="",G7,AO7),{0,1,15000},{0.0,0.004,0.004}),"MOQ="&AQ7),"")
   Styles:
@@ -382,11 +378,10 @@ Row: 8
  Col: BF
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G8 -> FF000000/FFFF9900
  Col: BG
   Styles:
-  - greaterThan BF8 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BG8)),OR(BF8="NonStk",BG8>BF8)) -> FFFFFFFF/FFFF0000
  Col: BH
    0.01
   Formula: IFERROR(IF(OR(BG8>=BI8,G8>=BI8),LOOKUP(IF(BG8="",G8,BG8),{0,1},{0.0,0.01}),"MOQ="&BI8),"")
@@ -423,11 +418,10 @@ Row: 9
  Col: BF
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G9 -> FF000000/FFFF9900
  Col: BG
   Styles:
-  - greaterThan BF9 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BG9)),OR(BF9="NonStk",BG9>BF9)) -> FFFFFFFF/FFFF0000
  Col: BH
    0.32
   Formula: IFERROR(IF(OR(BG9>=BI9,G9>=BI9),LOOKUP(IF(BG9="",G9,BG9),{0,1},{0.0,0.32}),"MOQ="&BI9),"")
@@ -470,11 +464,10 @@ Row: 10
  Col: BF
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G10 -> FF000000/FFFF9900
  Col: BG
   Styles:
-  - greaterThan BF10 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BG10)),OR(BF10="NonStk",BG10>BF10)) -> FFFFFFFF/FFFF0000
  Col: BH
    0.21
   Formula: IFERROR(IF(OR(BG10>=BI10,G10>=BI10),LOOKUP(IF(BG10="",G10,BG10),{0,1},{0.0,0.21}),"MOQ="&BI10),"")
@@ -534,11 +527,10 @@ Row: 12
  Col: BF
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G12 -> FF000000/FFFF9900
  Col: BG
   Styles:
-  - greaterThan BF12 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BG12)),OR(BF12="NonStk",BG12>BF12)) -> FFFFFFFF/FFFF0000
  Col: BH
    0.09
   Formula: IFERROR(IF(OR(BG12>=BI12,G12>=BI12),LOOKUP(IF(BG12="",G12,BG12),{0,1},{0.0,0.09}),"MOQ="&BI12),"")
@@ -583,11 +575,10 @@ Row: 13
  Col: P
    2
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G13 -> FF000000/FFFF9900
  Col: Q
   Styles:
-  - greaterThan P13 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(Q13)),OR(P13="NonStk",Q13>P13)) -> FFFFFFFF/FFFF0000
  Col: R
    1.18
   Formula: IFERROR(IF(OR(Q13>=S13,G13>=S13),LOOKUP(IF(Q13="",G13,Q13),{0,1,25,100},{0.0,1.55,1.29,1.18}),"MOQ="&S13),"")
@@ -605,11 +596,10 @@ Row: 13
  Col: V
    2
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G13 -> FF000000/FFFF9900
  Col: W
   Styles:
-  - greaterThan V13 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(W13)),OR(V13="NonStk",W13>V13)) -> FFFFFFFF/FFFF0000
  Col: X
    1.54105458338
   Formula: IFERROR(IF(OR(W13>=Y13,G13>=Y13),USD_GBP*LOOKUP(IF(W13="",G13,W13),{0,1,25,100},{0.0,1.48,1.23,1.12}),"MOQ="&Y13),"")
@@ -627,11 +617,10 @@ Row: 13
  Col: AB
    9
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G13 -> FF000000/FFFF9900
  Col: AC
   Styles:
-  - greaterThan AB13 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AC13)),OR(AB13="NonStk",AC13>AB13)) -> FFFFFFFF/FFFF0000
  Col: AD
    1.9277
   Formula: IFERROR(IF(OR(AC13>=AE13,G13>=AE13),LOOKUP(IF(AC13="",G13,AC13),{0,1,10,30,100,500,1000},{0.0,3.0386,2.2253,2.0774,1.9277,1.861,1.8286}),"MOQ="&AE13),"")
@@ -649,11 +638,10 @@ Row: 13
  Col: AH
    191
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G13 -> FF000000/FFFF9900
  Col: AI
   Styles:
-  - greaterThan AH13 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AI13)),OR(AH13="NonStk",AI13>AH13)) -> FFFFFFFF/FFFF0000
  Col: AJ
    1.18
   Formula: IFERROR(IF(OR(AI13>=AK13,G13>=AK13),LOOKUP(IF(AI13="",G13,AI13),{0,1,10,50,100,1000,10000},{0.0,1.55,1.55,1.29,1.18,1.18,1.18}),"MOQ="&AK13),"")
@@ -671,11 +659,10 @@ Row: 13
  Col: AN
    2
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G13 -> FF000000/FFFF9900
  Col: AO
   Styles:
-  - greaterThan AN13 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AO13)),OR(AN13="NonStk",AO13>AN13)) -> FFFFFFFF/FFFF0000
  Col: AP
    1.48
   Formula: IFERROR(IF(OR(AO13>=AQ13,G13>=AQ13),LOOKUP(IF(AO13="",G13,AO13),{0,1,10,25,50,300},{0.0,1.85,1.7,1.54,1.48,1.48}),"MOQ="&AQ13),"")
@@ -693,12 +680,11 @@ Row: 13
  Col: AT
    45
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G13 -> FF000000/FFFF9900
  Col: AU
   Styles:
   - =AND(AU13>0,MOD(AU13,AW13)<>0) -> -/FFFFFF00
-  - greaterThan AT13 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AU13)),OR(AT13="NonStk",AU13>AT13)) -> FFFFFFFF/FFFF0000
  Col: AV
    1.52729516746
   Formula: IFERROR(IF(OR(AU13>=AW13,G13>=AW13),USD_GBP*LOOKUP(IF(AU13="",G13,AU13),{0,1,5,25,100},{0.0,1.186,1.186,1.15,1.11}),"MOQ="&AW13),"")
@@ -716,11 +702,10 @@ Row: 13
  Col: AZ
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G13 -> FF000000/FFFF9900
  Col: BA
   Styles:
-  - greaterThan AZ13 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BA13)),OR(AZ13="NonStk",BA13>AZ13)) -> FFFFFFFF/FFFF0000
  Col: BB
    1.222919
   Formula: IFERROR(IF(OR(BA13>=BC13,G13>=BC13),USD_EUR*LOOKUP(IF(BA13="",G13,BA13),{0,1,5,25,100},{0.0,1.27,1.23,1.17,1.03}),"MOQ="&BC13),"")
@@ -765,11 +750,10 @@ Row: 14
  Col: P
    215
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G14 -> FF000000/FFFF9900
  Col: Q
   Styles:
-  - greaterThan P14 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(Q14)),OR(P14="NonStk",Q14>P14)) -> FFFFFFFF/FFFF0000
  Col: R
    1.49
   Formula: IFERROR(IF(OR(Q14>=S14,G14>=S14),LOOKUP(IF(Q14="",G14,Q14),{0,1,25,100},{0.0,1.97,1.65,1.49}),"MOQ="&S14),"")
@@ -787,11 +771,10 @@ Row: 14
  Col: V
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G14 -> FF000000/FFFF9900
  Col: W
   Styles:
-  - greaterThan V14 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(W14)),OR(V14="NonStk",W14>V14)) -> FFFFFFFF/FFFF0000
  Col: X
    1.67864874261
   Formula: IFERROR(IF(OR(W14>=Y14,G14>=Y14),USD_GBP*LOOKUP(IF(W14="",G14,W14),{0,1,10,100,250,500},{0.0,1.76,1.48,1.22,1.16,1.08}),"MOQ="&Y14),"")
@@ -809,11 +792,10 @@ Row: 14
  Col: AH
    93
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G14 -> FF000000/FFFF9900
  Col: AI
   Styles:
-  - greaterThan AH14 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AI14)),OR(AH14="NonStk",AI14>AH14)) -> FFFFFFFF/FFFF0000
  Col: AJ
    1.49
   Formula: IFERROR(IF(OR(AI14>=AK14,G14>=AK14),LOOKUP(IF(AI14="",G14,AI14),{0,1,10,50,100,1000,10000},{0.0,1.97,1.97,1.65,1.49,1.49,1.49}),"MOQ="&AK14),"")
@@ -831,12 +813,11 @@ Row: 14
  Col: AN
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G14 -> FF000000/FFFF9900
  Col: AO
   Styles:
   - =AND(AO14>0,MOD(AO14,AQ14)<>0) -> -/FFFFFF00
-  - greaterThan AN14 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AO14)),OR(AN14="NonStk",AO14>AN14)) -> FFFFFFFF/FFFF0000
  Col: AP
   Formula: IFERROR(IF(OR(AO14>=AQ14,G14>=AQ14),LOOKUP(IF(AO14="",G14,AO14),{0,1,296},{0.0,1.49,1.49}),"MOQ="&AQ14),"")
   Styles:
@@ -881,11 +862,10 @@ Row: 15
  Col: P
    2315
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G15 -> FF000000/FFFF9900
  Col: Q
   Styles:
-  - greaterThan P15 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(Q15)),OR(P15="NonStk",Q15>P15)) -> FFFFFFFF/FFFF0000
  Col: R
    6.1224
   Formula: IFERROR(IF(OR(Q15>=S15,G15>=S15),LOOKUP(IF(Q15="",G15,Q15),{0,1,10,25,50,100,250,500,1000},{0.0,7.73,7.411,6.7668,6.4446,6.1224,5.47792,5.15568,4.51123}),"MOQ="&S15),"")
@@ -903,11 +883,10 @@ Row: 15
  Col: V
    1002
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G15 -> FF000000/FFFF9900
  Col: W
   Styles:
-  - greaterThan V15 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(W15)),OR(V15="NonStk",W15>V15)) -> FFFFFFFF/FFFF0000
  Col: X
    6.60451964306
   Formula: IFERROR(IF(OR(W15>=Y15,G15>=Y15),USD_GBP*LOOKUP(IF(W15="",G15,W15),{0,1,10,100,250,500,1000},{0.0,6.07,5.06,4.8,4.3,4.04,3.78}),"MOQ="&Y15),"")
@@ -925,11 +904,10 @@ Row: 15
  Col: AH
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G15 -> FF000000/FFFF9900
  Col: AI
   Styles:
-  - greaterThan AH15 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AI15)),OR(AH15="NonStk",AI15>AH15)) -> FFFFFFFF/FFFF0000
  Col: AJ
    6.61
   Formula: IFERROR(IF(OR(AI15>=AK15,G15>=AK15),LOOKUP(IF(AI15="",G15,AI15),{0,1,10,50,100,1000,10000},{0.0,8.35,6.96,6.96,6.61,4.87,4.87}),"MOQ="&AK15),"")
@@ -947,11 +925,10 @@ Row: 15
  Col: AN
    597
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G15 -> FF000000/FFFF9900
  Col: AO
   Styles:
-  - greaterThan AN15 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AO15)),OR(AN15="NonStk",AO15>AN15)) -> FFFFFFFF/FFFF0000
  Col: AP
    6.23
   Formula: IFERROR(IF(OR(AO15>=AQ15,G15>=AQ15),LOOKUP(IF(AO15="",G15,AO15),{0,1,5,10,25,50,100},{0.0,7.87,7.22,6.57,6.46,6.34,6.23}),"MOQ="&AQ15),"")
@@ -969,11 +946,10 @@ Row: 15
  Col: AT
    235
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G15 -> FF000000/FFFF9900
  Col: AU
   Styles:
-  - greaterThan AT15 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(AU15)),OR(AT15="NonStk",AU15>AT15)) -> FFFFFFFF/FFFF0000
  Col: AV
    6.45316606791
   Formula: IFERROR(IF(OR(AU15>=AW15,G15>=AW15),USD_GBP*LOOKUP(IF(AU15="",G15,AU15),{0,1,10,20,50,100},{0.0,6.07,5.08,4.94,4.75,4.69}),"MOQ="&AW15),"")
@@ -991,11 +967,10 @@ Row: 15
  Col: AZ
    89
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G15 -> FF000000/FFFF9900
  Col: BA
   Styles:
-  - greaterThan AZ15 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BA15)),OR(AZ15="NonStk",BA15>AZ15)) -> FFFFFFFF/FFFF0000
  Col: BB
    5.912754
   Formula: IFERROR(IF(OR(BA15>=BC15,G15>=BC15),USD_EUR*LOOKUP(IF(BA15="",G15,BA15),{0,1,5,20,50},{0.0,7.12,6.41,5.7,4.98}),"MOQ="&BC15),"")
@@ -1013,11 +988,10 @@ Row: 15
  Col: BF
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan G15 -> FF000000/FFFF9900
  Col: BG
   Styles:
-  - greaterThan BF15 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(BG15)),OR(BF15="NonStk",BG15>BF15)) -> FFFFFFFF/FFFF0000
  Col: BH
    0.244
   Formula: IFERROR(IF(OR(BG15>=BI15,G15>=BI15),LOOKUP(IF(BG15="",G15,BG15),{0,1},{0.0,0.244}),"MOQ="&BI15),"")

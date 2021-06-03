@@ -206,11 +206,10 @@ Row: 12
  Col: I
    "NonStk"
   Styles:
-  - equal 0 -> FFFFFFFF/FFFF0000
   - lessThan F12 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - greaterThan I12 -> FFFFFFFF/FFFF0000
+  - =AND(NOT(ISBLANK(J12)),OR(I12="NonStk",J12>I12)) -> FFFFFFFF/FFFF0000
  Col: K
    0.372
   Formula: IFERROR(IF(OR(J12>=L12,F12>=L12),LOOKUP(IF(J12="",F12,J12),{0,1},{0.0,0.372}),"MOQ="&L12),"")

@@ -994,7 +994,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             wks.write(row, col_avail, dist_qty_avail, ss.wrk_formats['part_format'])
         else:
             wks.write(row, col_avail, 'NonStk', ss.wrk_formats['not_stocked'])
-            wks.write_comment(row, col_avail, 'This part is listed but is not normally stocked.')
+            wks.write_comment(row, col_avail, 'This part is listed but is not stocked.')
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, col_purch, '', ss.wrk_formats['part_format'])
@@ -1084,7 +1084,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             # Conditional formats:
             #
             # No quantity is available.
-            ss.conditional_format(row, col_avail, '==', 'not_available', 0)
+            # The following condition is never met because we use NonStk instead of 0
+            # ss.conditional_format(row, col_avail, '==', 'not_available', 0)
             # Available quantity is less than required.
             ss.conditional_format(row, col_avail, '<', 'too_few_available', part_qty_cell)
             # Minimum order quantity not respected.
@@ -1092,7 +1093,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
                 criteria = '=AND({q}>0,MOD({q},{moq})<>0)'.format(q=purch_cell, moq=moq_cell)
                 ss.conditional_format(row, col_purch, criteria, 'order_min_qty')
             # Purchase quantity is more than what is available.
-            ss.conditional_format(row, col_purch, '>', 'order_too_much', xl_rowcol_to_cell(row, col_avail))
+            criteria = '=AND(NOT(ISBLANK({q})),OR({avail}="NonStk",{q}>{avail}))'.format(q=purch_cell, avail=xl_rowcol_to_cell(row, col_avail))
+            ss.conditional_format(row, col_purch, criteria, 'order_too_much')
             # Best price (only for more than one distributor)
             if len(ss.DISTRIBUTORS) > 1:
                 # Extended price cell that contains the best price.
