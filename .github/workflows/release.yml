@@ -50,6 +50,7 @@ jobs:
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc1/python3-babel_2.9.0-1_all.deb
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc5/python3-validators_0.14.2-2_all.deb
           apt -y install --no-install-recommends ./*.deb
+          rm python3-babel*
           cp requirements.txt requirements.txt.ok
           sed -i 's/^wxPython/#wxPython/' requirements.txt
           pip3 install -U .
@@ -82,15 +83,16 @@ jobs:
         run: |
           tools/history2changelog.py > CHANGELOG.md
 
-#      - name: Release
-#        uses: docker://antonyurchenko/git-release:latest
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          DRAFT_RELEASE: "true"
-#          PRE_RELEASE: "true"
-#          CHANGELOG_FILE: "CHANGELOG.md"
-#          ALLOW_TAG_PREFIX: "true"
-#        with:
-#          args: |
-#            package/${{needs.build.outputs.deb_name}}
+      - name: Release
+        uses: docker://antonyurchenko/git-release:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRAFT_RELEASE: "true"
+          PRE_RELEASE: "true"
+          CHANGELOG_FILE: "CHANGELOG.md"
+          ALLOW_TAG_PREFIX: "true"
+        with:
+          args: |
+            package/${{needs.build.outputs.deb_name}}
+            package/python3-validators_0.14.2-2_all.deb
 
