@@ -1,0 +1,335 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: kicost
+Upstream-Contact: <preferred name and address to reach the upstream project>
+Source: <url://example.com>
+#
+# Please double check copyright with the licensecheck(1) command.
+
+Files:     CONTRIBUTING.rst
+           ISSUE_TEMPLATE.md
+           MANIFEST.in
+           Makefile
+           README.md
+           README.rst
+           docs/Makefile
+           docs/authors.rst
+           docs/block_diag.png
+           docs/conf.py
+           docs/contributing.rst
+           docs/guide_screen.png
+           docs/history.rst
+           docs/index.rst
+           docs/installation.rst
+           docs/kicost.distributors.rst
+           docs/kicost.edas.rst
+           docs/kicost.rst
+           docs/kitspace.png
+           docs/make.bat
+           docs/modules.rst
+           docs/readme.rst
+           docs/usage.rst
+           docs/xess.ico
+           docs/xess.png
+           kicost.epr
+           kicost/AUTHORS.rst
+           kicost/HISTORY.rst
+           kicost/__init__.py
+           kicost/distributors/distributors_info.py
+           kicost/kicost.ico
+           kicost/kicost_gui_wxFormBuilder.py
+           kicost/kitspace.png
+           kicost/sexpdata.py
+           kicost/version.py
+           kicost/wxAnyThread.py
+           requirements.txt
+           setup.cfg
+           setup.py
+           tests/.gitignore
+           tests/.tcedit.dst
+           tests/300-010.xlsx
+           tests/Aeronav_R.xlsx
+           tests/BoulderCreekMotherBoard.xlsx
+           tests/CAN Balancer.xlsx
+           tests/Decoder.xlsx
+           tests/Indium_X2.xlsx
+           tests/LedTest.xlsx
+           tests/NF6X_TestBoard.xlsx
+           tests/RPi-Test.xlsx
+           tests/RX LR lite.xlsx
+           tests/Receiver_1W.xlsx
+           tests/StickIt-Hat-old.xlsx
+           tests/StickIt-Hat.xlsx
+           tests/StickIt-QuadDAC.xlsx
+           tests/StickIt-RotaryEncoder.xlsx
+           tests/TestParts.xlsx
+           tests/__init__.py
+           tests/acquire-PWM.xlsx
+           tests/acquire-PWM_2.xlsx
+           tests/b3u_test.xlsx
+           tests/bbsram.xlsx
+           tests/expected_test/300-010.csv
+           tests/expected_test/Aeronav_R.csv
+           tests/expected_test/BoulderCreekMotherBoard.csv
+           tests/expected_test/CAN Balancer.csv
+           tests/expected_test/Decoder.csv
+           tests/expected_test/Indium_X2.csv
+           tests/expected_test/LedTest.csv
+           tests/expected_test/NF6X_TestBoard.csv
+           tests/expected_test/RPi-Test.csv
+           tests/expected_test/RX LR lite.csv
+           tests/expected_test/Receiver_1W.csv
+           tests/expected_test/StickIt-Hat-old.csv
+           tests/expected_test/StickIt-Hat.csv
+           tests/expected_test/StickIt-QuadDAC.csv
+           tests/expected_test/StickIt-RotaryEncoder.csv
+           tests/expected_test/TestParts.csv
+           tests/expected_test/acquire-PWM.csv
+           tests/expected_test/acquire-PWM_2.csv
+           tests/expected_test/b3u_test.csv
+           tests/expected_test/bbsram.csv
+           tests/expected_test/fitting_test.csv
+           tests/expected_test/kc-test.csv
+           tests/expected_test/local_Indium_X2.csv
+           tests/expected_test/multipart.csv
+           tests/expected_test/multipart2.csv
+           tests/expected_test/part_list_big.csv
+           tests/expected_test/part_list_small.csv
+           tests/expected_test/part_list_small_nohdr.csv
+           tests/expected_test/safelink_receiver.csv
+           tests/expected_test/single_component.csv
+           tests/expected_test/test.csv
+           tests/expected_test/test2.csv
+           tests/expected_test/test3.csv
+           tests/expected_test_small/Indium_X2.csv
+           tests/expected_test_small/NF6X_TestBoard.csv
+           tests/expected_test_small/StickIt-Hat.csv
+           tests/expected_test_small/multipart.csv
+           tests/expected_test_small/part_list_small.csv
+           tests/fitting_test.xlsx
+           tests/kc-test.xlsx
+           tests/local_Indium_X2.xlsx
+           tests/multipart.xlsx
+           tests/multipart2.xlsx
+           tests/part_list_big.csv
+           tests/part_list_big.xlsx
+           tests/part_list_small.csv
+           tests/part_list_small.xlsx
+           tests/part_list_small_nohdr.csv
+           tests/part_list_small_nohdr.xlsx
+           tests/safelink_receiver.xlsx
+           tests/single_component.xlsx
+           tests/test.cmd
+           tests/test.xlsx
+           tests/test2.xlsx
+           tests/test3.xlsx
+           tests/test_kicost.py
+           tests/test_small.cmd
+           tox.ini
+Copyright: XESS Corporation / Hildo Guillardi Junior
+License:   MIT
+
+Files:     kicost/__main__.py
+           kicost/distributors/__init__.py
+           kicost/distributors/api_octopart.py
+           kicost/distributors/api_partinfo_kitspace.py
+           kicost/distributors/distributor.py
+           kicost/edas/.tools.py~
+           kicost/edas/__init__.py
+           kicost/edas/eda_altium.py
+           kicost/edas/generic_csv.py
+           kicost/edas/tools.py
+           kicost/global_vars.py
+           kicost/kicad_config.py
+           kicost/kicost.py
+           kicost/kicost_config.py
+           kicost/kicost_gui.py
+           kicost/kicost_kicadplugin.py
+           kicost/os_windows.py
+           kicost/spreadsheet.py
+           tests/test.sh
+           tests/test_single.sh
+Copyright: 2015 XESS Corporation
+           2018 Hildo Guillardi Junior
+           2018 Hildo Guillardi Júnior
+           2018 XESS Corporation / Hildo G Jr
+           2018 XESS Corporation / Max Maisel / Hildo Guillardi Júnior
+           2018-2019 XESS Corporation / Hildo Guillardi Júnior
+License:   Expat
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+
+Files:     docs/_build/html/_static/underscore-1.3.1.js
+           docs/_build/html/_static/underscore.js
+           docs/_build/singlehtml/_static/underscore-1.3.1.js
+           docs/_build/singlehtml/_static/underscore.js
+Copyright: 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
+License:   MIT
+ Underscore is freely distributable under the MIT license.
+ Portions of Underscore are inspired or borrowed from Prototype,
+ Oliver Steele's Functional, and John Resig's Micro-Templating.
+ For all details and documentation:
+ http://documentcloud.github.com/underscore
+
+Files:     kicost/distributors/dist_local_template.py
+           kicost/edas/eda.py
+           kicost/edas/eda_kicad.py
+Copyright: 2018 XESS Corporation / Hildo Guillardi Junior
+           2018 XESS Corporation / Hildo Guillardi Junior / Max Maisel
+           2020 Hildo Guillardi Junior
+License:   Expat
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ .
+ Libraries.
+
+Files:     kicost/distributors/global_vars.py
+           kicost/edas/global_vars.py
+Copyright: 2018 XESS Corporation / Hildo Guillardi Junior
+License:   Expat
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ .
+ Heritage of the above global vars.
+
+Files:     docs/_build/html/_static/jquery-3.2.1.js
+           docs/_build/singlehtml/_static/jquery-3.2.1.js
+Copyright: JS Foundation and other contributors Released under the MIT license https://jquery.org/license
+License:   MIT
+ Date: 2017-03-20T18:59Z
+
+Files:     tests/test_small.sh
+Copyright: 2015 XESS Corporation
+License:   Expat
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+ .
+ Go to test directory
+
+Files:     src/kicost
+Copyright: 2021 Instituto Nacional de Tecnología Industrial License: MIT Project: KiCost
+           2021 Salvador E. Tropea
+License:   __NO_LICENSE__
+
+#----------------------------------------------------------------------------
+# xml and html files (skipped):
+#         index.html
+#         kicost/kicost_gui_wxFormBuilder.fbp
+#         tests/NF6X_TestBoard.xml
+#         tests/300-010.xml
+#         tests/acquire-PWM.xml
+#         tests/Receiver_1W.xml
+#         tests/Aeronav_R.xml
+#         tests/StickIt-Hat-old.xml
+#         tests/safelink_receiver.xml
+#         tests/CAN Balancer.xml
+#         tests/test.xml
+#         tests/StickIt-QuadDAC.xml
+#         tests/single_component.xml
+#         tests/Indium_X2.xml
+#         tests/BoulderCreekMotherBoard.xml
+#         tests/kc-test.xml
+#         tests/test2.xml
+#         tests/TestParts.xml
+#         tests/LedTest.xml
+#         tests/RPi-Test.xml
+#         tests/StickIt-Hat.xml
+#         tests/test3.xml
+#         tests/StickIt-RotaryEncoder.xml
+#         tests/local_Indium_X2.xml
+#         tests/acquire-PWM_2.xml
+#         tests/b3u_test.xml
+#         tests/RX LR lite.xml
+#         tests/fitting_test.xml
+#         tests/multipart.xml
+#         tests/Decoder.xml
+#         tests/bbsram.xml
+#         tests/multipart2.xml
+#         docs/block_diag.svg
+
+#----------------------------------------------------------------------------
+# Files marked as NO_LICENSE_TEXT_FOUND may be covered by the following
+# license/copyright files.
+
+#----------------------------------------------------------------------------
+# License file: LICENSE
+ The MIT License (MIT)
+ .
+ Copyright (c)  2015, XESS Corporation
+ .
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.

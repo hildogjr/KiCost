@@ -1,0 +1,17 @@
+Source: kicost
+Section: electronics
+Priority: optional
+Maintainer: Salvador Eduardo Tropea <stropea@inti.gob.ar>
+Build-Depends: debhelper-compat (= 12), dh-python, python3-all
+Standards-Version: 4.5.0
+Homepage: https://github.com/INTI-CMNB/KiCost
+X-Python3-Version: >= 3.2
+
+Package: kicost
+Architecture: all
+Multi-Arch: foreign
+Depends: kicad, ${misc:Depends}, ${python3:Depends}
+Description: Electronic parts cost finder for KiCad
+ KiCost is intended to be run as a script for generating part-cost
+ spreadsheets for circuit boards developed with KiCad. KiCost also
+ comes with a graphical user interface in addition to command line.

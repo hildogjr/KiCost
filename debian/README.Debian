@@ -1,0 +1,10 @@
+KiCost for Debian
+
+After installing this package every user wanting to use all KiCost
+features should run:
+
+$ kicost --setup
+
+This will integrate KiCost with the desktop and KiCad.
+
+ -- Salvador E. Tropea <stropea@inti.gob.ar>  Tue, 09 Mar 2021 12:09:02 -0300
