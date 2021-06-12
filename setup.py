@@ -122,6 +122,8 @@ with open('kicost/version.py', 'wt') as f:
         except (subprocess.CalledProcessError, FileNotFoundError):
             res = 'unknown'
     f.write(re.sub("__build__ = '(.*)'", "__build__ = '{}'".format(res), version_py))
+if 'KICOST_FAKE_VERSION' in os.environ:
+   kicost.__version__ = os.environ['KICOST_FAKE_VERSION']
 
 setup(
     name='kicost',
