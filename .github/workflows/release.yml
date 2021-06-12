@@ -50,7 +50,7 @@ jobs:
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc1/python3-babel_2.9.0-1_all.deb
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc5/python3-validators_0.14.2-2_all.deb
           apt -y install --no-install-recommends ./*.deb
-          pip install -U .
+          pip3 install -U .
           make deb
           mv ../*.deb .
           echo "::set-output name=deb_name::"`ls *.deb`
