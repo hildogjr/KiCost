@@ -79,9 +79,9 @@ with open(os.path.join('kicost', 'HISTORY.rst')) as history_file:
         history_lastest = re.search(update_format, history_full).group('last_history').strip()
         if history_lastest:
             if SHOW_LAST_HISTORY == 1:
-                history_lastest = history_lastest.replace('History', 'Latest update')
+                history_lastest = history_lastest.replace('History\n-------', 'Latest update\n-------------')
             else:
-                history_lastest = history_lastest.replace('History', 'Latest updates')
+                history_lastest = history_lastest.replace('History\n-------', 'Latest updates\n--------------')
             history = history_lastest + '\n\nAccess https://github.com/xesscorp/KiCost/blob/master/HISTORY.rst for full development history.'
         else:
             history = history_full
