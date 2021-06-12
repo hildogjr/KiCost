@@ -22,7 +22,6 @@ jobs:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         KICOST_RELEASE: 1
-        KICOST_FAKE_VERSION: 1.1.5.2
       run: |
         python3 setup.py sdist bdist_wheel
         twine upload --repository testpypi dist/*
