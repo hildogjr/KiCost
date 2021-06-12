@@ -66,9 +66,9 @@ class PostInstallCommand(install):
 # Update the information files that stay in the computer.
 with open('README.rst') as readme_file:
     readme = readme_file.read()
-readme = readme.replace('block_diag.png', 'docs/block_diag.png')
-readme = readme.replace('gui.png', 'docs/gui.png')
-readme = readme.replace('kitspace.png', 'kicost/kitspace.png')
+readme = readme.replace('block_diag.png', 'https://raw.githubusercontent.com/hildogjr/KiCost/master/docs/block_diag.png')
+readme = readme.replace('gui.png', 'https://raw.githubusercontent.com/hildogjr/KiCost/master/docs/gui.png')
+readme = readme.replace('kitspace.png', 'https://raw.githubusercontent.com/hildogjr/KiCost/master/kicost/kitspace.png')
 with open(os.path.join('kicost', 'HISTORY.rst')) as history_file:
     history_full = history_file.read()
     try:
@@ -123,7 +123,7 @@ with open('kicost/version.py', 'wt') as f:
             res = 'unknown'
     f.write(re.sub("__build__ = '(.*)'", "__build__ = '{}'".format(res), version_py))
 if 'KICOST_FAKE_VERSION' in os.environ:
-   kicost.__version__ = os.environ['KICOST_FAKE_VERSION']
+    kicost.__version__ = os.environ['KICOST_FAKE_VERSION']
 
 setup(
     name='kicost',
