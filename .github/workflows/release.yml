@@ -1,0 +1,87 @@
+name: release
+
+on:
+  push:
+    tags-ignore:
+      - "v1"
+      - "v2"
+      - "v3"
+      - "v4"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      is_tag: ${{ steps.check.outputs.is_tag }}
+
+    steps:
+      - name: Check if it's a tagged release
+        id: check
+        run: |
+          REF=${{ github.ref }}
+          URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${REF##*/}"
+          StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
+          echo $StatusCode
+          if [[ "$StatusCode" == 200 ]]; then
+            echo "This is tagged release!"
+            echo "::set-output name=is_tag::no"
+          else
+            echo "This is a tag not release!"
+            echo "::set-output name=is_tag::yes"
+          fi
+
+  build:
+    runs-on: ubuntu-latest
+    container: setsoft/kicad_pybuild:latest
+    needs: check
+    if: ${{ needs.check.outputs.is_tag == 'yes' }}
+    outputs:
+      deb_name: ${{ steps.mdeb.outputs.deb_name }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build
+        id: mdeb
+        run: |
+          make deb
+          mv ../*.deb .
+          echo "::set-output name=deb_name::"`ls *.deb`
+          mkdir output
+          mv *.deb output
+
+      - name: Store
+        uses: actions/upload-artifact@v1
+        with:
+          name: package
+          path: output
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Retrieve
+        uses: actions/download-artifact@v1
+        with:
+          name: package
+
+      - name: Changelog
+        run: |
+          tools/history2changelog.py > CHANGELOG.md
+
+#      - name: Release
+#        uses: docker://antonyurchenko/git-release:latest
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          DRAFT_RELEASE: "true"
+#          PRE_RELEASE: "true"
+#          CHANGELOG_FILE: "CHANGELOG.md"
+#          ALLOW_TAG_PREFIX: "true"
+#        with:
+#          args: |
+#            package/${{needs.build.outputs.deb_name}}
+
