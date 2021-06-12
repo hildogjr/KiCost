@@ -7,7 +7,6 @@
 """
 Tool to convert the HISTORY.rst into a CHANGELOG.md
 """
-import sys
 import re
 import os.path as op
 
@@ -32,35 +31,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 started = False
 with open(history_filename, "rt") as fin:
-    for l in fin:
-        if l[0].isnumeric():
+    for ln in fin:
+        if ln[0].isnumeric():
             if started:
-                gen(added, 'Added')
-                gen(changed, 'Changed')
-                gen(fixed, 'Fixed')
-            m = re.match(r'(.*) \((.*)\)', l)
+                gen(added, 'Added')      # noqa: F821
+                gen(changed, 'Changed')  # noqa: F821
+                gen(fixed, 'Fixed')      # noqa: F821
+            m = re.match(r'(.*) \((.*)\)', ln)
             print('## [' + m.group(1) + '] - ' + m.group(2))
             started = True
             added = []
             fixed = []
             changed = []
-        elif l[0] != '_':
-            l = l.strip()
-            if l and started:
-                if l.startswith('* Fixed'):
-                    fixed.append(l[8:])
-                elif l.startswith('* Fix'):
-                    fixed.append(l[6:])
-                elif l.startswith('* Added'):
-                    added.append(l[8:])
-                elif l.startswith('* Add'):
-                    added.append(l[6:])
-                elif l.startswith('* Changed'):
-                    changed.append(l[10:])
+        elif ln[0] != '_':
+            ln = ln.strip()
+            if ln and started:
+                if ln.startswith('* Fixed'):
+                    fixed.append(ln[8:])
+                elif ln.startswith('* Fix'):
+                    fixed.append(ln[6:])
+                elif ln.startswith('* Added'):
+                    added.append(ln[8:])
+                elif ln.startswith('* Add'):
+                    added.append(ln[6:])
+                elif ln.startswith('* Changed'):
+                    changed.append(ln[10:])
                 else:
-                    changed.append(l[2:])
+                    changed.append(ln[2:])
                 started = True
 gen(added, 'Added')
 gen(changed, 'Changed')
 gen(fixed, 'Fixed')
-
