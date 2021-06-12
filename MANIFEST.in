@@ -4,12 +4,12 @@ include kicost/HISTORY.rst
 include LICENSE
 include README.rst
 include kicost/kicost.ico
-include block_diag.png
-include gui.png
+include docs/block_diag.png
+include docs/gui.png
 include kicost/kitspace.png
 
 
-recursive-include tests *
+#recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 
