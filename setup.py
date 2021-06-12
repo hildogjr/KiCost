@@ -66,6 +66,9 @@ class PostInstallCommand(install):
 # Update the information files that stay in the computer.
 with open('README.rst') as readme_file:
     readme = readme_file.read()
+readme = readme.replace('block_diag.png', 'docs/block_diag.png')
+readme = readme.replace('gui.png', 'docs/gui.png')
+readme = readme.replace('kitspace.png', 'kicost/kitspace.png')
 with open(os.path.join('kicost', 'HISTORY.rst')) as history_file:
     history_full = history_file.read()
     try:
