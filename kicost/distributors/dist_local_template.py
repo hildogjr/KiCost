@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Hildo Guillardi Junior / Max Maisel

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # [[[cog import cog; cog.outl('"""\n%s\n"""' % file('README.rst').read()) ]]]
 """
 S-expression parser for Python

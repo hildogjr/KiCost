@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # MIT license
 #
 # Copyright (C) 2020 by Hildo Guillardi Junior
