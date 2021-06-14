@@ -293,7 +293,7 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
         fe = open(TESTDIR + '/log_test/0server_stderr.log', 'at')
         server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
     # Run KiCost
-    cmd = ['kicost', '--debug', '10']
+    cmd = ['src/kicost', '--debug', '10']
     if not price:
         cmd.append('--no_price')
     if extra:
