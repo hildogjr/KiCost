@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+# Copyright (c) 2021 Salvador E. Tropea
+# Copyright (c) 2021 Instituto Nacional de Tecnología Industrial
+# License: MIT
+# Project: KiCost
+"""
+ KiCost
+
+ Wrapper to run KiCost from git repo
+"""
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+from kicost.__main__ import main
+main()

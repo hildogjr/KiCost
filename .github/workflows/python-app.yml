@@ -35,6 +35,30 @@ jobs:
     - name: Test with pytest
       run: |
         pip install .
+        echo "* Python 3 version"
+        /usr/bin/python3 --version
+        echo "* Python version"
+        python --version
+        echo "* pip install destination"
+        which kicost
+        echo "* pip generated entry point"
+        cat `which kicost`
+        echo "* pip installed KiCost"
+        kicost --info
+        echo "* Python local installation"
+        ls -la $pythonLocation
+        echo "* Environment"
+        export
+        echo "* Patching src/kicost"
+        echo "#!"$pythonLocation/python > src/kicost.new
+        tail -n +2 src/kicost >> src/kicost.new
+        mv src/kicost.new src/kicost
+        chmod +x src/kicost
+        echo "* Patched src/kicost"
+        cat src/kicost
+        echo "* Patched src/kicost info"
+        src/kicost --info
+        echo "* Running tests"
         pytest
     - name: Store results
       if: ${{ always() }}

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 # MIT license
 #
 # Copyright (C) 2019 by XESS Corporation / Hildo Guillardi Júnior
