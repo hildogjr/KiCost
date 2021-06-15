@@ -4,5 +4,5 @@ XlsxWriter >= 0.7.3 # Write the XLSX output file.
 tqdm >= 4.30.0 # Progress bar.
 requests >= 2.18.4 # Scrape, API and web modules.
 validators >= 0.14.2 # For validation of datasheet URLs in the spreadsheet.
-wxPython >= 4.0 # Graphical package/library needed to user guide.
+wxPython >= 3.0.2 # Graphical package/library needed to user guide.
 colorama  # Colors for terminals
