@@ -71,12 +71,13 @@ directly into the website ordering page of each distributor.</p></li>
 </div>
 <span id="document-installation"></span><div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>This is a Python package, so you’ll need to have Python installed to use it.
-If you’re using linux, you probably already have Python.
-If you’re on Windows, you can download a Python installer from
-<a class="reference external" href="https://www.continuum.io/downloads#windows">Anaconda</a> ,
-<a class="reference external" href="https://www.activestate.com/activepython/downloads">Active State</a> , or even
-<a class="reference external" href="http://winpython.github.io/#releases">WinPython</a> .</p>
+<p>This is a Python package, so you’ll need to have Python installed to use it.</p>
+<div class="section" id="windows-without-kicad">
+<h3>Windows without KiCad<a class="headerlink" href="#windows-without-kicad" title="Permalink to this headline">¶</a></h3>
+<p>KiCad has Python, but if you don’t have KiCad you can download a Python installer from
+<a class="reference external" href="https://www.continuum.io/downloads#windows">Anaconda</a>,
+<a class="reference external" href="https://www.activestate.com/activepython/downloads">Active State</a>, or even
+<a class="reference external" href="http://winpython.github.io/#releases">WinPython</a>.</p>
 <p>Once you have Python, you can install this package by opening a terminal
 window and typing the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ easy_install kicost
@@ -86,20 +87,41 @@ window and typing the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install kicost
 </pre></div>
 </div>
-<p>Note that if you install KiCost using <code class="docutils literal notranslate"><span class="pre">pip</span></code> on a Windows system running Python 2.7,
-using the default option that web scrapes with parallel processes may cause
-<strong>MANY</strong> errors. You can avoid this problem by:</p>
-<ul class="simple">
-<li><p>using <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> to install KiCost, or</p></li>
-<li><p>use the <code class="docutils literal notranslate"><span class="pre">-s</span></code> KiCost option to serialize the web scraping.</p></li>
-</ul>
-<p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal notranslate"><span class="pre">pip3</span></code> for <code class="docutils literal notranslate"><span class="pre">pip</span></code> on each command):</p>
+</div>
+<div class="section" id="windows-with-kicad">
+<h3>Windows with KiCad<a class="headerlink" href="#windows-with-kicad" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li><p>Open a Power Shell window as administrator.</p></li>
+</ol>
+<p>2. Now you need to first add KiCad binaries to your PATH. For a temporal addition you can use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>prompt&gt; $env:Path += &quot;;C:\Program Files\KiCad\bin&quot;
+</pre></div>
+</div>
+<p>This assumes you installed KiCad in the default place. For a persistent solution search on internet “How to Add to Windows PATH Environment Variable”.</p>
+<p>3. Install the <cite>wheel</cite> package. Needed to workaround bugs on the Python included with KiCad:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">wheel</span>
+</pre></div>
+</div>
+<p>4. Now install KiCost, for the last stable release:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">kicost</span>
+</pre></div>
+</div>
+<p>If you want to install the current development code you must install <a class="reference external" href="http://git-scm.com/download/win">GIT</a>.
+After installing GIT:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">hildogjr</span><span class="o">/</span><span class="n">KiCost</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<p>If you’re using linux, you probably already have Python.</p>
+<p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal notranslate"><span class="pre">pip3</span></code> by <code class="docutils literal notranslate"><span class="pre">pip</span></code> on each command):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
 $ sudo -H pip3 install -U pip # Upgrade the PIP version.
 $ sudo -H pip3 install kicost # Install KiCost from PyPI.
 </pre></div>
 </div>
-<p>For install the graphical dependence used by KiCost GUI:</p>
+<p>For install the graphical dependence used by KiCost GUI (only needed if KiCad is not installed):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo -H pip3 install wxpython
 or
 $ sudo -H pip3 install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Ubuntu 16.04
@@ -110,6 +132,7 @@ $ kicost # Execute KiCost without input arguments to initialize the GUI.
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install git # It&#39;s necessary to have Git installed.
 $ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
 </pre></div>
+</div>
 </div>
 </div>
 <span id="document-usage"></span><div class="section" id="usage">
@@ -1906,7 +1929,7 @@ by BOM_ORDER.
 
 <dl class="py function">
 <dt id="kicost.edas.tools.order_refs">
-<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">order_refs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">refs</span></em>, <em class="sig-param"><span class="n">collapse</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">ref_sep</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#order_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.order_refs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.edas.tools.</code><code class="sig-name descname">order_refs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">refs</span></em>, <em class="sig-param"><span class="n">collapse</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">ref_sep</span><span class="o">=</span><span class="default_value">','</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/edas/tools.html#order_refs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.edas.tools.order_refs" title="Permalink to this definition">¶</a></dt>
 <dd><p>&#64;brief Collapse list of part references into a sorted, comma-separated list of hyphenated ranges. This is intended as opposite of <cite>split_refs()</cite>
 &#64;param refs Designator/references <cite>list()</cite>.
 &#64;return References in a organized view way.</p>
@@ -2876,7 +2899,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 
 <dl class="py attribute">
 <dt id="kicost.spreadsheet.Spreadsheet.DISTRIBUTOR_COLUMNS">
-<code class="sig-name descname">DISTRIBUTOR_COLUMNS</code><em class="property"> = {'avail': {'col': 0, 'comment': 'Available quantity of each part at the distributor.\nRed -&gt; No quantity available.\nOrange -&gt; Too little quantity available.', 'label': 'Avail', 'level': 1, 'width': None}, 'ext_price': {'col': 3, 'comment': '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -&gt; Next price break is cheaper.\nGreen -&gt; Cheapest supplier.', 'label': 'Ext$', 'level': 0, 'width': 15}, 'part_num': {'col': 4, 'comment': &quot;Distributor-assigned catalog number for each part and link to it's web page (ctrl-click). Extra distributor data is shown as comment.&quot;, 'label': 'Cat#', 'level': 2, 'width': 15}, 'purch': {'col': 1, 'comment': 'Purchase quantity of each part from this distributor.\nYellow -&gt; This part have a minimum purchase quantity bigger than 1 (check the price breaks).\nRed -&gt; Purchasing more than the available quantity.', 'label': 'Purch', 'level': 2, 'width': None}, 'unit_price': {'col': 2, 'comment': 'Unit price of each part from this distributor.\nGreen -&gt; lowest price across distributors.', 'label': 'Unit$', 'level': 2, 'width': 9}}</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.DISTRIBUTOR_COLUMNS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">DISTRIBUTOR_COLUMNS</code><em class="property"> = {'avail': {'col': 0, 'comment': 'Available quantity of each part at the distributor.\nRed -&gt; No quantity available.\nOrange -&gt; Too little quantity available.', 'label': 'Avail', 'level': 1, 'width': None}, 'ext_price': {'col': 4, 'comment': '(Unit Price) x (Purchase Qty) of each part from this distributor.\nRed -&gt; Next price break is cheaper.\nGreen -&gt; Cheapest supplier.', 'label': 'Ext$', 'level': 0, 'width': 15}, 'moq': {'col': 3, 'collapsed': 1, 'comment': 'Minimum Order Quantity. You must buy at least this ammount of components.', 'label': 'MOQ', 'level': 3, 'width': None}, 'part_num': {'col': 5, 'comment': &quot;Distributor-assigned catalog number for each part and link to it's web page (ctrl-click). Extra distributor data is shown as comment.&quot;, 'label': 'Cat#', 'level': 2, 'width': 15}, 'purch': {'col': 1, 'comment': 'Purchase quantity of each part from this distributor.\nYellow -&gt; This part have a minimum purchase quantity bigger than 1 (check the price breaks).\nRed -&gt; Purchasing more than the available quantity.', 'label': 'Purch', 'level': 2, 'width': None}, 'unit_price': {'col': 2, 'comment': 'Unit price of each part from this distributor.\nGreen -&gt; lowest price across distributors.', 'label': 'Unit$', 'level': 2, 'width': 9}}</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.DISTRIBUTOR_COLUMNS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2962,6 +2985,11 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt id="kicost.spreadsheet.Spreadsheet.conditional_format_r">
+<code class="sig-name descname">conditional_format_r</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rng</span></em>, <em class="sig-param"><span class="n">criteria</span></em>, <em class="sig-param"><span class="n">format</span></em>, <em class="sig-param"><span class="n">value</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.conditional_format_r"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.conditional_format_r" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt id="kicost.spreadsheet.Spreadsheet.define_name_range">
 <code class="sig-name descname">define_name_range</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">row1</span></em>, <em class="sig-param"><span class="n">col1</span></em>, <em class="sig-param"><span class="n">row2</span></em>, <em class="sig-param"><span class="n">col2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.define_name_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.define_name_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define a local variable assigned to an absolute range in the sheet</p>
@@ -2993,7 +3021,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 
 <dl class="py method">
 <dt id="kicost.spreadsheet.Spreadsheet.set_column">
-<code class="sig-name descname">set_column</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">level</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.set_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.set_column" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_column</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">level</span></em>, <em class="sig-param"><span class="n">collapsed</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.set_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.set_column" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3073,7 +3101,12 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 <li class="toctree-l2"><a class="reference internal" href="index.html#features">Features</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="index.html#document-installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-installation">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#windows-without-kicad">Windows without KiCad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#windows-with-kicad">Windows with KiCad</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#linux">Linux</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-usage">Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="index.html#examples">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#custom-bom-list">Custom BOM list</a></li>

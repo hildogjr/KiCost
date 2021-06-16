@@ -46,12 +46,13 @@
             
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>This is a Python package, so you’ll need to have Python installed to use it.
-If you’re using linux, you probably already have Python.
-If you’re on Windows, you can download a Python installer from
-<a class="reference external" href="https://www.continuum.io/downloads#windows">Anaconda</a> ,
-<a class="reference external" href="https://www.activestate.com/activepython/downloads">Active State</a> , or even
-<a class="reference external" href="http://winpython.github.io/#releases">WinPython</a> .</p>
+<p>This is a Python package, so you’ll need to have Python installed to use it.</p>
+<div class="section" id="windows-without-kicad">
+<h2>Windows without KiCad<a class="headerlink" href="#windows-without-kicad" title="Permalink to this headline">¶</a></h2>
+<p>KiCad has Python, but if you don’t have KiCad you can download a Python installer from
+<a class="reference external" href="https://www.continuum.io/downloads#windows">Anaconda</a>,
+<a class="reference external" href="https://www.activestate.com/activepython/downloads">Active State</a>, or even
+<a class="reference external" href="http://winpython.github.io/#releases">WinPython</a>.</p>
 <p>Once you have Python, you can install this package by opening a terminal
 window and typing the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ easy_install kicost
@@ -61,20 +62,41 @@ window and typing the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install kicost
 </pre></div>
 </div>
-<p>Note that if you install KiCost using <code class="docutils literal notranslate"><span class="pre">pip</span></code> on a Windows system running Python 2.7,
-using the default option that web scrapes with parallel processes may cause
-<strong>MANY</strong> errors. You can avoid this problem by:</p>
-<ul class="simple">
-<li><p>using <code class="docutils literal notranslate"><span class="pre">easy_install</span></code> to install KiCost, or</p></li>
-<li><p>use the <code class="docutils literal notranslate"><span class="pre">-s</span></code> KiCost option to serialize the web scraping.</p></li>
-</ul>
-<p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal notranslate"><span class="pre">pip3</span></code> for <code class="docutils literal notranslate"><span class="pre">pip</span></code> on each command):</p>
+</div>
+<div class="section" id="windows-with-kicad">
+<h2>Windows with KiCad<a class="headerlink" href="#windows-with-kicad" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Open a Power Shell window as administrator.</p></li>
+</ol>
+<p>2. Now you need to first add KiCad binaries to your PATH. For a temporal addition you can use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>prompt&gt; $env:Path += &quot;;C:\Program Files\KiCad\bin&quot;
+</pre></div>
+</div>
+<p>This assumes you installed KiCad in the default place. For a persistent solution search on internet “How to Add to Windows PATH Environment Variable”.</p>
+<p>3. Install the <cite>wheel</cite> package. Needed to workaround bugs on the Python included with KiCad:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">wheel</span>
+</pre></div>
+</div>
+<p>4. Now install KiCost, for the last stable release:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">kicost</span>
+</pre></div>
+</div>
+<p>If you want to install the current development code you must install <a class="reference external" href="http://git-scm.com/download/win">GIT</a>.
+After installing GIT:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">hildogjr</span><span class="o">/</span><span class="n">KiCost</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+<p>If you’re using linux, you probably already have Python.</p>
+<p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal notranslate"><span class="pre">pip3</span></code> by <code class="docutils literal notranslate"><span class="pre">pip</span></code> on each command):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
 $ sudo -H pip3 install -U pip # Upgrade the PIP version.
 $ sudo -H pip3 install kicost # Install KiCost from PyPI.
 </pre></div>
 </div>
-<p>For install the graphical dependence used by KiCost GUI:</p>
+<p>For install the graphical dependence used by KiCost GUI (only needed if KiCad is not installed):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo -H pip3 install wxpython
 or
 $ sudo -H pip3 install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Ubuntu 16.04
@@ -87,6 +109,7 @@ $ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
 </pre></div>
 </div>
 </div>
+</div>
 
 
             <div class="clearer"></div>
@@ -95,6 +118,16 @@ $ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#windows-without-kicad">Windows without KiCad</a></li>
+<li><a class="reference internal" href="#windows-with-kicad">Windows with KiCad</a></li>
+<li><a class="reference internal" href="#linux">Linux</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="readme.html"
                         title="previous chapter">KiCost</a></p>

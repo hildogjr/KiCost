@@ -3,11 +3,15 @@ Installation
 ============
 
 This is a Python package, so you'll need to have Python installed to use it.
-If you're using linux, you probably already have Python.
-If you're on Windows, you can download a Python installer from
-`Anaconda <https://www.continuum.io/downloads#windows>`_ ,
-`Active State <https://www.activestate.com/activepython/downloads>`_ , or even
-`WinPython <http://winpython.github.io/#releases>`_ .
+
+
+Windows without KiCad
+---------------------
+
+KiCad has Python, but if you don't have KiCad you can download a Python installer from
+`Anaconda <https://www.continuum.io/downloads#windows>`_,
+`Active State <https://www.activestate.com/activepython/downloads>`_, or even
+`WinPython <http://winpython.github.io/#releases>`_.
 
 Once you have Python, you can install this package by opening a terminal
 window and typing the command::
@@ -17,21 +21,47 @@ window and typing the command::
 Or::
 
     $ pip install kicost
-    
-Note that if you install KiCost using ``pip`` on a Windows system running Python 2.7,
-using the default option that web scrapes with parallel processes may cause
-**MANY** errors. You can avoid this problem by:
 
-* using ``easy_install`` to install KiCost, or
-* use the ``-s`` KiCost option to serialize the web scraping.
+Windows with KiCad
+------------------
 
-On Linux, for a full install procedure on Python3, use (for Python2, replace ``pip3`` for ``pip`` on each command)::
+1. Open a Power Shell window as administrator.
+
+2. Now you need to first add KiCad binaries to your PATH. For a temporal addition you can use:
+::
+
+   prompt> $env:Path += ";C:\Program Files\KiCad\bin"
+
+This assumes you installed KiCad in the default place. For a persistent solution search on internet "How to Add to Windows PATH Environment Variable".
+
+3. Install the `wheel` package. Needed to workaround bugs on the Python included with KiCad:
+::
+
+   prompt> pip install wheel
+
+4. Now install KiCost, for the last stable release:
+::
+
+   prompt> pip install kicost
+
+If you want to install the current development code you must install `GIT <http://git-scm.com/download/win>`_.
+After installing GIT::
+
+   prompt> pip install git+https://github.com/hildogjr/KiCost.git
+
+
+Linux
+-----
+
+If you're using linux, you probably already have Python.
+
+On Linux, for a full install procedure on Python3, use (for Python2, replace ``pip3`` by ``pip`` on each command)::
 
     $ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
     $ sudo -H pip3 install -U pip # Upgrade the PIP version.
     $ sudo -H pip3 install kicost # Install KiCost from PyPI.
 
-For install the graphical dependence used by KiCost GUI::
+For install the graphical dependence used by KiCost GUI (only needed if KiCad is not installed)::
 
     $ sudo -H pip3 install wxpython
     or
