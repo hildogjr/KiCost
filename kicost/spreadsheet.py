@@ -45,6 +45,7 @@ from validators import url as validate_url  # URL validator.
 from .version import __version__  # Version control by @xesscorp and collaborator.
 from .distributors import get_distributor_info, ORDER_COL_USERFIELDS
 from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
+from . import DistData
 
 from .currency_converter import CurrencyConverter, get_currency_symbol, format_currency
 currency_convert = CurrencyConverter().convert
@@ -790,7 +791,9 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
         dist_code_avail = []
         for dist in sorted(ss.DISTRIBUTORS):
             # Get the currencies used among all distributors.
-            used_currencies.add(part.currency.get(dist, DEFAULT_CURRENCY))
+            dd = part.dd.get(dist)
+            if dd and dd.currency:
+                used_currencies.add(dd.currency)
             # Cells we use
             col_dist = dist_cols[dist]
             avail_cell = xl_rowcol_to_cell(row, col_dist+0)
@@ -888,6 +891,8 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
 
     # Get the actual currency rate to use.
     next_line = row + 1
+    if not used_currencies:
+        used_currencies.add(DEFAULT_CURRENCY)
     used_currencies = sorted(list(used_currencies))
     logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...'.format(used_currencies, ss.currency))
     if len(used_currencies) > 1:
@@ -955,17 +960,21 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     if num_prj > 1:
         n_price_found_l = [0]*num_prj
         total_cost_l = [0]*num_prj
+    # Empty object used when no data is available for a distributor
+    empty_dd = DistData()
     for part in parts:
-        dist_part_num = part.part_num.get(dist)  # Get the distributor part number.
-        price_tiers = part.price_tiers.get(dist, {})  # Extract price tiers from distributor HTML page tree.
-        dist_qty_avail = part.qty_avail.get(dist)
+        # Get the DistData for this distributor
+        dd = part.dd.get(dist, empty_dd)
+        dist_part_num = dd.part_num  # Get the distributor part number.
+        price_tiers = dd.price_tiers  # Extract price tiers from distributor HTML page tree.
+        dist_qty_avail = dd.qty_avail
         # If the part number doesn't exist, just leave this row blank.
         # if dist_part_num is None or dist_qty_avail is None or len(price_tiers) == 0:
         if dist_part_num is None:
             row += 1  # Skip this row and go to the next.
             continue
-        dist_info_dist = part.info_dist.get(dist, {})
-        dist_currency = part.currency.get(dist)  # Extract currency used by the distributor.
+        dist_info_dist = {}  # Not implemented
+        dist_currency = dd.currency  # Extract currency used by the distributor.
 
         # Enter distributor part number for ordering purposes.
         if dist_part_num:
@@ -983,7 +992,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
         # is no valid quantity or pricing for the part (see next conditional).
         # Having the link present will help debug if the extraction of the
         # quantity or pricing information was done correctly.
-        dist_url = part.url.get(dist)
+        dist_url = dd.url
         if dist_url:
             if ss.SUPPRESS_CAT_URL:
                 ss.write_url(row, col_part_num, dist_url, 'part_format', dist_part_num)

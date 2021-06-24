@@ -28,6 +28,7 @@ import sys
 import hashlib
 
 from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, W_BADPRICE
+from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -118,7 +119,9 @@ class dist_local_template(distributor_class):
 
                 cat_num = cat_num or pn or make_unique_catalog_number(p, dist)
                 p.fields[dist + ':cat#'] = cat_num  # Store generated cat#.
-                p.part_num[dist] = cat_num
+                # Get the DistData for this distributor
+                dd = p.dd.get(dist, DistData())
+                dd.part_num = cat_num
 
                 if link:
                     url_parts = list(urlsplit(link))
@@ -128,7 +131,7 @@ class dist_local_template(distributor_class):
                 else:
                     # This happens when no part URL is found.
                     distributor_class.logger.log(DEBUG_OBSESSIVE, 'No part URL found for local \'{}\' distributor!'.format(dist))
-                p.url[dist] = link
+                dd.url = link
 
                 price_tiers = {}
                 try:
@@ -142,18 +145,20 @@ class dist_local_template(distributor_class):
                     if len(splitted) == 2:
                         qty, price = splitted
                         if local_currency:
-                            p.currency[dist] = local_currency
+                            dd.currency = local_currency
                         try:
                             price_tiers[int(qty)] = float(price)
                         except ValueError:
                             distributor_class.logger.warning(W_BADPRICE+'Malformed pricing number: `{}` at {}'.format(old_pricing, p.refs))
                     else:
                         distributor_class.logger.warning(W_BADPRICE+'Malformed pricing entry: `{}` at {}'.format(qty_price, p.refs))
-                # p.moq[dist] = min(price_tiers.keys())
+                # dd.moq = min(price_tiers.keys())
                 if not price_tiers:
                     # This happens when no pricing info is found.
                     distributor_class.logger.log(DEBUG_OBSESSIVE, 'No pricing information found for local \'{}\' distributor!'.format(dist))
-                p.price_tiers[dist] = price_tiers
+                dd.price_tiers = price_tiers
+                # Update the DistData for this distributor
+                p.dd[dist] = dd
 
 
 distributor_class.register(dist_local_template, 100)

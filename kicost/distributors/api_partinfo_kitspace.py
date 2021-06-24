@@ -41,6 +41,7 @@ else:
 
 # KiCost definitions.
 from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
+from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
 
@@ -158,20 +159,19 @@ class api_partinfo_kitspace(distributor_class):
         return default
 
     @staticmethod
-    def get_part_info(query, parts, distributors, currency, distributor_info=None):
+    def get_part_info(query, parts, distributors, currency, distributors_wanted):
         '''Query PartInfo for quantity/price info and place it into the parts list.
-           `distributor_info` is used to update only one distributor information (price_tiers, ...),
-           the proposed if use in the disambiguation procedure.
+           `distributors_wanted` is the list of distributors we want for each query.
+           `distributors` is the list of all distributors we want, in general.
+           This difference is because some queries are for an specific distributor.
         '''
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = api_partinfo_kitspace.DIST_TRANSLATION
 
         results = api_partinfo_kitspace.query(query, distributors)
-        if not distributor_info:
-            distributor_info = [None] * len(query)
 
         # Loop through the response to the query and enter info into the parts list.
-        for part_query, part, dist_info, result in zip(query, parts, distributor_info, results['data']['match']):
+        for part_query, part, dist_want, result in zip(query, parts, distributors_wanted, results['data']['match']):
             if not result:
                 distributor_class.logger.warning(W_NOINFO+'No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
                 continue
@@ -185,12 +185,11 @@ class api_partinfo_kitspace(distributor_class):
                 # Get the distributor who made the offer and add their
                 # price/qty info to the parts list if its one of the accepted distributors.
                 dist = dist_xlate.get(offer['sku']['vendor'], '')
-                if dist_info and dist not in dist_info:
-                    # We are updating and not for this one
+                if dist not in dist_want:
+                    # Not interested in this distributor
                     continue
-                if dist not in distributors:
-                    # Not a desired distributor
-                    continue
+                # Get the DistData for this distributor
+                dd = part.dd.get(dist, DistData())
                 # This will happen if there are not enough entries in the price/qty list.
                 # As a stop-gap measure, just assign infinity to the part increment.
                 # A better alternative may be to examine the packaging field of the offer.
@@ -209,18 +208,16 @@ class api_partinfo_kitspace(distributor_class):
                     # 3) The first not null tiers
                     if currency in dist_currency:
                         prices = dist_currency[currency]
-                        part.currency[dist] = currency
+                        dd.currency = currency
                     elif DEFAULT_CURRENCY in dist_currency:
                         prices = dist_currency[DEFAULT_CURRENCY]
-                        part.currency[dist] = DEFAULT_CURRENCY
+                        dd.currency = DEFAULT_CURRENCY
                     else:
-                        part.currency[dist], prices = next(iter(dist_currency.items()))
+                        dd.currency, prices = next(iter(dist_currency.items()))
                     price_tiers = {qty: float(price) for qty, price in prices}
                     # Combine price lists for multiple offers from the same distributor
                     # to build a complete list of cut-tape and reeled components.
-                    if dist not in part.price_tiers:
-                        part.price_tiers[dist] = {}
-                    part.price_tiers[dist].update(price_tiers)
+                    dd.price_tiers.update(price_tiers)
                     # Compute the quantity increment between the lowest two prices.
                     # This will be used to distinguish the cut-tape from the reeled components.
                     if len(price_tiers) > 1:
@@ -240,25 +237,27 @@ class api_partinfo_kitspace(distributor_class):
                 #      This procedure is made by the definition `distributors_info[dist]['ignore_cat#_re']`
                 #      at the distributor profile.
                 dist_part_num = offer.get('sku', '').get('part', '')
-                qty_avail = part.qty_avail.get(dist)
+                qty_avail = dd.qty_avail
                 in_stock_quantity = offer.get('in_stock_quantity')
                 if not qty_avail or (in_stock_quantity and qty_avail < in_stock_quantity):
                     # Keeps the information of more availability.
-                    part.qty_avail[dist] = in_stock_quantity  # In stock.
+                    dd.qty_avail = in_stock_quantity  # In stock.
                 ign_stock_code = distributor_class.get_distributor_info(dist).ignore_cat
                 valid_part = not (ign_stock_code and re.match(ign_stock_code, dist_part_num))
-                # debug('part.part_num[dist]')  # Uncomment to debug
-                # debug('part.qty_increment[dist]')  # Uncomment to debug
+                # debug('dd.part_num')  # Uncomment to debug
+                # debug('dd.qty_increment')  # Uncomment to debug
                 moq = offer.get('moq')
                 if (valid_part and
-                    (not part.part_num.get(dist) or
-                     (part.qty_increment.get(dist) is None or part_qty_increment < part.qty_increment.get(dist)) or
-                     (not part.moq.get(dist) or (moq and part.moq.get(dist) > moq)))):
+                    (not dd.part_num or
+                     (dd.qty_increment is None or part_qty_increment < dd.qty_increment) or
+                     (not dd.moq or (moq and dd.moq > moq)))):
                     # Save the link, stock code, ... of the page for minimum purchase.
-                    part.moq[dist] = moq  # Minimum order qty.
-                    part.url[dist] = offer.get('product_url', '')  # Page to purchase the minimum quantity.
-                    part.part_num[dist] = dist_part_num
-                    part.qty_increment[dist] = part_qty_increment
+                    dd.moq = moq  # Minimum order qty.
+                    dd.url = offer.get('product_url', '')  # Page to purchase the minimum quantity.
+                    dd.part_num = dist_part_num
+                    dd.qty_increment = part_qty_increment
+                # Update the DistData for this distributor
+                part.dd[dist] = dd
 
     @staticmethod
     def query_part_info(parts, distributors, currency):
@@ -281,6 +280,7 @@ class api_partinfo_kitspace(distributor_class):
             # Create a PartInfo query using the manufacturer's part number or the distributor's SKU.
             part_dist_use_manfpn = copy.copy(distributors)
 
+            # Create queries using the distributor SKU
             # Check if that part have stock code that is accepted to use by this module (API).
             # KiCost will prioritize these codes under "manf#" that will be used for get
             # information for the part hat were not filled with the distributor stock code. So
@@ -294,15 +294,16 @@ class api_partinfo_kitspace(distributor_class):
                         part_code_dist = api_partinfo_kitspace.KICOST2KITSPACE_DIST[part_catalogue_code_dist]
                         queries.append('{"sku":{"vendor":"' + part_code_dist + '","part":"' + part_stock + '"}}')
                         query_parts.append(part)
-                        query_part_stock_code.append(part_catalogue_code_dist)
+                        query_part_stock_code.append([part_catalogue_code_dist])
                         part_dist_use_manfpn.remove(part_catalogue_code_dist)
                 else:
                     found_codes_for_all_dists = False
 
+            # Create a query using the manufacturer P/N
             part_manf = part.fields.get('manf', '')
             part_code = part.fields.get('manf#')
             if part_code and not found_codes_for_all_dists:
-                # Not all distributors has code, include the manufaturer P/N
+                # Not all distributors has code, add a query for the manufaturer P/N
                 queries.append('{"mpn":{"manufacturer":"' + part_manf + '","part":"' + part_code + '"}}')
                 query_parts.append(part)
                 # List of distributors without an specific part number

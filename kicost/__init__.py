@@ -6,6 +6,19 @@ __email__ = 'info@xess.com'
 from .version import __version__, __build__  # noqa: F401
 
 
+class DistData(object):
+    '''@brief Data from a distributor related to a part.'''
+    def __init__(self):
+        self.part_num = None  # Distributor catalogue number.
+        self.url = None  # Purchase distributor URL for the spefic part.
+        self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]
+        self.qty_avail = None  # Available quantity.
+        self.qty_increment = None
+        # self.info_dist = None  # Currently unused.
+        self.currency = None  # Default currency.
+        self.moq = None  # Minimum order quantity allowd by the distributor.
+
+
 # Class for storing part group information.
 class PartGroup(object):
     '''@brief Class to group components.'''
@@ -20,15 +33,7 @@ class PartGroup(object):
         self.qty_str = None  # Formulas to compute the quantity in the spreadsheet
         self.qty_total_spreadsheet = 0  # Total quantity for all projects for the spreadsheet
         # Distributor data
-        # TODO: distributor data should be a class and we should have a hash dist -> data
-        self.part_num = {}  # Distributor catalogue number.
-        self.url = {}  # Purchase distributor URL for the spefic part.
-        self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]
-        self.qty_avail = {}  # Available quantity.
-        self.qty_increment = {}
-        self.info_dist = {}  # Currently unused.
-        self.currency = {}  # Default currency.
-        self.moq = {}  # Minimum order quantity allowd by the distributor.
+        self.dd = {}
 
     def update_specs(self, specs):
         for code, info in specs.items():
