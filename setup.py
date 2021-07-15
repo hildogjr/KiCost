@@ -85,7 +85,7 @@ with open(os.path.join('kicost', 'HISTORY.rst')) as history_file:
                 history_lastest = history_lastest.replace('History\n-------', 'Latest update\n-------------')
             else:
                 history_lastest = history_lastest.replace('History\n-------', 'Latest updates\n--------------')
-            history = history_lastest + '\n\nAccess https://github.com/xesscorp/KiCost/blob/master/HISTORY.rst for full development history.'
+            history = history_lastest + '\n\nAccess https://github.com/hildogjr/KiCost/blob/master/HISTORY.rst for full development history.'
         else:
             history = history_full
     except Exception:
@@ -133,10 +133,10 @@ setup(
     # long_description_content_type="text/reStructuredText",
     author=kicost.__author__,
     author_email=kicost.__email__,
-    url='https://xesscorp.github.io/KiCost',
+    url='https://hildogjr.github.io/KiCost',
     project_urls={
-        'Doc': 'https://xesscorp.github.io/KiCost',
-        'Git': 'https://github.com/xesscorp/KiCost',
+        'Doc': 'https://hildogjr.github.io/KiCost',
+        'Git': 'https://github.com/hildogjr/KiCost',
     },
     packages=setuptools.find_packages(),
     entry_points={'console_scripts': ['kicost = kicost.__main__:main']},
