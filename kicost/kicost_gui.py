@@ -88,10 +88,10 @@ GUI_POSITION_ENTRY = 'GUI_position'
 GUI_NEWS_MESSAGE_ENTRY = 'GUI_news_message'
 
 # Links displayed.
-PAGE_OFFICIAL = 'https://xesscorp.github.io/KiCost/'
+PAGE_OFFICIAL = 'https://hildogjr.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost'  # Page with the last official version.
-# https://github.com/xesscorp/KiCost/blob/master/kicost/version.py
-PAGE_DEV = 'https://github.com/xesscorp/KiCost/issues/'
+# https://github.com/hildogjr/KiCost/blob/master/kicost/version.py
+PAGE_DEV = 'https://github.com/hildogjr/KiCost/issues/'
 PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
@@ -945,7 +945,7 @@ class formKiCost(wx.Frame):
             * Hildo Guillardi Júnior https://github.com/hildogjr
             ------------
             Contributors:
-            See https://github.com/xesscorp/KiCost/ for the full list.
+            See https://github.com/hildogjr/KiCost/ for the full list.
             '''
             credits = re.sub(r'\n[\t ]+', '\n', credits)  # Remove leading whitespace
         self.m_text_credits.SetValue(credits)

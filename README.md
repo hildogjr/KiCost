@@ -1,7 +1,7 @@
 KiCost
 ======
 
-[![image](https://img.shields.io/github/workflow/status/xesscorp/KiCost/Python%20application)](https://github.com/xesscorp/KiCost/actions)
+[![image](https://img.shields.io/github/workflow/status/hildogjr/KiCost/Python%20application)](https://github.com/hildogjr/KiCost/actions)
 [![image](https://img.shields.io/pypi/v/kicost.svg)](https://pypi.python.org/pypi/kicost)
 
 KiCost is intended to be run as a script for generating part-cost
@@ -9,7 +9,7 @@ spreadsheets for circuit boards developed with KiCad. KiCost also comes
 with a graphical user interface in addition to command line.
 
 -   Free software: MIT license
--   Documentation: <https://xesscorp.github.io/KiCost>.
+-   Documentation: <https://hildogjr.github.io/KiCost/>.
 -   Quick start: <https://www.youtube.com/watch?v=AeccxROpDfY>.
 
 KiCost is powered by the [Kitspace](https://kitspace.org/) PartInfo API. [Partinfo](https://github.com/kitspace/partinfo) hooks into paid-for 3rd party services. If you find KiCost useful please [donate to the Kitspace Open Collective](https://opencollective.com/kitspace). If Kitspace doesn't receive enough donations then this free service will have to be shut down.
