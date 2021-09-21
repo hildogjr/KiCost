@@ -212,6 +212,8 @@ class api_octopart(distributor_class):
                     if offer['seller']['name'] in native_dists:
                         useful_items.append(item)
                         break
+            # distributor_class.logger.log(DEBUG_OBSESSIVE, str(result))
+            # distributor_class.logger.log(DEBUG_OBSESSIVE, str(useful_items))
             # If more than one select the right one
             if len(useful_items) > 1:
                 # List of possible manufacturers
@@ -231,7 +233,11 @@ class api_octopart(distributor_class):
                     distributor_class.logger.warning(W_AMBIPN+'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
                                                       mpn, list(manufacturers.keys())))
             else:
-                item = useful_items[0]
+                if len(useful_items):
+                    item = useful_items[0]
+                else:
+                    # No hits, skip
+                    continue
             if api_octopart.extended:
                 # Assign the lifecycle status 'obsolete' (others possible: 'active' and 'not recommended for new designs') but not used.
                 try:
@@ -396,14 +402,14 @@ class api_octopart(distributor_class):
 
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
             if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
-                api_octopart.get_part_info(octopart_query, parts, distributors, currency)
+                api_octopart.get_part_info(octopart_query, parts, distributors_octopart, currency)
                 progress.update(i - prev_i)  # Update progress bar.
                 prev_i = i
                 octopart_query = []  # Get ready for next batch.
 
         # Query Octopart for the last batch of parts.
         if octopart_query:
-            api_octopart.get_part_info(octopart_query, parts, distributors, currency)
+            api_octopart.get_part_info(octopart_query, parts, distributors_octopart, currency)
             progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
 
         # Done with the scraping progress bar so delete it or else we get an
