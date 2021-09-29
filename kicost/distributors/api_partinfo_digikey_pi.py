@@ -27,15 +27,10 @@ __webpage__ = 'https://github.com/set-soft'
 __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 # Libraries.
-import json
-# import re
-import sys
-import os
 import pprint
-from collections import OrderedDict
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
+from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO
 from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
@@ -123,5 +118,6 @@ class api_partinfo_digikey_pi(distributor_class):
                 distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(dd.__dict__))
             progress.update(1)
         progress.close()
+
 
 distributor_class.register(api_partinfo_digikey_pi, 100)
