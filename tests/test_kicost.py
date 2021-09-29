@@ -277,6 +277,10 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
         os.mkdir(TESTDIR + '/log_test')
     # Always fake the currency rates
     os.environ['KICOST_CURRENCY_RATES'] = TESTDIR + '/currency_rates.xml'
+    # Always use fake Digi-Key replies
+    os.environ['DIGIKEY_SAVE_RESULTS'] = '1'
+    os.environ['DIGIKEY_FAKE_RESULTS'] = '1'
+    os.environ['DIGIKEY_STORAGE_PATH'] = TESTDIR + '/digikey'
     # Now choose between recording the KitSpace queries or fake them
     if price and ADD_QUERY_TO_KNOWN:
         os.environ['KICOST_LOG_HTTP'] = TESTDIR + '/kitspace_queries.txt'
@@ -362,6 +366,11 @@ def test_300_010():
 
 def test_acquire_PWM_1():
     run_test_check('acquire-PWM')
+
+
+def test_acquire_PWM_dk():
+    name = 'acquire_PWM_dk'
+    run_test_check(name, 'acquire-PWM', name, extra=['--disable_api', 'KitSpace', '--enable_api', 'Digi-Key'])
 
 
 def test_acquire_PWM_2():

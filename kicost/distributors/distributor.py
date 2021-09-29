@@ -146,7 +146,7 @@ class distributor_class(object):
     @staticmethod
     def _get_api(api):
         # We currently assume the API is registered
-        return next(x for x in distributor_class.registered if x.name == api)
+        return next((x for x in distributor_class.registered if x.name == api), None)
 
     @staticmethod
     def set_api_options(api, **kwargs):
@@ -156,9 +156,13 @@ class distributor_class(object):
         distributor_class._get_api(api).set_options(**kwargs)
 
     @staticmethod
-    def set_api_status(api, enabled):
+    def set_api_status(api_name, enabled):
         ''' Enable/Disable a particular API '''
-        distributor_class._get_api(api).enabled = enabled
+        api = distributor_class._get_api(api_name)
+        if api:
+            api.enabled = enabled
+        else:
+            distributor_class.logger.warning('No API registered as `{}`'.format(api_name))
 
     @staticmethod
     def get_api_status(api):

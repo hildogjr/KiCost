@@ -272,6 +272,14 @@ def main_real():
     parser.add_argument('--octopart_level',
                         nargs='?', type=str, metavar='APILEVEL', choices=['3', '3p', '4', '4p'],
                         help='Use Octopart API level. Can be 3 or 4 for basic API and 3p or 4p for PRO plans. Default: 4')
+    parser.add_argument('--disable_api',
+                        nargs='+', type=str, default=[],
+                        metavar='API',
+                        help='Disable the listed APIs')
+    parser.add_argument('--enable_api',
+                        nargs='+', type=str, default=[],
+                        metavar='API',
+                        help='Enable the listed APIs')
 
     args = parser.parse_args()
 
@@ -320,6 +328,12 @@ def main_real():
         # Keeping them separated will help to solve the errors.
         # Additionally: people with an Octopart key can help to offload KitSpace.
         set_api_status('KitSpace', False)
+    for api in args.disable_api:
+        logger.log(DEBUG_OBSESSIVE, 'Disabling API ' + api)
+        set_api_status(api, False)
+    for api in args.enable_api:
+        logger.log(DEBUG_OBSESSIVE, 'Enabling API ' + api)
+        set_api_status(api, True)
 
     # SET: This is half implemented. Not currently working.
     #     # Call the KiCost interface to alredy run KiCost, this is just to use the
