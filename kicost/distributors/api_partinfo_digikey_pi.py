@@ -36,10 +36,11 @@ from .. import DistData
 from .distributor import distributor_class
 
 available = True
-try:
-    from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure
-except ImportError:
-    available = False
+# try:
+#     from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure
+# except ImportError:
+#     available = False
+from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure  # noqa: E402
 
 DIST_NAME = 'digikey'
 
