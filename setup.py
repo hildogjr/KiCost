@@ -85,7 +85,7 @@ with open(os.path.join('kicost', 'HISTORY.rst')) as history_file:
                 history_lastest = history_lastest.replace('History\n-------', 'Latest update\n-------------')
             else:
                 history_lastest = history_lastest.replace('History\n-------', 'Latest updates\n--------------')
-            history = history_lastest + '\n\nAccess https://github.com/hildogjr/KiCost/blob/master/HISTORY.rst for full development history.'
+            history = history_lastest + '\n\nAccess https://github.com/hildogjr/KiCost/blob/master/kicost/HISTORY.rst for full development history.'
         else:
             history = history_full
     except Exception:
