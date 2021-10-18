@@ -44,7 +44,7 @@ from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configu
 
 DIST_NAME = 'digikey'
 
-__all__ = ['api_partinfo_digikey_pi']
+__all__ = ['api_digikey']
 
 
 class api_digikey(distributor_class):
