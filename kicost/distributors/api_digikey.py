@@ -47,7 +47,7 @@ DIST_NAME = 'digikey'
 __all__ = ['api_partinfo_digikey_pi']
 
 
-class api_partinfo_digikey_pi(distributor_class):
+class api_digikey(distributor_class):
     name = 'Digi-Key'
     type = 'api'
     # Currently enabled only by request
@@ -56,7 +56,7 @@ class api_partinfo_digikey_pi(distributor_class):
 
     @staticmethod
     def init_dist_dict():
-        if api_partinfo_digikey_pi.enabled:
+        if api_digikey.enabled:
             distributor_class.add_distributors([DIST_NAME])
 
     @staticmethod
@@ -121,4 +121,4 @@ class api_partinfo_digikey_pi(distributor_class):
         progress.close()
 
 
-distributor_class.register(api_partinfo_digikey_pi, 100)
+distributor_class.register(api_digikey, 100)

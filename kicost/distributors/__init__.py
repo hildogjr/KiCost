@@ -33,7 +33,7 @@ from .distributors_info import ORDER_COL_USERFIELDS  # noqa: F401
 from .dist_local_template import dist_local_template  # noqa: F401
 from .api_octopart import api_octopart  # noqa: F401
 from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
-from .api_partinfo_digikey_pi import api_partinfo_digikey_pi  # noqa: F401
+from .api_digikey import api_digikey  # noqa: F401
 
 
 #
