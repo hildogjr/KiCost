@@ -95,7 +95,7 @@ class api_digikey(distributor_class):
                         o = by_keyword(part_code)
                         data = o.search()
             if data is None:
-                distributor_class.logger.warning(W_NOINFO+'No information found for parts \'{}\''.format(part.refs))
+                distributor_class.logger.warning(W_NOINFO+'No information found at Digi-Key for part/s \'{}\''.format(part.refs))
             else:
                 distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info before adding data:')
                 distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
