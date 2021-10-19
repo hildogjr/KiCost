@@ -1218,7 +1218,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             info_col = columns_global[col]
         else:
             info_col = 0
-            logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
+            if col is not None:
+                # None is used to generate an empty column, isn't a problem
+                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
         cell = xl_range(first_part, info_col, last_part)
         # Deal with conversion and string replace necessary to the correct distributors
         # code understanding.
