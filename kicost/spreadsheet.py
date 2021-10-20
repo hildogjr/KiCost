@@ -105,6 +105,8 @@ class Spreadsheet(object):
     ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v' + __version__
     # Try to group references as ranges
     COLLAPSE_REFS = True
+    # Sort the groups
+    SORT_GROUPS = True
     # Don't add the link column
     SUPPRESS_CAT_URL = True
     # Columns to add to the global section
@@ -681,7 +683,8 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         part.collapsed_refs, part.first_ref = order_refs(part.refs, collapse=ss.COLLAPSE_REFS, ref_sep=ss.PART_NSEQ_SEPRTR)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
-    parts.sort(key=get_ref_key)
+    if ss.SORT_GROUPS:
+        parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.
     col_qty = start_col + col['qty']
