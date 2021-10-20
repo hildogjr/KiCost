@@ -30,7 +30,7 @@ __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 import pprint
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO
+from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO, KiCostError, ERR_SCRAPE
 from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
@@ -40,7 +40,7 @@ available = True
 #     from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure
 # except ImportError:
 #     available = False
-from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure  # noqa: E402
+from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure, DigikeyError  # noqa: E402
 
 DIST_NAME = 'digikey'
 
@@ -60,7 +60,7 @@ class api_digikey(distributor_class):
             distributor_class.add_distributors([DIST_NAME])
 
     @staticmethod
-    def query_part_info(parts, distributors, currency):
+    def _query_part_info(parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         if DIST_NAME not in distributors:
             distributor_class.logger.log(DEBUG_OVERVIEW, '# Skipping Digi-Key plug-in')
@@ -119,6 +119,16 @@ class api_digikey(distributor_class):
                 distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(dd.__dict__))
             progress.update(1)
         progress.close()
+
+    @staticmethod
+    def query_part_info(parts, distributors, currency):
+        msg = None
+        try:
+            api_digikey._query_part_info(parts, distributors, currency)
+        except DigikeyError as e:
+            msg = e.args[0]
+        if msg is not None:
+            raise KiCostError(msg, ERR_SCRAPE)
 
 
 distributor_class.register(api_digikey, 100)
