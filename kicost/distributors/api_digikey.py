@@ -80,6 +80,10 @@ class api_digikey(distributor_class):
                 distributor_class.logger.log(DEBUG_DETAILED, '\n**** Digi-Key P/N: {}'.format(part_stock))
                 o = by_digikey_pn(part_stock)
                 data = o.search()
+                if data is None:
+                    distributor_class.logger.warning(W_NOINFO+'The \'{}\' Digi-Key code is not valid'.format(part_stock))
+                    o = by_keyword(part_stock)
+                    data = o.search()
             else:
                 # No Digi-Key P/N, search using the manufacturer code
                 part_manf = part.fields.get('manf', '')
