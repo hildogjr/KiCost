@@ -32,7 +32,7 @@ import copy
 import os
 import logging
 import tqdm
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
@@ -80,14 +80,35 @@ class distributor_class(object):
         distributor_class.priorities.insert(index, priority)
 
     @staticmethod
-    def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
-        ''' Get the parts info using the modules API/Scrape/Local.'''
-        for api in distributor_class.registered:
-            if api.enabled:
-                api.query_part_info(parts, distributors, currency)
+    def update_distributors(parts, distributors):
+        """ This is used by the Local distributors mechanism to discover user defined distributors """
+        pass
 
     @staticmethod
-    def init_dist_dict():
+    def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
+        ''' Get the parts info using the modules API/Scrape/Local.'''
+        distributor_class.logger.log(DEBUG_OVERVIEW, 'Starting to search using distributors: {}'.format(distributors))
+        # Discover user defined distributors
+        for api in distributor_class.registered:
+            if api.enabled:
+                api.update_distributors(parts, distributors)
+        distributor_class.logger.log(DEBUG_OVERVIEW, 'Distributors after local discovery: {}'.format(distributors))
+        # Now look for the parts
+        remaining = set(distributors)
+        for api in distributor_class.registered:
+            distributor_class.logger.log(DEBUG_OVERVIEW, 'Considering: {} {}'.format(api.name, api.api_distributors))
+            if api.enabled and len(remaining.intersection(api.api_distributors)):
+                solved = api.query_part_info(parts, list(remaining), currency)
+                remaining -= solved
+                distributor_class.logger.log(DEBUG_OVERVIEW, 'Distributors solved {}, remaining {}'.format(solved, remaining))
+
+    @classmethod
+    def init_dist_dict(cls):
+        if cls.enabled:
+            distributor_class.add_distributors(cls.api_distributors)
+
+    @staticmethod
+    def main_init_dist_dict():
         ''' Initialize and update the dictionary of the registered distributors classes.'''
         # Clear distributor_dict, then let all distributor modules recreate their entries.
         distributor_class.distributor_dict = {}

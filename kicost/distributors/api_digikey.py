@@ -30,17 +30,17 @@ __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 import pprint
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO, KiCostError, ERR_SCRAPE
+from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
 
 available = True
-# try:
-#     from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure
-# except ImportError:
-#     available = False
-from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure, DigikeyError  # noqa: E402
+try:
+    from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure, DigikeyError
+except ImportError:
+    available = False
+# from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure, DigikeyError  # noqa: E402
 
 DIST_NAME = 'digikey'
 
@@ -51,13 +51,22 @@ class api_digikey(distributor_class):
     name = 'Digi-Key'
     type = 'api'
     # Currently enabled only by request
-    enabled = False  # available
+    enabled = available
     url = 'https://developer.digikey.com/'  # Web site API information.
+    api_distributors = [DIST_NAME]
 
-    @staticmethod
-    def init_dist_dict():
-        if api_digikey.enabled:
-            distributor_class.add_distributors([DIST_NAME])
+    @classmethod
+    def init_dist_dict(cls):
+        if not cls.enabled:
+            return
+        # Try to configure the plug-in
+        try:
+            configure(a_logger=distributor_class.logger)
+        except DigikeyError as e:
+            distributor_class.logger.warning(W_APIFAIL+'Failed to init Digi-Key API, reason: {}'.format(e.args[0]))
+            cls.enabled = False
+        if cls.enabled:
+            distributor_class.add_distributors(cls.api_distributors)
 
     @staticmethod
     def _query_part_info(parts, distributors, currency):
@@ -68,8 +77,6 @@ class api_digikey(distributor_class):
         distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Digi-Key...')
         field_cat = DIST_NAME + '#'
 
-        # Setup the logger
-        configure(a_logger=distributor_class.logger)
         # Setup progress bar to track progress of server queries.
         progress = distributor_class.progress(len(parts), distributor_class.logger)
         for part in parts:
@@ -133,6 +140,7 @@ class api_digikey(distributor_class):
             msg = e.args[0]
         if msg is not None:
             raise KiCostError(msg, ERR_SCRAPE)
+        return set([DIST_NAME])
 
 
 distributor_class.register(api_digikey, 100)

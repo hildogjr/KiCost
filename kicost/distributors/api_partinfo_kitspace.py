@@ -89,7 +89,7 @@ class api_partinfo_kitspace(distributor_class):
     enabled = True
     url = 'https://kitspace.org/'  # Web site API information.
 
-    API_DISTRIBUTORS = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
+    api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
     DIST_TRANSLATION = {  # Distributor translation.
                         'Digikey': 'digikey',
                         'Farnell': 'farnell',
@@ -102,11 +102,6 @@ class api_partinfo_kitspace(distributor_class):
                        }
     # Dict to translate KiCost field names into KitSpace distributor names
     KICOST2KITSPACE_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
-
-    @staticmethod
-    def init_dist_dict():
-        if api_partinfo_kitspace.enabled:
-            distributor_class.add_distributors(api_partinfo_kitspace.API_DISTRIBUTORS)
 
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
@@ -159,7 +154,7 @@ class api_partinfo_kitspace(distributor_class):
         return default
 
     @staticmethod
-    def get_part_info(query, parts, distributors, currency, distributors_wanted):
+    def get_part_info(query, parts, distributors, currency, distributors_wanted, solved):
         '''Query PartInfo for quantity/price info and place it into the parts list.
            `distributors_wanted` is the list of distributors we want for each query.
            `distributors` is the list of all distributors we want, in general.
@@ -258,6 +253,8 @@ class api_partinfo_kitspace(distributor_class):
                     dd.qty_increment = part_qty_increment
                 # Update the DistData for this distributor
                 part.dd[dist] = dd
+                # We have data for this distributor
+                solved.add(dist)
 
     @staticmethod
     def query_part_info(parts, distributors, currency):
@@ -267,7 +264,7 @@ class api_partinfo_kitspace(distributor_class):
         # Use just the distributors avaliable in this API.
         # Note: The user can use --exclude and define it with fields.
         distributors = [d for d in distributors if distributor_class.get_distributor_info(d).is_web()
-                        and d in api_partinfo_kitspace.API_DISTRIBUTORS]
+                        and d in api_partinfo_kitspace.api_distributors]
         FIELDS_CAT = sorted([d + '#' for d in distributors])
 
         # Create queries to get part price/quantities from PartInfo.
@@ -275,7 +272,7 @@ class api_partinfo_kitspace(distributor_class):
         query_parts = []  # Pointer to the part.
         query_part_stock_code = []  # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
         # Translate from PartInfo distributor names to the names used internally by kicost.
-        available_distributors = set(api_partinfo_kitspace.API_DISTRIBUTORS)
+        available_distributors = set(api_partinfo_kitspace.api_distributors)
         for part in parts:
             # Create a PartInfo query using the manufacturer's part number or the distributor's SKU.
             part_dist_use_manfpn = copy.copy(distributors)
@@ -314,17 +311,19 @@ class api_partinfo_kitspace(distributor_class):
             return
         # Setup progress bar to track progress of server queries.
         progress = distributor_class.progress(n_queries, distributor_class.logger)
+        solved = set()
 
         # Slice the queries into batches of the largest allowed size and gather
         # the part data for each batch.
         for i in range(0, len(queries), MAX_PARTS_PER_QUERY):
             slc = slice(i, i+MAX_PARTS_PER_QUERY)
-            api_partinfo_kitspace.get_part_info(queries[slc], query_parts[slc], distributors, currency, query_part_stock_code[slc])
+            api_partinfo_kitspace.get_part_info(queries[slc], query_parts[slc], distributors, currency, query_part_stock_code[slc], solved)
             progress.update(len(queries[slc]))
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
         progress.close()
+        return solved
 
 
 distributor_class.register(api_partinfo_kitspace, 50)

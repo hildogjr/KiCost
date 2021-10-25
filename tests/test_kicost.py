@@ -57,6 +57,7 @@ last_err = None
 # Text we want to filter in the XLSX to TXT conversion
 XLSX_FILTERS = (('$ date:', None), ('Prj date:', '(file'), ('KiCost', 0))
 OCTOPART_KEY = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+ENABLE_DK = False
 
 
 def to_str(s):
@@ -278,9 +279,12 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
     # Always fake the currency rates
     os.environ['KICOST_CURRENCY_RATES'] = TESTDIR + '/currency_rates.xml'
     # Always use fake Digi-Key replies
-    os.environ['DIGIKEY_SAVE_RESULTS'] = '1'
-    os.environ['DIGIKEY_FAKE_RESULTS'] = '1'
-    os.environ['DIGIKEY_STORAGE_PATH'] = TESTDIR + '/digikey'
+    os.environ['DIGIKEY_CACHE_TTL'] = '-1'
+    if ENABLE_DK:
+        os.environ['DIGIKEY_STORAGE_PATH'] = TESTDIR + '/digikey'
+    else:
+        # This should fail:
+        os.environ['DIGIKEY_STORAGE_PATH'] = TESTDIR + '/no_digikey'
     # Now choose between recording the KitSpace queries or fake them
     if price and ADD_QUERY_TO_KNOWN:
         os.environ['KICOST_LOG_HTTP'] = TESTDIR + '/kitspace_queries.txt'
@@ -370,7 +374,10 @@ def test_acquire_PWM_1():
 
 def test_acquire_PWM_dk():
     name = 'acquire_PWM_dk'
-    run_test_check(name, 'acquire-PWM', name, extra=['--disable_api', 'KitSpace', '--enable_api', 'Digi-Key'])
+    global ENABLE_DK
+    ENABLE_DK = True
+    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey'])
+    ENABLE_DK = False
 
 
 def test_acquire_PWM_2():

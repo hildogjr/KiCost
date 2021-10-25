@@ -40,7 +40,7 @@ from .api_digikey import api_digikey  # noqa: F401
 # Some wrappers
 #
 def init_distributor_dict():
-    distributor_class.init_dist_dict()
+    distributor_class.main_init_dist_dict()
 
 
 def get_dist_parts_info(parts, dist_list, currency):
@@ -95,7 +95,3 @@ def set_api_status(api, enabled):
 def get_api_status(api):
     ''' Find if an API is enabled '''
     return distributor_class.get_api_status(api)
-
-
-# Init distributor dict during import.
-init_distributor_dict()

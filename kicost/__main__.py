@@ -49,7 +49,7 @@ except wxPythonNotPresent:
     GUI_ENABLED = False
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
 from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, set_api_options, set_api_status,  # noqa: E402
-                           get_api_status)  # noqa: E402
+                           get_api_status, init_distributor_dict)  # noqa: E402
 from .spreadsheet import Spreadsheet  # noqa: E402
 from . import __version__, __build__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
@@ -297,6 +297,8 @@ def main_real():
     log.set_verbosity(logger, args.debug, args.quiet)
     set_distributors_logger(log.get_logger('kicost.distributors'))
     set_distributors_progress(ProgressConsole)
+    # Now we can init the distributors dict, it can log messages
+    init_distributor_dict()
     set_edas_logger(log.get_logger('kicost.edas'))
 
     if args.show_dist_list:

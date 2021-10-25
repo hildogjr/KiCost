@@ -68,16 +68,12 @@ class dist_local_template(distributor_class):
     type = 'local'
     enabled = True
     url = None
+    # We don't add distributors here, they are collected in query_part_info
+    api_distributors = []
 
     @staticmethod
-    def init_dist_dict():
-        # We don't add distributors here, they are collected in query_part_info
-        pass
-
-    @staticmethod
-    def query_part_info(parts, distributors, currency):
-        """ Fill-in part information for locally-sourced parts not handled by Octopart.
-            IMPORTANT: `distributors` can be modified. """
+    def update_distributors(parts, distributors):
+        """ Looks for user defined distributors """
         # This loops through all the parts and finds any that are sourced from
         # local distributors that are not normally searched and places them into
         # the distributor disctionary.
@@ -101,7 +97,12 @@ class dist_local_template(distributor_class):
                     new_dist.label.name = dist  # Set dist name for spreadsheet header.
                     distributor_class.add_distributor(dist, new_dist)
                     distributors.append(dist)
+                    dist_local_template.api_distributors.append(dist)
 
+    @staticmethod
+    def query_part_info(parts, distributors, currency):
+        """ Fill-in part information for locally-sourced parts not handled by Octopart. """
+        solved = set()
         # Loop through the parts looking for those sourced by local distributors
         # that won't be found online. Place any user-added info for these parts
         # (such as pricing) into the part dictionary.
@@ -159,6 +160,10 @@ class dist_local_template(distributor_class):
                 dd.price_tiers = price_tiers
                 # Update the DistData for this distributor
                 p.dd[dist] = dd
+                # We have data for this distributor. Avoid marking normal distributors.
+                if dist in dist_local_template.api_distributors:
+                    solved.add(dist)
+        return solved
 
 
 distributor_class.register(dist_local_template, 100)

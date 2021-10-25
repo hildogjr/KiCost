@@ -59,7 +59,7 @@ class api_octopart(distributor_class):
     extended = False
 
     API_KEY = None
-    API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']
+    api_distributors = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']
     DIST_TRANSLATION = {  # Distributor translation. Just a few supported.
                         'Arrow Electronics': 'arrow',
                         'Digi-Key': 'digikey',
@@ -72,11 +72,6 @@ class api_octopart(distributor_class):
                        }
     # Dict to translate KiCost field names into Octopart distributor names
     KICOST2OCTOPART_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
-
-    @staticmethod
-    def init_dist_dict():
-        if api_octopart.enabled:
-            distributor_class.add_distributors(api_octopart.API_DISTRIBUTORS)
 
     @staticmethod
     def set_options(key, level):
@@ -187,7 +182,7 @@ class api_octopart(distributor_class):
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
     @staticmethod
-    def get_part_info(query, parts, distributors, currency='USD'):
+    def get_part_info(query, parts, distributors, solved, currency='USD'):
         """Query Octopart for quantity/price info and place it into the parts list."""
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
@@ -347,11 +342,14 @@ class api_octopart(distributor_class):
                         dd.qty_increment = part_qty_increment
                 # Update the DistData for this distributor
                 part.dd[dist] = dd
+                # We have data for this distributor
+                solved.add(dist)
 
     @staticmethod
     def query_part_info(parts, distributors, currency):
         """Fill-in the parts with price/qty/etc info from Octopart."""
         distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
+        solved = set()
 
         # Setup progress bar to track progress of Octopart queries.
         progress = distributor_class.progress(len(parts), distributor_class.logger)
@@ -362,7 +360,7 @@ class api_octopart(distributor_class):
         # definition.
         # Note: The user can use --exclude and define it with fields.
         distributors_octopart = [d for d in distributors if distributor_class.get_distributor_info(d).is_web()
-                                 and d in api_octopart.API_DISTRIBUTORS]
+                                 and d in api_octopart.api_distributors]
 
         # Break list of parts into smaller pieces and get price/quantities from Octopart.
         octopart_query = []
@@ -402,19 +400,20 @@ class api_octopart(distributor_class):
 
             # Once there are enough (but not too many) part queries, make a query request to Octopart.
             if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
-                api_octopart.get_part_info(octopart_query, parts, distributors_octopart, currency)
+                api_octopart.get_part_info(octopart_query, parts, distributors_octopart, solved, currency)
                 progress.update(i - prev_i)  # Update progress bar.
                 prev_i = i
                 octopart_query = []  # Get ready for next batch.
 
         # Query Octopart for the last batch of parts.
         if octopart_query:
-            api_octopart.get_part_info(octopart_query, parts, distributors_octopart, currency)
+            api_octopart.get_part_info(octopart_query, parts, distributors_octopart, solved, currency)
             progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
 
         # Done with the scraping progress bar so delete it or else we get an
         # error when the program terminates.
         progress.close()
+        return solved
 
 
 # Configure the module from the environment
