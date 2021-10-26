@@ -109,6 +109,8 @@ class Spreadsheet(object):
     SORT_GROUPS = True
     # Don't add the link column
     SUPPRESS_CAT_URL = True
+    # Don't add the description column
+    SUPPRESS_DIST_DESC = True
     # Columns to add to the global section
     USER_FIELDS = []
     # List of selected distributors
@@ -425,7 +427,8 @@ class Spreadsheet(object):
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currency=DEFAULT_CURRENCY,
-                       collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' ', max_column_width=DEF_MAX_COLUMN_W):
+                       collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' ',
+                       max_column_width=DEF_MAX_COLUMN_W, suppress_dist_desc=True):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     basename = os.path.basename(spreadsheet_filename)
     logger = get_logger()
@@ -449,6 +452,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currenc
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
         Spreadsheet.COLLAPSE_REFS = collapse_refs
         Spreadsheet.SUPPRESS_CAT_URL = suppress_cat_url
+        Spreadsheet.SUPPRESS_DIST_DESC = suppress_dist_desc
         Spreadsheet.USER_FIELDS = user_fields
         Spreadsheet.DISTRIBUTORS = dist_list
         if max_column_width:
@@ -499,6 +503,10 @@ def create_worksheet(ss, logger, parts):
         d_width = len(ss.DISTRIBUTOR_COLUMNS)
         ss.DISTRIBUTOR_COLUMNS.update({'link': {'col': d_width, 'level': 2, 'label': 'URL', 'width': 15, 'comment': 'Distributor catalog link (ctrl-click).'}})
         ss.DISTRIBUTOR_COLUMNS['part_num']['comment'] = 'Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.'
+    if not ss.SUPPRESS_DIST_DESC:
+        # Add a extra column for the description.
+        d_width = len(ss.DISTRIBUTOR_COLUMNS)
+        ss.DISTRIBUTOR_COLUMNS.update({'description': {'col': d_width, 'level': 2, 'label': 'Description', 'width': 15, 'comment': 'Distributor description'}})
 
     # Make a list of alphabetically-ordered distributors with web distributors before locals.
     logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
@@ -957,6 +965,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     col_unit_price = start_col + columns['unit_price']['col']
     col_ext_price = start_col + columns['ext_price']['col']
     col_moq = start_col + columns['moq']['col']
+    col_desc = start_col + columns['description']['col']
     total_cost = 0
     # How many parts were found at this distributor
     n_price_found = 0
@@ -1012,6 +1021,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, col_purch, '', ss.wrk_formats['part_format'])
+
+        if not ss.SUPPRESS_DIST_DESC and 'desc' in dist_info_dist:
+            ss.write_string(row, col_desc, dist_info_dist['desc'], 'part_format')
 
         # Add pricing information if it exists. (Unit$/Ext$)
         if price_tiers:
