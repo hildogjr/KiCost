@@ -919,6 +919,13 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     return next_line
 
 
+def get_dist_info(dd):
+    dist_info_dist = {}
+    if dd.description:
+        dist_info_dist['Description'] = dd.description
+    return dist_info_dist
+
+
 def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit_cost_row, total_cost_row, part_ref_col, part_qty_col, dist, parts):
     '''Add distributor-specific part data to the spreadsheet.'''
 
@@ -976,10 +983,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
         if dist_part_num is None:
             row += 1  # Skip this row and go to the next.
             continue
-        dist_info_dist = {}
-        if dd.description:
-            print(dd.description)
-            dist_info_dist['Description'] = dd.description
+        dist_info_dist = get_dist_info(dd)
         dist_currency = dd.currency  # Extract currency used by the distributor.
 
         # Enter distributor part number for ordering purposes.
