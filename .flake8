@@ -1,4 +1,4 @@
 [flake8]
 max-line-length = 159
-max-complexity = 50
+max-complexity = 60
 exclude = lib
