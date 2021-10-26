@@ -123,6 +123,7 @@ class api_digikey(distributor_class):
                 dd.part_num = data.digi_key_part_number
                 dd.qty_avail = data.quantity_available
                 dd.currency = data.search_locale_used.currency
+                dd.description = data.product_description
                 dd.price_tiers = {p.break_quantity: p.unit_price for p in data.standard_pricing}
                 part.dd[DIST_NAME] = dd
                 distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info after adding data:')

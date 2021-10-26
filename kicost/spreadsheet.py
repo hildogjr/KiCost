@@ -285,7 +285,7 @@ class Spreadsheet(object):
         # Currency format and symbol definition
         self.set_currency(currency)
         # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
-        self.extra_info_display = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
+        self.extra_info_display = ['Description', 'value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
         # Create the worksheet that holds the pricing information.
         self.wks = workbook.add_worksheet(worksheet_name)
         # Data to performe cell size adjust
@@ -976,7 +976,10 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
         if dist_part_num is None:
             row += 1  # Skip this row and go to the next.
             continue
-        dist_info_dist = {}  # Not implemented
+        dist_info_dist = {}
+        if dd.description:
+            print(dd.description)
+            dist_info_dist['Description'] = dd.description
         dist_currency = dd.currency  # Extract currency used by the distributor.
 
         # Enter distributor part number for ordering purposes.

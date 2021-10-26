@@ -17,6 +17,7 @@ class DistData(object):
         # self.info_dist = None  # Currently unused.
         self.currency = None  # Default currency.
         self.moq = None  # Minimum order quantity allowd by the distributor.
+        self.description = None
 
 
 # Class for storing part group information.
