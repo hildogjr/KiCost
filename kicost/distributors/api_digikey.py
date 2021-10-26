@@ -43,6 +43,15 @@ except ImportError:
 # from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure, DigikeyError  # noqa: E402
 
 DIST_NAME = 'digikey'
+# Specs known by KiCost
+SPEC_NAMES = {'tolerance': 'tolerance',
+              'power (watts)': 'power',
+              'voltage - rated': 'voltage',
+              'manufacturer': 'manf',
+              'size / dimension': 'size',
+              'temperature coefficient': 'temp_coeff',
+              'frequency': 'frequency',
+              'package / case': 'footprint'}
 
 __all__ = ['api_digikey']
 
@@ -123,8 +132,21 @@ class api_digikey(distributor_class):
                 dd.part_num = data.digi_key_part_number
                 dd.qty_avail = data.quantity_available
                 dd.currency = data.search_locale_used.currency
-                dd.description = data.product_description
                 dd.price_tiers = {p.break_quantity: p.unit_price for p in data.standard_pricing}
+                # Extra information
+                if data.product_description:
+                    dd.extra_info['desc'] = data.product_description
+                value = ''
+                for spec in ('capacitance', 'resistance', 'inductance'):
+                    val = specs.get(spec, None)
+                    if val:
+                        value += val[1] + ' '
+                if value:
+                    dd.extra_info['value'] = value
+                for spec, name in SPEC_NAMES.items():
+                    val = specs.get(spec, None)
+                    if val:
+                        dd.extra_info[name] = val[1]
                 part.dd[DIST_NAME] = dd
                 distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info after adding data:')
                 distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
