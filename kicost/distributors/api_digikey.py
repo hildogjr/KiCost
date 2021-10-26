@@ -114,8 +114,8 @@ class api_digikey(distributor_class):
                 distributor_class.logger.log(DEBUG_OBSESSIVE, str(data))
                 part.datasheet = data.primary_datasheet
                 part.lifecycle = data.product_status.lower()
-                specs = {sp.parameter: (sp.parameter, sp.value) for sp in data.parameters}
-                specs['RoHS'] = ('RoHS', data.ro_hs_status)
+                specs = {sp.parameter.lower(): (sp.parameter, sp.value) for sp in data.parameters}
+                specs['rohs'] = ('RoHS', data.ro_hs_status)
                 part.update_specs(specs)
                 dd = part.dd.get(DIST_NAME, DistData())
                 dd.qty_increment = dd.moq = data.minimum_order_quantity
