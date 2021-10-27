@@ -965,7 +965,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     col_unit_price = start_col + columns['unit_price']['col']
     col_ext_price = start_col + columns['ext_price']['col']
     col_moq = start_col + columns['moq']['col']
-    col_desc = start_col + columns['description']['col']
+    if not ss.SUPPRESS_DIST_DESC:
+        col_desc = start_col + columns['description']['col']
     total_cost = 0
     # How many parts were found at this distributor
     n_price_found = 0
