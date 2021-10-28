@@ -35,7 +35,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN
+from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
@@ -54,6 +54,8 @@ class api_octopart(distributor_class):
     type = 'api'
     enabled = False
     url = 'https://octopart.com/'  # Web site API information.
+    # Options supported by this API
+    config_options = {'key': str, 'level': int, 'extended': bool}
     api_level = 4
     # Include specs and datasheets. Only in the Pro plan.
     extended = False
@@ -74,22 +76,22 @@ class api_octopart(distributor_class):
     KICOST2OCTOPART_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
 
     @staticmethod
-    def set_options(key, level):
-        if key:
-            if key.lower() == 'none':
-                api_octopart.enabled = False
-            else:
-                api_octopart.API_KEY = key
-                api_octopart.enabled = True
-                # Register our distributors
-                api_octopart.init_dist_dict()
-        if level:
-            if level[-1] == 'p':
-                api_octopart.extended = True
-                level = level[:-1]
-            else:
-                api_octopart.extended = False
-            api_octopart.api_level = int(level)
+    def configure(ops):
+        for k, v in ops.items():
+            if k == 'key':
+                api_octopart.API_KEY = v
+                if 'enable' not in ops:
+                    # If not explicitly disabled then enable it
+                    api_octopart.enabled = True
+            elif k == 'enable':
+                api_octopart.enabled = v
+            elif k == 'extended':
+                api_octopart.extended = v
+            elif k == 'level':
+                api_octopart.api_level = v
+        if api_octopart.enabled and api_octopart.API_KEY is None:
+            distributor_class.logger.warning(W_APIFAIL+"Can't enable Octopart without a `key`")
+            api_octopart.enabled = False
         distributor_class.logger.log(DEBUG_OBSESSIVE, 'Octopart API configured to enabled {} key {} level {} extended {}'.
                                      format(api_octopart.enabled, api_octopart.API_KEY, api_octopart.api_level, api_octopart.extended))
 
@@ -415,24 +417,28 @@ class api_octopart(distributor_class):
         progress.close()
         return solved
 
+    @staticmethod
+    def from_environment(options, overwrite):
+        ''' Configuration from the environment. '''
+        # Configure the module from the environment
+        # The command line will overwrite it using set_options()
+        key = os.getenv('KICOST_OCTOPART_KEY_V3')
+        if key:
+            api_octopart._set_from_env('key', key, options, overwrite)
+            api_octopart._set_from_env('enable', True, options, overwrite)
+            api_octopart._set_from_env('level', 3, options, overwrite)
+        else:
+            key = os.getenv('KICOST_OCTOPART_KEY_V4')
+            if key:
+                api_octopart._set_from_env('key', key, options, overwrite)
+                api_octopart._set_from_env('enable', True, options, overwrite)
+                api_octopart._set_from_env('level', 4, options, overwrite)
+            elif os.environ.get('KICOST_OCTOPART'):
+                # Currently this isn't useful, you can't do anything without a key.
+                # This is just in case we get a proxy running.
+                api_octopart._set_from_env('enable', True, options, overwrite)
+        if os.environ.get('KICOST_OCTOPART_EXTENDED'):
+            api_octopart._set_from_env('extended', True, options, overwrite)
 
-# Configure the module from the environment
-# The command line will overwrite it using set_options()
-key = os.environ.get('KICOST_OCTOPART_KEY_V3')
-if key:
-    api_octopart.API_KEY = key
-    api_octopart.enabled = True
-    api_octopart.api_level = 3
-else:
-    key = os.environ.get('KICOST_OCTOPART_KEY_V4')
-    if key:
-        api_octopart.API_KEY = key
-        api_octopart.enabled = True
-        api_octopart.api_level = 4
-    elif os.environ.get('KICOST_OCTOPART'):
-        # Currently this isn't useful, you can't do anything without a key.
-        # This is just in case we get a proxy running.
-        api_octopart.enabled = True
-if os.environ.get('KICOST_OCTOPART_EXTENDED'):
-    api_octopart.extended = True
+
 distributor_class.register(api_octopart, 60)

@@ -82,9 +82,9 @@ def set_distributors_progress(cls):
     distributor_class.progress = cls
 
 
-def set_api_options(api, **kwargs):
-    ''' Configure an API (by name) '''
-    distributor_class.set_api_options(api, **kwargs)
+def configure_apis(options):
+    ''' Configure all APIs. options is a dict API -> api_options '''
+    distributor_class.configure_apis(options)
 
 
 def set_api_status(api, enabled):
@@ -95,3 +95,22 @@ def set_api_status(api, enabled):
 def get_api_status(api):
     ''' Find if an API is enabled '''
     return distributor_class.get_api_status(api)
+
+
+def is_valid_api(api):
+    ''' Determines if this API is registered '''
+    return distributor_class._get_api(api) is not None
+
+
+def get_api_list():
+    ''' Returns a list of registered APIs '''
+    return [api.name for api in distributor_class.registered]
+
+
+def get_api_valid_options():
+    ''' Returns the vali options for each API '''
+    return {api.name: api.config_options for api in distributor_class.registered}
+
+
+def configure_from_environment(options, overwrite):
+    distributor_class.configure_from_environment(options, overwrite)

@@ -32,7 +32,7 @@ import copy
 import os
 import logging
 import tqdm
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW, BASE_OP_TYPES
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
@@ -66,6 +66,8 @@ class distributor_class(object):
     # The list of *used* distributors is handled separately.
     distributor_dict = {}
     label2name = {}
+    # Options supported by this API
+    config_options = {}
 
     @staticmethod
     def register(api, priority):
@@ -170,11 +172,12 @@ class distributor_class(object):
         return next((x for x in distributor_class.registered if x.name == api), None)
 
     @staticmethod
-    def set_api_options(api, **kwargs):
-        ''' Configure an API (by name) '''
-        # This is currently used to configure Octopart, which is always available.
-        # In the future some check could be added.
-        distributor_class._get_api(api).set_options(**kwargs)
+    def configure_apis(options):
+        ''' Configure all APIs. options is a dict API -> api_options '''
+        for api_name, ops in options.items():
+            api = distributor_class._get_api(api_name)
+            if api is not None:
+                api.configure(ops)
 
     @staticmethod
     def set_api_status(api_name, enabled):
@@ -189,6 +192,33 @@ class distributor_class(object):
     def get_api_status(api):
         ''' Find if an API is enabled '''
         return distributor_class._get_api(api).enabled
+
+    @staticmethod
+    def from_environment(options, overwrite):
+        ''' Default configuration from the environment. Just nothing. '''
+        pass
+
+    @staticmethod
+    def _set_from_env(key, value, options, overwrite, d_types=None):
+        ''' Helper function to implement `from_environment`. '''
+        if value is not None and (overwrite or key not in options):
+            if d_types:
+                # If we know the valid data type for the value ensure it
+                tp = d_types.get(key, None)
+                tp = BASE_OP_TYPES.get(key, tp)
+                if not isinstance(tp, type):
+                    # Solve the case where more than one data type is allowed
+                    tp = tp[0]
+                # This is a cast
+                value = tp(value)
+            options[key] = value
+
+    @staticmethod
+    def configure_from_environment(options, overwrite):
+        ''' Configure all APIs using environment variables.
+            If overwrite is True the API should replace the current option '''
+        for api in distributor_class.registered:
+            api.from_environment(options[api.name], overwrite)
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod

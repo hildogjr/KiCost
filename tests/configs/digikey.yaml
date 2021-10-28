@@ -1,0 +1,39 @@
+# KiCost configuration file
+kicost:
+  version: 1
+  # Cache Time To Live in days, -1 is forever
+  # Default is 7
+  cache_ttl: -1
+  # Base directory for the APIs caches
+  # cache_path: ~/.cache/kicost
+
+
+APIs:
+  Digi-Key:
+    # Digi-Key Client ID for a registered APP
+    client_id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    # Digi-Key Client Secret for a registered APP
+    client_secret: XXXXXXXXXXXXXXXX
+    # Use the sandbox server, doesn't count the usage, but returns old data
+    # sandbox: false
+    # Only enabled if the client_id and client_secret are defined
+    # enable: true
+    # Directory for the APIs caches
+    cache_path: ../digikey
+  Octopart:
+    # Octopart API Key
+    # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    # API level: 3 or 4
+    # level: 4
+    # The extended API is for the Pro plan
+    # extended: false
+    # Only enabled if the key is defined
+    # enable: false
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/Octopart
+  KitSpace:
+    # Normally enabled
+    # enable: true
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/KitSpace
+

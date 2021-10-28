@@ -72,6 +72,13 @@ class dist_local_template(distributor_class):
     api_distributors = []
 
     @staticmethod
+    def configure(ops):
+        for k, v in ops.items():
+            if k == 'enable':
+                dist_local_template.enabled = v
+        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Local API configured to enabled {}'.format(dist_local_template.enabled))
+
+    @staticmethod
     def update_distributors(parts, distributors):
         """ Looks for user defined distributors """
         # This loops through all the parts and finds any that are sourced from

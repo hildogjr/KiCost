@@ -57,7 +57,8 @@ last_err = None
 # Text we want to filter in the XLSX to TXT conversion
 XLSX_FILTERS = (('$ date:', None), ('Prj date:', '(file'), ('KiCost', 0))
 OCTOPART_KEY = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-ENABLE_DK = False
+# Use the default config
+CONFIG_FILE = None
 
 
 def to_str(s):
@@ -278,13 +279,6 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
         os.mkdir(TESTDIR + '/log_test')
     # Always fake the currency rates
     os.environ['KICOST_CURRENCY_RATES'] = TESTDIR + '/currency_rates.xml'
-    # Always use fake Digi-Key replies
-    os.environ['DIGIKEY_CACHE_TTL'] = '-1'
-    if ENABLE_DK:
-        os.environ['DIGIKEY_STORAGE_PATH'] = TESTDIR + '/digikey'
-    else:
-        # This should fail:
-        os.environ['DIGIKEY_STORAGE_PATH'] = TESTDIR + '/no_digikey'
     # Now choose between recording the KitSpace queries or fake them
     if price and ADD_QUERY_TO_KNOWN:
         os.environ['KICOST_LOG_HTTP'] = TESTDIR + '/kitspace_queries.txt'
@@ -306,6 +300,10 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
         cmd.append('--no_price')
     if extra:
         cmd.extend(extra)
+    if CONFIG_FILE is not None:
+        cmd.extend(['-c', TESTDIR + '/configs/' + CONFIG_FILE])
+    else:
+        cmd.extend(['-c', TESTDIR + '/configs/default.yaml'])
     out_xlsx = TESTDIR + '/' + output + '.xlsx'
     cmd.extend(['-o', out_xlsx])
     cmd.extend(['-wi'] + [TESTDIR + '/' + n for n in inputs])
@@ -374,10 +372,10 @@ def test_acquire_PWM_1():
 
 def test_acquire_PWM_dk():
     name = 'acquire_PWM_dk'
-    global ENABLE_DK
-    ENABLE_DK = True
+    global CONFIG_FILE
+    CONFIG_FILE = 'digikey.yaml'
     run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey'])
-    ENABLE_DK = False
+    CONFIG_FILE = None
 
 
 def test_acquire_PWM_2():
@@ -669,8 +667,11 @@ def test_octopart_1p():
 
 
 def test_octopart_1n():
+    global CONFIG_FILE
+    CONFIG_FILE = 'octopart.yaml'
     name = 'octopart_1'
-    run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4'])
+    run_test_check(name + 'n', name, name + 'n')
+    CONFIG_FILE = None
 
 
 def test_octopart_1_ambi():
@@ -681,7 +682,7 @@ def test_octopart_1_ambi():
 
 def test_octopart_2n():
     name = 'octopart_2'
-    run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4'])
+    run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4', '--disable_api', 'KitSpace'])
 
 
 def test_337():

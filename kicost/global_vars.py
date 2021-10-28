@@ -61,7 +61,7 @@ ERR_INPUTFILE = 6  # Error parsing input files
 ERR_FIELDS = 7  # Some inconsistency with the fields
 
 # Warning codes
-W_TRANS = '(WC001) '  # Problem wit field translate
+W_TRANS = '(WC001) '  # Problem with field translate
 W_NOMANP = '(WC002) '  # No manf# or distributor#
 W_CONF = '(WC003) '  # Problem during --un/setup
 W_NOPURCH = '(WC004) '  # No valid field for purchase
@@ -78,6 +78,11 @@ W_MANQTY = '(WC014) '  # Malformed manf#_qty
 W_AMBIPN = '(WC015) '  # Ambiguous mpn, needs better manf
 W_LOCFAIL = '(WC016) '  # Failed to set the locale
 W_APIFAIL = '(WC017) '  # Failed to init an API
+W_CONFIG = '(WC018) '  # Config file warning
+W_CMDLINE = '(WC019) '  # Command line warning
+
+# Data types for the options common to various APIs
+BASE_OP_TYPES = {'enable': bool, 'cache_ttl': (int, float), 'cache_path': str}
 
 
 class PartHtmlError(Exception):

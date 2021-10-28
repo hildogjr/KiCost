@@ -27,6 +27,7 @@ __webpage__ = 'https://github.com/set-soft'
 __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 # Libraries.
+import os
 import pprint
 
 # KiCost definitions.
@@ -52,6 +53,11 @@ SPEC_NAMES = {'tolerance': 'tolerance',
               'temperature coefficient': 'temp_coeff',
               'frequency': 'frequency',
               'package / case': 'footprint'}
+ENV_OPS = {'DIGIKEY_STORAGE_PATH': 'cache_path',
+           'DIGIKEY_CLIENT_ID': 'client_id',
+           'DIGIKEY_CLIENT_SECRET': 'client_secret',
+           'DIGIKEY_CLIENT_SANDBOX': 'sandbox',
+           'DIGIKEY_CACHE_TTL': 'cache_ttl'}
 
 __all__ = ['api_digikey']
 
@@ -63,19 +69,43 @@ class api_digikey(distributor_class):
     enabled = available
     url = 'https://developer.digikey.com/'  # Web site API information.
     api_distributors = [DIST_NAME]
+    # Options supported by this API
+    config_options = {'client_id': str, 'client_secret': str, 'sandbox': bool}
+    client_id = None
+    client_secret = None
+    sandbox = False
+    cache_ttl = 7
+    cache_path = None
 
-    @classmethod
-    def init_dist_dict(cls):
-        if not cls.enabled:
+    @staticmethod
+    def configure(ops):
+        for k, v in ops.items():
+            if k == 'client_id':
+                api_digikey.client_id = v
+            elif k == 'client_secret':
+                api_digikey.client_secret = v
+            elif k == 'enable' and available:
+                api_digikey.enabled = v
+            elif k == 'sandbox':
+                api_digikey.sandbox = v
+            elif k == 'cache_ttl':
+                api_digikey.cache_ttl = v
+            elif k == 'cache_path':
+                api_digikey.cache_path = v
+        if api_digikey.enabled and (api_digikey.client_id is None or api_digikey.client_secret is None or api_digikey.cache_path is None):
+            distributor_class.logger.warning(W_APIFAIL+"Can't enable Digi-Key without a `client_id`, `client_secret` and `cache_path`")
+            api_digikey.enabled = False
+        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Digi-Key API configured to enabled {} id {} secret {} path {}'.
+                                     format(api_digikey.enabled, api_digikey.client_id, api_digikey.client_secret, api_digikey.cache_path))
+        if not api_digikey.enabled:
             return
         # Try to configure the plug-in
         try:
-            configure(a_logger=distributor_class.logger)
+            configure(api_digikey.client_id, api_digikey.client_secret, api_digikey.sandbox, api_digikey.cache_ttl,
+                      api_digikey.cache_path, a_logger=distributor_class.logger)
         except DigikeyError as e:
             distributor_class.logger.warning(W_APIFAIL+'Failed to init Digi-Key API, reason: {}'.format(e.args[0]))
-            cls.enabled = False
-        if cls.enabled:
-            distributor_class.add_distributors(cls.api_distributors)
+            api_digikey.enabled = False
 
     @staticmethod
     def _query_part_info(parts, distributors, currency):
@@ -164,6 +194,14 @@ class api_digikey(distributor_class):
         if msg is not None:
             raise KiCostError(msg, ERR_SCRAPE)
         return set([DIST_NAME])
+
+    @staticmethod
+    def from_environment(options, overwrite):
+        ''' Configuration from the environment. '''
+        # Configure the module from the environment
+        # The command line will overwrite it using set_options()
+        for k, v in ENV_OPS.items():
+            api_digikey._set_from_env(v, os.getenv(k), options, overwrite, api_digikey.config_options)
 
 
 distributor_class.register(api_digikey, 100)

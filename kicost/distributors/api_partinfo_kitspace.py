@@ -40,7 +40,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE, DEBUG_OBSESSIVE
 from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
@@ -102,6 +102,13 @@ class api_partinfo_kitspace(distributor_class):
                        }
     # Dict to translate KiCost field names into KitSpace distributor names
     KICOST2KITSPACE_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
+
+    @staticmethod
+    def configure(ops):
+        for k, v in ops.items():
+            if k == 'enable':
+                api_partinfo_kitspace.enabled = v
+        distributor_class.logger.log(DEBUG_OBSESSIVE, 'KitSpace API configured to enabled {}'.format(api_partinfo_kitspace.enabled))
 
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
