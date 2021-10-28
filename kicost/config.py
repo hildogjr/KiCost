@@ -138,23 +138,22 @@ def load_config(file=None):
             logger.error('Missing config file {}.'.format(file))
             sys.exit(2)
     file = os.path.abspath(file)
-    if not os.path.isfile(file):
-        return
-    global config_file_path
-    config_file_path = os.path.dirname(file)
-    try:
-        data = yaml.safe_load(open(file))
-    except yaml.YAMLError as e:
-        config_error("Error loading YAML "+str(e))
-    for k, v in data.items():
-        k_l = k.lower()
-        if k_l == 'kicost':
-            parse_kicost_section(v)
-        elif k_l == 'apis' or k_l == 'api':
-            parse_apis_section(v)
-        else:
-            logger.warning(W_CONFIG+'Unknown section `{}` in config file'.format(k))
-    logger.log(DEBUG_OBSESSIVE, 'Loaded API options {}'.format(api_options))
+    if os.path.isfile(file):
+        global config_file_path
+        config_file_path = os.path.dirname(file)
+        try:
+            data = yaml.safe_load(open(file))
+        except yaml.YAMLError as e:
+            config_error("Error loading YAML "+str(e))
+        for k, v in data.items():
+            k_l = k.lower()
+            if k_l == 'kicost':
+                parse_kicost_section(v)
+            elif k_l == 'apis' or k_l == 'api':
+                parse_apis_section(v)
+            else:
+                logger.warning(W_CONFIG+'Unknown section `{}` in config file'.format(k))
+        logger.log(DEBUG_OBSESSIVE, 'Loaded API options {}'.format(api_options))
     for api in get_api_list():
         if api not in api_options:
             api_options[api] = {}
