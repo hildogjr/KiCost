@@ -34,14 +34,14 @@ import pprint
 from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class
+from .distributor import distributor_class, QueryCache
 
 available = True
 try:
-    from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure, DigikeyError
+    from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, DigikeyError, DK_API
 except ImportError:
     available = False
-# from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, configure, DigikeyError  # noqa: E402
+# from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, DigikeyError, DK_API  # noqa: E402
 
 DIST_NAME = 'digikey'
 # Specs known by KiCost
@@ -60,6 +60,20 @@ ENV_OPS = {'DIGIKEY_STORAGE_PATH': 'cache_path',
            'DIGIKEY_CACHE_TTL': 'cache_ttl'}
 
 __all__ = ['api_digikey']
+
+
+class DK_API_Ext(DK_API, QueryCache):
+    ''' Extends the Digi-Key API implementing a cache mechanism '''
+    @staticmethod
+    def configure(a_logger=None):
+        ''' Configures the plug-in '''
+        DK_API.configure(a_logger)
+        # Solve the multiple inheritance
+        DK_API_Ext.save_results = QueryCache.save_results
+        DK_API_Ext.load_results = QueryCache.load_results
+        QueryCache.cache_path = DK_API_Ext.cache_path
+        QueryCache.cache_name_suffix = DK_API_Ext.cache_name_suffix
+        QueryCache.cache_ttl_min = DK_API_Ext.cache_ttl_min
 
 
 class api_digikey(distributor_class):
@@ -83,41 +97,35 @@ class api_digikey(distributor_class):
                                           'AUD', 'NZD', 'INR', 'DKK', 'NOK', 'SEK', 'ILS', 'CNY', 'PLN',
                                           'CHF', 'CZK', 'HUF', 'RON', 'ZAR', 'MYR', 'THB', 'PHP'),
                       'locale_ship_to_country': str}
-    client_id = None
-    client_secret = None
-    sandbox = False
-    cache_ttl = 7
-    cache_path = None
 
     @staticmethod
     def configure(ops):
-        api_ops = {}
+        DK_API.api_ops = {}
         for k, v in ops.items():
             if k == 'client_id':
-                api_digikey.client_id = v
+                DK_API.id = v
             elif k == 'client_secret':
-                api_digikey.client_secret = v
+                DK_API.secret = v
             elif k == 'enable' and available:
                 api_digikey.enabled = v
             elif k == 'sandbox':
-                api_digikey.sandbox = v
+                DK_API.sandbox = v
             elif k == 'cache_ttl':
-                api_digikey.cache_ttl = v
+                DK_API.cache_ttl = v
             elif k == 'cache_path':
-                api_digikey.cache_path = v
+                DK_API.cache_path = v
             elif k.startswith('locale_'):
-                api_ops[k] = v
-        if api_digikey.enabled and (api_digikey.client_id is None or api_digikey.client_secret is None or api_digikey.cache_path is None):
+                DK_API.api_ops[k] = v
+        if api_digikey.enabled and (DK_API.id is None or DK_API.secret is None or DK_API.cache_path is None):
             distributor_class.logger.warning(W_APIFAIL+"Can't enable Digi-Key without a `client_id`, `client_secret` and `cache_path`")
             api_digikey.enabled = False
         distributor_class.logger.log(DEBUG_OBSESSIVE, 'Digi-Key API configured to enabled {} id {} secret {} path {}'.
-                                     format(api_digikey.enabled, api_digikey.client_id, api_digikey.client_secret, api_digikey.cache_path))
+                                     format(api_digikey.enabled, DK_API.id, DK_API.secret, DK_API.cache_path))
         if not api_digikey.enabled:
             return
         # Try to configure the plug-in
         try:
-            configure(api_digikey.client_id, api_digikey.client_secret, api_digikey.sandbox, api_digikey.cache_ttl,
-                      api_digikey.cache_path, api_ops, a_logger=distributor_class.logger)
+            DK_API_Ext.configure(a_logger=distributor_class.logger)
         except DigikeyError as e:
             distributor_class.logger.warning(W_APIFAIL+'Failed to init Digi-Key API, reason: {}'.format(e.args[0]))
             api_digikey.enabled = False
@@ -139,11 +147,11 @@ class api_digikey(distributor_class):
             part_stock = part.fields.get(field_cat)
             if part_stock:
                 distributor_class.logger.log(DEBUG_DETAILED, '\n**** Digi-Key P/N: {}'.format(part_stock))
-                o = by_digikey_pn(part_stock)
+                o = by_digikey_pn(part_stock, DK_API_Ext)
                 data = o.search()
                 if data is None:
                     distributor_class.logger.warning(W_NOINFO+'The \'{}\' Digi-Key code is not valid'.format(part_stock))
-                    o = by_keyword(part_stock)
+                    o = by_keyword(part_stock, DK_API_Ext)
                     data = o.search()
             else:
                 # No Digi-Key P/N, search using the manufacturer code
@@ -154,10 +162,10 @@ class api_digikey(distributor_class):
                         distributor_class.logger.log(DEBUG_DETAILED, '\n**** Manufacturer: {} P/N: {}'.format(part_manf, part_code))
                     else:
                         distributor_class.logger.log(DEBUG_DETAILED, '\n**** P/N: {}'.format(part_code))
-                    o = by_manf_pn(part_code)
+                    o = by_manf_pn(part_code, DK_API_Ext)
                     data = o.search()
                     if data is None:
-                        o = by_keyword(part_code)
+                        o = by_keyword(part_code, DK_API_Ext)
                         data = o.search()
             if data is None:
                 distributor_class.logger.warning(W_NOINFO+'No information found at Digi-Key for part/s \'{}\''.format(part.refs))

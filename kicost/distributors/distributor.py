@@ -32,6 +32,9 @@ import copy
 import os
 import logging
 import tqdm
+# QueryCache dependencies:
+import pickle
+import time
 from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW, BASE_OP_TYPES
 from .distributors_info import distributors_info
 
@@ -53,6 +56,37 @@ class TqdmLoggingHandler(logging.Handler):
             raise
         except Exception:
             self.handleError(record)
+
+
+class QueryCache(object):
+    ''' Components queries cache implementation '''
+    @staticmethod
+    def get_name(prefix, name):
+        return os.path.join(QueryCache.cache_path, prefix + '_' + name.replace('/', '_') + '_' + QueryCache.cache_name_suffix + ".dat")
+
+    @staticmethod
+    def save_results(prefix, name, results):
+        ''' Saves the results to the cache '''
+        with open(QueryCache.get_name(prefix, name), "wb") as fh:
+            pickle.dump(results, fh, protocol=2)
+
+    @staticmethod
+    def load_results(prefix, name):
+        ''' Loads the results from the cache, must be implemented by KiCost '''
+        print('load ' + prefix + name)
+        file = QueryCache.get_name(prefix, name)
+        if not os.path.isfile(file):
+            return None, False
+        mtime = os.path.getmtime(file)
+        ctime = time.time()
+        dif_minutes = int((ctime-mtime)/60)
+        if QueryCache.cache_ttl_min < 0 or dif_minutes <= QueryCache.cache_ttl_min:
+            with open(file, "rb") as fh:
+                result = pickle.loads(fh.read())
+            # Valid load if we got a valid result or we have a persistent cache
+            return result, result is not None or QueryCache.cache_ttl_min < 0
+        # Cache expired
+        return None, False
 
 
 class distributor_class(object):
