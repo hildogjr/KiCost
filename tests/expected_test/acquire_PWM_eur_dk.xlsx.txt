@@ -1,0 +1,3273 @@
+Variables:
+BoardQty = 'acquire_PWM_eur_dk'!$G$1
+PURCHASE_DESCRIPTION = 'acquire_PWM_eur_dk'!$G$97
+TotalCost = 'acquire_PWM_eur_dk'!$G$3
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "PWM aquisition and comunication for Texas DSP and NI sbRIO"
+ Col: F
+   "Board Qty:"
+ Col: G
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "University of Campinas (UNICAMP) - LCEE"
+ Col: F
+   "Unit Cost:"
+ Col: G
+   623.9294
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "Qui 30 Nov 2017 08:39:29 -02"
+ Col: F
+   "Total Cost:"
+ Col: G
+   62392.941
+  Formula: SUM(G7:G94)
+ Col: L
+   62392.941
+  Formula: SUM(L7:L94)
+ Col: M
+   "58 of 88 parts found"
+  Formula: (COUNTA(L7:L94)&" of "&ROWS(L7:L94)&" parts found")
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+ Col: H
+   "Digi-Key"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Footprint"
+ Col: D
+   "Manf#"
+ Col: E
+   "Qty"
+ Col: F
+   "Unit$"
+ Col: G
+   "Ext$"
+ Col: H
+   "Avail"
+ Col: I
+   "Purch"
+ Col: J
+   "Unit$"
+ Col: K
+   "MOQ"
+ Col: L
+   "Ext$"
+ Col: M
+   "Cat#"
+Row: 7
+ Col: A
+   "AO101-AO108,GND101,GNDA101,AI701-AI704,AI1401-AI1404,AI1901-AI1904,AI2401-AI2404"
+ Col: B
+   "Pin"
+ Col: C
+   "Pin_d1.0mm_L10.0mm"
+ Col: D
+   <a href="https://www.keyelco.com/userAssets/file/M65p56.pdf">5001</a>
+ Col: E
+   2600
+  Formula: CEILING(BoardQty*26.0,1)
+  Styles:
+  - =AND(ISBLANK(D7),ISBLANK(L7)) -> -/FFAAAAAA
+  - =IF(SUM(H7)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H7) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J7),I7,0)) -> -/FFFFFF00
+ Col: F
+   0.15628
+  Formula: IF(MIN(J7)<>0,MIN(J7),"")
+ Col: G
+   406.328
+  Formula: IF(AND(ISNUMBER(E7),ISNUMBER(F7)),E7*F7,"")
+ Col: H
+   311101
+  Styles:
+  - lessThan E7 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I7)),OR(H7="NonStk",I7>H7)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.15628
+  Formula: IFERROR(IF(OR(I7>=K7,E7>=K7),LOOKUP(IF(I7="",E7,I7),{0,1,25,100,250,500,1000,2500,5000},{0.0,0.36,0.2928,0.2592,0.24332,0.21688,0.17092,0.15628,0.14651}),"MOQ="&K7),"")
+ Col: K
+   1
+ Col: L
+   406.328
+  Formula: IFERROR(IF(I7="",E7,I7)*J7,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/keystone-electronics/5001/36-5001-ND/255327">36-5001-ND</a>
+Row: 8
+ Col: A
+   "C101,C110,C112,C1301"
+ Col: B
+   "220uF/25V"
+ Col: C
+   "CP_Radial_D10.0mm_P5.00mm"
+ Col: D
+   <a href="https://www.we-online.com/katalog/datasheet/860020474012.pdf">860020474012</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D8),ISBLANK(L8)) -> -/FFAAAAAA
+  - =IF(SUM(H8)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H8) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J8),I8,0)) -> -/FFFFFF00
+ Col: F
+   0.13152
+  Formula: IF(MIN(J8)<>0,MIN(J8),"")
+ Col: G
+   52.608
+  Formula: IF(AND(ISNUMBER(E8),ISNUMBER(F8)),E8*F8,"")
+ Col: H
+   550
+  Styles:
+  - lessThan E8 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I8)),OR(H8="NonStk",I8>H8)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.13152
+  Formula: IFERROR(IF(OR(I8>=K8,E8>=K8),LOOKUP(IF(I8="",E8,I8),{0,1,50,100,250},{0.0,0.2,0.1702,0.1479,0.13152}),"MOQ="&K8),"")
+ Col: K
+   1
+ Col: L
+   52.608
+  Formula: IFERROR(IF(I8="",E8,I8)*J8,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/w-rth-elektronik/860020474012/732-8829-1-ND/5728774">732-8829-1-ND</a>
+Row: 9
+ Col: A
+   "C102-C105,C108,C109,C111,C201-C204,C301-C304,C401-C404,C501-C504,C701-C703,C706,C713,C802,C803,C805-C808,C902,C903,C905-C908,C1002,C1003,C1005-C1008,C1102,C1103,C1105-C1108,C1201-C1205,C1302-C1304,C1401-C1403,C1406,C1413,C1502,C1503,C1505-C1508,C1602,C1603,C1605-C1608,C1702,C1703,C1705-C1708,C1802,C1803,C1805-C1808,C1901-C1903,C1906,C1913,C2002,C2003,C2005-C2008,C2102,C2103,C2105-C2108,C2202,C2203,C2205-C2208,C2302,C2303,C2305-C2308,C2401-C2403,C2406,C2413,C2502,C2503,C2505-C2508,C2602,C2603,C2605-C2608,C2702,C2703,C2705-C2708,C2802,C2803,C2805-C2808"
+ Col: B
+   "100nF"
+ Col: C
+   "C_0805_HandSoldering"
+ Col: D
+   <a href="https://api.kemet.com/component-edge/download/datasheet/C0805C104K5RACTU.pdf">C0805C104K5RACTU</a>
+ Col: E
+   14700
+  Formula: CEILING(BoardQty*147.0,1)
+  Styles:
+  - =AND(ISBLANK(D9),ISBLANK(L9)) -> -/FFAAAAAA
+  - =IF(SUM(H9)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H9) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J9),I9,0)) -> -/FFFFFF00
+ Col: F
+   0.02196
+  Formula: IF(MIN(J9)<>0,MIN(J9),"")
+ Col: G
+   322.812
+  Formula: IF(AND(ISNUMBER(E9),ISNUMBER(F9)),E9*F9,"")
+ Col: H
+   496000
+  Styles:
+  - lessThan E9 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I9>0,MOD(I9,K9)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(I9)),OR(H9="NonStk",I9>H9)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.02196
+  Formula: IFERROR(IF(OR(I9>=K9,E9>=K9),LOOKUP(IF(I9="",E9,I9),{0,1,4000},{0.0,0.02196,0.02196}),"MOQ="&K9),"")
+ Col: K
+   4000
+ Col: L
+   322.812
+  Formula: IFERROR(IF(I9="",E9,I9)*J9,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/kemet/C0805C104K5RAC7800/399-C0805C104K5RAC7800TR-ND/411169">399-C0805C104K5RAC7800TR-ND</a>
+Row: 10
+ Col: A
+   "C106,C107"
+ Col: B
+   "4.7uF"
+ Col: C
+   "C_0805_HandSoldering"
+ Col: E
+   200
+  Formula: CEILING(BoardQty*2,1)
+  Styles:
+  - =AND(ISBLANK(D10),ISBLANK(L10)) -> -/FFAAAAAA
+  - =IF(SUM(H10)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H10) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J10),I10,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J10)<>0,MIN(J10),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E10),ISNUMBER(F10)),E10*F10,"")
+Row: 11
+ Col: A
+   "C704,C707,C709,C711,C1404,C1407,C1409,C1411,C1904,C1907,C1909,C1911,C2404,C2407,C2409,C2411"
+ Col: B
+   "Filter_C2"
+ Col: C
+   "C_0805_HandSoldering"
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16,1)
+  Styles:
+  - =AND(ISBLANK(D11),ISBLANK(L11)) -> -/FFAAAAAA
+  - =IF(SUM(H11)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H11) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J11),I11,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J11)<>0,MIN(J11),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E11),ISNUMBER(F11)),E11*F11,"")
+Row: 12
+ Col: A
+   "C705,C708,C710,C712,C1405,C1408,C1410,C1412,C1905,C1908,C1910,C1912,C2405,C2408,C2410,C2412"
+ Col: B
+   "Filter_C1"
+ Col: C
+   "C_0805_HandSoldering"
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16,1)
+  Styles:
+  - =AND(ISBLANK(D12),ISBLANK(L12)) -> -/FFAAAAAA
+  - =IF(SUM(H12)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H12) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J12),I12,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J12)<>0,MIN(J12),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E12),ISNUMBER(F12)),E12*F12,"")
+Row: 13
+ Col: A
+   "C801,C804,C901,C904,C1001,C1004,C1101,C1104,C1501,C1504,C1601,C1604,C1701,C1704,C1801,C1804,C2001,C2004,C2101,C2104,C2201,C2204,C2301,C2304,C2501,C2504,C2601,C2604,C2701,C2704,C2801,C2804"
+ Col: B
+   "1uF"
+ Col: C
+   "C_0805_HandSoldering"
+ Col: D
+   <a href="https://api.kemet.com/component-edge/download/datasheet/C0805C105K5RACTU.pdf">C0805C105K5RACTU</a>
+ Col: E
+   3200
+  Formula: CEILING(BoardQty*32.0,1)
+  Styles:
+  - =AND(ISBLANK(D13),ISBLANK(L13)) -> -/FFAAAAAA
+  - =IF(SUM(H13)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H13) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J13),I13,0)) -> -/FFFFFF00
+ Col: F
+   0.08226
+  Formula: IF(MIN(J13)<>0,MIN(J13),"")
+ Col: G
+   263.232
+  Formula: IF(AND(ISNUMBER(E13),ISNUMBER(F13)),E13*F13,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E13 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I13)),OR(H13="NonStk",I13>H13)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.08226
+  Formula: IFERROR(IF(OR(I13>=K13,E13>=K13),LOOKUP(IF(I13="",E13,I13),{0,1,10,50,100,500,1000},{0.0,0.31,0.217,0.1514,0.1299,0.09742,0.08226}),"MOQ="&K13),"")
+ Col: K
+   1
+ Col: L
+   263.232
+  Formula: IFERROR(IF(I13="",E13,I13)*J13,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/kemet/C0805C105K5RACTU/399-7409-1-ND/3317443">399-7409-1-ND</a>
+Row: 14
+ Col: A
+   "C809,C909,C1009,C1109,C1509,C1609,C1709,C1809,C2009,C2109,C2209,C2309,C2509,C2609,C2709,C2809"
+ Col: B
+   "HCPL_C1"
+ Col: C
+   "C_0805_HandSoldering"
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16,1)
+  Styles:
+  - =AND(ISBLANK(D14),ISBLANK(L14)) -> -/FFAAAAAA
+  - =IF(SUM(H14)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H14) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J14),I14,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J14)<>0,MIN(J14),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E14),ISNUMBER(F14)),E14*F14,"")
+Row: 15
+ Col: A
+   "CNN2901#1"
+ Col: B
+   "TexasF28335controlcard - p1/4"
+ Col: C
+   "Texas-F28335-controlcard"
+ Col: D
+   <a href="https://media.digikey.com/pdf/Data%20Sheets/Tyco%20Electonics%20AMP%20PDFs/5390213.pdf">5390213-1</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D15),ISBLANK(L15)) -> -/FFAAAAAA
+  - =IF(SUM(H15)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H15) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J15),I15,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J15)<>0,MIN(J15),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E15),ISNUMBER(F15)),E15*F15,"")
+ Col: H
+   "NonStk"
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/te-connectivity-amp-connectors/5390213-1/A121375-ND/2262250">A121375-ND</a>
+Row: 16
+ Col: A
+   "CNN2901#2"
+ Col: B
+   "TexasF28335controlcard - p2/4"
+ Col: C
+   "Texas-F28335-controlcard"
+ Col: D
+   <a href="https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Ftms320f28069">TMDSCNCD28335</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D16),ISBLANK(L16)) -> -/FFAAAAAA
+  - =IF(SUM(H16)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H16) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J16),I16,0)) -> -/FFFFFF00
+ Col: F
+   112.44
+  Formula: IF(MIN(J16)<>0,MIN(J16),"")
+ Col: G
+   11244
+  Formula: IF(AND(ISNUMBER(E16),ISNUMBER(F16)),E16*F16,"")
+ Col: H
+   1
+  Styles:
+  - lessThan E16 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I16)),OR(H16="NonStk",I16>H16)) -> FFFFFFFF/FFFF0000
+ Col: J
+   112.44
+  Formula: IFERROR(IF(OR(I16>=K16,E16>=K16),LOOKUP(IF(I16="",E16,I16),{0,1},{0.0,112.44}),"MOQ="&K16),"")
+ Col: K
+   1
+ Col: L
+   11244
+  Formula: IFERROR(IF(I16="",E16,I16)*J16,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/texas-instruments/TMDSDOCK28069/296-36883-ND/4376314">296-36883-ND</a>
+Row: 17
+ Col: A
+   "CNN2901#3"
+ Col: B
+   "TexasF28335controlcard - p3/4"
+ Col: C
+   "Texas-F28335-controlcard"
+ Col: D
+   "TMDSCNCD28335"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D17),ISBLANK(L17)) -> -/FFAAAAAA
+  - =IF(SUM(H17)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H17) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J17),I17,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J17)<>0,MIN(J17),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E17),ISNUMBER(F17)),E17*F17,"")
+ Col: H
+   "NonStk"
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/texas-instruments/TMDXCNCDH52C1/296-29298-ND/2712853">296-29298-ND</a>
+Row: 18
+ Col: A
+   "CNN2901#4"
+ Col: B
+   "TexasF28335controlcard - p4/4"
+ Col: C
+   "Texas-F28335-controlcard"
+ Col: D
+   <a href="https://www.ti.com/lit/ds/symlink/tms320f2802.pdf">TMDSCNCD2808</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D18),ISBLANK(L18)) -> -/FFAAAAAA
+  - =IF(SUM(H18)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H18) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J18),I18,0)) -> -/FFFFFF00
+ Col: F
+   63.01
+  Formula: IF(MIN(J18)<>0,MIN(J18),"")
+ Col: G
+   6301
+  Formula: IF(AND(ISNUMBER(E18),ISNUMBER(F18)),E18*F18,"")
+ Col: H
+   4
+  Styles:
+  - lessThan E18 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I18)),OR(H18="NonStk",I18>H18)) -> FFFFFFFF/FFFF0000
+ Col: J
+   63.01
+  Formula: IFERROR(IF(OR(I18>=K18,E18>=K18),LOOKUP(IF(I18="",E18,I18),{0,1},{0.0,63.01}),"MOQ="&K18),"")
+ Col: K
+   1
+ Col: L
+   6301
+  Formula: IFERROR(IF(I18="",E18,I18)*J18,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/texas-instruments/TMDSCNCD2808/296-23541-ND/1880898">296-23541-ND</a>
+Row: 19
+ Col: A
+   "D201-D203,D301-D303,D401-D403,D501-D503"
+ Col: B
+   "LED red"
+ Col: C
+   "LED_0805_HandSoldering"
+ Col: D
+   <a href="https://vcclite.com/wp-content/uploads/wpallimport/files/files/CMD1721Seriesver3.pdf">CMD17-21VRD/TR8</a>
+ Col: E
+   1200
+  Formula: CEILING(BoardQty*12.0,1)
+  Styles:
+  - =AND(ISBLANK(D19),ISBLANK(L19)) -> -/FFAAAAAA
+  - =IF(SUM(H19)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H19) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J19),I19,0)) -> -/FFFFFF00
+ Col: F
+   0.13777
+  Formula: IF(MIN(J19)<>0,MIN(J19),"")
+ Col: G
+   165.324
+  Formula: IF(AND(ISNUMBER(E19),ISNUMBER(F19)),E19*F19,"")
+ Col: H
+   127453
+  Styles:
+  - lessThan E19 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I19)),OR(H19="NonStk",I19>H19)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.13777
+  Formula: IFERROR(IF(OR(I19>=K19,E19>=K19),LOOKUP(IF(I19="",E19,I19),{0,1,10,100,1000},{0.0,0.5,0.306,0.176,0.13777}),"MOQ="&K19),"")
+ Col: K
+   1
+ Col: L
+   165.324
+  Formula: IFERROR(IF(I19="",E19,I19)*J19,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/visual-communications-company-vcc/CMD17-21VRD-TR8/L62501CT-ND/254934">L62501CT-ND</a>
+Row: 20
+ Col: A
+   "D601,D602,D605,D606"
+ Col: B
+   "L4148"
+ Col: C
+   "D_0805"
+ Col: D
+   <a href="https://media.digikey.com/pdf/Data%20Sheets/NextGen%20Components%20PDFs/LL4148.pdf">LL4148</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D20),ISBLANK(L20)) -> -/FFAAAAAA
+  - =IF(SUM(H20)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H20) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J20),I20,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J20)<>0,MIN(J20),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E20),ISNUMBER(F20)),E20*F20,"")
+ Col: H
+   1852500
+  Styles:
+  - lessThan E20 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(I20>0,MOD(I20,K20)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(I20)),OR(H20="NonStk",I20>H20)) -> FFFFFFFF/FFFF0000
+ Col: J
+  Formula: IFERROR(IF(OR(I20>=K20,E20>=K20),LOOKUP(IF(I20="",E20,I20),{0,1,20000},{0.0,0.0175,0.0175}),"MOQ="&K20),"")
+ Col: K
+   20000
+ Col: L
+  Formula: IFERROR(IF(I20="",E20,I20)*J20,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/mdd/LL4148/3372-LL4148TR-ND/14288085">3372-LL4148TR-ND</a>
+Row: 21
+ Col: A
+   "D603,D604,D607,D608,D1301-D1304"
+ Col: B
+   "Green"
+ Col: C
+   "LED_0805_HandSoldering"
+ Col: D
+   <a href="https://vcclite.com/wp-content/uploads/wpallimport/files/files/CMD1721Seriesver3.pdf">CMD17-21VGD/TR8</a>
+ Col: E
+   800
+  Formula: CEILING(BoardQty*8.0,1)
+  Styles:
+  - =AND(ISBLANK(D21),ISBLANK(L21)) -> -/FFAAAAAA
+  - =IF(SUM(H21)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H21) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J21),I21,0)) -> -/FFFFFF00
+ Col: F
+   0.1656
+  Formula: IF(MIN(J21)<>0,MIN(J21),"")
+ Col: G
+   132.48
+  Formula: IF(AND(ISNUMBER(E21),ISNUMBER(F21)),E21*F21,"")
+ Col: H
+   49122
+  Styles:
+  - lessThan E21 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I21)),OR(H21="NonStk",I21>H21)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.1656
+  Formula: IFERROR(IF(OR(I21>=K21,E21>=K21),LOOKUP(IF(I21="",E21,I21),{0,1,10,100,1000},{0.0,0.46,0.288,0.1656,0.12957}),"MOQ="&K21),"")
+ Col: K
+   1
+ Col: L
+   132.48
+  Formula: IFERROR(IF(I21="",E21,I21)*J21,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/visual-communications-company-vcc/CMD17-21VGD-TR8/L62505CT-ND/254936">L62505CT-ND</a>
+Row: 22
+ Col: A
+   "D609-D611"
+ Col: B
+   "Yellow"
+ Col: C
+   "LED_0805_HandSoldering"
+ Col: D
+   <a href="https://vcclite.com/wp-content/uploads/wpallimport/files/files/CMD1721Seriesver3.pdf">CMD17-21VYD/TR8</a>
+ Col: E
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(D22),ISBLANK(L22)) -> -/FFAAAAAA
+  - =IF(SUM(H22)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H22) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J22),I22,0)) -> -/FFFFFF00
+ Col: F
+   0.1991
+  Formula: IF(MIN(J22)<>0,MIN(J22),"")
+ Col: G
+   59.73
+  Formula: IF(AND(ISNUMBER(E22),ISNUMBER(F22)),E22*F22,"")
+ Col: H
+   53641
+  Styles:
+  - lessThan E22 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I22)),OR(H22="NonStk",I22>H22)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.1991
+  Formula: IFERROR(IF(OR(I22>=K22,E22>=K22),LOOKUP(IF(I22="",E22,I22),{0,1,10,100,1000},{0.0,0.56,0.346,0.1991,0.15581}),"MOQ="&K22),"")
+ Col: K
+   1
+ Col: L
+   59.73
+  Formula: IFERROR(IF(I22="",E22,I22)*J22,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/visual-communications-company-vcc/CMD17-21VYD-TR8/L62507CT-ND/254935">L62507CT-ND</a>
+Row: 23
+ Col: A
+   "D801,D803,D901,D903,D1001,D1003,D1101,D1103,D1501,D1503,D1601,D1603,D1701,D1703,D1801,D1803,D2001,D2003,D2101,D2103,D2201,D2203,D2301,D2303,D2501,D2503,D2601,D2603,D2701,D2703,D2801,D2803"
+ Col: B
+   "BAT46Z"
+ Col: C
+   "D_SOD-123"
+ Col: D
+   <a href="https://www.st.com/content/ccc/resource/technical/document/datasheet/c6/32/d4/4a/28/d3/4b/11/CD00004930.pdf/files/CD00004930.pdf/jcr:content/translations/en.CD00004930.pdf">BAT46ZFILM</a>
+ Col: E
+   3200
+  Formula: CEILING(BoardQty*32.0,1)
+  Styles:
+  - =AND(ISBLANK(D23),ISBLANK(L23)) -> -/FFAAAAAA
+  - =IF(SUM(H23)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H23) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J23),I23,0)) -> -/FFFFFF00
+ Col: F
+   0.07025
+  Formula: IF(MIN(J23)<>0,MIN(J23),"")
+ Col: G
+   224.8
+  Formula: IF(AND(ISNUMBER(E23),ISNUMBER(F23)),E23*F23,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E23 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I23)),OR(H23="NonStk",I23>H23)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.07025
+  Formula: IFERROR(IF(OR(I23>=K23,E23>=K23),LOOKUP(IF(I23="",E23,I23),{0,1,10,100,500,1000},{0.0,0.33,0.244,0.1384,0.09164,0.07025}),"MOQ="&K23),"")
+ Col: K
+   1
+ Col: L
+   224.8
+  Formula: IFERROR(IF(I23="",E23,I23)*J23,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stmicroelectronics/BAT46ZFILM/497-5559-1-ND/1207051">497-5559-1-ND</a>
+Row: 24
+ Col: A
+   "D802,D902,D1002,D1102,D1502,D1602,D1702,D1802,D2002,D2102,D2202,D2302,D2502,D2602,D2702,D2802"
+ Col: B
+   "LED green"
+ Col: C
+   "LED_0805"
+ Col: D
+   <a href="https://vcclite.com/wp-content/uploads/wpallimport/files/files/CMD1721Seriesver3.pdf">CMD17-21VGD/TR8</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D24),ISBLANK(L24)) -> -/FFAAAAAA
+  - =IF(SUM(H24)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H24) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J24),I24,0)) -> -/FFFFFF00
+ Col: F
+   0.12957
+  Formula: IF(MIN(J24)<>0,MIN(J24),"")
+ Col: G
+   207.312
+  Formula: IF(AND(ISNUMBER(E24),ISNUMBER(F24)),E24*F24,"")
+ Col: H
+   49122
+  Styles:
+  - lessThan E24 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I24)),OR(H24="NonStk",I24>H24)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.12957
+  Formula: IFERROR(IF(OR(I24>=K24,E24>=K24),LOOKUP(IF(I24="",E24,I24),{0,1,10,100,1000},{0.0,0.46,0.288,0.1656,0.12957}),"MOQ="&K24),"")
+ Col: K
+   1
+ Col: L
+   207.312
+  Formula: IFERROR(IF(I24="",E24,I24)*J24,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/visual-communications-company-vcc/CMD17-21VGD-TR8/L62505CT-ND/254936">L62505CT-ND</a>
+Row: 25
+ Col: A
+   "Half-Bridge_DO1301"
+ Col: B
+   "Half-Bridge DO"
+ Col: C
+   "IDC_Header_Straight_26pins"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D25),ISBLANK(L25)) -> -/FFAAAAAA
+  - =IF(SUM(H25)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H25) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J25),I25,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J25)<>0,MIN(J25),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E25),ISNUMBER(F25)),E25*F25,"")
+Row: 26
+ Col: A
+   "I801,I901,I1001,I1101,I1501,I1601,I1701,I1801,I2001,I2101,I2201,I2301,I2501,I2601,I2701,I2801"
+ Col: B
+   "SJ2-2532B-SMT"
+ Col: C
+   "SJ2-253x-SMT"
+ Col: D
+   <a href="https://www.cuidevices.com/product/resource/sj2-253x-smt.pdf">SJ2-2532B-SMT-TR</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D26),ISBLANK(L26)) -> -/FFAAAAAA
+  - =IF(SUM(H26)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H26) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J26),I26,0)) -> -/FFFFFF00
+ Col: F
+   0.58488
+  Formula: IF(MIN(J26)<>0,MIN(J26),"")
+ Col: G
+   935.808
+  Formula: IF(AND(ISNUMBER(E26),ISNUMBER(F26)),E26*F26,"")
+ Col: H
+   1151
+  Styles:
+  - lessThan E26 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I26)),OR(H26="NonStk",I26>H26)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.58488
+  Formula: IFERROR(IF(OR(I26>=K26,E26>=K26),LOOKUP(IF(I26="",E26,I26),{0,1,10,25,50,100,250,500},{0.0,0.95,0.796,0.7636,0.7474,0.7148,0.64984,0.58488}),"MOQ="&K26),"")
+ Col: K
+   1
+ Col: L
+   935.808
+  Formula: IFERROR(IF(I26="",E26,I26)*J26,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/cui-devices/SJ2-2532B-SMT-TR/CP-SJ2-2532B-SMT-CT-ND/6619373">CP-SJ2-2532B-SMT-CT-ND</a>
+Row: 27
+ Col: A
+   "J101"
+ Col: B
+   "Bornier"
+ Col: C
+   "AK300-2"
+ Col: D
+   <a href="https://media.digikey.com/pdf/Data%20Sheets/Phoenix%20Contact%20PDFs/1935161.pdf">1935161</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D27),ISBLANK(L27)) -> -/FFAAAAAA
+  - =IF(SUM(H27)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H27) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J27),I27,0)) -> -/FFFFFF00
+ Col: F
+   0.3587
+  Formula: IF(MIN(J27)<>0,MIN(J27),"")
+ Col: G
+   35.87
+  Formula: IF(AND(ISNUMBER(E27),ISNUMBER(F27)),E27*F27,"")
+ Col: H
+   161562
+  Styles:
+  - lessThan E27 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I27)),OR(H27="NonStk",I27>H27)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.3587
+  Formula: IFERROR(IF(OR(I27>=K27,E27>=K27),LOOKUP(IF(I27="",E27,I27),{0,1,10,50,100,250,500},{0.0,0.4,0.386,0.3688,0.3587,0.33524,0.31916}),"MOQ="&K27),"")
+ Col: K
+   1
+ Col: L
+   35.87
+  Formula: IFERROR(IF(I27="",E27,I27)*J27,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/phoenix-contact/1935161/277-1667-ND/568614">277-1667-ND</a>
+Row: 28
+ Col: A
+   "J102,J601-J605"
+ Col: B
+   "Bornier"
+ Col: C
+   "AK300-3"
+ Col: D
+   <a href="https://media.digikey.com/pdf/Data%20Sheets/Phoenix%20Contact%20PDFs/1935174.pdf">1935174</a>
+ Col: E
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+  Styles:
+  - =AND(ISBLANK(D28),ISBLANK(L28)) -> -/FFAAAAAA
+  - =IF(SUM(H28)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H28) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J28),I28,0)) -> -/FFFFFF00
+ Col: F
+   0.4419
+  Formula: IF(MIN(J28)<>0,MIN(J28),"")
+ Col: G
+   265.14
+  Formula: IF(AND(ISNUMBER(E28),ISNUMBER(F28)),E28*F28,"")
+ Col: H
+   11040
+  Styles:
+  - lessThan E28 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I28)),OR(H28="NonStk",I28>H28)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.4419
+  Formula: IFERROR(IF(OR(I28>=K28,E28>=K28),LOOKUP(IF(I28="",E28,I28),{0,1,10,50,100,250,500},{0.0,0.56,0.534,0.5106,0.4967,0.4642,0.4419}),"MOQ="&K28),"")
+ Col: K
+   1
+ Col: L
+   265.14
+  Formula: IFERROR(IF(I28="",E28,I28)*J28,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/phoenix-contact/1935174/277-1578-ND/568615">277-1578-ND</a>
+Row: 29
+ Col: A
+   "J201,J301,J401,J501"
+ Col: B
+   "Semikron arm 1"
+ Col: C
+   "he10-14d"
+ Col: D
+   <a href="http://www.cnctech.us/idcmatching2.pdf">3020-14-0100-00</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D29),ISBLANK(L29)) -> -/FFAAAAAA
+  - =IF(SUM(H29)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H29) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J29),I29,0)) -> -/FFFFFF00
+ Col: F
+   0.49825
+  Formula: IF(MIN(J29)<>0,MIN(J29),"")
+ Col: G
+   199.3
+  Formula: IF(AND(ISNUMBER(E29),ISNUMBER(F29)),E29*F29,"")
+ Col: H
+   18666
+  Styles:
+  - lessThan E29 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I29)),OR(H29="NonStk",I29>H29)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.49825
+  Formula: IFERROR(IF(OR(I29>=K29,E29>=K29),LOOKUP(IF(I29="",E29,I29),{0,1,10,80,440,1200,6000,10800},{0.0,0.7,0.604,0.49825,0.43323,0.35743,0.3141,0.29244}),"MOQ="&K29),"")
+ Col: K
+   1
+ Col: L
+   199.3
+  Formula: IFERROR(IF(I29="",E29,I29)*J29,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/cnc-tech/3020-14-0100-00/1175-1610-ND/3441728">1175-1610-ND</a>
+Row: 30
+ Col: A
+   "J202,J302,J402,J502"
+ Col: B
+   "Semikron arm 2"
+ Col: C
+   "he10-14d"
+ Col: D
+   <a href="http://www.cnctech.us/idcmatching2.pdf">3020-14-0100-00</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D30),ISBLANK(L30)) -> -/FFAAAAAA
+  - =IF(SUM(H30)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H30) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J30),I30,0)) -> -/FFFFFF00
+ Col: F
+   0.49825
+  Formula: IF(MIN(J30)<>0,MIN(J30),"")
+ Col: G
+   199.3
+  Formula: IF(AND(ISNUMBER(E30),ISNUMBER(F30)),E30*F30,"")
+ Col: H
+   18666
+  Styles:
+  - lessThan E30 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I30)),OR(H30="NonStk",I30>H30)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.49825
+  Formula: IFERROR(IF(OR(I30>=K30,E30>=K30),LOOKUP(IF(I30="",E30,I30),{0,1,10,80,440,1200,6000,10800},{0.0,0.7,0.604,0.49825,0.43323,0.35743,0.3141,0.29244}),"MOQ="&K30),"")
+ Col: K
+   1
+ Col: L
+   199.3
+  Formula: IFERROR(IF(I30="",E30,I30)*J30,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/cnc-tech/3020-14-0100-00/1175-1610-ND/3441728">1175-1610-ND</a>
+Row: 31
+ Col: A
+   "J203,J303,J403,J503"
+ Col: B
+   "Semikron arm 3"
+ Col: C
+   "he10-14d"
+ Col: D
+   <a href="http://www.cnctech.us/idcmatching2.pdf">3020-14-0100-00</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D31),ISBLANK(L31)) -> -/FFAAAAAA
+  - =IF(SUM(H31)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H31) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J31),I31,0)) -> -/FFFFFF00
+ Col: F
+   0.49825
+  Formula: IF(MIN(J31)<>0,MIN(J31),"")
+ Col: G
+   199.3
+  Formula: IF(AND(ISNUMBER(E31),ISNUMBER(F31)),E31*F31,"")
+ Col: H
+   18666
+  Styles:
+  - lessThan E31 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I31)),OR(H31="NonStk",I31>H31)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.49825
+  Formula: IFERROR(IF(OR(I31>=K31,E31>=K31),LOOKUP(IF(I31="",E31,I31),{0,1,10,80,440,1200,6000,10800},{0.0,0.7,0.604,0.49825,0.43323,0.35743,0.3141,0.29244}),"MOQ="&K31),"")
+ Col: K
+   1
+ Col: L
+   199.3
+  Formula: IFERROR(IF(I31="",E31,I31)*J31,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/cnc-tech/3020-14-0100-00/1175-1610-ND/3441728">1175-1610-ND</a>
+Row: 32
+ Col: A
+   "J606#1"
+ Col: B
+   "Conn_01x06 - p1/3"
+ Col: C
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D
+   <a href="https://www.molex.com/pdm_docs/sd/022232061_sd.pdf">0022232061</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D32),ISBLANK(L32)) -> -/FFAAAAAA
+  - =IF(SUM(H32)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H32) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J32),I32,0)) -> -/FFFFFF00
+ Col: F
+   0.2516
+  Formula: IF(MIN(J32)<>0,MIN(J32),"")
+ Col: G
+   25.16
+  Formula: IF(AND(ISNUMBER(E32),ISNUMBER(F32)),E32*F32,"")
+ Col: H
+   50841
+  Styles:
+  - lessThan E32 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I32)),OR(H32="NonStk",I32>H32)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.2516
+  Formula: IFERROR(IF(OR(I32>=K32,E32>=K32),LOOKUP(IF(I32="",E32,I32),{0,1,10,100,1000,5000,10000},{0.0,0.42,0.343,0.2516,0.20012,0.17153,0.1601}),"MOQ="&K32),"")
+ Col: K
+   1
+ Col: L
+   25.16
+  Formula: IFERROR(IF(I32="",E32,I32)*J32,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/molex/0022232061/WM4204-ND/26675">WM4204-ND</a>
+Row: 33
+ Col: A
+   "J606#2"
+ Col: B
+   "Conn_01x06 - p2/3"
+ Col: C
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D
+   <a href="https://www.molex.com/pdm_docs/sd/022012067_sd.pdf">0022012067</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D33),ISBLANK(L33)) -> -/FFAAAAAA
+  - =IF(SUM(H33)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H33) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J33),I33,0)) -> -/FFFFFF00
+ Col: F
+   0.1497
+  Formula: IF(MIN(J33)<>0,MIN(J33),"")
+ Col: G
+   14.97
+  Formula: IF(AND(ISNUMBER(E33),ISNUMBER(F33)),E33*F33,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E33 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I33)),OR(H33="NonStk",I33>H33)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.1497
+  Formula: IFERROR(IF(OR(I33>=K33,E33>=K33),LOOKUP(IF(I33="",E33,I33),{0,1,10,100,1000,2500},{0.0,0.25,0.205,0.1497,0.1191,0.10889}),"MOQ="&K33),"")
+ Col: K
+   1
+ Col: L
+   14.97
+  Formula: IFERROR(IF(I33="",E33,I33)*J33,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/molex/0022012067/WM2015-ND/171995">WM2015-ND</a>
+Row: 34
+ Col: A
+   "J606#3"
+ Col: B
+   "Conn_01x06 - p3/3"
+ Col: C
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D
+   <a href="https://www.molex.com/pdm_docs/sd/008500114_sd.pdf">08-50-0114</a>
+ Col: E
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+  Styles:
+  - =AND(ISBLANK(D34),ISBLANK(L34)) -> -/FFAAAAAA
+  - =IF(SUM(H34)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H34) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J34),I34,0)) -> -/FFFFFF00
+ Col: F
+   0.0744
+  Formula: IF(MIN(J34)<>0,MIN(J34),"")
+ Col: G
+   44.64
+  Formula: IF(AND(ISNUMBER(E34),ISNUMBER(F34)),E34*F34,"")
+ Col: H
+   955297
+  Styles:
+  - lessThan E34 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I34)),OR(H34="NonStk",I34>H34)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.0744
+  Formula: IFERROR(IF(OR(I34>=K34,E34>=K34),LOOKUP(IF(I34="",E34,I34),{0,1,10,100,1000,2500},{0.0,0.15,0.104,0.0744,0.06246,0.05651}),"MOQ="&K34),"")
+ Col: K
+   1
+ Col: L
+   44.64
+  Formula: IFERROR(IF(I34="",E34,I34)*J34,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/molex/0008500114/WM1114-ND/26475">WM1114-ND</a>
+Row: 35
+ Col: A
+   "J801,J901,J1001,J1101,J1501,J1601,J1701,J1801,J2001,J2101,J2201,J2301,J2501,J2601,J2701,J2801"
+ Col: B
+   "Bornier"
+ Col: C
+   "bornier2"
+ Col: D
+   <a href="https://media.digikey.com/pdf/Data%20Sheets/Phoenix%20Contact%20PDFs/1935161.pdf">1935161</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D35),ISBLANK(L35)) -> -/FFAAAAAA
+  - =IF(SUM(H35)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H35) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J35),I35,0)) -> -/FFFFFF00
+ Col: F
+   0.31916
+  Formula: IF(MIN(J35)<>0,MIN(J35),"")
+ Col: G
+   510.656
+  Formula: IF(AND(ISNUMBER(E35),ISNUMBER(F35)),E35*F35,"")
+ Col: H
+   161562
+  Styles:
+  - lessThan E35 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I35)),OR(H35="NonStk",I35>H35)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.31916
+  Formula: IFERROR(IF(OR(I35>=K35,E35>=K35),LOOKUP(IF(I35="",E35,I35),{0,1,10,50,100,250,500},{0.0,0.4,0.386,0.3688,0.3587,0.33524,0.31916}),"MOQ="&K35),"")
+ Col: K
+   1
+ Col: L
+   510.656
+  Formula: IFERROR(IF(I35="",E35,I35)*J35,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/phoenix-contact/1935161/277-1667-ND/568614">277-1667-ND</a>
+Row: 36
+ Col: A
+   "J802#1,J902#1,J1002#1,J1102#1,J1502#1,J1602#1,J1702#1,J1802#1,J2002#1,J2102#1,J2202#1,J2302#1,J2502#1,J2602#1,J2702#1,J2802#1"
+ Col: B
+   "Molex_01x06 - p1/4"
+ Col: C
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D
+   <a href="https://www.molex.com/pdm_docs/sd/022232061_sd.pdf">0022232061</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D36),ISBLANK(L36)) -> -/FFAAAAAA
+  - =IF(SUM(H36)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H36) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J36),I36,0)) -> -/FFFFFF00
+ Col: F
+   0.20012
+  Formula: IF(MIN(J36)<>0,MIN(J36),"")
+ Col: G
+   320.192
+  Formula: IF(AND(ISNUMBER(E36),ISNUMBER(F36)),E36*F36,"")
+ Col: H
+   50841
+  Styles:
+  - lessThan E36 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I36)),OR(H36="NonStk",I36>H36)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.20012
+  Formula: IFERROR(IF(OR(I36>=K36,E36>=K36),LOOKUP(IF(I36="",E36,I36),{0,1,10,100,1000,5000,10000},{0.0,0.42,0.343,0.2516,0.20012,0.17153,0.1601}),"MOQ="&K36),"")
+ Col: K
+   1
+ Col: L
+   320.192
+  Formula: IFERROR(IF(I36="",E36,I36)*J36,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/molex/0022232061/WM4204-ND/26675">WM4204-ND</a>
+Row: 37
+ Col: A
+   "J802#2,J902#2,J1002#2,J1102#2,J1502#2,J1602#2,J1702#2,J1802#2,J2002#2,J2102#2,J2202#2,J2302#2,J2502#2,J2602#2,J2702#2,J2802#2"
+ Col: B
+   "Molex_01x06 - p2/4"
+ Col: C
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D
+   <a href="https://www.molex.com/pdm_docs/sd/022012067_sd.pdf">0022012067</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D37),ISBLANK(L37)) -> -/FFAAAAAA
+  - =IF(SUM(H37)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H37) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J37),I37,0)) -> -/FFFFFF00
+ Col: F
+   0.1191
+  Formula: IF(MIN(J37)<>0,MIN(J37),"")
+ Col: G
+   190.56
+  Formula: IF(AND(ISNUMBER(E37),ISNUMBER(F37)),E37*F37,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E37 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I37)),OR(H37="NonStk",I37>H37)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.1191
+  Formula: IFERROR(IF(OR(I37>=K37,E37>=K37),LOOKUP(IF(I37="",E37,I37),{0,1,10,100,1000,2500},{0.0,0.25,0.205,0.1497,0.1191,0.10889}),"MOQ="&K37),"")
+ Col: K
+   1
+ Col: L
+   190.56
+  Formula: IFERROR(IF(I37="",E37,I37)*J37,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/molex/0022012067/WM2015-ND/171995">WM2015-ND</a>
+Row: 38
+ Col: A
+   "J802#3,J902#3,J1002#3,J1102#3,J1502#3,J1602#3,J1702#3,J1802#3,J2002#3,J2102#3,J2202#3,J2302#3,J2502#3,J2602#3,J2702#3,J2802#3"
+ Col: B
+   "Molex_01x06 - p3/4"
+ Col: C
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D
+   <a href="https://www.molex.com/pdm_docs/sd/008500114_sd.pdf">08-50-0114</a>
+ Col: E
+   9600
+  Formula: CEILING(BoardQty*96.0,1)
+  Styles:
+  - =AND(ISBLANK(D38),ISBLANK(L38)) -> -/FFAAAAAA
+  - =IF(SUM(H38)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H38) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J38),I38,0)) -> -/FFFFFF00
+ Col: F
+   0.05651
+  Formula: IF(MIN(J38)<>0,MIN(J38),"")
+ Col: G
+   542.496
+  Formula: IF(AND(ISNUMBER(E38),ISNUMBER(F38)),E38*F38,"")
+ Col: H
+   955297
+  Styles:
+  - lessThan E38 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I38)),OR(H38="NonStk",I38>H38)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.05651
+  Formula: IFERROR(IF(OR(I38>=K38,E38>=K38),LOOKUP(IF(I38="",E38,I38),{0,1,10,100,1000,2500},{0.0,0.15,0.104,0.0744,0.06246,0.05651}),"MOQ="&K38),"")
+ Col: K
+   1
+ Col: L
+   542.496
+  Formula: IFERROR(IF(I38="",E38,I38)*J38,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/molex/0008500114/WM1114-ND/26475">WM1114-ND</a>
+Row: 39
+ Col: A
+   "J802#4,J902#4,J1002#4,J1102#4,J1502#4,J1602#4,J1702#4,J1802#4,J2002#4,J2102#4,J2202#4,J2302#4,J2502#4,J2602#4,J2702#4,J2802#4"
+ Col: B
+   "Molex_01x06 - p4/4"
+ Col: C
+   "Molex_KK-6410-06_06x2.54mm_Straight"
+ Col: D
+   <a href="https://www.lem.com/sites/default/files/products_datasheets/la_55-p_e.pdf">LA 55-P</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D39),ISBLANK(L39)) -> -/FFAAAAAA
+  - =IF(SUM(H39)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H39) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J39),I39,0)) -> -/FFFFFF00
+ Col: F
+   13.59888
+  Formula: IF(MIN(J39)<>0,MIN(J39),"")
+ Col: G
+   21758.208
+  Formula: IF(AND(ISNUMBER(E39),ISNUMBER(F39)),E39*F39,"")
+ Col: H
+   5003
+  Styles:
+  - lessThan E39 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I39)),OR(H39="NonStk",I39>H39)) -> FFFFFFFF/FFFF0000
+ Col: J
+   13.59888
+  Formula: IFERROR(IF(OR(I39>=K39,E39>=K39),LOOKUP(IF(I39="",E39,I39),{0,1,5,10,25,50,100,500},{0.0,21.37,20.398,18.456,16.9988,15.0558,14.5702,13.59888}),"MOQ="&K39),"")
+ Col: K
+   1
+ Col: L
+   21758.208
+  Formula: IFERROR(IF(I39="",E39,I39)*J39,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/lem-usa-inc/LA-55-P/398-1010-ND/409823">398-1010-ND</a>
+Row: 40
+ Col: A
+   "J1201"
+ Col: B
+   "Conn_01x08"
+ Col: C
+   "Pin_Header_Straight_1x08_Pitch2.54mm"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D40),ISBLANK(L40)) -> -/FFAAAAAA
+  - =IF(SUM(H40)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H40) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J40),I40,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J40)<>0,MIN(J40),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E40),ISNUMBER(F40)),E40*F40,"")
+Row: 41
+ Col: A
+   "J1301"
+ Col: B
+   "Conn_02x12"
+ Col: C
+   "Pin_Header_Straight_2x12_Pitch2.54mm"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D41),ISBLANK(L41)) -> -/FFAAAAAA
+  - =IF(SUM(H41)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H41) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J41),I41,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J41)<>0,MIN(J41),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E41),ISNUMBER(F41)),E41*F41,"")
+Row: 42
+ Col: A
+   "J1302"
+ Col: B
+   "Conn_02x04_Odd_Even"
+ Col: C
+   "Pin_Header_Straight_2x04_Pitch2.54mm"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D42),ISBLANK(L42)) -> -/FFAAAAAA
+  - =IF(SUM(H42)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H42) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J42),I42,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J42)<>0,MIN(J42),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E42),ISNUMBER(F42)),E42*F42,"")
+Row: 43
+ Col: A
+   "J1303"
+ Col: B
+   "Conn_02x05"
+ Col: C
+   "Pin_Header_Straight_2x05_Pitch2.54mm"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D43),ISBLANK(L43)) -> -/FFAAAAAA
+  - =IF(SUM(H43)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H43) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J43),I43,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J43)<>0,MIN(J43),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E43),ISNUMBER(F43)),E43*F43,"")
+Row: 44
+ Col: A
+   "J2901"
+ Col: B
+   "Serial iso"
+ Col: C
+   "DB9MD"
+ Col: D
+   <a href="http://www.assmann-wsw.com/uploads/datasheets/ASS_4885_CO.pdf">A-DS 09 PP/Z</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D44),ISBLANK(L44)) -> -/FFAAAAAA
+  - =IF(SUM(H44)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H44) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J44),I44,0)) -> -/FFFFFF00
+ Col: F
+   0.4338
+  Formula: IF(MIN(J44)<>0,MIN(J44),"")
+ Col: G
+   43.38
+  Formula: IF(AND(ISNUMBER(E44),ISNUMBER(F44)),E44*F44,"")
+ Col: H
+   1680
+  Styles:
+  - lessThan E44 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I44)),OR(H44="NonStk",I44>H44)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.4338
+  Formula: IFERROR(IF(OR(I44>=K44,E44>=K44),LOOKUP(IF(I44="",E44,I44),{0,1,10,25,50,100,250,450,950,2400},{0.0,0.6,0.526,0.4812,0.4526,0.4338,0.39612,0.37727,0.31125,0.28296}),"MOQ="&K44),"")
+ Col: K
+   1
+ Col: L
+   43.38
+  Formula: IFERROR(IF(I44="",E44,I44)*J44,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/assmann-wsw-components/A-DS-09-PP-Z/AE10973-ND/1241791">AE10973-ND</a>
+Row: 45
+ Col: A
+   "J2902"
+ Col: B
+   "SPI"
+ Col: C
+   "Pin_Header_Straight_1x06_Pitch2.54mm"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D45),ISBLANK(L45)) -> -/FFAAAAAA
+  - =IF(SUM(H45)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H45) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J45),I45,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J45)<>0,MIN(J45),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E45),ISNUMBER(F45)),E45*F45,"")
+Row: 46
+ Col: A
+   "J2903"
+ Col: B
+   "Conn_01x26"
+ Col: C
+   "Pin_Header_Straight_1x26_Pitch2.54mm"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D46),ISBLANK(L46)) -> -/FFAAAAAA
+  - =IF(SUM(H46)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H46) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J46),I46,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J46)<>0,MIN(J46),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E46),ISNUMBER(F46)),E46*F46,"")
+Row: 47
+ Col: A
+   "J2904"
+ Col: B
+   "Conn_01x29"
+ Col: C
+   "Pin_Header_Straight_1x29_Pitch2.54mm"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D47),ISBLANK(L47)) -> -/FFAAAAAA
+  - =IF(SUM(H47)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H47) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J47),I47,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J47)<>0,MIN(J47),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E47),ISNUMBER(F47)),E47*F47,"")
+Row: 48
+ Col: A
+   "J2905"
+ Col: B
+   "JTAG Texas"
+ Col: C
+   "Pin_Header_Straight_2x07_Pitch2.54mm"
+ Col: D
+   <a href="https://www.olimex.com/Products/DSP/Emulators/TMS320-XDS100-V3/resources/TMS320-XDS100v3_UM.pdf">TMS320-XDS100V3</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D48),ISBLANK(L48)) -> -/FFAAAAAA
+  - =IF(SUM(H48)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H48) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J48),I48,0)) -> -/FFFFFF00
+ Col: F
+   55.06
+  Formula: IF(MIN(J48)<>0,MIN(J48),"")
+ Col: G
+   5506
+  Formula: IF(AND(ISNUMBER(E48),ISNUMBER(F48)),E48*F48,"")
+ Col: H
+   125
+  Styles:
+  - lessThan E48 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I48)),OR(H48="NonStk",I48>H48)) -> FFFFFFFF/FFFF0000
+ Col: J
+   55.06
+  Formula: IFERROR(IF(OR(I48>=K48,E48>=K48),LOOKUP(IF(I48="",E48,I48),{0,1},{0.0,55.06}),"MOQ="&K48),"")
+ Col: K
+   1
+ Col: L
+   5506
+  Formula: IFERROR(IF(I48="",E48,I48)*J48,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/olimex-ltd/TMS320-XDS100-V3/1188-1099-ND/3837620">1188-1099-ND</a>
+Row: 49
+ Col: A
+   "K601-K604"
+ Col: B
+   "12V coil - 10A"
+ Col: C
+   "Relay_SPDT_SANYOU_SRD_Series_Form_C"
+ Col: D
+   <a href="http://www.sanyourelay.ca/public/products/pdf/SRD.pdf">G5LE-14-DC12</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D49),ISBLANK(L49)) -> -/FFAAAAAA
+  - =IF(SUM(H49)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H49) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J49),I49,0)) -> -/FFFFFF00
+ Col: F
+   0.90139
+  Formula: IF(MIN(J49)<>0,MIN(J49),"")
+ Col: G
+   360.556
+  Formula: IF(AND(ISNUMBER(E49),ISNUMBER(F49)),E49*F49,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E49 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I49)),OR(H49="NonStk",I49>H49)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.90139
+  Formula: IFERROR(IF(OR(I49>=K49,E49>=K49),LOOKUP(IF(I49="",E49,I49),{0,1,10,25,40,80,230},{0.0,1.24,1.159,1.03,0.97875,0.92713,0.90139}),"MOQ="&K49),"")
+ Col: K
+   1
+ Col: L
+   360.556
+  Formula: IFERROR(IF(I49="",E49,I49)*J49,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/omron-electronics-inc-emc-div/G5LE-14-DC12/Z1012-ND/280369">Z1012-ND</a>
+Row: 50
+ Col: A
+   "LVTTL1301"
+ Col: B
+   "LVTTL"
+ Col: C
+   "IDC_Header_Straight_60pins"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D50),ISBLANK(L50)) -> -/FFAAAAAA
+  - =IF(SUM(H50)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H50) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J50),I50,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J50)<>0,MIN(J50),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E50),ISNUMBER(F50)),E50*F50,"")
+Row: 51
+ Col: A
+   "Power_input1301"
+ Col: B
+   "sbRIO male connector"
+ Col: C
+   "Molex_MegaFit_2x01x5.70mm_Angled"
+ Col: D
+   <a href="https://www.molex.com/pdm_docs/ps/PS-5556-001.pdf">0039301020</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D51),ISBLANK(L51)) -> -/FFAAAAAA
+  - =IF(SUM(H51)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H51) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J51),I51,0)) -> -/FFFFFF00
+ Col: F
+   0.3696
+  Formula: IF(MIN(J51)<>0,MIN(J51),"")
+ Col: G
+   36.96
+  Formula: IF(AND(ISNUMBER(E51),ISNUMBER(F51)),E51*F51,"")
+ Col: H
+   13828
+  Styles:
+  - lessThan E51 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I51)),OR(H51="NonStk",I51>H51)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.3696
+  Formula: IFERROR(IF(OR(I51>=K51,E51>=K51),LOOKUP(IF(I51="",E51,I51),{0,1,10,100,1000,5000,10000},{0.0,0.57,0.475,0.3696,0.29041,0.2552,0.2376}),"MOQ="&K51),"")
+ Col: K
+   1
+ Col: L
+   36.96
+  Formula: IFERROR(IF(I51="",E51,I51)*J51,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/molex/0039301020/WM1351-ND/561078">WM1351-ND</a>
+Row: 52
+ Col: A
+   "Q2901,Q3001-Q3005"
+ Col: B
+   "BC847"
+ Col: C
+   "SOT-23"
+ Col: D
+   <a href="https://www.onsemi.com/pdf/datasheet/bc846alt1-d.pdf">BC847BLT1G</a>
+ Col: E
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+  Styles:
+  - =AND(ISBLANK(D52),ISBLANK(L52)) -> -/FFAAAAAA
+  - =IF(SUM(H52)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H52) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J52),I52,0)) -> -/FFFFFF00
+ Col: F
+   0.0409
+  Formula: IF(MIN(J52)<>0,MIN(J52),"")
+ Col: G
+   24.54
+  Formula: IF(AND(ISNUMBER(E52),ISNUMBER(F52)),E52*F52,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E52 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I52)),OR(H52="NonStk",I52>H52)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.0409
+  Formula: IFERROR(IF(OR(I52>=K52,E52>=K52),LOOKUP(IF(I52="",E52,I52),{0,1,10,100,500,1000},{0.0,0.14,0.122,0.0664,0.0409,0.02789}),"MOQ="&K52),"")
+ Col: K
+   1
+ Col: L
+   24.54
+  Formula: IFERROR(IF(I52="",E52,I52)*J52,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/onsemi/BC847BLT1G/BC847BLT1GOSCT-ND/917834">BC847BLT1GOSCT-ND</a>
+Row: 53
+ Col: A
+   "R201-R203,R301-R303,R401-R403,R501-R503"
+ Col: B
+   "560R"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: D
+   <a href="https://www.seielect.com/catalog/sei-rmcf_rmcp.pdf">RMCF0805JT560R</a>
+ Col: E
+   1200
+  Formula: CEILING(BoardQty*12.0,1)
+  Styles:
+  - =AND(ISBLANK(D53),ISBLANK(L53)) -> -/FFAAAAAA
+  - =IF(SUM(H53)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H53) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J53),I53,0)) -> -/FFFFFF00
+ Col: F
+   0.00315
+  Formula: IF(MIN(J53)<>0,MIN(J53),"")
+ Col: G
+   3.78
+  Formula: IF(AND(ISNUMBER(E53),ISNUMBER(F53)),E53*F53,"")
+ Col: H
+   154153
+  Styles:
+  - lessThan E53 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I53)),OR(H53="NonStk",I53>H53)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.00315
+  Formula: IFERROR(IF(OR(I53>=K53,E53>=K53),LOOKUP(IF(I53="",E53,I53),{0,1,10,100,1000,2500},{0.0,0.09,0.017,0.007,0.00315,0.00273}),"MOQ="&K53),"")
+ Col: K
+   1
+ Col: L
+   3.78
+  Formula: IFERROR(IF(I53="",E53,I53)*J53,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stackpole-electronics-inc/RMCF0805JT560R/RMCF0805JT560RCT-ND/1942553">RMCF0805JT560RCT-ND</a>
+Row: 54
+ Col: A
+   "R601,R602,R605,R606"
+ Col: B
+   "1k2"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: D
+   <a href="https://www.seielect.com/catalog/sei-rmcf_rmcp.pdf">RMCF0805JT1K20</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D54),ISBLANK(L54)) -> -/FFAAAAAA
+  - =IF(SUM(H54)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H54) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J54),I54,0)) -> -/FFFFFF00
+ Col: F
+   0.007
+  Formula: IF(MIN(J54)<>0,MIN(J54),"")
+ Col: G
+   2.8
+  Formula: IF(AND(ISNUMBER(E54),ISNUMBER(F54)),E54*F54,"")
+ Col: H
+   181175
+  Styles:
+  - lessThan E54 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I54)),OR(H54="NonStk",I54>H54)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.007
+  Formula: IFERROR(IF(OR(I54>=K54,E54>=K54),LOOKUP(IF(I54="",E54,I54),{0,1,10,100,1000,2500},{0.0,0.09,0.017,0.007,0.00315,0.00273}),"MOQ="&K54),"")
+ Col: K
+   1
+ Col: L
+   2.8
+  Formula: IFERROR(IF(I54="",E54,I54)*J54,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stackpole-electronics-inc/RMCF0805JT1K20/RMCF0805JT1K20CT-ND/1942559">RMCF0805JT1K20CT-ND</a>
+Row: 55
+ Col: A
+   "R603,R604,R607,R608"
+ Col: B
+   "180R"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: D
+   <a href="https://www.seielect.com/catalog/sei-rmcf_rmcp.pdf">RMCF0805JT180R</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D55),ISBLANK(L55)) -> -/FFAAAAAA
+  - =IF(SUM(H55)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H55) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J55),I55,0)) -> -/FFFFFF00
+ Col: F
+   0.007
+  Formula: IF(MIN(J55)<>0,MIN(J55),"")
+ Col: G
+   2.8
+  Formula: IF(AND(ISNUMBER(E55),ISNUMBER(F55)),E55*F55,"")
+ Col: H
+   24537
+  Styles:
+  - lessThan E55 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I55)),OR(H55="NonStk",I55>H55)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.007
+  Formula: IFERROR(IF(OR(I55>=K55,E55>=K55),LOOKUP(IF(I55="",E55,I55),{0,1,10,100,1000,2500},{0.0,0.09,0.017,0.007,0.00315,0.00273}),"MOQ="&K55),"")
+ Col: K
+   1
+ Col: L
+   2.8
+  Formula: IFERROR(IF(I55="",E55,I55)*J55,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stackpole-electronics-inc/RMCF0805JT180R/RMCF0805JT180RCT-ND/1942542">RMCF0805JT180RCT-ND</a>
+Row: 56
+ Col: A
+   "R609,R610"
+ Col: B
+   "R_input"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   200
+  Formula: CEILING(BoardQty*2,1)
+  Styles:
+  - =AND(ISBLANK(D56),ISBLANK(L56)) -> -/FFAAAAAA
+  - =IF(SUM(H56)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H56) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J56),I56,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J56)<>0,MIN(J56),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E56),ISNUMBER(F56)),E56*F56,"")
+Row: 57
+ Col: A
+   "R611"
+ Col: B
+   "120R"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: D
+   <a href="https://www.seielect.com/catalog/sei-rmcf_rmcp.pdf">RMCF0805JT120R</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D57),ISBLANK(L57)) -> -/FFAAAAAA
+  - =IF(SUM(H57)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H57) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J57),I57,0)) -> -/FFFFFF00
+ Col: F
+   0.007
+  Formula: IF(MIN(J57)<>0,MIN(J57),"")
+ Col: G
+   0.7
+  Formula: IF(AND(ISNUMBER(E57),ISNUMBER(F57)),E57*F57,"")
+ Col: H
+   266502
+  Styles:
+  - lessThan E57 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I57)),OR(H57="NonStk",I57>H57)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.007
+  Formula: IFERROR(IF(OR(I57>=K57,E57>=K57),LOOKUP(IF(I57="",E57,I57),{0,1,10,100,1000,2500},{0.0,0.09,0.017,0.007,0.00315,0.00273}),"MOQ="&K57),"")
+ Col: K
+   1
+ Col: L
+   0.7
+  Formula: IFERROR(IF(I57="",E57,I57)*J57,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stackpole-electronics-inc/RMCF0805JT120R/RMCF0805JT120RCT-ND/1942540">RMCF0805JT120RCT-ND</a>
+Row: 58
+ Col: A
+   "R701,R703,R704,R706,R708,R709,R711,R713,R714,R716,R718,R719,R1401,R1403,R1404,R1406,R1408,R1409,R1411,R1413,R1414,R1416,R1418,R1419,R1901,R1903,R1904,R1906,R1908,R1909,R1911,R1913,R1914,R1916,R1918,R1919,R2401,R2403,R2404,R2406,R2408,R2409,R2411,R2413,R2414,R2416,R2418,R2419"
+ Col: B
+   "Filter_R1"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   4800
+  Formula: CEILING(BoardQty*48,1)
+  Styles:
+  - =AND(ISBLANK(D58),ISBLANK(L58)) -> -/FFAAAAAA
+  - =IF(SUM(H58)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H58) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J58),I58,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J58)<>0,MIN(J58),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E58),ISNUMBER(F58)),E58*F58,"")
+Row: 59
+ Col: A
+   "R702,R707,R712,R717,R1402,R1407,R1412,R1417,R1902,R1907,R1912,R1917,R2402,R2407,R2412,R2417"
+ Col: B
+   "Filter_R3"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16,1)
+  Styles:
+  - =AND(ISBLANK(D59),ISBLANK(L59)) -> -/FFAAAAAA
+  - =IF(SUM(H59)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H59) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J59),I59,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J59)<>0,MIN(J59),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E59),ISNUMBER(F59)),E59*F59,"")
+Row: 60
+ Col: A
+   "R705,R710,R715,R720,R1405,R1410,R1415,R1420,R1905,R1910,R1915,R1920,R2405,R2410,R2415,R2420"
+ Col: B
+   "Filter_R2"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16,1)
+  Styles:
+  - =AND(ISBLANK(D60),ISBLANK(L60)) -> -/FFAAAAAA
+  - =IF(SUM(H60)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H60) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J60),I60,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J60)<>0,MIN(J60),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E60),ISNUMBER(F60)),E60*F60,"")
+Row: 61
+ Col: A
+   "R801,R901,R1001,R1101,R1301-R1304,R1501,R1601,R1701,R1801,R2001,R2101,R2201,R2301,R2501,R2601,R2701,R2801"
+ Col: B
+   "330R"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: D
+   <a href="https://www.seielect.com/catalog/sei-rmcf_rmcp.pdf">RMCF0805JT330R</a>
+ Col: E
+   2000
+  Formula: CEILING(BoardQty*20.0,1)
+  Styles:
+  - =AND(ISBLANK(D61),ISBLANK(L61)) -> -/FFAAAAAA
+  - =IF(SUM(H61)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H61) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J61),I61,0)) -> -/FFFFFF00
+ Col: F
+   0.00315
+  Formula: IF(MIN(J61)<>0,MIN(J61),"")
+ Col: G
+   6.3
+  Formula: IF(AND(ISNUMBER(E61),ISNUMBER(F61)),E61*F61,"")
+ Col: H
+   2506
+  Styles:
+  - lessThan E61 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I61)),OR(H61="NonStk",I61>H61)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.00315
+  Formula: IFERROR(IF(OR(I61>=K61,E61>=K61),LOOKUP(IF(I61="",E61,I61),{0,1,10,100,1000,2500},{0.0,0.09,0.017,0.007,0.00315,0.00273}),"MOQ="&K61),"")
+ Col: K
+   1
+ Col: L
+   6.3
+  Formula: IFERROR(IF(I61="",E61,I61)*J61,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stackpole-electronics-inc/RMCF0805JT330R/RMCF0805JT330RCT-ND/1942547">RMCF0805JT330RCT-ND</a>
+Row: 62
+ Col: A
+   "R802,R807,R902,R907,R1002,R1007,R1102,R1107,R1502,R1507,R1602,R1607,R1702,R1707,R1802,R1807,R2002,R2007,R2102,R2107,R2202,R2207,R2302,R2307,R2502,R2507,R2602,R2607,R2702,R2707,R2802,R2807"
+ Col: B
+   "HCPL_R1"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   3200
+  Formula: CEILING(BoardQty*32,1)
+  Styles:
+  - =AND(ISBLANK(D62),ISBLANK(L62)) -> -/FFAAAAAA
+  - =IF(SUM(H62)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H62) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J62),I62,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J62)<>0,MIN(J62),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E62),ISNUMBER(F62)),E62*F62,"")
+Row: 63
+ Col: A
+   "R803,R808,R903,R908,R1003,R1008,R1103,R1108,R1503,R1508,R1603,R1608,R1703,R1708,R1803,R1808,R2003,R2008,R2103,R2108,R2203,R2208,R2303,R2308,R2503,R2508,R2603,R2608,R2703,R2708,R2803,R2808"
+ Col: B
+   "HCPL_R2"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   3200
+  Formula: CEILING(BoardQty*32,1)
+  Styles:
+  - =AND(ISBLANK(D63),ISBLANK(L63)) -> -/FFAAAAAA
+  - =IF(SUM(H63)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H63) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J63),I63,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J63)<>0,MIN(J63),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E63),ISNUMBER(F63)),E63*F63,"")
+Row: 64
+ Col: A
+   "R804,R809,R904,R909,R1004,R1009,R1104,R1109,R1504,R1509,R1604,R1609,R1704,R1709,R1804,R1809,R2004,R2009,R2104,R2109,R2204,R2209,R2304,R2309,R2504,R2509,R2604,R2609,R2704,R2709,R2804,R2809"
+ Col: B
+   "HCPL_R3"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   3200
+  Formula: CEILING(BoardQty*32,1)
+  Styles:
+  - =AND(ISBLANK(D64),ISBLANK(L64)) -> -/FFAAAAAA
+  - =IF(SUM(H64)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H64) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J64),I64,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J64)<>0,MIN(J64),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E64),ISNUMBER(F64)),E64*F64,"")
+Row: 65
+ Col: A
+   "R805,R810,R905,R910,R1005,R1010,R1105,R1110,R1505,R1510,R1605,R1610,R1705,R1710,R1805,R1810,R2005,R2010,R2105,R2110,R2205,R2210,R2305,R2310,R2505,R2510,R2605,R2610,R2705,R2710,R2805,R2810"
+ Col: B
+   "HCPL_R4"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   3200
+  Formula: CEILING(BoardQty*32,1)
+  Styles:
+  - =AND(ISBLANK(D65),ISBLANK(L65)) -> -/FFAAAAAA
+  - =IF(SUM(H65)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H65) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J65),I65,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J65)<>0,MIN(J65),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E65),ISNUMBER(F65)),E65*F65,"")
+Row: 66
+ Col: A
+   "R806,R906,R1006,R1106,R1506,R1606,R1706,R1806,R2006,R2106,R2206,R2306,R2506,R2606,R2706,R2806"
+ Col: B
+   "HCPL_R5"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16,1)
+  Styles:
+  - =AND(ISBLANK(D66),ISBLANK(L66)) -> -/FFAAAAAA
+  - =IF(SUM(H66)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H66) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J66),I66,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J66)<>0,MIN(J66),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E66),ISNUMBER(F66)),E66*F66,"")
+Row: 67
+ Col: A
+   "R811,R911,R1011,R1111,R1511,R1611,R1711,R1811,R2011,R2111,R2211,R2311,R2511,R2611,R2711,R2811"
+ Col: B
+   "100R"
+ Col: C
+   "R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal"
+ Col: D
+   <a href="https://www.yageo.com/upload/media/product/productsearch/datasheet/lr/YAGEO%20MFR_datasheet_2021v1.pdf">MFR-25FBF52-100R</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D67),ISBLANK(L67)) -> -/FFAAAAAA
+  - =IF(SUM(H67)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H67) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J67),I67,0)) -> -/FFFFFF00
+ Col: F
+   0.01165
+  Formula: IF(MIN(J67)<>0,MIN(J67),"")
+ Col: G
+   18.64
+  Formula: IF(AND(ISNUMBER(E67),ISNUMBER(F67)),E67*F67,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E67 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I67)),OR(H67="NonStk",I67>H67)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.01165
+  Formula: IFERROR(IF(OR(I67>=K67,E67>=K67),LOOKUP(IF(I67="",E67,I67),{0,1,10,25,50,100,250,500,1000,5000},{0.0,0.09,0.069,0.0476,0.0372,0.0265,0.02068,0.01642,0.01165,0.009}),"MOQ="&K67),"")
+ Col: K
+   1
+ Col: L
+   18.64
+  Formula: IFERROR(IF(I67="",E67,I67)*J67,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/yageo/MFR-25FBF52-100R/100XBK-ND/12795">100XBK-ND</a>
+Row: 68
+ Col: A
+   "R1201-R1205,R2901,R3001-R3014,R3017,R3018,R3020,R3022,R3024"
+ Col: B
+   "10k"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: D
+   <a href="https://www.seielect.com/catalog/sei-rmcf_rmcp.pdf">RMCF0805JT10K0</a>
+ Col: E
+   2500
+  Formula: CEILING(BoardQty*25.0,1)
+  Styles:
+  - =AND(ISBLANK(D68),ISBLANK(L68)) -> -/FFAAAAAA
+  - =IF(SUM(H68)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H68) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J68),I68,0)) -> -/FFFFFF00
+ Col: F
+   0.00273
+  Formula: IF(MIN(J68)<>0,MIN(J68),"")
+ Col: G
+   6.825
+  Formula: IF(AND(ISNUMBER(E68),ISNUMBER(F68)),E68*F68,"")
+ Col: H
+   2469679
+  Styles:
+  - lessThan E68 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I68)),OR(H68="NonStk",I68>H68)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.00273
+  Formula: IFERROR(IF(OR(I68>=K68,E68>=K68),LOOKUP(IF(I68="",E68,I68),{0,1,10,100,1000,2500},{0.0,0.09,0.017,0.007,0.00315,0.00273}),"MOQ="&K68),"")
+ Col: K
+   1
+ Col: L
+   6.825
+  Formula: IFERROR(IF(I68="",E68,I68)*J68,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stackpole-electronics-inc/RMCF0805JT10K0/RMCF0805JT10K0CT-ND/1942577">RMCF0805JT10K0CT-ND</a>
+Row: 69
+ Col: A
+   "R2902,R3015,R3016,R3019,R3021,R3023"
+ Col: B
+   "4k7"
+ Col: C
+   "R_0805_HandSoldering"
+ Col: D
+   <a href="https://www.seielect.com/catalog/sei-rmcf_rmcp.pdf">RMCF0805JT4K70</a>
+ Col: E
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+  Styles:
+  - =AND(ISBLANK(D69),ISBLANK(L69)) -> -/FFAAAAAA
+  - =IF(SUM(H69)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H69) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J69),I69,0)) -> -/FFFFFF00
+ Col: F
+   0.007
+  Formula: IF(MIN(J69)<>0,MIN(J69),"")
+ Col: G
+   4.2
+  Formula: IF(AND(ISNUMBER(E69),ISNUMBER(F69)),E69*F69,"")
+ Col: H
+   42438
+  Styles:
+  - lessThan E69 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I69)),OR(H69="NonStk",I69>H69)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.007
+  Formula: IFERROR(IF(OR(I69>=K69,E69>=K69),LOOKUP(IF(I69="",E69,I69),{0,1,10,100,1000,2500},{0.0,0.09,0.017,0.007,0.00315,0.00273}),"MOQ="&K69),"")
+ Col: K
+   1
+ Col: L
+   4.2
+  Formula: IFERROR(IF(I69="",E69,I69)*J69,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/stackpole-electronics-inc/RMCF0805JT4K70/RMCF0805JT4K70CT-ND/1942570">RMCF0805JT4K70CT-ND</a>
+Row: 70
+ Col: A
+   "SW601"
+ Col: B
+   "SW_DPDT_x2"
+ Col: C
+   "SW_HH"
+ Col: D
+   <a href="https://sten-eswitch-13110800-production.s3.amazonaws.com/system/asset/product_line/data_sheet/71/400.pdf">400MDP1R1BLKM2QE-ND</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D70),ISBLANK(L70)) -> -/FFAAAAAA
+  - =IF(SUM(H70)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H70) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J70),I70,0)) -> -/FFFFFF00
+ Col: F
+   2.893
+  Formula: IF(MIN(J70)<>0,MIN(J70),"")
+ Col: G
+   289.3
+  Formula: IF(AND(ISNUMBER(E70),ISNUMBER(F70)),E70*F70,"")
+ Col: H
+   155
+  Styles:
+  - lessThan E70 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I70)),OR(H70="NonStk",I70>H70)) -> FFFFFFFF/FFFF0000
+ Col: J
+   2.893
+  Formula: IFERROR(IF(OR(I70>=K70,E70>=K70),LOOKUP(IF(I70="",E70,I70),{0,1,10,25,50,100,250,500,1000},{0.0,3.74,3.34,3.1648,3.0528,2.893,2.76512,2.54138,2.42949}),"MOQ="&K70),"")
+ Col: K
+   1
+ Col: L
+   289.3
+  Formula: IFERROR(IF(I70="",E70,I70)*J70,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/e-switch/400MDP1R1BLKM2QE/400MDP1R1BLKM2QE-ND/1803902">400MDP1R1BLKM2QE-ND</a>
+Row: 71
+ Col: A
+   "SW602"
+ Col: B
+   "ENTER"
+ Col: C
+   "SW_PUSH_6mm_h5mm"
+ Col: D
+   <a href="https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=1825910&DocType=Customer+Drawing&DocLang=English">FSM4JH</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D71),ISBLANK(L71)) -> -/FFAAAAAA
+  - =IF(SUM(H71)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H71) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J71),I71,0)) -> -/FFFFFF00
+ Col: F
+   0.0821
+  Formula: IF(MIN(J71)<>0,MIN(J71),"")
+ Col: G
+   8.21
+  Formula: IF(AND(ISNUMBER(E71),ISNUMBER(F71)),E71*F71,"")
+ Col: H
+   116858
+  Styles:
+  - lessThan E71 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I71)),OR(H71="NonStk",I71>H71)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.0821
+  Formula: IFERROR(IF(OR(I71>=K71,E71>=K71),LOOKUP(IF(I71="",E71,I71),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.09,0.095,0.0904,0.0821,0.0772,0.07062,0.05913,0.05749,0.05421}),"MOQ="&K71),"")
+ Col: K
+   1
+ Col: L
+   8.21
+  Formula: IFERROR(IF(I71="",E71,I71)*J71,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/te-connectivity-alcoswitch-switches/1825910-6/450-1650-ND/1632536">450-1650-ND</a>
+Row: 72
+ Col: A
+   "SW603"
+ Col: B
+   "UP"
+ Col: C
+   "SW_PUSH_6mm_h5mm"
+ Col: D
+   <a href="https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=1825910&DocType=Customer+Drawing&DocLang=English">FSM4JH</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D72),ISBLANK(L72)) -> -/FFAAAAAA
+  - =IF(SUM(H72)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H72) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J72),I72,0)) -> -/FFFFFF00
+ Col: F
+   0.0821
+  Formula: IF(MIN(J72)<>0,MIN(J72),"")
+ Col: G
+   8.21
+  Formula: IF(AND(ISNUMBER(E72),ISNUMBER(F72)),E72*F72,"")
+ Col: H
+   116858
+  Styles:
+  - lessThan E72 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I72)),OR(H72="NonStk",I72>H72)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.0821
+  Formula: IFERROR(IF(OR(I72>=K72,E72>=K72),LOOKUP(IF(I72="",E72,I72),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.09,0.095,0.0904,0.0821,0.0772,0.07062,0.05913,0.05749,0.05421}),"MOQ="&K72),"")
+ Col: K
+   1
+ Col: L
+   8.21
+  Formula: IFERROR(IF(I72="",E72,I72)*J72,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/te-connectivity-alcoswitch-switches/1825910-6/450-1650-ND/1632536">450-1650-ND</a>
+Row: 73
+ Col: A
+   "SW604"
+ Col: B
+   "LEFT"
+ Col: C
+   "SW_PUSH_6mm_h5mm"
+ Col: D
+   <a href="https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=1825910&DocType=Customer+Drawing&DocLang=English">FSM4JH</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D73),ISBLANK(L73)) -> -/FFAAAAAA
+  - =IF(SUM(H73)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H73) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J73),I73,0)) -> -/FFFFFF00
+ Col: F
+   0.0821
+  Formula: IF(MIN(J73)<>0,MIN(J73),"")
+ Col: G
+   8.21
+  Formula: IF(AND(ISNUMBER(E73),ISNUMBER(F73)),E73*F73,"")
+ Col: H
+   116858
+  Styles:
+  - lessThan E73 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I73)),OR(H73="NonStk",I73>H73)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.0821
+  Formula: IFERROR(IF(OR(I73>=K73,E73>=K73),LOOKUP(IF(I73="",E73,I73),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.09,0.095,0.0904,0.0821,0.0772,0.07062,0.05913,0.05749,0.05421}),"MOQ="&K73),"")
+ Col: K
+   1
+ Col: L
+   8.21
+  Formula: IFERROR(IF(I73="",E73,I73)*J73,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/te-connectivity-alcoswitch-switches/1825910-6/450-1650-ND/1632536">450-1650-ND</a>
+Row: 74
+ Col: A
+   "SW605"
+ Col: B
+   "RIGTH"
+ Col: C
+   "SW_PUSH_6mm_h5mm"
+ Col: D
+   <a href="https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=1825910&DocType=Customer+Drawing&DocLang=English">FSM4JH</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D74),ISBLANK(L74)) -> -/FFAAAAAA
+  - =IF(SUM(H74)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H74) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J74),I74,0)) -> -/FFFFFF00
+ Col: F
+   0.0821
+  Formula: IF(MIN(J74)<>0,MIN(J74),"")
+ Col: G
+   8.21
+  Formula: IF(AND(ISNUMBER(E74),ISNUMBER(F74)),E74*F74,"")
+ Col: H
+   116858
+  Styles:
+  - lessThan E74 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I74)),OR(H74="NonStk",I74>H74)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.0821
+  Formula: IFERROR(IF(OR(I74>=K74,E74>=K74),LOOKUP(IF(I74="",E74,I74),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.09,0.095,0.0904,0.0821,0.0772,0.07062,0.05913,0.05749,0.05421}),"MOQ="&K74),"")
+ Col: K
+   1
+ Col: L
+   8.21
+  Formula: IFERROR(IF(I74="",E74,I74)*J74,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/te-connectivity-alcoswitch-switches/1825910-6/450-1650-ND/1632536">450-1650-ND</a>
+Row: 75
+ Col: A
+   "SW606"
+ Col: B
+   "DOWN"
+ Col: C
+   "SW_PUSH_6mm_h5mm"
+ Col: D
+   <a href="https://www.te.com/commerce/DocumentDelivery/DDEController?Action=srchrtrv&DocNm=1825910&DocType=Customer+Drawing&DocLang=English">FSM4JH</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D75),ISBLANK(L75)) -> -/FFAAAAAA
+  - =IF(SUM(H75)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H75) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J75),I75,0)) -> -/FFFFFF00
+ Col: F
+   0.0821
+  Formula: IF(MIN(J75)<>0,MIN(J75),"")
+ Col: G
+   8.21
+  Formula: IF(AND(ISNUMBER(E75),ISNUMBER(F75)),E75*F75,"")
+ Col: H
+   116858
+  Styles:
+  - lessThan E75 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I75)),OR(H75="NonStk",I75>H75)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.0821
+  Formula: IFERROR(IF(OR(I75>=K75,E75>=K75),LOOKUP(IF(I75="",E75,I75),{0,1,10,25,100,250,500,1000,2500,5000},{0.0,0.09,0.095,0.0904,0.0821,0.0772,0.07062,0.05913,0.05749,0.05421}),"MOQ="&K75),"")
+ Col: K
+   1
+ Col: L
+   8.21
+  Formula: IFERROR(IF(I75="",E75,I75)*J75,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/te-connectivity-alcoswitch-switches/1825910-6/450-1650-ND/1632536">450-1650-ND</a>
+Row: 76
+ Col: A
+   "Scanned_AI&AO1301"
+ Col: B
+   "Scanned AI & AO"
+ Col: C
+   "IDC_Header_Straight_20pins"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D76),ISBLANK(L76)) -> -/FFAAAAAA
+  - =IF(SUM(H76)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H76) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J76),I76,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J76)<>0,MIN(J76),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E76),ISNUMBER(F76)),E76*F76,"")
+Row: 77
+ Col: A
+   "Simultaneous_AI1301"
+ Col: B
+   "Simultaneous AI"
+ Col: C
+   "IDC_Header_Straight_40pins"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D77),ISBLANK(L77)) -> -/FFAAAAAA
+  - =IF(SUM(H77)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H77) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J77),I77,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J77)<>0,MIN(J77),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E77),ISNUMBER(F77)),E77*F77,"")
+Row: 78
+ Col: A
+   "Sinking_DO_&_Relays1301"
+ Col: B
+   "Sinking DO & Relays"
+ Col: C
+   "IDC_Header_Straight_40pins"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D78),ISBLANK(L78)) -> -/FFAAAAAA
+  - =IF(SUM(H78)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H78) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J78),I78,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J78)<>0,MIN(J78),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E78),ISNUMBER(F78)),E78*F78,"")
+Row: 79
+ Col: A
+   "Sourcing_DI1301"
+ Col: B
+   "Sourcing DI"
+ Col: C
+   "IDC_Header_Straight_34pins"
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(D79),ISBLANK(L79)) -> -/FFAAAAAA
+  - =IF(SUM(H79)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H79) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J79),I79,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J79)<>0,MIN(J79),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E79),ISNUMBER(F79)),E79*F79,"")
+Row: 80
+ Col: A
+   "T801,T901,T1001,T1101,T1501,T1601,T1701,T1801,T2001,T2101,T2201,T2301,T2501,T2601,T2701,T2801"
+ Col: B
+   "WE-PP 1:1.7"
+ Col: C
+   "TRANSF_WE-PP"
+ Col: D
+   <a href="https://www.we-online.com/katalog/datasheet/760390013.pdf">760390013</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D80),ISBLANK(L80)) -> -/FFAAAAAA
+  - =IF(SUM(H80)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H80) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J80),I80,0)) -> -/FFFFFF00
+ Col: F
+   1.15186
+  Formula: IF(MIN(J80)<>0,MIN(J80),"")
+ Col: G
+   1842.976
+  Formula: IF(AND(ISNUMBER(E80),ISNUMBER(F80)),E80*F80,"")
+ Col: H
+   1300
+  Styles:
+  - lessThan E80 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I80)),OR(H80="NonStk",I80>H80)) -> FFFFFFFF/FFFF0000
+ Col: J
+   1.15186
+  Formula: IFERROR(IF(OR(I80>=K80,E80>=K80),LOOKUP(IF(I80="",E80,I80),{0,1,10,50,100,500},{0.0,1.63,1.47,1.3324,1.2206,1.15186}),"MOQ="&K80),"")
+ Col: K
+   1
+ Col: L
+   1842.976
+  Formula: IFERROR(IF(I80="",E80,I80)*J80,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/w-rth-elektronik/760390013/732-4457-1-ND/3831284">732-4457-1-ND</a>
+Row: 81
+ Col: A
+   "U101,U104"
+ Col: B
+   "7805"
+ Col: C
+   "ATPAK-2"
+ Col: D
+   <a href="http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf">MC7805CDTG</a>
+ Col: E
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(D81),ISBLANK(L81)) -> -/FFAAAAAA
+  - =IF(SUM(H81)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H81) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J81),I81,0)) -> -/FFFFFF00
+ Col: F
+   0.3647
+  Formula: IF(MIN(J81)<>0,MIN(J81),"")
+ Col: G
+   72.94
+  Formula: IF(AND(ISNUMBER(E81),ISNUMBER(F81)),E81*F81,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E81 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I81)),OR(H81="NonStk",I81>H81)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.3647
+  Formula: IFERROR(IF(OR(I81>=K81,E81>=K81),LOOKUP(IF(I81="",E81,I81),{0,1,10,25,100,250,500,1000},{0.0,0.54,0.475,0.4468,0.3647,0.33876,0.2883,0.23798}),"MOQ="&K81),"")
+ Col: K
+   1
+ Col: L
+   72.94
+  Formula: IFERROR(IF(I81="",E81,I81)*J81,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/onsemi/MC7805CDTG/MC7805CDTGOS-ND/1481217">MC7805CDTGOS-ND</a>
+Row: 82
+ Col: A
+   "U102"
+ Col: B
+   "78L05"
+ Col: C
+   "ATPAK-2"
+ Col: D
+   <a href="http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf">KA78L05AMTF</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D82),ISBLANK(L82)) -> -/FFAAAAAA
+  - =IF(SUM(H82)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H82) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J82),I82,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J82)<>0,MIN(J82),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E82),ISNUMBER(F82)),E82*F82,"")
+ Col: H
+   "NonStk"
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/onsemi/KA78L05AMTF/KA78L05AMTFCT-ND/3042635">KA78L05AMTFCT-ND</a>
+Row: 83
+ Col: A
+   "U103"
+ Col: B
+   "AP2114-3.3"
+ Col: C
+   "SOT-223-3_TabPin2"
+ Col: D
+   <a href="https://www.diodes.com/assets/Datasheets/AZ1117.pdf">AP2114H-3.3TRG1</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D83),ISBLANK(L83)) -> -/FFAAAAAA
+  - =IF(SUM(H83)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H83) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J83),I83,0)) -> -/FFFFFF00
+ Col: F
+   0.1764
+  Formula: IF(MIN(J83)<>0,MIN(J83),"")
+ Col: G
+   17.64
+  Formula: IF(AND(ISNUMBER(E83),ISNUMBER(F83)),E83*F83,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E83 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I83)),OR(H83="NonStk",I83>H83)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.1764
+  Formula: IFERROR(IF(OR(I83>=K83,E83>=K83),LOOKUP(IF(I83="",E83,I83),{0,1,10,25,100,250,500,1000},{0.0,0.32,0.259,0.2368,0.1764,0.15984,0.1323,0.09922}),"MOQ="&K83),"")
+ Col: K
+   1
+ Col: L
+   17.64
+  Formula: IFERROR(IF(I83="",E83,I83)*J83,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/diodes-incorporated/AP2114H-3.3TRG1/AP2114H-3.3TRG1DICT-ND/4505142">AP2114H-3.3TRG1DICT-ND</a>
+Row: 84
+ Col: A
+   "U201,U301,U401,U501"
+ Col: B
+   "MC14504B"
+ Col: C
+   "SOIC-16_3.9x9.9mm_Pitch1.27mm"
+ Col: D
+   <a href="https://www.onsemi.com/pdf/datasheet/mc14504b-d.pdf">MC14504BDTR2G</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D84),ISBLANK(L84)) -> -/FFAAAAAA
+  - =IF(SUM(H84)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H84) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J84),I84,0)) -> -/FFFFFF00
+ Col: F
+   0.86532
+  Formula: IF(MIN(J84)<>0,MIN(J84),"")
+ Col: G
+   346.128
+  Formula: IF(AND(ISNUMBER(E84),ISNUMBER(F84)),E84*F84,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E84 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I84)),OR(H84="NonStk",I84>H84)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.86532
+  Formula: IFERROR(IF(OR(I84>=K84,E84>=K84),LOOKUP(IF(I84="",E84,I84),{0,1,10,25,100,250,500,1000},{0.0,1.33,1.187,1.1268,0.9257,0.86532,0.76468,0.66445}),"MOQ="&K84),"")
+ Col: K
+   1
+ Col: L
+   346.128
+  Formula: IFERROR(IF(I84="",E84,I84)*J84,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/onsemi/MC14504BDTR2G/MC14504BDTR2GOSCT-ND/2120760">MC14504BDTR2GOSCT-ND</a>
+Row: 85
+ Col: A
+   "U202,U302,U402,U502"
+ Col: B
+   "Si8660"
+ Col: C
+   "SOIC-16_3.9x9.9mm_Pitch1.27mm"
+ Col: D
+   <a href="https://www.skyworksinc.com/-/media/Skyworks/SL/documents/public/data-sheets/Si866x.pdf">SI8660BA-B-IS1</a>
+ Col: E
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(D85),ISBLANK(L85)) -> -/FFAAAAAA
+  - =IF(SUM(H85)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H85) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J85),I85,0)) -> -/FFFFFF00
+ Col: F
+   1.8739
+  Formula: IF(MIN(J85)<>0,MIN(J85),"")
+ Col: G
+   749.56
+  Formula: IF(AND(ISNUMBER(E85),ISNUMBER(F85)),E85*F85,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E85 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I85)),OR(H85="NonStk",I85>H85)) -> FFFFFFFF/FFFF0000
+ Col: J
+   1.8739
+  Formula: IFERROR(IF(OR(I85>=K85,E85>=K85),LOOKUP(IF(I85="",E85,I85),{0,1,25,100,1000},{0.0,2.02,1.9488,1.8739,1.84304}),"MOQ="&K85),"")
+ Col: K
+   1
+ Col: L
+   749.56
+  Formula: IFERROR(IF(I85="",E85,I85)*J85,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/skyworks-solutions-inc/SI8660BA-B-IS1/336-2115-5-ND/2623363">336-2115-5-ND</a>
+Row: 86
+ Col: A
+   "U203-U205,U303-U305,U403-U405,U503-U505,U601-U607"
+ Col: B
+   "FOD814"
+ Col: C
+   "SMDIP-4_W9.53mm"
+ Col: D
+   <a href="https://www.onsemi.com/pdf/datasheet/fod814-d.pdf">FOD814ASD</a>
+ Col: E
+   1900
+  Formula: CEILING(BoardQty*19.0,1)
+  Styles:
+  - =AND(ISBLANK(D86),ISBLANK(L86)) -> -/FFAAAAAA
+  - =IF(SUM(H86)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H86) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J86),I86,0)) -> -/FFFFFF00
+ Col: F
+   0.2878
+  Formula: IF(MIN(J86)<>0,MIN(J86),"")
+ Col: G
+   546.82
+  Formula: IF(AND(ISNUMBER(E86),ISNUMBER(F86)),E86*F86,"")
+ Col: H
+   1595
+  Styles:
+  - lessThan E86 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I86)),OR(H86="NonStk",I86>H86)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.2878
+  Formula: IFERROR(IF(OR(I86>=K86,E86>=K86),LOOKUP(IF(I86="",E86,I86),{0,1,10,100},{0.0,0.66,0.435,0.2878}),"MOQ="&K86),"")
+ Col: K
+   1
+ Col: L
+   546.82
+  Formula: IFERROR(IF(I86="",E86,I86)*J86,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/onsemi/FOD814ASD/FOD814ASDCT-ND/1287287">FOD814ASDCT-ND</a>
+Row: 87
+ Col: A
+   "U701,U1201,U1401,U1901,U2401"
+ Col: B
+   "OPA4197"
+ Col: C
+   "SOIC-14_3.9x8.7mm_Pitch1.27mm"
+ Col: D
+   <a href="http://www.analog.com/media/en/technical-documentation/data-sheets/ADA4807-1_4807-2_4807-4.pdf">OPA4197IDR</a>
+ Col: E
+   500
+  Formula: CEILING(BoardQty*5.0,1)
+  Styles:
+  - =AND(ISBLANK(D87),ISBLANK(L87)) -> -/FFAAAAAA
+  - =IF(SUM(H87)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H87) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J87),I87,0)) -> -/FFFFFF00
+ Col: F
+   1.9769
+  Formula: IF(MIN(J87)<>0,MIN(J87),"")
+ Col: G
+   988.45
+  Formula: IF(AND(ISNUMBER(E87),ISNUMBER(F87)),E87*F87,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E87 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I87)),OR(H87="NonStk",I87>H87)) -> FFFFFFFF/FFFF0000
+ Col: J
+   1.9769
+  Formula: IFERROR(IF(OR(I87>=K87,E87>=K87),LOOKUP(IF(I87="",E87,I87),{0,1,10,25,100,250,500,1000},{0.0,3.15,2.834,2.6796,2.3223,2.2032,1.9769,1.96612}),"MOQ="&K87),"")
+ Col: K
+   1
+ Col: L
+   988.45
+  Formula: IFERROR(IF(I87="",E87,I87)*J87,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/texas-instruments/OPA4197IDR/296-45059-1-ND/6562061">296-45059-1-ND</a>
+Row: 88
+ Col: A
+   "U801,U901,U1001,U1101,U1501,U1601,U1701,U1801,U2001,U2101,U2201,U2301,U2501,U2601,U2701,U2801"
+ Col: B
+   "SN6501"
+ Col: C
+   "SN6501QDBVRQ1"
+ Col: D
+   <a href="https://www.ti.com/general/docs/suppproductinfo.tsp?distId=10&gotoUrl=https%3A%2F%2Fwww.ti.com%2Flit%2Fgpn%2Fsn6501">SN6501DBVR</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D88),ISBLANK(L88)) -> -/FFAAAAAA
+  - =IF(SUM(H88)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H88) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J88),I88,0)) -> -/FFFFFF00
+ Col: F
+   1.09212
+  Formula: IF(MIN(J88)<>0,MIN(J88),"")
+ Col: G
+   1747.392
+  Formula: IF(AND(ISNUMBER(E88),ISNUMBER(F88)),E88*F88,"")
+ Col: H
+   "NonStk"
+  Styles:
+  - lessThan E88 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I88)),OR(H88="NonStk",I88>H88)) -> FFFFFFFF/FFFF0000
+ Col: J
+   1.09212
+  Formula: IFERROR(IF(OR(I88>=K88,E88>=K88),LOOKUP(IF(I88="",E88,I88),{0,1,10,25,100,250,500,1000},{0.0,1.95,1.753,1.654,1.4091,1.32304,1.15764,1.09212}),"MOQ="&K88),"")
+ Col: K
+   1
+ Col: L
+   1747.392
+  Formula: IFERROR(IF(I88="",E88,I88)*J88,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/texas-instruments/SN6501DBVR/296-37700-1-ND/4833928">296-37700-1-ND</a>
+Row: 89
+ Col: A
+   "U802,U902,U1002,U1102,U1502,U1602,U1702,U1802,U2002,U2102,U2202,U2302,U2502,U2602,U2702,U2802"
+ Col: B
+   "78L05"
+ Col: C
+   "SOT-223-3_TabPin2"
+ Col: D
+   <a href="http://www.st.com/content/ccc/resource/technical/document/datasheet/41/4f/b3/b0/12/d4/47/88/CD00000444.pdf/files/CD00000444.pdf/jcr:content/translations/en.CD00000444.pdf">KA78L05AMTF</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D89),ISBLANK(L89)) -> -/FFAAAAAA
+  - =IF(SUM(H89)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H89) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J89),I89,0)) -> -/FFFFFF00
+ Col: F
+  Formula: IF(MIN(J89)<>0,MIN(J89),"")
+ Col: G
+  Formula: IF(AND(ISNUMBER(E89),ISNUMBER(F89)),E89*F89,"")
+ Col: H
+   "NonStk"
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/onsemi/KA78L05AMTF/KA78L05AMTFCT-ND/3042635">KA78L05AMTFCT-ND</a>
+Row: 90
+ Col: A
+   "U803,U903,U1003,U1103,U1503,U1603,U1703,U1803,U2003,U2103,U2203,U2303,U2503,U2603,U2703,U2803"
+ Col: B
+   "HCPL-75x0"
+ Col: C
+   "SMDIP-8_W9.53mm"
+ Col: D
+   <a href="https://docs.broadcom.com/docs/AV02-0956EN">HCPL-7520-300E</a>
+ Col: E
+   1600
+  Formula: CEILING(BoardQty*16.0,1)
+  Styles:
+  - =AND(ISBLANK(D90),ISBLANK(L90)) -> -/FFAAAAAA
+  - =IF(SUM(H90)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H90) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J90),I90,0)) -> -/FFFFFF00
+ Col: F
+   2.82108
+  Formula: IF(MIN(J90)<>0,MIN(J90),"")
+ Col: G
+   4513.728
+  Formula: IF(AND(ISNUMBER(E90),ISNUMBER(F90)),E90*F90,"")
+ Col: H
+   924
+  Styles:
+  - lessThan E90 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I90)),OR(H90="NonStk",I90>H90)) -> FFFFFFFF/FFFF0000
+ Col: J
+   2.82108
+  Formula: IFERROR(IF(OR(I90>=K90,E90>=K90),LOOKUP(IF(I90="",E90,I90),{0,1,10,25,100,250,500,1000},{0.0,5.29,4.745,4.4852,3.8875,3.68808,3.3093,2.82108}),"MOQ="&K90),"")
+ Col: K
+   1
+ Col: L
+   4513.728
+  Formula: IFERROR(IF(I90="",E90,I90)*J90,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/broadcom-limited/HCPL-7520-300E/516-2598-5-ND/1236256">516-2598-5-ND</a>
+Row: 91
+ Col: A
+   "U1202#1"
+ Col: B
+   "LM4040 - p1/2"
+ Col: C
+   "SOT-23"
+ Col: D
+   <a href="http://www.tme.eu/fr/Document/ced3461ed31ea70a3c416fb648e0cde7/APE8865-3.pdf">LM4040DEX3-3.3+T</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D91),ISBLANK(L91)) -> -/FFAAAAAA
+  - =IF(SUM(H91)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H91) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J91),I91,0)) -> -/FFFFFF00
+ Col: F
+   0.5931
+  Formula: IF(MIN(J91)<>0,MIN(J91),"")
+ Col: G
+   59.31
+  Formula: IF(AND(ISNUMBER(E91),ISNUMBER(F91)),E91*F91,"")
+ Col: H
+   4428
+  Styles:
+  - lessThan E91 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I91)),OR(H91="NonStk",I91>H91)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.5931
+  Formula: IFERROR(IF(OR(I91>=K91,E91>=K91),LOOKUP(IF(I91="",E91,I91),{0,1,10,25,100,250,500,1000},{0.0,0.85,0.761,0.722,0.5931,0.55444,0.48998,0.38682}),"MOQ="&K91),"")
+ Col: K
+   1
+ Col: L
+   59.31
+  Formula: IFERROR(IF(I91="",E91,I91)*J91,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/maxim-integrated/LM4040DEX3-3.3-T/LM4040DEX3-3.3-TCT-ND/7603739">LM4040DEX3-3.3+TCT-ND</a>
+Row: 92
+ Col: A
+   "U1202#2"
+ Col: B
+   "LM4040 - p2/2"
+ Col: C
+   "SOT-23"
+ Col: D
+   <a href="http://www.tme.eu/fr/Document/ced3461ed31ea70a3c416fb648e0cde7/APE8865-3.pdf">LM4040DIX3-5.0+T</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D92),ISBLANK(L92)) -> -/FFAAAAAA
+  - =IF(SUM(H92)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H92) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J92),I92,0)) -> -/FFFFFF00
+ Col: F
+   0.5659
+  Formula: IF(MIN(J92)<>0,MIN(J92),"")
+ Col: G
+   56.59
+  Formula: IF(AND(ISNUMBER(E92),ISNUMBER(F92)),E92*F92,"")
+ Col: H
+   1478
+  Styles:
+  - lessThan E92 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I92)),OR(H92="NonStk",I92>H92)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.5659
+  Formula: IFERROR(IF(OR(I92>=K92,E92>=K92),LOOKUP(IF(I92="",E92,I92),{0,1,10,25,100,250,500,1000},{0.0,0.81,0.726,0.6888,0.5659,0.52892,0.46744,0.36903}),"MOQ="&K92),"")
+ Col: K
+   1
+ Col: L
+   56.59
+  Formula: IFERROR(IF(I92="",E92,I92)*J92,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/maxim-integrated/LM4040DIX3-5.0-T/LM4040DIX3-5.0-TCT-ND/5820878">LM4040DIX3-5.0+TCT-ND</a>
+Row: 93
+ Col: A
+   "U2901,U2902"
+ Col: B
+   "MCP4922-E_P"
+ Col: C
+   "DIP-14_W7.62mm"
+ Col: D
+   <a href="https://ww1.microchip.com/downloads/en/DeviceDoc/22250A.pdf">MCP4922-E/P-ND</a>
+ Col: E
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(D93),ISBLANK(L93)) -> -/FFAAAAAA
+  - =IF(SUM(H93)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H93) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J93),I93,0)) -> -/FFFFFF00
+ Col: F
+   2.2324
+  Formula: IF(MIN(J93)<>0,MIN(J93),"")
+ Col: G
+   446.48
+  Formula: IF(AND(ISNUMBER(E93),ISNUMBER(F93)),E93*F93,"")
+ Col: H
+   143
+  Styles:
+  - lessThan E93 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I93)),OR(H93="NonStk",I93>H93)) -> FFFFFFFF/FFFF0000
+ Col: J
+   2.2324
+  Formula: IFERROR(IF(OR(I93>=K93,E93>=K93),LOOKUP(IF(I93="",E93,I93),{0,1,25,100},{0.0,2.94,2.46,2.2324}),"MOQ="&K93),"")
+ Col: K
+   1
+ Col: L
+   446.48
+  Formula: IFERROR(IF(I93="",E93,I93)*J93,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/microchip-technology/MCP4922-E-P/MCP4922-E-P-ND/716251">MCP4922-E/P-ND</a>
+Row: 94
+ Col: A
+   "sbRIO_Power_output1301"
+ Col: B
+   "Screw_Terminal_01x02"
+ Col: C
+   "AK300-2"
+ Col: D
+   <a href="https://media.digikey.com/pdf/Data%20Sheets/Phoenix%20Contact%20PDFs/1935161.pdf">1935161</a>
+ Col: E
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(D94),ISBLANK(L94)) -> -/FFAAAAAA
+  - =IF(SUM(H94)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(H94) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(J94),I94,0)) -> -/FFFFFF00
+ Col: F
+   0.3587
+  Formula: IF(MIN(J94)<>0,MIN(J94),"")
+ Col: G
+   35.87
+  Formula: IF(AND(ISNUMBER(E94),ISNUMBER(F94)),E94*F94,"")
+ Col: H
+   161562
+  Styles:
+  - lessThan E94 -> FF000000/FFFF9900
+ Col: I
+  Styles:
+  - =AND(NOT(ISBLANK(I94)),OR(H94="NonStk",I94>H94)) -> FFFFFFFF/FFFF0000
+ Col: J
+   0.3587
+  Formula: IFERROR(IF(OR(I94>=K94,E94>=K94),LOOKUP(IF(I94="",E94,I94),{0,1,10,50,100,250,500},{0.0,0.4,0.386,0.3688,0.3587,0.33524,0.31916}),"MOQ="&K94),"")
+ Col: K
+   1
+ Col: L
+   35.87
+  Formula: IFERROR(IF(I94="",E94,I94)*J94,"")
+ Col: M
+   <a href="https://www.digikey.es/product-detail/es/phoenix-contact/1935161/277-1667-ND/568614">277-1667-ND</a>
+Row: 96
+ Col: F
+   "Total Purchase:"
+ Col: G
+   0
+  Formula: SUM(L96)
+ Col: H
+   <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
+ Col: I
+  Formula: IFERROR(IF(COUNTIF(I7:I94,">0")>0,COUNTIF(I7:I94,">0")&" of "&(ROWS(K7:K94)-COUNTBLANK(K7:K94))&" parts purchased",""),"")
+ Col: L
+   0
+  Formula: SUMIF(I7:I94,">0",L7:L94)
+Row: 97
+ Col: A
+   "*FILTERED*"
+ Col: F
+   "Purchase description:"
+ Col: I
+  Formula: CONCATENATE(I186,I187,I188,I189,I190,I191,I192,I193,I194,I195,I196,I197,I198,I199,I200,I201,I202,I203,I204,I205,I206,I207,I208,I209,I210,I211,I212,I213,I214,I215,I216,I217,I218,I219,I220,I221,I222,I223,I224,I225,I226,I227,I228,I229,I230,I231,I232,I233,I234,I235,I236,I237,I238,I239,I240,I241,I242,I243,I244,I245,I246,I247,I248,I249,I250,I251,I252,I253,I254,I255,I256,I257,I258,I259,I260,I261,I262,I263,I264,I265,I266,I267,I268,I269,I270,I271,I272,I273)
+Row: 186
+ Col: I
+  Formula: IF(ISNUMBER(I7:I94)*(I7:I94>=K7:K94)*(M7:M94<>""),TEXT(ROUNDUP(I7:I94/IF(ISNUMBER(K7:K94),K7:K94,1))*K7:K94,"##0")&","&M7:M94&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A94,",",";"),"\n"," ")&CHAR(10),"")
+Row: 187
+ Col: I
+   0
+Row: 188
+ Col: I
+   0
+Row: 189
+ Col: I
+   0
+Row: 190
+ Col: I
+   0
+Row: 191
+ Col: I
+   0
+Row: 192
+ Col: I
+   0
+Row: 193
+ Col: I
+   0
+Row: 194
+ Col: I
+   0
+Row: 195
+ Col: I
+   0
+Row: 196
+ Col: I
+   0
+Row: 197
+ Col: I
+   0
+Row: 198
+ Col: I
+   0
+Row: 199
+ Col: I
+   0
+Row: 200
+ Col: I
+   0
+Row: 201
+ Col: I
+   0
+Row: 202
+ Col: I
+   0
+Row: 203
+ Col: I
+   0
+Row: 204
+ Col: I
+   0
+Row: 205
+ Col: I
+   0
+Row: 206
+ Col: I
+   0
+Row: 207
+ Col: I
+   0
+Row: 208
+ Col: I
+   0
+Row: 209
+ Col: I
+   0
+Row: 210
+ Col: I
+   0
+Row: 211
+ Col: I
+   0
+Row: 212
+ Col: I
+   0
+Row: 213
+ Col: I
+   0
+Row: 214
+ Col: I
+   0
+Row: 215
+ Col: I
+   0
+Row: 216
+ Col: I
+   0
+Row: 217
+ Col: I
+   0
+Row: 218
+ Col: I
+   0
+Row: 219
+ Col: I
+   0
+Row: 220
+ Col: I
+   0
+Row: 221
+ Col: I
+   0
+Row: 222
+ Col: I
+   0
+Row: 223
+ Col: I
+   0
+Row: 224
+ Col: I
+   0
+Row: 225
+ Col: I
+   0
+Row: 226
+ Col: I
+   0
+Row: 227
+ Col: I
+   0
+Row: 228
+ Col: I
+   0
+Row: 229
+ Col: I
+   0
+Row: 230
+ Col: I
+   0
+Row: 231
+ Col: I
+   0
+Row: 232
+ Col: I
+   0
+Row: 233
+ Col: I
+   0
+Row: 234
+ Col: I
+   0
+Row: 235
+ Col: I
+   0
+Row: 236
+ Col: I
+   0
+Row: 237
+ Col: I
+   0
+Row: 238
+ Col: I
+   0
+Row: 239
+ Col: I
+   0
+Row: 240
+ Col: I
+   0
+Row: 241
+ Col: I
+   0
+Row: 242
+ Col: I
+   0
+Row: 243
+ Col: I
+   0
+Row: 244
+ Col: I
+   0
+Row: 245
+ Col: I
+   0
+Row: 246
+ Col: I
+   0
+Row: 247
+ Col: I
+   0
+Row: 248
+ Col: I
+   0
+Row: 249
+ Col: I
+   0
+Row: 250
+ Col: I
+   0
+Row: 251
+ Col: I
+   0
+Row: 252
+ Col: I
+   0
+Row: 253
+ Col: I
+   0
+Row: 254
+ Col: I
+   0
+Row: 255
+ Col: I
+   0
+Row: 256
+ Col: I
+   0
+Row: 257
+ Col: I
+   0
+Row: 258
+ Col: I
+   0
+Row: 259
+ Col: I
+   0
+Row: 260
+ Col: I
+   0
+Row: 261
+ Col: I
+   0
+Row: 262
+ Col: I
+   0
+Row: 263
+ Col: I
+   0
+Row: 264
+ Col: I
+   0
+Row: 265
+ Col: I
+   0
+Row: 266
+ Col: I
+   0
+Row: 267
+ Col: I
+   0
+Row: 268
+ Col: I
+   0
+Row: 269
+ Col: I
+   0
+Row: 270
+ Col: I
+   0
+Row: 271
+ Col: I
+   0
+Row: 272
+ Col: I
+   0
+Row: 273
+ Col: I
+   0

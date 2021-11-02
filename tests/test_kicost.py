@@ -378,6 +378,14 @@ def test_acquire_PWM_dk():
     CONFIG_FILE = None
 
 
+def test_acquire_PWM_eur_dk():
+    name = 'acquire_PWM_eur_dk'
+    global CONFIG_FILE
+    CONFIG_FILE = 'digikey_eur.yaml'
+    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey', '--currency', 'EUR'])
+    CONFIG_FILE = None
+
+
 def test_acquire_PWM_2():
     run_test_check('acquire-PWM_2')
 

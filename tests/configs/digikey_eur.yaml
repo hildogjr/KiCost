@@ -1,4 +1,6 @@
 # KiCost configuration file
+# This test file configures Digi-Key to use the Spain site, asking for results
+# in spanish and prices in EUR. Also shipping to Spain.
 kicost:
   version: 1
   # Cache Time To Live in days, -1 is forever
@@ -27,23 +29,23 @@ APIs:
     # Acceptable values include: US, CA, JP, UK, DE, AT, BE, DK, FI, GR, IE,
     # IT, LU, NL, NO, PT, ES, KR, HK, SG, CN, TW, AU, FR, IN, NZ, SE, MX, CH,
     # IL, PL, SK, SI, LV, LT, EE, CZ, HU, BG, MY, ZA, RO, TH, PH.
-    # locale_site: US
+    locale_site: ES
 
     # Two letter code for language to search on. Langauge must be supported by
     # the selected site. If searching on keyword, this language is used to find
     # matches.
     # Acceptable values include: en, ja, de, fr, ko, zhs, zht, it, es, he, nl,
     # sv, pl, fi, da, no.
-    # locale_language: en
+    locale_language: es
 
     # Three letter code for Currency to return part pricing for. Currency must
     # be supported by the selected site. Acceptable values include: USD, CAD,
     # JPY, GBP, EUR, HKD, SGD, TWD, KRW, AUD, NZD, INR, DKK, NOK, SEK, ILS, CNY,
     # PLN, CHF, CZK, HUF, RON, ZAR, MYR, THB, PHP.
-    # locale_currency: USD
+    locale_currency: EUR
 
     # ISO code for country to ship to.
-    # locale_ship_to_country: US
+    locale_ship_to_country: ES
   Octopart:
     # Octopart API Key
     # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

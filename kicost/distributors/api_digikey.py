@@ -70,7 +70,19 @@ class api_digikey(distributor_class):
     url = 'https://developer.digikey.com/'  # Web site API information.
     api_distributors = [DIST_NAME]
     # Options supported by this API
-    config_options = {'client_id': str, 'client_secret': str, 'sandbox': bool}
+    config_options = {'client_id': str,
+                      'client_secret': str,
+                      'sandbox': bool,
+                      'locale_site': ('US', 'CA', 'JP', 'UK', 'DE', 'AT', 'BE', 'DK', 'FI', 'GR', 'IE',
+                                      'IT', 'LU', 'NL', 'NO', 'PT', 'ES', 'KR', 'HK', 'SG', 'CN', 'TW',
+                                      'AU', 'FR', 'IN', 'NZ', 'SE', 'MX', 'CH', 'IL', 'PL', 'SK', 'SI',
+                                      'LV', 'LT', 'EE', 'CZ', 'HU', 'BG', 'MY', 'ZA', 'RO', 'TH', 'PH'),
+                      'locale_language': ('en', 'ja', 'de', 'fr', 'ko', 'zhs,' 'zht', 'it', 'es', 'he',
+                                          'nl', 'sv', 'pl', 'fi', 'da', 'no'),
+                      'locale_currency': ('USD', 'CAD', 'JPY', 'GBP', 'EUR', 'HKD', 'SGD', 'TWD', 'KRW',
+                                          'AUD', 'NZD', 'INR', 'DKK', 'NOK', 'SEK', 'ILS', 'CNY', 'PLN',
+                                          'CHF', 'CZK', 'HUF', 'RON', 'ZAR', 'MYR', 'THB', 'PHP'),
+                      'locale_ship_to_country': str}
     client_id = None
     client_secret = None
     sandbox = False
@@ -79,6 +91,7 @@ class api_digikey(distributor_class):
 
     @staticmethod
     def configure(ops):
+        api_ops = {}
         for k, v in ops.items():
             if k == 'client_id':
                 api_digikey.client_id = v
@@ -92,6 +105,8 @@ class api_digikey(distributor_class):
                 api_digikey.cache_ttl = v
             elif k == 'cache_path':
                 api_digikey.cache_path = v
+            elif k.startswith('locale_'):
+                api_ops[k] = v
         if api_digikey.enabled and (api_digikey.client_id is None or api_digikey.client_secret is None or api_digikey.cache_path is None):
             distributor_class.logger.warning(W_APIFAIL+"Can't enable Digi-Key without a `client_id`, `client_secret` and `cache_path`")
             api_digikey.enabled = False
@@ -102,7 +117,7 @@ class api_digikey(distributor_class):
         # Try to configure the plug-in
         try:
             configure(api_digikey.client_id, api_digikey.client_secret, api_digikey.sandbox, api_digikey.cache_ttl,
-                      api_digikey.cache_path, a_logger=distributor_class.logger)
+                      api_digikey.cache_path, api_ops, a_logger=distributor_class.logger)
         except DigikeyError as e:
             distributor_class.logger.warning(W_APIFAIL+'Failed to init Digi-Key API, reason: {}'.format(e.args[0]))
             api_digikey.enabled = False

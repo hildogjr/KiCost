@@ -119,8 +119,20 @@ def parse_apis_section(d):
         for op, value in v.items():
             if op not in v_ops:
                 logger.warning(W_CONFIG+'Unknown option `{}` for API `{}`'.format(op, k))
-            elif not isinstance(value, v_ops[op]):
-                config_error('{}.{} must be `{}`, not `{}`'.format(k, op, _type_str(v_ops[op]), type(value).__name__))
+            else:
+                v_op = v_ops[op]
+                if isinstance(v_op, type) or (isinstance(v_op, tuple) and isinstance(v_op[0], type)):
+                    # One or more types
+                    if not isinstance(value, v_op):
+                        config_error('{}.{} must be `{}`, not `{}`'.format(k, op, _type_str(v_op), type(value).__name__))
+                else:
+                    tp = type(v_op[0])
+                    # One or more values
+                    if not isinstance(value, tp):
+                        config_error('{}.{} must be `{}`, not `{}`'.format(k, op, _type_str(tp), type(value).__name__))
+                    if value not in v_op:
+                        config_error('{}.{} must be one of `{}`'.format(k, op, v_op))
+
         # Make the cache_path absolute
         cp = v.get('cache_path', None)
         if cp:
