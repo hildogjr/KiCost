@@ -62,20 +62,6 @@ ENV_OPS = {'DIGIKEY_STORAGE_PATH': 'cache_path',
 __all__ = ['api_digikey']
 
 
-class DK_API_Ext(DK_API, QueryCache):
-    ''' Extends the Digi-Key API implementing a cache mechanism '''
-    @staticmethod
-    def configure(a_logger=None):
-        ''' Configures the plug-in '''
-        DK_API.configure(a_logger)
-        # Solve the multiple inheritance
-        DK_API_Ext.save_results = QueryCache.save_results
-        DK_API_Ext.load_results = QueryCache.load_results
-        QueryCache.cache_path = DK_API_Ext.cache_path
-        QueryCache.cache_name_suffix = DK_API_Ext.cache_name_suffix
-        QueryCache.cache_ttl_min = DK_API_Ext.cache_ttl_min
-
-
 class api_digikey(distributor_class):
     name = 'Digi-Key'
     type = 'api'
@@ -101,6 +87,8 @@ class api_digikey(distributor_class):
     @staticmethod
     def configure(ops):
         DK_API.api_ops = {}
+        cache_ttl = 7
+        cache_path = None
         for k, v in ops.items():
             if k == 'client_id':
                 DK_API.id = v
@@ -111,21 +99,22 @@ class api_digikey(distributor_class):
             elif k == 'sandbox':
                 DK_API.sandbox = v
             elif k == 'cache_ttl':
-                DK_API.cache_ttl = v
+                cache_ttl = v
             elif k == 'cache_path':
-                DK_API.cache_path = v
+                cache_path = v
             elif k.startswith('locale_'):
                 DK_API.api_ops[k] = v
-        if api_digikey.enabled and (DK_API.id is None or DK_API.secret is None or DK_API.cache_path is None):
+        if api_digikey.enabled and (DK_API.id is None or DK_API.secret is None or cache_path is None):
             distributor_class.logger.warning(W_APIFAIL+"Can't enable Digi-Key without a `client_id`, `client_secret` and `cache_path`")
             api_digikey.enabled = False
         distributor_class.logger.log(DEBUG_OBSESSIVE, 'Digi-Key API configured to enabled {} id {} secret {} path {}'.
-                                     format(api_digikey.enabled, DK_API.id, DK_API.secret, DK_API.cache_path))
+                                     format(api_digikey.enabled, DK_API.id, DK_API.secret, cache_path))
         if not api_digikey.enabled:
             return
         # Try to configure the plug-in
+        cache = QueryCache(cache_path, cache_ttl)
         try:
-            DK_API_Ext.configure(a_logger=distributor_class.logger)
+            DK_API.configure(cache, a_logger=distributor_class.logger)
         except DigikeyError as e:
             distributor_class.logger.warning(W_APIFAIL+'Failed to init Digi-Key API, reason: {}'.format(e.args[0]))
             api_digikey.enabled = False
@@ -147,11 +136,11 @@ class api_digikey(distributor_class):
             part_stock = part.fields.get(field_cat)
             if part_stock:
                 distributor_class.logger.log(DEBUG_DETAILED, '\n**** Digi-Key P/N: {}'.format(part_stock))
-                o = by_digikey_pn(part_stock, DK_API_Ext)
+                o = by_digikey_pn(part_stock)
                 data = o.search()
                 if data is None:
                     distributor_class.logger.warning(W_NOINFO+'The \'{}\' Digi-Key code is not valid'.format(part_stock))
-                    o = by_keyword(part_stock, DK_API_Ext)
+                    o = by_keyword(part_stock)
                     data = o.search()
             else:
                 # No Digi-Key P/N, search using the manufacturer code
@@ -162,10 +151,10 @@ class api_digikey(distributor_class):
                         distributor_class.logger.log(DEBUG_DETAILED, '\n**** Manufacturer: {} P/N: {}'.format(part_manf, part_code))
                     else:
                         distributor_class.logger.log(DEBUG_DETAILED, '\n**** P/N: {}'.format(part_code))
-                    o = by_manf_pn(part_code, DK_API_Ext)
+                    o = by_manf_pn(part_code)
                     data = o.search()
                     if data is None:
-                        o = by_keyword(part_code, DK_API_Ext)
+                        o = by_keyword(part_code)
                         data = o.search()
             if data is None:
                 distributor_class.logger.warning(W_NOINFO+'No information found at Digi-Key for part/s \'{}\''.format(part.refs))
