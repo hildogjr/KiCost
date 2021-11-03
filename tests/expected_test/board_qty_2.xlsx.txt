@@ -22,7 +22,7 @@ Row: 2
  Col: I
    "Unit Cost0:"
  Col: J
-   2.0985
+   2.141
   Formula: TotalCost0/BoardQty0
 Row: 3
  Col: A
@@ -32,7 +32,7 @@ Row: 3
  Col: I
    "Total Cost0:"
  Col: J
-   104.9264
+   107.0514
   Formula: SUMPRODUCT(F10:F26,I10:I26)
  Col: O
    0
@@ -41,10 +41,10 @@ Row: 3
    "0 of 15 parts found"
   Formula: COUNTIFS(O10:O26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: U
-   117.16
+   119.285
   Formula: SUMPRODUCT(F10:F26,S10:S26)
  Col: V
-   "4 of 15 parts found"
+   "5 of 15 parts found"
   Formula: COUNTIFS(U10:U26,"<>",F10:F26,"<>0",F10:F26,"<>")&" of "&COUNTIFS(F10:F26,"<>0",F10:F26,"<>")&" parts found"
  Col: AA
    87.3035
@@ -165,7 +165,7 @@ Row: 7
  Col: I
    "Total Prjs Cost:"
  Col: J
-   528.2463
+   530.3713
   Formula: SUM(J10:J26)
  Col: O
    0
@@ -174,10 +174,10 @@ Row: 7
    "0 of 17 parts found"
   Formula: (COUNTA(O10:O26)&" of "&ROWS(O10:O26)&" parts found")
  Col: U
-   557.607
+   559.732
   Formula: SUM(U10:U26)
  Col: V
-   "5 of 17 parts found"
+   "6 of 17 parts found"
   Formula: (COUNTA(U10:U26)&" of "&ROWS(U10:U26)&" parts found")
  Col: AA
    209.5284
@@ -904,7 +904,7 @@ Row: 19
  Col: D
    "Coto"
  Col: E
-   "RC1005J000CS"
+   <a href="http://datasheet.octopart.com/RC1005J000CS-Samsung-Electro-Mechanics-datasheet-41960856.pdf">RC1005J000CS</a>
  Col: F
    125
   Formula: BoardQty0*(2.5)
@@ -920,9 +920,32 @@ Row: 19
   - greaterThan SUM(K19,Q19,W19,AC19,AI19,AO19,AU19,BA19) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(M19),L19,0),IF(ISNUMBER(S19),R19,0),IF(ISNUMBER(Y19),X19,0),IF(ISNUMBER(AE19),AD19,0),IF(ISNUMBER(AK19),AJ19,0),IF(ISNUMBER(AQ19),AP19,0),IF(ISNUMBER(AW19),AV19,0),IF(ISNUMBER(BC19),BB19,0)) -> -/FFFFFF00
  Col: I
+   0.017
   Formula: IF(MIN(M19,S19,Y19,AE19,AK19,AQ19,AW19,BC19)<>0,MIN(M19,S19,Y19,AE19,AK19,AQ19,AW19,BC19),"")
  Col: J
+   2.125
   Formula: IF(AND(ISNUMBER(H19),ISNUMBER(I19)),H19*I19,"")
+ Col: Q
+   6920000
+  Styles:
+  - lessThan H19 -> FF000000/FFFF9900
+ Col: R
+  Styles:
+  - =AND(NOT(ISBLANK(R19)),OR(Q19="NonStk",R19>Q19)) -> FFFFFFFF/FFFF0000
+ Col: S
+   0.017
+  Formula: IFERROR(IF(OR(R19>=T19,H19>=T19),LOOKUP(IF(R19="",H19,R19),{0,1,10,25,50,100,250,500,1000,10000,30000,50000},{0.0,0.1,0.042,0.0304,0.023,0.017,0.01296,0.01036,0.00763,0.00475,0.00418,0.00392}),"MOQ="&T19),"")
+  Styles:
+  - lessThanOrEqual I19 -> -/FF80FF80
+ Col: T
+   1
+ Col: U
+   2.125
+  Formula: IFERROR(IF(R19="",H19,R19)*S19,"")
+  Styles:
+  - lessThanOrEqual J19 -> -/FF80FF80
+ Col: V
+   <a href="https://octopart.com/click/track?ai=8078&sig=04cd5ba&sid=459&ppid=60632&vpid=72530002&ct=offers">1276-3480-1-ND</a>
 Row: 20
  Col: A
    "prj0:S2

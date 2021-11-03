@@ -35,5 +35,5 @@ APIs:
     # Normally enabled
     # enable: true
     # Directory for the APIs caches
-    # cache_path: ~/.cache/kicost/KitSpace
+    cache_path: ../kitspace
 

@@ -66,7 +66,7 @@ class QueryCache(object):
         self.suffix = ''
 
     def get_name(self, prefix, name):
-        return os.path.join(self.path, prefix + '_' + name.replace('/', '_') + '_' + self.suffix + ".dat")
+        return os.path.join(self.path, prefix + '_' + name.replace('/', '_') + self.suffix + ".dat")
 
     def save_results(self, prefix, name, results):
         ''' Saves the results to the cache '''
@@ -81,7 +81,7 @@ class QueryCache(object):
         mtime = os.path.getmtime(file)
         ctime = time.time()
         dif_minutes = int((ctime-mtime)/60)
-        if self.ttl_min < 0 or dif_minutes <= self.ttl_min:
+        if self.ttl_min < 0 or (self.ttl_min > 0 and dif_minutes <= self.ttl_min):
             with open(file, "rb") as fh:
                 result = pickle.loads(fh.read())
             # Valid load if we got a valid result or we have a persistent cache

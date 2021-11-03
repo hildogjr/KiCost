@@ -57,8 +57,6 @@ last_err = None
 # Text we want to filter in the XLSX to TXT conversion
 XLSX_FILTERS = (('$ date:', None), ('Prj date:', '(file'), ('KiCost', 0))
 OCTOPART_KEY = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-# Use the default config
-CONFIG_FILE = None
 
 
 def to_str(s):
@@ -272,7 +270,7 @@ def check_diff(filename):
         raise
 
 
-def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
+def run_test(name, inputs, output, extra=None, price=True, ret_err=0, config_file=None):
     if not os.path.isdir(TESTDIR + '/result_test'):
         os.mkdir(TESTDIR + '/result_test')
     if not os.path.isdir(TESTDIR + '/log_test'):
@@ -300,8 +298,8 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
         cmd.append('--no_price')
     if extra:
         cmd.extend(extra)
-    if CONFIG_FILE is not None:
-        cmd.extend(['-c', TESTDIR + '/configs/' + CONFIG_FILE])
+    if config_file is not None:
+        cmd.extend(['-c', TESTDIR + '/configs/' + config_file])
     else:
         cmd.extend(['-c', TESTDIR + '/configs/default.yaml'])
     out_xlsx = TESTDIR + '/' + output + '.xlsx'
@@ -338,7 +336,7 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
     logging.info(output+' OK')
 
 
-def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_err=0):
+def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_err=0, config_file=None):
     logging.debug('Test name: ' + name)
     if inputs is None:
         inputs = name
@@ -348,7 +346,7 @@ def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_e
         output = inputs[0]
         if output.endswith('.csv'):
             output = output[:-4]
-    run_test(name, inputs, output, extra, price, ret_err)
+    run_test(name, inputs, output, extra, price, ret_err, config_file)
 
 
 def check_errors(errors):
@@ -367,27 +365,21 @@ def test_300_010():
 
 
 def test_acquire_PWM_1():
-    run_test_check('acquire-PWM')
+    run_test_check('acquire-PWM', config_file='kitspace_no_cache.yaml')
 
 
 def test_acquire_PWM_dk():
     name = 'acquire_PWM_dk'
-    global CONFIG_FILE
-    CONFIG_FILE = 'digikey.yaml'
-    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey'])
-    CONFIG_FILE = None
+    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey'], config_file='digikey.yaml')
 
 
 def test_acquire_PWM_eur_dk():
     name = 'acquire_PWM_eur_dk'
-    global CONFIG_FILE
-    CONFIG_FILE = 'digikey_eur.yaml'
-    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey', '--currency', 'EUR'])
-    CONFIG_FILE = None
+    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey', '--currency', 'EUR'], config_file='digikey_eur.yaml')
 
 
 def test_acquire_PWM_2():
-    run_test_check('acquire-PWM_2')
+    run_test_check('acquire-PWM_2', config_file='kitspace_no_cache.yaml')
 
 
 def test_Aeronav_R():
@@ -507,15 +499,15 @@ def test_Parts():
 
 
 def test_part_list_big():
-    run_test_check('part_list_big.csv')
+    run_test_check('part_list_big.csv', config_file='kitspace_no_cache.yaml')
 
 
 def test_part_list_small_hdr():
-    run_test_check('part_list_small.csv')
+    run_test_check('part_list_small.csv', config_file='kitspace_no_cache.yaml')
 
 
 def test_part_list_small_nohdr():
-    run_test_check('part_list_small_nohdr.csv')
+    run_test_check('part_list_small_nohdr.csv', config_file='kitspace_no_cache.yaml')
 
 
 def test_multiproject_1():
@@ -595,7 +587,7 @@ def test_scrape_over_1():
 def test_scrape_over_2():
     # Data from the fields relaces the web-scraped data.
     # For this we exclude the distributor with --exclude
-    run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'])
+    run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'], config_file='kitspace_no_cache.yaml')
 
 
 def test_manf_no_manf_num():
@@ -675,11 +667,8 @@ def test_octopart_1p():
 
 
 def test_octopart_1n():
-    global CONFIG_FILE
-    CONFIG_FILE = 'octopart.yaml'
     name = 'octopart_1'
-    run_test_check(name + 'n', name, name + 'n')
-    CONFIG_FILE = None
+    run_test_check(name + 'n', name, name + 'n', config_file='octopart.yaml')
 
 
 def test_octopart_1_ambi():
