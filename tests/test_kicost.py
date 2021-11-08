@@ -663,23 +663,23 @@ def test_rare_refs_no_collapse():
 
 def test_octopart_1p():
     name = 'octopart_1'
-    run_test_check(name + 'p', name, name + 'p', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'])
+    run_test_check(name + 'p', name, name + 'p', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'], config_file='octopart_no_cache.yaml')
 
 
 def test_octopart_1n():
     name = 'octopart_1'
-    run_test_check(name + 'n', name, name + 'n', config_file='octopart.yaml')
+    run_test_check(name + 'n', name, name + 'n', config_file='octopart_no_cache.yaml')
 
 
 def test_octopart_1_ambi():
     name = 'octopart_1_ambi'
-    run_test_check(name, extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'])
+    run_test_check(name, extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'], config_file='octopart_no_cache.yaml')
     check_errors([r'Using "Adafruit Industries" for manf#="4062"', r'Ambiguous manf#="4062" please use manf to select the right one, choices:'])
 
 
 def test_octopart_2n():
     name = 'octopart_2'
-    run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4', '--disable_api', 'KitSpace'])
+    run_test_check(name + 'n', name, name + 'n', extra=['--disable_api', 'KitSpace'], config_file='octopart.yaml')
 
 
 def test_337():

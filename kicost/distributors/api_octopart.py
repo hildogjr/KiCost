@@ -38,7 +38,7 @@ else:
 from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class
+from .distributor import distributor_class, QueryCache
 
 # Author information.
 __author__ = 'XESS Corporation'
@@ -47,6 +47,16 @@ __webpage__ = 'info@xess.com'
 OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 
 __all__ = ['api_octopart']
+
+
+class QueryStruct(object):
+    def __init__(self, id, kind, code, part):
+        self.id = str(id)  # ID number for this query
+        self.kind = kind   # mpn/sku
+        self.code = code   # manf_code/sku
+        self.part = part   # Pointer to the part.
+        self.result = None
+        self.loaded = False
 
 
 class api_octopart(distributor_class):
@@ -59,6 +69,7 @@ class api_octopart(distributor_class):
     api_level = 4
     # Include specs and datasheets. Only in the Pro plan.
     extended = False
+    cache = None
 
     API_KEY = None
     api_distributors = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']
@@ -77,6 +88,8 @@ class api_octopart(distributor_class):
 
     @staticmethod
     def configure(ops):
+        cache_ttl = 7
+        cache_path = None
         for k, v in ops.items():
             if k == 'key':
                 api_octopart.API_KEY = v
@@ -89,6 +102,11 @@ class api_octopart(distributor_class):
                 api_octopart.extended = v
             elif k == 'level':
                 api_octopart.api_level = v
+            elif k == 'cache_ttl':
+                cache_ttl = v
+            elif k == 'cache_path':
+                cache_path = v
+        api_octopart.cache = QueryCache(cache_path, cache_ttl)
         if api_octopart.enabled and api_octopart.API_KEY is None:
             distributor_class.logger.warning(W_APIFAIL+"Can't enable Octopart without a `key`")
             api_octopart.enabled = False
@@ -184,8 +202,20 @@ class api_octopart(distributor_class):
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
     @staticmethod
-    def get_part_info(query, parts, distributors, solved, currency='USD'):
-        """Query Octopart for quantity/price info and place it into the parts list."""
+    def get_part_info(queries):
+        """Query Octopart for quantity/price info."""
+        only_query = ['{"reference": "'+q.id+'", "'+q.kind+'": "'+quote_plus(q.code)+'"}' for q in queries]
+        results = api_octopart.query(only_query)
+        # Copy the results to the queries
+        q_hash = {q.id: q for q in queries}
+        for r in results:
+            query = q_hash[r['reference']]
+            query.result = r
+            api_octopart.cache.save_results(query.kind, query.code, r)
+
+    @staticmethod
+    def fill_part_info(queries, distributors, solved, currency='USD'):
+        ''' Place the results into the parts list. '''
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
         # List of desired distributors in native format
@@ -196,11 +226,10 @@ class api_octopart(distributor_class):
             currency_prio.append('USD')
         if currency != 'EUR':
             currency_prio.append('EUR')
-        results = api_octopart.query(query)
         # Loop through the response to the query and enter info into the parts list.
-        for result in results:
-            i = int(result['reference'])  # Get the index into the part dict.
-            part = parts[i]
+        for query in queries:
+            result = query.result
+            part = query.part
             # Each result can match one or more components from different manufacturers
             # Take only the items with useful offers
             useful_items = []
@@ -351,10 +380,6 @@ class api_octopart(distributor_class):
     def query_part_info(parts, distributors, currency):
         """Fill-in the parts with price/qty/etc info from Octopart."""
         distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
-        solved = set()
-
-        # Setup progress bar to track progress of Octopart queries.
-        progress = distributor_class.progress(len(parts), distributor_class.logger)
 
         # Get the valid distributors names used by them part catalog
         # that may be index by Octopart. This is used to remove the
@@ -364,16 +389,13 @@ class api_octopart(distributor_class):
         distributors_octopart = [d for d in distributors if distributor_class.get_distributor_info(d).is_web()
                                  and d in api_octopart.api_distributors]
 
-        # Break list of parts into smaller pieces and get price/quantities from Octopart.
-        octopart_query = []
-        prev_i = 0  # Used to record index where parts query occurs.
+        # Collect all the queries
+        queries = []
         for i, part in enumerate(parts):
-
-            # Create an Octopart query using the manufacturer's part number or
-            # distributor SKU.
+            # Create an Octopart query using the manufacturer's part number or distributor SKU.
             manf_code = part.fields.get('manf#')
             if manf_code:
-                part_query = '{"reference": "'+str(i)+'", "mpn": "'+quote_plus(manf_code)+'"}'
+                query = QueryStruct(i, "mpn", manf_code, part)
             else:
                 # No MPN, so use the first distributor SKU that's found.
                 for octopart_dist_sku in distributors_octopart:
@@ -384,7 +406,7 @@ class api_octopart(distributor_class):
                     # No MPN or SKU, so skip this part.
                     continue
                 # Create the part query using SKU matching.
-                part_query = '{"reference": "'+str(i)+'", "sku": "'+quote_plus(sku)+'"}'
+                query = QueryStruct(i, "sku", sku, part)
 
                 # Because was used the distributor (enrolled at Octopart list)
                 # despite the normal 'manf#' code, take the sub quantity as
@@ -396,26 +418,44 @@ class api_octopart(distributor_class):
                             f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                 except KeyError:
                     pass
-
             # Add query for this part to the list of part queries.
-            octopart_query.append(part_query)
+            queries.append(query)
 
-            # Once there are enough (but not too many) part queries, make a query request to Octopart.
-            if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
-                api_octopart.get_part_info(octopart_query, parts, distributors_octopart, solved, currency)
-                progress.update(i - prev_i)  # Update progress bar.
-                prev_i = i
-                octopart_query = []  # Get ready for next batch.
+        n_queries = len(queries)
+        distributor_class.logger.log(DEBUG_OVERVIEW, 'Queries {}'.format(n_queries))
+        if not n_queries:
+            return
 
-        # Query Octopart for the last batch of parts.
-        if octopart_query:
-            api_octopart.get_part_info(octopart_query, parts, distributors_octopart, solved, currency)
-            progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
+        # Try to solve the queries from the cache
+        unsolved = []
+        for query in queries:
+            # Look in the cache
+            query.result, query.loaded = api_octopart.cache.load_results(query.kind, query.code)
+            if not query.loaded:
+                unsolved.append(query)
 
-        # Done with the scraping progress bar so delete it or else we get an
-        # error when the program terminates.
-        progress.close()
-        return solved
+        # Solve the rest from the site
+        n_unsolved = len(unsolved)
+        distributor_class.logger.log(DEBUG_OVERVIEW, 'Cached entries {}'.format(n_queries-n_unsolved))
+        if n_unsolved:
+            # Setup progress bar to track progress of server queries.
+            progress = distributor_class.progress(n_unsolved, distributor_class.logger)
+
+            # Slice the queries into batches of the largest allowed size and gather
+            # the part data for each batch.
+            for i in range(0, n_unsolved, OCTOPART_MAX_PARTBYQUERY):
+                slc = slice(i, i+OCTOPART_MAX_PARTBYQUERY)
+                api_octopart.get_part_info(unsolved[slc])
+                progress.update(len(unsolved[slc]))
+
+            # Done with the scraping progress bar so delete it or else we get an
+            # error when the program terminates.
+            progress.close()
+
+        # Transfer the results
+        solved_dist = set()
+        api_octopart.fill_part_info(queries, distributors_octopart, solved_dist, currency)
+        return solved_dist
 
     @staticmethod
     def from_environment(options, overwrite):

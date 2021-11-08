@@ -3,7 +3,7 @@ kicost:
   version: 1
   # Cache Time To Live in days, -1 is forever
   # Default is 7
-  cache_ttl: -1
+  cache_ttl: 0
   # Base directory for the APIs caches
   # cache_path: ~/.cache/kicost
 
