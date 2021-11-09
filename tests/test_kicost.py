@@ -687,6 +687,13 @@ def test_337():
     run_test_check('test_337_UserFieldCombining', extra=['--field', 'Supplier'], price=False)
 
 
+def test_mouser_1():
+    test_name = 'mouser_1'
+    fields = ['S1MN', 'S1PN', 'S2MN', 'S2PN']
+    extra = ['--split_extra_fields'] + fields + ['-f'] + fields + ['--include', 'mouser']
+    run_test_check(test_name, 'complex_multipart', test_name, extra=extra, config_file='mouser.yaml')
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

@@ -1,0 +1,361 @@
+Variables:
+BoardQty = 'mouser_1'!$M$1
+PURCHASE_DESCRIPTION = 'mouser_1'!$M$12
+TotalCost = 'mouser_1'!$M$3
+USD_EUR = 'mouser_1'!$C$12
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "Complex multipart"
+ Col: L
+   "Board Qty:"
+ Col: M
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: B
+   "KiCOST TEST"
+ Col: L
+   "Unit Cost:"
+ Col: M
+   0.095
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "2021-01-02"
+ Col: L
+   "Total Cost:"
+ Col: M
+   9.4984
+  Formula: SUM(M7:M9)
+ Col: R
+   72
+  Formula: SUM(R7:R9)
+ Col: S
+   "2 of 3 parts found"
+  Formula: (COUNTA(R7:R9)&" of "&ROWS(R7:R9)&" parts found")
+ Col: X
+   9.4984
+  Formula: SUM(X7:X9)
+ Col: Y
+   "3 of 3 parts found"
+  Formula: (COUNTA(X7:X9)&" of "&ROWS(X7:X9)&" parts found")
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+ Col: N
+   "Mouser"
+ Col: T
+   "we"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Desc"
+ Col: D
+   "S1MN"
+ Col: E
+   "S1PN"
+ Col: F
+   "S2MN"
+ Col: G
+   "S2PN"
+ Col: H
+   "Footprint"
+ Col: I
+   "Manf"
+ Col: J
+   "Manf#"
+ Col: K
+   "Qty"
+ Col: L
+   "Unit$"
+ Col: M
+   "Ext$"
+ Col: N
+   "Avail"
+ Col: O
+   "Purch"
+ Col: P
+   "Unit$"
+ Col: Q
+   "MOQ"
+ Col: R
+   "Ext$"
+ Col: S
+   "Cat#"
+ Col: T
+   "Avail"
+ Col: U
+   "Purch"
+ Col: V
+   "Unit$"
+ Col: W
+   "MOQ"
+ Col: X
+   "Ext$"
+ Col: Y
+   "Cat#"
+Row: 7
+ Col: A
+   "F1#1"
+ Col: B
+   "F-6A/250V - p1/3"
+ Col: C
+   "FUSE HOLDER for fuse 5mm x 20mm"
+ Col: D
+   "Eaton"
+ Col: E
+   "BK-1A3399-10-R:2"
+ Col: F
+   "Bussman"
+ Col: G
+   "1A3399-10-R:2"
+ Col: I
+   "Wurth Electronik"
+ Col: J
+   <a href="https://www.mouser.com/datasheet/2/445/696101000002-1720094.pdf">696101000002</a>
+ Col: K
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(J7),ISBLANK(R7),ISBLANK(X7)) -> -/FFAAAAAA
+  - =IF(SUM(N7,T7)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(N7,T7) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(P7),O7,0),IF(ISNUMBER(V7),U7,0)) -> -/FFFFFF00
+ Col: L
+   0.083111
+  Formula: IF(MIN(P7,V7)<>0,MIN(P7,V7),"")
+ Col: M
+   8.3111
+  Formula: IF(AND(ISNUMBER(K7),ISNUMBER(L7)),K7*L7,"")
+ Col: N
+   500
+  Styles:
+  - lessThan K7 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - =AND(NOT(ISBLANK(O7)),OR(N7="NonStk",O7>N7)) -> FFFFFFFF/FFFF0000
+ Col: P
+   0.531
+  Formula: IFERROR(IF(OR(O7>=Q7,K7>=Q7),LOOKUP(IF(O7="",K7,O7),{0,1,10,50,100},{0.0,0.66,0.627,0.595,0.531}),"MOQ="&Q7),"")
+  Styles:
+  - lessThanOrEqual L7 -> -/FF80FF80
+ Col: Q
+   1
+ Col: R
+   53.1
+  Formula: IFERROR(IF(O7="",K7,O7)*P7,"")
+  Styles:
+  - lessThanOrEqual M7 -> -/FF80FF80
+ Col: S
+   <a href="https://www.mouser.com/ProductDetail/Wurth-Elektronik/696101000002?qs=%252BEew9%252B0nqrA0cx9mOnCWEw%3D%3D">710-696101000002</a>
+ Col: T
+   "NonStk"
+  Styles:
+  - lessThan K7 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(NOT(ISBLANK(U7)),OR(T7="NonStk",U7>T7)) -> FFFFFFFF/FFFF0000
+ Col: V
+   0.083111
+  Formula: IFERROR(IF(OR(U7>=W7,K7>=W7),USD_EUR*LOOKUP(IF(U7="",K7,U7),{0,1},{0.0,0.07}),"MOQ="&W7),"")
+  Styles:
+  - lessThanOrEqual L7 -> -/FF80FF80
+ Col: W
+   1
+ Col: X
+   8.3111
+  Formula: IFERROR(IF(U7="",K7,U7)*V7,"")
+  Styles:
+  - lessThanOrEqual M7 -> -/FF80FF80
+ Col: Y
+   "696101000002"
+Row: 8
+ Col: A
+   "F1#2"
+ Col: B
+   "F-6A/250V - p2/3"
+ Col: C
+   "FUSE HOLDER for fuse 5mm x 20mm"
+ Col: D
+   "*NONE*"
+ Col: E
+   "*NONE*"
+ Col: F
+   "*NONE*"
+ Col: G
+   "*NONE*"
+ Col: I
+   "Bel Fuse"
+ Col: J
+   <a href="https://www.mouser.com/datasheet/2/643/ds-CP-5mf-5mfp-series-1313109.pdf">5MF 6-R</a>
+ Col: K
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(J8),ISBLANK(R8),ISBLANK(X8)) -> -/FFAAAAAA
+  - =IF(SUM(N8,T8)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(N8,T8) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(P8),O8,0),IF(ISNUMBER(V8),U8,0)) -> -/FFFFFF00
+ Col: L
+  Formula: IF(MIN(P8,V8)<>0,MIN(P8,V8),"")
+ Col: M
+  Formula: IF(AND(ISNUMBER(K8),ISNUMBER(L8)),K8*L8,"")
+ Col: N
+   6809
+  Styles:
+  - lessThan K8 -> FF000000/FFFF9900
+ Col: O
+  Styles:
+  - =AND(NOT(ISBLANK(O8)),OR(N8="NonStk",O8>N8)) -> FFFFFFFF/FFFF0000
+ Col: P
+   0.189
+  Formula: IFERROR(IF(OR(O8>=Q8,K8>=Q8),LOOKUP(IF(O8="",K8,O8),{0,1,10,25,100},{0.0,0.25,0.227,0.21,0.189}),"MOQ="&Q8),"")
+  Styles:
+  - lessThanOrEqual L8 -> -/FF80FF80
+ Col: Q
+   1
+ Col: R
+   18.9
+  Formula: IFERROR(IF(O8="",K8,O8)*P8,"")
+  Styles:
+  - lessThanOrEqual M8 -> -/FF80FF80
+ Col: S
+   <a href="https://www.mouser.com/ProductDetail/Bel-Fuse/5MF-6-R?qs=MvPYbBWWJyvZ8lGhubmnGg%3D%3D">530-5MF6-R</a>
+ Col: T
+   "NonStk"
+  Styles:
+  - lessThan K8 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(NOT(ISBLANK(U8)),OR(T8="NonStk",U8>T8)) -> FFFFFFFF/FFFF0000
+ Col: V
+   0
+  Formula: IFERROR(IF(OR(U8>=W8,K8>=W8),LOOKUP(IF(U8="",K8,U8),{0},{0.0}),"MOQ="&W8),"")
+  Styles:
+  - lessThanOrEqual L8 -> -/FF80FF80
+ Col: W
+   0
+ Col: X
+   0
+  Formula: IFERROR(IF(U8="",K8,U8)*V8,"")
+  Styles:
+  - lessThanOrEqual M8 -> -/FF80FF80
+ Col: Y
+   "5MF 6-R"
+Row: 9
+ Col: A
+   "F1#3"
+ Col: B
+   "F-6A/250V - p3/3"
+ Col: C
+   "FUSE HOLDER for fuse 5mm x 20mm"
+ Col: D
+   "Cover clip?"
+ Col: E
+   "Cover clip?"
+ Col: F
+   "Cover clip?"
+ Col: G
+   "Cover clip?"
+ Col: I
+   "Wurth Electronik"
+ Col: J
+   "695120004001"
+ Col: K
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(J9),ISBLANK(R9),ISBLANK(X9)) -> -/FFAAAAAA
+  - =IF(SUM(N9,T9)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(N9,T9) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(P9),O9,0),IF(ISNUMBER(V9),U9,0)) -> -/FFFFFF00
+ Col: L
+   0.011873
+  Formula: IF(MIN(P9,V9)<>0,MIN(P9,V9),"")
+ Col: M
+   1.1873
+  Formula: IF(AND(ISNUMBER(K9),ISNUMBER(L9)),K9*L9,"")
+ Col: T
+   "NonStk"
+  Styles:
+  - lessThan K9 -> FF000000/FFFF9900
+ Col: U
+  Styles:
+  - =AND(NOT(ISBLANK(U9)),OR(T9="NonStk",U9>T9)) -> FFFFFFFF/FFFF0000
+ Col: V
+   0.011873
+  Formula: IFERROR(IF(OR(U9>=W9,K9>=W9),USD_EUR*LOOKUP(IF(U9="",K9,U9),{0,1,100},{0.0,0.03,0.01}),"MOQ="&W9),"")
+  Styles:
+  - lessThanOrEqual L9 -> -/FF80FF80
+ Col: W
+   1
+ Col: X
+   1.1873
+  Formula: IFERROR(IF(U9="",K9,U9)*V9,"")
+  Styles:
+  - lessThanOrEqual M9 -> -/FF80FF80
+ Col: Y
+   "695120004001"
+Row: 11
+ Col: B
+   "Used currency rates:"
+ Col: L
+   "Total Purchase:"
+ Col: M
+   0
+  Formula: SUM(R11,X11)
+ Col: N
+   <a href="https://mouser.com/bom/">Buy here</a>
+ Col: O
+  Formula: IFERROR(IF(COUNTIF(O7:O9,">0")>0,COUNTIF(O7:O9,">0")&" of "&(ROWS(Q7:Q9)-COUNTBLANK(Q7:Q9))&" parts purchased",""),"")
+ Col: R
+   0
+  Formula: SUMIF(O7:O9,">0",R7:R9)
+ Col: U
+  Formula: IFERROR(IF(COUNTIF(U7:U9,">0")>0,COUNTIF(U7:U9,">0")&" of "&(ROWS(W7:W9)-COUNTBLANK(W7:W9))&" parts purchased",""),"")
+ Col: X
+   0
+  Formula: SUMIF(U7:U9,">0",X7:X9)
+Row: 12
+ Col: B
+   "USD($)/EUR(€):"
+ Col: C
+   1.1873
+ Col: L
+   "Purchase description:"
+ Col: O
+  Formula: CONCATENATE(O16,O17,O18)
+ Col: U
+  Formula: CONCATENATE(U16,U17,U18)
+Row: 14
+ Col: A
+   "*FILTERED*"
+Row: 16
+ Col: O
+  Formula: IF(ISNUMBER(O7:O9)*(O7:O9>=Q7:Q9)*(S7:S9<>""),S7:S9&"|"&TEXT(ROUNDUP(O7:O9/IF(ISNUMBER(Q7:Q9),Q7:Q9,1))*Q7:Q9,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A9,"|",";")," ","_"),"\n","_")&CHAR(10),"")
+ Col: U
+  Formula: IF(ISNUMBER(U7:U9)*(U7:U9>=W7:W9)*(Y7:Y9<>""),Y7:Y9&","&TEXT(ROUNDUP(U7:U9/IF(ISNUMBER(W7:W9),W7:W9,1))*W7:W9,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A9,",",";"),"\n"," ")&CHAR(10),"")
+Row: 17
+ Col: O
+   0
+ Col: U
+   0
+Row: 18
+ Col: O
+   0
+ Col: U
+   0

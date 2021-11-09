@@ -3,7 +3,7 @@ kicost:
   version: 1
   # Cache Time To Live in days, -1 is forever
   # Default is 7
-  cache_ttl: 0
+  cache_ttl: -1
   # Base directory for the APIs caches
   # cache_path: ~/.cache/kicost
 
@@ -22,11 +22,11 @@ APIs:
     # cache_path: ~/.cache/kicost/Digi-Key
   Mouser:
     # Mouser Part API key
-    # key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
     # Only enabled if the key is defined
     # enable: false
     # Directory for the APIs caches
-    # cache_path: ~/.cache/kicost/Mouser
+    cache_path: ../mouser
   Octopart:
     # Octopart API Key
     # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
@@ -42,5 +42,5 @@ APIs:
     # Normally enabled
     # enable: true
     # Directory for the APIs caches
-    cache_path: ../discard
+    # cache_path: ~/.cache/kicost/KitSpace
 

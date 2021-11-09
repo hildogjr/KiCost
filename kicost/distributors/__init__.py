@@ -34,6 +34,7 @@ from .dist_local_template import dist_local_template  # noqa: F401
 from .api_octopart import api_octopart  # noqa: F401
 from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
 from .api_digikey import api_digikey  # noqa: F401
+from .api_mouser import api_mouser  # noqa: F401
 
 
 #

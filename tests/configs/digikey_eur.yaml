@@ -46,6 +46,13 @@ APIs:
 
     # ISO code for country to ship to.
     locale_ship_to_country: ES
+  Mouser:
+    # Mouser Part API key
+    # key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    # Only enabled if the key is defined
+    # enable: false
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/Mouser
   Octopart:
     # Octopart API Key
     # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
