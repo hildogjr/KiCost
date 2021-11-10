@@ -175,6 +175,10 @@ class MouserPartSearchRequest(MouserBaseRequest):
         'manufacturerlist': ('', ''),
     }
 
+    def __init__(self, operation, key, *args):
+        ''' Init '''
+        super().__init__(operation, key, *args)
+
     def get_clean_response(self):
         cleaned_data = {
             'Availability': '',
