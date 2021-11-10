@@ -179,7 +179,8 @@ class MouserPartSearchRequest(MouserBaseRequest):
         ''' Init '''
         super().__init__(operation, key, *args)
 
-    def get_clean_response(self):
+    @staticmethod
+    def get_clean_response(response):
         cleaned_data = {
             'Availability': '',
             'Category': '',
@@ -196,7 +197,6 @@ class MouserPartSearchRequest(MouserBaseRequest):
             'PriceBreaks': [],
         }
 
-        response = self.response_parsed
         if not response:
             return None
         try:
@@ -214,8 +214,7 @@ class MouserPartSearchRequest(MouserBaseRequest):
         return cleaned_data
 
     def print_clean_response(self):
-        response_data = self.get_clean_response()
-        print(json.dumps(response_data, indent=4, sort_keys=True))
+        print(json.dumps(self.get_clean_response(self.response_parsed), indent=4, sort_keys=True))
 
     def get_body(self, **kwargs):
         body = {}
@@ -313,12 +312,12 @@ class api_mouser(distributor_class):
                 distributor_class.logger.log(DEBUG_DETAILED, 'P/N: ' + partnumber)
                 request, loaded = api_mouser.cache.load_results(prefix, partnumber)
                 if loaded:
-                    data = request.get_clean_response()
+                    data = MouserPartSearchRequest.get_clean_response(request)
                 else:
                     request = MouserPartSearchRequest('partnumber', api_mouser.key)
                     if request.part_search(partnumber):
-                        data = request.get_clean_response()
-                        api_mouser.cache.save_results(prefix, partnumber, request)
+                        data = request.get_clean_response(request.response_parsed)
+                        api_mouser.cache.save_results(prefix, partnumber, request.response_parsed)
 
             if data is None:
                 distributor_class.logger.warning(W_NOINFO+'No information found at Mouser for part/s \'{}\''.format(part.refs))
