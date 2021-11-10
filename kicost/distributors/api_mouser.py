@@ -144,20 +144,17 @@ class MouserBaseRequest(MouserAPIRequest):
     def __init__(self, operation, key, *args):
         ''' Init '''
         if operation not in self.operations:
-            print(f'[{self.name}]\tInvalid Operation')
-            print('-' * 10)
-
+            msg = '[{}] Invalid Operation'.format(self.name)
             valid_operations = [operation for operation, values in self.operations.items() if values[0] and values[1]]
             if valid_operations:
-                print('Valid operations:')
-                for operation in valid_operations:
-                    print(f'- {operation}')
+                msg += ' Valid operations: ' + str(valid_operations)
+            raise MouserError(msg)
             return
 
         self.operation = operation
         (method, url) = self.operations.get(self.operation, ('', ''))
         if not url or not method or method not in self.allowed_methods:
-            print(f'[{self.name}]\tOperation "{operation}" Not Yet Supported')
+            raise MouserError('[{}]\tOperation "{}" Not Yet Supported'.format(self.name, operation))
             return
         super().__init__(url, method, key, *args)
 
