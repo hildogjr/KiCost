@@ -145,7 +145,7 @@ class MouserBaseRequest(MouserAPIRequest):
         ''' Init '''
         if operation not in self.operations:
             msg = '[{}] Invalid Operation'.format(self.name)
-            valid_operations = [operation for operation, values in self.operations.items() if values[0] and values[1]]
+            valid_operations = [op for op, values in self.operations.items() if values[0] and values[1]]
             if valid_operations:
                 msg += ' Valid operations: ' + str(valid_operations)
             raise MouserError(msg)
