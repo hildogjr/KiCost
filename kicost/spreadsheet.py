@@ -1231,7 +1231,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             # Add text conversion if is a numeric cell.
             # Also make it a multiple of the MOQ.
             # Note: IF(ISNUMBER({moq}),{moq},1) prevents a /0 error
-            order_part_info.append('TEXT(ROUNDUP({purch}/IF(ISNUMBER({moq}),{moq},1))*{moq},"##0")'.format(purch=cell, moq=moq_range))
+            order_part_info.append('TEXT(ROUNDUP({purch}/IF(ISNUMBER({moq}),{moq},1),0)*{moq},"##0")'.format(purch=cell, moq=moq_range))
         elif col in ['part_num', 'manf#']:
             # Part number goes without changes
             order_part_info.append(cell)
