@@ -225,7 +225,7 @@ class api_partinfo_kitspace(distributor_class):
             part.datasheet = result.get('datasheet')
             part.lifecycle = api_partinfo_kitspace.get_spec(result, 'lifecycle_status', 'active').lower()
             # Misc data collected, currently not used inside KiCost
-            part.update_specs({sp['key']: (sp['key'], sp['value']) for sp in result['specs']})
+            part.update_specs({sp['key']: (sp['key'], sp['value']) for sp in result['specs'] if sp['value']})
             # Loop through the offers from various dists for this particular part.
             for offer in result['offers']:
                 # Get the distributor who made the offer and add their
