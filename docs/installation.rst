@@ -71,4 +71,4 @@ For install the graphical dependence used by KiCost GUI (only needed if KiCad is
 For install the last code version from GitHub, use::
 
     $ sudo apt-get install git # It's necessary to have Git installed.
-    $ sudo -H pip3 install -U git+https://github.com/xesscorp/KiCost.git
+    $ sudo -H pip3 install -U git+https://github.com/hildogjr/KiCost.git
