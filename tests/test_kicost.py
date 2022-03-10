@@ -694,6 +694,12 @@ def test_mouser_1():
     run_test_check(test_name, 'complex_multipart', test_name, extra=extra, config_file='mouser.yaml')
 
 
+def test_element14_1():
+    test_name = 'element14_1'
+    extra = ['--include', 'farnell', 'newark']
+    run_test_check(test_name, 'safelink_receiver', test_name, extra=extra, config_file='element14.yaml')
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

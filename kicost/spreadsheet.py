@@ -44,7 +44,7 @@ from validators import url as validate_url  # URL validator.
 # KiCost libraries.
 from .version import __version__  # Version control by @xesscorp and collaborator.
 from .distributors import get_distributor_info, ORDER_COL_USERFIELDS
-from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
+from .edas.tools import order_refs, PART_REF_REGEX
 from . import DistData
 
 from .currency_converter import CurrencyConverter, get_currency_symbol, format_currency
@@ -516,13 +516,6 @@ def create_worksheet(ss, logger, parts):
         dist_list = web_dists + local_dists
     else:
         dist_list = ss.DISTRIBUTORS
-    # Make sure we have the number of boards for each project
-    for p_info in prj_info:
-        if 'qty' not in p_info:
-            p_info['qty'] = ss.DEFAULT_BUILD_QTY
-    # Compute some values needed for the parts
-    for part in parts:
-        part.qty_str, part.qty = partgroup_qty(part)
 
     # Fill the global information (not distributor-specific)
     # Skip the prices, will fill them after we fill the distributors
@@ -735,22 +728,20 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             ss.write_string(row, n_col, field_value, cell_format)
 
         # Enter total part quantity needed.
+        total = part.qty_total_spreadsheet
         if num_prj > 1:
             # Multifiles BOM case, write each quantity and after,
             # in the 'qty' column the total quantity as ceil of
             # the total quantity (to ceil use a Microsoft Excel
             # compatible function.
-            total = 0
             for i_prj, p_info in enumerate(ss.prj_info):
                 value = part.qty[i_prj] * p_info['qty']
                 if part.qty[i_prj]:
                     ss.num_parts[i_prj] += 1
-                total += value
                 id = str(i_prj)
                 # Qty.PrjN
                 wks.write_formula(row, start_col + col['qty_prj'+id], part.qty_str[i_prj].format('BoardQty'+id), ss.wrk_formats['part_format'], value=value)
             # Build Quantity
-            total = ceil(total)
             wks.write_formula(row, col_qty,
                               '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + col['qty_prj0']),
                                                               xl_rowcol_to_cell(row, col_qty-1)),
@@ -758,9 +749,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                               value=total)
         else:
             # Build Quantity
-            total = ceil(part.qty * ss.prj_info[0]['qty'])
             wks.write_formula(row, col_qty, part.qty_str.format('BoardQty'), ss.wrk_formats['part_format'], value=total)
-        part.qty_total_spreadsheet = total
         row += 1  # Go to next row.
 
     # Return column following the globals so we know where to start next set of cells.

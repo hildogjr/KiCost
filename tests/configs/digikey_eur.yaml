@@ -53,6 +53,24 @@ APIs:
     # enable: false
     # Directory for the APIs caches
     # cache_path: ~/.cache/kicost/Mouser
+  Element14:
+    # Element14 includes: Farnell, Newark and CPC
+    # Element14 Product Search API key
+    # key: XXXXXXXXXXXXXXXXXXXXXXXX
+    # Only enabled if the key is defined
+    # enable: false
+    # Country used for Farnell queries.
+    # Supported countries: BG,CZ,DK,AT,CH,DE,IE,IL,UK,ES,EE,FI,FR,HU,IT,LT,
+    # LV,BE,NL,NO,PL,PT,RO,RU,SK,SI,SE,TR,CN,AU,NZ,HK,SG,MY,PH,TH,IN,KR,VN
+    # farnell_country: UK
+    # Country used for Newark queries.
+    # Supported countries: US,CA,MX
+    # newark_country: US
+    # Country used for CPC queries.
+    # Supported countries: UK,IE
+    # cpc_country: UK
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/Element14
   Octopart:
     # Octopart API Key
     # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx

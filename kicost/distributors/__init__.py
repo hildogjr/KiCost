@@ -35,6 +35,7 @@ from .api_octopart import api_octopart  # noqa: F401
 from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
 from .api_digikey import api_digikey  # noqa: F401
 from .api_mouser import api_mouser  # noqa: F401
+from .api_element14 import api_element14  # noqa: F401
 
 
 #
