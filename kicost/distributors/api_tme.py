@@ -103,7 +103,7 @@ class TME(object):
         # Check the selected country
         cnt = self.get_countries()
         country_l = country.lower()
-        cnt_data = next(filter(lambda x: x['CountryId'].lower() == country_l, cnt), None)
+        cnt_data = next(iter(filter(lambda x: x['CountryId'].lower() == country_l, cnt)), None)
         if cnt_data is None:
             raise TMEError("Unsupported country `{}`".format(country))
         # Check if the currency is supported for this country
@@ -351,7 +351,7 @@ class api_tme(distributor_class):
             distributor_class.logger.log(DEBUG_OBSESSIVE, '* Data found:')
             distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(data))
             if part.datasheet is None:
-                ds = next(filter(lambda x: x['DocumentType'] in ['INS', 'DTE'], data['Files']['DocumentList']), None)
+                ds = next(iter(filter(lambda x: x['DocumentType'] in ['INS', 'DTE'], data['Files']['DocumentList'])), None)
                 if ds:
                     part.datasheet = ds['DocumentUrl']
             specs = {}
