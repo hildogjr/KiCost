@@ -458,6 +458,8 @@ def _select_best(data, manf, qty):
     if data != data2:
         distributor_class.logger.log(DEBUG_OBSESSIVE, ' - Selected manf `{}`'.format(data2[0]['brandName']))
         _list_comp_options(data2, ultra_debug, 'Manufacturer selected')
+        if len(data2) == 1:
+            return data2[0]
     # Sort the results according to the best availability/price
     data3 = sorted(data2, key=lambda x: _get_key(x, qty))
     _list_comp_options(data3, ultra_debug, 'Sorted')
