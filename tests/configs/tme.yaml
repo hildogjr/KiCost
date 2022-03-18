@@ -3,7 +3,7 @@ kicost:
   version: 1
   # Cache Time To Live in days, -1 is forever
   # Default is 7
-  cache_ttl: 0
+  cache_ttl: -1
   # Base directory for the APIs caches
   # cache_path: ~/.cache/kicost
 
@@ -47,7 +47,7 @@ APIs:
     # cache_path: ~/.cache/kicost/Element14
   Octopart:
     # Octopart API Key
-    key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
     # API level: 3 or 4
     # level: 4
     # The extended API is for the Pro plan
@@ -55,7 +55,7 @@ APIs:
     # Only enabled if the key is defined
     # enable: false
     # Directory for the APIs caches
-    cache_path: ../octopart
+    # cache_path: ~/.cache/kicost/Octopart
   KitSpace:
     # Normally enabled
     # enable: true
@@ -63,15 +63,19 @@ APIs:
     # cache_path: ~/.cache/kicost/KitSpace
   TME:
     # TME token (anonymous or private)
-    # token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
     # TME application secret
-    # app_secret: XXXXXXXXXXXXXXXXXXXX
+    app_secret: XXXXXXXXXXXXXXXXXXXX
+
     # Only enabled if the token and app_secret are defined
     # enable: false
-    # Country where we are buying
-    # country: US
-    # Language for the texts
-    # language: EN
-    # Directory for the APIs caches
-    # cache_path: ~/.cache/kicost/TME
 
+    # Country where we are buying
+    country: US
+
+    # Language for the texts
+    language: EN
+
+    # Directory for the APIs caches
+    cache_path: ../tme

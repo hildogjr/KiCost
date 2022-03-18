@@ -1,0 +1,1800 @@
+Variables:
+BoardQty = 'tme_1'!$H$1
+PURCHASE_DESCRIPTION = 'tme_1'!$H$56
+TotalCost = 'tme_1'!$H$3
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "safelink_receiver.xml"
+ Col: G
+   "Board Qty:"
+ Col: H
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: G
+   "Unit Cost:"
+ Col: H
+   7.2083
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "Mon 05 Jun 2017 19:55:00 BST"
+ Col: G
+   "Total Cost:"
+ Col: H
+   720.825
+  Formula: SUM(H7:H53)
+ Col: M
+   720.825
+  Formula: SUM(M7:M53)
+ Col: N
+   "25 of 47 parts found"
+  Formula: (COUNTA(M7:M53)&" of "&ROWS(M7:M53)&" parts found")
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+ Col: I
+   "TME"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Footprint"
+ Col: D
+   "Manf"
+ Col: E
+   "Manf#"
+ Col: F
+   "Qty"
+ Col: G
+   "Unit$"
+ Col: H
+   "Ext$"
+ Col: I
+   "Avail"
+ Col: J
+   "Purch"
+ Col: K
+   "Unit$"
+ Col: L
+   "MOQ"
+ Col: M
+   "Ext$"
+ Col: N
+   "Cat#"
+Row: 7
+ Col: A
+   "BT1"
+ Col: B
+   "Battery"
+ Col: C
+   "ACC-AANEG-5201"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(E7),ISBLANK(M7)) -> -/FFAAAAAA
+  - =IF(SUM(I7)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I7) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K7),J7,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K7)<>0,MIN(K7),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F7),ISNUMBER(G7)),F7*G7,"")
+Row: 8
+ Col: A
+   "BTCNT1"
+ Col: B
+   "ACC-AANEG-5201"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AANEG-5201"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E8),ISBLANK(M8)) -> -/FFAAAAAA
+  - =IF(SUM(I8)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I8) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K8),J8,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K8)<>0,MIN(K8),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F8),ISNUMBER(G8)),F8*G8,"")
+Row: 9
+ Col: A
+   "BTCNT2"
+ Col: B
+   "ACC-AAPOS-5223"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AAPOS-5223"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E9),ISBLANK(M9)) -> -/FFAAAAAA
+  - =IF(SUM(I9)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I9) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K9),J9,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K9)<>0,MIN(K9),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F9),ISNUMBER(G9)),F9*G9,"")
+Row: 10
+ Col: A
+   "BTCNT3"
+ Col: B
+   "ACC-AADBL-5212"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AADBL-5212"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E10),ISBLANK(M10)) -> -/FFAAAAAA
+  - =IF(SUM(I10)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I10) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K10),J10,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K10)<>0,MIN(K10),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F10),ISNUMBER(G10)),F10*G10,"")
+Row: 11
+ Col: A
+   "C1,C4,C5,C8-C10,C19,C21,C25,C26,C29,C33"
+ Col: B
+   "10u"
+ Col: C
+   "C_0805"
+ Col: D
+   "Murata"
+ Col: E
+   "GRM21BR71A106KE51L"
+ Col: F
+   1200
+  Formula: CEILING(BoardQty*12.0,1)
+  Styles:
+  - =AND(ISBLANK(E11),ISBLANK(M11)) -> -/FFAAAAAA
+  - =IF(SUM(I11)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I11) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K11),J11,0)) -> -/FFFFFF00
+ Col: G
+   0.06931
+  Formula: IF(MIN(K11)<>0,MIN(K11),"")
+ Col: H
+   83.172
+  Formula: IF(AND(ISNUMBER(F11),ISNUMBER(G11)),F11*G11,"")
+ Col: I
+   28330
+  Styles:
+  - lessThan F11 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J11>0,MOD(J11,L11)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J11)),OR(I11="NonStk",J11>I11)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.06931
+  Formula: IFERROR(IF(OR(J11>=L11,F11>=L11),LOOKUP(IF(J11="",F11,J11),{0,1,10,100,1000,3000,12000},{0.0,0.25868,0.25868,0.09375,0.06931,0.05992,0.05815}),"MOQ="&L11),"")
+ Col: L
+   10
+ Col: M
+   83.172
+  Formula: IFERROR(IF(J11="",F11,J11)*K11,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/grm21br71a106ke51l/0805-mlcc-smd-capacitors/murata/">GRM21BR71A106KE51L</a>
+Row: 12
+ Col: A
+   "C2,C3,C14"
+ Col: B
+   "1u"
+ Col: C
+   "C_0805"
+ Col: D
+   "Murata"
+ Col: E
+   "GRM21BR71H105KA12L"
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E12),ISBLANK(M12)) -> -/FFAAAAAA
+  - =IF(SUM(I12)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I12) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K12),J12,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K12)<>0,MIN(K12),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F12),ISNUMBER(G12)),F12*G12,"")
+Row: 13
+ Col: A
+   "C6,C18,C20,C22,C27,C28,C30,C34"
+ Col: B
+   "100n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Walsin"
+ Col: E
+   "0603B104K500CT"
+ Col: F
+   800
+  Formula: CEILING(BoardQty*8.0,1)
+  Styles:
+  - =AND(ISBLANK(E13),ISBLANK(M13)) -> -/FFAAAAAA
+  - =IF(SUM(I13)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I13) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K13),J13,0)) -> -/FFFFFF00
+ Col: G
+   0.01503
+  Formula: IF(MIN(K13)<>0,MIN(K13),"")
+ Col: H
+   12.024
+  Formula: IF(AND(ISNUMBER(F13),ISNUMBER(G13)),F13*G13,"")
+ Col: I
+   4677700
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J13>0,MOD(J13,L13)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J13)),OR(I13="NonStk",J13>I13)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.01503
+  Formula: IFERROR(IF(OR(J13>=L13,F13>=L13),LOOKUP(IF(J13="",F13,J13),{0,1,100,1000,4000,12000,20000},{0.0,0.01503,0.01503,0.00425,0.00274,0.00263,0.00256}),"MOQ="&L13),"")
+ Col: L
+   100
+ Col: M
+   12.024
+  Formula: IFERROR(IF(J13="",F13,J13)*K13,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/0603b104k500ct/0603-mlcc-smd-capacitors/walsin/">0603B104K500CT</a>
+Row: 14
+ Col: A
+   "C7"
+ Col: B
+   "10n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Kemet"
+ Col: E
+   "C0603C103K5RACTU"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E14),ISBLANK(M14)) -> -/FFAAAAAA
+  - =IF(SUM(I14)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I14) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K14),J14,0)) -> -/FFFFFF00
+ Col: G
+   0.02441
+  Formula: IF(MIN(K14)<>0,MIN(K14),"")
+ Col: H
+   2.441
+  Formula: IF(AND(ISNUMBER(F14),ISNUMBER(G14)),F14*G14,"")
+ Col: I
+   9700
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J14>0,MOD(J14,L14)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J14)),OR(I14="NonStk",J14>I14)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.02441
+  Formula: IFERROR(IF(OR(J14>=L14,F14>=L14),LOOKUP(IF(J14="",F14,J14),{0,1,100,1000,4000,12000},{0.0,0.02441,0.02441,0.0103,0.00846,0.00814}),"MOQ="&L14),"")
+ Col: L
+   100
+ Col: M
+   2.441
+  Formula: IFERROR(IF(J14="",F14,J14)*K14,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/c0603c103k5rac/0603-mlcc-smd-capacitors/kemet/c0603c103k5ractu/">C0603C103K5RAC</a>
+Row: 15
+ Col: A
+   "C11,C16"
+ Col: B
+   "22u"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   "GRM188R61A226ME15D"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E15),ISBLANK(M15)) -> -/FFAAAAAA
+  - =IF(SUM(I15)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I15) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K15),J15,0)) -> -/FFFFFF00
+ Col: G
+   0.07882
+  Formula: IF(MIN(K15)<>0,MIN(K15),"")
+ Col: H
+   15.764
+  Formula: IF(AND(ISNUMBER(F15),ISNUMBER(G15)),F15*G15,"")
+ Col: I
+   17330
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J15>0,MOD(J15,L15)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J15)),OR(I15="NonStk",J15>I15)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.07882
+  Formula: IFERROR(IF(OR(J15>=L15,F15>=L15),LOOKUP(IF(J15="",F15,J15),{0,1,10,100,1000,4000,12000},{0.0,0.23105,0.23105,0.07882,0.04897,0.04488,0.04356}),"MOQ="&L15),"")
+ Col: L
+   10
+ Col: M
+   15.764
+  Formula: IFERROR(IF(J15="",F15,J15)*K15,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/grm188r61a226me15d/0603-mlcc-smd-capacitors/murata/">GRM188R61A226ME15D</a>
+Row: 16
+ Col: A
+   "C15"
+ Col: B
+   "33p"
+ Col: C
+   "C_0603"
+ Col: D
+   "Kemet"
+ Col: E
+   "C0603C330J5GACTU"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E16),ISBLANK(M16)) -> -/FFAAAAAA
+  - =IF(SUM(I16)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I16) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K16),J16,0)) -> -/FFFFFF00
+ Col: G
+   0.02371
+  Formula: IF(MIN(K16)<>0,MIN(K16),"")
+ Col: H
+   2.371
+  Formula: IF(AND(ISNUMBER(F16),ISNUMBER(G16)),F16*G16,"")
+ Col: I
+   4600
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J16>0,MOD(J16,L16)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J16)),OR(I16="NonStk",J16>I16)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.02371
+  Formula: IFERROR(IF(OR(J16>=L16,F16>=L16),LOOKUP(IF(J16="",F16,J16),{0,1,100,1000,4000,16000},{0.0,0.02371,0.02371,0.01518,0.01233,0.01195}),"MOQ="&L16),"")
+ Col: L
+   100
+ Col: M
+   2.371
+  Formula: IFERROR(IF(J16="",F16,J16)*K16,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/c0603c330j5gac/0603-mlcc-smd-capacitors/kemet/c0603c330j5gactu/">C0603C330J5GAC</a>
+Row: 17
+ Col: A
+   "C23,C24"
+ Col: B
+   "2u2"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   "GRM188R61H225KE11D"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E17),ISBLANK(M17)) -> -/FFAAAAAA
+  - =IF(SUM(I17)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I17) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K17),J17,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K17)<>0,MIN(K17),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F17),ISNUMBER(G17)),F17*G17,"")
+Row: 18
+ Col: A
+   "C31,C32"
+ Col: B
+   "220p"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   "GRM1885C1H221JA01D"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E18),ISBLANK(M18)) -> -/FFAAAAAA
+  - =IF(SUM(I18)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I18) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K18),J18,0)) -> -/FFFFFF00
+ Col: G
+   0.03206
+  Formula: IF(MIN(K18)<>0,MIN(K18),"")
+ Col: H
+   6.412
+  Formula: IF(AND(ISNUMBER(F18),ISNUMBER(G18)),F18*G18,"")
+ Col: I
+   33000
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J18>0,MOD(J18,L18)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J18)),OR(I18="NonStk",J18>I18)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.03206
+  Formula: IFERROR(IF(OR(J18>=L18,F18>=L18),LOOKUP(IF(J18="",F18,J18),{0,1,100,500,1000,4000,20000},{0.0,0.03206,0.03206,0.01503,0.01172,0.00731,0.0069}),"MOQ="&L18),"")
+ Col: L
+   100
+ Col: M
+   6.412
+  Formula: IFERROR(IF(J18="",F18,J18)*K18,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/grm1885c1h221ja01d/0603-mlcc-smd-capacitors/murata/">GRM1885C1H221JA01D</a>
+Row: 19
+ Col: A
+   "C35,C36"
+ Col: B
+   "1n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Walsin"
+ Col: E
+   "0603N102J500CT"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E19),ISBLANK(M19)) -> -/FFAAAAAA
+  - =IF(SUM(I19)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I19) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K19),J19,0)) -> -/FFFFFF00
+ Col: G
+   0.01924
+  Formula: IF(MIN(K19)<>0,MIN(K19),"")
+ Col: H
+   3.848
+  Formula: IF(AND(ISNUMBER(F19),ISNUMBER(G19)),F19*G19,"")
+ Col: I
+   59200
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J19>0,MOD(J19,L19)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J19)),OR(I19="NonStk",J19>I19)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.01924
+  Formula: IFERROR(IF(OR(J19>=L19,F19>=L19),LOOKUP(IF(J19="",F19,J19),{0,1,100,1000,4000,16000},{0.0,0.01924,0.01924,0.00717,0.00505,0.0049}),"MOQ="&L19),"")
+ Col: L
+   100
+ Col: M
+   3.848
+  Formula: IFERROR(IF(J19="",F19,J19)*K19,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/0603n102j500ct/0603-mlcc-smd-capacitors/walsin/">0603N102J500CT</a>
+Row: 20
+ Col: A
+   "CN1"
+ Col: B
+   "2041126-1"
+ Col: C
+   "TE2041126-1"
+ Col: D
+   "TE Connectivity"
+ Col: E
+   "2041126-1"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E20),ISBLANK(M20)) -> -/FFAAAAAA
+  - =IF(SUM(I20)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I20) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K20),J20,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K20)<>0,MIN(K20),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F20),ISNUMBER(G20)),F20*G20,"")
+Row: 21
+ Col: A
+   "CON1"
+ Col: B
+   "NP2X"
+ Col: D
+   "NEUTRIK"
+ Col: E
+   "NP2X"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E21),ISBLANK(M21)) -> -/FFAAAAAA
+  - =IF(SUM(I21)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I21) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K21),J21,0)) -> -/FFFFFF00
+ Col: G
+   3.1
+  Formula: IF(MIN(K21)<>0,MIN(K21),"")
+ Col: H
+   310
+  Formula: IF(AND(ISNUMBER(F21),ISNUMBER(G21)),F21*G21,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J21)),OR(I21="NonStk",J21>I21)) -> FFFFFFFF/FFFF0000
+ Col: K
+   3.1
+  Formula: IFERROR(IF(OR(J21>=L21,F21>=L21),LOOKUP(IF(J21="",F21,J21),{0,1,5,25,100},{0.0,4.42,3.98,3.54,3.1}),"MOQ="&L21),"")
+ Col: L
+   1
+ Col: M
+   310
+  Formula: IFERROR(IF(J21="",F21,J21)*K21,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/ntr-np2x/jack-connectors/neutrik/np2x/">NTR-NP2X</a>
+Row: 22
+ Col: A
+   "CON2"
+ Col: B
+   "RT3FC-B"
+ Col: D
+   "Rean"
+ Col: E
+   "RT3FC-B"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E22),ISBLANK(M22)) -> -/FFAAAAAA
+  - =IF(SUM(I22)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I22) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K22),J22,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K22)<>0,MIN(K22),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F22),ISNUMBER(G22)),F22*G22,"")
+Row: 23
+ Col: A
+   "CON3"
+ Col: B
+   "BRT-L"
+ Col: D
+   "Rean"
+ Col: E
+   "BRT-L"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E23),ISBLANK(M23)) -> -/FFAAAAAA
+  - =IF(SUM(I23)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I23) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K23),J23,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K23)<>0,MIN(K23),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F23),ISNUMBER(G23)),F23*G23,"")
+Row: 24
+ Col: A
+   "D1-D3,D5,D6"
+ Col: B
+   "ZHCS1000"
+ Col: C
+   "D_SOT-23_ANK"
+ Col: D
+   "DIODES"
+ Col: E
+   "ZHCS1000"
+ Col: F
+   500
+  Formula: CEILING(BoardQty*5.0,1)
+  Styles:
+  - =AND(ISBLANK(E24),ISBLANK(M24)) -> -/FFAAAAAA
+  - =IF(SUM(I24)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I24) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K24),J24,0)) -> -/FFFFFF00
+ Col: G
+   0.16251
+  Formula: IF(MIN(K24)<>0,MIN(K24),"")
+ Col: H
+   81.255
+  Formula: IF(AND(ISNUMBER(F24),ISNUMBER(G24)),F24*G24,"")
+ Col: I
+   5700
+  Styles:
+  - lessThan F24 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J24>0,MOD(J24,L24)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J24)),OR(I24="NonStk",J24>I24)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.16251
+  Formula: IFERROR(IF(OR(J24>=L24,F24>=L24),LOOKUP(IF(J24="",F24,J24),{0,1,3,10,25,100},{0.0,0.27084,0.27084,0.20452,0.1813,0.16251}),"MOQ="&L24),"")
+ Col: L
+   3
+ Col: M
+   81.255
+  Formula: IFERROR(IF(J24="",F24,J24)*K24,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/zhcs1000ta/smd-schottky-diodes/diodes-incorporated/">ZHCS1000TA</a>
+Row: 25
+ Col: A
+   "D4"
+ Col: B
+   "LED"
+ Col: C
+   "LED_D3.0mm_Horizontal_O1.27mm_Z6.0mm"
+ Col: D
+   "Avago"
+ Col: E
+   "HLMP-K150"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E25),ISBLANK(M25)) -> -/FFAAAAAA
+  - =IF(SUM(I25)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I25) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K25),J25,0)) -> -/FFFFFF00
+ Col: G
+   0.3151
+  Formula: IF(MIN(K25)<>0,MIN(K25),"")
+ Col: H
+   31.51
+  Formula: IF(AND(ISNUMBER(F25),ISNUMBER(G25)),F25*G25,"")
+ Col: I
+   1661
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J25>0,MOD(J25,L25)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J25)),OR(I25="NonStk",J25>I25)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.3151
+  Formula: IFERROR(IF(OR(J25>=L25,F25>=L25),LOOKUP(IF(J25="",F25,J25),{0,1,2,10,50,250,1000},{0.0,0.5516,0.5516,0.3748,0.3151,0.2808,0.2465}),"MOQ="&L25),"")
+ Col: L
+   2
+ Col: M
+   31.51
+  Formula: IFERROR(IF(J25="",F25,J25)*K25,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/hlmp-k150/tht-leds-3mm/broadcom-avago/">HLMP-K150</a>
+Row: 26
+ Col: A
+   "D7"
+ Col: B
+   "SMAJ18A-TR"
+ Col: C
+   "D_SMA"
+ Col: D
+   "ST Microelectronics"
+ Col: E
+   "SMAJ18A-TR"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E26),ISBLANK(M26)) -> -/FFAAAAAA
+  - =IF(SUM(I26)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I26) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K26),J26,0)) -> -/FFFFFF00
+ Col: G
+   0.08457
+  Formula: IF(MIN(K26)<>0,MIN(K26),"")
+ Col: H
+   8.457
+  Formula: IF(AND(ISNUMBER(F26),ISNUMBER(G26)),F26*G26,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J26>0,MOD(J26,L26)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J26)),OR(I26="NonStk",J26>I26)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.08457
+  Formula: IFERROR(IF(OR(J26>=L26,F26>=L26),LOOKUP(IF(J26="",F26,J26),{0,1,5,25,100,500,5000},{0.0,0.19899,0.19899,0.08988,0.08457,0.06898,0.06511}),"MOQ="&L26),"")
+ Col: L
+   5
+ Col: M
+   8.457
+  Formula: IFERROR(IF(J26="",F26,J26)*K26,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/smaj18a-tr/unidirectional-smd-transil-diodes/stmicroelectronics/">SMAJ18A-TR</a>
+Row: 27
+ Col: A
+   "D8,D9"
+ Col: B
+   "TPD4S009DCKR"
+ Col: C
+   "SC70-6"
+ Col: D
+   "Texas Instruments"
+ Col: E
+   "TPD4S009DCKR"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E27),ISBLANK(M27)) -> -/FFAAAAAA
+  - =IF(SUM(I27)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I27) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K27),J27,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K27)<>0,MIN(K27),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F27),ISNUMBER(G27)),F27*G27,"")
+Row: 28
+ Col: A
+   "ENC1"
+ Col: B
+   "S3A-361413"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "S3A-361413"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E28),ISBLANK(M28)) -> -/FFAAAAAA
+  - =IF(SUM(I28)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I28) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K28),J28,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K28)<>0,MIN(K28),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F28),ISNUMBER(G28)),F28*G28,"")
+Row: 29
+ Col: A
+   "K1"
+ Col: B
+   "Tiny XLR3"
+ Col: C
+   "Molex_SPOX-5267_22-03-5035_03x2.54mm_Straight"
+ Col: D
+   "Rean"
+ Col: E
+   "RT3MPR"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E29),ISBLANK(M29)) -> -/FFAAAAAA
+  - =IF(SUM(I29)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I29) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K29),J29,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K29)<>0,MIN(K29),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F29),ISNUMBER(G29)),F29*G29,"")
+Row: 30
+ Col: A
+   "L1-L5,L8"
+ Col: B
+   "10u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   "LPS4018-103MRB"
+ Col: F
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+  Styles:
+  - =AND(ISBLANK(E30),ISBLANK(M30)) -> -/FFAAAAAA
+  - =IF(SUM(I30)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I30) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K30),J30,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K30)<>0,MIN(K30),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F30),ISNUMBER(G30)),F30*G30,"")
+Row: 31
+ Col: A
+   "L6"
+ Col: B
+   "15u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   "LPS4018-153MRB"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E31),ISBLANK(M31)) -> -/FFAAAAAA
+  - =IF(SUM(I31)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I31) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K31),J31,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K31)<>0,MIN(K31),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F31),ISNUMBER(G31)),F31*G31,"")
+Row: 32
+ Col: A
+   "L7"
+ Col: B
+   "47u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   "LPS4018-473MRB"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E32),ISBLANK(M32)) -> -/FFAAAAAA
+  - =IF(SUM(I32)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I32) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K32),J32,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K32)<>0,MIN(K32),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F32),ISNUMBER(G32)),F32*G32,"")
+Row: 33
+ Col: A
+   "P1"
+ Col: B
+   "USB_MICRO_B_RECEPTACLE"
+ Col: C
+   "USB_Micro-B_10103594-0001LF"
+ Col: D
+   "AMPHENOL FCI"
+ Col: E
+   "10103594-0001LF"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E33),ISBLANK(M33)) -> -/FFAAAAAA
+  - =IF(SUM(I33)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I33) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K33),J33,0)) -> -/FFFFFF00
+ Col: G
+   0.48
+  Formula: IF(MIN(K33)<>0,MIN(K33),"")
+ Col: H
+   48
+  Formula: IF(AND(ISNUMBER(F33),ISNUMBER(G33)),F33*G33,"")
+ Col: I
+   48241
+  Styles:
+  - lessThan F33 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J33>0,MOD(J33,L33)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J33)),OR(I33="NonStk",J33>I33)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.48
+  Formula: IFERROR(IF(OR(J33>=L33,F33>=L33),LOOKUP(IF(J33="",F33,J33),{0,1,5,75,225,675},{0.0,0.5333,0.5333,0.48,0.4266,0.3733}),"MOQ="&L33),"")
+ Col: L
+   5
+ Col: M
+   48
+  Formula: IFERROR(IF(J33="",F33,J33)*K33,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/10103594-0001lf_c/usb-ieee1394-connectors/amphenol-communications-solutions/10103594-0001lf/">10103594-0001LF/C</a>
+Row: 34
+ Col: A
+   "R1,R2,R8"
+ Col: B
+   "180k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   "ERJ3EKF1803V"
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E34),ISBLANK(M34)) -> -/FFAAAAAA
+  - =IF(SUM(I34)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I34) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K34),J34,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K34)<>0,MIN(K34),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F34),ISNUMBER(G34)),F34*G34,"")
+Row: 35
+ Col: A
+   "R3,R29-R32"
+ Col: B
+   "10K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   "ERJ3EKF1002V"
+ Col: F
+   500
+  Formula: CEILING(BoardQty*5.0,1)
+  Styles:
+  - =AND(ISBLANK(E35),ISBLANK(M35)) -> -/FFAAAAAA
+  - =IF(SUM(I35)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I35) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K35),J35,0)) -> -/FFFFFF00
+ Col: G
+   0.02563
+  Formula: IF(MIN(K35)<>0,MIN(K35),"")
+ Col: H
+   12.815
+  Formula: IF(AND(ISNUMBER(F35),ISNUMBER(G35)),F35*G35,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J35>0,MOD(J35,L35)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J35)),OR(I35="NonStk",J35>I35)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.02563
+  Formula: IFERROR(IF(OR(J35>=L35,F35>=L35),LOOKUP(IF(J35="",F35,J35),{0,1,100,1000,5000},{0.0,0.02563,0.02563,0.01184,0.00805}),"MOQ="&L35),"")
+ Col: L
+   100
+ Col: M
+   12.815
+  Formula: IFERROR(IF(J35="",F35,J35)*K35,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/erj3ekf1002v/0603-smd-resistors/panasonic/">ERJ3EKF1002V</a>
+Row: 36
+ Col: A
+   "R4"
+ Col: B
+   "3K3"
+ Col: C
+   "R_0603"
+ Col: D
+   "Vishay"
+ Col: E
+   "CRCW06033K30FKEA"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E36),ISBLANK(M36)) -> -/FFAAAAAA
+  - =IF(SUM(I36)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I36) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K36),J36,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K36)<>0,MIN(K36),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F36),ISNUMBER(G36)),F36*G36,"")
+Row: 37
+ Col: A
+   "R5"
+ Col: B
+   "47K"
+ Col: C
+   "R_0603"
+ Col: D
+   "YAGEO"
+ Col: E
+   "RC0603FR-0747KL"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E37),ISBLANK(M37)) -> -/FFAAAAAA
+  - =IF(SUM(I37)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I37) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K37),J37,0)) -> -/FFFFFF00
+ Col: G
+   0.03394
+  Formula: IF(MIN(K37)<>0,MIN(K37),"")
+ Col: H
+   3.394
+  Formula: IF(AND(ISNUMBER(F37),ISNUMBER(G37)),F37*G37,"")
+ Col: I
+   75000
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J37>0,MOD(J37,L37)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J37)),OR(I37="NonStk",J37>I37)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.03394
+  Formula: IFERROR(IF(OR(J37>=L37,F37>=L37),LOOKUP(IF(J37="",F37,J37),{0,1,100,1000,5000,15000,50000},{0.0,0.03394,0.03394,0.01223,0.00495,0.00418,0.00356}),"MOQ="&L37),"")
+ Col: L
+   100
+ Col: M
+   3.394
+  Formula: IFERROR(IF(J37="",F37,J37)*K37,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/rc0603fr-0747k/0603-smd-resistors/yageo/rc0603fr-0747kl/">RC0603FR-0747K</a>
+Row: 38
+ Col: A
+   "R6"
+ Col: B
+   "15K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   "RC0603FR-0715K0L"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E38),ISBLANK(M38)) -> -/FFAAAAAA
+  - =IF(SUM(I38)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I38) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K38),J38,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K38)<>0,MIN(K38),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F38),ISNUMBER(G38)),F38*G38,"")
+Row: 39
+ Col: A
+   "R7"
+ Col: B
+   "1M"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   "ERJ3EKF1004V"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E39),ISBLANK(M39)) -> -/FFAAAAAA
+  - =IF(SUM(I39)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I39) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K39),J39,0)) -> -/FFFFFF00
+ Col: G
+   0.02628
+  Formula: IF(MIN(K39)<>0,MIN(K39),"")
+ Col: H
+   2.628
+  Formula: IF(AND(ISNUMBER(F39),ISNUMBER(G39)),F39*G39,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J39>0,MOD(J39,L39)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J39)),OR(I39="NonStk",J39>I39)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.02628
+  Formula: IFERROR(IF(OR(J39>=L39,F39>=L39),LOOKUP(IF(J39="",F39,J39),{0,1,100,1000,5000},{0.0,0.02628,0.02628,0.01213,0.00825}),"MOQ="&L39),"")
+ Col: L
+   100
+ Col: M
+   2.628
+  Formula: IFERROR(IF(J39="",F39,J39)*K39,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/erj3ekf1004v/0603-smd-resistors/panasonic/">ERJ3EKF1004V</a>
+Row: 40
+ Col: A
+   "R9"
+ Col: B
+   "1M8"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   "RC0603FR-071M8L"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E40),ISBLANK(M40)) -> -/FFAAAAAA
+  - =IF(SUM(I40)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I40) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K40),J40,0)) -> -/FFFFFF00
+ Col: G
+   0.02766
+  Formula: IF(MIN(K40)<>0,MIN(K40),"")
+ Col: H
+   2.766
+  Formula: IF(AND(ISNUMBER(F40),ISNUMBER(G40)),F40*G40,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J40>0,MOD(J40,L40)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J40)),OR(I40="NonStk",J40>I40)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.02766
+  Formula: IFERROR(IF(OR(J40>=L40,F40>=L40),LOOKUP(IF(J40="",F40,J40),{0,1,100,1000,5000,15000},{0.0,0.02766,0.02766,0.00996,0.00404,0.0034}),"MOQ="&L40),"")
+ Col: L
+   100
+ Col: M
+   2.766
+  Formula: IFERROR(IF(J40="",F40,J40)*K40,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/rc0603fr-071m8l/0603-smd-resistors/yageo/">RC0603FR-071M8L</a>
+Row: 41
+ Col: A
+   "R10"
+ Col: B
+   "200k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   "ERJ3EKF2003V"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E41),ISBLANK(M41)) -> -/FFAAAAAA
+  - =IF(SUM(I41)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I41) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K41),J41,0)) -> -/FFFFFF00
+ Col: G
+   0.02628
+  Formula: IF(MIN(K41)<>0,MIN(K41),"")
+ Col: H
+   2.628
+  Formula: IF(AND(ISNUMBER(F41),ISNUMBER(G41)),F41*G41,"")
+ Col: I
+   4900
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J41>0,MOD(J41,L41)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J41)),OR(I41="NonStk",J41>I41)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.02628
+  Formula: IFERROR(IF(OR(J41>=L41,F41>=L41),LOOKUP(IF(J41="",F41,J41),{0,1,100,1000,5000},{0.0,0.02628,0.02628,0.01213,0.00825}),"MOQ="&L41),"")
+ Col: L
+   100
+ Col: M
+   2.628
+  Formula: IFERROR(IF(J41="",F41,J41)*K41,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/erj3ekf2003v/0603-smd-resistors/panasonic/">ERJ3EKF2003V</a>
+Row: 42
+ Col: A
+   "R11,R12,R15,R23-R28"
+ Col: B
+   "0R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Vishay"
+ Col: E
+   "CRCW06030000Z0EA"
+ Col: F
+   900
+  Formula: CEILING(BoardQty*9.0,1)
+  Styles:
+  - =AND(ISBLANK(E42),ISBLANK(M42)) -> -/FFAAAAAA
+  - =IF(SUM(I42)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I42) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K42),J42,0)) -> -/FFFFFF00
+ Col: G
+   0.00947
+  Formula: IF(MIN(K42)<>0,MIN(K42),"")
+ Col: H
+   8.523
+  Formula: IF(AND(ISNUMBER(F42),ISNUMBER(G42)),F42*G42,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F42 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J42>0,MOD(J42,L42)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J42)),OR(I42="NonStk",J42>I42)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.00947
+  Formula: IFERROR(IF(OR(J42>=L42,F42>=L42),LOOKUP(IF(J42="",F42,J42),{0,1,100,500,1000,5000},{0.0,0.01824,0.01824,0.00947,0.0074,0.00381}),"MOQ="&L42),"")
+ Col: L
+   100
+ Col: M
+   8.523
+  Formula: IFERROR(IF(J42="",F42,J42)*K42,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/crcw06030000z0ea/0603-smd-resistors/vishay/">CRCW06030000Z0EA</a>
+Row: 43
+ Col: A
+   "R13"
+ Col: B
+   "249k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   "ERJ3EKF2493V"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E43),ISBLANK(M43)) -> -/FFAAAAAA
+  - =IF(SUM(I43)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I43) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K43),J43,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K43)<>0,MIN(K43),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F43),ISNUMBER(G43)),F43*G43,"")
+Row: 44
+ Col: A
+   "R14"
+ Col: B
+   "100k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   "ERJ3EKF1003V"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E44),ISBLANK(M44)) -> -/FFAAAAAA
+  - =IF(SUM(I44)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I44) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K44),J44,0)) -> -/FFFFFF00
+ Col: G
+   0.02628
+  Formula: IF(MIN(K44)<>0,MIN(K44),"")
+ Col: H
+   2.628
+  Formula: IF(AND(ISNUMBER(F44),ISNUMBER(G44)),F44*G44,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J44>0,MOD(J44,L44)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J44)),OR(I44="NonStk",J44>I44)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.02628
+  Formula: IFERROR(IF(OR(J44>=L44,F44>=L44),LOOKUP(IF(J44="",F44,J44),{0,1,100,1000,5000},{0.0,0.02628,0.02628,0.01213,0.00825}),"MOQ="&L44),"")
+ Col: L
+   100
+ Col: M
+   2.628
+  Formula: IFERROR(IF(J44="",F44,J44)*K44,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/erj3ekf1003v/0603-smd-resistors/panasonic/">ERJ3EKF1003V</a>
+Row: 45
+ Col: A
+   "R16-R19"
+ Col: B
+   "100R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   "RC0603FR-07100RL"
+ Col: F
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(E45),ISBLANK(M45)) -> -/FFAAAAAA
+  - =IF(SUM(I45)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I45) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K45),J45,0)) -> -/FFFFFF00
+ Col: G
+   0.0168
+  Formula: IF(MIN(K45)<>0,MIN(K45),"")
+ Col: H
+   6.72
+  Formula: IF(AND(ISNUMBER(F45),ISNUMBER(G45)),F45*G45,"")
+ Col: I
+   595600
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J45>0,MOD(J45,L45)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J45)),OR(I45="NonStk",J45>I45)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0168
+  Formula: IFERROR(IF(OR(J45>=L45,F45>=L45),LOOKUP(IF(J45="",F45,J45),{0,1,100,1000,5000,15000,50000},{0.0,0.0168,0.0168,0.00355,0.00144,0.00135,0.0013}),"MOQ="&L45),"")
+ Col: L
+   100
+ Col: M
+   6.72
+  Formula: IFERROR(IF(J45="",F45,J45)*K45,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/rc0603fr-07100r/0603-smd-resistors/yageo/rc0603fr-07100rl/">RC0603FR-07100R</a>
+Row: 46
+ Col: A
+   "R20-R22"
+ Col: B
+   "47R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   "ERJP03F47R0V"
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E46),ISBLANK(M46)) -> -/FFAAAAAA
+  - =IF(SUM(I46)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I46) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K46),J46,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K46)<>0,MIN(K46),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F46),ISNUMBER(G46)),F46*G46,"")
+Row: 47
+ Col: A
+   "R33,R34"
+ Col: B
+   "1K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   "RC0603FR-071KL"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E47),ISBLANK(M47)) -> -/FFAAAAAA
+  - =IF(SUM(I47)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I47) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K47),J47,0)) -> -/FFFFFF00
+ Col: G
+   0.0199
+  Formula: IF(MIN(K47)<>0,MIN(K47),"")
+ Col: H
+   3.98
+  Formula: IF(AND(ISNUMBER(F47),ISNUMBER(G47)),F47*G47,"")
+ Col: I
+   308307
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J47>0,MOD(J47,L47)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J47)),OR(I47="NonStk",J47>I47)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0199
+  Formula: IFERROR(IF(OR(J47>=L47,F47>=L47),LOOKUP(IF(J47="",F47,J47),{0,1,100,1000,5000,15000,50000},{0.0,0.0199,0.0199,0.00437,0.00179,0.00164,0.00157}),"MOQ="&L47),"")
+ Col: L
+   100
+ Col: M
+   3.98
+  Formula: IFERROR(IF(J47="",F47,J47)*K47,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/rc0603fr-071k/0603-smd-resistors/yageo/rc0603fr-071kl/">RC0603FR-071K</a>
+Row: 48
+ Col: A
+   "R35,R36"
+ Col: B
+   "10R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   "RC0603FR-0710RL"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E48),ISBLANK(M48)) -> -/FFAAAAAA
+  - =IF(SUM(I48)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I48) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K48),J48,0)) -> -/FFFFFF00
+ Col: G
+   0.01515
+  Formula: IF(MIN(K48)<>0,MIN(K48),"")
+ Col: H
+   3.03
+  Formula: IF(AND(ISNUMBER(F48),ISNUMBER(G48)),F48*G48,"")
+ Col: I
+   52200
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J48>0,MOD(J48,L48)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J48)),OR(I48="NonStk",J48>I48)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.01515
+  Formula: IFERROR(IF(OR(J48>=L48,F48>=L48),LOOKUP(IF(J48="",F48,J48),{0,1,100,1000,5000,15000,50000},{0.0,0.01515,0.01515,0.00446,0.00222,0.00203,0.00191}),"MOQ="&L48),"")
+ Col: L
+   100
+ Col: M
+   3.03
+  Formula: IFERROR(IF(J48="",F48,J48)*K48,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/rc0603fr-0710r/0603-smd-resistors/yageo/rc0603fr-0710rl/">RC0603FR-0710R</a>
+Row: 49
+ Col: A
+   "SW1"
+ Col: B
+   "SKHHLQA010"
+ Col: C
+   "SKHHLQA010"
+ Col: D
+   "ALPS"
+ Col: E
+   "SKHHLQA010"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E49),ISBLANK(M49)) -> -/FFAAAAAA
+  - =IF(SUM(I49)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I49) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K49),J49,0)) -> -/FFFFFF00
+ Col: G
+   0.32059
+  Formula: IF(MIN(K49)<>0,MIN(K49),"")
+ Col: H
+   32.059
+  Formula: IF(AND(ISNUMBER(F49),ISNUMBER(G49)),F49*G49,"")
+ Col: I
+   2040
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J49>0,MOD(J49,L49)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J49)),OR(I49="NonStk",J49>I49)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.32059
+  Formula: IFERROR(IF(OR(J49>=L49,F49>=L49),LOOKUP(IF(J49="",F49,J49),{0,1,2,10,50,250,1000},{0.0,0.38692,0.38692,0.35376,0.32059,0.27637,0.24321}),"MOQ="&L49),"")
+ Col: L
+   2
+ Col: M
+   32.059
+  Formula: IFERROR(IF(J49="",F49,J49)*K49,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/skhhlqa010/microswitches-tact/alps/">SKHHLQA010</a>
+Row: 50
+ Col: A
+   "U1"
+ Col: B
+   "AP3211KTR-G1"
+ Col: C
+   "SOT-23-6"
+ Col: D
+   "DIODES"
+ Col: E
+   "AP3211KTR-G1"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E50),ISBLANK(M50)) -> -/FFAAAAAA
+  - =IF(SUM(I50)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I50) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K50),J50,0)) -> -/FFFFFF00
+ Col: G
+   0.22
+  Formula: IF(MIN(K50)<>0,MIN(K50),"")
+ Col: H
+   22
+  Formula: IF(AND(ISNUMBER(F50),ISNUMBER(G50)),F50*G50,"")
+ Col: I
+   2565
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J50>0,MOD(J50,L50)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J50)),OR(I50="NonStk",J50>I50)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.22
+  Formula: IFERROR(IF(OR(J50>=L50,F50>=L50),LOOKUP(IF(J50="",F50,J50),{0,1,3,25,100,500,3000},{0.0,0.28,0.28,0.25,0.22,0.2,0.19}),"MOQ="&L50),"")
+ Col: L
+   3
+ Col: M
+   22
+  Formula: IFERROR(IF(J50="",F50,J50)*K50,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/ap3211ktr-g1/voltage-regulators-dc-dc-circuits/diodes-incorporated/">AP3211KTR-G1</a>
+Row: 51
+ Col: A
+   "U2"
+ Col: B
+   "NC7SZ74K8X"
+ Col: C
+   "US8"
+ Col: D
+   "Fairchild"
+ Col: E
+   "NC7SZ74K8X"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E51),ISBLANK(M51)) -> -/FFAAAAAA
+  - =IF(SUM(I51)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I51) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K51),J51,0)) -> -/FFFFFF00
+ Col: G
+   0.124
+  Formula: IF(MIN(K51)<>0,MIN(K51),"")
+ Col: H
+   12.4
+  Formula: IF(AND(ISNUMBER(F51),ISNUMBER(G51)),F51*G51,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J51>0,MOD(J51,L51)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J51)),OR(I51="NonStk",J51>I51)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.124
+  Formula: IFERROR(IF(OR(J51>=L51,F51>=L51),LOOKUP(IF(J51="",F51,J51),{0,1,5,25,100,500},{0.0,0.1769,0.1769,0.1428,0.124,0.1052}),"MOQ="&L51),"")
+ Col: L
+   5
+ Col: M
+   12.4
+  Formula: IFERROR(IF(J51="",F51,J51)*K51,"")
+ Col: N
+   <a href="//www.tme.eu/en/details/nc7sz74k8x/flip-flops/onsemi/">NC7SZ74K8X</a>
+Row: 52
+ Col: A
+   "U3,U4"
+ Col: B
+   "TPS61070DDCR"
+ Col: C
+   "SOT23-6L"
+ Col: E
+   "TPS61070DDCR"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E52),ISBLANK(M52)) -> -/FFAAAAAA
+  - =IF(SUM(I52)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I52) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K52),J52,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K52)<>0,MIN(K52),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F52),ISNUMBER(G52)),F52*G52,"")
+ Col: I
+   "NonStk"
+ Col: N
+   <a href="//www.tme.eu/en/details/tps61070ddcr/voltage-regulators-dc-dc-circuits/texas-instruments/">TPS61070DDCR</a>
+Row: 53
+ Col: A
+   "U5"
+ Col: B
+   "LM2611BMF/NOPB"
+ Col: C
+   "SOT23-5"
+ Col: E
+   "LM2611BMF/NOPB"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E53),ISBLANK(M53)) -> -/FFAAAAAA
+  - =IF(SUM(I53)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I53) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K53),J53,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K53)<>0,MIN(K53),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F53),ISNUMBER(G53)),F53*G53,"")
+Row: 55
+ Col: G
+   "Total Purchase:"
+ Col: H
+   0
+  Formula: SUM(M55)
+ Col: I
+   <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
+ Col: J
+  Formula: IFERROR(IF(COUNTIF(J7:J53,">0")>0,COUNTIF(J7:J53,">0")&" of "&(ROWS(L7:L53)-COUNTBLANK(L7:L53))&" parts purchased",""),"")
+ Col: M
+   0
+  Formula: SUMIF(J7:J53,">0",M7:M53)
+Row: 56
+ Col: A
+   "*FILTERED*"
+ Col: G
+   "Purchase description:"
+ Col: J
+  Formula: CONCATENATE(J104,J105,J106,J107,J108,J109,J110,J111,J112,J113,J114,J115,J116,J117,J118,J119,J120,J121,J122,J123,J124,J125,J126,J127,J128,J129,J130,J131,J132,J133,J134,J135,J136,J137,J138,J139,J140,J141,J142,J143,J144,J145,J146,J147,J148,J149,J150)
+Row: 104
+ Col: J
+  Formula: IF(ISNUMBER(J7:J53)*(J7:J53>=L7:L53)*(N7:N53<>""),N7:N53&" "&TEXT(ROUNDUP(J7:J53/IF(ISNUMBER(L7:L53),L7:L53,1),0)*L7:L53,"##0")&" "&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53," ",";"),"\n",";")&CHAR(10),"")
+Row: 105
+ Col: J
+   0
+Row: 106
+ Col: J
+   0
+Row: 107
+ Col: J
+   0
+Row: 108
+ Col: J
+   0
+Row: 109
+ Col: J
+   0
+Row: 110
+ Col: J
+   0
+Row: 111
+ Col: J
+   0
+Row: 112
+ Col: J
+   0
+Row: 113
+ Col: J
+   0
+Row: 114
+ Col: J
+   0
+Row: 115
+ Col: J
+   0
+Row: 116
+ Col: J
+   0
+Row: 117
+ Col: J
+   0
+Row: 118
+ Col: J
+   0
+Row: 119
+ Col: J
+   0
+Row: 120
+ Col: J
+   0
+Row: 121
+ Col: J
+   0
+Row: 122
+ Col: J
+   0
+Row: 123
+ Col: J
+   0
+Row: 124
+ Col: J
+   0
+Row: 125
+ Col: J
+   0
+Row: 126
+ Col: J
+   0
+Row: 127
+ Col: J
+   0
+Row: 128
+ Col: J
+   0
+Row: 129
+ Col: J
+   0
+Row: 130
+ Col: J
+   0
+Row: 131
+ Col: J
+   0
+Row: 132
+ Col: J
+   0
+Row: 133
+ Col: J
+   0
+Row: 134
+ Col: J
+   0
+Row: 135
+ Col: J
+   0
+Row: 136
+ Col: J
+   0
+Row: 137
+ Col: J
+   0
+Row: 138
+ Col: J
+   0
+Row: 139
+ Col: J
+   0
+Row: 140
+ Col: J
+   0
+Row: 141
+ Col: J
+   0
+Row: 142
+ Col: J
+   0
+Row: 143
+ Col: J
+   0
+Row: 144
+ Col: J
+   0
+Row: 145
+ Col: J
+   0
+Row: 146
+ Col: J
+   0
+Row: 147
+ Col: J
+   0
+Row: 148
+ Col: J
+   0
+Row: 149
+ Col: J
+   0
+Row: 150
+ Col: J
+   0

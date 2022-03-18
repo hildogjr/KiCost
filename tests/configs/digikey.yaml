@@ -85,4 +85,17 @@ APIs:
     # enable: true
     # Directory for the APIs caches
     # cache_path: ~/.cache/kicost/KitSpace
+  TME:
+    # TME token (anonymous or private)
+    # token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    # TME application secret
+    # app_secret: XXXXXXXXXXXXXXXXXXXX
+    # Only enabled if the token and app_secret are defined
+    # enable: false
+    # Country where we are buying
+    # country: US
+    # Language for the texts
+    # language: EN
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/TME
 
