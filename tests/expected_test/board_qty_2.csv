@@ -1,6 +1,6 @@
 Prj0:,TestBoard,,,,,,,Board Qty0:,50,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Co.:,,,,,,,,Unit Cost0:,2.0985,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-Prj date:,Thu 11 Aug 2016 01:24:52 PM PDT,,,,,,,Total Cost0:,104.9264,,,,,0,0 of 15 parts found,,,,,117.16,4 of 15 parts found,,,,,87.3035,2 of 15 parts found,,,,,0,0 of 15 parts found,,,,,80.85,2 of 15 parts found,,,,,91.8,2 of 15 parts found,,,,,69.4851,2 of 15 parts found,,,,,0,0 of 15 parts found
+Co.:,,,,,,,,Unit Cost0:,2.141,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+Prj date:,Thu 11 Aug 2016 01:24:52 PM PDT,,,,,,,Total Cost0:,107.0514,,,,,0,0 of 15 parts found,,,,,119.285,5 of 15 parts found,,,,,87.3035,2 of 15 parts found,,,,,0,0 of 15 parts found,,,,,80.85,2 of 15 parts found,,,,,91.8,2 of 15 parts found,,,,,69.4851,2 of 15 parts found,,,,,0,0 of 15 parts found
 Prj1:,TestBoard,,,,,,,Board Qty1:,70,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Co.:,,,,,,,,Unit Cost1:,6.0474,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 Prj date:,Thu 11 Aug 2016 01:24:52 PM PDT,,,,,,,Total Cost1:,423.3199,,,,,0,0 of 8 parts found,,,,,440.447,4 of 8 parts found,,,,,122.2249,2 of 8 parts found,,,,,0,0 of 8 parts found,,,,,113.19,2 of 8 parts found,,,,,128.52,2 of 8 parts found,,,,,97.2791,2 of 8 parts found,,,,,0,0 of 8 parts found
@@ -19,7 +19,7 @@ prj1:R1",DNI,R_0402,,,50,70,120,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "prj0:R2,R3
 prj1:R2,R3",0,R_0402,Samsung,RC1005J000CS,100,140,240,0.017,4.08,,,,,,,6920000,,0.017,1,4.08,1276-3480-1-ND,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 prj0:S1#1,Coto_CL-SB-22A-01T - p1/2,Coto_CL-SB-22A,Coto,CL-SB-22A-01T,50,0,50,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
-prj0:S1#2,Coto_CL-SB-22A-01T - p2/2,Coto_CL-SB-22A,Coto,RC1005J000CS,125,0,125,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+prj0:S1#2,Coto_CL-SB-22A-01T - p2/2,Coto_CL-SB-22A,Coto,RC1005J000CS,125,0,125,0.017,2.125,,,,,,,6920000,,0.017,1,2.125,1276-3480-1-ND,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "prj0:S2
 prj1:S1,S2",Coto_CL-SB-22A-01T,Coto_CL-SB-22A,Coto,CL-SB-22A-01T,50,140,190,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 "prj0:SW1-SW3,SW5-SW9

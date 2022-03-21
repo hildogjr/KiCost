@@ -45,6 +45,7 @@ import os
 import pprint
 from collections import OrderedDict
 from copy import copy
+from math import ceil
 
 # Stops UnicodeDecodeError exceptions.
 try:
@@ -60,7 +61,7 @@ from .global_vars import (DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAIL
                           W_TRANS, W_NOMANP)
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
-from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR
+from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR, partgroup_qty
 from .edas import get_part_groups
 # Creation of the final XLSX spreadsheet.
 from .spreadsheet import create_spreadsheet, Spreadsheet
@@ -221,7 +222,26 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     # Debug the resulting list
     if logger.isEnabledFor(DEBUG_DETAILED):
         logger.log(DEBUG_DETAILED, 'Distributors: ' + pprint.pformat(dist_list))
-    # Get the distributor pricing/qty/etc for each part.
+    #
+    # Solve the quantity for each group
+    #
+    # Make sure we have the number of boards for each project
+    for p_info in prj_info:
+        if 'qty' not in p_info:
+            p_info['qty'] = Spreadsheet.DEFAULT_BUILD_QTY
+    multi_prj = len(prj_info) > 1
+    # Compute the qtys
+    for part in parts:
+        part.qty_str, part.qty = partgroup_qty(part)
+        # Total for all boards
+        if multi_prj:
+            total = 0
+            for i_prj, p_info in enumerate(prj_info):
+                total += part.qty[i_prj] * p_info['qty']
+        else:
+            total = part.qty * prj_info[0]['qty']
+        part.qty_total_spreadsheet = ceil(total)
+    # Get the distributor pricing/etc for each part.
     query_part_info(parts, dist_list, currency)
 
     # Create the part pricing spreadsheet.

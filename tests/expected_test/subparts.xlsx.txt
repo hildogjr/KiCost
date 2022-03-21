@@ -22,7 +22,7 @@ Row: 2
  Col: H
    "Unit Cost:"
  Col: I
-   40.903
+   40.6066
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
@@ -32,7 +32,7 @@ Row: 3
  Col: H
    "Total Cost:"
  Col: I
-   4090.296
+   4060.656
   Formula: SUM(I7:I18)
  Col: N
    0
@@ -59,10 +59,10 @@ Row: 3
    "5 of 12 parts found"
   Formula: (COUNTA(AF7:AF18)&" of "&ROWS(AF7:AF18)&" parts found")
  Col: AL
-   362.3
+   690.3
   Formula: SUM(AL7:AL18)
  Col: AM
-   "8 of 12 parts found"
+   "10 of 12 parts found"
   Formula: (COUNTA(AL7:AL18)&" of "&ROWS(AL7:AL18)&" parts found")
  Col: AR
    9238.52
@@ -1102,10 +1102,10 @@ Row: 13
   - greaterThan SUM(J13,P13,V13,AB13,AH13,AN13,AT13,AZ13) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(L13),K13,0),IF(ISNUMBER(R13),Q13,0),IF(ISNUMBER(X13),W13,0),IF(ISNUMBER(AD13),AC13,0),IF(ISNUMBER(AJ13),AI13,0),IF(ISNUMBER(AP13),AO13,0),IF(ISNUMBER(AV13),AU13,0),IF(ISNUMBER(BB13),BA13,0)) -> -/FFFFFF00
  Col: H
-   1.7882
+   1.64
   Formula: IF(MIN(L13,R13,X13,AD13,AJ13,AP13,AV13,BB13)<>0,MIN(L13,R13,X13,AD13,AJ13,AP13,AV13,BB13),"")
  Col: I
-   178.82
+   164
   Formula: IF(AND(ISNUMBER(G13),ISNUMBER(H13)),G13*H13,"")
  Col: P
    61975
@@ -1128,6 +1128,27 @@ Row: 13
   - lessThanOrEqual I13 -> -/FF80FF80
  Col: U
    <a href="https://octopart.com/click/track?ai=8078&sig=057e246&sid=459&ppid=38924313&vpid=586502739&ct=offers">1514-2N2222APBFREE-ND</a>
+ Col: AH
+   30803
+  Styles:
+  - lessThan G13 -> FF000000/FFFF9900
+ Col: AI
+  Styles:
+  - =AND(NOT(ISBLANK(AI13)),OR(AH13="NonStk",AI13>AH13)) -> FFFFFFFF/FFFF0000
+ Col: AJ
+   1.64
+  Formula: IFERROR(IF(OR(AI13>=AK13,G13>=AK13),LOOKUP(IF(AI13="",G13,AI13),{0,1,10,50,100,1000,10000},{0.0,2.48,1.99,1.99,1.64,1.18,1.08}),"MOQ="&AK13),"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: AK
+   1
+ Col: AL
+   164
+  Formula: IFERROR(IF(AI13="",G13,AI13)*AJ13,"")
+  Styles:
+  - lessThanOrEqual I13 -> -/FF80FF80
+ Col: AM
+   <a href="https://octopart.com/click/track?ai=8078&sig=0bec95d&sid=2401&ppid=38924313&vpid=614092373&ct=offers">6102N2222A</a>
 Row: 14
  Col: A
    "Q1#2"
@@ -1261,10 +1282,10 @@ Row: 15
   - greaterThan SUM(J15,P15,V15,AB15,AH15,AN15,AT15,AZ15) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(L15),K15,0),IF(ISNUMBER(R15),Q15,0),IF(ISNUMBER(X15),W15,0),IF(ISNUMBER(AD15),AC15,0),IF(ISNUMBER(AJ15),AI15,0),IF(ISNUMBER(AP15),AO15,0),IF(ISNUMBER(AV15),AU15,0),IF(ISNUMBER(BB15),BA15,0)) -> -/FFFFFF00
  Col: H
-   1.7882
+   1.64
   Formula: IF(MIN(L15,R15,X15,AD15,AJ15,AP15,AV15,BB15)<>0,MIN(L15,R15,X15,AD15,AJ15,AP15,AV15,BB15),"")
  Col: I
-   178.82
+   164
   Formula: IF(AND(ISNUMBER(G15),ISNUMBER(H15)),G15*H15,"")
  Col: P
    61975
@@ -1287,6 +1308,27 @@ Row: 15
   - lessThanOrEqual I15 -> -/FF80FF80
  Col: U
    <a href="https://octopart.com/click/track?ai=8078&sig=057e246&sid=459&ppid=38924313&vpid=586502739&ct=offers">1514-2N2222APBFREE-ND</a>
+ Col: AH
+   30803
+  Styles:
+  - lessThan G15 -> FF000000/FFFF9900
+ Col: AI
+  Styles:
+  - =AND(NOT(ISBLANK(AI15)),OR(AH15="NonStk",AI15>AH15)) -> FFFFFFFF/FFFF0000
+ Col: AJ
+   1.64
+  Formula: IFERROR(IF(OR(AI15>=AK15,G15>=AK15),LOOKUP(IF(AI15="",G15,AI15),{0,1,10,50,100,1000,10000},{0.0,2.48,1.99,1.99,1.64,1.18,1.08}),"MOQ="&AK15),"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: AK
+   1
+ Col: AL
+   164
+  Formula: IFERROR(IF(AI15="",G15,AI15)*AJ15,"")
+  Styles:
+  - lessThanOrEqual I15 -> -/FF80FF80
+ Col: AM
+   <a href="https://octopart.com/click/track?ai=8078&sig=0bec95d&sid=2401&ppid=38924313&vpid=614092373&ct=offers">6102N2222A</a>
 Row: 16
  Col: A
    "R1,R4,R5"

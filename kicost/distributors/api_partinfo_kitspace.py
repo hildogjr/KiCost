@@ -40,10 +40,10 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
+from ..global_vars import DEFAULT_CURRENCY, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class
+from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
 
 
 # Uncomment for debug
@@ -83,13 +83,22 @@ QUERY_URL = 'https://dev-partinfo.kitspace.org/graphql'
 __all__ = ['api_partinfo_kitspace']
 
 
+class QueryStruct(object):
+    def __init__(self, query, part, for_dists):
+        self.query = query  # Each part reference query.
+        self.part = part    # Pointer to the part.
+        self.for_dists = for_dists  # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
+        self.result = None
+        self.loaded = False
+
+
 class api_partinfo_kitspace(distributor_class):
     name = 'KitSpace'
     type = 'api'
     enabled = True
     url = 'https://kitspace.org/'  # Web site API information.
 
-    API_DISTRIBUTORS = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
+    api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
     DIST_TRANSLATION = {  # Distributor translation.
                         'Digikey': 'digikey',
                         'Farnell': 'farnell',
@@ -102,11 +111,21 @@ class api_partinfo_kitspace(distributor_class):
                        }
     # Dict to translate KiCost field names into KitSpace distributor names
     KICOST2KITSPACE_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
+    cache = None
 
     @staticmethod
-    def init_dist_dict():
-        if api_partinfo_kitspace.enabled:
-            distributor_class.add_distributors(api_partinfo_kitspace.API_DISTRIBUTORS)
+    def configure(ops):
+        cache_ttl = 7
+        cache_path = None
+        for k, v in ops.items():
+            if k == 'enable':
+                api_partinfo_kitspace.enabled = v
+            elif k == 'cache_ttl':
+                cache_ttl = v
+            elif k == 'cache_path':
+                cache_path = v
+        api_partinfo_kitspace.cache = QueryCache(cache_path, cache_ttl)
+        debug_obsessive('KitSpace API configured to enabled {}'.format(api_partinfo_kitspace.enabled))
 
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
@@ -159,21 +178,48 @@ class api_partinfo_kitspace(distributor_class):
         return default
 
     @staticmethod
-    def get_part_info(query, parts, distributors, currency, distributors_wanted):
-        '''Query PartInfo for quantity/price info and place it into the parts list.
-           `distributors_wanted` is the list of distributors we want for each query.
-           `distributors` is the list of all distributors we want, in general.
-           This difference is because some queries are for an specific distributor.
-        '''
+    def query2name(query):
+        ''' Finds the prefix and name for a query '''
+        q = json.loads(query)
+        mpn = q.get('mpn', None)
+        if mpn is not None:
+            prefix = 'mpn'
+            name = mpn['part']
+        else:
+            sku = q.get('sku', None)
+            if sku is not None:
+                prefix = 'sku'
+                name = sku['vendor'] + '_' + sku['part']
+        return prefix, name
+
+    @staticmethod
+    def get_part_info(queries, distributors):
+        '''Query PartInfo for quantity/price info.
+           `distributors` is the list of all distributors we want, in general. '''
+        only_query = [q.query for q in queries]
+        results = api_partinfo_kitspace.query(only_query, distributors)
+        for i, r in enumerate(results['data']['match']):
+            queries[i].result = r
+            # Solve the prefix and name
+            prefix, name = api_partinfo_kitspace.query2name(queries[i].query)
+            api_partinfo_kitspace.cache.save_results(prefix, name, r)
+
+    @staticmethod
+    def fill_part_info(queries, distributors, currency, solved):
+        ''' Place the results into the parts list. '''
         # Translate from PartInfo distributor names to the names used internally by kicost.
         dist_xlate = api_partinfo_kitspace.DIST_TRANSLATION
 
-        results = api_partinfo_kitspace.query(query, distributors)
-
         # Loop through the response to the query and enter info into the parts list.
-        for part_query, part, dist_want, result in zip(query, parts, distributors_wanted, results['data']['match']):
+        for q in queries:
+            # Unpack the structure
+            part_query = q.query
+            part = q.part
+            dist_want = q.for_dists
+            result = q.result
+            # Process it
             if not result:
-                distributor_class.logger.warning(W_NOINFO+'No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                warning(W_NOINFO, 'No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
                 continue
             # Get the information of the part.
             part.datasheet = result.get('datasheet')
@@ -198,8 +244,7 @@ class api_partinfo_kitspace(distributor_class):
                 dist_currency = {cur: pri for cur, pri in offer['prices'].items() if pri}
                 if not dist_currency:
                     # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
-                    distributor_class.logger.warning(NO_PRICE+'No price information found for parts \'{}\' query `{}`'.
-                                                     format(part.refs, str(part_query)))
+                    warning(NO_PRICE, 'No price information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
                 else:
                     prices = None
                     # Get the price tiers prioritizing:
@@ -258,24 +303,24 @@ class api_partinfo_kitspace(distributor_class):
                     dd.qty_increment = part_qty_increment
                 # Update the DistData for this distributor
                 part.dd[dist] = dd
+                # We have data for this distributor
+                solved.add(dist)
 
     @staticmethod
     def query_part_info(parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
+        debug_overview('# Getting part data from KitSpace...')
 
         # Use just the distributors avaliable in this API.
         # Note: The user can use --exclude and define it with fields.
         distributors = [d for d in distributors if distributor_class.get_distributor_info(d).is_web()
-                        and d in api_partinfo_kitspace.API_DISTRIBUTORS]
+                        and d in api_partinfo_kitspace.api_distributors]
         FIELDS_CAT = sorted([d + '#' for d in distributors])
 
         # Create queries to get part price/quantities from PartInfo.
-        queries = []  # Each part reference query.
-        query_parts = []  # Pointer to the part.
-        query_part_stock_code = []  # Used the stock code mention for disambiguation, it is used `None` for the "manf#".
+        queries = []
         # Translate from PartInfo distributor names to the names used internally by kicost.
-        available_distributors = set(api_partinfo_kitspace.API_DISTRIBUTORS)
+        available_distributors = set(api_partinfo_kitspace.api_distributors)
         for part in parts:
             # Create a PartInfo query using the manufacturer's part number or the distributor's SKU.
             part_dist_use_manfpn = copy.copy(distributors)
@@ -292,9 +337,8 @@ class api_partinfo_kitspace(distributor_class):
                     part_catalogue_code_dist = d[:-1]
                     if part_catalogue_code_dist in available_distributors:
                         part_code_dist = api_partinfo_kitspace.KICOST2KITSPACE_DIST[part_catalogue_code_dist]
-                        queries.append('{"sku":{"vendor":"' + part_code_dist + '","part":"' + part_stock + '"}}')
-                        query_parts.append(part)
-                        query_part_stock_code.append([part_catalogue_code_dist])
+                        query_text = '{"sku":{"vendor":"' + part_code_dist + '","part":"' + part_stock + '"}}'
+                        queries.append(QueryStruct(query_text, part, [part_catalogue_code_dist]))
                         part_dist_use_manfpn.remove(part_catalogue_code_dist)
                 else:
                     found_codes_for_all_dists = False
@@ -304,27 +348,47 @@ class api_partinfo_kitspace(distributor_class):
             part_code = part.fields.get('manf#')
             if part_code and not found_codes_for_all_dists:
                 # Not all distributors has code, add a query for the manufaturer P/N
-                queries.append('{"mpn":{"manufacturer":"' + part_manf + '","part":"' + part_code + '"}}')
-                query_parts.append(part)
+                query_text = '{"mpn":{"manufacturer":"' + part_manf + '","part":"' + part_code + '"}}'
                 # List of distributors without an specific part number
-                query_part_stock_code.append(part_dist_use_manfpn)
+                queries.append(QueryStruct(query_text, part, part_dist_use_manfpn))
 
-        n_queries = len(query_parts)
+        n_queries = len(queries)
+        debug_overview('Queries {}'.format(n_queries))
         if not n_queries:
             return
-        # Setup progress bar to track progress of server queries.
-        progress = distributor_class.progress(n_queries, distributor_class.logger)
 
-        # Slice the queries into batches of the largest allowed size and gather
-        # the part data for each batch.
-        for i in range(0, len(queries), MAX_PARTS_PER_QUERY):
-            slc = slice(i, i+MAX_PARTS_PER_QUERY)
-            api_partinfo_kitspace.get_part_info(queries[slc], query_parts[slc], distributors, currency, query_part_stock_code[slc])
-            progress.update(len(queries[slc]))
+        # Try to solve the queries from the cache
+        unsolved = []
+        for query in queries:
+            # Solve the prefix and name
+            prefix, name = api_partinfo_kitspace.query2name(query.query)
+            # Look in the cache
+            query.result, query.loaded = api_partinfo_kitspace.cache.load_results(prefix, name)
+            if not query.loaded:
+                unsolved.append(query)
 
-        # Done with the scraping progress bar so delete it or else we get an
-        # error when the program terminates.
-        progress.close()
+        # Solve the rest from the site
+        n_unsolved = len(unsolved)
+        debug_overview('Cached entries {}'.format(n_queries-n_unsolved))
+        if n_unsolved:
+            # Setup progress bar to track progress of server queries.
+            progress = distributor_class.progress(n_unsolved, distributor_class.logger)
+
+            # Slice the queries into batches of the largest allowed size and gather
+            # the part data for each batch.
+            for i in range(0, n_unsolved, MAX_PARTS_PER_QUERY):
+                slc = slice(i, i+MAX_PARTS_PER_QUERY)
+                api_partinfo_kitspace.get_part_info(unsolved[slc], distributors)
+                progress.update(len(unsolved[slc]))
+
+            # Done with the scraping progress bar so delete it or else we get an
+            # error when the program terminates.
+            progress.close()
+
+        # Transfer the results
+        solved_dist = set()
+        api_partinfo_kitspace.fill_part_info(queries, distributors, currency, solved_dist)
+        return solved_dist
 
 
 distributor_class.register(api_partinfo_kitspace, 50)

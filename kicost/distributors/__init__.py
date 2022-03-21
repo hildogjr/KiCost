@@ -33,13 +33,17 @@ from .distributors_info import ORDER_COL_USERFIELDS  # noqa: F401
 from .dist_local_template import dist_local_template  # noqa: F401
 from .api_octopart import api_octopart  # noqa: F401
 from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
+from .api_digikey import api_digikey  # noqa: F401
+from .api_mouser import api_mouser  # noqa: F401
+from .api_element14 import api_element14  # noqa: F401
+from .api_tme import api_tme  # noqa: F401
 
 
 #
 # Some wrappers
 #
 def init_distributor_dict():
-    distributor_class.init_dist_dict()
+    distributor_class.main_init_dist_dict()
 
 
 def get_dist_parts_info(parts, dist_list, currency):
@@ -81,9 +85,9 @@ def set_distributors_progress(cls):
     distributor_class.progress = cls
 
 
-def set_api_options(api, **kwargs):
-    ''' Configure an API (by name) '''
-    distributor_class.set_api_options(api, **kwargs)
+def configure_apis(options):
+    ''' Configure all APIs. options is a dict API -> api_options '''
+    distributor_class.configure_apis(options)
 
 
 def set_api_status(api, enabled):
@@ -96,5 +100,20 @@ def get_api_status(api):
     return distributor_class.get_api_status(api)
 
 
-# Init distributor dict during import.
-init_distributor_dict()
+def is_valid_api(api):
+    ''' Determines if this API is registered '''
+    return distributor_class._get_api(api) is not None
+
+
+def get_api_list():
+    ''' Returns a list of registered APIs '''
+    return [api.name for api in distributor_class.registered]
+
+
+def get_api_valid_options():
+    ''' Returns the vali options for each API '''
+    return {api.name: api.config_options for api in distributor_class.registered}
+
+
+def configure_from_environment(options, overwrite):
+    distributor_class.configure_from_environment(options, overwrite)

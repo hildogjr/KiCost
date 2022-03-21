@@ -270,7 +270,7 @@ def check_diff(filename):
         raise
 
 
-def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
+def run_test(name, inputs, output, extra=None, price=True, ret_err=0, config_file=None):
     if not os.path.isdir(TESTDIR + '/result_test'):
         os.mkdir(TESTDIR + '/result_test')
     if not os.path.isdir(TESTDIR + '/log_test'):
@@ -298,6 +298,10 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
         cmd.append('--no_price')
     if extra:
         cmd.extend(extra)
+    if config_file is not None:
+        cmd.extend(['-c', TESTDIR + '/configs/' + config_file])
+    else:
+        cmd.extend(['-c', TESTDIR + '/configs/default.yaml'])
     out_xlsx = TESTDIR + '/' + output + '.xlsx'
     cmd.extend(['-o', out_xlsx])
     cmd.extend(['-wi'] + [TESTDIR + '/' + n for n in inputs])
@@ -332,7 +336,7 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0):
     logging.info(output+' OK')
 
 
-def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_err=0):
+def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_err=0, config_file=None):
     logging.debug('Test name: ' + name)
     if inputs is None:
         inputs = name
@@ -342,7 +346,7 @@ def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_e
         output = inputs[0]
         if output.endswith('.csv'):
             output = output[:-4]
-    run_test(name, inputs, output, extra, price, ret_err)
+    run_test(name, inputs, output, extra, price, ret_err, config_file)
 
 
 def check_errors(errors):
@@ -361,11 +365,21 @@ def test_300_010():
 
 
 def test_acquire_PWM_1():
-    run_test_check('acquire-PWM')
+    run_test_check('acquire-PWM', config_file='kitspace_no_cache.yaml')
+
+
+def test_acquire_PWM_dk():
+    name = 'acquire_PWM_dk'
+    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey'], config_file='digikey.yaml')
+
+
+def test_acquire_PWM_eur_dk():
+    name = 'acquire_PWM_eur_dk'
+    run_test_check(name, 'acquire-PWM', name, extra=['--include', 'digikey', '--currency', 'EUR'], config_file='digikey_eur.yaml')
 
 
 def test_acquire_PWM_2():
-    run_test_check('acquire-PWM_2')
+    run_test_check('acquire-PWM_2', config_file='kitspace_no_cache.yaml')
 
 
 def test_Aeronav_R():
@@ -485,15 +499,15 @@ def test_Parts():
 
 
 def test_part_list_big():
-    run_test_check('part_list_big.csv')
+    run_test_check('part_list_big.csv', config_file='kitspace_no_cache.yaml')
 
 
 def test_part_list_small_hdr():
-    run_test_check('part_list_small.csv')
+    run_test_check('part_list_small.csv', config_file='kitspace_no_cache.yaml')
 
 
 def test_part_list_small_nohdr():
-    run_test_check('part_list_small_nohdr.csv')
+    run_test_check('part_list_small_nohdr.csv', config_file='kitspace_no_cache.yaml')
 
 
 def test_multiproject_1():
@@ -573,7 +587,7 @@ def test_scrape_over_1():
 def test_scrape_over_2():
     # Data from the fields relaces the web-scraped data.
     # For this we exclude the distributor with --exclude
-    run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'])
+    run_test_check('scrape_over_2', 'scrape_over', 'scrape_over_2', extra=['--exclude', 'rs'], config_file='kitspace_no_cache.yaml')
 
 
 def test_manf_no_manf_num():
@@ -649,28 +663,47 @@ def test_rare_refs_no_collapse():
 
 def test_octopart_1p():
     name = 'octopart_1'
-    run_test_check(name + 'p', name, name + 'p', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'])
+    run_test_check(name + 'p', name, name + 'p', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'], config_file='octopart_no_cache.yaml')
 
 
 def test_octopart_1n():
     name = 'octopart_1'
-    run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4'])
+    run_test_check(name + 'n', name, name + 'n', config_file='octopart_no_cache.yaml')
 
 
 def test_octopart_1_ambi():
     name = 'octopart_1_ambi'
-    run_test_check(name, extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'])
+    run_test_check(name, extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'], config_file='octopart_no_cache.yaml')
     check_errors([r'Using "Adafruit Industries" for manf#="4062"', r'Ambiguous manf#="4062" please use manf to select the right one, choices:'])
 
 
 def test_octopart_2n():
     name = 'octopart_2'
-    run_test_check(name + 'n', name, name + 'n', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4'])
+    run_test_check(name + 'n', name, name + 'n', extra=['--disable_api', 'KitSpace'], config_file='octopart.yaml')
 
 
 def test_337():
     # Test for issue #337
     run_test_check('test_337_UserFieldCombining', extra=['--field', 'Supplier'], price=False)
+
+
+def test_mouser_1():
+    test_name = 'mouser_1'
+    fields = ['S1MN', 'S1PN', 'S2MN', 'S2PN']
+    extra = ['--split_extra_fields'] + fields + ['-f'] + fields + ['--include', 'mouser']
+    run_test_check(test_name, 'complex_multipart', test_name, extra=extra, config_file='mouser.yaml')
+
+
+def test_element14_1():
+    test_name = 'element14_1'
+    extra = ['--include', 'farnell', 'newark']
+    run_test_check(test_name, 'safelink_receiver', test_name, extra=extra, config_file='element14.yaml')
+
+
+def test_tme_1():
+    test_name = 'tme_1'
+    extra = ['--include', 'tme']
+    run_test_check(test_name, 'safelink_receiver', test_name, extra=extra, config_file='tme.yaml')
 
 
 class TestKicost(unittest.TestCase):

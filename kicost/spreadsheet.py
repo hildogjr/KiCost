@@ -44,7 +44,7 @@ from validators import url as validate_url  # URL validator.
 # KiCost libraries.
 from .version import __version__  # Version control by @xesscorp and collaborator.
 from .distributors import get_distributor_info, ORDER_COL_USERFIELDS
-from .edas.tools import partgroup_qty, order_refs, PART_REF_REGEX
+from .edas.tools import order_refs, PART_REF_REGEX
 from . import DistData
 
 from .currency_converter import CurrencyConverter, get_currency_symbol, format_currency
@@ -105,8 +105,12 @@ class Spreadsheet(object):
     ABOUT_MSG = 'KiCost\N{REGISTERED SIGN} v' + __version__
     # Try to group references as ranges
     COLLAPSE_REFS = True
+    # Sort the groups
+    SORT_GROUPS = True
     # Don't add the link column
     SUPPRESS_CAT_URL = True
+    # Don't add the description column
+    SUPPRESS_DIST_DESC = True
     # Columns to add to the global section
     USER_FIELDS = []
     # List of selected distributors
@@ -283,7 +287,7 @@ class Spreadsheet(object):
         # Currency format and symbol definition
         self.set_currency(currency)
         # Extra information characteristics of the components gotten in the page that will be displayed as comment in the 'cat#' column.
-        self.extra_info_display = ['value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
+        self.extra_info_display = ['desc', 'value', 'tolerance', 'footprint', 'power', 'current', 'voltage', 'frequency', 'temp_coeff', 'manf', 'size']
         # Create the worksheet that holds the pricing information.
         self.wks = workbook.add_worksheet(worksheet_name)
         # Data to performe cell size adjust
@@ -423,7 +427,8 @@ class Spreadsheet(object):
 
 
 def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currency=DEFAULT_CURRENCY,
-                       collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' ', max_column_width=DEF_MAX_COLUMN_W):
+                       collapse_refs=True, suppress_cat_url=True, user_fields=[], variant=' ',
+                       max_column_width=DEF_MAX_COLUMN_W, suppress_dist_desc=True):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     basename = os.path.basename(spreadsheet_filename)
     logger = get_logger()
@@ -447,6 +452,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currenc
     with xlsxwriter.Workbook(spreadsheet_filename) as workbook:
         Spreadsheet.COLLAPSE_REFS = collapse_refs
         Spreadsheet.SUPPRESS_CAT_URL = suppress_cat_url
+        Spreadsheet.SUPPRESS_DIST_DESC = suppress_dist_desc
         Spreadsheet.USER_FIELDS = user_fields
         Spreadsheet.DISTRIBUTORS = dist_list
         if max_column_width:
@@ -497,6 +503,10 @@ def create_worksheet(ss, logger, parts):
         d_width = len(ss.DISTRIBUTOR_COLUMNS)
         ss.DISTRIBUTOR_COLUMNS.update({'link': {'col': d_width, 'level': 2, 'label': 'URL', 'width': 15, 'comment': 'Distributor catalog link (ctrl-click).'}})
         ss.DISTRIBUTOR_COLUMNS['part_num']['comment'] = 'Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.'
+    if not ss.SUPPRESS_DIST_DESC:
+        # Add a extra column for the description.
+        d_width = len(ss.DISTRIBUTOR_COLUMNS)
+        ss.DISTRIBUTOR_COLUMNS.update({'description': {'col': d_width, 'level': 2, 'label': 'Description', 'width': 15, 'comment': 'Distributor description'}})
 
     # Make a list of alphabetically-ordered distributors with web distributors before locals.
     logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
@@ -506,13 +516,6 @@ def create_worksheet(ss, logger, parts):
         dist_list = web_dists + local_dists
     else:
         dist_list = ss.DISTRIBUTORS
-    # Make sure we have the number of boards for each project
-    for p_info in prj_info:
-        if 'qty' not in p_info:
-            p_info['qty'] = ss.DEFAULT_BUILD_QTY
-    # Compute some values needed for the parts
-    for part in parts:
-        part.qty_str, part.qty = partgroup_qty(part)
 
     # Fill the global information (not distributor-specific)
     # Skip the prices, will fill them after we fill the distributors
@@ -681,7 +684,8 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
         part.collapsed_refs, part.first_ref = order_refs(part.refs, collapse=ss.COLLAPSE_REFS, ref_sep=ss.PART_NSEQ_SEPRTR)
 
     # Then, order the part references with priority ref prefix, ref num, and subpart num.
-    parts.sort(key=get_ref_key)
+    if ss.SORT_GROUPS:
+        parts.sort(key=get_ref_key)
 
     # Add the global part data to the spreadsheet.
     col_qty = start_col + col['qty']
@@ -724,22 +728,20 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
             ss.write_string(row, n_col, field_value, cell_format)
 
         # Enter total part quantity needed.
+        total = part.qty_total_spreadsheet
         if num_prj > 1:
             # Multifiles BOM case, write each quantity and after,
             # in the 'qty' column the total quantity as ceil of
             # the total quantity (to ceil use a Microsoft Excel
             # compatible function.
-            total = 0
             for i_prj, p_info in enumerate(ss.prj_info):
                 value = part.qty[i_prj] * p_info['qty']
                 if part.qty[i_prj]:
                     ss.num_parts[i_prj] += 1
-                total += value
                 id = str(i_prj)
                 # Qty.PrjN
                 wks.write_formula(row, start_col + col['qty_prj'+id], part.qty_str[i_prj].format('BoardQty'+id), ss.wrk_formats['part_format'], value=value)
             # Build Quantity
-            total = ceil(total)
             wks.write_formula(row, col_qty,
                               '=CEILING(SUM({}:{}),1)'.format(xl_rowcol_to_cell(row, start_col + col['qty_prj0']),
                                                               xl_rowcol_to_cell(row, col_qty-1)),
@@ -747,9 +749,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
                               value=total)
         else:
             # Build Quantity
-            total = ceil(part.qty * ss.prj_info[0]['qty'])
             wks.write_formula(row, col_qty, part.qty_str.format('BoardQty'), ss.wrk_formats['part_format'], value=total)
-        part.qty_total_spreadsheet = total
         row += 1  # Go to next row.
 
     # Return column following the globals so we know where to start next set of cells.
@@ -954,6 +954,8 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     col_unit_price = start_col + columns['unit_price']['col']
     col_ext_price = start_col + columns['ext_price']['col']
     col_moq = start_col + columns['moq']['col']
+    if not ss.SUPPRESS_DIST_DESC:
+        col_desc = start_col + columns['description']['col']
     total_cost = 0
     # How many parts were found at this distributor
     n_price_found = 0
@@ -973,7 +975,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
         if dist_part_num is None:
             row += 1  # Skip this row and go to the next.
             continue
-        dist_info_dist = {}  # Not implemented
+        dist_info_dist = dd.extra_info
         dist_currency = dd.currency  # Extract currency used by the distributor.
 
         # Enter distributor part number for ordering purposes.
@@ -1009,6 +1011,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, col_purch, '', ss.wrk_formats['part_format'])
+
+        if not ss.SUPPRESS_DIST_DESC and 'desc' in dist_info_dist:
+            ss.write_string(row, col_desc, dist_info_dist['desc'], 'part_format')
 
         # Add pricing information if it exists. (Unit$/Ext$)
         if price_tiers:
@@ -1218,7 +1223,9 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             info_col = columns_global[col]
         else:
             info_col = 0
-            logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
+            if col is not None:
+                # None is used to generate an empty column, isn't a problem
+                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
         cell = xl_range(first_part, info_col, last_part)
         # Deal with conversion and string replace necessary to the correct distributors
         # code understanding.

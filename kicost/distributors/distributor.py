@@ -32,10 +32,29 @@ import copy
 import os
 import logging
 import tqdm
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+# QueryCache dependencies:
+import pickle
+import time
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW, BASE_OP_TYPES, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
+
+
+def debug_detailed(*args):
+    distributor_class.logger.log(DEBUG_DETAILED, args)
+
+
+def debug_overview(*args):
+    distributor_class.logger.log(DEBUG_OVERVIEW, args)
+
+
+def debug_obsessive(*args):
+    distributor_class.logger.log(DEBUG_OBSESSIVE, args)
+
+
+def warning(code, msg):
+    distributor_class.logger.warning(code + msg)
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -55,6 +74,38 @@ class TqdmLoggingHandler(logging.Handler):
             self.handleError(record)
 
 
+class QueryCache(object):
+    ''' Components queries cache implementation '''
+    def __init__(self, path, ttl):
+        self.path = path
+        self.ttl_min = ttl*24*60
+        self.suffix = ''
+
+    def get_name(self, prefix, name):
+        return os.path.join(self.path, prefix + '_' + name.replace('/', '_') + self.suffix + ".dat")
+
+    def save_results(self, prefix, name, results):
+        ''' Saves the results to the cache '''
+        with open(self.get_name(prefix, name), "wb") as fh:
+            pickle.dump(results, fh, protocol=2)
+
+    def load_results(self, prefix, name):
+        ''' Loads the results from the cache, must be implemented by KiCost '''
+        file = self.get_name(prefix, name)
+        if not os.path.isfile(file):
+            return None, False
+        mtime = os.path.getmtime(file)
+        ctime = time.time()
+        dif_minutes = int((ctime-mtime)/60)
+        if self.ttl_min < 0 or (self.ttl_min > 0 and dif_minutes <= self.ttl_min):
+            with open(file, "rb") as fh:
+                result = pickle.loads(fh.read())
+            # Valid load if we got a valid result or we have a persistent cache
+            return result, result is not None or self.ttl_min < 0
+        # Cache expired
+        return None, False
+
+
 class distributor_class(object):
     registered = []
     priorities = []
@@ -66,6 +117,8 @@ class distributor_class(object):
     # The list of *used* distributors is handled separately.
     distributor_dict = {}
     label2name = {}
+    # Options supported by this API
+    config_options = {}
 
     @staticmethod
     def register(api, priority):
@@ -80,14 +133,35 @@ class distributor_class(object):
         distributor_class.priorities.insert(index, priority)
 
     @staticmethod
-    def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
-        ''' Get the parts info using the modules API/Scrape/Local.'''
-        for api in distributor_class.registered:
-            if api.enabled:
-                api.query_part_info(parts, distributors, currency)
+    def update_distributors(parts, distributors):
+        """ This is used by the Local distributors mechanism to discover user defined distributors """
+        pass
 
     @staticmethod
-    def init_dist_dict():
+    def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
+        ''' Get the parts info using the modules API/Scrape/Local.'''
+        distributor_class.logger.log(DEBUG_OVERVIEW, 'Starting to search using distributors: {}'.format(distributors))
+        # Discover user defined distributors
+        for api in distributor_class.registered:
+            if api.enabled:
+                api.update_distributors(parts, distributors)
+        distributor_class.logger.log(DEBUG_OVERVIEW, 'Distributors after local discovery: {}'.format(distributors))
+        # Now look for the parts
+        remaining = set(distributors)
+        for api in distributor_class.registered:
+            distributor_class.logger.log(DEBUG_OVERVIEW, 'Considering: {} {}'.format(api.name, api.api_distributors))
+            if api.enabled and len(remaining.intersection(api.api_distributors)):
+                solved = api.query_part_info(parts, list(remaining), currency)
+                remaining -= solved
+                distributor_class.logger.log(DEBUG_OVERVIEW, 'Distributors solved {}, remaining {}'.format(solved, remaining))
+
+    @classmethod
+    def init_dist_dict(cls):
+        if cls.enabled:
+            distributor_class.add_distributors(cls.api_distributors)
+
+    @staticmethod
+    def main_init_dist_dict():
         ''' Initialize and update the dictionary of the registered distributors classes.'''
         # Clear distributor_dict, then let all distributor modules recreate their entries.
         distributor_class.distributor_dict = {}
@@ -146,24 +220,56 @@ class distributor_class(object):
     @staticmethod
     def _get_api(api):
         # We currently assume the API is registered
-        return next(x for x in distributor_class.registered if x.name == api)
+        return next((x for x in distributor_class.registered if x.name == api), None)
 
     @staticmethod
-    def set_api_options(api, **kwargs):
-        ''' Configure an API (by name) '''
-        # This is currently used to configure Octopart, which is always available.
-        # In the future some check could be added.
-        distributor_class._get_api(api).set_options(**kwargs)
+    def configure_apis(options):
+        ''' Configure all APIs. options is a dict API -> api_options '''
+        for api_name, ops in options.items():
+            api = distributor_class._get_api(api_name)
+            if api is not None:
+                api.configure(ops)
 
     @staticmethod
-    def set_api_status(api, enabled):
+    def set_api_status(api_name, enabled):
         ''' Enable/Disable a particular API '''
-        distributor_class._get_api(api).enabled = enabled
+        api = distributor_class._get_api(api_name)
+        if api:
+            api.enabled = enabled
+        else:
+            distributor_class.logger.warning('No API registered as `{}`'.format(api_name))
 
     @staticmethod
     def get_api_status(api):
         ''' Find if an API is enabled '''
         return distributor_class._get_api(api).enabled
+
+    @staticmethod
+    def from_environment(options, overwrite):
+        ''' Default configuration from the environment. Just nothing. '''
+        pass
+
+    @staticmethod
+    def _set_from_env(key, value, options, overwrite, d_types=None):
+        ''' Helper function to implement `from_environment`. '''
+        if value is not None and (overwrite or key not in options):
+            if d_types:
+                # If we know the valid data type for the value ensure it
+                tp = d_types.get(key, None)
+                tp = BASE_OP_TYPES.get(key, tp)
+                if not isinstance(tp, type):
+                    # Solve the case where more than one data type is allowed
+                    tp = tp[0]
+                # This is a cast
+                value = tp(value)
+            options[key] = value
+
+    @staticmethod
+    def configure_from_environment(options, overwrite):
+        ''' Configure all APIs using environment variables.
+            If overwrite is True the API should replace the current option '''
+        for api in distributor_class.registered:
+            api.from_environment(options[api.name], overwrite)
 
     # Abstract methods, implemented in distributor specific modules.
     @staticmethod

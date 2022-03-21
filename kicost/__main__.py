@@ -32,7 +32,7 @@ import tqdm
 import logging
 import subprocess
 # Debug, language and default configurations.
-from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger, KiCostError
+from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger, KiCostError, DEBUG_DETAILED, W_CMDLINE
 # Import log first to set the domain and assign it to the global logger
 from . import log
 log.set_domain('kicost')
@@ -41,6 +41,7 @@ set_logger(logger)
 
 # KiCost definitions and modules/packages functions.
 from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions. # noqa: E402
+from .config import load_config, config_force_ttl, config_force_path  # noqa: E402
 try:
     from .kicost_gui import kicost_gui
     GUI_ENABLED = True
@@ -48,8 +49,8 @@ except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     GUI_ENABLED = False
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
-from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, set_api_options, set_api_status,  # noqa: E402
-                           get_api_status)  # noqa: E402
+from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, is_valid_api,  # noqa: E402
+                           init_distributor_dict, configure_from_environment, configure_apis)  # noqa: E402
 from .spreadsheet import Spreadsheet  # noqa: E402
 from . import __version__, __build__  # Version control by @xesscorp and collaborator.  # noqa: E402
 
@@ -272,8 +273,75 @@ def main_real():
     parser.add_argument('--octopart_level',
                         nargs='?', type=str, metavar='APILEVEL', choices=['3', '3p', '4', '4p'],
                         help='Use Octopart API level. Can be 3 or 4 for basic API and 3p or 4p for PRO plans. Default: 4')
+    parser.add_argument('--disable_api',
+                        nargs='+', type=str, default=[],
+                        metavar='API',
+                        help='Disable the listed APIs.')
+    parser.add_argument('--enable_api',
+                        nargs='+', type=str, default=[],
+                        metavar='API',
+                        help='Enable the listed APIs.')
+    parser.add_argument('-c', '--config',
+                        nargs='?', type=str,
+                        metavar='CONFIG.YAML',
+                        help='Configuration file.')
+    parser.add_argument('--cache_ttl',
+                        nargs='?', type=float,
+                        metavar='DAYS',
+                        help='Force the Time To Live for the APIs caches.')
+    parser.add_argument('--cache_path',
+                        nargs='?', type=str,
+                        metavar='BASE_PATH',
+                        help='Force the base path for the APIs caches.')
 
     args = parser.parse_args()
+
+    # Set up logging.
+    log.set_verbosity(logger, args.debug, args.quiet)
+    set_distributors_logger(log.get_logger('kicost.distributors'))
+    set_distributors_progress(ProgressConsole)
+    set_edas_logger(log.get_logger('kicost.edas'))
+
+    #
+    # Configuration
+    #
+    # Configuration file
+    api_options = load_config(args.config)
+    # Environment, overwrite only if the config file wasn't specified in the command line
+    configure_from_environment(api_options, args.config is None)
+    # Force API options from the command line
+    if args.cache_ttl is not None:
+        config_force_ttl(args.cache_ttl)
+    if args.cache_path is not None:
+        config_force_path(args.cache_path)
+    if args.octopart_key is not None:
+        api_options['Octopart']['key'] = args.octopart_key
+    if args.octopart_level is not None:
+        level = args.octopart_level
+        extended = False
+        if level[-1] == 'p':
+            extended = True
+            level = level[:-1]
+        api_options['Octopart']['level'] = level
+        api_options['Octopart']['extended'] = extended
+    for api in args.disable_api:
+        logger.log(DEBUG_OBSESSIVE, 'Disabling API ' + api)
+        if is_valid_api(api):
+            api_options[api]['enable'] = False
+        else:
+            logger.warning(W_CMDLINE+'Unknown API `{}`'.format(api))
+    for api in args.enable_api:
+        logger.log(DEBUG_OBSESSIVE, 'Enabling API ' + api)
+        if is_valid_api(api):
+            api_options[api]['enable'] = True
+        else:
+            logger.warning(W_CMDLINE+'Unknown API `{}`'.format(api))
+    logger.log(DEBUG_DETAILED, 'Final API options {}'.format(api_options))
+    # Configure the APIs
+    configure_apis(api_options)
+
+    # Now we can init the distributors dict, it can log messages
+    init_distributor_dict()
 
     # Setup and unsetup KiCost integration.
     if args.setup:
@@ -285,12 +353,7 @@ def main_real():
         kicost_unsetup()
         return
 
-    # Set up logging.
-    log.set_verbosity(logger, args.debug, args.quiet)
-    set_distributors_logger(log.get_logger('kicost.distributors'))
-    set_distributors_progress(ProgressConsole)
-    set_edas_logger(log.get_logger('kicost.edas'))
-
+    # Simple commands
     if args.show_dist_list:
         logger.info('Distributor list: ' + ' '.join(sorted(get_distributors_list())))
         sys.exit(0)
@@ -311,15 +374,6 @@ def main_real():
     else:
         # Output file was given. Make sure it has spreadsheet extension.
         args.output = os.path.splitext(args.output)[0] + '.xlsx'
-
-    # Configure the Octopart API
-    set_api_options('Octopart', key=args.octopart_key, level=args.octopart_level)
-    if get_api_status('Octopart'):
-        # Disable KitSpace if Octopart is enabled.
-        # Mixing both could sound useful, but KitSpace uses Octopart, so any difference is most probably an error.
-        # Keeping them separated will help to solve the errors.
-        # Additionally: people with an Octopart key can help to offload KitSpace.
-        set_api_status('KitSpace', False)
 
     # SET: This is half implemented. Not currently working.
     #     # Call the KiCost interface to alredy run KiCost, this is just to use the

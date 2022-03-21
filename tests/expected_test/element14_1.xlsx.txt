@@ -1,0 +1,3246 @@
+Variables:
+BoardQty = 'element14_1'!$H$1
+PURCHASE_DESCRIPTION = 'element14_1'!$H$56
+TotalCost = 'element14_1'!$H$3
+USD_GBP = 'element14_1'!$C$56
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "safelink_receiver.xml"
+ Col: G
+   "Board Qty:"
+ Col: H
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: G
+   "Unit Cost:"
+ Col: H
+   31.155
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "Mon 05 Jun 2017 19:55:00 BST"
+ Col: G
+   "Total Cost:"
+ Col: H
+   3115.5002
+  Formula: SUM(H7:H53)
+ Col: M
+   3423.2876
+  Formula: SUM(M7:M53)
+ Col: N
+   "42 of 47 parts found"
+  Formula: (COUNTA(M7:M53)&" of "&ROWS(M7:M53)&" parts found")
+ Col: S
+   3076.3
+  Formula: SUM(S7:S53)
+ Col: T
+   "39 of 47 parts found"
+  Formula: (COUNTA(S7:S53)&" of "&ROWS(S7:S53)&" parts found")
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+ Col: I
+   "Farnell"
+ Col: O
+   "Newark"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Footprint"
+ Col: D
+   "Manf"
+ Col: E
+   "Manf#"
+ Col: F
+   "Qty"
+ Col: G
+   "Unit$"
+ Col: H
+   "Ext$"
+ Col: I
+   "Avail"
+ Col: J
+   "Purch"
+ Col: K
+   "Unit$"
+ Col: L
+   "MOQ"
+ Col: M
+   "Ext$"
+ Col: N
+   "Cat#"
+ Col: O
+   "Avail"
+ Col: P
+   "Purch"
+ Col: Q
+   "Unit$"
+ Col: R
+   "MOQ"
+ Col: S
+   "Ext$"
+ Col: T
+   "Cat#"
+Row: 7
+ Col: A
+   "BT1"
+ Col: B
+   "Battery"
+ Col: C
+   "ACC-AANEG-5201"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(E7),ISBLANK(M7),ISBLANK(S7)) -> -/FFAAAAAA
+  - =IF(SUM(I7,O7)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I7,O7) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K7),J7,0),IF(ISNUMBER(Q7),P7,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K7,Q7)<>0,MIN(K7,Q7),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F7),ISNUMBER(G7)),F7*G7,"")
+Row: 8
+ Col: A
+   "BTCNT1"
+ Col: B
+   "ACC-AANEG-5201"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AANEG-5201"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E8),ISBLANK(M8),ISBLANK(S8)) -> -/FFAAAAAA
+  - =IF(SUM(I8,O8)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I8,O8) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K8),J8,0),IF(ISNUMBER(Q8),P8,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K8,Q8)<>0,MIN(K8,Q8),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F8),ISNUMBER(G8)),F8*G8,"")
+Row: 9
+ Col: A
+   "BTCNT2"
+ Col: B
+   "ACC-AAPOS-5223"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AAPOS-5223"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E9),ISBLANK(M9),ISBLANK(S9)) -> -/FFAAAAAA
+  - =IF(SUM(I9,O9)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I9,O9) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K9),J9,0),IF(ISNUMBER(Q9),P9,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K9,Q9)<>0,MIN(K9,Q9),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F9),ISNUMBER(G9)),F9*G9,"")
+Row: 10
+ Col: A
+   "BTCNT3"
+ Col: B
+   "ACC-AADBL-5212"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AADBL-5212"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E10),ISBLANK(M10),ISBLANK(S10)) -> -/FFAAAAAA
+  - =IF(SUM(I10,O10)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I10,O10) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K10),J10,0),IF(ISNUMBER(Q10),P10,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K10,Q10)<>0,MIN(K10,Q10),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F10),ISNUMBER(G10)),F10*G10,"")
+Row: 11
+ Col: A
+   "C1,C4,C5,C8-C10,C19,C21,C25,C26,C29,C33"
+ Col: B
+   "10u"
+ Col: C
+   "C_0805"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2047860.pdf">GRM21BR71A106KE51L</a>
+ Col: F
+   1200
+  Formula: CEILING(BoardQty*12.0,1)
+  Styles:
+  - =AND(ISBLANK(E11),ISBLANK(M11),ISBLANK(S11)) -> -/FFAAAAAA
+  - =IF(SUM(I11,O11)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I11,O11) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K11),J11,0),IF(ISNUMBER(Q11),P11,0)) -> -/FFFFFF00
+ Col: G
+   0.207767180438
+  Formula: IF(MIN(K11,Q11)<>0,MIN(K11,Q11),"")
+ Col: H
+   249.3206
+  Formula: IF(AND(ISNUMBER(F11),ISNUMBER(G11)),F11*G11,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F11 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J11>0,MOD(J11,L11)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J11)),OR(I11="NonStk",J11>I11)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.207767180438
+  Formula: IFERROR(IF(OR(J11>=L11,F11>=L11),USD_GBP*LOOKUP(IF(J11="",F11,J11),{0,1,5,50,250,500},{0.0,0.453,0.453,0.258,0.203,0.151}),"MOQ="&L11),"")
+  Styles:
+  - lessThanOrEqual G11 -> -/FF80FF80
+ Col: L
+   5
+ Col: M
+   249.3206
+  Formula: IFERROR(IF(J11="",F11,J11)*K11,"")
+  Styles:
+  - lessThanOrEqual H11 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1828828">1828828</a>
+ Col: O
+   1
+  Styles:
+  - lessThan F11 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P11)),OR(O11="NonStk",P11>O11)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.324
+  Formula: IFERROR(IF(OR(P11>=R11,F11>=R11),LOOKUP(IF(P11="",F11,P11),{0,1,10,25,50,100},{0.0,0.624,0.372,0.356,0.34,0.324}),"MOQ="&R11),"")
+  Styles:
+  - lessThanOrEqual G11 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   388.8
+  Formula: IFERROR(IF(P11="",F11,P11)*Q11,"")
+  Styles:
+  - lessThanOrEqual H11 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=38AC1155">38AC1155</a>
+Row: 12
+ Col: A
+   "C2,C3,C14"
+ Col: B
+   "1u"
+ Col: C
+   "C_0805"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2189091.pdf">GRM21BR71H105KA12L</a>
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E12),ISBLANK(M12),ISBLANK(S12)) -> -/FFAAAAAA
+  - =IF(SUM(I12,O12)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I12,O12) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K12),J12,0),IF(ISNUMBER(Q12),P12,0)) -> -/FFFFFF00
+ Col: G
+   0.161
+  Formula: IF(MIN(K12,Q12)<>0,MIN(K12,Q12),"")
+ Col: H
+   48.3
+  Formula: IF(AND(ISNUMBER(F12),ISNUMBER(G12)),F12*G12,"")
+ Col: I
+   2036
+  Styles:
+  - lessThan F12 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J12>0,MOD(J12,L12)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J12)),OR(I12="NonStk",J12>I12)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.187128056553
+  Formula: IFERROR(IF(OR(J12>=L12,F12>=L12),USD_GBP*LOOKUP(IF(J12="",F12,J12),{0,1,10,100,500,2500,7500,15000,75000},{0.0,0.167,0.167,0.136,0.0905,0.0688,0.0678,0.0664,0.0651}),"MOQ="&L12),"")
+  Styles:
+  - lessThanOrEqual G12 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   56.1384
+  Formula: IFERROR(IF(J12="",F12,J12)*K12,"")
+  Styles:
+  - lessThanOrEqual H12 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2688485">2688485</a>
+ Col: O
+   23179
+  Styles:
+  - lessThan F12 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P12)),OR(O12="NonStk",P12>O12)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.161
+  Formula: IFERROR(IF(OR(P12>=R12,F12>=R12),LOOKUP(IF(P12="",F12,P12),{0,1,10,25,50,100},{0.0,0.384,0.187,0.178,0.17,0.161}),"MOQ="&R12),"")
+  Styles:
+  - lessThanOrEqual G12 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   48.3
+  Formula: IFERROR(IF(P12="",F12,P12)*Q12,"")
+  Styles:
+  - lessThanOrEqual H12 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=38AC1157">38AC1157</a>
+Row: 13
+ Col: A
+   "C6,C18,C20,C22,C27,C28,C30,C34"
+ Col: B
+   "100n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Walsin"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2340522.pdf">0603B104K500CT</a>
+ Col: F
+   800
+  Formula: CEILING(BoardQty*8.0,1)
+  Styles:
+  - =AND(ISBLANK(E13),ISBLANK(M13),ISBLANK(S13)) -> -/FFAAAAAA
+  - =IF(SUM(I13,O13)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I13,O13) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K13),J13,0),IF(ISNUMBER(Q13),P13,0)) -> -/FFFFFF00
+ Col: G
+   0.01
+  Formula: IF(MIN(K13,Q13)<>0,MIN(K13,Q13),"")
+ Col: H
+   8
+  Formula: IF(AND(ISNUMBER(F13),ISNUMBER(G13)),F13*G13,"")
+ Col: I
+   598428
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J13>0,MOD(J13,L13)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J13)),OR(I13="NonStk",J13>I13)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0348113222853
+  Formula: IFERROR(IF(OR(J13>=L13,F13>=L13),USD_GBP*LOOKUP(IF(J13="",F13,J13),{0,1,10,100,500,1000},{0.0,0.0569,0.0569,0.0466,0.0253,0.0233}),"MOQ="&L13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   27.8491
+  Formula: IFERROR(IF(J13="",F13,J13)*K13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2496834">2496834</a>
+ Col: O
+   598428
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P13)),OR(O13="NonStk",P13>O13)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.01
+  Formula: IFERROR(IF(OR(P13>=R13,F13>=R13),LOOKUP(IF(P13="",F13,P13),{0,1,10,25,50,100,250,500,1000},{0.0,0.092,0.047,0.031,0.022,0.017,0.013,0.01,0.008}),"MOQ="&R13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   8
+  Formula: IFERROR(IF(P13="",F13,P13)*Q13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=68Y8824">68Y8824</a>
+Row: 14
+ Col: A
+   "C7"
+ Col: B
+   "10n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Kemet"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/3283053.pdf">C0603C103K5RACTU</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E14),ISBLANK(M14),ISBLANK(S14)) -> -/FFAAAAAA
+  - =IF(SUM(I14,O14)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I14,O14) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K14),J14,0),IF(ISNUMBER(Q14),P14,0)) -> -/FFFFFF00
+ Col: G
+   0.051322621393
+  Formula: IF(MIN(K14,Q14)<>0,MIN(K14,Q14),"")
+ Col: H
+   5.1323
+  Formula: IF(AND(ISNUMBER(F14),ISNUMBER(G14)),F14*G14,"")
+ Col: I
+   22877
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J14>0,MOD(J14,L14)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J14)),OR(I14="NonStk",J14>I14)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.051322621393
+  Formula: IFERROR(IF(OR(J14>=L14,F14>=L14),USD_GBP*LOOKUP(IF(J14="",F14,J14),{0,1,10,100,500,1000},{0.0,0.046,0.046,0.0373,0.0249,0.0188}),"MOQ="&L14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   5.1323
+  Formula: IFERROR(IF(J14="",F14,J14)*K14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1414609">1414609</a>
+ Col: O
+   5438
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P14)),OR(O14="NonStk",P14>O14)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.071
+  Formula: IFERROR(IF(OR(P14>=R14,F14>=R14),LOOKUP(IF(P14="",F14,P14),{0,1,25,50,100,250,500,1000},{0.0,0.251,0.101,0.088,0.071,0.068,0.061,0.05}),"MOQ="&R14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   7.1
+  Formula: IFERROR(IF(P14="",F14,P14)*Q14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=30C5334">30C5334</a>
+Row: 15
+ Col: A
+   "C11,C16"
+ Col: B
+   "22u"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2047978.pdf">GRM188R61A226ME15D</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E15),ISBLANK(M15),ISBLANK(S15)) -> -/FFAAAAAA
+  - =IF(SUM(I15,O15)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I15,O15) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K15),J15,0),IF(ISNUMBER(Q15),P15,0)) -> -/FFFFFF00
+ Col: G
+   0.064
+  Formula: IF(MIN(K15,Q15)<>0,MIN(K15,Q15),"")
+ Col: H
+   12.8
+  Formula: IF(AND(ISNUMBER(F15),ISNUMBER(G15)),F15*G15,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J15>0,MOD(J15,L15)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J15)),OR(I15="NonStk",J15>I15)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.177496465407
+  Formula: IFERROR(IF(OR(J15>=L15,F15>=L15),USD_GBP*LOOKUP(IF(J15="",F15,J15),{0,1,10,500,2500,10000,20000},{0.0,0.129,0.129,0.0666,0.0586,0.0575,0.0563}),"MOQ="&L15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   35.4993
+  Formula: IFERROR(IF(J15="",F15,J15)*K15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2426957">2426957</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P15)),OR(O15="NonStk",P15>O15)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.064
+  Formula: IFERROR(IF(OR(P15>=R15,F15>=R15),LOOKUP(IF(P15="",F15,P15),{0,1,10,25,50,100,250,500,1000},{0.0,0.154,0.109,0.094,0.079,0.064,0.055,0.047,0.042}),"MOQ="&R15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   12.8
+  Formula: IFERROR(IF(P15="",F15,P15)*Q15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=68X2786">68X2786</a>
+Row: 16
+ Col: A
+   "C15"
+ Col: B
+   "33p"
+ Col: C
+   "C_0603"
+ Col: D
+   "Kemet"
+ Col: E
+   <a href="https://api.kemet.com/component-edge/download/specsheet/C0603C330J5GACTU.pdf">C0603C330J5GACTU</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E16),ISBLANK(M16),ISBLANK(S16)) -> -/FFAAAAAA
+  - =IF(SUM(I16,O16)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I16,O16) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K16),J16,0),IF(ISNUMBER(Q16),P16,0)) -> -/FFFFFF00
+ Col: G
+   0.07
+  Formula: IF(MIN(K16,Q16)<>0,MIN(K16,Q16),"")
+ Col: H
+   7
+  Formula: IF(AND(ISNUMBER(F16),ISNUMBER(G16)),F16*G16,"")
+ Col: I
+   45102
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J16>0,MOD(J16,L16)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J16)),OR(I16="NonStk",J16>I16)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0795294240352
+  Formula: IFERROR(IF(OR(J16>=L16,F16>=L16),USD_GBP*LOOKUP(IF(J16="",F16,J16),{0,1,10,100,500,1000},{0.0,0.0706,0.0706,0.0578,0.0369,0.0269}),"MOQ="&L16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   7.9529
+  Formula: IFERROR(IF(J16="",F16,J16)*K16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1414633">1414633</a>
+ Col: O
+   45102
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P16)),OR(O16="NonStk",P16>O16)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.07
+  Formula: IFERROR(IF(OR(P16>=R16,F16>=R16),LOOKUP(IF(P16="",F16,P16),{0,1,25,50,100,250,500,1000},{0.0,0.195,0.136,0.104,0.07,0.06,0.05,0.043}),"MOQ="&R16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   7
+  Formula: IFERROR(IF(P16="",F16,P16)*Q16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=53M7204">53M7204</a>
+Row: 17
+ Col: A
+   "C23,C24"
+ Col: B
+   "2u2"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="https://4donline.ihs.com/images/VipMasterIC/IC/MURE/MURE-S-A0010852699/MURE-S-A0010564447-1.pdf?hkey=6D3A4C79FDBF58556ACFDE234799DDF0">GRM188R61H225KE11D</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E17),ISBLANK(M17),ISBLANK(S17)) -> -/FFAAAAAA
+  - =IF(SUM(I17,O17)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I17,O17) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K17),J17,0),IF(ISNUMBER(Q17),P17,0)) -> -/FFFFFF00
+ Col: G
+   0.168
+  Formula: IF(MIN(K17,Q17)<>0,MIN(K17,Q17),"")
+ Col: H
+   33.6
+  Formula: IF(AND(ISNUMBER(F17),ISNUMBER(G17)),F17*G17,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J17>0,MOD(J17,L17)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J17)),OR(I17="NonStk",J17>I17)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.198135589292
+  Formula: IFERROR(IF(OR(J17>=L17,F17>=L17),USD_GBP*LOOKUP(IF(J17="",F17,J17),{0,1,10,100,500,1000,2000},{0.0,0.176,0.176,0.144,0.0863,0.0755,0.074}),"MOQ="&L17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   39.6271
+  Formula: IFERROR(IF(J17="",F17,J17)*K17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2611925">2611925</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P17)),OR(O17="NonStk",P17>O17)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.168
+  Formula: IFERROR(IF(OR(P17>=R17,F17>=R17),LOOKUP(IF(P17="",F17,P17),{0,1,10,25,50,100},{0.0,0.42,0.199,0.189,0.178,0.168}),"MOQ="&R17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   33.6
+  Formula: IFERROR(IF(P17="",F17,P17)*Q17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=96Y9258">96Y9258</a>
+Row: 18
+ Col: A
+   "C31,C32"
+ Col: B
+   "220p"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2048203.pdf">GRM1885C1H221JA01D</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E18),ISBLANK(M18),ISBLANK(S18)) -> -/FFAAAAAA
+  - =IF(SUM(I18,O18)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I18,O18) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K18),J18,0),IF(ISNUMBER(Q18),P18,0)) -> -/FFFFFF00
+ Col: G
+   0.033
+  Formula: IF(MIN(K18,Q18)<>0,MIN(K18,Q18),"")
+ Col: H
+   6.6
+  Formula: IF(AND(ISNUMBER(F18),ISNUMBER(G18)),F18*G18,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J18>0,MOD(J18,L18)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J18)),OR(I18="NonStk",J18>I18)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0499466798007
+  Formula: IFERROR(IF(OR(J18>=L18,F18>=L18),USD_GBP*LOOKUP(IF(J18="",F18,J18),{0,1,10,100,500,1000},{0.0,0.087,0.087,0.0363,0.0228,0.0182}),"MOQ="&L18),"")
+  Styles:
+  - lessThanOrEqual G18 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   9.9893
+  Formula: IFERROR(IF(J18="",F18,J18)*K18,"")
+  Styles:
+  - lessThanOrEqual H18 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=8819882">8819882</a>
+ Col: O
+   20129
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P18)),OR(O18="NonStk",P18>O18)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.033
+  Formula: IFERROR(IF(OR(P18>=R18,F18>=R18),LOOKUP(IF(P18="",F18,P18),{0,1,25,50,100,250,500,1000},{0.0,0.131,0.048,0.042,0.033,0.032,0.03,0.023}),"MOQ="&R18),"")
+  Styles:
+  - lessThanOrEqual G18 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   6.6
+  Formula: IFERROR(IF(P18="",F18,P18)*Q18,"")
+  Styles:
+  - lessThanOrEqual H18 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=53M7196">53M7196</a>
+Row: 19
+ Col: A
+   "C35,C36"
+ Col: B
+   "1n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Walsin"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2340522.pdf">0603N102J500CT</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E19),ISBLANK(M19),ISBLANK(S19)) -> -/FFAAAAAA
+  - =IF(SUM(I19,O19)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I19,O19) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K19),J19,0),IF(ISNUMBER(Q19),P19,0)) -> -/FFFFFF00
+ Col: G
+   0.012
+  Formula: IF(MIN(K19,Q19)<>0,MIN(K19,Q19),"")
+ Col: H
+   2.4
+  Formula: IF(AND(ISNUMBER(F19),ISNUMBER(G19)),F19*G19,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J19>0,MOD(J19,L19)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J19)),OR(I19="NonStk",J19>I19)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.033435380693
+  Formula: IFERROR(IF(OR(J19>=L19,F19>=L19),USD_GBP*LOOKUP(IF(J19="",F19,J19),{0,1,10,100,500,1000,2000},{0.0,0.0377,0.0377,0.0243,0.0166,0.0126,0.0124}),"MOQ="&L19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   6.6871
+  Formula: IFERROR(IF(J19="",F19,J19)*K19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2496882">2496882</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P19)),OR(O19="NonStk",P19>O19)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.012
+  Formula: IFERROR(IF(OR(P19>=R19,F19>=R19),LOOKUP(IF(P19="",F19,P19),{0,1,4000,8000},{0.0,0.012,0.011,0.01}),"MOQ="&R19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   2.4
+  Formula: IFERROR(IF(P19="",F19,P19)*Q19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=58Y7758">58Y7758</a>
+Row: 20
+ Col: A
+   "CN1"
+ Col: B
+   "2041126-1"
+ Col: C
+   "TE2041126-1"
+ Col: D
+   "TE Connectivity"
+ Col: E
+   "2041126-1"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E20),ISBLANK(M20),ISBLANK(S20)) -> -/FFAAAAAA
+  - =IF(SUM(I20,O20)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I20,O20) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K20),J20,0),IF(ISNUMBER(Q20),P20,0)) -> -/FFFFFF00
+ Col: G
+   1.75
+  Formula: IF(MIN(K20,Q20)<>0,MIN(K20,Q20),"")
+ Col: H
+   175
+  Formula: IF(AND(ISNUMBER(F20),ISNUMBER(G20)),F20*G20,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J20)),OR(I20="NonStk",J20>I20)) -> FFFFFFFF/FFFF0000
+ Col: K
+   1.99511530884
+  Formula: IFERROR(IF(OR(J20>=L20,F20>=L20),USD_GBP*LOOKUP(IF(J20="",F20,J20),{0,1,10,100,250,500,1000},{0.0,1.88,1.61,1.45,1.34,1.27,1.15}),"MOQ="&L20),"")
+  Styles:
+  - lessThanOrEqual G20 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   199.5115
+  Formula: IFERROR(IF(J20="",F20,J20)*K20,"")
+  Styles:
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=3793257">3793257</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P20)),OR(O20="NonStk",P20>O20)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   1.75
+  Formula: IFERROR(IF(OR(P20>=R20,F20>=R20),LOOKUP(IF(P20="",F20,P20),{0,1,10,25,50,100,500,1000,2500},{0.0,2.39,2.27,2.21,2.15,1.75,1.55,1.33,1.16}),"MOQ="&R20),"")
+  Styles:
+  - lessThanOrEqual G20 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   175
+  Formula: IFERROR(IF(P20="",F20,P20)*Q20,"")
+  Styles:
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=98X5861">98X5861</a>
+Row: 21
+ Col: A
+   "CON1"
+ Col: B
+   "NP2X"
+ Col: D
+   "NEUTRIK"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/61814.pdf">NP2X</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E21),ISBLANK(M21),ISBLANK(S21)) -> -/FFAAAAAA
+  - =IF(SUM(I21,O21)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I21,O21) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K21),J21,0),IF(ISNUMBER(Q21),P21,0)) -> -/FFFFFF00
+ Col: G
+   2.8069208483
+  Formula: IF(MIN(K21,Q21)<>0,MIN(K21,Q21),"")
+ Col: H
+   280.6921
+  Formula: IF(AND(ISNUMBER(F21),ISNUMBER(G21)),F21*G21,"")
+ Col: I
+   191
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J21)),OR(I21="NonStk",J21>I21)) -> FFFFFFFF/FFFF0000
+ Col: K
+   2.8069208483
+  Formula: IFERROR(IF(OR(J21>=L21,F21>=L21),USD_GBP*LOOKUP(IF(J21="",F21,J21),{0,1,10,100,250,500,1000},{0.0,2.46,2.08,2.04,2.0,1.96,1.91}),"MOQ="&L21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   280.6921
+  Formula: IFERROR(IF(J21="",F21,J21)*K21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=8314535">8314535</a>
+ Col: O
+   191
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P21)),OR(O21="NonStk",P21>O21)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   2.94
+  Formula: IFERROR(IF(OR(P21>=R21,F21>=R21),LOOKUP(IF(P21="",F21,P21),{0,1,10,25,50,100,200},{0.0,3.71,3.48,3.18,3.03,2.94,2.88}),"MOQ="&R21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   294
+  Formula: IFERROR(IF(P21="",F21,P21)*Q21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=38K6076">38K6076</a>
+Row: 22
+ Col: A
+   "CON2"
+ Col: B
+   "RT3FC-B"
+ Col: D
+   "Rean"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2357973.pdf">RT3FC-B</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E22),ISBLANK(M22),ISBLANK(S22)) -> -/FFAAAAAA
+  - =IF(SUM(I22,O22)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I22,O22) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K22),J22,0),IF(ISNUMBER(Q22),P22,0)) -> -/FFFFFF00
+ Col: G
+   2.325341291
+  Formula: IF(MIN(K22,Q22)<>0,MIN(K22,Q22),"")
+ Col: H
+   232.5341
+  Formula: IF(AND(ISNUMBER(F22),ISNUMBER(G22)),F22*G22,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J22)),OR(I22="NonStk",J22>I22)) -> FFFFFFFF/FFFF0000
+ Col: K
+   2.325341291
+  Formula: IFERROR(IF(OR(J22>=L22,F22>=L22),USD_GBP*LOOKUP(IF(J22="",F22,J22),{0,1,10,100,250,500,1000},{0.0,2.38,1.9,1.69,1.66,1.62,1.59}),"MOQ="&L22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   232.5341
+  Formula: IFERROR(IF(J22="",F22,J22)*K22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1813715">1813715</a>
+ Col: O
+   259
+  Styles:
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P22)),OR(O22="NonStk",P22>O22)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   4.22
+  Formula: IFERROR(IF(OR(P22>=R22,F22>=R22),LOOKUP(IF(P22="",F22,P22),{0,1,100,250,500,1000},{0.0,5.05,4.22,3.9,3.65,3.46}),"MOQ="&R22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   422
+  Formula: IFERROR(IF(P22="",F22,P22)*Q22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=78R9014">78R9014</a>
+Row: 23
+ Col: A
+   "CON3"
+ Col: B
+   "BRT-L"
+ Col: D
+   "Rean"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2357973.pdf">BRT-L</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E23),ISBLANK(M23),ISBLANK(S23)) -> -/FFAAAAAA
+  - =IF(SUM(I23,O23)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I23,O23) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K23),J23,0),IF(ISNUMBER(Q23),P23,0)) -> -/FFFFFF00
+ Col: G
+   0.62054965813
+  Formula: IF(MIN(K23,Q23)<>0,MIN(K23,Q23),"")
+ Col: H
+   62.055
+  Formula: IF(AND(ISNUMBER(F23),ISNUMBER(G23)),F23*G23,"")
+ Col: I
+   21
+  Styles:
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J23>0,MOD(J23,L23)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J23)),OR(I23="NonStk",J23>I23)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.62054965813
+  Formula: IFERROR(IF(OR(J23>=L23,F23>=L23),USD_GBP*LOOKUP(IF(J23="",F23,J23),{0,1,10,100,250,500,1000,2500},{0.0,0.542,0.542,0.451,0.417,0.391,0.376,0.365}),"MOQ="&L23),"")
+  Styles:
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   62.055
+  Formula: IFERROR(IF(J23="",F23,J23)*K23,"")
+  Styles:
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2383458">2383458</a>
+ Col: O
+   21
+  Styles:
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P23)),OR(O23="NonStk",P23>O23)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   1.06
+  Formula: IFERROR(IF(OR(P23>=R23,F23>=R23),LOOKUP(IF(P23="",F23,P23),{0,1,250,500,1000,5000},{0.0,1.06,0.814,0.732,0.666,0.61}),"MOQ="&R23),"")
+  Styles:
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   106
+  Formula: IFERROR(IF(P23="",F23,P23)*Q23,"")
+  Styles:
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=29X6993">29X6993</a>
+Row: 24
+ Col: A
+   "D1-D3,D5,D6"
+ Col: B
+   "ZHCS1000"
+ Col: C
+   "D_SOT-23_ANK"
+ Col: D
+   "DIODES"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2239724.pdf">ZHCS1000</a>
+ Col: F
+   500
+  Formula: CEILING(BoardQty*5.0,1)
+  Styles:
+  - =AND(ISBLANK(E24),ISBLANK(M24),ISBLANK(S24)) -> -/FFAAAAAA
+  - =IF(SUM(I24,O24)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I24,O24) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K24),J24,0),IF(ISNUMBER(Q24),P24,0)) -> -/FFFFFF00
+ Col: G
+   0.253
+  Formula: IF(MIN(K24,Q24)<>0,MIN(K24,Q24),"")
+ Col: H
+   126.5
+  Formula: IF(AND(ISNUMBER(F24),ISNUMBER(G24)),F24*G24,"")
+ Col: I
+   99151
+  Styles:
+  - lessThan F24 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J24>0,MOD(J24,L24)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J24)),OR(I24="NonStk",J24>I24)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.449932900684
+  Formula: IFERROR(IF(OR(J24>=L24,F24>=L24),USD_GBP*LOOKUP(IF(J24="",F24,J24),{0,1,5,10,100,500},{0.0,0.744,0.744,0.618,0.417,0.327}),"MOQ="&L24),"")
+  Styles:
+  - lessThanOrEqual G24 -> -/FF80FF80
+ Col: L
+   5
+ Col: M
+   224.9665
+  Formula: IFERROR(IF(J24="",F24,J24)*K24,"")
+  Styles:
+  - lessThanOrEqual H24 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=9526773">9526773</a>
+ Col: O
+   99187
+  Styles:
+  - lessThan F24 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P24)),OR(O24="NonStk",P24>O24)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.253
+  Formula: IFERROR(IF(OR(P24>=R24,F24>=R24),LOOKUP(IF(P24="",F24,P24),{0,1,10,25,50,100,250,500,1000},{0.0,0.748,0.581,0.488,0.413,0.352,0.303,0.253,0.218}),"MOQ="&R24),"")
+  Styles:
+  - lessThanOrEqual G24 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   126.5
+  Formula: IFERROR(IF(P24="",F24,P24)*Q24,"")
+  Styles:
+  - lessThanOrEqual H24 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=79K1827">79K1827</a>
+Row: 25
+ Col: A
+   "D4"
+ Col: B
+   "LED"
+ Col: C
+   "LED_D3.0mm_Horizontal_O1.27mm_Z6.0mm"
+ Col: D
+   "Avago"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1931352.pdf">HLMP-K150</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E25),ISBLANK(M25),ISBLANK(S25)) -> -/FFAAAAAA
+  - =IF(SUM(I25,O25)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I25,O25) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K25),J25,0),IF(ISNUMBER(Q25),P25,0)) -> -/FFFFFF00
+ Col: G
+   0.268
+  Formula: IF(MIN(K25,Q25)<>0,MIN(K25,Q25),"")
+ Col: H
+   26.8
+  Formula: IF(AND(ISNUMBER(F25),ISNUMBER(G25)),F25*G25,"")
+ Col: I
+   21185
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J25>0,MOD(J25,L25)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J25)),OR(I25="NonStk",J25>I25)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.317842507822
+  Formula: IFERROR(IF(OR(J25>=L25,F25>=L25),USD_GBP*LOOKUP(IF(J25="",F25,J25),{0,1,5,10,100,500},{0.0,0.6,0.6,0.393,0.231,0.226}),"MOQ="&L25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: L
+   5
+ Col: M
+   31.7843
+  Formula: IFERROR(IF(J25="",F25,J25)*K25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1003206">1003206</a>
+ Col: O
+   21540
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P25)),OR(O25="NonStk",P25>O25)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.268
+  Formula: IFERROR(IF(OR(P25>=R25,F25>=R25),LOOKUP(IF(P25="",F25,P25),{0,1,10,100,500,1000,2500,10000,25000},{0.0,0.673,0.447,0.268,0.243,0.216,0.184,0.174,0.169}),"MOQ="&R25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   26.8
+  Formula: IFERROR(IF(P25="",F25,P25)*Q25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=39K9989">39K9989</a>
+Row: 26
+ Col: A
+   "D7"
+ Col: B
+   "SMAJ18A-TR"
+ Col: C
+   "D_SMA"
+ Col: D
+   "ST Microelectronics"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1724007.pdf">SMAJ18A-TR</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E26),ISBLANK(M26),ISBLANK(S26)) -> -/FFAAAAAA
+  - =IF(SUM(I26,O26)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I26,O26) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K26),J26,0),IF(ISNUMBER(Q26),P26,0)) -> -/FFFFFF00
+ Col: G
+   0.134
+  Formula: IF(MIN(K26,Q26)<>0,MIN(K26,Q26),"")
+ Col: H
+   13.4
+  Formula: IF(AND(ISNUMBER(F26),ISNUMBER(G26)),F26*G26,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J26>0,MOD(J26,L26)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J26)),OR(I26="NonStk",J26>I26)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.291699617569
+  Formula: IFERROR(IF(OR(J26>=L26,F26>=L26),USD_GBP*LOOKUP(IF(J26="",F26,J26),{0,1,5,50,250,1000},{0.0,0.35,0.35,0.212,0.159,0.119}),"MOQ="&L26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: L
+   5
+ Col: M
+   29.17
+  Formula: IFERROR(IF(J26="",F26,J26)*K26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1749305">1749305</a>
+ Col: O
+   65000
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P26)),OR(O26="NonStk",P26>O26)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.134
+  Formula: IFERROR(IF(OR(P26>=R26,F26>=R26),LOOKUP(IF(P26="",F26,P26),{0,1,5000,10000,20000,30000,50000},{0.0,0.134,0.13,0.125,0.121,0.118,0.106}),"MOQ="&R26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   13.4
+  Formula: IFERROR(IF(P26="",F26,P26)*Q26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=96AC3713">96AC3713</a>
+Row: 27
+ Col: A
+   "D8,D9"
+ Col: B
+   "TPD4S009DCKR"
+ Col: C
+   "SC70-6"
+ Col: D
+   "Texas Instruments"
+ Col: E
+   "TPD4S009DCKR"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E27),ISBLANK(M27),ISBLANK(S27)) -> -/FFAAAAAA
+  - =IF(SUM(I27,O27)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I27,O27) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K27),J27,0),IF(ISNUMBER(Q27),P27,0)) -> -/FFFFFF00
+ Col: G
+   0.835196546529
+  Formula: IF(MIN(K27,Q27)<>0,MIN(K27,Q27),"")
+ Col: H
+   167.0393
+  Formula: IF(AND(ISNUMBER(F27),ISNUMBER(G27)),F27*G27,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F27 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J27)),OR(I27="NonStk",J27>I27)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.835196546529
+  Formula: IFERROR(IF(OR(J27>=L27,F27>=L27),USD_GBP*LOOKUP(IF(J27="",F27,J27),{0,1,10,100,500,1000},{0.0,1.02,0.858,0.607,0.48,0.347}),"MOQ="&L27),"")
+  Styles:
+  - lessThanOrEqual G27 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   167.0393
+  Formula: IFERROR(IF(J27="",F27,J27)*K27,"")
+  Styles:
+  - lessThanOrEqual H27 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=3116520">3116520</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F27 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P27)),OR(O27="NonStk",P27>O27)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   1.01
+  Formula: IFERROR(IF(OR(P27>=R27,F27>=R27),LOOKUP(IF(P27="",F27,P27),{0,1,10,25,50,100},{0.0,1.33,1.24,1.16,1.09,1.01}),"MOQ="&R27),"")
+  Styles:
+  - lessThanOrEqual G27 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   202
+  Formula: IFERROR(IF(P27="",F27,P27)*Q27,"")
+  Styles:
+  - lessThanOrEqual H27 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=27AJ0326">27AJ0326</a>
+Row: 28
+ Col: A
+   "ENC1"
+ Col: B
+   "S3A-361413"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "S3A-361413"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E28),ISBLANK(M28),ISBLANK(S28)) -> -/FFAAAAAA
+  - =IF(SUM(I28,O28)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I28,O28) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K28),J28,0),IF(ISNUMBER(Q28),P28,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K28,Q28)<>0,MIN(K28,Q28),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F28),ISNUMBER(G28)),F28*G28,"")
+Row: 29
+ Col: A
+   "K1"
+ Col: B
+   "Tiny XLR3"
+ Col: C
+   "Molex_SPOX-5267_22-03-5035_03x2.54mm_Straight"
+ Col: D
+   "Rean"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2357973.pdf">RT3MPR</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E29),ISBLANK(M29),ISBLANK(S29)) -> -/FFAAAAAA
+  - =IF(SUM(I29,O29)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I29,O29) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K29),J29,0),IF(ISNUMBER(Q29),P29,0)) -> -/FFFFFF00
+ Col: G
+   2.43541661838
+  Formula: IF(MIN(K29,Q29)<>0,MIN(K29,Q29),"")
+ Col: H
+   243.5417
+  Formula: IF(AND(ISNUMBER(F29),ISNUMBER(G29)),F29*G29,"")
+ Col: I
+   74
+  Styles:
+  - lessThan F29 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J29)),OR(I29="NonStk",J29>I29)) -> FFFFFFFF/FFFF0000
+ Col: K
+   2.43541661838
+  Formula: IFERROR(IF(OR(J29>=L29,F29>=L29),USD_GBP*LOOKUP(IF(J29="",F29,J29),{0,1,10,100,250,500,1000},{0.0,3.37,2.08,1.77,1.64,1.61,1.57}),"MOQ="&L29),"")
+  Styles:
+  - lessThanOrEqual G29 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   243.5417
+  Formula: IFERROR(IF(J29="",F29,J29)*K29,"")
+  Styles:
+  - lessThanOrEqual H29 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2383452">2383452</a>
+ Col: O
+   7
+  Styles:
+  - lessThan F29 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P29)),OR(O29="NonStk",P29>O29)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   2.97
+  Formula: IFERROR(IF(OR(P29>=R29,F29>=R29),LOOKUP(IF(P29="",F29,P29),{0,1,100,250,500,1000},{0.0,3.56,2.97,2.75,2.58,2.44}),"MOQ="&R29),"")
+  Styles:
+  - lessThanOrEqual G29 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   297
+  Formula: IFERROR(IF(P29="",F29,P29)*Q29,"")
+  Styles:
+  - lessThanOrEqual H29 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=29X7329">29X7329</a>
+Row: 30
+ Col: A
+   "L1-L5,L8"
+ Col: B
+   "10u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1805324.pdf">LPS4018-103MRB</a>
+ Col: F
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+  Styles:
+  - =AND(ISBLANK(E30),ISBLANK(M30),ISBLANK(S30)) -> -/FFAAAAAA
+  - =IF(SUM(I30,O30)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I30,O30) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K30),J30,0),IF(ISNUMBER(Q30),P30,0)) -> -/FFFFFF00
+ Col: G
+   0.75814381736
+  Formula: IF(MIN(K30,Q30)<>0,MIN(K30,Q30),"")
+ Col: H
+   454.8863
+  Formula: IF(AND(ISNUMBER(F30),ISNUMBER(G30)),F30*G30,"")
+ Col: I
+   24874
+  Styles:
+  - lessThan F30 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J30)),OR(I30="NonStk",J30>I30)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.75814381736
+  Formula: IFERROR(IF(OR(J30>=L30,F30>=L30),USD_GBP*LOOKUP(IF(J30="",F30,J30),{0,1,50,100,250,500,1000,5000},{0.0,1.4,0.8,0.717,0.634,0.551,0.456,0.447}),"MOQ="&L30),"")
+  Styles:
+  - lessThanOrEqual G30 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   454.8863
+  Formula: IFERROR(IF(J30="",F30,J30)*K30,"")
+  Styles:
+  - lessThanOrEqual H30 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2408105">2408105</a>
+Row: 31
+ Col: A
+   "L6"
+ Col: B
+   "15u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1805324.pdf">LPS4018-153MRB</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E31),ISBLANK(M31),ISBLANK(S31)) -> -/FFAAAAAA
+  - =IF(SUM(I31,O31)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I31,O31) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K31),J31,0),IF(ISNUMBER(Q31),P31,0)) -> -/FFFFFF00
+ Col: G
+   0.986550121683
+  Formula: IF(MIN(K31,Q31)<>0,MIN(K31,Q31),"")
+ Col: H
+   98.655
+  Formula: IF(AND(ISNUMBER(F31),ISNUMBER(G31)),F31*G31,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F31 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J31)),OR(I31="NonStk",J31>I31)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.986550121683
+  Formula: IFERROR(IF(OR(J31>=L31,F31>=L31),USD_GBP*LOOKUP(IF(J31="",F31,J31),{0,1,50,100,250,500,1000,5000},{0.0,1.37,0.8,0.717,0.634,0.551,0.456,0.447}),"MOQ="&L31),"")
+  Styles:
+  - lessThanOrEqual G31 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   98.655
+  Formula: IFERROR(IF(J31="",F31,J31)*K31,"")
+  Styles:
+  - lessThanOrEqual H31 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2408106">2408106</a>
+Row: 32
+ Col: A
+   "L7"
+ Col: B
+   "47u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1805324.pdf">LPS4018-473MRB</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E32),ISBLANK(M32),ISBLANK(S32)) -> -/FFAAAAAA
+  - =IF(SUM(I32,O32)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I32,O32) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K32),J32,0),IF(ISNUMBER(Q32),P32,0)) -> -/FFFFFF00
+ Col: G
+   1.29338509677
+  Formula: IF(MIN(K32,Q32)<>0,MIN(K32,Q32),"")
+ Col: H
+   129.3385
+  Formula: IF(AND(ISNUMBER(F32),ISNUMBER(G32)),F32*G32,"")
+ Col: I
+   74
+  Styles:
+  - lessThan F32 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J32)),OR(I32="NonStk",J32>I32)) -> FFFFFFFF/FFFF0000
+ Col: K
+   1.29338509677
+  Formula: IFERROR(IF(OR(J32>=L32,F32>=L32),USD_GBP*LOOKUP(IF(J32="",F32,J32),{0,1,50,100,250,500,1000,5000},{0.0,1.32,1.08,0.94,0.8,0.551,0.456,0.447}),"MOQ="&L32),"")
+  Styles:
+  - lessThanOrEqual G32 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   129.3385
+  Formula: IFERROR(IF(J32="",F32,J32)*K32,"")
+  Styles:
+  - lessThanOrEqual H32 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2408111">2408111</a>
+Row: 33
+ Col: A
+   "P1"
+ Col: B
+   "USB_MICRO_B_RECEPTACLE"
+ Col: C
+   "USB_Micro-B_10103594-0001LF"
+ Col: D
+   "AMPHENOL FCI"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2366786.pdf">10103594-0001LF</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E33),ISBLANK(M33),ISBLANK(S33)) -> -/FFAAAAAA
+  - =IF(SUM(I33,O33)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I33,O33) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K33),J33,0),IF(ISNUMBER(Q33),P33,0)) -> -/FFFFFF00
+ Col: G
+   0.393
+  Formula: IF(MIN(K33,Q33)<>0,MIN(K33,Q33),"")
+ Col: H
+   39.3
+  Formula: IF(AND(ISNUMBER(F33),ISNUMBER(G33)),F33*G33,"")
+ Col: I
+   32557
+  Styles:
+  - lessThan F33 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J33>0,MOD(J33,L33)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J33)),OR(I33="NonStk",J33>I33)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.66870761386
+  Formula: IFERROR(IF(OR(J33>=L33,F33>=L33),USD_GBP*LOOKUP(IF(J33="",F33,J33),{0,1,10,50,100,250,500,1500},{0.0,0.647,0.647,0.552,0.486,0.418,0.389,0.272}),"MOQ="&L33),"")
+  Styles:
+  - lessThanOrEqual G33 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   66.8708
+  Formula: IFERROR(IF(J33="",F33,J33)*K33,"")
+  Styles:
+  - lessThanOrEqual H33 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2293752">2293752</a>
+ Col: O
+   43403
+  Styles:
+  - lessThan F33 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P33)),OR(O33="NonStk",P33>O33)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.393
+  Formula: IFERROR(IF(OR(P33>=R33,F33>=R33),LOOKUP(IF(P33="",F33,P33),{0,1,10,25,50,100,250,500,1000},{0.0,0.428,0.428,0.428,0.428,0.393,0.393,0.393,0.362}),"MOQ="&R33),"")
+  Styles:
+  - lessThanOrEqual G33 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   39.3
+  Formula: IFERROR(IF(P33="",F33,P33)*Q33,"")
+  Styles:
+  - lessThanOrEqual H33 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=82R7407">82R7407</a>
+Row: 34
+ Col: A
+   "R1,R2,R8"
+ Col: B
+   "180k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2059639.pdf">ERJ3EKF1803V</a>
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E34),ISBLANK(M34),ISBLANK(S34)) -> -/FFAAAAAA
+  - =IF(SUM(I34,O34)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I34,O34) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K34),J34,0),IF(ISNUMBER(Q34),P34,0)) -> -/FFFFFF00
+ Col: G
+   0.016
+  Formula: IF(MIN(K34,Q34)<>0,MIN(K34,Q34),"")
+ Col: H
+   4.8
+  Formula: IF(AND(ISNUMBER(F34),ISNUMBER(G34)),F34*G34,"")
+ Col: I
+   3575
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J34>0,MOD(J34,L34)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J34)),OR(I34="NonStk",J34>I34)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0448556959091
+  Formula: IFERROR(IF(OR(J34>=L34,F34>=L34),USD_GBP*LOOKUP(IF(J34="",F34,J34),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0587,0.0587,0.0326,0.0236,0.0156,0.0132,0.0106,0.0095}),"MOQ="&L34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   13.4567
+  Formula: IFERROR(IF(J34="",F34,J34)*K34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2145341">2145341</a>
+ Col: O
+   46156
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P34)),OR(O34="NonStk",P34>O34)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.016
+  Formula: IFERROR(IF(OR(P34>=R34,F34>=R34),LOOKUP(IF(P34="",F34,P34),{0,1,25,50,100,250,500,1000},{0.0,0.07,0.046,0.033,0.019,0.016,0.011,0.008}),"MOQ="&R34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   4.8
+  Formula: IFERROR(IF(P34="",F34,P34)*Q34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=64R5326">64R5326</a>
+Row: 35
+ Col: A
+   "R3,R29-R32"
+ Col: B
+   "10K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf">ERJ3EKF1002V</a>
+ Col: F
+   500
+  Formula: CEILING(BoardQty*5.0,1)
+  Styles:
+  - =AND(ISBLANK(E35),ISBLANK(M35),ISBLANK(S35)) -> -/FFAAAAAA
+  - =IF(SUM(I35,O35)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I35,O35) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K35),J35,0),IF(ISNUMBER(Q35),P35,0)) -> -/FFFFFF00
+ Col: G
+   0.008
+  Formula: IF(MIN(K35,Q35)<>0,MIN(K35,Q35),"")
+ Col: H
+   4
+  Formula: IF(AND(ISNUMBER(F35),ISNUMBER(G35)),F35*G35,"")
+ Col: I
+   24975000
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J35>0,MOD(J35,L35)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J35)),OR(I35="NonStk",J35>I35)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J35>=L35,F35>=L35),USD_GBP*LOOKUP(IF(J35="",F35,J35),{0,1,5000,25000},{0.0,0.0062,0.0062,0.0054}),"MOQ="&L35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+  - =AND(F35<5000,J35<5000) -> -/FFFFFF00
+ Col: L
+   5000
+  Styles:
+  - =AND(F35<5000,J35<5000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J35="",F35,J35)*K35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+  - =AND(F35<5000,J35<5000) -> -/FFFFFF00
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2397737">2397737</a>
+ Col: O
+   24975000
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P35)),OR(O35="NonStk",P35>O35)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.008
+  Formula: IFERROR(IF(OR(P35>=R35,F35>=R35),LOOKUP(IF(P35="",F35,P35),{0,1,5000,10000},{0.0,0.008,0.008,0.008}),"MOQ="&R35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   4
+  Formula: IFERROR(IF(P35="",F35,P35)*Q35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=85Y8501">85Y8501</a>
+Row: 36
+ Col: A
+   "R4"
+ Col: B
+   "3K3"
+ Col: C
+   "R_0603"
+ Col: D
+   "Vishay"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2310790.pdf">CRCW06033K30FKEA</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E36),ISBLANK(M36),ISBLANK(S36)) -> -/FFAAAAAA
+  - =IF(SUM(I36,O36)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I36,O36) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K36),J36,0),IF(ISNUMBER(Q36),P36,0)) -> -/FFFFFF00
+ Col: G
+   0.02
+  Formula: IF(MIN(K36,Q36)<>0,MIN(K36,Q36),"")
+ Col: H
+   2
+  Formula: IF(AND(ISNUMBER(F36),ISNUMBER(G36)),F36*G36,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F36 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J36>0,MOD(J36,L36)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J36)),OR(I36="NonStk",J36>I36)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0255925136169
+  Formula: IFERROR(IF(OR(J36>=L36,F36>=L36),USD_GBP*LOOKUP(IF(J36="",F36,J36),{0,1,10,100,500,1000},{0.0,0.0373,0.0373,0.0186,0.0169,0.0078}),"MOQ="&L36),"")
+  Styles:
+  - lessThanOrEqual G36 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   2.5593
+  Formula: IFERROR(IF(J36="",F36,J36)*K36,"")
+  Styles:
+  - lessThanOrEqual H36 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1469793">1469793</a>
+ Col: O
+   9860
+  Styles:
+  - lessThan F36 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P36)),OR(O36="NonStk",P36>O36)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.02
+  Formula: IFERROR(IF(OR(P36>=R36,F36>=R36),LOOKUP(IF(P36="",F36,P36),{0,1,25,50,100},{0.0,0.138,0.05,0.035,0.02}),"MOQ="&R36),"")
+  Styles:
+  - lessThanOrEqual G36 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   2
+  Formula: IFERROR(IF(P36="",F36,P36)*Q36,"")
+  Styles:
+  - lessThanOrEqual H36 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=52K8376">52K8376</a>
+Row: 37
+ Col: A
+   "R5"
+ Col: B
+   "47K"
+ Col: C
+   "R_0603"
+ Col: D
+   "YAGEO"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1868787.pdf">RC0603FR-0747KL</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E37),ISBLANK(M37),ISBLANK(S37)) -> -/FFAAAAAA
+  - =IF(SUM(I37,O37)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I37,O37) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K37),J37,0),IF(ISNUMBER(Q37),P37,0)) -> -/FFFFFF00
+ Col: G
+   0.004
+  Formula: IF(MIN(K37,Q37)<>0,MIN(K37,Q37),"")
+ Col: H
+   0.4
+  Formula: IF(AND(ISNUMBER(F37),ISNUMBER(G37)),F37*G37,"")
+ Col: I
+   71126
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J37>0,MOD(J37,L37)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J37)),OR(I37="NonStk",J37>I37)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0129338509677
+  Formula: IFERROR(IF(OR(J37>=L37,F37>=L37),USD_GBP*LOOKUP(IF(J37="",F37,J37),{0,1,10,100,500,1000,2500},{0.0,0.0263,0.0263,0.0094,0.0077,0.006,0.0053}),"MOQ="&L37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   1.2934
+  Formula: IFERROR(IF(J37="",F37,J37)*K37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=9238689">9238689</a>
+ Col: O
+   9005000
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P37)),OR(O37="NonStk",P37>O37)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.004
+  Formula: IFERROR(IF(OR(P37>=R37,F37>=R37),LOOKUP(IF(P37="",F37,P37),{0,1,5000,10000},{0.0,0.004,0.003,0.002}),"MOQ="&R37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   0.4
+  Formula: IFERROR(IF(P37="",F37,P37)*Q37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=48Y4539">48Y4539</a>
+Row: 38
+ Col: A
+   "R6"
+ Col: B
+   "15K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1868787.pdf">RC0603FR-0715K0L</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E38),ISBLANK(M38),ISBLANK(S38)) -> -/FFAAAAAA
+  - =IF(SUM(I38,O38)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I38,O38) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K38),J38,0),IF(ISNUMBER(Q38),P38,0)) -> -/FFFFFF00
+ Col: G
+   0.024
+  Formula: IF(MIN(K38,Q38)<>0,MIN(K38,Q38),"")
+ Col: H
+   2.4
+  Formula: IF(AND(ISNUMBER(F38),ISNUMBER(G38)),F38*G38,"")
+ Col: I
+   23150
+  Styles:
+  - lessThan F38 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J38>0,MOD(J38,L38)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J38)),OR(I38="NonStk",J38>I38)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0240789778653
+  Formula: IFERROR(IF(OR(J38>=L38,F38>=L38),USD_GBP*LOOKUP(IF(J38="",F38,J38),{0,1,10,100,500,1000},{0.0,0.019,0.019,0.0175,0.0136,0.011}),"MOQ="&L38),"")
+  Styles:
+  - lessThanOrEqual G38 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   2.4079
+  Formula: IFERROR(IF(J38="",F38,J38)*K38,"")
+  Styles:
+  - lessThanOrEqual H38 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=9238620">9238620</a>
+ Col: O
+   23150
+  Styles:
+  - lessThan F38 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P38)),OR(O38="NonStk",P38>O38)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.024
+  Formula: IFERROR(IF(OR(P38>=R38,F38>=R38),LOOKUP(IF(P38="",F38,P38),{0,1,10,25,50,100,250},{0.0,0.143,0.069,0.044,0.031,0.024,0.018}),"MOQ="&R38),"")
+  Styles:
+  - lessThanOrEqual G38 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   2.4
+  Formula: IFERROR(IF(P38="",F38,P38)*Q38,"")
+  Styles:
+  - lessThanOrEqual H38 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=98K7358">98K7358</a>
+Row: 39
+ Col: A
+   "R7"
+ Col: B
+   "1M"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2059639.pdf">ERJ3EKF1004V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E39),ISBLANK(M39),ISBLANK(S39)) -> -/FFAAAAAA
+  - =IF(SUM(I39,O39)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I39,O39) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K39),J39,0),IF(ISNUMBER(Q39),P39,0)) -> -/FFFFFF00
+ Col: G
+   0.019
+  Formula: IF(MIN(K39,Q39)<>0,MIN(K39,Q39),"")
+ Col: H
+   1.9
+  Formula: IF(AND(ISNUMBER(F39),ISNUMBER(G39)),F39*G39,"")
+ Col: I
+   6110
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J39>0,MOD(J39,L39)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J39)),OR(I39="NonStk",J39>I39)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0471947966161
+  Formula: IFERROR(IF(OR(J39>=L39,F39>=L39),USD_GBP*LOOKUP(IF(J39="",F39,J39),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0605,0.0605,0.0343,0.023,0.0148,0.0134,0.0122,0.0119}),"MOQ="&L39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   4.7195
+  Formula: IFERROR(IF(J39="",F39,J39)*K39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2145307">2145307</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P39)),OR(O39="NonStk",P39>O39)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.019
+  Formula: IFERROR(IF(OR(P39>=R39,F39>=R39),LOOKUP(IF(P39="",F39,P39),{0,1,25,50,100,250,500,1000},{0.0,0.07,0.046,0.033,0.019,0.016,0.011,0.008}),"MOQ="&R39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.9
+  Formula: IFERROR(IF(P39="",F39,P39)*Q39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=64R5311">64R5311</a>
+Row: 40
+ Col: A
+   "R9"
+ Col: B
+   "1M8"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2167052.pdf">RC0603FR-071M8L</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E40),ISBLANK(M40),ISBLANK(S40)) -> -/FFAAAAAA
+  - =IF(SUM(I40,O40)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I40,O40) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K40),J40,0),IF(ISNUMBER(Q40),P40,0)) -> -/FFFFFF00
+ Col: G
+   0.01073234442
+  Formula: IF(MIN(K40,Q40)<>0,MIN(K40,Q40),"")
+ Col: H
+   1.0732
+  Formula: IF(AND(ISNUMBER(F40),ISNUMBER(G40)),F40*G40,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J40>0,MOD(J40,L40)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J40)),OR(I40="NonStk",J40>I40)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.01073234442
+  Formula: IFERROR(IF(OR(J40>=L40,F40>=L40),USD_GBP*LOOKUP(IF(J40="",F40,J40),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0218,0.0218,0.0078,0.0065,0.0052,0.0046,0.0042,0.0029}),"MOQ="&L40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   1.0732
+  Formula: IFERROR(IF(J40="",F40,J40)*K40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=9238875">9238875</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P40)),OR(O40="NonStk",P40>O40)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.012
+  Formula: IFERROR(IF(OR(P40>=R40,F40>=R40),LOOKUP(IF(P40="",F40,P40),{0,1,10,25,50,100},{0.0,0.12,0.029,0.023,0.018,0.012}),"MOQ="&R40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.2
+  Formula: IFERROR(IF(P40="",F40,P40)*Q40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=98K7371">98K7371</a>
+Row: 41
+ Col: A
+   "R10"
+ Col: B
+   "200k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf">ERJ3EKF2003V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E41),ISBLANK(M41),ISBLANK(S41)) -> -/FFAAAAAA
+  - =IF(SUM(I41,O41)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I41,O41) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K41),J41,0),IF(ISNUMBER(Q41),P41,0)) -> -/FFFFFF00
+ Col: G
+   0.019
+  Formula: IF(MIN(K41,Q41)<>0,MIN(K41,Q41),"")
+ Col: H
+   1.9
+  Formula: IF(AND(ISNUMBER(F41),ISNUMBER(G41)),F41*G41,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J41>0,MOD(J41,L41)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J41)),OR(I41="NonStk",J41>I41)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0258677019353
+  Formula: IFERROR(IF(OR(J41>=L41,F41>=L41),USD_GBP*LOOKUP(IF(J41="",F41,J41),{0,1,10,100,500,1000},{0.0,0.0473,0.0473,0.0188,0.0141,0.0093}),"MOQ="&L41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   2.5868
+  Formula: IFERROR(IF(J41="",F41,J41)*K41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2059509">2059509</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P41)),OR(O41="NonStk",P41>O41)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.019
+  Formula: IFERROR(IF(OR(P41>=R41,F41>=R41),LOOKUP(IF(P41="",F41,P41),{0,1,25,50,100,250,500,1000},{0.0,0.07,0.046,0.033,0.019,0.016,0.011,0.008}),"MOQ="&R41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.9
+  Formula: IFERROR(IF(P41="",F41,P41)*Q41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=65T8368">65T8368</a>
+Row: 42
+ Col: A
+   "R11,R12,R15,R23-R28"
+ Col: B
+   "0R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Vishay"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2884039.pdf">CRCW06030000Z0EA</a>
+ Col: F
+   900
+  Formula: CEILING(BoardQty*9.0,1)
+  Styles:
+  - =AND(ISBLANK(E42),ISBLANK(M42),ISBLANK(S42)) -> -/FFAAAAAA
+  - =IF(SUM(I42,O42)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I42,O42) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K42),J42,0),IF(ISNUMBER(Q42),P42,0)) -> -/FFFFFF00
+ Col: G
+   0.004
+  Formula: IF(MIN(K42,Q42)<>0,MIN(K42,Q42),"")
+ Col: H
+   3.6
+  Formula: IF(AND(ISNUMBER(F42),ISNUMBER(G42)),F42*G42,"")
+ Col: I
+   8294
+  Styles:
+  - lessThan F42 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J42>0,MOD(J42,L42)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J42)),OR(I42="NonStk",J42>I42)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0371504229922
+  Formula: IFERROR(IF(OR(J42>=L42,F42>=L42),USD_GBP*LOOKUP(IF(J42="",F42,J42),{0,1,10,100,500,1000},{0.0,0.0721,0.0721,0.0394,0.027,0.0195}),"MOQ="&L42),"")
+  Styles:
+  - lessThanOrEqual G42 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   33.4354
+  Formula: IFERROR(IF(J42="",F42,J42)*K42,"")
+  Styles:
+  - lessThanOrEqual H42 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2616740">2616740</a>
+ Col: O
+   1984900
+  Styles:
+  - lessThan F42 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P42)),OR(O42="NonStk",P42>O42)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.004
+  Formula: IFERROR(IF(OR(P42>=R42,F42>=R42),LOOKUP(IF(P42="",F42,P42),{0,1,5000},{0.0,0.004,0.004}),"MOQ="&R42),"")
+  Styles:
+  - lessThanOrEqual G42 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   3.6
+  Formula: IFERROR(IF(P42="",F42,P42)*Q42,"")
+  Styles:
+  - lessThanOrEqual H42 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=24W2535">24W2535</a>
+Row: 43
+ Col: A
+   "R13"
+ Col: B
+   "249k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf">ERJ3EKF2493V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E43),ISBLANK(M43),ISBLANK(S43)) -> -/FFAAAAAA
+  - =IF(SUM(I43,O43)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I43,O43) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K43),J43,0),IF(ISNUMBER(Q43),P43,0)) -> -/FFFFFF00
+ Col: G
+   0.019
+  Formula: IF(MIN(K43,Q43)<>0,MIN(K43,Q43),"")
+ Col: H
+   1.9
+  Formula: IF(AND(ISNUMBER(F43),ISNUMBER(G43)),F43*G43,"")
+ Col: I
+   8720
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J43>0,MOD(J43,L43)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J43)),OR(I43="NonStk",J43>I43)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0258677019353
+  Formula: IFERROR(IF(OR(J43>=L43,F43>=L43),USD_GBP*LOOKUP(IF(J43="",F43,J43),{0,1,10,100,500,1000},{0.0,0.0473,0.0473,0.0188,0.0143,0.0097}),"MOQ="&L43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   2.5868
+  Formula: IFERROR(IF(J43="",F43,J43)*K43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2059513">2059513</a>
+ Col: O
+   28530
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P43)),OR(O43="NonStk",P43>O43)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.019
+  Formula: IFERROR(IF(OR(P43>=R43,F43>=R43),LOOKUP(IF(P43="",F43,P43),{0,1,25,50,100,250,500,1000},{0.0,0.07,0.046,0.033,0.019,0.016,0.013,0.008}),"MOQ="&R43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.9
+  Formula: IFERROR(IF(P43="",F43,P43)*Q43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=65T8397">65T8397</a>
+Row: 44
+ Col: A
+   "R14"
+ Col: B
+   "100k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://industrial.panasonic.com/cdbs/www-data/pdf/RDA0000/AOA0000C304.pdf">ERJ3EKF1003V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E44),ISBLANK(M44),ISBLANK(S44)) -> -/FFAAAAAA
+  - =IF(SUM(I44,O44)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I44,O44) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K44),J44,0),IF(ISNUMBER(Q44),P44,0)) -> -/FFFFFF00
+ Col: G
+   0.0210519063623
+  Formula: IF(MIN(K44,Q44)<>0,MIN(K44,Q44),"")
+ Col: H
+   2.1052
+  Formula: IF(AND(ISNUMBER(F44),ISNUMBER(G44)),F44*G44,"")
+ Col: I
+   68419
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J44>0,MOD(J44,L44)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J44)),OR(I44="NonStk",J44>I44)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0210519063623
+  Formula: IFERROR(IF(OR(J44>=L44,F44>=L44),USD_GBP*LOOKUP(IF(J44="",F44,J44),{0,1,10,100,500,1000,2500},{0.0,0.0385,0.0385,0.0153,0.0116,0.0079,0.0075}),"MOQ="&L44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   2.1052
+  Formula: IFERROR(IF(J44="",F44,J44)*K44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2303232">2303232</a>
+ Col: O
+   68419
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P44)),OR(O44="NonStk",P44>O44)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.16
+  Formula: IFERROR(IF(OR(P44>=R44,F44>=R44),LOOKUP(IF(P44="",F44,P44),{0,1,25,50,100,250,500,1000},{0.0,0.602,0.391,0.28,0.16,0.136,0.103,0.064}),"MOQ="&R44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   16
+  Formula: IFERROR(IF(P44="",F44,P44)*Q44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=85Y8502">85Y8502</a>
+Row: 45
+ Col: A
+   "R16-R19"
+ Col: B
+   "100R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/3171135.pdf">RC0603FR-07100RL</a>
+ Col: F
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(E45),ISBLANK(M45),ISBLANK(S45)) -> -/FFAAAAAA
+  - =IF(SUM(I45,O45)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I45,O45) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K45),J45,0),IF(ISNUMBER(Q45),P45,0)) -> -/FFFFFF00
+ Col: G
+   0.012
+  Formula: IF(MIN(K45,Q45)<>0,MIN(K45,Q45),"")
+ Col: H
+   4.8
+  Formula: IF(AND(ISNUMBER(F45),ISNUMBER(G45)),F45*G45,"")
+ Col: I
+   273587
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J45>0,MOD(J45,L45)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J45)),OR(I45="NonStk",J45>I45)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0122458801715
+  Formula: IFERROR(IF(OR(J45>=L45,F45>=L45),USD_GBP*LOOKUP(IF(J45="",F45,J45),{0,1,10,100,500,1000,2500},{0.0,0.0218,0.0218,0.0089,0.0078,0.0062,0.0055}),"MOQ="&L45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   4.8984
+  Formula: IFERROR(IF(J45="",F45,J45)*K45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=9238360">9238360</a>
+ Col: O
+   273587
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P45)),OR(O45="NonStk",P45>O45)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.012
+  Formula: IFERROR(IF(OR(P45>=R45,F45>=R45),LOOKUP(IF(P45="",F45,P45),{0,1,25,50,100},{0.0,0.12,0.029,0.02,0.012}),"MOQ="&R45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   4.8
+  Formula: IFERROR(IF(P45="",F45,P45)*Q45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=98K7334">98K7334</a>
+Row: 46
+ Col: A
+   "R20-R22"
+ Col: B
+   "47R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://industrial.panasonic.com/cdbs/www-data/pdf/RDO0000/AOA0000C331.pdf">ERJP03F47R0V</a>
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E46),ISBLANK(M46),ISBLANK(S46)) -> -/FFAAAAAA
+  - =IF(SUM(I46,O46)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I46,O46) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K46),J46,0),IF(ISNUMBER(Q46),P46,0)) -> -/FFFFFF00
+ Col: G
+   0.140346042415
+  Formula: IF(MIN(K46,Q46)<>0,MIN(K46,Q46),"")
+ Col: H
+   42.1038
+  Formula: IF(AND(ISNUMBER(F46),ISNUMBER(G46)),F46*G46,"")
+ Col: I
+   11991
+  Styles:
+  - lessThan F46 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J46>0,MOD(J46,L46)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J46)),OR(I46="NonStk",J46>I46)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.140346042415
+  Formula: IFERROR(IF(OR(J46>=L46,F46>=L46),USD_GBP*LOOKUP(IF(J46="",F46,J46),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.291,0.291,0.102,0.0835,0.065,0.0477,0.0285,0.0279}),"MOQ="&L46),"")
+  Styles:
+  - lessThanOrEqual G46 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   42.1038
+  Formula: IFERROR(IF(J46="",F46,J46)*K46,"")
+  Styles:
+  - lessThanOrEqual H46 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1750655">1750655</a>
+ Col: O
+   2944
+  Styles:
+  - lessThan F46 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P46)),OR(O46="NonStk",P46>O46)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.154
+  Formula: IFERROR(IF(OR(P46>=R46,F46>=R46),LOOKUP(IF(P46="",F46,P46),{0,1,10,25,50,100,250},{0.0,0.396,0.348,0.285,0.221,0.158,0.154}),"MOQ="&R46),"")
+  Styles:
+  - lessThanOrEqual G46 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   46.2
+  Formula: IFERROR(IF(P46="",F46,P46)*Q46,"")
+  Styles:
+  - lessThanOrEqual H46 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=62W9653">62W9653</a>
+Row: 47
+ Col: A
+   "R33,R34"
+ Col: B
+   "1K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1868787.pdf">RC0603FR-071KL</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E47),ISBLANK(M47),ISBLANK(S47)) -> -/FFAAAAAA
+  - =IF(SUM(I47,O47)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I47,O47) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K47),J47,0),IF(ISNUMBER(Q47),P47,0)) -> -/FFFFFF00
+ Col: G
+   0.006
+  Formula: IF(MIN(K47,Q47)<>0,MIN(K47,Q47),"")
+ Col: H
+   1.2
+  Formula: IF(AND(ISNUMBER(F47),ISNUMBER(G47)),F47*G47,"")
+ Col: I
+   142434
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J47>0,MOD(J47,L47)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J47)),OR(I47="NonStk",J47>I47)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0166488932669
+  Formula: IFERROR(IF(OR(J47>=L47,F47>=L47),USD_GBP*LOOKUP(IF(J47="",F47,J47),{0,1,10,100,500,1000,2500},{0.0,0.0323,0.0323,0.0121,0.0092,0.0061,0.0055}),"MOQ="&L47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   3.3298
+  Formula: IFERROR(IF(J47="",F47,J47)*K47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=9238484">9238484</a>
+ Col: O
+   45000
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P47)),OR(O47="NonStk",P47>O47)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.006
+  Formula: IFERROR(IF(OR(P47>=R47,F47>=R47),LOOKUP(IF(P47="",F47,P47),{0,1,5000,10000},{0.0,0.006,0.006,0.004}),"MOQ="&R47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.2
+  Formula: IFERROR(IF(P47="",F47,P47)*Q47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=66R1908">66R1908</a>
+Row: 48
+ Col: A
+   "R35,R36"
+ Col: B
+   "10R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2167052.pdf">RC0603FR-0710RL</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E48),ISBLANK(M48),ISBLANK(S48)) -> -/FFAAAAAA
+  - =IF(SUM(I48,O48)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I48,O48) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K48),J48,0),IF(ISNUMBER(Q48),P48,0)) -> -/FFFFFF00
+ Col: G
+   0.0205015297253
+  Formula: IF(MIN(K48,Q48)<>0,MIN(K48,Q48),"")
+ Col: H
+   4.1003
+  Formula: IF(AND(ISNUMBER(F48),ISNUMBER(G48)),F48*G48,"")
+ Col: I
+   180220
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J48>0,MOD(J48,L48)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J48)),OR(I48="NonStk",J48>I48)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0205015297253
+  Formula: IFERROR(IF(OR(J48>=L48,F48>=L48),USD_GBP*LOOKUP(IF(J48="",F48,J48),{0,1,10,100,500,1000,2500},{0.0,0.042,0.042,0.0149,0.0139,0.0091,0.0083}),"MOQ="&L48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   4.1003
+  Formula: IFERROR(IF(J48="",F48,J48)*K48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=9238247">9238247</a>
+ Col: O
+   180220
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P48)),OR(O48="NonStk",P48>O48)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.024
+  Formula: IFERROR(IF(OR(P48>=R48,F48>=R48),LOOKUP(IF(P48="",F48,P48),{0,1,10,25,50,100},{0.0,0.12,0.058,0.046,0.035,0.024}),"MOQ="&R48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   4.8
+  Formula: IFERROR(IF(P48="",F48,P48)*Q48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=98K7348">98K7348</a>
+Row: 49
+ Col: A
+   "SW1"
+ Col: B
+   "SKHHLQA010"
+ Col: C
+   "SKHHLQA010"
+ Col: D
+   "ALPS"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1582312.pdf">SKHHLQA010</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E49),ISBLANK(M49),ISBLANK(S49)) -> -/FFAAAAAA
+  - =IF(SUM(I49,O49)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I49,O49) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K49),J49,0),IF(ISNUMBER(Q49),P49,0)) -> -/FFFFFF00
+ Col: G
+   0.195383706107
+  Formula: IF(MIN(K49,Q49)<>0,MIN(K49,Q49),"")
+ Col: H
+   19.5384
+  Formula: IF(AND(ISNUMBER(F49),ISNUMBER(G49)),F49*G49,"")
+ Col: I
+   1874
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J49>0,MOD(J49,L49)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J49)),OR(I49="NonStk",J49>I49)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.195383706107
+  Formula: IFERROR(IF(OR(J49>=L49,F49>=L49),USD_GBP*LOOKUP(IF(J49="",F49,J49),{0,1,10,50,100,500},{0.0,0.253,0.253,0.156,0.142,0.127}),"MOQ="&L49),"")
+  Styles:
+  - lessThanOrEqual G49 -> -/FF80FF80
+ Col: L
+   10
+ Col: M
+   19.5384
+  Formula: IFERROR(IF(J49="",F49,J49)*K49,"")
+  Styles:
+  - lessThanOrEqual H49 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=2056827">2056827</a>
+ Col: O
+   590
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P49)),OR(O49="NonStk",P49>O49)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.283
+  Formula: IFERROR(IF(OR(P49>=R49,F49>=R49),LOOKUP(IF(P49="",F49,P49),{0,1,10,25,50,100},{0.0,0.38,0.36,0.34,0.32,0.283}),"MOQ="&R49),"")
+  Styles:
+  - lessThanOrEqual G49 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   28.3
+  Formula: IFERROR(IF(P49="",F49,P49)*Q49,"")
+  Styles:
+  - lessThanOrEqual H49 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=94T3247">94T3247</a>
+Row: 50
+ Col: A
+   "U1"
+ Col: B
+   "AP3211KTR-G1"
+ Col: C
+   "SOT-23-6"
+ Col: D
+   "DIODES"
+ Col: E
+   <a href="https://4donline.ihs.com/images/VipMasterIC/IC/DIOD/DIOD-S-A0006455627/DIOD-S-A0006455627-1.pdf?hkey=6D3A4C79FDBF58556ACFDE234799DDF0">AP3211KTR-G1</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E50),ISBLANK(M50),ISBLANK(S50)) -> -/FFAAAAAA
+  - =IF(SUM(I50,O50)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I50,O50) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K50),J50,0),IF(ISNUMBER(Q50),P50,0)) -> -/FFFFFF00
+ Col: G
+   0.373
+  Formula: IF(MIN(K50,Q50)<>0,MIN(K50,Q50),"")
+ Col: H
+   37.3
+  Formula: IF(AND(ISNUMBER(F50),ISNUMBER(G50)),F50*G50,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J50)),OR(I50="NonStk",J50>I50)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.493963031638
+  Formula: IFERROR(IF(OR(J50>=L50,F50>=L50),USD_GBP*LOOKUP(IF(J50="",F50,J50),{0,1,10,100,500},{0.0,0.697,0.575,0.359,0.302}),"MOQ="&L50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   49.3963
+  Formula: IFERROR(IF(J50="",F50,J50)*K50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=3482897">3482897</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P50)),OR(O50="NonStk",P50>O50)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.373
+  Formula: IFERROR(IF(OR(P50>=R50,F50>=R50),LOOKUP(IF(P50="",F50,P50),{0,1,10,25,50,100},{0.0,0.747,0.599,0.523,0.448,0.373}),"MOQ="&R50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   37.3
+  Formula: IFERROR(IF(P50="",F50,P50)*Q50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=76AH4714">76AH4714</a>
+Row: 51
+ Col: A
+   "U2"
+ Col: B
+   "NC7SZ74K8X"
+ Col: C
+   "US8"
+ Col: D
+   "Fairchild"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/2304278.pdf">NC7SZ74K8X</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E51),ISBLANK(M51),ISBLANK(S51)) -> -/FFAAAAAA
+  - =IF(SUM(I51,O51)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I51,O51) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K51),J51,0),IF(ISNUMBER(Q51),P51,0)) -> -/FFFFFF00
+ Col: G
+   0.33
+  Formula: IF(MIN(K51,Q51)<>0,MIN(K51,Q51),"")
+ Col: H
+   33
+  Formula: IF(AND(ISNUMBER(F51),ISNUMBER(G51)),F51*G51,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J51>0,MOD(J51,L51)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J51)),OR(I51="NonStk",J51>I51)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.339857573299
+  Formula: IFERROR(IF(OR(J51>=L51,F51>=L51),USD_GBP*LOOKUP(IF(J51="",F51,J51),{0,1,5,10,100,500},{0.0,0.566,0.566,0.448,0.247,0.153}),"MOQ="&L51),"")
+  Styles:
+  - lessThanOrEqual G51 -> -/FF80FF80
+ Col: L
+   5
+ Col: M
+   33.9858
+  Formula: IFERROR(IF(J51="",F51,J51)*K51,"")
+  Styles:
+  - lessThanOrEqual H51 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=1417652">1417652</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P51)),OR(O51="NonStk",P51>O51)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.33
+  Formula: IFERROR(IF(OR(P51>=R51,F51>=R51),LOOKUP(IF(P51="",F51,P51),{0,1,10,100,500},{0.0,0.66,0.535,0.33,0.274}),"MOQ="&R51),"")
+  Styles:
+  - lessThanOrEqual G51 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   33
+  Formula: IFERROR(IF(P51="",F51,P51)*Q51,"")
+  Styles:
+  - lessThanOrEqual H51 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=58K9468">58K9468</a>
+Row: 52
+ Col: A
+   "U3,U4"
+ Col: B
+   "TPS61070DDCR"
+ Col: C
+   "SOT23-6L"
+ Col: E
+   "TPS61070DDCR"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E52),ISBLANK(M52),ISBLANK(S52)) -> -/FFAAAAAA
+  - =IF(SUM(I52,O52)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I52,O52) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K52),J52,0),IF(ISNUMBER(Q52),P52,0)) -> -/FFFFFF00
+ Col: G
+   0.982422296906
+  Formula: IF(MIN(K52,Q52)<>0,MIN(K52,Q52),"")
+ Col: H
+   196.4845
+  Formula: IF(AND(ISNUMBER(F52),ISNUMBER(G52)),F52*G52,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F52 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J52)),OR(I52="NonStk",J52>I52)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.982422296906
+  Formula: IFERROR(IF(OR(J52>=L52,F52>=L52),USD_GBP*LOOKUP(IF(J52="",F52,J52),{0,1,10,50,100,250},{0.0,1.16,0.872,0.793,0.714,0.668}),"MOQ="&L52),"")
+  Styles:
+  - lessThanOrEqual G52 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   196.4845
+  Formula: IFERROR(IF(J52="",F52,J52)*K52,"")
+  Styles:
+  - lessThanOrEqual H52 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=3121841">3121841</a>
+ Col: O
+   "NonStk"
+  Styles:
+  - lessThan F52 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P52)),OR(O52="NonStk",P52>O52)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   1.68
+  Formula: IFERROR(IF(OR(P52>=R52,F52>=R52),LOOKUP(IF(P52="",F52,P52),{0,1,10,25,50,100,250},{0.0,2.23,2.06,1.94,1.8,1.68,1.58}),"MOQ="&R52),"")
+  Styles:
+  - lessThanOrEqual G52 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   336
+  Formula: IFERROR(IF(P52="",F52,P52)*Q52,"")
+  Styles:
+  - lessThanOrEqual H52 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=28AH5936">28AH5936</a>
+Row: 53
+ Col: A
+   "U5"
+ Col: B
+   "LM2611BMF/NOPB"
+ Col: C
+   "SOT23-5"
+ Col: E
+   <a href="http://www.farnell.com/datasheets/1882460.pdf">LM2611BMF/NOPB</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E53),ISBLANK(M53),ISBLANK(S53)) -> -/FFAAAAAA
+  - =IF(SUM(I53,O53)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I53,O53) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K53),J53,0),IF(ISNUMBER(Q53),P53,0)) -> -/FFFFFF00
+ Col: G
+   3.28
+  Formula: IF(MIN(K53,Q53)<>0,MIN(K53,Q53),"")
+ Col: H
+   328
+  Formula: IF(AND(ISNUMBER(F53),ISNUMBER(G53)),F53*G53,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J53)),OR(I53="NonStk",J53>I53)) -> FFFFFFFF/FFFF0000
+ Col: K
+   3.43985398076
+  Formula: IFERROR(IF(OR(J53>=L53,F53>=L53),USD_GBP*LOOKUP(IF(J53="",F53,J53),{0,1,10,25,50,100},{0.0,3.8,3.04,2.88,2.69,2.5}),"MOQ="&L53),"")
+  Styles:
+  - lessThanOrEqual G53 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   343.9854
+  Formula: IFERROR(IF(J53="",F53,J53)*K53,"")
+  Styles:
+  - lessThanOrEqual H53 -> -/FF80FF80
+ Col: N
+   <a href="https://uk.farnell.com/w/search?st=3007155">3007155</a>
+ Col: O
+   35
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P53)),OR(O53="NonStk",P53>O53)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   3.28
+  Formula: IFERROR(IF(OR(P53>=R53,F53>=R53),LOOKUP(IF(P53="",F53,P53),{0,1,10,25,50,100,250},{0.0,4.44,3.99,3.77,3.53,3.28,3.1}),"MOQ="&R53),"")
+  Styles:
+  - lessThanOrEqual G53 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   328
+  Formula: IFERROR(IF(P53="",F53,P53)*Q53,"")
+  Styles:
+  - lessThanOrEqual H53 -> -/FF80FF80
+ Col: T
+   <a href="https://www.newark.com/w/search?st=41K3930">41K3930</a>
+Row: 55
+ Col: B
+   "Used currency rates:"
+ Col: G
+   "Total Purchase:"
+ Col: H
+   0
+  Formula: SUM(M55,S55)
+ Col: I
+   <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
+ Col: J
+  Formula: IFERROR(IF(COUNTIF(J7:J53,">0")>0,COUNTIF(J7:J53,">0")&" of "&(ROWS(L7:L53)-COUNTBLANK(L7:L53))&" parts purchased",""),"")
+ Col: M
+   0
+  Formula: SUMIF(J7:J53,">0",M7:M53)
+ Col: O
+   <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
+ Col: P
+  Formula: IFERROR(IF(COUNTIF(P7:P53,">0")>0,COUNTIF(P7:P53,">0")&" of "&(ROWS(R7:R53)-COUNTBLANK(R7:R53))&" parts purchased",""),"")
+ Col: S
+   0
+  Formula: SUMIF(P7:P53,">0",S7:S53)
+Row: 56
+ Col: B
+   "USD($)/GBP(£):"
+ Col: C
+   1.37594159231
+ Col: G
+   "Purchase description:"
+ Col: J
+  Formula: CONCATENATE(J104,J105,J106,J107,J108,J109,J110,J111,J112,J113,J114,J115,J116,J117,J118,J119,J120,J121,J122,J123,J124,J125,J126,J127,J128,J129,J130,J131,J132,J133,J134,J135,J136,J137,J138,J139,J140,J141,J142,J143,J144,J145,J146,J147,J148,J149,J150)
+ Col: P
+  Formula: CONCATENATE(P104,P105,P106,P107,P108,P109,P110,P111,P112,P113,P114,P115,P116,P117,P118,P119,P120,P121,P122,P123,P124,P125,P126,P127,P128,P129,P130,P131,P132,P133,P134,P135,P136,P137,P138,P139,P140,P141,P142,P143,P144,P145,P146,P147,P148,P149,P150)
+Row: 58
+ Col: A
+   "*FILTERED*"
+Row: 104
+ Col: J
+  Formula: IF(ISNUMBER(J7:J53)*(J7:J53>=L7:L53)*(N7:N53<>""),N7:N53&","&TEXT(ROUNDUP(J7:J53/IF(ISNUMBER(L7:L53),L7:L53,1),0)*L7:L53,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," "),30)&CHAR(10),"")
+ Col: P
+  Formula: IF(ISNUMBER(P7:P53)*(P7:P53>=R7:R53)*(T7:T53<>""),T7:T53&","&TEXT(ROUNDUP(P7:P53/IF(ISNUMBER(R7:R53),R7:R53,1),0)*R7:R53,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," ")&","&""&CHAR(10),"")
+Row: 105
+ Col: J
+   0
+ Col: P
+   0
+Row: 106
+ Col: J
+   0
+ Col: P
+   0
+Row: 107
+ Col: J
+   0
+ Col: P
+   0
+Row: 108
+ Col: J
+   0
+ Col: P
+   0
+Row: 109
+ Col: J
+   0
+ Col: P
+   0
+Row: 110
+ Col: J
+   0
+ Col: P
+   0
+Row: 111
+ Col: J
+   0
+ Col: P
+   0
+Row: 112
+ Col: J
+   0
+ Col: P
+   0
+Row: 113
+ Col: J
+   0
+ Col: P
+   0
+Row: 114
+ Col: J
+   0
+ Col: P
+   0
+Row: 115
+ Col: J
+   0
+ Col: P
+   0
+Row: 116
+ Col: J
+   0
+ Col: P
+   0
+Row: 117
+ Col: J
+   0
+ Col: P
+   0
+Row: 118
+ Col: J
+   0
+ Col: P
+   0
+Row: 119
+ Col: J
+   0
+ Col: P
+   0
+Row: 120
+ Col: J
+   0
+ Col: P
+   0
+Row: 121
+ Col: J
+   0
+ Col: P
+   0
+Row: 122
+ Col: J
+   0
+ Col: P
+   0
+Row: 123
+ Col: J
+   0
+ Col: P
+   0
+Row: 124
+ Col: J
+   0
+ Col: P
+   0
+Row: 125
+ Col: J
+   0
+ Col: P
+   0
+Row: 126
+ Col: J
+   0
+ Col: P
+   0
+Row: 127
+ Col: J
+   0
+ Col: P
+   0
+Row: 128
+ Col: J
+   0
+ Col: P
+   0
+Row: 129
+ Col: J
+   0
+ Col: P
+   0
+Row: 130
+ Col: J
+   0
+ Col: P
+   0
+Row: 131
+ Col: J
+   0
+ Col: P
+   0
+Row: 132
+ Col: J
+   0
+ Col: P
+   0
+Row: 133
+ Col: J
+   0
+ Col: P
+   0
+Row: 134
+ Col: J
+   0
+ Col: P
+   0
+Row: 135
+ Col: J
+   0
+ Col: P
+   0
+Row: 136
+ Col: J
+   0
+ Col: P
+   0
+Row: 137
+ Col: J
+   0
+ Col: P
+   0
+Row: 138
+ Col: J
+   0
+ Col: P
+   0
+Row: 139
+ Col: J
+   0
+ Col: P
+   0
+Row: 140
+ Col: J
+   0
+ Col: P
+   0
+Row: 141
+ Col: J
+   0
+ Col: P
+   0
+Row: 142
+ Col: J
+   0
+ Col: P
+   0
+Row: 143
+ Col: J
+   0
+ Col: P
+   0
+Row: 144
+ Col: J
+   0
+ Col: P
+   0
+Row: 145
+ Col: J
+   0
+ Col: P
+   0
+Row: 146
+ Col: J
+   0
+ Col: P
+   0
+Row: 147
+ Col: J
+   0
+ Col: P
+   0
+Row: 148
+ Col: J
+   0
+ Col: P
+   0
+Row: 149
+ Col: J
+   0
+ Col: P
+   0
+Row: 150
+ Col: J
+   0
+ Col: P
+   0

@@ -19,7 +19,7 @@ Row: 2
  Col: G
    "Unit Cost:"
  Col: H
-   1.9358
+   1.9682
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
@@ -29,7 +29,7 @@ Row: 3
  Col: G
    "Total Cost:"
  Col: H
-   193.5777
+   196.8177
   Formula: SUM(H7:H21)
  Col: M
    0
@@ -38,10 +38,10 @@ Row: 3
    "0 of 15 parts found"
   Formula: (COUNTA(M7:M21)&" of "&ROWS(M7:M21)&" parts found")
  Col: S
-   218.045
+   221.285
   Formula: SUM(S7:S21)
  Col: T
-   "4 of 15 parts found"
+   "5 of 15 parts found"
   Formula: (COUNTA(S7:S21)&" of "&ROWS(S7:S21)&" parts found")
  Col: Y
    174.607
@@ -667,7 +667,7 @@ Row: 15
  Col: D
    "Coto"
  Col: E
-   "RC1005J000CS"
+   <a href="http://datasheet.octopart.com/RC1005J000CS-Samsung-Electro-Mechanics-datasheet-41960856.pdf">RC1005J000CS</a>
  Col: F
    250
   Formula: CEILING(BoardQty*2.5,1)
@@ -677,9 +677,32 @@ Row: 15
   - greaterThan SUM(I15,O15,U15,AA15,AG15,AM15,AS15,AY15) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K15),J15,0),IF(ISNUMBER(Q15),P15,0),IF(ISNUMBER(W15),V15,0),IF(ISNUMBER(AC15),AB15,0),IF(ISNUMBER(AI15),AH15,0),IF(ISNUMBER(AO15),AN15,0),IF(ISNUMBER(AU15),AT15,0),IF(ISNUMBER(BA15),AZ15,0)) -> -/FFFFFF00
  Col: G
+   0.01296
   Formula: IF(MIN(K15,Q15,W15,AC15,AI15,AO15,AU15,BA15)<>0,MIN(K15,Q15,W15,AC15,AI15,AO15,AU15,BA15),"")
  Col: H
+   3.24
   Formula: IF(AND(ISNUMBER(F15),ISNUMBER(G15)),F15*G15,"")
+ Col: O
+   6920000
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P15)),OR(O15="NonStk",P15>O15)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.01296
+  Formula: IFERROR(IF(OR(P15>=R15,F15>=R15),LOOKUP(IF(P15="",F15,P15),{0,1,10,25,50,100,250,500,1000,10000,30000,50000},{0.0,0.1,0.042,0.0304,0.023,0.017,0.01296,0.01036,0.00763,0.00475,0.00418,0.00392}),"MOQ="&R15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   3.24
+  Formula: IFERROR(IF(P15="",F15,P15)*Q15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: T
+   <a href="https://octopart.com/click/track?ai=8078&sig=04cd5ba&sid=459&ppid=60632&vpid=72530002&ct=offers">1276-3480-1-ND</a>
 Row: 16
  Col: A
    "S2"

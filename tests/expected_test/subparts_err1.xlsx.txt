@@ -294,7 +294,7 @@ Row: 8
    131
   Formula: IF(AND(ISNUMBER(G8),ISNUMBER(H8)),G8*H8,"")
  Col: P
-   2753
+   2943
   Styles:
   - lessThan G8 -> FF000000/FFFF9900
  Col: Q
@@ -315,7 +315,7 @@ Row: 8
  Col: U
    <a href="https://octopart.com/click/track?ai=8078&sig=0a4bbfc&sid=459&ppid=381806&vpid=1187617&ct=offers">HS100-ND</a>
  Col: V
-   717
+   720
   Styles:
   - lessThan G8 -> FF000000/FFFF9900
  Col: W
@@ -336,7 +336,7 @@ Row: 8
  Col: AA
    <a href="https://octopart.com/click/track?ai=8078&sig=0e43cfc&sid=819&ppid=381806&vpid=138099605&ct=offers">2295717</a>
  Col: AH
-   2099
+   2297
   Styles:
   - lessThan G8 -> FF000000/FFFF9900
  Col: AI

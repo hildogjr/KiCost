@@ -11,6 +11,7 @@ Package: kicost
 Architecture: all
 Multi-Arch: foreign
 Depends: kicad, ${misc:Depends}, ${python3:Depends}
+Recommends: kicost-digikey-api-v3
 Description: Electronic parts cost finder for KiCad
  KiCost is intended to be run as a script for generating part-cost
  spreadsheets for circuit boards developed with KiCad. KiCost also

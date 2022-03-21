@@ -62,3 +62,5 @@ output/*/index.html
 # Dummy web server
 server_stderr.txt
 server_stdout.txt
+
+tags

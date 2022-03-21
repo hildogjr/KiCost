@@ -17,6 +17,7 @@ class DistData(object):
         # self.info_dist = None  # Currently unused.
         self.currency = None  # Default currency.
         self.moq = None  # Minimum order quantity allowd by the distributor.
+        self.extra_info = {}
 
 
 # Class for storing part group information.
@@ -43,6 +44,6 @@ class PartGroup(object):
                 old_name, old_value = self.specs[code]
                 if name not in old_name:
                     name = old_name + ', ' + name
-                if value not in old_value:
+                if old_value is not None and value not in old_value:
                     value = old_value + ', ' + value
             self.specs[code] = (name, value)

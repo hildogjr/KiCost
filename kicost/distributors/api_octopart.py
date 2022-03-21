@@ -35,10 +35,10 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN
+from ..global_vars import ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class
+from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
 
 # Author information.
 __author__ = 'XESS Corporation'
@@ -49,17 +49,30 @@ OCTOPART_MAX_PARTBYQUERY = 20  # Maximum part list length to one single query.
 __all__ = ['api_octopart']
 
 
+class QueryStruct(object):
+    def __init__(self, id, kind, code, part):
+        self.id = str(id)  # ID number for this query
+        self.kind = kind   # mpn/sku
+        self.code = code   # manf_code/sku
+        self.part = part   # Pointer to the part.
+        self.result = None
+        self.loaded = False
+
+
 class api_octopart(distributor_class):
     name = 'Octopart'
     type = 'api'
     enabled = False
     url = 'https://octopart.com/'  # Web site API information.
+    # Options supported by this API
+    config_options = {'key': str, 'level': int, 'extended': bool}
     api_level = 4
     # Include specs and datasheets. Only in the Pro plan.
     extended = False
+    cache = None
 
     API_KEY = None
-    API_DISTRIBUTORS = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']
+    api_distributors = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']
     DIST_TRANSLATION = {  # Distributor translation. Just a few supported.
                         'Arrow Electronics': 'arrow',
                         'Digi-Key': 'digikey',
@@ -74,29 +87,31 @@ class api_octopart(distributor_class):
     KICOST2OCTOPART_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
 
     @staticmethod
-    def init_dist_dict():
-        if api_octopart.enabled:
-            distributor_class.add_distributors(api_octopart.API_DISTRIBUTORS)
-
-    @staticmethod
-    def set_options(key, level):
-        if key:
-            if key.lower() == 'none':
-                api_octopart.enabled = False
-            else:
-                api_octopart.API_KEY = key
-                api_octopart.enabled = True
-                # Register our distributors
-                api_octopart.init_dist_dict()
-        if level:
-            if level[-1] == 'p':
-                api_octopart.extended = True
-                level = level[:-1]
-            else:
-                api_octopart.extended = False
-            api_octopart.api_level = int(level)
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Octopart API configured to enabled {} key {} level {} extended {}'.
-                                     format(api_octopart.enabled, api_octopart.API_KEY, api_octopart.api_level, api_octopart.extended))
+    def configure(ops):
+        cache_ttl = 7
+        cache_path = None
+        for k, v in ops.items():
+            if k == 'key':
+                api_octopart.API_KEY = v
+                if 'enable' not in ops:
+                    # If not explicitly disabled then enable it
+                    api_octopart.enabled = True
+            elif k == 'enable':
+                api_octopart.enabled = v
+            elif k == 'extended':
+                api_octopart.extended = v
+            elif k == 'level':
+                api_octopart.api_level = v
+            elif k == 'cache_ttl':
+                cache_ttl = v
+            elif k == 'cache_path':
+                cache_path = v
+        api_octopart.cache = QueryCache(cache_path, cache_ttl)
+        if api_octopart.enabled and api_octopart.API_KEY is None:
+            warning(W_APIFAIL, "Can't enable Octopart without a `key`")
+            api_octopart.enabled = False
+        debug_obsessive('Octopart API configured to enabled {} key {} level {} extended {}'.
+                        format(api_octopart.enabled, api_octopart.API_KEY, api_octopart.api_level, api_octopart.extended))
 
     @staticmethod
     def query(query):
@@ -187,8 +202,20 @@ class api_octopart(distributor_class):
             part.fields['manf#'] = mpn_cnts.most_common(1)[0][0]
 
     @staticmethod
-    def get_part_info(query, parts, distributors, currency='USD'):
-        """Query Octopart for quantity/price info and place it into the parts list."""
+    def get_part_info(queries):
+        """Query Octopart for quantity/price info."""
+        only_query = ['{"reference": "'+q.id+'", "'+q.kind+'": "'+quote_plus(q.code)+'"}' for q in queries]
+        results = api_octopart.query(only_query)
+        # Copy the results to the queries
+        q_hash = {q.id: q for q in queries}
+        for r in results:
+            query = q_hash[r['reference']]
+            query.result = r
+            api_octopart.cache.save_results(query.kind, query.code, r)
+
+    @staticmethod
+    def fill_part_info(queries, distributors, solved, currency='USD'):
+        ''' Place the results into the parts list. '''
         # Translate from Octopart distributor names to the names used internally by kicost.
         dist_xlate = api_octopart.DIST_TRANSLATION
         # List of desired distributors in native format
@@ -199,11 +226,10 @@ class api_octopart(distributor_class):
             currency_prio.append('USD')
         if currency != 'EUR':
             currency_prio.append('EUR')
-        results = api_octopart.query(query)
         # Loop through the response to the query and enter info into the parts list.
-        for result in results:
-            i = int(result['reference'])  # Get the index into the part dict.
-            part = parts[i]
+        for query in queries:
+            result = query.result
+            part = query.part
             # Each result can match one or more components from different manufacturers
             # Take only the items with useful offers
             useful_items = []
@@ -212,8 +238,8 @@ class api_octopart(distributor_class):
                     if offer['seller']['name'] in native_dists:
                         useful_items.append(item)
                         break
-            # distributor_class.logger.log(DEBUG_OBSESSIVE, str(result))
-            # distributor_class.logger.log(DEBUG_OBSESSIVE, str(useful_items))
+            # debug_obsessive(str(result))
+            # debug_obsessive(str(useful_items))
             # If more than one select the right one
             if len(useful_items) > 1:
                 # List of possible manufacturers
@@ -229,9 +255,9 @@ class api_octopart(distributor_class):
                         best_match = difflib.get_close_matches(manf, manufacturers.keys())[0]
                         item = manufacturers[best_match]
                     mpn = item['mpn']
-                    distributor_class.logger.warning(W_AMBIPN+'Using "{}" for manf#="{}"'.format(item['manufacturer']['name'], mpn))
-                    distributor_class.logger.warning(W_AMBIPN+'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
-                                                      mpn, list(manufacturers.keys())))
+                    warning(W_AMBIPN, 'Using "{}" for manf#="{}"'.format(item['manufacturer']['name'], mpn))
+                    warning(W_AMBIPN, 'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
+                            mpn, list(manufacturers.keys())))
             else:
                 if len(useful_items):
                     item = useful_items[0]
@@ -347,14 +373,13 @@ class api_octopart(distributor_class):
                         dd.qty_increment = part_qty_increment
                 # Update the DistData for this distributor
                 part.dd[dist] = dd
+                # We have data for this distributor
+                solved.add(dist)
 
     @staticmethod
     def query_part_info(parts, distributors, currency):
         """Fill-in the parts with price/qty/etc info from Octopart."""
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
-
-        # Setup progress bar to track progress of Octopart queries.
-        progress = distributor_class.progress(len(parts), distributor_class.logger)
+        debug_overview('# Getting part data from Octopart...')
 
         # Get the valid distributors names used by them part catalog
         # that may be index by Octopart. This is used to remove the
@@ -362,18 +387,15 @@ class api_octopart(distributor_class):
         # definition.
         # Note: The user can use --exclude and define it with fields.
         distributors_octopart = [d for d in distributors if distributor_class.get_distributor_info(d).is_web()
-                                 and d in api_octopart.API_DISTRIBUTORS]
+                                 and d in api_octopart.api_distributors]
 
-        # Break list of parts into smaller pieces and get price/quantities from Octopart.
-        octopart_query = []
-        prev_i = 0  # Used to record index where parts query occurs.
+        # Collect all the queries
+        queries = []
         for i, part in enumerate(parts):
-
-            # Create an Octopart query using the manufacturer's part number or
-            # distributor SKU.
+            # Create an Octopart query using the manufacturer's part number or distributor SKU.
             manf_code = part.fields.get('manf#')
             if manf_code:
-                part_query = '{"reference": "'+str(i)+'", "mpn": "'+quote_plus(manf_code)+'"}'
+                query = QueryStruct(i, "mpn", manf_code, part)
             else:
                 # No MPN, so use the first distributor SKU that's found.
                 for octopart_dist_sku in distributors_octopart:
@@ -384,56 +406,79 @@ class api_octopart(distributor_class):
                     # No MPN or SKU, so skip this part.
                     continue
                 # Create the part query using SKU matching.
-                part_query = '{"reference": "'+str(i)+'", "sku": "'+quote_plus(sku)+'"}'
+                query = QueryStruct(i, "sku", sku, part)
 
                 # Because was used the distributor (enrolled at Octopart list)
                 # despite the normal 'manf#' code, take the sub quantity as
                 # general sub quantity of the current part.
                 try:
                     part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                    distributor_class.logger.warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                    warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                             q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                             f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                 except KeyError:
                     pass
-
             # Add query for this part to the list of part queries.
-            octopart_query.append(part_query)
+            queries.append(query)
 
-            # Once there are enough (but not too many) part queries, make a query request to Octopart.
-            if len(octopart_query) == OCTOPART_MAX_PARTBYQUERY:
-                api_octopart.get_part_info(octopart_query, parts, distributors_octopart, currency)
-                progress.update(i - prev_i)  # Update progress bar.
-                prev_i = i
-                octopart_query = []  # Get ready for next batch.
+        n_queries = len(queries)
+        debug_overview('Queries {}'.format(n_queries))
+        if not n_queries:
+            return
 
-        # Query Octopart for the last batch of parts.
-        if octopart_query:
-            api_octopart.get_part_info(octopart_query, parts, distributors_octopart, currency)
-            progress.update(len(parts)-prev_i)  # This will indicate final progress of 100%.
+        # Try to solve the queries from the cache
+        unsolved = []
+        for query in queries:
+            # Look in the cache
+            query.result, query.loaded = api_octopart.cache.load_results(query.kind, query.code)
+            if not query.loaded:
+                unsolved.append(query)
 
-        # Done with the scraping progress bar so delete it or else we get an
-        # error when the program terminates.
-        progress.close()
+        # Solve the rest from the site
+        n_unsolved = len(unsolved)
+        debug_overview('Cached entries {}'.format(n_queries-n_unsolved))
+        if n_unsolved:
+            # Setup progress bar to track progress of server queries.
+            progress = distributor_class.progress(n_unsolved, distributor_class.logger)
+
+            # Slice the queries into batches of the largest allowed size and gather
+            # the part data for each batch.
+            for i in range(0, n_unsolved, OCTOPART_MAX_PARTBYQUERY):
+                slc = slice(i, i+OCTOPART_MAX_PARTBYQUERY)
+                api_octopart.get_part_info(unsolved[slc])
+                progress.update(len(unsolved[slc]))
+
+            # Done with the scraping progress bar so delete it or else we get an
+            # error when the program terminates.
+            progress.close()
+
+        # Transfer the results
+        solved_dist = set()
+        api_octopart.fill_part_info(queries, distributors_octopart, solved_dist, currency)
+        return solved_dist
+
+    @staticmethod
+    def from_environment(options, overwrite):
+        ''' Configuration from the environment. '''
+        # Configure the module from the environment
+        # The command line will overwrite it using set_options()
+        key = os.getenv('KICOST_OCTOPART_KEY_V3')
+        if key:
+            api_octopart._set_from_env('key', key, options, overwrite)
+            api_octopart._set_from_env('enable', True, options, overwrite)
+            api_octopart._set_from_env('level', 3, options, overwrite)
+        else:
+            key = os.getenv('KICOST_OCTOPART_KEY_V4')
+            if key:
+                api_octopart._set_from_env('key', key, options, overwrite)
+                api_octopart._set_from_env('enable', True, options, overwrite)
+                api_octopart._set_from_env('level', 4, options, overwrite)
+            elif os.environ.get('KICOST_OCTOPART'):
+                # Currently this isn't useful, you can't do anything without a key.
+                # This is just in case we get a proxy running.
+                api_octopart._set_from_env('enable', True, options, overwrite)
+        if os.environ.get('KICOST_OCTOPART_EXTENDED'):
+            api_octopart._set_from_env('extended', True, options, overwrite)
 
 
-# Configure the module from the environment
-# The command line will overwrite it using set_options()
-key = os.environ.get('KICOST_OCTOPART_KEY_V3')
-if key:
-    api_octopart.API_KEY = key
-    api_octopart.enabled = True
-    api_octopart.api_level = 3
-else:
-    key = os.environ.get('KICOST_OCTOPART_KEY_V4')
-    if key:
-        api_octopart.API_KEY = key
-        api_octopart.enabled = True
-        api_octopart.api_level = 4
-    elif os.environ.get('KICOST_OCTOPART'):
-        # Currently this isn't useful, you can't do anything without a key.
-        # This is just in case we get a proxy running.
-        api_octopart.enabled = True
-if os.environ.get('KICOST_OCTOPART_EXTENDED'):
-    api_octopart.extended = True
 distributor_class.register(api_octopart, 60)
