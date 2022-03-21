@@ -26,7 +26,7 @@ jobs:
         pip install flake8 pytest xlsx2csv
         sed -i 's/^wxPython/#wxPython/' requirements.txt 
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-        pip install git+https://github.com/set-soft/kicost-digikey-api-v3.git
+        # pip install git+https://github.com/set-soft/kicost-digikey-api-v3.git
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
