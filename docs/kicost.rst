@@ -22,6 +22,14 @@ kicost.ansi module
    :undoc-members:
    :show-inheritance:
 
+kicost.config module
+--------------------
+
+.. automodule:: kicost.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 kicost.global\_vars module
 --------------------------
 
