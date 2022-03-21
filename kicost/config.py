@@ -40,7 +40,7 @@ from .distributors import (is_valid_api, get_api_list, get_api_valid_options)  #
 
 CONFIG_FILE = 'config.yaml'
 cache_ttl = 7
-cache_path = os.getenv('HOME') + '/.cache/kicost'
+cache_path = os.path.expanduser('~') + '/.cache/kicost'
 api_options = {}
 config_file_path = None
 
@@ -60,7 +60,7 @@ def config_path(k, v):
     if not isinstance(v, str):
         config_error("`{}` must be a string ({})".format(k, v))
     if v[0] == '~':
-        v = os.getenv('HOME') + v[1:]
+        v = os.path.expanduser(v)
     elif v[0] == '.':
         v = os.path.join(config_file_path, v)
     return os.path.abspath(v)
@@ -143,8 +143,7 @@ def parse_apis_section(d):
 
 def load_config(file=None):
     if file is None:
-        # TODO: Adapt to other OSs
-        file = os.path.join(os.getenv('HOME'), '.config', 'kicost', CONFIG_FILE)
+        file = os.path.expanduser(os.path.join('~', '.config', 'kicost', CONFIG_FILE))
     else:
         if not os.path.isfile(file):
             logger.error('Missing config file {}.'.format(file))
