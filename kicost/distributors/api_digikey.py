@@ -41,6 +41,8 @@ try:
     from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, DigikeyError, DK_API
 except ImportError:
     available = False
+    class DK_API(object):
+        api_ops = None
 
 DIST_NAME = 'digikey'
 # Specs known by KiCost
