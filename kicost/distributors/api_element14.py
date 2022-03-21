@@ -33,10 +33,10 @@ import requests
 import difflib
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL, W_AMBIPN, DEBUG_FULL
+from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL, W_AMBIPN, DEBUG_FULL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, debug_overview, debug_detailed, debug_obsessive, warning
 
 # Countries supported by Farnell (*.farnell.com)
 FARNELL_SUP = {'bg': 'EUR',
@@ -170,7 +170,7 @@ class Element14(object):
             raise Element14Error("Missing `products` " + str(data))
         prod = data['products']
         if c != 1:
-            distributor_class.logger.warning(W_AMBIPN+"Got {} hits for {} {}".format(c, kind, term))
+            warning(W_AMBIPN, "Got {} hits for {} {}".format(c, kind, term))
         return prod
 
     def search(self, kind, term, part={}):
@@ -178,7 +178,7 @@ class Element14(object):
         full_name = term+'_'+self.store_info_id
         data, loaded = self.cache.load_results(kind, full_name)
         if loaded:
-            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from cache: '+pprint.pformat(data))
+            debug_obsessive('Data from cache: '+pprint.pformat(data))
             return self._extract_data(data, kind, term)
         # Do a query
         params = {'callInfo.responseDataFormat': 'JSON',
@@ -190,26 +190,26 @@ class Element14(object):
             params['resultsSettings.offset'] = '0'
             params['resultsSettings.numberOfResults'] = '10'
         params.update(part)
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Query params: '+pprint.pformat(params))
+        debug_obsessive('Query params: '+pprint.pformat(params))
         r = requests.get(BASE_URL, params=params)
         if r.status_code != 200:
-            # distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(r.__dict__))
+            # debug_obsessive(pprint.pformat(r.__dict__))
             raise Element14Error("Server error `{}` ({})".format(r.reason, r.status_code))
         data = r.json()
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from server: '+pprint.pformat(data))
+        debug_obsessive('Data from server: '+pprint.pformat(data))
         self.cache.save_results(kind, full_name, data)
         return self._extract_data(data, kind, term)
 
     def by_sku(self, sku):
-        distributor_class.logger.log(DEBUG_DETAILED, 'Search by SKU '+sku)
+        debug_detailed('Search by SKU '+sku)
         return self.search('sku', sku)
 
     def by_keyword(self, key):
-        distributor_class.logger.log(DEBUG_DETAILED, 'Search by keyword '+key)
+        debug_detailed('Search by keyword '+key)
         return self.search('key', key)
 
     def by_manf_pn(self, pn):
-        distributor_class.logger.log(DEBUG_DETAILED, 'Search by part number '+pn)
+        debug_detailed('Search by part number '+pn)
         return self.search('mpn', pn)
 
 
@@ -250,10 +250,9 @@ class api_element14(distributor_class):
             elif k.endswith('_country'):
                 api_element14.countries[v[:-8]] = v.lower()
         if api_element14.enabled and api_element14.key is None:
-            distributor_class.logger.warning(W_APIFAIL+"Can't enable Elemen14 without a `key`")
+            warning(W_APIFAIL, "Can't enable Elemen14 without a `key`")
             api_element14.enabled = False
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Element14 API configured to enabled {} key {} path {}'.
-                                     format(api_element14.enabled, api_element14.key, cache_path))
+        debug_obsessive('Element14 API configured to enabled {} key {} path {}'.format(api_element14.enabled, api_element14.key, cache_path))
         if not api_element14.enabled:
             return
         # Configure the cache
@@ -262,7 +261,7 @@ class api_element14(distributor_class):
     @staticmethod
     def _query_part_info(dist, country, parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Element14 ({} {})...'.format(dist, country))
+        debug_overview('# Getting part data from Element14 ({} {})...'.format(dist, country))
         field_cat = dist + '#'
         o = Element14(dist, country, api_element14.key, api_element14.cache)
 
@@ -275,30 +274,30 @@ class api_element14(distributor_class):
             part_manf = part.fields.get('manf', '')
             part_code = part.fields.get('manf#')
             if part_stock:
-                distributor_class.logger.log(DEBUG_DETAILED, '\n**** {} P/N: {}'.format(dist, part_stock))
+                debug_detailed('\n**** {} P/N: {}'.format(dist, part_stock))
                 data = o.by_sku(part_stock)
                 if data is None:
-                    distributor_class.logger.warning(W_NOINFO+'The \'{}\' {} code is not valid'.format(part_stock, dist))
+                    warning(W_NOINFO, 'The \'{}\' {} code is not valid'.format(part_stock, dist))
                     if api_element14.try_by_keyword:
                         data = o.by_keyword(part_stock)
             else:
                 # No Element14 P/N, search using the manufacturer code
                 if part_code:
                     if part_manf:
-                        distributor_class.logger.log(DEBUG_DETAILED, '\n**** Manufacturer: {} P/N: {}'.format(part_manf, part_code))
+                        debug_detailed('\n**** Manufacturer: {} P/N: {}'.format(part_manf, part_code))
                     else:
-                        distributor_class.logger.log(DEBUG_DETAILED, '\n**** P/N: {}'.format(part_code))
+                        debug_detailed('\n**** P/N: {}'.format(part_code))
                     data = o.by_manf_pn(part_code)
                     if data is None and api_element14.try_by_keyword:
                         data = o.by_keyword(part_code)
             if data is None:
-                distributor_class.logger.warning(W_NOINFO+'No information found at {} for part/s \'{}\''.format(dist, part.refs))
+                warning(W_NOINFO, 'No information found at {} for part/s \'{}\''.format(dist, part.refs))
             else:
                 data = _select_best(data, part_manf, part.qty_total_spreadsheet)
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info before adding data:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Data found:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(data))
+                debug_obsessive('* Part info before adding data:')
+                debug_obsessive(pprint.pformat(part.__dict__))
+                debug_obsessive('* Data found:')
+                debug_obsessive(pprint.pformat(data))
                 ds = data.get('datasheets', None)
                 if part.datasheet is None and ds is not None:
                     part.datasheet = ds[0]['url']
@@ -350,9 +349,9 @@ class api_element14(distributor_class):
                     if val:
                         dd.extra_info[name] = val[1]
                 part.dd[dist] = dd
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info after adding data:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-                # distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(dd.__dict__))
+                debug_obsessive('* Part info after adding data:')
+                debug_obsessive(pprint.pformat(part.__dict__))
+                # debug_obsessive(pprint.pformat(dd.__dict__))
             progress.update(1)
         progress.close()
 
@@ -360,7 +359,7 @@ class api_element14(distributor_class):
     def query_part_info(parts, distributors, currency):
         if len(set(DIST_NAMES).intersection(distributors)) == 0:
             # None of our distributors is used
-            distributor_class.logger.log(DEBUG_OVERVIEW, '# Skipping Element14 plug-in')
+            debug_overview('# Skipping Element14 plug-in')
             return set()
         msg = None
         try:
@@ -450,13 +449,13 @@ def _select_best(data, manf, qty):
     c = len(data)
     if c == 1:
         return data[0]
-    distributor_class.logger.log(DEBUG_OBSESSIVE, ' - Choosing the best match ({} options, qty: {} manf: {})'.format(c, qty, manf))
+    debug_obsessive(' - Choosing the best match ({} options, qty: {} manf: {})'.format(c, qty, manf))
     ultra_debug = distributor_class.logger.getEffectiveLevel() <= DEBUG_FULL
     _list_comp_options(data, ultra_debug, 'Original list')
     # Try to choose the best manufacturer
     data2 = _filter_by_manf(data, manf)
     if data != data2:
-        distributor_class.logger.log(DEBUG_OBSESSIVE, ' - Selected manf `{}`'.format(data2[0]['brandName']))
+        debug_obsessive(' - Selected manf `{}`'.format(data2[0]['brandName']))
         _list_comp_options(data2, ultra_debug, 'Manufacturer selected')
         if len(data2) == 1:
             return data2[0]

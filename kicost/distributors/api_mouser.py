@@ -2,7 +2,7 @@
 # MIT license
 #
 # Copyright (c) 2021 SPARK Microsystems
-# Copyright (c) 2021 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial
+# Copyright (c) 2021-2022 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -37,10 +37,10 @@ import requests
 import re
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, W_NOINFO, W_APIFAIL, KiCostError, ERR_SCRAPE
+from ..global_vars import W_NOINFO, W_APIFAIL, KiCostError, ERR_SCRAPE
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, debug_detailed, warning
 
 available = True
 
@@ -275,10 +275,9 @@ class api_mouser(distributor_class):
             elif k == 'cache_path':
                 cache_path = v
         if api_mouser.enabled and api_mouser.key is None:
-            distributor_class.logger.warning(W_APIFAIL+"Can't enable Mouser without a `key`")
+            warning(W_APIFAIL, "Can't enable Mouser without a `key`")
             api_mouser.enabled = False
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Mouser API configured to enabled {} key {} path {}'.
-                                     format(api_mouser.enabled, api_mouser.key, cache_path))
+        debug_obsessive('Mouser API configured to enabled {} key {} path {}'.format(api_mouser.enabled, api_mouser.key, cache_path))
         if not api_mouser.enabled:
             return
         # Try to configure the plug-in
@@ -288,9 +287,9 @@ class api_mouser(distributor_class):
     def _query_part_info(parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         if DIST_NAME not in distributors:
-            distributor_class.logger.log(DEBUG_OVERVIEW, '# Skipping Mouser plug-in')
+            debug_overview('# Skipping Mouser plug-in')
             return
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Mouser...')
+        debug_overview('# Getting part data from Mouser...')
         field_cat = DIST_NAME + '#'
         in_stock_re = re.compile(r'(\d+) in stock', re.I)
 
@@ -309,7 +308,7 @@ class api_mouser(distributor_class):
                 partnumber = part.fields.get('manf#')
                 prefix = 'mpn'
             if partnumber:
-                distributor_class.logger.log(DEBUG_DETAILED, 'P/N: ' + partnumber)
+                debug_detailed('P/N: ' + partnumber)
                 request, loaded = api_mouser.cache.load_results(prefix, partnumber)
                 if loaded:
                     data = MouserPartSearchRequest.get_clean_response(request)
@@ -320,12 +319,12 @@ class api_mouser(distributor_class):
                         api_mouser.cache.save_results(prefix, partnumber, request.response_parsed)
 
             if data is None:
-                distributor_class.logger.warning(W_NOINFO+'No information found at Mouser for part/s \'{}\''.format(part.refs))
+                warning(W_NOINFO, 'No information found at Mouser for part/s \'{}\''.format(part.refs))
             else:
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info before adding data:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Data found:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, str(request))
+                debug_obsessive('* Part info before adding data:')
+                debug_obsessive(pprint.pformat(part.__dict__))
+                debug_obsessive('* Data found:')
+                debug_obsessive(str(request))
                 if not part.datasheet:
                     datasheet = data['DataSheetUrl']
                     if datasheet:
@@ -350,9 +349,9 @@ class api_mouser(distributor_class):
                 if product_description:
                     dd.extra_info['desc'] = product_description
                 part.dd[DIST_NAME] = dd
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info after adding data:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(dd.__dict__))
+                debug_obsessive('* Part info after adding data:')
+                debug_obsessive(pprint.pformat(part.__dict__))
+                debug_obsessive(pprint.pformat(dd.__dict__))
             progress.update(1)
         progress.close()
 

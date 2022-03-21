@@ -35,10 +35,10 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN, W_APIFAIL
+from ..global_vars import ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
 
 # Author information.
 __author__ = 'XESS Corporation'
@@ -108,10 +108,10 @@ class api_octopart(distributor_class):
                 cache_path = v
         api_octopart.cache = QueryCache(cache_path, cache_ttl)
         if api_octopart.enabled and api_octopart.API_KEY is None:
-            distributor_class.logger.warning(W_APIFAIL+"Can't enable Octopart without a `key`")
+            warning(W_APIFAIL, "Can't enable Octopart without a `key`")
             api_octopart.enabled = False
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Octopart API configured to enabled {} key {} level {} extended {}'.
-                                     format(api_octopart.enabled, api_octopart.API_KEY, api_octopart.api_level, api_octopart.extended))
+        debug_obsessive('Octopart API configured to enabled {} key {} level {} extended {}'.
+                        format(api_octopart.enabled, api_octopart.API_KEY, api_octopart.api_level, api_octopart.extended))
 
     @staticmethod
     def query(query):
@@ -238,8 +238,8 @@ class api_octopart(distributor_class):
                     if offer['seller']['name'] in native_dists:
                         useful_items.append(item)
                         break
-            # distributor_class.logger.log(DEBUG_OBSESSIVE, str(result))
-            # distributor_class.logger.log(DEBUG_OBSESSIVE, str(useful_items))
+            # debug_obsessive(str(result))
+            # debug_obsessive(str(useful_items))
             # If more than one select the right one
             if len(useful_items) > 1:
                 # List of possible manufacturers
@@ -255,9 +255,9 @@ class api_octopart(distributor_class):
                         best_match = difflib.get_close_matches(manf, manufacturers.keys())[0]
                         item = manufacturers[best_match]
                     mpn = item['mpn']
-                    distributor_class.logger.warning(W_AMBIPN+'Using "{}" for manf#="{}"'.format(item['manufacturer']['name'], mpn))
-                    distributor_class.logger.warning(W_AMBIPN+'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
-                                                      mpn, list(manufacturers.keys())))
+                    warning(W_AMBIPN, 'Using "{}" for manf#="{}"'.format(item['manufacturer']['name'], mpn))
+                    warning(W_AMBIPN, 'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
+                            mpn, list(manufacturers.keys())))
             else:
                 if len(useful_items):
                     item = useful_items[0]
@@ -379,7 +379,7 @@ class api_octopart(distributor_class):
     @staticmethod
     def query_part_info(parts, distributors, currency):
         """Fill-in the parts with price/qty/etc info from Octopart."""
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Octopart...')
+        debug_overview('# Getting part data from Octopart...')
 
         # Get the valid distributors names used by them part catalog
         # that may be index by Octopart. This is used to remove the
@@ -413,7 +413,7 @@ class api_octopart(distributor_class):
                 # general sub quantity of the current part.
                 try:
                     part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                    distributor_class.logger.warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                    warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                             q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                             f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                 except KeyError:
@@ -422,7 +422,7 @@ class api_octopart(distributor_class):
             queries.append(query)
 
         n_queries = len(queries)
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Queries {}'.format(n_queries))
+        debug_overview('Queries {}'.format(n_queries))
         if not n_queries:
             return
 
@@ -436,7 +436,7 @@ class api_octopart(distributor_class):
 
         # Solve the rest from the site
         n_unsolved = len(unsolved)
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Cached entries {}'.format(n_queries-n_unsolved))
+        debug_overview('Cached entries {}'.format(n_queries-n_unsolved))
         if n_unsolved:
             # Setup progress bar to track progress of server queries.
             progress = distributor_class.progress(n_unsolved, distributor_class.logger)

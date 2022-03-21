@@ -31,17 +31,16 @@ import os
 import pprint
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_DETAILED, DEBUG_OBSESSIVE, W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL
+from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, debug_detailed, debug_overview, debug_obsessive, warning
 
 available = True
 try:
     from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, DigikeyError, DK_API
 except ImportError:
     available = False
-# from kicost_digikey_api_v3 import by_digikey_pn, by_manf_pn, by_keyword, DigikeyError, DK_API  # noqa: E402
 
 DIST_NAME = 'digikey'
 # Specs known by KiCost
@@ -105,10 +104,10 @@ class api_digikey(distributor_class):
             elif k.startswith('locale_'):
                 DK_API.api_ops[k] = v
         if api_digikey.enabled and (DK_API.id is None or DK_API.secret is None or cache_path is None):
-            distributor_class.logger.warning(W_APIFAIL+"Can't enable Digi-Key without a `client_id`, `client_secret` and `cache_path`")
+            warning(W_APIFAIL, "Can't enable Digi-Key without a `client_id`, `client_secret` and `cache_path`")
             api_digikey.enabled = False
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Digi-Key API configured to enabled {} id {} secret {} path {}'.
-                                     format(api_digikey.enabled, DK_API.id, DK_API.secret, cache_path))
+        debug_obsessive('Digi-Key API configured to enabled {} id {} secret {} path {}'.
+                        format(api_digikey.enabled, DK_API.id, DK_API.secret, cache_path))
         if not api_digikey.enabled:
             return
         # Try to configure the plug-in
@@ -116,16 +115,16 @@ class api_digikey(distributor_class):
         try:
             DK_API.configure(cache, a_logger=distributor_class.logger)
         except DigikeyError as e:
-            distributor_class.logger.warning(W_APIFAIL+'Failed to init Digi-Key API, reason: {}'.format(e.args[0]))
+            warning(W_APIFAIL, 'Failed to init Digi-Key API, reason: {}'.format(e.args[0]))
             api_digikey.enabled = False
 
     @staticmethod
     def _query_part_info(parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
         if DIST_NAME not in distributors:
-            distributor_class.logger.log(DEBUG_OVERVIEW, '# Skipping Digi-Key plug-in')
+            debug_overview('# Skipping Digi-Key plug-in')
             return
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from Digi-Key...')
+        debug_overview('# Getting part data from Digi-Key...')
         field_cat = DIST_NAME + '#'
 
         # Setup progress bar to track progress of server queries.
@@ -135,11 +134,11 @@ class api_digikey(distributor_class):
             # Get the Digi-Key P/N for this part
             part_stock = part.fields.get(field_cat)
             if part_stock:
-                distributor_class.logger.log(DEBUG_DETAILED, '\n**** Digi-Key P/N: {}'.format(part_stock))
+                debug_detailed('\n**** Digi-Key P/N: {}'.format(part_stock))
                 o = by_digikey_pn(part_stock)
                 data = o.search()
                 if data is None:
-                    distributor_class.logger.warning(W_NOINFO+'The \'{}\' Digi-Key code is not valid'.format(part_stock))
+                    warning(W_NOINFO, 'The \'{}\' Digi-Key code is not valid'.format(part_stock))
                     o = by_keyword(part_stock)
                     data = o.search()
             else:
@@ -148,21 +147,21 @@ class api_digikey(distributor_class):
                 part_code = part.fields.get('manf#')
                 if part_code:
                     if part_manf:
-                        distributor_class.logger.log(DEBUG_DETAILED, '\n**** Manufacturer: {} P/N: {}'.format(part_manf, part_code))
+                        debug_detailed('\n**** Manufacturer: {} P/N: {}'.format(part_manf, part_code))
                     else:
-                        distributor_class.logger.log(DEBUG_DETAILED, '\n**** P/N: {}'.format(part_code))
+                        debug_detailed('\n**** P/N: {}'.format(part_code))
                     o = by_manf_pn(part_code)
                     data = o.search()
                     if data is None:
                         o = by_keyword(part_code)
                         data = o.search()
             if data is None:
-                distributor_class.logger.warning(W_NOINFO+'No information found at Digi-Key for part/s \'{}\''.format(part.refs))
+                warning(W_NOINFO, 'No information found at Digi-Key for part/s \'{}\''.format(part.refs))
             else:
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info before adding data:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Data found:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, str(data))
+                debug_obsessive('* Part info before adding data:')
+                debug_obsessive(pprint.pformat(part.__dict__))
+                debug_obsessive('* Data found:')
+                debug_obsessive(str(data))
                 part.datasheet = data.primary_datasheet
                 part.lifecycle = data.product_status.lower()
                 specs = {sp.parameter.lower(): (sp.parameter, sp.value) for sp in data.parameters}
@@ -190,9 +189,9 @@ class api_digikey(distributor_class):
                     if val:
                         dd.extra_info[name] = val[1]
                 part.dd[DIST_NAME] = dd
-                distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info after adding data:')
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-                distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(dd.__dict__))
+                debug_obsessive('* Part info after adding data:')
+                debug_obsessive(pprint.pformat(part.__dict__))
+                debug_obsessive(pprint.pformat(dd.__dict__))
             progress.update(1)
         progress.close()
 

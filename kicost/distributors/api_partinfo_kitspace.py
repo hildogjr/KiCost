@@ -40,10 +40,10 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_OVERVIEW, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE, DEBUG_OBSESSIVE
+from ..global_vars import DEFAULT_CURRENCY, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
 
 
 # Uncomment for debug
@@ -125,7 +125,7 @@ class api_partinfo_kitspace(distributor_class):
             elif k == 'cache_path':
                 cache_path = v
         api_partinfo_kitspace.cache = QueryCache(cache_path, cache_ttl)
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'KitSpace API configured to enabled {}'.format(api_partinfo_kitspace.enabled))
+        debug_obsessive('KitSpace API configured to enabled {}'.format(api_partinfo_kitspace.enabled))
 
     @staticmethod
     def query(query_parts, distributors, query_type=QUERY_MATCH):
@@ -219,7 +219,7 @@ class api_partinfo_kitspace(distributor_class):
             result = q.result
             # Process it
             if not result:
-                distributor_class.logger.warning(W_NOINFO+'No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
+                warning(W_NOINFO, 'No information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
                 continue
             # Get the information of the part.
             part.datasheet = result.get('datasheet')
@@ -244,8 +244,7 @@ class api_partinfo_kitspace(distributor_class):
                 dist_currency = {cur: pri for cur, pri in offer['prices'].items() if pri}
                 if not dist_currency:
                     # Some times the API returns minimum purchase 0 and a not valid `price_tiers`.
-                    distributor_class.logger.warning(NO_PRICE+'No price information found for parts \'{}\' query `{}`'.
-                                                     format(part.refs, str(part_query)))
+                    warning(NO_PRICE, 'No price information found for parts \'{}\' query `{}`'.format(part.refs, str(part_query)))
                 else:
                     prices = None
                     # Get the price tiers prioritizing:
@@ -310,7 +309,7 @@ class api_partinfo_kitspace(distributor_class):
     @staticmethod
     def query_part_info(parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from KitSpace...')
+        debug_overview('# Getting part data from KitSpace...')
 
         # Use just the distributors avaliable in this API.
         # Note: The user can use --exclude and define it with fields.
@@ -354,7 +353,7 @@ class api_partinfo_kitspace(distributor_class):
                 queries.append(QueryStruct(query_text, part, part_dist_use_manfpn))
 
         n_queries = len(queries)
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Queries {}'.format(n_queries))
+        debug_overview('Queries {}'.format(n_queries))
         if not n_queries:
             return
 
@@ -370,7 +369,7 @@ class api_partinfo_kitspace(distributor_class):
 
         # Solve the rest from the site
         n_unsolved = len(unsolved)
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Cached entries {}'.format(n_queries-n_unsolved))
+        debug_overview('Cached entries {}'.format(n_queries-n_unsolved))
         if n_unsolved:
             # Setup progress bar to track progress of server queries.
             progress = distributor_class.progress(n_unsolved, distributor_class.logger)

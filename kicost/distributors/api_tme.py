@@ -47,10 +47,10 @@ else:
     from urllib.error import URLError
 
 # KiCost definitions.
-from ..global_vars import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL, DEBUG_FULL
+from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL, DEBUG_FULL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
 
 # Specs known by KiCost
 SPEC_NAMES = {'tolerance': 'tolerance',
@@ -98,8 +98,8 @@ class TME(object):
         lng = self.get_languages()
         if language not in lng:
             self.language = 'EN'
-            distributor_class.logger.log(DEBUG_OVERVIEW, 'Language `{}` not supported using `EN`'.format(language))
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Using `{}`'.format(self.language))
+            debug_overview('Language `{}` not supported using `EN`'.format(language))
+        debug_overview('Using `{}`'.format(self.language))
         # Check the selected country
         cnt = self.get_countries()
         country_l = country.lower()
@@ -110,8 +110,8 @@ class TME(object):
         if currency not in cnt_data['CurrencyList']:
             # Nope, use the default for this country
             self.currency = cnt_data['Currency']
-            distributor_class.logger.log(DEBUG_OVERVIEW, 'Currency `{}` not supported for `{}` using `{}`'.format(currency, country, self.currency))
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Using `{}` for `{}`'.format(self.currency, cnt_data['Name']))
+            debug_overview('Currency `{}` not supported for `{}` using `{}`'.format(currency, country, self.currency))
+        debug_overview('Using `{}` for `{}`'.format(self.currency, cnt_data['Name']))
 
     def _get_signature_base(self, url, params):
         params = collections.OrderedDict(sorted(params.items()))
@@ -147,20 +147,20 @@ class TME(object):
         language = self.language
         data, loaded = self.cache.load_results('all', 'countries_'+language)
         if loaded:
-            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from cache: '+pprint.pformat(data))
+            debug_obsessive('Data from cache: '+pprint.pformat(data))
             return data['CountryList']
         data = self.json_request('/Utils/GetCountries', {'Language': language})
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from web: '+pprint.pformat(data))
+        debug_obsessive('Data from web: '+pprint.pformat(data))
         self.cache.save_results('all', 'countries_'+language, data)
         return data['CountryList']
 
     def get_languages(self):
         data, loaded = self.cache.load_results('all', 'languages')
         if loaded:
-            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from cache: '+pprint.pformat(data))
+            debug_obsessive('Data from cache: '+pprint.pformat(data))
             return data['LanguageList']
         data = self.json_request('/Utils/GetLanguages')
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from web: '+pprint.pformat(data))
+        debug_obsessive('Data from web: '+pprint.pformat(data))
         self.cache.save_results('all', 'languages', data)
         return data['LanguageList']
 
@@ -168,7 +168,7 @@ class TME(object):
         full_name = symbol+'_'+self.country+'_'+self.language+'_'+self.currency
         data, loaded = self.cache.load_results('data', full_name)
         if loaded:
-            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from cache: '+pprint.pformat(data))
+            debug_obsessive('Data from cache: '+pprint.pformat(data))
             return data
         return None
 
@@ -179,9 +179,9 @@ class TME(object):
             parameters['Currency'] = self.currency
         for c, s in enumerate(symbols):
             parameters['SymbolList[{}]'.format(c)] = s
-        distributor_class.logger.log(DEBUG_OBSESSIVE, parameters)
+        debug_obsessive(parameters)
         data = self.json_request('/Products/'+kind, parameters)
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from web: '+pprint.pformat(data))
+        debug_obsessive('Data from web: '+pprint.pformat(data))
         return data['ProductList']
 
     def get_products(self, symbols):
@@ -216,7 +216,7 @@ class TME(object):
         full_name = name+'_'+self.country+'_'+self.language+'_'+self.currency
         data, loaded = self.cache.load_results('search', full_name)
         if loaded:
-            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from cache: '+pprint.pformat(data))
+            debug_obsessive('Data from cache: '+pprint.pformat(data))
             return data
         parameters = {'Country': self.country,
                       'Language': self.language,
@@ -224,7 +224,7 @@ class TME(object):
                       'SearchOrder': 'PRICE_FIRST_QUANTITY',
                       'SearchOrderType': 'ASC'}
         data = self.json_request('/Products/Search', parameters)
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Data from web: '+pprint.pformat(data))
+        debug_obsessive('Data from web: '+pprint.pformat(data))
         total = data['Amount']
         if total > 20:
             # Get the rest of the matches
@@ -284,10 +284,10 @@ class api_tme(distributor_class):
             elif k == 'cache_path':
                 cache_path = v
         if api_tme.enabled and (api_tme.token is None or api_tme.app_secret is None):
-            distributor_class.logger.warning(W_APIFAIL+"Can't enable TME without a `token` and an `app_secret`")
+            warning(W_APIFAIL, "Can't enable TME without a `token` and an `app_secret`")
             api_tme.enabled = False
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'TME API configured to enabled {} token {} app_secret {} path {}'.
-                                     format(api_tme.enabled, api_tme.token, api_tme.app_secret, cache_path))
+        debug_obsessive('TME API configured to enabled {} token {} app_secret {} path {}'.
+                        format(api_tme.enabled, api_tme.token, api_tme.app_secret, cache_path))
         if not api_tme.enabled:
             return
         # Configure the cache
@@ -296,7 +296,7 @@ class api_tme(distributor_class):
     @staticmethod
     def _query_part_info(parts, distributors, currency):
         '''Fill-in the parts with price/qty/etc info from KitSpace.'''
-        distributor_class.logger.log(DEBUG_OVERVIEW, '# Getting part data from TME ...')
+        debug_overview('# Getting part data from TME ...')
         field_cat = DIST_NAME + '#'
         o = TME(api_tme.country, api_tme.language, api_tme.app_secret, api_tme.token, api_tme.cache, currency)
         #
@@ -314,9 +314,9 @@ class api_tme(distributor_class):
                 part_manf = part.fields.get('manf', '')
                 part_code = part.fields.get('manf#')
                 if part_code:
-                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'Searching P/N: {} from {}'.format(part_code, part_manf))
+                    debug_obsessive('Searching P/N: {} from {}'.format(part_code, part_manf))
                     candidates = o.search(part_code)
-                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'Found {} matches'.format(len(candidates)))
+                    debug_obsessive('Found {} matches'.format(len(candidates)))
                     part_stock = part.fields[field_cat] = _select_best(candidates, part_manf, part.qty_total_spreadsheet)
             if part_stock:
                 # Add this symbol to the list of needed
@@ -343,13 +343,13 @@ class api_tme(distributor_class):
         for part in parts:
             part_stock = part.fields.get(field_cat)
             if not part_stock:
-                distributor_class.logger.warning(W_NOINFO+'No information found at TME for part/s \'{}\''.format(part.refs))
+                warning(W_NOINFO, 'No information found at TME for part/s \'{}\''.format(part.refs))
                 continue
             data = symbols[part_stock]
-            distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info before adding data:')
-            distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-            distributor_class.logger.log(DEBUG_OBSESSIVE, '* Data found:')
-            distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(data))
+            debug_obsessive('* Part info before adding data:')
+            debug_obsessive(pprint.pformat(part.__dict__))
+            debug_obsessive('* Data found:')
+            debug_obsessive(pprint.pformat(data))
             if part.datasheet is None:
                 ds = next(iter(filter(lambda x: x['DocumentType'] in ['INS', 'DTE'], data['Files']['DocumentList'])), None)
                 if ds:
@@ -385,9 +385,9 @@ class api_tme(distributor_class):
                 if val:
                     dd.extra_info[name] = val[1]
             part.dd[DIST_NAME] = dd
-            distributor_class.logger.log(DEBUG_OBSESSIVE, '* Part info after adding data:')
-            distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(part.__dict__))
-            # distributor_class.logger.log(DEBUG_OBSESSIVE, pprint.pformat(dd.__dict__))
+            debug_obsessive('* Part info after adding data:')
+            debug_obsessive(pprint.pformat(part.__dict__))
+            # debug_obsessive(pprint.pformat(dd.__dict__))
 
     @staticmethod
     def query_part_info(parts, distributors, currency):
@@ -467,13 +467,13 @@ def _select_best(data, manf, qty):
         return None
     if c == 1:
         return data[0]['Symbol']
-    distributor_class.logger.log(DEBUG_OBSESSIVE, ' - Choosing the best match ({} options, qty: {} manf: {})'.format(c, qty, manf))
+    debug_obsessive(' - Choosing the best match ({} options, qty: {} manf: {})'.format(c, qty, manf))
     ultra_debug = distributor_class.logger.getEffectiveLevel() <= DEBUG_FULL
     _list_comp_options(data, ultra_debug, 'Original list')
     # Try to choose the best manufacturer
     data2 = _filter_by_manf(data, manf)
     if data != data2:
-        distributor_class.logger.log(DEBUG_OBSESSIVE, ' - Selected manf `{}`'.format(data2[0]['Producer']))
+        debug_obsessive(' - Selected manf `{}`'.format(data2[0]['Producer']))
         _list_comp_options(data2, ultra_debug, 'Manufacturer selected')
         if len(data2) == 1:
             return data2[0]['Symbol']

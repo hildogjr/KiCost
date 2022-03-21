@@ -35,10 +35,26 @@ import tqdm
 # QueryCache dependencies:
 import pickle
 import time
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW, BASE_OP_TYPES
+from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW, BASE_OP_TYPES, DEBUG_DETAILED, DEBUG_OBSESSIVE
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
+
+
+def debug_detailed(*args):
+    distributor_class.logger.log(DEBUG_DETAILED, args)
+
+
+def debug_overview(*args):
+    distributor_class.logger.log(DEBUG_OVERVIEW, args)
+
+
+def debug_obsessive(*args):
+    distributor_class.logger.log(DEBUG_OBSESSIVE, args)
+
+
+def warning(code, msg):
+    distributor_class.logger.warning(code + msg)
 
 
 class TqdmLoggingHandler(logging.Handler):
