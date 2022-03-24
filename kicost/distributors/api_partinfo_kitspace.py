@@ -164,7 +164,7 @@ class api_partinfo_kitspace(distributor_class):
             raise KiCostError('Bad request to Kitspace server probably due to an incorrect string '
                               'format check your `manf#` codes and contact the suport team.', ERR_SCRAPE)
         elif response.status_code == requests.codes['gateway_timeout']:  # 504
-            raise KiCostError('One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.', ERR_SCRAPE)
+            raise KiCostError('One of the internal Kitspace services may experiencing problems. Most probably is saturated, please consider using other API.', ERR_SCRAPE)
         else:
             raise KiCostError('Kitspace error: ' + str(response.status_code), ERR_SCRAPE)
 
