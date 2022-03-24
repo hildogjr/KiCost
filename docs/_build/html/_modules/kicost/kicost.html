@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.kicost &#8212; kicost 1.1.5 documentation</title>
+    <title>kicost.kicost &#8212; kicost 1.1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.kicost</a></li> 
@@ -86,6 +86,7 @@
 <span class="kn">import</span> <span class="nn">pprint</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
 
 <span class="c1"># Stops UnicodeDecodeError exceptions.</span>
 <span class="k">try</span><span class="p">:</span>
@@ -101,7 +102,7 @@
                           <span class="n">W_TRANS</span><span class="p">,</span> <span class="n">W_NOMANP</span><span class="p">)</span>
 <span class="c1"># * Import the KiCost libraries functions.</span>
 <span class="c1"># Import information for various EDA tools.</span>
-<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="kn">import</span> <span class="n">field_name_translations</span><span class="p">,</span> <span class="n">subpartqty_split</span><span class="p">,</span> <span class="n">group_parts</span><span class="p">,</span> <span class="n">PRJ_STR_DECLARE</span><span class="p">,</span> <span class="n">PRJPART_SPRTR</span>
+<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="kn">import</span> <span class="n">field_name_translations</span><span class="p">,</span> <span class="n">subpartqty_split</span><span class="p">,</span> <span class="n">group_parts</span><span class="p">,</span> <span class="n">PRJ_STR_DECLARE</span><span class="p">,</span> <span class="n">PRJPART_SPRTR</span><span class="p">,</span> <span class="n">partgroup_qty</span>
 <span class="kn">from</span> <span class="nn">.edas</span> <span class="kn">import</span> <span class="n">get_part_groups</span>
 <span class="c1"># Creation of the final XLSX spreadsheet.</span>
 <span class="kn">from</span> <span class="nn">.spreadsheet</span> <span class="kn">import</span> <span class="n">create_spreadsheet</span><span class="p">,</span> <span class="n">Spreadsheet</span>
@@ -262,7 +263,26 @@
     <span class="c1"># Debug the resulting list</span>
     <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">):</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="s1">&#39;Distributors: &#39;</span> <span class="o">+</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">dist_list</span><span class="p">))</span>
-    <span class="c1"># Get the distributor pricing/qty/etc for each part.</span>
+    <span class="c1">#</span>
+    <span class="c1"># Solve the quantity for each group</span>
+    <span class="c1">#</span>
+    <span class="c1"># Make sure we have the number of boards for each project</span>
+    <span class="k">for</span> <span class="n">p_info</span> <span class="ow">in</span> <span class="n">prj_info</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;qty&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">p_info</span><span class="p">:</span>
+            <span class="n">p_info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spreadsheet</span><span class="o">.</span><span class="n">DEFAULT_BUILD_QTY</span>
+    <span class="n">multi_prj</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prj_info</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+    <span class="c1"># Compute the qtys</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="n">part</span><span class="o">.</span><span class="n">qty_str</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">=</span> <span class="n">partgroup_qty</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+        <span class="c1"># Total for all boards</span>
+        <span class="k">if</span> <span class="n">multi_prj</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i_prj</span><span class="p">,</span> <span class="n">p_info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">prj_info</span><span class="p">):</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">*</span> <span class="n">p_info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">*</span> <span class="n">prj_info</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
+        <span class="n">part</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="c1"># Get the distributor pricing/etc for each part.</span>
     <span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
 
     <span class="c1"># Create the part pricing spreadsheet.</span>
@@ -369,7 +389,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.kicost</a></li> 

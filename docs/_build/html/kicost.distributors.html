@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors package &#8212; kicost 1.1.5 documentation</title>
+    <title>kicost.distributors package &#8212; kicost 1.1.7 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="kicost.currency_converter.html" title="kicost.currency_converter package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >kicost</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="kicost.html" accesskey="U">kicost package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors package</a></li> 
@@ -58,11 +58,6 @@
 <em class="property">class </em><code class="sig-prename descclassname">kicost.distributors.api_octopart.</code><code class="sig-name descname">api_octopart</code><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#kicost.distributors.distributor.distributor_class" title="kicost.distributors.distributor.distributor_class"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.distributors.distributor.distributor_class</span></code></a></p>
 <dl class="py attribute">
-<dt id="kicost.distributors.api_octopart.api_octopart.API_DISTRIBUTORS">
-<code class="sig-name descname">API_DISTRIBUTORS</code><em class="property"> = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']</em><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.API_DISTRIBUTORS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt id="kicost.distributors.api_octopart.api_octopart.API_KEY">
 <code class="sig-name descname">API_KEY</code><em class="property"> = None</em><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.API_KEY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -78,8 +73,28 @@
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt id="kicost.distributors.api_octopart.api_octopart.api_distributors">
+<code class="sig-name descname">api_distributors</code><em class="property"> = ['arrow', 'digikey', 'farnell', 'lcsc', 'mouser', 'newark', 'rs', 'tme']</em><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.api_distributors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="kicost.distributors.api_octopart.api_octopart.api_level">
 <code class="sig-name descname">api_level</code><em class="property"> = 4</em><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.api_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.distributors.api_octopart.api_octopart.cache">
+<code class="sig-name descname">cache</code><em class="property"> = None</em><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.cache" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.distributors.api_octopart.api_octopart.config_options">
+<code class="sig-name descname">config_options</code><em class="property"> = {'extended': &lt;class 'bool'&gt;, 'key': &lt;class 'str'&gt;, 'level': &lt;class 'int'&gt;}</em><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.config_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.api_octopart.api_octopart.configure">
+<em class="property">static </em><code class="sig-name descname">configure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ops</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.configure" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -93,15 +108,21 @@
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="kicost.distributors.api_octopart.api_octopart.get_part_info">
-<em class="property">static </em><code class="sig-name descname">get_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span></em>, <em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">distributors</span></em>, <em class="sig-param"><span class="n">currency</span><span class="o">=</span><span class="default_value">'USD'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.get_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.get_part_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query Octopart for quantity/price info and place it into the parts list.</p>
+<dt id="kicost.distributors.api_octopart.api_octopart.fill_part_info">
+<em class="property">static </em><code class="sig-name descname">fill_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">queries</span></em>, <em class="sig-param"><span class="n">distributors</span></em>, <em class="sig-param"><span class="n">solved</span></em>, <em class="sig-param"><span class="n">currency</span><span class="o">=</span><span class="default_value">'USD'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.fill_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.fill_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place the results into the parts list.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="kicost.distributors.api_octopart.api_octopart.init_dist_dict">
-<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.init_dist_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
+<dt id="kicost.distributors.api_octopart.api_octopart.from_environment">
+<em class="property">static </em><code class="sig-name descname">from_environment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">overwrite</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.from_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.from_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configuration from the environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.api_octopart.api_octopart.get_part_info">
+<em class="property">static </em><code class="sig-name descname">get_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">queries</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.get_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.get_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query Octopart for quantity/price info.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -120,11 +141,6 @@
 <em class="property">static </em><code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">distributors</span></em>, <em class="sig-param"><span class="n">currency</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.query_part_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fill-in the parts with price/qty/etc info from Octopart.</p>
 </dd></dl>
-
-<dl class="py method">
-<dt id="kicost.distributors.api_octopart.api_octopart.set_options">
-<em class="property">static </em><code class="sig-name descname">set_options</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">level</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_octopart.html#api_octopart.set_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_octopart.api_octopart.set_options" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py method">
 <dt id="kicost.distributors.api_octopart.api_octopart.sku_to_mpn">
@@ -158,11 +174,6 @@
 <em class="property">class </em><code class="sig-prename descclassname">kicost.distributors.api_partinfo_kitspace.</code><code class="sig-name descname">api_partinfo_kitspace</code><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#kicost.distributors.distributor.distributor_class" title="kicost.distributors.distributor.distributor_class"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.distributors.distributor.distributor_class</span></code></a></p>
 <dl class="py attribute">
-<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.API_DISTRIBUTORS">
-<code class="sig-name descname">API_DISTRIBUTORS</code><em class="property"> = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']</em><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.API_DISTRIBUTORS" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
 <dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.DIST_TRANSLATION">
 <code class="sig-name descname">DIST_TRANSLATION</code><em class="property"> = {'Arrow Electronics': 'arrow', 'Digikey': 'digikey', 'Farnell': 'farnell', 'LCSC': 'lcsc', 'Mouser': 'mouser', 'Newark': 'newark', 'RS': 'rs', 'TME': 'tme'}</em><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.DIST_TRANSLATION" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -173,16 +184,36 @@
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.api_distributors">
+<code class="sig-name descname">api_distributors</code><em class="property"> = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']</em><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.api_distributors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.cache">
+<code class="sig-name descname">cache</code><em class="property"> = None</em><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.cache" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.configure">
+<em class="property">static </em><code class="sig-name descname">configure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ops</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.configure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.enabled">
 <code class="sig-name descname">enabled</code><em class="property"> = True</em><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.enabled" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.fill_part_info">
+<em class="property">static </em><code class="sig-name descname">fill_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">queries</span></em>, <em class="sig-param"><span class="n">distributors</span></em>, <em class="sig-param"><span class="n">currency</span></em>, <em class="sig-param"><span class="n">solved</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.fill_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.fill_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Place the results into the parts list.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_part_info">
-<em class="property">static </em><code class="sig-name descname">get_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span></em>, <em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">distributors</span></em>, <em class="sig-param"><span class="n">currency</span></em>, <em class="sig-param"><span class="n">distributor_info</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.get_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_part_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Query PartInfo for quantity/price info and place it into the parts list.
-<cite>distributor_info</cite> is used to update only one distributor information (price_tiers, …),
-the proposed if use in the disambiguation procedure.</p>
+<em class="property">static </em><code class="sig-name descname">get_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">queries</span></em>, <em class="sig-param"><span class="n">distributors</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.get_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_part_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query PartInfo for quantity/price info.
+<cite>distributors</cite> is the list of all distributors we want, in general.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -190,12 +221,6 @@ the proposed if use in the disambiguation procedure.</p>
 <em class="property">static </em><code class="sig-name descname">get_spec</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">item</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.get_spec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.get_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the value of <cite>value</cite> field of a dictionary if the <cite>name</cite> field identifier.
 Used to get information from the JSON response.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.init_dist_dict">
-<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.init_dist_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -207,6 +232,12 @@ Used to get information from the JSON response.</p>
 <dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query">
 <em class="property">static </em><code class="sig-name descname">query</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query_parts</span></em>, <em class="sig-param"><span class="n">distributors</span></em>, <em class="sig-param"><span class="n">query_type</span><span class="o">=</span><span class="default_value">'query ($input: [MpnOrSku]!){ match(parts: $input) {mpn{manufacturer,part},datasheet,description,specs{key,value},offers(from:{DISTRIBUTORS}){product_url,sku{vendor,part},description,moq,in_stock_quantity,prices{GBP,EUR,USD}}} }'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query" title="Permalink to this definition">¶</a></dt>
 <dd><p>Send query to server and return results.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query2name">
+<em class="property">static </em><code class="sig-name descname">query2name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">query</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/api_partinfo_kitspace.html#api_partinfo_kitspace.query2name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.query2name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the prefix and name for a query</p>
 </dd></dl>
 
 <dl class="py method">
@@ -235,15 +266,19 @@ Used to get information from the JSON response.</p>
 <em class="property">class </em><code class="sig-prename descclassname">kicost.distributors.dist_local_template.</code><code class="sig-name descname">dist_local_template</code><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#kicost.distributors.distributor.distributor_class" title="kicost.distributors.distributor.distributor_class"><code class="xref py py-class docutils literal notranslate"><span class="pre">kicost.distributors.distributor.distributor_class</span></code></a></p>
 <dl class="py attribute">
-<dt id="kicost.distributors.dist_local_template.dist_local_template.enabled">
-<code class="sig-name descname">enabled</code><em class="property"> = True</em><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.enabled" title="Permalink to this definition">¶</a></dt>
+<dt id="kicost.distributors.dist_local_template.dist_local_template.api_distributors">
+<code class="sig-name descname">api_distributors</code><em class="property"> = []</em><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.api_distributors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="kicost.distributors.dist_local_template.dist_local_template.init_dist_dict">
-<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.init_dist_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
-</dd></dl>
+<dt id="kicost.distributors.dist_local_template.dist_local_template.configure">
+<em class="property">static </em><code class="sig-name descname">configure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ops</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template.configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.configure" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.distributors.dist_local_template.dist_local_template.enabled">
+<code class="sig-name descname">enabled</code><em class="property"> = True</em><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.enabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.dist_local_template.dist_local_template.name">
@@ -253,14 +288,19 @@ Used to get information from the JSON response.</p>
 <dl class="py method">
 <dt id="kicost.distributors.dist_local_template.dist_local_template.query_part_info">
 <em class="property">static </em><code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">distributors</span></em>, <em class="sig-param"><span class="n">currency</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template.query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.query_part_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fill-in part information for locally-sourced parts not handled by Octopart.
-IMPORTANT: <cite>distributors</cite> can be modified.</p>
+<dd><p>Fill-in part information for locally-sourced parts not handled by Octopart.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.dist_local_template.dist_local_template.type">
 <code class="sig-name descname">type</code><em class="property"> = 'local'</em><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.dist_local_template.dist_local_template.update_distributors">
+<em class="property">static </em><code class="sig-name descname">update_distributors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">distributors</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/dist_local_template.html#dist_local_template.update_distributors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.update_distributors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks for user defined distributors</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.dist_local_template.dist_local_template.url">
@@ -289,9 +329,33 @@ IMPORTANT: <cite>distributors</cite> can be modified.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="kicost.distributors.distributor.distributor_class.distributor_dict">
-<code class="sig-name descname">distributor_dict</code><em class="property"> = {'arrow': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;, 'digikey': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;, 'farnell': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;, 'lcsc': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;, 'mouser': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;, 'newark': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;, 'rs': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;, 'tme': &lt;kicost.distributors.distributors_info.DistributorInfo object&gt;}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.distributor_dict" title="Permalink to this definition">¶</a></dt>
+<dt id="kicost.distributors.distributor.distributor_class.config_options">
+<code class="sig-name descname">config_options</code><em class="property"> = {}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.config_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.distributor.distributor_class.configure_apis">
+<em class="property">static </em><code class="sig-name descname">configure_apis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.configure_apis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.configure_apis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure all APIs. options is a dict API -&gt; api_options</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.distributor.distributor_class.configure_from_environment">
+<em class="property">static </em><code class="sig-name descname">configure_from_environment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">overwrite</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.configure_from_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.configure_from_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure all APIs using environment variables.
+If overwrite is True the API should replace the current option</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.distributors.distributor.distributor_class.distributor_dict">
+<code class="sig-name descname">distributor_dict</code><em class="property"> = {}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.distributor_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="kicost.distributors.distributor.distributor_class.from_environment">
+<em class="property">static </em><code class="sig-name descname">from_environment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">overwrite</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.from_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.from_environment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default configuration from the environment. Just nothing.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="kicost.distributors.distributor.distributor_class.get_api_status">
@@ -326,13 +390,12 @@ Used internaly from the API to add distributors derived from others.</p>
 
 <dl class="py method">
 <dt id="kicost.distributors.distributor.distributor_class.init_dist_dict">
-<em class="property">static </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.init_dist_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
-</dd></dl>
+<em class="property">classmethod </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.init_dist_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.distributor.distributor_class.label2name">
-<code class="sig-name descname">label2name</code><em class="property"> = {'arrow': 'arrow', 'digi-key': 'digikey', 'farnell': 'farnell', 'lcsc': 'lcsc', 'mouser': 'mouser', 'newark': 'newark', 'rs components': 'rs', 'tme': 'tme'}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.label2name" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">label2name</code><em class="property"> = {}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.label2name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -350,9 +413,15 @@ Used internaly from the API to add distributors derived from others.</p>
 <code class="sig-name descname">logger</code><em class="property"> = None</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.logger" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt id="kicost.distributors.distributor.distributor_class.main_init_dist_dict">
+<em class="property">static </em><code class="sig-name descname">main_init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.main_init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.main_init_dist_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize and update the dictionary of the registered distributors classes.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt id="kicost.distributors.distributor.distributor_class.priorities">
-<code class="sig-name descname">priorities</code><em class="property"> = [100, 60, 50]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.priorities" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">priorities</code><em class="property"> = [100, 100, 100, 100, 100, 60, 50]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.priorities" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -374,19 +443,19 @@ Used internaly from the API to add distributors derived from others.</p>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.distributor.distributor_class.registered">
-<code class="sig-name descname">registered</code><em class="property"> = [&lt;class 'kicost.distributors.dist_local_template.dist_local_template'&gt;, &lt;class 'kicost.distributors.api_octopart.api_octopart'&gt;, &lt;class 'kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace'&gt;]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.registered" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">registered</code><em class="property"> = [&lt;class 'kicost.distributors.dist_local_template.dist_local_template'&gt;, &lt;class 'kicost.distributors.api_digikey.api_digikey'&gt;, &lt;class 'kicost.distributors.api_mouser.api_mouser'&gt;, &lt;class 'kicost.distributors.api_element14.api_element14'&gt;, &lt;class 'kicost.distributors.api_tme.api_tme'&gt;, &lt;class 'kicost.distributors.api_octopart.api_octopart'&gt;, &lt;class 'kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace'&gt;]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.registered" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="kicost.distributors.distributor.distributor_class.set_api_options">
-<em class="property">static </em><code class="sig-name descname">set_api_options</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">api</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.set_api_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.set_api_options" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure an API (by name)</p>
+<dt id="kicost.distributors.distributor.distributor_class.set_api_status">
+<em class="property">static </em><code class="sig-name descname">set_api_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">api_name</span></em>, <em class="sig-param"><span class="n">enabled</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.set_api_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.set_api_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable/Disable a particular API</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="kicost.distributors.distributor.distributor_class.set_api_status">
-<em class="property">static </em><code class="sig-name descname">set_api_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">api</span></em>, <em class="sig-param"><span class="n">enabled</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.set_api_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.set_api_status" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enable/Disable a particular API</p>
+<dt id="kicost.distributors.distributor.distributor_class.update_distributors">
+<em class="property">static </em><code class="sig-name descname">update_distributors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">distributors</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.update_distributors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.update_distributors" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is used by the Local distributors mechanism to discover user defined distributors</p>
 </dd></dl>
 
 </dd></dl>
@@ -398,9 +467,32 @@ Used internaly from the API to add distributors derived from others.</p>
 <div class="section" id="module-kicost.distributors">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost.distributors" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
+<dt id="kicost.distributors.configure_apis">
+<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">configure_apis</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#configure_apis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.configure_apis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configure all APIs. options is a dict API -&gt; api_options</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.distributors.configure_from_environment">
+<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">configure_from_environment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">overwrite</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#configure_from_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.configure_from_environment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.distributors.get_api_list">
+<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">get_api_list</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#get_api_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.get_api_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of registered APIs</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="kicost.distributors.get_api_status">
 <code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">get_api_status</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">api</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#get_api_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.get_api_status" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find if an API is enabled</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="kicost.distributors.get_api_valid_options">
+<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">get_api_valid_options</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#get_api_valid_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.get_api_valid_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the vali options for each API</p>
 </dd></dl>
 
 <dl class="py function">
@@ -444,9 +536,9 @@ This information comes from the list collected from the APIs, not from the fixed
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="kicost.distributors.set_api_options">
-<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">set_api_options</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">api</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#set_api_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.set_api_options" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure an API (by name)</p>
+<dt id="kicost.distributors.is_valid_api">
+<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">is_valid_api</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">api</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#is_valid_api"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.is_valid_api" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if this API is registered</p>
 </dd></dl>
 
 <dl class="py function">
@@ -533,7 +625,7 @@ This information comes from the list collected from the APIs, not from the fixed
         <li class="right" >
           <a href="kicost.currency_converter.html" title="kicost.currency_converter package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >kicost</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="kicost.html" >kicost package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors package</a></li> 

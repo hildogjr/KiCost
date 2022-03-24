@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.spreadsheet &#8212; kicost 1.1.5 documentation</title>
+    <title>kicost.spreadsheet &#8212; kicost 1.1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.spreadsheet</a></li> 
@@ -85,7 +85,8 @@
 <span class="c1"># KiCost libraries.</span>
 <span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">__version__</span>  <span class="c1"># Version control by @xesscorp and collaborator.</span>
 <span class="kn">from</span> <span class="nn">.distributors</span> <span class="kn">import</span> <span class="n">get_distributor_info</span><span class="p">,</span> <span class="n">ORDER_COL_USERFIELDS</span>
-<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="kn">import</span> <span class="n">partgroup_qty</span><span class="p">,</span> <span class="n">order_refs</span><span class="p">,</span> <span class="n">PART_REF_REGEX</span>
+<span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="kn">import</span> <span class="n">order_refs</span><span class="p">,</span> <span class="n">PART_REF_REGEX</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">DistData</span>
 
 <span class="kn">from</span> <span class="nn">.currency_converter</span> <span class="kn">import</span> <span class="n">CurrencyConverter</span><span class="p">,</span> <span class="n">get_currency_symbol</span><span class="p">,</span> <span class="n">format_currency</span>
 <span class="n">currency_convert</span> <span class="o">=</span> <span class="n">CurrencyConverter</span><span class="p">()</span><span class="o">.</span><span class="n">convert</span>
@@ -145,8 +146,12 @@
     <span class="n">ABOUT_MSG</span> <span class="o">=</span> <span class="s1">&#39;KiCost</span><span class="se">\N{REGISTERED SIGN}</span><span class="s1"> v&#39;</span> <span class="o">+</span> <span class="n">__version__</span>
     <span class="c1"># Try to group references as ranges</span>
     <span class="n">COLLAPSE_REFS</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># Sort the groups</span>
+    <span class="n">SORT_GROUPS</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="c1"># Don&#39;t add the link column</span>
     <span class="n">SUPPRESS_CAT_URL</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="c1"># Don&#39;t add the description column</span>
+    <span class="n">SUPPRESS_DIST_DESC</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="c1"># Columns to add to the global section</span>
     <span class="n">USER_FIELDS</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c1"># List of selected distributors</span>
@@ -323,7 +328,7 @@
         <span class="c1"># Currency format and symbol definition</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_currency</span><span class="p">(</span><span class="n">currency</span><span class="p">)</span>
         <span class="c1"># Extra information characteristics of the components gotten in the page that will be displayed as comment in the &#39;cat#&#39; column.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">extra_info_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;tolerance&#39;</span><span class="p">,</span> <span class="s1">&#39;footprint&#39;</span><span class="p">,</span> <span class="s1">&#39;power&#39;</span><span class="p">,</span> <span class="s1">&#39;current&#39;</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span> <span class="s1">&#39;frequency&#39;</span><span class="p">,</span> <span class="s1">&#39;temp_coeff&#39;</span><span class="p">,</span> <span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra_info_display</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="s1">&#39;tolerance&#39;</span><span class="p">,</span> <span class="s1">&#39;footprint&#39;</span><span class="p">,</span> <span class="s1">&#39;power&#39;</span><span class="p">,</span> <span class="s1">&#39;current&#39;</span><span class="p">,</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span> <span class="s1">&#39;frequency&#39;</span><span class="p">,</span> <span class="s1">&#39;temp_coeff&#39;</span><span class="p">,</span> <span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;size&#39;</span><span class="p">]</span>
         <span class="c1"># Create the worksheet that holds the pricing information.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wks</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="n">worksheet_name</span><span class="p">)</span>
         <span class="c1"># Data to performe cell size adjust</span>
@@ -463,7 +468,8 @@
 
 
 <div class="viewcode-block" id="create_spreadsheet"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.create_spreadsheet">[docs]</a><span class="k">def</span> <span class="nf">create_spreadsheet</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">,</span> <span class="n">spreadsheet_filename</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">,</span>
-                       <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">user_fields</span><span class="o">=</span><span class="p">[],</span> <span class="n">variant</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">max_column_width</span><span class="o">=</span><span class="n">DEF_MAX_COLUMN_W</span><span class="p">):</span>
+                       <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">user_fields</span><span class="o">=</span><span class="p">[],</span> <span class="n">variant</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span>
+                       <span class="n">max_column_width</span><span class="o">=</span><span class="n">DEF_MAX_COLUMN_W</span><span class="p">,</span> <span class="n">suppress_dist_desc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Create a spreadsheet using the info for the parts (including their HTML trees).&#39;&#39;&#39;</span>
     <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">spreadsheet_filename</span><span class="p">)</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
@@ -487,6 +493,7 @@
     <span class="k">with</span> <span class="n">xlsxwriter</span><span class="o">.</span><span class="n">Workbook</span><span class="p">(</span><span class="n">spreadsheet_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">workbook</span><span class="p">:</span>
         <span class="n">Spreadsheet</span><span class="o">.</span><span class="n">COLLAPSE_REFS</span> <span class="o">=</span> <span class="n">collapse_refs</span>
         <span class="n">Spreadsheet</span><span class="o">.</span><span class="n">SUPPRESS_CAT_URL</span> <span class="o">=</span> <span class="n">suppress_cat_url</span>
+        <span class="n">Spreadsheet</span><span class="o">.</span><span class="n">SUPPRESS_DIST_DESC</span> <span class="o">=</span> <span class="n">suppress_dist_desc</span>
         <span class="n">Spreadsheet</span><span class="o">.</span><span class="n">USER_FIELDS</span> <span class="o">=</span> <span class="n">user_fields</span>
         <span class="n">Spreadsheet</span><span class="o">.</span><span class="n">DISTRIBUTORS</span> <span class="o">=</span> <span class="n">dist_list</span>
         <span class="k">if</span> <span class="n">max_column_width</span><span class="p">:</span>
@@ -537,6 +544,10 @@
         <span class="n">d_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">DISTRIBUTOR_COLUMNS</span><span class="p">)</span>
         <span class="n">ss</span><span class="o">.</span><span class="n">DISTRIBUTOR_COLUMNS</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;col&#39;</span><span class="p">:</span> <span class="n">d_width</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;URL&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="s1">&#39;Distributor catalog link (ctrl-click).&#39;</span><span class="p">}})</span>
         <span class="n">ss</span><span class="o">.</span><span class="n">DISTRIBUTOR_COLUMNS</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">][</span><span class="s1">&#39;comment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Distributor-assigned catalog number for each part. Extra distributor data is shown as comment.&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ss</span><span class="o">.</span><span class="n">SUPPRESS_DIST_DESC</span><span class="p">:</span>
+        <span class="c1"># Add a extra column for the description.</span>
+        <span class="n">d_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">DISTRIBUTOR_COLUMNS</span><span class="p">)</span>
+        <span class="n">ss</span><span class="o">.</span><span class="n">DISTRIBUTOR_COLUMNS</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;description&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;col&#39;</span><span class="p">:</span> <span class="n">d_width</span><span class="p">,</span> <span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Description&#39;</span><span class="p">,</span> <span class="s1">&#39;width&#39;</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="s1">&#39;comment&#39;</span><span class="p">:</span> <span class="s1">&#39;Distributor description&#39;</span><span class="p">}})</span>
 
     <span class="c1"># Make a list of alphabetically-ordered distributors with web distributors before locals.</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Sorting the distributors...&#39;</span><span class="p">)</span>
@@ -546,13 +557,6 @@
         <span class="n">dist_list</span> <span class="o">=</span> <span class="n">web_dists</span> <span class="o">+</span> <span class="n">local_dists</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">dist_list</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">DISTRIBUTORS</span>
-    <span class="c1"># Make sure we have the number of boards for each project</span>
-    <span class="k">for</span> <span class="n">p_info</span> <span class="ow">in</span> <span class="n">prj_info</span><span class="p">:</span>
-        <span class="k">if</span> <span class="s1">&#39;qty&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">p_info</span><span class="p">:</span>
-            <span class="n">p_info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">DEFAULT_BUILD_QTY</span>
-    <span class="c1"># Compute some values needed for the parts</span>
-    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
-        <span class="n">part</span><span class="o">.</span><span class="n">qty_str</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">=</span> <span class="n">partgroup_qty</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
 
     <span class="c1"># Fill the global information (not distributor-specific)</span>
     <span class="c1"># Skip the prices, will fill them after we fill the distributors</span>
@@ -721,7 +725,8 @@
         <span class="n">part</span><span class="o">.</span><span class="n">collapsed_refs</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">first_ref</span> <span class="o">=</span> <span class="n">order_refs</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="n">ss</span><span class="o">.</span><span class="n">COLLAPSE_REFS</span><span class="p">,</span> <span class="n">ref_sep</span><span class="o">=</span><span class="n">ss</span><span class="o">.</span><span class="n">PART_NSEQ_SEPRTR</span><span class="p">)</span>
 
     <span class="c1"># Then, order the part references with priority ref prefix, ref num, and subpart num.</span>
-    <span class="n">parts</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">get_ref_key</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ss</span><span class="o">.</span><span class="n">SORT_GROUPS</span><span class="p">:</span>
+        <span class="n">parts</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">get_ref_key</span><span class="p">)</span>
 
     <span class="c1"># Add the global part data to the spreadsheet.</span>
     <span class="n">col_qty</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">col</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
@@ -764,22 +769,20 @@
             <span class="n">ss</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">n_col</span><span class="p">,</span> <span class="n">field_value</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span>
 
         <span class="c1"># Enter total part quantity needed.</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span>
         <span class="k">if</span> <span class="n">num_prj</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="c1"># Multifiles BOM case, write each quantity and after,</span>
             <span class="c1"># in the &#39;qty&#39; column the total quantity as ceil of</span>
             <span class="c1"># the total quantity (to ceil use a Microsoft Excel</span>
             <span class="c1"># compatible function.</span>
-            <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">i_prj</span><span class="p">,</span> <span class="n">p_info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">prj_info</span><span class="p">):</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">*</span> <span class="n">p_info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]:</span>
                     <span class="n">ss</span><span class="o">.</span><span class="n">num_parts</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">total</span> <span class="o">+=</span> <span class="n">value</span>
                 <span class="nb">id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">i_prj</span><span class="p">)</span>
                 <span class="c1"># Qty.PrjN</span>
                 <span class="n">wks</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">col</span><span class="p">[</span><span class="s1">&#39;qty_prj&#39;</span><span class="o">+</span><span class="nb">id</span><span class="p">],</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_str</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;BoardQty&#39;</span><span class="o">+</span><span class="nb">id</span><span class="p">),</span> <span class="n">ss</span><span class="o">.</span><span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;part_format&#39;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">)</span>
             <span class="c1"># Build Quantity</span>
-            <span class="n">total</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
             <span class="n">wks</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_qty</span><span class="p">,</span>
                               <span class="s1">&#39;=CEILING(SUM(</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">),1)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">xl_rowcol_to_cell</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">col</span><span class="p">[</span><span class="s1">&#39;qty_prj0&#39;</span><span class="p">]),</span>
                                                               <span class="n">xl_rowcol_to_cell</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_qty</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span>
@@ -787,9 +790,7 @@
                               <span class="n">value</span><span class="o">=</span><span class="n">total</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Build Quantity</span>
-            <span class="n">total</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">*</span> <span class="n">ss</span><span class="o">.</span><span class="n">prj_info</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qty&#39;</span><span class="p">])</span>
             <span class="n">wks</span><span class="o">.</span><span class="n">write_formula</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_qty</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_str</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;BoardQty&#39;</span><span class="p">),</span> <span class="n">ss</span><span class="o">.</span><span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;part_format&#39;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="n">total</span><span class="p">)</span>
-        <span class="n">part</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span> <span class="o">=</span> <span class="n">total</span>
         <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Go to next row.</span>
 
     <span class="c1"># Return column following the globals so we know where to start next set of cells.</span>
@@ -831,7 +832,9 @@
         <span class="n">dist_code_avail</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">ss</span><span class="o">.</span><span class="n">DISTRIBUTORS</span><span class="p">):</span>
             <span class="c1"># Get the currencies used among all distributors.</span>
-            <span class="n">used_currencies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">DEFAULT_CURRENCY</span><span class="p">))</span>
+            <span class="n">dd</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">dd</span> <span class="ow">and</span> <span class="n">dd</span><span class="o">.</span><span class="n">currency</span><span class="p">:</span>
+                <span class="n">used_currencies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">currency</span><span class="p">)</span>
             <span class="c1"># Cells we use</span>
             <span class="n">col_dist</span> <span class="o">=</span> <span class="n">dist_cols</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span>
             <span class="n">avail_cell</span> <span class="o">=</span> <span class="n">xl_rowcol_to_cell</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_dist</span><span class="o">+</span><span class="mi">0</span><span class="p">)</span>
@@ -929,6 +932,8 @@
 
     <span class="c1"># Get the actual currency rate to use.</span>
     <span class="n">next_line</span> <span class="o">=</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">used_currencies</span><span class="p">:</span>
+        <span class="n">used_currencies</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">DEFAULT_CURRENCY</span><span class="p">)</span>
     <span class="n">used_currencies</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">used_currencies</span><span class="p">))</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting distributor currency convertion rate </span><span class="si">{}</span><span class="s1"> to </span><span class="si">{}</span><span class="s1">...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">used_currencies</span><span class="p">,</span> <span class="n">ss</span><span class="o">.</span><span class="n">currency</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">used_currencies</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -990,23 +995,29 @@
     <span class="n">col_unit_price</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;unit_price&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>
     <span class="n">col_ext_price</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;ext_price&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>
     <span class="n">col_moq</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;moq&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ss</span><span class="o">.</span><span class="n">SUPPRESS_DIST_DESC</span><span class="p">:</span>
+        <span class="n">col_desc</span> <span class="o">=</span> <span class="n">start_col</span> <span class="o">+</span> <span class="n">columns</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">][</span><span class="s1">&#39;col&#39;</span><span class="p">]</span>
     <span class="n">total_cost</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="c1"># How many parts were found at this distributor</span>
     <span class="n">n_price_found</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">if</span> <span class="n">num_prj</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="n">n_price_found_l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">num_prj</span>
         <span class="n">total_cost_l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">num_prj</span>
+    <span class="c1"># Empty object used when no data is available for a distributor</span>
+    <span class="n">empty_dd</span> <span class="o">=</span> <span class="n">DistData</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
-        <span class="n">dist_part_num</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">part_num</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>  <span class="c1"># Get the distributor part number.</span>
-        <span class="n">price_tiers</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">price_tiers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="p">{})</span>  <span class="c1"># Extract price tiers from distributor HTML page tree.</span>
-        <span class="n">dist_qty_avail</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_avail</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="c1"># Get the DistData for this distributor</span>
+        <span class="n">dd</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">empty_dd</span><span class="p">)</span>
+        <span class="n">dist_part_num</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span>  <span class="c1"># Get the distributor part number.</span>
+        <span class="n">price_tiers</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span>  <span class="c1"># Extract price tiers from distributor HTML page tree.</span>
+        <span class="n">dist_qty_avail</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span>
         <span class="c1"># If the part number doesn&#39;t exist, just leave this row blank.</span>
         <span class="c1"># if dist_part_num is None or dist_qty_avail is None or len(price_tiers) == 0:</span>
         <span class="k">if</span> <span class="n">dist_part_num</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">row</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Skip this row and go to the next.</span>
             <span class="k">continue</span>
-        <span class="n">dist_info_dist</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">info_dist</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="p">{})</span>
-        <span class="n">dist_currency</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">currency</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>  <span class="c1"># Extract currency used by the distributor.</span>
+        <span class="n">dist_info_dist</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span>
+        <span class="n">dist_currency</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">currency</span>  <span class="c1"># Extract currency used by the distributor.</span>
 
         <span class="c1"># Enter distributor part number for ordering purposes.</span>
         <span class="k">if</span> <span class="n">dist_part_num</span><span class="p">:</span>
@@ -1024,7 +1035,7 @@
         <span class="c1"># is no valid quantity or pricing for the part (see next conditional).</span>
         <span class="c1"># Having the link present will help debug if the extraction of the</span>
         <span class="c1"># quantity or pricing information was done correctly.</span>
-        <span class="n">dist_url</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+        <span class="n">dist_url</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">url</span>
         <span class="k">if</span> <span class="n">dist_url</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ss</span><span class="o">.</span><span class="n">SUPPRESS_CAT_URL</span><span class="p">:</span>
                 <span class="n">ss</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_part_num</span><span class="p">,</span> <span class="n">dist_url</span><span class="p">,</span> <span class="s1">&#39;part_format&#39;</span><span class="p">,</span> <span class="n">dist_part_num</span><span class="p">)</span>
@@ -1041,6 +1052,9 @@
 
         <span class="c1"># Purchase quantity always starts as blank because nothing has been purchased yet.</span>
         <span class="n">wks</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_purch</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ss</span><span class="o">.</span><span class="n">wrk_formats</span><span class="p">[</span><span class="s1">&#39;part_format&#39;</span><span class="p">])</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ss</span><span class="o">.</span><span class="n">SUPPRESS_DIST_DESC</span> <span class="ow">and</span> <span class="s1">&#39;desc&#39;</span> <span class="ow">in</span> <span class="n">dist_info_dist</span><span class="p">:</span>
+            <span class="n">ss</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col_desc</span><span class="p">,</span> <span class="n">dist_info_dist</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">],</span> <span class="s1">&#39;part_format&#39;</span><span class="p">)</span>
 
         <span class="c1"># Add pricing information if it exists. (Unit$/Ext$)</span>
         <span class="k">if</span> <span class="n">price_tiers</span><span class="p">:</span>
@@ -1250,7 +1264,9 @@
             <span class="n">info_col</span> <span class="o">=</span> <span class="n">columns_global</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">info_col</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_NOPURCH</span><span class="o">+</span><span class="s2">&quot;Not valid field `</span><span class="si">{f}</span><span class="s2">` for purchase list at </span><span class="si">{d}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">label</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># None is used to generate an empty column, isn&#39;t a problem</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_NOPURCH</span><span class="o">+</span><span class="s2">&quot;Not valid field `</span><span class="si">{f}</span><span class="s2">` for purchase list at </span><span class="si">{d}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">label</span><span class="p">))</span>
         <span class="n">cell</span> <span class="o">=</span> <span class="n">xl_range</span><span class="p">(</span><span class="n">first_part</span><span class="p">,</span> <span class="n">info_col</span><span class="p">,</span> <span class="n">last_part</span><span class="p">)</span>
         <span class="c1"># Deal with conversion and string replace necessary to the correct distributors</span>
         <span class="c1"># code understanding.</span>
@@ -1263,7 +1279,7 @@
             <span class="c1"># Add text conversion if is a numeric cell.</span>
             <span class="c1"># Also make it a multiple of the MOQ.</span>
             <span class="c1"># Note: IF(ISNUMBER({moq}),{moq},1) prevents a /0 error</span>
-            <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;TEXT(ROUNDUP(</span><span class="si">{purch}</span><span class="s1">/IF(ISNUMBER(</span><span class="si">{moq}</span><span class="s1">),</span><span class="si">{moq}</span><span class="s1">,1))*</span><span class="si">{moq}</span><span class="s1">,&quot;##0&quot;)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purch</span><span class="o">=</span><span class="n">cell</span><span class="p">,</span> <span class="n">moq</span><span class="o">=</span><span class="n">moq_range</span><span class="p">))</span>
+            <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;TEXT(ROUNDUP(</span><span class="si">{purch}</span><span class="s1">/IF(ISNUMBER(</span><span class="si">{moq}</span><span class="s1">),</span><span class="si">{moq}</span><span class="s1">,1),0)*</span><span class="si">{moq}</span><span class="s1">,&quot;##0&quot;)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">purch</span><span class="o">=</span><span class="n">cell</span><span class="p">,</span> <span class="n">moq</span><span class="o">=</span><span class="n">moq_range</span><span class="p">))</span>
         <span class="k">elif</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;manf#&#39;</span><span class="p">]:</span>
             <span class="c1"># Part number goes without changes</span>
             <span class="n">order_part_info</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
@@ -1363,7 +1379,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.spreadsheet</a></li> 

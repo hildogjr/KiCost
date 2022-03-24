@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuration file &#8212; kicost 1.1.7 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="configuration-file">
+<h1>Configuration file<a class="headerlink" href="#configuration-file" title="Permalink to this headline">¶</a></h1>
+<p>The configuration is read from <cite>~/.config/kicost/config.yaml</cite>. Where <cite>~</cite> is the user’s directory.</p>
+<p>You can specify the name of the configuration file from the command line using <cite>-c</cite> or <cite>–config</cite> options.</p>
+<p>Currently the main purpose of this file is to configure the distributors APIs.</p>
+<p>The format is YAML and here is an example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># KiCost configuration file</span>
+<span class="n">kicost</span><span class="p">:</span>
+  <span class="n">version</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="c1"># Cache Time To Live in days, -1 is forever</span>
+  <span class="c1"># Default is 7</span>
+  <span class="n">cache_ttl</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+  <span class="c1"># Base directory for the APIs caches</span>
+  <span class="c1"># cache_path: ~/.cache/kicost</span>
+
+
+<span class="n">APIs</span><span class="p">:</span>
+  <span class="n">Digi</span><span class="o">-</span><span class="n">Key</span><span class="p">:</span>
+    <span class="c1"># Digi-Key Client ID for a registered APP</span>
+    <span class="c1"># client_id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+    <span class="c1"># Digi-Key Client Secret for a registered APP</span>
+    <span class="c1"># client_secret: XXXXXXXXXXXXXXXX</span>
+    <span class="c1"># Use the sandbox server, doesn&#39;t count the usage, but returns old data</span>
+    <span class="c1"># sandbox: false</span>
+    <span class="c1"># Only enabled if the client_id and client_secret are defined</span>
+    <span class="c1"># enable: true</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Digi-Key</span>
+  <span class="n">Mouser</span><span class="p">:</span>
+    <span class="c1"># Mouser Part API key</span>
+    <span class="c1"># key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+    <span class="c1"># Only enabled if the key is defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Mouser</span>
+  <span class="n">Element14</span><span class="p">:</span>
+    <span class="c1"># Element14 includes: Farnell, Newark and CPC</span>
+    <span class="c1"># Element14 Product Search API key</span>
+    <span class="c1"># key: XXXXXXXXXXXXXXXXXXXXXXXX</span>
+    <span class="c1"># Only enabled if the key is defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Country used for Farnell queries.</span>
+    <span class="c1"># Supported countries: BG,CZ,DK,AT,CH,DE,IE,IL,UK,ES,EE,FI,FR,HU,IT,LT,</span>
+    <span class="c1"># LV,BE,NL,NO,PL,PT,RO,RU,SK,SI,SE,TR,CN,AU,NZ,HK,SG,MY,PH,TH,IN,KR,VN</span>
+    <span class="c1"># farnell_country: UK</span>
+    <span class="c1"># Country used for Newark queries.</span>
+    <span class="c1"># Supported countries: US,CA,MX</span>
+    <span class="c1"># newark_country: US</span>
+    <span class="c1"># Country used for CPC queries.</span>
+    <span class="c1"># Supported countries: UK,IE</span>
+    <span class="c1"># cpc_country: UK</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Element14</span>
+  <span class="n">Octopart</span><span class="p">:</span>
+    <span class="c1"># Octopart API Key</span>
+    <span class="c1"># key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</span>
+    <span class="c1"># API level: 3 or 4</span>
+    <span class="c1"># level: 4</span>
+    <span class="c1"># The extended API is for the Pro plan</span>
+    <span class="c1"># extended: false</span>
+    <span class="c1"># Only enabled if the key is defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Octopart</span>
+  <span class="n">KitSpace</span><span class="p">:</span>
+    <span class="c1"># Normally enabled</span>
+    <span class="c1"># enable: true</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/KitSpace</span>
+  <span class="n">TME</span><span class="p">:</span>
+    <span class="c1"># TME token (anonymous or private)</span>
+    <span class="c1"># token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+    <span class="c1"># TME application secret</span>
+    <span class="c1"># app_secret: XXXXXXXXXXXXXXXXXXXX</span>
+    <span class="c1"># Only enabled if the token and app_secret are defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Country where we are buying</span>
+    <span class="c1"># country: US</span>
+    <span class="c1"># Language for the texts</span>
+    <span class="c1"># language: EN</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/TME</span>
+</pre></div>
+</div>
+<p>Data from the APIs is cached <cite>cache_ttl</cite> days, using -1 means to keep them cached forever.
+Using 0 will force to do all searches again (no cache).</p>
+<p>You don’t need to specify the <cite>cache_path</cite> for each API, they are derived from the main option.
+The default value for the main cache path is <cite>~/.cache/kicost</cite>.</p>
+<p>The <cite>KitSpace</cite> API is the only API that doesn’t need a key to be used.
+This is a service kindly provided by the <a class="reference external" href="https://kitspace.org/">KitSpace</a> project.
+As such, is a limited resource. So you should consider getting keys for the distributors you use.</p>
+<p>The <cite>Octopart</cite> API provides access to various distributors. It has a free option, with strong limits.
+Note that you need to provide a valid credit card in order to get a free key.</p>
+<p>The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.</p>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="previous chapter">Usage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="contributing.html"
+                        title="next chapter">Contributing</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/configuration.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

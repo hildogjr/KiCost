@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.global_vars &#8212; kicost 1.1.5 documentation</title>
+    <title>kicost.global_vars &#8212; kicost 1.1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.global_vars</a></li> 
@@ -102,7 +102,7 @@
 <span class="n">ERR_FIELDS</span> <span class="o">=</span> <span class="mi">7</span>  <span class="c1"># Some inconsistency with the fields</span>
 
 <span class="c1"># Warning codes</span>
-<span class="n">W_TRANS</span> <span class="o">=</span> <span class="s1">&#39;(WC001) &#39;</span>  <span class="c1"># Problem wit field translate</span>
+<span class="n">W_TRANS</span> <span class="o">=</span> <span class="s1">&#39;(WC001) &#39;</span>  <span class="c1"># Problem with field translate</span>
 <span class="n">W_NOMANP</span> <span class="o">=</span> <span class="s1">&#39;(WC002) &#39;</span>  <span class="c1"># No manf# or distributor#</span>
 <span class="n">W_CONF</span> <span class="o">=</span> <span class="s1">&#39;(WC003) &#39;</span>  <span class="c1"># Problem during --un/setup</span>
 <span class="n">W_NOPURCH</span> <span class="o">=</span> <span class="s1">&#39;(WC004) &#39;</span>  <span class="c1"># No valid field for purchase</span>
@@ -118,6 +118,12 @@
 <span class="n">W_MANQTY</span> <span class="o">=</span> <span class="s1">&#39;(WC014) &#39;</span>  <span class="c1"># Malformed manf#_qty</span>
 <span class="n">W_AMBIPN</span> <span class="o">=</span> <span class="s1">&#39;(WC015) &#39;</span>  <span class="c1"># Ambiguous mpn, needs better manf</span>
 <span class="n">W_LOCFAIL</span> <span class="o">=</span> <span class="s1">&#39;(WC016) &#39;</span>  <span class="c1"># Failed to set the locale</span>
+<span class="n">W_APIFAIL</span> <span class="o">=</span> <span class="s1">&#39;(WC017) &#39;</span>  <span class="c1"># Failed to init an API</span>
+<span class="n">W_CONFIG</span> <span class="o">=</span> <span class="s1">&#39;(WC018) &#39;</span>  <span class="c1"># Config file warning</span>
+<span class="n">W_CMDLINE</span> <span class="o">=</span> <span class="s1">&#39;(WC019) &#39;</span>  <span class="c1"># Command line warning</span>
+
+<span class="c1"># Data types for the options common to various APIs</span>
+<span class="n">BASE_OP_TYPES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;enable&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;cache_ttl&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
 
 
 <div class="viewcode-block" id="PartHtmlError"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.PartHtmlError">[docs]</a><span class="k">class</span> <span class="nc">PartHtmlError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -176,7 +182,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.global_vars</a></li> 

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors &#8212; kicost 1.1.5 documentation</title>
+    <title>kicost.distributors &#8212; kicost 1.1.7 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors</a></li> 
@@ -74,13 +74,17 @@
 <span class="kn">from</span> <span class="nn">.dist_local_template</span> <span class="kn">import</span> <span class="n">dist_local_template</span>  <span class="c1"># noqa: F401</span>
 <span class="kn">from</span> <span class="nn">.api_octopart</span> <span class="kn">import</span> <span class="n">api_octopart</span>  <span class="c1"># noqa: F401</span>
 <span class="kn">from</span> <span class="nn">.api_partinfo_kitspace</span> <span class="kn">import</span> <span class="n">api_partinfo_kitspace</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.api_digikey</span> <span class="kn">import</span> <span class="n">api_digikey</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.api_mouser</span> <span class="kn">import</span> <span class="n">api_mouser</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.api_element14</span> <span class="kn">import</span> <span class="n">api_element14</span>  <span class="c1"># noqa: F401</span>
+<span class="kn">from</span> <span class="nn">.api_tme</span> <span class="kn">import</span> <span class="n">api_tme</span>  <span class="c1"># noqa: F401</span>
 
 
 <span class="c1">#</span>
 <span class="c1"># Some wrappers</span>
 <span class="c1">#</span>
 <div class="viewcode-block" id="init_distributor_dict"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.init_distributor_dict">[docs]</a><span class="k">def</span> <span class="nf">init_distributor_dict</span><span class="p">():</span>
-    <span class="n">distributor_class</span><span class="o">.</span><span class="n">init_dist_dict</span><span class="p">()</span></div>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">main_init_dist_dict</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="get_dist_parts_info"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_dist_parts_info">[docs]</a><span class="k">def</span> <span class="nf">get_dist_parts_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
@@ -122,9 +126,9 @@
     <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="bp">cls</span></div>
 
 
-<div class="viewcode-block" id="set_api_options"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_api_options">[docs]</a><span class="k">def</span> <span class="nf">set_api_options</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Configure an API (by name) &#39;&#39;&#39;</span>
-    <span class="n">distributor_class</span><span class="o">.</span><span class="n">set_api_options</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+<div class="viewcode-block" id="configure_apis"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.configure_apis">[docs]</a><span class="k">def</span> <span class="nf">configure_apis</span><span class="p">(</span><span class="n">options</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Configure all APIs. options is a dict API -&gt; api_options &#39;&#39;&#39;</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">configure_apis</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="set_api_status"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_api_status">[docs]</a><span class="k">def</span> <span class="nf">set_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">enabled</span><span class="p">):</span>
@@ -137,8 +141,23 @@
     <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">)</span></div>
 
 
-<span class="c1"># Init distributor dict during import.</span>
-<span class="n">init_distributor_dict</span><span class="p">()</span>
+<div class="viewcode-block" id="is_valid_api"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.is_valid_api">[docs]</a><span class="k">def</span> <span class="nf">is_valid_api</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39; Determines if this API is registered &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">_get_api</span><span class="p">(</span><span class="n">api</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="get_api_list"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_api_list">[docs]</a><span class="k">def</span> <span class="nf">get_api_list</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Returns a list of registered APIs &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">api</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">registered</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_api_valid_options"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_api_valid_options">[docs]</a><span class="k">def</span> <span class="nf">get_api_valid_options</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39; Returns the vali options for each API &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">api</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">api</span><span class="o">.</span><span class="n">config_options</span> <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">registered</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="configure_from_environment"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.configure_from_environment">[docs]</a><span class="k">def</span> <span class="nf">configure_from_environment</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">):</span>
+    <span class="n">distributor_class</span><span class="o">.</span><span class="n">configure_from_environment</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">)</span></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -170,7 +189,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors</a></li> 
