@@ -33,6 +33,7 @@ import re
 import sys
 import os
 import copy
+import pprint
 from collections import OrderedDict
 if sys.version_info[0] < 3:
     from urllib import quote_plus
@@ -366,6 +367,8 @@ class api_partinfo_kitspace(distributor_class):
             query.result, query.loaded = api_partinfo_kitspace.cache.load_results(prefix, name)
             if not query.loaded:
                 unsolved.append(query)
+            else:
+                debug_obsessive('Data from cache: '+pprint.pformat(query.result))
 
         # Solve the rest from the site
         n_unsolved = len(unsolved)
