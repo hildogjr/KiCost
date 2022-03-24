@@ -175,7 +175,8 @@ def load_config(file=None):
         if 'cache_path' not in ops:
             path = os.path.join(cache_path, api)
             ops['cache_path'] = path
-            if not os.path.exists(path):
-                os.makedirs(path)
+        path = ops['cache_path']
+        if not os.path.exists(path):
+            os.makedirs(path)
     logger.log(DEBUG_DETAILED, 'API options with defaults {}'.format(api_options))
     return api_options
