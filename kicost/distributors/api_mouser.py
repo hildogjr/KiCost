@@ -61,6 +61,10 @@ def get_number(string):
     index = next((i for i, d in enumerate(string) if d.isdigit()), None)
     if index is None:
         raise MouserError('Malformed price: ' + string)
+    string = string.replace(',', '.')
+    end = next((i for i, d in enumerate(string[index:], start=index) if not (d.isdigit() or d == '.')), None)
+    if end is not None:
+        return float(string[index:end])
     return float(string[index:])
 
 
