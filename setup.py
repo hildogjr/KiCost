@@ -142,7 +142,7 @@ setup(
     entry_points={'console_scripts': ['kicost = kicost.__main__:main']},
     package_dir={'kicost': 'kicost'},
     include_package_data=True,
-    package_data={'kicost': ['*.gif', '*.png']},
+    package_data={'kicost': ['*.gif', '*.png', '*.txt']},
     # data_files=data_files,
     scripts=[],
     install_requires=requirements,
