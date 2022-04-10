@@ -7,7 +7,7 @@ include kicost/kicost.ico
 include docs/block_diag.png
 include docs/gui.png
 include kicost/kitspace.png
-iniclude requirements.txt
+include requirements.txt
 
 
 #recursive-include tests *
