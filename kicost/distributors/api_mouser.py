@@ -214,7 +214,7 @@ class MouserPartSearchRequest(MouserBaseRequest):
         part_data = parts[0]
         # Merge
         for key in cleaned_data:
-            cleaned_data[key] = part_data[key]
+            cleaned_data[key] = part_data.get(key, cleaned_data[key])
         return cleaned_data
 
     def print_clean_response(self):
@@ -346,7 +346,7 @@ class api_mouser(distributor_class):
                 if res_stock:
                     dd.qty_avail = int(res_stock.group(1))
                 pb = data['PriceBreaks']
-                dd.currency = pb[0]['Currency']
+                dd.currency = pb[0]['Currency'] if pb else currency
                 dd.price_tiers = {p['Quantity']: get_number(p['Price']) for p in pb}
                 # Extra information
                 product_description = data['Description']
