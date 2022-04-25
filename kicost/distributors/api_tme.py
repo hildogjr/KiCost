@@ -133,6 +133,7 @@ class TME(object):
 
     def json_request(self, endpoint, params={}):
         reason = code = None
+        debug_obsessive('TME json request endpoint {} params {}'.format(endpoint, params))
         try:
             response = urlopen(self.request(endpoint, params))
         except URLError as e:
@@ -218,6 +219,8 @@ class TME(object):
         if loaded:
             debug_obsessive('Data from cache: '+pprint.pformat(data))
             return data
+        # The docs suggest that spaces are allowed, but I get 400 (Bad Request)
+        name = name.replace(' ', '-')
         parameters = {'Country': self.country,
                       'Language': self.language,
                       'SearchPlain': name,
