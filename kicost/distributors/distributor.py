@@ -152,7 +152,8 @@ class distributor_class(object):
             distributor_class.logger.log(DEBUG_OVERVIEW, 'Considering: {} {}'.format(api.name, api.api_distributors))
             if api.enabled and len(remaining.intersection(api.api_distributors)):
                 solved = api.query_part_info(parts, list(remaining), currency)
-                remaining -= solved
+                if solved:
+                    remaining -= solved
                 distributor_class.logger.log(DEBUG_OVERVIEW, 'Distributors solved {}, remaining {}'.format(solved, remaining))
 
     @classmethod
