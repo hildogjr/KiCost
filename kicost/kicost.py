@@ -70,10 +70,27 @@ from . import debug_detailed, debug_overview, is_debug_detailed, is_debug_overvi
 
 
 def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
+    """ Used to get the parts price and information.
+        Also used from outside KiCost. """
     if is_debug_overview():
         api_list = [d.name + ('(Disabled)' if not d.enabled else '') for d in get_registered_apis()]
         debug_overview('Scrape API list ' + str(api_list))
     get_dist_parts_info(parts, dist_list, currency)
+
+
+def solve_parts_qtys(parts, multi_prj, prj_info):
+    """ Used to fill the qty_str, qty and qty_total_spreadsheet members of the parts.
+        Also used from outside KiCost. """
+    for part in parts:
+        part.qty_str, part.qty = partgroup_qty(part)
+        # Total for all boards
+        if multi_prj:
+            total = 0
+            for i_prj, p_info in enumerate(prj_info):
+                total += part.qty[i_prj] * p_info['qty']
+        else:
+            total = part.qty * prj_info[0]['qty']
+        part.qty_total_spreadsheet = ceil(total)
 
 
 def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fields, translate_fields, variant, dist_list, collapse_refs=True,
@@ -229,16 +246,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
             p_info['qty'] = Spreadsheet.DEFAULT_BUILD_QTY
     multi_prj = len(prj_info) > 1
     # Compute the qtys
-    for part in parts:
-        part.qty_str, part.qty = partgroup_qty(part)
-        # Total for all boards
-        if multi_prj:
-            total = 0
-            for i_prj, p_info in enumerate(prj_info):
-                total += part.qty[i_prj] * p_info['qty']
-        else:
-            total = part.qty * prj_info[0]['qty']
-        part.qty_total_spreadsheet = ceil(total)
+    solve_parts_qtys(parts, multi_prj, prj_info)
     # Get the distributor pricing/etc for each part.
     query_part_info(parts, dist_list, currency)
 
