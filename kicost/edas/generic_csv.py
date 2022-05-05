@@ -36,10 +36,11 @@ from datetime import datetime
 from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
-from ..global_vars import ERR_INPUTFILE, KiCostError, W_DUPWRONG
+from ..global_vars import ERR_INPUTFILE, W_DUPWRONG
 from .tools import field_name_translations, split_refs
 from .eda import eda_class
 from .log__ import debug_overview, warning
+from .. import KiCostError
 
 
 GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are present.

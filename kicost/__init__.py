@@ -120,3 +120,11 @@ def get_logger():
 def set_logger(logger):
     global main_logger
     main_logger = logger
+
+
+class KiCostError(Exception):
+    '''Exception for any error while running kicost().'''
+    def __init__(self, msg, id):
+        super(self.__class__, self).__init__(msg)
+        self.msg = msg
+        self.id = id

@@ -57,8 +57,7 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import (DEFAULT_CURRENCY, SEPRTR, DEF_MAX_COLUMN_W, ERR_KICOSTCONFIG, ERR_ARGS, KiCostError,
-                          W_TRANS, W_NOMANP)
+from .global_vars import DEFAULT_CURRENCY, SEPRTR, DEF_MAX_COLUMN_W, ERR_KICOSTCONFIG, ERR_ARGS, W_TRANS, W_NOMANP
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
 from .edas.tools import field_name_translations, subpartqty_split, group_parts, PRJ_STR_DECLARE, PRJPART_SPRTR, partgroup_qty
@@ -67,7 +66,7 @@ from .edas import get_part_groups
 from .spreadsheet import create_spreadsheet, Spreadsheet
 # Import the scrape API
 from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info
-from . import debug_detailed, debug_overview, is_debug_detailed, is_debug_overview, error, warning
+from . import debug_detailed, debug_overview, is_debug_detailed, is_debug_overview, error, warning, KiCostError
 
 
 def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):

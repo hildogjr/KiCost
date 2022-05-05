@@ -28,7 +28,8 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 from .global_vars import (wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
-                          KiCostError, W_LOCFAIL)
+                          W_LOCFAIL)
+from . import KiCostError
 
 # Libraries.
 try:

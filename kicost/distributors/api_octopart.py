@@ -35,8 +35,8 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN, W_APIFAIL
-from .. import DistData
+from ..global_vars import ERR_SCRAPE, W_ASSQTY, W_AMBIPN, W_APIFAIL
+from .. import KiCostError, DistData
 # Distributors definitions.
 from .distributor import distributor_class, QueryCache
 from .log__ import debug_overview, debug_obsessive, warning

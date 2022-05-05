@@ -34,10 +34,10 @@ __company__ = 'University of Campinas - Brazil'
 # Python libraries.
 import os
 import sys
-from .global_vars import (PLATFORM_WINDOWS_STARTS_WITH, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, KiCostError, ERR_KICADCONFIG,
+from .global_vars import (PLATFORM_WINDOWS_STARTS_WITH, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, ERR_KICADCONFIG,
                           ERR_KICOSTCONFIG, W_CONF)
 from .kicad_config import get_app_config_path, bom_plugin_add_entry, bom_plugin_remove_entry, fields_add_entry, fields_remove_entry
-from . import info, error, warning
+from . import info, error, warning, KiCostError
 if sys.platform.startswith(PLATFORM_WINDOWS_STARTS_WITH):
     from .os_windows import reg_set, reg_del, reg_get
     if sys.version_info < (3, 0):

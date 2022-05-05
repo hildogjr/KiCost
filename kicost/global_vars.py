@@ -66,25 +66,12 @@ W_LOCFAIL = '(WC016) '  # Failed to set the locale
 W_APIFAIL = '(WC017) '  # Failed to init an API
 W_CONFIG = '(WC018) '  # Config file warning
 W_CMDLINE = '(WC019) '  # Command line warning
-W_NOAPI = '(WC020) '  # Command line warning
+W_NOAPI = '(WC020) '  # No API with this name
 
 # Data types for the options common to various APIs
 BASE_OP_TYPES = {'enable': bool, 'cache_ttl': (int, float), 'cache_path': str}
 
 
-class PartHtmlError(Exception):
-    '''Exception for failed retrieval of an HTML parse tree for a part.'''
-    pass
-
-
 class wxPythonNotPresent(Exception):
     '''Exception for failed retrieval of an HTML parse tree for a part.'''
     pass
-
-
-class KiCostError(Exception):
-    '''Exception for any error while running kicost().'''
-    def __init__(self, msg, id):
-        super(self.__class__, self).__init__(msg)
-        self.msg = msg
-        self.id = id

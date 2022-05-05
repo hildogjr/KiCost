@@ -37,7 +37,8 @@ try:
     import sexpdata  # Try to use a external updated library.
 except ImportError:
     from . import sexpdata  # Use the local file.
-from .global_vars import PLATFORM_MACOS_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH, KiCostError, ERR_KICADCONFIG  # Debug, language and default configurations.
+from .global_vars import PLATFORM_MACOS_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH, ERR_KICADCONFIG  # Debug, language and default configurations.
+from . import KiCostError
 
 __all__ = ['get_app_config_path',
            'PATH_KICAD_CONFIG', 'PATH_EESCHEMA_CONFIG',

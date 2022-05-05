@@ -32,7 +32,7 @@ import tqdm
 import logging
 import subprocess
 # Debug, language and default configurations.
-from .global_vars import wxPythonNotPresent, DEF_MAX_COLUMN_W, KiCostError, W_CMDLINE
+from .global_vars import wxPythonNotPresent, DEF_MAX_COLUMN_W, W_CMDLINE
 # Sub systems can be imported before logger
 from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
 from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, is_valid_api,
@@ -47,7 +47,7 @@ except wxPythonNotPresent:
     GUI_ENABLED = False
 from .spreadsheet import Spreadsheet
 from .config import load_config, config_force_ttl, config_force_path
-from . import __version__, __build__, debug_obsessive, debug_detailed, error, warning, info, get_logger, set_logger
+from . import __version__, __build__, debug_obsessive, debug_detailed, error, warning, info, get_logger, set_logger, KiCostError
 from . import log
 
 

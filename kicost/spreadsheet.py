@@ -28,8 +28,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Debug, language and default configurations.
-from .global_vars import (SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEF_MAX_COLUMN_W, W_NOPURCH, W_NOQTY,
-                          ERR_FIELDS, KiCostError)
+from .global_vars import SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEF_MAX_COLUMN_W, W_NOPURCH, W_NOQTY, ERR_FIELDS
 
 # Python libraries.
 import os
@@ -44,7 +43,7 @@ from validators import url as validate_url  # URL validator.
 # KiCost libraries.
 from .distributors import get_distributor_info, ORDER_COL_USERFIELDS
 from .edas.tools import order_refs, PART_REF_REGEX
-from . import DistData, __version__, warning, debug_overview, debug_detailed, debug_general
+from . import DistData, __version__, warning, debug_overview, debug_detailed, debug_general, KiCostError
 
 from .currency_converter import CurrencyConverter, get_currency_symbol, format_currency
 currency_convert = CurrencyConverter().convert
