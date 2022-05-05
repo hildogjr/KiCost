@@ -31,8 +31,7 @@ import os
 import pprint
 
 # KiCost definitions.
-from ..global_vars import W_NOINFO, ERR_SCRAPE, W_APIFAIL
-from .. import DistData, KiCostError
+from .. import DistData, KiCostError, W_NOINFO, ERR_SCRAPE, W_APIFAIL
 # Distributors definitions.
 from .distributor import distributor_class, QueryCache
 from .log__ import debug_detailed, debug_overview, debug_obsessive, warning

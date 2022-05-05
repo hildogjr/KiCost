@@ -47,8 +47,7 @@ else:
     from urllib.error import URLError
 
 # KiCost definitions.
-from ..global_vars import W_NOINFO, ERR_SCRAPE, W_APIFAIL
-from .. import KiCostError, DistData
+from .. import KiCostError, DistData, W_NOINFO, ERR_SCRAPE, W_APIFAIL
 # Distributors definitions.
 from .distributor import distributor_class, QueryCache
 from .log__ import debug_overview, debug_obsessive, debug_full, is_debug_full, warning

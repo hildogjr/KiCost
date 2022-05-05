@@ -24,8 +24,7 @@
 import os
 import re
 from collections import OrderedDict
-from .. import DEBUG_OVERVIEW, DEBUG_OBSESSIVE
-from ..global_vars import SEPRTR, W_FLDOVR
+from .. import DEBUG_OVERVIEW, DEBUG_OBSESSIVE, SEPRTR, W_FLDOVR
 from ..distributors import get_distributors_iter
 
 __all__ = ['eda_class', 'field_name_translations']

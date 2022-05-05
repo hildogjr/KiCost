@@ -28,7 +28,7 @@ from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
-from ..global_vars import SEPRTR
+from .. import SEPRTR
 from .eda import eda_class
 from .log__ import debug_overview
 

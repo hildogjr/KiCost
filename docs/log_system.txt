@@ -9,18 +9,18 @@ We use 3 "domains":
 - kicost.edas
 
 So we have 3 separated logger objects.
-- main_logger: defined in kicost/__init__.py
+- main_logger: defined in kicost/log__.py
 - distributor_class.logger: defined in kicost/distributors/distributor.py
 - eda_class.logger: defined in kicost/edas/eda.py
 
 We also have some wrappers to make the calls simpler, they are defined in:
-- kicost/__init__.py for the main_logger
+- kicost/log__.py for the main_logger
 - kicost/distributors/log__.py for the distributor_class.logger
 - kicost/edas/log__.py for the eda_class.logger
 
 The three loggers can be configured calling init_all_loggers defined in __main__.py
 
-The log level for debug is split in 10 sub-levels defined in kicost/__init__.py
+The log level for debug is split in 10 sub-levels defined in kicost/log__.py
 The wrappers helps to use them.
 
 To avoid circular dependencies kicost/distributors/distributor.py and kicost/edas/eda.py doesn't use the wrappers.

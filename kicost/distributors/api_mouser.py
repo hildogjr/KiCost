@@ -37,8 +37,7 @@ import requests
 import re
 
 # KiCost definitions.
-from ..global_vars import W_NOINFO, W_APIFAIL, ERR_SCRAPE
-from .. import KiCostError, DistData
+from .. import KiCostError, DistData, W_NOINFO, W_APIFAIL, ERR_SCRAPE
 # Distributors definitions.
 from .distributor import distributor_class, QueryCache
 from .log__ import debug_detailed, debug_overview, debug_obsessive, warning

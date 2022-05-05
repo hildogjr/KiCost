@@ -33,8 +33,7 @@ import requests
 import difflib
 
 # KiCost definitions.
-from ..global_vars import W_NOINFO, ERR_SCRAPE, W_APIFAIL, W_AMBIPN
-from .. import KiCostError, DistData
+from .. import KiCostError, DistData, W_NOINFO, ERR_SCRAPE, W_APIFAIL, W_AMBIPN
 # Distributors definitions.
 from .distributor import distributor_class, QueryCache
 from .log__ import debug_detailed, debug_overview, debug_obsessive, debug_full, warning, is_debug_full

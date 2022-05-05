@@ -41,8 +41,7 @@ else:
     from urllib.parse import quote_plus
 
 # KiCost definitions.
-from ..global_vars import DEFAULT_CURRENCY, ERR_SCRAPE, W_NOINFO, NO_PRICE
-from .. import KiCostError, DistData
+from .. import KiCostError, DistData, DEFAULT_CURRENCY, ERR_SCRAPE, W_NOINFO, NO_PRICE
 # Distributors definitions.
 from .distributor import distributor_class, QueryCache
 from .log__ import debug_overview, debug_obsessive, warning

@@ -35,11 +35,10 @@ import copy  # Necessary because Py2 doesn't have copy in list.
 from datetime import datetime
 from bs4 import BeautifulSoup  # To Read XML files.
 import re  # Regular expression parser.
-from ..global_vars import ERR_INPUTFILE  # Debug configurations.
 from .tools import field_name_translations, PART_REF_REGEX_NOT_ALLOWED
 from .eda import eda_class
 from .log__ import debug_overview
-from .. import KiCostError
+from .. import KiCostError, ERR_INPUTFILE
 
 ALTIUM_NONE = '[NoParam]'  # Value of Altium to `None`.
 ALTIUM_PART_SEPRTR = r'(?<!\\),\s*'  # Separator for the part numbers in a list, remove the lateral spaces.

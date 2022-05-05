@@ -132,6 +132,51 @@ class ProgressConsole(object):
         self.logger.propagate = True
 
 
+def command_line_api_options(api_options, args):
+    """ Applies the command line options that overrides the APIs config """
+    # Force API options from the command line
+    if args.cache_ttl is not None:
+        config_force_ttl(args.cache_ttl)
+    if args.cache_path is not None:
+        config_force_path(args.cache_path)
+    if args.octopart_key is not None:
+        api_options['Octopart']['key'] = args.octopart_key
+    if args.octopart_level is not None:
+        level = args.octopart_level
+        extended = False
+        if level[-1] == 'p':
+            extended = True
+            level = level[:-1]
+        api_options['Octopart']['level'] = level
+        api_options['Octopart']['extended'] = extended
+    for api in args.disable_api:
+        debug_obsessive('Disabling API ' + api)
+        if is_valid_api(api):
+            api_options[api]['enable'] = False
+        else:
+            warning(W_CMDLINE, 'Unknown API `{}`'.format(api))
+    for api in args.enable_api:
+        debug_obsessive('Enabling API ' + api)
+        if is_valid_api(api):
+            api_options[api]['enable'] = True
+        else:
+            warning(W_CMDLINE, 'Unknown API `{}`'.format(api))
+    debug_detailed('Final API options {}'.format(api_options))
+
+
+def configure_kicost_apis(config_file, overwrite, apply_user_opts, data):
+    # Configuration file
+    api_options = load_config(config_file)
+    # Environment, overwrite only if the config file wasn't specified in the command line
+    configure_from_environment(api_options, overwrite)
+    # Apply command line options
+    apply_user_opts(api_options, data)
+    # Configure the APIs
+    configure_apis(api_options)
+    # Now we can init the distributors dict
+    init_distributor_dict()
+
+
 ###############################################################################
 # Command-line interface.
 ###############################################################################
@@ -311,46 +356,8 @@ def main_real():
     except ImportError:
         error('No yaml module for Python, install it (i.e. python3-yaml)')
 
-    #
-    # Configuration
-    #
-    # Configuration file
-    api_options = load_config(args.config)
-    # Environment, overwrite only if the config file wasn't specified in the command line
-    configure_from_environment(api_options, args.config is None)
-    # Force API options from the command line
-    if args.cache_ttl is not None:
-        config_force_ttl(args.cache_ttl)
-    if args.cache_path is not None:
-        config_force_path(args.cache_path)
-    if args.octopart_key is not None:
-        api_options['Octopart']['key'] = args.octopart_key
-    if args.octopart_level is not None:
-        level = args.octopart_level
-        extended = False
-        if level[-1] == 'p':
-            extended = True
-            level = level[:-1]
-        api_options['Octopart']['level'] = level
-        api_options['Octopart']['extended'] = extended
-    for api in args.disable_api:
-        debug_obsessive('Disabling API ' + api)
-        if is_valid_api(api):
-            api_options[api]['enable'] = False
-        else:
-            warning(W_CMDLINE, 'Unknown API `{}`'.format(api))
-    for api in args.enable_api:
-        debug_obsessive('Enabling API ' + api)
-        if is_valid_api(api):
-            api_options[api]['enable'] = True
-        else:
-            warning(W_CMDLINE, 'Unknown API `{}`'.format(api))
-    debug_detailed('Final API options {}'.format(api_options))
-    # Configure the APIs
-    configure_apis(api_options)
-
-    # Now we can init the distributors dict, it can log messages
-    init_distributor_dict()
+    # APIs Configuration
+    configure_kicost_apis(args.config, args.config is None, command_line_api_options, args)
 
     # Setup and unsetup KiCost integration.
     if args.setup:

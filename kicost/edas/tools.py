@@ -31,11 +31,10 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 from collections import OrderedDict
 from .. import PartGroup
-from ..global_vars import SEPRTR, ERR_FIELDS, W_INCQTY, W_REPMAN, W_MANQTY
 from ..distributors import get_distributors_iter
 from .eda import field_name_translations
 from .log__ import debug_overview, debug_obsessive, debug_detailed, debug_full, warning, is_debug_full
-from .. import KiCostError
+from .. import KiCostError, SEPRTR, ERR_FIELDS, W_INCQTY, W_REPMAN, W_MANQTY
 
 __all__ = ['partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
 
