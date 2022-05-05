@@ -57,7 +57,7 @@ except NameError:
 # Only export this routine for use by the outside world.
 __all__ = ['kicost', 'output_filename', 'kicost_gui_notdependences', 'query_part_info']
 
-from .global_vars import (DEFAULT_CURRENCY, DEBUG_OVERVIEW, SEPRTR, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, ERR_KICOSTCONFIG, ERR_ARGS, KiCostError,
+from .global_vars import (DEFAULT_CURRENCY, SEPRTR, DEF_MAX_COLUMN_W, ERR_KICOSTCONFIG, ERR_ARGS, KiCostError,
                           W_TRANS, W_NOMANP)
 # * Import the KiCost libraries functions.
 # Import information for various EDA tools.
@@ -67,14 +67,13 @@ from .edas import get_part_groups
 from .spreadsheet import create_spreadsheet, Spreadsheet
 # Import the scrape API
 from .distributors import get_dist_parts_info, get_registered_apis, get_distributors_iter, get_distributor_info
-
-logger = get_logger()
+from . import debug_detailed, debug_overview, is_debug_detailed, is_debug_overview, error, warning
 
 
 def query_part_info(parts, dist_list, currency=DEFAULT_CURRENCY):
-    if logger.getEffectiveLevel() <= DEBUG_OVERVIEW:
+    if is_debug_overview():
         api_list = [d.name + ('(Disabled)' if not d.enabled else '') for d in get_registered_apis()]
-        logger.log(DEBUG_OVERVIEW, 'Scrape API list ' + str(api_list))
+        debug_overview('Scrape API list ' + str(api_list))
     get_dist_parts_info(parts, dist_list, currency)
 
 
@@ -113,8 +112,8 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         for c in range(0, len(translate_fields), 2):
             # field_name_translations.keys(), field_name_translations.values()
             if translate_fields[c] in field_name_translations.values():
-                logger.warning(W_TRANS+"Unable to re-translate \"{}\" to \"{}\", this is used as an internal field name.".format(
-                               translate_fields[c].lower(), translate_fields[c+1].lower()))
+                warning(W_TRANS, "Unable to re-translate \"{}\" to \"{}\", this is used as an internal field name.".
+                        format(translate_fields[c].lower(), translate_fields[c+1].lower()))
                 continue
             if translate_fields[c+1] != '~':
                 field_name_translations.update({translate_fields[c].lower(): translate_fields[c+1].lower()})
@@ -129,8 +128,8 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
     user_fields = list(OrderedDict([(lv, 1) for lv in user_fields]))  # Avoid repeated fields
     for f in user_fields:
         if f.lower() in field_name_translations:
-            logger.warning(W_TRANS+"\"{f}\" field is a reserved field and can not be used as user field."
-                           " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
+            warning(W_TRANS, "\"{f}\" field is a reserved field and can not be used as user field."
+                    " Try to remove it from internal dictionary using `--translate_fields {f} ~`".format(f=f.lower()))
             user_fields.remove(f)
 
     c_files = len(in_file)
@@ -165,7 +164,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
             # of number of BOM files. This vector will be used in the `group_parts()`
             # to create groups with elements of same 'manf#' that came from different
             # projects.
-            logger.log(DEBUG_OVERVIEW, 'Multi BOMs detected, attaching project identification to references...')
+            debug_overview('Multi BOMs detected, attaching project identification to references...')
             qty_base = ['0'] * c_files  # Zero for all projects
             for p_ref, p_fields in p.items():
                 # Copy the qty to the position corresponding to this project
@@ -214,14 +213,14 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
         new_list = []
         for d in dist_list:
             if d+'#' not in all_fields:
-                logger.warning(W_NOMANP+"No 'manf#' and '%s#' field in any part: no information by '%s'.",
-                               d, get_distributor_info(d).label.name)
+                warning(W_NOMANP, "No 'manf#' and '{}#' field in any part: no information by '{}'.".
+                        format(d, get_distributor_info(d).label.name))
             else:
                 new_list.append(d)
         dist_list = new_list
     # Debug the resulting list
-    if logger.isEnabledFor(DEBUG_DETAILED):
-        logger.log(DEBUG_DETAILED, 'Distributors: ' + pprint.pformat(dist_list))
+    if is_debug_detailed():
+        debug_detailed('Distributors: ' + pprint.pformat(dist_list))
     #
     # Solve the quantity for each group
     #
@@ -249,7 +248,7 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
                        user_fields, '-'.join(variant) if len(variant) > 1 else variant[0], max_column_width)
 
     # Print component groups for debugging purposes.
-    if logger.isEnabledFor(DEBUG_DETAILED):
+    if is_debug_detailed():
         for part in parts:
             for f in dir(part):
                 if f.startswith('__'):
@@ -259,13 +258,13 @@ def kicost(in_file, eda_name, out_filename, user_fields, ignore_fields, group_fi
                 else:
                     head = '{} = '.format(f)
                     try:
-                        logger.log(DEBUG_DETAILED, head + pprint.pformat(part.__dict__[f]))
+                        debug_detailed(head + pprint.pformat(part.__dict__[f]))
                     except TypeError:
                         # Python 2.7 pprint has some problem ordering None and strings.
-                        logger.log(DEBUG_DETAILED, head + str(part.__dict__[f]))
+                        debug_detailed(head + str(part.__dict__[f]))
                     except KeyError:
                         pass
-            logger.log(DEBUG_DETAILED, '')
+            debug_detailed('')
 
 
 # Maximum length of the name of the spreadsheet output generate, this is used in the multifiles to limit the
@@ -310,10 +309,10 @@ def output_filename(files_input):
 
 
 def kicost_gui_notdependences():
-    logger.error('You don\'t have the wxPython dependence to run the GUI interface.')
-    logger.error('Run once of the following commands in a terminal to install it:')
-    logger.error('pip3 install -U wxPython # For Windows & macOS')
-    logger.error('sudo apt-get install python3-wxgtk4.0 # Modern Linux derived from Debian, like Ubuntu')
-    logger.error('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
-    logger.error('Or download the last version from <https://wxpython.org/pages/downloads/>')
+    error('You don\'t have the wxPython dependence to run the GUI interface.')
+    error('Run once of the following commands in a terminal to install it:')
+    error('pip3 install -U wxPython # For Windows & macOS')
+    error('sudo apt-get install python3-wxgtk4.0 # Modern Linux derived from Debian, like Ubuntu')
+    error('pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04')
+    error('Or download the last version from <https://wxpython.org/pages/downloads/>')
     sys.exit(ERR_KICOSTCONFIG)

@@ -44,7 +44,8 @@ else:
 from ..global_vars import DEFAULT_CURRENCY, ERR_SCRAPE, KiCostError, W_NOINFO, NO_PRICE
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
+from .distributor import distributor_class, QueryCache
+from .log__ import debug_overview, debug_obsessive, warning
 
 
 # Uncomment for debug
@@ -373,7 +374,7 @@ class api_partinfo_kitspace(distributor_class):
 
         # Solve the rest from the site
         n_unsolved = len(unsolved)
-        debug_overview('Cached entries {}'.format(n_queries-n_unsolved))
+        debug_overview('Cached entries {} (of {})'.format(n_queries-n_unsolved, n_queries))
         if n_unsolved:
             # Setup progress bar to track progress of server queries.
             progress = distributor_class.progress(n_unsolved, distributor_class.logger)

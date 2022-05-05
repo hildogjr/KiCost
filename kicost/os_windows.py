@@ -30,8 +30,7 @@ __company__ = 'University of Campinas - Brazil'
 # shortcuts, plugins, ...
 
 import sys
-from .global_vars import get_logger
-logger = get_logger()
+from . import error
 
 if sys.platform.startswith('win32'):
     # Create the functions to deal with Windows registry, from http://stackoverflow.com/a/35286642
@@ -123,7 +122,7 @@ if sys.platform.startswith('win32'):
             # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except ConnectRegistryError:
-            logger.error('You should run this command as system administrator: run the terminal as administrator and type the command again.')
+            error('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             pass
         return False
@@ -139,7 +138,7 @@ if sys.platform.startswith('win32'):
             # SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')
             return True
         except ConnectRegistryError:
-            logger.error('You should run this command as system administrator: run the terminal as administrator and type the command again.')
+            error('You should run this command as system administrator: run the terminal as administrator and type the command again.')
         except WindowsError:
             pass
         return False

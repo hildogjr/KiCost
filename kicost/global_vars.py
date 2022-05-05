@@ -24,23 +24,9 @@
 
 """Stuff that everybody else needs to know about."""
 
-import logging
-
 PLATFORM_WINDOWS_STARTS_WITH = 'win32'
 PLATFORM_LINUX_STARTS_WITH = 'linux'
 PLATFORM_MACOS_STARTS_WITH = 'darwin'
-
-# The root logger of the application. This has to be the root logger to catch
-# output from libraries (e.g. requests) as well.
-logger = None
-
-DEBUG_OVERVIEW = logging.DEBUG
-DEBUG_DETAILED = logging.DEBUG-1
-DEBUG_OBSESSIVE = logging.DEBUG-2
-DEBUG_HTTP_HEADERS = logging.DEBUG-3
-DEBUG_HTTP_RESPONSES = logging.DEBUG-4
-DEBUG_FULL = logging.DEBUG-9
-# Minimum possible log level is logging.DEBUG-9 !
 
 SEPRTR = ':'  # Delimiter between library:component, distributor:field, etc.
 
@@ -80,6 +66,7 @@ W_LOCFAIL = '(WC016) '  # Failed to set the locale
 W_APIFAIL = '(WC017) '  # Failed to init an API
 W_CONFIG = '(WC018) '  # Config file warning
 W_CMDLINE = '(WC019) '  # Command line warning
+W_NOAPI = '(WC020) '  # Command line warning
 
 # Data types for the options common to various APIs
 BASE_OP_TYPES = {'enable': bool, 'cache_ttl': (int, float), 'cache_path': str}
@@ -101,12 +88,3 @@ class KiCostError(Exception):
         super(self.__class__, self).__init__(msg)
         self.msg = msg
         self.id = id
-
-
-def get_logger():
-    return logger
-
-
-def set_logger(lg):
-    global logger
-    logger = lg

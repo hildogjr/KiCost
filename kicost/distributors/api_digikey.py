@@ -34,7 +34,8 @@ import pprint
 from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache, debug_detailed, debug_overview, debug_obsessive, warning
+from .distributor import distributor_class, QueryCache
+from .log__ import debug_detailed, debug_overview, debug_obsessive, warning
 
 available = True
 try:

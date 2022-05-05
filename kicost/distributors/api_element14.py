@@ -33,10 +33,11 @@ import requests
 import difflib
 
 # KiCost definitions.
-from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL, W_AMBIPN, DEBUG_FULL
+from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL, W_AMBIPN
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache, debug_overview, debug_detailed, debug_obsessive, warning
+from .distributor import distributor_class, QueryCache
+from .log__ import debug_detailed, debug_overview, debug_obsessive, debug_full, warning, is_debug_full
 
 # Countries supported by Farnell (*.farnell.com)
 FARNELL_SUP = {'bg': 'EUR',
@@ -433,15 +434,11 @@ def _list_comp_options(data, show, msg):
     """ Debug function used to show the list of options """
     if not show:
         return
-    distributor_class.logger.log(DEBUG_FULL, '  - '+msg)
+    debug_full('  - '+msg)
     for c, d in enumerate(data):
-        distributor_class.logger.log(DEBUG_FULL, '  {}) {} {} inv: {} moq: {} status: {} price: {}'.
-                                     format(c+1, d['brandName'],
-                                            d['translatedManufacturerPartNumber'],
-                                            d['inv'],
-                                            d['translatedMinimumOrderQuality'],
-                                            d['productStatus'],
-                                            _get_price(d)))
+        debug_full('  {}) {} {} inv: {} moq: {} status: {} price: {}'.
+                   format(c+1, d['brandName'], d['translatedManufacturerPartNumber'], d['inv'],
+                          d['translatedMinimumOrderQuality'], d['productStatus'], _get_price(d)))
 
 
 def _select_best(data, manf, qty):
@@ -450,7 +447,7 @@ def _select_best(data, manf, qty):
     if c == 1:
         return data[0]
     debug_obsessive(' - Choosing the best match ({} options, qty: {} manf: {})'.format(c, qty, manf))
-    ultra_debug = distributor_class.logger.getEffectiveLevel() <= DEBUG_FULL
+    ultra_debug = is_debug_full()
     _list_comp_options(data, ultra_debug, 'Original list')
     # Try to choose the best manufacturer
     data2 = _filter_by_manf(data, manf)

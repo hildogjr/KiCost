@@ -35,26 +35,11 @@ import tqdm
 # QueryCache dependencies:
 import pickle
 import time
-from ..global_vars import DEFAULT_CURRENCY, DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OVERVIEW, BASE_OP_TYPES, DEBUG_DETAILED, DEBUG_OBSESSIVE
+from .. import DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+from ..global_vars import DEFAULT_CURRENCY, BASE_OP_TYPES, W_NOAPI
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
-
-
-def debug_detailed(*args):
-    distributor_class.logger.log(DEBUG_DETAILED, args)
-
-
-def debug_overview(*args):
-    distributor_class.logger.log(DEBUG_OVERVIEW, args)
-
-
-def debug_obsessive(*args):
-    distributor_class.logger.log(DEBUG_OBSESSIVE, args)
-
-
-def warning(code, msg):
-    distributor_class.logger.warning(code + msg)
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -140,21 +125,22 @@ class distributor_class(object):
     @staticmethod
     def get_dist_parts_info(parts, distributors, currency=DEFAULT_CURRENCY):
         ''' Get the parts info using the modules API/Scrape/Local.'''
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Starting to search using distributors: {}'.format(distributors))
+        from .log__ import debug_overview
+        debug_overview('Starting to search using distributors: {}'.format(distributors))
         # Discover user defined distributors
         for api in distributor_class.registered:
             if api.enabled:
                 api.update_distributors(parts, distributors)
-        distributor_class.logger.log(DEBUG_OVERVIEW, 'Distributors after local discovery: {}'.format(distributors))
+        debug_overview('Distributors after local discovery: {}'.format(distributors))
         # Now look for the parts
         remaining = set(distributors)
         for api in distributor_class.registered:
-            distributor_class.logger.log(DEBUG_OVERVIEW, 'Considering: {} {}'.format(api.name, api.api_distributors))
+            debug_overview('Considering: {} {}'.format(api.name, api.api_distributors))
             if api.enabled and len(remaining.intersection(api.api_distributors)):
                 solved = api.query_part_info(parts, list(remaining), currency)
                 if solved:
                     remaining -= solved
-                distributor_class.logger.log(DEBUG_OVERVIEW, 'Distributors solved {}, remaining {}'.format(solved, remaining))
+                debug_overview('Distributors solved {}, remaining {}'.format(solved, remaining))
 
     @classmethod
     def init_dist_dict(cls):
@@ -238,7 +224,7 @@ class distributor_class(object):
         if api:
             api.enabled = enabled
         else:
-            distributor_class.logger.warning('No API registered as `{}`'.format(api_name))
+            distributor_class.logger.warning(W_NOAPI+'No API registered as `{}`'.format(api_name))
 
     @staticmethod
     def get_api_status(api):

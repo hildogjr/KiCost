@@ -1,9 +1,19 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 # Export .version.__version__ as a module version
 from .version import __version__, __build__  # noqa: F401
+
+DEBUG_OVERVIEW = logging.DEBUG
+DEBUG_DETAILED = logging.DEBUG-1
+DEBUG_OBSESSIVE = logging.DEBUG-2
+DEBUG_HTTP_HEADERS = logging.DEBUG-3
+DEBUG_HTTP_RESPONSES = logging.DEBUG-4
+DEBUG_FULL = logging.DEBUG-9
+# Minimum possible log level is logging.DEBUG-9 !
 
 
 class DistData(object):
@@ -47,3 +57,66 @@ class PartGroup(object):
                 if old_value is not None and value not in old_value:
                     value = old_value + ', ' + value
             self.specs[code] = (name, value)
+
+
+# The root logger of the application. This has to be the root logger to catch
+# output from libraries (e.g. requests) as well.
+main_logger = None
+
+
+def debug(*args):
+    main_logger.log(*args)
+
+
+def debug_detailed(*args):
+    main_logger.log(DEBUG_DETAILED, *args)
+
+
+def is_debug_detailed():
+    return main_logger.getEffectiveLevel() <= DEBUG_DETAILED
+
+
+def debug_overview(*args):
+    main_logger.log(DEBUG_OVERVIEW, *args)
+
+
+def is_debug_overview():
+    return main_logger.getEffectiveLevel() <= DEBUG_OVERVIEW
+
+
+def debug_obsessive(*args):
+    main_logger.log(DEBUG_OBSESSIVE, *args)
+
+
+def is_debug_obsessive():
+    return main_logger.getEffectiveLevel() <= DEBUG_OBSESSIVE
+
+
+def debug_full(*args):
+    main_logger.log(DEBUG_FULL, *args)
+
+
+def debug_general(*args):
+    main_logger.debug(*args)
+
+
+def info(*args):
+    main_logger.info(*args)
+
+
+def warning(code, msg):
+    main_logger.warning(code + msg)
+
+
+def error(*args):
+    main_logger.error(*args)
+
+
+def get_logger():
+    global main_logger
+    return main_logger
+
+
+def set_logger(logger):
+    global main_logger
+    main_logger = logger

@@ -27,10 +27,11 @@ import re
 import sys
 import hashlib
 
-from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, W_BADPRICE
+from ..global_vars import SEPRTR, W_BADPRICE
 from .. import DistData
 # Distributors definitions.
 from .distributor import distributor_class
+from .log__ import debug_overview, debug_obsessive, warning
 
 __all__ = ['dist_local_template']
 
@@ -76,7 +77,7 @@ class dist_local_template(distributor_class):
         for k, v in ops.items():
             if k == 'enable':
                 dist_local_template.enabled = v
-        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Local API configured to enabled {}'.format(dist_local_template.enabled))
+        debug_obsessive('Local API configured to enabled {}'.format(dist_local_template.enabled))
 
     @staticmethod
     def update_distributors(parts, distributors):
@@ -99,7 +100,7 @@ class dist_local_template(distributor_class):
                 # Note: If the user excludes a web-scrapable distributors (using --exclude)
                 # and then adds it as a local distributor (using fields) it will be added.
                 if dist not in distributors:
-                    distributor_class.logger.log(DEBUG_OVERVIEW, 'Creating \'{}\' local distributor profile...'.format(dist))
+                    debug_overview('Creating \'{}\' local distributor profile...'.format(dist))
                     new_dist = distributor_class.get_distributor_template('local_template')
                     new_dist.label.name = dist  # Set dist name for spreadsheet header.
                     distributor_class.add_distributor(dist, new_dist)
@@ -138,7 +139,7 @@ class dist_local_template(distributor_class):
                     link = urlunsplit(url_parts)
                 else:
                     # This happens when no part URL is found.
-                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No part URL found for local \'{}\' distributor!'.format(dist))
+                    debug_obsessive('No part URL found for local \'{}\' distributor!'.format(dist))
                 dd.url = link
 
                 price_tiers = {}
@@ -157,13 +158,13 @@ class dist_local_template(distributor_class):
                         try:
                             price_tiers[int(qty)] = float(price)
                         except ValueError:
-                            distributor_class.logger.warning(W_BADPRICE+'Malformed pricing number: `{}` at {}'.format(old_pricing, p.refs))
+                            warning(W_BADPRICE, 'Malformed pricing number: `{}` at {}'.format(old_pricing, p.refs))
                     else:
-                        distributor_class.logger.warning(W_BADPRICE+'Malformed pricing entry: `{}` at {}'.format(qty_price, p.refs))
+                        warning(W_BADPRICE, 'Malformed pricing entry: `{}` at {}'.format(qty_price, p.refs))
                 # dd.moq = min(price_tiers.keys())
                 if not price_tiers:
                     # This happens when no pricing info is found.
-                    distributor_class.logger.log(DEBUG_OBSESSIVE, 'No pricing information found for local \'{}\' distributor!'.format(dist))
+                    debug_obsessive('No pricing information found for local \'{}\' distributor!'.format(dist))
                 dd.price_tiers = price_tiers
                 # Update the DistData for this distributor
                 p.dd[dist] = dd

@@ -31,9 +31,10 @@ __company__ = 'University of Campinas - Brazil'
 import re  # Regular expression parser and matches.
 from collections import OrderedDict
 from .. import PartGroup
-from ..global_vars import SEPRTR, DEBUG_OVERVIEW, DEBUG_OBSESSIVE, DEBUG_DETAILED, DEBUG_FULL, ERR_FIELDS, KiCostError, W_INCQTY, W_REPMAN, W_MANQTY
+from ..global_vars import SEPRTR, ERR_FIELDS, KiCostError, W_INCQTY, W_REPMAN, W_MANQTY
 from ..distributors import get_distributors_iter
-from .eda import eda_class, field_name_translations
+from .eda import field_name_translations
+from .log__ import debug_overview, debug_obsessive, debug_detailed, debug_full, warning, is_debug_full
 
 __all__ = ['partgroup_qty', 'groups_sort', 'order_refs', 'subpartqty_split', 'group_parts']
 
@@ -110,8 +111,8 @@ def group_parts(components, fields_merge, c_prjs):
        @return `list()` of `dict()`
     """
 
-    eda_class.logger.log(DEBUG_OVERVIEW, '# Grouping parts...')
-    ultra_debug = eda_class.logger.getEffectiveLevel() <= DEBUG_FULL
+    debug_overview('# Grouping parts...')
+    ultra_debug = is_debug_full()
 
     # All codes to scrape, do not include code field name of distributors
     # that will not be scraped. This definition is used to create and check
@@ -135,7 +136,7 @@ def group_parts(components, fields_merge, c_prjs):
     # Now partition the parts into groups of like components.
     # First, get groups of identical components but ignore any manufacturer's
     # part numbers that may be assigned. Just collect those in a list for each group.
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting groups of identical components...')
+    debug_overview('Getting groups of identical components...')
     component_groups = OrderedDict()
     for ref, fields in components.items():  # part references and field values.
 
@@ -171,11 +172,11 @@ def group_parts(components, fields_merge, c_prjs):
             for f in FIELDS_MANFCAT:
                 grp.manfcat_codes[f][get_manfcat(fields, f)] = True
     if ultra_debug:
-        eda_class.logger.log(DEBUG_FULL, '\n\n\n1++++++++++++++' + str(len(component_groups)))
+        debug_full('\n\n\n1++++++++++++++' + str(len(component_groups)))
         for g, grp in list(component_groups.items()):
-            eda_class.logger.log(DEBUG_FULL, '\n' + str(grp.refs))
+            debug_full('\n' + str(grp.refs))
             for r in grp.refs:
-                eda_class.logger.log(DEBUG_FULL, str(r) + str(components[r]))
+                debug_full(str(r) + str(components[r]))
 
     # Now we have groups of seemingly identical parts. But some of the parts
     # within a group may have different manufacturer's part numbers, and these
@@ -196,7 +197,7 @@ def group_parts(components, fields_merge, c_prjs):
     #       the same manf# and distributor#, even if it's `None`. It's
     #       impossible to determine which manf# the `None` parts should be
     #       assigned to, so leave their manf# as `None`.
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Checking the seemingly identical parts group...')
+    debug_overview('Checking the seemingly identical parts group...')
     new_component_groups = []  # Copy new component groups into this.
     for g, grp in component_groups.items():
         num_manfcat_codes = {f: len(grp.manfcat_codes[f]) for f in FIELDS_MANFCAT}
@@ -241,17 +242,17 @@ def group_parts(components, fields_merge, c_prjs):
                     sub_group.refs.append(ref)
             new_component_groups.append(sub_group)  # Append one part of the split group.
     if ultra_debug:
-        eda_class.logger.log(DEBUG_FULL, '\n\n\n2++++++++++++++' + str(len(new_component_groups)))
+        debug_full('\n\n\n2++++++++++++++' + str(len(new_component_groups)))
         for grp in new_component_groups:
-            eda_class.logger.log(DEBUG_FULL, '\n' + str(grp.refs))
+            debug_full('\n' + str(grp.refs))
             for r in grp.refs:
-                eda_class.logger.log(DEBUG_FULL, str(r) + ' ' + str(components[r]))
+                debug_full(str(r) + ' ' + str(components[r]))
 
     # If the identical components grouped have difference in the `fields_merge`
     # so replace this field with a string composed line-by-line with the
     # occurrences (definition `SGROUP_SEPRTR`) preceded with the refs
     # collapsed plus `SEPRTR`. Implementation of the ISSUE #102.
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Merging field asked in the identical components groups...')
+    debug_overview('Merging field asked in the identical components groups...')
     if fields_merge:
         fields_merge = [field_name_translations.get(f.lower(), f.lower()) for f in fields_merge]
         for grp in new_component_groups:
@@ -267,15 +268,15 @@ def group_parts(components, fields_merge, c_prjs):
                     for r in grp.refs:
                         components[r][f] = value
     if ultra_debug:
-        eda_class.logger.log(DEBUG_FULL, '\n\n\n3++++++++++++++' + str(len(new_component_groups)))
+        debug_full('\n\n\n3++++++++++++++' + str(len(new_component_groups)))
         for grp in new_component_groups:
-            eda_class.logger.log(DEBUG_FULL, grp.refs)
+            debug_full(grp.refs)
             for r in grp.refs:
-                eda_class.logger.log(DEBUG_FULL, str(r) + str(components[r]))
+                debug_full(str(r) + str(components[r]))
 
     # Now get the values of all fields within the members of a group.
     # These will become the field values for ALL members of that group.
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Propagating field values to identical components...')
+    debug_overview('Propagating field values to identical components...')
     for grp in new_component_groups:
         grp_fields = OrderedDict()
         # Multiprojects has a list of qty's
@@ -310,13 +311,13 @@ def group_parts(components, fields_merge, c_prjs):
 
     # Now return the list of identical part groups.
     if ultra_debug:
-        eda_class.logger.log(DEBUG_FULL, '\n\n\n4------------')
+        debug_full('\n\n\n4------------')
         for grp in new_component_groups:
-            eda_class.logger.log(DEBUG_FULL, grp.refs)
-            eda_class.logger.log(DEBUG_FULL, grp.fields)
+            debug_full(grp.refs)
+            debug_full(grp.fields)
             for r in grp.refs:
-                eda_class.logger.log(DEBUG_FULL, str(r) + str(components[r]))
-        eda_class.logger.log(DEBUG_FULL, '\n\n\n------------')
+                debug_full(str(r) + str(components[r]))
+        debug_full('\n\n\n------------')
     return new_component_groups
 
 
@@ -330,19 +331,19 @@ def groups_sort(new_component_groups):
        @return Same as input.
     '''
 
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Sorting the groups for better visualization...')
+    debug_overview('Sorting the groups for better visualization...')
 
     ref_identifiers = re.split(r'(?<![\W\*\/])\s*,\s*|\s*,\s*(?![\W\*\/])',
                                BOM_ORDER, flags=re.IGNORECASE)
     component_groups_order_old = list(range(0, len(new_component_groups)))
     component_groups_order_new = list()
     component_groups_refs = [new_component_groups[g].fields.get('reference') for g in component_groups_order_old]
-    eda_class.logger.log(DEBUG_OBSESSIVE, 'All ref identifier: {}'.format(ref_identifiers))
-    eda_class.logger.log(DEBUG_OBSESSIVE, '{} groups of components.'.format(len(component_groups_order_old)))
-    eda_class.logger.log(DEBUG_OBSESSIVE, 'Identifiers founded {}.'.format(component_groups_refs))
+    debug_obsessive('All ref identifier: {}'.format(ref_identifiers))
+    debug_obsessive('{} groups of components.'.format(len(component_groups_order_old)))
+    debug_obsessive('Identifiers founded {}.'.format(component_groups_refs))
     for ref_identifier in ref_identifiers:
         component_groups_ref_match = [i for i in range(0, len(component_groups_refs)) if ref_identifier == component_groups_refs[i].lower()]
-        eda_class.logger.log(DEBUG_OBSESSIVE, 'Identifier: {} in {}.'.format(ref_identifier, component_groups_ref_match))
+        debug_obsessive('Identifier: {} in {}.'.format(ref_identifier, component_groups_ref_match))
         if len(component_groups_ref_match) > 0:
             # If found more than one group with the reference, use the 'manf#'
             # as second order criteria.
@@ -357,7 +358,7 @@ def groups_sort(new_component_groups):
                 group_manf_list = [new_component_groups[h].fields.get('manf#') for h in component_groups_ref_match]
                 group_refs_list = [new_component_groups[h].refs for h in component_groups_ref_match]
                 sorted_groups = sorted(range(len(group_refs_list)), key=lambda k: (group_manf_list[k] is None,  group_refs_list[k]))
-                eda_class.logger.log(DEBUG_OBSESSIVE, '{} > order: {}'.format(group_manf_list, sorted_groups))
+                debug_obsessive('{} > order: {}'.format(group_manf_list, sorted_groups))
                 component_groups_ref_match = [component_groups_ref_match[i] for i in sorted_groups]
                 component_groups_order_new += component_groups_ref_match
             else:
@@ -385,7 +386,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
        @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
        @return Same as the input.
     '''
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Splitting subparts in the manufacture / distributors codes...')
+    debug_overview('Splitting subparts in the manufacture / distributors codes...')
 
     FIELDS_MANF = [d+'#' for d in distributors]
     FIELDS_MANF.append('manf#')
@@ -412,11 +413,11 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 # associated in different `manf#`/distributors# of the same component.
                 if subparts_qty_field != subparts_qty:
                     problem_manf_code = (field_code if subparts_qty > subparts_qty_field else field_code_last)
-                    eda_class.logger.warning(W_INCQTY+'Found a different subpart quantity between the code fields {c} and {lc}.\n'
-                                             '\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'
-                                             .format(c=field_code_last, lc=field_code, r=part_ref,
-                                                     pc=problem_manf_code,
-                                                     m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field))))
+                    warning(W_INCQTY, 'Found a different subpart quantity between the code fields {c} and {lc}.\n'
+                                      '\tYou should consider use \"{pc}={m}\" on {r} to disambiguate that.'
+                                      .format(c=field_code_last, lc=field_code, r=part_ref,
+                                              pc=problem_manf_code,
+                                              m=';'.join(subpart_list(part[problem_manf_code])+['']*abs(subparts_qty - subparts_qty_field))))
                 field_code_last = field_code
                 fields_found.append(field_code)
                 subparts_manf_code[field_code] = subparts
@@ -440,7 +441,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 if field == extra_field or field.endswith(':' + extra_field):
                     subparts_extra[field] = subpart_list(value, legacy=False)
 
-        eda_class.logger.log(DEBUG_DETAILED, '{} >> {}'.format(part_ref, fields_found))
+        debug_detailed('{} >> {}'.format(part_ref, fields_found))
 
         # Second, if more than one subpart, split the sub parts as
         # new components with the same description, footprint, and
@@ -479,14 +480,14 @@ def subpartqty_split(components, distributors, split_extra_fields):
                 subpart_qty, subpart_part = manf_code_qtypart(p_manf_code)
                 subpart_actual[field_manf_dist_code] = subpart_part
                 subpart_actual[field_manf_dist_code+'_qty'] = subpart_qty
-                eda_class.logger.log(DEBUG_OBSESSIVE, subpart_actual)
+                debug_obsessive(subpart_actual)
                 # Warn the user about different quantities asigned to different `manf#`
                 # and catalogue number of same part/subpart. Which may be a type error by
                 # the user.
                 if p_manf_code and p_manf_code_prior and subpart_qty_prior != subpart_qty:
-                    eda_class.logger.warning(W_INCQTY+'Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.
-                                             format(f=field_manf_dist_code, fl=field_manf_dist_code_prior,
-                                                    c=p_manf_code, cl=p_manf_code_prior, r=order_refs(list(components.keys()))[0]))
+                    warning(W_INCQTY, 'Different quantities signed between \"{f}={c}\" and \"{fl}={cl}\" at \"{r}\". Make sure that is right.'.
+                                      format(f=field_manf_dist_code, fl=field_manf_dist_code_prior,
+                                             c=p_manf_code, cl=p_manf_code_prior, r=order_refs(list(components.keys()))[0]))
                 # Memorize prior value for the above warning
                 subpart_qty_prior = subpart_qty
                 p_manf_code_prior = p_manf_code
@@ -501,8 +502,8 @@ def subpartqty_split(components, distributors, split_extra_fields):
                     # replicate the last one.
                     p_manf = subparts_manf[subparts_index]
                 elif p_manf is None:
-                    eda_class.logger.warning(W_REPMAN+'Asking to repeat a manufacturer in the first entry (at {})'.
-                                             format(order_refs(list(components.keys()))[0]))
+                    warning(W_REPMAN, 'Asking to repeat a manufacturer in the first entry (at {})'.
+                                      format(order_refs(list(components.keys()))[0]))
                 subpart_actual['manf'] = p_manf
                 # Update the reference of the part.
                 ref = part_ref + SUB_SEPRTR + str(subparts_index + 1)
@@ -519,7 +520,7 @@ def qty2float(value):
             return float(vals[0])/float(vals[1])
         return float(value)
     except ValueError:
-        eda_class.logger.warning(W_MANQTY+'Malformed `manf#_qty`: ' + str(value))
+        warning(W_MANQTY, 'Malformed `manf#_qty`: ' + str(value))
         return 1.0
 
 
@@ -538,7 +539,7 @@ def partgroup_qty(component):
     """
     qty = component.fields.get('manf#_qty')
 
-    eda_class.logger.log(DEBUG_OBSESSIVE, 'Qty>> {}\t {}*{}'.format(component.refs, qty, component.fields.get('manf#')))
+    debug_obsessive('Qty>> {}\t {}*{}'.format(component.refs, qty, component.fields.get('manf#')))
 
     if isinstance(qty, list):
         # Multifiles BOM case, the quantities in the list represent
@@ -620,7 +621,7 @@ def manf_code_qtypart(subpart):
         qty = '1'
         part = ''.join(strings)
     part = re.sub(ESC_FIND, r'\1', part)  # Remove any escape backslashes preceding PART_SEPRTR.
-    eda_class.logger.log(DEBUG_OBSESSIVE, 'part/qty>> {}\t\tpart>>{}\tqty>>{}'.format(subpart, part, qty))
+    debug_obsessive('part/qty>> {}\t\tpart>>{}\tqty>>{}'.format(subpart, part, qty))
     return qty, part
 
 

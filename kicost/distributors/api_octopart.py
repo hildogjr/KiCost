@@ -38,7 +38,8 @@ else:
 from ..global_vars import ERR_SCRAPE, KiCostError, W_ASSQTY, W_AMBIPN, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
+from .distributor import distributor_class, QueryCache
+from .log__ import debug_overview, debug_obsessive, warning
 
 # Author information.
 __author__ = 'XESS Corporation'
@@ -413,7 +414,7 @@ class api_octopart(distributor_class):
                 # general sub quantity of the current part.
                 try:
                     part.fields['manf#_qty'] = part.fields[octopart_dist_sku + '#_qty']
-                    warning(W_ASSQTY+"Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
+                    warning(W_ASSQTY, "Associated {q} quantity to '{r}' due \"{f}#={q}:{c}\".".format(
                             q=part.fields[octopart_dist_sku + '#_qty'], r=part.refs,
                             f=octopart_dist_sku, c=part.fields[octopart_dist_sku+'#']))
                 except KeyError:

@@ -28,7 +28,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 from .global_vars import (wxPythonNotPresent, PLATFORM_MACOS_STARTS_WITH, PLATFORM_LINUX_STARTS_WITH, PLATFORM_WINDOWS_STARTS_WITH,
-                          DEBUG_OVERVIEW, DEBUG_OBSESSIVE, get_logger, KiCostError, W_LOCFAIL)
+                          KiCostError, W_LOCFAIL)
 
 # Libraries.
 try:
@@ -52,7 +52,8 @@ from .currency_converter import list_currencies, get_currency_symbol, get_curren
 import requests
 
 # KiCost libraries.
-from . import __version__  # Version control by @xesscorp and collaborator.
+from . import (__version__, info, error, warning, debug_overview, debug_general, get_logger, is_debug_obsessive, is_debug_overview,
+               debug_obsessive)  # Version control by @xesscorp and collaborator.
 from .kicost import kicost, output_filename  # kicost core functions.
 from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label, set_distributors_progress
 from .edas import file_eda_match, get_registered_eda_names, get_eda_label, get_registered_eda_labels
@@ -96,8 +97,6 @@ PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
 
-logger = get_logger()
-
 
 # ======================================================================
 class ResultEvent(wx.PyEvent):
@@ -126,10 +125,10 @@ class KiCostThread(Thread):
         args = self.args
         # Run KiCost main function and print in the log the elapsed time.
         start_time = time.time()
-        logger.info('Starting cost processing ...')
+        info('Starting cost processing ...')
         try:
-            if logger.isEnabledFor(DEBUG_OBSESSIVE):
-                logger.debug('Arguments for kicost: ' + str(args.__dict__))
+            if is_debug_obsessive():
+                debug_general('Arguments for kicost: ' + str(args.__dict__))
             kicost(in_file=args.input, eda_name=args.eda_name,
                    out_filename=args.output, collapse_refs=args.collapse_refs,
                    user_fields=args.fields, ignore_fields=args.ignore_fields,
@@ -137,43 +136,43 @@ class KiCostThread(Thread):
                    variant=args.variant,
                    dist_list=args.include, currency=args.currency)
         except KiCostError as e:
-            logger.error(e)
+            error(e)
             # We are done, notify the main thread
             wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
             return
         except Exception as e:
-            if logger.isEnabledFor(DEBUG_OVERVIEW):
+            if is_debug_overview():
                 # Inform a traceback
                 (type, value, traceback) = sys.exc_info()
                 trace = format_tb(traceback)
                 for line in trace:
-                    logger.info(line[:-1])
-            logger.error('Internal error: ' + str(e))
+                    info(line[:-1])
+            error('Internal error: ' + str(e))
             # We are done, notify the main thread
             wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
             return
         finally:
             init_distributor_dict()  # Restore distributors modified during the execution of KiCost motor.
-        logger.log(DEBUG_OVERVIEW, 'Elapsed time: {} seconds'.format(time.time() - start_time))
-        logger.info('Finished cost processing.')
+        debug_overview('Elapsed time: {} seconds'.format(time.time() - start_time))
+        info('Finished cost processing.')
         # Convert to ODS
         try:
             if args.convert_to_ods:
-                logger.log(DEBUG_OVERVIEW, 'Converting \'{}\' to ODS file...'.format(os.path.basename(args.output)))
+                debug_overview('Converting \'{}\' to ODS file...'.format(os.path.basename(args.output)))
                 subprocess.run((libreoffice_executable, '--headless', '--convert-to', 'ods', args.output,
                                 '--outdir', os.path.dirname(args.output)), check=True)
                 # os.remove(args.output)  # Delete the older file.
                 args.output = os.path.splitext(args.output)[0] + '.ods'
         except subprocess.CalledProcessError as e:
-            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not converted to ODS: {}'.format(os.path.basename(args.output), e))
+            debug_overview('\'{}\' could be not converted to ODS: {}'.format(os.path.basename(args.output), e))
             pass
         # Open the spreadsheet
         try:
             if args.open_spreadsheet:
-                logger.log(DEBUG_OVERVIEW, 'Opening the output file \'{}\'...'.format(os.path.basename(args.output)))
+                debug_overview('Opening the output file \'{}\'...'.format(os.path.basename(args.output)))
                 open_file(args.output)
         except Exception as e:
-            logger.log(DEBUG_OVERVIEW, '\'{}\' could be not opened: {}'.format(os.path.basename(args.output), e))
+            debug_overview('\'{}\' could be not opened: {}'.format(os.path.basename(args.output), e))
         # We are done, notify the main thread
         wx.PostEvent(self.wxObject, ResultEvent(self.event_id))
 
@@ -190,7 +189,7 @@ def open_file(filepath):
     elif sys.platform.startswith(PLATFORM_LINUX_STARTS_WITH):  # Linux.
         subprocess.call(('xdg-open', filepath))
     else:
-        logger.info('Not recognized OS. The spreadsheet file will not be automatically opened.')
+        info('Not recognized OS. The spreadsheet file will not be automatically opened.')
 
 
 # ======================================================================
@@ -418,14 +417,14 @@ class formKiCost(wx.Frame):
             libreoffice_reg = r'SOFTWARE\LibreOffice\LibreOffice'
             libreoffice_installations = reg_enum_keys(libreoffice_reg, HKEY_LOCAL_MACHINE)
             if libreoffice_installations:
-                logger.log(DEBUG_OVERVIEW, 'Found LibreOffice {} installation(s) version(s).'.format(libreoffice_installations))
+                debug_overview('Found LibreOffice {} installation(s) version(s).'.format(libreoffice_installations))
                 libreoffice_installations.sort(key=StrictVersion)
                 # TODO: os.path.join(os.path.join?
                 libreoffice_executable = reg_get(os.path.join(libreoffice_reg, os.path.join(libreoffice_reg, libreoffice_installations[-1]), 'Path'),
                                                  HKEY_LOCAL_MACHINE)
-                logger.log(DEBUG_OVERVIEW, 'Last LibreOffice installation at {}.'.format(libreoffice_executable))
+                debug_overview('Last LibreOffice installation at {}.'.format(libreoffice_executable))
             else:
-                logger.log(DEBUG_OVERVIEW, 'LibreOffice not found.')
+                debug_overview('LibreOffice not found.')
                 libreoffice_executable = None
         else:
             from distutils.spawn import find_executable
@@ -434,7 +433,7 @@ class formKiCost(wx.Frame):
         if libreoffice_executable:
             self.m_checkBox_XLSXtoODS.Enable()  # Recognized LibreOffice.
         else:
-            logger.log(DEBUG_OBSESSIVE, 'LibreOffice not found.')
+            debug_obsessive('LibreOffice not found.')
             self.m_checkBox_XLSXtoODS.SetValue(False)
 
         self.m_checkBox_openSpreadsheet = wx.CheckBox(self.m_panel1, wx.ID_ANY, u"Open spreadsheet", wx.DefaultPosition, wx.DefaultSize, 0)
@@ -637,7 +636,7 @@ class formKiCost(wx.Frame):
 
         self.set_properties()
         self.SetDropTarget(FileDropTarget(self))  # Start the drop file in all the window.
-        logger.log(DEBUG_OVERVIEW, 'Loaded KiCost v' + __version__)
+        debug_overview('Loaded KiCost v' + __version__)
 
         # Set up event handler for any worker thread results
         # It will receive notifications from the KiCost thread
@@ -831,7 +830,7 @@ class formKiCost(wx.Frame):
         args.input = re.split(SEP_FILES, self.m_comboBox_files.GetValue())
         for f in args.input:
             if not os.path.isfile(f):
-                logger.info('No valid file(s) selected.')
+                info('No valid file(s) selected.')
                 self.m_button_run.Enable()
                 return  # Not a valid file(s).
 
@@ -846,7 +845,7 @@ class formKiCost(wx.Frame):
                 result = dlg.ShowModal()
                 dlg.Destroy()
                 if result == wx.ID_NO:
-                    logger.info('Not able to overwrite \'{}\'...'.format(os.path.basename(spreadsheet_file)))
+                    info('Not able to overwrite \'{}\'...'.format(os.path.basename(spreadsheet_file)))
                     return
         spreadsheet_file = os.path.splitext(spreadsheet_file)[0] + '.xlsx'  # Force the output (for the CLI interface) to be .XLSX.
         args.output = spreadsheet_file
@@ -1045,7 +1044,7 @@ class formKiCost(wx.Frame):
 
             del configHandle  # Close the file / Windows registry sock.
         except Exception as e:
-            logger.log(DEBUG_OVERVIEW, 'Configurations not recovered: <'+str(e)+'>.')
+            debug_overview('Configurations not recovered: <'+str(e)+'>.')
 
     # ----------------------------------------------------------------------
     def save_properties(self):
@@ -1095,7 +1094,7 @@ class formKiCost(wx.Frame):
 
             del configHandle  # Close the file / Windows registry sock.
         except Exception as e:
-            logger.log(DEBUG_OVERVIEW, 'Configurations not saved: <'+str(e)+'>.')
+            debug_overview('Configurations not saved: <'+str(e)+'>.')
 
     def show_news_message(self):
         '''Shows a message bos if the news of the last version installed.'''
@@ -1171,25 +1170,25 @@ def kicost_gui(force_en_us=False, files=None):
     loc = wx.Locale(wx.LANGUAGE_DEFAULT if not force_en_us else wx.LANGUAGE_ENGLISH_US)
     if not loc.IsOk():
         if not force_en_us:
-            logger.warning(W_LOCFAIL+"Failed to set the default locale, try using `--force_en_us`")
+            warning(W_LOCFAIL, "Failed to set the default locale, try using `--force_en_us`")
         else:
-            logger.warning(W_LOCFAIL+"`--force_en_us` doesn't seem to help")
+            warning(W_LOCFAIL, "`--force_en_us` doesn't seem to help")
     elif not loc.GetLocale() and not loc.GetName():
-        logger.warning(W_LOCFAIL+"Unsupported locale"+(", try using `--force_en_us`" if not force_en_us else ""))
+        warning(W_LOCFAIL, "Unsupported locale"+(", try using `--force_en_us`" if not force_en_us else ""))
     else:
         try:
             sys_loc_name = locale.getlocale()
         except ValueError:
-            logger.warning(W_LOCFAIL+"Unsupported locale (python)"+(", try using `--force_en_us`" if not force_en_us else ""))
+            warning(W_LOCFAIL, "Unsupported locale (python)"+(", try using `--force_en_us`" if not force_en_us else ""))
             sys_loc_name = 'unsupported'
-        logger.debug('wxWidgets locale {} ({}) system: {}'.format(loc.GetLocale(), loc.GetName(), sys_loc_name))
+        debug_general('wxWidgets locale {} ({}) system: {}'.format(loc.GetLocale(), loc.GetName(), sys_loc_name))
     frame = formKiCost(None)
     # Use the GUI for progress
     set_distributors_progress(ProgressGUI)
     ProgressGUI.frame = frame
     # Redirect the logging system to the GUI area
     logger_stream = GUI_Stream(frame.m_textCtrl_messages)
-    for handler in logger.handlers:
+    for handler in get_logger().handlers:
         if py_2:
             handler.stream = logger_stream
         else:
@@ -1207,7 +1206,7 @@ def kicost_gui(force_en_us=False, files=None):
     # Restore the channel print output to terminal.
     # Necessary if KiCost was called by other software?
     sys.stderr = sys.__stderr__
-    for handler in logger.handlers:
+    for handler in get_logger().handlers:
         if py_2:
             handler.stream = sys.stderr
         else:

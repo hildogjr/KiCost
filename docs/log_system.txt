@@ -1,0 +1,29 @@
+Some notes about the log system:
+-------------------------------
+
+The functionality can be found in kicost/log.py
+
+We use 3 "domains":
+- kicost
+- kicost.distributors
+- kicost.edas
+
+So we have 3 separated logger objects.
+- main_logger: defined in kicost/__init__.py
+- distributor_class.logger: defined in kicost/distributors/distributor.py
+- eda_class.logger: defined in kicost/edas/eda.py
+
+We also have some wrappers to make the calls simpler, they are defined in:
+- kicost/__init__.py for the main_logger
+- kicost/distributors/log__.py for the distributor_class.logger
+- kicost/edas/log__.py for the eda_class.logger
+
+The three loggers can be configured calling init_all_loggers defined in __main__.py
+
+The log level for debug is split in 10 sub-levels defined in kicost/__init__.py
+The wrappers helps to use them.
+
+To avoid circular dependencies kicost/distributors/distributor.py and kicost/edas/eda.py doesn't use the wrappers.
+
+The wrappers are defined in file names like __init__.py and log__.py this is because our logging class can skip the stack frames for these
+files and hence print the real line number (and not the line number of the wrapper).

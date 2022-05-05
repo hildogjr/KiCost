@@ -24,7 +24,8 @@
 import os
 import re
 from collections import OrderedDict
-from ..global_vars import logger, DEBUG_OVERVIEW, SEPRTR, DEBUG_OBSESSIVE, W_FLDOVR
+from .. import DEBUG_OVERVIEW, DEBUG_OBSESSIVE
+from ..global_vars import SEPRTR, W_FLDOVR
 from ..distributors import get_distributors_iter
 
 __all__ = ['eda_class', 'field_name_translations']
@@ -155,12 +156,12 @@ class eda_class(object):
             # Is distributor related?
             if f in ('cat#', 'pricing', 'link'):
                 # Add it to the default local distributor
-                logger.log(DEBUG_OBSESSIVE, 'Assigning name "{}" to "Local" distributor'.format(f))
+                eda_class.logger.log(DEBUG_OBSESSIVE, 'Assigning name "{}" to "Local" distributor'.format(f))
                 f = 'Local:' + f
         # Note: here we allow a field to "clear" another definition (assigning an empty value)
         # This is because we assume that "kicost*" fields are defined on purpose, not just inherited from the library
         new_fields[f] = v.strip()
-        logger.log(DEBUG_OBSESSIVE, '{} Field {} -> {}={}'.format(ref, name_ori, f, v))
+        eda_class.logger.log(DEBUG_OBSESSIVE, '{} Field {} -> {}={}'.format(ref, name_ori, f, v))
 
     @staticmethod
     def process_fields(parts, variant, ignore_fields, distributors):
@@ -189,7 +190,7 @@ class eda_class(object):
                     # Example: if manf# was defined as XXX and now we have mnp='' we avoid getting manf#=''
                     continue
                 if already_defined and new_fields[f]:
-                    logger.warning(W_FLDOVR+'Warning: in {} overwriting {}={} with {}={}'.format(ref, f, new_fields[f], old_name, v))
+                    eda_class.logger.warning(W_FLDOVR+'Warning: in {} overwriting {}={} with {}={}'.format(ref, f, new_fields[f], old_name, v))
                 new_fields[f] = v
             # 2) kicost:FIELD
             for f, v in fields.items():
@@ -205,7 +206,7 @@ class eda_class(object):
                     # Not for the current variant
                     continue
                 name = f[sep_pos+1:]
-                logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + var + '.' + name)
+                eda_class.logger.log(DEBUG_OBSESSIVE, 'Matched Variant ... ' + var + '.' + name)
                 eda_class.process_kicost_field(name, v, new_fields, ignore_fields, distributors, f, ref)
             # TODO: What about the other cases?
             # * Has ':' but doesn't start with "kicost"
@@ -245,7 +246,7 @@ class eda_class(object):
            @param components Part components in a `list()` of `dict()`, format given by the EDA modules.
            @return `list()` of `dict()`.
         '''
-        logger.log(DEBUG_OVERVIEW, '# Removing do not populate parts...')
+        eda_class.logger.log(DEBUG_OVERVIEW, '# Removing do not populate parts...')
         accepted_components = OrderedDict()
         for ref, fields in components.items():
             # Remove DNPs.

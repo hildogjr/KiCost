@@ -28,15 +28,14 @@ __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 import sys
 import os
-from .global_vars import get_logger, ERR_KICOSTCONFIG, W_CONFIG, DEBUG_DETAILED, DEBUG_OBSESSIVE, BASE_OP_TYPES
-logger = get_logger()
+from .global_vars import ERR_KICOSTCONFIG, W_CONFIG, BASE_OP_TYPES
+from .distributors import is_valid_api, get_api_list, get_api_valid_options
+from . import debug_detailed, debug_obsessive, error, warning
 try:
     import yaml
     CONFIG_ENABLED = True
 except ImportError:
-    logger.error('No yaml module for Python, install it (i.e. python3-yaml)')
     CONFIG_ENABLED = False
-from .distributors import (is_valid_api, get_api_list, get_api_valid_options)  # noqa: E402
 
 CONFIG_FILE = 'config.yaml'
 cache_ttl = 7
@@ -46,7 +45,7 @@ config_file_path = None
 
 
 def config_error(msg):
-    logger.error("In configuration file: "+msg)
+    error("In configuration file: "+msg)
     sys.exit(ERR_KICOSTCONFIG)
 
 
@@ -95,7 +94,7 @@ def parse_kicost_section(d):
         elif k == 'version':
             pass
         else:
-            logger.warning(W_CONFIG+"Unknown config option `kicost.{}`".format(k))
+            warning(W_CONFIG, "Unknown config option `kicost.{}`".format(k))
 
 
 def _type_str(a):
@@ -110,7 +109,7 @@ def parse_apis_section(d):
     valid_ops = get_api_valid_options()
     for k, v in d.items():
         if not is_valid_api(k):
-            logger.warning(W_CONFIG+'Unknown API `{}`'.format(k))
+            warning(W_CONFIG, 'Unknown API `{}`'.format(k))
             continue
         v_ops = dict(valid_ops[k], **BASE_OP_TYPES)
         if v is None:
@@ -118,7 +117,7 @@ def parse_apis_section(d):
         # Make sure the options are of the correct value
         for op, value in v.items():
             if op not in v_ops:
-                logger.warning(W_CONFIG+'Unknown option `{}` for API `{}`'.format(op, k))
+                warning(W_CONFIG, 'Unknown option `{}` for API `{}`'.format(op, k))
             else:
                 v_op = v_ops[op]
                 if isinstance(v_op, type) or (isinstance(v_op, tuple) and isinstance(v_op[0], type)):
@@ -146,7 +145,7 @@ def load_config(file=None):
         file = os.path.expanduser(os.path.join('~', '.config', 'kicost', CONFIG_FILE))
     else:
         if not os.path.isfile(file):
-            logger.error('Missing config file {}.'.format(file))
+            error('Missing config file {}.'.format(file))
             sys.exit(2)
     file = os.path.abspath(file)
     if os.path.isfile(file):
@@ -163,8 +162,8 @@ def load_config(file=None):
             elif k_l == 'apis' or k_l == 'api':
                 parse_apis_section(v)
             else:
-                logger.warning(W_CONFIG+'Unknown section `{}` in config file'.format(k))
-        logger.log(DEBUG_OBSESSIVE, 'Loaded API options {}'.format(api_options))
+                warning(W_CONFIG, 'Unknown section `{}` in config file'.format(k))
+        debug_obsessive('Loaded API options {}'.format(api_options))
     for api in get_api_list():
         if api not in api_options:
             api_options[api] = {}
@@ -178,5 +177,5 @@ def load_config(file=None):
         path = ops['cache_path']
         if not os.path.exists(path):
             os.makedirs(path)
-    logger.log(DEBUG_DETAILED, 'API options with defaults {}'.format(api_options))
+    debug_detailed('API options with defaults {}'.format(api_options))
     return api_options

@@ -27,7 +27,10 @@ Log module
 
 Handles logging initialization and formating.
 """
+import io
+import os
 import sys
+import traceback
 import logging
 no_colorama = False
 try:
@@ -119,6 +122,28 @@ class MyLogger(logging.Logger):
             if MyLogger.n_filtered:
                 filt_msg = ', {} filtered'.format(MyLogger.n_filtered)
             self.info('Found {} unique warning/s ({} total{})'.format(MyLogger.warn_cnt, MyLogger.warn_tcnt, filt_msg))
+
+    def findCaller(self, stack_info=False, stacklevel=1):
+        f = sys._getframe(1)
+        # Skip frames from logging module
+        while '/logging/' in os.path.normcase(f.f_code.co_filename):
+            f = f.f_back
+        # Apply the indicated stacklevel
+        while stacklevel > 1:
+            f = f.f_back
+            stacklevel -= 1
+        # Skip the __init__.py wrappers
+        fname = os.path.normcase(f.f_code.co_filename)
+        if fname.endswith('__init__.py') or fname.endswith('log__.py'):
+            f = f.f_back
+        # Create the stack info if needed
+        sinfo = None
+        if stack_info:
+            out = io.StringIO()
+            out.write(u"Stack (most recent call last):\n")
+            traceback.print_stack(f, file=out)
+            sinfo = out.getvalue().rstrip(u"\n")
+        return os.path.normcase(f.f_code.co_filename), f.f_lineno, f.f_code.co_name, sinfo
 
 
 def set_verbosity(logger, debug, quiet):

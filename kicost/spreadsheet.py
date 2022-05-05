@@ -28,7 +28,7 @@ __webpage__ = 'https://github.com/hildogjr/'
 __company__ = 'University of Campinas - Brazil'
 
 # Debug, language and default configurations.
-from .global_vars import (SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEBUG_OVERVIEW, DEBUG_DETAILED, DEF_MAX_COLUMN_W, get_logger, W_NOPURCH, W_NOQTY,
+from .global_vars import (SEPRTR, DEFAULT_CURRENCY, DEFAULT_LANGUAGE, DEF_MAX_COLUMN_W, W_NOPURCH, W_NOQTY,
                           ERR_FIELDS, KiCostError)
 
 # Python libraries.
@@ -42,10 +42,9 @@ from xlsxwriter.utility import xl_rowcol_to_cell, xl_range_abs
 from validators import url as validate_url  # URL validator.
 
 # KiCost libraries.
-from .version import __version__  # Version control by @xesscorp and collaborator.
 from .distributors import get_distributor_info, ORDER_COL_USERFIELDS
 from .edas.tools import order_refs, PART_REF_REGEX
-from . import DistData
+from . import DistData, __version__, warning, debug_overview, debug_detailed, debug_general
 
 from .currency_converter import CurrencyConverter, get_currency_symbol, format_currency
 currency_convert = CurrencyConverter().convert
@@ -347,12 +346,12 @@ class Spreadsheet(object):
             if h > cur_h:
                 self.row_heights[row] = h
 
-    def adjust_row_and_col_sizes(self, logger):
+    def adjust_row_and_col_sizes(self):
         """ Adjust the column and row sizes using the values computed by compute_cell_size """
-        logger.log(DEBUG_OVERVIEW, 'Adjusting cell sizes')
-        logger.log(DEBUG_DETAILED, 'Column adjusts: ' + str(self.col_widths))
-        logger.log(DEBUG_DETAILED, 'Row adjusts: ' + str(self.row_heights))
-        logger.log(DEBUG_DETAILED, 'Levels: ' + str(self.col_levels))
+        debug_overview('Adjusting cell sizes')
+        debug_detailed('Column adjusts: ' + str(self.col_widths))
+        debug_detailed('Row adjusts: ' + str(self.row_heights))
+        debug_detailed('Levels: ' + str(self.col_levels))
         for i, width in self.col_widths.items():
             level = self.col_levels.get(i, 0)
             if level:
@@ -431,8 +430,7 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currenc
                        max_column_width=DEF_MAX_COLUMN_W, suppress_dist_desc=True):
     '''Create a spreadsheet using the info for the parts (including their HTML trees).'''
     basename = os.path.basename(spreadsheet_filename)
-    logger = get_logger()
-    logger.log(DEBUG_OVERVIEW, 'Creating the \'{}\' spreadsheet...'.format(basename))
+    debug_overview('Creating the \'{}\' spreadsheet...'.format(basename))
     # Adjust the name of the work_sheet (add variant and limit len)
     worksheet_name = os.path.splitext(basename)[0]  # Default name for pricing worksheet.
     variant = variant.strip()
@@ -461,10 +459,10 @@ def create_spreadsheet(parts, prj_info, spreadsheet_filename, dist_list, currenc
         else:
             Spreadsheet.ADJUST_ROW_AND_COL_SIZE = False
         ss = Spreadsheet(workbook, worksheet_name, prj_info, currency)
-        create_worksheet(ss, logger, parts)
+        create_worksheet(ss, parts)
 
 
-def create_worksheet(ss, logger, parts):
+def create_worksheet(ss, parts):
     '''Create a worksheet using the info for the parts (including their HTML trees).'''
     # Force all currency related cells to use the "currency_format"
     ss.WRK_FORMATS['total_cost_currency']['num_format'] = ss.currency_format
@@ -509,7 +507,7 @@ def create_worksheet(ss, logger, parts):
         ss.DISTRIBUTOR_COLUMNS.update({'description': {'col': d_width, 'level': 2, 'label': 'Description', 'width': 15, 'comment': 'Distributor description'}})
 
     # Make a list of alphabetically-ordered distributors with web distributors before locals.
-    logger.log(DEBUG_OVERVIEW, 'Sorting the distributors...')
+    debug_overview('Sorting the distributors...')
     if ss.SORT_DISTRIBUTORS:
         web_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d).is_web()])
         local_dists = sorted([d for d in ss.DISTRIBUTORS if get_distributor_info(d).is_local()])
@@ -521,17 +519,17 @@ def create_worksheet(ss, logger, parts):
     # Skip the prices, will fill them after we fill the distributors
     # dist_1st_col = the column immediately to the right of the global data.
     # qty_col = the column where the quantity needed of each part is stored.
-    dist_1st_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
+    dist_1st_col, refs_col, qty_col, columns_global = add_globals_to_worksheet(ss, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list)
     ss.globals_width = dist_1st_col - 1
 
     # Fill the distributors information
-    logger.log(DEBUG_OVERVIEW, 'Writing the distributors information...')
+    debug_overview('Writing the distributors information...')
     next_col = dist_1st_col
     for dist in dist_list:
-        next_col = add_dist_to_worksheet(ss, logger, columns_global, START_ROW, next_col, UNIT_COST_ROW, TOTAL_COST_ROW, refs_col, qty_col, dist, parts)
+        next_col = add_dist_to_worksheet(ss, columns_global, START_ROW, next_col, UNIT_COST_ROW, TOTAL_COST_ROW, refs_col, qty_col, dist, parts)
 
     # Fill the global prices
-    next_line = add_global_prices_to_workheet(ss, logger, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list, columns_global)
+    next_line = add_global_prices_to_workheet(ss, START_ROW, START_COL, TOTAL_COST_ROW, parts, dist_list, columns_global)
 
     for i_prj, p_info in enumerate(prj_info):
         # Add project information to track the project (in a printed version of the BOM) and the date because of price variations.
@@ -587,7 +585,7 @@ def create_worksheet(ss, logger, parts):
     wks.write(next_line+1, START_COL, ss.ABOUT_MSG, ss.wrk_formats['about_msg'])
     # Optionally adjust cell sizes
     if ss.ADJUST_ROW_AND_COL_SIZE:
-        ss.adjust_row_and_col_sizes(logger)
+        ss.adjust_row_and_col_sizes()
 
 
 def get_ref_key(part):
@@ -599,10 +597,10 @@ def get_ref_key(part):
     return [match.group('prefix'), int(match.group('ref_num')), int(subpart_num) if subpart_num else 0]
 
 
-def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, parts, dist_list):
+def add_globals_to_worksheet(ss, start_row, start_col, total_cost_row, parts, dist_list):
     '''Add global part data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, 'Writing the global information...')
+    debug_overview('Writing the global information...')
 
     wks = ss.wks
     # Columns for the various types of global part data.
@@ -667,7 +665,7 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
 
     # Add column headers.
     # Memorize the columns positions, this `col`
-    logger.debug(columns_list)
+    debug_general(columns_list)
     col = {}
     for c, k in enumerate(columns_list):
         ss.write_string(row, c, columns[k]['label'], 'header')
@@ -757,10 +755,10 @@ def add_globals_to_worksheet(ss, logger, start_row, start_col, total_cost_row, p
     return start_col + num_cols, col_refs, col_qty, col
 
 
-def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_row, parts, dist_list, col):
+def add_global_prices_to_workheet(ss, start_row, start_col, total_cost_row, parts, dist_list, col):
     '''Add global prices data to the spreadsheet.'''
 
-    logger.log(DEBUG_OVERVIEW, 'Writing the global prices information...')
+    debug_overview('Writing the global prices information...')
     wks = ss.wks
     num_cols = len(col)
     num_parts = len(parts)
@@ -894,7 +892,7 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     if not used_currencies:
         used_currencies.add(DEFAULT_CURRENCY)
     used_currencies = sorted(list(used_currencies))
-    logger.log(DEBUG_OVERVIEW, 'Getting distributor currency convertion rate {} to {}...'.format(used_currencies, ss.currency))
+    debug_overview('Getting distributor currency convertion rate {} to {}...'.format(used_currencies, ss.currency))
     if len(used_currencies) > 1:
         if ss.currency in used_currencies:
             used_currencies.remove(ss.currency)
@@ -916,13 +914,13 @@ def add_global_prices_to_workheet(ss, logger, start_row, start_col, total_cost_r
     return next_line
 
 
-def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit_cost_row, total_cost_row, part_ref_col, part_qty_col, dist, parts):
+def add_dist_to_worksheet(ss, columns_global, start_row, start_col, unit_cost_row, total_cost_row, part_ref_col, part_qty_col, dist, parts):
     '''Add distributor-specific part data to the spreadsheet.'''
 
     info = get_distributor_info(dist)
     order = info.order
     label = info.label.name
-    logger.log(DEBUG_OVERVIEW, '# Writing {}'.format(label))
+    debug_overview('# Writing {}'.format(label))
     wks = ss.wks
     # Columns for the various types of distributor-specific part data.
     columns = ss.DISTRIBUTOR_COLUMNS
@@ -1184,7 +1182,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
     # be used in this current distributor.
     cols = order.cols
     if not cols:
-        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no information provided.".format(d=label))
+        debug_overview("Purchase list codes for {d} will not be generated: no information provided.".format(d=label))
         return start_col + num_cols  # If not created the distributor definition, jump this final code part.
 
     if ORDER_COL_USERFIELDS in cols:
@@ -1200,11 +1198,11 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
                 cols_user.remove(r)
             except ValueError:
                 pass
-        logger.log(DEBUG_OVERVIEW, "Add the {f} information for the {d} purchase list code.".format(d=label, f=cols_user))
+        debug_overview("Add the {f} information for the {d} purchase list code.".format(d=label, f=cols_user))
         cols[idx:idx] = cols_user
 
     if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
-        logger.log(DEBUG_OVERVIEW, "Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(d=label))
+        debug_overview("Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(d=label))
         return start_col + num_cols  # Skip the order creation.
 
     # Create the order using the fields specified by each distributor.
@@ -1225,7 +1223,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
             info_col = 0
             if col is not None:
                 # None is used to generate an empty column, isn't a problem
-                logger.warning(W_NOPURCH+"Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
+                warning(W_NOPURCH, "Not valid field `{f}` for purchase list at {d}.".format(f=col, d=label))
         cell = xl_range(first_part, info_col, last_part)
         # Deal with conversion and string replace necessary to the correct distributors
         # code understanding.
@@ -1267,7 +1265,7 @@ def add_dist_to_worksheet(ss, logger, columns_global, start_row, start_col, unit
         part_col = start_col + columns_global['manf#']
     else:
         part_col = 0
-        logger.warning(W_NOQTY+"The {d} distributor order info doesn't include the part number.")
+        warning(W_NOQTY, "The {} distributor order info doesn't include the part number.".format(dist))
     part_range = xl_range(first_part, part_col, last_part)
     qty_col = col_purch
     qty_range = xl_range(first_part, qty_col, last_part)

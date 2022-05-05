@@ -32,27 +32,30 @@ import tqdm
 import logging
 import subprocess
 # Debug, language and default configurations.
-from .global_vars import wxPythonNotPresent, DEBUG_OBSESSIVE, DEF_MAX_COLUMN_W, set_logger, KiCostError, DEBUG_DETAILED, W_CMDLINE
-# Import log first to set the domain and assign it to the global logger
-from . import log
-log.set_domain('kicost')
-logger = log.init()
-set_logger(logger)
-
+from .global_vars import wxPythonNotPresent, DEF_MAX_COLUMN_W, KiCostError, W_CMDLINE
+# Sub systems can be imported before logger
+from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
+from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, is_valid_api,
+                           init_distributor_dict, configure_from_environment, configure_apis)
 # KiCost definitions and modules/packages functions.
-from .kicost import kicost, output_filename, kicost_gui_notdependences  # kicost core functions. # noqa: E402
-from .config import load_config, config_force_ttl, config_force_path  # noqa: E402
+from .kicost import output_filename, kicost_gui_notdependences, kicost  # kicost core functions.
 try:
     from .kicost_gui import kicost_gui
     GUI_ENABLED = True
 except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     GUI_ENABLED = False
-from .edas import get_registered_eda_names, set_edas_logger  # noqa: E402
-from .distributors import (get_distributors_list, set_distributors_logger, set_distributors_progress, is_valid_api,  # noqa: E402
-                           init_distributor_dict, configure_from_environment, configure_apis)  # noqa: E402
-from .spreadsheet import Spreadsheet  # noqa: E402
-from . import __version__, __build__  # Version control by @xesscorp and collaborator.  # noqa: E402
+from .spreadsheet import Spreadsheet
+from .config import load_config, config_force_ttl, config_force_path
+from . import __version__, __build__, debug_obsessive, debug_detailed, error, warning, info, get_logger, set_logger
+from . import log
+
+
+def init_all_loggers(main_logger, dist_logger, edas_logger):
+    set_logger(main_logger)
+    set_distributors_logger(dist_logger)
+    set_edas_logger(edas_logger)
+
 
 # Python 2.7 compatibility
 try:
@@ -296,11 +299,17 @@ def main_real():
 
     args = parser.parse_args()
 
-    # Set up logging.
-    log.set_verbosity(logger, args.debug, args.quiet)
-    set_distributors_logger(log.get_logger('kicost.distributors'))
+    # Set up logging verbosity
+    log.set_domain('kicost')
+    init_all_loggers(log.init(), log.get_logger('kicost.distributors'), log.get_logger('kicost.edas'))
+    log.set_verbosity(get_logger(), args.debug, args.quiet)
     set_distributors_progress(ProgressConsole)
-    set_edas_logger(log.get_logger('kicost.edas'))
+
+    # Now we can print errors, inform if YAML is missing
+    try:
+        import yaml  # noqa F401
+    except ImportError:
+        error('No yaml module for Python, install it (i.e. python3-yaml)')
 
     #
     # Configuration
@@ -325,18 +334,18 @@ def main_real():
         api_options['Octopart']['level'] = level
         api_options['Octopart']['extended'] = extended
     for api in args.disable_api:
-        logger.log(DEBUG_OBSESSIVE, 'Disabling API ' + api)
+        debug_obsessive('Disabling API ' + api)
         if is_valid_api(api):
             api_options[api]['enable'] = False
         else:
-            logger.warning(W_CMDLINE+'Unknown API `{}`'.format(api))
+            warning(W_CMDLINE, 'Unknown API `{}`'.format(api))
     for api in args.enable_api:
-        logger.log(DEBUG_OBSESSIVE, 'Enabling API ' + api)
+        debug_obsessive('Enabling API ' + api)
         if is_valid_api(api):
             api_options[api]['enable'] = True
         else:
-            logger.warning(W_CMDLINE+'Unknown API `{}`'.format(api))
-    logger.log(DEBUG_DETAILED, 'Final API options {}'.format(api_options))
+            warning(W_CMDLINE, 'Unknown API `{}`'.format(api))
+    debug_detailed('Final API options {}'.format(api_options))
     # Configure the APIs
     configure_apis(api_options)
 
@@ -355,10 +364,10 @@ def main_real():
 
     # Simple commands
     if args.show_dist_list:
-        logger.info('Distributor list: ' + ' '.join(sorted(get_distributors_list())))
+        info('Distributor list: ' + ' '.join(sorted(get_distributors_list())))
         sys.exit(0)
     if args.show_eda_list:
-        logger.info('EDA supported list: ' + ' '.join(sorted(get_registered_eda_names())))
+        info('EDA supported list: ' + ' '.join(sorted(get_registered_eda_names())))
         sys.exit(0)
 
     # Set up spreadsheet output file.
@@ -387,7 +396,7 @@ def main_real():
     # Handle case where output is going into an existing spreadsheet file.
     if os.path.isfile(args.output):
         if not args.overwrite:
-            logger.error('Output file {} already exists!\nUse the --overwrite option to replace it.'.format(args.output))
+            error('Output file {} already exists!\nUse the --overwrite option to replace it.'.format(args.output))
             sys.exit(2)
 
     if args.gui:
@@ -407,21 +416,21 @@ def main_real():
             # Expand a single EDA format to cover all input files.
             args.eda = args.eda[0:1] * len(args.input)
         if len(args.input) != len(args.eda):
-            logger.error('The number of input files must match the number of EDA tool formats.')
+            error('The number of input files must match the number of EDA tool formats.')
             sys.exit(2)
 
         # Match the variants with the input files.
         if len(args.variant) == 1:
             args.variant = args.variant[0:1] * len(args.input)
         if len(args.input) != len(args.variant):
-            logger.error('The number of input files must match the number of variants.')
+            error('The number of input files must match the number of variants.')
             sys.exit(2)
 
         # Match the board quantities with the input files.
         if len(args.board_qty) == 1:
             args.board_qty = args.board_qty[0:1] * len(args.input)
         if len(args.input) != len(args.board_qty):
-            logger.error('The number of input files must match the number of board quantities.')
+            error('The number of input files must match the number of board quantities.')
             sys.exit(2)
 
         # Otherwise get XML from the given file.
@@ -440,7 +449,7 @@ def main_real():
     available = get_distributors_list()
     for d in args.include + args.exclude:
         if d not in available:
-            logger.error('Unknown distributor requested: `{}`'.format(d))
+            error('Unknown distributor requested: `{}`'.format(d))
             sys.exit(2)
     if args.no_price:
         # None
@@ -456,7 +465,7 @@ def main_real():
         for d in args.exclude:
             dist_list.remove(d)
 
-    logger.log(DEBUG_OBSESSIVE, 'Started ' + kicost_version_info())
+    debug_obsessive('Started ' + kicost_version_info())
 
     kicost(in_file=args.input, eda_name=args.eda,
            out_filename=args.output, collapse_refs=not args.no_collapse, suppress_cat_url=not args.show_cat_url,
@@ -470,7 +479,7 @@ def main():
     try:
         main_real()
     except KiCostError as e:
-        logger.error(e.msg)
+        error(e.msg)
         sys.exit(e.id)
 
 
@@ -480,4 +489,4 @@ def main():
 if __name__ == '__main__':
     start_time = time.time()
     main()
-    logger.log(DEBUG_OBSESSIVE, 'Elapsed time: %f seconds', time.time() - start_time)
+    debug_obsessive('Elapsed time: %f seconds', time.time() - start_time)

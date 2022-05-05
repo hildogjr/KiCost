@@ -36,9 +36,10 @@ from datetime import datetime
 from collections import OrderedDict
 import csv  # CSV file reader.
 import re  # Regular expression parser.
-from ..global_vars import DEBUG_OVERVIEW, ERR_INPUTFILE, KiCostError, W_DUPWRONG
+from ..global_vars import ERR_INPUTFILE, KiCostError, W_DUPWRONG
 from .tools import field_name_translations, split_refs
 from .eda import eda_class
+from .log__ import debug_overview, warning
 
 
 GENERIC_PREFIX = 'GEN'  # Part reference prefix to use when no references are present.
@@ -54,7 +55,7 @@ def correspondent_header_value(key, vals, header, header_file):
     value = None
     for i in idx:
         if len(idx) > 1 and value is not None and value != vals[header_file[i]]:
-            eda_class.logger.warning(W_DUPWRONG+'Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
+            warning(W_DUPWRONG, 'Found different duplicated information for \'{}\': \'{}\'=!\'{}\'. Will be used the last.'.format(
                 key, value, vals[header_file[i]]))
         value = vals[header_file[i]]
         if value:
@@ -102,9 +103,9 @@ def extract_fields(row, header, header_file, dialect, gen_cntr):
                 value = vals.get(h_file, '').decode('utf-8')
             try:
                 if value and fields[h] != value:
-                    eda_class.logger.warning(W_DUPWRONG+'Found different duplicated information for {} in '
-                                             'the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'.
-                                             format(refs, h, h_file, fields[h], value, value))
+                    warning(W_DUPWRONG, 'Found different duplicated information for {} in '
+                            'the titles [\'{}\', \'{}\']: \'{}\'=!\'{}\'. Will be used \'{}\'.'.
+                            format(refs, h, h_file, fields[h], value, value))
             except KeyError:
                 pass
             finally:
@@ -130,7 +131,7 @@ def get_part_groups(in_file, distributors):
        @param in_file `str()` with the file name.
        @return `dict()` of the parts designed. The keys are the components references.
     '''
-    eda_class.logger.log(DEBUG_OVERVIEW, '# Getting from CSV \'{}\' BoM...'.format(
+    debug_overview('# Getting from CSV \'{}\' BoM...'.format(
                                     os.path.basename(in_file)))
     try:
         file_h = open(in_file, 'r')
@@ -154,10 +155,10 @@ def get_part_groups(in_file, distributors):
 
     # The first line in the file must be the column header.
     content = content.splitlines()
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting CSV header...')
+    debug_overview('Getting CSV header...')
     header_file = next(csv.reader(content, delimiter=dialect.delimiter))
     if len(set(header_file)) < len(header_file):
-        eda_class.logger.warning(W_DUPWRONG+'There is a duplicated header title in the file. This could cause loss of information.')
+        warning(W_DUPWRONG, 'There is a duplicated header title in the file. This could cause loss of information.')
 
     # Standardize the header titles and remove the spaces before
     # and after, striping the text improve the user experience.
@@ -193,7 +194,7 @@ def get_part_groups(in_file, distributors):
 
     # Make a dictionary from the fields in the parts library so these field
     # values can be instantiated into the individual components in the schematic.
-    eda_class.logger.log(DEBUG_OVERVIEW, 'Getting parts...')
+    debug_overview('Getting parts...')
 
     # Read the each line content.
     accepted_components = OrderedDict()

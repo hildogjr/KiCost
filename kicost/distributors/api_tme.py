@@ -47,10 +47,11 @@ else:
     from urllib.error import URLError
 
 # KiCost definitions.
-from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL, DEBUG_FULL
+from ..global_vars import W_NOINFO, KiCostError, ERR_SCRAPE, W_APIFAIL
 from .. import DistData
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache, debug_overview, debug_obsessive, warning
+from .distributor import distributor_class, QueryCache
+from .log__ import debug_overview, debug_obsessive, debug_full, is_debug_full, warning
 
 # Specs known by KiCost
 SPEC_NAMES = {'tolerance': 'tolerance',
@@ -454,13 +455,10 @@ def _list_comp_options(data, show, msg):
     """ Debug function used to show the list of options """
     if not show:
         return
-    distributor_class.logger.log(DEBUG_FULL, '  - '+msg)
+    debug_full('  - '+msg)
     for c, d in enumerate(data):
-        distributor_class.logger.log(DEBUG_FULL, '  {}) {} {} moq: {} status: {}'.
-                                     format(c+1, d['Producer'],
-                                            d['OriginalSymbol'],
-                                            d['MinAmount'],
-                                            d['ProductStatusList']))
+        debug_full('  {}) {} {} moq: {} status: {}'.
+                   format(c+1, d['Producer'], d['OriginalSymbol'], d['MinAmount'], d['ProductStatusList']))
 
 
 def _select_best(data, manf, qty):
@@ -471,7 +469,7 @@ def _select_best(data, manf, qty):
     if c == 1:
         return data[0]['Symbol']
     debug_obsessive(' - Choosing the best match ({} options, qty: {} manf: {})'.format(c, qty, manf))
-    ultra_debug = distributor_class.logger.getEffectiveLevel() <= DEBUG_FULL
+    ultra_debug = is_debug_full()
     _list_comp_options(data, ultra_debug, 'Original list')
     # Try to choose the best manufacturer
     data2 = _filter_by_manf(data, manf)
