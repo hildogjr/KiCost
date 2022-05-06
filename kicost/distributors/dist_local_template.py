@@ -27,8 +27,7 @@ import re
 import sys
 import hashlib
 
-from ..global_vars import SEPRTR, W_BADPRICE
-from .. import DistData
+from .. import DistData, SEPRTR, W_BADPRICE
 # Distributors definitions.
 from .distributor import distributor_class
 from .log__ import debug_overview, debug_obsessive, warning
