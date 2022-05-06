@@ -85,8 +85,7 @@ class QueryCache(object):
         if self.ttl_min < 0 or (self.ttl_min > 0 and dif_minutes <= self.ttl_min):
             with open(file, "rb") as fh:
                 result = pickle.loads(fh.read())
-            # Valid load if we got a valid result or we have a persistent cache
-            return result, result is not None or self.ttl_min < 0
+            return result, True
         # Cache expired
         return None, False
 
