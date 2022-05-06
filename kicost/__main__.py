@@ -173,7 +173,7 @@ def configure_kicost_apis(config_file, overwrite, apply_user_opts, data):
     apply_user_opts(api_options, data)
     # Configure the APIs
     configure_apis(api_options)
-    # Now we can init the distributors dict
+    # Start with a clean list of available distributors
     init_distributor_dict()
 
 
