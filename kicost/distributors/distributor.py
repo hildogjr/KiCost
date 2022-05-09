@@ -136,6 +136,11 @@ class distributor_class(object):
         for api in distributor_class.registered:
             debug_overview('Considering: {} {}'.format(api.name, api.api_distributors))
             if api.enabled and len(remaining.intersection(api.api_distributors)):
+                if api.url:
+                    url = ' ({})'.format(api.url)
+                else:
+                    url = ''
+                distributor_class.logger.info('- {} [{}]{}'.format(api.name, api.type, url))
                 solved = api.query_part_info(parts, list(remaining), currency)
                 if solved:
                     remaining -= solved
