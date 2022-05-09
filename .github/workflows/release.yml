@@ -91,7 +91,6 @@ jobs:
           DRAFT_RELEASE: "true"
           PRE_RELEASE: "true"
           CHANGELOG_FILE: "CHANGELOG.md"
-          ALLOW_TAG_PREFIX: "true"
           KICOST_RELEASE: "true"
         with:
           args: |
