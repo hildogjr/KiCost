@@ -86,6 +86,14 @@ kicost.log module
    :undoc-members:
    :show-inheritance:
 
+kicost.log\_\_ module
+---------------------
+
+.. automodule:: kicost.log__
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 kicost.os\_windows module
 -------------------------
 

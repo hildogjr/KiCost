@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.global_vars &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.global_vars &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,9 +26,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.global_vars</a></li> 
       </ul>
     </div>  
@@ -65,23 +64,9 @@
 
 <span class="sd">&quot;&quot;&quot;Stuff that everybody else needs to know about.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-
 <span class="n">PLATFORM_WINDOWS_STARTS_WITH</span> <span class="o">=</span> <span class="s1">&#39;win32&#39;</span>
 <span class="n">PLATFORM_LINUX_STARTS_WITH</span> <span class="o">=</span> <span class="s1">&#39;linux&#39;</span>
 <span class="n">PLATFORM_MACOS_STARTS_WITH</span> <span class="o">=</span> <span class="s1">&#39;darwin&#39;</span>
-
-<span class="c1"># The root logger of the application. This has to be the root logger to catch</span>
-<span class="c1"># output from libraries (e.g. requests) as well.</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="n">DEBUG_OVERVIEW</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
-<span class="n">DEBUG_DETAILED</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">1</span>
-<span class="n">DEBUG_OBSESSIVE</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">2</span>
-<span class="n">DEBUG_HTTP_HEADERS</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">3</span>
-<span class="n">DEBUG_HTTP_RESPONSES</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">4</span>
-<span class="n">DEBUG_FULL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="o">-</span><span class="mi">9</span>
-<span class="c1"># Minimum possible log level is logging.DEBUG-9 !</span>
 
 <span class="n">SEPRTR</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span>  <span class="c1"># Delimiter between library:component, distributor:field, etc.</span>
 
@@ -121,14 +106,10 @@
 <span class="n">W_APIFAIL</span> <span class="o">=</span> <span class="s1">&#39;(WC017) &#39;</span>  <span class="c1"># Failed to init an API</span>
 <span class="n">W_CONFIG</span> <span class="o">=</span> <span class="s1">&#39;(WC018) &#39;</span>  <span class="c1"># Config file warning</span>
 <span class="n">W_CMDLINE</span> <span class="o">=</span> <span class="s1">&#39;(WC019) &#39;</span>  <span class="c1"># Command line warning</span>
+<span class="n">W_NOAPI</span> <span class="o">=</span> <span class="s1">&#39;(WC020) &#39;</span>  <span class="c1"># No API with this name</span>
 
 <span class="c1"># Data types for the options common to various APIs</span>
 <span class="n">BASE_OP_TYPES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;enable&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="s1">&#39;cache_ttl&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
-
-
-<div class="viewcode-block" id="PartHtmlError"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.PartHtmlError">[docs]</a><span class="k">class</span> <span class="nc">PartHtmlError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Exception for failed retrieval of an HTML parse tree for a part.&#39;&#39;&#39;</span>
-    <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="wxPythonNotPresent"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.wxPythonNotPresent">[docs]</a><span class="k">class</span> <span class="nc">wxPythonNotPresent</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
@@ -144,13 +125,47 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span></div>
 
 
-<div class="viewcode-block" id="get_logger"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.get_logger">[docs]</a><span class="k">def</span> <span class="nf">get_logger</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">logger</span></div>
+<div class="viewcode-block" id="DistData"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.DistData">[docs]</a><span class="k">class</span> <span class="nc">DistData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;@brief Data from a distributor related to a part.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Distributor catalogue number.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Purchase distributor URL for the spefic part.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Price break tiers; [[qty1, price1][qty2, price2]...]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Available quantity.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># self.info_dist = None  # Currently unused.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Default currency.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Minimum order quantity allowd by the distributor.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra_info</span> <span class="o">=</span> <span class="p">{}</span></div>
 
 
-<div class="viewcode-block" id="set_logger"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.set_logger">[docs]</a><span class="k">def</span> <span class="nf">set_logger</span><span class="p">(</span><span class="n">lg</span><span class="p">):</span>
-    <span class="k">global</span> <span class="n">logger</span>
-    <span class="n">logger</span> <span class="o">=</span> <span class="n">lg</span></div>
+<span class="c1"># Class for storing part group information.</span>
+<div class="viewcode-block" id="PartGroup"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.PartGroup">[docs]</a><span class="k">class</span> <span class="nc">PartGroup</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;@brief Class to group components.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># None by default, here to avoid try/except in the code</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specs</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># Miscellaneous data from the queries</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_price</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Filled by the spreadsheet code, expressed in the main currency</span>
+        <span class="c1"># Values derived from manf#_qty</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qty</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Quantity for each project, just a number if only 1 project</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qty_str</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Formulas to compute the quantity in the spreadsheet</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Total quantity for all projects for the spreadsheet</span>
+        <span class="c1"># Distributor data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dd</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="PartGroup.update_specs"><a class="viewcode-back" href="../../kicost.html#kicost.global_vars.PartGroup.update_specs">[docs]</a>    <span class="k">def</span> <span class="nf">update_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specs</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">code</span><span class="p">,</span> <span class="n">inf</span> <span class="ow">in</span> <span class="n">specs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">inf</span>
+            <span class="k">if</span> <span class="n">code</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="p">:</span>
+                <span class="c1"># Already here</span>
+                <span class="n">old_name</span><span class="p">,</span> <span class="n">old_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="p">[</span><span class="n">code</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">old_name</span><span class="p">:</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">old_name</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">name</span>
+                <span class="k">if</span> <span class="n">old_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">old_value</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">old_value</span> <span class="o">+</span> <span class="s1">&#39;, &#39;</span> <span class="o">+</span> <span class="n">value</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div></div>
 </pre></div>
 
             <div class="clearer"></div>
@@ -182,9 +197,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.global_vars</a></li> 
       </ul>
     </div>

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.edas.eda_kicad &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.edas.eda_kicad &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,10 +26,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../edas.html" accesskey="U">kicost.edas</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../edas.html" accesskey="U">kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.eda_kicad</a></li> 
       </ul>
     </div>  
@@ -70,8 +69,9 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">SEPRTR</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">SEPRTR</span>
 <span class="kn">from</span> <span class="nn">.eda</span> <span class="kn">import</span> <span class="n">eda_class</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;eda_kicad&#39;</span><span class="p">]</span>
@@ -111,14 +111,14 @@
 <span class="sd">       @return `dict()` of the parts designed. The keys are the componentes references.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Read-in the schematic XML file to get a tree and get its root.</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;# Getting from XML </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> KiCad BoM...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting from XML </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> KiCad BoM...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">in_file</span><span class="p">)))</span>
     <span class="n">file_h</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">file_h</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
     <span class="n">file_h</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="c1"># Get the general information of the project BoM XML file.</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting authorship data...&#39;</span><span class="p">)</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Getting authorship data...&#39;</span><span class="p">)</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;title_block&#39;</span><span class="p">)</span>
 
     <span class="n">prj_info</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -128,7 +128,7 @@
 
     <span class="c1"># Make a dictionary from the fields in the parts library so these field</span>
     <span class="c1"># values can be instantiated into the individual components in the schematic.</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting parts library...&#39;</span><span class="p">)</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Getting parts library...&#39;</span><span class="p">)</span>
     <span class="n">libparts</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;libparts&#39;</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;libparts&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;libpart&#39;</span><span class="p">):</span>
@@ -150,7 +150,7 @@
     <span class="c1"># Find the components used in the schematic and elaborate</span>
     <span class="c1"># them with global values from the libraries and local values</span>
     <span class="c1"># from the schematic.</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting components...&#39;</span><span class="p">)</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Getting components...&#39;</span><span class="p">)</span>
     <span class="n">components</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;components&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;comp&#39;</span><span class="p">):</span>
 
@@ -162,7 +162,7 @@
             <span class="n">libpart</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">libsource</span><span class="p">[</span><span class="s1">&#39;lib&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="n">SEPRTR</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">libsource</span><span class="p">[</span><span class="s1">&#39;part&#39;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">libpart</span> <span class="o">=</span> <span class="s1">&#39;???&#39;</span>
-            <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Footprint library not assigned to </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>  <span class="c1"># TODO</span>
+            <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Footprint library not assigned to </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">))</span>  <span class="c1"># TODO</span>
 
         <span class="c1"># Initialize the fields from the global values in the libparts dict entry.</span>
         <span class="c1"># (These will get overwritten by any local values down below.)</span>
@@ -238,10 +238,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../edas.html" >kicost.edas</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../edas.html" >kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.eda_kicad</a></li> 
       </ul>
     </div>

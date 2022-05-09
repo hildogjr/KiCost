@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.edas.eda_altium &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.edas.eda_altium &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,10 +26,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../edas.html" accesskey="U">kicost.edas</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../edas.html" accesskey="U">kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.eda_altium</a></li> 
       </ul>
     </div>  
@@ -77,9 +76,10 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>  <span class="c1"># To Read XML files.</span>
 <span class="kn">import</span> <span class="nn">re</span>  <span class="c1"># Regular expression parser.</span>
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">ERR_INPUTFILE</span><span class="p">,</span> <span class="n">KiCostError</span>  <span class="c1"># Debug configurations.</span>
 <span class="kn">from</span> <span class="nn">.tools</span> <span class="kn">import</span> <span class="n">field_name_translations</span><span class="p">,</span> <span class="n">PART_REF_REGEX_NOT_ALLOWED</span>
 <span class="kn">from</span> <span class="nn">.eda</span> <span class="kn">import</span> <span class="n">eda_class</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">ERR_INPUTFILE</span>
 
 <span class="n">ALTIUM_NONE</span> <span class="o">=</span> <span class="s1">&#39;[NoParam]&#39;</span>  <span class="c1"># Value of Altium to `None`.</span>
 <span class="n">ALTIUM_PART_SEPRTR</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;(?&lt;!</span><span class="se">\\</span><span class="s1">),\s*&#39;</span>  <span class="c1"># Separator for the part numbers in a list, remove the lateral spaces.</span>
@@ -143,7 +143,7 @@
 <span class="sd">       @return `dict()` of the parts designed. The keys are the componentes references.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Read-in the schematic XML file to get a tree and get its root.</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;# Getting from XML </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> Altium BoM...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting from XML </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> Altium BoM...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">in_file</span><span class="p">)))</span>
     <span class="n">file_h</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
     <span class="n">root</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">file_h</span><span class="p">,</span> <span class="s1">&#39;lxml&#39;</span><span class="p">)</span>
@@ -151,10 +151,10 @@
 
     <span class="c1"># Get the header of the XML file of Altium, so KiCost is able to to</span>
     <span class="c1"># to get all the informations in the file.</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting the XML table header...&#39;</span><span class="p">)</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Getting the XML table header...&#39;</span><span class="p">)</span>
     <span class="n">header</span> <span class="o">=</span> <span class="p">[</span><span class="n">extract_field</span><span class="p">(</span><span class="n">entry</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;columns&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;column&#39;</span><span class="p">)]</span>
 
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting components...&#39;</span><span class="p">)</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Getting components...&#39;</span><span class="p">)</span>
     <span class="n">accepted_components</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">root</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;rows&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s1">&#39;row&#39;</span><span class="p">):</span>
 
@@ -226,10 +226,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../edas.html" >kicost.edas</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../edas.html" >kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.eda_altium</a></li> 
       </ul>
     </div>

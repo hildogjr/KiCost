@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.edas.generic_csv &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.edas.generic_csv &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,10 +26,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../edas.html" accesskey="U">kicost.edas</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../edas.html" accesskey="U">kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.generic_csv</a></li> 
       </ul>
     </div>  
@@ -78,9 +77,10 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">import</span> <span class="nn">csv</span>  <span class="c1"># CSV file reader.</span>
 <span class="kn">import</span> <span class="nn">re</span>  <span class="c1"># Regular expression parser.</span>
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">ERR_INPUTFILE</span><span class="p">,</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">W_DUPWRONG</span>
 <span class="kn">from</span> <span class="nn">.tools</span> <span class="kn">import</span> <span class="n">field_name_translations</span><span class="p">,</span> <span class="n">split_refs</span>
 <span class="kn">from</span> <span class="nn">.eda</span> <span class="kn">import</span> <span class="n">eda_class</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">warning</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">ERR_INPUTFILE</span><span class="p">,</span> <span class="n">W_DUPWRONG</span>
 
 
 <span class="n">GENERIC_PREFIX</span> <span class="o">=</span> <span class="s1">&#39;GEN&#39;</span>  <span class="c1"># Part reference prefix to use when no references are present.</span>
@@ -96,7 +96,7 @@
     <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">idx</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">vals</span><span class="p">[</span><span class="n">header_file</span><span class="p">[</span><span class="n">i</span><span class="p">]]:</span>
-            <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_DUPWRONG</span><span class="o">+</span><span class="s1">&#39;Found different duplicated information for </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">: </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">=!</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">. Will be used the last.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_DUPWRONG</span><span class="p">,</span> <span class="s1">&#39;Found different duplicated information for </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">: </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">=!</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">. Will be used the last.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                 <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">vals</span><span class="p">[</span><span class="n">header_file</span><span class="p">[</span><span class="n">i</span><span class="p">]]))</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">vals</span><span class="p">[</span><span class="n">header_file</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
         <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
@@ -144,9 +144,9 @@
                 <span class="n">value</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">h_file</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">value</span> <span class="ow">and</span> <span class="n">fields</span><span class="p">[</span><span class="n">h</span><span class="p">]</span> <span class="o">!=</span> <span class="n">value</span><span class="p">:</span>
-                    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_DUPWRONG</span><span class="o">+</span><span class="s1">&#39;Found different duplicated information for </span><span class="si">{}</span><span class="s1"> in &#39;</span>
-                                             <span class="s1">&#39;the titles [</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">, </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">]: </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">=!</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">. Will be used </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">.&#39;</span><span class="o">.</span>
-                                             <span class="nb">format</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">h_file</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="n">h</span><span class="p">],</span> <span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+                    <span class="n">warning</span><span class="p">(</span><span class="n">W_DUPWRONG</span><span class="p">,</span> <span class="s1">&#39;Found different duplicated information for </span><span class="si">{}</span><span class="s1"> in &#39;</span>
+                            <span class="s1">&#39;the titles [</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">, </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">]: </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">=!</span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">. Will be used </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">.&#39;</span><span class="o">.</span>
+                            <span class="nb">format</span><span class="p">(</span><span class="n">refs</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">h_file</span><span class="p">,</span> <span class="n">fields</span><span class="p">[</span><span class="n">h</span><span class="p">],</span> <span class="n">value</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">pass</span>
             <span class="k">finally</span><span class="p">:</span>
@@ -172,7 +172,7 @@
 <span class="sd">       @param in_file `str()` with the file name.</span>
 <span class="sd">       @return `dict()` of the parts designed. The keys are the components references.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;# Getting from CSV </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> BoM...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting from CSV </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> BoM...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                     <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">in_file</span><span class="p">)))</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">file_h</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
@@ -196,10 +196,10 @@
 
     <span class="c1"># The first line in the file must be the column header.</span>
     <span class="n">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting CSV header...&#39;</span><span class="p">)</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Getting CSV header...&#39;</span><span class="p">)</span>
     <span class="n">header_file</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">dialect</span><span class="o">.</span><span class="n">delimiter</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">header_file</span><span class="p">))</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">header_file</span><span class="p">):</span>
-        <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_DUPWRONG</span><span class="o">+</span><span class="s1">&#39;There is a duplicated header title in the file. This could cause loss of information.&#39;</span><span class="p">)</span>
+        <span class="n">warning</span><span class="p">(</span><span class="n">W_DUPWRONG</span><span class="p">,</span> <span class="s1">&#39;There is a duplicated header title in the file. This could cause loss of information.&#39;</span><span class="p">)</span>
 
     <span class="c1"># Standardize the header titles and remove the spaces before</span>
     <span class="c1"># and after, striping the text improve the user experience.</span>
@@ -235,7 +235,7 @@
 
     <span class="c1"># Make a dictionary from the fields in the parts library so these field</span>
     <span class="c1"># values can be instantiated into the individual components in the schematic.</span>
-    <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Getting parts...&#39;</span><span class="p">)</span>
+    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Getting parts...&#39;</span><span class="p">)</span>
 
     <span class="c1"># Read the each line content.</span>
     <span class="n">accepted_components</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -301,10 +301,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../edas.html" >kicost.edas</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../edas.html" >kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.generic_csv</a></li> 
       </ul>
     </div>

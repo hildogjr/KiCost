@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.api_partinfo_kitspace &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.distributors.api_partinfo_kitspace &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,10 +26,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_partinfo_kitspace</a></li> 
       </ul>
     </div>  
@@ -83,10 +82,10 @@
     <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
 
 <span class="c1"># KiCost definitions.</span>
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">NO_PRICE</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">DistData</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">NO_PRICE</span>
 <span class="c1"># Distributors definitions.</span>
-<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
 
 
 <span class="c1"># Uncomment for debug</span>
@@ -206,7 +205,8 @@
             <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Bad request to Kitspace server probably due to an incorrect string &#39;</span>
                               <span class="s1">&#39;format check your `manf#` codes and contact the suport team.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;gateway_timeout&#39;</span><span class="p">]:</span>  <span class="c1"># 504</span>
-            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;One of the internal Kitspace services may experiencing problems. Contact the Kitspace support.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;One of the internal Kitspace services may experiencing problems.&#39;</span>
+                              <span class="s1">&#39; Most probably is saturated, please consider using other API.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Kitspace error: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span></div>
 
@@ -414,7 +414,7 @@
 
         <span class="c1"># Solve the rest from the site</span>
         <span class="n">n_unsolved</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unsolved</span><span class="p">)</span>
-        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Cached entries </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_queries</span><span class="o">-</span><span class="n">n_unsolved</span><span class="p">))</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Cached entries </span><span class="si">{}</span><span class="s1"> (of </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_queries</span><span class="o">-</span><span class="n">n_unsolved</span><span class="p">,</span> <span class="n">n_queries</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">n_unsolved</span><span class="p">:</span>
             <span class="c1"># Setup progress bar to track progress of server queries.</span>
             <span class="n">progress</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">n_unsolved</span><span class="p">,</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
@@ -468,10 +468,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_partinfo_kitspace</a></li> 
       </ul>
     </div>

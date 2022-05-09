@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.kicost &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.kicost &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,9 +26,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.kicost</a></li> 
       </ul>
     </div>  
@@ -98,8 +97,7 @@
 <span class="c1"># Only export this routine for use by the outside world.</span>
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;kicost&#39;</span><span class="p">,</span> <span class="s1">&#39;output_filename&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost_gui_notdependences&#39;</span><span class="p">,</span> <span class="s1">&#39;query_part_info&#39;</span><span class="p">]</span>
 
-<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="kn">import</span> <span class="p">(</span><span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">SEPRTR</span><span class="p">,</span> <span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">DEF_MAX_COLUMN_W</span><span class="p">,</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">ERR_KICOSTCONFIG</span><span class="p">,</span> <span class="n">ERR_ARGS</span><span class="p">,</span> <span class="n">KiCostError</span><span class="p">,</span>
-                          <span class="n">W_TRANS</span><span class="p">,</span> <span class="n">W_NOMANP</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="kn">import</span> <span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">SEPRTR</span><span class="p">,</span> <span class="n">DEF_MAX_COLUMN_W</span><span class="p">,</span> <span class="n">ERR_KICOSTCONFIG</span><span class="p">,</span> <span class="n">ERR_ARGS</span><span class="p">,</span> <span class="n">W_TRANS</span><span class="p">,</span> <span class="n">W_NOMANP</span>
 <span class="c1"># * Import the KiCost libraries functions.</span>
 <span class="c1"># Import information for various EDA tools.</span>
 <span class="kn">from</span> <span class="nn">.edas.tools</span> <span class="kn">import</span> <span class="n">field_name_translations</span><span class="p">,</span> <span class="n">subpartqty_split</span><span class="p">,</span> <span class="n">group_parts</span><span class="p">,</span> <span class="n">PRJ_STR_DECLARE</span><span class="p">,</span> <span class="n">PRJPART_SPRTR</span><span class="p">,</span> <span class="n">partgroup_qty</span>
@@ -108,15 +106,31 @@
 <span class="kn">from</span> <span class="nn">.spreadsheet</span> <span class="kn">import</span> <span class="n">create_spreadsheet</span><span class="p">,</span> <span class="n">Spreadsheet</span>
 <span class="c1"># Import the scrape API</span>
 <span class="kn">from</span> <span class="nn">.distributors</span> <span class="kn">import</span> <span class="n">get_dist_parts_info</span><span class="p">,</span> <span class="n">get_registered_apis</span><span class="p">,</span> <span class="n">get_distributors_iter</span><span class="p">,</span> <span class="n">get_distributor_info</span>
-
-<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">is_debug_detailed</span><span class="p">,</span> <span class="n">is_debug_overview</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">warning</span><span class="p">,</span> <span class="n">KiCostError</span>
 
 
 <div class="viewcode-block" id="query_part_info"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.query_part_info">[docs]</a><span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">getEffectiveLevel</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Used to get the parts price and information.</span>
+<span class="sd">        Also used from outside KiCost. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">is_debug_overview</span><span class="p">():</span>
         <span class="n">api_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39;(Disabled)&#39;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">d</span><span class="o">.</span><span class="n">enabled</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">get_registered_apis</span><span class="p">()]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Scrape API list &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">api_list</span><span class="p">))</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Scrape API list &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">api_list</span><span class="p">))</span>
     <span class="n">get_dist_parts_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">solve_parts_qtys</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">multi_prj</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Used to fill the qty_str, qty and qty_total_spreadsheet members of the parts.</span>
+<span class="sd">        Also used from outside KiCost. &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+        <span class="n">part</span><span class="o">.</span><span class="n">qty_str</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">=</span> <span class="n">partgroup_qty</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+        <span class="c1"># Total for all boards</span>
+        <span class="k">if</span> <span class="n">multi_prj</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i_prj</span><span class="p">,</span> <span class="n">p_info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">prj_info</span><span class="p">):</span>
+                <span class="n">total</span> <span class="o">+=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">*</span> <span class="n">p_info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">total</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">*</span> <span class="n">prj_info</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
+        <span class="n">part</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="kicost"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.kicost">[docs]</a><span class="k">def</span> <span class="nf">kicost</span><span class="p">(</span><span class="n">in_file</span><span class="p">,</span> <span class="n">eda_name</span><span class="p">,</span> <span class="n">out_filename</span><span class="p">,</span> <span class="n">user_fields</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">group_fields</span><span class="p">,</span> <span class="n">translate_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -154,8 +168,8 @@
         <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">translate_fields</span><span class="p">),</span> <span class="mi">2</span><span class="p">):</span>
             <span class="c1"># field_name_translations.keys(), field_name_translations.values()</span>
             <span class="k">if</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span> <span class="ow">in</span> <span class="n">field_name_translations</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_TRANS</span><span class="o">+</span><span class="s2">&quot;Unable to re-translate </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2"> to </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">, this is used as an internal field name.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-                               <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_TRANS</span><span class="p">,</span> <span class="s2">&quot;Unable to re-translate </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2"> to </span><span class="se">\&quot;</span><span class="si">{}</span><span class="se">\&quot;</span><span class="s2">, this is used as an internal field name.&quot;</span><span class="o">.</span>
+                        <span class="nb">format</span><span class="p">(</span><span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
                 <span class="k">continue</span>
             <span class="k">if</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;~&#39;</span><span class="p">:</span>
                 <span class="n">field_name_translations</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="n">translate_fields</span><span class="p">[</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()})</span>
@@ -170,8 +184,8 @@
     <span class="n">user_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">([(</span><span class="n">lv</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">lv</span> <span class="ow">in</span> <span class="n">user_fields</span><span class="p">]))</span>  <span class="c1"># Avoid repeated fields</span>
     <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">user_fields</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">field_name_translations</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_TRANS</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">{f}</span><span class="se">\&quot;</span><span class="s2"> field is a reserved field and can not be used as user field.&quot;</span>
-                           <span class="s2">&quot; Try to remove it from internal dictionary using `--translate_fields </span><span class="si">{f}</span><span class="s2"> ~`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_TRANS</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\&quot;</span><span class="si">{f}</span><span class="se">\&quot;</span><span class="s2"> field is a reserved field and can not be used as user field.&quot;</span>
+                    <span class="s2">&quot; Try to remove it from internal dictionary using `--translate_fields </span><span class="si">{f}</span><span class="s2"> ~`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
             <span class="n">user_fields</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
     <span class="n">c_files</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">in_file</span><span class="p">)</span>
@@ -206,7 +220,7 @@
             <span class="c1"># of number of BOM files. This vector will be used in the `group_parts()`</span>
             <span class="c1"># to create groups with elements of same &#39;manf#&#39; that came from different</span>
             <span class="c1"># projects.</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Multi BOMs detected, attaching project identification to references...&#39;</span><span class="p">)</span>
+            <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Multi BOMs detected, attaching project identification to references...&#39;</span><span class="p">)</span>
             <span class="n">qty_base</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">c_files</span>  <span class="c1"># Zero for all projects</span>
             <span class="k">for</span> <span class="n">p_ref</span><span class="p">,</span> <span class="n">p_fields</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="c1"># Copy the qty to the position corresponding to this project</span>
@@ -255,14 +269,14 @@
         <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_list</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">d</span><span class="o">+</span><span class="s1">&#39;#&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_fields</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_NOMANP</span><span class="o">+</span><span class="s2">&quot;No &#39;manf#&#39; and &#39;</span><span class="si">%s</span><span class="s2">#&#39; field in any part: no information by &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">,</span>
-                               <span class="n">d</span><span class="p">,</span> <span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_NOMANP</span><span class="p">,</span> <span class="s2">&quot;No &#39;manf#&#39; and &#39;</span><span class="si">{}</span><span class="s2">#&#39; field in any part: no information by &#39;</span><span class="si">{}</span><span class="s2">&#39;.&quot;</span><span class="o">.</span>
+                        <span class="nb">format</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
         <span class="n">dist_list</span> <span class="o">=</span> <span class="n">new_list</span>
     <span class="c1"># Debug the resulting list</span>
-    <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">):</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="s1">&#39;Distributors: &#39;</span> <span class="o">+</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">dist_list</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">is_debug_detailed</span><span class="p">():</span>
+        <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Distributors: &#39;</span> <span class="o">+</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">dist_list</span><span class="p">))</span>
     <span class="c1">#</span>
     <span class="c1"># Solve the quantity for each group</span>
     <span class="c1">#</span>
@@ -272,16 +286,7 @@
             <span class="n">p_info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Spreadsheet</span><span class="o">.</span><span class="n">DEFAULT_BUILD_QTY</span>
     <span class="n">multi_prj</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prj_info</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
     <span class="c1"># Compute the qtys</span>
-    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
-        <span class="n">part</span><span class="o">.</span><span class="n">qty_str</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">=</span> <span class="n">partgroup_qty</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
-        <span class="c1"># Total for all boards</span>
-        <span class="k">if</span> <span class="n">multi_prj</span><span class="p">:</span>
-            <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">i_prj</span><span class="p">,</span> <span class="n">p_info</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">prj_info</span><span class="p">):</span>
-                <span class="n">total</span> <span class="o">+=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span><span class="p">[</span><span class="n">i_prj</span><span class="p">]</span> <span class="o">*</span> <span class="n">p_info</span><span class="p">[</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">total</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">qty</span> <span class="o">*</span> <span class="n">prj_info</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;qty&#39;</span><span class="p">]</span>
-        <span class="n">part</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+    <span class="n">solve_parts_qtys</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">multi_prj</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">)</span>
     <span class="c1"># Get the distributor pricing/etc for each part.</span>
     <span class="n">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
 
@@ -290,7 +295,7 @@
                        <span class="n">user_fields</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variant</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">variant</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">max_column_width</span><span class="p">)</span>
 
     <span class="c1"># Print component groups for debugging purposes.</span>
-    <span class="k">if</span> <span class="n">logger</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">is_debug_detailed</span><span class="p">():</span>
         <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">part</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
@@ -300,13 +305,13 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">head</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> = &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">head</span> <span class="o">+</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">]))</span>
+                        <span class="n">debug_detailed</span><span class="p">(</span><span class="n">head</span> <span class="o">+</span> <span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">]))</span>
                     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                         <span class="c1"># Python 2.7 pprint has some problem ordering None and strings.</span>
-                        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">head</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">]))</span>
+                        <span class="n">debug_detailed</span><span class="p">(</span><span class="n">head</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">f</span><span class="p">]))</span>
                     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                         <span class="k">pass</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
+            <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span></div>
 
 
 <span class="c1"># Maximum length of the name of the spreadsheet output generate, this is used in the multifiles to limit the</span>
@@ -351,12 +356,12 @@
 
 
 <div class="viewcode-block" id="kicost_gui_notdependences"><a class="viewcode-back" href="../../kicost.html#kicost.kicost.kicost_gui_notdependences">[docs]</a><span class="k">def</span> <span class="nf">kicost_gui_notdependences</span><span class="p">():</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;You don</span><span class="se">\&#39;</span><span class="s1">t have the wxPython dependence to run the GUI interface.&#39;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Run once of the following commands in a terminal to install it:&#39;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;pip3 install -U wxPython # For Windows &amp; macOS&#39;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;sudo apt-get install python3-wxgtk4.0 # Modern Linux derived from Debian, like Ubuntu&#39;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04&#39;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Or download the last version from &lt;https://wxpython.org/pages/downloads/&gt;&#39;</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s1">&#39;You don</span><span class="se">\&#39;</span><span class="s1">t have the wxPython dependence to run the GUI interface.&#39;</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Run once of the following commands in a terminal to install it:&#39;</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s1">&#39;pip3 install -U wxPython # For Windows &amp; macOS&#39;</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s1">&#39;sudo apt-get install python3-wxgtk4.0 # Modern Linux derived from Debian, like Ubuntu&#39;</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s1">&#39;pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Linux 16.04&#39;</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Or download the last version from &lt;https://wxpython.org/pages/downloads/&gt;&#39;</span><span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">ERR_KICOSTCONFIG</span><span class="p">)</span></div>
 </pre></div>
 
@@ -389,9 +394,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.kicost</a></li> 
       </ul>
     </div>

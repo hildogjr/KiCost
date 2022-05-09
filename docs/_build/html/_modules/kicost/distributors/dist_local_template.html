@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.dist_local_template &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.distributors.dist_local_template &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,10 +26,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.dist_local_template</a></li> 
       </ul>
     </div>  
@@ -69,10 +68,10 @@
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">hashlib</span>
 
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">SEPRTR</span><span class="p">,</span> <span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="n">W_BADPRICE</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">DistData</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">SEPRTR</span><span class="p">,</span> <span class="n">W_BADPRICE</span>
 <span class="c1"># Distributors definitions.</span>
 <span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;dist_local_template&#39;</span><span class="p">]</span>
 
@@ -118,7 +117,7 @@
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span><span class="p">:</span>
                 <span class="n">dist_local_template</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">v</span>
-        <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;Local API configured to enabled </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist_local_template</span><span class="o">.</span><span class="n">enabled</span><span class="p">))</span></div>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Local API configured to enabled </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist_local_template</span><span class="o">.</span><span class="n">enabled</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="dist_local_template.update_distributors"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.dist_local_template.dist_local_template.update_distributors">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">update_distributors</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">):</span>
@@ -141,7 +140,7 @@
                 <span class="c1"># Note: If the user excludes a web-scrapable distributors (using --exclude)</span>
                 <span class="c1"># and then adds it as a local distributor (using fields) it will be added.</span>
                 <span class="k">if</span> <span class="n">dist</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
-                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OVERVIEW</span><span class="p">,</span> <span class="s1">&#39;Creating </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> local distributor profile...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+                    <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Creating </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> local distributor profile...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
                     <span class="n">new_dist</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_template</span><span class="p">(</span><span class="s1">&#39;local_template&#39;</span><span class="p">)</span>
                     <span class="n">new_dist</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">dist</span>  <span class="c1"># Set dist name for spreadsheet header.</span>
                     <span class="n">distributor_class</span><span class="o">.</span><span class="n">add_distributor</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">new_dist</span><span class="p">)</span>
@@ -180,7 +179,7 @@
                     <span class="n">link</span> <span class="o">=</span> <span class="n">urlunsplit</span><span class="p">(</span><span class="n">url_parts</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># This happens when no part URL is found.</span>
-                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;No part URL found for local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+                    <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;No part URL found for local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
                 <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">link</span>
 
                 <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{}</span>
@@ -199,13 +198,13 @@
                         <span class="k">try</span><span class="p">:</span>
                             <span class="n">price_tiers</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">qty</span><span class="p">)]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
                         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                            <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_BADPRICE</span><span class="o">+</span><span class="s1">&#39;Malformed pricing number: `</span><span class="si">{}</span><span class="s1">` at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">old_pricing</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
+                            <span class="n">warning</span><span class="p">(</span><span class="n">W_BADPRICE</span><span class="p">,</span> <span class="s1">&#39;Malformed pricing number: `</span><span class="si">{}</span><span class="s1">` at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">old_pricing</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_BADPRICE</span><span class="o">+</span><span class="s1">&#39;Malformed pricing entry: `</span><span class="si">{}</span><span class="s1">` at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qty_price</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
+                        <span class="n">warning</span><span class="p">(</span><span class="n">W_BADPRICE</span><span class="p">,</span> <span class="s1">&#39;Malformed pricing entry: `</span><span class="si">{}</span><span class="s1">` at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">qty_price</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
                 <span class="c1"># dd.moq = min(price_tiers.keys())</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">price_tiers</span><span class="p">:</span>
                     <span class="c1"># This happens when no pricing info is found.</span>
-                    <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;No pricing information found for local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+                    <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;No pricing information found for local </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> distributor!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
                 <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="n">price_tiers</span>
                 <span class="c1"># Update the DistData for this distributor</span>
                 <span class="n">p</span><span class="o">.</span><span class="n">dd</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">dd</span>
@@ -247,10 +246,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.dist_local_template</a></li> 
       </ul>
     </div>

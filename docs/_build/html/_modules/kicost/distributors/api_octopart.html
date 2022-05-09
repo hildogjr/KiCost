@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.api_octopart &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.distributors.api_octopart &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,10 +26,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_octopart</a></li> 
       </ul>
     </div>  
@@ -77,10 +76,10 @@
     <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
 
 <span class="c1"># KiCost definitions.</span>
-<span class="kn">from</span> <span class="nn">..global_vars</span> <span class="kn">import</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">W_ASSQTY</span><span class="p">,</span> <span class="n">W_AMBIPN</span><span class="p">,</span> <span class="n">W_APIFAIL</span>
-<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">DistData</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">W_ASSQTY</span><span class="p">,</span> <span class="n">W_AMBIPN</span><span class="p">,</span> <span class="n">W_APIFAIL</span>
 <span class="c1"># Distributors definitions.</span>
-<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
 
 <span class="c1"># Author information.</span>
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;XESS Corporation&#39;</span>
@@ -455,7 +454,7 @@
                 <span class="c1"># general sub quantity of the current part.</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="s1">&#39;manf#_qty&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">octopart_dist_sku</span> <span class="o">+</span> <span class="s1">&#39;#_qty&#39;</span><span class="p">]</span>
-                    <span class="n">warning</span><span class="p">(</span><span class="n">W_ASSQTY</span><span class="o">+</span><span class="s2">&quot;Associated </span><span class="si">{q}</span><span class="s2"> quantity to &#39;</span><span class="si">{r}</span><span class="s2">&#39; due </span><span class="se">\&quot;</span><span class="si">{f}</span><span class="s2">#=</span><span class="si">{q}</span><span class="s2">:</span><span class="si">{c}</span><span class="se">\&quot;</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">warning</span><span class="p">(</span><span class="n">W_ASSQTY</span><span class="p">,</span> <span class="s2">&quot;Associated </span><span class="si">{q}</span><span class="s2"> quantity to &#39;</span><span class="si">{r}</span><span class="s2">&#39; due </span><span class="se">\&quot;</span><span class="si">{f}</span><span class="s2">#=</span><span class="si">{q}</span><span class="s2">:</span><span class="si">{c}</span><span class="se">\&quot;</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                             <span class="n">q</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">octopart_dist_sku</span> <span class="o">+</span> <span class="s1">&#39;#_qty&#39;</span><span class="p">],</span> <span class="n">r</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">,</span>
                             <span class="n">f</span><span class="o">=</span><span class="n">octopart_dist_sku</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">octopart_dist_sku</span><span class="o">+</span><span class="s1">&#39;#&#39;</span><span class="p">]))</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -555,10 +554,9 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../../kicost.html" >kicost</a> &#187;</li>
-          <li class="nav-item nav-item-3"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_octopart</a></li> 
       </ul>
     </div>

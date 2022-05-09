@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost package &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost package &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="modules.html" title="kicost"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost package</a></li> 
       </ul>
@@ -363,6 +363,13 @@ See: <a class="reference external" href="http://en.wikipedia.org/wiki/ANSI_escap
 <div class="section" id="module-kicost.global_vars">
 <span id="kicost-global-vars-module"></span><h2>kicost.global_vars module<a class="headerlink" href="#module-kicost.global_vars" title="Permalink to this headline">¶</a></h2>
 <p>Stuff that everybody else needs to know about.</p>
+<dl class="py class">
+<dt id="kicost.global_vars.DistData">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">DistData</code><a class="reference internal" href="_modules/kicost/global_vars.html#DistData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.DistData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>&#64;brief Data from a distributor related to a part.</p>
+</dd></dl>
+
 <dl class="py exception">
 <dt id="kicost.global_vars.KiCostError">
 <em class="property">exception </em><code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">KiCostError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/global_vars.html#KiCostError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.KiCostError" title="Permalink to this definition">¶</a></dt>
@@ -370,22 +377,17 @@ See: <a class="reference external" href="http://en.wikipedia.org/wiki/ANSI_escap
 <p>Exception for any error while running kicost().</p>
 </dd></dl>
 
-<dl class="py exception">
-<dt id="kicost.global_vars.PartHtmlError">
-<em class="property">exception </em><code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">PartHtmlError</code><a class="reference internal" href="_modules/kicost/global_vars.html#PartHtmlError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.PartHtmlError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
-<p>Exception for failed retrieval of an HTML parse tree for a part.</p>
+<dl class="py class">
+<dt id="kicost.global_vars.PartGroup">
+<em class="property">class </em><code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">PartGroup</code><a class="reference internal" href="_modules/kicost/global_vars.html#PartGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.PartGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>&#64;brief Class to group components.</p>
+<dl class="py method">
+<dt id="kicost.global_vars.PartGroup.update_specs">
+<code class="sig-name descname">update_specs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">specs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/global_vars.html#PartGroup.update_specs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.PartGroup.update_specs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
-
-<dl class="py function">
-<dt id="kicost.global_vars.get_logger">
-<code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">get_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/global_vars.html#get_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.get_logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py function">
-<dt id="kicost.global_vars.set_logger">
-<code class="sig-prename descclassname">kicost.global_vars.</code><code class="sig-name descname">set_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lg</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/global_vars.html#set_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.global_vars.set_logger" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="py exception">
 <dt id="kicost.global_vars.wxPythonNotPresent">
@@ -491,7 +493,9 @@ The output folder is the folder of the first file.
 <dl class="py function">
 <dt id="kicost.kicost.query_part_info">
 <code class="sig-prename descclassname">kicost.kicost.</code><code class="sig-name descname">query_part_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">parts</span></em>, <em class="sig-param"><span class="n">dist_list</span></em>, <em class="sig-param"><span class="n">currency</span><span class="o">=</span><span class="default_value">'USD'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/kicost.html#query_part_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.kicost.query_part_info" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Used to get the parts price and information.
+Also used from outside KiCost.</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-kicost.kicost_config">
@@ -609,6 +613,13 @@ it is formatted using formatException() and appended to the message.</p>
 <em class="property">class </em><code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">MyLogger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">level</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#MyLogger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.MyLogger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">logging.Logger</span></code></p>
 <dl class="py method">
+<dt id="kicost.log.MyLogger.findCaller">
+<code class="sig-name descname">findCaller</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stack_info</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">stacklevel</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#MyLogger.findCaller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.MyLogger.findCaller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the stack frame of the caller so that we can note the source
+file name, line number and function name.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="kicost.log.MyLogger.log">
 <code class="sig-name descname">log</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">level</span></em>, <em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#MyLogger.log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.MyLogger.log" title="Permalink to this definition">¶</a></dt>
 <dd><p>Log ‘msg % args’ with the integer severity ‘level’.</p>
@@ -680,6 +691,79 @@ a true value, e.g.</p>
 <dl class="py function">
 <dt id="kicost.log.set_verbosity">
 <code class="sig-prename descclassname">kicost.log.</code><code class="sig-name descname">set_verbosity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em>, <em class="sig-param"><span class="n">debug</span></em>, <em class="sig-param"><span class="n">quiet</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log.html#set_verbosity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log.set_verbosity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-kicost.log__">
+<span id="id1"></span><h2>kicost.log__ module<a class="headerlink" href="#module-kicost.log__" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="kicost.log__.debug">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">debug</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.debug" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.debug_detailed">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">debug_detailed</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#debug_detailed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.debug_detailed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.debug_full">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">debug_full</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#debug_full"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.debug_full" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.debug_general">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">debug_general</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#debug_general"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.debug_general" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.debug_obsessive">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">debug_obsessive</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#debug_obsessive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.debug_obsessive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.debug_overview">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">debug_overview</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#debug_overview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.debug_overview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.error">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">error</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.error" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.get_logger">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">get_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#get_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.get_logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.info">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">info</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.info" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.is_debug_detailed">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">is_debug_detailed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#is_debug_detailed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.is_debug_detailed" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.is_debug_obsessive">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">is_debug_obsessive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#is_debug_obsessive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.is_debug_obsessive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.is_debug_overview">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">is_debug_overview</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#is_debug_overview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.is_debug_overview" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.set_logger">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">set_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#set_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.set_logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.log__.warning">
+<code class="sig-prename descclassname">kicost.log__.</code><code class="sig-name descname">warning</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em>, <em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/log__.html#warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.log__.warning" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -976,7 +1060,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 <p>A class to hold the spreadsheet generation settings</p>
 <dl class="py attribute">
 <dt id="kicost.spreadsheet.Spreadsheet.ABOUT_MSG">
-<code class="sig-name descname">ABOUT_MSG</code><em class="property"> = 'KiCost® v1.1.7'</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ABOUT_MSG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ABOUT_MSG</code><em class="property"> = 'KiCost® v1.1.8'</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ABOUT_MSG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1101,7 +1185,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 
 <dl class="py method">
 <dt id="kicost.spreadsheet.Spreadsheet.adjust_row_and_col_sizes">
-<code class="sig-name descname">adjust_row_and_col_sizes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.adjust_row_and_col_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.adjust_row_and_col_sizes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">adjust_row_and_col_sizes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#Spreadsheet.adjust_row_and_col_sizes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.adjust_row_and_col_sizes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adjust the column and row sizes using the values computed by compute_cell_size</p>
 </dd></dl>
 
@@ -1183,7 +1267,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 
 <dl class="py function">
 <dt id="kicost.spreadsheet.create_worksheet">
-<code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">create_worksheet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ss</span></em>, <em class="sig-param"><span class="n">logger</span></em>, <em class="sig-param"><span class="n">parts</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#create_worksheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.create_worksheet" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">kicost.spreadsheet.</code><code class="sig-name descname">create_worksheet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ss</span></em>, <em class="sig-param"><span class="n">parts</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/spreadsheet.html#create_worksheet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.spreadsheet.create_worksheet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a worksheet using the info for the parts (including their HTML trees).</p>
 </dd></dl>
 
@@ -1193,25 +1277,6 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 </div>
 <div class="section" id="module-kicost">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="kicost.DistData">
-<em class="property">class </em><code class="sig-prename descclassname">kicost.</code><code class="sig-name descname">DistData</code><a class="reference internal" href="_modules/kicost.html#DistData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.DistData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>&#64;brief Data from a distributor related to a part.</p>
-</dd></dl>
-
-<dl class="py class">
-<dt id="kicost.PartGroup">
-<em class="property">class </em><code class="sig-prename descclassname">kicost.</code><code class="sig-name descname">PartGroup</code><a class="reference internal" href="_modules/kicost.html#PartGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.PartGroup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>&#64;brief Class to group components.</p>
-<dl class="py method">
-<dt id="kicost.PartGroup.update_specs">
-<code class="sig-name descname">update_specs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">specs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost.html#PartGroup.update_specs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.PartGroup.update_specs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 
@@ -1236,6 +1301,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 <li><a class="reference internal" href="#module-kicost.kicost_gui">kicost.kicost_gui module</a></li>
 <li><a class="reference internal" href="#module-kicost.kicost_kicadplugin">kicost.kicost_kicadplugin module</a></li>
 <li><a class="reference internal" href="#module-kicost.log">kicost.log module</a></li>
+<li><a class="reference internal" href="#module-kicost.log__">kicost.log__ module</a></li>
 <li><a class="reference internal" href="#module-kicost.os_windows">kicost.os_windows module</a></li>
 <li><a class="reference internal" href="#module-kicost.sexpdata">kicost.sexpdata module</a><ul>
 <li><a class="reference internal" href="#s-expression-parser-for-python">S-expression parser for Python</a><ul>
@@ -1293,7 +1359,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
         <li class="right" >
           <a href="modules.html" title="kicost"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost package</a></li> 
       </ul>

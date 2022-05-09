@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.config &#8212; kicost 1.1.7 documentation</title>
+    <title>kicost.config &#8212; kicost 1.1.8 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,9 +26,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../kicost.html" accesskey="U">kicost</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.config</a></li> 
       </ul>
     </div>  
@@ -69,15 +68,14 @@
 
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="kn">import</span> <span class="n">get_logger</span><span class="p">,</span> <span class="n">ERR_KICOSTCONFIG</span><span class="p">,</span> <span class="n">W_CONFIG</span><span class="p">,</span> <span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="n">BASE_OP_TYPES</span>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">.global_vars</span> <span class="kn">import</span> <span class="n">ERR_KICOSTCONFIG</span><span class="p">,</span> <span class="n">W_CONFIG</span><span class="p">,</span> <span class="n">BASE_OP_TYPES</span>
+<span class="kn">from</span> <span class="nn">.distributors</span> <span class="kn">import</span> <span class="n">is_valid_api</span><span class="p">,</span> <span class="n">get_api_list</span><span class="p">,</span> <span class="n">get_api_valid_options</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">warning</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">yaml</span>
     <span class="n">CONFIG_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;No yaml module for Python, install it (i.e. python3-yaml)&#39;</span><span class="p">)</span>
     <span class="n">CONFIG_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="kn">from</span> <span class="nn">.distributors</span> <span class="kn">import</span> <span class="p">(</span><span class="n">is_valid_api</span><span class="p">,</span> <span class="n">get_api_list</span><span class="p">,</span> <span class="n">get_api_valid_options</span><span class="p">)</span>  <span class="c1"># noqa: E402</span>
 
 <span class="n">CONFIG_FILE</span> <span class="o">=</span> <span class="s1">&#39;config.yaml&#39;</span>
 <span class="n">cache_ttl</span> <span class="o">=</span> <span class="mi">7</span>
@@ -87,7 +85,7 @@
 
 
 <div class="viewcode-block" id="config_error"><a class="viewcode-back" href="../../kicost.html#kicost.config.config_error">[docs]</a><span class="k">def</span> <span class="nf">config_error</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;In configuration file: &quot;</span><span class="o">+</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">error</span><span class="p">(</span><span class="s2">&quot;In configuration file: &quot;</span><span class="o">+</span><span class="n">msg</span><span class="p">)</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">ERR_KICOSTCONFIG</span><span class="p">)</span></div>
 
 
@@ -136,7 +134,7 @@
         <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;version&#39;</span><span class="p">:</span>
             <span class="k">pass</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="o">+</span><span class="s2">&quot;Unknown config option `kicost.</span><span class="si">{}</span><span class="s2">`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span></div>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="p">,</span> <span class="s2">&quot;Unknown config option `kicost.</span><span class="si">{}</span><span class="s2">`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span></div>
 
 
 <span class="k">def</span> <span class="nf">_type_str</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
@@ -151,7 +149,7 @@
     <span class="n">valid_ops</span> <span class="o">=</span> <span class="n">get_api_valid_options</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_valid_api</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="o">+</span><span class="s1">&#39;Unknown API `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="p">,</span> <span class="s1">&#39;Unknown API `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
             <span class="k">continue</span>
         <span class="n">v_ops</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">valid_ops</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="o">**</span><span class="n">BASE_OP_TYPES</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -159,7 +157,7 @@
         <span class="c1"># Make sure the options are of the correct value</span>
         <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">v</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">op</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v_ops</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="o">+</span><span class="s1">&#39;Unknown option `</span><span class="si">{}</span><span class="s1">` for API `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="p">,</span> <span class="s1">&#39;Unknown option `</span><span class="si">{}</span><span class="s1">` for API `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">v_op</span> <span class="o">=</span> <span class="n">v_ops</span><span class="p">[</span><span class="n">op</span><span class="p">]</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v_op</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v_op</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v_op</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">type</span><span class="p">)):</span>
@@ -187,7 +185,7 @@
         <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">,</span> <span class="s1">&#39;.config&#39;</span><span class="p">,</span> <span class="s1">&#39;kicost&#39;</span><span class="p">,</span> <span class="n">CONFIG_FILE</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;Missing config file </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+            <span class="n">error</span><span class="p">(</span><span class="s1">&#39;Missing config file </span><span class="si">{}</span><span class="s1">.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
@@ -204,8 +202,8 @@
             <span class="k">elif</span> <span class="n">k_l</span> <span class="o">==</span> <span class="s1">&#39;apis&#39;</span> <span class="ow">or</span> <span class="n">k_l</span> <span class="o">==</span> <span class="s1">&#39;api&#39;</span><span class="p">:</span>
                 <span class="n">parse_apis_section</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="o">+</span><span class="s1">&#39;Unknown section `</span><span class="si">{}</span><span class="s1">` in config file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;Loaded API options </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_options</span><span class="p">))</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="p">,</span> <span class="s1">&#39;Unknown section `</span><span class="si">{}</span><span class="s1">` in config file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Loaded API options </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_options</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">get_api_list</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">api</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">api_options</span><span class="p">:</span>
             <span class="n">api_options</span><span class="p">[</span><span class="n">api</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -219,7 +217,7 @@
         <span class="n">path</span> <span class="o">=</span> <span class="n">ops</span><span class="p">[</span><span class="s1">&#39;cache_path&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_DETAILED</span><span class="p">,</span> <span class="s1">&#39;API options with defaults </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_options</span><span class="p">))</span>
+    <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;API options with defaults </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_options</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">api_options</span></div>
 </pre></div>
 
@@ -252,9 +250,8 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.8 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../kicost.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.config</a></li> 
       </ul>
     </div>
