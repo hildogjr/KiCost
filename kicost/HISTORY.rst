@@ -3,6 +3,15 @@
 History
 -------
 
+1.1.8 (2022-05-09)
+______________________
+* Add Digi-Key API
+* Add Mouser API
+* Add Farnell/Newark API (Element14)
+* Add TME API
+* Add cache for all APIs (including KitSpace and Octopart)
+
+
 1.1.6 (2021-10-14)
 ______________________
 * Fix the Farnell import code order

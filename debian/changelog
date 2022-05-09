@@ -1,8 +1,8 @@
-kicost (1.1.7-1) stable; urgency=medium
+kicost (1.1.8-1) stable; urgency=medium
 
   * New APIs for Digi-Key, Farnell, Mouser, Newark and TME.
 
- -- Salvador E. Tropea <stropea@inti.gob.ar>  Mon, 21 Mar 2022 15:26:44 -0300
+ -- Salvador E. Tropea <salvador@inti.gob.ar>  Mon, 09 May 2022 11:24:36 -0300
 
 kicost (1.1.6-1) stable; urgency=medium
 
@@ -17,7 +17,7 @@ kicost (1.1.6-1) stable; urgency=medium
   * Fixed LCSC link and add BOM import links of all
   * Fixed Reference sorting and crashes
 
- -- Salvador E. Tropea <stropea@inti.gob.ar>  Oct, 14 May 2021 14:48:32 -0300
+ -- Salvador E. Tropea <stropea@inti.gob.ar>  Fri, 14 May 2021 14:48:32 -0300
 
 kicost (1.1.5-5) stable; urgency=medium
 
