@@ -46,12 +46,12 @@ jobs:
         id: mdeb
         run: |
           apt-get -y update
-          apt-get -y install --no-install-recommends python3-bs4 python3-future python3-lxml python3-requests python3-tqdm wget python3-pip python3-xlsxwriter
-          # wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc1/python3-babel_2.9.0-1_all.deb
+          apt-get -y install --no-install-recommends python3-bs4 python3-future python3-lxml python3-requests python3-tqdm wget python3-pip python3-xlsxwriter python3-yaml
+          wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc1/python3-babel_2.9.0-1_all.deb
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc5/python3-validators_0.14.2-2_all.deb
           wget https://github.com/set-soft/kicost-digikey-api-v3/releases/download/v0.1.1/kicost-digikey-api-v3_0.1.1-1_all.deb
           apt -y install --no-install-recommends ./*.deb
-          # rm python3-babel*
+          rm python3-babel*
           cp requirements.txt requirements.txt.ok
           sed -i 's/^wxPython/#wxPython/' requirements.txt
           pip3 install -U .
