@@ -24,6 +24,6 @@ jobs:
         KICOST_RELEASE: 1
       run: |
         apt-get -y update
-        apt-get -y install --no-install-recommends python3-bs4 python3-future python3-lxml python3-requests python3-tqdm wget python3-pip
+        apt-get -y install --no-install-recommends python3-bs4 python3-future python3-lxml python3-requests python3-tqdm wget python3-pip python3-xlsxwriter
         python3 setup.py sdist bdist_wheel
         twine upload dist/*
