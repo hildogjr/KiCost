@@ -99,5 +99,8 @@ update-rates:
 deb: update-rates
 	DEB_BUILD_OPTIONS=nocheck fakeroot dpkg-buildpackage -uc -b
 
+deb_sig: update-rates
+	DEB_BUILD_OPTIONS=nocheck fakeroot dpkg-buildpackage -b
+
 deb-clean: clean
 	fakeroot debian/rules clean
