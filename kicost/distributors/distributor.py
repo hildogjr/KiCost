@@ -143,7 +143,7 @@ class distributor_class(object):
 
     @classmethod
     def init_dist_dict(cls):
-        if cls.enabled:
+        if cls.enabled and cls.type != 'local':   # Local distributors are collected from the components
             distributor_class.add_distributors(cls.api_distributors)
 
     @staticmethod
