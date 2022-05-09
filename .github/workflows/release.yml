@@ -50,7 +50,7 @@ jobs:
           # wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc1/python3-babel_2.9.0-1_all.deb
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc5/python3-validators_0.14.2-2_all.deb
           apt -y install --no-install-recommends ./*.deb
-          rm python3-babel*
+          # rm python3-babel*
           cp requirements.txt requirements.txt.ok
           sed -i 's/^wxPython/#wxPython/' requirements.txt
           pip3 install -U .
