@@ -58,17 +58,16 @@ If you're using linux, you probably already have Python.
 On Linux, for a full install procedure on Python3, use (for Python2, replace ``pip3`` by ``pip`` on each command)::
 
     $ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
-    $ sudo -H pip3 install -U pip # Upgrade the PIP version.
     $ sudo -H pip3 install kicost # Install KiCost from PyPI.
 
-For install the graphical dependence used by KiCost GUI (only needed if KiCad is not installed)::
+To install the graphical dependence used by KiCost GUI (only needed if KiCad is not installed)::
 
     $ sudo -H pip3 install wxpython
     or
     $ sudo -H pip3 install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-16.04 wxPython # For Ubuntu 16.04
     $ kicost # Execute KiCost without input arguments to initialize the GUI.
 
-For install the last code version from GitHub, use::
+To install the last code version from GitHub, use::
 
     $ sudo apt-get install git # It's necessary to have Git installed.
     $ sudo -H pip3 install -U git+https://github.com/hildogjr/KiCost.git
