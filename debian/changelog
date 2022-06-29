@@ -1,3 +1,10 @@
+kicost (1.1.10-1) stable; urgency=medium
+
+  * Fixed Mouser API problems for languages other than english (always No Stock)
+  * Fixed KitSpace API encoding issues (UTF-8 as ISO-8859-1)
+
+ -- Salvador E. Tropea <salvador@inti.gob.ar>  Wed, 29 Jun 2022 09:21:30 -0300
+
 kicost (1.1.8-1) stable; urgency=medium
 
   * New APIs for Digi-Key, Farnell, Mouser, Newark and TME.

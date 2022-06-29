@@ -3,6 +3,12 @@
 History
 -------
 
+1.1.10 (2022-06-29)
+______________________
+* Fix Mouser API problems for languages other than english (always No Stock)
+* Fix KitSpace API encoding issues (UTF-8 as ISO-8859-1)
+
+
 1.1.8 (2022-05-09)
 ______________________
 * Add Digi-Key API
