@@ -49,6 +49,11 @@ ENV_OPS = {'MOUSER_PART_API_KEY': 'key',
            'MOUSER_CACHE_TTL': 'cache_ttl'}
 # Mouser Base URL
 BASE_URL = 'https://api.mouser.com/api/v1.0'
+IN_STOCK = ('In stock', 'En existencias', 'A magazzino', 'Auf Lager', 'En stock', 'Em estoque', 'Na skladě',
+            'På lager', 'Склад в США', 'In voorraad', 'Na stanie magazynowym', '库存', '在庫',
+            'สต็อก', 'Tồn kho')
+in_stock_re_1 = re.compile(r'(\d+)\s*(?:'+'|'.join(IN_STOCK)+')', re.I)
+in_stock_re_2 = re.compile(r'\s*(?:'+'|'.join(IN_STOCK)+r')\D*(\d+)', re.I)
 
 __all__ = ['api_mouser']
 
@@ -295,8 +300,6 @@ class api_mouser(distributor_class):
             return
         debug_overview('# Getting part data from Mouser...')
         field_cat = DIST_NAME + '#'
-        in_stock_re = re.compile(r'(\d+) in stock', re.I)
-
         # Setup progress bar to track progress of server queries.
         progress = distributor_class.progress(len(parts), distributor_class.logger)
         for part in parts:
@@ -342,9 +345,14 @@ class api_mouser(distributor_class):
                 dd.url = data['ProductDetailUrl']
                 dd.part_num = data['MouserPartNumber']
                 dd.qty_avail = 0
-                res_stock = in_stock_re.match(data['Availability'])
+                debug_detailed('Availability: '+data['Availability'])
+                res_stock = in_stock_re_1.match(data['Availability'])
+                if not res_stock:
+                    res_stock = in_stock_re_2.match(data['Availability'])
+                debug_detailed('- Search for stock: {}'.format(res_stock))
                 if res_stock:
                     dd.qty_avail = int(res_stock.group(1))
+                debug_detailed('- Detected stock: {}'.format(dd.qty_avail))
                 pb = data['PriceBreaks']
                 dd.currency = pb[0]['Currency'] if pb else currency
                 dd.price_tiers = {p['Quantity']: get_number(p['Price']) for p in pb}
