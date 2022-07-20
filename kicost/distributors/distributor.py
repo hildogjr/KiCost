@@ -35,7 +35,7 @@ import tqdm
 # QueryCache dependencies:
 import pickle
 import time
-from .. import DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES
+from .. import DEBUG_HTTP_HEADERS, DEBUG_HTTP_RESPONSES, DEBUG_OBSESSIVE
 from ..global_vars import DEFAULT_CURRENCY, BASE_OP_TYPES, W_NOAPI
 from .distributors_info import distributors_info
 
@@ -77,6 +77,7 @@ class QueryCache(object):
     def load_results(self, prefix, name):
         ''' Loads the results from the cache, must be implemented by KiCost '''
         file = self.get_name(prefix, name)
+        distributor_class.logger.log(DEBUG_OBSESSIVE, 'Looking in cache '+file)
         if not os.path.isfile(file):
             return None, False
         mtime = os.path.getmtime(file)
@@ -85,6 +86,7 @@ class QueryCache(object):
         if self.ttl_min < 0 or (self.ttl_min > 0 and dif_minutes <= self.ttl_min):
             with open(file, "rb") as fh:
                 result = pickle.loads(fh.read())
+            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Found in cache '+str(result))
             return result, True
         # Cache expired
         return None, False
