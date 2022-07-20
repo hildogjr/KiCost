@@ -73,7 +73,7 @@ def get_part_groups(in_file):
     debug_overview('# Getting from XML \'{}\' KiCad BoM...'.format(
                                     os.path.basename(in_file)))
     file_h = open(in_file)
-    root = BeautifulSoup(file_h, 'lxml')
+    root = BeautifulSoup(file_h, 'xml')
     file_h.close()
 
     # Get the general information of the project BoM XML file.
