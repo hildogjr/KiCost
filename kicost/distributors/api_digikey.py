@@ -91,6 +91,9 @@ class api_digikey(distributor_class):
         DK_API.api_ops = {}
         cache_ttl = 7
         cache_path = None
+        if not available:
+            debug_obsessive('Digi-Key API not available')
+            return
         for k, v in ops.items():
             if k == 'client_id':
                 DK_API.id = v
