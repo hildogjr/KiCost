@@ -30,7 +30,7 @@ import sys
 import os
 from .global_vars import ERR_KICOSTCONFIG, W_CONFIG, BASE_OP_TYPES
 from .distributors import is_valid_api, get_api_list, get_api_valid_options
-from . import debug_detailed, debug_obsessive, error, warning
+from . import debug_detailed, debug_obsessive, debug_overview, error, warning
 try:
     import yaml
     CONFIG_ENABLED = True
@@ -149,6 +149,7 @@ def load_config(file=None):
             sys.exit(2)
     file = os.path.abspath(file)
     if os.path.isfile(file):
+        debug_overview('Loading config from: {}'.format(file))
         global config_file_path
         config_file_path = os.path.dirname(file)
         try:
@@ -164,6 +165,8 @@ def load_config(file=None):
             else:
                 warning(W_CONFIG, 'Unknown section `{}` in config file'.format(k))
         debug_obsessive('Loaded API options {}'.format(api_options))
+    else:
+        debug_overview('No config file found ({})'.format(file))
     for api in get_api_list():
         if api not in api_options:
             api_options[api] = {}
