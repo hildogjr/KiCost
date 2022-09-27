@@ -1,3 +1,10 @@
+kicost (1.1.12-1) stable; urgency=medium
+
+  * Fixed problems when trying to use Digi-Key API, but not available
+  * Fixed progress bar in the GUI not working for Python 3.10+
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Tue, 27 Sep 2022 09:51:07 -0300
+
 kicost (1.1.10-1) stable; urgency=medium
 
   * Fixed Mouser API problems for languages other than english (always No Stock)
