@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.config &#8212; kicost 1.1.10 documentation</title>
+    <title>kicost.config &#8212; kicost 1.1.12 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.12 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.config</a></li> 
       </ul>
@@ -70,7 +70,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">.global_vars</span> <span class="kn">import</span> <span class="n">ERR_KICOSTCONFIG</span><span class="p">,</span> <span class="n">W_CONFIG</span><span class="p">,</span> <span class="n">BASE_OP_TYPES</span>
 <span class="kn">from</span> <span class="nn">.distributors</span> <span class="kn">import</span> <span class="n">is_valid_api</span><span class="p">,</span> <span class="n">get_api_list</span><span class="p">,</span> <span class="n">get_api_valid_options</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">warning</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">warning</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">yaml</span>
     <span class="n">CONFIG_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
@@ -189,6 +189,7 @@
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Loading config from: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
         <span class="k">global</span> <span class="n">config_file_path</span>
         <span class="n">config_file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -204,6 +205,8 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">warning</span><span class="p">(</span><span class="n">W_CONFIG</span><span class="p">,</span> <span class="s1">&#39;Unknown section `</span><span class="si">{}</span><span class="s1">` in config file&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">k</span><span class="p">))</span>
         <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Loaded API options </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_options</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;No config file found (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">get_api_list</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">api</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">api_options</span><span class="p">:</span>
             <span class="n">api_options</span><span class="p">[</span><span class="n">api</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -250,7 +253,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.12 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.config</a></li> 
       </ul>
