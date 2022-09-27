@@ -596,10 +596,10 @@ def manf_code_qtypart(subpart):
         num_format = re.compile(r"^\s*[\-\+]?\s*[0-9]*\s*[\.\/]*\s*?[0-9]*\s*$")
         string0_test = re.match(num_format, strings[0])
         string1_test = re.match(num_format, strings[1])
-        if string0_test and not(string1_test):
+        if string0_test and not string1_test:
             qty = strings[0].strip()
             part = strings[1].strip()
-        elif not(string0_test) and string1_test:
+        elif not string0_test and string1_test:
             qty = strings[1].strip()
             part = strings[0].strip()
         elif string0_test and string1_test:

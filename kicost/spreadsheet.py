@@ -1200,7 +1200,7 @@ def add_dist_to_worksheet(ss, columns_global, start_row, start_col, unit_cost_ro
         debug_overview("Add the {f} information for the {d} purchase list code.".format(d=label, f=cols_user))
         cols[idx:idx] = cols_user
 
-    if not('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
+    if not ('purch' in cols and ('part_num' in cols or 'manf#' in cols)):
         debug_overview("Purchase list codes for {d} will not be generated: no stock# of manf# format defined.".format(d=label))
         return start_col + num_cols  # Skip the order creation.
 
