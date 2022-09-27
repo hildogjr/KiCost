@@ -1155,7 +1155,7 @@ class ProgressGUI(object):
 
     def update(self, val):
         self.cur += val
-        wx.CallAfter(ProgressGUI.frame.m_gauge_process.SetValue, self.cur/self.total*100)  # Porcentual
+        wx.CallAfter(ProgressGUI.frame.m_gauge_process.SetValue, int(self.cur/self.total*100))  # Porcentual
         wx.CallAfter(ProgressGUI.frame.m_staticText_progressInfo.SetLabel, '{}/{}'.format(self.cur, self.total))  # Eta.
 
     def close(self):
