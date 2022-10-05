@@ -368,6 +368,8 @@ class api_tme(distributor_class):
             dd.moq = data['MinAmount']
             dd.qty_increment = data['Multiples']
             dd.url = data['ProductInformationPage']
+            if dd.url and dd.url.startswith('//'):
+                dd.url = 'https:'+dd.url
             dd.part_num = part_stock
             dd.qty_avail = data['Amount']
             dd.currency = o.currency

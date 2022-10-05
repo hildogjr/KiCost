@@ -199,7 +199,7 @@ Row: 11
    83.172
   Formula: IFERROR(IF(J11="",F11,J11)*K11,"")
  Col: N
-   <a href="//www.tme.eu/en/details/grm21br71a106ke51l/0805-mlcc-smd-capacitors/murata/">GRM21BR71A106KE51L</a>
+   <a href="https://www.tme.eu/en/details/grm21br71a106ke51l/0805-mlcc-smd-capacitors/murata/">GRM21BR71A106KE51L</a>
 Row: 12
  Col: A
    "C2,C3,C14"
@@ -265,7 +265,7 @@ Row: 13
    12.024
   Formula: IFERROR(IF(J13="",F13,J13)*K13,"")
  Col: N
-   <a href="//www.tme.eu/en/details/0603b104k500ct/0603-mlcc-smd-capacitors/walsin/">0603B104K500CT</a>
+   <a href="https://www.tme.eu/en/details/0603b104k500ct/0603-mlcc-smd-capacitors/walsin/">0603B104K500CT</a>
 Row: 14
  Col: A
    "C7"
@@ -308,7 +308,7 @@ Row: 14
    2.441
   Formula: IFERROR(IF(J14="",F14,J14)*K14,"")
  Col: N
-   <a href="//www.tme.eu/en/details/c0603c103k5rac/0603-mlcc-smd-capacitors/kemet/c0603c103k5ractu/">C0603C103K5RAC</a>
+   <a href="https://www.tme.eu/en/details/c0603c103k5rac/0603-mlcc-smd-capacitors/kemet/c0603c103k5ractu/">C0603C103K5RAC</a>
 Row: 15
  Col: A
    "C11,C16"
@@ -351,7 +351,7 @@ Row: 15
    15.764
   Formula: IFERROR(IF(J15="",F15,J15)*K15,"")
  Col: N
-   <a href="//www.tme.eu/en/details/grm188r61a226me15d/0603-mlcc-smd-capacitors/murata/">GRM188R61A226ME15D</a>
+   <a href="https://www.tme.eu/en/details/grm188r61a226me15d/0603-mlcc-smd-capacitors/murata/">GRM188R61A226ME15D</a>
 Row: 16
  Col: A
    "C15"
@@ -394,7 +394,7 @@ Row: 16
    2.371
   Formula: IFERROR(IF(J16="",F16,J16)*K16,"")
  Col: N
-   <a href="//www.tme.eu/en/details/c0603c330j5gac/0603-mlcc-smd-capacitors/kemet/c0603c330j5gactu/">C0603C330J5GAC</a>
+   <a href="https://www.tme.eu/en/details/c0603c330j5gac/0603-mlcc-smd-capacitors/kemet/c0603c330j5gactu/">C0603C330J5GAC</a>
 Row: 17
  Col: A
    "C23,C24"
@@ -460,7 +460,7 @@ Row: 18
    6.412
   Formula: IFERROR(IF(J18="",F18,J18)*K18,"")
  Col: N
-   <a href="//www.tme.eu/en/details/grm1885c1h221ja01d/0603-mlcc-smd-capacitors/murata/">GRM1885C1H221JA01D</a>
+   <a href="https://www.tme.eu/en/details/grm1885c1h221ja01d/0603-mlcc-smd-capacitors/murata/">GRM1885C1H221JA01D</a>
 Row: 19
  Col: A
    "C35,C36"
@@ -503,7 +503,7 @@ Row: 19
    3.848
   Formula: IFERROR(IF(J19="",F19,J19)*K19,"")
  Col: N
-   <a href="//www.tme.eu/en/details/0603n102j500ct/0603-mlcc-smd-capacitors/walsin/">0603N102J500CT</a>
+   <a href="https://www.tme.eu/en/details/0603n102j500ct/0603-mlcc-smd-capacitors/walsin/">0603N102J500CT</a>
 Row: 20
  Col: A
    "CN1"
@@ -566,7 +566,7 @@ Row: 21
    310
   Formula: IFERROR(IF(J21="",F21,J21)*K21,"")
  Col: N
-   <a href="//www.tme.eu/en/details/ntr-np2x/jack-connectors/neutrik/np2x/">NTR-NP2X</a>
+   <a href="https://www.tme.eu/en/details/ntr-np2x/jack-connectors/neutrik/np2x/">NTR-NP2X</a>
 Row: 22
  Col: A
    "CON2"
@@ -651,7 +651,7 @@ Row: 24
    81.255
   Formula: IFERROR(IF(J24="",F24,J24)*K24,"")
  Col: N
-   <a href="//www.tme.eu/en/details/zhcs1000ta/smd-schottky-diodes/diodes-incorporated/">ZHCS1000TA</a>
+   <a href="https://www.tme.eu/en/details/zhcs1000ta/smd-schottky-diodes/diodes-incorporated/">ZHCS1000TA</a>
 Row: 25
  Col: A
    "D4"
@@ -694,7 +694,7 @@ Row: 25
    31.51
   Formula: IFERROR(IF(J25="",F25,J25)*K25,"")
  Col: N
-   <a href="//www.tme.eu/en/details/hlmp-k150/tht-leds-3mm/broadcom-avago/">HLMP-K150</a>
+   <a href="https://www.tme.eu/en/details/hlmp-k150/tht-leds-3mm/broadcom-avago/">HLMP-K150</a>
 Row: 26
  Col: A
    "D7"
@@ -737,7 +737,7 @@ Row: 26
    8.457
   Formula: IFERROR(IF(J26="",F26,J26)*K26,"")
  Col: N
-   <a href="//www.tme.eu/en/details/smaj18a-tr/unidirectional-smd-transil-diodes/stmicroelectronics/">SMAJ18A-TR</a>
+   <a href="https://www.tme.eu/en/details/smaj18a-tr/unidirectional-smd-transil-diodes/stmicroelectronics/">SMAJ18A-TR</a>
 Row: 27
  Col: A
    "D8,D9"
@@ -916,7 +916,7 @@ Row: 33
    48
   Formula: IFERROR(IF(J33="",F33,J33)*K33,"")
  Col: N
-   <a href="//www.tme.eu/en/details/10103594-0001lf_c/usb-ieee1394-connectors/amphenol-communications-solutions/10103594-0001lf/">10103594-0001LF/C</a>
+   <a href="https://www.tme.eu/en/details/10103594-0001lf_c/usb-ieee1394-connectors/amphenol-communications-solutions/10103594-0001lf/">10103594-0001LF/C</a>
 Row: 34
  Col: A
    "R1,R2,R8"
@@ -982,7 +982,7 @@ Row: 35
    12.815
   Formula: IFERROR(IF(J35="",F35,J35)*K35,"")
  Col: N
-   <a href="//www.tme.eu/en/details/erj3ekf1002v/0603-smd-resistors/panasonic/">ERJ3EKF1002V</a>
+   <a href="https://www.tme.eu/en/details/erj3ekf1002v/0603-smd-resistors/panasonic/">ERJ3EKF1002V</a>
 Row: 36
  Col: A
    "R4"
@@ -1048,7 +1048,7 @@ Row: 37
    3.394
   Formula: IFERROR(IF(J37="",F37,J37)*K37,"")
  Col: N
-   <a href="//www.tme.eu/en/details/rc0603fr-0747k/0603-smd-resistors/yageo/rc0603fr-0747kl/">RC0603FR-0747K</a>
+   <a href="https://www.tme.eu/en/details/rc0603fr-0747k/0603-smd-resistors/yageo/rc0603fr-0747kl/">RC0603FR-0747K</a>
 Row: 38
  Col: A
    "R6"
@@ -1114,7 +1114,7 @@ Row: 39
    2.628
   Formula: IFERROR(IF(J39="",F39,J39)*K39,"")
  Col: N
-   <a href="//www.tme.eu/en/details/erj3ekf1004v/0603-smd-resistors/panasonic/">ERJ3EKF1004V</a>
+   <a href="https://www.tme.eu/en/details/erj3ekf1004v/0603-smd-resistors/panasonic/">ERJ3EKF1004V</a>
 Row: 40
  Col: A
    "R9"
@@ -1157,7 +1157,7 @@ Row: 40
    2.766
   Formula: IFERROR(IF(J40="",F40,J40)*K40,"")
  Col: N
-   <a href="//www.tme.eu/en/details/rc0603fr-071m8l/0603-smd-resistors/yageo/">RC0603FR-071M8L</a>
+   <a href="https://www.tme.eu/en/details/rc0603fr-071m8l/0603-smd-resistors/yageo/">RC0603FR-071M8L</a>
 Row: 41
  Col: A
    "R10"
@@ -1200,7 +1200,7 @@ Row: 41
    2.628
   Formula: IFERROR(IF(J41="",F41,J41)*K41,"")
  Col: N
-   <a href="//www.tme.eu/en/details/erj3ekf2003v/0603-smd-resistors/panasonic/">ERJ3EKF2003V</a>
+   <a href="https://www.tme.eu/en/details/erj3ekf2003v/0603-smd-resistors/panasonic/">ERJ3EKF2003V</a>
 Row: 42
  Col: A
    "R11,R12,R15,R23-R28"
@@ -1243,7 +1243,7 @@ Row: 42
    8.523
   Formula: IFERROR(IF(J42="",F42,J42)*K42,"")
  Col: N
-   <a href="//www.tme.eu/en/details/crcw06030000z0ea/0603-smd-resistors/vishay/">CRCW06030000Z0EA</a>
+   <a href="https://www.tme.eu/en/details/crcw06030000z0ea/0603-smd-resistors/vishay/">CRCW06030000Z0EA</a>
 Row: 43
  Col: A
    "R13"
@@ -1309,7 +1309,7 @@ Row: 44
    2.628
   Formula: IFERROR(IF(J44="",F44,J44)*K44,"")
  Col: N
-   <a href="//www.tme.eu/en/details/erj3ekf1003v/0603-smd-resistors/panasonic/">ERJ3EKF1003V</a>
+   <a href="https://www.tme.eu/en/details/erj3ekf1003v/0603-smd-resistors/panasonic/">ERJ3EKF1003V</a>
 Row: 45
  Col: A
    "R16-R19"
@@ -1352,7 +1352,7 @@ Row: 45
    6.72
   Formula: IFERROR(IF(J45="",F45,J45)*K45,"")
  Col: N
-   <a href="//www.tme.eu/en/details/rc0603fr-07100r/0603-smd-resistors/yageo/rc0603fr-07100rl/">RC0603FR-07100R</a>
+   <a href="https://www.tme.eu/en/details/rc0603fr-07100r/0603-smd-resistors/yageo/rc0603fr-07100rl/">RC0603FR-07100R</a>
 Row: 46
  Col: A
    "R20-R22"
@@ -1418,7 +1418,7 @@ Row: 47
    3.98
   Formula: IFERROR(IF(J47="",F47,J47)*K47,"")
  Col: N
-   <a href="//www.tme.eu/en/details/rc0603fr-071k/0603-smd-resistors/yageo/rc0603fr-071kl/">RC0603FR-071K</a>
+   <a href="https://www.tme.eu/en/details/rc0603fr-071k/0603-smd-resistors/yageo/rc0603fr-071kl/">RC0603FR-071K</a>
 Row: 48
  Col: A
    "R35,R36"
@@ -1461,7 +1461,7 @@ Row: 48
    3.03
   Formula: IFERROR(IF(J48="",F48,J48)*K48,"")
  Col: N
-   <a href="//www.tme.eu/en/details/rc0603fr-0710r/0603-smd-resistors/yageo/rc0603fr-0710rl/">RC0603FR-0710R</a>
+   <a href="https://www.tme.eu/en/details/rc0603fr-0710r/0603-smd-resistors/yageo/rc0603fr-0710rl/">RC0603FR-0710R</a>
 Row: 49
  Col: A
    "SW1"
@@ -1504,7 +1504,7 @@ Row: 49
    32.059
   Formula: IFERROR(IF(J49="",F49,J49)*K49,"")
  Col: N
-   <a href="//www.tme.eu/en/details/skhhlqa010/microswitches-tact/alps/">SKHHLQA010</a>
+   <a href="https://www.tme.eu/en/details/skhhlqa010/microswitches-tact/alps/">SKHHLQA010</a>
 Row: 50
  Col: A
    "U1"
@@ -1547,7 +1547,7 @@ Row: 50
    22
   Formula: IFERROR(IF(J50="",F50,J50)*K50,"")
  Col: N
-   <a href="//www.tme.eu/en/details/ap3211ktr-g1/voltage-regulators-dc-dc-circuits/diodes-incorporated/">AP3211KTR-G1</a>
+   <a href="https://www.tme.eu/en/details/ap3211ktr-g1/voltage-regulators-dc-dc-circuits/diodes-incorporated/">AP3211KTR-G1</a>
 Row: 51
  Col: A
    "U2"
@@ -1590,7 +1590,7 @@ Row: 51
    12.4
   Formula: IFERROR(IF(J51="",F51,J51)*K51,"")
  Col: N
-   <a href="//www.tme.eu/en/details/nc7sz74k8x/flip-flops/onsemi/">NC7SZ74K8X</a>
+   <a href="https://www.tme.eu/en/details/nc7sz74k8x/flip-flops/onsemi/">NC7SZ74K8X</a>
 Row: 52
  Col: A
    "U3,U4"
@@ -1615,7 +1615,7 @@ Row: 52
  Col: I
    "NonStk"
  Col: N
-   <a href="//www.tme.eu/en/details/tps61070ddcr/voltage-regulators-dc-dc-circuits/texas-instruments/">TPS61070DDCR</a>
+   <a href="https://www.tme.eu/en/details/tps61070ddcr/voltage-regulators-dc-dc-circuits/texas-instruments/">TPS61070DDCR</a>
 Row: 53
  Col: A
    "U5"
