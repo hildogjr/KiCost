@@ -437,7 +437,7 @@ def subpartqty_split(components, distributors, split_extra_fields):
         # Divide the pricing fields (won't apply quantity, this is why this is a separated list)
         subparts_extra = {}
         for field, value in part.items():
-            for extra_field in split_extra_fields:
+            for extra_field in split_extra_fields+['avail']:
                 if field == extra_field or field.endswith(':' + extra_field):
                     subparts_extra[field] = subpart_list(value, legacy=False)
 

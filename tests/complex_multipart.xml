@@ -32,6 +32,7 @@
         <field name="S2PN">1A3399-10-R:2||Cover clip?</field>
         <field name="desc">FUSE HOLDER for fuse 5mm x 20mm</field>
         <field name="kicost:we:pricing">1:EUR0.07|0:0|1:EUR0.03;100:EUR0.01</field>
+        <field name="kicost:we:avail">100||200</field>
         <field name="manf">Wurth Electronik|Bel Fuse|Wurth Electronik</field>
         <field name="manf#">696101000002|5MF 6-R|695120004001</field>
         <field name="mouser#">710-696101000002|530-5MF6-R|</field>

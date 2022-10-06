@@ -122,6 +122,7 @@ class dist_local_template(distributor_class):
                 cat_num = p.fields.get(dist + ':cat#')
                 pricing = p.fields.get(dist + ':pricing')
                 link = p.fields.get(dist + ':link')
+                avail = p.fields.get(dist + ':avail')
                 if cat_num is None and pricing is None and link is None:
                     continue
 
@@ -165,6 +166,11 @@ class dist_local_template(distributor_class):
                     # This happens when no pricing info is found.
                     debug_obsessive('No pricing information found for local \'{}\' distributor!'.format(dist))
                 dd.price_tiers = price_tiers
+
+                # Availability
+                if avail is not None:
+                    dd.qty_avail = avail
+
                 # Update the DistData for this distributor
                 p.dd[dist] = dd
                 # We have data for this distributor. Avoid marking normal distributors.

@@ -303,7 +303,7 @@ Row: 7
  Col: AQ
    <a href="https://octopart.com/click/track?ai=8078&sig=0247e72&sid=2401&ppid=56808803&vpid=490212795&ct=offers">710696101000002</a>
  Col: BJ
-   "NonStk"
+   "100"
   Styles:
   - lessThan K7 -> FF000000/FFFF9900
  Col: BK
@@ -430,7 +430,7 @@ Row: 9
    1.1873
   Formula: IF(AND(ISNUMBER(K9),ISNUMBER(L9)),K9*L9,"")
  Col: BJ
-   "NonStk"
+   "200"
   Styles:
   - lessThan K9 -> FF000000/FFFF9900
  Col: BK

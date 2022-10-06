@@ -163,7 +163,7 @@ Row: 7
  Col: S
    <a href="https://www.mouser.com/ProductDetail/Wurth-Elektronik/696101000002?qs=%252BEew9%252B0nqrA0cx9mOnCWEw%3D%3D">710-696101000002</a>
  Col: T
-   "NonStk"
+   "100"
   Styles:
   - lessThan K7 -> FF000000/FFFF9900
  Col: U
@@ -290,7 +290,7 @@ Row: 9
    1.1873
   Formula: IF(AND(ISNUMBER(K9),ISNUMBER(L9)),K9*L9,"")
  Col: T
-   "NonStk"
+   "200"
   Styles:
   - lessThan K9 -> FF000000/FFFF9900
  Col: U

@@ -162,12 +162,13 @@ The value of this field will be a web address like::
    
 After KiCost is run, the price information and clickable link to documentation
 for the part are shown in a section of the spreadsheet labeled **Local**.
-If you want to associate the pricing and/or documentation link to a particular
-source or distributor, just place an extra label within the field key to indicate
-the source like so::
+If you want to associate the pricing, documentation link and/or available quantity
+to a particular source or distributor, just place an extra label within the field
+key to indicate the source like so::
 
     kicost:My_Weird_Parts:pricing
     kicost:My_Weird_Parts:link
+    kicost:My_Weird_Parts:avail
     
 Then the pricing and documentation link for that part will appear in a section
 of the spreadsheet labeled **My_Weird_Parts**.

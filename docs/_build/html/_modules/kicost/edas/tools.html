@@ -478,7 +478,7 @@
         <span class="c1"># Divide the pricing fields (won&#39;t apply quantity, this is why this is a separated list)</span>
         <span class="n">subparts_extra</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">part</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">extra_field</span> <span class="ow">in</span> <span class="n">split_extra_fields</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">extra_field</span> <span class="ow">in</span> <span class="n">split_extra_fields</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;avail&#39;</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="n">field</span> <span class="o">==</span> <span class="n">extra_field</span> <span class="ow">or</span> <span class="n">field</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;:&#39;</span> <span class="o">+</span> <span class="n">extra_field</span><span class="p">):</span>
                     <span class="n">subparts_extra</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">subpart_list</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
