@@ -104,4 +104,13 @@ Note that you need to provide a valid credit card in order to get a free key.
 
 The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.
 
+Note that the keys needed are the ones provided by the distributor to use its API, they aren't your user name
+and password for the site. As an example, to get the keys for Digi-Key you'll need to visit the API_site_.
+Then you have to register and get a `clientId` and a `clientSecret` to use in the configuration file.
+
+The current Digi-Key plugin needs to validate the user using a complex mechanism. It will open a navigator
+window to get a token. If you get an error about a wrong certificate please ignore it. The obtained token
+is cached, so you don't need to validate it all the time.
+
 .. _KitSpace: https://kitspace.org/
+.. _API_site: https://developer.digikey.com/get_started

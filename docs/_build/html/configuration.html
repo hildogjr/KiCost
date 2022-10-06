@@ -140,6 +140,12 @@ As such, is a limited resource. So you should consider getting keys for the dist
 <p>The <cite>Octopart</cite> API provides access to various distributors. It has a free option, with strong limits.
 Note that you need to provide a valid credit card in order to get a free key.</p>
 <p>The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.</p>
+<p>Note that the keys needed are the ones provided by the distributor to use its API, they aren’t your user name
+and password for the site. As an example, to get the keys for Digi-Key you’ll need to visit the <a class="reference external" href="https://developer.digikey.com/get_started">API_site</a>.
+Then you have to register and get a <cite>clientId</cite> and a <cite>clientSecret</cite> to use in the configuration file.</p>
+<p>The current Digi-Key plugin needs to validate the user using a complex mechanism. It will open a navigator
+window to get a token. If you get an error about a wrong certificate please ignore it. The obtained token
+is cached, so you don’t need to validate it all the time.</p>
 </div>
 
 
