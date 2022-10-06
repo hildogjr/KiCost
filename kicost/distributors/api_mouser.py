@@ -345,10 +345,12 @@ class api_mouser(distributor_class):
                 dd.url = data['ProductDetailUrl']
                 dd.part_num = data['MouserPartNumber']
                 dd.qty_avail = 0
-                debug_detailed('Availability: '+data['Availability'])
-                res_stock = in_stock_re_1.match(data['Availability'])
+                availability = data['Availability']
+                debug_detailed('Availability: '+availability)
+                dd.qty_avail_comment = availability
+                res_stock = in_stock_re_1.match(availability)
                 if not res_stock:
-                    res_stock = in_stock_re_2.match(data['Availability'])
+                    res_stock = in_stock_re_2.match(availability)
                 debug_detailed('- Search for stock: {}'.format(res_stock))
                 if res_stock:
                     dd.qty_avail = int(res_stock.group(1))

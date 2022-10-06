@@ -92,6 +92,7 @@ class DistData(object):
         self.url = None  # Purchase distributor URL for the spefic part.
         self.price_tiers = {}  # Price break tiers; [[qty1, price1][qty2, price2]...]
         self.qty_avail = None  # Available quantity.
+        self.qty_avail_comment = None  # A comment about the qty_avail field (optional)
         self.qty_increment = None
         # self.info_dist = None  # Currently unused.
         self.currency = None  # Default currency.

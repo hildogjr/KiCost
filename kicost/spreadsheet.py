@@ -1002,9 +1002,12 @@ def add_dist_to_worksheet(ss, columns_global, start_row, start_col, unit_cost_ro
         col_avail = start_col + columns['avail']['col']
         if dist_qty_avail:
             wks.write(row, col_avail, dist_qty_avail, ss.wrk_formats['part_format'])
+            qty_avail_comment = dd.qty_avail_comment
         else:
             wks.write(row, col_avail, 'NonStk', ss.wrk_formats['not_stocked'])
-            wks.write_comment(row, col_avail, 'This part is listed but is not stocked.')
+            qty_avail_comment = dd.qty_avail_comment or 'This part is listed but is not stocked.'
+        if qty_avail_comment:
+            wks.write_comment(row, col_avail, qty_avail_comment)
 
         # Purchase quantity always starts as blank because nothing has been purchased yet.
         wks.write(row, col_purch, '', ss.wrk_formats['part_format'])
