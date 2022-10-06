@@ -74,6 +74,7 @@ class api_digikey(distributor_class):
     # Options supported by this API
     config_options = {'client_id': str,
                       'client_secret': str,
+                      'exclude_market_place_products': bool,
                       'sandbox': bool,
                       'locale_site': ('US', 'CA', 'JP', 'UK', 'DE', 'AT', 'BE', 'DK', 'FI', 'GR', 'IE',
                                       'IT', 'LU', 'NL', 'NO', 'PT', 'ES', 'KR', 'HK', 'SG', 'CN', 'TW',
@@ -107,6 +108,8 @@ class api_digikey(distributor_class):
                 cache_ttl = v
             elif k == 'cache_path':
                 cache_path = v
+            elif k == 'exclude_market_place_products':
+                DK_API.exclude_market_place_products = v
             elif k.startswith('locale_'):
                 DK_API.api_ops[k] = v
         if api_digikey.enabled and (DK_API.id is None or DK_API.secret is None or cache_path is None):

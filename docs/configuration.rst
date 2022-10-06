@@ -32,6 +32,8 @@ The format is YAML and here is an example: ::
         # enable: true
         # Directory for the APIs caches
         # cache_path: ~/.cache/kicost/Digi-Key
+        # Exclude products offered by 3rd party associates (marketplace)
+        # exclude_market_place_products: false
       Mouser:
         # Mouser Part API key
         # key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
