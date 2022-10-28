@@ -3,10 +3,16 @@
 History
 -------
 
+1.1.13 (WIP)
+______________________
+* Add Nexar API (replaces Octopart)
+
+
 1.1.12 (2022-09-27)
 ______________________
 * Fix problems when trying to use Digi-Key API, but not available
 * Fix progress bar in the GUI not working for Python 3.10+
+
 
 1.1.10 (2022-06-29)
 ______________________

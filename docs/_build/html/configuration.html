@@ -74,13 +74,6 @@
     <span class="c1"># cache_path: ~/.cache/kicost/Digi-Key</span>
     <span class="c1"># Exclude products offered by 3rd party associates (marketplace)</span>
     <span class="c1"># exclude_market_place_products: false</span>
-  <span class="n">Mouser</span><span class="p">:</span>
-    <span class="c1"># Mouser Part API key</span>
-    <span class="c1"># key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
-    <span class="c1"># Only enabled if the key is defined</span>
-    <span class="c1"># enable: false</span>
-    <span class="c1"># Directory for the APIs caches</span>
-    <span class="c1"># cache_path: ~/.cache/kicost/Mouser</span>
   <span class="n">Element14</span><span class="p">:</span>
     <span class="c1"># Element14 includes: Farnell, Newark and CPC</span>
     <span class="c1"># Element14 Product Search API key</span>
@@ -99,22 +92,29 @@
     <span class="c1"># cpc_country: UK</span>
     <span class="c1"># Directory for the APIs caches</span>
     <span class="c1"># cache_path: ~/.cache/kicost/Element14</span>
-  <span class="n">Octopart</span><span class="p">:</span>
-    <span class="c1"># Octopart API Key</span>
-    <span class="c1"># key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</span>
-    <span class="c1"># API level: 3 or 4</span>
-    <span class="c1"># level: 4</span>
-    <span class="c1"># The extended API is for the Pro plan</span>
-    <span class="c1"># extended: false</span>
-    <span class="c1"># Only enabled if the key is defined</span>
-    <span class="c1"># enable: false</span>
-    <span class="c1"># Directory for the APIs caches</span>
-    <span class="c1"># cache_path: ~/.cache/kicost/Octopart</span>
   <span class="n">KitSpace</span><span class="p">:</span>
     <span class="c1"># Normally enabled</span>
     <span class="c1"># enable: true</span>
     <span class="c1"># Directory for the APIs caches</span>
     <span class="c1"># cache_path: ~/.cache/kicost/KitSpace</span>
+  <span class="n">Mouser</span><span class="p">:</span>
+    <span class="c1"># Mouser Part API key</span>
+    <span class="c1"># key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+    <span class="c1"># Only enabled if the key is defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Mouser</span>
+  <span class="n">Nexar</span><span class="p">:</span>
+    <span class="c1"># Nexar client ID</span>
+    <span class="c1"># client_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+    <span class="c1"># Nexar client secret</span>
+    <span class="c1"># client_secret: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+    <span class="c1"># Only enabled if the client_id and client_secret are defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Country where we are buying</span>
+    <span class="c1"># country: US</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Nexar</span>
   <span class="n">TME</span><span class="p">:</span>
     <span class="c1"># TME token (anonymous or private)</span>
     <span class="c1"># token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
@@ -137,8 +137,9 @@ The default value for the main cache path is <cite>~/.cache/kicost</cite>.</p>
 <p>The <cite>KitSpace</cite> API is the only API that doesn’t need a key to be used.
 This is a service kindly provided by the <a class="reference external" href="https://kitspace.org/">KitSpace</a> project.
 As such, is a limited resource. So you should consider getting keys for the distributors you use.</p>
-<p>The <cite>Octopart</cite> API provides access to various distributors. It has a free option, with strong limits.
-Note that you need to provide a valid credit card in order to get a free key.</p>
+<p>The <cite>Nexar</cite> API provides access to various distributors. It has a free option, with a current limit of 1000 parts/month.
+This is free and you just need to register yourself and an application at <a class="reference external" href="https://nexar.com/api">Nexar</a>.
+Note that <cite>KitSpace</cite> uses <cite>Nexar</cite> as backend, so we strongly recommend to get a <cite>Nexar</cite> key for your own use.</p>
 <p>The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.</p>
 <p>Note that the keys needed are the ones provided by the distributor to use its API, they aren’t your user name
 and password for the site. As an example, to get the keys for Digi-Key you’ll need to visit the <a class="reference external" href="https://developer.digikey.com/get_started">API_site</a>.

@@ -708,7 +708,7 @@ def add_globals_to_worksheet(ss, start_row, start_col, total_cost_row, parts, di
                     # Use the the datasheet link got in the distributor if not available any in the BOM / schematic.
                     link = part.datasheet
                 # Mark obsolete parts
-                if part.lifecycle and part.lifecycle == 'obsolete':
+                if part.lifecycle and part.lifecycle.startswith('obsolete'):
                     cell_format = 'part_format_obsolete'
                 if link and validate_url(link):
                     # Just put the link if is a valid format.

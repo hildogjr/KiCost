@@ -639,13 +639,6 @@ which distributors to use, currency and others definitions.</p>
     <span class="c1"># cache_path: ~/.cache/kicost/Digi-Key</span>
     <span class="c1"># Exclude products offered by 3rd party associates (marketplace)</span>
     <span class="c1"># exclude_market_place_products: false</span>
-  <span class="n">Mouser</span><span class="p">:</span>
-    <span class="c1"># Mouser Part API key</span>
-    <span class="c1"># key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
-    <span class="c1"># Only enabled if the key is defined</span>
-    <span class="c1"># enable: false</span>
-    <span class="c1"># Directory for the APIs caches</span>
-    <span class="c1"># cache_path: ~/.cache/kicost/Mouser</span>
   <span class="n">Element14</span><span class="p">:</span>
     <span class="c1"># Element14 includes: Farnell, Newark and CPC</span>
     <span class="c1"># Element14 Product Search API key</span>
@@ -664,22 +657,29 @@ which distributors to use, currency and others definitions.</p>
     <span class="c1"># cpc_country: UK</span>
     <span class="c1"># Directory for the APIs caches</span>
     <span class="c1"># cache_path: ~/.cache/kicost/Element14</span>
-  <span class="n">Octopart</span><span class="p">:</span>
-    <span class="c1"># Octopart API Key</span>
-    <span class="c1"># key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</span>
-    <span class="c1"># API level: 3 or 4</span>
-    <span class="c1"># level: 4</span>
-    <span class="c1"># The extended API is for the Pro plan</span>
-    <span class="c1"># extended: false</span>
-    <span class="c1"># Only enabled if the key is defined</span>
-    <span class="c1"># enable: false</span>
-    <span class="c1"># Directory for the APIs caches</span>
-    <span class="c1"># cache_path: ~/.cache/kicost/Octopart</span>
   <span class="n">KitSpace</span><span class="p">:</span>
     <span class="c1"># Normally enabled</span>
     <span class="c1"># enable: true</span>
     <span class="c1"># Directory for the APIs caches</span>
     <span class="c1"># cache_path: ~/.cache/kicost/KitSpace</span>
+  <span class="n">Mouser</span><span class="p">:</span>
+    <span class="c1"># Mouser Part API key</span>
+    <span class="c1"># key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+    <span class="c1"># Only enabled if the key is defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Mouser</span>
+  <span class="n">Nexar</span><span class="p">:</span>
+    <span class="c1"># Nexar client ID</span>
+    <span class="c1"># client_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+    <span class="c1"># Nexar client secret</span>
+    <span class="c1"># client_secret: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
+    <span class="c1"># Only enabled if the client_id and client_secret are defined</span>
+    <span class="c1"># enable: false</span>
+    <span class="c1"># Country where we are buying</span>
+    <span class="c1"># country: US</span>
+    <span class="c1"># Directory for the APIs caches</span>
+    <span class="c1"># cache_path: ~/.cache/kicost/Nexar</span>
   <span class="n">TME</span><span class="p">:</span>
     <span class="c1"># TME token (anonymous or private)</span>
     <span class="c1"># token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
@@ -702,8 +702,9 @@ The default value for the main cache path is <cite>~/.cache/kicost</cite>.</p>
 <p>The <cite>KitSpace</cite> API is the only API that doesn’t need a key to be used.
 This is a service kindly provided by the <a class="reference external" href="https://kitspace.org/">KitSpace</a> project.
 As such, is a limited resource. So you should consider getting keys for the distributors you use.</p>
-<p>The <cite>Octopart</cite> API provides access to various distributors. It has a free option, with strong limits.
-Note that you need to provide a valid credit card in order to get a free key.</p>
+<p>The <cite>Nexar</cite> API provides access to various distributors. It has a free option, with a current limit of 1000 parts/month.
+This is free and you just need to register yourself and an application at <a class="reference external" href="https://nexar.com/api">Nexar</a>.
+Note that <cite>KitSpace</cite> uses <cite>Nexar</cite> as backend, so we strongly recommend to get a <cite>Nexar</cite> key for your own use.</p>
 <p>The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.</p>
 <p>Note that the keys needed are the ones provided by the distributor to use its API, they aren’t your user name
 and password for the site. As an example, to get the keys for Digi-Key you’ll need to visit the <a class="reference external" href="https://developer.digikey.com/get_started">API_site</a>.
@@ -847,6 +848,12 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 </div>
 <span id="document-history"></span><div class="section" id="history">
 <h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="wip">
+<h3>1.1.13 (WIP)<a class="headerlink" href="#wip" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Add Nexar API (replaces Octopart)</p></li>
+</ul>
+</div>
 <div class="section" id="id1">
 <h3>1.1.12 (2022-09-27)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -1843,7 +1850,7 @@ Used internaly from the API to add distributors derived from others.</p>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.distributor.distributor_class.priorities">
-<code class="sig-name descname">priorities</code><em class="property"> = [100, 100, 100, 100, 100, 60, 50]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.priorities" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">priorities</code><em class="property"> = [100, 100, 100, 100, 100, 75, 60, 50]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.priorities" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1865,7 +1872,7 @@ Used internaly from the API to add distributors derived from others.</p>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.distributor.distributor_class.registered">
-<code class="sig-name descname">registered</code><em class="property"> = [&lt;class 'kicost.distributors.dist_local_template.dist_local_template'&gt;, &lt;class 'kicost.distributors.api_digikey.api_digikey'&gt;, &lt;class 'kicost.distributors.api_mouser.api_mouser'&gt;, &lt;class 'kicost.distributors.api_element14.api_element14'&gt;, &lt;class 'kicost.distributors.api_tme.api_tme'&gt;, &lt;class 'kicost.distributors.api_octopart.api_octopart'&gt;, &lt;class 'kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace'&gt;]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.registered" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">registered</code><em class="property"> = [&lt;class 'kicost.distributors.dist_local_template.dist_local_template'&gt;, &lt;class 'kicost.distributors.api_digikey.api_digikey'&gt;, &lt;class 'kicost.distributors.api_mouser.api_mouser'&gt;, &lt;class 'kicost.distributors.api_element14.api_element14'&gt;, &lt;class 'kicost.distributors.api_tme.api_tme'&gt;, &lt;class 'kicost.distributors.api_nexar.api_nexar'&gt;, &lt;class 'kicost.distributors.api_octopart.api_octopart'&gt;, &lt;class 'kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace'&gt;]</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.registered" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -3480,6 +3487,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-history">History</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#wip">1.1.13 (WIP)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#id1">1.1.12 (2022-09-27)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#id2">1.1.10 (2022-06-29)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#id3">1.1.8 (2022-05-09)</a></li>

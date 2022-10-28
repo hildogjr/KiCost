@@ -34,13 +34,6 @@ The format is YAML and here is an example: ::
         # cache_path: ~/.cache/kicost/Digi-Key
         # Exclude products offered by 3rd party associates (marketplace)
         # exclude_market_place_products: false
-      Mouser:
-        # Mouser Part API key
-        # key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-        # Only enabled if the key is defined
-        # enable: false
-        # Directory for the APIs caches
-        # cache_path: ~/.cache/kicost/Mouser
       Element14:
         # Element14 includes: Farnell, Newark and CPC
         # Element14 Product Search API key
@@ -59,22 +52,29 @@ The format is YAML and here is an example: ::
         # cpc_country: UK
         # Directory for the APIs caches
         # cache_path: ~/.cache/kicost/Element14
-      Octopart:
-        # Octopart API Key
-        # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-        # API level: 3 or 4
-        # level: 4
-        # The extended API is for the Pro plan
-        # extended: false
-        # Only enabled if the key is defined
-        # enable: false
-        # Directory for the APIs caches
-        # cache_path: ~/.cache/kicost/Octopart
       KitSpace:
         # Normally enabled
         # enable: true
         # Directory for the APIs caches
         # cache_path: ~/.cache/kicost/KitSpace
+      Mouser:
+        # Mouser Part API key
+        # key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+        # Only enabled if the key is defined
+        # enable: false
+        # Directory for the APIs caches
+        # cache_path: ~/.cache/kicost/Mouser
+      Nexar:
+        # Nexar client ID
+        # client_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+        # Nexar client secret
+        # client_secret: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+        # Only enabled if the client_id and client_secret are defined
+        # enable: false
+        # Country where we are buying
+        # country: US
+        # Directory for the APIs caches
+        # cache_path: ~/.cache/kicost/Nexar
       TME:
         # TME token (anonymous or private)
         # token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -99,8 +99,9 @@ The `KitSpace` API is the only API that doesn't need a key to be used.
 This is a service kindly provided by the KitSpace_ project.
 As such, is a limited resource. So you should consider getting keys for the distributors you use.
 
-The `Octopart` API provides access to various distributors. It has a free option, with strong limits.
-Note that you need to provide a valid credit card in order to get a free key.
+The `Nexar` API provides access to various distributors. It has a free option, with a current limit of 1000 parts/month.
+This is free and you just need to register yourself and an application at Nexar_.
+Note that `KitSpace` uses `Nexar` as backend, so we strongly recommend to get a `Nexar` key for your own use.
 
 The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.
 
@@ -114,3 +115,4 @@ is cached, so you don't need to validate it all the time.
 
 .. _KitSpace: https://kitspace.org/
 .. _API_site: https://developer.digikey.com/get_started
+.. _Nexar: https://nexar.com/api

@@ -51,17 +51,6 @@ APIs:
 
     # Directory for the APIs caches
     cache_path: ../element14
-  Octopart:
-    # Octopart API Key
-    # key: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    # API level: 3 or 4
-    # level: 4
-    # The extended API is for the Pro plan
-    # extended: false
-    # Only enabled if the key is defined
-    # enable: false
-    # Directory for the APIs caches
-    # cache_path: ~/.cache/kicost/Octopart
   KitSpace:
     # Normally enabled
     # enable: true

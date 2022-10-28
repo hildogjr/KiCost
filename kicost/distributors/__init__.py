@@ -31,12 +31,12 @@ from .distributors_info import ORDER_COL_USERFIELDS  # noqa: F401
 
 # Import and register here the API / local / scrape modules.
 from .dist_local_template import dist_local_template  # noqa: F401
-from .api_octopart import api_octopart  # noqa: F401
 from .api_partinfo_kitspace import api_partinfo_kitspace  # noqa: F401
 from .api_digikey import api_digikey  # noqa: F401
 from .api_mouser import api_mouser  # noqa: F401
 from .api_element14 import api_element14  # noqa: F401
 from .api_tme import api_tme  # noqa: F401
+from .api_nexar import api_nexar  # noqa: F401
 
 
 #

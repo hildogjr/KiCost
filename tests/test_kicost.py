@@ -3,8 +3,8 @@
 
 # MIT license
 #
-# Copyright (c) 2021 Salvador E. Tropea
-# Copyright (c) 2021 Instituto Nacional de Tecnologïa Industrial
+# Copyright (c) 2021-2022 Salvador E. Tropea
+# Copyright (c) 2021-2022 Instituto Nacional de Tecnología Industrial
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,7 +27,7 @@
 """
 KiCost test module
 
-Tests for `kicost`. From the root of the projectr run:
+Tests for `kicost`. From the root of the project run:
 
 pytest-3 --log-cli-level debug
 """
@@ -56,7 +56,7 @@ TESTDIR = os.path.dirname(os.path.realpath(__file__))
 last_err = None
 # Text we want to filter in the XLSX to TXT conversion
 XLSX_FILTERS = (('$ date:', None), ('Prj date:', '(file'), ('KiCost', 0))
-OCTOPART_KEY = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+# OCTOPART_KEY = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 
 
 def to_str(s):
@@ -288,7 +288,8 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0, config_fil
         server = None
     else:
         os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
-        os.environ['KICOST_OCTOPART_URL'] = 'http://localhost:8000'
+        os.environ['KICOST_NEXAR_URL'] = 'http://localhost:8000'
+        os.environ['KICOST_NEXAR_NO_TOKEN'] = '1'
         fo = open(TESTDIR + '/log_test/0server_stdout.log', 'at')
         fe = open(TESTDIR + '/log_test/0server_stderr.log', 'at')
         server = subprocess.Popen(TESTDIR + '/dummy-web-server.py', stdout=fo, stderr=fe)
@@ -661,27 +662,6 @@ def test_rare_refs_no_collapse():
     run_test_check(name, 'rare_refs', name, extra=['--no_collapse'], price=False)
 
 
-def test_octopart_1p():
-    name = 'octopart_1'
-    run_test_check(name + 'p', name, name + 'p', extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'], config_file='octopart_no_cache.yaml')
-
-
-def test_octopart_1n():
-    name = 'octopart_1'
-    run_test_check(name + 'n', name, name + 'n', config_file='octopart_no_cache.yaml')
-
-
-def test_octopart_1_ambi():
-    name = 'octopart_1_ambi'
-    run_test_check(name, extra=['--octopart_key', OCTOPART_KEY, '--octopart_level', '4p'], config_file='octopart_no_cache.yaml')
-    check_errors([r'Using "Adafruit Industries" for manf#="4062"', r'Ambiguous manf#="4062" please use manf to select the right one, choices:'])
-
-
-def test_octopart_2n():
-    name = 'octopart_2'
-    run_test_check(name + 'n', name, name + 'n', extra=['--disable_api', 'KitSpace'], config_file='octopart.yaml')
-
-
 def test_337():
     # Test for issue #337
     run_test_check('test_337_UserFieldCombining', extra=['--field', 'Supplier'], price=False)
@@ -704,6 +684,24 @@ def test_tme_1():
     test_name = 'tme_1'
     extra = ['--include', 'tme']
     run_test_check(test_name, 'safelink_receiver', test_name, extra=extra, config_file='tme.yaml')
+
+
+def test_nexar_1():
+    ''' Nexar test using cached values '''
+    test_name = 'nexar_1'
+    run_test_check(test_name, 'safelink_receiver', test_name, config_file='nexar.yaml')
+
+
+def test_nexar_2():
+    ''' Nexar test using simulated web traffic '''
+    name = 'nexar_2'
+    run_test_check(name, name, name, config_file='nexar_no_cache.yaml')
+
+
+def test_nexar_3():
+    ''' Nexar test using cached values. Including a typo in a manufacturer '''
+    name = 'nexar_3'
+    run_test_check(name, name, name, config_file='nexar.yaml')
 
 
 class TestKicost(unittest.TestCase):

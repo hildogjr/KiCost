@@ -139,16 +139,6 @@ def command_line_api_options(api_options, args):
         config_force_ttl(args.cache_ttl)
     if args.cache_path is not None:
         config_force_path(args.cache_path)
-    if args.octopart_key is not None:
-        api_options['Octopart']['key'] = args.octopart_key
-    if args.octopart_level is not None:
-        level = args.octopart_level
-        extended = False
-        if level[-1] == 'p':
-            extended = True
-            level = level[:-1]
-        api_options['Octopart']['level'] = level
-        api_options['Octopart']['extended'] = extended
     for api in args.disable_api:
         debug_obsessive('Disabling API ' + api)
         if is_valid_api(api):
@@ -315,12 +305,6 @@ def main_real():
     parser.add_argument('--unsetup',
                         action='store_true',
                         help='Undo the KiCost integration.')
-    parser.add_argument('--octopart_key',
-                        nargs='?', type=str, metavar='APIKEY',
-                        help='Enable Octopart using the provided key. Use None to disable it.')
-    parser.add_argument('--octopart_level',
-                        nargs='?', type=str, metavar='APILEVEL', choices=['3', '3p', '4', '4p'],
-                        help='Use Octopart API level. Can be 3 or 4 for basic API and 3p or 4p for PRO plans. Default: 4')
     parser.add_argument('--disable_api',
                         nargs='+', type=str, default=[],
                         metavar='API',
@@ -456,7 +440,7 @@ def main_real():
     available = get_distributors_list()
     for d in args.include + args.exclude:
         if d not in available:
-            error('Unknown distributor requested: `{}`'.format(d))
+            error('Unknown distributor requested: `{}` [Known: {}]'.format(d, available))
             sys.exit(2)
     if args.no_price:
         # None

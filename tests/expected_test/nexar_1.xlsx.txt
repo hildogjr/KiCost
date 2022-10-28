@@ -1,0 +1,6874 @@
+Variables:
+BoardQty = 'nexar_1'!$H$1
+PURCHASE_DESCRIPTION = 'nexar_1'!$H$56
+TotalCost = 'nexar_1'!$H$3
+USD_EUR = 'nexar_1'!$C$56
+USD_GBP = 'nexar_1'!$C$57
+--------------------------------------------------------------------------------
+Row: 1
+ Col: A
+   "Prj:"
+ Col: B
+   "safelink_receiver.xml"
+ Col: G
+   "Board Qty:"
+ Col: H
+   100
+Row: 2
+ Col: A
+   "Co.:"
+ Col: G
+   "Unit Cost:"
+ Col: H
+   31.5839
+  Formula: TotalCost/BoardQty
+Row: 3
+ Col: A
+   "Prj date:"
+ Col: B
+   "Mon 05 Jun 2017 19:55:00 BST"
+ Col: G
+   "Total Cost:"
+ Col: H
+   3158.3868
+  Formula: SUM(H7:H53)
+ Col: M
+   457.07
+  Formula: SUM(M7:M53)
+ Col: N
+   "23 of 47 parts found"
+  Formula: (COUNTA(M7:M53)&" of "&ROWS(M7:M53)&" parts found")
+ Col: S
+   716.738
+  Formula: SUM(S7:S53)
+ Col: T
+   "23 of 47 parts found"
+  Formula: (COUNTA(S7:S53)&" of "&ROWS(S7:S53)&" parts found")
+ Col: Y
+   3247.6349
+  Formula: SUM(Y7:Y53)
+ Col: Z
+   "39 of 47 parts found"
+  Formula: (COUNTA(Y7:Y53)&" of "&ROWS(Y7:Y53)&" parts found")
+ Col: AE
+   0
+  Formula: SUM(AE7:AE53)
+ Col: AF
+   "0 of 47 parts found"
+  Formula: (COUNTA(AE7:AE53)&" of "&ROWS(AE7:AE53)&" parts found")
+ Col: AK
+   2538.1
+  Formula: SUM(AK7:AK53)
+ Col: AL
+   "39 of 47 parts found"
+  Formula: (COUNTA(AK7:AK53)&" of "&ROWS(AK7:AK53)&" parts found")
+ Col: AQ
+   2310.8
+  Formula: SUM(AQ7:AQ53)
+ Col: AR
+   "35 of 47 parts found"
+  Formula: (COUNTA(AQ7:AQ53)&" of "&ROWS(AQ7:AQ53)&" parts found")
+ Col: AW
+   1118.2378
+  Formula: SUM(AW7:AW53)
+ Col: AX
+   "27 of 47 parts found"
+  Formula: (COUNTA(AW7:AW53)&" of "&ROWS(AW7:AW53)&" parts found")
+ Col: BC
+   744.8764
+  Formula: SUM(BC7:BC53)
+ Col: BD
+   "27 of 47 parts found"
+  Formula: (COUNTA(BC7:BC53)&" of "&ROWS(BC7:BC53)&" parts found")
+Row: 4
+ Col: A
+   "$ date:"
+ Col: B
+   *FILTERED*
+Row: 5
+ Col: A
+   "Global Part Info"
+ Col: I
+   "Arrow"
+ Col: O
+   "Digi-Key"
+ Col: U
+   "Farnell"
+ Col: AA
+   "LCSC"
+ Col: AG
+   "Mouser"
+ Col: AM
+   "Newark"
+ Col: AS
+   "RS Components"
+ Col: AY
+   "TME"
+Row: 6
+ Col: A
+   "Refs"
+ Col: B
+   "Value"
+ Col: C
+   "Footprint"
+ Col: D
+   "Manf"
+ Col: E
+   "Manf#"
+ Col: F
+   "Qty"
+ Col: G
+   "Unit$"
+ Col: H
+   "Ext$"
+ Col: I
+   "Avail"
+ Col: J
+   "Purch"
+ Col: K
+   "Unit$"
+ Col: L
+   "MOQ"
+ Col: M
+   "Ext$"
+ Col: N
+   "Cat#"
+ Col: O
+   "Avail"
+ Col: P
+   "Purch"
+ Col: Q
+   "Unit$"
+ Col: R
+   "MOQ"
+ Col: S
+   "Ext$"
+ Col: T
+   "Cat#"
+ Col: U
+   "Avail"
+ Col: V
+   "Purch"
+ Col: W
+   "Unit$"
+ Col: X
+   "MOQ"
+ Col: Y
+   "Ext$"
+ Col: Z
+   "Cat#"
+ Col: AA
+   "Avail"
+ Col: AB
+   "Purch"
+ Col: AC
+   "Unit$"
+ Col: AD
+   "MOQ"
+ Col: AE
+   "Ext$"
+ Col: AF
+   "Cat#"
+ Col: AG
+   "Avail"
+ Col: AH
+   "Purch"
+ Col: AI
+   "Unit$"
+ Col: AJ
+   "MOQ"
+ Col: AK
+   "Ext$"
+ Col: AL
+   "Cat#"
+ Col: AM
+   "Avail"
+ Col: AN
+   "Purch"
+ Col: AO
+   "Unit$"
+ Col: AP
+   "MOQ"
+ Col: AQ
+   "Ext$"
+ Col: AR
+   "Cat#"
+ Col: AS
+   "Avail"
+ Col: AT
+   "Purch"
+ Col: AU
+   "Unit$"
+ Col: AV
+   "MOQ"
+ Col: AW
+   "Ext$"
+ Col: AX
+   "Cat#"
+ Col: AY
+   "Avail"
+ Col: AZ
+   "Purch"
+ Col: BA
+   "Unit$"
+ Col: BB
+   "MOQ"
+ Col: BC
+   "Ext$"
+ Col: BD
+   "Cat#"
+Row: 7
+ Col: A
+   "BT1"
+ Col: B
+   "Battery"
+ Col: C
+   "ACC-AANEG-5201"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1,1)
+  Styles:
+  - =AND(ISBLANK(E7),ISBLANK(M7),ISBLANK(S7),ISBLANK(Y7),ISBLANK(AE7),ISBLANK(AK7),ISBLANK(AQ7),ISBLANK(AW7),ISBLANK(BC7)) -> -/FFAAAAAA
+  - =IF(SUM(I7,O7,U7,AA7,AG7,AM7,AS7,AY7)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I7,O7,U7,AA7,AG7,AM7,AS7,AY7) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K7),J7,0),IF(ISNUMBER(Q7),P7,0),IF(ISNUMBER(W7),V7,0),IF(ISNUMBER(AC7),AB7,0),IF(ISNUMBER(AI7),AH7,0),IF(ISNUMBER(AO7),AN7,0),IF(ISNUMBER(AU7),AT7,0),IF(ISNUMBER(BA7),AZ7,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K7,Q7,W7,AC7,AI7,AO7,AU7,BA7)<>0,MIN(K7,Q7,W7,AC7,AI7,AO7,AU7,BA7),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F7),ISNUMBER(G7)),F7*G7,"")
+Row: 8
+ Col: A
+   "BTCNT1"
+ Col: B
+   "ACC-AANEG-5201"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AANEG-5201"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E8),ISBLANK(M8),ISBLANK(S8),ISBLANK(Y8),ISBLANK(AE8),ISBLANK(AK8),ISBLANK(AQ8),ISBLANK(AW8),ISBLANK(BC8)) -> -/FFAAAAAA
+  - =IF(SUM(I8,O8,U8,AA8,AG8,AM8,AS8,AY8)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I8,O8,U8,AA8,AG8,AM8,AS8,AY8) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K8),J8,0),IF(ISNUMBER(Q8),P8,0),IF(ISNUMBER(W8),V8,0),IF(ISNUMBER(AC8),AB8,0),IF(ISNUMBER(AI8),AH8,0),IF(ISNUMBER(AO8),AN8,0),IF(ISNUMBER(AU8),AT8,0),IF(ISNUMBER(BA8),AZ8,0)) -> -/FFFFFF00
+ Col: G
+   0.391
+  Formula: IF(MIN(K8,Q8,W8,AC8,AI8,AO8,AU8,BA8)<>0,MIN(K8,Q8,W8,AC8,AI8,AO8,AU8,BA8),"")
+ Col: H
+   39.1
+  Formula: IF(AND(ISNUMBER(F8),ISNUMBER(G8)),F8*G8,"")
+ Col: AG
+   6769
+  Styles:
+  - lessThan F8 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH8)),OR(AG8="NonStk",AH8>AG8)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.391
+  Formula: IFERROR(IF(OR(AH8>=AJ8,F8>=AJ8),LOOKUP(IF(AH8="",F8,AH8),{0,1,10,50,100,1000,10000},{0.0,0.54,0.442,0.415,0.391,0.355,0.355}),"MOQ="&AJ8),"")
+  Styles:
+  - lessThanOrEqual G8 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   39.1
+  Formula: IFERROR(IF(AH8="",F8,AH8)*AI8,"")
+  Styles:
+  - lessThanOrEqual H8 -> -/FF80FF80
+ Col: AL
+   "789-ACC-AANEG-5201"
+Row: 9
+ Col: A
+   "BTCNT2"
+ Col: B
+   "ACC-AAPOS-5223"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AAPOS-5223"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E9),ISBLANK(M9),ISBLANK(S9),ISBLANK(Y9),ISBLANK(AE9),ISBLANK(AK9),ISBLANK(AQ9),ISBLANK(AW9),ISBLANK(BC9)) -> -/FFAAAAAA
+  - =IF(SUM(I9,O9,U9,AA9,AG9,AM9,AS9,AY9)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I9,O9,U9,AA9,AG9,AM9,AS9,AY9) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K9),J9,0),IF(ISNUMBER(Q9),P9,0),IF(ISNUMBER(W9),V9,0),IF(ISNUMBER(AC9),AB9,0),IF(ISNUMBER(AI9),AH9,0),IF(ISNUMBER(AO9),AN9,0),IF(ISNUMBER(AU9),AT9,0),IF(ISNUMBER(BA9),AZ9,0)) -> -/FFFFFF00
+ Col: G
+   0.304
+  Formula: IF(MIN(K9,Q9,W9,AC9,AI9,AO9,AU9,BA9)<>0,MIN(K9,Q9,W9,AC9,AI9,AO9,AU9,BA9),"")
+ Col: H
+   30.4
+  Formula: IF(AND(ISNUMBER(F9),ISNUMBER(G9)),F9*G9,"")
+ Col: AG
+   5591
+  Styles:
+  - lessThan F9 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH9)),OR(AG9="NonStk",AH9>AG9)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.304
+  Formula: IFERROR(IF(OR(AH9>=AJ9,F9>=AJ9),LOOKUP(IF(AH9="",F9,AH9),{0,1,10,50,100,1000,10000},{0.0,0.42,0.344,0.323,0.304,0.276,0.276}),"MOQ="&AJ9),"")
+  Styles:
+  - lessThanOrEqual G9 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   30.4
+  Formula: IFERROR(IF(AH9="",F9,AH9)*AI9,"")
+  Styles:
+  - lessThanOrEqual H9 -> -/FF80FF80
+ Col: AL
+   "789-ACC-AAPOS-5223"
+Row: 10
+ Col: A
+   "BTCNT3"
+ Col: B
+   "ACC-AADBL-5212"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   "ACC-AADBL-5212"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E10),ISBLANK(M10),ISBLANK(S10),ISBLANK(Y10),ISBLANK(AE10),ISBLANK(AK10),ISBLANK(AQ10),ISBLANK(AW10),ISBLANK(BC10)) -> -/FFAAAAAA
+  - =IF(SUM(I10,O10,U10,AA10,AG10,AM10,AS10,AY10)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I10,O10,U10,AA10,AG10,AM10,AS10,AY10) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K10),J10,0),IF(ISNUMBER(Q10),P10,0),IF(ISNUMBER(W10),V10,0),IF(ISNUMBER(AC10),AB10,0),IF(ISNUMBER(AI10),AH10,0),IF(ISNUMBER(AO10),AN10,0),IF(ISNUMBER(AU10),AT10,0),IF(ISNUMBER(BA10),AZ10,0)) -> -/FFFFFF00
+ Col: G
+   0.695
+  Formula: IF(MIN(K10,Q10,W10,AC10,AI10,AO10,AU10,BA10)<>0,MIN(K10,Q10,W10,AC10,AI10,AO10,AU10,BA10),"")
+ Col: H
+   69.5
+  Formula: IF(AND(ISNUMBER(F10),ISNUMBER(G10)),F10*G10,"")
+ Col: AG
+   2049
+  Styles:
+  - lessThan F10 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH10)),OR(AG10="NonStk",AH10>AG10)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.695
+  Formula: IFERROR(IF(OR(AH10>=AJ10,F10>=AJ10),LOOKUP(IF(AH10="",F10,AH10),{0,1,10,50,100,1000,10000},{0.0,0.96,0.786,0.738,0.695,0.631,0.631}),"MOQ="&AJ10),"")
+  Styles:
+  - lessThanOrEqual G10 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   69.5
+  Formula: IFERROR(IF(AH10="",F10,AH10)*AI10,"")
+  Styles:
+  - lessThanOrEqual H10 -> -/FF80FF80
+ Col: AL
+   "789-ACC-AADBL-5212"
+Row: 11
+ Col: A
+   "C1,C4,C5,C8-C10,C19,C21,C25,C26,C29,C33"
+ Col: B
+   "10u"
+ Col: C
+   "C_0805"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://datasheet.octopart.com/GRM21BR71A106KE51L-Murata-datasheet-165579666.pdf">GRM21BR71A106KE51L</a>
+ Col: F
+   1200
+  Formula: CEILING(BoardQty*12.0,1)
+  Styles:
+  - =AND(ISBLANK(E11),ISBLANK(M11),ISBLANK(S11),ISBLANK(Y11),ISBLANK(AE11),ISBLANK(AK11),ISBLANK(AQ11),ISBLANK(AW11),ISBLANK(BC11)) -> -/FFAAAAAA
+  - =IF(SUM(I11,O11,U11,AA11,AG11,AM11,AS11,AY11)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I11,O11,U11,AA11,AG11,AM11,AS11,AY11) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K11),J11,0),IF(ISNUMBER(Q11),P11,0),IF(ISNUMBER(W11),V11,0),IF(ISNUMBER(AC11),AB11,0),IF(ISNUMBER(AI11),AH11,0),IF(ISNUMBER(AO11),AN11,0),IF(ISNUMBER(AU11),AT11,0),IF(ISNUMBER(BA11),AZ11,0)) -> -/FFFFFF00
+ Col: G
+   0.066714387
+  Formula: IF(MIN(K11,Q11,W11,AC11,AI11,AO11,AU11,BA11)<>0,MIN(K11,Q11,W11,AC11,AI11,AO11,AU11,BA11),"")
+ Col: H
+   80.0573
+  Formula: IF(AND(ISNUMBER(F11),ISNUMBER(G11)),F11*G11,"")
+ Col: I
+   99000
+  Styles:
+  - lessThan F11 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J11>0,MOD(J11,L11)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J11)),OR(I11="NonStk",J11>I11)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J11>=L11,F11>=L11),LOOKUP(IF(J11="",F11,J11),{0,1,3000,6000,12000,15000,24000,30000},{0.0,0.1408,0.1408,0.1249,0.1127,0.1054,0.1,0.0989}),"MOQ="&L11),"")
+  Styles:
+  - lessThanOrEqual G11 -> -/FF80FF80
+  - =AND(F11<3000,J11<3000) -> -/FFFFFF00
+ Col: L
+   3000
+  Styles:
+  - =AND(F11<3000,J11<3000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J11="",F11,J11)*K11,"")
+  Styles:
+  - lessThanOrEqual H11 -> -/FF80FF80
+  - =AND(F11<3000,J11<3000) -> -/FFFFFF00
+ Col: N
+   "GRM21BR71A106KE51L"
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F11 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V11>0,MOD(V11,X11)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V11)),OR(U11="NonStk",V11>U11)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.207767180438
+  Formula: IFERROR(IF(OR(V11>=X11,F11>=X11),USD_GBP*LOOKUP(IF(V11="",F11,V11),{0,1,5,50,150,250,500,3000},{0.0,0.453,0.453,0.258,0.258,0.203,0.151,0.113}),"MOQ="&X11),"")
+  Styles:
+  - lessThanOrEqual G11 -> -/FF80FF80
+ Col: X
+   5
+ Col: Y
+   249.3206
+  Formula: IFERROR(IF(V11="",F11,V11)*W11,"")
+  Styles:
+  - lessThanOrEqual H11 -> -/FF80FF80
+ Col: Z
+   "1828828"
+ Col: AY
+   56560
+  Styles:
+  - lessThan F11 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ11>0,MOD(AZ11,BB11)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ11)),OR(AY11="NonStk",AZ11>AY11)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.066714387
+  Formula: IFERROR(IF(OR(AZ11>=BB11,F11>=BB11),USD_EUR*LOOKUP(IF(AZ11="",F11,AZ11),{0,1,10,100,1000,3000,12000},{0.0,0.19317,0.19317,0.0761,0.05619,0.04829,0.04693}),"MOQ="&BB11),"")
+  Styles:
+  - lessThanOrEqual G11 -> -/FF80FF80
+ Col: BB
+   10
+ Col: BC
+   80.0573
+  Formula: IFERROR(IF(AZ11="",F11,AZ11)*BA11,"")
+  Styles:
+  - lessThanOrEqual H11 -> -/FF80FF80
+ Col: BD
+   "GRM21BR71A106KE51L"
+Row: 12
+ Col: A
+   "C2,C3,C14"
+ Col: B
+   "1u"
+ Col: C
+   "C_0805"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://datasheet.octopart.com/GRM21BR71H105KA12L-Murata-datasheet-118811.pdf">GRM21BR71H105KA12L</a>
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E12),ISBLANK(M12),ISBLANK(S12),ISBLANK(Y12),ISBLANK(AE12),ISBLANK(AK12),ISBLANK(AQ12),ISBLANK(AW12),ISBLANK(BC12)) -> -/FFAAAAAA
+  - =IF(SUM(I12,O12,U12,AA12,AG12,AM12,AS12,AY12)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I12,O12,U12,AA12,AG12,AM12,AS12,AY12) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K12),J12,0),IF(ISNUMBER(Q12),P12,0),IF(ISNUMBER(W12),V12,0),IF(ISNUMBER(AC12),AB12,0),IF(ISNUMBER(AI12),AH12,0),IF(ISNUMBER(AO12),AN12,0),IF(ISNUMBER(AU12),AT12,0),IF(ISNUMBER(BA12),AZ12,0)) -> -/FFFFFF00
+ Col: G
+   0.233910070692
+  Formula: IF(MIN(K12,Q12,W12,AC12,AI12,AO12,AU12,BA12)<>0,MIN(K12,Q12,W12,AC12,AI12,AO12,AU12,BA12),"")
+ Col: H
+   70.173
+  Formula: IF(AND(ISNUMBER(F12),ISNUMBER(G12)),F12*G12,"")
+ Col: I
+   57000
+  Styles:
+  - lessThan F12 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J12>0,MOD(J12,L12)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J12)),OR(I12="NonStk",J12>I12)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J12>=L12,F12>=L12),LOOKUP(IF(J12="",F12,J12),{0,1,3000,6000,12000,15000,24000,30000},{0.0,0.0646,0.0646,0.0614,0.0601,0.0595,0.0589,0.0544}),"MOQ="&L12),"")
+  Styles:
+  - lessThanOrEqual G12 -> -/FF80FF80
+  - =AND(F12<3000,J12<3000) -> -/FFFFFF00
+ Col: L
+   3000
+  Styles:
+  - =AND(F12<3000,J12<3000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J12="",F12,J12)*K12,"")
+  Styles:
+  - lessThanOrEqual H12 -> -/FF80FF80
+  - =AND(F12<3000,J12<3000) -> -/FFFFFF00
+ Col: N
+   "GRM21BR71H105KA12L"
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F12 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V12>0,MOD(V12,X12)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V12)),OR(U12="NonStk",V12>U12)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.233910070692
+  Formula: IFERROR(IF(OR(V12>=X12,F12>=X12),USD_GBP*LOOKUP(IF(V12="",F12,V12),{0,1,5,50,150,250,500,3000},{0.0,0.443,0.443,0.231,0.231,0.17,0.133,0.0926}),"MOQ="&X12),"")
+  Styles:
+  - lessThanOrEqual G12 -> -/FF80FF80
+ Col: X
+   5
+ Col: Y
+   70.173
+  Formula: IFERROR(IF(V12="",F12,V12)*W12,"")
+  Styles:
+  - lessThanOrEqual H12 -> -/FF80FF80
+ Col: Z
+   "1735541"
+ Col: AM
+   "NonStk"
+  Styles:
+  - lessThan F12 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN12)),OR(AM12="NonStk",AN12>AM12)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.465
+  Formula: IFERROR(IF(OR(AN12>=AP12,F12>=AP12),LOOKUP(IF(AN12="",F12,AN12),{0,1,25,50,100,250,500,1000,2500,3000},{0.0,0.723,0.649,0.591,0.523,0.465,0.399,0.351,0.278,0.278}),"MOQ="&AP12),"")
+  Styles:
+  - lessThanOrEqual G12 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   139.5
+  Formula: IFERROR(IF(AN12="",F12,AN12)*AO12,"")
+  Styles:
+  - lessThanOrEqual H12 -> -/FF80FF80
+ Col: AR
+   "24R6342"
+Row: 13
+ Col: A
+   "C6,C18,C20,C22,C27,C28,C30,C34"
+ Col: B
+   "100n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Walsin"
+ Col: E
+   <a href="http://datasheet.octopart.com/0603B104K500CT-Walsin-Technologies-datasheet-48038160.pdf">0603B104K500CT</a>
+ Col: F
+   800
+  Formula: CEILING(BoardQty*8.0,1)
+  Styles:
+  - =AND(ISBLANK(E13),ISBLANK(M13),ISBLANK(S13),ISBLANK(Y13),ISBLANK(AE13),ISBLANK(AK13),ISBLANK(AQ13),ISBLANK(AW13),ISBLANK(BC13)) -> -/FFAAAAAA
+  - =IF(SUM(I13,O13,U13,AA13,AG13,AM13,AS13,AY13)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I13,O13,U13,AA13,AG13,AM13,AS13,AY13) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K13),J13,0),IF(ISNUMBER(Q13),P13,0),IF(ISNUMBER(W13),V13,0),IF(ISNUMBER(AC13),AB13,0),IF(ISNUMBER(AI13),AH13,0),IF(ISNUMBER(AO13),AN13,0),IF(ISNUMBER(AU13),AT13,0),IF(ISNUMBER(BA13),AZ13,0)) -> -/FFFFFF00
+ Col: G
+   0.01
+  Formula: IF(MIN(K13,Q13,W13,AC13,AI13,AO13,AU13,BA13)<>0,MIN(K13,Q13,W13,AC13,AI13,AO13,AU13,BA13),"")
+ Col: H
+   8
+  Formula: IF(AND(ISNUMBER(F13),ISNUMBER(G13)),F13*G13,"")
+ Col: I
+   60576000
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J13>0,MOD(J13,L13)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J13)),OR(I13="NonStk",J13>I13)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J13>=L13,F13>=L13),LOOKUP(IF(J13="",F13,J13),{0,1,4000,40000},{0.0,0.004,0.004,0.0024}),"MOQ="&L13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+  - =AND(F13<4000,J13<4000) -> -/FFFFFF00
+ Col: L
+   4000
+  Styles:
+  - =AND(F13<4000,J13<4000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J13="",F13,J13)*K13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+  - =AND(F13<4000,J13<4000) -> -/FFFFFF00
+ Col: N
+   "0603B104K500CT"
+ Col: O
+   4328573
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P13)),OR(O13="NonStk",P13>O13)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.02496
+  Formula: IFERROR(IF(OR(P13>=R13,F13>=R13),LOOKUP(IF(P13="",F13,P13),{0,1,10,50,100,500,1000,4000,8000,12000,40000},{0.0,0.11,0.076,0.043,0.0356,0.02496,0.02066,0.01759,0.01636,0.01554,0.01473}),"MOQ="&R13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   19.968
+  Formula: IFERROR(IF(P13="",F13,P13)*Q13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: T
+   "1292-1643-2-ND"
+ Col: U
+   5115980
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V13>0,MOD(V13,X13)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V13)),OR(U13="NonStk",V13>U13)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0345361339669
+  Formula: IFERROR(IF(OR(V13>=X13,F13>=X13),USD_GBP*LOOKUP(IF(V13="",F13,V13),{0,1,10,100,500,1000,2000,4000,20000},{0.0,0.0585,0.0585,0.0355,0.0251,0.0209,0.0205,0.0157,0.0154}),"MOQ="&X13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   27.6289
+  Formula: IFERROR(IF(V13="",F13,V13)*W13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: Z
+   "2496834"
+ Col: AG
+   273454
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH13)),OR(AG13="NonStk",AH13>AG13)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.026
+  Formula: IFERROR(IF(OR(AH13>=AJ13,F13>=AJ13),LOOKUP(IF(AH13="",F13,AH13),{0,1,10,50,100,500,1000,4000,10000},{0.0,0.11,0.062,0.062,0.037,0.026,0.022,0.017,0.017}),"MOQ="&AJ13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   20.8
+  Formula: IFERROR(IF(AH13="",F13,AH13)*AI13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: AL
+   "791-0603B104K500CT"
+ Col: AM
+   5103980
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN13)),OR(AM13="NonStk",AN13>AM13)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.01
+  Formula: IFERROR(IF(OR(AN13>=AP13,F13>=AP13),LOOKUP(IF(AN13="",F13,AN13),{0,1,10,25,50,100,250,500,1000,4000,8000},{0.0,0.087,0.045,0.029,0.021,0.016,0.013,0.01,0.008,0.007,0.005}),"MOQ="&AP13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   8
+  Formula: IFERROR(IF(AN13="",F13,AN13)*AO13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: AR
+   "68Y8824"
+ Col: AS
+   "NonStk"
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT13>0,MOD(AT13,AV13)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT13)),OR(AS13="NonStk",AT13>AS13)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT13>=AV13,F13>=AV13),LOOKUP(IF(AT13="",F13,AT13),{0,1,4000,8000,20000,40000},{0.0,0.03,0.03,0.028,0.027,0.027}),"MOQ="&AV13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+  - =AND(F13<4000,AT13<4000) -> -/FFFFFF00
+ Col: AV
+   4000
+  Styles:
+  - =AND(F13<4000,AT13<4000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT13="",F13,AT13)*AU13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+  - =AND(F13<4000,AT13<4000) -> -/FFFFFF00
+ Col: AX
+   "1760280"
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F13 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ13>0,MOD(AZ13,BB13)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ13)),OR(AY13="NonStk",AZ13>AY13)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.012977189
+  Formula: IFERROR(IF(OR(AZ13>=BB13,F13>=BB13),USD_EUR*LOOKUP(IF(AZ13="",F13,AZ13),{0,1,100,1000,4000,12000,20000},{0.0,0.01093,0.01093,0.00309,0.00195,0.00186,0.00182}),"MOQ="&BB13),"")
+  Styles:
+  - lessThanOrEqual G13 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   10.3818
+  Formula: IFERROR(IF(AZ13="",F13,AZ13)*BA13,"")
+  Styles:
+  - lessThanOrEqual H13 -> -/FF80FF80
+ Col: BD
+   "0603B104K500CT"
+Row: 14
+ Col: A
+   "C7"
+ Col: B
+   "10n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Kemet"
+ Col: E
+   <a href="http://datasheet.octopart.com/C0603C103K5RACTU-KEMET-datasheet-164512540.pdf">C0603C103K5RACTU</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E14),ISBLANK(M14),ISBLANK(S14),ISBLANK(Y14),ISBLANK(AE14),ISBLANK(AK14),ISBLANK(AQ14),ISBLANK(AW14),ISBLANK(BC14)) -> -/FFAAAAAA
+  - =IF(SUM(I14,O14,U14,AA14,AG14,AM14,AS14,AY14)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I14,O14,U14,AA14,AG14,AM14,AS14,AY14) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K14),J14,0),IF(ISNUMBER(Q14),P14,0),IF(ISNUMBER(W14),V14,0),IF(ISNUMBER(AC14),AB14,0),IF(ISNUMBER(AI14),AH14,0),IF(ISNUMBER(AO14),AN14,0),IF(ISNUMBER(AU14),AT14,0),IF(ISNUMBER(BA14),AZ14,0)) -> -/FFFFFF00
+ Col: G
+   0.025574442
+  Formula: IF(MIN(K14,Q14,W14,AC14,AI14,AO14,AU14,BA14)<>0,MIN(K14,Q14,W14,AC14,AI14,AO14,AU14,BA14),"")
+ Col: H
+   2.5574
+  Formula: IF(AND(ISNUMBER(F14),ISNUMBER(G14)),F14*G14,"")
+ Col: I
+   10560000
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J14)),OR(I14="NonStk",J14>I14)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0382
+  Formula: IFERROR(IF(OR(J14>=L14,F14>=L14),LOOKUP(IF(J14="",F14,J14),{0,1,10,25,100,250,500,1000,3000,4000,6000,8000,15000,75000,150000},{0.0,0.1034,0.0842,0.0834,0.0382,0.0378,0.0214,0.0315,0.0312,0.0112,0.0187,0.0105,0.0097,0.009,0.0083}),"MOQ="&L14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   3.82
+  Formula: IFERROR(IF(J14="",F14,J14)*K14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: N
+   "C0603C103K5RACTU"
+ Col: O
+   4897571
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P14)),OR(O14="NonStk",P14>O14)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0287
+  Formula: IFERROR(IF(OR(P14>=R14,F14>=R14),LOOKUP(IF(P14="",F14,P14),{0,1,10,50,100,500,1000,4000,8000,12000,40000},{0.0,0.1,0.064,0.0352,0.0287,0.0205,0.01611,0.01347,0.0123,0.01172,0.01113}),"MOQ="&R14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   2.87
+  Formula: IFERROR(IF(P14="",F14,P14)*Q14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: T
+   "399-C0603C103K5RAC7867TR-ND"
+ Col: U
+   2840000
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V14>0,MOD(V14,X14)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V14)),OR(U14="NonStk",V14>U14)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0403150886545
+  Formula: IFERROR(IF(OR(V14>=X14,F14>=X14),USD_GBP*LOOKUP(IF(V14="",F14,V14),{0,1,10,100,500,1000,2000,4000,20000},{0.0,0.0648,0.0648,0.0293,0.0209,0.0167,0.0146,0.0115,0.0113}),"MOQ="&X14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   4.0315
+  Formula: IFERROR(IF(V14="",F14,V14)*W14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: Z
+   "1414609"
+ Col: AG
+   1026090
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH14)),OR(AG14="NonStk",AH14>AG14)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.041
+  Formula: IFERROR(IF(OR(AH14>=AJ14,F14>=AJ14),LOOKUP(IF(AH14="",F14,AH14),{0,1,10,50,100,500,1000,2000,4000,8000,10000},{0.0,0.14,0.096,0.096,0.041,0.03,0.026,0.017,0.023,0.013,0.023}),"MOQ="&AJ14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   4.1
+  Formula: IFERROR(IF(AH14="",F14,AH14)*AI14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: AL
+   "80-C0603C103K5R7867"
+ Col: AM
+   2772000
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN14)),OR(AM14="NonStk",AN14>AM14)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.071
+  Formula: IFERROR(IF(OR(AN14>=AP14,F14>=AP14),LOOKUP(IF(AN14="",F14,AN14),{0,1,10,25,50,100,250,500,1000,4000,8000},{0.0,0.251,0.096,0.101,0.088,0.071,0.068,0.061,0.05,0.038,0.036}),"MOQ="&AP14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   7.1
+  Formula: IFERROR(IF(AN14="",F14,AN14)*AO14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: AR
+   "30C5334"
+ Col: AS
+   10225
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT14>0,MOD(AT14,AV14)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT14)),OR(AS14="NonStk",AT14>AS14)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.133
+  Formula: IFERROR(IF(OR(AT14>=AV14,F14>=AV14),LOOKUP(IF(AT14="",F14,AT14),{0,1,25,250,500,1000,2500},{0.0,0.133,0.133,0.125,0.117,0.111,0.1}),"MOQ="&AV14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: AV
+   25
+ Col: AW
+   13.3
+  Formula: IFERROR(IF(AT14="",F14,AT14)*AU14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: AX
+   "2644595"
+ Col: AY
+   46600
+  Styles:
+  - lessThan F14 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ14>0,MOD(AZ14,BB14)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ14)),OR(AY14="NonStk",AZ14>AY14)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.025574442
+  Formula: IFERROR(IF(OR(AZ14>=BB14,F14>=BB14),USD_EUR*LOOKUP(IF(AZ14="",F14,AZ14),{0,1,100,1000,4000,12000},{0.0,0.02154,0.02154,0.00909,0.00746,0.00718}),"MOQ="&BB14),"")
+  Styles:
+  - lessThanOrEqual G14 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   2.5574
+  Formula: IFERROR(IF(AZ14="",F14,AZ14)*BA14,"")
+  Styles:
+  - lessThanOrEqual H14 -> -/FF80FF80
+ Col: BD
+   "C0603C103K5RAC"
+Row: 15
+ Col: A
+   "C11,C16"
+ Col: B
+   "22u"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://datasheet.octopart.com/GRM188R61A226ME15D-Murata-datasheet-165579666.pdf">GRM188R61A226ME15D</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E15),ISBLANK(M15),ISBLANK(S15),ISBLANK(Y15),ISBLANK(AE15),ISBLANK(AK15),ISBLANK(AQ15),ISBLANK(AW15),ISBLANK(BC15)) -> -/FFAAAAAA
+  - =IF(SUM(I15,O15,U15,AA15,AG15,AM15,AS15,AY15)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I15,O15,U15,AA15,AG15,AM15,AS15,AY15) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K15),J15,0),IF(ISNUMBER(Q15),P15,0),IF(ISNUMBER(W15),V15,0),IF(ISNUMBER(AC15),AB15,0),IF(ISNUMBER(AI15),AH15,0),IF(ISNUMBER(AO15),AN15,0),IF(ISNUMBER(AU15),AT15,0),IF(ISNUMBER(BA15),AZ15,0)) -> -/FFFFFF00
+ Col: G
+   0.049
+  Formula: IF(MIN(K15,Q15,W15,AC15,AI15,AO15,AU15,BA15)<>0,MIN(K15,Q15,W15,AC15,AI15,AO15,AU15,BA15),"")
+ Col: H
+   9.8
+  Formula: IF(AND(ISNUMBER(F15),ISNUMBER(G15)),F15*G15,"")
+ Col: I
+   3124000
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J15)),OR(I15="NonStk",J15>I15)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0721
+  Formula: IFERROR(IF(OR(J15>=L15,F15>=L15),LOOKUP(IF(J15="",F15,J15),{0,1,10,25,100,250,500,1000,3000,4000,6000,8000,12000,15000,24000,28000,100000,200000,400000},{0.0,0.2066,0.1144,0.1133,0.0721,0.0713,0.0365,0.0362,0.0358,0.0374,0.0354,0.037,0.0329,0.0351,0.0321,0.0306,0.0268,0.0265,0.0262}),"MOQ="&L15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   14.42
+  Formula: IFERROR(IF(J15="",F15,J15)*K15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: N
+   "GRM188R61A226ME15D"
+ Col: O
+   1047238
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P15)),OR(O15="NonStk",P15>O15)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0748
+  Formula: IFERROR(IF(OR(P15>=R15,F15>=R15),LOOKUP(IF(P15="",F15,P15),{0,1,10,50,100,500,1000,4000,8000,12000,28000,100000,200000,400000},{0.0,0.22,0.148,0.0886,0.0748,0.0512,0.0453,0.03939,0.03742,0.03545,0.03348,0.02659,0.02619,0.02462}),"MOQ="&R15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   14.96
+  Formula: IFERROR(IF(P15="",F15,P15)*Q15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: T
+   "490-10476-2-ND"
+ Col: U
+   3148000
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V15>0,MOD(V15,X15)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V15)),OR(U15="NonStk",V15>U15)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.137594159231
+  Formula: IFERROR(IF(OR(V15>=X15,F15>=X15),USD_GBP*LOOKUP(IF(V15="",F15,V15),{0,1,10,100,500,1000,2000,4000,20000},{0.0,0.102,0.102,0.1,0.0979,0.0959,0.0938,0.0523,0.0334}),"MOQ="&X15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   27.5188
+  Formula: IFERROR(IF(V15="",F15,V15)*W15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: Z
+   "2426957"
+ Col: AG
+   1354097
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH15)),OR(AG15="NonStk",AH15>AG15)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.075
+  Formula: IFERROR(IF(OR(AH15>=AJ15,F15>=AJ15),LOOKUP(IF(AH15="",F15,AH15),{0,1,10,50,100,500,1000,2000,4000,8000,10000,24000},{0.0,0.22,0.089,0.089,0.075,0.051,0.045,0.044,0.039,0.035,0.035,0.033}),"MOQ="&AJ15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   15
+  Formula: IFERROR(IF(AH15="",F15,AH15)*AI15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: AL
+   "81-GRM188R61A226ME5D"
+ Col: AM
+   3148000
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN15)),OR(AM15="NonStk",AN15>AM15)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.049
+  Formula: IFERROR(IF(OR(AN15>=AP15,F15>=AP15),LOOKUP(IF(AN15="",F15,AN15),{0,1,10,25,50,100,250,500,1000,4000,8000,16000,24000},{0.0,0.118,0.083,0.072,0.06,0.049,0.043,0.036,0.032,0.047,0.044,0.043,0.042}),"MOQ="&AP15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   9.8
+  Formula: IFERROR(IF(AN15="",F15,AN15)*AO15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: AR
+   "68X2786"
+ Col: AS
+   7900
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT15>0,MOD(AT15,AV15)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT15)),OR(AS15="NonStk",AT15>AS15)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.129
+  Formula: IFERROR(IF(OR(AT15>=AV15,F15>=AV15),LOOKUP(IF(AT15="",F15,AT15),{0,1,50,250,500,1000,2500},{0.0,0.129,0.129,0.122,0.114,0.107,0.097}),"MOQ="&AV15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: AV
+   50
+ Col: AW
+   25.8
+  Formula: IFERROR(IF(AT15="",F15,AT15)*AU15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: AX
+   "8847258"
+ Col: AY
+   77180
+  Styles:
+  - lessThan F15 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ15>0,MOD(AZ15,BB15)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ15)),OR(AY15="NonStk",AZ15>AY15)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.082588588
+  Formula: IFERROR(IF(OR(AZ15>=BB15,F15>=BB15),USD_EUR*LOOKUP(IF(AZ15="",F15,AZ15),{0,1,10,100,1000,4000,12000},{0.0,0.2039,0.2039,0.06956,0.04322,0.03961,0.03844}),"MOQ="&BB15),"")
+  Styles:
+  - lessThanOrEqual G15 -> -/FF80FF80
+ Col: BB
+   10
+ Col: BC
+   16.5177
+  Formula: IFERROR(IF(AZ15="",F15,AZ15)*BA15,"")
+  Styles:
+  - lessThanOrEqual H15 -> -/FF80FF80
+ Col: BD
+   "GRM188R61A226ME15D"
+Row: 16
+ Col: A
+   "C15"
+ Col: B
+   "33p"
+ Col: C
+   "C_0603"
+ Col: D
+   "Kemet"
+ Col: E
+   <a href="http://datasheet.octopart.com/C0603C330J5GACTU-KEMET-datasheet-68331921.pdf">C0603C330J5GACTU</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E16),ISBLANK(M16),ISBLANK(S16),ISBLANK(Y16),ISBLANK(AE16),ISBLANK(AK16),ISBLANK(AQ16),ISBLANK(AW16),ISBLANK(BC16)) -> -/FFAAAAAA
+  - =IF(SUM(I16,O16,U16,AA16,AG16,AM16,AS16,AY16)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I16,O16,U16,AA16,AG16,AM16,AS16,AY16) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K16),J16,0),IF(ISNUMBER(Q16),P16,0),IF(ISNUMBER(W16),V16,0),IF(ISNUMBER(AC16),AB16,0),IF(ISNUMBER(AI16),AH16,0),IF(ISNUMBER(AO16),AN16,0),IF(ISNUMBER(AU16),AT16,0),IF(ISNUMBER(BA16),AZ16,0)) -> -/FFFFFF00
+ Col: G
+   0.0151353575154
+  Formula: IF(MIN(K16,Q16,W16,AC16,AI16,AO16,AU16,BA16)<>0,MIN(K16,Q16,W16,AC16,AI16,AO16,AU16,BA16),"")
+ Col: H
+   1.5135
+  Formula: IF(AND(ISNUMBER(F16),ISNUMBER(G16)),F16*G16,"")
+ Col: I
+   124000
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J16>0,MOD(J16,L16)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J16)),OR(I16="NonStk",J16>I16)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J16>=L16,F16>=L16),LOOKUP(IF(J16="",F16,J16),{0,1,4000,40000},{0.0,0.0209,0.0209,0.0167}),"MOQ="&L16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+  - =AND(F16<4000,J16<4000) -> -/FFFFFF00
+ Col: L
+   4000
+  Styles:
+  - =AND(F16<4000,J16<4000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J16="",F16,J16)*K16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+  - =AND(F16<4000,J16<4000) -> -/FFFFFF00
+ Col: N
+   "C0603C330J5GACTU"
+ Col: O
+   1834664
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P16)),OR(O16="NonStk",P16>O16)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0453
+  Formula: IFERROR(IF(OR(P16>=R16,F16>=R16),LOOKUP(IF(P16="",F16,P16),{0,1,10,50,100,500,1000,4000,8000,12000,40000},{0.0,0.14,0.096,0.0546,0.0453,0.03172,0.02627,0.02237,0.02081,0.01977,0.01873}),"MOQ="&R16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   4.53
+  Formula: IFERROR(IF(P16="",F16,P16)*Q16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: T
+   "399-C0603C330J5GAC7867TR-ND"
+ Col: U
+   120000
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V16)),OR(U16="NonStk",V16>U16)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0151353575154
+  Formula: IFERROR(IF(OR(V16>=X16,F16>=X16),USD_GBP*LOOKUP(IF(V16="",F16,V16),{0,1,10,25,50,100,500,1000,2000,4000,20000},{0.0,0.044,0.092,0.023,0.015,0.011,0.008,0.0251,0.024,0.0188,0.0184}),"MOQ="&X16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   1.5135
+  Formula: IFERROR(IF(V16="",F16,V16)*W16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: Z
+   "1650847"
+ Col: AG
+   278043
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH16)),OR(AG16="NonStk",AH16>AG16)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.05
+  Formula: IFERROR(IF(OR(AH16>=AJ16,F16>=AJ16),LOOKUP(IF(AH16="",F16,AH16),{0,1,10,50,100,500,1000,2000,4000,8000,10000},{0.0,0.15,0.105,0.105,0.05,0.035,0.029,0.027,0.024,0.022,0.022}),"MOQ="&AJ16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   5
+  Formula: IFERROR(IF(AH16="",F16,AH16)*AI16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: AL
+   "80-C0603C330J5G"
+ Col: AM
+   120000
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN16)),OR(AM16="NonStk",AN16>AM16)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.085
+  Formula: IFERROR(IF(OR(AN16>=AP16,F16>=AP16),LOOKUP(IF(AN16="",F16,AN16),{0,1,10,25,50,100,250,500,1000,4000},{0.0,0.238,0.158,0.165,0.126,0.085,0.073,0.06,0.051,0.038}),"MOQ="&AP16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   8.5
+  Formula: IFERROR(IF(AN16="",F16,AN16)*AO16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: AR
+   "64K2857"
+ Col: AS
+   7175
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT16>0,MOD(AT16,AV16)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT16)),OR(AS16="NonStk",AT16>AS16)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.103
+  Formula: IFERROR(IF(OR(AT16>=AV16,F16>=AV16),LOOKUP(IF(AT16="",F16,AT16),{0,1,25,250,625,1250,2500},{0.0,0.103,0.103,0.043,0.034,0.026,0.025}),"MOQ="&AV16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: AV
+   25
+ Col: AW
+   10.3
+  Formula: IFERROR(IF(AT16="",F16,AT16)*AU16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: AX
+   "2989337"
+ Col: AY
+   14300
+  Styles:
+  - lessThan F16 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ16>0,MOD(AZ16,BB16)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ16)),OR(AY16="NonStk",AZ16>AY16)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.024850189
+  Formula: IFERROR(IF(OR(AZ16>=BB16,F16>=BB16),USD_EUR*LOOKUP(IF(AZ16="",F16,AZ16),{0,1,100,1000,4000,16000},{0.0,0.02093,0.02093,0.01339,0.01088,0.01055}),"MOQ="&BB16),"")
+  Styles:
+  - lessThanOrEqual G16 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   2.485
+  Formula: IFERROR(IF(AZ16="",F16,AZ16)*BA16,"")
+  Styles:
+  - lessThanOrEqual H16 -> -/FF80FF80
+ Col: BD
+   "C0603C330J5GAC"
+Row: 17
+ Col: A
+   "C23,C24"
+ Col: B
+   "2u2"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://datasheet.octopart.com/GRM188R61H225KE11D-Murata-datasheet-165579666.pdf">GRM188R61H225KE11D</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E17),ISBLANK(M17),ISBLANK(S17),ISBLANK(Y17),ISBLANK(AE17),ISBLANK(AK17),ISBLANK(AQ17),ISBLANK(AW17),ISBLANK(BC17)) -> -/FFAAAAAA
+  - =IF(SUM(I17,O17,U17,AA17,AG17,AM17,AS17,AY17)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I17,O17,U17,AA17,AG17,AM17,AS17,AY17) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K17),J17,0),IF(ISNUMBER(Q17),P17,0),IF(ISNUMBER(W17),V17,0),IF(ISNUMBER(AC17),AB17,0),IF(ISNUMBER(AI17),AH17,0),IF(ISNUMBER(AO17),AN17,0),IF(ISNUMBER(AU17),AT17,0),IF(ISNUMBER(BA17),AZ17,0)) -> -/FFFFFF00
+ Col: G
+   0.1185
+  Formula: IF(MIN(K17,Q17,W17,AC17,AI17,AO17,AU17,BA17)<>0,MIN(K17,Q17,W17,AC17,AI17,AO17,AU17,BA17),"")
+ Col: H
+   23.7
+  Formula: IF(AND(ISNUMBER(F17),ISNUMBER(G17)),F17*G17,"")
+ Col: I
+   188000
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J17)),OR(I17="NonStk",J17>I17)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.1185
+  Formula: IFERROR(IF(OR(J17>=L17,F17>=L17),LOOKUP(IF(J17="",F17,J17),{0,1,10,25,100,250,500,1000,3000,4000,6000,8000,12000,40000},{0.0,0.3027,0.176,0.1744,0.1185,0.1174,0.1085,0.0723,0.0716,0.0684,0.0708,0.0557,0.0551,0.0549}),"MOQ="&L17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   23.7
+  Formula: IFERROR(IF(J17="",F17,J17)*K17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: N
+   "GRM188R61H225KE11D"
+ Col: O
+   737916
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P17)),OR(O17="NonStk",P17>O17)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.1236
+  Formula: IFERROR(IF(OR(P17>=R17,F17>=R17),LOOKUP(IF(P17="",F17,P17),{0,1,10,50,100,500,1000,4000,8000,12000,40000},{0.0,0.32,0.218,0.1454,0.1236,0.08726,0.07636,0.06727,0.06363,0.06036,0.05818}),"MOQ="&R17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   24.72
+  Formula: IFERROR(IF(P17="",F17,P17)*Q17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: T
+   "490-10733-2-ND"
+ Col: U
+   100000
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V17>0,MOD(V17,X17)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V17)),OR(U17="NonStk",V17>U17)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.162361107892
+  Formula: IFERROR(IF(OR(V17>=X17,F17>=X17),USD_GBP*LOOKUP(IF(V17="",F17,V17),{0,1,10,100,500,1000,2000,4000,20000},{0.0,0.14,0.14,0.118,0.0836,0.0742,0.0727,0.0554,0.0543}),"MOQ="&X17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   32.4722
+  Formula: IFERROR(IF(V17="",F17,V17)*W17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: Z
+   "2611925"
+ Col: AG
+   238887
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH17)),OR(AG17="NonStk",AH17>AG17)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.123
+  Formula: IFERROR(IF(OR(AH17>=AJ17,F17>=AJ17),LOOKUP(IF(AH17="",F17,AH17),{0,1,10,50,100,1000,10000},{0.0,0.32,0.146,0.146,0.123,0.077,0.06}),"MOQ="&AJ17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   24.6
+  Formula: IFERROR(IF(AH17="",F17,AH17)*AI17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: AL
+   "81-GRM188R61H225KE1D"
+ Col: AM
+   97910
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN17)),OR(AM17="NonStk",AN17>AM17)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.135
+  Formula: IFERROR(IF(OR(AN17>=AP17,F17>=AP17),LOOKUP(IF(AN17="",F17,AN17),{0,1,10,25,50,100,4000,8000},{0.0,0.07,0.159,0.151,0.143,0.135,0.067,0.063}),"MOQ="&AP17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   27
+  Formula: IFERROR(IF(AN17="",F17,AN17)*AO17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: AR
+   "96Y9258"
+ Col: AS
+   900
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT17>0,MOD(AT17,AV17)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT17)),OR(AS17="NonStk",AT17>AS17)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.182
+  Formula: IFERROR(IF(OR(AT17>=AV17,F17>=AV17),LOOKUP(IF(AT17="",F17,AT17),{0,1,50,250,500,1000,2500},{0.0,0.182,0.182,0.171,0.16,0.151,0.137}),"MOQ="&AV17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: AV
+   50
+ Col: AW
+   36.4
+  Formula: IFERROR(IF(AT17="",F17,AT17)*AU17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: AX
+   "8847289"
+ Col: AY
+   12200
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ17>0,MOD(AZ17,BB17)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ17)),OR(AY17="NonStk",AZ17>AY17)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.13214649
+  Formula: IFERROR(IF(OR(AZ17>=BB17,F17>=BB17),USD_EUR*LOOKUP(IF(AZ17="",F17,AZ17),{0,1,100,1000,4000,8000,12000},{0.0,0.1113,0.1113,0.06824,0.05698,0.05512,0.05327}),"MOQ="&BB17),"")
+  Styles:
+  - lessThanOrEqual G17 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   26.4293
+  Formula: IFERROR(IF(AZ17="",F17,AZ17)*BA17,"")
+  Styles:
+  - lessThanOrEqual H17 -> -/FF80FF80
+ Col: BD
+   "GRM188R61H225KE11D"
+Row: 18
+ Col: A
+   "C31,C32"
+ Col: B
+   "220p"
+ Col: C
+   "C_0603"
+ Col: D
+   "Murata"
+ Col: E
+   <a href="http://datasheet.octopart.com/GRM1885C1H221JA01D-Murata-datasheet-165579666.pdf">GRM1885C1H221JA01D</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E18),ISBLANK(M18),ISBLANK(S18),ISBLANK(Y18),ISBLANK(AE18),ISBLANK(AK18),ISBLANK(AQ18),ISBLANK(AW18),ISBLANK(BC18)) -> -/FFAAAAAA
+  - =IF(SUM(I18,O18,U18,AA18,AG18,AM18,AS18,AY18)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I18,O18,U18,AA18,AG18,AM18,AS18,AY18) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K18),J18,0),IF(ISNUMBER(Q18),P18,0),IF(ISNUMBER(W18),V18,0),IF(ISNUMBER(AC18),AB18,0),IF(ISNUMBER(AI18),AH18,0),IF(ISNUMBER(AO18),AN18,0),IF(ISNUMBER(AU18),AT18,0),IF(ISNUMBER(BA18),AZ18,0)) -> -/FFFFFF00
+ Col: G
+   0.0334
+  Formula: IF(MIN(K18,Q18,W18,AC18,AI18,AO18,AU18,BA18)<>0,MIN(K18,Q18,W18,AC18,AI18,AO18,AU18,BA18),"")
+ Col: H
+   6.68
+  Formula: IF(AND(ISNUMBER(F18),ISNUMBER(G18)),F18*G18,"")
+ Col: I
+   60000
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J18)),OR(I18="NonStk",J18>I18)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0334
+  Formula: IFERROR(IF(OR(J18>=L18,F18>=L18),LOOKUP(IF(J18="",F18,J18),{0,1,10,25,100,250,500,1000,3000,4000,6000,8000,12000,15000,30000,40000},{0.0,0.0917,0.0433,0.0428,0.0334,0.032,0.0227,0.0194,0.0181,0.0165,0.0148,0.0151,0.0149,0.0147,0.0125,0.0131}),"MOQ="&L18),"")
+  Styles:
+  - lessThanOrEqual G18 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   6.68
+  Formula: IFERROR(IF(J18="",F18,J18)*K18,"")
+  Styles:
+  - lessThanOrEqual H18 -> -/FF80FF80
+ Col: N
+   "GRM1885C1H221JA01D"
+ Col: O
+   667691
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P18)),OR(O18="NonStk",P18>O18)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0364
+  Formula: IFERROR(IF(OR(P18>=R18,F18>=R18),LOOKUP(IF(P18="",F18,P18),{0,1,10,50,100,500,1000,4000,8000,12000,40000},{0.0,0.11,0.077,0.0438,0.0364,0.0255,0.02111,0.01798,0.01672,0.01588,0.01505}),"MOQ="&R18),"")
+  Styles:
+  - lessThanOrEqual G18 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   7.28
+  Formula: IFERROR(IF(P18="",F18,P18)*Q18,"")
+  Styles:
+  - lessThanOrEqual H18 -> -/FF80FF80
+ Col: T
+   "490-1435-2-ND"
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V18)),OR(U18="NonStk",V18>U18)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0499466798007
+  Formula: IFERROR(IF(OR(V18>=X18,F18>=X18),USD_GBP*LOOKUP(IF(V18="",F18,V18),{0,1,3,10,100,150,500,1000,4000,20000},{0.0,30.2,22.87,0.087,0.0363,0.0363,0.0228,0.0182,0.0142,0.0118}),"MOQ="&X18),"")
+  Styles:
+  - lessThanOrEqual G18 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   9.9893
+  Formula: IFERROR(IF(V18="",F18,V18)*W18,"")
+  Styles:
+  - lessThanOrEqual H18 -> -/FF80FF80
+ Col: Z
+   "1118167"
+ Col: AG
+   97848
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH18)),OR(AG18="NonStk",AH18>AG18)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.034
+  Formula: IFERROR(IF(OR(AH18>=AJ18,F18>=AJ18),LOOKUP(IF(AH18="",F18,AH18),{0,1,10,50,100,1000,10000},{0.0,0.1,0.044,0.044,0.034,0.02,0.014}),"MOQ="&AJ18),"")
+  Styles:
+  - lessThanOrEqual G18 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   6.8
+  Formula: IFERROR(IF(AH18="",F18,AH18)*AI18,"")
+  Styles:
+  - lessThanOrEqual H18 -> -/FF80FF80
+ Col: AL
+   "81-GRM39C221J050"
+ Col: AY
+   61800
+  Styles:
+  - lessThan F18 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ18>0,MOD(AZ18,BB18)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ18)),OR(AY18="NonStk",AZ18>AY18)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.033588717
+  Formula: IFERROR(IF(OR(AZ18>=BB18,F18>=BB18),USD_EUR*LOOKUP(IF(AZ18="",F18,AZ18),{0,1,100,500,1000,4000,20000},{0.0,0.02829,0.02829,0.01327,0.01034,0.00645,0.00609}),"MOQ="&BB18),"")
+  Styles:
+  - lessThanOrEqual G18 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   6.7177
+  Formula: IFERROR(IF(AZ18="",F18,AZ18)*BA18,"")
+  Styles:
+  - lessThanOrEqual H18 -> -/FF80FF80
+ Col: BD
+   "GRM1885C1H221JA01D"
+Row: 19
+ Col: A
+   "C35,C36"
+ Col: B
+   "1n"
+ Col: C
+   "C_0603"
+ Col: D
+   "Walsin"
+ Col: E
+   <a href="http://datasheet.octopart.com/0603N102J500CT-Walsin-Technologies-datasheet-48038160.pdf">0603N102J500CT</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E19),ISBLANK(M19),ISBLANK(S19),ISBLANK(Y19),ISBLANK(AE19),ISBLANK(AK19),ISBLANK(AQ19),ISBLANK(AW19),ISBLANK(BC19)) -> -/FFAAAAAA
+  - =IF(SUM(I19,O19,U19,AA19,AG19,AM19,AS19,AY19)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I19,O19,U19,AA19,AG19,AM19,AS19,AY19) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K19),J19,0),IF(ISNUMBER(Q19),P19,0),IF(ISNUMBER(W19),V19,0),IF(ISNUMBER(AC19),AB19,0),IF(ISNUMBER(AI19),AH19,0),IF(ISNUMBER(AO19),AN19,0),IF(ISNUMBER(AU19),AT19,0),IF(ISNUMBER(BA19),AZ19,0)) -> -/FFFFFF00
+ Col: G
+   0.011
+  Formula: IF(MIN(K19,Q19,W19,AC19,AI19,AO19,AU19,BA19)<>0,MIN(K19,Q19,W19,AC19,AI19,AO19,AU19,BA19),"")
+ Col: H
+   2.2
+  Formula: IF(AND(ISNUMBER(F19),ISNUMBER(G19)),F19*G19,"")
+ Col: I
+   1044000
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J19>0,MOD(J19,L19)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J19)),OR(I19="NonStk",J19>I19)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J19>=L19,F19>=L19),LOOKUP(IF(J19="",F19,J19),{0,1,4000,40000},{0.0,0.0078,0.0078,0.0047}),"MOQ="&L19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+  - =AND(F19<4000,J19<4000) -> -/FFFFFF00
+ Col: L
+   4000
+  Styles:
+  - =AND(F19<4000,J19<4000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J19="",F19,J19)*K19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+  - =AND(F19<4000,J19<4000) -> -/FFFFFF00
+ Col: N
+   "0603N102J500CT"
+ Col: O
+   3027541
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P19)),OR(O19="NonStk",P19>O19)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0218
+  Formula: IFERROR(IF(OR(P19>=R19,F19>=R19),LOOKUP(IF(P19="",F19,P19),{0,1,10,50,100,500,1000,4000,8000,12000,40000},{0.0,0.1,0.049,0.0266,0.0218,0.01556,0.01222,0.01022,0.00933,0.00889,0.00844}),"MOQ="&R19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   4.36
+  Formula: IFERROR(IF(P19="",F19,P19)*Q19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: T
+   "1292-1477-2-ND"
+ Col: U
+   4000
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V19>0,MOD(V19,X19)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V19)),OR(U19="NonStk",V19>U19)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0287571792792
+  Formula: IFERROR(IF(OR(V19>=X19,F19>=X19),USD_GBP*LOOKUP(IF(V19="",F19,V19),{0,1,10,100,500,1000,2000,4000,20000},{0.0,0.0261,0.0261,0.0209,0.0146,0.0125,0.0115,0.0084,0.0082}),"MOQ="&X19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   5.7514
+  Formula: IFERROR(IF(V19="",F19,V19)*W19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: Z
+   "2496882"
+ Col: AG
+   10103
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH19)),OR(AG19="NonStk",AH19>AG19)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.022
+  Formula: IFERROR(IF(OR(AH19>=AJ19,F19>=AJ19),LOOKUP(IF(AH19="",F19,AH19),{0,1,10,50,100,1000,10000},{0.0,0.1,0.028,0.028,0.022,0.013,0.008}),"MOQ="&AJ19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   4.4
+  Formula: IFERROR(IF(AH19="",F19,AH19)*AI19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: AL
+   "791-0603N102J500CT"
+ Col: AM
+   4000
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN19)),OR(AM19="NonStk",AN19>AM19)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.011
+  Formula: IFERROR(IF(OR(AN19>=AP19,F19>=AP19),LOOKUP(IF(AN19="",F19,AN19),{0,1,4000,8000},{0.0,0.011,0.01,0.009}),"MOQ="&AP19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   2.2
+  Formula: IFERROR(IF(AN19="",F19,AN19)*AO19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: AR
+   "58Y7758"
+ Col: AS
+   1500
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT19>0,MOD(AT19,AV19)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT19)),OR(AS19="NonStk",AT19>AS19)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT19>=AV19,F19>=AV19),USD_GBP*LOOKUP(IF(AT19="",F19,AT19),{0,1,500,1000,2000,4000,8000},{0.0,0.017,0.017,0.013,0.013,0.011,0.01}),"MOQ="&AV19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+  - =AND(F19<500,AT19<500) -> -/FFFFFF00
+ Col: AV
+   500
+  Styles:
+  - =AND(F19<500,AT19<500) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT19="",F19,AT19)*AU19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+  - =AND(F19<500,AT19<500) -> -/FFFFFF00
+ Col: AX
+   "1763293"
+ Col: AY
+   36400
+  Styles:
+  - lessThan F19 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ19>0,MOD(AZ19,BB19)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ19)),OR(AY19="NonStk",AZ19>AY19)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.020160354
+  Formula: IFERROR(IF(OR(AZ19>=BB19,F19>=BB19),USD_EUR*LOOKUP(IF(AZ19="",F19,AZ19),{0,1,100,1000,4000,16000},{0.0,0.01698,0.01698,0.00633,0.00446,0.00432}),"MOQ="&BB19),"")
+  Styles:
+  - lessThanOrEqual G19 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   4.0321
+  Formula: IFERROR(IF(AZ19="",F19,AZ19)*BA19,"")
+  Styles:
+  - lessThanOrEqual H19 -> -/FF80FF80
+ Col: BD
+   "0603N102J500CT"
+Row: 20
+ Col: A
+   "CN1"
+ Col: B
+   "2041126-1"
+ Col: C
+   "TE2041126-1"
+ Col: D
+   "TE Connectivity"
+ Col: E
+   <a href="http://sigma.octopart.com/78187049/technical_drawing/TE-Connectivity-2041126-1.pdf">2041126-1</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E20),ISBLANK(M20),ISBLANK(S20),ISBLANK(Y20),ISBLANK(AE20),ISBLANK(AK20),ISBLANK(AQ20),ISBLANK(AW20),ISBLANK(BC20)) -> -/FFAAAAAA
+  - =IF(SUM(I20,O20,U20,AA20,AG20,AM20,AS20,AY20)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I20,O20,U20,AA20,AG20,AM20,AS20,AY20) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K20),J20,0),IF(ISNUMBER(Q20),P20,0),IF(ISNUMBER(W20),V20,0),IF(ISNUMBER(AC20),AB20,0),IF(ISNUMBER(AI20),AH20,0),IF(ISNUMBER(AO20),AN20,0),IF(ISNUMBER(AU20),AT20,0),IF(ISNUMBER(BA20),AZ20,0)) -> -/FFFFFF00
+ Col: G
+   1.75
+  Formula: IF(MIN(K20,Q20,W20,AC20,AI20,AO20,AU20,BA20)<>0,MIN(K20,Q20,W20,AC20,AI20,AO20,AU20,BA20),"")
+ Col: H
+   175
+  Formula: IF(AND(ISNUMBER(F20),ISNUMBER(G20)),F20*G20,"")
+ Col: O
+   159
+  Styles:
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P20)),OR(O20="NonStk",P20>O20)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   2.0819
+  Formula: IFERROR(IF(OR(P20>=R20,F20>=R20),LOOKUP(IF(P20="",F20,P20),{0,1,10,25,50,100},{0.0,2.6,2.363,2.238,2.186,2.0819}),"MOQ="&R20),"")
+  Styles:
+  - lessThanOrEqual G20 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   208.19
+  Formula: IFERROR(IF(P20="",F20,P20)*Q20,"")
+  Styles:
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: T
+   "A144143CT-ND"
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V20)),OR(U20="NonStk",V20>U20)) -> FFFFFFFF/FFFF0000
+ Col: W
+   2.00887472477
+  Formula: IFERROR(IF(OR(V20>=X20,F20>=X20),USD_GBP*LOOKUP(IF(V20="",F20,V20),{0,1,10,100,250,500,1000,1840},{0.0,1.89,1.54,1.46,1.37,1.27,1.24,0.92}),"MOQ="&X20),"")
+  Styles:
+  - lessThanOrEqual G20 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   200.8875
+  Formula: IFERROR(IF(V20="",F20,V20)*W20,"")
+  Styles:
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: Z
+   "3793257"
+ Col: AG
+   402
+  Styles:
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH20)),OR(AG20="NonStk",AH20>AG20)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   1.75
+  Formula: IFERROR(IF(OR(AH20>=AJ20,F20>=AJ20),LOOKUP(IF(AH20="",F20,AH20),{0,1,10,50,100,230,920,1000,2300,4830,9890,10000},{0.0,2.15,1.82,1.82,1.75,1.67,1.45,1.45,1.39,1.35,1.31,1.35}),"MOQ="&AJ20),"")
+  Styles:
+  - lessThanOrEqual G20 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   175
+  Formula: IFERROR(IF(AH20="",F20,AH20)*AI20,"")
+  Styles:
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: AL
+   "571-2041126-1"
+ Col: AM
+   "NonStk"
+  Styles:
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN20)),OR(AM20="NonStk",AN20>AM20)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   1.75
+  Formula: IFERROR(IF(OR(AN20>=AP20,F20>=AP20),LOOKUP(IF(AN20="",F20,AN20),{0,1,10,25,50,100,1840,2500},{0.0,2.15,1.82,1.8,1.77,1.75,1.38,1.21}),"MOQ="&AP20),"")
+  Styles:
+  - lessThanOrEqual G20 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   175
+  Formula: IFERROR(IF(AN20="",F20,AN20)*AO20,"")
+  Styles:
+  - lessThanOrEqual H20 -> -/FF80FF80
+ Col: AR
+   "74AJ8895"
+Row: 21
+ Col: A
+   "CON1"
+ Col: B
+   "NP2X"
+ Col: D
+   "NEUTRIK"
+ Col: E
+   <a href="http://datasheet.octopart.com/NP2X-Neutrik-datasheet-65152.pdf">NP2X</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E21),ISBLANK(M21),ISBLANK(S21),ISBLANK(Y21),ISBLANK(AE21),ISBLANK(AK21),ISBLANK(AQ21),ISBLANK(AW21),ISBLANK(BC21)) -> -/FFAAAAAA
+  - =IF(SUM(I21,O21,U21,AA21,AG21,AM21,AS21,AY21)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I21,O21,U21,AA21,AG21,AM21,AS21,AY21) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K21),J21,0),IF(ISNUMBER(Q21),P21,0),IF(ISNUMBER(W21),V21,0),IF(ISNUMBER(AC21),AB21,0),IF(ISNUMBER(AI21),AH21,0),IF(ISNUMBER(AO21),AN21,0),IF(ISNUMBER(AU21),AT21,0),IF(ISNUMBER(BA21),AZ21,0)) -> -/FFFFFF00
+ Col: G
+   2.82
+  Formula: IF(MIN(K21,Q21,W21,AC21,AI21,AO21,AU21,BA21)<>0,MIN(K21,Q21,W21,AC21,AI21,AO21,AU21,BA21),"")
+ Col: H
+   282
+  Formula: IF(AND(ISNUMBER(F21),ISNUMBER(G21)),F21*G21,"")
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V21)),OR(U21="NonStk",V21>U21)) -> FFFFFFFF/FFFF0000
+ Col: W
+   2.90323675976
+  Formula: IFERROR(IF(OR(V21>=X21,F21>=X21),USD_GBP*LOOKUP(IF(V21="",F21,V21),{0,1,10,100,250,500,1000},{0.0,2.54,2.15,2.11,2.06,2.03,2.02}),"MOQ="&X21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   290.3237
+  Formula: IFERROR(IF(V21="",F21,V21)*W21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: Z
+   "8314535"
+ Col: AG
+   2240
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH21)),OR(AG21="NonStk",AH21>AG21)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   3.37
+  Formula: IFERROR(IF(OR(AH21>=AJ21,F21>=AJ21),LOOKUP(IF(AH21="",F21,AH21),{0,1,10,20,50,100,200,500,1000,2000,10000},{0.0,4.33,3.96,3.94,3.87,3.37,3.29,3.24,3.2,3.16,3.16}),"MOQ="&AJ21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   337
+  Formula: IFERROR(IF(AH21="",F21,AH21)*AI21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: AL
+   "568-NP2X"
+ Col: AM
+   187
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN21)),OR(AM21="NonStk",AN21>AM21)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   2.82
+  Formula: IFERROR(IF(OR(AN21>=AP21,F21>=AP21),LOOKUP(IF(AN21="",F21,AN21),{0,1,10,25,50,100,200},{0.0,3.55,3.36,3.01,2.87,2.82,2.66}),"MOQ="&AP21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   282
+  Formula: IFERROR(IF(AN21="",F21,AN21)*AO21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: AR
+   "97J5940"
+ Col: AS
+   884
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(NOT(ISBLANK(AT21)),OR(AS21="NonStk",AT21>AS21)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   3.099
+  Formula: IFERROR(IF(OR(AT21>=AV21,F21>=AV21),LOOKUP(IF(AT21="",F21,AT21),{0,1,5,10,25,50},{0.0,3.899,3.665,3.505,3.321,3.099}),"MOQ="&AV21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: AV
+   1
+ Col: AW
+   309.9
+  Formula: IFERROR(IF(AT21="",F21,AT21)*AU21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: AX
+   "0166327"
+ Col: AY
+   52
+  Styles:
+  - lessThan F21 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(NOT(ISBLANK(AZ21)),OR(AY21="NonStk",AZ21>AY21)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   3.44317
+  Formula: IFERROR(IF(OR(AZ21>=BB21,F21>=BB21),USD_EUR*LOOKUP(IF(AZ21="",F21,AZ21),{0,1,5,25,100},{0.0,4.14,3.73,3.31,2.9}),"MOQ="&BB21),"")
+  Styles:
+  - lessThanOrEqual G21 -> -/FF80FF80
+ Col: BB
+   1
+ Col: BC
+   344.317
+  Formula: IFERROR(IF(AZ21="",F21,AZ21)*BA21,"")
+  Styles:
+  - lessThanOrEqual H21 -> -/FF80FF80
+ Col: BD
+   "NTR-NP2X"
+Row: 22
+ Col: A
+   "CON2"
+ Col: B
+   "RT3FC-B"
+ Col: D
+   "Rean"
+ Col: E
+   <a href="http://datasheet.octopart.com/RT3FC-B-Neutrik-datasheet-94061629.pdf">RT3FC-B</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E22),ISBLANK(M22),ISBLANK(S22),ISBLANK(Y22),ISBLANK(AE22),ISBLANK(AK22),ISBLANK(AQ22),ISBLANK(AW22),ISBLANK(BC22)) -> -/FFAAAAAA
+  - =IF(SUM(I22,O22,U22,AA22,AG22,AM22,AS22,AY22)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I22,O22,U22,AA22,AG22,AM22,AS22,AY22) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K22),J22,0),IF(ISNUMBER(Q22),P22,0),IF(ISNUMBER(W22),V22,0),IF(ISNUMBER(AC22),AB22,0),IF(ISNUMBER(AI22),AH22,0),IF(ISNUMBER(AO22),AN22,0),IF(ISNUMBER(AU22),AT22,0),IF(ISNUMBER(BA22),AZ22,0)) -> -/FFFFFF00
+ Col: G
+   2.091
+  Formula: IF(MIN(K22,Q22,W22,AC22,AI22,AO22,AU22,BA22)<>0,MIN(K22,Q22,W22,AC22,AI22,AO22,AU22,BA22),"")
+ Col: H
+   209.1
+  Formula: IF(AND(ISNUMBER(F22),ISNUMBER(G22)),F22*G22,"")
+ Col: U
+   2279
+  Styles:
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V22)),OR(U22="NonStk",V22>U22)) -> FFFFFFFF/FFFF0000
+ Col: W
+   2.33910070692
+  Formula: IFERROR(IF(OR(V22>=X22,F22>=X22),USD_GBP*LOOKUP(IF(V22="",F22,V22),{0,1,10,100,250,500,1000},{0.0,2.39,1.9,1.7,1.67,1.63,1.6}),"MOQ="&X22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   233.9101
+  Formula: IFERROR(IF(V22="",F22,V22)*W22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: Z
+   "1813715"
+ Col: AG
+   6035
+  Styles:
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH22)),OR(AG22="NonStk",AH22>AG22)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   2.18
+  Formula: IFERROR(IF(OR(AH22>=AJ22,F22>=AJ22),LOOKUP(IF(AH22="",F22,AH22),{0,1,10,20,50,100,200,500,1000,2000,10000},{0.0,2.8,2.57,2.55,2.51,2.18,2.13,2.1,2.07,2.05,2.05}),"MOQ="&AJ22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   218
+  Formula: IFERROR(IF(AH22="",F22,AH22)*AI22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: AL
+   "568-RT3FC-B"
+ Col: AM
+   1493
+  Styles:
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN22)),OR(AM22="NonStk",AN22>AM22)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   3.01
+  Formula: IFERROR(IF(OR(AN22>=AP22,F22>=AP22),LOOKUP(IF(AN22="",F22,AN22),{0,1,100,250,500,1000},{0.0,3.6,3.01,2.78,2.61,2.47}),"MOQ="&AP22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   301
+  Formula: IFERROR(IF(AN22="",F22,AN22)*AO22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: AR
+   "78R9013"
+ Col: AS
+   1
+  Styles:
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(NOT(ISBLANK(AT22)),OR(AS22="NonStk",AT22>AS22)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   2.091
+  Formula: IFERROR(IF(OR(AT22>=AV22,F22>=AV22),LOOKUP(IF(AT22="",F22,AT22),{0,1,15,50,100},{0.0,2.939,2.669,2.337,2.091}),"MOQ="&AV22),"")
+  Styles:
+  - lessThanOrEqual G22 -> -/FF80FF80
+ Col: AV
+   1
+ Col: AW
+   209.1
+  Formula: IFERROR(IF(AT22="",F22,AT22)*AU22,"")
+  Styles:
+  - lessThanOrEqual H22 -> -/FF80FF80
+ Col: AX
+   "6949374"
+Row: 23
+ Col: A
+   "CON3"
+ Col: B
+   "BRT-L"
+ Col: D
+   "Rean"
+ Col: E
+   <a href="http://datasheet.octopart.com/BRT-L-Neutrik-datasheet-26355133.pdf">BRT-L</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E23),ISBLANK(M23),ISBLANK(S23),ISBLANK(Y23),ISBLANK(AE23),ISBLANK(AK23),ISBLANK(AQ23),ISBLANK(AW23),ISBLANK(BC23)) -> -/FFAAAAAA
+  - =IF(SUM(I23,O23,U23,AA23,AG23,AM23,AS23,AY23)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I23,O23,U23,AA23,AG23,AM23,AS23,AY23) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K23),J23,0),IF(ISNUMBER(Q23),P23,0),IF(ISNUMBER(W23),V23,0),IF(ISNUMBER(AC23),AB23,0),IF(ISNUMBER(AI23),AH23,0),IF(ISNUMBER(AO23),AN23,0),IF(ISNUMBER(AU23),AT23,0),IF(ISNUMBER(BA23),AZ23,0)) -> -/FFFFFF00
+ Col: G
+   0.418
+  Formula: IF(MIN(K23,Q23,W23,AC23,AI23,AO23,AU23,BA23)<>0,MIN(K23,Q23,W23,AC23,AI23,AO23,AU23,BA23),"")
+ Col: H
+   41.8
+  Formula: IF(AND(ISNUMBER(F23),ISNUMBER(G23)),F23*G23,"")
+ Col: U
+   241
+  Styles:
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V23>0,MOD(V23,X23)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V23)),OR(U23="NonStk",V23>U23)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.664579789083
+  Formula: IFERROR(IF(OR(V23>=X23,F23>=X23),USD_GBP*LOOKUP(IF(V23="",F23,V23),{0,1,10,100,250,500,1000,2500},{0.0,0.594,0.594,0.483,0.449,0.425,0.41,0.397}),"MOQ="&X23),"")
+  Styles:
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   66.458
+  Formula: IFERROR(IF(V23="",F23,V23)*W23,"")
+  Styles:
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: Z
+   "2383458"
+ Col: AG
+   3095
+  Styles:
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH23)),OR(AG23="NonStk",AH23>AG23)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.418
+  Formula: IFERROR(IF(OR(AH23>=AJ23,F23>=AJ23),LOOKUP(IF(AH23="",F23,AH23),{0,1,10,50,100,1000,10000},{0.0,0.54,0.497,0.485,0.418,0.401,0.396}),"MOQ="&AJ23),"")
+  Styles:
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   41.8
+  Formula: IFERROR(IF(AH23="",F23,AH23)*AI23,"")
+  Styles:
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: AL
+   "568-BRT-L"
+ Col: AM
+   100
+  Styles:
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(AN23>0,MOD(AN23,AP23)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AN23)),OR(AM23="NonStk",AN23>AM23)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.893
+  Formula: IFERROR(IF(OR(AN23>=AP23,F23>=AP23),LOOKUP(IF(AN23="",F23,AN23),{0,1,10,250,500,1000,5000},{0.0,0.893,0.893,0.688,0.618,0.563,0.516}),"MOQ="&AP23),"")
+  Styles:
+  - lessThanOrEqual G23 -> -/FF80FF80
+ Col: AP
+   10
+ Col: AQ
+   89.3
+  Formula: IFERROR(IF(AN23="",F23,AN23)*AO23,"")
+  Styles:
+  - lessThanOrEqual H23 -> -/FF80FF80
+ Col: AR
+   "29X6993"
+Row: 24
+ Col: A
+   "D1-D3,D5,D6"
+ Col: B
+   "ZHCS1000"
+ Col: C
+   "D_SOT-23_ANK"
+ Col: D
+   "DIODES"
+ Col: E
+   <a href="http://datasheet.octopart.com/ZHCS1000-Diodes-Inc.-datasheet-34160271.pdf">ZHCS1000</a>
+ Col: F
+   500
+  Formula: CEILING(BoardQty*5.0,1)
+  Styles:
+  - =AND(ISBLANK(E24),ISBLANK(M24),ISBLANK(S24),ISBLANK(Y24),ISBLANK(AE24),ISBLANK(AK24),ISBLANK(AQ24),ISBLANK(AW24),ISBLANK(BC24)) -> -/FFAAAAAA
+  - =IF(SUM(I24,O24,U24,AA24,AG24,AM24,AS24,AY24)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I24,O24,U24,AA24,AG24,AM24,AS24,AY24) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K24),J24,0),IF(ISNUMBER(Q24),P24,0),IF(ISNUMBER(W24),V24,0),IF(ISNUMBER(AC24),AB24,0),IF(ISNUMBER(AI24),AH24,0),IF(ISNUMBER(AO24),AN24,0),IF(ISNUMBER(AU24),AT24,0),IF(ISNUMBER(BA24),AZ24,0)) -> -/FFFFFF00
+ Col: G
+   0.178095
+  Formula: IF(MIN(K24,Q24,W24,AC24,AI24,AO24,AU24,BA24)<>0,MIN(K24,Q24,W24,AC24,AI24,AO24,AU24,BA24),"")
+ Col: H
+   89.0475
+  Formula: IF(AND(ISNUMBER(F24),ISNUMBER(G24)),F24*G24,"")
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F24 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ24>0,MOD(AZ24,BB24)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ24)),OR(AY24="NonStk",AZ24>AY24)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.178095
+  Formula: IFERROR(IF(OR(AZ24>=BB24,F24>=BB24),USD_EUR*LOOKUP(IF(AZ24="",F24,AZ24),{0,1,3,25,100,500,3000},{0.0,0.234,0.234,0.199,0.178,0.15,0.14}),"MOQ="&BB24),"")
+  Styles:
+  - lessThanOrEqual G24 -> -/FF80FF80
+ Col: BB
+   3
+ Col: BC
+   89.0475
+  Formula: IFERROR(IF(AZ24="",F24,AZ24)*BA24,"")
+  Styles:
+  - lessThanOrEqual H24 -> -/FF80FF80
+ Col: BD
+   "ZHCS1000"
+Row: 25
+ Col: A
+   "D4"
+ Col: B
+   "LED"
+ Col: C
+   "LED_D3.0mm_Horizontal_O1.27mm_Z6.0mm"
+ Col: D
+   "Avago"
+ Col: E
+   <a href="http://datasheet.octopart.com/HLMP-K150-Avago-datasheet-10310526.pdf">HLMP-K150</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E25),ISBLANK(M25),ISBLANK(S25),ISBLANK(Y25),ISBLANK(AE25),ISBLANK(AK25),ISBLANK(AQ25),ISBLANK(AW25),ISBLANK(BC25)) -> -/FFAAAAAA
+  - =IF(SUM(I25,O25,U25,AA25,AG25,AM25,AS25,AY25)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I25,O25,U25,AA25,AG25,AM25,AS25,AY25) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K25),J25,0),IF(ISNUMBER(Q25),P25,0),IF(ISNUMBER(W25),V25,0),IF(ISNUMBER(AC25),AB25,0),IF(ISNUMBER(AI25),AH25,0),IF(ISNUMBER(AO25),AN25,0),IF(ISNUMBER(AU25),AT25,0),IF(ISNUMBER(BA25),AZ25,0)) -> -/FFFFFF00
+ Col: G
+   0.232
+  Formula: IF(MIN(K25,Q25,W25,AC25,AI25,AO25,AU25,BA25)<>0,MIN(K25,Q25,W25,AC25,AI25,AO25,AU25,BA25),"")
+ Col: H
+   23.2
+  Formula: IF(AND(ISNUMBER(F25),ISNUMBER(G25)),F25*G25,"")
+ Col: O
+   32828
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P25)),OR(O25="NonStk",P25>O25)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.2325
+  Formula: IFERROR(IF(OR(P25>=R25,F25>=R25),LOOKUP(IF(P25="",F25,P25),{0,1,10,100,1000,2000,5000,10000,25000},{0.0,0.54,0.351,0.2325,0.17953,0.16223,0.15141,0.146,0.14384}),"MOQ="&R25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   23.25
+  Formula: IFERROR(IF(P25="",F25,P25)*Q25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: T
+   "516-1311-ND"
+ Col: U
+   17003
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V25>0,MOD(V25,X25)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V25)),OR(U25="NonStk",V25>U25)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.319218449415
+  Formula: IFERROR(IF(OR(V25>=X25,F25>=X25),USD_GBP*LOOKUP(IF(V25="",F25,V25),{0,1,5,10,100,500},{0.0,0.531,0.531,0.35,0.232,0.227}),"MOQ="&X25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: X
+   5
+ Col: Y
+   31.9218
+  Formula: IFERROR(IF(V25="",F25,V25)*W25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: Z
+   "1003206"
+ Col: AG
+   80625
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH25)),OR(AG25="NonStk",AH25>AG25)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.233
+  Formula: IFERROR(IF(OR(AH25>=AJ25,F25>=AJ25),LOOKUP(IF(AH25="",F25,AH25),{0,1,10,50,100,1000,10000},{0.0,0.53,0.351,0.351,0.233,0.18,0.143}),"MOQ="&AJ25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   23.3
+  Formula: IFERROR(IF(AH25="",F25,AH25)*AI25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: AL
+   "630-HLMP-K150"
+ Col: AM
+   18053
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN25)),OR(AM25="NonStk",AN25>AM25)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.232
+  Formula: IFERROR(IF(OR(AN25>=AP25,F25>=AP25),LOOKUP(IF(AN25="",F25,AN25),{0,1,10,100,500,1000,2500,10000,25000},{0.0,0.54,0.351,0.232,0.206,0.179,0.162,0.146,0.143}),"MOQ="&AP25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   23.2
+  Formula: IFERROR(IF(AN25="",F25,AN25)*AO25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: AR
+   "39K9989"
+ Col: AS
+   23481
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT25>0,MOD(AT25,AV25)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT25)),OR(AS25="NonStk",AT25>AS25)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.233910070692
+  Formula: IFERROR(IF(OR(AT25>=AV25,F25>=AV25),USD_GBP*LOOKUP(IF(AT25="",F25,AT25),{0,1,5,25,100,250,500,2000},{0.0,0.462,0.462,0.298,0.17,0.164,0.152,0.139}),"MOQ="&AV25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: AV
+   5
+ Col: AW
+   23.391
+  Formula: IFERROR(IF(AT25="",F25,AT25)*AU25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: AX
+   "826515P"
+ Col: AY
+   2289
+  Styles:
+  - lessThan F25 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ25>0,MOD(AZ25,BB25)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ25)),OR(AY25="NonStk",AZ25>AY25)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.3645011
+  Formula: IFERROR(IF(OR(AZ25>=BB25,F25>=BB25),USD_EUR*LOOKUP(IF(AZ25="",F25,AZ25),{0,1,2,10,50,250,1000},{0.0,0.538,0.538,0.365,0.307,0.274,0.241}),"MOQ="&BB25),"")
+  Styles:
+  - lessThanOrEqual G25 -> -/FF80FF80
+ Col: BB
+   2
+ Col: BC
+   36.4501
+  Formula: IFERROR(IF(AZ25="",F25,AZ25)*BA25,"")
+  Styles:
+  - lessThanOrEqual H25 -> -/FF80FF80
+ Col: BD
+   "HLMP-K150"
+Row: 26
+ Col: A
+   "D7"
+ Col: B
+   "SMAJ18A-TR"
+ Col: C
+   "D_SMA"
+ Col: D
+   "ST Microelectronics"
+ Col: E
+   <a href="http://datasheet.octopart.com/SMAJ18A-TR-STMicroelectronics-datasheet-16486334.pdf">SMAJ18A-TR</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E26),ISBLANK(M26),ISBLANK(S26),ISBLANK(Y26),ISBLANK(AE26),ISBLANK(AK26),ISBLANK(AQ26),ISBLANK(AW26),ISBLANK(BC26)) -> -/FFAAAAAA
+  - =IF(SUM(I26,O26,U26,AA26,AG26,AM26,AS26,AY26)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I26,O26,U26,AA26,AG26,AM26,AS26,AY26) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K26),J26,0),IF(ISNUMBER(Q26),P26,0),IF(ISNUMBER(W26),V26,0),IF(ISNUMBER(AC26),AB26,0),IF(ISNUMBER(AI26),AH26,0),IF(ISNUMBER(AO26),AN26,0),IF(ISNUMBER(AU26),AT26,0),IF(ISNUMBER(BA26),AZ26,0)) -> -/FFFFFF00
+ Col: G
+   0.088608199
+  Formula: IF(MIN(K26,Q26,W26,AC26,AI26,AO26,AU26,BA26)<>0,MIN(K26,Q26,W26,AC26,AI26,AO26,AU26,BA26),"")
+ Col: H
+   8.8608
+  Formula: IF(AND(ISNUMBER(F26),ISNUMBER(G26)),F26*G26,"")
+ Col: I
+   10000
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J26>0,MOD(J26,L26)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J26)),OR(I26="NonStk",J26>I26)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J26>=L26,F26>=L26),LOOKUP(IF(J26="",F26,J26),{0,1,10000},{0.0,0.1007,0.1007}),"MOQ="&L26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+  - =AND(F26<10000,J26<10000) -> -/FFFFFF00
+ Col: L
+   10000
+  Styles:
+  - =AND(F26<10000,J26<10000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J26="",F26,J26)*K26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+  - =AND(F26<10000,J26<10000) -> -/FFFFFF00
+ Col: N
+   "SMAJ18A-TR"
+ Col: O
+   21717
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P26)),OR(O26="NonStk",P26>O26)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.2577
+  Formula: IFERROR(IF(OR(P26>=R26,F26>=R26),LOOKUP(IF(P26="",F26,P26),{0,1,10,100,500,1000,2000,5000},{0.0,0.47,0.378,0.2577,0.19324,0.14494,0.13286,0.1281}),"MOQ="&R26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   25.77
+  Formula: IFERROR(IF(P26="",F26,P26)*Q26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: T
+   "497-7892-2-ND"
+ Col: U
+   10000
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V26>0,MOD(V26,X26)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V26)),OR(U26="NonStk",V26>U26)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.330225982153
+  Formula: IFERROR(IF(OR(V26>=X26,F26>=X26),USD_GBP*LOOKUP(IF(V26="",F26,V26),{0,1,5,50,100,250,1000,5000},{0.0,0.353,0.353,0.24,0.24,0.18,0.135,0.112}),"MOQ="&X26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: X
+   5
+ Col: Y
+   33.0226
+  Formula: IFERROR(IF(V26="",F26,V26)*W26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: Z
+   "1749305"
+ Col: AG
+   14231
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH26)),OR(AG26="NonStk",AH26>AG26)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.258
+  Formula: IFERROR(IF(OR(AH26>=AJ26,F26>=AJ26),LOOKUP(IF(AH26="",F26,AH26),{0,1,10,50,100,1000,10000},{0.0,0.47,0.378,0.378,0.258,0.133,0.122}),"MOQ="&AJ26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   25.8
+  Formula: IFERROR(IF(AH26="",F26,AH26)*AI26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: AL
+   "511-SMAJ18A-TR"
+ Col: AM
+   45000
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(AN26>0,MOD(AN26,AP26)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AN26)),OR(AM26="NonStk",AN26>AM26)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.261
+  Formula: IFERROR(IF(OR(AN26>=AP26,F26>=AP26),LOOKUP(IF(AN26="",F26,AN26),{0,1,5,10,25,50,100,250,500,1000,5000,10000},{0.0,0.473,0.473,0.383,0.343,0.302,0.261,0.229,0.194,0.147,0.124,0.123}),"MOQ="&AP26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: AP
+   5
+ Col: AQ
+   26.1
+  Formula: IFERROR(IF(AN26="",F26,AN26)*AO26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: AR
+   "33R1022"
+ Col: AS
+   1
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT26>0,MOD(AT26,AV26)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT26)),OR(AS26="NonStk",AT26>AS26)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.389
+  Formula: IFERROR(IF(OR(AT26>=AV26,F26>=AV26),LOOKUP(IF(AT26="",F26,AT26),{0,1,25,125,250,625,1250},{0.0,0.389,0.389,0.364,0.346,0.327,0.31}),"MOQ="&AV26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: AV
+   25
+ Col: AW
+   38.9
+  Formula: IFERROR(IF(AT26="",F26,AT26)*AU26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: AX
+   "7931377"
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F26 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ26>0,MOD(AZ26,BB26)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ26)),OR(AY26="NonStk",AZ26>AY26)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.088608199
+  Formula: IFERROR(IF(OR(AZ26>=BB26,F26>=BB26),USD_EUR*LOOKUP(IF(AZ26="",F26,AZ26),{0,1,5,25,100,500,5000},{0.0,0.17561,0.17561,0.07932,0.07463,0.06088,0.05746}),"MOQ="&BB26),"")
+  Styles:
+  - lessThanOrEqual G26 -> -/FF80FF80
+ Col: BB
+   5
+ Col: BC
+   8.8608
+  Formula: IFERROR(IF(AZ26="",F26,AZ26)*BA26,"")
+  Styles:
+  - lessThanOrEqual H26 -> -/FF80FF80
+ Col: BD
+   "SMAJ18A-TR"
+Row: 27
+ Col: A
+   "D8,D9"
+ Col: B
+   "TPD4S009DCKR"
+ Col: C
+   "SC70-6"
+ Col: D
+   "Texas Instruments"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E27),ISBLANK(M27),ISBLANK(S27),ISBLANK(Y27),ISBLANK(AE27),ISBLANK(AK27),ISBLANK(AQ27),ISBLANK(AW27),ISBLANK(BC27)) -> -/FFAAAAAA
+  - =IF(SUM(I27,O27,U27,AA27,AG27,AM27,AS27,AY27)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I27,O27,U27,AA27,AG27,AM27,AS27,AY27) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K27),J27,0),IF(ISNUMBER(Q27),P27,0),IF(ISNUMBER(W27),V27,0),IF(ISNUMBER(AC27),AB27,0),IF(ISNUMBER(AI27),AH27,0),IF(ISNUMBER(AO27),AN27,0),IF(ISNUMBER(AU27),AT27,0),IF(ISNUMBER(BA27),AZ27,0)) -> -/FFFFFF00
+ Col: G
+   0.465068258199
+  Formula: IF(MIN(K27,Q27,W27,AC27,AI27,AO27,AU27,BA27)<>0,MIN(K27,Q27,W27,AC27,AI27,AO27,AU27,BA27),"")
+ Col: H
+   93.0137
+  Formula: IF(AND(ISNUMBER(F27),ISNUMBER(G27)),F27*G27,"")
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F27 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V27)),OR(U27="NonStk",V27>U27)) -> FFFFFFFF/FFFF0000
+ Col: W
+   1.25485873218
+  Formula: IFERROR(IF(OR(V27>=X27,F27>=X27),USD_GBP*LOOKUP(IF(V27="",F27,V27),{0,1,10,100,150,500,1000},{0.0,0.912,0.781,0.641,0.912,0.529,0.404}),"MOQ="&X27),"")
+  Styles:
+  - lessThanOrEqual G27 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   250.9717
+  Formula: IFERROR(IF(V27="",F27,V27)*W27,"")
+  Styles:
+  - lessThanOrEqual H27 -> -/FF80FF80
+ Col: Z
+   "3116520"
+ Col: AG
+   6642
+  Styles:
+  - lessThan F27 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH27)),OR(AG27="NonStk",AH27>AG27)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.664
+  Formula: IFERROR(IF(OR(AH27>=AJ27,F27>=AJ27),LOOKUP(IF(AH27="",F27,AH27),{0,1,10,50,100,1000,10000},{0.0,0.95,0.851,0.808,0.664,0.433,0.418}),"MOQ="&AJ27),"")
+  Styles:
+  - lessThanOrEqual G27 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   132.8
+  Formula: IFERROR(IF(AH27="",F27,AH27)*AI27,"")
+  Styles:
+  - lessThanOrEqual H27 -> -/FF80FF80
+ Col: AL
+   "595-TPD4S009DCKR"
+ Col: AM
+   "NonStk"
+  Styles:
+  - lessThan F27 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN27)),OR(AM27="NonStk",AN27>AM27)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.8
+  Formula: IFERROR(IF(OR(AN27>=AP27,F27>=AP27),LOOKUP(IF(AN27="",F27,AN27),{0,1,10,25,50,100,250,500,1000},{0.0,0.962,0.92,0.874,0.836,0.8,0.775,0.756,0.744}),"MOQ="&AP27),"")
+  Styles:
+  - lessThanOrEqual G27 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   160
+  Formula: IFERROR(IF(AN27="",F27,AN27)*AO27,"")
+  Styles:
+  - lessThanOrEqual H27 -> -/FF80FF80
+ Col: AR
+   "27AJ0326"
+ Col: AS
+   "NonStk"
+  Styles:
+  - lessThan F27 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT27>0,MOD(AT27,AV27)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT27)),OR(AS27="NonStk",AT27>AS27)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.465068258199
+  Formula: IFERROR(IF(OR(AT27>=AV27,F27>=AV27),USD_GBP*LOOKUP(IF(AT27="",F27,AT27),{0,1,5,25,100,250,500},{0.0,0.44,0.44,0.368,0.338,0.314,0.294}),"MOQ="&AV27),"")
+  Styles:
+  - lessThanOrEqual G27 -> -/FF80FF80
+ Col: AV
+   5
+ Col: AW
+   93.0137
+  Formula: IFERROR(IF(AT27="",F27,AT27)*AU27,"")
+  Styles:
+  - lessThanOrEqual H27 -> -/FF80FF80
+ Col: AX
+   "7099195"
+Row: 28
+ Col: A
+   "ENC1"
+ Col: B
+   "S3A-361413"
+ Col: D
+   "New Age Enclosures"
+ Col: E
+   <a href="http://datasheet.octopart.com/S3A-361413-New-Age-Enclosures-datasheet-115051449.pdf">S3A-361413</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E28),ISBLANK(M28),ISBLANK(S28),ISBLANK(Y28),ISBLANK(AE28),ISBLANK(AK28),ISBLANK(AQ28),ISBLANK(AW28),ISBLANK(BC28)) -> -/FFAAAAAA
+  - =IF(SUM(I28,O28,U28,AA28,AG28,AM28,AS28,AY28)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I28,O28,U28,AA28,AG28,AM28,AS28,AY28) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K28),J28,0),IF(ISNUMBER(Q28),P28,0),IF(ISNUMBER(W28),V28,0),IF(ISNUMBER(AC28),AB28,0),IF(ISNUMBER(AI28),AH28,0),IF(ISNUMBER(AO28),AN28,0),IF(ISNUMBER(AU28),AT28,0),IF(ISNUMBER(BA28),AZ28,0)) -> -/FFFFFF00
+ Col: G
+   4.49
+  Formula: IF(MIN(K28,Q28,W28,AC28,AI28,AO28,AU28,BA28)<>0,MIN(K28,Q28,W28,AC28,AI28,AO28,AU28,BA28),"")
+ Col: H
+   449
+  Formula: IF(AND(ISNUMBER(F28),ISNUMBER(G28)),F28*G28,"")
+ Col: AG
+   829
+  Styles:
+  - lessThan F28 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH28)),OR(AG28="NonStk",AH28>AG28)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   4.49
+  Formula: IFERROR(IF(OR(AH28>=AJ28,F28>=AJ28),LOOKUP(IF(AH28="",F28,AH28),{0,1,10,50,100,1000,10000},{0.0,6.2,5.08,4.76,4.49,4.07,4.07}),"MOQ="&AJ28),"")
+  Styles:
+  - lessThanOrEqual G28 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   449
+  Formula: IFERROR(IF(AH28="",F28,AH28)*AI28,"")
+  Styles:
+  - lessThanOrEqual H28 -> -/FF80FF80
+ Col: AL
+   "789-S3A-361413"
+Row: 29
+ Col: A
+   "K1"
+ Col: B
+   "Tiny XLR3"
+ Col: C
+   "Molex_SPOX-5267_22-03-5035_03x2.54mm_Straight"
+ Col: D
+   "Rean"
+ Col: E
+   <a href="http://datasheet.octopart.com/RT3MPR-Neutrik-datasheet-94061629.pdf">RT3MPR</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E29),ISBLANK(M29),ISBLANK(S29),ISBLANK(Y29),ISBLANK(AE29),ISBLANK(AK29),ISBLANK(AQ29),ISBLANK(AW29),ISBLANK(BC29)) -> -/FFAAAAAA
+  - =IF(SUM(I29,O29,U29,AA29,AG29,AM29,AS29,AY29)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I29,O29,U29,AA29,AG29,AM29,AS29,AY29) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K29),J29,0),IF(ISNUMBER(Q29),P29,0),IF(ISNUMBER(W29),V29,0),IF(ISNUMBER(AC29),AB29,0),IF(ISNUMBER(AI29),AH29,0),IF(ISNUMBER(AO29),AN29,0),IF(ISNUMBER(AU29),AT29,0),IF(ISNUMBER(BA29),AZ29,0)) -> -/FFFFFF00
+ Col: G
+   1.87
+  Formula: IF(MIN(K29,Q29,W29,AC29,AI29,AO29,AU29,BA29)<>0,MIN(K29,Q29,W29,AC29,AI29,AO29,AU29,BA29),"")
+ Col: H
+   187
+  Formula: IF(AND(ISNUMBER(F29),ISNUMBER(G29)),F29*G29,"")
+ Col: U
+   164
+  Styles:
+  - lessThan F29 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V29)),OR(U29="NonStk",V29>U29)) -> FFFFFFFF/FFFF0000
+ Col: W
+   2.58677019353
+  Formula: IFERROR(IF(OR(V29>=X29,F29>=X29),USD_GBP*LOOKUP(IF(V29="",F29,V29),{0,1,10,100,250,500,1000},{0.0,3.75,2.3,1.88,1.73,1.7,1.67}),"MOQ="&X29),"")
+  Styles:
+  - lessThanOrEqual G29 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   258.677
+  Formula: IFERROR(IF(V29="",F29,V29)*W29,"")
+  Styles:
+  - lessThanOrEqual H29 -> -/FF80FF80
+ Col: Z
+   "2383452"
+ Col: AG
+   578
+  Styles:
+  - lessThan F29 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH29)),OR(AG29="NonStk",AH29>AG29)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   1.87
+  Formula: IFERROR(IF(OR(AH29>=AJ29,F29>=AJ29),LOOKUP(IF(AH29="",F29,AH29),{0,1,10,50,100,1000,10000},{0.0,2.4,2.2,2.15,1.87,1.77,1.75}),"MOQ="&AJ29),"")
+  Styles:
+  - lessThanOrEqual G29 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   187
+  Formula: IFERROR(IF(AH29="",F29,AH29)*AI29,"")
+  Styles:
+  - lessThanOrEqual H29 -> -/FF80FF80
+ Col: AL
+   "568-RT3MPR"
+ Col: AM
+   69
+  Styles:
+  - lessThan F29 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN29)),OR(AM29="NonStk",AN29>AM29)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   2.6
+  Formula: IFERROR(IF(OR(AN29>=AP29,F29>=AP29),LOOKUP(IF(AN29="",F29,AN29),{0,1,100,250,500,1000},{0.0,3.12,2.6,2.41,2.26,2.14}),"MOQ="&AP29),"")
+  Styles:
+  - lessThanOrEqual G29 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   260
+  Formula: IFERROR(IF(AN29="",F29,AN29)*AO29,"")
+  Styles:
+  - lessThanOrEqual H29 -> -/FF80FF80
+ Col: AR
+   "29X7329"
+Row: 30
+ Col: A
+   "L1-L5,L8"
+ Col: B
+   "10u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   <a href="http://datasheet.octopart.com/LPS4018-103MRB-Coilcraft-datasheet-24569897.pdf">LPS4018-103MRB</a>
+ Col: F
+   600
+  Formula: CEILING(BoardQty*6.0,1)
+  Styles:
+  - =AND(ISBLANK(E30),ISBLANK(M30),ISBLANK(S30),ISBLANK(Y30),ISBLANK(AE30),ISBLANK(AK30),ISBLANK(AQ30),ISBLANK(AW30),ISBLANK(BC30)) -> -/FFAAAAAA
+  - =IF(SUM(I30,O30,U30,AA30,AG30,AM30,AS30,AY30)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I30,O30,U30,AA30,AG30,AM30,AS30,AY30) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K30),J30,0),IF(ISNUMBER(Q30),P30,0),IF(ISNUMBER(W30),V30,0),IF(ISNUMBER(AC30),AB30,0),IF(ISNUMBER(AI30),AH30,0),IF(ISNUMBER(AO30),AN30,0),IF(ISNUMBER(AU30),AT30,0),IF(ISNUMBER(BA30),AZ30,0)) -> -/FFFFFF00
+ Col: G
+   0.791166415575
+  Formula: IF(MIN(K30,Q30,W30,AC30,AI30,AO30,AU30,BA30)<>0,MIN(K30,Q30,W30,AC30,AI30,AO30,AU30,BA30),"")
+ Col: H
+   474.6998
+  Formula: IF(AND(ISNUMBER(F30),ISNUMBER(G30)),F30*G30,"")
+ Col: U
+   38778
+  Styles:
+  - lessThan F30 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V30)),OR(U30="NonStk",V30>U30)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.791166415575
+  Formula: IFERROR(IF(OR(V30>=X30,F30>=X30),USD_GBP*LOOKUP(IF(V30="",F30,V30),{0,1,50,100,250,500,1000,5000},{0.0,0.957,0.917,0.877,0.837,0.575,0.529,0.483}),"MOQ="&X30),"")
+  Styles:
+  - lessThanOrEqual G30 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   474.6998
+  Formula: IFERROR(IF(V30="",F30,V30)*W30,"")
+  Styles:
+  - lessThanOrEqual H30 -> -/FF80FF80
+ Col: Z
+   "2408105"
+Row: 31
+ Col: A
+   "L6"
+ Col: B
+   "15u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   <a href="http://datasheet.octopart.com/LPS4018-153MRB-Coilcraft-datasheet-24569897.pdf">LPS4018-153MRB</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E31),ISBLANK(M31),ISBLANK(S31),ISBLANK(Y31),ISBLANK(AE31),ISBLANK(AK31),ISBLANK(AQ31),ISBLANK(AW31),ISBLANK(BC31)) -> -/FFAAAAAA
+  - =IF(SUM(I31,O31,U31,AA31,AG31,AM31,AS31,AY31)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I31,O31,U31,AA31,AG31,AM31,AS31,AY31) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K31),J31,0),IF(ISNUMBER(Q31),P31,0),IF(ISNUMBER(W31),V31,0),IF(ISNUMBER(AC31),AB31,0),IF(ISNUMBER(AI31),AH31,0),IF(ISNUMBER(AO31),AN31,0),IF(ISNUMBER(AU31),AT31,0),IF(ISNUMBER(BA31),AZ31,0)) -> -/FFFFFF00
+ Col: G
+   1.20670077645
+  Formula: IF(MIN(K31,Q31,W31,AC31,AI31,AO31,AU31,BA31)<>0,MIN(K31,Q31,W31,AC31,AI31,AO31,AU31,BA31),"")
+ Col: H
+   120.6701
+  Formula: IF(AND(ISNUMBER(F31),ISNUMBER(G31)),F31*G31,"")
+ Col: U
+   1449
+  Styles:
+  - lessThan F31 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V31)),OR(U31="NonStk",V31>U31)) -> FFFFFFFF/FFFF0000
+ Col: W
+   1.20670077645
+  Formula: IFERROR(IF(OR(V31>=X31,F31>=X31),USD_GBP*LOOKUP(IF(V31="",F31,V31),{0,1,50,100,250,500,1000,5000},{0.0,0.957,0.917,0.877,0.837,0.575,0.529,0.483}),"MOQ="&X31),"")
+  Styles:
+  - lessThanOrEqual G31 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   120.6701
+  Formula: IFERROR(IF(V31="",F31,V31)*W31,"")
+  Styles:
+  - lessThanOrEqual H31 -> -/FF80FF80
+ Col: Z
+   "2408106"
+Row: 32
+ Col: A
+   "L7"
+ Col: B
+   "47u"
+ Col: C
+   "LPS4018"
+ Col: D
+   "Coilcraft"
+ Col: E
+   <a href="http://datasheet.octopart.com/LPS4018-473MRB-Coilcraft-datasheet-24569897.pdf">LPS4018-473MRB</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E32),ISBLANK(M32),ISBLANK(S32),ISBLANK(Y32),ISBLANK(AE32),ISBLANK(AK32),ISBLANK(AQ32),ISBLANK(AW32),ISBLANK(BC32)) -> -/FFAAAAAA
+  - =IF(SUM(I32,O32,U32,AA32,AG32,AM32,AS32,AY32)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I32,O32,U32,AA32,AG32,AM32,AS32,AY32) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K32),J32,0),IF(ISNUMBER(Q32),P32,0),IF(ISNUMBER(W32),V32,0),IF(ISNUMBER(AC32),AB32,0),IF(ISNUMBER(AI32),AH32,0),IF(ISNUMBER(AO32),AN32,0),IF(ISNUMBER(AU32),AT32,0),IF(ISNUMBER(BA32),AZ32,0)) -> -/FFFFFF00
+ Col: G
+  Formula: IF(MIN(K32,Q32,W32,AC32,AI32,AO32,AU32,BA32)<>0,MIN(K32,Q32,W32,AC32,AI32,AO32,AU32,BA32),"")
+ Col: H
+  Formula: IF(AND(ISNUMBER(F32),ISNUMBER(G32)),F32*G32,"")
+Row: 33
+ Col: A
+   "P1"
+ Col: B
+   "USB_MICRO_B_RECEPTACLE"
+ Col: C
+   "USB_Micro-B_10103594-0001LF"
+ Col: D
+   "AMPHENOL FCI"
+ Col: E
+   <a href="http://datasheet.octopart.com/10103594-0001LF-Amphenol-ICC-datasheet-96019471.pdf">10103594-0001LF</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E33),ISBLANK(M33),ISBLANK(S33),ISBLANK(Y33),ISBLANK(AE33),ISBLANK(AK33),ISBLANK(AQ33),ISBLANK(AW33),ISBLANK(BC33)) -> -/FFAAAAAA
+  - =IF(SUM(I33,O33,U33,AA33,AG33,AM33,AS33,AY33)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I33,O33,U33,AA33,AG33,AM33,AS33,AY33) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K33),J33,0),IF(ISNUMBER(Q33),P33,0),IF(ISNUMBER(W33),V33,0),IF(ISNUMBER(AC33),AB33,0),IF(ISNUMBER(AI33),AH33,0),IF(ISNUMBER(AO33),AN33,0),IF(ISNUMBER(AU33),AT33,0),IF(ISNUMBER(BA33),AZ33,0)) -> -/FFFFFF00
+ Col: G
+   0.577
+  Formula: IF(MIN(K33,Q33,W33,AC33,AI33,AO33,AU33,BA33)<>0,MIN(K33,Q33,W33,AC33,AI33,AO33,AU33,BA33),"")
+ Col: H
+   57.7
+  Formula: IF(AND(ISNUMBER(F33),ISNUMBER(G33)),F33*G33,"")
+ Col: AG
+   28662
+  Styles:
+  - lessThan F33 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH33)),OR(AG33="NonStk",AH33>AG33)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.577
+  Formula: IFERROR(IF(OR(AH33>=AJ33,F33>=AJ33),LOOKUP(IF(AH33="",F33,AH33),{0,1,10,50,100,500,1000,2500,5000,10000},{0.0,0.76,0.647,0.647,0.577,0.472,0.42,0.381,0.375,0.375}),"MOQ="&AJ33),"")
+  Styles:
+  - lessThanOrEqual G33 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   57.7
+  Formula: IFERROR(IF(AH33="",F33,AH33)*AI33,"")
+  Styles:
+  - lessThanOrEqual H33 -> -/FF80FF80
+ Col: AL
+   "649-10103594-0001LF"
+ Col: AS
+   465
+  Styles:
+  - lessThan F33 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT33>0,MOD(AT33,AV33)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT33)),OR(AS33="NonStk",AT33>AS33)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.588
+  Formula: IFERROR(IF(OR(AT33>=AV33,F33>=AV33),LOOKUP(IF(AT33="",F33,AT33),{0,1,5,50,100,250,500},{0.0,0.782,0.782,0.667,0.588,0.504,0.47}),"MOQ="&AV33),"")
+  Styles:
+  - lessThanOrEqual G33 -> -/FF80FF80
+ Col: AV
+   5
+ Col: AW
+   58.8
+  Formula: IFERROR(IF(AT33="",F33,AT33)*AU33,"")
+  Styles:
+  - lessThanOrEqual H33 -> -/FF80FF80
+ Col: AX
+   "7142347"
+Row: 34
+ Col: A
+   "R1,R2,R8"
+ Col: B
+   "180k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://datasheet.octopart.com/ERJ-3EKF1803V-Panasonic-datasheet-13266541.pdf">ERJ3EKF1803V</a>
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E34),ISBLANK(M34),ISBLANK(S34),ISBLANK(Y34),ISBLANK(AE34),ISBLANK(AK34),ISBLANK(AQ34),ISBLANK(AW34),ISBLANK(BC34)) -> -/FFAAAAAA
+  - =IF(SUM(I34,O34,U34,AA34,AG34,AM34,AS34,AY34)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I34,O34,U34,AA34,AG34,AM34,AS34,AY34) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K34),J34,0),IF(ISNUMBER(Q34),P34,0),IF(ISNUMBER(W34),V34,0),IF(ISNUMBER(AC34),AB34,0),IF(ISNUMBER(AI34),AH34,0),IF(ISNUMBER(AO34),AN34,0),IF(ISNUMBER(AU34),AT34,0),IF(ISNUMBER(BA34),AZ34,0)) -> -/FFFFFF00
+ Col: G
+   0.006
+  Formula: IF(MIN(K34,Q34,W34,AC34,AI34,AO34,AU34,BA34)<>0,MIN(K34,Q34,W34,AC34,AI34,AO34,AU34,BA34),"")
+ Col: H
+   1.8
+  Formula: IF(AND(ISNUMBER(F34),ISNUMBER(G34)),F34*G34,"")
+ Col: I
+   782
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J34)),OR(I34="NonStk",J34>I34)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0145
+  Formula: IFERROR(IF(OR(J34>=L34,F34>=L34),LOOKUP(IF(J34="",F34,J34),{0,1,10,25,100,250,500},{0.0,0.0724,0.0174,0.0172,0.0162,0.0145,0.0136}),"MOQ="&L34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   4.35
+  Formula: IFERROR(IF(J34="",F34,J34)*K34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+ Col: N
+   "ERJ-3EKF1803V"
+ Col: O
+   112443
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P34)),OR(O34="NonStk",P34>O34)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0193
+  Formula: IFERROR(IF(OR(P34>=R34,F34>=R34),LOOKUP(IF(P34="",F34,P34),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.048,0.0193,0.00868,0.00754,0.00623,0.00541,0.00475,0.00436,0.00427}),"MOQ="&R34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   5.79
+  Formula: IFERROR(IF(P34="",F34,P34)*Q34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+ Col: T
+   "P180KHTR-ND"
+ Col: U
+   12066
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V34>0,MOD(V34,X34)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V34)),OR(U34="NonStk",V34>U34)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.024491760343
+  Formula: IFERROR(IF(OR(V34>=X34,F34>=X34),USD_GBP*LOOKUP(IF(V34="",F34,V34),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0355,0.0355,0.0178,0.0167,0.0084,0.0073,0.0062,0.0054}),"MOQ="&X34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   7.3475
+  Formula: IFERROR(IF(V34="",F34,V34)*W34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+ Col: Z
+   "2303247"
+ Col: AG
+   38015
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH34)),OR(AG34="NonStk",AH34>AG34)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.02
+  Formula: IFERROR(IF(OR(AH34>=AJ34,F34>=AJ34),LOOKUP(IF(AH34="",F34,AH34),{0,1,10,50,100,500,1000,2500,5000,10000},{0.0,0.1,0.04,0.04,0.02,0.019,0.009,0.008,0.006,0.006}),"MOQ="&AJ34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   6
+  Formula: IFERROR(IF(AH34="",F34,AH34)*AI34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+ Col: AL
+   "667-ERJ-3EKF1803V"
+ Col: AM
+   28096
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN34)),OR(AM34="NonStk",AN34>AM34)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.006
+  Formula: IFERROR(IF(OR(AN34>=AP34,F34>=AP34),LOOKUP(IF(AN34="",F34,AN34),{0,1,10,25,50,100,250,500,1000,5000,10000},{0.0,0.016,0.027,0.022,0.016,0.011,0.006,0.006,0.006,0.015,0.011}),"MOQ="&AP34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   1.8
+  Formula: IFERROR(IF(AN34="",F34,AN34)*AO34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+ Col: AR
+   "64R5326"
+ Col: AS
+   244990
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT34>0,MOD(AT34,AV34)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT34)),OR(AS34="NonStk",AT34>AS34)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT34>=AV34,F34>=AV34),LOOKUP(IF(AT34="",F34,AT34),{0,1,5000},{0.0,0.005,0.005}),"MOQ="&AV34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+  - =AND(F34<5000,AT34<5000) -> -/FFFFFF00
+ Col: AV
+   5000
+  Styles:
+  - =AND(F34<5000,AT34<5000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT34="",F34,AT34)*AU34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+  - =AND(F34<5000,AT34<5000) -> -/FFFFFF00
+ Col: AX
+   "1755749"
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ34>0,MOD(AZ34,BB34)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ34)),OR(AY34="NonStk",AZ34>AY34)) -> FFFFFFFF/FFFF0000
+ Col: BA
+  Formula: IFERROR(IF(OR(AZ34>=BB34,F34>=BB34),USD_EUR*LOOKUP(IF(AZ34="",F34,AZ34),{0,1,50000},{0.0,0.00652,0.00652}),"MOQ="&BB34),"")
+  Styles:
+  - lessThanOrEqual G34 -> -/FF80FF80
+  - =AND(F34<50000,AZ34<50000) -> -/FFFFFF00
+ Col: BB
+   50000
+  Styles:
+  - =AND(F34<50000,AZ34<50000) -> -/FFFFFF00
+ Col: BC
+  Formula: IFERROR(IF(AZ34="",F34,AZ34)*BA34,"")
+  Styles:
+  - lessThanOrEqual H34 -> -/FF80FF80
+  - =AND(F34<50000,AZ34<50000) -> -/FFFFFF00
+ Col: BD
+   "ERJ3EKF1803V"
+Row: 35
+ Col: A
+   "R3,R29-R32"
+ Col: B
+   "10K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://datasheet.octopart.com/ERJ-3EKF1002V-Panasonic-datasheet-13266541.pdf">ERJ3EKF1002V</a>
+ Col: F
+   500
+  Formula: CEILING(BoardQty*5.0,1)
+  Styles:
+  - =AND(ISBLANK(E35),ISBLANK(M35),ISBLANK(S35),ISBLANK(Y35),ISBLANK(AE35),ISBLANK(AK35),ISBLANK(AQ35),ISBLANK(AW35),ISBLANK(BC35)) -> -/FFAAAAAA
+  - =IF(SUM(I35,O35,U35,AA35,AG35,AM35,AS35,AY35)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I35,O35,U35,AA35,AG35,AM35,AS35,AY35) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K35),J35,0),IF(ISNUMBER(Q35),P35,0),IF(ISNUMBER(W35),V35,0),IF(ISNUMBER(AC35),AB35,0),IF(ISNUMBER(AI35),AH35,0),IF(ISNUMBER(AO35),AN35,0),IF(ISNUMBER(AU35),AT35,0),IF(ISNUMBER(BA35),AZ35,0)) -> -/FFFFFF00
+ Col: G
+   0.016
+  Formula: IF(MIN(K35,Q35,W35,AC35,AI35,AO35,AU35,BA35)<>0,MIN(K35,Q35,W35,AC35,AI35,AO35,AU35,BA35),"")
+ Col: H
+   8
+  Formula: IF(AND(ISNUMBER(F35),ISNUMBER(G35)),F35*G35,"")
+ Col: I
+   4799500
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J35)),OR(I35="NonStk",J35>I35)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0164
+  Formula: IFERROR(IF(OR(J35>=L35,F35>=L35),LOOKUP(IF(J35="",F35,J35),{0,1,10,25,100,250,500,1000,3000,5000},{0.0,0.0714,0.0479,0.0413,0.0178,0.0171,0.0164,0.0084,0.0083,0.0055}),"MOQ="&L35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   8.2
+  Formula: IFERROR(IF(J35="",F35,J35)*K35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+ Col: N
+   "ERJ-3EKF1002V"
+ Col: O
+   2076057
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P35)),OR(O35="NonStk",P35>O35)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0193
+  Formula: IFERROR(IF(OR(P35>=R35,F35>=R35),LOOKUP(IF(P35="",F35,P35),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.048,0.0193,0.00868,0.00754,0.00623,0.00541,0.00475,0.00436,0.00427}),"MOQ="&R35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   9.65
+  Formula: IFERROR(IF(P35="",F35,P35)*Q35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+ Col: T
+   "P10.0KHTR-ND"
+ Col: U
+   6920000
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V35>0,MOD(V35,X35)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V35)),OR(U35="NonStk",V35>U35)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0180248348592
+  Formula: IFERROR(IF(OR(V35>=X35,F35>=X35),USD_GBP*LOOKUP(IF(V35="",F35,V35),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0428,0.0428,0.0178,0.0131,0.0084,0.0073,0.0065,0.0064}),"MOQ="&X35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   9.0124
+  Formula: IFERROR(IF(V35="",F35,V35)*W35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+ Col: Z
+   "2303192"
+ Col: AG
+   2471065
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH35)),OR(AG35="NonStk",AH35>AG35)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.02
+  Formula: IFERROR(IF(OR(AH35>=AJ35,F35>=AJ35),LOOKUP(IF(AH35="",F35,AH35),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.049,0.049,0.02,0.009,0.008,0.006,0.006}),"MOQ="&AJ35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   10
+  Formula: IFERROR(IF(AH35="",F35,AH35)*AI35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+ Col: AL
+   "667-ERJ-3EKF1002V"
+ Col: AM
+   6920000
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN35)),OR(AM35="NonStk",AN35>AM35)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.016
+  Formula: IFERROR(IF(OR(AN35>=AP35,F35>=AP35),LOOKUP(IF(AN35="",F35,AN35),{0,1,10,25,50,100,250,500,1000,5000,10000},{0.0,0.006,0.481,0.052,0.036,0.02,0.018,0.016,0.01,0.006,0.006}),"MOQ="&AP35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   8
+  Formula: IFERROR(IF(AN35="",F35,AN35)*AO35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+ Col: AR
+   "64R5309"
+ Col: AS
+   10000
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT35>0,MOD(AT35,AV35)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT35)),OR(AS35="NonStk",AT35>AS35)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT35>=AV35,F35>=AV35),LOOKUP(IF(AT35="",F35,AT35),{0,1,5000},{0.0,0.007,0.007}),"MOQ="&AV35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+  - =AND(F35<5000,AT35<5000) -> -/FFFFFF00
+ Col: AV
+   5000
+  Styles:
+  - =AND(F35<5000,AT35<5000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT35="",F35,AT35)*AU35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+  - =AND(F35<5000,AT35<5000) -> -/FFFFFF00
+ Col: AX
+   "1051156"
+ Col: AY
+   47400
+  Styles:
+  - lessThan F35 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ35>0,MOD(AZ35,BB35)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ35)),OR(AY35="NonStk",AZ35>AY35)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.026844853
+  Formula: IFERROR(IF(OR(AZ35>=BB35,F35>=BB35),USD_EUR*LOOKUP(IF(AZ35="",F35,AZ35),{0,1,100,1000,5000},{0.0,0.02261,0.02261,0.01045,0.0071}),"MOQ="&BB35),"")
+  Styles:
+  - lessThanOrEqual G35 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   13.4224
+  Formula: IFERROR(IF(AZ35="",F35,AZ35)*BA35,"")
+  Styles:
+  - lessThanOrEqual H35 -> -/FF80FF80
+ Col: BD
+   "ERJ3EKF1002V"
+Row: 36
+ Col: A
+   "R4"
+ Col: B
+   "3K3"
+ Col: C
+   "R_0603"
+ Col: D
+   "Vishay"
+ Col: E
+   <a href="http://datasheet.octopart.com/CRCW06033K30FKEA-Vishay-datasheet-83961561.pdf">CRCW06033K30FKEA</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E36),ISBLANK(M36),ISBLANK(S36),ISBLANK(Y36),ISBLANK(AE36),ISBLANK(AK36),ISBLANK(AQ36),ISBLANK(AW36),ISBLANK(BC36)) -> -/FFAAAAAA
+  - =IF(SUM(I36,O36,U36,AA36,AG36,AM36,AS36,AY36)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I36,O36,U36,AA36,AG36,AM36,AS36,AY36) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K36),J36,0),IF(ISNUMBER(Q36),P36,0),IF(ISNUMBER(W36),V36,0),IF(ISNUMBER(AC36),AB36,0),IF(ISNUMBER(AI36),AH36,0),IF(ISNUMBER(AO36),AN36,0),IF(ISNUMBER(AU36),AT36,0),IF(ISNUMBER(BA36),AZ36,0)) -> -/FFFFFF00
+ Col: G
+   0.017
+  Formula: IF(MIN(K36,Q36,W36,AC36,AI36,AO36,AU36,BA36)<>0,MIN(K36,Q36,W36,AC36,AI36,AO36,AU36,BA36),"")
+ Col: H
+   1.7
+  Formula: IF(AND(ISNUMBER(F36),ISNUMBER(G36)),F36*G36,"")
+ Col: U
+   70000
+  Styles:
+  - lessThan F36 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V36>0,MOD(V36,X36)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V36)),OR(U36="NonStk",V36>U36)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0200887472477
+  Formula: IFERROR(IF(OR(V36>=X36,F36>=X36),USD_GBP*LOOKUP(IF(V36="",F36,V36),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0366,0.0366,0.0146,0.011,0.0073,0.0063,0.0058,0.0053}),"MOQ="&X36),"")
+  Styles:
+  - lessThanOrEqual G36 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   2.0089
+  Formula: IFERROR(IF(V36="",F36,V36)*W36,"")
+  Styles:
+  - lessThanOrEqual H36 -> -/FF80FF80
+ Col: Z
+   "1469793"
+ Col: AG
+   "NonStk"
+  Styles:
+  - lessThan F36 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH36)),OR(AG36="NonStk",AH36>AG36)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.017
+  Formula: IFERROR(IF(OR(AH36>=AJ36,F36>=AJ36),LOOKUP(IF(AH36="",F36,AH36),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.042,0.042,0.017,0.008,0.007,0.005,0.005}),"MOQ="&AJ36),"")
+  Styles:
+  - lessThanOrEqual G36 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   1.7
+  Formula: IFERROR(IF(AH36="",F36,AH36)*AI36,"")
+  Styles:
+  - lessThanOrEqual H36 -> -/FF80FF80
+ Col: AL
+   "71-CRCW0603-3.3K-E3"
+ Col: AM
+   70000
+  Styles:
+  - lessThan F36 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN36)),OR(AM36="NonStk",AN36>AM36)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.017
+  Formula: IFERROR(IF(OR(AN36>=AP36,F36>=AP36),LOOKUP(IF(AN36="",F36,AN36),{0,1,10,25,50,100,5000},{0.0,0.005,0.1,0.042,0.03,0.017,0.005}),"MOQ="&AP36),"")
+  Styles:
+  - lessThanOrEqual G36 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   1.7
+  Formula: IFERROR(IF(AN36="",F36,AN36)*AO36,"")
+  Styles:
+  - lessThanOrEqual H36 -> -/FF80FF80
+ Col: AR
+   "52K8376"
+ Col: AS
+   "NonStk"
+  Styles:
+  - lessThan F36 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT36>0,MOD(AT36,AV36)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT36)),OR(AS36="NonStk",AT36>AS36)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.068
+  Formula: IFERROR(IF(OR(AT36>=AV36,F36>=AV36),LOOKUP(IF(AT36="",F36,AT36),{0,1,50,500,1000,2000,4000},{0.0,0.068,0.068,0.063,0.057,0.05,0.044}),"MOQ="&AV36),"")
+  Styles:
+  - lessThanOrEqual G36 -> -/FF80FF80
+ Col: AV
+   50
+ Col: AW
+   6.8
+  Formula: IFERROR(IF(AT36="",F36,AT36)*AU36,"")
+  Styles:
+  - lessThanOrEqual H36 -> -/FF80FF80
+ Col: AX
+   "6790311"
+Row: 37
+ Col: A
+   "R5"
+ Col: B
+   "47K"
+ Col: C
+   "R_0603"
+ Col: D
+   "YAGEO"
+ Col: E
+   <a href="http://datasheet.octopart.com/RC0603FR-0747KL-Yageo-datasheet-8328172.pdf">RC0603FR-0747KL</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E37),ISBLANK(M37),ISBLANK(S37),ISBLANK(Y37),ISBLANK(AE37),ISBLANK(AK37),ISBLANK(AQ37),ISBLANK(AW37),ISBLANK(BC37)) -> -/FFAAAAAA
+  - =IF(SUM(I37,O37,U37,AA37,AG37,AM37,AS37,AY37)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I37,O37,U37,AA37,AG37,AM37,AS37,AY37) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K37),J37,0),IF(ISNUMBER(Q37),P37,0),IF(ISNUMBER(W37),V37,0),IF(ISNUMBER(AC37),AB37,0),IF(ISNUMBER(AI37),AH37,0),IF(ISNUMBER(AO37),AN37,0),IF(ISNUMBER(AU37),AT37,0),IF(ISNUMBER(BA37),AZ37,0)) -> -/FFFFFF00
+ Col: G
+   0.007
+  Formula: IF(MIN(K37,Q37,W37,AC37,AI37,AO37,AU37,BA37)<>0,MIN(K37,Q37,W37,AC37,AI37,AO37,AU37,BA37),"")
+ Col: H
+   0.7
+  Formula: IF(AND(ISNUMBER(F37),ISNUMBER(G37)),F37*G37,"")
+ Col: I
+   105000
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J37>0,MOD(J37,L37)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J37)),OR(I37="NonStk",J37>I37)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J37>=L37,F37>=L37),LOOKUP(IF(J37="",F37,J37),{0,1,5000},{0.0,0.0023,0.0023}),"MOQ="&L37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+  - =AND(F37<5000,J37<5000) -> -/FFFFFF00
+ Col: L
+   5000
+  Styles:
+  - =AND(F37<5000,J37<5000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J37="",F37,J37)*K37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+  - =AND(F37<5000,J37<5000) -> -/FFFFFF00
+ Col: N
+   "RC0603FR-0747KL"
+ Col: O
+   13969176
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P37)),OR(O37="NonStk",P37>O37)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0087
+  Formula: IFERROR(IF(OR(P37>=R37,F37>=R37),LOOKUP(IF(P37="",F37,P37),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.021,0.0087,0.0039,0.00339,0.0028,0.00243,0.00214,0.00196,0.00192}),"MOQ="&R37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   0.87
+  Formula: IFERROR(IF(P37="",F37,P37)*Q37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: T
+   "311-47.0KHRTR-ND"
+ Col: U
+   8030970
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V37>0,MOD(V37,X37)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V37)),OR(U37="NonStk",V37>U37)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.00866843203152
+  Formula: IFERROR(IF(OR(V37>=X37,F37>=X37),USD_GBP*LOOKUP(IF(V37="",F37,V37),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0146,0.0146,0.0063,0.0047,0.0031,0.003,0.0021,0.002}),"MOQ="&X37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   0.8668
+  Formula: IFERROR(IF(V37="",F37,V37)*W37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: Z
+   "9238689"
+ Col: AG
+   3847352
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH37)),OR(AG37="NonStk",AH37>AG37)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.007
+  Formula: IFERROR(IF(OR(AH37>=AJ37,F37>=AJ37),LOOKUP(IF(AH37="",F37,AH37),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.017,0.017,0.007,0.004,0.003,0.002,0.002}),"MOQ="&AJ37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   0.7
+  Formula: IFERROR(IF(AH37="",F37,AH37)*AI37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: AL
+   "603-RC0603FR-0747KL"
+ Col: AM
+   8025970
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN37)),OR(AM37="NonStk",AN37>AM37)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.007
+  Formula: IFERROR(IF(OR(AN37>=AP37,F37>=AP37),LOOKUP(IF(AN37="",F37,AN37),{0,1,10,25,50,100,5000},{0.0,0.1,0.017,0.014,0.01,0.007,0.002}),"MOQ="&AP37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   0.7
+  Formula: IFERROR(IF(AN37="",F37,AN37)*AO37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: AR
+   "26M6759"
+ Col: AS
+   23600
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT37>0,MOD(AT37,AV37)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT37)),OR(AS37="NonStk",AT37>AS37)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.0110075327384
+  Formula: IFERROR(IF(OR(AT37>=AV37,F37>=AV37),USD_GBP*LOOKUP(IF(AT37="",F37,AT37),{0,1,100,1000,2500,5000,10000,15000,20000},{0.0,0.008,0.008,0.007,0.007,0.006,0.006,0.003,0.003}),"MOQ="&AV37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: AV
+   100
+ Col: AW
+   1.1008
+  Formula: IFERROR(IF(AT37="",F37,AT37)*AU37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: AX
+   "1995581P"
+ Col: AY
+   1000
+  Styles:
+  - lessThan F37 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ37>0,MOD(AZ37,BB37)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ37)),OR(AY37="NonStk",AZ37>AY37)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.014710647
+  Formula: IFERROR(IF(OR(AZ37>=BB37,F37>=BB37),USD_EUR*LOOKUP(IF(AZ37="",F37,AZ37),{0,1,100,1000,5000,15000,50000},{0.0,0.01239,0.01239,0.00299,0.00125,0.0012,0.00116}),"MOQ="&BB37),"")
+  Styles:
+  - lessThanOrEqual G37 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   1.4711
+  Formula: IFERROR(IF(AZ37="",F37,AZ37)*BA37,"")
+  Styles:
+  - lessThanOrEqual H37 -> -/FF80FF80
+ Col: BD
+   "RC0603FR-0747K"
+Row: 38
+ Col: A
+   "R6"
+ Col: B
+   "15K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://datasheet.octopart.com/RC0603FR-0715K0L-Yageo-datasheet-12596169.pdf">RC0603FR-0715K0L</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E38),ISBLANK(M38),ISBLANK(S38),ISBLANK(Y38),ISBLANK(AE38),ISBLANK(AK38),ISBLANK(AQ38),ISBLANK(AW38),ISBLANK(BC38)) -> -/FFAAAAAA
+  - =IF(SUM(I38,O38,U38,AA38,AG38,AM38,AS38,AY38)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I38,O38,U38,AA38,AG38,AM38,AS38,AY38) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K38),J38,0),IF(ISNUMBER(Q38),P38,0),IF(ISNUMBER(W38),V38,0),IF(ISNUMBER(AC38),AB38,0),IF(ISNUMBER(AI38),AH38,0),IF(ISNUMBER(AO38),AN38,0),IF(ISNUMBER(AU38),AT38,0),IF(ISNUMBER(BA38),AZ38,0)) -> -/FFFFFF00
+ Col: G
+   0.00921880866844
+  Formula: IF(MIN(K38,Q38,W38,AC38,AI38,AO38,AU38,BA38)<>0,MIN(K38,Q38,W38,AC38,AI38,AO38,AU38,BA38),"")
+ Col: H
+   0.9219
+  Formula: IF(AND(ISNUMBER(F38),ISNUMBER(G38)),F38*G38,"")
+ Col: U
+   50980
+  Styles:
+  - lessThan F38 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V38>0,MOD(V38,X38)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V38)),OR(U38="NonStk",V38>U38)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.00921880866844
+  Formula: IFERROR(IF(OR(V38>=X38,F38>=X38),USD_GBP*LOOKUP(IF(V38="",F38,V38),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0105,0.0105,0.0067,0.0065,0.0045,0.0039,0.003,0.0028}),"MOQ="&X38),"")
+  Styles:
+  - lessThanOrEqual G38 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   0.9219
+  Formula: IFERROR(IF(V38="",F38,V38)*W38,"")
+  Styles:
+  - lessThanOrEqual H38 -> -/FF80FF80
+ Col: Z
+   "9238620"
+ Col: AM
+   50980
+  Styles:
+  - lessThan F38 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN38)),OR(AM38="NonStk",AN38>AM38)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.012
+  Formula: IFERROR(IF(OR(AN38>=AP38,F38>=AP38),LOOKUP(IF(AN38="",F38,AN38),{0,1,10,25,50,100,250},{0.0,0.074,0.036,0.023,0.016,0.012,0.009}),"MOQ="&AP38),"")
+  Styles:
+  - lessThanOrEqual G38 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   1.2
+  Formula: IFERROR(IF(AN38="",F38,AN38)*AO38,"")
+  Styles:
+  - lessThanOrEqual H38 -> -/FF80FF80
+ Col: AR
+   "98K7358"
+Row: 39
+ Col: A
+   "R7"
+ Col: B
+   "1M"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://datasheet.octopart.com/ERJ-3EKF1004V-Panasonic-datasheet-13266541.pdf">ERJ3EKF1004V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E39),ISBLANK(M39),ISBLANK(S39),ISBLANK(Y39),ISBLANK(AE39),ISBLANK(AK39),ISBLANK(AQ39),ISBLANK(AW39),ISBLANK(BC39)) -> -/FFAAAAAA
+  - =IF(SUM(I39,O39,U39,AA39,AG39,AM39,AS39,AY39)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I39,O39,U39,AA39,AG39,AM39,AS39,AY39) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K39),J39,0),IF(ISNUMBER(Q39),P39,0),IF(ISNUMBER(W39),V39,0),IF(ISNUMBER(AC39),AB39,0),IF(ISNUMBER(AI39),AH39,0),IF(ISNUMBER(AO39),AN39,0),IF(ISNUMBER(AU39),AT39,0),IF(ISNUMBER(BA39),AZ39,0)) -> -/FFFFFF00
+ Col: G
+   0.0193
+  Formula: IF(MIN(K39,Q39,W39,AC39,AI39,AO39,AU39,BA39)<>0,MIN(K39,Q39,W39,AC39,AI39,AO39,AU39,BA39),"")
+ Col: H
+   1.93
+  Formula: IF(AND(ISNUMBER(F39),ISNUMBER(G39)),F39*G39,"")
+ Col: I
+   115000
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J39>0,MOD(J39,L39)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J39)),OR(I39="NonStk",J39>I39)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J39>=L39,F39>=L39),LOOKUP(IF(J39="",F39,J39),{0,1,5000},{0.0,0.0055,0.0055}),"MOQ="&L39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+  - =AND(F39<5000,J39<5000) -> -/FFFFFF00
+ Col: L
+   5000
+  Styles:
+  - =AND(F39<5000,J39<5000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J39="",F39,J39)*K39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+  - =AND(F39<5000,J39<5000) -> -/FFFFFF00
+ Col: N
+   "ERJ-3EKF1004V"
+ Col: O
+   178111
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P39)),OR(O39="NonStk",P39>O39)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0193
+  Formula: IFERROR(IF(OR(P39>=R39,F39>=R39),LOOKUP(IF(P39="",F39,P39),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.048,0.0193,0.00868,0.00754,0.00623,0.00541,0.00475,0.00436,0.00427}),"MOQ="&R39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.93
+  Formula: IFERROR(IF(P39="",F39,P39)*Q39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+ Col: T
+   "P1.00MHTR-ND"
+ Col: U
+   5000
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V39>0,MOD(V39,X39)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V39)),OR(U39="NonStk",V39>U39)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.024491760343
+  Formula: IFERROR(IF(OR(V39>=X39,F39>=X39),USD_GBP*LOOKUP(IF(V39="",F39,V39),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0428,0.0428,0.0178,0.0131,0.0084,0.0073,0.0062,0.0054}),"MOQ="&X39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   2.4492
+  Formula: IFERROR(IF(V39="",F39,V39)*W39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+ Col: Z
+   "2303325"
+ Col: AG
+   2017392
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH39)),OR(AG39="NonStk",AH39>AG39)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.02
+  Formula: IFERROR(IF(OR(AH39>=AJ39,F39>=AJ39),LOOKUP(IF(AH39="",F39,AH39),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.049,0.049,0.02,0.009,0.008,0.006,0.006}),"MOQ="&AJ39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   2
+  Formula: IFERROR(IF(AH39="",F39,AH39)*AI39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+ Col: AL
+   "667-ERJ-3EKF1004V"
+ Col: AM
+   80000
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN39)),OR(AM39="NonStk",AN39>AM39)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.105
+  Formula: IFERROR(IF(OR(AN39>=AP39,F39>=AP39),LOOKUP(IF(AN39="",F39,AN39),{0,1,10,25,50,100,250,500,1000,5000,10000},{0.0,0.401,0.401,0.261,0.185,0.105,0.089,0.069,0.041,0.007,0.006}),"MOQ="&AP39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   10.5
+  Formula: IFERROR(IF(AN39="",F39,AN39)*AO39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+ Col: AR
+   "64R5311"
+ Col: AS
+   5000
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT39>0,MOD(AT39,AV39)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT39)),OR(AS39="NonStk",AT39>AS39)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT39>=AV39,F39>=AV39),LOOKUP(IF(AT39="",F39,AT39),{0,1,5000},{0.0,0.007,0.007}),"MOQ="&AV39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+  - =AND(F39<5000,AT39<5000) -> -/FFFFFF00
+ Col: AV
+   5000
+  Styles:
+  - =AND(F39<5000,AT39<5000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT39="",F39,AT39)*AU39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+  - =AND(F39<5000,AT39<5000) -> -/FFFFFF00
+ Col: AX
+   "1051157"
+ Col: AY
+   33800
+  Styles:
+  - lessThan F39 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ39>0,MOD(AZ39,BB39)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ39)),OR(AY39="NonStk",AZ39>AY39)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.027533487
+  Formula: IFERROR(IF(OR(AZ39>=BB39,F39>=BB39),USD_EUR*LOOKUP(IF(AZ39="",F39,AZ39),{0,1,100,1000,5000},{0.0,0.02319,0.02319,0.0107,0.00728}),"MOQ="&BB39),"")
+  Styles:
+  - lessThanOrEqual G39 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   2.7533
+  Formula: IFERROR(IF(AZ39="",F39,AZ39)*BA39,"")
+  Styles:
+  - lessThanOrEqual H39 -> -/FF80FF80
+ Col: BD
+   "ERJ3EKF1004V"
+Row: 40
+ Col: A
+   "R9"
+ Col: B
+   "1M8"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://datasheet.octopart.com/RC0603FR-071M8L-Yageo-datasheet-8328172.pdf">RC0603FR-071M8L</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E40),ISBLANK(M40),ISBLANK(S40),ISBLANK(Y40),ISBLANK(AE40),ISBLANK(AK40),ISBLANK(AQ40),ISBLANK(AW40),ISBLANK(BC40)) -> -/FFAAAAAA
+  - =IF(SUM(I40,O40,U40,AA40,AG40,AM40,AS40,AY40)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I40,O40,U40,AA40,AG40,AM40,AS40,AY40) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K40),J40,0),IF(ISNUMBER(Q40),P40,0),IF(ISNUMBER(W40),V40,0),IF(ISNUMBER(AC40),AB40,0),IF(ISNUMBER(AI40),AH40,0),IF(ISNUMBER(AO40),AN40,0),IF(ISNUMBER(AU40),AT40,0),IF(ISNUMBER(BA40),AZ40,0)) -> -/FFFFFF00
+ Col: G
+   0.0059
+  Formula: IF(MIN(K40,Q40,W40,AC40,AI40,AO40,AU40,BA40)<>0,MIN(K40,Q40,W40,AC40,AI40,AO40,AU40,BA40),"")
+ Col: H
+   0.59
+  Formula: IF(AND(ISNUMBER(F40),ISNUMBER(G40)),F40*G40,"")
+ Col: I
+   30
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J40)),OR(I40="NonStk",J40>I40)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0059
+  Formula: IFERROR(IF(OR(J40>=L40,F40>=L40),LOOKUP(IF(J40="",F40,J40),{0,1,10,25},{0.0,0.041,0.007,0.0059}),"MOQ="&L40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   0.59
+  Formula: IFERROR(IF(J40="",F40,J40)*K40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: N
+   "RC0603FR-071M8L"
+ Col: O
+   183592
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P40)),OR(O40="NonStk",P40>O40)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0087
+  Formula: IFERROR(IF(OR(P40>=R40,F40>=R40),LOOKUP(IF(P40="",F40,P40),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.021,0.0087,0.0039,0.00339,0.0028,0.00243,0.00214,0.00196,0.00192}),"MOQ="&R40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   0.87
+  Formula: IFERROR(IF(P40="",F40,P40)*Q40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: T
+   "YAG3328TR-ND"
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V40>0,MOD(V40,X40)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V40)),OR(U40="NonStk",V40>U40)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.00866843203152
+  Formula: IFERROR(IF(OR(V40>=X40,F40>=X40),USD_GBP*LOOKUP(IF(V40="",F40,V40),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0146,0.0146,0.0063,0.0047,0.0031,0.0026,0.0021,0.002}),"MOQ="&X40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   0.8668
+  Formula: IFERROR(IF(V40="",F40,V40)*W40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: Z
+   "9238875"
+ Col: AG
+   64068
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH40)),OR(AG40="NonStk",AH40>AG40)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.007
+  Formula: IFERROR(IF(OR(AH40>=AJ40,F40>=AJ40),LOOKUP(IF(AH40="",F40,AH40),{0,1,10,50,100,1000,10000},{0.0,0.1,0.017,0.017,0.007,0.004,0.002}),"MOQ="&AJ40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   0.7
+  Formula: IFERROR(IF(AH40="",F40,AH40)*AI40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: AL
+   "603-RC0603FR-071M8L"
+ Col: AM
+   "NonStk"
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN40)),OR(AM40="NonStk",AN40>AM40)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.007
+  Formula: IFERROR(IF(OR(AN40>=AP40,F40>=AP40),LOOKUP(IF(AN40="",F40,AN40),{0,1,10,25,50,100},{0.0,0.1,0.017,0.014,0.01,0.007}),"MOQ="&AP40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   0.7
+  Formula: IFERROR(IF(AN40="",F40,AN40)*AO40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: AR
+   "49AK1813"
+ Col: AY
+   10000
+  Styles:
+  - lessThan F40 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ40>0,MOD(AZ40,BB40)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ40)),OR(AY40="NonStk",AZ40>AY40)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.028981993
+  Formula: IFERROR(IF(OR(AZ40>=BB40,F40>=BB40),USD_EUR*LOOKUP(IF(AZ40="",F40,AZ40),{0,1,100,1000,5000,15000},{0.0,0.02441,0.02441,0.00879,0.00356,0.003}),"MOQ="&BB40),"")
+  Styles:
+  - lessThanOrEqual G40 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   2.8982
+  Formula: IFERROR(IF(AZ40="",F40,AZ40)*BA40,"")
+  Styles:
+  - lessThanOrEqual H40 -> -/FF80FF80
+ Col: BD
+   "RC0603FR-071M8L"
+Row: 41
+ Col: A
+   "R10"
+ Col: B
+   "200k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://datasheet.octopart.com/ERJ-3EKF2003V-Panasonic-datasheet-13266541.pdf">ERJ3EKF2003V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E41),ISBLANK(M41),ISBLANK(S41),ISBLANK(Y41),ISBLANK(AE41),ISBLANK(AK41),ISBLANK(AQ41),ISBLANK(AW41),ISBLANK(BC41)) -> -/FFAAAAAA
+  - =IF(SUM(I41,O41,U41,AA41,AG41,AM41,AS41,AY41)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I41,O41,U41,AA41,AG41,AM41,AS41,AY41) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K41),J41,0),IF(ISNUMBER(Q41),P41,0),IF(ISNUMBER(W41),V41,0),IF(ISNUMBER(AC41),AB41,0),IF(ISNUMBER(AI41),AH41,0),IF(ISNUMBER(AO41),AN41,0),IF(ISNUMBER(AU41),AT41,0),IF(ISNUMBER(BA41),AZ41,0)) -> -/FFFFFF00
+ Col: G
+   0.0185
+  Formula: IF(MIN(K41,Q41,W41,AC41,AI41,AO41,AU41,BA41)<>0,MIN(K41,Q41,W41,AC41,AI41,AO41,AU41,BA41),"")
+ Col: H
+   1.85
+  Formula: IF(AND(ISNUMBER(F41),ISNUMBER(G41)),F41*G41,"")
+ Col: I
+   440000
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J41)),OR(I41="NonStk",J41>I41)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0185
+  Formula: IFERROR(IF(OR(J41>=L41,F41>=L41),LOOKUP(IF(J41="",F41,J41),{0,1,10,25,100,500,1000,3000,5000,6000,10000,15000,25000,50000,125000},{0.0,0.0775,0.0425,0.0421,0.0185,0.0183,0.011,0.0066,0.0062,0.0056,0.0054,0.0046,0.0047,0.0044,0.0043}),"MOQ="&L41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   1.85
+  Formula: IFERROR(IF(J41="",F41,J41)*K41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: N
+   "ERJ-3EKF2003V"
+ Col: O
+   596711
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P41)),OR(O41="NonStk",P41>O41)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0193
+  Formula: IFERROR(IF(OR(P41>=R41,F41>=R41),LOOKUP(IF(P41="",F41,P41),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.048,0.0193,0.00868,0.00754,0.00623,0.00541,0.00475,0.00436,0.00427}),"MOQ="&R41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.93
+  Formula: IFERROR(IF(P41="",F41,P41)*Q41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: T
+   "P200KHTR-ND"
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V41>0,MOD(V41,X41)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V41)),OR(U41="NonStk",V41>U41)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.024491760343
+  Formula: IFERROR(IF(OR(V41>=X41,F41>=X41),USD_GBP*LOOKUP(IF(V41="",F41,V41),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0428,0.0428,0.0178,0.0131,0.0084,0.0073,0.0062,0.0054}),"MOQ="&X41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   2.4492
+  Formula: IFERROR(IF(V41="",F41,V41)*W41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: Z
+   "2059509"
+ Col: AG
+   370714
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH41)),OR(AG41="NonStk",AH41>AG41)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.02
+  Formula: IFERROR(IF(OR(AH41>=AJ41,F41>=AJ41),LOOKUP(IF(AH41="",F41,AH41),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.049,0.049,0.02,0.009,0.008,0.006,0.006}),"MOQ="&AJ41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   2
+  Formula: IFERROR(IF(AH41="",F41,AH41)*AI41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: AL
+   "667-ERJ-3EKF2003V"
+ Col: AM
+   35121
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN41)),OR(AM41="NonStk",AN41>AM41)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.02
+  Formula: IFERROR(IF(OR(AN41>=AP41,F41>=AP41),LOOKUP(IF(AN41="",F41,AN41),{0,1,10,25,50,100,250,500,1000,5000,10000,50000},{0.0,0.006,0.049,0.039,0.03,0.02,0.018,0.013,0.009,0.005,0.005,0.006}),"MOQ="&AP41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   2
+  Formula: IFERROR(IF(AN41="",F41,AN41)*AO41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: AR
+   "65T8368"
+ Col: AS
+   "NonStk"
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT41>0,MOD(AT41,AV41)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT41)),OR(AS41="NonStk",AT41>AS41)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT41>=AV41,F41>=AV41),LOOKUP(IF(AT41="",F41,AT41),{0,1,5000},{0.0,0.007,0.007}),"MOQ="&AV41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+  - =AND(F41<5000,AT41<5000) -> -/FFFFFF00
+ Col: AV
+   5000
+  Styles:
+  - =AND(F41<5000,AT41<5000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT41="",F41,AT41)*AU41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+  - =AND(F41<5000,AT41<5000) -> -/FFFFFF00
+ Col: AX
+   "1755753"
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F41 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ41>0,MOD(AZ41,BB41)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ41)),OR(AY41="NonStk",AZ41>AY41)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.027533487
+  Formula: IFERROR(IF(OR(AZ41>=BB41,F41>=BB41),USD_EUR*LOOKUP(IF(AZ41="",F41,AZ41),{0,1,100,1000,5000},{0.0,0.02319,0.02319,0.0107,0.00728}),"MOQ="&BB41),"")
+  Styles:
+  - lessThanOrEqual G41 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   2.7533
+  Formula: IFERROR(IF(AZ41="",F41,AZ41)*BA41,"")
+  Styles:
+  - lessThanOrEqual H41 -> -/FF80FF80
+ Col: BD
+   "ERJ3EKF2003V"
+Row: 42
+ Col: A
+   "R11,R12,R15,R23-R28"
+ Col: B
+   "0R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Vishay"
+ Col: E
+   <a href="http://datasheet.octopart.com/CRCW06030000Z0EA-Vishay-datasheet-14722531.pdf">CRCW06030000Z0EA</a>
+ Col: F
+   900
+  Formula: CEILING(BoardQty*9.0,1)
+  Styles:
+  - =AND(ISBLANK(E42),ISBLANK(M42),ISBLANK(S42),ISBLANK(Y42),ISBLANK(AE42),ISBLANK(AK42),ISBLANK(AQ42),ISBLANK(AW42),ISBLANK(BC42)) -> -/FFAAAAAA
+  - =IF(SUM(I42,O42,U42,AA42,AG42,AM42,AS42,AY42)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I42,O42,U42,AA42,AG42,AM42,AS42,AY42) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K42),J42,0),IF(ISNUMBER(Q42),P42,0),IF(ISNUMBER(W42),V42,0),IF(ISNUMBER(AC42),AB42,0),IF(ISNUMBER(AI42),AH42,0),IF(ISNUMBER(AO42),AN42,0),IF(ISNUMBER(AU42),AT42,0),IF(ISNUMBER(BA42),AZ42,0)) -> -/FFFFFF00
+ Col: G
+   0.008
+  Formula: IF(MIN(K42,Q42,W42,AC42,AI42,AO42,AU42,BA42)<>0,MIN(K42,Q42,W42,AC42,AI42,AO42,AU42,BA42),"")
+ Col: H
+   7.2
+  Formula: IF(AND(ISNUMBER(F42),ISNUMBER(G42)),F42*G42,"")
+ Col: U
+   27144
+  Styles:
+  - lessThan F42 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V42>0,MOD(V42,X42)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V42)),OR(U42="NonStk",V42>U42)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.01252106849
+  Formula: IFERROR(IF(OR(V42>=X42,F42>=X42),USD_GBP*LOOKUP(IF(V42="",F42,V42),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.017,0.017,0.0105,0.0091,0.0065,0.0064,0.0038,0.0037}),"MOQ="&X42),"")
+  Styles:
+  - lessThanOrEqual G42 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   11.269
+  Formula: IFERROR(IF(V42="",F42,V42)*W42,"")
+  Styles:
+  - lessThanOrEqual H42 -> -/FF80FF80
+ Col: Z
+   "1469739"
+ Col: AG
+   81
+  Styles:
+  - lessThan F42 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH42)),OR(AG42="NonStk",AH42>AG42)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.008
+  Formula: IFERROR(IF(OR(AH42>=AJ42,F42>=AJ42),LOOKUP(IF(AH42="",F42,AH42),{0,1,10,50,100,250,500,1000,5000,10000},{0.0,0.1,0.016,0.016,0.012,0.009,0.008,0.006,0.003,0.003}),"MOQ="&AJ42),"")
+  Styles:
+  - lessThanOrEqual G42 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   7.2
+  Formula: IFERROR(IF(AH42="",F42,AH42)*AI42,"")
+  Styles:
+  - lessThanOrEqual H42 -> -/FF80FF80
+ Col: AL
+   "71-CRCW0603-0-E3"
+ Col: AM
+   84334
+  Styles:
+  - lessThan F42 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN42)),OR(AM42="NonStk",AN42>AM42)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.011
+  Formula: IFERROR(IF(OR(AN42>=AP42,F42>=AP42),LOOKUP(IF(AN42="",F42,AN42),{0,1,10,25,50,100,250,5000},{0.0,0.004,0.02,0.019,0.016,0.015,0.011,0.004}),"MOQ="&AP42),"")
+  Styles:
+  - lessThanOrEqual G42 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   9.9
+  Formula: IFERROR(IF(AN42="",F42,AN42)*AO42,"")
+  Styles:
+  - lessThanOrEqual H42 -> -/FF80FF80
+ Col: AR
+   "61M5327"
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F42 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ42>0,MOD(AZ42,BB42)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ42)),OR(AY42="NonStk",AZ42>AY42)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.009925828
+  Formula: IFERROR(IF(OR(AZ42>=BB42,F42>=BB42),USD_EUR*LOOKUP(IF(AZ42="",F42,AZ42),{0,1,100,500,1000,5000},{0.0,0.0161,0.0161,0.00836,0.00653,0.00337}),"MOQ="&BB42),"")
+  Styles:
+  - lessThanOrEqual G42 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   8.9332
+  Formula: IFERROR(IF(AZ42="",F42,AZ42)*BA42,"")
+  Styles:
+  - lessThanOrEqual H42 -> -/FF80FF80
+ Col: BD
+   "CRCW06030000Z0EA"
+Row: 43
+ Col: A
+   "R13"
+ Col: B
+   "249k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://datasheet.octopart.com/ERJ-3EKF2493V-Panasonic-datasheet-13266541.pdf">ERJ3EKF2493V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E43),ISBLANK(M43),ISBLANK(S43),ISBLANK(Y43),ISBLANK(AE43),ISBLANK(AK43),ISBLANK(AQ43),ISBLANK(AW43),ISBLANK(BC43)) -> -/FFAAAAAA
+  - =IF(SUM(I43,O43,U43,AA43,AG43,AM43,AS43,AY43)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I43,O43,U43,AA43,AG43,AM43,AS43,AY43) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K43),J43,0),IF(ISNUMBER(Q43),P43,0),IF(ISNUMBER(W43),V43,0),IF(ISNUMBER(AC43),AB43,0),IF(ISNUMBER(AI43),AH43,0),IF(ISNUMBER(AO43),AN43,0),IF(ISNUMBER(AU43),AT43,0),IF(ISNUMBER(BA43),AZ43,0)) -> -/FFFFFF00
+ Col: G
+   0.0133
+  Formula: IF(MIN(K43,Q43,W43,AC43,AI43,AO43,AU43,BA43)<>0,MIN(K43,Q43,W43,AC43,AI43,AO43,AU43,BA43),"")
+ Col: H
+   1.33
+  Formula: IF(AND(ISNUMBER(F43),ISNUMBER(G43)),F43*G43,"")
+ Col: I
+   45000
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J43)),OR(I43="NonStk",J43>I43)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0133
+  Formula: IFERROR(IF(OR(J43>=L43,F43>=L43),LOOKUP(IF(J43="",F43,J43),{0,1,5000},{0.0,0.0133,0.0058}),"MOQ="&L43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   1.33
+  Formula: IFERROR(IF(J43="",F43,J43)*K43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+ Col: N
+   "ERJ-3EKF2493V"
+ Col: O
+   348913
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P43)),OR(O43="NonStk",P43>O43)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0193
+  Formula: IFERROR(IF(OR(P43>=R43,F43>=R43),LOOKUP(IF(P43="",F43,P43),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.048,0.0193,0.00868,0.00754,0.00623,0.00541,0.00475,0.00436,0.00427}),"MOQ="&R43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.93
+  Formula: IFERROR(IF(P43="",F43,P43)*Q43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+ Col: T
+   "P249KHTR-ND"
+ Col: U
+   48520
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V43>0,MOD(V43,X43)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V43)),OR(U43="NonStk",V43>U43)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.024491760343
+  Formula: IFERROR(IF(OR(V43>=X43,F43>=X43),USD_GBP*LOOKUP(IF(V43="",F43,V43),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0428,0.0428,0.0178,0.0131,0.0084,0.0073,0.0064,0.0054}),"MOQ="&X43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   2.4492
+  Formula: IFERROR(IF(V43="",F43,V43)*W43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+ Col: Z
+   "2059513"
+ Col: AG
+   152325
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH43)),OR(AG43="NonStk",AH43>AG43)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.02
+  Formula: IFERROR(IF(OR(AH43>=AJ43,F43>=AJ43),LOOKUP(IF(AH43="",F43,AH43),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.049,0.049,0.02,0.009,0.008,0.006,0.005}),"MOQ="&AJ43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   2
+  Formula: IFERROR(IF(AH43="",F43,AH43)*AI43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+ Col: AL
+   "667-ERJ-3EKF2493V"
+ Col: AM
+   54125
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN43)),OR(AM43="NonStk",AN43>AM43)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.02
+  Formula: IFERROR(IF(OR(AN43>=AP43,F43>=AP43),LOOKUP(IF(AN43="",F43,AN43),{0,1,10,25,50,100,250,500,1000,5000,10000,50000},{0.0,0.002,0.049,0.039,0.03,0.02,0.019,0.015,0.009,0.002,0.002,0.002}),"MOQ="&AP43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   2
+  Formula: IFERROR(IF(AN43="",F43,AN43)*AO43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+ Col: AR
+   "65T8397"
+ Col: AS
+   15000
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT43>0,MOD(AT43,AV43)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT43)),OR(AS43="NonStk",AT43>AS43)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT43>=AV43,F43>=AV43),LOOKUP(IF(AT43="",F43,AT43),{0,1,5000},{0.0,0.006,0.006}),"MOQ="&AV43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+  - =AND(F43<5000,AT43<5000) -> -/FFFFFF00
+ Col: AV
+   5000
+  Styles:
+  - =AND(F43<5000,AT43<5000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT43="",F43,AT43)*AU43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+  - =AND(F43<5000,AT43<5000) -> -/FFFFFF00
+ Col: AX
+   "1229239"
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ43>0,MOD(AZ43,BB43)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ43)),OR(AY43="NonStk",AZ43>AY43)) -> FFFFFFFF/FFFF0000
+ Col: BA
+  Formula: IFERROR(IF(OR(AZ43>=BB43,F43>=BB43),USD_EUR*LOOKUP(IF(AZ43="",F43,AZ43),{0,1,50000},{0.0,0.0073,0.0073}),"MOQ="&BB43),"")
+  Styles:
+  - lessThanOrEqual G43 -> -/FF80FF80
+  - =AND(F43<50000,AZ43<50000) -> -/FFFFFF00
+ Col: BB
+   50000
+  Styles:
+  - =AND(F43<50000,AZ43<50000) -> -/FFFFFF00
+ Col: BC
+  Formula: IFERROR(IF(AZ43="",F43,AZ43)*BA43,"")
+  Styles:
+  - lessThanOrEqual H43 -> -/FF80FF80
+  - =AND(F43<50000,AZ43<50000) -> -/FFFFFF00
+ Col: BD
+   "ERJ3EKF2493V"
+Row: 44
+ Col: A
+   "R14"
+ Col: B
+   "100k"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://datasheet.octopart.com/ERJ-3EKF1003V-Panasonic-datasheet-13266541.pdf">ERJ3EKF1003V</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E44),ISBLANK(M44),ISBLANK(S44),ISBLANK(Y44),ISBLANK(AE44),ISBLANK(AK44),ISBLANK(AQ44),ISBLANK(AW44),ISBLANK(BC44)) -> -/FFAAAAAA
+  - =IF(SUM(I44,O44,U44,AA44,AG44,AM44,AS44,AY44)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I44,O44,U44,AA44,AG44,AM44,AS44,AY44) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K44),J44,0),IF(ISNUMBER(Q44),P44,0),IF(ISNUMBER(W44),V44,0),IF(ISNUMBER(AC44),AB44,0),IF(ISNUMBER(AI44),AH44,0),IF(ISNUMBER(AO44),AN44,0),IF(ISNUMBER(AU44),AT44,0),IF(ISNUMBER(BA44),AZ44,0)) -> -/FFFFFF00
+ Col: G
+   0.0193
+  Formula: IF(MIN(K44,Q44,W44,AC44,AI44,AO44,AU44,BA44)<>0,MIN(K44,Q44,W44,AC44,AI44,AO44,AU44,BA44),"")
+ Col: H
+   1.93
+  Formula: IF(AND(ISNUMBER(F44),ISNUMBER(G44)),F44*G44,"")
+ Col: I
+   4535000
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J44)),OR(I44="NonStk",J44>I44)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0553
+  Formula: IFERROR(IF(OR(J44>=L44,F44>=L44),LOOKUP(IF(J44="",F44,J44),{0,1,5000},{0.0,0.0553,0.0066}),"MOQ="&L44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   5.53
+  Formula: IFERROR(IF(J44="",F44,J44)*K44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: N
+   "ERJ-3EKF1003V"
+ Col: O
+   2165083
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P44)),OR(O44="NonStk",P44>O44)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0193
+  Formula: IFERROR(IF(OR(P44>=R44,F44>=R44),LOOKUP(IF(P44="",F44,P44),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.048,0.0193,0.00868,0.00754,0.00623,0.00541,0.00475,0.00436,0.00427}),"MOQ="&R44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.93
+  Formula: IFERROR(IF(P44="",F44,P44)*Q44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: T
+   "P100KHTR-ND"
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V44>0,MOD(V44,X44)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V44)),OR(U44="NonStk",V44>U44)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.024491760343
+  Formula: IFERROR(IF(OR(V44>=X44,F44>=X44),USD_GBP*LOOKUP(IF(V44="",F44,V44),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0428,0.0428,0.0178,0.0131,0.0084,0.0073,0.0062,0.0054}),"MOQ="&X44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   2.4492
+  Formula: IFERROR(IF(V44="",F44,V44)*W44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: Z
+   "2303232"
+ Col: AG
+   4200665
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH44)),OR(AG44="NonStk",AH44>AG44)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.02
+  Formula: IFERROR(IF(OR(AH44>=AJ44,F44>=AJ44),LOOKUP(IF(AH44="",F44,AH44),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.049,0.049,0.02,0.009,0.008,0.006,0.006}),"MOQ="&AJ44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   2
+  Formula: IFERROR(IF(AH44="",F44,AH44)*AI44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: AL
+   "667-ERJ-3EKF1003V"
+ Col: AM
+   75000
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN44)),OR(AM44="NonStk",AN44>AM44)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.02
+  Formula: IFERROR(IF(OR(AN44>=AP44,F44>=AP44),LOOKUP(IF(AN44="",F44,AN44),{0,1,25,50,100,250,500,1000,5000,10000,20000},{0.0,0.019,0.052,0.036,0.02,0.018,0.016,0.01,0.006,0.006,0.014}),"MOQ="&AP44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   2
+  Formula: IFERROR(IF(AN44="",F44,AN44)*AO44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: AR
+   "85Y8502"
+ Col: AS
+   308
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT44>0,MOD(AT44,AV44)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT44)),OR(AS44="NonStk",AT44>AS44)) -> FFFFFFFF/FFFF0000
+ Col: AU
+  Formula: IFERROR(IF(OR(AT44>=AV44,F44>=AV44),LOOKUP(IF(AT44="",F44,AT44),{0,1,5000},{0.0,0.007,0.007}),"MOQ="&AV44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+  - =AND(F44<5000,AT44<5000) -> -/FFFFFF00
+ Col: AV
+   5000
+  Styles:
+  - =AND(F44<5000,AT44<5000) -> -/FFFFFF00
+ Col: AW
+  Formula: IFERROR(IF(AT44="",F44,AT44)*AU44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+  - =AND(F44<5000,AT44<5000) -> -/FFFFFF00
+ Col: AX
+   "1755734"
+ Col: AY
+   17600
+  Styles:
+  - lessThan F44 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ44>0,MOD(AZ44,BB44)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ44)),OR(AY44="NonStk",AZ44>AY44)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.027533487
+  Formula: IFERROR(IF(OR(AZ44>=BB44,F44>=BB44),USD_EUR*LOOKUP(IF(AZ44="",F44,AZ44),{0,1,100,1000,5000},{0.0,0.02319,0.02319,0.0107,0.00728}),"MOQ="&BB44),"")
+  Styles:
+  - lessThanOrEqual G44 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   2.7533
+  Formula: IFERROR(IF(AZ44="",F44,AZ44)*BA44,"")
+  Styles:
+  - lessThanOrEqual H44 -> -/FF80FF80
+ Col: BD
+   "ERJ3EKF1003V"
+Row: 45
+ Col: A
+   "R16-R19"
+ Col: B
+   "100R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://datasheet.octopart.com/RC0603FR-07100RL-Yageo-datasheet-8328172.pdf">RC0603FR-07100RL</a>
+ Col: F
+   400
+  Formula: CEILING(BoardQty*4.0,1)
+  Styles:
+  - =AND(ISBLANK(E45),ISBLANK(M45),ISBLANK(S45),ISBLANK(Y45),ISBLANK(AE45),ISBLANK(AK45),ISBLANK(AQ45),ISBLANK(AW45),ISBLANK(BC45)) -> -/FFAAAAAA
+  - =IF(SUM(I45,O45,U45,AA45,AG45,AM45,AS45,AY45)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I45,O45,U45,AA45,AG45,AM45,AS45,AY45) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K45),J45,0),IF(ISNUMBER(Q45),P45,0),IF(ISNUMBER(W45),V45,0),IF(ISNUMBER(AC45),AB45,0),IF(ISNUMBER(AI45),AH45,0),IF(ISNUMBER(AO45),AN45,0),IF(ISNUMBER(AU45),AT45,0),IF(ISNUMBER(BA45),AZ45,0)) -> -/FFFFFF00
+ Col: G
+   0.007
+  Formula: IF(MIN(K45,Q45,W45,AC45,AI45,AO45,AU45,BA45)<>0,MIN(K45,Q45,W45,AC45,AI45,AO45,AU45,BA45),"")
+ Col: H
+   2.8
+  Formula: IF(AND(ISNUMBER(F45),ISNUMBER(G45)),F45*G45,"")
+ Col: I
+   17635000
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J45>0,MOD(J45,L45)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J45)),OR(I45="NonStk",J45>I45)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J45>=L45,F45>=L45),LOOKUP(IF(J45="",F45,J45),{0,1,5000,50000},{0.0,0.002,0.002,0.0012}),"MOQ="&L45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+  - =AND(F45<5000,J45<5000) -> -/FFFFFF00
+ Col: L
+   5000
+  Styles:
+  - =AND(F45<5000,J45<5000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J45="",F45,J45)*K45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+  - =AND(F45<5000,J45<5000) -> -/FFFFFF00
+ Col: N
+   "RC0603FR-07100RL"
+ Col: O
+   10383057
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P45)),OR(O45="NonStk",P45>O45)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0087
+  Formula: IFERROR(IF(OR(P45>=R45,F45>=R45),LOOKUP(IF(P45="",F45,P45),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.021,0.0087,0.0039,0.00339,0.0028,0.00243,0.00214,0.00196,0.00192}),"MOQ="&R45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   3.48
+  Formula: IFERROR(IF(P45="",F45,P45)*Q45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: T
+   "311-100HRTR-ND"
+ Col: U
+   3325000
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V45>0,MOD(V45,X45)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V45)),OR(U45="NonStk",V45>U45)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0100443736238
+  Formula: IFERROR(IF(OR(V45>=X45,F45>=X45),USD_GBP*LOOKUP(IF(V45="",F45,V45),{0,1,10,100,500,1000,2500,5000,10000,25000},{0.0,0.0178,0.0178,0.0073,0.0063,0.0031,0.003,0.0055,0.0036,0.002}),"MOQ="&X45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   4.0177
+  Formula: IFERROR(IF(V45="",F45,V45)*W45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: Z
+   "9238360"
+ Col: AG
+   9223347
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH45)),OR(AG45="NonStk",AH45>AG45)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.008
+  Formula: IFERROR(IF(OR(AH45>=AJ45,F45>=AJ45),LOOKUP(IF(AH45="",F45,AH45),{0,1,10,50,100,500,1000,5000,10000},{0.0,0.1,0.02,0.02,0.008,0.007,0.004,0.003,0.002}),"MOQ="&AJ45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   3.2
+  Formula: IFERROR(IF(AH45="",F45,AH45)*AI45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: AL
+   "603-RC0603FR-07100RL"
+ Col: AM
+   3305000
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN45)),OR(AM45="NonStk",AN45>AM45)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.007
+  Formula: IFERROR(IF(OR(AN45>=AP45,F45>=AP45),LOOKUP(IF(AN45="",F45,AN45),{0,1,10,25,50,100,5000,10000},{0.0,0.1,0.02,0.017,0.012,0.007,0.003,0.002}),"MOQ="&AP45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   2.8
+  Formula: IFERROR(IF(AN45="",F45,AN45)*AO45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: AR
+   "68R0052"
+ Col: AS
+   10000
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT45>0,MOD(AT45,AV45)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT45)),OR(AS45="NonStk",AT45>AS45)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.0110075327384
+  Formula: IFERROR(IF(OR(AT45>=AV45,F45>=AV45),USD_GBP*LOOKUP(IF(AT45="",F45,AT45),{0,1,100,1000,2500,5000,10000,15000,20000},{0.0,0.008,0.008,0.007,0.007,0.006,0.006,0.003,0.003}),"MOQ="&AV45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: AV
+   100
+ Col: AW
+   4.403
+  Formula: IFERROR(IF(AT45="",F45,AT45)*AU45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: AX
+   "1995441P"
+ Col: AY
+   2300
+  Styles:
+  - lessThan F45 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ45>0,MOD(AZ45,BB45)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ45)),OR(AY45="NonStk",AZ45>AY45)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.014710647
+  Formula: IFERROR(IF(OR(AZ45>=BB45,F45>=BB45),USD_EUR*LOOKUP(IF(AZ45="",F45,AZ45),{0,1,100,1000,5000,15000,50000},{0.0,0.01239,0.01239,0.00258,0.00125,0.00117,0.00113}),"MOQ="&BB45),"")
+  Styles:
+  - lessThanOrEqual G45 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   5.8843
+  Formula: IFERROR(IF(AZ45="",F45,AZ45)*BA45,"")
+  Styles:
+  - lessThanOrEqual H45 -> -/FF80FF80
+ Col: BD
+   "RC0603FR-07100R"
+Row: 46
+ Col: A
+   "R20-R22"
+ Col: B
+   "47R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Panasonic"
+ Col: E
+   <a href="http://datasheet.octopart.com/ERJ-P03F47R0V-Panasonic-datasheet-13272697.pdf">ERJP03F47R0V</a>
+ Col: F
+   300
+  Formula: CEILING(BoardQty*3.0,1)
+  Styles:
+  - =AND(ISBLANK(E46),ISBLANK(M46),ISBLANK(S46),ISBLANK(Y46),ISBLANK(AE46),ISBLANK(AK46),ISBLANK(AQ46),ISBLANK(AW46),ISBLANK(BC46)) -> -/FFAAAAAA
+  - =IF(SUM(I46,O46,U46,AA46,AG46,AM46,AS46,AY46)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I46,O46,U46,AA46,AG46,AM46,AS46,AY46) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K46),J46,0),IF(ISNUMBER(Q46),P46,0),IF(ISNUMBER(W46),V46,0),IF(ISNUMBER(AC46),AB46,0),IF(ISNUMBER(AI46),AH46,0),IF(ISNUMBER(AO46),AN46,0),IF(ISNUMBER(AU46),AT46,0),IF(ISNUMBER(BA46),AZ46,0)) -> -/FFFFFF00
+ Col: G
+   0.14
+  Formula: IF(MIN(K46,Q46,W46,AC46,AI46,AO46,AU46,BA46)<>0,MIN(K46,Q46,W46,AC46,AI46,AO46,AU46,BA46),"")
+ Col: H
+   42
+  Formula: IF(AND(ISNUMBER(F46),ISNUMBER(G46)),F46*G46,"")
+ Col: U
+   2581
+  Styles:
+  - lessThan F46 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V46>0,MOD(V46,X46)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V46)),OR(U46="NonStk",V46>U46)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.211895005215
+  Formula: IFERROR(IF(OR(V46>=X46,F46>=X46),USD_GBP*LOOKUP(IF(V46="",F46,V46),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.346,0.346,0.154,0.148,0.144,0.0993,0.0535,0.0524}),"MOQ="&X46),"")
+  Styles:
+  - lessThanOrEqual G46 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   63.5685
+  Formula: IFERROR(IF(V46="",F46,V46)*W46,"")
+  Styles:
+  - lessThanOrEqual H46 -> -/FF80FF80
+ Col: Z
+   "1750655"
+ Col: AG
+   5085
+  Styles:
+  - lessThan F46 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH46)),OR(AG46="NonStk",AH46>AG46)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.144
+  Formula: IFERROR(IF(OR(AH46>=AJ46,F46>=AJ46),LOOKUP(IF(AH46="",F46,AH46),{0,1,10,50,100,1000,10000},{0.0,0.36,0.316,0.316,0.144,0.131,0.049}),"MOQ="&AJ46),"")
+  Styles:
+  - lessThanOrEqual G46 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   43.2
+  Formula: IFERROR(IF(AH46="",F46,AH46)*AI46,"")
+  Styles:
+  - lessThanOrEqual H46 -> -/FF80FF80
+ Col: AL
+   "667-ERJ-P03F47R0V"
+ Col: AM
+   2370
+  Styles:
+  - lessThan F46 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(AN46>0,MOD(AN46,AP46)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AN46)),OR(AM46="NonStk",AN46>AM46)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.14
+  Formula: IFERROR(IF(OR(AN46>=AP46,F46>=AP46),LOOKUP(IF(AN46="",F46,AN46),{0,1,10,25,50,100,250,5000,10000,20000},{0.0,0.316,0.316,0.259,0.201,0.144,0.14,0.04,0.039,0.037}),"MOQ="&AP46),"")
+  Styles:
+  - lessThanOrEqual G46 -> -/FF80FF80
+ Col: AP
+   10
+ Col: AQ
+   42
+  Formula: IFERROR(IF(AN46="",F46,AN46)*AO46,"")
+  Styles:
+  - lessThanOrEqual H46 -> -/FF80FF80
+ Col: AR
+   "62W9653"
+Row: 47
+ Col: A
+   "R33,R34"
+ Col: B
+   "1K"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://datasheet.octopart.com/RC0603FR-071KL-Yageo-datasheet-8328172.pdf">RC0603FR-071KL</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E47),ISBLANK(M47),ISBLANK(S47),ISBLANK(Y47),ISBLANK(AE47),ISBLANK(AK47),ISBLANK(AQ47),ISBLANK(AW47),ISBLANK(BC47)) -> -/FFAAAAAA
+  - =IF(SUM(I47,O47,U47,AA47,AG47,AM47,AS47,AY47)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I47,O47,U47,AA47,AG47,AM47,AS47,AY47) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K47),J47,0),IF(ISNUMBER(Q47),P47,0),IF(ISNUMBER(W47),V47,0),IF(ISNUMBER(AC47),AB47,0),IF(ISNUMBER(AI47),AH47,0),IF(ISNUMBER(AO47),AN47,0),IF(ISNUMBER(AU47),AT47,0),IF(ISNUMBER(BA47),AZ47,0)) -> -/FFFFFF00
+ Col: G
+   0.007
+  Formula: IF(MIN(K47,Q47,W47,AC47,AI47,AO47,AU47,BA47)<>0,MIN(K47,Q47,W47,AC47,AI47,AO47,AU47,BA47),"")
+ Col: H
+   1.4
+  Formula: IF(AND(ISNUMBER(F47),ISNUMBER(G47)),F47*G47,"")
+ Col: I
+   37395000
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J47>0,MOD(J47,L47)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J47)),OR(I47="NonStk",J47>I47)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J47>=L47,F47>=L47),LOOKUP(IF(J47="",F47,J47),{0,1,5000,50000},{0.0,0.002,0.002,0.0012}),"MOQ="&L47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+  - =AND(F47<5000,J47<5000) -> -/FFFFFF00
+ Col: L
+   5000
+  Styles:
+  - =AND(F47<5000,J47<5000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J47="",F47,J47)*K47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+  - =AND(F47<5000,J47<5000) -> -/FFFFFF00
+ Col: N
+   "RC0603FR-071KL"
+ Col: O
+   16154241
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P47)),OR(O47="NonStk",P47>O47)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0087
+  Formula: IFERROR(IF(OR(P47>=R47,F47>=R47),LOOKUP(IF(P47="",F47,P47),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.021,0.0087,0.0039,0.00339,0.0028,0.00243,0.00214,0.00196,0.00192}),"MOQ="&R47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   1.74
+  Formula: IFERROR(IF(P47="",F47,P47)*Q47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: T
+   "311-1.00KHRTR-ND"
+ Col: U
+   11499999
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V47>0,MOD(V47,X47)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V47)),OR(U47="NonStk",V47>U47)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.00908121450921
+  Formula: IFERROR(IF(OR(V47>=X47,F47>=X47),USD_GBP*LOOKUP(IF(V47="",F47,V47),{0,1,10,100,500,1000,2500,5000,25000},{0.0,0.0176,0.0176,0.0066,0.0055,0.0044,0.0043,0.0062,0.003}),"MOQ="&X47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   1.8162
+  Formula: IFERROR(IF(V47="",F47,V47)*W47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: Z
+   "9238484"
+ Col: AG
+   12828412
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH47)),OR(AG47="NonStk",AH47>AG47)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.007
+  Formula: IFERROR(IF(OR(AH47>=AJ47,F47>=AJ47),LOOKUP(IF(AH47="",F47,AH47),{0,1,10,50,100,1000,5000,10000},{0.0,0.1,0.017,0.017,0.007,0.004,0.003,0.003}),"MOQ="&AJ47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   1.4
+  Formula: IFERROR(IF(AH47="",F47,AH47)*AI47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: AL
+   "603-RC0603FR-071KL"
+ Col: AM
+   11494999
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN47)),OR(AM47="NonStk",AN47>AM47)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.018
+  Formula: IFERROR(IF(OR(AN47>=AP47,F47>=AP47),LOOKUP(IF(AN47="",F47,AN47),{0,1,25,50,100,250,500,1000,2500,5000,10000},{0.0,0.08,0.04,0.026,0.018,0.014,0.011,0.008,0.006,0.006,0.003}),"MOQ="&AP47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   3.6
+  Formula: IFERROR(IF(AN47="",F47,AN47)*AO47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: AR
+   "75X0136"
+ Col: AS
+   10100
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT47>0,MOD(AT47,AV47)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT47)),OR(AS47="NonStk",AT47>AS47)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.00963159114614
+  Formula: IFERROR(IF(OR(AT47>=AV47,F47>=AV47),USD_GBP*LOOKUP(IF(AT47="",F47,AT47),{0,1,100,1000,2500,5000,10000,15000,20000},{0.0,0.007,0.007,0.007,0.006,0.006,0.005,0.003,0.003}),"MOQ="&AV47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: AV
+   100
+ Col: AW
+   1.9263
+  Formula: IFERROR(IF(AT47="",F47,AT47)*AU47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: AX
+   "1995479"
+ Col: AY
+   59900
+  Styles:
+  - lessThan F47 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ47>0,MOD(AZ47,BB47)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ47)),OR(AY47="NonStk",AZ47>AY47)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.013202776
+  Formula: IFERROR(IF(OR(AZ47>=BB47,F47>=BB47),USD_EUR*LOOKUP(IF(AZ47="",F47,AZ47),{0,1,100,1000,5000,15000,50000},{0.0,0.01112,0.01112,0.00267,0.00121,0.00115,0.00111}),"MOQ="&BB47),"")
+  Styles:
+  - lessThanOrEqual G47 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   2.6406
+  Formula: IFERROR(IF(AZ47="",F47,AZ47)*BA47,"")
+  Styles:
+  - lessThanOrEqual H47 -> -/FF80FF80
+ Col: BD
+   "RC0603FR-071K"
+Row: 48
+ Col: A
+   "R35,R36"
+ Col: B
+   "10R"
+ Col: C
+   "R_0603"
+ Col: D
+   "Yageo"
+ Col: E
+   <a href="http://datasheet.octopart.com/RC0603FR-0710RL-Yageo-datasheet-8328172.pdf">RC0603FR-0710RL</a>
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E48),ISBLANK(M48),ISBLANK(S48),ISBLANK(Y48),ISBLANK(AE48),ISBLANK(AK48),ISBLANK(AQ48),ISBLANK(AW48),ISBLANK(BC48)) -> -/FFAAAAAA
+  - =IF(SUM(I48,O48,U48,AA48,AG48,AM48,AS48,AY48)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I48,O48,U48,AA48,AG48,AM48,AS48,AY48) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K48),J48,0),IF(ISNUMBER(Q48),P48,0),IF(ISNUMBER(W48),V48,0),IF(ISNUMBER(AC48),AB48,0),IF(ISNUMBER(AI48),AH48,0),IF(ISNUMBER(AO48),AN48,0),IF(ISNUMBER(AU48),AT48,0),IF(ISNUMBER(BA48),AZ48,0)) -> -/FFFFFF00
+ Col: G
+   0.015874201
+  Formula: IF(MIN(K48,Q48,W48,AC48,AI48,AO48,AU48,BA48)<>0,MIN(K48,Q48,W48,AC48,AI48,AO48,AU48,BA48),"")
+ Col: H
+   3.1748
+  Formula: IF(AND(ISNUMBER(F48),ISNUMBER(G48)),F48*G48,"")
+ Col: I
+   810000
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J48>0,MOD(J48,L48)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J48)),OR(I48="NonStk",J48>I48)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J48>=L48,F48>=L48),LOOKUP(IF(J48="",F48,J48),{0,1,5000,10000,25000,50000,125000},{0.0,0.0229,0.0229,0.0137,0.0071,0.004,0.0035}),"MOQ="&L48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+  - =AND(F48<5000,J48<5000) -> -/FFFFFF00
+ Col: L
+   5000
+  Styles:
+  - =AND(F48<5000,J48<5000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J48="",F48,J48)*K48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+  - =AND(F48<5000,J48<5000) -> -/FFFFFF00
+ Col: N
+   "RC0603FR-0710RL"
+ Col: O
+   4614722
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P48)),OR(O48="NonStk",P48>O48)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.0174
+  Formula: IFERROR(IF(OR(P48>=R48,F48>=R48),LOOKUP(IF(P48="",F48,P48),{0,1,10,100,1000,2500,5000,10000,25000,50000,125000},{0.0,0.1,0.043,0.0174,0.00781,0.00678,0.0056,0.00486,0.00427,0.00392,0.00384}),"MOQ="&R48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   3.48
+  Formula: IFERROR(IF(P48="",F48,P48)*Q48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: T
+   "311-10.0HRTR-ND"
+ Col: U
+   330207
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V48>0,MOD(V48,X48)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V48)),OR(U48="NonStk",V48>U48)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.0200887472477
+  Formula: IFERROR(IF(OR(V48>=X48,F48>=X48),USD_GBP*LOOKUP(IF(V48="",F48,V48),{0,1,10,100,500,1000,2500,5000,10000,25000},{0.0,0.0366,0.0366,0.0146,0.011,0.0073,0.0063,0.011,0.0082,0.0041}),"MOQ="&X48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   4.0177
+  Formula: IFERROR(IF(V48="",F48,V48)*W48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: Z
+   "9238247"
+ Col: AG
+   1243885
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH48)),OR(AG48="NonStk",AH48>AG48)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.017
+  Formula: IFERROR(IF(OR(AH48>=AJ48,F48>=AJ48),LOOKUP(IF(AH48="",F48,AH48),{0,1,10,50,100,1000,2500,5000,10000},{0.0,0.1,0.042,0.042,0.017,0.008,0.007,0.005,0.005}),"MOQ="&AJ48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   3.4
+  Formula: IFERROR(IF(AH48="",F48,AH48)*AI48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: AL
+   "603-RC0603FR-0710RL"
+ Col: AM
+   2099
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN48)),OR(AM48="NonStk",AN48>AM48)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.017
+  Formula: IFERROR(IF(OR(AN48>=AP48,F48>=AP48),LOOKUP(IF(AN48="",F48,AN48),{0,1,10,25,50,100,5000},{0.0,0.005,0.042,0.034,0.025,0.017,0.005}),"MOQ="&AP48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   3.4
+  Formula: IFERROR(IF(AN48="",F48,AN48)*AO48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: AR
+   "98K7348"
+ Col: AS
+   8400
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT48>0,MOD(AT48,AV48)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT48)),OR(AS48="NonStk",AT48>AS48)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.0220150654769
+  Formula: IFERROR(IF(OR(AT48>=AV48,F48>=AV48),USD_GBP*LOOKUP(IF(AT48="",F48,AT48),{0,1,100,1000,2500,5000,10000,25000,50000,100000,200000},{0.0,0.016,0.016,0.014,0.014,0.013,0.012,0.005,0.005,0.004,0.004}),"MOQ="&AV48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: AV
+   100
+ Col: AW
+   4.403
+  Formula: IFERROR(IF(AT48="",F48,AT48)*AU48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: AX
+   "1995445"
+ Col: AY
+   25900
+  Styles:
+  - lessThan F48 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ48>0,MOD(AZ48,BB48)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ48)),OR(AY48="NonStk",AZ48>AY48)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.015874201
+  Formula: IFERROR(IF(OR(AZ48>=BB48,F48>=BB48),USD_EUR*LOOKUP(IF(AZ48="",F48,AZ48),{0,1,100,1000,5000,15000,50000},{0.0,0.01337,0.01337,0.00393,0.00196,0.0018,0.00169}),"MOQ="&BB48),"")
+  Styles:
+  - lessThanOrEqual G48 -> -/FF80FF80
+ Col: BB
+   100
+ Col: BC
+   3.1748
+  Formula: IFERROR(IF(AZ48="",F48,AZ48)*BA48,"")
+  Styles:
+  - lessThanOrEqual H48 -> -/FF80FF80
+ Col: BD
+   "RC0603FR-0710R"
+Row: 49
+ Col: A
+   "SW1"
+ Col: B
+   "SKHHLQA010"
+ Col: C
+   "SKHHLQA010"
+ Col: D
+   "ALPS"
+ Col: E
+   <a href="http://datasheet.octopart.com/SKHHLQA010-ALPS-datasheet-11018116.pdf">SKHHLQA010</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E49),ISBLANK(M49),ISBLANK(S49),ISBLANK(Y49),ISBLANK(AE49),ISBLANK(AK49),ISBLANK(AQ49),ISBLANK(AW49),ISBLANK(BC49)) -> -/FFAAAAAA
+  - =IF(SUM(I49,O49,U49,AA49,AG49,AM49,AS49,AY49)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I49,O49,U49,AA49,AG49,AM49,AS49,AY49) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K49),J49,0),IF(ISNUMBER(Q49),P49,0),IF(ISNUMBER(W49),V49,0),IF(ISNUMBER(AC49),AB49,0),IF(ISNUMBER(AI49),AH49,0),IF(ISNUMBER(AO49),AN49,0),IF(ISNUMBER(AU49),AT49,0),IF(ISNUMBER(BA49),AZ49,0)) -> -/FFFFFF00
+ Col: G
+   0.183000231777
+  Formula: IF(MIN(K49,Q49,W49,AC49,AI49,AO49,AU49,BA49)<>0,MIN(K49,Q49,W49,AC49,AI49,AO49,AU49,BA49),"")
+ Col: H
+   18.3
+  Formula: IF(AND(ISNUMBER(F49),ISNUMBER(G49)),F49*G49,"")
+ Col: U
+   1847
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V49>0,MOD(V49,X49)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V49)),OR(U49="NonStk",V49>U49)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.183000231777
+  Formula: IFERROR(IF(OR(V49>=X49,F49>=X49),USD_GBP*LOOKUP(IF(V49="",F49,V49),{0,1,10,50,100,500},{0.0,0.238,0.238,0.146,0.133,0.119}),"MOQ="&X49),"")
+  Styles:
+  - lessThanOrEqual G49 -> -/FF80FF80
+ Col: X
+   10
+ Col: Y
+   18.3
+  Formula: IFERROR(IF(V49="",F49,V49)*W49,"")
+  Styles:
+  - lessThanOrEqual H49 -> -/FF80FF80
+ Col: Z
+   "2056827"
+ Col: AG
+   16094
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH49)),OR(AG49="NonStk",AH49>AG49)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.455
+  Formula: IFERROR(IF(OR(AH49>=AJ49,F49>=AJ49),LOOKUP(IF(AH49="",F49,AH49),{0,1,10,50,100,1000,10000},{0.0,0.56,0.527,0.5,0.455,0.327,0.296}),"MOQ="&AJ49),"")
+  Styles:
+  - lessThanOrEqual G49 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   45.5
+  Formula: IFERROR(IF(AH49="",F49,AH49)*AI49,"")
+  Styles:
+  - lessThanOrEqual H49 -> -/FF80FF80
+ Col: AL
+   "688-SKHHLQ"
+ Col: AM
+   595
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN49)),OR(AM49="NonStk",AN49>AM49)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.43
+  Formula: IFERROR(IF(OR(AN49>=AP49,F49>=AP49),LOOKUP(IF(AN49="",F49,AN49),{0,1,10,25,50,100,250},{0.0,0.49,0.469,0.445,0.438,0.43,0.411}),"MOQ="&AP49),"")
+  Styles:
+  - lessThanOrEqual G49 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   43
+  Formula: IFERROR(IF(AN49="",F49,AN49)*AO49,"")
+  Styles:
+  - lessThanOrEqual H49 -> -/FF80FF80
+ Col: AR
+   "94T3247"
+ Col: AS
+   1
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT49>0,MOD(AT49,AV49)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT49)),OR(AS49="NonStk",AT49>AS49)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.403
+  Formula: IFERROR(IF(OR(AT49>=AV49,F49>=AV49),LOOKUP(IF(AT49="",F49,AT49),{0,1,20,500,2000,10000},{0.0,0.403,0.403,0.274,0.258,0.247}),"MOQ="&AV49),"")
+  Styles:
+  - lessThanOrEqual G49 -> -/FF80FF80
+ Col: AV
+   20
+ Col: AW
+   40.3
+  Formula: IFERROR(IF(AT49="",F49,AT49)*AU49,"")
+  Styles:
+  - lessThanOrEqual H49 -> -/FF80FF80
+ Col: AX
+   "7581991"
+ Col: AY
+   1818
+  Styles:
+  - lessThan F49 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ49>0,MOD(AZ49,BB49)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ49)),OR(AY49="NonStk",AZ49>AY49)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.335910916
+  Formula: IFERROR(IF(OR(AZ49>=BB49,F49>=BB49),USD_EUR*LOOKUP(IF(AZ49="",F49,AZ49),{0,1,2,10,50,250,1000},{0.0,0.34146,0.34146,0.31219,0.28292,0.2439,0.21463}),"MOQ="&BB49),"")
+  Styles:
+  - lessThanOrEqual G49 -> -/FF80FF80
+ Col: BB
+   2
+ Col: BC
+   33.5911
+  Formula: IFERROR(IF(AZ49="",F49,AZ49)*BA49,"")
+  Styles:
+  - lessThanOrEqual H49 -> -/FF80FF80
+ Col: BD
+   "SKHHLQA010"
+Row: 50
+ Col: A
+   "U1"
+ Col: B
+   "AP3211KTR-G1"
+ Col: C
+   "SOT-23-6"
+ Col: D
+   "DIODES"
+ Col: E
+   <a href="http://datasheet.octopart.com/AP3211KTR-G1-Diodes-Inc.-datasheet-34141956.pdf">AP3211KTR-G1</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E50),ISBLANK(M50),ISBLANK(S50),ISBLANK(Y50),ISBLANK(AE50),ISBLANK(AK50),ISBLANK(AQ50),ISBLANK(AW50),ISBLANK(BC50)) -> -/FFAAAAAA
+  - =IF(SUM(I50,O50,U50,AA50,AG50,AM50,AS50,AY50)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I50,O50,U50,AA50,AG50,AM50,AS50,AY50) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K50),J50,0),IF(ISNUMBER(Q50),P50,0),IF(ISNUMBER(W50),V50,0),IF(ISNUMBER(AC50),AB50,0),IF(ISNUMBER(AI50),AH50,0),IF(ISNUMBER(AO50),AN50,0),IF(ISNUMBER(AU50),AT50,0),IF(ISNUMBER(BA50),AZ50,0)) -> -/FFFFFF00
+ Col: G
+   0.23746
+  Formula: IF(MIN(K50,Q50,W50,AC50,AI50,AO50,AU50,BA50)<>0,MIN(K50,Q50,W50,AC50,AI50,AO50,AU50,BA50),"")
+ Col: H
+   23.746
+  Formula: IF(AND(ISNUMBER(F50),ISNUMBER(G50)),F50*G50,"")
+ Col: I
+   51000
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J50>0,MOD(J50,L50)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J50)),OR(I50="NonStk",J50>I50)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J50>=L50,F50>=L50),LOOKUP(IF(J50="",F50,J50),{0,1,3000,6000,9000,24000},{0.0,0.2078,0.2078,0.1939,0.183,0.1811}),"MOQ="&L50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+  - =AND(F50<3000,J50<3000) -> -/FFFFFF00
+ Col: L
+   3000
+  Styles:
+  - =AND(F50<3000,J50<3000) -> -/FFFFFF00
+ Col: M
+  Formula: IFERROR(IF(J50="",F50,J50)*K50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+  - =AND(F50<3000,J50<3000) -> -/FFFFFF00
+ Col: N
+   "AP3211KTR-G1"
+ Col: O
+   80733
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P50)),OR(O50="NonStk",P50>O50)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   0.374
+  Formula: IFERROR(IF(OR(P50>=R50,F50>=R50),LOOKUP(IF(P50="",F50,P50),{0,1,10,25,100,250,500,1000,3000,6000,15000},{0.0,0.58,0.501,0.4676,0.374,0.34724,0.29384,0.22705,0.20702,0.19366,0.189}),"MOQ="&R50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   37.4
+  Formula: IFERROR(IF(P50="",F50,P50)*Q50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: T
+   "AP3211KTR-G1DITR-ND"
+ Col: U
+   8980
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V50)),OR(U50="NonStk",V50>U50)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.462316375014
+  Formula: IFERROR(IF(OR(V50>=X50,F50>=X50),USD_GBP*LOOKUP(IF(V50="",F50,V50),{0,1,10,100,500},{0.0,0.57,0.485,0.336,0.284}),"MOQ="&X50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   46.2316
+  Formula: IFERROR(IF(V50="",F50,V50)*W50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: Z
+   "3482897"
+ Col: AG
+   18154
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH50)),OR(AG50="NonStk",AH50>AG50)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.348
+  Formula: IFERROR(IF(OR(AH50>=AJ50,F50>=AJ50),LOOKUP(IF(AH50="",F50,AH50),{0,1,10,50,100,1000,10000},{0.0,0.59,0.502,0.502,0.348,0.228,0.182}),"MOQ="&AJ50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   34.8
+  Formula: IFERROR(IF(AH50="",F50,AH50)*AI50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: AL
+   "621-AP3211KTR-G1"
+ Col: AM
+   8980
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN50)),OR(AM50="NonStk",AN50>AM50)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.374
+  Formula: IFERROR(IF(OR(AN50>=AP50,F50>=AP50),LOOKUP(IF(AN50="",F50,AN50),{0,1,10,25,50,100,250,500,1000},{0.0,0.58,0.501,0.467,0.421,0.374,0.347,0.293,0.227}),"MOQ="&AP50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   37.4
+  Formula: IFERROR(IF(AN50="",F50,AN50)*AO50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: AR
+   "76AH4714"
+ Col: AS
+   1
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT50>0,MOD(AT50,AV50)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT50)),OR(AS50="NonStk",AT50>AS50)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.571
+  Formula: IFERROR(IF(OR(AT50>=AV50,F50>=AV50),LOOKUP(IF(AT50="",F50,AT50),{0,1,25,150,750,1500},{0.0,0.571,0.571,0.49,0.407,0.327}),"MOQ="&AV50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: AV
+   25
+ Col: AW
+   57.1
+  Formula: IFERROR(IF(AT50="",F50,AT50)*AU50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: AX
+   "8287457P"
+ Col: AY
+   19416
+  Styles:
+  - lessThan F50 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ50>0,MOD(AZ50,BB50)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ50)),OR(AY50="NonStk",AZ50>AY50)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.23746
+  Formula: IFERROR(IF(OR(AZ50>=BB50,F50>=BB50),USD_EUR*LOOKUP(IF(AZ50="",F50,AZ50),{0,1,3,25,100,500,3000},{0.0,0.24,0.24,0.22,0.2,0.18,0.17}),"MOQ="&BB50),"")
+  Styles:
+  - lessThanOrEqual G50 -> -/FF80FF80
+ Col: BB
+   3
+ Col: BC
+   23.746
+  Formula: IFERROR(IF(AZ50="",F50,AZ50)*BA50,"")
+  Styles:
+  - lessThanOrEqual H50 -> -/FF80FF80
+ Col: BD
+   "AP3211KTR-G1"
+Row: 51
+ Col: A
+   "U2"
+ Col: B
+   "NC7SZ74K8X"
+ Col: C
+   "US8"
+ Col: D
+   "Fairchild"
+ Col: E
+   <a href="http://datasheet.octopart.com/NC7SZ74K8X-ON-Semiconductor-datasheet-12514050.pdf">NC7SZ74K8X</a>
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E51),ISBLANK(M51),ISBLANK(S51),ISBLANK(Y51),ISBLANK(AE51),ISBLANK(AK51),ISBLANK(AQ51),ISBLANK(AW51),ISBLANK(BC51)) -> -/FFAAAAAA
+  - =IF(SUM(I51,O51,U51,AA51,AG51,AM51,AS51,AY51)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I51,O51,U51,AA51,AG51,AM51,AS51,AY51) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K51),J51,0),IF(ISNUMBER(Q51),P51,0),IF(ISNUMBER(W51),V51,0),IF(ISNUMBER(AC51),AB51,0),IF(ISNUMBER(AI51),AH51,0),IF(ISNUMBER(AO51),AN51,0),IF(ISNUMBER(AU51),AT51,0),IF(ISNUMBER(BA51),AZ51,0)) -> -/FFFFFF00
+ Col: G
+   0.13000935
+  Formula: IF(MIN(K51,Q51,W51,AC51,AI51,AO51,AU51,BA51)<>0,MIN(K51,Q51,W51,AC51,AI51,AO51,AU51,BA51),"")
+ Col: H
+   13.0009
+  Formula: IF(AND(ISNUMBER(F51),ISNUMBER(G51)),F51*G51,"")
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(V51>0,MOD(V51,X51)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(V51)),OR(U51="NonStk",V51>U51)) -> FFFFFFFF/FFFF0000
+ Col: W
+   0.400399003361
+  Formula: IFERROR(IF(OR(V51>=X51,F51>=X51),USD_GBP*LOOKUP(IF(V51="",F51,V51),{0,1,5,10,100,500,3000},{0.0,0.584,0.584,0.434,0.291,0.182,0.123}),"MOQ="&X51),"")
+  Styles:
+  - lessThanOrEqual G51 -> -/FF80FF80
+ Col: X
+   5
+ Col: Y
+   40.0399
+  Formula: IFERROR(IF(V51="",F51,V51)*W51,"")
+  Styles:
+  - lessThanOrEqual H51 -> -/FF80FF80
+ Col: Z
+   "1417652"
+ Col: AG
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH51)),OR(AG51="NonStk",AH51>AG51)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.25
+  Formula: IFERROR(IF(OR(AH51>=AJ51,F51>=AJ51),LOOKUP(IF(AH51="",F51,AH51),{0,1,10,50,100,500,1000,3000,9000,10000,24000,45000},{0.0,0.5,0.371,0.371,0.25,0.207,0.156,0.142,0.124,0.124,0.117,0.113}),"MOQ="&AJ51),"")
+  Styles:
+  - lessThanOrEqual G51 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   25
+  Formula: IFERROR(IF(AH51="",F51,AH51)*AI51,"")
+  Styles:
+  - lessThanOrEqual H51 -> -/FF80FF80
+ Col: AL
+   "512-NC7SZ74K8X"
+ Col: AM
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN51)),OR(AM51="NonStk",AN51>AM51)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   0.134
+  Formula: IFERROR(IF(OR(AN51>=AP51,F51>=AP51),LOOKUP(IF(AN51="",F51,AN51),{0,1,3000},{0.0,0.134,0.134}),"MOQ="&AP51),"")
+  Styles:
+  - lessThanOrEqual G51 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   13.4
+  Formula: IFERROR(IF(AN51="",F51,AN51)*AO51,"")
+  Styles:
+  - lessThanOrEqual H51 -> -/FF80FF80
+ Col: AR
+   "58K9468"
+ Col: AS
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT51>0,MOD(AT51,AV51)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT51)),OR(AS51="NonStk",AT51>AS51)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.219
+  Formula: IFERROR(IF(OR(AT51>=AV51,F51>=AV51),LOOKUP(IF(AT51="",F51,AT51),{0,1,5,10,100,1000,3000},{0.0,0.531,0.531,0.391,0.219,0.172,0.145}),"MOQ="&AV51),"")
+  Styles:
+  - lessThanOrEqual G51 -> -/FF80FF80
+ Col: AV
+   5
+ Col: AW
+   21.9
+  Formula: IFERROR(IF(AT51="",F51,AT51)*AU51,"")
+  Styles:
+  - lessThanOrEqual H51 -> -/FF80FF80
+ Col: AX
+   "7390082P"
+ Col: AY
+   "NonStk"
+  Styles:
+  - lessThan F51 -> FF000000/FFFF9900
+ Col: AZ
+  Styles:
+  - =AND(AZ51>0,MOD(AZ51,BB51)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AZ51)),OR(AY51="NonStk",AZ51>AY51)) -> FFFFFFFF/FFFF0000
+ Col: BA
+   0.13000935
+  Formula: IFERROR(IF(OR(AZ51>=BB51,F51>=BB51),USD_EUR*LOOKUP(IF(AZ51="",F51,AZ51),{0,1,5,25,100,500},{0.0,0.1561,0.1561,0.126,0.1095,0.0929}),"MOQ="&BB51),"")
+  Styles:
+  - lessThanOrEqual G51 -> -/FF80FF80
+ Col: BB
+   5
+ Col: BC
+   13.0009
+  Formula: IFERROR(IF(AZ51="",F51,AZ51)*BA51,"")
+  Styles:
+  - lessThanOrEqual H51 -> -/FF80FF80
+ Col: BD
+   "NC7SZ74K8X"
+Row: 52
+ Col: A
+   "U3,U4"
+ Col: B
+   "TPS61070DDCR"
+ Col: C
+   "SOT23-6L"
+ Col: F
+   200
+  Formula: CEILING(BoardQty*2.0,1)
+  Styles:
+  - =AND(ISBLANK(E52),ISBLANK(M52),ISBLANK(S52),ISBLANK(Y52),ISBLANK(AE52),ISBLANK(AK52),ISBLANK(AQ52),ISBLANK(AW52),ISBLANK(BC52)) -> -/FFAAAAAA
+  - =IF(SUM(I52,O52,U52,AA52,AG52,AM52,AS52,AY52)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I52,O52,U52,AA52,AG52,AM52,AS52,AY52) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K52),J52,0),IF(ISNUMBER(Q52),P52,0),IF(ISNUMBER(W52),V52,0),IF(ISNUMBER(AC52),AB52,0),IF(ISNUMBER(AI52),AH52,0),IF(ISNUMBER(AO52),AN52,0),IF(ISNUMBER(AU52),AT52,0),IF(ISNUMBER(BA52),AZ52,0)) -> -/FFFFFF00
+ Col: G
+   0.807
+  Formula: IF(MIN(K52,Q52,W52,AC52,AI52,AO52,AU52,BA52)<>0,MIN(K52,Q52,W52,AC52,AI52,AO52,AU52,BA52),"")
+ Col: H
+   161.4
+  Formula: IF(AND(ISNUMBER(F52),ISNUMBER(G52)),F52*G52,"")
+ Col: U
+   "NonStk"
+  Styles:
+  - lessThan F52 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V52)),OR(U52="NonStk",V52>U52)) -> FFFFFFFF/FFFF0000
+ Col: W
+   1.13102398887
+  Formula: IFERROR(IF(OR(V52>=X52,F52>=X52),USD_GBP*LOOKUP(IF(V52="",F52,V52),{0,1,10,50,100,250},{0.0,1.18,1.0,0.911,0.822,0.769}),"MOQ="&X52),"")
+  Styles:
+  - lessThanOrEqual G52 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   226.2048
+  Formula: IFERROR(IF(V52="",F52,V52)*W52,"")
+  Styles:
+  - lessThanOrEqual H52 -> -/FF80FF80
+ Col: Z
+   "3121841"
+ Col: AG
+   "NonStk"
+  Styles:
+  - lessThan F52 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH52)),OR(AG52="NonStk",AH52>AG52)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   0.851
+  Formula: IFERROR(IF(OR(AH52>=AJ52,F52>=AJ52),LOOKUP(IF(AH52="",F52,AH52),{0,1,10,25,50,100,250,500,1000,3000,10000},{0.0,1.21,1.1,1.04,1.04,0.851,0.796,0.703,0.63,0.61,0.61}),"MOQ="&AJ52),"")
+  Styles:
+  - lessThanOrEqual G52 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   170.2
+  Formula: IFERROR(IF(AH52="",F52,AH52)*AI52,"")
+  Styles:
+  - lessThanOrEqual H52 -> -/FF80FF80
+ Col: AL
+   "595-TPS61070DDCR"
+ Col: AM
+   "NonStk"
+  Styles:
+  - lessThan F52 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN52)),OR(AM52="NonStk",AN52>AM52)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   1.03
+  Formula: IFERROR(IF(OR(AN52>=AP52,F52>=AP52),LOOKUP(IF(AN52="",F52,AN52),{0,1,10,25,50,100,250,500,1000},{0.0,1.23,1.18,1.12,1.07,1.03,0.994,0.97,0.954}),"MOQ="&AP52),"")
+  Styles:
+  - lessThanOrEqual G52 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   206
+  Formula: IFERROR(IF(AN52="",F52,AN52)*AO52,"")
+  Styles:
+  - lessThanOrEqual H52 -> -/FF80FF80
+ Col: AR
+   "28AH5936"
+ Col: AS
+   50
+  Styles:
+  - lessThan F52 -> FF000000/FFFF9900
+ Col: AT
+  Styles:
+  - =AND(AT52>0,MOD(AT52,AV52)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(AT52)),OR(AS52="NonStk",AT52>AS52)) -> FFFFFFFF/FFFF0000
+ Col: AU
+   0.807
+  Formula: IFERROR(IF(OR(AT52>=AV52,F52>=AV52),LOOKUP(IF(AT52="",F52,AT52),{0,1,5,50,100},{0.0,1.328,1.328,1.055,0.807}),"MOQ="&AV52),"")
+  Styles:
+  - lessThanOrEqual G52 -> -/FF80FF80
+ Col: AV
+   5
+ Col: AW
+   161.4
+  Formula: IFERROR(IF(AT52="",F52,AT52)*AU52,"")
+  Styles:
+  - lessThanOrEqual H52 -> -/FF80FF80
+ Col: AX
+   "0389372"
+Row: 53
+ Col: A
+   "U5"
+ Col: B
+   "LM2611BMF/NOPB"
+ Col: C
+   "SOT23-5"
+ Col: F
+   100
+  Formula: CEILING(BoardQty*1.0,1)
+  Styles:
+  - =AND(ISBLANK(E53),ISBLANK(M53),ISBLANK(S53),ISBLANK(Y53),ISBLANK(AE53),ISBLANK(AK53),ISBLANK(AQ53),ISBLANK(AW53),ISBLANK(BC53)) -> -/FFAAAAAA
+  - =IF(SUM(I53,O53,U53,AA53,AG53,AM53,AS53,AY53)=0,1,0) -> FFFFFFFF/FFFF0000
+  - greaterThan SUM(I53,O53,U53,AA53,AG53,AM53,AS53,AY53) -> FF000000/FFFF9900
+  - greaterThan SUM(IF(ISNUMBER(K53),J53,0),IF(ISNUMBER(Q53),P53,0),IF(ISNUMBER(W53),V53,0),IF(ISNUMBER(AC53),AB53,0),IF(ISNUMBER(AI53),AH53,0),IF(ISNUMBER(AO53),AN53,0),IF(ISNUMBER(AU53),AT53,0),IF(ISNUMBER(BA53),AZ53,0)) -> -/FFFFFF00
+ Col: G
+   3.0984
+  Formula: IF(MIN(K53,Q53,W53,AC53,AI53,AO53,AU53,BA53)<>0,MIN(K53,Q53,W53,AC53,AI53,AO53,AU53,BA53),"")
+ Col: H
+   309.84
+  Formula: IF(AND(ISNUMBER(F53),ISNUMBER(G53)),F53*G53,"")
+ Col: I
+   695
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J53)),OR(I53="NonStk",J53>I53)) -> FFFFFFFF/FFFF0000
+ Col: K
+   3.866
+  Formula: IFERROR(IF(OR(J53>=L53,F53>=L53),LOOKUP(IF(J53="",F53,J53),{0,1,10,25,100,250,500},{0.0,4.765,4.519,4.256,3.866,3.705,3.584}),"MOQ="&L53),"")
+  Styles:
+  - lessThanOrEqual G53 -> -/FF80FF80
+ Col: L
+   1
+ Col: M
+   386.6
+  Formula: IFERROR(IF(J53="",F53,J53)*K53,"")
+  Styles:
+  - lessThanOrEqual H53 -> -/FF80FF80
+ Col: N
+   "LM2611BMF/NOPB"
+ Col: O
+   7865
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: P
+  Styles:
+  - =AND(NOT(ISBLANK(P53)),OR(O53="NonStk",P53>O53)) -> FFFFFFFF/FFFF0000
+ Col: Q
+   3.0984
+  Formula: IFERROR(IF(OR(P53>=R53,F53>=R53),LOOKUP(IF(P53="",F53,P53),{0,1,10,25,100,250,500,1000},{0.0,4.21,3.782,3.5752,3.0984,2.93952,2.63764,2.3984}),"MOQ="&R53),"")
+  Styles:
+  - lessThanOrEqual G53 -> -/FF80FF80
+ Col: R
+   1
+ Col: S
+   309.84
+  Formula: IFERROR(IF(P53="",F53,P53)*Q53,"")
+  Styles:
+  - lessThanOrEqual H53 -> -/FF80FF80
+ Col: T
+   "LM2611BMF/NOPBTR-ND"
+ Col: U
+   871
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: V
+  Styles:
+  - =AND(NOT(ISBLANK(V53)),OR(U53="NonStk",V53>U53)) -> FFFFFFFF/FFFF0000
+ Col: W
+   4.11406536099
+  Formula: IFERROR(IF(OR(V53>=X53,F53>=X53),USD_GBP*LOOKUP(IF(V53="",F53,V53),{0,1,10,25,50,100,150,200,500},{0.0,2.63,2.09,3.47,1.72,2.99,1.72,1.61,1.46}),"MOQ="&X53),"")
+  Styles:
+  - lessThanOrEqual G53 -> -/FF80FF80
+ Col: X
+   1
+ Col: Y
+   411.4065
+  Formula: IFERROR(IF(V53="",F53,V53)*W53,"")
+  Styles:
+  - lessThanOrEqual H53 -> -/FF80FF80
+ Col: Z
+   "3007155"
+ Col: AG
+   1920
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: AH
+  Styles:
+  - =AND(NOT(ISBLANK(AH53)),OR(AG53="NonStk",AH53>AG53)) -> FFFFFFFF/FFFF0000
+ Col: AI
+   3.1
+  Formula: IFERROR(IF(OR(AH53>=AJ53,F53>=AJ53),LOOKUP(IF(AH53="",F53,AH53),{0,1,10,25,50,100,250,500,1000,10000},{0.0,4.21,3.79,3.58,3.58,3.1,2.94,2.64,2.3,2.3}),"MOQ="&AJ53),"")
+  Styles:
+  - lessThanOrEqual G53 -> -/FF80FF80
+ Col: AJ
+   1
+ Col: AK
+   310
+  Formula: IFERROR(IF(AH53="",F53,AH53)*AI53,"")
+  Styles:
+  - lessThanOrEqual H53 -> -/FF80FF80
+ Col: AL
+   "926-LM2611BMF/NOPB"
+ Col: AM
+   871
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: AN
+  Styles:
+  - =AND(NOT(ISBLANK(AN53)),OR(AM53="NonStk",AN53>AM53)) -> FFFFFFFF/FFFF0000
+ Col: AO
+   4
+  Formula: IFERROR(IF(OR(AN53>=AP53,F53>=AP53),LOOKUP(IF(AN53="",F53,AN53),{0,1,10,25,50,100,250,500,1000},{0.0,4.81,4.6,4.37,4.18,4.0,3.87,3.78,3.1}),"MOQ="&AP53),"")
+  Styles:
+  - lessThanOrEqual G53 -> -/FF80FF80
+ Col: AP
+   1
+ Col: AQ
+   400
+  Formula: IFERROR(IF(AN53="",F53,AN53)*AO53,"")
+  Styles:
+  - lessThanOrEqual H53 -> -/FF80FF80
+ Col: AR
+   "28AH3166"
+Row: 55
+ Col: B
+   "Used currency rates:"
+ Col: G
+   "Total Purchase:"
+ Col: H
+   0
+  Formula: SUM(M55,S55,Y55,AE55,AK55,AQ55,AW55,BC55)
+ Col: I
+   <a href="https://www.arrow.com/en/bom-tool/">Buy here</a>
+ Col: J
+  Formula: IFERROR(IF(COUNTIF(J7:J53,">0")>0,COUNTIF(J7:J53,">0")&" of "&(ROWS(L7:L53)-COUNTBLANK(L7:L53))&" parts purchased",""),"")
+ Col: M
+   0
+  Formula: SUMIF(J7:J53,">0",M7:M53)
+ Col: O
+   <a href="https://www.digikey.com/ordering/shoppingcart">Buy here</a>
+ Col: P
+  Formula: IFERROR(IF(COUNTIF(P7:P53,">0")>0,COUNTIF(P7:P53,">0")&" of "&(ROWS(R7:R53)-COUNTBLANK(R7:R53))&" parts purchased",""),"")
+ Col: S
+   0
+  Formula: SUMIF(P7:P53,">0",S7:S53)
+ Col: U
+   <a href="https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true">Buy here</a>
+ Col: V
+  Formula: IFERROR(IF(COUNTIF(V7:V53,">0")>0,COUNTIF(V7:V53,">0")&" of "&(ROWS(X7:X53)-COUNTBLANK(X7:X53))&" parts purchased",""),"")
+ Col: Y
+   0
+  Formula: SUMIF(V7:V53,">0",Y7:Y53)
+ Col: AA
+   <a href="https://lcsc.com/bom.html">Buy here</a>
+ Col: AB
+  Formula: IFERROR(IF(COUNTIF(AB7:AB53,">0")>0,COUNTIF(AB7:AB53,">0")&" of "&(ROWS(AD7:AD53)-COUNTBLANK(AD7:AD53))&" parts purchased",""),"")
+ Col: AE
+   0
+  Formula: SUMIF(AB7:AB53,">0",AE7:AE53)
+ Col: AG
+   <a href="https://mouser.com/bom/">Buy here</a>
+ Col: AH
+  Formula: IFERROR(IF(COUNTIF(AH7:AH53,">0")>0,COUNTIF(AH7:AH53,">0")&" of "&(ROWS(AJ7:AJ53)-COUNTBLANK(AJ7:AJ53))&" parts purchased",""),"")
+ Col: AK
+   0
+  Formula: SUMIF(AH7:AH53,">0",AK7:AK53)
+ Col: AM
+   <a href="https://www.newark.com/quick-order?isQuickPaste=true">Buy here</a>
+ Col: AN
+  Formula: IFERROR(IF(COUNTIF(AN7:AN53,">0")>0,COUNTIF(AN7:AN53,">0")&" of "&(ROWS(AP7:AP53)-COUNTBLANK(AP7:AP53))&" parts purchased",""),"")
+ Col: AQ
+   0
+  Formula: SUMIF(AN7:AN53,">0",AQ7:AQ53)
+ Col: AS
+   <a href="https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&mode=new">Buy here</a>
+ Col: AT
+  Formula: IFERROR(IF(COUNTIF(AT7:AT53,">0")>0,COUNTIF(AT7:AT53,">0")&" of "&(ROWS(AV7:AV53)-COUNTBLANK(AV7:AV53))&" parts purchased",""),"")
+ Col: AW
+   0
+  Formula: SUMIF(AT7:AT53,">0",AW7:AW53)
+ Col: AY
+   <a href="https://www.tme.eu/en/Profile/QuickBuy/load.html">Buy here</a>
+ Col: AZ
+  Formula: IFERROR(IF(COUNTIF(AZ7:AZ53,">0")>0,COUNTIF(AZ7:AZ53,">0")&" of "&(ROWS(BB7:BB53)-COUNTBLANK(BB7:BB53))&" parts purchased",""),"")
+ Col: BC
+   0
+  Formula: SUMIF(AZ7:AZ53,">0",BC7:BC53)
+Row: 56
+ Col: B
+   "USD($)/EUR(€):"
+ Col: C
+   1.1873
+ Col: G
+   "Purchase description:"
+ Col: J
+  Formula: CONCATENATE(J104,J105,J106,J107,J108,J109,J110,J111,J112,J113,J114,J115,J116,J117,J118,J119,J120,J121,J122,J123,J124,J125,J126,J127,J128,J129,J130,J131,J132,J133,J134,J135,J136,J137,J138,J139,J140,J141,J142,J143,J144,J145,J146,J147,J148,J149,J150)
+ Col: P
+  Formula: CONCATENATE(P104,P105,P106,P107,P108,P109,P110,P111,P112,P113,P114,P115,P116,P117,P118,P119,P120,P121,P122,P123,P124,P125,P126,P127,P128,P129,P130,P131,P132,P133,P134,P135,P136,P137,P138,P139,P140,P141,P142,P143,P144,P145,P146,P147,P148,P149,P150)
+ Col: V
+  Formula: CONCATENATE(V104,V105,V106,V107,V108,V109,V110,V111,V112,V113,V114,V115,V116,V117,V118,V119,V120,V121,V122,V123,V124,V125,V126,V127,V128,V129,V130,V131,V132,V133,V134,V135,V136,V137,V138,V139,V140,V141,V142,V143,V144,V145,V146,V147,V148,V149,V150)
+ Col: AB
+   "Copy this header and order to a CSV
+file and use it for JLCPCB 
+manufacturer PCB house.
+The multipart components that use
+"#" symbol are not allowed by JLCPCB."
+  Formula: CONCATENATE(AB151,AB104,AB105,AB106,AB107,AB108,AB109,AB110,AB111,AB112,AB113,AB114,AB115,AB116,AB117,AB118,AB119,AB120,AB121,AB122,AB123,AB124,AB125,AB126,AB127,AB128,AB129,AB130,AB131,AB132,AB133,AB134,AB135,AB136,AB137,AB138,AB139,AB140,AB141,AB142,AB143,AB144,AB145,AB146,AB147,AB148,AB149,AB150)
+ Col: AH
+  Formula: CONCATENATE(AH104,AH105,AH106,AH107,AH108,AH109,AH110,AH111,AH112,AH113,AH114,AH115,AH116,AH117,AH118,AH119,AH120,AH121,AH122,AH123,AH124,AH125,AH126,AH127,AH128,AH129,AH130,AH131,AH132,AH133,AH134,AH135,AH136,AH137,AH138,AH139,AH140,AH141,AH142,AH143,AH144,AH145,AH146,AH147,AH148,AH149,AH150)
+ Col: AN
+  Formula: CONCATENATE(AN104,AN105,AN106,AN107,AN108,AN109,AN110,AN111,AN112,AN113,AN114,AN115,AN116,AN117,AN118,AN119,AN120,AN121,AN122,AN123,AN124,AN125,AN126,AN127,AN128,AN129,AN130,AN131,AN132,AN133,AN134,AN135,AN136,AN137,AN138,AN139,AN140,AN141,AN142,AN143,AN144,AN145,AN146,AN147,AN148,AN149,AN150)
+ Col: AT
+  Formula: CONCATENATE(AT104,AT105,AT106,AT107,AT108,AT109,AT110,AT111,AT112,AT113,AT114,AT115,AT116,AT117,AT118,AT119,AT120,AT121,AT122,AT123,AT124,AT125,AT126,AT127,AT128,AT129,AT130,AT131,AT132,AT133,AT134,AT135,AT136,AT137,AT138,AT139,AT140,AT141,AT142,AT143,AT144,AT145,AT146,AT147,AT148,AT149,AT150)
+ Col: AZ
+  Formula: CONCATENATE(AZ104,AZ105,AZ106,AZ107,AZ108,AZ109,AZ110,AZ111,AZ112,AZ113,AZ114,AZ115,AZ116,AZ117,AZ118,AZ119,AZ120,AZ121,AZ122,AZ123,AZ124,AZ125,AZ126,AZ127,AZ128,AZ129,AZ130,AZ131,AZ132,AZ133,AZ134,AZ135,AZ136,AZ137,AZ138,AZ139,AZ140,AZ141,AZ142,AZ143,AZ144,AZ145,AZ146,AZ147,AZ148,AZ149,AZ150)
+Row: 57
+ Col: B
+   "USD($)/GBP(£):"
+ Col: C
+   1.37594159231
+Row: 59
+ Col: A
+   "*FILTERED*"
+Row: 104
+ Col: J
+  Formula: IF(ISNUMBER(J7:J53)*(J7:J53>=L7:L53)*(N7:N53<>""),N7:N53&","&TEXT(ROUNDUP(J7:J53/IF(ISNUMBER(L7:L53),L7:L53,1),0)*L7:L53,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," ")&CHAR(10),"")
+ Col: P
+  Formula: IF(ISNUMBER(P7:P53)*(P7:P53>=R7:R53)*(T7:T53<>""),TEXT(ROUNDUP(P7:P53/IF(ISNUMBER(R7:R53),R7:R53,1),0)*R7:R53,"##0")&","&T7:T53&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," ")&CHAR(10),"")
+ Col: V
+  Formula: IF(ISNUMBER(V7:V53)*(V7:V53>=X7:X53)*(Z7:Z53<>""),Z7:Z53&","&TEXT(ROUNDUP(V7:V53/IF(ISNUMBER(X7:X53),X7:X53,1),0)*X7:X53,"##0")&","&""&","&LEFT(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," "),30)&CHAR(10),"")
+ Col: AB
+  Formula: IF(ISNUMBER(AB7:AB53)*(AB7:AB53>=AD7:AD53)*(AF7:AF53<>""),TEXT(ROUNDUP(AB7:AB53/IF(ISNUMBER(AD7:AD53),AD7:AD53,1),0)*AD7:AD53,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," ")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&C7:C53,",",";"),"\n"," ")&","&AF7:AF53&CHAR(10),"")
+ Col: AH
+  Formula: IF(ISNUMBER(AH7:AH53)*(AH7:AH53>=AJ7:AJ53)*(AL7:AL53<>""),AL7:AL53&"|"&TEXT(ROUNDUP(AH7:AH53/IF(ISNUMBER(AJ7:AJ53),AJ7:AJ53,1),0)*AJ7:AJ53,"##0")&"|"&SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,"|",";")," ","_"),"\n","_")&CHAR(10),"")
+ Col: AN
+  Formula: IF(ISNUMBER(AN7:AN53)*(AN7:AN53>=AP7:AP53)*(AR7:AR53<>""),AR7:AR53&","&TEXT(ROUNDUP(AN7:AN53/IF(ISNUMBER(AP7:AP53),AP7:AP53,1),0)*AP7:AP53,"##0")&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," ")&","&""&CHAR(10),"")
+ Col: AT
+  Formula: IF(ISNUMBER(AT7:AT53)*(AT7:AT53>=AV7:AV53)*(AX7:AX53<>""),AX7:AX53&","&TEXT(ROUNDUP(AT7:AT53/IF(ISNUMBER(AV7:AV53),AV7:AV53,1),0)*AV7:AV53,"##0")&","&""&","&""&","&""&","&E7:E53&","&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53,",",";"),"\n"," ")&CHAR(10),"")
+ Col: AZ
+  Formula: IF(ISNUMBER(AZ7:AZ53)*(AZ7:AZ53>=BB7:BB53)*(BD7:BD53<>""),BD7:BD53&" "&TEXT(ROUNDUP(AZ7:AZ53/IF(ISNUMBER(BB7:BB53),BB7:BB53,1),0)*BB7:BB53,"##0")&" "&SUBSTITUTE(SUBSTITUTE(IF(PURCHASE_DESCRIPTION<>"",PURCHASE_DESCRIPTION&":","")&A7:A53," ",";"),"\n",";")&CHAR(10),"")
+Row: 105
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 106
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 107
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 108
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 109
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 110
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 111
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 112
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 113
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 114
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 115
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 116
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 117
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 118
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 119
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 120
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 121
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 122
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 123
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 124
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 125
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 126
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 127
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 128
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 129
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 130
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 131
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 132
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 133
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 134
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 135
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 136
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 137
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 138
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 139
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 140
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 141
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 142
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 143
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 144
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 145
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 146
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 147
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 148
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 149
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 150
+ Col: J
+   0
+ Col: P
+   0
+ Col: V
+   0
+ Col: AB
+   0
+ Col: AH
+   0
+ Col: AN
+   0
+ Col: AT
+   0
+ Col: AZ
+   0
+Row: 151
+ Col: AB
+  Formula: IFERROR(IF(COUNTIFS(AB7:AB53,">0",AE7:AE53,"<>")>0,"Quantity,Comment,Designator,Footprint,LCSC Part #(optional)"&CHAR(10),""),"")

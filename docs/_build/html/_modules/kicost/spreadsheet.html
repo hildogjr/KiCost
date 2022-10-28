@@ -748,7 +748,7 @@
                     <span class="c1"># Use the the datasheet link got in the distributor if not available any in the BOM / schematic.</span>
                     <span class="n">link</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span>
                 <span class="c1"># Mark obsolete parts</span>
-                <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">==</span> <span class="s1">&#39;obsolete&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="ow">and</span> <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;obsolete&#39;</span><span class="p">):</span>
                     <span class="n">cell_format</span> <span class="o">=</span> <span class="s1">&#39;part_format_obsolete&#39;</span>
                 <span class="k">if</span> <span class="n">link</span> <span class="ow">and</span> <span class="n">validate_url</span><span class="p">(</span><span class="n">link</span><span class="p">):</span>
                     <span class="c1"># Just put the link if is a valid format.</span>

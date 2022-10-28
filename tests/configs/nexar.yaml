@@ -1,0 +1,87 @@
+# KiCost configuration file
+kicost:
+  version: 1
+  # Cache Time To Live in days, -1 is forever
+  # Default is 7
+  cache_ttl: -1
+  # Base directory for the APIs caches
+  # cache_path: ~/.cache/kicost
+
+
+APIs:
+  Digi-Key:
+    # Digi-Key Client ID for a registered APP
+    # client_id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    # Digi-Key Client Secret for a registered APP
+    # client_secret: XXXXXXXXXXXXXXXX
+    # Use the sandbox server, doesn't count the usage, but returns old data
+    # sandbox: false
+    # Only enabled if the client_id and client_secret are defined
+    # enable: true
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/Digi-Key
+  Mouser:
+    # Mouser Part API key
+    # key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+    # Only enabled if the key is defined
+    # enable: false
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/Mouser
+  Element14:
+    # Element14 includes: Farnell, Newark and CPC
+
+    # Element14 Product Search API key
+    # key: XXXXXXXXXXXXXXXXXXXXXXXX
+
+    # Only enabled if the key is defined
+    # enable: false
+
+    # Country used for Farnell queries.
+    # Supported countries: BG,CZ,DK,AT,CH,DE,IE,IL,UK,ES,EE,FI,FR,HU,IT,LT,
+    # LV,BE,NL,NO,PL,PT,RO,RU,SK,SI,SE,TR,CN,AU,NZ,HK,SG,MY,PH,TH,IN,KR,VN
+    # farnell_country: UK
+
+    # Country used for Newark queries.
+    # Supported countries: US,CA,MX
+    # newark_country: US
+
+    # Country used for CPC queries.
+    # Supported countries: UK,IE
+    # cpc_country: UK
+
+    # Directory for the APIs caches
+    # cache_path: ../element14
+  KitSpace:
+    # Normally enabled
+    enable: false
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/KitSpace
+  TME:
+    # TME token (anonymous or private)
+    # token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    # TME application secret
+    # app_secret: XXXXXXXXXXXXXXXXXXXX
+    # Only enabled if the token and app_secret are defined
+    # enable: false
+    # Country where we are buying
+    # country: US
+    # Language for the texts
+    # language: EN
+    # Directory for the APIs caches
+    # cache_path: ~/.cache/kicost/TME
+  Nexar:
+    # Nexar client ID
+    client_id: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+
+    # Nexar client secret
+    client_secret: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+
+    # Only enabled if the client_id and client_secret are defined
+    # enable: false
+
+    # Country where we are buying
+    country: US
+
+    # Directory for the APIs caches
+    cache_path: ../nexar
+

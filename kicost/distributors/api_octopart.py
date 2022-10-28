@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+
+# Obsolete API:
+# As of June 30, 2022 APIv3 and APIv4 access have been disabled.
+# If you are looking for your APIv3 or APIv4 key, you no longer have access to it.
+# In order to access supply chain data again, you must sign up for the Nexar API.
+
 # MIT license
 #
 # Copyright (C) 2018 by XESS Corporation / Max Maisel / Hildo Guillardi Júnior
