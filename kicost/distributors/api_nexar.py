@@ -129,7 +129,10 @@ __all__ = ['api_nexar']
 class QueryStruct(object):
     def __init__(self, id, part, for_dists, seller=None, sku=None, manf=None, mpn=None):
         self.id = 'q'+str(id)
-        query = {"reference": self.id, "start": 0, "limit": 5}
+        query = OrderedDict()
+        query["reference"] = self.id
+        query["start"] = 0
+        query["limit"] = 5
         self.seller = seller
         self.sku = sku
         self.manf = manf
