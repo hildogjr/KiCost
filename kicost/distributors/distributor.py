@@ -31,7 +31,10 @@ __company__ = 'INTI-CMNB - Argentina'
 import copy
 import os
 import logging
-import tqdm
+try:
+    import tqdm
+except ImportError:
+    pass
 # QueryCache dependencies:
 import pickle
 import time

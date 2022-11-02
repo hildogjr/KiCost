@@ -28,7 +28,10 @@ import os
 import sys
 import platform
 import time
-import tqdm
+try:
+    import tqdm
+except ImportError:
+    pass
 import logging
 import subprocess
 # Debug, language and default configurations.
