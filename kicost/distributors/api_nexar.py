@@ -309,7 +309,7 @@ class api_nexar(distributor_class):
             # Solve the prefix and name
             prefix, name = api_nexar.query2name(q)
             api_nexar.cache.save_results(prefix, name, r)
-            if not r.get('hits') and q.mpn is not None:
+            if not r.get('hits') and q.mpn is not None and q.manf:
                 # Found, but has no hits
                 # Try without specifying a manufacturer
                 q.remove_manfucturer()
