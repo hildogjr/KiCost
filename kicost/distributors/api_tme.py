@@ -29,7 +29,6 @@ __webpage__ = 'https://github.com/set-soft'
 __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 # Libraries.
-import os
 import sys
 import pprint
 import difflib
@@ -61,10 +60,6 @@ SPEC_NAMES = {'tolerance': 'tolerance',
               'temperature coefficient': 'temp_coeff'}
 
 DIST_NAME = 'tme'
-ENV_OPS = {'TME_TOKEN': 'token',
-           'TME_APP_SECRET': 'app_secret',
-           'TME_CACHE_TTL': 'cache_ttl'}
-
 BASE_URL = 'https://api.tme.eu'
 MAX_PARTS_PER_QUERY = 10
 
@@ -266,6 +261,7 @@ class api_tme(distributor_class):
     app_secret = None
     country = 'US'
     language = 'EN'
+    env_prefix = 'TME'
 
     @staticmethod
     def configure(ops):
@@ -404,14 +400,6 @@ class api_tme(distributor_class):
         if msg is not None:
             raise KiCostError(msg, ERR_SCRAPE)
         return set([DIST_NAME])
-
-    @staticmethod
-    def from_environment(options, overwrite):
-        ''' Configuration from the environment. '''
-        # Configure the module from the environment
-        # The command line will overwrite it using set_options()
-        for k, v in ENV_OPS.items():
-            api_tme._set_from_env(v, os.getenv(k), options, overwrite, api_tme.config_options)
 
 
 # Ok, this is special case ... we should add others

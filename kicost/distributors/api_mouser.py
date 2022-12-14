@@ -30,7 +30,6 @@ __webpage__ = 'https://github.com/set-soft'
 __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 # Libraries.
-import os
 import pprint
 import json
 import requests
@@ -45,8 +44,6 @@ from .log__ import debug_detailed, debug_overview, debug_obsessive, warning
 available = True
 
 DIST_NAME = 'mouser'
-ENV_OPS = {'MOUSER_PART_API_KEY': 'key',
-           'MOUSER_CACHE_TTL': 'cache_ttl'}
 # Mouser Base URL
 BASE_URL = 'https://api.mouser.com/api/v1.0'
 IN_STOCK = ('In stock', 'En existencias', 'A magazzino', 'Auf Lager', 'En stock', 'Em estoque', 'Na skladě',
@@ -269,6 +266,8 @@ class api_mouser(distributor_class):
     config_options = {'key': str}
     key = None
     cache = None
+    env_prefix = 'MOUSER'
+    env_ops = {'MOUSER_PART_API_KEY': 'key'}
 
     @staticmethod
     def configure(ops):
@@ -379,14 +378,6 @@ class api_mouser(distributor_class):
         if msg is not None:
             raise KiCostError(msg, ERR_SCRAPE)
         return set([DIST_NAME])
-
-    @staticmethod
-    def from_environment(options, overwrite):
-        ''' Configuration from the environment. '''
-        # Configure the module from the environment
-        # The command line will overwrite it using set_options()
-        for k, v in ENV_OPS.items():
-            api_mouser._set_from_env(v, os.getenv(k), options, overwrite, api_mouser.config_options)
 
 
 distributor_class.register(api_mouser, 100)

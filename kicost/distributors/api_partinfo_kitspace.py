@@ -113,6 +113,7 @@ class api_partinfo_kitspace(distributor_class):
     # Dict to translate KiCost field names into KitSpace distributor names
     KICOST2KITSPACE_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
     cache = None
+    env_prefix = 'KITSPACE'
 
     @staticmethod
     def configure(ops):

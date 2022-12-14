@@ -49,7 +49,7 @@ except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     GUI_ENABLED = False
 from .spreadsheet import Spreadsheet
-from .config import load_config, config_force_ttl, config_force_path
+from .config import load_config, config_force_ttl, config_force_path, fill_missing_with_defaults
 from . import __version__, __build__, debug_obsessive, debug_detailed, error, warning, info, get_logger, set_logger, KiCostError
 from . import log
 
@@ -164,6 +164,8 @@ def configure_kicost_apis(config_file, overwrite, apply_user_opts, data):
     configure_from_environment(api_options, overwrite)
     # Apply command line options
     apply_user_opts(api_options, data)
+    # Fill missing cache options with default values
+    fill_missing_with_defaults()
     # Configure the APIs
     configure_apis(api_options)
     # Start with a clean list of available distributors

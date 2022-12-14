@@ -167,9 +167,15 @@ def load_config(file=None):
         debug_obsessive('Loaded API options {}'.format(api_options))
     else:
         debug_overview('No config file found ({})'.format(file))
+    # Make sure all APIs are in the options
     for api in get_api_list():
         if api not in api_options:
             api_options[api] = {}
+    return api_options
+
+
+def fill_missing_with_defaults():
+    for api in get_api_list():
         # Transfer defaults
         ops = api_options[api]
         if 'cache_ttl' not in ops:

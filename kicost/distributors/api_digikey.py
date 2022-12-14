@@ -27,7 +27,6 @@ __webpage__ = 'https://github.com/set-soft'
 __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 # Libraries.
-import os
 import pprint
 
 # KiCost definitions.
@@ -55,12 +54,6 @@ SPEC_NAMES = {'tolerance': 'tolerance',
               'temperature coefficient': 'temp_coeff',
               'frequency': 'frequency',
               'package / case': 'footprint'}
-ENV_OPS = {'DIGIKEY_STORAGE_PATH': 'cache_path',
-           'DIGIKEY_CLIENT_ID': 'client_id',
-           'DIGIKEY_CLIENT_SECRET': 'client_secret',
-           'DIGIKEY_CLIENT_SANDBOX': 'sandbox',
-           'DIGIKEY_CACHE_TTL': 'cache_ttl'}
-
 __all__ = ['api_digikey']
 
 
@@ -86,6 +79,10 @@ class api_digikey(distributor_class):
                                           'AUD', 'NZD', 'INR', 'DKK', 'NOK', 'SEK', 'ILS', 'CNY', 'PLN',
                                           'CHF', 'CZK', 'HUF', 'RON', 'ZAR', 'MYR', 'THB', 'PHP'),
                       'locale_ship_to_country': str}
+    # Legacy environment mapping, others will be automatically filled by `register`
+    env_prefix = 'DIGIKEY'
+    env_ops = {'DIGIKEY_STORAGE_PATH': 'cache_path',
+               'DIGIKEY_CLIENT_SANDBOX': 'sandbox'}
 
     @staticmethod
     def configure(ops):
@@ -214,14 +211,6 @@ class api_digikey(distributor_class):
         if msg is not None:
             raise KiCostError(msg, ERR_SCRAPE)
         return set([DIST_NAME])
-
-    @staticmethod
-    def from_environment(options, overwrite):
-        ''' Configuration from the environment. '''
-        # Configure the module from the environment
-        # The command line will overwrite it using set_options()
-        for k, v in ENV_OPS.items():
-            api_digikey._set_from_env(v, os.getenv(k), options, overwrite, api_digikey.config_options)
 
 
 distributor_class.register(api_digikey, 100)

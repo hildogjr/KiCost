@@ -27,7 +27,6 @@ __webpage__ = 'https://github.com/set-soft'
 __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 # Libraries.
-import os
 import pprint
 import requests
 import difflib
@@ -97,8 +96,6 @@ SPEC_NAMES = {'power rating': 'power',
 
 # DIST_NAMES = ['cpc', 'farnell', 'newark']
 DIST_NAMES = ['farnell', 'newark']
-ENV_OPS = {'ELEMENT14_PART_API_KEY': 'key',
-           'ELEMENT14_CACHE_TTL': 'cache_ttl'}
 PRE_TERM = {'sku': 'id', 'key': 'any', 'mpn': 'manuPartNum'}
 REPLY = {'sku': 'premierFarnellPartNumberReturn', 'key': 'keywordSearchReturn', 'mpn': 'manufacturerPartNumberSearchReturn'}
 
@@ -231,6 +228,8 @@ class api_element14(distributor_class):
     key = None
     countries = {'cpc': 'uk', 'farnell': 'uk', 'newark': 'us'}
     try_by_keyword = False
+    env_prefix = 'ELEMENT14'
+    env_ops = {'ELEMENT14_PART_API_KEY': 'key'}
 
     @staticmethod
     def configure(ops):
@@ -371,14 +370,6 @@ class api_element14(distributor_class):
         if msg is not None:
             raise KiCostError(msg, ERR_SCRAPE)
         return set(DIST_NAMES)
-
-    @staticmethod
-    def from_environment(options, overwrite):
-        ''' Configuration from the environment. '''
-        # Configure the module from the environment
-        # The command line will overwrite it using set_options()
-        for k, v in ENV_OPS.items():
-            api_element14._set_from_env(v, os.getenv(k), options, overwrite, api_element14.config_options)
 
 
 # Ok, this is special case ... we should add others

@@ -704,6 +704,17 @@ def test_nexar_3():
     run_test_check(name, name, name, config_file='nexar.yaml')
 
 
+def test_nexar_4():
+    ''' Nexar test using cached values, but from other directory.
+        This tests that we can set a value from the environment '''
+    test_name = 'nexar_4'
+    os.environ['NEXAR_CACHE_PATH'] = os.path.join(TESTDIR, 'nexar_alt')
+    try:
+        run_test_check(test_name, 'safelink_receiver', test_name, config_file='nexar_no_path.yaml')
+    finally:
+        del os.environ['NEXAR_CACHE_PATH']
+
+
 class TestKicost(unittest.TestCase):
 
     def setUp(self):

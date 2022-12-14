@@ -108,6 +108,8 @@ class distributor_class(object):
     label2name = {}
     # Options supported by this API
     config_options = {}
+    # Environment variables to configure this API
+    env_ops = {}
 
     @staticmethod
     def register(api, priority):
@@ -120,6 +122,10 @@ class distributor_class(object):
             index += 1
         distributor_class.registered.insert(index, api)
         distributor_class.priorities.insert(index, priority)
+        # Automatically fill the `env_ops`
+        if api.type != 'local':
+            for name in list(api.config_options.keys())+['cache_ttl', 'cache_path']:
+                api.env_ops[api.env_prefix+'_'+name.upper()] = name
 
     @staticmethod
     def update_distributors(parts, distributors):
@@ -240,14 +246,19 @@ class distributor_class(object):
         ''' Find if an API is enabled '''
         return distributor_class._get_api(api).enabled
 
-    @staticmethod
-    def from_environment(options, overwrite):
-        ''' Default configuration from the environment. Just nothing. '''
-        pass
+    @classmethod
+    def from_environment(cls, options, overwrite):
+        ''' Configuration from the environment. '''
+        # Configure the module from the environment
+        # The command line will overwrite it using set_options()
+        for k, v in cls.env_ops.items():
+            print(f"{v} = {os.getenv(k)} ({k})")
+            distributor_class._set_from_env(v, os.getenv(k), options, overwrite, cls.name, cls.config_options)
 
     @staticmethod
-    def _set_from_env(key, value, options, overwrite, d_types=None):
+    def _set_from_env(key, value, options, overwrite, name, d_types=None):
         ''' Helper function to implement `from_environment`. '''
+        print(f"value={value} overwrite={overwrite} key={key} options={options}")
         if value is not None and (overwrite or key not in options):
             if d_types:
                 # If we know the valid data type for the value ensure it
@@ -258,6 +269,7 @@ class distributor_class(object):
                     tp = tp[0]
                 # This is a cast
                 value = tp(value)
+            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Overwriting {} with {} for {}'.format(key, value, name))
             options[key] = value
 
     @staticmethod

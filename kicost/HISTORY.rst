@@ -3,9 +3,10 @@
 History
 -------
 
-1.1.13 (WIP)
+1.1.14 (2022-12-14)
 ______________________
 * Add Nexar API (replaces Octopart)
+* Now all config API options have a related environment variable
 
 
 1.1.12 (2022-09-27)

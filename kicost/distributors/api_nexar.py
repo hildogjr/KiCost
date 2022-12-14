@@ -163,6 +163,8 @@ class api_nexar(distributor_class):
     id = None
     secret = None
     country = 'US'
+    env_prefix = 'NEXAR'
+    env_ops = {'NEXAR_STORAGE_PATH': 'cache_path'}
 
     # This is what we used for Octopart
     # https://octopart.com/api/v4/values#sellers
