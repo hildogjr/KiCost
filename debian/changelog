@@ -1,3 +1,14 @@
+kicost (1.1.14-1) stable; urgency=medium
+
+  * Fix TME component URLs
+  * Fix installation problems when tqdm isn't installed
+  * Add Nexar API (replaces Octopart)
+  * Add mechanism so all config API options have a related environment variable
+  * Add option to exclude Digi-Key marketplace products
+  * Add mechanism to specify availability for local distributors
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Wed, 14 Dec 2022 11:00:41 -0300
+
 kicost (1.1.12-1) stable; urgency=medium
 
   * Fixed problems when trying to use Digi-Key API, but not available
