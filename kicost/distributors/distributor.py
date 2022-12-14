@@ -252,13 +252,11 @@ class distributor_class(object):
         # Configure the module from the environment
         # The command line will overwrite it using set_options()
         for k, v in cls.env_ops.items():
-            print(f"{v} = {os.getenv(k)} ({k})")
             distributor_class._set_from_env(v, os.getenv(k), options, overwrite, cls.name, cls.config_options)
 
     @staticmethod
     def _set_from_env(key, value, options, overwrite, name, d_types=None):
         ''' Helper function to implement `from_environment`. '''
-        print(f"value={value} overwrite={overwrite} key={key} options={options}")
         if value is not None and (overwrite or key not in options):
             if d_types:
                 # If we know the valid data type for the value ensure it
