@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.distributors.distributors_info &#8212; kicost 1.1.14 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.distributors_info</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.distributors.distributors_info</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># This file keep all the web distributors information used by the different API/scrap modules.</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Hildo Guillardi Júnior&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;University of Campinas - Brazil&#39;</span>
+
+<span class="c1"># Used as identification for all user fields allowed for some custom importation in some distributors.</span>
+<span class="c1"># It is used a low probability &quot;word&quot; corresponding to all user fields.</span>
+<span class="n">ORDER_COL_USERFIELDS</span> <span class="o">=</span> <span class="s1">&#39;*__USER__FIELDS__*&#39;</span>
+<span class="c1"># TODO at the GUI, could be a tab with to personalize this configuration, using this file as default, and the user could include or exclude some</span>
+<span class="c1">#      personal field.</span>
+
+
+<div class="viewcode-block" id="DistributorOrder"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributors_info.DistributorOrder">[docs]</a><span class="k">class</span> <span class="nc">DistributorOrder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;@brief Class to indicate how to place an order in a distributor.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">[],</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">replace_by_char</span><span class="o">=</span><span class="s1">&#39;; &#39;</span><span class="p">,</span> <span class="n">not_allowed_char</span><span class="o">=</span><span class="s1">&#39;,</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="c1"># Sort-order fields for online orders. The not present fields are by-passed and `None` represent a empty column.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="n">cols</span>
+        <span class="c1"># Header to help user undertanding (used in some importations). **Currently unused**</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">header</span>
+        <span class="c1"># Delimiter for online orders.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">delimiter</span> <span class="o">=</span> <span class="n">delimiter</span>
+        <span class="c1"># The `delimiter` is not allowed inside description. This character is used to replace it.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">replace_by_char</span> <span class="o">=</span> <span class="n">replace_by_char</span>
+        <span class="c1"># Characters not allowed at the BoM for web-site import.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">not_allowed_char</span> <span class="o">=</span> <span class="n">not_allowed_char</span>
+        <span class="c1"># Descriptive fields size limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info</span> <span class="o">=</span> <span class="n">info</span></div>
+
+
+<div class="viewcode-block" id="DistributorLabel"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributors_info.DistributorLabel">[docs]</a><span class="k">class</span> <span class="nc">DistributorLabel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;@brief Class to describe a distributor column.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">bg</span><span class="p">,</span> <span class="n">fg</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">url</span>
+        <span class="c1"># Formatting for distributor header in worksheet; bold, font and align are</span>
+        <span class="c1"># `spreadsheet.py` defined but can by overload here.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;font_color&#39;</span><span class="p">:</span> <span class="n">fg</span><span class="p">,</span> <span class="s1">&#39;bg_color&#39;</span><span class="p">:</span> <span class="n">bg</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="DistributorInfo"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributors_info.DistributorInfo">[docs]</a><span class="k">class</span> <span class="nc">DistributorInfo</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;@brief Class to describe a distributor.&#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;web&#39;</span><span class="p">,</span> <span class="n">ignore_cat</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="nb">type</span>   <span class="c1"># Allowable values: &#39;local&#39; or &#39;web&#39;.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span>
+        <span class="c1"># Regex used to ignore some catalogue/stock code format.</span>
+        <span class="c1"># In the Digikey distributor it is used to ignore the Digi-reel package.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ignore_cat</span> <span class="o">=</span> <span class="n">ignore_cat</span>
+
+<div class="viewcode-block" id="DistributorInfo.is_local"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributors_info.DistributorInfo.is_local">[docs]</a>    <span class="k">def</span> <span class="nf">is_local</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;local&#39;</span></div>
+
+<div class="viewcode-block" id="DistributorInfo.is_web"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributors_info.DistributorInfo.is_web">[docs]</a>    <span class="k">def</span> <span class="nf">is_web</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s1">&#39;web&#39;</span></div></div>
+
+
+<span class="n">distributors_info</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;arrow&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.arrow.com/en/bom-tool/&#39;</span><span class="p">,</span>
+                    <span class="c1"># header=&#39;Stock#,Quantity,Designators&#39;,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">]),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;Arrow&#39;</span><span class="p">,</span> <span class="s1">&#39;https://www.arrow.com/&#39;</span><span class="p">,</span> <span class="s1">&#39;#000000&#39;</span><span class="p">)),</span>  <span class="c1"># Arrow black.</span>
+    <span class="s1">&#39;digikey&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.digikey.com/ordering/shoppingcart&#39;</span><span class="p">,</span>
+                    <span class="c1"># header=&#39;Quantity,Stock#,Designators&#39;,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">]),</span>
+                <span class="n">ignore_cat</span><span class="o">=</span><span class="sa">r</span><span class="s1">&#39;.+(DKR\-ND|\-6\-ND)$&#39;</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;Digi-Key&#39;</span><span class="p">,</span> <span class="s1">&#39;https://www.digikey.com/&#39;</span><span class="p">,</span> <span class="s1">&#39;#CC0000&#39;</span><span class="p">)),</span>  <span class="c1"># Digi-Key red.</span>
+    <span class="s1">&#39;farnell&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://fr.farnell.com/en-FR/quick-order?isQuickPaste=true&#39;</span><span class="p">,</span>
+                    <span class="c1"># header=&#39;Stock#,Quantity,Descriptions,Designators,&#39;,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
+                    <span class="n">limit</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;Farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;https://www.farnell.com/&#39;</span><span class="p">,</span> <span class="s1">&#39;#FF6600&#39;</span><span class="p">)),</span>  <span class="c1"># Farnell/E14 orange.</span>
+    <span class="s1">&#39;mouser&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://mouser.com/bom/&#39;</span><span class="p">,</span>
+                    <span class="c1"># header=&#39;Stock#|Quantity|Designators&#39;,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
+                    <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span>
+                    <span class="n">not_allowed_char</span><span class="o">=</span><span class="s1">&#39;| </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="n">replace_by_char</span><span class="o">=</span><span class="s1">&#39;;__&#39;</span><span class="p">),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;Mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;https://www.mouser.com/&#39;</span><span class="p">,</span> <span class="s1">&#39;#004A85&#39;</span><span class="p">)),</span>  <span class="c1"># Mouser blue.</span>
+    <span class="s1">&#39;newark&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.newark.com/quick-order?isQuickPaste=true&#39;</span><span class="p">,</span>
+                    <span class="c1"># header=&#39;Stock#,Quantity,Designators,Descriptions,User&#39;,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">,</span> <span class="s1">&#39;desc&#39;</span><span class="p">]),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;Newark&#39;</span><span class="p">,</span> <span class="s1">&#39;https://www.newark.com/&#39;</span><span class="p">,</span> <span class="s1">&#39;#A2AE06&#39;</span><span class="p">)),</span>  <span class="c1"># Newark/E14 olive green.</span>
+    <span class="s1">&#39;rs&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://uk.rs-online.com/web/mylists/manualQuotes.html?method=showEnquiryCreationPage&amp;mode=new&#39;</span><span class="p">,</span>
+                    <span class="c1"># header=&#39;Stock#,Quantity,-,-,-,Part,Designators&#39;,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;manf#&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">]),</span>  <span class="c1"># `None` is used for generate a empty column.</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;RS Components&#39;</span><span class="p">,</span> <span class="s1">&#39;https://uk.rs-online.com/&#39;</span><span class="p">,</span> <span class="s1">&#39;#FF0000&#39;</span><span class="p">)),</span>  <span class="c1"># RS Components red.</span>
+    <span class="s1">&#39;tme&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://www.tme.eu/en/Profile/QuickBuy/load.html&#39;</span><span class="p">,</span>
+                    <span class="c1"># header=&#39;Stock# Quantity Designators&#39;,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">],</span>
+                    <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span>
+                    <span class="n">not_allowed_char</span><span class="o">=</span><span class="s1">&#39; </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="n">replace_by_char</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;TME&#39;</span><span class="p">,</span> <span class="s1">&#39;https://www.tme.eu/&#39;</span><span class="p">,</span> <span class="s1">&#39;#0C4DA1&#39;</span><span class="p">)),</span>  <span class="c1"># TME blue.</span>
+    <span class="s1">&#39;lcsc&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span>
+                    <span class="n">url</span><span class="o">=</span><span class="s1">&#39;https://lcsc.com/bom.html&#39;</span><span class="p">,</span>
+                    <span class="n">header</span><span class="o">=</span><span class="s1">&#39;Quantity,Comment,Designator,Footprint,LCSC Part #(optional)&#39;</span><span class="p">,</span>
+                    <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">,</span> <span class="s1">&#39;footprint&#39;</span><span class="p">,</span> <span class="s1">&#39;part_num&#39;</span><span class="p">],</span>
+                    <span class="n">info</span><span class="o">=</span><span class="s1">&#39;Copy this header and order to a CSV</span><span class="se">\n</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;file and use it for JLCPCB </span><span class="se">\n</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;manufacturer PCB house.</span><span class="se">\n</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;The multipart components that use</span><span class="se">\n</span><span class="s1">&#39;</span>
+                         <span class="s1">&#39;&quot;#&quot; symbol are not allowed by JLCPCB.&#39;</span><span class="p">),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;LCSC&#39;</span><span class="p">,</span> <span class="s1">&#39;https://lcsc.com/&#39;</span><span class="p">,</span> <span class="s1">&#39;#1166DD&#39;</span><span class="p">)),</span>  <span class="c1"># LCSC blue.</span>
+    <span class="s1">&#39;local_template&#39;</span><span class="p">:</span> <span class="n">DistributorInfo</span><span class="p">(</span>
+                <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;local&#39;</span><span class="p">,</span>
+                <span class="n">order</span><span class="o">=</span><span class="n">DistributorOrder</span><span class="p">(</span><span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;part_num&#39;</span><span class="p">,</span> <span class="s1">&#39;purch&#39;</span><span class="p">,</span> <span class="s1">&#39;refs&#39;</span><span class="p">]),</span>
+                <span class="n">label</span><span class="o">=</span><span class="n">DistributorLabel</span><span class="p">(</span><span class="s1">&#39;Local&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;#008000&#39;</span><span class="p">)),</span>  <span class="c1"># Darker green.</span>
+<span class="p">}</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.distributors_info</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

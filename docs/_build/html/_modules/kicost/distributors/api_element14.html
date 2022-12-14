@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.distributors.api_element14 &#8212; kicost 1.1.14 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_element14</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.distributors.api_element14</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2021 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Salvador Eduardo Tropea&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/set-soft&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;Instituto Nacional de Tecnologia Industrial - Argentina&#39;</span>
+
+<span class="c1"># Libraries.</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">difflib</span>
+
+<span class="c1"># KiCost definitions.</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">W_APIFAIL</span><span class="p">,</span> <span class="n">W_AMBIPN</span>
+<span class="c1"># Distributors definitions.</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">debug_full</span><span class="p">,</span> <span class="n">warning</span><span class="p">,</span> <span class="n">is_debug_full</span>
+
+<span class="c1"># Countries supported by Farnell (*.farnell.com)</span>
+<span class="n">FARNELL_SUP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bg&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;cz&#39;</span><span class="p">:</span> <span class="s1">&#39;CZK&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;dk&#39;</span><span class="p">:</span> <span class="s1">&#39;DKK&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;at&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;ch&#39;</span><span class="p">:</span> <span class="s1">&#39;CHF&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;de&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;ie&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;il&#39;</span><span class="p">:</span> <span class="s1">&#39;USD&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;uk&#39;</span><span class="p">:</span> <span class="s1">&#39;GBP&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;es&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;ee&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;fi&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;fr&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;hu&#39;</span><span class="p">:</span> <span class="s1">&#39;HUF&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;it&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;lt&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;lv&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;be&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;nl&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;no&#39;</span><span class="p">:</span> <span class="s1">&#39;NOK&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;pl&#39;</span><span class="p">:</span> <span class="s1">&#39;PLN&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;pt&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;ro&#39;</span><span class="p">:</span> <span class="s1">&#39;RON&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;ru&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;sk&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;si&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;se&#39;</span><span class="p">:</span> <span class="s1">&#39;SEK&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;tr&#39;</span><span class="p">:</span> <span class="s1">&#39;EUR&#39;</span><span class="p">}</span>
+<span class="c1"># Countries supported by Newark</span>
+<span class="n">NEWARK_SUP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;us&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;www.newark.com&#39;</span><span class="p">,</span> <span class="s1">&#39;USD&#39;</span><span class="p">),</span>
+              <span class="s1">&#39;ca&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;canada.newark.com&#39;</span><span class="p">,</span> <span class="s1">&#39;CAD&#39;</span><span class="p">),</span>
+              <span class="s1">&#39;mx&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;mexico.newark.com&#39;</span><span class="p">,</span> <span class="s1">&#39;USD&#39;</span><span class="p">)}</span>
+<span class="c1"># Countries supported by Element14, they accept Newark and Farnell SKUs</span>
+<span class="n">ELEMENT14_SUP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cn&#39;</span><span class="p">:</span> <span class="s1">&#39;CNY&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;au&#39;</span><span class="p">:</span> <span class="s1">&#39;AUD&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;nz&#39;</span><span class="p">:</span> <span class="s1">&#39;NZD&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;hk&#39;</span><span class="p">:</span> <span class="s1">&#39;HKD&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;sg&#39;</span><span class="p">:</span> <span class="s1">&#39;SGD&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;my&#39;</span><span class="p">:</span> <span class="s1">&#39;MYR&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;ph&#39;</span><span class="p">:</span> <span class="s1">&#39;PHP&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;th&#39;</span><span class="p">:</span> <span class="s1">&#39;THB&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;in&#39;</span><span class="p">:</span> <span class="s1">&#39;INR&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;kr&#39;</span><span class="p">:</span> <span class="s1">&#39;KRW&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;vn&#39;</span><span class="p">:</span> <span class="s1">&#39;USD&#39;</span><span class="p">,</span>
+                 <span class="c1"># The European Central Bank doesn&#39;t provide exchange for Taiwan</span>
+                 <span class="c1"># &#39;tw&#39;: &#39;TWD&#39;</span>
+                 <span class="p">}</span>
+<span class="c1"># Countries supported by CPC</span>
+<span class="n">CPC_SUP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;uk&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;cpc.farnell.com&#39;</span><span class="p">,</span> <span class="s1">&#39;GBP&#39;</span><span class="p">),</span>
+           <span class="s1">&#39;ie&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;cpcireland.farnell.com&#39;</span><span class="p">,</span> <span class="s1">&#39;EUR&#39;</span><span class="p">)}</span>
+<span class="c1"># Specs known by KiCost</span>
+<span class="n">SPEC_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;power rating&#39;</span><span class="p">:</span> <span class="s1">&#39;power&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;voltage rating&#39;</span><span class="p">:</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;vendorName&#39;</span><span class="p">:</span> <span class="s1">&#39;manf&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;temperature coefficient&#39;</span><span class="p">:</span> <span class="s1">&#39;temp_coeff&#39;</span><span class="p">}</span>
+
+<span class="c1"># DIST_NAMES = [&#39;cpc&#39;, &#39;farnell&#39;, &#39;newark&#39;]</span>
+<span class="n">DIST_NAMES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">]</span>
+<span class="n">PRE_TERM</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sku&#39;</span><span class="p">:</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="s1">&#39;mpn&#39;</span><span class="p">:</span> <span class="s1">&#39;manuPartNum&#39;</span><span class="p">}</span>
+<span class="n">REPLY</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;sku&#39;</span><span class="p">:</span> <span class="s1">&#39;premierFarnellPartNumberReturn&#39;</span><span class="p">,</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="s1">&#39;keywordSearchReturn&#39;</span><span class="p">,</span> <span class="s1">&#39;mpn&#39;</span><span class="p">:</span> <span class="s1">&#39;manufacturerPartNumberSearchReturn&#39;</span><span class="p">}</span>
+
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s1">&#39;https://api.element14.com/catalog/products&#39;</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;api_element14&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Element14Error</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">Element14</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dist</span> <span class="o">==</span> <span class="s1">&#39;farnell&#39;</span><span class="p">:</span>
+            <span class="c1"># Farnell Europe</span>
+            <span class="n">cur</span> <span class="o">=</span> <span class="n">FARNELL_SUP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cur</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">cur</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">store_info_id</span> <span class="o">=</span> <span class="n">country</span> <span class="o">+</span> <span class="s1">&#39;.farnell.com&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Element14 Asia and Oceania</span>
+                <span class="n">cur</span> <span class="o">=</span> <span class="n">ELEMENT14_SUP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cur</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">cur</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">store_info_id</span> <span class="o">=</span> <span class="n">country</span> <span class="o">+</span> <span class="s1">&#39;.element14.com&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">Element14Error</span><span class="p">(</span><span class="s1">&#39;Unsupported country `</span><span class="si">{}</span><span class="s1">` for `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">dist</span> <span class="o">==</span> <span class="s1">&#39;newark&#39;</span><span class="p">:</span>
+            <span class="c1"># Newark North America</span>
+            <span class="n">url</span><span class="p">,</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">NEWARK_SUP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">cur</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">cur</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">store_info_id</span> <span class="o">=</span> <span class="n">url</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Element14 Asia and Oceania</span>
+                <span class="n">cur</span> <span class="o">=</span> <span class="n">ELEMENT14_SUP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">cur</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">cur</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">store_info_id</span> <span class="o">=</span> <span class="n">country</span> <span class="o">+</span> <span class="s1">&#39;.element14.com&#39;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">Element14Error</span><span class="p">(</span><span class="s1">&#39;Unsupported country `</span><span class="si">{}</span><span class="s1">` for `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">dist</span> <span class="o">==</span> <span class="s1">&#39;cpc&#39;</span><span class="p">:</span>
+            <span class="c1"># Great Britain CPC</span>
+            <span class="n">url</span><span class="p">,</span> <span class="n">cur</span> <span class="o">=</span> <span class="n">CPC_SUP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">cur</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">cur</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">store_info_id</span> <span class="o">=</span> <span class="n">url</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">Element14Error</span><span class="p">(</span><span class="s1">&#39;Unsupported country `</span><span class="si">{}</span><span class="s1">` for `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">country</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">cache</span>
+
+    <span class="k">def</span> <span class="nf">_extract_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">term</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">REPLY</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">Element14Error</span><span class="p">(</span><span class="s2">&quot;Malformed reply &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">res</span><span class="p">]</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;numberOfResults&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">Element14Error</span><span class="p">(</span><span class="s2">&quot;Missing `numberOfResults` &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="s1">&#39;products&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">Element14Error</span><span class="p">(</span><span class="s2">&quot;Missing `products` &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">prod</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;products&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_AMBIPN</span><span class="p">,</span> <span class="s2">&quot;Got </span><span class="si">{}</span><span class="s2"> hits for </span><span class="si">{}</span><span class="s2"> </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">term</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">prod</span>
+
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">term</span><span class="p">,</span> <span class="n">part</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="c1"># Try to get the data from the cache</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">term</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">store_info_id</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">loaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">full_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loaded</span><span class="p">:</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from cache: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">term</span><span class="p">)</span>
+        <span class="c1"># Do a query</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;callInfo.responseDataFormat&#39;</span><span class="p">:</span> <span class="s1">&#39;JSON&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;term&#39;</span><span class="p">:</span> <span class="n">PRE_TERM</span><span class="p">[</span><span class="n">kind</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+</span><span class="n">term</span><span class="p">,</span>
+                  <span class="s1">&#39;storeInfo.id&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">store_info_id</span><span class="p">,</span>
+                  <span class="s1">&#39;callInfo.apiKey&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+                  <span class="s1">&#39;resultsSettings.responseGroup&#39;</span><span class="p">:</span> <span class="s1">&#39;large&#39;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;resultsSettings.offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">&#39;resultsSettings.numberOfResults&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;10&#39;</span>
+        <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Query params: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">BASE_URL</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="c1"># debug_obsessive(pprint.pformat(r.__dict__))</span>
+            <span class="k">raise</span> <span class="n">Element14Error</span><span class="p">(</span><span class="s2">&quot;Server error `</span><span class="si">{}</span><span class="s2">` (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from server: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">full_name</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">term</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">by_sku</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sku</span><span class="p">):</span>
+        <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Search by SKU &#39;</span><span class="o">+</span><span class="n">sku</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;sku&#39;</span><span class="p">,</span> <span class="n">sku</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">by_keyword</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Search by keyword &#39;</span><span class="o">+</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">by_manf_pn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pn</span><span class="p">):</span>
+        <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Search by part number &#39;</span><span class="o">+</span><span class="n">pn</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">&#39;mpn&#39;</span><span class="p">,</span> <span class="n">pn</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="api_element14"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_element14.api_element14">[docs]</a><span class="k">class</span> <span class="nc">api_element14</span><span class="p">(</span><span class="n">distributor_class</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Element14&#39;</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;api&#39;</span>
+    <span class="c1"># Currently enabled only by request</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://partner.element14.com/&#39;</span>  <span class="c1"># Web site API information.</span>
+    <span class="n">api_distributors</span> <span class="o">=</span> <span class="n">DIST_NAMES</span>
+    <span class="c1"># Options supported by this API</span>
+    <span class="n">config_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                      <span class="s1">&#39;try_by_keyword&#39;</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+                      <span class="s1">&#39;farnell_country&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;BG&#39;</span><span class="p">,</span> <span class="s1">&#39;CZ&#39;</span><span class="p">,</span> <span class="s1">&#39;DK&#39;</span><span class="p">,</span> <span class="s1">&#39;AT&#39;</span><span class="p">,</span> <span class="s1">&#39;CH&#39;</span><span class="p">,</span> <span class="s1">&#39;DE&#39;</span><span class="p">,</span> <span class="s1">&#39;IE&#39;</span><span class="p">,</span> <span class="s1">&#39;IL&#39;</span><span class="p">,</span> <span class="s1">&#39;UK&#39;</span><span class="p">,</span> <span class="s1">&#39;ES&#39;</span><span class="p">,</span> <span class="s1">&#39;EE&#39;</span><span class="p">,</span> <span class="s1">&#39;FI&#39;</span><span class="p">,</span> <span class="s1">&#39;FR&#39;</span><span class="p">,</span> <span class="s1">&#39;HU&#39;</span><span class="p">,</span> <span class="s1">&#39;IT&#39;</span><span class="p">,</span> <span class="s1">&#39;LT&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;LV&#39;</span><span class="p">,</span> <span class="s1">&#39;BE&#39;</span><span class="p">,</span> <span class="s1">&#39;NL&#39;</span><span class="p">,</span> <span class="s1">&#39;NO&#39;</span><span class="p">,</span> <span class="s1">&#39;PL&#39;</span><span class="p">,</span> <span class="s1">&#39;PT&#39;</span><span class="p">,</span> <span class="s1">&#39;RO&#39;</span><span class="p">,</span> <span class="s1">&#39;RU&#39;</span><span class="p">,</span> <span class="s1">&#39;SK&#39;</span><span class="p">,</span> <span class="s1">&#39;SI&#39;</span><span class="p">,</span> <span class="s1">&#39;SE&#39;</span><span class="p">,</span> <span class="s1">&#39;TR&#39;</span><span class="p">,</span> <span class="s1">&#39;CN&#39;</span><span class="p">,</span> <span class="s1">&#39;AU&#39;</span><span class="p">,</span> <span class="s1">&#39;NZ&#39;</span><span class="p">,</span> <span class="s1">&#39;HK&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;SG&#39;</span><span class="p">,</span> <span class="s1">&#39;MY&#39;</span><span class="p">,</span> <span class="s1">&#39;PH&#39;</span><span class="p">,</span> <span class="s1">&#39;TH&#39;</span><span class="p">,</span> <span class="s1">&#39;IN&#39;</span><span class="p">,</span> <span class="s1">&#39;KR&#39;</span><span class="p">,</span> <span class="s1">&#39;VN&#39;</span><span class="p">),</span>
+                      <span class="s1">&#39;newark_country&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;CA&#39;</span><span class="p">,</span> <span class="s1">&#39;US&#39;</span><span class="p">,</span> <span class="s1">&#39;MX&#39;</span><span class="p">,</span> <span class="s1">&#39;CN&#39;</span><span class="p">,</span> <span class="s1">&#39;AU&#39;</span><span class="p">,</span> <span class="s1">&#39;NZ&#39;</span><span class="p">,</span> <span class="s1">&#39;HK&#39;</span><span class="p">,</span> <span class="s1">&#39;SG&#39;</span><span class="p">,</span> <span class="s1">&#39;MY&#39;</span><span class="p">,</span> <span class="s1">&#39;PH&#39;</span><span class="p">,</span> <span class="s1">&#39;TH&#39;</span><span class="p">,</span> <span class="s1">&#39;IN&#39;</span><span class="p">,</span> <span class="s1">&#39;KR&#39;</span><span class="p">,</span> <span class="s1">&#39;VN&#39;</span><span class="p">),</span>
+                      <span class="s1">&#39;cpc_country&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;IE&#39;</span><span class="p">,</span> <span class="s1">&#39;UK&#39;</span><span class="p">)}</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">countries</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cpc&#39;</span><span class="p">:</span> <span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;farnell&#39;</span><span class="p">:</span> <span class="s1">&#39;uk&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">:</span> <span class="s1">&#39;us&#39;</span><span class="p">}</span>
+    <span class="n">try_by_keyword</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">env_prefix</span> <span class="o">=</span> <span class="s1">&#39;ELEMENT14&#39;</span>
+    <span class="n">env_ops</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ELEMENT14_PART_API_KEY&#39;</span><span class="p">:</span> <span class="s1">&#39;key&#39;</span><span class="p">}</span>
+
+<div class="viewcode-block" id="api_element14.configure"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_element14.api_element14.configure">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
+        <span class="n">cache_ttl</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">cache_path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span>
+                <span class="n">api_element14</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span><span class="p">:</span>
+                <span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;try_by_keyword&#39;</span><span class="p">:</span>
+                <span class="n">api_element14</span><span class="o">.</span><span class="n">try_by_keyword</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_ttl&#39;</span><span class="p">:</span>
+                <span class="n">cache_ttl</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">:</span>
+                <span class="n">cache_path</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;_country&#39;</span><span class="p">):</span>
+                <span class="n">api_element14</span><span class="o">.</span><span class="n">countries</span><span class="p">[</span><span class="n">v</span><span class="p">[:</span><span class="o">-</span><span class="mi">8</span><span class="p">]]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t enable Elemen14 without a `key`&quot;</span><span class="p">)</span>
+            <span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Element14 API configured to enabled </span><span class="si">{}</span><span class="s1"> key </span><span class="si">{}</span><span class="s1"> path </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">cache_path</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># Configure the cache</span>
+        <span class="n">api_element14</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">QueryCache</span><span class="p">(</span><span class="n">cache_path</span><span class="p">,</span> <span class="n">cache_ttl</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_query_part_info</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from KitSpace.&#39;&#39;&#39;</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting part data from Element14 (</span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">)...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">country</span><span class="p">))</span>
+        <span class="n">field_cat</span> <span class="o">=</span> <span class="n">dist</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">Element14</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">cache</span><span class="p">)</span>
+
+        <span class="c1"># Setup progress bar to track progress of server queries.</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">),</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># Get the Element14 P/N for this part</span>
+            <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field_cat</span><span class="p">)</span>
+            <span class="n">part_manf</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">part_code</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf#&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">part_stock</span><span class="p">:</span>
+                <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">**** </span><span class="si">{}</span><span class="s1"> P/N: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">part_stock</span><span class="p">))</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">by_sku</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;The </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> </span><span class="si">{}</span><span class="s1"> code is not valid&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_stock</span><span class="p">,</span> <span class="n">dist</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">try_by_keyword</span><span class="p">:</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">by_keyword</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># No Element14 P/N, search using the manufacturer code</span>
+                <span class="k">if</span> <span class="n">part_code</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">part_manf</span><span class="p">:</span>
+                        <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">**** Manufacturer: </span><span class="si">{}</span><span class="s1"> P/N: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_manf</span><span class="p">,</span> <span class="n">part_code</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">**** P/N: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_code</span><span class="p">))</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">by_manf_pn</span><span class="p">(</span><span class="n">part_code</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">try_by_keyword</span><span class="p">:</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">by_keyword</span><span class="p">(</span><span class="n">part_code</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;No information found at </span><span class="si">{}</span><span class="s1"> for part/s </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">_select_best</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">part_manf</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span><span class="p">)</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Part info before adding data:&#39;</span><span class="p">)</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Data found:&#39;</span><span class="p">)</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;datasheets&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;url&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="s1">&#39;obsolete&#39;</span> <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;productStatus&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;NO_LONGER_MANUFACTURED&#39;</span> <span class="k">else</span> <span class="s1">&#39;active&#39;</span>
+                <span class="n">tolerance</span> <span class="o">=</span> <span class="n">footprint</span> <span class="o">=</span> <span class="n">frequency</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">specs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;rohs&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;RoHS&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;rohsStatusCode&#39;</span><span class="p">])}</span>
+                <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attributes&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="s1">&#39;attributeLabel&#39;</span><span class="p">]</span>
+                    <span class="n">name_l</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="s1">&#39;attributeValue&#39;</span><span class="p">]</span>
+                    <span class="n">unit</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;attributeUnit&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">unit</span><span class="p">:</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">unit</span>
+                    <span class="n">specs</span><span class="p">[</span><span class="n">name_l</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">name_l</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tolerance&#39;</span><span class="p">):</span>
+                        <span class="n">tolerance</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="k">if</span> <span class="n">name_l</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;case style&#39;</span><span class="p">):</span>
+                        <span class="n">footprint</span> <span class="o">=</span> <span class="n">value</span>
+                    <span class="k">if</span> <span class="n">name_l</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;frequency&#39;</span><span class="p">):</span>
+                        <span class="n">frequency</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="n">part</span><span class="o">.</span><span class="n">update_specs</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
+                <span class="n">dd</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">DistData</span><span class="p">())</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;translatedMinimumOrderQuality&#39;</span><span class="p">]</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://&#39;</span><span class="o">+</span><span class="n">o</span><span class="o">.</span><span class="n">store_info_id</span><span class="o">+</span><span class="s1">&#39;/w/search?st=&#39;</span><span class="o">+</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;sku&#39;</span><span class="p">]</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;sku&#39;</span><span class="p">]</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;inv&#39;</span><span class="p">]</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">currency</span>
+                <span class="n">prices</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prices&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">prices</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;from&#39;</span><span class="p">]:</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;cost&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prices</span><span class="p">}</span>
+                <span class="c1"># Extra information</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;displayName&#39;</span><span class="p">]</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;capacitance&#39;</span><span class="p">,</span> <span class="s1">&#39;resistance&#39;</span><span class="p">,</span> <span class="s1">&#39;inductance&#39;</span><span class="p">):</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                        <span class="n">value</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+                <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                <span class="k">if</span> <span class="n">tolerance</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;tolerance&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tolerance</span>
+                <span class="k">if</span> <span class="n">footprint</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;footprint&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">footprint</span>
+                <span class="k">if</span> <span class="n">frequency</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;frequency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">frequency</span>
+                <span class="k">for</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">SPEC_NAMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                        <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">dd</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Part info after adding data:&#39;</span><span class="p">)</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+                <span class="c1"># debug_obsessive(pprint.pformat(dd.__dict__))</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="api_element14.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_element14.api_element14.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">DIST_NAMES</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">distributors</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># None of our distributors is used</span>
+            <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Skipping Element14 plug-in&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">DIST_NAMES</span><span class="p">:</span>
+                <span class="n">country</span> <span class="o">=</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">countries</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span>
+                <span class="n">api_element14</span><span class="o">.</span><span class="n">_query_part_info</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">Element14Error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">DIST_NAMES</span><span class="p">)</span></div></div>
+
+
+<span class="c1"># Ok, this is special case ... we should add others</span>
+<span class="n">MANF_CHANGES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fairchild&#39;</span><span class="p">:</span> <span class="s1">&#39;onsemi&#39;</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_get_price</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return the first price or -1 if none &quot;&quot;&quot;</span>
+    <span class="n">prices</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;prices&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">prices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;cost&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">prices</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
+
+
+<span class="k">def</span> <span class="nf">_get_key</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">qty</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Sorting criteria for the suggested option &quot;&quot;&quot;</span>
+    <span class="n">price</span> <span class="o">=</span> <span class="n">_get_price</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">stock</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;inv&#39;</span><span class="p">]</span>
+    <span class="n">moq</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;translatedMinimumOrderQuality&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">price</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>    <span class="c1"># Put first the ones with price</span>
+            <span class="n">stock</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span>     <span class="c1"># Put first the ones in stock</span>
+            <span class="n">stock</span> <span class="o">&lt;</span> <span class="n">qty</span><span class="p">,</span>    <span class="c1"># Put first the ones with enough stock</span>
+            <span class="c1"># TODO: some tollerance to the MOQ? Like buy 20% extra</span>
+            <span class="n">moq</span> <span class="o">&gt;</span> <span class="n">qty</span><span class="p">,</span>      <span class="c1"># Put first the ones with a MOQ under the quantity we need</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;productStatus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;NO_LONGER_&#39;</span><span class="p">),</span>   <span class="c1"># Put first the active components</span>
+            <span class="n">price</span><span class="p">,</span>
+            <span class="n">moq</span><span class="p">)</span>  <span class="c1"># At equal price suggest the lower MOQ</span>
+
+
+<span class="k">def</span> <span class="nf">_filter_by_manf</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">manf</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Select the best matches according to the manufacturer &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">manf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="n">manfs</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;brandName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">manfs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="n">manf</span> <span class="o">=</span> <span class="n">manf</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">best_matches</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">manf</span><span class="p">,</span> <span class="n">manfs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">new_name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">MANF_CHANGES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">manf</span><span class="p">:</span>
+                <span class="n">new_name</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">new_name</span><span class="p">:</span>
+            <span class="n">best_matches</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">new_name</span><span class="p">,</span> <span class="n">manfs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+    <span class="n">best_match</span> <span class="o">=</span> <span class="n">best_matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;brandName&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">best_match</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_list_comp_options</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Debug function used to show the list of options &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">show</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">debug_full</span><span class="p">(</span><span class="s1">&#39;  - &#39;</span><span class="o">+</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">debug_full</span><span class="p">(</span><span class="s1">&#39;  </span><span class="si">{}</span><span class="s1">) </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1"> inv: </span><span class="si">{}</span><span class="s1"> moq: </span><span class="si">{}</span><span class="s1"> status: </span><span class="si">{}</span><span class="s1"> price: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span>
+                   <span class="nb">format</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;brandName&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;translatedManufacturerPartNumber&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;inv&#39;</span><span class="p">],</span>
+                          <span class="n">d</span><span class="p">[</span><span class="s1">&#39;translatedMinimumOrderQuality&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;productStatus&#39;</span><span class="p">],</span> <span class="n">_get_price</span><span class="p">(</span><span class="n">d</span><span class="p">)))</span>
+
+
+<span class="k">def</span> <span class="nf">_select_best</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">manf</span><span class="p">,</span> <span class="n">qty</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Selects the best result &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39; - Choosing the best match (</span><span class="si">{}</span><span class="s1"> options, qty: </span><span class="si">{}</span><span class="s1"> manf: </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">manf</span><span class="p">))</span>
+    <span class="n">ultra_debug</span> <span class="o">=</span> <span class="n">is_debug_full</span><span class="p">()</span>
+    <span class="n">_list_comp_options</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ultra_debug</span><span class="p">,</span> <span class="s1">&#39;Original list&#39;</span><span class="p">)</span>
+    <span class="c1"># Try to choose the best manufacturer</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="n">_filter_by_manf</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">manf</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">data2</span><span class="p">:</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39; - Selected manf `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;brandName&#39;</span><span class="p">]))</span>
+        <span class="n">_list_comp_options</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">ultra_debug</span><span class="p">,</span> <span class="s1">&#39;Manufacturer selected&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># Sort the results according to the best availability/price</span>
+    <span class="n">data3</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_get_key</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">qty</span><span class="p">))</span>
+    <span class="n">_list_comp_options</span><span class="p">(</span><span class="n">data3</span><span class="p">,</span> <span class="n">ultra_debug</span><span class="p">,</span> <span class="s1">&#39;Sorted&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="n">distributor_class</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">api_element14</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_element14</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

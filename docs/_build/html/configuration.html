@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Configuration file &#8212; kicost 1.1.13 documentation</title>
+    <title>Configuration file &#8212; kicost 1.1.14 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="usage.html" title="Usage"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.14 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
       </ul>
     </div>  
@@ -147,6 +147,9 @@ Then you have to register and get a <cite>clientId</cite> and a <cite>clientSecr
 <p>The current Digi-Key plugin needs to validate the user using a complex mechanism. It will open a navigator
 window to get a token. If you get an error about a wrong certificate please ignore it. The obtained token
 is cached, so you don’t need to validate it all the time.</p>
+<p>You can also define options using environment variables. As an example, you can specify Mouser’s key defining
+the <cite>MOUSER_KEY</cite> environment variable. Note that environment variables has more precedence than the default config file.
+But command line options, including any configuration file passed using it, has the highest priority.</p>
 </div>
 
 
@@ -198,7 +201,7 @@ is cached, so you don’t need to validate it all the time.</p>
         <li class="right" >
           <a href="usage.html" title="Usage"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.14 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
       </ul>
     </div>

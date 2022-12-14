@@ -5,9 +5,12 @@ History
 
 1.1.14 (2022-12-14)
 ______________________
+* Fix TME component URLs
+* Fix installation problems when tqdm isn't installed
 * Add Nexar API (replaces Octopart)
-* Now all config API options have a related environment variable
-
+* Add mechanism so all config API options have a related environment variable
+* Add option to exclude Digi-Key marketplace products
+* Add mechanism to specify availability for local distributors
 
 1.1.12 (2022-09-27)
 ______________________

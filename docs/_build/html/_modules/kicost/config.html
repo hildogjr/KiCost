@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.config &#8212; kicost 1.1.13 documentation</title>
+    <title>kicost.config &#8212; kicost 1.1.14 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.config</a></li> 
       </ul>
@@ -207,9 +207,15 @@
         <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Loaded API options </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_options</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;No config file found (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+    <span class="c1"># Make sure all APIs are in the options</span>
     <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">get_api_list</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">api</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">api_options</span><span class="p">:</span>
             <span class="n">api_options</span><span class="p">[</span><span class="n">api</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">api_options</span></div>
+
+
+<div class="viewcode-block" id="fill_missing_with_defaults"><a class="viewcode-back" href="../../kicost.html#kicost.config.fill_missing_with_defaults">[docs]</a><span class="k">def</span> <span class="nf">fill_missing_with_defaults</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">get_api_list</span><span class="p">():</span>
         <span class="c1"># Transfer defaults</span>
         <span class="n">ops</span> <span class="o">=</span> <span class="n">api_options</span><span class="p">[</span><span class="n">api</span><span class="p">]</span>
         <span class="k">if</span> <span class="s1">&#39;cache_ttl&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ops</span><span class="p">:</span>
@@ -253,7 +259,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.config</a></li> 
       </ul>

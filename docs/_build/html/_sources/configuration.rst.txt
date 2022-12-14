@@ -113,6 +113,10 @@ The current Digi-Key plugin needs to validate the user using a complex mechanism
 window to get a token. If you get an error about a wrong certificate please ignore it. The obtained token
 is cached, so you don't need to validate it all the time.
 
+You can also define options using environment variables. As an example, you can specify Mouser's key defining
+the `MOUSER_KEY` environment variable. Note that environment variables has more precedence than the default config file.
+But command line options, including any configuration file passed using it, has the highest priority.
+
 .. _KitSpace: https://kitspace.org/
 .. _API_site: https://developer.digikey.com/get_started
 .. _Nexar: https://nexar.com/api

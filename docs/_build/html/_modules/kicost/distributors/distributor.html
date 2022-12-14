@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.distributor &#8212; kicost 1.1.13 documentation</title>
+    <title>kicost.distributors.distributor &#8212; kicost 1.1.14 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.distributor</a></li> 
@@ -72,7 +72,10 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">tqdm</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
 <span class="c1"># QueryCache dependencies:</span>
 <span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">time</span>
@@ -146,6 +149,8 @@
     <span class="n">label2name</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Options supported by this API</span>
     <span class="n">config_options</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Environment variables to configure this API</span>
+    <span class="n">env_ops</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="distributor_class.register"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.register">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">priority</span><span class="p">):</span>
@@ -157,7 +162,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="n">distributor_class</span><span class="o">.</span><span class="n">registered</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">api</span><span class="p">)</span>
-        <span class="n">distributor_class</span><span class="o">.</span><span class="n">priorities</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">priority</span><span class="p">)</span></div>
+        <span class="n">distributor_class</span><span class="o">.</span><span class="n">priorities</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">priority</span><span class="p">)</span>
+        <span class="c1"># Automatically fill the `env_ops`</span>
+        <span class="k">if</span> <span class="n">api</span><span class="o">.</span><span class="n">type</span> <span class="o">!=</span> <span class="s1">&#39;local&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">api</span><span class="o">.</span><span class="n">config_options</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">+</span><span class="p">[</span><span class="s1">&#39;cache_ttl&#39;</span><span class="p">,</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">]:</span>
+                <span class="n">api</span><span class="o">.</span><span class="n">env_ops</span><span class="p">[</span><span class="n">api</span><span class="o">.</span><span class="n">env_prefix</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span> <span class="o">=</span> <span class="n">name</span></div>
 
 <div class="viewcode-block" id="distributor_class.update_distributors"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.update_distributors">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">update_distributors</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">):</span>
@@ -278,13 +287,16 @@
         <span class="sd">&#39;&#39;&#39; Find if an API is enabled &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">_get_api</span><span class="p">(</span><span class="n">api</span><span class="p">)</span><span class="o">.</span><span class="n">enabled</span></div>
 
-<div class="viewcode-block" id="distributor_class.from_environment"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.from_environment">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_environment</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Default configuration from the environment. Just nothing. &#39;&#39;&#39;</span>
-        <span class="k">pass</span></div>
+<div class="viewcode-block" id="distributor_class.from_environment"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.from_environment">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Configuration from the environment. &#39;&#39;&#39;</span>
+        <span class="c1"># Configure the module from the environment</span>
+        <span class="c1"># The command line will overwrite it using set_options()</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">env_ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">distributor_class</span><span class="o">.</span><span class="n">_set_from_env</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="n">k</span><span class="p">),</span> <span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">config_options</span><span class="p">)</span></div>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_set_from_env</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="n">d_types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_set_from_env</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">d_types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Helper function to implement `from_environment`. &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">overwrite</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">d_types</span><span class="p">:</span>
@@ -296,6 +308,7 @@
                     <span class="n">tp</span> <span class="o">=</span> <span class="n">tp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="c1"># This is a cast</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="n">tp</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;Overwriting </span><span class="si">{}</span><span class="s1"> with </span><span class="si">{}</span><span class="s1"> for </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
             <span class="n">options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
 <div class="viewcode-block" id="distributor_class.configure_from_environment"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.configure_from_environment">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -346,7 +359,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.distributor</a></li> 

@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.distributors.api_nexar &#8212; kicost 1.1.14 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_nexar</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.distributors.api_nexar</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># Nexar API implementation, replaces Octopart API</span>
+<span class="c1">#</span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2022 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+<span class="c1">#</span>
+<span class="c1"># I took the basic query from  https://github.com/NexarDeveloper/nexar-first-supply-query.git</span>
+<span class="c1"># and the example in Nexar&#39;s IDE</span>
+<span class="c1"># The class is based on the api_partinfo_kitspace.py class</span>
+<span class="c1">#</span>
+<span class="c1"># Important note:</span>
+<span class="c1"># We get offers from tons of distributors, there is no way to say which ones we want.</span>
+<span class="c1"># In:</span>
+<span class="c1"># https://support.nexar.com/support/solutions/articles/101000434623-how-can-i-get-an-exact-manufacturer-match-with-specific-suppliers</span>
+<span class="c1"># Suggests to use:</span>
+<span class="c1"># options: {filters: {distributor_id: [&quot;459&quot;, &quot;1106&quot;, &quot;2401&quot;, &quot;2628&quot;, &quot;2454&quot;, &quot;3261&quot;, &quot;12947&quot;]}}</span>
+<span class="c1"># But this isn&#39;t a &quot;hard&quot; filter, according to the support people you must filter it anyways.</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Salvador Eduardo Tropea&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/set-soft&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;Instituto Nacional de Tecnologia Industrial - Argentina&#39;</span>
+
+<span class="c1"># Libraries.</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">difflib</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">quote_plus</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote_plus</span>
+
+<span class="c1"># KiCost definitions.</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">NO_PRICE</span><span class="p">,</span> <span class="n">W_APIFAIL</span><span class="p">,</span> <span class="n">W_AMBIPN</span>
+<span class="c1"># Distributors definitions.</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
+
+
+<span class="c1"># Uncomment for debug</span>
+<span class="c1"># Use `debug(&#39;x + 1&#39;)` for instance.</span>
+<span class="c1"># def debug(expression):</span>
+<span class="c1">#     frame = sys._getframe(1)</span>
+<span class="c1">#     distributor_class.logger.info(expression, &#39;=&#39;, repr(eval(expression, frame.f_globals, frame.f_locals)))</span>
+
+<span class="n">MAX_PARTS_PER_QUERY</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Maximum number of parts in a single query.</span>
+
+<span class="c1"># Information to return from Nexar API</span>
+<span class="n">QUERY_ANSWER</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">    hits,</span>
+<span class="s1">    reference,</span>
+<span class="s1">    parts {</span>
+<span class="s1">      id,</span>
+<span class="s1">      slug,</span>
+<span class="s1">      mpn,</span>
+<span class="s1">      manufacturer {name, id},</span>
+<span class="s1">      shortDescription,</span>
+<span class="s1">      specs {</span>
+<span class="s1">        attribute {shortname, name, id},</span>
+<span class="s1">        displayValue</span>
+<span class="s1">      },</span>
+<span class="s1">      octopartUrl,</span>
+<span class="s1">      bestDatasheet {name, url},</span>
+<span class="s1">      sellers(authorizedOnly: false) {</span>
+<span class="s1">        company {name, id},</span>
+<span class="s1">        offers {</span>
+<span class="s1">            sku,</span>
+<span class="s1">            id,</span>
+<span class="s1">            inventoryLevel,</span>
+<span class="s1">            moq,</span>
+<span class="s1">            orderMultiple,</span>
+<span class="s1">            packaging,</span>
+<span class="s1">            prices {quantity, price, currency},</span>
+<span class="s1">            onOrderQuantity,</span>
+<span class="s1">            clickUrl</span>
+<span class="s1">        }</span>
+<span class="s1">      }</span>
+<span class="s1">    }</span>
+<span class="s1">&#39;&#39;&#39;</span>
+<span class="n">QUERY_ANSWER</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[\s\n]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">QUERY_ANSWER</span><span class="p">)</span>
+
+
+<span class="n">QUERY_MATCH</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;query MultiMatchSearch($queries: [SupPartMatchQuery!]!) {&#39;</span>
+               <span class="s1">&#39;supMultiMatch(queries: $queries, country: &quot;@COUNTRY@&quot;, currency: &quot;@CUR@&quot;) {&#39;</span> <span class="o">+</span>
+               <span class="n">QUERY_ANSWER</span> <span class="o">+</span> <span class="s1">&#39;} }&#39;</span><span class="p">)</span>
+<span class="n">QUERY_URL</span> <span class="o">=</span> <span class="s1">&#39;https://api.nexar.com/graphql&#39;</span>
+<span class="n">PROD_TOKEN_URL</span> <span class="o">=</span> <span class="s1">&#39;https://identity.nexar.com/connect/token&#39;</span>
+<span class="c1"># Specs known by KiCost</span>
+<span class="n">SPEC_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tolerance&#39;</span><span class="p">:</span> <span class="s1">&#39;tolerance&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;powerrating&#39;</span><span class="p">:</span> <span class="s1">&#39;power&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;voltagerating&#39;</span><span class="p">:</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;temperaturecoefficient&#39;</span><span class="p">:</span> <span class="s1">&#39;temp_coeff&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;case_package&#39;</span><span class="p">:</span> <span class="s1">&#39;footprint&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;maxdccurrent&#39;</span><span class="p">:</span> <span class="s1">&#39;current&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;forwardcurrent&#39;</span><span class="p">:</span> <span class="s1">&#39;current&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;currentrating&#39;</span><span class="p">:</span> <span class="s1">&#39;current&#39;</span><span class="p">}</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;api_nexar&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">QueryStruct</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">for_dists</span><span class="p">,</span> <span class="n">seller</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sku</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">manf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">mpn</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="s1">&#39;q&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">query</span><span class="p">[</span><span class="s2">&quot;reference&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="n">query</span><span class="p">[</span><span class="s2">&quot;start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">query</span><span class="p">[</span><span class="s2">&quot;limit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">seller</span> <span class="o">=</span> <span class="n">seller</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sku</span> <span class="o">=</span> <span class="n">sku</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manf</span> <span class="o">=</span> <span class="n">manf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mpn</span> <span class="o">=</span> <span class="n">mpn</span>
+        <span class="k">if</span> <span class="n">sku</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">query</span><span class="p">[</span><span class="s1">&#39;seller&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seller</span>
+            <span class="n">query</span><span class="p">[</span><span class="s1">&#39;sku&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sku</span>
+        <span class="k">elif</span> <span class="n">mpn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">manf</span><span class="p">:</span>
+                <span class="n">query</span><span class="p">[</span><span class="s1">&#39;manufacturer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">manf</span>
+            <span class="n">query</span><span class="p">[</span><span class="s1">&#39;mpn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mpn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query</span> <span class="o">=</span> <span class="n">query</span>  <span class="c1"># The query dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">part</span> <span class="o">=</span> <span class="n">part</span>    <span class="c1"># Pointer to the part.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">for_dists</span> <span class="o">=</span> <span class="n">for_dists</span>  <span class="c1"># List of distributors we want for this query</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">loaded</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">remove_manfucturer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manf</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">[</span><span class="s1">&#39;manufacturer&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="api_nexar"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar">[docs]</a><span class="k">class</span> <span class="nc">api_nexar</span><span class="p">(</span><span class="n">distributor_class</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Nexar&#39;</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;api&#39;</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://nexar.com/api&#39;</span>  <span class="c1"># Web site API information.</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">secret</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">country</span> <span class="o">=</span> <span class="s1">&#39;US&#39;</span>
+    <span class="n">env_prefix</span> <span class="o">=</span> <span class="s1">&#39;NEXAR&#39;</span>
+    <span class="n">env_ops</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;NEXAR_STORAGE_PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">}</span>
+
+    <span class="c1"># This is what we used for Octopart</span>
+    <span class="c1"># https://octopart.com/api/v4/values#sellers</span>
+    <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;arrow&#39;</span><span class="p">,</span> <span class="s1">&#39;digikey&#39;</span><span class="p">,</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">,</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span> <span class="s1">&#39;tme&#39;</span><span class="p">]</span>
+    <span class="n">DIST_TRANSLATION</span> <span class="o">=</span> <span class="p">{</span>  <span class="c1"># Distributor translation. Just a few supported.</span>
+                        <span class="s1">&#39;Arrow Electronics&#39;</span><span class="p">:</span> <span class="s1">&#39;arrow&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Digi-Key&#39;</span><span class="p">:</span> <span class="s1">&#39;digikey&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Farnell&#39;</span><span class="p">:</span> <span class="s1">&#39;farnell&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Mouser&#39;</span><span class="p">:</span> <span class="s1">&#39;mouser&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;Newark&#39;</span><span class="p">:</span> <span class="s1">&#39;newark&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;RS Components&#39;</span><span class="p">:</span> <span class="s1">&#39;rs&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;TME&#39;</span><span class="p">:</span> <span class="s1">&#39;tme&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;LCSC&#39;</span><span class="p">:</span> <span class="s1">&#39;lcsc&#39;</span><span class="p">,</span>
+                       <span class="p">}</span>
+    <span class="c1"># Dict to translate KiCost field names into KitSpace distributor names</span>
+    <span class="n">KICOST2NEXAR_DIST</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">DIST_TRANSLATION</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">config_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;client_id&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;client_secret&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
+    <span class="c1"># Token</span>
+    <span class="n">expiration</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="api_nexar.configure"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.configure">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
+        <span class="n">cache_ttl</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">cache_path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span><span class="p">:</span>
+                <span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_ttl&#39;</span><span class="p">:</span>
+                <span class="n">cache_ttl</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">:</span>
+                <span class="n">cache_path</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;client_id&#39;</span><span class="p">:</span>
+                <span class="n">api_nexar</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;client_secret&#39;</span><span class="p">:</span>
+                <span class="n">api_nexar</span><span class="o">.</span><span class="n">secret</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span>
+                <span class="n">api_nexar</span><span class="o">.</span><span class="n">country</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">secret</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cache_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t enable Nexar without a `client_id`, `client_secret` and `cache_path`&quot;</span><span class="p">)</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Nexar API configured to enabled </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">api_nexar</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">QueryCache</span><span class="p">(</span><span class="n">cache_path</span><span class="p">,</span> <span class="n">cache_ttl</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="api_nexar.get_token"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_token">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_token</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; Return the Nexar token from the client_id and client_secret provided &quot;&quot;&quot;</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">token</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">PROD_TOKEN_URL</span><span class="p">,</span>
+                                  <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;grant_type&quot;</span><span class="p">:</span> <span class="s2">&quot;client_credentials&quot;</span><span class="p">,</span>
+                                        <span class="s2">&quot;client_id&quot;</span><span class="p">:</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+                                        <span class="s2">&quot;client_secret&quot;</span><span class="p">:</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">secret</span><span class="p">},</span>
+                                  <span class="n">allow_redirects</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Error getting token from Nexar (</span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Nexar token </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">token</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">token</span></div>
+
+<div class="viewcode-block" id="api_nexar.get_headers"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_headers">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_headers</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; Get the access token, make sure it isn&#39;t expired &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;KICOST_NEXAR_NO_TOKEN&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="c1"># No token for debug</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">expiration</span> <span class="o">&lt;</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="mi">300</span><span class="p">:</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">get_token</span><span class="p">()</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">access_token</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">token</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;access_token&#39;</span><span class="p">)</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">expiration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">token</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;expires_in&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">access_token</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="api_nexar.query"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.query">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="n">query_parts</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">query_type</span><span class="o">=</span><span class="n">QUERY_MATCH</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Send query to server and return results. &quot;&quot;&quot;</span>
+        <span class="c1"># Allow changing the URL for debug purposes</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;KICOST_NEXAR_URL&#39;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">QUERY_URL</span>
+        <span class="n">query_type</span> <span class="o">=</span> <span class="n">query_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@COUNTRY@&#39;</span><span class="p">,</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">country</span><span class="p">)</span>
+        <span class="n">query_type</span> <span class="o">=</span> <span class="n">query_type</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@CUR@&#39;</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+        <span class="n">variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;queries&quot;</span><span class="p">:</span> <span class="n">query_parts</span><span class="p">}</span>
+        <span class="c1"># Remove all spaces, even inside the manf#</span>
+        <span class="c1"># SET comment: this is how the code always worked. Octopart (used by KitSpace) ignores spaces inside manf# codes.</span>
+        <span class="c1"># Do the query using POST</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="s1">&#39;query=</span><span class="si">{}</span><span class="s1">&amp;variables=</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">quote_plus</span><span class="p">(</span><span class="n">query_type</span><span class="p">),</span> <span class="n">quote_plus</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">variables</span><span class="p">)))</span>
+        <span class="n">distributor_class</span><span class="o">.</span><span class="n">log_request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;query&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">query_type</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">&quot;variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">variables</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">get_headers</span><span class="p">())</span>
+        <span class="n">response</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="s1">&#39;UTF-8&#39;</span>
+        <span class="n">distributor_class</span><span class="o">.</span><span class="n">log_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;ok&#39;</span><span class="p">]:</span>  <span class="c1"># 200</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">results</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;not_found&#39;</span><span class="p">]:</span>  <span class="c1"># 404</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Nexar server not found check your internet connection.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;request_timeout&#39;</span><span class="p">]:</span>  <span class="c1"># 408</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Nexar is not responding.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;bad_request&#39;</span><span class="p">]:</span>  <span class="c1"># 400</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Bad request to Nexar server probably due to an incorrect string &#39;</span>
+                              <span class="s1">&#39;format check your `manf#` codes and contact the suport team.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="n">requests</span><span class="o">.</span><span class="n">codes</span><span class="p">[</span><span class="s1">&#39;gateway_timeout&#39;</span><span class="p">]:</span>  <span class="c1"># 504</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;One of the internal Nexar services may experiencing problems.&#39;</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s1">&#39;Nexar error: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">status_code</span><span class="p">),</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="api_nexar.get_spec"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_spec">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_spec</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Get the value of `value` field of a dictionary if the `name` field identifier.</span>
+<span class="sd">        Used to get information from the JSON response.&#39;&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;specs&#39;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">][</span><span class="s1">&#39;shortname&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;displayValue&#39;</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="api_nexar.query2name"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.query2name">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query2name</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Finds the prefix and name for a query &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">mpn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;mpn&#39;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">manf</span> <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">manf</span> <span class="k">else</span> <span class="s1">&#39;unk&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">mpn</span>
+        <span class="k">elif</span> <span class="n">q</span><span class="o">.</span><span class="n">sku</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;sku&#39;</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">seller</span> <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">seller</span> <span class="k">else</span> <span class="s1">&#39;unk&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">sku</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">name</span></div>
+
+<div class="viewcode-block" id="api_nexar.get_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_part_info</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">to_retry</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Query PartInfo for quantity/price info.</span>
+<span class="sd">           `distributors` is the list of all distributors we want, in general. &#39;&#39;&#39;</span>
+        <span class="n">only_query</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">query</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">]</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">only_query</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">][</span><span class="s1">&#39;supMultiMatch&#39;</span><span class="p">]):</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">queries</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">q</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="n">r</span>
+            <span class="k">assert</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;reference&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">q</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="s1">&#39;Out of order results, please report&#39;</span>
+            <span class="c1"># Solve the prefix and name</span>
+            <span class="n">prefix</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">query2name</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hits&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">q</span><span class="o">.</span><span class="n">mpn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">q</span><span class="o">.</span><span class="n">manf</span><span class="p">:</span>
+                <span class="c1"># Found, but has no hits</span>
+                <span class="c1"># Try without specifying a manufacturer</span>
+                <span class="n">q</span><span class="o">.</span><span class="n">remove_manfucturer</span><span class="p">()</span>
+                <span class="n">to_retry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="api_nexar.fill_extra_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.fill_extra_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fill_extra_info</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">specs</span><span class="p">,</span> <span class="n">extra_info</span><span class="p">):</span>
+        <span class="c1"># We fill only missing information, the mandatory info comes from the original distributor</span>
+        <span class="k">if</span> <span class="s1">&#39;desc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extra_info</span><span class="p">:</span>
+            <span class="n">desc</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;shortDescription&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">desc</span><span class="p">:</span>
+                <span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">desc</span>
+        <span class="k">if</span> <span class="s1">&#39;manf&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extra_info</span><span class="p">:</span>
+            <span class="n">manf</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manufacturer&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">manf</span><span class="p">:</span>
+                <span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;manf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">manf</span>
+        <span class="k">if</span> <span class="s1">&#39;value&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extra_info</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;capacitance&#39;</span><span class="p">,</span> <span class="s1">&#39;resistance&#39;</span><span class="p">,</span> <span class="s1">&#39;inductance&#39;</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="s1">&#39;size&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">extra_info</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">le</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">le</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">+=</span> <span class="s1">&#39;L: &#39;</span><span class="o">+</span><span class="n">le</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39; &#39;</span>
+            <span class="n">w</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;width&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">w</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">+=</span> <span class="s1">&#39;W: &#39;</span><span class="o">+</span><span class="n">w</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39; &#39;</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;height&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">h</span><span class="p">:</span>
+                <span class="n">size</span> <span class="o">+=</span> <span class="s1">&#39;H: &#39;</span><span class="o">+</span><span class="n">h</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">size</span><span class="p">:</span>
+                <span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="k">for</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">SPEC_NAMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">extra_info</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                <span class="n">extra_info</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="api_nexar.select_best_part"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.select_best_part">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">select_best_part</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">native_dists</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Select the best part, we discard results that are not distributed by our distributors.</span>
+<span class="sd">            Then we look for the one that best matches the `manf`. &quot;&quot;&quot;</span>
+        <span class="n">hits</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">]</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Hits: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hits</span><span class="p">))</span>
+        <span class="c1"># Each result can match one or more components from different manufacturers</span>
+        <span class="c1"># Take only the items with useful offers</span>
+        <span class="n">useful_items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;parts&#39;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">offer</span> <span class="ow">in</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;sellers&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;company&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">native_dists</span><span class="p">:</span>
+                    <span class="n">useful_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="k">break</span>
+        <span class="c1"># debug_obsessive(str(result))</span>
+        <span class="c1"># debug_obsessive(str(useful_items))</span>
+        <span class="c1"># If more than one select the best</span>
+        <span class="n">no_offers</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">useful_items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># List of possible manufacturers</span>
+            <span class="n">manufacturers</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">useful_items</span><span class="p">:</span>
+                <span class="n">manf</span> <span class="o">=</span> <span class="n">it</span><span class="p">[</span><span class="s1">&#39;manufacturer&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">manf</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">manufacturers</span><span class="p">:</span>
+                    <span class="c1"># We store the only the first one</span>
+                    <span class="c1"># Nexar provides the best entry first, and sometimes an optional entry</span>
+                    <span class="c1"># Example: Vishay CRCW06030000Z0EA vs Vishay CRCW0603-0000Z0EA</span>
+                    <span class="n">manufacturers</span><span class="p">[</span><span class="n">manf</span><span class="p">]</span> <span class="o">=</span> <span class="n">it</span>
+            <span class="c1"># Is the manf included?</span>
+            <span class="n">manf</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">manufacturers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">manf</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">manf</span> <span class="o">==</span> <span class="s1">&#39;none&#39;</span><span class="p">:</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">useful_items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">best_match</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">manf</span><span class="p">,</span> <span class="n">manufacturers</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="n">manufacturers</span><span class="p">[</span><span class="n">best_match</span><span class="p">]</span>
+                <span class="n">mpn</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;mpn&#39;</span><span class="p">]</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_AMBIPN</span><span class="p">,</span> <span class="s1">&#39;Using &quot;</span><span class="si">{}</span><span class="s1">&quot; for manf#=&quot;</span><span class="si">{}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;manufacturer&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">mpn</span><span class="p">))</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_AMBIPN</span><span class="p">,</span> <span class="s1">&#39;Ambiguous manf#=&quot;</span><span class="si">{}</span><span class="s1">&quot; please use manf to select the right one, choices: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">mpn</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">manufacturers</span><span class="o">.</span><span class="n">keys</span><span class="p">())))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">useful_items</span><span class="p">):</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">useful_items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;parts&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">no_offers</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">item</span><span class="p">,</span> <span class="n">no_offers</span></div>
+
+<div class="viewcode-block" id="api_nexar.fill_part_data"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.fill_part_data">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fill_part_data</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Fill generic data in the PartGroup() structure &#39;&#39;&#39;</span>
+        <span class="c1"># Get the information of the part.</span>
+        <span class="c1"># Datasheet, only if we don&#39;t have one</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span><span class="p">:</span>
+            <span class="n">best_datasheet</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;bestDatasheet&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">best_datasheet</span><span class="p">:</span>
+                <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">best_datasheet</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">)</span>
+        <span class="c1"># Life cycle</span>
+        <span class="n">lifecycle</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">get_spec</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;lifecyclestatus&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lifecycle</span><span class="p">:</span>
+            <span class="n">lifecycle</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">get_spec</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="s1">&#39;manufacturerlifecyclestatus&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lifecycle</span><span class="p">:</span>
+            <span class="c1"># End Of Live -&gt; obsolete</span>
+            <span class="n">lifecycle</span> <span class="o">=</span> <span class="n">lifecycle</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;EOL &#39;</span><span class="p">,</span> <span class="s1">&#39;obsolete &#39;</span><span class="p">)</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="n">lifecycle</span>
+        <span class="c1"># Misc data collected, currently not used inside KiCost</span>
+        <span class="n">part</span><span class="o">.</span><span class="n">update_specs</span><span class="p">({</span><span class="n">sp</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">][</span><span class="s1">&#39;shortname&#39;</span><span class="p">]:</span> <span class="p">(</span><span class="n">sp</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">sp</span><span class="p">[</span><span class="s1">&#39;displayValue&#39;</span><span class="p">])</span>
+                          <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;specs&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">sp</span><span class="p">[</span><span class="s1">&#39;displayValue&#39;</span><span class="p">]})</span></div>
+
+<div class="viewcode-block" id="api_nexar.fill_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.fill_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fill_part_info</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">solved</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Place the results into the parts list. &#39;&#39;&#39;</span>
+        <span class="c1"># Translate from PartInfo distributor names to the names used internally by kicost.</span>
+        <span class="n">dist_xlate</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">DIST_TRANSLATION</span>
+
+        <span class="c1"># Loop through the response to the query and enter info into the parts list.</span>
+        <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+            <span class="c1"># Unpack the structure</span>
+            <span class="n">part_query</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">query</span>
+            <span class="n">part</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">part</span>
+            <span class="n">dist_want</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">for_dists</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">result</span>
+            <span class="c1"># Process it</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hits&#39;</span><span class="p">):</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;No information found for parts </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> query `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_query</span><span class="p">)))</span>
+                <span class="k">continue</span>
+            <span class="c1"># Select the best hit</span>
+            <span class="n">native_dists</span> <span class="o">=</span> <span class="nb">set</span><span class="p">((</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">KICOST2NEXAR_DIST</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dist_want</span><span class="p">))</span>
+            <span class="n">result</span><span class="p">,</span> <span class="n">no_offers</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">select_best_part</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">native_dists</span><span class="p">)</span>
+            <span class="c1"># Note that it could have no useful offers, in this case we extract some info and then skip it</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">fill_part_data</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">no_offers</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># Loop through the offers from various dists for this particular part.</span>
+            <span class="k">for</span> <span class="n">offer</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;sellers&#39;</span><span class="p">]:</span>
+                <span class="c1"># Get the distributor who made the offer and add their</span>
+                <span class="c1"># price/qty info to the parts list if its one of the accepted distributors.</span>
+                <span class="n">dist</span> <span class="o">=</span> <span class="n">dist_xlate</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">offer</span><span class="p">[</span><span class="s1">&#39;company&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dist</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dist_want</span><span class="p">:</span>
+                    <span class="c1"># Not interested in this distributor</span>
+                    <span class="c1"># debug_obsessive(&#39;Discard offer: {}&#39;.format(offer[&#39;company&#39;][&#39;name&#39;]))</span>
+                    <span class="k">continue</span>
+                <span class="c1"># Get the DistData for this distributor</span>
+                <span class="n">dd</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">DistData</span><span class="p">())</span>
+                <span class="c1"># Extra information</span>
+                <span class="n">api_nexar</span><span class="o">.</span><span class="n">fill_extra_info</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">specs</span><span class="p">,</span> <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">)</span>
+                <span class="c1"># Each distributor (seller) can have one or more offers</span>
+                <span class="k">for</span> <span class="n">of</span> <span class="ow">in</span> <span class="n">offer</span><span class="p">[</span><span class="s1">&#39;offers&#39;</span><span class="p">]:</span>
+                    <span class="c1"># Get pricing information from this distributor.</span>
+                    <span class="c1"># The offer could contain more than one currency, so we separate the prices by currency.</span>
+                    <span class="n">dist_currency</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="k">for</span> <span class="n">pr</span> <span class="ow">in</span> <span class="n">of</span><span class="p">[</span><span class="s1">&#39;prices&#39;</span><span class="p">]:</span>
+                        <span class="n">cur</span> <span class="o">=</span> <span class="n">pr</span><span class="p">[</span><span class="s1">&#39;currency&#39;</span><span class="p">]</span>
+                        <span class="n">ne</span> <span class="o">=</span> <span class="p">(</span><span class="n">pr</span><span class="p">[</span><span class="s1">&#39;quantity&#39;</span><span class="p">],</span> <span class="n">pr</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span>
+                        <span class="k">if</span> <span class="n">cur</span> <span class="ow">in</span> <span class="n">dist_currency</span><span class="p">:</span>
+                            <span class="n">dist_currency</span><span class="p">[</span><span class="n">cur</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ne</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">dist_currency</span><span class="p">[</span><span class="n">cur</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">ne</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">dist_currency</span><span class="p">:</span>
+                        <span class="c1"># Some times the API returns minimum purchase 0 and a not valid `price_tiers`.</span>
+                        <span class="n">warning</span><span class="p">(</span><span class="n">NO_PRICE</span><span class="p">,</span> <span class="s1">&#39;No price information found for parts </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> query `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">part_query</span><span class="p">)))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">prices</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="c1"># Get the price tiers prioritizing:</span>
+                        <span class="c1"># 1) The asked currency by KiCost user;</span>
+                        <span class="c1"># 2) The default currency given by `DEFAULT_CURRENCY` in root `global_vars.py`;</span>
+                        <span class="c1"># 3) The first not null tiers</span>
+                        <span class="k">if</span> <span class="n">currency</span> <span class="ow">in</span> <span class="n">dist_currency</span><span class="p">:</span>
+                            <span class="n">prices</span> <span class="o">=</span> <span class="n">dist_currency</span><span class="p">[</span><span class="n">currency</span><span class="p">]</span>
+                            <span class="n">dd</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">currency</span>
+                        <span class="k">elif</span> <span class="n">DEFAULT_CURRENCY</span> <span class="ow">in</span> <span class="n">dist_currency</span><span class="p">:</span>
+                            <span class="n">prices</span> <span class="o">=</span> <span class="n">dist_currency</span><span class="p">[</span><span class="n">DEFAULT_CURRENCY</span><span class="p">]</span>
+                            <span class="n">dd</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">DEFAULT_CURRENCY</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">dd</span><span class="o">.</span><span class="n">currency</span><span class="p">,</span> <span class="n">prices</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">dist_currency</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+                        <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">qty</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">price</span><span class="p">)</span> <span class="k">for</span> <span class="n">qty</span><span class="p">,</span> <span class="n">price</span> <span class="ow">in</span> <span class="n">prices</span><span class="p">}</span>
+                        <span class="c1"># Combine price lists for multiple offers from the same distributor</span>
+                        <span class="c1"># to build a complete list of cut-tape and reeled components.</span>
+                        <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">price_tiers</span><span class="p">)</span>
+                    <span class="n">part_qty_increment</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;orderMultiple&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="c1"># Select the part SKU, web page, and available quantity.</span>
+                    <span class="c1"># Each distributor can have different stock codes for the same part in different</span>
+                    <span class="c1"># quantities / delivery package styles: cut-tape, reel, ...</span>
+                    <span class="c1"># Therefore we select and overwrite a previous selection if one of the</span>
+                    <span class="c1"># following conditions is met:</span>
+                    <span class="c1">#   1. We don&#39;t have a selection for this part from this distributor yet.</span>
+                    <span class="c1">#   2. The MOQ is smaller than for the current selection.</span>
+                    <span class="c1">#   3. The part_qty_increment for this offer smaller than that of the existing selection.</span>
+                    <span class="c1">#      (we prefer cut-tape style packaging over reels)</span>
+                    <span class="c1">#   4. For DigiKey, we can&#39;t use part_qty_increment to distinguish between</span>
+                    <span class="c1">#      reel and cut-tape, so we need to look at the actual DigiKey part number.</span>
+                    <span class="c1">#      This procedure is made by the definition `distributors_info[dist][&#39;ignore_cat#_re&#39;]`</span>
+                    <span class="c1">#      at the distributor profile.</span>
+                    <span class="n">dist_part_num</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sku&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                    <span class="n">qty_avail</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span>
+                    <span class="n">in_stock_quantity</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;inventoryLevel&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">qty_avail</span> <span class="ow">or</span> <span class="p">(</span><span class="n">in_stock_quantity</span> <span class="ow">and</span> <span class="n">qty_avail</span> <span class="o">&lt;</span> <span class="n">in_stock_quantity</span><span class="p">):</span>
+                        <span class="c1"># Keeps the information of more availability.</span>
+                        <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="n">in_stock_quantity</span>  <span class="c1"># In stock.</span>
+                    <span class="n">ign_stock_code</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span><span class="o">.</span><span class="n">ignore_cat</span>
+                    <span class="n">valid_part</span> <span class="o">=</span> <span class="ow">not</span> <span class="p">(</span><span class="n">ign_stock_code</span> <span class="ow">and</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">ign_stock_code</span><span class="p">,</span> <span class="n">dist_part_num</span><span class="p">))</span>
+                    <span class="c1"># debug(&#39;dd.part_num&#39;)  # Uncomment to debug</span>
+                    <span class="c1"># debug(&#39;dd.qty_increment&#39;)  # Uncomment to debug</span>
+                    <span class="n">moq</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;moq&#39;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="n">valid_part</span> <span class="ow">and</span>
+                        <span class="p">(</span><span class="ow">not</span> <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span> <span class="ow">or</span>
+                         <span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">part_qty_increment</span> <span class="o">&lt;</span> <span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span><span class="p">)</span> <span class="ow">or</span>
+                         <span class="p">(</span><span class="ow">not</span> <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="ow">or</span> <span class="p">(</span><span class="n">moq</span> <span class="ow">and</span> <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="o">&gt;</span> <span class="n">moq</span><span class="p">)))):</span>
+                        <span class="c1"># Save the link, stock code, ... of the page for minimum purchase.</span>
+                        <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="n">moq</span>  <span class="c1"># Minimum order qty.</span>
+                        <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">of</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;clickUrl&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># Page to purchase the minimum quantity.</span>
+                        <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="n">dist_part_num</span>
+                        <span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="n">part_qty_increment</span>
+                    <span class="c1"># Update the DistData for this distributor</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="p">[</span><span class="n">dist</span><span class="p">]</span> <span class="o">=</span> <span class="n">dd</span>
+                <span class="c1"># We have data for this distributor</span>
+                <span class="n">solved</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="api_nexar.look_query_in_cache"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.look_query_in_cache">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">look_query_in_cache</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">unsolved</span><span class="p">):</span>
+        <span class="c1"># Solve the prefix and name</span>
+        <span class="n">prefix</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">query2name</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="c1"># Look in the cache</span>
+        <span class="n">query</span><span class="o">.</span><span class="n">result</span><span class="p">,</span> <span class="n">query</span><span class="o">.</span><span class="n">loaded</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">query</span><span class="o">.</span><span class="n">loaded</span><span class="p">:</span>
+            <span class="n">unsolved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from cache: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">query</span><span class="o">.</span><span class="n">result</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="api_nexar.solve_queries"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.solve_queries">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">solve_queries</span><span class="p">(</span><span class="n">unsolved</span><span class="p">,</span> <span class="n">n_unsolved</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="n">to_retry</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Setup progress bar to track progress of server queries.</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">n_unsolved</span><span class="p">,</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
+
+        <span class="c1"># Slice the queries into batches of the largest allowed size and gather</span>
+        <span class="c1"># the part data for each batch.</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_unsolved</span><span class="p">,</span> <span class="n">MAX_PARTS_PER_QUERY</span><span class="p">):</span>
+            <span class="n">slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="n">MAX_PARTS_PER_QUERY</span><span class="p">)</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">get_part_info</span><span class="p">(</span><span class="n">unsolved</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">currency</span><span class="p">,</span> <span class="n">to_retry</span><span class="p">)</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">unsolved</span><span class="p">[</span><span class="n">slc</span><span class="p">]))</span>
+
+        <span class="c1"># Done with the scraping progress bar so delete it or else we get an</span>
+        <span class="c1"># error when the program terminates.</span>
+        <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">to_retry</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_retry</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="api_nexar.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from Nexar.&#39;&#39;&#39;</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting part data from Nexar ...&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Use just the distributors avaliable in this API.</span>
+        <span class="c1"># Note: The user can use --exclude and define it with fields.</span>
+        <span class="n">distributors</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span> <span class="k">if</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">is_web</span><span class="p">()</span>
+                        <span class="ow">and</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">api_distributors</span><span class="p">]</span>
+        <span class="n">FIELDS_CAT</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">d</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">])</span>
+
+        <span class="c1"># Create queries to get part price/quantities from PartInfo.</span>
+        <span class="n">queries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Translate from PartInfo distributor names to the names used internally by kicost.</span>
+        <span class="n">available_distributors</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">api_distributors</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="c1"># Create a PartInfo query using the manufacturer&#39;s part number or the distributor&#39;s SKU.</span>
+            <span class="n">part_dist_use_manfpn</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">distributors</span><span class="p">)</span>
+
+            <span class="c1"># Create queries using the distributor SKU</span>
+            <span class="c1"># Check if that part have stock code that is accepted to use by this module (API).</span>
+            <span class="c1"># KiCost will prioritize these codes under &quot;manf#&quot; that will be used for get</span>
+            <span class="c1"># information for the part hat were not filled with the distributor stock code. So</span>
+            <span class="c1"># this is checked after the &#39;manf#&#39; buv code.</span>
+            <span class="n">found_codes_for_all_dists</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">FIELDS_CAT</span><span class="p">:</span>
+                <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">part_stock</span><span class="p">:</span>
+                    <span class="n">part_catalogue_code_dist</span> <span class="o">=</span> <span class="n">d</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">part_catalogue_code_dist</span> <span class="ow">in</span> <span class="n">available_distributors</span><span class="p">:</span>
+                        <span class="n">part_code_dist</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">KICOST2NEXAR_DIST</span><span class="p">[</span><span class="n">part_catalogue_code_dist</span><span class="p">]</span>
+                        <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QueryStruct</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">),</span> <span class="n">part</span><span class="p">,</span> <span class="p">[</span><span class="n">part_catalogue_code_dist</span><span class="p">],</span> <span class="n">seller</span><span class="o">=</span><span class="n">part_code_dist</span><span class="p">,</span> <span class="n">sku</span><span class="o">=</span><span class="n">part_stock</span><span class="p">))</span>
+                        <span class="n">part_dist_use_manfpn</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">part_catalogue_code_dist</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">found_codes_for_all_dists</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Create a query using the manufacturer P/N</span>
+            <span class="n">part_manf</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+            <span class="n">part_code</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf#&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">part_code</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">found_codes_for_all_dists</span><span class="p">:</span>
+                <span class="c1"># Not all distributors has code, add a query for the manufaturer P/N</span>
+                <span class="c1"># List of distributors without an specific part number</span>
+                <span class="n">queries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">QueryStruct</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">),</span> <span class="n">part</span><span class="p">,</span> <span class="n">part_dist_use_manfpn</span><span class="p">,</span> <span class="n">manf</span><span class="o">=</span><span class="n">part_manf</span><span class="p">,</span> <span class="n">mpn</span><span class="o">=</span><span class="n">part_code</span><span class="p">))</span>
+
+        <span class="n">n_queries</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Queries </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_queries</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">n_queries</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Try to solve the queries from the cache</span>
+        <span class="n">unsolved</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">query</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">:</span>
+            <span class="n">api_nexar</span><span class="o">.</span><span class="n">look_query_in_cache</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">unsolved</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">query</span><span class="o">.</span><span class="n">loaded</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">query</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;hits&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">query</span><span class="o">.</span><span class="n">mpn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Found, but has no hits</span>
+                <span class="c1"># Try without specifying a manufacturer</span>
+                <span class="n">query</span><span class="o">.</span><span class="n">remove_manfucturer</span><span class="p">()</span>
+                <span class="n">api_nexar</span><span class="o">.</span><span class="n">look_query_in_cache</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">unsolved</span><span class="p">)</span>
+
+        <span class="c1"># Solve the rest from the site</span>
+        <span class="n">n_unsolved</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unsolved</span><span class="p">)</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Cached entries </span><span class="si">{}</span><span class="s1"> (of </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_queries</span><span class="o">-</span><span class="n">n_unsolved</span><span class="p">,</span> <span class="n">n_queries</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">n_unsolved</span><span class="p">:</span>
+            <span class="n">unsolved</span><span class="p">,</span> <span class="n">n_unsolved</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">solve_queries</span><span class="p">(</span><span class="n">unsolved</span><span class="p">,</span> <span class="n">n_unsolved</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+            <span class="c1"># Do we need to retry some queries?</span>
+            <span class="k">if</span> <span class="n">n_unsolved</span><span class="p">:</span>
+                <span class="n">unsolved</span><span class="p">,</span> <span class="n">n_unsolved</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">solve_queries</span><span class="p">(</span><span class="n">unsolved</span><span class="p">,</span> <span class="n">n_unsolved</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+
+        <span class="c1"># Transfer the results</span>
+        <span class="n">solved_dist</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">api_nexar</span><span class="o">.</span><span class="n">fill_part_info</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">solved_dist</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">solved_dist</span></div></div>
+
+
+<span class="n">distributor_class</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">api_nexar</span><span class="p">,</span> <span class="mi">75</span><span class="p">)</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_nexar</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

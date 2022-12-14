@@ -1,0 +1,560 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.distributors.api_tme &#8212; kicost 1.1.14 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_tme</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.distributors.api_tme</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (C) 2022 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+<span class="c1">#</span>
+<span class="c1"># I took the basic query from https://github.com/krzych82/api-client-python3.git</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Salvador Eduardo Tropea&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/set-soft&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;Instituto Nacional de Tecnologia Industrial - Argentina&#39;</span>
+
+<span class="c1"># Libraries.</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">difflib</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">quote</span><span class="p">,</span> <span class="n">urlencode</span>
+    <span class="kn">from</span> <span class="nn">urllib2</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span><span class="p">,</span> <span class="n">URLError</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">quote</span><span class="p">,</span> <span class="n">urlencode</span>
+    <span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+    <span class="kn">from</span> <span class="nn">urllib.error</span> <span class="kn">import</span> <span class="n">URLError</span>
+
+<span class="c1"># KiCost definitions.</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">W_APIFAIL</span>
+<span class="c1"># Distributors definitions.</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">debug_full</span><span class="p">,</span> <span class="n">is_debug_full</span><span class="p">,</span> <span class="n">warning</span>
+
+<span class="c1"># Specs known by KiCost</span>
+<span class="n">SPEC_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tolerance&#39;</span><span class="p">:</span> <span class="s1">&#39;tolerance&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;power&#39;</span><span class="p">:</span> <span class="s1">&#39;power&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;operating voltage&#39;</span><span class="p">:</span> <span class="s1">&#39;voltage&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;manufacturer&#39;</span><span class="p">:</span> <span class="s1">&#39;manf&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;temperature coefficient&#39;</span><span class="p">:</span> <span class="s1">&#39;temp_coeff&#39;</span><span class="p">}</span>
+
+<span class="n">DIST_NAME</span> <span class="o">=</span> <span class="s1">&#39;tme&#39;</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s1">&#39;https://api.tme.eu&#39;</span>
+<span class="n">MAX_PARTS_PER_QUERY</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;api_tme&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">do_encode</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">string</span>
+    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">TMEError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">TME</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="n">language</span><span class="p">,</span> <span class="n">app_secret</span><span class="p">,</span> <span class="n">token</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="c1"># Adapt to what TME uses</span>
+        <span class="n">currency</span> <span class="o">=</span> <span class="n">currency</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">country</span> <span class="o">=</span> <span class="n">country</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="n">language</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="c1"># Store the options in the object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">currency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">country</span> <span class="o">=</span> <span class="n">country</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">token</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app_secret</span> <span class="o">=</span> <span class="n">do_encode</span><span class="p">(</span><span class="n">app_secret</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">cache</span>
+        <span class="c1"># Check the language</span>
+        <span class="n">lng</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_languages</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">language</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lng</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="s1">&#39;EN&#39;</span>
+            <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Language `</span><span class="si">{}</span><span class="s1">` not supported using `EN`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">language</span><span class="p">))</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Using `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">))</span>
+        <span class="c1"># Check the selected country</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_countries</span><span class="p">()</span>
+        <span class="n">country_l</span> <span class="o">=</span> <span class="n">country</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">cnt_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;CountryId&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">country_l</span><span class="p">,</span> <span class="n">cnt</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cnt_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TMEError</span><span class="p">(</span><span class="s2">&quot;Unsupported country `</span><span class="si">{}</span><span class="s2">`&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">country</span><span class="p">))</span>
+        <span class="c1"># Check if the currency is supported for this country</span>
+        <span class="k">if</span> <span class="n">currency</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cnt_data</span><span class="p">[</span><span class="s1">&#39;CurrencyList&#39;</span><span class="p">]:</span>
+            <span class="c1"># Nope, use the default for this country</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">cnt_data</span><span class="p">[</span><span class="s1">&#39;Currency&#39;</span><span class="p">]</span>
+            <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Currency `</span><span class="si">{}</span><span class="s1">` not supported for `</span><span class="si">{}</span><span class="s1">` using `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">currency</span><span class="p">,</span> <span class="n">country</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="p">))</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Using `</span><span class="si">{}</span><span class="s1">` for `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currency</span><span class="p">,</span> <span class="n">cnt_data</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">_get_signature_base</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="n">encoded_params</span> <span class="o">=</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">signature_base</span> <span class="o">=</span> <span class="s1">&#39;POST&#39;</span><span class="o">+</span><span class="s1">&#39;&amp;&#39;</span><span class="o">+</span><span class="n">quote</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&amp;&#39;</span><span class="o">+</span><span class="n">quote</span><span class="p">(</span><span class="n">encoded_params</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">do_encode</span><span class="p">(</span><span class="n">signature_base</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_calculate_signature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="n">hmac_value</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">app_secret</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_signature_base</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">base64</span><span class="o">.</span><span class="n">encodebytes</span><span class="p">(</span><span class="n">hmac_value</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">BASE_URL</span><span class="o">+</span><span class="n">endpoint</span><span class="o">+</span><span class="s1">&#39;.&#39;</span><span class="o">+</span><span class="nb">format</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Token&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">token</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">&#39;ApiSignature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_signature</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">do_encode</span><span class="p">(</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Content-type&quot;</span><span class="p">:</span> <span class="s2">&quot;application/x-www-form-urlencoded&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">json_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="n">reason</span> <span class="o">=</span> <span class="n">code</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;TME json request endpoint </span><span class="si">{}</span><span class="s1"> params </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
+        <span class="k">except</span> <span class="n">URLError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">reason</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">reason</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span>
+        <span class="k">if</span> <span class="n">reason</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TMEError</span><span class="p">(</span><span class="s2">&quot;Server error `</span><span class="si">{}</span><span class="s2">` (</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reason</span><span class="p">,</span> <span class="n">code</span><span class="p">))</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_countries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">language</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">loaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;countries_&#39;</span><span class="o">+</span><span class="n">language</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loaded</span><span class="p">:</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from cache: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;CountryList&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_request</span><span class="p">(</span><span class="s1">&#39;/Utils/GetCountries&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Language&#39;</span><span class="p">:</span> <span class="n">language</span><span class="p">})</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from web: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;countries_&#39;</span><span class="o">+</span><span class="n">language</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;CountryList&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_languages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">loaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;languages&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loaded</span><span class="p">:</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from cache: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;LanguageList&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_request</span><span class="p">(</span><span class="s1">&#39;/Utils/GetLanguages&#39;</span><span class="p">)</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from web: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="s1">&#39;languages&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;LanguageList&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_from_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">symbol</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">currency</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">loaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">full_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loaded</span><span class="p">:</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from cache: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_get_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Country&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="p">,</span>
+                      <span class="s1">&#39;Language&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">currency</span><span class="p">:</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;Currency&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currency</span>
+        <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">symbols</span><span class="p">):</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;SymbolList[</span><span class="si">{}</span><span class="s1">]&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">)]</span> <span class="o">=</span> <span class="n">s</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_request</span><span class="p">(</span><span class="s1">&#39;/Products/&#39;</span><span class="o">+</span><span class="n">kind</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from web: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ProductList&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_products</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_products</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="s1">&#39;GetProducts&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_prices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_products</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="s1">&#39;GetPricesAndStocks&#39;</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_products</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="s1">&#39;GetParameters&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbols</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_products</span><span class="p">(</span><span class="n">symbols</span><span class="p">,</span> <span class="s1">&#39;GetProductsFiles&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_part_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">missing</span><span class="p">,</span> <span class="n">known</span><span class="p">):</span>
+        <span class="n">products</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_products</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+        <span class="n">prices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_prices</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parameters</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+        <span class="n">files</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_files</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span>
+        <span class="c1"># Join all the data</span>
+        <span class="n">all_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">missing</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">products</span><span class="o">+</span><span class="n">prices</span><span class="o">+</span><span class="n">parameters</span><span class="o">+</span><span class="n">files</span><span class="p">:</span>
+            <span class="n">all_data</span><span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;Symbol&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="c1"># Cache the data and it to the known</span>
+        <span class="n">qual_name</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">currency</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">all_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">+</span><span class="n">qual_name</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="n">known</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="c1"># Try to get the data from the cache</span>
+        <span class="n">full_name</span> <span class="o">=</span> <span class="n">name</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">currency</span>
+        <span class="n">data</span><span class="p">,</span> <span class="n">loaded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="n">full_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">loaded</span><span class="p">:</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from cache: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">data</span>
+        <span class="c1"># The docs suggest that spaces are allowed, but I get 400 (Bad Request)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Country&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="p">,</span>
+                      <span class="s1">&#39;Language&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+                      <span class="s1">&#39;SearchPlain&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                      <span class="s1">&#39;SearchOrder&#39;</span><span class="p">:</span> <span class="s1">&#39;PRICE_FIRST_QUANTITY&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;SearchOrderType&#39;</span><span class="p">:</span> <span class="s1">&#39;ASC&#39;</span><span class="p">}</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_request</span><span class="p">(</span><span class="s1">&#39;/Products/Search&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Data from web: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Amount&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+            <span class="c1"># Get the rest of the matches</span>
+            <span class="n">product_list</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ProductList&#39;</span><span class="p">]</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">product_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">total</span><span class="p">:</span>
+                <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Country&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">country</span><span class="p">,</span>
+                              <span class="s1">&#39;Language&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span><span class="p">,</span>
+                              <span class="s1">&#39;SearchPlain&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+                              <span class="s1">&#39;SearchOrder&#39;</span><span class="p">:</span> <span class="s1">&#39;PRICE_FIRST_QUANTITY&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;SearchOrderType&#39;</span><span class="p">:</span> <span class="s1">&#39;ASC&#39;</span><span class="p">,</span>
+                              <span class="s1">&#39;SearchPage&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">)}</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">json_request</span><span class="p">(</span><span class="s1">&#39;/Products/Search&#39;</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+                <span class="n">product_list</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ProductList&#39;</span><span class="p">])</span>
+                <span class="n">page</span> <span class="o">=</span> <span class="n">page</span><span class="o">+</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">product_list</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ProductList&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="n">full_name</span><span class="p">,</span> <span class="n">product_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">product_list</span>
+
+
+<div class="viewcode-block" id="api_tme"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_tme.api_tme">[docs]</a><span class="k">class</span> <span class="nc">api_tme</span><span class="p">(</span><span class="n">distributor_class</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;TME&#39;</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;api&#39;</span>
+    <span class="c1"># Currently enabled only by request</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://developers.tme.eu/en/&#39;</span>  <span class="c1"># Web site API information.</span>
+    <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="n">DIST_NAME</span><span class="p">]</span>
+    <span class="c1"># Options supported by this API</span>
+    <span class="n">config_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                      <span class="s1">&#39;app_secret&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                      <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                      <span class="s1">&#39;language&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">app_secret</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">country</span> <span class="o">=</span> <span class="s1">&#39;US&#39;</span>
+    <span class="n">language</span> <span class="o">=</span> <span class="s1">&#39;EN&#39;</span>
+    <span class="n">env_prefix</span> <span class="o">=</span> <span class="s1">&#39;TME&#39;</span>
+
+<div class="viewcode-block" id="api_tme.configure"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_tme.api_tme.configure">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
+        <span class="n">cache_ttl</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">cache_path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;token&#39;</span><span class="p">:</span>
+                <span class="n">api_tme</span><span class="o">.</span><span class="n">token</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;app_secret&#39;</span><span class="p">:</span>
+                <span class="n">api_tme</span><span class="o">.</span><span class="n">app_secret</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;country&#39;</span><span class="p">:</span>
+                <span class="n">api_tme</span><span class="o">.</span><span class="n">country</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;language&#39;</span><span class="p">:</span>
+                <span class="n">api_tme</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span><span class="p">:</span>
+                <span class="n">api_tme</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_ttl&#39;</span><span class="p">:</span>
+                <span class="n">cache_ttl</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">:</span>
+                <span class="n">cache_path</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="p">(</span><span class="n">api_tme</span><span class="o">.</span><span class="n">token</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">app_secret</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t enable TME without a `token` and an `app_secret`&quot;</span><span class="p">)</span>
+            <span class="n">api_tme</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;TME API configured to enabled </span><span class="si">{}</span><span class="s1"> token </span><span class="si">{}</span><span class="s1"> app_secret </span><span class="si">{}</span><span class="s1"> path </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span>
+                        <span class="nb">format</span><span class="p">(</span><span class="n">api_tme</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">app_secret</span><span class="p">,</span> <span class="n">cache_path</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># Configure the cache</span>
+        <span class="n">api_tme</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">QueryCache</span><span class="p">(</span><span class="n">cache_path</span><span class="p">,</span> <span class="n">cache_ttl</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from KitSpace.&#39;&#39;&#39;</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting part data from TME ...&#39;</span><span class="p">)</span>
+        <span class="n">field_cat</span> <span class="o">=</span> <span class="n">DIST_NAME</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">TME</span><span class="p">(</span><span class="n">api_tme</span><span class="o">.</span><span class="n">country</span><span class="p">,</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">language</span><span class="p">,</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">app_secret</span><span class="p">,</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="n">api_tme</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="c1"># First pass: collect the missing TME part numbers</span>
+        <span class="c1">#</span>
+        <span class="c1"># Setup progress bar to track progress of server queries.</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">),</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
+        <span class="n">symbols</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">missing_symbols</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="c1"># Get the TME P/N for this part</span>
+            <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field_cat</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">part_stock</span><span class="p">:</span>
+                <span class="c1"># We can&#39;t get information without a valid TME code (symbol)</span>
+                <span class="n">part_manf</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+                <span class="n">part_code</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf#&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">part_code</span><span class="p">:</span>
+                    <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Searching P/N: </span><span class="si">{}</span><span class="s1"> from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_code</span><span class="p">,</span> <span class="n">part_manf</span><span class="p">))</span>
+                    <span class="n">candidates</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">part_code</span><span class="p">)</span>
+                    <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Found </span><span class="si">{}</span><span class="s1"> matches&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">candidates</span><span class="p">)))</span>
+                    <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="p">[</span><span class="n">field_cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">_select_best</span><span class="p">(</span><span class="n">candidates</span><span class="p">,</span> <span class="n">part_manf</span><span class="p">,</span> <span class="n">part</span><span class="o">.</span><span class="n">qty_total_spreadsheet</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">part_stock</span><span class="p">:</span>
+                <span class="c1"># Add this symbol to the list of needed</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">get_from_cache</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
+                <span class="n">symbols</span><span class="p">[</span><span class="n">part_stock</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
+                <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">missing_symbols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1">#</span>
+        <span class="c1"># Second pass: collect the missing data</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="n">missing_symbols</span><span class="p">:</span>
+            <span class="n">n_unsolved</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_symbols</span><span class="p">)</span>
+            <span class="n">progress</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="n">n_unsolved</span><span class="p">,</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_unsolved</span><span class="p">,</span> <span class="n">MAX_PARTS_PER_QUERY</span><span class="p">):</span>
+                <span class="n">slc</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="n">MAX_PARTS_PER_QUERY</span><span class="p">)</span>
+                <span class="n">o</span><span class="o">.</span><span class="n">get_part_info</span><span class="p">(</span><span class="n">missing_symbols</span><span class="p">[</span><span class="n">slc</span><span class="p">],</span> <span class="n">symbols</span><span class="p">)</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">missing_symbols</span><span class="p">[</span><span class="n">slc</span><span class="p">]))</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="c1">#</span>
+        <span class="c1"># Fill the part information</span>
+        <span class="c1">#</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field_cat</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">part_stock</span><span class="p">:</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;No information found at TME for part/s </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
+                <span class="k">continue</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">[</span><span class="n">part_stock</span><span class="p">]</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Part info before adding data:&#39;</span><span class="p">)</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Data found:&#39;</span><span class="p">)</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ds</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;DocumentType&#39;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;INS&#39;</span><span class="p">,</span> <span class="s1">&#39;DTE&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Files&#39;</span><span class="p">][</span><span class="s1">&#39;DocumentList&#39;</span><span class="p">])),</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">ds</span><span class="p">:</span>
+                    <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;DocumentUrl&#39;</span><span class="p">]</span>
+            <span class="n">specs</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ParameterList&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="s1">&#39;ParameterName&#39;</span><span class="p">]</span>
+                <span class="n">name_l</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="s1">&#39;ParameterValue&#39;</span><span class="p">]</span>
+                <span class="n">specs</span><span class="p">[</span><span class="n">name_l</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">update_specs</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
+            <span class="n">dd</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DIST_NAME</span><span class="p">,</span> <span class="n">DistData</span><span class="p">())</span>
+            <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;MinAmount&#39;</span><span class="p">]</span>
+            <span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Multiples&#39;</span><span class="p">]</span>
+            <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ProductInformationPage&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="ow">and</span> <span class="n">dd</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;//&#39;</span><span class="p">):</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https:&#39;</span><span class="o">+</span><span class="n">dd</span><span class="o">.</span><span class="n">url</span>
+            <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="n">part_stock</span>
+            <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Amount&#39;</span><span class="p">]</span>
+            <span class="n">dd</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">currency</span>
+            <span class="n">prices</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PriceList&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">prices</span><span class="p">:</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;Amount&#39;</span><span class="p">]:</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;PriceValue&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">prices</span><span class="p">}</span>
+            <span class="c1"># Extra information</span>
+            <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;capacitance&#39;</span><span class="p">,</span> <span class="s1">&#39;resistance&#39;</span><span class="p">,</span> <span class="s1">&#39;inductance&#39;</span><span class="p">):</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">+=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+            <span class="k">if</span> <span class="n">value</span><span class="p">:</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+            <span class="k">for</span> <span class="n">spec</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">SPEC_NAMES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="p">[</span><span class="n">DIST_NAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">dd</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Part info after adding data:&#39;</span><span class="p">)</span>
+            <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+            <span class="c1"># debug_obsessive(pprint.pformat(dd.__dict__))</span>
+
+<div class="viewcode-block" id="api_tme.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_tme.api_tme.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">api_tme</span><span class="o">.</span><span class="n">_query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TMEError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">DIST_NAME</span><span class="p">])</span></div></div>
+
+
+<span class="c1"># Ok, this is special case ... we should add others</span>
+<span class="n">MANF_CHANGES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fairchild&#39;</span><span class="p">:</span> <span class="s1">&#39;onsemi&#39;</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_get_key</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">qty</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Sorting criteria for the suggested option &quot;&quot;&quot;</span>
+    <span class="n">moq</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;MinAmount&#39;</span><span class="p">]</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;ProductStatusList&#39;</span><span class="p">]</span>
+    <span class="n">cannot_be_ordered</span> <span class="o">=</span> <span class="s1">&#39;CANNOT_BE_ORDERED&#39;</span> <span class="ow">in</span> <span class="n">status</span>
+    <span class="n">hardly_available</span> <span class="o">=</span> <span class="s1">&#39;HARDLY_AVAILABLE&#39;</span> <span class="ow">in</span> <span class="n">status</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">cannot_be_ordered</span><span class="p">,</span>  <span class="c1"># Put first the ones in stock</span>
+            <span class="n">hardly_available</span><span class="p">,</span>
+            <span class="n">moq</span> <span class="o">&gt;</span> <span class="n">qty</span><span class="p">)</span>          <span class="c1"># Put first the ones with a MOQ under the quantity we need</span>
+
+
+<span class="k">def</span> <span class="nf">_filter_by_manf</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">manf</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Select the best matches according to the manufacturer &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">manf</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="n">manfs</span> <span class="o">=</span> <span class="p">{</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;Producer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">}</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">manfs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span>
+    <span class="n">manf</span> <span class="o">=</span> <span class="n">manf</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">best_matches</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">manf</span><span class="p">,</span> <span class="n">manfs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">new_name</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">MANF_CHANGES</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">manf</span><span class="p">:</span>
+                <span class="n">new_name</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">new_name</span><span class="p">:</span>
+            <span class="n">best_matches</span> <span class="o">=</span> <span class="n">difflib</span><span class="o">.</span><span class="n">get_close_matches</span><span class="p">(</span><span class="n">new_name</span><span class="p">,</span> <span class="n">manfs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data</span>
+    <span class="n">best_match</span> <span class="o">=</span> <span class="n">best_matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;Producer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">best_match</span><span class="p">,</span> <span class="n">data</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_list_comp_options</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">show</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Debug function used to show the list of options &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">show</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">debug_full</span><span class="p">(</span><span class="s1">&#39;  - &#39;</span><span class="o">+</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">debug_full</span><span class="p">(</span><span class="s1">&#39;  </span><span class="si">{}</span><span class="s1">) </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1"> moq: </span><span class="si">{}</span><span class="s1"> status: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span>
+                   <span class="nb">format</span><span class="p">(</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Producer&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;OriginalSymbol&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;MinAmount&#39;</span><span class="p">],</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;ProductStatusList&#39;</span><span class="p">]))</span>
+
+
+<span class="k">def</span> <span class="nf">_select_best</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">manf</span><span class="p">,</span> <span class="n">qty</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Selects the best result &quot;&quot;&quot;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Symbol&#39;</span><span class="p">]</span>
+    <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39; - Choosing the best match (</span><span class="si">{}</span><span class="s1"> options, qty: </span><span class="si">{}</span><span class="s1"> manf: </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">manf</span><span class="p">))</span>
+    <span class="n">ultra_debug</span> <span class="o">=</span> <span class="n">is_debug_full</span><span class="p">()</span>
+    <span class="n">_list_comp_options</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ultra_debug</span><span class="p">,</span> <span class="s1">&#39;Original list&#39;</span><span class="p">)</span>
+    <span class="c1"># Try to choose the best manufacturer</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="n">_filter_by_manf</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">manf</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="o">!=</span> <span class="n">data2</span><span class="p">:</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39; - Selected manf `</span><span class="si">{}</span><span class="s1">`&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Producer&#39;</span><span class="p">]))</span>
+        <span class="n">_list_comp_options</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">ultra_debug</span><span class="p">,</span> <span class="s1">&#39;Manufacturer selected&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">data2</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Symbol&#39;</span><span class="p">]</span>
+    <span class="c1"># Sort the results according to the best availability/price</span>
+    <span class="n">data3</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">data2</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_get_key</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">qty</span><span class="p">))</span>
+    <span class="n">_list_comp_options</span><span class="p">(</span><span class="n">data3</span><span class="p">,</span> <span class="n">ultra_debug</span><span class="p">,</span> <span class="s1">&#39;Sorted&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data3</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Symbol&#39;</span><span class="p">]</span>
+
+
+<span class="n">distributor_class</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">api_tme</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_tme</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>

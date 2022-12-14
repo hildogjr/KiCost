@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost package &#8212; kicost 1.1.13 documentation</title>
+    <title>kicost package &#8212; kicost 1.1.14 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="modules.html" title="kicost"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.14 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost package</a></li> 
       </ul>
@@ -65,11 +65,17 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="kicost.distributors.html">kicost.distributors package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_octopart">kicost.distributors.api_octopart module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_digikey">kicost.distributors.api_digikey module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_element14">kicost.distributors.api_element14 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_mouser">kicost.distributors.api_mouser module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_nexar">kicost.distributors.api_nexar module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_partinfo_kitspace">kicost.distributors.api_partinfo_kitspace module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.api_tme">kicost.distributors.api_tme module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.dist_local_template">kicost.distributors.dist_local_template module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.distributor">kicost.distributors.distributor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.distributors_info">kicost.distributors.distributors_info module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.global_vars">kicost.distributors.global_vars module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors.log__">kicost.distributors.log__ module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="kicost.distributors.html#module-kicost.distributors">Module contents</a></li>
 </ul>
 </li>
@@ -342,6 +348,11 @@ See: <a class="reference external" href="http://en.wikipedia.org/wiki/ANSI_escap
 <dl class="py function">
 <dt id="kicost.config.config_path">
 <code class="sig-prename descclassname">kicost.config.</code><code class="sig-name descname">config_path</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">k</span></em>, <em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/config.html#config_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.config.config_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.config.fill_missing_with_defaults">
+<code class="sig-prename descclassname">kicost.config.</code><code class="sig-name descname">fill_missing_with_defaults</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/config.html#fill_missing_with_defaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.config.fill_missing_with_defaults" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
@@ -1060,7 +1071,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 <p>A class to hold the spreadsheet generation settings</p>
 <dl class="py attribute">
 <dt id="kicost.spreadsheet.Spreadsheet.ABOUT_MSG">
-<code class="sig-name descname">ABOUT_MSG</code><em class="property"> = 'KiCost® v1.1.13'</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ABOUT_MSG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">ABOUT_MSG</code><em class="property"> = 'KiCost® v1.1.14'</em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ABOUT_MSG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1359,7 +1370,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
         <li class="right" >
           <a href="modules.html" title="kicost"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.14 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >kicost</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost package</a></li> 
       </ul>

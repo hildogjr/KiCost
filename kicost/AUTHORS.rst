@@ -6,8 +6,8 @@ Development Lead
 ----------------
 * XESS Corporation <info@xess.com>
 
-------------
-GUI, main collaborator and maintainer:
+GUI, main collaborator and maintainer
+-------------------------------------
 * Hildo Guillardi Júnior https://github.com/hildogjr
 
 Contributors

@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kicost.distributors.api_mouser &#8212; kicost 1.1.14 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_mouser</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for kicost.distributors.api_mouser</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c1"># MIT license</span>
+<span class="c1">#</span>
+<span class="c1"># Copyright (c) 2021 SPARK Microsystems</span>
+<span class="c1"># Copyright (c) 2021-2022 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+<span class="c1">#</span>
+<span class="c1"># Most of the API code comes from https://github.com/sparkmicro/mouser-api</span>
+
+<span class="c1"># Author information.</span>
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Salvador Eduardo Tropea&#39;</span>
+<span class="n">__webpage__</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/set-soft&#39;</span>
+<span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;Instituto Nacional de Tecnologia Industrial - Argentina&#39;</span>
+
+<span class="c1"># Libraries.</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c1"># KiCost definitions.</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">W_APIFAIL</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span>
+<span class="c1"># Distributors definitions.</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
+
+<span class="n">available</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">DIST_NAME</span> <span class="o">=</span> <span class="s1">&#39;mouser&#39;</span>
+<span class="c1"># Mouser Base URL</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s1">&#39;https://api.mouser.com/api/v1.0&#39;</span>
+<span class="n">IN_STOCK</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;In stock&#39;</span><span class="p">,</span> <span class="s1">&#39;En existencias&#39;</span><span class="p">,</span> <span class="s1">&#39;A magazzino&#39;</span><span class="p">,</span> <span class="s1">&#39;Auf Lager&#39;</span><span class="p">,</span> <span class="s1">&#39;En stock&#39;</span><span class="p">,</span> <span class="s1">&#39;Em estoque&#39;</span><span class="p">,</span> <span class="s1">&#39;Na skladě&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;På lager&#39;</span><span class="p">,</span> <span class="s1">&#39;Склад в США&#39;</span><span class="p">,</span> <span class="s1">&#39;In voorraad&#39;</span><span class="p">,</span> <span class="s1">&#39;Na stanie magazynowym&#39;</span><span class="p">,</span> <span class="s1">&#39;库存&#39;</span><span class="p">,</span> <span class="s1">&#39;在庫&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;สต็อก&#39;</span><span class="p">,</span> <span class="s1">&#39;Tồn kho&#39;</span><span class="p">)</span>
+<span class="n">in_stock_re_1</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d+)\s*(?:&#39;</span><span class="o">+</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">IN_STOCK</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+<span class="n">in_stock_re_2</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s*(?:&#39;</span><span class="o">+</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">IN_STOCK</span><span class="p">)</span><span class="o">+</span><span class="sa">r</span><span class="s1">&#39;)\D*(\d+)&#39;</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">I</span><span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;api_mouser&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">MouserError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">get_number</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">string</span><span class="p">)</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">MouserError</span><span class="p">(</span><span class="s1">&#39;Malformed price: &#39;</span> <span class="o">+</span> <span class="n">string</span><span class="p">)</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="nb">next</span><span class="p">((</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">index</span><span class="p">:],</span> <span class="n">start</span><span class="o">=</span><span class="n">index</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span> <span class="ow">or</span> <span class="n">d</span> <span class="o">==</span> <span class="s1">&#39;.&#39;</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">end</span><span class="p">])</span>
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">string</span><span class="p">[</span><span class="n">index</span><span class="p">:])</span>
+
+
+<span class="c1"># ####################################</span>
+<span class="c1"># Base classes</span>
+<span class="c1"># ####################################</span>
+
+
+<span class="k">class</span> <span class="nc">MouserAPIRequest</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot; Mouser API Request &quot;&quot;&quot;</span>
+
+    <span class="n">url</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">api_url</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">api_key</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">method</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">=</span> <span class="n">BASE_URL</span> <span class="o">+</span> <span class="n">url</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">method</span>
+
+        <span class="c1"># Append argument</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">+=</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="c1"># Append API Key</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="n">key</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_url</span> <span class="o">+</span> <span class="s1">&#39;?apiKey=&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">body</span><span class="p">):</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">body</span><span class="p">),</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;GET&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">body</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response_parsed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_response</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">response_parsed</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="kc">True</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="k">else</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">get_response</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">text</span>
+
+        <span class="k">return</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_parsed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;None&#39;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response_parsed</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">MouserBaseRequest</span><span class="p">(</span><span class="n">MouserAPIRequest</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Mouser Base Request &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">allowed_methods</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">]</span>
+    <span class="n">operation</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">operations</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Init &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">operation</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;[</span><span class="si">{}</span><span class="s1">] Invalid Operation&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">valid_operations</span> <span class="o">=</span> <span class="p">[</span><span class="n">op</span> <span class="k">for</span> <span class="n">op</span><span class="p">,</span> <span class="n">values</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">and</span> <span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="k">if</span> <span class="n">valid_operations</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">+=</span> <span class="s1">&#39; Valid operations: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">valid_operations</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">MouserError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">operation</span> <span class="o">=</span> <span class="n">operation</span>
+        <span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operation</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">method</span> <span class="ow">or</span> <span class="n">method</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">allowed_methods</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">MouserError</span><span class="p">(</span><span class="s1">&#39;[</span><span class="si">{}</span><span class="s1">]</span><span class="se">\t</span><span class="s1">Operation &quot;</span><span class="si">{}</span><span class="s1">&quot; Not Yet Supported&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">operation</span><span class="p">))</span>
+            <span class="k">return</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+
+<span class="c1"># ####################################</span>
+<span class="c1"># Part Search</span>
+<span class="c1"># ####################################</span>
+
+<span class="k">class</span> <span class="nc">MouserPartSearchRequest</span><span class="p">(</span><span class="n">MouserBaseRequest</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Mouser Part Search Request &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Part Search&#39;</span>
+    <span class="n">operations</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;keyword&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;keywordandmanufacturer&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;partnumber&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/search/partnumber&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;partnumberandmanufacturer&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;manufacturerlist&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39; Init &#39;&#39;&#39;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">operation</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_clean_response</span><span class="p">(</span><span class="n">response</span><span class="p">):</span>
+        <span class="n">cleaned_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Availability&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;DataSheetUrl&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Description&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ImagePath&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;LifecycleStatus&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Manufacturer&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ManufacturerPartNumber&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Min&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;MouserPartNumber&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ProductDetailUrl&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;ProductAttributes&#39;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s1">&#39;PriceBreaks&#39;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">parts</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;SearchResults&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Parts&#39;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="c1"># Process first part</span>
+        <span class="n">part_data</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Merge</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">cleaned_data</span><span class="p">:</span>
+            <span class="n">cleaned_data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">part_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">cleaned_data</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">cleaned_data</span>
+
+    <span class="k">def</span> <span class="nf">print_clean_response</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_clean_response</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">response_parsed</span><span class="p">),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">get_body</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">operation</span> <span class="o">==</span> <span class="s1">&#39;partnumber&#39;</span><span class="p">:</span>
+            <span class="n">part_number</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;part_number&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">option</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;option&#39;</span><span class="p">,</span> <span class="s1">&#39;None&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">part_number</span><span class="p">:</span>
+                <span class="n">body</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s1">&#39;SearchByPartRequest&#39;</span><span class="p">:</span> <span class="p">{</span>
+                        <span class="s1">&#39;mouserPartNumber&#39;</span><span class="p">:</span> <span class="n">part_number</span><span class="p">,</span>
+                        <span class="s1">&#39;partSearchOptions&#39;</span><span class="p">:</span> <span class="n">option</span><span class="p">,</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+        <span class="k">return</span> <span class="n">body</span>
+
+    <span class="k">def</span> <span class="nf">part_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">part_number</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Mouser Part Number Search &#39;&#39;&#39;</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;part_number&#39;</span><span class="p">:</span> <span class="n">part_number</span><span class="p">,</span>
+            <span class="s1">&#39;option&#39;</span><span class="p">:</span> <span class="n">option</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_body</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">api_key</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">res</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_parsed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">errors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">response_parsed</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;Errors&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">errors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">error</span> <span class="o">=</span> <span class="n">errors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="k">raise</span> <span class="n">MouserError</span><span class="p">(</span><span class="n">error</span><span class="p">[</span><span class="s1">&#39;Message&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; (&#39;</span> <span class="o">+</span> <span class="n">error</span><span class="p">[</span><span class="s1">&#39;Code&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">error</span><span class="p">[</span><span class="s1">&#39;PropertyName&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">res</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+
+<div class="viewcode-block" id="api_mouser"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_mouser.api_mouser">[docs]</a><span class="k">class</span> <span class="nc">api_mouser</span><span class="p">(</span><span class="n">distributor_class</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Mouser&#39;</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;api&#39;</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://api.mouser.com/&#39;</span>  <span class="c1"># Web site API information.</span>
+    <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="n">DIST_NAME</span><span class="p">]</span>
+    <span class="c1"># Options supported by this API</span>
+    <span class="n">config_options</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;key&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">cache</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">env_prefix</span> <span class="o">=</span> <span class="s1">&#39;MOUSER&#39;</span>
+    <span class="n">env_ops</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;MOUSER_PART_API_KEY&#39;</span><span class="p">:</span> <span class="s1">&#39;key&#39;</span><span class="p">}</span>
+
+<div class="viewcode-block" id="api_mouser.configure"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_mouser.api_mouser.configure">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
+        <span class="n">cache_ttl</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">cache_path</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;key&#39;</span><span class="p">:</span>
+                <span class="n">api_mouser</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span><span class="p">:</span>
+                <span class="n">api_mouser</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_ttl&#39;</span><span class="p">:</span>
+                <span class="n">cache_ttl</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">:</span>
+                <span class="n">cache_path</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">api_mouser</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="n">api_mouser</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t enable Mouser without a `key`&quot;</span><span class="p">)</span>
+            <span class="n">api_mouser</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Mouser API configured to enabled </span><span class="si">{}</span><span class="s1"> key </span><span class="si">{}</span><span class="s1"> path </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_mouser</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">api_mouser</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">cache_path</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">api_mouser</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># Try to configure the plug-in</span>
+        <span class="n">api_mouser</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">QueryCache</span><span class="p">(</span><span class="n">cache_path</span><span class="p">,</span> <span class="n">cache_ttl</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from KitSpace.&#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">DIST_NAME</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
+            <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Skipping Mouser plug-in&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting part data from Mouser...&#39;</span><span class="p">)</span>
+        <span class="n">field_cat</span> <span class="o">=</span> <span class="n">DIST_NAME</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span>
+        <span class="c1"># Setup progress bar to track progress of server queries.</span>
+        <span class="n">progress</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">),</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">:</span>
+            <span class="n">partnumber</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># Get the Mouser P/N for this part</span>
+            <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field_cat</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">part_stock</span><span class="p">:</span>
+                <span class="n">partnumber</span> <span class="o">=</span> <span class="n">part_stock</span>
+                <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;mou&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># No Mouser P/N, search using the manufacturer code</span>
+                <span class="n">partnumber</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manf#&#39;</span><span class="p">)</span>
+                <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;mpn&#39;</span>
+            <span class="k">if</span> <span class="n">partnumber</span><span class="p">:</span>
+                <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;P/N: &#39;</span> <span class="o">+</span> <span class="n">partnumber</span><span class="p">)</span>
+                <span class="n">request</span><span class="p">,</span> <span class="n">loaded</span> <span class="o">=</span> <span class="n">api_mouser</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">load_results</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">partnumber</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">loaded</span><span class="p">:</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">MouserPartSearchRequest</span><span class="o">.</span><span class="n">get_clean_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">request</span> <span class="o">=</span> <span class="n">MouserPartSearchRequest</span><span class="p">(</span><span class="s1">&#39;partnumber&#39;</span><span class="p">,</span> <span class="n">api_mouser</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">part_search</span><span class="p">(</span><span class="n">partnumber</span><span class="p">):</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_clean_response</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">response_parsed</span><span class="p">)</span>
+                        <span class="n">api_mouser</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">partnumber</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">response_parsed</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;No information found at Mouser for part/s </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Part info before adding data:&#39;</span><span class="p">)</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Data found:&#39;</span><span class="p">)</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="p">))</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span><span class="p">:</span>
+                    <span class="n">datasheet</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;DataSheetUrl&#39;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">datasheet</span><span class="p">:</span>
+                        <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">datasheet</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span><span class="p">:</span>
+                    <span class="n">lifecycle</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;LifecycleStatus&#39;</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">lifecycle</span><span class="p">:</span>
+                        <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="n">lifecycle</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                <span class="n">dd</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DIST_NAME</span><span class="p">,</span> <span class="n">DistData</span><span class="p">())</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Min&#39;</span><span class="p">])</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ProductDetailUrl&#39;</span><span class="p">]</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;MouserPartNumber&#39;</span><span class="p">]</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">availability</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Availability&#39;</span><span class="p">]</span>
+                <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Availability: &#39;</span><span class="o">+</span><span class="n">availability</span><span class="p">)</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail_comment</span> <span class="o">=</span> <span class="n">availability</span>
+                <span class="n">res_stock</span> <span class="o">=</span> <span class="n">in_stock_re_1</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">availability</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">res_stock</span><span class="p">:</span>
+                    <span class="n">res_stock</span> <span class="o">=</span> <span class="n">in_stock_re_2</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">availability</span><span class="p">)</span>
+                <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;- Search for stock: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">res_stock</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">res_stock</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">res_stock</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;- Detected stock: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span><span class="p">))</span>
+                <span class="n">pb</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;PriceBreaks&#39;</span><span class="p">]</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">pb</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;Currency&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">pb</span> <span class="k">else</span> <span class="n">currency</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;Quantity&#39;</span><span class="p">]:</span> <span class="n">get_number</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;Price&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pb</span><span class="p">}</span>
+                <span class="c1"># Extra information</span>
+                <span class="n">product_description</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">product_description</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product_description</span>
+                <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="p">[</span><span class="n">DIST_NAME</span><span class="p">]</span> <span class="o">=</span> <span class="n">dd</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Part info after adding data:&#39;</span><span class="p">)</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+<div class="viewcode-block" id="api_mouser.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_mouser.api_mouser.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">api_mouser</span><span class="o">.</span><span class="n">_query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">MouserError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">DIST_NAME</span><span class="p">])</span></div></div>
+
+
+<span class="n">distributor_class</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">api_mouser</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_mouser</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2015, XESS Corporation.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+    </div>
+  </body>
+</html>
