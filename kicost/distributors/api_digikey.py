@@ -32,7 +32,7 @@ import pprint
 # KiCost definitions.
 from .. import DistData, KiCostError, W_NOINFO, ERR_SCRAPE, W_APIFAIL
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, hide_secrets
 from .log__ import debug_detailed, debug_overview, debug_obsessive, warning
 
 available = True
@@ -113,7 +113,7 @@ class api_digikey(distributor_class):
             warning(W_APIFAIL, "Can't enable Digi-Key without a `client_id`, `client_secret` and `cache_path`")
             api_digikey.enabled = False
         debug_obsessive('Digi-Key API configured to enabled {} id {} secret {} path {}'.
-                        format(api_digikey.enabled, DK_API.id, DK_API.secret, cache_path))
+                        format(api_digikey.enabled, hide_secrets(DK_API.id), hide_secrets(DK_API.secret), cache_path))
         if not api_digikey.enabled:
             return
         # Try to configure the plug-in

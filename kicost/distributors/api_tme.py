@@ -48,7 +48,7 @@ else:
 # KiCost definitions.
 from .. import KiCostError, DistData, W_NOINFO, ERR_SCRAPE, W_APIFAIL
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, hide_secrets
 from .log__ import debug_overview, debug_obsessive, debug_full, is_debug_full, warning
 
 # Specs known by KiCost
@@ -287,7 +287,7 @@ class api_tme(distributor_class):
             warning(W_APIFAIL, "Can't enable TME without a `token` and an `app_secret`")
             api_tme.enabled = False
         debug_obsessive('TME API configured to enabled {} token {} app_secret {} path {}'.
-                        format(api_tme.enabled, api_tme.token, api_tme.app_secret, cache_path))
+                        format(api_tme.enabled, hide_secrets(api_tme.token), hide_secrets(api_tme.app_secret), cache_path))
         if not api_tme.enabled:
             return
         # Configure the cache

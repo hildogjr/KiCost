@@ -59,7 +59,7 @@ else:
 # KiCost definitions.
 from .. import KiCostError, DistData, DEFAULT_CURRENCY, ERR_SCRAPE, W_NOINFO, NO_PRICE, W_APIFAIL, W_AMBIPN
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, hide_secrets
 from .log__ import debug_overview, debug_obsessive, warning
 
 
@@ -208,7 +208,8 @@ class api_nexar(distributor_class):
         if api_nexar.enabled and (api_nexar.id is None or api_nexar.secret is None or cache_path is None):
             warning(W_APIFAIL, "Can't enable Nexar without a `client_id`, `client_secret` and `cache_path`")
             api_nexar.enabled = False
-        debug_obsessive('Nexar API configured to enabled {}'.format(api_nexar.enabled))
+        debug_obsessive('Nexar API configured to enabled {} id {} secret {} path {}'.
+                        format(api_nexar.enabled, hide_secrets(api_nexar.id), hide_secrets(api_nexar.secret), cache_path))
         if not api_nexar.enabled:
             return
         api_nexar.cache = QueryCache(cache_path, cache_ttl)

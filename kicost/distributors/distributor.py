@@ -28,6 +28,7 @@ __author__ = 'Salvador Eduardo Tropea'
 __webpage__ = 'https://github.com/set-soft/'
 __company__ = 'INTI-CMNB - Argentina'
 
+import re
 import copy
 import os
 import logging
@@ -43,6 +44,14 @@ from ..global_vars import DEFAULT_CURRENCY, BASE_OP_TYPES, W_NOAPI
 from .distributors_info import distributors_info
 
 __all__ = ['distributor_class']
+
+
+def hide_secrets(secret):
+    ''' Show only the first and the last characters of the key.
+        Also keep the `-` '''
+    if not secret:
+        return secret
+    return secret[0]+re.sub(r'[\d\w]', 'X', secret[1:-1])+secret[-1]
 
 
 class TqdmLoggingHandler(logging.Handler):
@@ -110,6 +119,8 @@ class distributor_class(object):
     config_options = {}
     # Environment variables to configure this API
     env_ops = {}
+    # A list of options that we want to hide
+    keys_to_hide = {'client_id', 'client_secret', 'token', 'key', 'app_secret'}
 
     @staticmethod
     def register(api, priority):
@@ -252,10 +263,10 @@ class distributor_class(object):
         # Configure the module from the environment
         # The command line will overwrite it using set_options()
         for k, v in cls.env_ops.items():
-            distributor_class._set_from_env(v, os.getenv(k), options, overwrite, cls.name, cls.config_options)
+            distributor_class._set_from_env(v, os.getenv(k), options, overwrite, cls.name, cls.keys_to_hide, cls.config_options)
 
     @staticmethod
-    def _set_from_env(key, value, options, overwrite, name, d_types=None):
+    def _set_from_env(key, value, options, overwrite, name, hide, d_types=None):
         ''' Helper function to implement `from_environment`. '''
         if value is not None and (overwrite or key not in options):
             if d_types:
@@ -267,7 +278,11 @@ class distributor_class(object):
                     tp = tp[0]
                 # This is a cast
                 value = tp(value)
-            distributor_class.logger.log(DEBUG_OBSESSIVE, 'Overwriting {} with {} for {}'.format(key, value, name))
+            if distributor_class.logger.getEffectiveLevel() <= DEBUG_OBSESSIVE:
+                val = value
+                if key in hide:
+                    val = hide_secrets(value)
+                distributor_class.logger.log(DEBUG_OBSESSIVE, 'Overwriting {}.{} = {}'.format(name, key, val))
             options[key] = value
 
     @staticmethod

@@ -38,7 +38,7 @@ import re
 # KiCost definitions.
 from .. import KiCostError, DistData, W_NOINFO, W_APIFAIL, ERR_SCRAPE
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, hide_secrets
 from .log__ import debug_detailed, debug_overview, debug_obsessive, warning
 
 available = True
@@ -285,7 +285,8 @@ class api_mouser(distributor_class):
         if api_mouser.enabled and api_mouser.key is None:
             warning(W_APIFAIL, "Can't enable Mouser without a `key`")
             api_mouser.enabled = False
-        debug_obsessive('Mouser API configured to enabled {} key {} path {}'.format(api_mouser.enabled, api_mouser.key, cache_path))
+        debug_obsessive('Mouser API configured to enabled {} key {} path {}'.
+                        format(api_mouser.enabled, hide_secrets(api_mouser.key), cache_path))
         if not api_mouser.enabled:
             return
         # Try to configure the plug-in

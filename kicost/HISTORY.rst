@@ -3,6 +3,11 @@
 History
 -------
 
+1.1.15 (WIP)
+____________
+* Fix avoid showing secrets in logs
+
+
 1.1.14 (2022-12-14)
 ______________________
 * Fix TME component URLs

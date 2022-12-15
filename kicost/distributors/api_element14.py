@@ -34,7 +34,7 @@ import difflib
 # KiCost definitions.
 from .. import KiCostError, DistData, W_NOINFO, ERR_SCRAPE, W_APIFAIL, W_AMBIPN
 # Distributors definitions.
-from .distributor import distributor_class, QueryCache
+from .distributor import distributor_class, QueryCache, hide_secrets
 from .log__ import debug_detailed, debug_overview, debug_obsessive, debug_full, warning, is_debug_full
 
 # Countries supported by Farnell (*.farnell.com)
@@ -251,7 +251,8 @@ class api_element14(distributor_class):
         if api_element14.enabled and api_element14.key is None:
             warning(W_APIFAIL, "Can't enable Elemen14 without a `key`")
             api_element14.enabled = False
-        debug_obsessive('Element14 API configured to enabled {} key {} path {}'.format(api_element14.enabled, api_element14.key, cache_path))
+        debug_obsessive('Element14 API configured to enabled {} key {} path {}'.
+                        format(api_element14.enabled, hide_secrets(api_element14.key), cache_path))
         if not api_element14.enabled:
             return
         # Configure the cache
