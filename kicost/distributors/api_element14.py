@@ -187,7 +187,8 @@ class Element14(object):
             params['resultsSettings.offset'] = '0'
             params['resultsSettings.numberOfResults'] = '10'
         params.update(part)
-        debug_obsessive('Query params: '+pprint.pformat(params))
+        key_hide = hide_secrets(self.key)
+        debug_obsessive('Query params: '+pprint.pformat(params).replace(self.key, key_hide))
         r = requests.get(BASE_URL, params=params)
         if r.status_code != 200:
             # debug_obsessive(pprint.pformat(r.__dict__))

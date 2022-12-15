@@ -25,7 +25,7 @@
 __author__ = 'XESS Corporation'
 __email__ = 'info@xess.com'
 
-from .distributor import distributor_class
+from .distributor import distributor_class, hide_secrets  # noqa: F401
 # Export the ORDER_COL_USERFIELDS content
 from .distributors_info import ORDER_COL_USERFIELDS  # noqa: F401
 
@@ -113,6 +113,11 @@ def get_api_list():
 def get_api_valid_options():
     ''' Returns the vali options for each API '''
     return {api.name: api.config_options for api in distributor_class.registered}
+
+
+def get_api_keys_to_hide(api):
+    ''' Returns a set of options that should be hidden '''
+    return distributor_class._get_api(api).keys_to_hide
 
 
 def configure_from_environment(options, overwrite):

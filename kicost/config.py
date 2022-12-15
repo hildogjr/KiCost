@@ -29,7 +29,7 @@ __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 import sys
 import os
 from .global_vars import ERR_KICOSTCONFIG, W_CONFIG, BASE_OP_TYPES
-from .distributors import is_valid_api, get_api_list, get_api_valid_options
+from .distributors import is_valid_api, get_api_list, get_api_valid_options, get_api_keys_to_hide, hide_secrets
 from . import debug_detailed, debug_obsessive, debug_overview, error, warning
 try:
     import yaml
@@ -140,6 +140,17 @@ def parse_apis_section(d):
         api_options[k] = v
 
 
+def log_api_options(msg, obsessive=False):
+    dbg = debug_obsessive if obsessive else debug_detailed
+    dbg(msg)
+    for k, v in api_options.items():
+        debug_obsessive('- '+k+':')
+        hide = get_api_keys_to_hide(k)
+        for k2, v2 in v.items():
+            v = v2 if k2 not in hide else hide_secrets(v2)
+            dbg('  - '+k2+': '+str(v))
+
+
 def load_config(file=None):
     if file is None:
         file = os.path.expanduser(os.path.join('~', '.config', 'kicost', CONFIG_FILE))
@@ -164,7 +175,7 @@ def load_config(file=None):
                 parse_apis_section(v)
             else:
                 warning(W_CONFIG, 'Unknown section `{}` in config file'.format(k))
-        debug_obsessive('Loaded API options {}'.format(api_options))
+        log_api_options('Loaded API options', obsessive=True)
     else:
         debug_overview('No config file found ({})'.format(file))
     # Make sure all APIs are in the options
@@ -186,5 +197,5 @@ def fill_missing_with_defaults():
         path = ops['cache_path']
         if not os.path.exists(path):
             os.makedirs(path)
-    debug_detailed('API options with defaults {}'.format(api_options))
+    log_api_options('API options with defaults')
     return api_options
