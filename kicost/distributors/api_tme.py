@@ -262,6 +262,7 @@ class api_tme(distributor_class):
     country = 'US'
     language = 'EN'
     env_prefix = 'TME'
+    env_ops = {}
 
     @staticmethod
     def configure(ops):

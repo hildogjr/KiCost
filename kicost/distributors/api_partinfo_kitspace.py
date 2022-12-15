@@ -114,6 +114,7 @@ class api_partinfo_kitspace(distributor_class):
     KICOST2KITSPACE_DIST = {v: k for k, v in DIST_TRANSLATION.items()}
     cache = None
     env_prefix = 'KITSPACE'
+    env_ops = {}
 
     @staticmethod
     def configure(ops):

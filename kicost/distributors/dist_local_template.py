@@ -70,6 +70,7 @@ class dist_local_template(distributor_class):
     url = None
     # We don't add distributors here, they are collected in query_part_info
     api_distributors = []
+    env_ops = {}
 
     @staticmethod
     def configure(ops):
