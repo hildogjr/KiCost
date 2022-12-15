@@ -3,8 +3,8 @@
 History
 -------
 
-1.1.15 (WIP)
-____________
+1.1.15 (2022-12-15)
+_____________________
 * Fix avoid showing secrets in logs
 * Fix confusing options overwrite
 

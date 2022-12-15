@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.api_nexar &#8212; kicost 1.1.14 documentation</title>
+    <title>kicost.distributors.api_nexar &#8212; kicost 1.1.15 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.15 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_nexar</a></li> 
@@ -100,7 +100,7 @@
 <span class="c1"># KiCost definitions.</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">DEFAULT_CURRENCY</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">NO_PRICE</span><span class="p">,</span> <span class="n">W_APIFAIL</span><span class="p">,</span> <span class="n">W_AMBIPN</span>
 <span class="c1"># Distributors definitions.</span>
-<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span><span class="p">,</span> <span class="n">hide_secrets</span>
 <span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
 
 
@@ -249,7 +249,8 @@
         <span class="k">if</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">secret</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cache_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t enable Nexar without a `client_id`, `client_secret` and `cache_path`&quot;</span><span class="p">)</span>
             <span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Nexar API configured to enabled </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span><span class="p">))</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Nexar API configured to enabled </span><span class="si">{}</span><span class="s1"> id </span><span class="si">{}</span><span class="s1"> secret </span><span class="si">{}</span><span class="s1"> path </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span>
+                        <span class="nb">format</span><span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="n">api_nexar</span><span class="o">.</span><span class="n">secret</span><span class="p">),</span> <span class="n">cache_path</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="n">api_nexar</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="n">QueryCache</span><span class="p">(</span><span class="n">cache_path</span><span class="p">,</span> <span class="n">cache_ttl</span><span class="p">)</span></div>
@@ -711,7 +712,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.15 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_nexar</a></li> 

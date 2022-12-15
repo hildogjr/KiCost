@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.api_element14 &#8212; kicost 1.1.14 documentation</title>
+    <title>kicost.distributors.api_element14 &#8212; kicost 1.1.15 documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.15 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_element14</a></li> 
@@ -75,7 +75,7 @@
 <span class="c1"># KiCost definitions.</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">,</span> <span class="n">W_APIFAIL</span><span class="p">,</span> <span class="n">W_AMBIPN</span>
 <span class="c1"># Distributors definitions.</span>
-<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span>
+<span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span><span class="p">,</span> <span class="n">hide_secrets</span>
 <span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">debug_full</span><span class="p">,</span> <span class="n">warning</span><span class="p">,</span> <span class="n">is_debug_full</span>
 
 <span class="c1"># Countries supported by Farnell (*.farnell.com)</span>
@@ -228,7 +228,8 @@
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;resultsSettings.offset&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
             <span class="n">params</span><span class="p">[</span><span class="s1">&#39;resultsSettings.numberOfResults&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;10&#39;</span>
         <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">part</span><span class="p">)</span>
-        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Query params: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">key_hide</span> <span class="o">=</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Query params: &#39;</span><span class="o">+</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">key_hide</span><span class="p">))</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">BASE_URL</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">!=</span> <span class="mi">200</span><span class="p">:</span>
             <span class="c1"># debug_obsessive(pprint.pformat(r.__dict__))</span>
@@ -292,7 +293,8 @@
         <span class="k">if</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">key</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t enable Elemen14 without a `key`&quot;</span><span class="p">)</span>
             <span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Element14 API configured to enabled </span><span class="si">{}</span><span class="s1"> key </span><span class="si">{}</span><span class="s1"> path </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">cache_path</span><span class="p">))</span>
+        <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Element14 API configured to enabled </span><span class="si">{}</span><span class="s1"> key </span><span class="si">{}</span><span class="s1"> path </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span>
+                        <span class="nb">format</span><span class="p">(</span><span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="n">api_element14</span><span class="o">.</span><span class="n">key</span><span class="p">),</span> <span class="n">cache_path</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">api_element14</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="c1"># Configure the cache</span>
@@ -525,7 +527,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.15 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_element14</a></li> 

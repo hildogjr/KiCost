@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors package &#8212; kicost 1.1.14 documentation</title>
+    <title>kicost.distributors package &#8212; kicost 1.1.15 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="kicost.currency_converter.html" title="kicost.currency_converter package"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.15 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >kicost</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="kicost.html" accesskey="U">kicost package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors package</a></li> 
@@ -470,6 +470,11 @@ Then we look for the one that best matches the <cite>manf</cite>.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.env_ops">
+<code class="sig-name descname">env_ops</code><em class="property"> = {'KITSPACE_CACHE_PATH': 'cache_path', 'KITSPACE_CACHE_TTL': 'cache_ttl'}</em><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.env_ops" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.env_prefix">
 <code class="sig-name descname">env_prefix</code><em class="property"> = 'KITSPACE'</em><a class="headerlink" href="#kicost.distributors.api_partinfo_kitspace.api_partinfo_kitspace.env_prefix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -567,6 +572,11 @@ Used to get information from the JSON response.</p>
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt id="kicost.distributors.api_tme.api_tme.env_ops">
+<code class="sig-name descname">env_ops</code><em class="property"> = {'TME_APP_SECRET': 'app_secret', 'TME_CACHE_PATH': 'cache_path', 'TME_CACHE_TTL': 'cache_ttl', 'TME_COUNTRY': 'country', 'TME_LANGUAGE': 'language', 'TME_TOKEN': 'token'}</em><a class="headerlink" href="#kicost.distributors.api_tme.api_tme.env_ops" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="kicost.distributors.api_tme.api_tme.env_prefix">
 <code class="sig-name descname">env_prefix</code><em class="property"> = 'TME'</em><a class="headerlink" href="#kicost.distributors.api_tme.api_tme.env_prefix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -624,6 +634,11 @@ Used to get information from the JSON response.</p>
 <dl class="py attribute">
 <dt id="kicost.distributors.dist_local_template.dist_local_template.enabled">
 <code class="sig-name descname">enabled</code><em class="property"> = True</em><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.enabled" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.distributors.dist_local_template.dist_local_template.env_ops">
+<code class="sig-name descname">env_ops</code><em class="property"> = {}</em><a class="headerlink" href="#kicost.distributors.dist_local_template.dist_local_template.env_ops" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -699,7 +714,7 @@ If overwrite is True the API should replace the current option</p>
 
 <dl class="py attribute">
 <dt id="kicost.distributors.distributor.distributor_class.env_ops">
-<code class="sig-name descname">env_ops</code><em class="property"> = {'KITSPACE_CACHE_PATH': 'cache_path', 'KITSPACE_CACHE_TTL': 'cache_ttl', 'TME_APP_SECRET': 'app_secret', 'TME_CACHE_PATH': 'cache_path', 'TME_CACHE_TTL': 'cache_ttl', 'TME_COUNTRY': 'country', 'TME_LANGUAGE': 'language', 'TME_TOKEN': 'token'}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.env_ops" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">env_ops</code><em class="property"> = {}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.env_ops" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -742,6 +757,11 @@ Used internaly from the API to add distributors derived from others.</p>
 <dl class="py method">
 <dt id="kicost.distributors.distributor.distributor_class.init_dist_dict">
 <em class="property">classmethod </em><code class="sig-name descname">init_dist_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors/distributor.html#distributor_class.init_dist_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.init_dist_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="kicost.distributors.distributor.distributor_class.keys_to_hide">
+<code class="sig-name descname">keys_to_hide</code><em class="property"> = {'app_secret', 'client_id', 'client_secret', 'key', 'token'}</em><a class="headerlink" href="#kicost.distributors.distributor.distributor_class.keys_to_hide" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -894,6 +914,12 @@ Used internaly from the API to add distributors derived from others.</p>
 <dt id="kicost.distributors.configure_from_environment">
 <code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">configure_from_environment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">overwrite</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#configure_from_environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.configure_from_environment" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py function">
+<dt id="kicost.distributors.get_api_keys_to_hide">
+<code class="sig-prename descclassname">kicost.distributors.</code><code class="sig-name descname">get_api_keys_to_hide</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">api</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/distributors.html#get_api_keys_to_hide"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.distributors.get_api_keys_to_hide" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set of options that should be hidden</p>
+</dd></dl>
 
 <dl class="py function">
 <dt id="kicost.distributors.get_api_list">
@@ -1049,7 +1075,7 @@ This information comes from the list collected from the APIs, not from the fixed
         <li class="right" >
           <a href="kicost.currency_converter.html" title="kicost.currency_converter package"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.14 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.15 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="modules.html" >kicost</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="kicost.html" >kicost package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors package</a></li> 
