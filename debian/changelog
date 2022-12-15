@@ -1,3 +1,10 @@
+kicost (1.1.15-1) stable; urgency=medium
+
+  * Fix avoid showing secrets in logs
+  * Fix confusing options overwrite
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Thu, 15 Dec 2022 09:04:31 -0300
+
 kicost (1.1.14-1) stable; urgency=medium
 
   * Fix TME component URLs
