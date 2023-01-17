@@ -392,8 +392,11 @@ class api_nexar(distributor_class):
                 if manf == 'none':
                     item = useful_items[0]
                 else:
-                    best_match = difflib.get_close_matches(manf, manufacturers.keys())[0]
-                    item = manufacturers[best_match]
+                    best_matches = difflib.get_close_matches(manf, manufacturers.keys())
+                    if best_matches:
+                        item = manufacturers[best_matches[0]]
+                    else:
+                        item = useful_items[0]
                 mpn = item['mpn']
                 warning(W_AMBIPN, 'Using "{}" for manf#="{}"'.format(item['manufacturer']['name'], mpn))
                 warning(W_AMBIPN, 'Ambiguous manf#="{}" please use manf to select the right one, choices: {}'.format(
