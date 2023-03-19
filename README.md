@@ -1,7 +1,7 @@
 KiCost
 ======
 
-[![image](https://img.shields.io/github/workflow/status/hildogjr/KiCost/Python%20application)](https://github.com/hildogjr/KiCost/actions)
+[![Python application](https://img.shields.io/github/actions/workflow/status/hildogjr/KiCost/python-app.yml)](https://github.com/hildogjr/KiCost/actions)
 [![image](https://img.shields.io/pypi/v/kicost.svg)](https://pypi.python.org/pypi/kicost)
 
 KiCost is intended to be run as a script for generating part-cost
