@@ -1,3 +1,9 @@
+kicost (1.1.15-2) stable; urgency=medium
+
+  * Accept KiCad nightly as dependency
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Sun, 19 Mar 2023 12:23:16 -0300
+
 kicost (1.1.15-1) stable; urgency=medium
 
   * Fix avoid showing secrets in logs

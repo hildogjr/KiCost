@@ -10,7 +10,7 @@ X-Python3-Version: >= 3.2
 Package: kicost
 Architecture: all
 Multi-Arch: foreign
-Depends: kicad, ${misc:Depends}, ${python3:Depends}
+Depends: kicad | kicad-nightly, ${misc:Depends}, ${python3:Depends}
 Recommends: kicost-digikey-api-v3
 Description: Electronic parts cost finder for KiCad
  KiCost is intended to be run as a script for generating part-cost
