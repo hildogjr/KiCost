@@ -94,7 +94,6 @@ PAGE_OFFICIAL = 'https://hildogjr.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost'  # Page with the last official version.
 # https://github.com/hildogjr/KiCost/blob/master/kicost/version.py
 PAGE_DEV = 'https://github.com/hildogjr/KiCost/issues/'
-PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
 
@@ -590,11 +589,6 @@ class formKiCost(wx.Frame):
 
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(400, 132), 0)  # wx.DefaultSize, 0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(os.path.join(kicostPath, 'kitspace.png'), wx.BITMAP_TYPE_PNG))
-        self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_powered_by)
-        bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
-
         self.m_button_check_updates = wx.Button(self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_check_updates.SetToolTip(wx.ToolTip(u"Click for compare you version with the most recent released."))
         self.m_button_check_updates.Bind(wx.EVT_BUTTON, self.check_updates_click)
@@ -671,11 +665,6 @@ class formKiCost(wx.Frame):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
         webbrowser.open(PAGE_UPDATE)
-
-    def open_powered_by(self, event):
-        ''' @brief Open partner that power the KiCost.'''
-        event.Skip()
-        webbrowser.open(PAGE_POWERED_BY)
 
     # ----------------------------------------------------------------------
     def check_updates_click(self, event):

@@ -46,8 +46,8 @@ APIs:
     # Directory for the APIs caches
     # cache_path: ~/.cache/kicost/Element14
   KitSpace:
-    # Normally enabled
-    # enable: true
+    # Needed for tests
+    enable: true
     # Directory for the APIs caches
     cache_path: ../discard
   TME:

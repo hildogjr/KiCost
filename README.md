@@ -12,10 +12,6 @@ with a graphical user interface in addition to command line.
 -   Documentation: <https://hildogjr.github.io/KiCost/>.
 -   Quick start: <https://www.youtube.com/watch?v=AeccxROpDfY>.
 
-KiCost is powered by the [Kitspace](https://kitspace.org/) PartInfo API. [Partinfo](https://github.com/kitspace/partinfo) hooks into paid-for 3rd party services. If you find KiCost useful please [donate to the Kitspace Open Collective](https://opencollective.com/kitspace). If Kitspace doesn't receive enough donations then this free service will have to be shut down.
-
-[![image](/kicost/kitspace.png)](https://opencollective.com/kitspace)
-
 Features
 --------
 

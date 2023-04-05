@@ -15,11 +15,6 @@ generate part-cost spreadsheets for circuit boards developed with KiCad and othe
 * Documentation: https://hildogjr.github.io/KiCost/.
 * Quick start: https://www.youtube.com/watch?v=AeccxROpDfY.
 
-KiCost is powered by the `Kitspace <https://kitspace.org/>`_ PartInfo API. `Partinfo <https://github.com/kitspace/partinfo>`_ hooks into paid-for 3rd party services. If you find KiCost useful please donate to the `Kitspace Open Collective <https://opencollective.com/kitspace>`_. If Kitspace doesn't receive enough donations then this free service will have to be shut down.
-
-.. image:: kitspace.png
-        :target: https://opencollective.com/kitspace
-
 Features
 --------
 
@@ -29,7 +24,7 @@ Features
   (You can also enter your own quantity-adjusted pricing data for specialized parts or those
   not found at the supported distributors.);
 * Processes also BOM files from Altium, Proteus, Eagle, Upverter and hand made CSVs;
-* The spreadsheet contains quantity-adjusted pricing from each distributor for 
+* The spreadsheet contains quantity-adjusted pricing from each distributor for
   individual parts and the total board;
 * Enter the number of boards to be built in a spreadsheet cell and all the pricing
   for the total board and individual parts is updated;

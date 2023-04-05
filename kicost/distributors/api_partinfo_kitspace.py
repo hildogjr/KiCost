@@ -21,6 +21,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# ******************************************************************************
+# IMPORTANT: This is no longer an usable API. Is here just for testing purposes.
+# ******************************************************************************
+
 # Author information.
 __author__ = 'Hildo Guillardi Júnior'
 __webpage__ = 'https://github.com/hildogjr/'
@@ -96,7 +100,7 @@ class QueryStruct(object):
 class api_partinfo_kitspace(distributor_class):
     name = 'KitSpace'
     type = 'api'
-    enabled = True
+    enabled = False
     url = 'https://kitspace.org/'  # Web site API information.
 
     api_distributors = ['digikey', 'farnell', 'mouser', 'newark', 'rs', 'arrow', 'tme', 'lcsc']
