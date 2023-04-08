@@ -45,11 +45,6 @@ APIs:
     # cpc_country: UK
     # Directory for the APIs caches
     # cache_path: ~/.cache/kicost/Element14
-  KitSpace:
-    # Normally enabled
-    # enable: true
-    # Directory for the APIs caches
-    cache_path: ../kitspace
   TME:
     # TME token (anonymous or private)
     # token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

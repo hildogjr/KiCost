@@ -287,7 +287,6 @@ def run_test(name, inputs, output, extra=None, price=True, ret_err=0, config_fil
                 f.write('# ' + str(inputs) + '\n')
         server = None
     else:
-        os.environ['KICOST_KITSPACE_URL'] = 'http://localhost:8000'
         os.environ['KICOST_NEXAR_URL'] = 'http://localhost:8000'
         os.environ['KICOST_NEXAR_NO_TOKEN'] = '1'
         fo = open(TESTDIR + '/log_test/0server_stdout.log', 'at')

@@ -51,11 +51,6 @@ APIs:
 
     # Directory for the APIs caches
     # cache_path: ../element14
-  KitSpace:
-    # Normally enabled
-    enable: false
-    # Directory for the APIs caches
-    # cache_path: ~/.cache/kicost/KitSpace
   TME:
     # TME token (anonymous or private)
     # token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
