@@ -2,8 +2,9 @@
 KiCost
 ===============================
 
-.. image:: https://img.shields.io/github/workflow/status/hildogjr/KiCost/Python%20application
+.. image:: https://img.shields.io/github/actions/workflow/status/hildogjr/KiCost/python-app.yml
         :target: https://github.com/hildogjr/KiCost/actions
+
 
 .. image:: https://img.shields.io/pypi/v/kicost.svg
         :target: https://pypi.python.org/pypi/kicost
