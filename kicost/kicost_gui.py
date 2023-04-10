@@ -629,7 +629,6 @@ class formKiCost(wx.Frame):
         self.SetTitle('KiCost v' + __version__)
         self.SetIcon(wx.Icon(os.path.join(kicostPath, 'kicost.ico'), wx.BITMAP_TYPE_ICO))
 
-        self.set_properties()
         self.SetDropTarget(FileDropTarget(self))  # Start the drop file in all the window.
         debug_overview('Loaded KiCost v' + __version__)
 
@@ -892,6 +891,8 @@ class formKiCost(wx.Frame):
 
         # Current distributors module recognized.
         distributors_list = sorted([get_distributor_info(d).label.name for d in get_distributors_iter() if not get_distributor_info(d).is_local()])
+        if not distributors_list:
+            error('No distributor available, please enable at least one API')
         self.m_checkList_dist.Clear()
         for d in distributors_list:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)
@@ -1151,7 +1152,7 @@ class ProgressGUI(object):
         pass
 
 
-def kicost_gui(force_en_us=False, files=None):
+def kicost_gui(force_en_us, files, configure_kicost_apis, command_line_api_options, args):
     ''' @brief Load the graphical interface.
         @param String file file names or list.
         (it will be used for plugin implementation on future KiCad6-Eeschema).
@@ -1185,7 +1186,10 @@ def kicost_gui(force_en_us=False, files=None):
             handler.setStream(logger_stream)
         # Reset the formatter so it realizes that we aren't using a terminal
         handler.setFormatter(CustomFormatter(logger_stream))
-
+    # Init the APIs now, so the user can see the problems
+    configure_kicost_apis(args.config, args.config is None, command_line_api_options, args)
+    # Now that we initialized the APIs we can fill the options for distributors
+    frame.set_properties()
     if files:
         frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
         frame.updateOutputFilename()
