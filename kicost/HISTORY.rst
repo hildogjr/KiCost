@@ -3,11 +3,17 @@
 History
 -------
 
+1.1.16 (2023-04-10)
+_____________________
+* Fix disabled KitSpace API, no longer available
+* Fix display API errors in the GUI dialog
+* Fix Nexar problems when we don't get a closest match
+
+
 1.1.15 (2022-12-15)
 _____________________
 * Fix avoid showing secrets in logs
 * Fix confusing options overwrite
-
 
 1.1.14 (2022-12-14)
 ______________________

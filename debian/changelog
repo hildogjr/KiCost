@@ -1,3 +1,11 @@
+kicost (1.1.16-1) stable; urgency=medium
+
+  * Disabled KitSpace API, no longer available
+  * Display API errors in the GUI dialog
+  * Fix Nexar problems when we don't get a closest match
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Mon, 10 Apr 2023 10:59:55 -0300
+
 kicost (1.1.15-2) stable; urgency=medium
 
   * Accept KiCad nightly as dependency
