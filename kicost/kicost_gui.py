@@ -94,7 +94,6 @@ PAGE_OFFICIAL = 'https://hildogjr.github.io/KiCost/'
 PAGE_UPDATE = 'https://pypi.python.org/pypi/kicost'  # Page with the last official version.
 # https://github.com/hildogjr/KiCost/blob/master/kicost/version.py
 PAGE_DEV = 'https://github.com/hildogjr/KiCost/issues/'
-PAGE_POWERED_BY = 'https://kitspace.org/'
 
 kicostPath = os.path.dirname(os.path.abspath(__file__))  # Application dir.
 
@@ -590,11 +589,6 @@ class formKiCost(wx.Frame):
 
         bSizer111 = wx.BoxSizer(wx.VERTICAL)
 
-        self.m_bitmap_icon = wx.StaticBitmap(self.m_panel3, wx.ID_ANY, wx.NullBitmap, wx.DefaultPosition, wx.Size(400, 132), 0)  # wx.DefaultSize, 0)
-        self.m_bitmap_icon.SetIcon(wx.Icon(os.path.join(kicostPath, 'kitspace.png'), wx.BITMAP_TYPE_PNG))
-        self.m_bitmap_icon.Bind(wx.EVT_LEFT_DOWN, self.open_powered_by)
-        bSizer111.Add(self.m_bitmap_icon, 0, wx.CENTER | wx.ALL, 5)
-
         self.m_button_check_updates = wx.Button(self.m_panel3, wx.ID_ANY, u"Check for updates", wx.DefaultPosition, wx.DefaultSize, 0)
         self.m_button_check_updates.SetToolTip(wx.ToolTip(u"Click for compare you version with the most recent released."))
         self.m_button_check_updates.Bind(wx.EVT_BUTTON, self.check_updates_click)
@@ -635,7 +629,6 @@ class formKiCost(wx.Frame):
         self.SetTitle('KiCost v' + __version__)
         self.SetIcon(wx.Icon(os.path.join(kicostPath, 'kicost.ico'), wx.BITMAP_TYPE_ICO))
 
-        self.set_properties()
         self.SetDropTarget(FileDropTarget(self))  # Start the drop file in all the window.
         debug_overview('Loaded KiCost v' + __version__)
 
@@ -671,11 +664,6 @@ class formKiCost(wx.Frame):
         ''' @brief Open the page to download the last version.'''
         event.Skip()
         webbrowser.open(PAGE_UPDATE)
-
-    def open_powered_by(self, event):
-        ''' @brief Open partner that power the KiCost.'''
-        event.Skip()
-        webbrowser.open(PAGE_POWERED_BY)
 
     # ----------------------------------------------------------------------
     def check_updates_click(self, event):
@@ -903,6 +891,8 @@ class formKiCost(wx.Frame):
 
         # Current distributors module recognized.
         distributors_list = sorted([get_distributor_info(d).label.name for d in get_distributors_iter() if not get_distributor_info(d).is_local()])
+        if not distributors_list:
+            error('No distributor available, please enable at least one API')
         self.m_checkList_dist.Clear()
         for d in distributors_list:  # Make this for wxPy3 compatibility, not allow include a list.
             self.m_checkList_dist.Append(d)
@@ -1162,7 +1152,7 @@ class ProgressGUI(object):
         pass
 
 
-def kicost_gui(force_en_us=False, files=None):
+def kicost_gui(force_en_us, files, configure_kicost_apis, command_line_api_options, args):
     ''' @brief Load the graphical interface.
         @param String file file names or list.
         (it will be used for plugin implementation on future KiCad6-Eeschema).
@@ -1196,7 +1186,10 @@ def kicost_gui(force_en_us=False, files=None):
             handler.setStream(logger_stream)
         # Reset the formatter so it realizes that we aren't using a terminal
         handler.setFormatter(CustomFormatter(logger_stream))
-
+    # Init the APIs now, so the user can see the problems
+    configure_kicost_apis(args.config, args.config is None, command_line_api_options, args)
+    # Now that we initialized the APIs we can fill the options for distributors
+    frame.set_properties()
     if files:
         frame.m_comboBox_files.SetValue(SEP_FILES.join(files))
         frame.updateOutputFilename()

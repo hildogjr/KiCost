@@ -158,6 +158,7 @@ def command_line_api_options(api_options, args):
 
 
 def configure_kicost_apis(config_file, overwrite, apply_user_opts, data):
+    """ Configure the available APIs, can be used by a tool that uses KiCost code """
     # Configuration file
     api_options = load_config(config_file)
     # Environment, overwrite only if the config file wasn't specified in the command line
@@ -346,7 +347,8 @@ def main_real():
         error('No yaml module for Python, install it (i.e. python3-yaml)')
 
     # APIs Configuration
-    configure_kicost_apis(args.config, args.config is None, command_line_api_options, args)
+    if not args.gui:
+        configure_kicost_apis(args.config, args.config is None, command_line_api_options, args)
 
     # Setup and unsetup KiCost integration.
     if args.setup:
@@ -398,7 +400,8 @@ def main_real():
     if args.gui:
         if not GUI_ENABLED:
             kicost_gui_notdependences()
-        kicost_gui(args.force_en_us, [os.path.abspath(fileName) for fileName in args.gui])
+        kicost_gui(args.force_en_us, [os.path.abspath(fileName) for fileName in args.gui], configure_kicost_apis,
+                   command_line_api_options, args)
         sys.exit(0)
 
     if args.input is None:

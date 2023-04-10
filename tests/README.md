@@ -1,7 +1,7 @@
 # Some information about running tests
 
 * Tests are contained in `test_kicost.py`
-* Install requirements:  
+* Install requirements:
 ```bash
 pip install flake8 pytest xlsx2csv
 ```
@@ -12,7 +12,7 @@ Don't use `pip`, unless you want to mess your system.
 ```bash
 make test
 ```
-* Run all tests  
+* Run all tests
 ```bash
 pytest-3
 ```
@@ -41,11 +41,11 @@ Some tests may be easier to generate using a script.
 See `../tools/genGroupTest.sh` and  `../tools/genPartsAndCommentsTest.sh` for examples.
 
 
-## Storing KitSpace values as test values.
+## Storing values as test values.
 
 1. In `test_kicost.py` define `ADD_QUERY_TO_KNOWN` to `1`
 2. Run the test
-3. Check you got the queries recorded in `tests/kitspace_queries.txt`
+3. Check you got the queries recorded in `tests/*_queries.txt`
 3. Revert `ADD_QUERY_TO_KNOWN` to `0`
 
 Now you'll get the recorded replies
