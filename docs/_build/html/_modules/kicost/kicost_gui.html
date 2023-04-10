@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.kicost_gui &#8212; kicost 1.1.15 documentation</title>
+    <title>kicost.kicost_gui &#8212; kicost 1.1.16 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     
@@ -26,7 +26,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.15 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.kicost_gui</a></li> 
       </ul>
@@ -134,7 +134,6 @@
 <span class="n">PAGE_UPDATE</span> <span class="o">=</span> <span class="s1">&#39;https://pypi.python.org/pypi/kicost&#39;</span>  <span class="c1"># Page with the last official version.</span>
 <span class="c1"># https://github.com/hildogjr/KiCost/blob/master/kicost/version.py</span>
 <span class="n">PAGE_DEV</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/hildogjr/KiCost/issues/&#39;</span>
-<span class="n">PAGE_POWERED_BY</span> <span class="o">=</span> <span class="s1">&#39;https://kitspace.org/&#39;</span>
 
 <span class="n">kicostPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>  <span class="c1"># Application dir.</span>
 
@@ -630,11 +629,6 @@
 
         <span class="n">bSizer111</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">BoxSizer</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">VERTICAL</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">StaticBitmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel3</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">NullBitmap</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">132</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># wx.DefaultSize, 0)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span> <span class="s1">&#39;kitspace.png&#39;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_PNG</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_LEFT_DOWN</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">open_powered_by</span><span class="p">)</span>
-        <span class="n">bSizer111</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_bitmap_icon</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">CENTER</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-
         <span class="bp">self</span><span class="o">.</span><span class="n">m_button_check_updates</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_panel3</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="sa">u</span><span class="s2">&quot;Check for updates&quot;</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">wx</span><span class="o">.</span><span class="n">DefaultSize</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_button_check_updates</span><span class="o">.</span><span class="n">SetToolTip</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">ToolTip</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Click for compare you version with the most recent released.&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_button_check_updates</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_BUTTON</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_updates_click</span><span class="p">)</span>
@@ -675,7 +669,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="s1">&#39;KiCost v&#39;</span> <span class="o">+</span> <span class="n">__version__</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SetIcon</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Icon</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span> <span class="s1">&#39;kicost.ico&#39;</span><span class="p">),</span> <span class="n">wx</span><span class="o">.</span><span class="n">BITMAP_TYPE_ICO</span><span class="p">))</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_properties</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SetDropTarget</span><span class="p">(</span><span class="n">FileDropTarget</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>  <span class="c1"># Start the drop file in all the window.</span>
         <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Loaded KiCost v&#39;</span> <span class="o">+</span> <span class="n">__version__</span><span class="p">)</span>
 
@@ -711,11 +704,6 @@
         <span class="sd">&#39;&#39;&#39; @brief Open the page to download the last version.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">PAGE_UPDATE</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">open_powered_by</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Open partner that power the KiCost.&#39;&#39;&#39;</span>
-        <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
-        <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">PAGE_POWERED_BY</span><span class="p">)</span>
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">check_updates_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
@@ -943,6 +931,8 @@
 
         <span class="c1"># Current distributors module recognized.</span>
         <span class="n">distributors_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">get_distributors_iter</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">is_local</span><span class="p">()])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">distributors_list</span><span class="p">:</span>
+            <span class="n">error</span><span class="p">(</span><span class="s1">&#39;No distributor available, please enable at least one API&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_checkList_dist</span><span class="o">.</span><span class="n">Clear</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">distributors_list</span><span class="p">:</span>  <span class="c1"># Make this for wxPy3 compatibility, not allow include a list.</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">m_checkList_dist</span><span class="o">.</span><span class="n">Append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
@@ -1202,7 +1192,7 @@
         <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="kicost_gui"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_gui.kicost_gui">[docs]</a><span class="k">def</span> <span class="nf">kicost_gui</span><span class="p">(</span><span class="n">force_en_us</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="kicost_gui"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_gui.kicost_gui">[docs]</a><span class="k">def</span> <span class="nf">kicost_gui</span><span class="p">(</span><span class="n">force_en_us</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">configure_kicost_apis</span><span class="p">,</span> <span class="n">command_line_api_options</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39; @brief Load the graphical interface.</span>
 <span class="sd">        @param String file file names or list.</span>
 <span class="sd">        (it will be used for plugin implementation on future KiCad6-Eeschema).</span>
@@ -1236,7 +1226,10 @@
             <span class="n">handler</span><span class="o">.</span><span class="n">setStream</span><span class="p">(</span><span class="n">logger_stream</span><span class="p">)</span>
         <span class="c1"># Reset the formatter so it realizes that we aren&#39;t using a terminal</span>
         <span class="n">handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">CustomFormatter</span><span class="p">(</span><span class="n">logger_stream</span><span class="p">))</span>
-
+    <span class="c1"># Init the APIs now, so the user can see the problems</span>
+    <span class="n">configure_kicost_apis</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span> <span class="n">command_line_api_options</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+    <span class="c1"># Now that we initialized the APIs we can fill the options for distributors</span>
+    <span class="n">frame</span><span class="o">.</span><span class="n">set_properties</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">files</span><span class="p">:</span>
         <span class="n">frame</span><span class="o">.</span><span class="n">m_comboBox_files</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="n">SEP_FILES</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
         <span class="n">frame</span><span class="o">.</span><span class="n">updateOutputFilename</span><span class="p">()</span>
@@ -1329,7 +1322,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.15 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">kicost 1.1.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.kicost_gui</a></li> 
       </ul>

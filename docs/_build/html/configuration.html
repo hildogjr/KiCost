@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Configuration file &#8212; kicost 1.1.15 documentation</title>
+    <title>Configuration file &#8212; kicost 1.1.16 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     
@@ -34,7 +34,7 @@
         <li class="right" >
           <a href="usage.html" title="Usage"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.15 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.16 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
       </ul>
     </div>  
@@ -92,11 +92,6 @@
     <span class="c1"># cpc_country: UK</span>
     <span class="c1"># Directory for the APIs caches</span>
     <span class="c1"># cache_path: ~/.cache/kicost/Element14</span>
-  <span class="n">KitSpace</span><span class="p">:</span>
-    <span class="c1"># Normally enabled</span>
-    <span class="c1"># enable: true</span>
-    <span class="c1"># Directory for the APIs caches</span>
-    <span class="c1"># cache_path: ~/.cache/kicost/KitSpace</span>
   <span class="n">Mouser</span><span class="p">:</span>
     <span class="c1"># Mouser Part API key</span>
     <span class="c1"># key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX</span>
@@ -134,12 +129,9 @@
 Using 0 will force to do all searches again (no cache).</p>
 <p>You don’t need to specify the <cite>cache_path</cite> for each API, they are derived from the main option.
 The default value for the main cache path is <cite>~/.cache/kicost</cite>.</p>
-<p>The <cite>KitSpace</cite> API is the only API that doesn’t need a key to be used.
-This is a service kindly provided by the <a class="reference external" href="https://kitspace.org/">KitSpace</a> project.
-As such, is a limited resource. So you should consider getting keys for the distributors you use.</p>
+<p>Currently all the APIs needs some kind of key/token, lamentably we no longer have an API that doesn’t need it.</p>
 <p>The <cite>Nexar</cite> API provides access to various distributors. It has a free option, with a current limit of 1000 parts/month.
-This is free and you just need to register yourself and an application at <a class="reference external" href="https://nexar.com/api">Nexar</a>.
-Note that <cite>KitSpace</cite> uses <cite>Nexar</cite> as backend, so we strongly recommend to get a <cite>Nexar</cite> key for your own use.</p>
+This is free and you just need to register yourself and an application at <a class="reference external" href="https://nexar.com/api">Nexar</a>.</p>
 <p>The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.</p>
 <p>Note that the keys needed are the ones provided by the distributor to use its API, they aren’t your user name
 and password for the site. As an example, to get the keys for Digi-Key you’ll need to visit the <a class="reference external" href="https://developer.digikey.com/get_started">API_site</a>.
@@ -201,7 +193,7 @@ But command line options, including any configuration file passed using it, has 
         <li class="right" >
           <a href="usage.html" title="Usage"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.15 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.16 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
       </ul>
     </div>

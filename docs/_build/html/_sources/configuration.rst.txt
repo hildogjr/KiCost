@@ -52,11 +52,6 @@ The format is YAML and here is an example: ::
         # cpc_country: UK
         # Directory for the APIs caches
         # cache_path: ~/.cache/kicost/Element14
-      KitSpace:
-        # Normally enabled
-        # enable: true
-        # Directory for the APIs caches
-        # cache_path: ~/.cache/kicost/KitSpace
       Mouser:
         # Mouser Part API key
         # key: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
@@ -95,13 +90,10 @@ Using 0 will force to do all searches again (no cache).
 You don't need to specify the `cache_path` for each API, they are derived from the main option.
 The default value for the main cache path is `~/.cache/kicost`.
 
-The `KitSpace` API is the only API that doesn't need a key to be used.
-This is a service kindly provided by the KitSpace_ project.
-As such, is a limited resource. So you should consider getting keys for the distributors you use.
+Currently all the APIs needs some kind of key/token, lamentably we no longer have an API that doesn't need it.
 
 The `Nexar` API provides access to various distributors. It has a free option, with a current limit of 1000 parts/month.
 This is free and you just need to register yourself and an application at Nexar_.
-Note that `KitSpace` uses `Nexar` as backend, so we strongly recommend to get a `Nexar` key for your own use.
 
 The other APIs are provided by each distributor, and they usually offer a free service with a generous limit.
 
@@ -117,6 +109,5 @@ You can also define options using environment variables. As an example, you can 
 the `MOUSER_KEY` environment variable. Note that environment variables has more precedence than the default config file.
 But command line options, including any configuration file passed using it, has the highest priority.
 
-.. _KitSpace: https://kitspace.org/
 .. _API_site: https://developer.digikey.com/get_started
 .. _Nexar: https://nexar.com/api
