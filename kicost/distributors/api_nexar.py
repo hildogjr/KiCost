@@ -150,7 +150,7 @@ class QueryStruct(object):
         self.result = None
         self.loaded = False
 
-    def remove_manfucturer(self):
+    def remove_manufacturer(self):
         self.manf = None
         del self.query['manufacturer']
 
@@ -315,7 +315,7 @@ class api_nexar(distributor_class):
             if not r.get('hits') and q.mpn is not None and q.manf:
                 # Found, but has no hits
                 # Try without specifying a manufacturer
-                q.remove_manfucturer()
+                q.remove_manufacturer()
                 to_retry.append(q)
 
     @staticmethod
@@ -621,10 +621,10 @@ class api_nexar(distributor_class):
         unsolved = []
         for query in queries:
             api_nexar.look_query_in_cache(query, unsolved)
-            if query.loaded and not query.result.get('hits') and query.mpn is not None:
+            if query.loaded and not query.result.get('hits') and query.mpn is not None and query.manf:
                 # Found, but has no hits
                 # Try without specifying a manufacturer
-                query.remove_manfucturer()
+                query.remove_manufacturer()
                 api_nexar.look_query_in_cache(query, unsolved)
 
         # Solve the rest from the site
