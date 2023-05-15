@@ -4,7 +4,7 @@
 import setuptools
 import os
 import re
-import kicost
+import kicost.version
 import subprocess
 
 try:
@@ -123,16 +123,16 @@ with open('kicost/version.py', 'wt') as f:
             res = 'unknown'
     f.write(re.sub("__build__ = '(.*)'", "__build__ = '{}'".format(res), version_py))
 if 'KICOST_FAKE_VERSION' in os.environ:
-    kicost.__version__ = os.environ['KICOST_FAKE_VERSION']
+    kicost.version.__version__ = os.environ['KICOST_FAKE_VERSION']
 
 setup(
     name='kicost',
-    version=kicost.__version__,
+    version=kicost.version.__version__,
     description="Build cost spreadsheet for a KiCad project.",
     long_description=readme + '\n\n' + history,
     # long_description_content_type="text/reStructuredText",
-    author=kicost.__author__,
-    author_email=kicost.__email__,
+    author=kicost.version.__author__,
+    author_email=kicost.version.__email__,
     url='https://hildogjr.github.io/KiCost',
     project_urls={
         'Doc': 'https://hildogjr.github.io/KiCost',
@@ -146,7 +146,6 @@ setup(
     # data_files=data_files,
     scripts=[],
     install_requires=requirements,
-    setup_requires=['requests'],
     license="MIT",
     zip_safe=False,
     keywords='KiCAD, BOM, electronics',
