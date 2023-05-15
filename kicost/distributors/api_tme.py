@@ -37,6 +37,7 @@ import json
 import base64
 import hmac
 import hashlib
+import time
 if sys.version_info[0] < 3:
     from urllib import quote, urlencode
     from urllib2 import Request, urlopen, URLError
@@ -134,6 +135,14 @@ class TME(object):
         except URLError as e:
             reason = e.reason
             code = e.code
+        if code == 403:
+            # Sometimes when we ask too fast
+            time.sleep(1)
+            try:
+                response = urlopen(self.request(endpoint, params))
+            except URLError as e:
+                reason = e.reason
+                code = e.code
         if reason:
             raise TMEError("Server error `{}` ({})".format(reason, code))
         data = json.loads(response.read())
