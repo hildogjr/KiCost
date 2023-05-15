@@ -3,6 +3,12 @@
 History
 -------
 
+1.1.17 (2023-05-15)
+_____________________
+* Fix Nexar problems when no MANF
+* Add TME retry
+
+
 1.1.16 (2023-04-10)
 _____________________
 * Fix disabled KitSpace API, no longer available
