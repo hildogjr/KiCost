@@ -146,6 +146,7 @@ setup(
     # data_files=data_files,
     scripts=[],
     install_requires=requirements,
+    setup_requires=['requests'],
     license="MIT",
     zip_safe=False,
     keywords='KiCAD, BOM, electronics',
