@@ -407,7 +407,7 @@ def main_real():
     if args.input is None:
         if not GUI_ENABLED:
             kicost_gui_notdependences()
-        kicost_gui(args.force_en_us)  # Use the user gui if no input is given.
+        kicost_gui(args.force_en_us, None, configure_kicost_apis, command_line_api_options, args)  # Use the user gui if no input is given.
         sys.exit(0)
     else:
         # Match the EDA tool formats with the input files.
