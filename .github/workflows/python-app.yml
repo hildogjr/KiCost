@@ -12,7 +12,8 @@ jobs:
     strategy:
       matrix:
         # '3.5', disabled, GitHub seems to be removing it
-        python-version: ['2.7', '3.7', '3.9']
+        # '2.7', removed on June 19 2023
+        python-version: ['3.7', '3.9', '3.11']
     name: Python test for ${{ matrix.python-version }}
         
     steps:
