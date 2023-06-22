@@ -3,6 +3,11 @@
 History
 -------
 
+1.1.18 (2023-06-22)
+_____________________
+* Fixed problems when no arguments were specified
+
+
 1.1.17 (2023-05-15)
 _____________________
 * Fix Nexar problems when no MANF

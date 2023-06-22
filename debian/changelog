@@ -1,3 +1,9 @@
+kicost (1.1.18-1) stable; urgency=medium
+
+  * Fixed problems when no arguments were specified
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Thu, 22 Jun 2023 12:58:39 -0300
+
 kicost (1.1.17) stable; urgency=medium
 
   * Fix Nexar problems when no MANF
