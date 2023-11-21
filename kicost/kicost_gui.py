@@ -58,7 +58,7 @@ from . import (__version__, info, error, warning, debug_overview, debug_general,
 from .kicost import kicost, output_filename  # kicost core functions.
 from .distributors import init_distributor_dict, get_distributors_iter, get_distributor_info, get_dist_name_from_label, set_distributors_progress
 from .edas import file_eda_match, get_registered_eda_names, get_eda_label, get_registered_eda_labels
-from .log import CustomFormatter
+from .log import CustomFormatter, MyLogger
 py_2 = sys.version_info < (3, 0)
 if sys.platform.startswith("win32"):
     from .os_windows import reg_enum_keys, reg_get
@@ -1179,6 +1179,7 @@ def kicost_gui(force_en_us, files, configure_kicost_apis, command_line_api_optio
     ProgressGUI.frame = frame
     # Redirect the logging system to the GUI area
     logger_stream = GUI_Stream(frame.m_textCtrl_messages)
+    MyLogger.warn_hash = {}
     for handler in get_logger().handlers:
         if py_2:
             handler.stream = logger_stream

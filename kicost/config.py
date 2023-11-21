@@ -178,6 +178,9 @@ def load_config(file=None):
         log_api_options('Loaded API options', obsessive=True)
     else:
         debug_overview('No config file found ({})'.format(file))
+        warning(W_CONFIG, "You should create a configuration file named `{}` containing your credentials".format(file))
+        warning(W_CONFIG, "Please consult the docs: "
+                "https://hildogjr.github.io/KiCost/docs/_build/singlehtml/index.html#document-configuration")
     # Make sure all APIs are in the options
     for api in get_api_list():
         if api not in api_options:
