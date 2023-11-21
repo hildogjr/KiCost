@@ -305,7 +305,9 @@ class api_element14(distributor_class):
                 if part.lifecycle is None:
                     part.lifecycle = 'obsolete' if data['productStatus'] == 'NO_LONGER_MANUFACTURED' else 'active'
                 tolerance = footprint = frequency = None
-                specs = {'rohs': ('RoHS', data['rohsStatusCode'])}
+                specs = {}
+                if 'rohsStatusCode' in data:
+                    specs['rohs'] = ('RoHS', data['rohsStatusCode'])
                 for sp in data.get('attributes', []):
                     name = sp['attributeLabel']
                     name_l = name.lower()
