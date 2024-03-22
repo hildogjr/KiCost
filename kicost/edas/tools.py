@@ -147,7 +147,7 @@ def group_parts(components, fields_merge, c_prjs):
         # Don't use the manufacturer's part number when calculating the hash!
         # Also, don't use any fields with SEPRTR in the label because that indicates
         # a field used by a specific tool (including KiCost).
-        hash_fields = (fields[k] for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k)
+        hash_fields = (fields[k].lower() for k in fields if k not in FIELDS_NOT_HASH and SEPRTR not in k)
         h = hash(tuple(sorted(hash_fields)))
 
         # Now add the hashed component to the group with the matching hash
@@ -291,7 +291,7 @@ def group_parts(components, fields_merge, c_prjs):
                 if val is None:  # Field with no value...
                     continue  # so ignore it.
                 if grp_fields.get(key):  # This field has been seen before.
-                    if grp_fields[key] != val:  # Flag if new field value not the same as old.
+                    if grp_fields[key].lower() != val.lower():  # Flag if new field value not the same as old.
                         raise KiCostError('Field value mismatch: ref={} field={} value=\'{}\', global=\'{}\' at group={}'
                                           .format(ref, key, val, grp_fields[key], grp.refs), ERR_FIELDS)
                 else:  # First time this field has been seen in the group, so store it.
