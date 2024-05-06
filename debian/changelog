@@ -1,3 +1,12 @@
+kicost (1.1.19-1) stable; urgency=medium
+
+  * Components groupings now isn't case sensitive
+  * Fixed Element14 issues when no RoHS info found
+  * Fixed Element14 country selection
+  * Added warning about missing config file
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Mon, 06 May 2024 11:09:42 -0300
+
 kicost (1.1.18-1) stable; urgency=medium
 
   * Fixed problems when no arguments were specified
