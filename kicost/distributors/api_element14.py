@@ -248,7 +248,7 @@ class api_element14(distributor_class):
             elif k == 'cache_path':
                 cache_path = v
             elif k.endswith('_country'):
-                api_element14.countries[v[:-8]] = v.lower()
+                api_element14.countries[k[:-8]] = v.lower()
         if api_element14.enabled and api_element14.key is None:
             warning(W_APIFAIL, "Can't enable Elemen14 without a `key`")
             api_element14.enabled = False
