@@ -1,18 +1,21 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
     <title>kicost.currency_converter package &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -46,46 +49,47 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="kicost-currency-converter-package">
-<h1>kicost.currency_converter package<a class="headerlink" href="#kicost-currency-converter-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-kicost.currency_converter.currency_converter">
-<span id="kicost-currency-converter-currency-converter-module"></span><h2>kicost.currency_converter.currency_converter module<a class="headerlink" href="#module-kicost.currency_converter.currency_converter" title="Permalink to this headline">¶</a></h2>
+  <section id="kicost-currency-converter-package">
+<h1>kicost.currency_converter package<a class="headerlink" href="#kicost-currency-converter-package" title="Permalink to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-kicost.currency_converter.currency_converter">
+<span id="kicost-currency-converter-currency-converter-module"></span><h2>kicost.currency_converter.currency_converter module<a class="headerlink" href="#module-kicost.currency_converter.currency_converter" title="Permalink to this heading">¶</a></h2>
 <p>CurrencyConverter:
 This is reduced version of the ‘Currency Converter’ by Alex Prengère.
 Original project: <a class="reference external" href="https://github.com/alexprengere/currencyconverter">https://github.com/alexprengere/currencyconverter</a></p>
 <p>This version only supports conversions for the last exchange rates, not
 historic ones.</p>
-<div class="section" id="on-the-other-hand-this-version-always-tries-to-get-the-last-rates">
-<h3>On the other hand this version always tries to get the last rates.<a class="headerlink" href="#on-the-other-hand-this-version-always-tries-to-get-the-last-rates" title="Permalink to this headline">¶</a></h3>
+<section id="on-the-other-hand-this-version-always-tries-to-get-the-last-rates">
+<h3>On the other hand this version always tries to get the last rates.<a class="headerlink" href="#on-the-other-hand-this-version-always-tries-to-get-the-last-rates" title="Permalink to this heading">¶</a></h3>
 <p>list_currencies, get_currency_symbol get_currency_name and
 format_currency:</p>
 <p>These functions are replacements for Babel
 (<a class="reference external" href="http://babel.pocoo.org/en/latest/index.html">http://babel.pocoo.org/en/latest/index.html</a>).</p>
 <p>Babel is really nice, but a huge overkill for what we need. In
 particular KiCost cunrrently supports only ‘en_US’.</p>
+</section>
 <dl class="py class">
-<dt id="kicost.currency_converter.currency_converter.CurrencyConverter">
-<em class="property">class </em><code class="sig-prename descclassname">kicost.currency_converter.currency_converter.</code><code class="sig-name descname">CurrencyConverter</code><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#CurrencyConverter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.CurrencyConverter" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="kicost.currency_converter.currency_converter.CurrencyConverter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kicost.currency_converter.currency_converter.</span></span><span class="sig-name descname"><span class="pre">CurrencyConverter</span></span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#CurrencyConverter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.CurrencyConverter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="py method">
-<dt id="kicost.currency_converter.currency_converter.CurrencyConverter.convert">
-<code class="sig-name descname">convert</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">amount</span></em>, <em class="sig-param"><span class="n">currency</span></em>, <em class="sig-param"><span class="n">new_currency</span><span class="o">=</span><span class="default_value">'EUR'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#CurrencyConverter.convert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.CurrencyConverter.convert" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="kicost.currency_converter.currency_converter.CurrencyConverter.convert">
+<span class="sig-name descname"><span class="pre">convert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amount</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_currency</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'EUR'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#CurrencyConverter.convert"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.CurrencyConverter.convert" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert amount from a currency to another one.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>amount</strong> (<em>float</em>) – The amount of <cite>currency</cite> to convert.</p></li>
 <li><p><strong>currency</strong> (<em>str</em>) – The currency to convert from.</p></li>
 <li><p><strong>new_currency</strong> (<em>str</em>) – The currency to convert to.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The value of <cite>amount</cite> in <cite>new_currency</cite>.</p>
 </dd>
-<dt class="field-odd">Return type</dt>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
 </dd>
 </dl>
@@ -98,50 +102,49 @@ particular KiCost cunrrently supports only ‘en_US’.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="kicost.currency_converter.currency_converter.format_currency">
-<code class="sig-prename descclassname">kicost.currency_converter.currency_converter.</code><code class="sig-name descname">format_currency</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">price</span></em>, <em class="sig-param"><span class="n">currency</span></em>, <em class="sig-param"><span class="n">locale</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#format_currency"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.format_currency" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="kicost.currency_converter.currency_converter.format_currency">
+<span class="sig-prename descclassname"><span class="pre">kicost.currency_converter.currency_converter.</span></span><span class="sig-name descname"><span class="pre">format_currency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">price</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">currency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#format_currency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.format_currency" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format price for the specified ISO currency</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="kicost.currency_converter.currency_converter.get_currency_name">
-<code class="sig-prename descclassname">kicost.currency_converter.currency_converter.</code><code class="sig-name descname">get_currency_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">currency</span></em>, <em class="sig-param"><span class="n">locale</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#get_currency_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.get_currency_name" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="kicost.currency_converter.currency_converter.get_currency_name">
+<span class="sig-prename descclassname"><span class="pre">kicost.currency_converter.currency_converter.</span></span><span class="sig-name descname"><span class="pre">get_currency_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">currency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#get_currency_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.get_currency_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the name for the specified ISO currency</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="kicost.currency_converter.currency_converter.get_currency_symbol">
-<code class="sig-prename descclassname">kicost.currency_converter.currency_converter.</code><code class="sig-name descname">get_currency_symbol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">currency</span></em>, <em class="sig-param"><span class="n">locale</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#get_currency_symbol"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.get_currency_symbol" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="kicost.currency_converter.currency_converter.get_currency_symbol">
+<span class="sig-prename descclassname"><span class="pre">kicost.currency_converter.currency_converter.</span></span><span class="sig-name descname"><span class="pre">get_currency_symbol</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">currency</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#get_currency_symbol"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.get_currency_symbol" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the symbol to represent the specified ISO currency</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="kicost.currency_converter.currency_converter.list_currencies">
-<code class="sig-prename descclassname">kicost.currency_converter.currency_converter.</code><code class="sig-name descname">list_currencies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#list_currencies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.list_currencies" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="kicost.currency_converter.currency_converter.list_currencies">
+<span class="sig-prename descclassname"><span class="pre">kicost.currency_converter.currency_converter.</span></span><span class="sig-name descname"><span class="pre">list_currencies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/currency_converter.html#list_currencies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kicost.currency_converter.currency_converter.list_currencies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of known currencies</p>
 </dd></dl>
 
-</div>
-</div>
-<div class="section" id="module-kicost.currency_converter.currency_tables">
-<span id="kicost-currency-converter-currency-tables-module"></span><h2>kicost.currency_converter.currency_tables module<a class="headerlink" href="#module-kicost.currency_converter.currency_tables" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-kicost.currency_converter.default_rates">
-<span id="kicost-currency-converter-default-rates-module"></span><h2>kicost.currency_converter.default_rates module<a class="headerlink" href="#module-kicost.currency_converter.default_rates" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="module-kicost.currency_converter.download_rates">
-<span id="kicost-currency-converter-download-rates-module"></span><h2>kicost.currency_converter.download_rates module<a class="headerlink" href="#module-kicost.currency_converter.download_rates" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="module-kicost.currency_converter.currency_tables">
+<span id="kicost-currency-converter-currency-tables-module"></span><h2>kicost.currency_converter.currency_tables module<a class="headerlink" href="#module-kicost.currency_converter.currency_tables" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-kicost.currency_converter.default_rates">
+<span id="kicost-currency-converter-default-rates-module"></span><h2>kicost.currency_converter.default_rates module<a class="headerlink" href="#module-kicost.currency_converter.default_rates" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="module-kicost.currency_converter.download_rates">
+<span id="kicost-currency-converter-download-rates-module"></span><h2>kicost.currency_converter.download_rates module<a class="headerlink" href="#module-kicost.currency_converter.download_rates" title="Permalink to this heading">¶</a></h2>
 <p>Simple helper to download the exchange rates.</p>
 <dl class="py function">
-<dt id="kicost.currency_converter.download_rates.download_rates">
-<code class="sig-prename descclassname">kicost.currency_converter.download_rates.</code><code class="sig-name descname">download_rates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/download_rates.html#download_rates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#kicost.currency_converter.download_rates.download_rates" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="kicost.currency_converter.download_rates.download_rates">
+<span class="sig-prename descclassname"><span class="pre">kicost.currency_converter.download_rates.</span></span><span class="sig-name descname"><span class="pre">download_rates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kicost/currency_converter/download_rates.html#download_rates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kicost.currency_converter.download_rates.download_rates" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</div>
-<div class="section" id="module-kicost.currency_converter">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost.currency_converter" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+</section>
+<section id="module-kicost.currency_converter">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-kicost.currency_converter" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -150,28 +153,45 @@ particular KiCost cunrrently supports only ‘en_US’.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">kicost.currency_converter package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
 <li><a class="reference internal" href="#module-kicost.currency_converter.currency_converter">kicost.currency_converter.currency_converter module</a><ul>
 <li><a class="reference internal" href="#on-the-other-hand-this-version-always-tries-to-get-the-last-rates">On the other hand this version always tries to get the last rates.</a></li>
+<li><a class="reference internal" href="#kicost.currency_converter.currency_converter.CurrencyConverter"><code class="docutils literal notranslate"><span class="pre">CurrencyConverter</span></code></a><ul>
+<li><a class="reference internal" href="#kicost.currency_converter.currency_converter.CurrencyConverter.convert"><code class="docutils literal notranslate"><span class="pre">CurrencyConverter.convert()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#kicost.currency_converter.currency_converter.format_currency"><code class="docutils literal notranslate"><span class="pre">format_currency()</span></code></a></li>
+<li><a class="reference internal" href="#kicost.currency_converter.currency_converter.get_currency_name"><code class="docutils literal notranslate"><span class="pre">get_currency_name()</span></code></a></li>
+<li><a class="reference internal" href="#kicost.currency_converter.currency_converter.get_currency_symbol"><code class="docutils literal notranslate"><span class="pre">get_currency_symbol()</span></code></a></li>
+<li><a class="reference internal" href="#kicost.currency_converter.currency_converter.list_currencies"><code class="docutils literal notranslate"><span class="pre">list_currencies()</span></code></a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-kicost.currency_converter.currency_tables">kicost.currency_converter.currency_tables module</a></li>
 <li><a class="reference internal" href="#module-kicost.currency_converter.default_rates">kicost.currency_converter.default_rates module</a></li>
-<li><a class="reference internal" href="#module-kicost.currency_converter.download_rates">kicost.currency_converter.download_rates module</a></li>
+<li><a class="reference internal" href="#module-kicost.currency_converter.download_rates">kicost.currency_converter.download_rates module</a><ul>
+<li><a class="reference internal" href="#kicost.currency_converter.download_rates.download_rates"><code class="docutils literal notranslate"><span class="pre">download_rates()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#module-kicost.currency_converter">Module contents</a></li>
 </ul>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="kicost.html"
-                        title="previous chapter">kicost package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="kicost.distributors.html"
-                        title="next chapter">kicost.distributors package</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="kicost.html"
+                          title="previous chapter">kicost package</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="kicost.distributors.html"
+                          title="next chapter">kicost.distributors package</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -183,12 +203,12 @@ particular KiCost cunrrently supports only ‘en_US’.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -216,7 +236,7 @@ particular KiCost cunrrently supports only ‘en_US’.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

@@ -1,18 +1,21 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
     <title>Installation &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -44,11 +47,11 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+  <section id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
 <p>This is a Python package, so you’ll need to have Python installed to use it.</p>
-<div class="section" id="windows-without-kicad">
-<h2>Windows without KiCad<a class="headerlink" href="#windows-without-kicad" title="Permalink to this headline">¶</a></h2>
+<section id="windows-without-kicad">
+<h2>Windows without KiCad<a class="headerlink" href="#windows-without-kicad" title="Permalink to this heading">¶</a></h2>
 <p>KiCad has Python, but if you don’t have KiCad you can download a Python installer from
 <a class="reference external" href="https://www.continuum.io/downloads#windows">Anaconda</a>,
 <a class="reference external" href="https://www.activestate.com/activepython/downloads">Active State</a>, or even
@@ -62,9 +65,9 @@ window and typing the command:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install kicost
 </pre></div>
 </div>
-</div>
-<div class="section" id="windows-with-kicad">
-<h2>Windows with KiCad<a class="headerlink" href="#windows-with-kicad" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="windows-with-kicad">
+<h2>Windows with KiCad<a class="headerlink" href="#windows-with-kicad" title="Permalink to this heading">¶</a></h2>
 <ol class="arabic simple">
 <li><p>Open a Power Shell window as administrator.</p></li>
 </ol>
@@ -86,9 +89,9 @@ After installing GIT:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span><span class="o">&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">hildogjr</span><span class="o">/</span><span class="n">KiCost</span><span class="o">.</span><span class="n">git</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="linux">
-<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="linux">
+<h2>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">¶</a></h2>
 <p>If you’re using linux, you probably already have Python.</p>
 <p>On Linux, for a full install procedure on Python3, use (for Python2, replace <code class="docutils literal notranslate"><span class="pre">pip3</span></code> by <code class="docutils literal notranslate"><span class="pre">pip</span></code> on each command):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ sudo apt-get install python3-pip # Or ``python-pip`` to install PIP on Python2.
@@ -107,8 +110,8 @@ $ kicost # Execute KiCost without input arguments to initialize the GUI.
 $ sudo -H pip3 install -U git+https://github.com/hildogjr/KiCost.git
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -117,8 +120,9 @@ $ sudo -H pip3 install -U git+https://github.com/hildogjr/KiCost.git
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Installation</a><ul>
 <li><a class="reference internal" href="#windows-without-kicad">Windows without KiCad</a></li>
 <li><a class="reference internal" href="#windows-with-kicad">Windows with KiCad</a></li>
@@ -127,12 +131,17 @@ $ sudo -H pip3 install -U git+https://github.com/hildogjr/KiCost.git
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="readme.html"
-                        title="previous chapter">KiCost</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="usage.html"
-                        title="next chapter">Usage</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="readme.html"
+                          title="previous chapter">KiCost</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="usage.html"
+                          title="next chapter">Usage</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -144,12 +153,12 @@ $ sudo -H pip3 install -U git+https://github.com/hildogjr/KiCost.git
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -175,7 +184,7 @@ $ sudo -H pip3 install -U git+https://github.com/hildogjr/KiCost.git
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

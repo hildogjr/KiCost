@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.distributors.api_nexar &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -257,7 +259,7 @@
 
 <div class="viewcode-block" id="api_nexar.get_token"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_token">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_token</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot; Return the Nexar token from the client_id and client_secret provided &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return the Nexar token from the client_id and client_secret provided &quot;&quot;&quot;</span>
         <span class="n">token</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">token</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">PROD_TOKEN_URL</span><span class="p">,</span>
@@ -272,7 +274,7 @@
 
 <div class="viewcode-block" id="api_nexar.get_headers"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_headers">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_headers</span><span class="p">():</span>
-        <span class="sd">&quot;&quot;&quot; Get the access token, make sure it isn&#39;t expired &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the access token, make sure it isn&#39;t expired &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;KICOST_NEXAR_NO_TOKEN&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
             <span class="c1"># No token for debug</span>
             <span class="k">return</span> <span class="p">{}</span>
@@ -284,7 +286,7 @@
 
 <div class="viewcode-block" id="api_nexar.query"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.query">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="n">query_parts</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">query_type</span><span class="o">=</span><span class="n">QUERY_MATCH</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Send query to server and return results. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Send query to server and return results. &quot;&quot;&quot;</span>
         <span class="c1"># Allow changing the URL for debug purposes</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;KICOST_NEXAR_URL&#39;</span><span class="p">]</span>
@@ -321,7 +323,7 @@
 
 <div class="viewcode-block" id="api_nexar.get_spec"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_spec">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_spec</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Get the value of `value` field of a dictionary if the `name` field identifier.</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Get the value of `value` field of a dictionary if the `name` field identifier.</span>
 <span class="sd">        Used to get information from the JSON response.&#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;specs&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;attribute&#39;</span><span class="p">][</span><span class="s1">&#39;shortname&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">item</span><span class="p">:</span>
@@ -330,7 +332,7 @@
 
 <div class="viewcode-block" id="api_nexar.query2name"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.query2name">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">query2name</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Finds the prefix and name for a query &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Finds the prefix and name for a query &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">mpn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">prefix</span> <span class="o">=</span> <span class="s1">&#39;mpn&#39;</span>
             <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">manf</span> <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">manf</span> <span class="k">else</span> <span class="s1">&#39;unk&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">q</span><span class="o">.</span><span class="n">mpn</span>
@@ -342,7 +344,7 @@
 
 <div class="viewcode-block" id="api_nexar.get_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.get_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_part_info</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">to_retry</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Query PartInfo for quantity/price info.</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Query PartInfo for quantity/price info.</span>
 <span class="sd">           `distributors` is the list of all distributors we want, in general. &#39;&#39;&#39;</span>
         <span class="n">only_query</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span><span class="o">.</span><span class="n">query</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">queries</span><span class="p">]</span>
         <span class="n">results</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">only_query</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
@@ -400,7 +402,7 @@
 
 <div class="viewcode-block" id="api_nexar.select_best_part"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.select_best_part">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">select_best_part</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">part</span><span class="p">,</span> <span class="n">native_dists</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Select the best part, we discard results that are not distributed by our distributors.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Select the best part, we discard results that are not distributed by our distributors.</span>
 <span class="sd">            Then we look for the one that best matches the `manf`. &quot;&quot;&quot;</span>
         <span class="n">hits</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">]</span>
         <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Hits: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">hits</span><span class="p">))</span>
@@ -452,7 +454,7 @@
 
 <div class="viewcode-block" id="api_nexar.fill_part_data"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.fill_part_data">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">fill_part_data</span><span class="p">(</span><span class="n">part</span><span class="p">,</span> <span class="n">result</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Fill generic data in the PartGroup() structure &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Fill generic data in the PartGroup() structure &#39;&#39;&#39;</span>
         <span class="c1"># Get the information of the part.</span>
         <span class="c1"># Datasheet, only if we don&#39;t have one</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span><span class="p">:</span>
@@ -473,7 +475,7 @@
 
 <div class="viewcode-block" id="api_nexar.fill_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.fill_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">fill_part_info</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">,</span> <span class="n">solved</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Place the results into the parts list. &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Place the results into the parts list. &#39;&#39;&#39;</span>
         <span class="c1"># Translate from PartInfo distributor names to the names used internally by kicost.</span>
         <span class="n">dist_xlate</span> <span class="o">=</span> <span class="n">api_nexar</span><span class="o">.</span><span class="n">DIST_TRANSLATION</span>
 
@@ -611,7 +613,7 @@
 
 <div class="viewcode-block" id="api_nexar.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_nexar.api_nexar.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from Nexar.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from Nexar.&#39;&#39;&#39;</span>
         <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting part data from Nexar ...&#39;</span><span class="p">)</span>
 
         <span class="c1"># Use just the distributors avaliable in this API.</span>
@@ -696,12 +698,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -723,7 +725,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

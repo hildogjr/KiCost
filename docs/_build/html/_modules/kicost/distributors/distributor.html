@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.distributors.distributor &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -88,7 +90,7 @@
 
 
 <span class="k">def</span> <span class="nf">hide_secrets</span><span class="p">(</span><span class="n">secret</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Show only the first and the last characters of the key.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Show only the first and the last characters of the key.</span>
 <span class="sd">        Also keep the `-` &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">secret</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">secret</span>
@@ -96,7 +98,7 @@
 
 
 <span class="k">class</span> <span class="nc">TqdmLoggingHandler</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">Handler</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Overload the class to write the logging through the `tqdm`.&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Overload the class to write the logging through the `tqdm`.&#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">NOTSET</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">stream</span>
@@ -113,7 +115,7 @@
 
 
 <span class="k">class</span> <span class="nc">QueryCache</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Components queries cache implementation &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Components queries cache implementation &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">ttl</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ttl_min</span> <span class="o">=</span> <span class="n">ttl</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">60</span>
@@ -123,12 +125,12 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span> <span class="o">+</span> <span class="s2">&quot;.dat&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">save_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">results</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Saves the results to the cache &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Saves the results to the cache &#39;&#39;&#39;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
             <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">fh</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">load_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Loads the results from the cache, must be implemented by KiCost &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Loads the results from the cache, must be implemented by KiCost &#39;&#39;&#39;</span>
         <span class="n">file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">DEBUG_OBSESSIVE</span><span class="p">,</span> <span class="s1">&#39;Looking in cache &#39;</span><span class="o">+</span><span class="n">file</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
@@ -181,12 +183,12 @@
 
 <div class="viewcode-block" id="distributor_class.update_distributors"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.update_distributors">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">update_distributors</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; This is used by the Local distributors mechanism to discover user defined distributors &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; This is used by the Local distributors mechanism to discover user defined distributors &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="distributor_class.get_dist_parts_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.get_dist_parts_info">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_dist_parts_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get the parts info using the modules API/Scrape/Local.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Get the parts info using the modules API/Scrape/Local.&#39;&#39;&#39;</span>
         <span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_overview</span>
         <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Starting to search using distributors: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">distributors</span><span class="p">))</span>
         <span class="c1"># Discover user defined distributors</span>
@@ -216,7 +218,7 @@
 
 <div class="viewcode-block" id="distributor_class.main_init_dist_dict"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.main_init_dist_dict">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">main_init_dist_dict</span><span class="p">():</span>
-        <span class="sd">&#39;&#39;&#39; Initialize and update the dictionary of the registered distributors classes.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Initialize and update the dictionary of the registered distributors classes.&#39;&#39;&#39;</span>
         <span class="c1"># Clear distributor_dict, then let all distributor modules recreate their entries.</span>
         <span class="n">distributor_class</span><span class="o">.</span><span class="n">distributor_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">distributor_class</span><span class="o">.</span><span class="n">label2name</span> <span class="o">=</span> <span class="p">{}</span>
@@ -229,7 +231,7 @@
 
 <div class="viewcode-block" id="distributor_class.add_distributors"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.add_distributors">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">add_distributors</span><span class="p">(</span><span class="n">dists</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Adds a copy of the distributor info to the supported &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Adds a copy of the distributor info to the supported &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">dists</span><span class="p">:</span>
             <span class="c1"># Here we copy the available distributors from distributors_info</span>
             <span class="c1"># We use a copy so they can be restored just calling this init again</span>
@@ -239,19 +241,19 @@
 
 <div class="viewcode-block" id="distributor_class.add_distributor"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.add_distributor">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">add_distributor</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Adds a distributor to the list of supported &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Adds a distributor to the list of supported &#39;&#39;&#39;</span>
         <span class="n">distributor_class</span><span class="o">.</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span>
         <span class="n">distributor_class</span><span class="o">.</span><span class="n">label2name</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> <span class="o">=</span> <span class="n">name</span></div>
 
 <div class="viewcode-block" id="distributor_class.get_distributor_template"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.get_distributor_template">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_distributor_template</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Get a copy of the distributor info from the original structure.</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Get a copy of the distributor info from the original structure.</span>
 <span class="sd">            Used internaly from the API to add distributors derived from others. &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">distributors_info</span><span class="p">[</span><span class="n">name</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="distributor_class.get_distributor_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.get_distributor_info">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_distributor_info</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Gets all the information about a supported distributor.</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Gets all the information about a supported distributor.</span>
 <span class="sd">            This information comes from the list collected from the APIs, not from the fixed template. &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">distributor_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
 
@@ -278,7 +280,7 @@
 
 <div class="viewcode-block" id="distributor_class.configure_apis"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.configure_apis">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">configure_apis</span><span class="p">(</span><span class="n">options</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Configure all APIs. options is a dict API -&gt; api_options &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Configure all APIs. options is a dict API -&gt; api_options &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">api_name</span><span class="p">,</span> <span class="n">ops</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">api</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">_get_api</span><span class="p">(</span><span class="n">api_name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">api</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -286,7 +288,7 @@
 
 <div class="viewcode-block" id="distributor_class.set_api_status"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.set_api_status">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">set_api_status</span><span class="p">(</span><span class="n">api_name</span><span class="p">,</span> <span class="n">enabled</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Enable/Disable a particular API &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Enable/Disable a particular API &#39;&#39;&#39;</span>
         <span class="n">api</span> <span class="o">=</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">_get_api</span><span class="p">(</span><span class="n">api_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">api</span><span class="p">:</span>
             <span class="n">api</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">enabled</span>
@@ -295,12 +297,12 @@
 
 <div class="viewcode-block" id="distributor_class.get_api_status"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.get_api_status">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">get_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Find if an API is enabled &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Find if an API is enabled &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">_get_api</span><span class="p">(</span><span class="n">api</span><span class="p">)</span><span class="o">.</span><span class="n">enabled</span></div>
 
 <div class="viewcode-block" id="distributor_class.from_environment"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.from_environment">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_environment</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Configuration from the environment. &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Configuration from the environment. &#39;&#39;&#39;</span>
         <span class="c1"># Configure the module from the environment</span>
         <span class="c1"># The command line will overwrite it using set_options()</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">env_ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -308,7 +310,7 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_set_from_env</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">hide</span><span class="p">,</span> <span class="n">d_types</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Helper function to implement `from_environment`. &#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Helper function to implement `from_environment`. &#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="n">overwrite</span> <span class="ow">or</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">d_types</span><span class="p">:</span>
                 <span class="c1"># If we know the valid data type for the value ensure it</span>
@@ -328,7 +330,7 @@
 
 <div class="viewcode-block" id="distributor_class.configure_from_environment"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.configure_from_environment">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">configure_from_environment</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; Configure all APIs using environment variables.</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Configure all APIs using environment variables.</span>
 <span class="sd">            If overwrite is True the API should replace the current option &#39;&#39;&#39;</span>
         <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">registered</span><span class="p">:</span>
             <span class="n">api</span><span class="o">.</span><span class="n">from_environment</span><span class="p">(</span><span class="n">options</span><span class="p">[</span><span class="n">api</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="n">overwrite</span><span class="p">)</span></div>
@@ -336,12 +338,12 @@
     <span class="c1"># Abstract methods, implemented in distributor specific modules.</span>
 <div class="viewcode-block" id="distributor_class.query"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.query">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">query</span><span class="p">():</span>
-        <span class="sd">&#39;&#39;&#39;Send query to server and return results.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Send query to server and return results.&#39;&#39;&#39;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="distributor_class.query_part_info"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.distributor.distributor_class.query_part_info">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">query_part_info</span><span class="p">():</span>
-        <span class="sd">&#39;&#39;&#39; Get the parts info of one distributor class.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; Get the parts info of one distributor class.&#39;&#39;&#39;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div></div>
 </pre></div>
 
@@ -355,12 +357,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -382,7 +384,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

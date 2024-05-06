@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.spreadsheet &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -108,7 +110,7 @@
 <span class="c1"># Settings can be used inside KiCost or from any tool using KiCost as a module.</span>
 <span class="c1"># It was originally created to control the spreadsheet details from KiBot.</span>
 <div class="viewcode-block" id="Spreadsheet"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet">[docs]</a><span class="k">class</span> <span class="nc">Spreadsheet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; A class to hold the spreadsheet generation settings &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; A class to hold the spreadsheet generation settings &#39;&#39;&#39;</span>
     <span class="c1"># Note: upper case members are static. Can be read by the objects, but shouldn&#39;t be modfified by the objects.</span>
     <span class="c1"># They work as configuration parameters to fine tune the spreadsheet content and aspect.</span>
     <span class="c1">#</span>
@@ -347,19 +349,19 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">currency_format</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currency_format_unit</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.write_string"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.write_string">[docs]</a>    <span class="k">def</span> <span class="nf">write_string</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; worksheet.write_string wrapper to keep track of the string sizes. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; worksheet.write_string wrapper to keep track of the string sizes. &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wks</span><span class="o">.</span><span class="n">write_string</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrk_formats</span><span class="p">[</span><span class="nb">format</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_cell_size</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="nb">format</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.write_url"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.write_url">[docs]</a>    <span class="k">def</span> <span class="nf">write_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cell_format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tip</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; worksheet.write_url wrapper to keep track of the string sizes. &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; worksheet.write_url wrapper to keep track of the string sizes. &quot;&quot;&quot;</span>
         <span class="nb">format</span> <span class="o">=</span> <span class="n">cell_format</span> <span class="k">if</span> <span class="n">cell_format</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">wrk_formats</span><span class="p">[</span><span class="n">cell_format</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wks</span><span class="o">.</span><span class="n">write_url</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">cell_format</span><span class="o">=</span><span class="nb">format</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="p">,</span> <span class="n">tip</span><span class="o">=</span><span class="n">tip</span><span class="p">)</span>
         <span class="n">text</span> <span class="o">=</span> <span class="n">string</span> <span class="k">if</span> <span class="n">string</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">url</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_cell_size</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">cell_format</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.compute_cell_size"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.compute_cell_size">[docs]</a>    <span class="k">def</span> <span class="nf">compute_cell_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="nb">format</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Compute cell size adjusts &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Compute cell size adjusts &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">text</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="c1"># Compute a scale factor</span>
@@ -386,7 +388,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">row_heights</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.adjust_row_and_col_sizes"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.adjust_row_and_col_sizes">[docs]</a>    <span class="k">def</span> <span class="nf">adjust_row_and_col_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Adjust the column and row sizes using the values computed by compute_cell_size &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Adjust the column and row sizes using the values computed by compute_cell_size &quot;&quot;&quot;</span>
         <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Adjusting cell sizes&#39;</span><span class="p">)</span>
         <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Column adjusts: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">col_widths</span><span class="p">))</span>
         <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Row adjusts: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">row_heights</span><span class="p">))</span>
@@ -427,23 +429,23 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">wks</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;level&#39;</span><span class="p">:</span> <span class="n">level</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.get_for_sheet"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.get_for_sheet">[docs]</a>    <span class="k">def</span> <span class="nf">get_for_sheet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns a name qualified for this sheet &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns a name qualified for this sheet &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;&#39;</span><span class="si">{}</span><span class="s2">&#39;!</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">worksheet_name</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.get_ref"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.get_ref">[docs]</a>    <span class="k">def</span> <span class="nf">get_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns an absolute reference to row/col on this sheet &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns an absolute reference to row/col on this sheet &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_for_sheet</span><span class="p">(</span><span class="n">xl_rowcol_to_cell</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">row_abs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">col_abs</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.get_range"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.get_range">[docs]</a>    <span class="k">def</span> <span class="nf">get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row1</span><span class="p">,</span> <span class="n">col1</span><span class="p">,</span> <span class="n">row2</span><span class="p">,</span> <span class="n">col2</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Returns an absolute reference to a range on this sheet &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Returns an absolute reference to a range on this sheet &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s1">&#39;=&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_for_sheet</span><span class="p">(</span><span class="n">xl_range_abs</span><span class="p">(</span><span class="n">row1</span><span class="p">,</span> <span class="n">col1</span><span class="p">,</span> <span class="n">row2</span><span class="p">,</span> <span class="n">col2</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.define_name_ref"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.define_name_ref">[docs]</a>    <span class="k">def</span> <span class="nf">define_name_ref</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Define a local variable assigned to an absolute position in the sheet &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Define a local variable assigned to an absolute position in the sheet &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_for_sheet</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_ref</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.define_name_range"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.define_name_range">[docs]</a>    <span class="k">def</span> <span class="nf">define_name_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">row1</span><span class="p">,</span> <span class="n">col1</span><span class="p">,</span> <span class="n">row2</span><span class="p">,</span> <span class="n">col2</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Define a local variable assigned to an absolute range in the sheet &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Define a local variable assigned to an absolute range in the sheet &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">workbook</span><span class="o">.</span><span class="n">define_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_for_sheet</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_range</span><span class="p">(</span><span class="n">row1</span><span class="p">,</span> <span class="n">col1</span><span class="p">,</span> <span class="n">row2</span><span class="p">,</span> <span class="n">col2</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="Spreadsheet.add_date"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.Spreadsheet.add_date">[docs]</a>    <span class="k">def</span> <span class="nf">add_date</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
@@ -467,7 +469,7 @@
 <div class="viewcode-block" id="create_spreadsheet"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.create_spreadsheet">[docs]</a><span class="k">def</span> <span class="nf">create_spreadsheet</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">prj_info</span><span class="p">,</span> <span class="n">spreadsheet_filename</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">currency</span><span class="o">=</span><span class="n">DEFAULT_CURRENCY</span><span class="p">,</span>
                        <span class="n">collapse_refs</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">suppress_cat_url</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">user_fields</span><span class="o">=</span><span class="p">[],</span> <span class="n">variant</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span>
                        <span class="n">max_column_width</span><span class="o">=</span><span class="n">DEF_MAX_COLUMN_W</span><span class="p">,</span> <span class="n">suppress_dist_desc</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Create a spreadsheet using the info for the parts (including their HTML trees).&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Create a spreadsheet using the info for the parts (including their HTML trees).&#39;&#39;&#39;</span>
     <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">spreadsheet_filename</span><span class="p">)</span>
     <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Creating the </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> spreadsheet...&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">basename</span><span class="p">))</span>
     <span class="c1"># Adjust the name of the work_sheet (add variant and limit len)</span>
@@ -502,7 +504,7 @@
 
 
 <div class="viewcode-block" id="create_worksheet"><a class="viewcode-back" href="../../kicost.html#kicost.spreadsheet.create_worksheet">[docs]</a><span class="k">def</span> <span class="nf">create_worksheet</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">parts</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Create a worksheet using the info for the parts (including their HTML trees).&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Create a worksheet using the info for the parts (including their HTML trees).&#39;&#39;&#39;</span>
     <span class="c1"># Force all currency related cells to use the &quot;currency_format&quot;</span>
     <span class="n">ss</span><span class="o">.</span><span class="n">WRK_FORMATS</span><span class="p">[</span><span class="s1">&#39;total_cost_currency&#39;</span><span class="p">][</span><span class="s1">&#39;num_format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">currency_format</span>
     <span class="n">ss</span><span class="o">.</span><span class="n">WRK_FORMATS</span><span class="p">[</span><span class="s1">&#39;unit_cost_currency&#39;</span><span class="p">][</span><span class="s1">&#39;num_format&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">currency_format</span>
@@ -628,7 +630,7 @@
 
 
 <span class="k">def</span> <span class="nf">get_ref_key</span><span class="p">(</span><span class="n">part</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Helper function to sort the references &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Helper function to sort the references &#39;&#39;&#39;</span>
     <span class="n">match</span> <span class="o">=</span> <span class="n">PART_REF_REGEX</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">first_ref</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">match</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">part</span><span class="o">.</span><span class="n">collapsed_refs</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -637,7 +639,7 @@
 
 
 <span class="k">def</span> <span class="nf">add_globals_to_worksheet</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">total_cost_row</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Add global part data to the spreadsheet.&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Add global part data to the spreadsheet.&#39;&#39;&#39;</span>
 
     <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Writing the global information...&#39;</span><span class="p">)</span>
 
@@ -795,7 +797,7 @@
 
 
 <span class="k">def</span> <span class="nf">add_global_prices_to_workheet</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">total_cost_row</span><span class="p">,</span> <span class="n">parts</span><span class="p">,</span> <span class="n">dist_list</span><span class="p">,</span> <span class="n">col</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Add global prices data to the spreadsheet.&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Add global prices data to the spreadsheet.&#39;&#39;&#39;</span>
 
     <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Writing the global prices information...&#39;</span><span class="p">)</span>
     <span class="n">wks</span> <span class="o">=</span> <span class="n">ss</span><span class="o">.</span><span class="n">wks</span>
@@ -954,7 +956,7 @@
 
 
 <span class="k">def</span> <span class="nf">add_dist_to_worksheet</span><span class="p">(</span><span class="n">ss</span><span class="p">,</span> <span class="n">columns_global</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">start_col</span><span class="p">,</span> <span class="n">unit_cost_row</span><span class="p">,</span> <span class="n">total_cost_row</span><span class="p">,</span> <span class="n">part_ref_col</span><span class="p">,</span> <span class="n">part_qty_col</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">parts</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Add distributor-specific part data to the spreadsheet.&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Add distributor-specific part data to the spreadsheet.&#39;&#39;&#39;</span>
 
     <span class="n">info</span> <span class="o">=</span> <span class="n">get_distributor_info</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
     <span class="n">order</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">order</span>
@@ -1359,12 +1361,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1385,7 +1387,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

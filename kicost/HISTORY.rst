@@ -3,6 +3,14 @@
 History
 -------
 
+1.1.19 (2023-05-06)
+_____________________
+* Components groupings now isn't case sensitive
+* Fixed Element14 issues when no RoHS info found
+* Fixed Element14 country selection
+* Added warning about missing config file
+
+
 1.1.18 (2023-06-22)
 _____________________
 * Fixed problems when no arguments were specified

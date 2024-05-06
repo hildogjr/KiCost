@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.distributors &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -95,68 +97,68 @@
 
 
 <div class="viewcode-block" id="get_distributors_list"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_distributors_list">[docs]</a><span class="k">def</span> <span class="nf">get_distributors_list</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; List of distributors registered by the API modules &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; List of distributors registered by the API modules &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributors_iter</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="get_distributors_iter"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_distributors_iter">[docs]</a><span class="k">def</span> <span class="nf">get_distributors_iter</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Iterator for the distributors registered by the API modules &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Iterator for the distributors registered by the API modules &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributors_iter</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="get_distributor_info"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_distributor_info">[docs]</a><span class="k">def</span> <span class="nf">get_distributor_info</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Gets all the information about a supported distributor.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Gets all the information about a supported distributor.</span>
 <span class="sd">        This information comes from the list collected from the APIs, not from the fixed template. &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_dist_name_from_label"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_dist_name_from_label">[docs]</a><span class="k">def</span> <span class="nf">get_dist_name_from_label</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Returns the internal distributor name for a provided label. &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Returns the internal distributor name for a provided label. &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">label2name</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">label</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="set_distributors_logger"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_distributors_logger">[docs]</a><span class="k">def</span> <span class="nf">set_distributors_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Sets the logger used by the class &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Sets the logger used by the class &#39;&#39;&#39;</span>
     <span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span></div>
 
 
 <div class="viewcode-block" id="set_distributors_progress"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_distributors_progress">[docs]</a><span class="k">def</span> <span class="nf">set_distributors_progress</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Configures the class used to indicate progress &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Configures the class used to indicate progress &#39;&#39;&#39;</span>
     <span class="n">distributor_class</span><span class="o">.</span><span class="n">progress</span> <span class="o">=</span> <span class="bp">cls</span></div>
 
 
 <div class="viewcode-block" id="configure_apis"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.configure_apis">[docs]</a><span class="k">def</span> <span class="nf">configure_apis</span><span class="p">(</span><span class="n">options</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Configure all APIs. options is a dict API -&gt; api_options &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Configure all APIs. options is a dict API -&gt; api_options &#39;&#39;&#39;</span>
     <span class="n">distributor_class</span><span class="o">.</span><span class="n">configure_apis</span><span class="p">(</span><span class="n">options</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="set_api_status"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.set_api_status">[docs]</a><span class="k">def</span> <span class="nf">set_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">enabled</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Enable/Disable a particular API &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Enable/Disable a particular API &#39;&#39;&#39;</span>
     <span class="n">distributor_class</span><span class="o">.</span><span class="n">set_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="n">enabled</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_api_status"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_api_status">[docs]</a><span class="k">def</span> <span class="nf">get_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Find if an API is enabled &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Find if an API is enabled &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">get_api_status</span><span class="p">(</span><span class="n">api</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="is_valid_api"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.is_valid_api">[docs]</a><span class="k">def</span> <span class="nf">is_valid_api</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Determines if this API is registered &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Determines if this API is registered &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">_get_api</span><span class="p">(</span><span class="n">api</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="get_api_list"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_api_list">[docs]</a><span class="k">def</span> <span class="nf">get_api_list</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Returns a list of registered APIs &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Returns a list of registered APIs &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">api</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">registered</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="get_api_valid_options"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_api_valid_options">[docs]</a><span class="k">def</span> <span class="nf">get_api_valid_options</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Returns the vali options for each API &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Returns the vali options for each API &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">api</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">api</span><span class="o">.</span><span class="n">config_options</span> <span class="k">for</span> <span class="n">api</span> <span class="ow">in</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">registered</span><span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="get_api_keys_to_hide"><a class="viewcode-back" href="../../kicost.distributors.html#kicost.distributors.get_api_keys_to_hide">[docs]</a><span class="k">def</span> <span class="nf">get_api_keys_to_hide</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Returns a set of options that should be hidden &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Returns a set of options that should be hidden &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">distributor_class</span><span class="o">.</span><span class="n">_get_api</span><span class="p">(</span><span class="n">api</span><span class="p">)</span><span class="o">.</span><span class="n">keys_to_hide</span></div>
 
 
@@ -174,12 +176,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -200,7 +202,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

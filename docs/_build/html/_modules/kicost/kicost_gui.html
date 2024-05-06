@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.kicost_gui &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -98,7 +100,7 @@
 <span class="kn">from</span> <span class="nn">.kicost</span> <span class="kn">import</span> <span class="n">kicost</span><span class="p">,</span> <span class="n">output_filename</span>  <span class="c1"># kicost core functions.</span>
 <span class="kn">from</span> <span class="nn">.distributors</span> <span class="kn">import</span> <span class="n">init_distributor_dict</span><span class="p">,</span> <span class="n">get_distributors_iter</span><span class="p">,</span> <span class="n">get_distributor_info</span><span class="p">,</span> <span class="n">get_dist_name_from_label</span><span class="p">,</span> <span class="n">set_distributors_progress</span>
 <span class="kn">from</span> <span class="nn">.edas</span> <span class="kn">import</span> <span class="n">file_eda_match</span><span class="p">,</span> <span class="n">get_registered_eda_names</span><span class="p">,</span> <span class="n">get_eda_label</span><span class="p">,</span> <span class="n">get_registered_eda_labels</span>
-<span class="kn">from</span> <span class="nn">.log</span> <span class="kn">import</span> <span class="n">CustomFormatter</span>
+<span class="kn">from</span> <span class="nn">.log</span> <span class="kn">import</span> <span class="n">CustomFormatter</span><span class="p">,</span> <span class="n">MyLogger</span>
 <span class="n">py_2</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;win32&quot;</span><span class="p">):</span>
     <span class="kn">from</span> <span class="nn">.os_windows</span> <span class="kn">import</span> <span class="n">reg_enum_keys</span><span class="p">,</span> <span class="n">reg_get</span>
@@ -140,9 +142,9 @@
 
 <span class="c1"># ======================================================================</span>
 <span class="k">class</span> <span class="nc">ResultEvent</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">PyEvent</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Simple event to carry arbitrary result data.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple event to carry arbitrary result data.&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Init Result Event.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init Result Event.&quot;&quot;&quot;</span>
         <span class="n">wx</span><span class="o">.</span><span class="n">PyEvent</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SetEventType</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
@@ -150,9 +152,9 @@
 
 <span class="c1"># ======================================================================</span>
 <span class="k">class</span> <span class="nc">KiCostThread</span><span class="p">(</span><span class="n">Thread</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Helper class to safetly call the run action &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Helper class to safetly call the run action &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">wxObject</span><span class="p">,</span> <span class="n">event_id</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Init Worker Thread Class.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init Worker Thread Class.&quot;&quot;&quot;</span>
         <span class="n">Thread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">args</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wxObject</span> <span class="o">=</span> <span class="n">wxObject</span>
@@ -161,7 +163,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Run KiCost and post stuff, but don&#39;t touch the GUI in a direct way &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Run KiCost and post stuff, but don&#39;t touch the GUI in a direct way &quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">args</span>
         <span class="c1"># Run KiCost main function and print in the log the elapsed time.</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -219,7 +221,7 @@
 
 <span class="c1"># ======================================================================</span>
 <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="n">filepath</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;@brief Open a file with the default application in different OSs.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;@brief Open a file with the default application in different OSs.</span>
 <span class="sd">       @param filepath str() file name.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">PLATFORM_MACOS_STARTS_WITH</span><span class="p">):</span>  <span class="c1"># Mac-OS.</span>
@@ -234,11 +236,11 @@
 
 <span class="c1"># ======================================================================</span>
 <span class="k">class</span> <span class="nc">FileDropTarget</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">FileDropTarget</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; This object implements Drop Target functionality for Files.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; This object implements Drop Target functionality for Files.</span>
 <span class="sd">        @param Window handle.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Constructor.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Constructor.&#39;&#39;&#39;</span>
         <span class="n">wx</span><span class="o">.</span><span class="n">FileDropTarget</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
 
@@ -250,11 +252,11 @@
 
 <span class="c1"># ======================================================================</span>
 <span class="k">class</span> <span class="nc">menuSelection</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Menu</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; @brief Menu of the distributor checkbox list. Provide select all, unselect and toggle hotkey.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; @brief Menu of the distributor checkbox list. Provide select all, unselect and toggle hotkey.</span>
 <span class="sd">        @param TextBox handle.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Constructor.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Constructor.&#39;&#39;&#39;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">menuSelection</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">list</span> <span class="o">=</span> <span class="n">parent</span>
 
@@ -268,21 +270,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">toggleAll</span><span class="p">,</span> <span class="n">mmi</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">selectAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Select all distributor that exist.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Select all distributor that exist.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">GetCount</span><span class="p">()):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">IsChecked</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">unselectAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Unselect all distributor that exist.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Unselect all distributor that exist.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">GetCount</span><span class="p">()):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">IsChecked</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">toggleAll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Toggle all distributor that exist.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Toggle all distributor that exist.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">GetCount</span><span class="p">()):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">IsChecked</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
@@ -293,11 +295,11 @@
 
 <span class="c1"># ======================================================================</span>
 <span class="k">class</span> <span class="nc">menuMessages</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Menu</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; @brief Menu of the messages text. Provide copy and save options.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; @brief Menu of the messages text. Provide copy and save options.</span>
 <span class="sd">        @param TextBox handle.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Constructor.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Constructor.&#39;&#39;&#39;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">menuMessages</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
 
@@ -322,7 +324,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">Bind</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">EVT_MENU</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">openMessages</span><span class="p">,</span> <span class="n">mmi</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">copyMessages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Copy the warning/error/log messages to clipboard.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Copy the warning/error/log messages to clipboard.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">clipdata</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">TextDataObject</span><span class="p">()</span>
         <span class="n">clipdata</span><span class="o">.</span><span class="n">SetText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">m_textCtrl_messages</span><span class="o">.</span><span class="n">GetValue</span><span class="p">())</span>
@@ -331,18 +333,18 @@
         <span class="n">wx</span><span class="o">.</span><span class="n">TheClipboard</span><span class="o">.</span><span class="n">Close</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">cutMessages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Cut the warning/error/log messages to clipboard.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Cut the warning/error/log messages to clipboard.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">purgeMessages</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">copyMessages</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">purgeMessages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Clear message box.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Clear message box.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">m_textCtrl_messages</span><span class="o">.</span><span class="n">Clear</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">saveMessages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Save the messages as a text &quot;KiCost*.log&quot; file.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Save the messages as a text &quot;KiCost*.log&quot; file.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">actualDir</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">m_comboBox_files</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span> <span class="k">else</span>
                      <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">m_comboBox_files</span><span class="o">.</span><span class="n">GetValue</span><span class="p">())))</span>
@@ -362,13 +364,13 @@
         <span class="n">dlg</span><span class="o">.</span><span class="n">Destroy</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">saveClearMessages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;@brief Save the messages and clear the log in the guide.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;@brief Save the messages and clear the log in the guide.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">saveMessages</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">purgeMessages</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">openMessages</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Save the messages in a temporary file and open it in the default text editor before system delete.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Save the messages in a temporary file and open it in the default text editor before system delete.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="c1"># TODO - not working on Ubuntu</span>
         <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;KiCost_&#39;</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.log&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">temp</span><span class="p">:</span>
@@ -379,10 +381,10 @@
 
 <span class="c1"># ======================================================================</span>
 <span class="k">class</span> <span class="nc">formKiCost</span><span class="p">(</span><span class="n">wx</span><span class="o">.</span><span class="n">Frame</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; @brief Main frame / form of KiCost GUI.&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; @brief Main frame / form of KiCost GUI.&#39;&#39;&#39;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Constructor, code generated by wxFormBuilder tool.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Constructor, code generated by wxFormBuilder tool.&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">wx_old</span><span class="p">:</span>
             <span class="n">pre</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">PreFrame</span><span class="p">()</span>
             <span class="n">pre</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">ID_ANY</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;KiCost&quot;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DefaultPosition</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="mi">446</span><span class="p">,</span> <span class="mi">351</span><span class="p">),</span> <span class="n">style</span><span class="o">=</span><span class="n">wx</span><span class="o">.</span><span class="n">DEFAULT_FRAME_STYLE</span> <span class="o">|</span> <span class="n">wx</span><span class="o">.</span><span class="n">TAB_TRAVERSAL</span><span class="p">)</span>
@@ -684,34 +686,34 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">app_close</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Close event, used to call the save settings.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Close event, used to call the save settings.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save_properties</span><span class="p">()</span>
 
     <span class="c1"># ----------------------------------------------------------------------</span>
-    <span class="sd">&#39;&#39;&#39;About page, report and official informations.&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;About page, report and official informations.&#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">open_webpage_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Open the official software web page in the default browser.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Open the official software web page in the default browser.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">PAGE_OFFICIAL</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">open_issuepage_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Open the official software web page in the default browser.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Open the official software web page in the default browser.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">PAGE_DEV</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">open_updatepage_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Open the page to download the last version.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Open the page to download the last version.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">webbrowser</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">PAGE_UPDATE</span><span class="p">)</span>
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">check_updates_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Check version to update if the &quot;About&quot; tab.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Check version to update if the &quot;About&quot; tab.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
 
         <span class="k">def</span> <span class="nf">checkUpdate</span><span class="p">():</span>
-            <span class="sd">&#39;&#39;&#39;Check for updates.&#39;&#39;&#39;</span>
+<span class="w">            </span><span class="sd">&#39;&#39;&#39;Check for updates.&#39;&#39;&#39;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">m_button_check_updates</span><span class="o">.</span><span class="n">SetLabel</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Checking for updates...&quot;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">PAGE_UPDATE</span><span class="p">)</span>
@@ -727,20 +729,20 @@
         <span class="n">wx</span><span class="o">.</span><span class="n">CallLater</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">checkUpdate</span><span class="p">)</span>  <span class="c1"># Thread optimized for graphical elements change.</span>
 
     <span class="c1"># ----------------------------------------------------------------------</span>
-    <span class="sd">&#39;&#39;&#39;Pop-up menus on main tab.&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Pop-up menus on main tab.&#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="nf">m_textCtrl_messages_rClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Open the context menu with save log options.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Open the context menu with save log options.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">PopupMenu</span><span class="p">(</span><span class="n">menuMessages</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="n">event</span><span class="o">.</span><span class="n">GetPosition</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">m_textCtrl_distributors_rClick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Open the context menu with distributors options.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Open the context menu with distributors options.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">PopupMenu</span><span class="p">(</span><span class="n">menuSelection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_checkList_dist</span><span class="p">),</span> <span class="n">event</span><span class="o">.</span><span class="n">GetPosition</span><span class="p">())</span>
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">m_comboBox_files_selecthist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Update the select EDA module tool when changed the file selected in the history, update the order and delete if file not existent.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Update the select EDA module tool when changed the file selected in the history, update the order and delete if file not existent.&#39;&#39;&#39;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="c1"># Check if the file in the file name exist and</span>
         <span class="c1"># update the history sequence, if don&#39;t, remove it.</span>
@@ -756,7 +758,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">updateOutputFilename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Update the output file name on the GUI.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Update the output file name on the GUI.&#39;&#39;&#39;</span>
         <span class="n">spreadsheet_file</span> <span class="o">=</span> <span class="n">output_filename</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">SEP_FILES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_comboBox_files</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">GetValue</span><span class="p">():</span>
             <span class="n">spreadsheet_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">spreadsheet_file</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;.ods&#39;</span>
@@ -764,7 +766,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">updateEDAselection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Update the EDA selection in the listBox based on the comboBox actual text.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Update the EDA selection in the listBox based on the comboBox actual text.&#39;&#39;&#39;</span>
         <span class="n">fileNames</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">SEP_FILES</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_comboBox_files</span><span class="o">.</span><span class="n">GetValue</span><span class="p">())</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">fileNames</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">eda_module</span> <span class="o">=</span> <span class="n">file_eda_match</span><span class="p">(</span><span class="n">fileNames</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -783,7 +785,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">button_openfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; @brief Create and show the Open FileDialog&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; @brief Create and show the Open FileDialog&quot;&quot;&quot;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">actualDir</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_comboBox_files</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span> <span class="k">else</span>
                      <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m_comboBox_files</span><span class="o">.</span><span class="n">GetValue</span><span class="p">())))</span>
@@ -797,7 +799,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">button_saveas</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; @brief Create and show the Save As... FileDialog.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; @brief Create and show the Save As... FileDialog.&quot;&quot;&quot;</span>
         <span class="n">event</span><span class="o">.</span><span class="n">Skip</span><span class="p">()</span>
         <span class="n">wildcard</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Open format (*.ods)|*.ods&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">m_checkBox_XLSXtoODS</span><span class="o">.</span><span class="n">GetValue</span><span class="p">()</span>
                     <span class="k">else</span> <span class="s2">&quot;Microsoft Excel (*.xlsx)|*.xlsx&quot;</span><span class="p">)</span>
@@ -815,7 +817,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">addFile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filesName</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Add the file(s) to the history, updating it (and delete the too old).&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Add the file(s) to the history, updating it (and delete the too old).&#39;&#39;&#39;</span>
         <span class="k">if</span> <span class="n">py_2</span><span class="p">:</span>
             <span class="n">sorted_files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">filesName</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">unicode</span><span class="o">.</span><span class="n">lower</span><span class="p">)</span>  <span class="c1"># noqa: F821</span>
         <span class="k">else</span><span class="p">:</span>
@@ -832,12 +834,12 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">button_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Call to run KiCost.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Call to run KiCost.&#39;&#39;&#39;</span>
         <span class="n">wx</span><span class="o">.</span><span class="n">CallAfter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">update_kicost_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">status</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Receives the message indicating the end of KiCost thread.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Receives the message indicating the end of KiCost thread.&#39;&#39;&#39;</span>
         <span class="c1"># The KiCost thread is finished</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_gauge_process</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m_button_run</span><span class="o">.</span><span class="n">Enable</span><span class="p">()</span>
@@ -845,7 +847,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Run KiCost.</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Run KiCost.</span>
 <span class="sd">            Run KiCost in the GUI interface updating the process bar and messages.&#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">m_gauge_process</span><span class="o">.</span><span class="n">SetValue</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -927,7 +929,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">set_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Set the current proprieties of the graphical elements.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Set the current proprieties of the graphical elements.&#39;&#39;&#39;</span>
 
         <span class="c1"># Current distributors module recognized.</span>
         <span class="n">distributors_list</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">([</span><span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">get_distributors_iter</span><span class="p">()</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">get_distributor_info</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">is_local</span><span class="p">()])</span>
@@ -989,17 +991,17 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">restore_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Restore the current proprieties of the graphical elements.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Restore the current proprieties of the graphical elements.&#39;&#39;&#39;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">configHandle</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
 
             <span class="k">def</span> <span class="nf">str_to_wxpoint</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-                <span class="sd">&#39;&#39;&#39;Convert a string tuple into a  wxPoint.&#39;&#39;&#39;</span>
+<span class="w">                </span><span class="sd">&#39;&#39;&#39;Convert a string tuple into a  wxPoint.&#39;&#39;&#39;</span>
                 <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">wx</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
             <span class="k">def</span> <span class="nf">str_to_wxsize</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
-                <span class="sd">&#39;&#39;&#39;Convert a string tuple into a  wxRect.&#39;&#39;&#39;</span>
+<span class="w">                </span><span class="sd">&#39;&#39;&#39;Convert a string tuple into a  wxRect.&#39;&#39;&#39;</span>
                 <span class="n">p</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\d+&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">wx</span><span class="o">.</span><span class="n">Size</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 
@@ -1079,7 +1081,7 @@
 
     <span class="c1"># ----------------------------------------------------------------------</span>
     <span class="k">def</span> <span class="nf">save_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39; @brief Save the current proprieties of the graphical elements.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39; @brief Save the current proprieties of the graphical elements.&#39;&#39;&#39;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">configHandle</span> <span class="o">=</span> <span class="n">wx</span><span class="o">.</span><span class="n">Config</span><span class="p">(</span><span class="n">CONFIG_FILE</span><span class="p">)</span>
 
@@ -1128,7 +1130,7 @@
             <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;Configurations not saved: &lt;&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;&gt;.&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">show_news_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Shows a message bos if the news of the last version installed.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Shows a message bos if the news of the last version installed.&#39;&#39;&#39;</span>
         <span class="n">history_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">kicostPath</span><span class="p">,</span> <span class="s1">&#39;HISTORY.rst&#39;</span><span class="p">))</span>
         <span class="n">history</span> <span class="o">=</span> <span class="n">history_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
         <span class="n">history_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
@@ -1193,7 +1195,7 @@
 
 
 <div class="viewcode-block" id="kicost_gui"><a class="viewcode-back" href="../../kicost.html#kicost.kicost_gui.kicost_gui">[docs]</a><span class="k">def</span> <span class="nf">kicost_gui</span><span class="p">(</span><span class="n">force_en_us</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">configure_kicost_apis</span><span class="p">,</span> <span class="n">command_line_api_options</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; @brief Load the graphical interface.</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; @brief Load the graphical interface.</span>
 <span class="sd">        @param String file file names or list.</span>
 <span class="sd">        (it will be used for plugin implementation on future KiCad6-Eeschema).</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -1219,6 +1221,7 @@
     <span class="n">ProgressGUI</span><span class="o">.</span><span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span>
     <span class="c1"># Redirect the logging system to the GUI area</span>
     <span class="n">logger_stream</span> <span class="o">=</span> <span class="n">GUI_Stream</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">m_textCtrl_messages</span><span class="p">)</span>
+    <span class="n">MyLogger</span><span class="o">.</span><span class="n">warn_hash</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">handler</span> <span class="ow">in</span> <span class="n">get_logger</span><span class="p">()</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">py_2</span><span class="p">:</span>
             <span class="n">handler</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">logger_stream</span>
@@ -1303,12 +1306,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1329,7 +1332,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.sexpdata &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -134,14 +136,14 @@
 
 
 <span class="k">def</span> <span class="nf">uformat</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Alias of ``unicode(s).format(...)``.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Alias of ``unicode(s).format(...)``.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">tounicode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 
 
 <span class="c1"># ** Utility</span>
 
 <span class="k">def</span> <span class="nf">tounicode</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decode `string` if it is not unicode.  Do nothing in Python 3.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">unicode</span><span class="p">):</span>
@@ -150,7 +152,7 @@
 
 
 <span class="k">def</span> <span class="nf">return_as</span><span class="p">(</span><span class="n">converter</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator to convert result of a function.</span>
 
 <span class="sd">    It is just a function composition. The following two codes are</span>
@@ -193,7 +195,7 @@
 <span class="c1"># ** Interface</span>
 
 <div class="viewcode-block" id="load"><a class="viewcode-back" href="../../kicost.html#kicost.sexpdata.load">[docs]</a><span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filelike</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load object from S-expression stored in `filelike`.</span>
 
 <span class="sd">    :arg  filelike: A text stream object.</span>
@@ -213,7 +215,7 @@
 
 
 <div class="viewcode-block" id="loads"><a class="viewcode-back" href="../../kicost.html#kicost.sexpdata.loads">[docs]</a><span class="k">def</span> <span class="nf">loads</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load object from S-expression `string`.</span>
 
 <span class="sd">    :arg        string: String containing an S-expression.</span>
@@ -287,7 +289,7 @@
 
 
 <div class="viewcode-block" id="dump"><a class="viewcode-back" href="../../kicost.html#kicost.sexpdata.dump">[docs]</a><span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">filelike</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write `obj` as an S-expression into given stream `filelike`.</span>
 
 <span class="sd">    :arg       obj: A Python object.</span>
@@ -306,7 +308,7 @@
 
 
 <div class="viewcode-block" id="dumps"><a class="viewcode-back" href="../../kicost.html#kicost.sexpdata.dumps">[docs]</a><span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert python object into an S-expression.</span>
 
 <span class="sd">    :arg           obj: A Python object.</span>
@@ -360,7 +362,7 @@
 
 
 <div class="viewcode-block" id="car"><a class="viewcode-back" href="../../kicost.html#kicost.sexpdata.car">[docs]</a><span class="k">def</span> <span class="nf">car</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Alias of ``obj[0]``.</span>
 
 <span class="sd">    &gt;&gt;&gt; car(loads(&#39;(a . b)&#39;))</span>
@@ -373,7 +375,7 @@
 
 
 <div class="viewcode-block" id="cdr"><a class="viewcode-back" href="../../kicost.html#kicost.sexpdata.cdr">[docs]</a><span class="k">def</span> <span class="nf">cdr</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    `cdr`-like function.</span>
 
 <span class="sd">    &gt;&gt;&gt; cdr(loads(&#39;(a . b)&#39;))</span>
@@ -401,7 +403,7 @@
 
 <span class="k">def</span> <span class="nf">tosexp</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">str_as</span><span class="o">=</span><span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="n">tuple_as</span><span class="o">=</span><span class="s1">&#39;list&#39;</span><span class="p">,</span>
            <span class="n">true_as</span><span class="o">=</span><span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="n">false_as</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">,</span> <span class="n">none_as</span><span class="o">=</span><span class="s1">&#39;()&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert an object to an S-expression (`dumps` is just calling this).</span>
 
 <span class="sd">    See this table for comparison of lispy languages, to support them</span>
@@ -472,7 +474,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_val</span>
 
     <span class="k">def</span> <span class="nf">tosexp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tosexp</span><span class="o">=</span><span class="n">tosexp</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decode this object into an S-expression string.</span>
 
 <span class="sd">        :arg tosexp: A function to be used when converting sub S-expression.</span>
@@ -701,7 +703,7 @@
 
 
 <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse s-expression.</span>
 
 <span class="sd">    &gt;&gt;&gt; parse(&#39;(a b)&#39;)</span>
@@ -727,12 +729,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -753,7 +755,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

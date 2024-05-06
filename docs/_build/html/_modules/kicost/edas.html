@@ -1,18 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>kicost.edas &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -75,32 +77,32 @@
 
 
 <div class="viewcode-block" id="get_registered_eda_names"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_registered_eda_names">[docs]</a><span class="k">def</span> <span class="nf">get_registered_eda_names</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Get the names of the registered EDAs &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Get the names of the registered EDAs &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">registered</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="get_registered_eda_labels"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_registered_eda_labels">[docs]</a><span class="k">def</span> <span class="nf">get_registered_eda_labels</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39; Get the labels of the registered EDAs &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Get the labels of the registered EDAs &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">eda</span><span class="o">.</span><span class="n">label</span> <span class="k">for</span> <span class="n">eda</span> <span class="ow">in</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">registered</span><span class="o">.</span><span class="n">values</span><span class="p">()]</span></div>
 
 
 <div class="viewcode-block" id="get_part_groups"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_part_groups">[docs]</a><span class="k">def</span> <span class="nf">get_part_groups</span><span class="p">(</span><span class="n">eda</span><span class="p">,</span> <span class="n">in_file</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">distributors</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Get the parts for a file using the indicated EDA &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Get the parts for a file using the indicated EDA &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">get_part_groups</span><span class="p">(</span><span class="n">eda</span><span class="p">,</span> <span class="n">in_file</span><span class="p">,</span> <span class="n">ignore_fields</span><span class="p">,</span> <span class="n">variant</span><span class="p">,</span> <span class="n">distributors</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="file_eda_match"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.file_eda_match">[docs]</a><span class="k">def</span> <span class="nf">file_eda_match</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Check which EDA is suitable for this file &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Check which EDA is suitable for this file &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">file_eda_match</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_eda_label"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.get_eda_label">[docs]</a><span class="k">def</span> <span class="nf">get_eda_label</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Returns a beautiful name for the EDA &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Returns a beautiful name for the EDA &#39;&#39;&#39;</span>
     <span class="k">return</span> <span class="n">eda_class</span><span class="o">.</span><span class="n">registered</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">.</span><span class="n">label</span></div>
 
 
 <div class="viewcode-block" id="set_edas_logger"><a class="viewcode-back" href="../../kicost.edas.html#kicost.edas.set_edas_logger">[docs]</a><span class="k">def</span> <span class="nf">set_edas_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39; Sets the logger used by the class &#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39; Sets the logger used by the class &#39;&#39;&#39;</span>
     <span class="n">eda_class</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="n">logger</span></div>
 </pre></div>
 
@@ -114,12 +116,12 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -140,7 +142,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>

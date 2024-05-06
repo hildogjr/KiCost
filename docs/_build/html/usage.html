@@ -1,18 +1,21 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
     <title>Usage &#8212; kicost 1.1.18 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -44,8 +47,8 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h1>
 <p>KiCost’s main use is generating part-cost spreadsheets for
 circuit boards developed with KiCad as follows:</p>
 <ol class="arabic">
@@ -99,8 +102,8 @@ if there’s a problem finding something and an alternate part may be needed.</p
 Lists of part numbers and quantities will appear that you can cut-and-paste
 directly into the website ordering page of each distributor.</p></li>
 </ol>
-<div class="section" id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">¶</a></h2>
 <p>Most people just want some examples of using KiCost so they don’t have to read a bunch
 of documentation, so here they are!</p>
 <p>To create a cost spreadsheet from an XML file exported from KiCad:</p>
@@ -151,9 +154,9 @@ following in the <code class="docutils literal notranslate"><span class="pre">Co
 <p>To access KiCost through a graphical user interface, just use the <cite>kicost</cite>
 command without parameters.</p>
 <img alt="_images/guide_screen.png" src="_images/guide_screen.png" />
-</div>
-<div class="section" id="custom-bom-list">
-<h2>Custom BOM list<a class="headerlink" href="#custom-bom-list" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="custom-bom-list">
+<h2>Custom BOM list<a class="headerlink" href="#custom-bom-list" title="Permalink to this heading">¶</a></h2>
 <p>In addition to XML files output by EDA tools, KiCost also accepts CSV files
 as a method for getting costs of preliminary designs or older projects.
 The format of the CSV file is as follows:</p>
@@ -166,9 +169,9 @@ The format of the CSV file is as follows:</p>
 of the CSV file that labels the particular
 columns as manufacturer’s part numbers (<code class="docutils literal notranslate"><span class="pre">manf#</span></code>), quantities (<code class="docutils literal notranslate"><span class="pre">qty</span></code>), and
 part references (<code class="docutils literal notranslate"><span class="pre">refs</span></code>).</p>
-</div>
-<div class="section" id="custom-part-data">
-<h2>Custom Part Data<a class="headerlink" href="#custom-part-data" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="custom-part-data">
+<h2>Custom Part Data<a class="headerlink" href="#custom-part-data" title="Permalink to this heading">¶</a></h2>
 <p>The price breaks on some parts can’t be obtained automatically because:</p>
 <ul class="simple">
 <li><p>they’re not offered by one of the distributors whose web pages KiCost can scrape/query, or</p></li>
@@ -206,9 +209,9 @@ key to indicate the source like so:</p>
 <p>Then the pricing and documentation link for that part will appear in a section
 of the spreadsheet labeled <strong>My_Weird_Parts</strong>.</p>
 <p>You can have as many sources for parts as you want, and a part may have multiple sources.</p>
-</div>
-<div class="section" id="part-grouping">
-<h2>Part Grouping<a class="headerlink" href="#part-grouping" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="part-grouping">
+<h2>Part Grouping<a class="headerlink" href="#part-grouping" title="Permalink to this heading">¶</a></h2>
 <p>KiCost groups similar parts together and places their information on a single line
 of the generated spreadsheet.
 For parts to be grouped, they must:</p>
@@ -256,9 +259,9 @@ different footprints, but will display them individually:</p>
 <li><p>Precede the field name with a “:” such as <code class="docutils literal notranslate"><span class="pre">:note</span></code>. This makes KiCost ignore the
 field because it is in a different namespace.</p></li>
 </ol>
-</div>
-<div class="section" id="parts-with-subparts">
-<h2>Parts With Subparts<a class="headerlink" href="#parts-with-subparts" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="parts-with-subparts">
+<h2>Parts With Subparts<a class="headerlink" href="#parts-with-subparts" title="Permalink to this heading">¶</a></h2>
 <p>Some parts consist of two or more subparts.
 For example, a two-pin jumper might have an associated shunt.
 This is represented by placing the part number for each subpart into the <code class="docutils literal notranslate"><span class="pre">manf#</span></code> field, separated
@@ -291,9 +294,9 @@ A similar mechanism is applied to the <code class="docutils literal notranslate"
 If you want to process more fields add them using the <code class="docutils literal notranslate"><span class="pre">--split_extra_fields</span></code> option.</p>
 <p>For compatibility with older versions of KiCost you can also use “,” or “;” as separator for <code class="docutils literal notranslate"><span class="pre">manf</span></code>,
 <code class="docutils literal notranslate"><span class="pre">manf#</span></code> and any <code class="docutils literal notranslate"><span class="pre">DISTRIBUTOR#</span></code> field.</p>
-</div>
-<div class="section" id="schematic-variants">
-<h2>Schematic Variants<a class="headerlink" href="#schematic-variants" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="schematic-variants">
+<h2>Schematic Variants<a class="headerlink" href="#schematic-variants" title="Permalink to this heading">¶</a></h2>
 <p>There are cases where a schematic needs to be priced differently depending
 upon the context.
 For example, the price of the end-user circuit board might be needed, but
@@ -321,26 +324,26 @@ with a list such as “V1, V2”.
 (The allowed delimiters for the list are comma (,), semicolon (;), slash (/), and space ( ).)
 The part will be included in the cost calculation spreadsheet if any of its variants matches
 the <code class="docutils literal notranslate"><span class="pre">--variant</span></code> argument.</p>
-<div class="section" id="old-style-variants">
-<h3>Old-Style Variants<a class="headerlink" href="#old-style-variants" title="Permalink to this headline">¶</a></h3>
+<section id="old-style-variants">
+<h3>Old-Style Variants<a class="headerlink" href="#old-style-variants" title="Permalink to this heading">¶</a></h3>
 <p>KiCost supports another way of specifying the variant associated with a part.
 Using the example from above, labeling the part number for J1 as
 <code class="docutils literal notranslate"><span class="pre">kicost.v1:manf#</span></code> will assign it to the v1 variant.
 This method is not as flexible as using the <code class="docutils literal notranslate"><span class="pre">variant</span></code> field and may be removed
 in future versions of KiCost.</p>
-</div>
-</div>
-<div class="section" id="do-not-populate-parts">
-<h2>“Do Not Populate” Parts<a class="headerlink" href="#do-not-populate-parts" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="do-not-populate-parts">
+<h2>“Do Not Populate” Parts<a class="headerlink" href="#do-not-populate-parts" title="Permalink to this heading">¶</a></h2>
 <p>Some parts in a schematic are not intended for insertion on the final board assembly.
 These “do not populate” (DNP) parts can be assigned a field called <code class="docutils literal notranslate"><span class="pre">DNP</span></code> or <code class="docutils literal notranslate"><span class="pre">NOPOP</span></code>.
 Setting the value of this field to a non-zero number or any string will cause this part
 to be omitted from the cost calculation spreadsheet. Note that empty strings will be
 interpreted as zero (i.e. <code class="docutils literal notranslate"><span class="pre">kicost.VARIANT:dnp=&quot;&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">kicost.VARIANT:dnp=&quot;</span> <span class="pre">&quot;</span></code> will
 be interpreted as <code class="docutils literal notranslate"><span class="pre">kicost.VARIANT:dnp=&quot;0&quot;</span></code>)</p>
-</div>
-<div class="section" id="showing-extra-part-data-in-the-spreadsheet">
-<h2>Showing Extra Part Data in the Spreadsheet<a class="headerlink" href="#showing-extra-part-data-in-the-spreadsheet" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="showing-extra-part-data-in-the-spreadsheet">
+<h2>Showing Extra Part Data in the Spreadsheet<a class="headerlink" href="#showing-extra-part-data-in-the-spreadsheet" title="Permalink to this heading">¶</a></h2>
 <p>Sometimes it is desirable to show additional data for the parts in the
 spreadsheet.
 To do this, use the <code class="docutils literal notranslate"><span class="pre">--fields</span></code> command-line option followed by the names of the
@@ -349,9 +352,9 @@ of the spreadsheet:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schematic</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">fields</span> <span class="n">fld1</span> <span class="n">fld2</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="visual-cues-in-the-spreadsheet">
-<h2>Visual Cues in the Spreadsheet<a class="headerlink" href="#visual-cues-in-the-spreadsheet" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="visual-cues-in-the-spreadsheet">
+<h2>Visual Cues in the Spreadsheet<a class="headerlink" href="#visual-cues-in-the-spreadsheet" title="Permalink to this heading">¶</a></h2>
 <p>In addition to the part cost information, the spreadsheet output by KiCost
 provides additional cues:</p>
 <ol class="arabic simple">
@@ -384,9 +387,9 @@ at a particular distributor:</p>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">Unit$</span></code> and <code class="docutils literal notranslate"><span class="pre">Ext$</span></code> in each distributor cell is colored green
 to indicate the lowest price found across all the distributors.</p></li>
 </ol>
-</div>
-<div class="section" id="selecting-distributors-to-scrape-query">
-<h2>Selecting Distributors to Scrape/Query<a class="headerlink" href="#selecting-distributors-to-scrape-query" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="selecting-distributors-to-scrape-query">
+<h2>Selecting Distributors to Scrape/Query<a class="headerlink" href="#selecting-distributors-to-scrape-query" title="Permalink to this heading">¶</a></h2>
 <p>You can get the list of part distributors that KiCost scrapes/query for data like this:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">--</span><span class="n">show_dist_list</span>
 <span class="n">Distributor</span> <span class="nb">list</span><span class="p">:</span> <span class="n">digikey</span> <span class="n">farnell</span> <span class="n">local_template</span> <span class="n">mouser</span> <span class="n">newark</span> <span class="n">rs</span> <span class="n">tme</span>
@@ -401,9 +404,9 @@ you can restrict scraping from only a subset of them as follows:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kicost</span> <span class="o">-</span><span class="n">i</span> <span class="n">schem</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">exclude</span> <span class="n">farnell</span> <span class="n">newark</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="command-line-options">
-<h2>Command-Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="command-line-options">
+<h2>Command-Line Options<a class="headerlink" href="#command-line-options" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: kicost [-h] [-v] [--info] [-i FILE.XML [FILE.XML ...]] [-o [FILE.XLSX]]
               [-f NAME [NAME ...]] [--translate_fields NAME [NAME ...]]
               [--variant VARIANT [VARIANT ...]] [-w] [-q]
@@ -477,9 +480,9 @@ optional arguments:
   --unsetup             Undo the KiCost integration.
 </pre></div>
 </div>
-</div>
-<div class="section" id="adding-kicost-to-the-context-menu-windows-only">
-<h2>Adding KiCost to the Context Menu (Windows Only)<a class="headerlink" href="#adding-kicost-to-the-context-menu-windows-only" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="adding-kicost-to-the-context-menu-windows-only">
+<h2>Adding KiCost to the Context Menu (Windows Only)<a class="headerlink" href="#adding-kicost-to-the-context-menu-windows-only" title="Permalink to this heading">¶</a></h2>
 <p>You can add KiCost to the Windows context menu so you can right-click on an
 XML file and generate the pricing spreadsheet.
 To do this:</p>
@@ -504,7 +507,7 @@ The resulting hierarchy of keys will look like this:</p>
 </pre></div>
 </div>
 <p>For example, the command value I use is:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">winpython3</span>\<span class="n">python</span><span class="o">-</span><span class="mf">3.4</span><span class="o">.</span><span class="mi">3</span>\<span class="n">scripts</span>\<span class="n">kicost</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;%1&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>\<span class="n">winpython3</span>\<span class="n">python</span><span class="o">-</span><span class="mf">3.4.3</span>\<span class="n">scripts</span>\<span class="n">kicost</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">i</span> <span class="s2">&quot;%1&quot;</span>
 </pre></div>
 </div>
 </li>
@@ -517,8 +520,8 @@ which distributors to use, currency and others definitions.</p>
 </li>
 <li><p>Close the registry. KiCost should now appear when you right-click on an XML file.</p></li>
 </ol>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -527,8 +530,9 @@ which distributors to use, currency and others definitions.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Usage</a><ul>
 <li><a class="reference internal" href="#examples">Examples</a></li>
 <li><a class="reference internal" href="#custom-bom-list">Custom BOM list</a></li>
@@ -549,12 +553,17 @@ which distributors to use, currency and others definitions.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="installation.html"
-                        title="previous chapter">Installation</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="configuration.html"
-                        title="next chapter">Configuration file</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="installation.html"
+                          title="previous chapter">Installation</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="configuration.html"
+                          title="next chapter">Configuration file</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -566,12 +575,12 @@ which distributors to use, currency and others definitions.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -597,7 +606,7 @@ which distributors to use, currency and others definitions.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2015, XESS Corporation.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.3.0.
     </div>
   </body>
 </html>
