@@ -265,6 +265,8 @@ class api_nexar(distributor_class):
         distributor_class.log_response(response)
         if response.status_code == requests.codes['ok']:  # 200
             results = json.loads(response.text)
+            if 'errors' in results:
+                raise KiCostError('\n'.join((e['message'] for e in results['errors'])), ERR_SCRAPE)
             return results
         elif response.status_code == requests.codes['not_found']:  # 404
             raise KiCostError('Nexar server not found check your internet connection.', ERR_SCRAPE)
