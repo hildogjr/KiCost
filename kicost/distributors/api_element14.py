@@ -30,6 +30,8 @@ __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 import pprint
 import requests
 import difflib
+import datetime
+import time
 
 # KiCost definitions.
 from .. import KiCostError, DistData, W_NOINFO, ERR_SCRAPE, W_APIFAIL, W_AMBIPN
@@ -148,6 +150,7 @@ class Element14(object):
                 raise Element14Error('Unsupported country `{}` for `{}`'.format(country, dist))
         self.key = key
         self.cache = cache
+        self.last_query = None
 
     def _extract_data(self, data, kind, term):
         res = REPLY[kind]
@@ -189,6 +192,12 @@ class Element14(object):
         params.update(part)
         key_hide = hide_secrets(self.key)
         debug_obsessive('Query params: '+pprint.pformat(params).replace(self.key, key_hide))
+        # Throttle Farnell queries to avoid Server Error Forbidden 403 (403 Developer Over QPS (Proxy)) #569
+        if self.last_query is not None:
+            while (datetime.datetime.now() - self.last_query).total_seconds() < 0.5:
+                time.sleep(0.2)
+                debug_obsessive('Sleeping to avoid 2 queries in less than 1 second ...')
+        self.last_query = datetime.datetime.now()
         r = requests.get(BASE_URL, params=params)
         if r.status_code != 200:
             # debug_obsessive(pprint.pformat(r.__dict__))
