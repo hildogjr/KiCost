@@ -7,6 +7,7 @@ History
 _____________________
 * Fixed Nexar problems when the API reports errors
 * Fixed Element14 too fast queries
+* Fixed problems with some malformed references when importing a CSV
 
 
 1.1.19 (2023-05-06)

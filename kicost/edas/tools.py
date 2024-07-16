@@ -762,7 +762,7 @@ def split_refs(text):
         # ref = re.sub('^\-', '', ref) # Starting "-".
         # ref = re.sub('\-$', 'n', ref) # Finishing "-".
         if re.search(r'^\w+\d', ref):
-            if re.search('-', ref):
+            if re.search('-', ref) and re.search(r'^\D+', ref):
                 designator_name = re.findall(r'^\D+', ref)[0]
                 split_nums = re.split('-', ref)
                 designator_name += ''.join(re.findall(r'^d*\W', split_nums[0]))
@@ -774,7 +774,11 @@ def split_refs(text):
                 base_split_nums = ''.join(re.findall(r'^\d+\D', split_nums[0]))
                 split_nums = [''.join(re.findall(r'\D*(\d+)$', n)) for n in split_nums]
 
-                split = list(range(int(split_nums[0]), int(split_nums[1])+1))
+                try:
+                    split = list(range(int(split_nums[0]), int(split_nums[1])+1))
+                except ValueError:
+                    refs.append(ref.strip())
+                    continue
                 # split = [designator_name+str(split[i]) for i in range(len(split)) ]
                 split = [designator_name + base_split_nums+str(split[i]) for i in range(len(split))]
 
@@ -784,7 +788,7 @@ def split_refs(text):
                 split_nums = [re.sub('^'+designator_name, '', i) for i in re.split(r'[/\\]', ref)]
                 refs += [designator_name+i for i in split_nums]
             else:
-                refs += [ref.strip()]
+                refs.append(ref.strip())
         else:
             # The designator name is not for a group of components and
             # "\", "/" or "-" is part of the name. This characters have
