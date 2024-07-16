@@ -3,6 +3,12 @@
 History
 -------
 
+1.1.20 (UNRELEASED)
+_____________________
+* Fixed Nexar problems when the API reports errors
+* Fixed Element14 too fast queries
+
+
 1.1.19 (2023-05-06)
 _____________________
 * Components groupings now isn't case sensitive
