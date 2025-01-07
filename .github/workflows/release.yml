@@ -20,23 +20,23 @@ jobs:
         run: |
           REF=${{ github.ref }}
           URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/tags/${REF##*/}"
-          StatusCode=$(curl -o -I -L -s -w "%{http_code}" -X GET -G $URL)
+          StatusCode=$(curl -o /dev/null -I -L -s -w "%{http_code}" -X GET -G $URL)
           echo $StatusCode
           if [[ "$StatusCode" == 200 ]]; then
             echo "This is tagged release!"
-            echo "::set-output name=is_tag::no"
+            echo "IS_TAG=no" >> $GITHUB_OUTPUT
           else
             echo "This is a tag not release!"
-            echo "::set-output name=is_tag::yes"
+            echo "IS_TAG=yes" >> $GITHUB_OUTPUT
           fi
 
   build:
     runs-on: ubuntu-latest
     container: setsoft/kicad_pybuild:latest
     needs: check
-    if: ${{ needs.check.outputs.is_tag == 'yes' }}
+    if: ${{ needs.check.outputs.IS_TAG == 'yes' }}
     outputs:
-      deb_name: ${{ steps.mdeb.outputs.deb_name }}
+      DEB_NAME: ${{ steps.mdeb.outputs.DEB_NAME }}
 
     steps:
       - name: Checkout
@@ -58,12 +58,12 @@ jobs:
           cp requirements.txt.ok requirements.txt
           make deb
           mv ../*.deb .
-          echo "::set-output name=deb_name::"`ls *.deb`
+          echo "DEB_NAME="`ls *.deb` >> $GITHUB_OUTPUT
           mkdir output
           mv *.deb output
 
       - name: Store
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: package
           path: output
@@ -76,7 +76,7 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Retrieve
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           name: package
 
@@ -94,6 +94,6 @@ jobs:
           KICOST_RELEASE: "true"
         with:
           args: |
-            package/${{needs.build.outputs.deb_name}}
+            package/${{needs.build.outputs.DEB_NAME}}
             package/python3-validators_0.14.2-2_all.deb
 
