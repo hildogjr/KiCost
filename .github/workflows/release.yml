@@ -50,6 +50,7 @@ jobs:
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc1/python3-babel_2.9.0-1_all.deb
           wget https://github.com/INTI-CMNB/KiCost/releases/download/v1.1.5rc5/python3-validators_0.14.2-2_all.deb
           wget https://github.com/set-soft/kicost-digikey-api-v3/releases/download/v0.1.1/kicost-digikey-api-v3_0.1.1-1_all.deb
+          wget https://github.com/set-soft/kicost-digikey-api-v4/releases/download/v0.1.3/kicost-digikey-api-v4_0.1.3-1_all.deb
           apt -y install --no-install-recommends ./*.deb
           rm python3-babel*
           cp requirements.txt requirements.txt.ok
@@ -95,5 +96,4 @@ jobs:
         with:
           args: |
             package/${{needs.build.outputs.DEB_NAME}}
-            package/python3-validators_0.14.2-2_all.deb
 

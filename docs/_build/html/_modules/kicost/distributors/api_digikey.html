@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.api_digikey &#8212; kicost 1.1.18 documentation</title>
+    <title>kicost.distributors.api_digikey &#8212; kicost 1.1.20 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/classic.css" />
     
@@ -28,7 +28,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.18 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.20 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_digikey</a></li> 
@@ -44,7 +44,7 @@
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1"># MIT license</span>
 <span class="c1">#</span>
-<span class="c1"># Copyright (C) 2021 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial</span>
+<span class="c1"># Copyright (C) 2021-2025 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial</span>
 <span class="c1">#</span>
 <span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
 <span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
@@ -78,15 +78,6 @@
 <span class="kn">from</span> <span class="nn">.distributor</span> <span class="kn">import</span> <span class="n">distributor_class</span><span class="p">,</span> <span class="n">QueryCache</span><span class="p">,</span> <span class="n">hide_secrets</span>
 <span class="kn">from</span> <span class="nn">.log__</span> <span class="kn">import</span> <span class="n">debug_detailed</span><span class="p">,</span> <span class="n">debug_overview</span><span class="p">,</span> <span class="n">debug_obsessive</span><span class="p">,</span> <span class="n">warning</span>
 
-<span class="n">available</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">kicost_digikey_api_v3</span> <span class="kn">import</span> <span class="n">by_digikey_pn</span><span class="p">,</span> <span class="n">by_manf_pn</span><span class="p">,</span> <span class="n">by_keyword</span><span class="p">,</span> <span class="n">DigikeyError</span><span class="p">,</span> <span class="n">DK_API</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">available</span> <span class="o">=</span> <span class="kc">False</span>
-
-    <span class="k">class</span> <span class="nc">DK_API</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-        <span class="n">api_ops</span> <span class="o">=</span> <span class="kc">None</span>
-
 <span class="n">DIST_NAME</span> <span class="o">=</span> <span class="s1">&#39;digikey&#39;</span>
 <span class="c1"># Specs known by KiCost</span>
 <span class="n">SPEC_NAMES</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tolerance&#39;</span><span class="p">:</span> <span class="s1">&#39;tolerance&#39;</span><span class="p">,</span>
@@ -104,7 +95,7 @@
     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;Digi-Key&#39;</span>
     <span class="nb">type</span> <span class="o">=</span> <span class="s1">&#39;api&#39;</span>
     <span class="c1"># Currently enabled only by request</span>
-    <span class="n">enabled</span> <span class="o">=</span> <span class="n">available</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;https://developer.digikey.com/&#39;</span>  <span class="c1"># Web site API information.</span>
     <span class="n">api_distributors</span> <span class="o">=</span> <span class="p">[</span><span class="n">DIST_NAME</span><span class="p">]</span>
     <span class="c1"># Options supported by this API</span>
@@ -121,49 +112,76 @@
                       <span class="s1">&#39;locale_currency&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;USD&#39;</span><span class="p">,</span> <span class="s1">&#39;CAD&#39;</span><span class="p">,</span> <span class="s1">&#39;JPY&#39;</span><span class="p">,</span> <span class="s1">&#39;GBP&#39;</span><span class="p">,</span> <span class="s1">&#39;EUR&#39;</span><span class="p">,</span> <span class="s1">&#39;HKD&#39;</span><span class="p">,</span> <span class="s1">&#39;SGD&#39;</span><span class="p">,</span> <span class="s1">&#39;TWD&#39;</span><span class="p">,</span> <span class="s1">&#39;KRW&#39;</span><span class="p">,</span>
                                           <span class="s1">&#39;AUD&#39;</span><span class="p">,</span> <span class="s1">&#39;NZD&#39;</span><span class="p">,</span> <span class="s1">&#39;INR&#39;</span><span class="p">,</span> <span class="s1">&#39;DKK&#39;</span><span class="p">,</span> <span class="s1">&#39;NOK&#39;</span><span class="p">,</span> <span class="s1">&#39;SEK&#39;</span><span class="p">,</span> <span class="s1">&#39;ILS&#39;</span><span class="p">,</span> <span class="s1">&#39;CNY&#39;</span><span class="p">,</span> <span class="s1">&#39;PLN&#39;</span><span class="p">,</span>
                                           <span class="s1">&#39;CHF&#39;</span><span class="p">,</span> <span class="s1">&#39;CZK&#39;</span><span class="p">,</span> <span class="s1">&#39;HUF&#39;</span><span class="p">,</span> <span class="s1">&#39;RON&#39;</span><span class="p">,</span> <span class="s1">&#39;ZAR&#39;</span><span class="p">,</span> <span class="s1">&#39;MYR&#39;</span><span class="p">,</span> <span class="s1">&#39;THB&#39;</span><span class="p">,</span> <span class="s1">&#39;PHP&#39;</span><span class="p">),</span>
-                      <span class="s1">&#39;locale_ship_to_country&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">}</span>
+                      <span class="s1">&#39;locale_ship_to_country&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                      <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">}</span>
     <span class="c1"># Legacy environment mapping, others will be automatically filled by `register`</span>
     <span class="n">env_prefix</span> <span class="o">=</span> <span class="s1">&#39;DIGIKEY&#39;</span>
     <span class="n">env_ops</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;DIGIKEY_STORAGE_PATH&#39;</span><span class="p">:</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">,</span>
                <span class="s1">&#39;DIGIKEY_CLIENT_SANDBOX&#39;</span><span class="p">:</span> <span class="s1">&#39;sandbox&#39;</span><span class="p">}</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="mi">3</span>
 
 <div class="viewcode-block" id="api_digikey.configure"><a class="viewcode-back" href="../../../kicost.distributors.html#kicost.distributors.api_digikey.api_digikey.configure">[docs]</a>    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">configure</span><span class="p">(</span><span class="n">ops</span><span class="p">):</span>
-        <span class="n">DK_API</span><span class="o">.</span><span class="n">api_ops</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">cache_ttl</span> <span class="o">=</span> <span class="mi">7</span>
         <span class="n">cache_path</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">available</span><span class="p">:</span>
-            <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Digi-Key API not available&#39;</span><span class="p">)</span>
-            <span class="k">return</span>
+        <span class="c1"># Determine which API will be used</span>
+        <span class="n">api_digikey</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">ops</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;version&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">version</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="s2">&quot;Unknown Digi-Key API </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_digikey</span><span class="o">.</span><span class="n">version</span><span class="p">),</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
+        <span class="c1"># Try to get the support for the selected API</span>
+        <span class="k">if</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">kicost_digikey_api_v3</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Digi-Key API V3 not available&#39;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_digikey_pn</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v3</span><span class="o">.</span><span class="n">by_digikey_pn</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_manf_pn</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v3</span><span class="o">.</span><span class="n">by_manf_pn</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_keyword</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v3</span><span class="o">.</span><span class="n">by_keyword</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">DigikeyError</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v3</span><span class="o">.</span><span class="n">DigikeyError</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v3</span><span class="o">.</span><span class="n">DK_API</span>
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># API v4</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span> <span class="nn">kicost_digikey_api_v4</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Digi-Key API V4 not available&#39;</span><span class="p">)</span>
+                <span class="k">return</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_digikey_pn</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v4</span><span class="o">.</span><span class="n">by_digikey_pn</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_manf_pn</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v4</span><span class="o">.</span><span class="n">by_manf_pn</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_keyword</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v4</span><span class="o">.</span><span class="n">by_keyword</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">DigikeyError</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v4</span><span class="o">.</span><span class="n">DigikeyError</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span> <span class="o">=</span> <span class="n">kicost_digikey_api_v4</span><span class="o">.</span><span class="n">DK_API</span>
+        <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;Using Digi-Key API v</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">api_digikey</span><span class="o">.</span><span class="n">version</span><span class="p">))</span>
+        <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">api_ops</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ops</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;client_id&#39;</span><span class="p">:</span>
-                <span class="n">DK_API</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;client_secret&#39;</span><span class="p">:</span>
-                <span class="n">DK_API</span><span class="o">.</span><span class="n">secret</span> <span class="o">=</span> <span class="n">v</span>
-            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span> <span class="ow">and</span> <span class="n">available</span><span class="p">:</span>
+                <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">secret</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;enable&#39;</span><span class="p">:</span>
                 <span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;sandbox&#39;</span><span class="p">:</span>
-                <span class="n">DK_API</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">sandbox</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_ttl&#39;</span><span class="p">:</span>
                 <span class="n">cache_ttl</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;cache_path&#39;</span><span class="p">:</span>
                 <span class="n">cache_path</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;exclude_market_place_products&#39;</span><span class="p">:</span>
-                <span class="n">DK_API</span><span class="o">.</span><span class="n">exclude_market_place_products</span> <span class="o">=</span> <span class="n">v</span>
+                <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">exclude_market_place_products</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">elif</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;locale_&#39;</span><span class="p">):</span>
-                <span class="n">DK_API</span><span class="o">.</span><span class="n">api_ops</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-        <span class="k">if</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="p">(</span><span class="n">DK_API</span><span class="o">.</span><span class="n">id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">DK_API</span><span class="o">.</span><span class="n">secret</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cache_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">api_ops</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">if</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span> <span class="ow">and</span> <span class="p">(</span><span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">secret</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cache_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s2">&quot;Can&#39;t enable Digi-Key without a `client_id`, `client_secret` and `cache_path`&quot;</span><span class="p">)</span>
             <span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;Digi-Key API configured to enabled </span><span class="si">{}</span><span class="s1"> id </span><span class="si">{}</span><span class="s1"> secret </span><span class="si">{}</span><span class="s1"> path </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span>
-                        <span class="nb">format</span><span class="p">(</span><span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="n">DK_API</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="n">DK_API</span><span class="o">.</span><span class="n">secret</span><span class="p">),</span> <span class="n">cache_path</span><span class="p">))</span>
+                        <span class="nb">format</span><span class="p">(</span><span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span><span class="p">,</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">id</span><span class="p">),</span> <span class="n">hide_secrets</span><span class="p">(</span><span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">secret</span><span class="p">),</span> <span class="n">cache_path</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span><span class="p">:</span>
             <span class="k">return</span>
         <span class="c1"># Try to configure the plug-in</span>
         <span class="n">cache</span> <span class="o">=</span> <span class="n">QueryCache</span><span class="p">(</span><span class="n">cache_path</span><span class="p">,</span> <span class="n">cache_ttl</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">DK_API</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">a_logger</span><span class="o">=</span><span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">DigikeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">api_digikey</span><span class="o">.</span><span class="n">DK_API</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">a_logger</span><span class="o">=</span><span class="n">distributor_class</span><span class="o">.</span><span class="n">logger</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">DigikeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">warning</span><span class="p">(</span><span class="n">W_APIFAIL</span><span class="p">,</span> <span class="s1">&#39;Failed to init Digi-Key API, reason: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
             <span class="n">api_digikey</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="kc">False</span></div>
 
@@ -184,11 +202,11 @@
             <span class="n">part_stock</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">field_cat</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">part_stock</span><span class="p">:</span>
                 <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">**** Digi-Key P/N: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_stock</span><span class="p">))</span>
-                <span class="n">o</span> <span class="o">=</span> <span class="n">by_digikey_pn</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
+                <span class="n">o</span> <span class="o">=</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_digikey_pn</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
                 <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;The </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1"> Digi-Key code is not valid&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_stock</span><span class="p">))</span>
-                    <span class="n">o</span> <span class="o">=</span> <span class="n">by_keyword</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
+                    <span class="n">o</span> <span class="o">=</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_keyword</span><span class="p">(</span><span class="n">part_stock</span><span class="p">)</span>
                     <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># No Digi-Key P/N, search using the manufacturer code</span>
@@ -199,10 +217,10 @@
                         <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">**** Manufacturer: </span><span class="si">{}</span><span class="s1"> P/N: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_manf</span><span class="p">,</span> <span class="n">part_code</span><span class="p">))</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">debug_detailed</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">**** P/N: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part_code</span><span class="p">))</span>
-                    <span class="n">o</span> <span class="o">=</span> <span class="n">by_manf_pn</span><span class="p">(</span><span class="n">part_code</span><span class="p">)</span>
+                    <span class="n">o</span> <span class="o">=</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_manf_pn</span><span class="p">(</span><span class="n">part_code</span><span class="p">)</span>
                     <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
                     <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">o</span> <span class="o">=</span> <span class="n">by_keyword</span><span class="p">(</span><span class="n">part_code</span><span class="p">)</span>
+                        <span class="n">o</span> <span class="o">=</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">by_keyword</span><span class="p">(</span><span class="n">part_code</span><span class="p">)</span>
                         <span class="n">data</span> <span class="o">=</span> <span class="n">o</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;No information found at Digi-Key for part/s </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
@@ -211,21 +229,47 @@
                 <span class="n">debug_obsessive</span><span class="p">(</span><span class="n">pprint</span><span class="o">.</span><span class="n">pformat</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">))</span>
                 <span class="n">debug_obsessive</span><span class="p">(</span><span class="s1">&#39;* Data found:&#39;</span><span class="p">)</span>
                 <span class="n">debug_obsessive</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-                <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">primary_datasheet</span>
-                <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">product_status</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-                <span class="n">specs</span> <span class="o">=</span> <span class="p">{</span><span class="n">sp</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">}</span>
-                <span class="n">specs</span><span class="p">[</span><span class="s1">&#39;rohs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;RoHS&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">ro_hs_status</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">version</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                    <span class="c1"># Extract v3 data</span>
+                    <span class="n">primary_datasheet</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">primary_datasheet</span>
+                    <span class="n">product_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">product_status</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">specs</span> <span class="o">=</span> <span class="p">{</span><span class="n">sp</span><span class="o">.</span><span class="n">parameter</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">parameter</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">parameters</span><span class="p">}</span>
+                    <span class="n">ro_hs_status</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">ro_hs_status</span>
+                    <span class="n">minimum_order_quantity</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">minimum_order_quantity</span>
+                    <span class="n">product_url</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">product_url</span>
+                    <span class="n">digi_key_part_number</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">digi_key_part_number</span>
+                    <span class="n">quantity_available</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">quantity_available</span>
+                    <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">break_quantity</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">unit_price</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">standard_pricing</span><span class="p">}</span>
+                    <span class="n">product_description</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">product_description</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Extract v4 data</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">product</span>   <span class="c1"># The selected product</span>
+                    <span class="n">m</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">match</span>        <span class="c1"># The selected variant</span>
+                    <span class="n">primary_datasheet</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">datasheet_url</span>
+                    <span class="n">product_status</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">product_status</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                    <span class="n">specs</span> <span class="o">=</span> <span class="p">{</span><span class="n">sp</span><span class="o">.</span><span class="n">parameter_text</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span> <span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">parameter_text</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">value_text</span><span class="p">)</span> <span class="k">for</span> <span class="n">sp</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">parameters</span><span class="p">}</span>
+                    <span class="n">ro_hs_status</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">classifications</span><span class="o">.</span><span class="n">rohs_status</span>
+                    <span class="n">minimum_order_quantity</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">minimum_order_quantity</span>
+                    <span class="n">product_url</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">product_url</span>
+                    <span class="n">digi_key_part_number</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">digi_key_product_number</span>
+                    <span class="n">quantity_available</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">quantity_availablefor_package_type</span>
+                    <span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">break_quantity</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">unit_price</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">standard_pricing</span><span class="p">}</span>
+                    <span class="n">product_description</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">description</span><span class="o">.</span><span class="n">product_description</span>
+                <span class="c1"># Fill internal structure</span>
+                <span class="n">part</span><span class="o">.</span><span class="n">datasheet</span> <span class="o">=</span> <span class="n">primary_datasheet</span>
+                <span class="n">part</span><span class="o">.</span><span class="n">lifecycle</span> <span class="o">=</span> <span class="n">product_status</span>
+                <span class="n">specs</span><span class="p">[</span><span class="s1">&#39;rohs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;RoHS&#39;</span><span class="p">,</span> <span class="n">ro_hs_status</span><span class="p">)</span>
                 <span class="n">part</span><span class="o">.</span><span class="n">update_specs</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span>
                 <span class="n">dd</span> <span class="o">=</span> <span class="n">part</span><span class="o">.</span><span class="n">dd</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">DIST_NAME</span><span class="p">,</span> <span class="n">DistData</span><span class="p">())</span>
-                <span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">minimum_order_quantity</span>
-                <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">product_url</span>
-                <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">digi_key_part_number</span>
-                <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">quantity_available</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">qty_increment</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">moq</span> <span class="o">=</span> <span class="n">minimum_order_quantity</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">product_url</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">part_num</span> <span class="o">=</span> <span class="n">digi_key_part_number</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">qty_avail</span> <span class="o">=</span> <span class="n">quantity_available</span>
                 <span class="n">dd</span><span class="o">.</span><span class="n">currency</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">search_locale_used</span><span class="o">.</span><span class="n">currency</span>
-                <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">break_quantity</span><span class="p">:</span> <span class="n">p</span><span class="o">.</span><span class="n">unit_price</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">standard_pricing</span><span class="p">}</span>
+                <span class="n">dd</span><span class="o">.</span><span class="n">price_tiers</span> <span class="o">=</span> <span class="n">price_tiers</span>
                 <span class="c1"># Extra information</span>
-                <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">product_description</span><span class="p">:</span>
-                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">product_description</span>
+                <span class="k">if</span> <span class="n">product_description</span><span class="p">:</span>
+                    <span class="n">dd</span><span class="o">.</span><span class="n">extra_info</span><span class="p">[</span><span class="s1">&#39;desc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">product_description</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                 <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;capacitance&#39;</span><span class="p">,</span> <span class="s1">&#39;resistance&#39;</span><span class="p">,</span> <span class="s1">&#39;inductance&#39;</span><span class="p">):</span>
                     <span class="n">val</span> <span class="o">=</span> <span class="n">specs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
@@ -249,7 +293,7 @@
         <span class="n">msg</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">api_digikey</span><span class="o">.</span><span class="n">_query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">DigikeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">except</span> <span class="n">api_digikey</span><span class="o">.</span><span class="n">DigikeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">msg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">KiCostError</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span><span class="p">)</span>
@@ -288,7 +332,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.18 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.20 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_digikey</a></li> 

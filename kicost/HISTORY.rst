@@ -3,8 +3,9 @@
 History
 -------
 
-1.1.20 (UNRELEASED)
+1.1.20 (2025-03-27)
 _____________________
+* Added support for Digi-Key API V4
 * Fixed Nexar problems when the API reports errors
 * Fixed Element14 too fast queries
 * Fixed problems with some malformed references when importing a CSV

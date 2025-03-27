@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Configuration file &#8212; kicost 1.1.18 documentation</title>
+    <title>Configuration file &#8212; kicost 1.1.20 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
@@ -37,7 +37,7 @@
         <li class="right" >
           <a href="usage.html" title="Usage"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.18 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.20 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
       </ul>
     </div>  
@@ -69,6 +69,8 @@
     <span class="c1"># client_id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
     <span class="c1"># Digi-Key Client Secret for a registered APP</span>
     <span class="c1"># client_secret: XXXXXXXXXXXXXXXX</span>
+    <span class="c1"># Version of the Digi-Key API, use 4 unless you have old credentials for the V3 API</span>
+    <span class="c1"># version: 4</span>
     <span class="c1"># Use the sandbox server, doesn&#39;t count the usage, but returns old data</span>
     <span class="c1"># sandbox: false</span>
     <span class="c1"># Only enabled if the client_id and client_secret are defined</span>
@@ -113,19 +115,6 @@
     <span class="c1"># country: US</span>
     <span class="c1"># Directory for the APIs caches</span>
     <span class="c1"># cache_path: ~/.cache/kicost/Nexar</span>
-  <span class="n">TME</span><span class="p">:</span>
-    <span class="c1"># TME token (anonymous or private)</span>
-    <span class="c1"># token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
-    <span class="c1"># TME application secret</span>
-    <span class="c1"># app_secret: XXXXXXXXXXXXXXXXXXXX</span>
-    <span class="c1"># Only enabled if the token and app_secret are defined</span>
-    <span class="c1"># enable: false</span>
-    <span class="c1"># Country where we are buying</span>
-    <span class="c1"># country: US</span>
-    <span class="c1"># Language for the texts</span>
-    <span class="c1"># language: EN</span>
-    <span class="c1"># Directory for the APIs caches</span>
-    <span class="c1"># cache_path: ~/.cache/kicost/TME</span>
 </pre></div>
 </div>
 <p>Data from the APIs is cached <cite>cache_ttl</cite> days, using -1 means to keep them cached forever.
@@ -200,7 +189,7 @@ But command line options, including any configuration file passed using it, has 
         <li class="right" >
           <a href="usage.html" title="Usage"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.18 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">kicost 1.1.20 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Configuration file</a></li> 
       </ul>
     </div>

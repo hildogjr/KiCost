@@ -26,6 +26,8 @@ The format is YAML and here is an example: ::
         # client_id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
         # Digi-Key Client Secret for a registered APP
         # client_secret: XXXXXXXXXXXXXXXX
+        # Version of the Digi-Key API, use 4 unless you have old credentials for the V3 API
+        # version: 4
         # Use the sandbox server, doesn't count the usage, but returns old data
         # sandbox: false
         # Only enabled if the client_id and client_secret are defined
@@ -70,19 +72,6 @@ The format is YAML and here is an example: ::
         # country: US
         # Directory for the APIs caches
         # cache_path: ~/.cache/kicost/Nexar
-      TME:
-        # TME token (anonymous or private)
-        # token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-        # TME application secret
-        # app_secret: XXXXXXXXXXXXXXXXXXXX
-        # Only enabled if the token and app_secret are defined
-        # enable: false
-        # Country where we are buying
-        # country: US
-        # Language for the texts
-        # language: EN
-        # Directory for the APIs caches
-        # cache_path: ~/.cache/kicost/TME
 
 Data from the APIs is cached `cache_ttl` days, using -1 means to keep them cached forever.
 Using 0 will force to do all searches again (no cache).

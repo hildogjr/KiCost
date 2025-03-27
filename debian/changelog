@@ -1,10 +1,11 @@
-kicost (1.1.20-1) UNRELEASED; urgency=medium
+kicost (1.1.20-1) stable; urgency=medium
 
+  * Added support for Digi-Key API V4
   * Fixed Nexar problems when the API reports errors
   * Fixed Element14 too fast queries
   * Fixed problems with some malformed references when importing a CSV
 
- -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Tue, 16 Jul 2024 08:56:03 -0300
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Thu, 27 Mar 2025 13:31:26 -0300
 
 kicost (1.1.19-1) stable; urgency=medium
 

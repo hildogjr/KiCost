@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>kicost 1.1.18 documentation</title>
+    <title>kicost 1.1.20 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/classic.css" />
     
@@ -23,8 +23,8 @@
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="nav-item nav-item-0"><a href="#">kicost 1.1.18 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">kicost 1.1.18 documentation</a></li> 
+        <li class="nav-item nav-item-0"><a href="#">kicost 1.1.20 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost 1.1.20 documentation</a></li> 
       </ul>
     </div>  
 
@@ -632,6 +632,8 @@ which distributors to use, currency and others definitions.</p>
     <span class="c1"># client_id: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
     <span class="c1"># Digi-Key Client Secret for a registered APP</span>
     <span class="c1"># client_secret: XXXXXXXXXXXXXXXX</span>
+    <span class="c1"># Version of the Digi-Key API, use 4 unless you have old credentials for the V3 API</span>
+    <span class="c1"># version: 4</span>
     <span class="c1"># Use the sandbox server, doesn&#39;t count the usage, but returns old data</span>
     <span class="c1"># sandbox: false</span>
     <span class="c1"># Only enabled if the client_id and client_secret are defined</span>
@@ -676,19 +678,6 @@ which distributors to use, currency and others definitions.</p>
     <span class="c1"># country: US</span>
     <span class="c1"># Directory for the APIs caches</span>
     <span class="c1"># cache_path: ~/.cache/kicost/Nexar</span>
-  <span class="n">TME</span><span class="p">:</span>
-    <span class="c1"># TME token (anonymous or private)</span>
-    <span class="c1"># token: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
-    <span class="c1"># TME application secret</span>
-    <span class="c1"># app_secret: XXXXXXXXXXXXXXXXXXXX</span>
-    <span class="c1"># Only enabled if the token and app_secret are defined</span>
-    <span class="c1"># enable: false</span>
-    <span class="c1"># Country where we are buying</span>
-    <span class="c1"># country: US</span>
-    <span class="c1"># Language for the texts</span>
-    <span class="c1"># language: EN</span>
-    <span class="c1"># Directory for the APIs caches</span>
-    <span class="c1"># cache_path: ~/.cache/kicost/TME</span>
 </pre></div>
 </div>
 <p>Data from the APIs is cached <cite>cache_ttl</cite> days, using -1 means to keep them cached forever.
@@ -851,7 +840,16 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <span id="document-history"></span><section id="history">
 <h2>History<a class="headerlink" href="#history" title="Permalink to this heading">¶</a></h2>
 <section id="id1">
-<h3>1.1.19 (2023-05-06)<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<h3>1.1.20 (2025-03-27)<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Added support for Digi-Key API V4</p></li>
+<li><p>Fixed Nexar problems when the API reports errors</p></li>
+<li><p>Fixed Element14 too fast queries</p></li>
+<li><p>Fixed problems with some malformed references when importing a CSV</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>1.1.19 (2023-05-06)<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Components groupings now isn’t case sensitive</p></li>
 <li><p>Fixed Element14 issues when no RoHS info found</p></li>
@@ -859,36 +857,36 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Added warning about missing config file</p></li>
 </ul>
 </section>
-<section id="id2">
-<h3>1.1.18 (2023-06-22)<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<section id="id3">
+<h3>1.1.18 (2023-06-22)<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed problems when no arguments were specified</p></li>
 </ul>
 </section>
-<section id="id3">
-<h3>1.1.17 (2023-05-15)<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<section id="id4">
+<h3>1.1.17 (2023-05-15)<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix Nexar problems when no MANF</p></li>
 <li><p>Add TME retry</p></li>
 </ul>
 </section>
-<section id="id4">
-<h3>1.1.16 (2023-04-10)<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<section id="id5">
+<h3>1.1.16 (2023-04-10)<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix disabled KitSpace API, no longer available</p></li>
 <li><p>Fix display API errors in the GUI dialog</p></li>
 <li><p>Fix Nexar problems when we don’t get a closest match</p></li>
 </ul>
 </section>
-<section id="id5">
-<h3>1.1.15 (2022-12-15)<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<section id="id6">
+<h3>1.1.15 (2022-12-15)<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix avoid showing secrets in logs</p></li>
 <li><p>Fix confusing options overwrite</p></li>
 </ul>
 </section>
-<section id="id6">
-<h3>1.1.14 (2022-12-14)<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<section id="id7">
+<h3>1.1.14 (2022-12-14)<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix TME component URLs</p></li>
 <li><p>Fix installation problems when tqdm isn’t installed</p></li>
@@ -898,22 +896,22 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Add mechanism to specify availability for local distributors</p></li>
 </ul>
 </section>
-<section id="id7">
-<h3>1.1.12 (2022-09-27)<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
+<section id="id8">
+<h3>1.1.12 (2022-09-27)<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix problems when trying to use Digi-Key API, but not available</p></li>
 <li><p>Fix progress bar in the GUI not working for Python 3.10+</p></li>
 </ul>
 </section>
-<section id="id8">
-<h3>1.1.10 (2022-06-29)<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
+<section id="id9">
+<h3>1.1.10 (2022-06-29)<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix Mouser API problems for languages other than english (always No Stock)</p></li>
 <li><p>Fix KitSpace API encoding issues (UTF-8 as ISO-8859-1)</p></li>
 </ul>
 </section>
-<section id="id9">
-<h3>1.1.8 (2022-05-09)<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
+<section id="id10">
+<h3>1.1.8 (2022-05-09)<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Add Digi-Key API</p></li>
 <li><p>Add Mouser API</p></li>
@@ -922,8 +920,8 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Add cache for all APIs (including KitSpace and Octopart)</p></li>
 </ul>
 </section>
-<section id="id10">
-<h3>1.1.6 (2021-10-14)<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
+<section id="id11">
+<h3>1.1.6 (2021-10-14)<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix the Farnell import code order</p></li>
 <li><p>Fix LCSC link and add BOM import links of all</p></li>
@@ -937,23 +935,23 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Add <code class="docutils literal notranslate"><span class="pre">--force_en_us</span></code> to workaround wxWidgets issues.</p></li>
 </ul>
 </section>
-<section id="id11">
-<h3>1.1.4 (2020-03-24)<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
+<section id="id12">
+<h3>1.1.4 (2020-03-24)<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Add TME and Arrow to Kitspace API.</p></li>
 <li><p>Others cosmetic and internal changes.</p></li>
 </ul>
 </section>
-<section id="id12">
-<h3>1.1.3 (2019-12-31)<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
+<section id="id13">
+<h3>1.1.3 (2019-12-31)<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix the Digikey using Digi-Reel information.</p></li>
 <li><p>Added LCSC as distributor into the Kitspace API (the list can be used to JLCPCB).</p></li>
 <li><p>Parinfo kitspace API now just return the asked distributors (before was given all the avaliable distributors).</p></li>
 </ul>
 </section>
-<section id="id13">
-<h3>1.1.2 (2019-09-26)<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h3>
+<section id="id14">
+<h3>1.1.2 (2019-09-26)<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Check by accepted stock code into the API modules.</p></li>
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--info</span></code> command to get all the details of KiCost installation.</p></li>
@@ -962,8 +960,8 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Fix in GUI: process bar, the not found module name, Windows open spreadsheet in the GUI and LibreOffice installation check on Windows.</p></li>
 </ul>
 </section>
-<section id="id14">
-<h3>1.1.1 (2019-08-16)<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h3>
+<section id="id15">
+<h3>1.1.1 (2019-08-16)<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix minimum order number and warning the user, it also show in the price break.</p></li>
 <li><p>Improve some spreadsheet formulas.</p></li>
@@ -972,8 +970,8 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Organized the distributors information for better KiCost next features in the road map.</p></li>
 </ul>
 </section>
-<section id="id15">
-<h3>1.1 (2019-07-15)<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h3>
+<section id="id16">
+<h3>1.1 (2019-07-15)<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix the issue of RST files in the PyPI package.</p></li>
 <li><p>Use the PartInfo KitSpace API.</p></li>
@@ -987,29 +985,29 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Fix the error when deal with spaces in the names of BOM files on <cite>test.sh</cite>.</p></li>
 </ul>
 </section>
-<section id="id16">
-<h3>1.0.4 (2018-10-02)<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h3>
+<section id="id17">
+<h3>1.0.4 (2018-10-02)<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Use the datasheet information distributor/API as link in <code class="docutils literal notranslate"><span class="pre">manf#</span></code> if not got any by the BOM.</p></li>
 <li><p>Added user warnings of bad <code class="docutils literal notranslate"><span class="pre">manf</span></code> format in case of multi-files of different quantities assigned on the catalogue codes.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">manf#</span></code> cell get purple color if the distributor assigned the part as ‘obsolete’ or ‘not recommended for new designs’.</p></li>
 </ul>
 </section>
-<section id="id17">
-<h3>1.0.3 (2018-10-06)<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
+<section id="id18">
+<h3>1.0.3 (2018-10-06)<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix READ file on installation.</p></li>
 </ul>
 </section>
-<section id="id18">
-<h3>1.0.2 (2018-10-06)<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
+<section id="id19">
+<h3>1.0.2 (2018-10-06)<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fix the *.md installation files.</p></li>
 <li><p>Minor modifications into the new class model.</p></li>
 </ul>
 </section>
-<section id="id19">
-<h3>1.0.1 (2018-10-05)<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
+<section id="id20">
+<h3>1.0.1 (2018-10-05)<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Complete re-facture of internal class structure, now <code class="docutils literal notranslate"><span class="pre">distributors</span></code> and <code class="docutils literal notranslate"><span class="pre">edas</span></code> follow a heritage model.</p></li>
 <li><p>Add a <code class="docutils literal notranslate"><span class="pre">post_setup</span></code> function to configure shortcut and OS dependent settings.</p></li>
@@ -1018,16 +1016,16 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Removed the limitation of subpart with empty <code class="docutils literal notranslate"><span class="pre">manf#</span></code> that doesn’t respected the quantity.</p></li>
 </ul>
 </section>
-<section id="id20">
-<h3>1.0.0 (2018-10-03)<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h3>
+<section id="id21">
+<h3>1.0.0 (2018-10-03)<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Re-facture the KiCost motor, now use the Octopart API.</p></li>
 <li><p>Added a full currency convert capability.</p></li>
 <li><p>Fix some minor error with multi file projects.</p></li>
 </ul>
 </section>
-<section id="id21">
-<h3>0.1.47 (2018-08-16)<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
+<section id="id22">
+<h3>0.1.47 (2018-08-16)<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Created the KiCad plugin (in beta).</p></li>
 <li><p>Fixed Digikey distributor module logger problem raise on refacture.</p></li>
@@ -1036,8 +1034,8 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Others GUI controls improvements.</p></li>
 </ul>
 </section>
-<section id="id22">
-<h3>0.1.46 (2018-07-04)<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
+<section id="id23">
+<h3>0.1.46 (2018-07-04)<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed some Python 2 incompatibility of the GUI and Altium module.</p></li>
 <li><p>Fixed the tqdm print channel. Now the process bar is kept at the end.</p></li>
@@ -1047,8 +1045,8 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Now TME ajax post scrape method repect the <code class="docutils literal notranslate"><span class="pre">fake_browser</span></code>.</p></li>
 </ul>
 </section>
-<section id="id23">
-<h3>0.1.45 (2018-06-12)<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
+<section id="id24">
+<h3>0.1.45 (2018-06-12)<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Changed Farnell link and table result format.</p></li>
 <li><p>Fixed TME <code class="docutils literal notranslate"><span class="pre">fake_browser</span></code> migration.</p></li>
@@ -1057,8 +1055,8 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Fixed Mac-OS hang when parallel scraping.</p></li>
 </ul>
 </section>
-<section id="id24">
-<h3>0.1.44 (2018-05-28)<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
+<section id="id25">
+<h3>0.1.44 (2018-05-28)<a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed <code class="docutils literal notranslate"><span class="pre">logging</span></code> messages when using <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> (process bar) for sequential scrape, missing fix for multithreads scrape.</p></li>
 <li><p>Improve the <code class="docutils literal notranslate"><span class="pre">spreadsheet.py</span></code> to a lighter file when use just one distributor.</p></li>
@@ -1074,8 +1072,8 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Minor improvements.</p></li>
 </ul>
 </section>
-<section id="id25">
-<h3>0.1.43 (2018-03-15)<a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
+<section id="id26">
+<h3>0.1.43 (2018-03-15)<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed RS scrape module.</p></li>
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--no_scrape</span></code> option to create spreadsheets without information from distributor websites.</p></li>
@@ -1097,40 +1095,40 @@ and make sure that the tests pass for all supported Python versions.</p></li>
 <li><p>Added automatic recognition of the files of each EDA tool (for the graphical interface).</p></li>
 </ul>
 </section>
-<section id="id26">
-<h3>0.1.42 (2017-12-07)<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
+<section id="id27">
+<h3>0.1.42 (2017-12-07)<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Processing of CSV files containing part information is now supported.</p></li>
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">show_dist_list</span></code> option to display the list of distributors from which part cost data is available.</p></li>
 <li><p>Added capability to process multiple XML and CSV files.</p></li>
 </ul>
 </section>
-<section id="id27">
-<h3>0.1.41 (2017-11-16)<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
+<section id="id28">
+<h3>0.1.41 (2017-11-16)<a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed exception caused by missing ‘href’ key in product links extracted by TME module.</p></li>
 </ul>
 </section>
-<section id="id28">
-<h3>0.1.40 (2017-11-02)<a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
+<section id="id29">
+<h3>0.1.40 (2017-11-02)<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed exceptions caused by .xml files without a title block or part library section.</p></li>
 </ul>
 </section>
-<section id="id29">
-<h3>0.1.39 (2017-10-10)<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
+<section id="id30">
+<h3>0.1.39 (2017-10-10)<a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Part number separator characters can now be escaped with backslashes in case they are actually part of part numbers.</p></li>
 </ul>
 </section>
-<section id="id30">
-<h3>0.1.38 (2017-10-09)<a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h3>
+<section id="id31">
+<h3>0.1.38 (2017-10-09)<a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed webscrape retry error in TME distributor module.</p></li>
 </ul>
 </section>
-<section id="id31">
-<h3>0.1.37 (2017-10-09)<a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h3>
+<section id="id32">
+<h3>0.1.37 (2017-10-09)<a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>A part manf# field can now contain multiple subpart numbers. Each part number can be
 assigned a multiplier to indicate the quantity of the subpart needed for each part.</p></li>
@@ -1144,8 +1142,8 @@ assigned a multiplier to indicate the quantity of the subpart needed for each pa
 <li><p>Fixed problem where “kicost:dnp” field was not recognized.</p></li>
 </ul>
 </section>
-<section id="id32">
-<h3>0.1.36 (2017-08-14)<a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h3>
+<section id="id33">
+<h3>0.1.36 (2017-08-14)<a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Parts may now be assigned to a variant by giving them a <code class="docutils literal notranslate"><span class="pre">variant</span></code> field.</p></li>
 <li><p>Parts may now be assigned to multiple variants.</p></li>
@@ -1153,29 +1151,29 @@ assigned a multiplier to indicate the quantity of the subpart needed for each pa
 <li><p>DNP parts or parts not in the current variant will not appear in the cost spreadsheet.</p></li>
 </ul>
 </section>
-<section id="id33">
-<h3>0.1.35 (2017-04-24)<a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h3>
+<section id="id34">
+<h3>0.1.35 (2017-04-24)<a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed bug in scraping RS website when a part search results in a list of matches instead of a single product page.</p></li>
 </ul>
 </section>
-<section id="id34">
-<h3>0.1.34 (2017-03-31)<a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h3>
+<section id="id35">
+<h3>0.1.34 (2017-03-31)<a class="headerlink" href="#id35" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed crash caused by uninitialized array in Digikey webscraping module.</p></li>
 <li><p>Place any available scraped part info into spreadsheet even if part is not available from a distributor.</p></li>
 <li><p>Removed unused imports from distributor modules.</p></li>
 </ul>
 </section>
-<section id="id35">
-<h3>0.1.33 (2017-02-23)<a class="headerlink" href="#id35" title="Permalink to this heading">¶</a></h3>
+<section id="id36">
+<h3>0.1.33 (2017-02-23)<a class="headerlink" href="#id36" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Surround worksheet name with quotes in case it contains spreadsheet operators.</p></li>
 <li><p>Fixed extraction of product links from Farnell product tables.</p></li>
 </ul>
 </section>
-<section id="id36">
-<h3>0.1.32 (2017-02-14)<a class="headerlink" href="#id36" title="Permalink to this heading">¶</a></h3>
+<section id="id37">
+<h3>0.1.32 (2017-02-14)<a class="headerlink" href="#id37" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Added options for including or excluding distributors.</p></li>
 <li><p>Updated web scrapers for various distributors.</p></li>
@@ -1183,83 +1181,83 @@ assigned a multiplier to indicate the quantity of the subpart needed for each pa
 <li><p>Updated some of the package requirements.</p></li>
 </ul>
 </section>
-<section id="id37">
-<h3>0.1.31 (2016-11-14)<a class="headerlink" href="#id37" title="Permalink to this heading">¶</a></h3>
+<section id="id38">
+<h3>0.1.31 (2016-11-14)<a class="headerlink" href="#id38" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Giacinto Luigi Cerone added support for distributors Farnell and RS.</p></li>
 </ul>
 </section>
-<section id="id38">
-<h3>0.1.30 (2016-11-07)<a class="headerlink" href="#id38" title="Permalink to this heading">¶</a></h3>
+<section id="id39">
+<h3>0.1.30 (2016-11-07)<a class="headerlink" href="#id39" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Manufacturer’s part number field can now be labeled as ‘manf#’, ‘mpn’, ‘pn’, ‘#’, etc. (See documentation.)</p></li>
 <li><p>Manufacturer field can now be labeled as ‘manf’ or ‘manufacturer’.</p></li>
 <li><p>Distributor part number fields can now be labeled as ‘digikey#’, ‘digikeypn’, digikey_pn’, ‘digikey-pn’, etc.</p></li>
 </ul>
 </section>
-<section id="id39">
-<h3>0.1.29 (2016-08-27)<a class="headerlink" href="#id39" title="Permalink to this heading">¶</a></h3>
+<section id="id40">
+<h3>0.1.29 (2016-08-27)<a class="headerlink" href="#id40" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>KiCost no longer fails if the &lt;libparts&gt;…&lt;/libparts&gt; section is missing from the XML file.</p></li>
 <li><p>Documentation moved to Github Pages.</p></li>
 </ul>
 </section>
-<section id="id40">
-<h3>0.1.28 (2016-08-18)<a class="headerlink" href="#id40" title="Permalink to this heading">¶</a></h3>
+<section id="id41">
+<h3>0.1.28 (2016-08-18)<a class="headerlink" href="#id41" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed scraping of Digi-Key pages to correctly detect reeled parts and scrape alternate packaging options.</p></li>
 </ul>
 </section>
-<section id="id41">
-<h3>0.1.27 (2016-07-26)<a class="headerlink" href="#id41" title="Permalink to this heading">¶</a></h3>
+<section id="id42">
+<h3>0.1.27 (2016-07-26)<a class="headerlink" href="#id42" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed scraping of Digi-Key pages to correctly extract available quantity of parts.</p></li>
 </ul>
 </section>
-<section id="id42">
-<h3>0.1.26 (2016-07-25)<a class="headerlink" href="#id42" title="Permalink to this heading">¶</a></h3>
+<section id="id43">
+<h3>0.1.26 (2016-07-25)<a class="headerlink" href="#id43" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Progress bar is explicitly deleted to prevent an error from occurring when the program terminates.</p></li>
 </ul>
 </section>
-<section id="id43">
-<h3>0.1.25 (2016-06-12)<a class="headerlink" href="#id43" title="Permalink to this heading">¶</a></h3>
+<section id="id44">
+<h3>0.1.25 (2016-06-12)<a class="headerlink" href="#id44" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Contents of “Desc” field in component/library were being ignored when generating spreadsheet.</p></li>
 </ul>
 </section>
-<section id="id44">
-<h3>0.1.24 (2016-05-28)<a class="headerlink" href="#id44" title="Permalink to this heading">¶</a></h3>
+<section id="id45">
+<h3>0.1.24 (2016-05-28)<a class="headerlink" href="#id45" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed part scraping from Newark website.</p></li>
 </ul>
 </section>
-<section id="id45">
-<h3>0.1.23 (2016-04-12)<a class="headerlink" href="#id45" title="Permalink to this heading">¶</a></h3>
+<section id="id46">
+<h3>0.1.23 (2016-04-12)<a class="headerlink" href="#id46" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Added progress bar.</p></li>
 <li><p>Added quiet option to suppress warning messages.</p></li>
 <li><p>‘manf#’ and ‘manf’ fields are now both propagated to similar parts.</p></li>
 </ul>
 </section>
-<section id="id46">
-<h3>0.1.22 (2016-04-08)<a class="headerlink" href="#id46" title="Permalink to this heading">¶</a></h3>
+<section id="id47">
+<h3>0.1.22 (2016-04-08)<a class="headerlink" href="#id47" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Extra part data can now be shown in the global data section of the spreadsheet
 by using the new <code class="docutils literal notranslate"><span class="pre">--fields</span></code> command-line option. This commit implements
 issue #8.</p></li>
 </ul>
 </section>
-<section id="id47">
-<h3>0.1.21 (2016-03-20)<a class="headerlink" href="#id47" title="Permalink to this heading">¶</a></h3>
+<section id="id48">
+<h3>0.1.21 (2016-03-20)<a class="headerlink" href="#id48" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Parts with valid Digi-Key web pages were not appearing in the spreadsheet
 because they had strange quantity listings (e.g., input fields or ‘call for
 quantities’. This commit fixes #36.</p></li>
 </ul>
 </section>
-<section id="id48">
-<h3>0.1.20 (2016-03-20)<a class="headerlink" href="#id48" title="Permalink to this heading">¶</a></h3>
+<section id="id49">
+<h3>0.1.20 (2016-03-20)<a class="headerlink" href="#id49" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Prices of $0.00 were appearing in the spreadsheet for parts that were
 listed but not stocked. Parts having no pricing list no longer list a price
@@ -1269,28 +1267,28 @@ distributor websites. The manufacturer name was added to the search string
 to increase the probability of the search finding the correct part.</p></li>
 </ul>
 </section>
-<section id="id49">
-<h3>0.1.19 (2016-02-12)<a class="headerlink" href="#id49" title="Permalink to this heading">¶</a></h3>
+<section id="id50">
+<h3>0.1.19 (2016-02-12)<a class="headerlink" href="#id50" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Local parts weren’t showing up in spreadsheet because of previous fix to
 omit parts that had no quantity field (non-stocked; not even 0). Fixed.</p></li>
 </ul>
 </section>
-<section id="id50">
-<h3>0.1.18 (2016-02-10)<a class="headerlink" href="#id50" title="Permalink to this heading">¶</a></h3>
+<section id="id51">
+<h3>0.1.18 (2016-02-10)<a class="headerlink" href="#id51" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Made change to adapt to change in Digi-Key’s part quantity field of their webpages.</p></li>
 <li><p>Omit parts from the spreadsheet that are listed but not stocked at a distributor.</p></li>
 </ul>
 </section>
-<section id="id51">
-<h3>0.1.17 (2016-02-09)<a class="headerlink" href="#id51" title="Permalink to this heading">¶</a></h3>
+<section id="id52">
+<h3>0.1.17 (2016-02-09)<a class="headerlink" href="#id52" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Made changes to adapt to changes in Digi-Key’s webpage format.</p></li>
 </ul>
 </section>
-<section id="id52">
-<h3>0.1.16 (2016-01-26)<a class="headerlink" href="#id52" title="Permalink to this heading">¶</a></h3>
+<section id="id53">
+<h3>0.1.16 (2016-01-26)<a class="headerlink" href="#id53" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--variant</span></code> command-line option for costing different variants of a single schematic.</p></li>
 <li><p>Added <code class="docutils literal notranslate"><span class="pre">--num_processes</span></code> command-line option for setting the number of parallel
@@ -1299,52 +1297,52 @@ processes used to scrape part data from the distributor web sites.</p></li>
 prevent identical parts from being grouped together.</p></li>
 </ul>
 </section>
-<section id="id53">
-<h3>0.1.15 (2016-01-10)<a class="headerlink" href="#id53" title="Permalink to this heading">¶</a></h3>
+<section id="id54">
+<h3>0.1.15 (2016-01-10)<a class="headerlink" href="#id54" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed exception caused when indexing with ‘manf#’ on components that didn’t
 have that field defined.</p></li>
 <li><p>Replaced custom debug_print() with logging module.</p></li>
 </ul>
 </section>
-<section id="id54">
-<h3>0.1.14 (2015-12-31)<a class="headerlink" href="#id54" title="Permalink to this heading">¶</a></h3>
+<section id="id55">
+<h3>0.1.14 (2015-12-31)<a class="headerlink" href="#id55" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>When scraping a Digi-Key product list page, use both the manfufacturer’s AND
 Digi-Key’s number to select the closest match to the part number.</p></li>
 </ul>
 </section>
-<section id="id55">
-<h3>0.1.13 (2015-12-29)<a class="headerlink" href="#id55" title="Permalink to this heading">¶</a></h3>
+<section id="id56">
+<h3>0.1.13 (2015-12-29)<a class="headerlink" href="#id56" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>‘kicost:’ can be prepended to schematic field labels to distinguish them from other app fields.</p></li>
 <li><p>Custom prices and documentation links can now be added to parts in the schematic.</p></li>
 <li><p>Web-scraping for part data is sped up using parallel processes.</p></li>
 </ul>
 </section>
-<section id="id56">
-<h3>0.1.12 (2015-12-03)<a class="headerlink" href="#id56" title="Permalink to this heading">¶</a></h3>
+<section id="id57">
+<h3>0.1.12 (2015-12-03)<a class="headerlink" href="#id57" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Following the IP address mouser with redirect you to the nearest locale match,
 so the price will be in Euro if you are in Europe and the price decimal can be a comma.</p></li>
 </ul>
 </section>
-<section id="id57">
-<h3>0.1.11 (2015-12-02)<a class="headerlink" href="#id57" title="Permalink to this heading">¶</a></h3>
+<section id="id58">
+<h3>0.1.11 (2015-12-02)<a class="headerlink" href="#id58" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Changed BOARD_COST field to UNIT_COST.</p></li>
 <li><p>Changed formatting of UNIT_COST field to make use monetary units.</p></li>
 <li><p>Changed format of debug messages.</p></li>
 </ul>
 </section>
-<section id="id58">
-<h3>0.1.10 (2015-10-08)<a class="headerlink" href="#id58" title="Permalink to this heading">¶</a></h3>
+<section id="id59">
+<h3>0.1.10 (2015-10-08)<a class="headerlink" href="#id59" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Pushed lxml requirement back to 3.3.3 so linux mint would have fewer problems trying to install.</p></li>
 </ul>
 </section>
-<section id="id59">
-<h3>0.1.9 (2015-09-26)<a class="headerlink" href="#id59" title="Permalink to this heading">¶</a></h3>
+<section id="id60">
+<h3>0.1.9 (2015-09-26)<a class="headerlink" href="#id60" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed exception caused by Digi-Key part with ‘call’ as an entry in a part’s price list.</p></li>
 <li><p>Fixed extraction of part quantities in Mouser web pages.</p></li>
@@ -1352,45 +1350,45 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 <li><p>Added ghost.py code for getting around Javascript challenge pages (currently inactive).</p></li>
 </ul>
 </section>
-<section id="id60">
-<h3>0.1.8 (2015-09-17)<a class="headerlink" href="#id60" title="Permalink to this heading">¶</a></h3>
+<section id="id61">
+<h3>0.1.8 (2015-09-17)<a class="headerlink" href="#id61" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Added missing requirements for future and lxml packages.</p></li>
 </ul>
 </section>
-<section id="id61">
-<h3>0.1.7 (2015-08-26)<a class="headerlink" href="#id61" title="Permalink to this heading">¶</a></h3>
+<section id="id62">
+<h3>0.1.7 (2015-08-26)<a class="headerlink" href="#id62" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>KiCost now runs under both Python 2.7.6 and 3.4.</p></li>
 </ul>
 </section>
-<section id="id62">
-<h3>0.1.6 (2015-08-26)<a class="headerlink" href="#id62" title="Permalink to this heading">¶</a></h3>
+<section id="id63">
+<h3>0.1.6 (2015-08-26)<a class="headerlink" href="#id63" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Mouser changed their HTML page format, so I changed their web scraper.</p></li>
 </ul>
 </section>
-<section id="id63">
-<h3>0.1.5 (2015-07-25)<a class="headerlink" href="#id63" title="Permalink to this heading">¶</a></h3>
+<section id="id64">
+<h3>0.1.5 (2015-07-25)<a class="headerlink" href="#id64" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Corrected entrypoint in <code class="docutils literal notranslate"><span class="pre">__main__.py</span></code>.</p></li>
 </ul>
 </section>
-<section id="id64">
-<h3>0.1.4 (2015-07-09)<a class="headerlink" href="#id64" title="Permalink to this heading">¶</a></h3>
+<section id="id65">
+<h3>0.1.4 (2015-07-09)<a class="headerlink" href="#id65" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Added conditional formatting to indicate which distributor had the best price for a particular part.</p></li>
 <li><p>Fixed calc of min unit price so it wouldn’t be affected if part rows were sorted.</p></li>
 </ul>
 </section>
-<section id="id65">
-<h3>0.1.3 (2015-07-07)<a class="headerlink" href="#id65" title="Permalink to this heading">¶</a></h3>
+<section id="id66">
+<h3>0.1.3 (2015-07-07)<a class="headerlink" href="#id66" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Added global part columns that show minimum unit and extended prices for all parts across all distributors.</p></li>
 </ul>
 </section>
-<section id="id66">
-<h3>0.1.2 (2015-07-04)<a class="headerlink" href="#id66" title="Permalink to this heading">¶</a></h3>
+<section id="id67">
+<h3>0.1.2 (2015-07-04)<a class="headerlink" href="#id67" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Refactoring.</p></li>
 <li><p>To reduce the effort in adding manufacturer’s part numbers to a schematic, one will now be assigned to a part if:</p>
@@ -1402,14 +1400,14 @@ so the price will be in Euro if you are in Europe and the price decimal can be a
 </li>
 </ul>
 </section>
-<section id="id67">
-<h3>0.1.1 (2015-07-02)<a class="headerlink" href="#id67" title="Permalink to this heading">¶</a></h3>
+<section id="id68">
+<h3>0.1.1 (2015-07-02)<a class="headerlink" href="#id68" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed delimiter for Mouser online order cut-and-paste.</p></li>
 </ul>
 </section>
-<section id="id68">
-<h3>0.1.0 (2015-06-30)<a class="headerlink" href="#id68" title="Permalink to this heading">¶</a></h3>
+<section id="id69">
+<h3>0.1.0 (2015-06-30)<a class="headerlink" href="#id69" title="Permalink to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>First release on PyPI.</p></li>
 </ul>
@@ -1537,7 +1535,7 @@ particular KiCost cunrrently supports only ‘en_US’.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="kicost.distributors.api_digikey.api_digikey.config_options">
-<span class="sig-name descname"><span class="pre">config_options</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">{'client_id':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'client_secret':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'exclude_market_place_products':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'locale_currency':</span> <span class="pre">('USD',</span> <span class="pre">'CAD',</span> <span class="pre">'JPY',</span> <span class="pre">'GBP',</span> <span class="pre">'EUR',</span> <span class="pre">'HKD',</span> <span class="pre">'SGD',</span> <span class="pre">'TWD',</span> <span class="pre">'KRW',</span> <span class="pre">'AUD',</span> <span class="pre">'NZD',</span> <span class="pre">'INR',</span> <span class="pre">'DKK',</span> <span class="pre">'NOK',</span> <span class="pre">'SEK',</span> <span class="pre">'ILS',</span> <span class="pre">'CNY',</span> <span class="pre">'PLN',</span> <span class="pre">'CHF',</span> <span class="pre">'CZK',</span> <span class="pre">'HUF',</span> <span class="pre">'RON',</span> <span class="pre">'ZAR',</span> <span class="pre">'MYR',</span> <span class="pre">'THB',</span> <span class="pre">'PHP'),</span> <span class="pre">'locale_language':</span> <span class="pre">('en',</span> <span class="pre">'ja',</span> <span class="pre">'de',</span> <span class="pre">'fr',</span> <span class="pre">'ko',</span> <span class="pre">'zhs,zht',</span> <span class="pre">'it',</span> <span class="pre">'es',</span> <span class="pre">'he',</span> <span class="pre">'nl',</span> <span class="pre">'sv',</span> <span class="pre">'pl',</span> <span class="pre">'fi',</span> <span class="pre">'da',</span> <span class="pre">'no'),</span> <span class="pre">'locale_ship_to_country':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'locale_site':</span> <span class="pre">('US',</span> <span class="pre">'CA',</span> <span class="pre">'JP',</span> <span class="pre">'UK',</span> <span class="pre">'DE',</span> <span class="pre">'AT',</span> <span class="pre">'BE',</span> <span class="pre">'DK',</span> <span class="pre">'FI',</span> <span class="pre">'GR',</span> <span class="pre">'IE',</span> <span class="pre">'IT',</span> <span class="pre">'LU',</span> <span class="pre">'NL',</span> <span class="pre">'NO',</span> <span class="pre">'PT',</span> <span class="pre">'ES',</span> <span class="pre">'KR',</span> <span class="pre">'HK',</span> <span class="pre">'SG',</span> <span class="pre">'CN',</span> <span class="pre">'TW',</span> <span class="pre">'AU',</span> <span class="pre">'FR',</span> <span class="pre">'IN',</span> <span class="pre">'NZ',</span> <span class="pre">'SE',</span> <span class="pre">'MX',</span> <span class="pre">'CH',</span> <span class="pre">'IL',</span> <span class="pre">'PL',</span> <span class="pre">'SK',</span> <span class="pre">'SI',</span> <span class="pre">'LV',</span> <span class="pre">'LT',</span> <span class="pre">'EE',</span> <span class="pre">'CZ',</span> <span class="pre">'HU',</span> <span class="pre">'BG',</span> <span class="pre">'MY',</span> <span class="pre">'ZA',</span> <span class="pre">'RO',</span> <span class="pre">'TH',</span> <span class="pre">'PH'),</span> <span class="pre">'sandbox':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;}</span></em><a class="headerlink" href="#kicost.distributors.api_digikey.api_digikey.config_options" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">config_options</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">{'client_id':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'client_secret':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'exclude_market_place_products':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'locale_currency':</span> <span class="pre">('USD',</span> <span class="pre">'CAD',</span> <span class="pre">'JPY',</span> <span class="pre">'GBP',</span> <span class="pre">'EUR',</span> <span class="pre">'HKD',</span> <span class="pre">'SGD',</span> <span class="pre">'TWD',</span> <span class="pre">'KRW',</span> <span class="pre">'AUD',</span> <span class="pre">'NZD',</span> <span class="pre">'INR',</span> <span class="pre">'DKK',</span> <span class="pre">'NOK',</span> <span class="pre">'SEK',</span> <span class="pre">'ILS',</span> <span class="pre">'CNY',</span> <span class="pre">'PLN',</span> <span class="pre">'CHF',</span> <span class="pre">'CZK',</span> <span class="pre">'HUF',</span> <span class="pre">'RON',</span> <span class="pre">'ZAR',</span> <span class="pre">'MYR',</span> <span class="pre">'THB',</span> <span class="pre">'PHP'),</span> <span class="pre">'locale_language':</span> <span class="pre">('en',</span> <span class="pre">'ja',</span> <span class="pre">'de',</span> <span class="pre">'fr',</span> <span class="pre">'ko',</span> <span class="pre">'zhs,zht',</span> <span class="pre">'it',</span> <span class="pre">'es',</span> <span class="pre">'he',</span> <span class="pre">'nl',</span> <span class="pre">'sv',</span> <span class="pre">'pl',</span> <span class="pre">'fi',</span> <span class="pre">'da',</span> <span class="pre">'no'),</span> <span class="pre">'locale_ship_to_country':</span> <span class="pre">&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">'locale_site':</span> <span class="pre">('US',</span> <span class="pre">'CA',</span> <span class="pre">'JP',</span> <span class="pre">'UK',</span> <span class="pre">'DE',</span> <span class="pre">'AT',</span> <span class="pre">'BE',</span> <span class="pre">'DK',</span> <span class="pre">'FI',</span> <span class="pre">'GR',</span> <span class="pre">'IE',</span> <span class="pre">'IT',</span> <span class="pre">'LU',</span> <span class="pre">'NL',</span> <span class="pre">'NO',</span> <span class="pre">'PT',</span> <span class="pre">'ES',</span> <span class="pre">'KR',</span> <span class="pre">'HK',</span> <span class="pre">'SG',</span> <span class="pre">'CN',</span> <span class="pre">'TW',</span> <span class="pre">'AU',</span> <span class="pre">'FR',</span> <span class="pre">'IN',</span> <span class="pre">'NZ',</span> <span class="pre">'SE',</span> <span class="pre">'MX',</span> <span class="pre">'CH',</span> <span class="pre">'IL',</span> <span class="pre">'PL',</span> <span class="pre">'SK',</span> <span class="pre">'SI',</span> <span class="pre">'LV',</span> <span class="pre">'LT',</span> <span class="pre">'EE',</span> <span class="pre">'CZ',</span> <span class="pre">'HU',</span> <span class="pre">'BG',</span> <span class="pre">'MY',</span> <span class="pre">'ZA',</span> <span class="pre">'RO',</span> <span class="pre">'TH',</span> <span class="pre">'PH'),</span> <span class="pre">'sandbox':</span> <span class="pre">&lt;class</span> <span class="pre">'bool'&gt;,</span> <span class="pre">'version':</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;}</span></em><a class="headerlink" href="#kicost.distributors.api_digikey.api_digikey.config_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -1552,7 +1550,7 @@ particular KiCost cunrrently supports only ‘en_US’.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="kicost.distributors.api_digikey.api_digikey.env_ops">
-<span class="sig-name descname"><span class="pre">env_ops</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">{'DIGIKEY_CACHE_PATH':</span> <span class="pre">'cache_path',</span> <span class="pre">'DIGIKEY_CACHE_TTL':</span> <span class="pre">'cache_ttl',</span> <span class="pre">'DIGIKEY_CLIENT_ID':</span> <span class="pre">'client_id',</span> <span class="pre">'DIGIKEY_CLIENT_SANDBOX':</span> <span class="pre">'sandbox',</span> <span class="pre">'DIGIKEY_CLIENT_SECRET':</span> <span class="pre">'client_secret',</span> <span class="pre">'DIGIKEY_EXCLUDE_MARKET_PLACE_PRODUCTS':</span> <span class="pre">'exclude_market_place_products',</span> <span class="pre">'DIGIKEY_LOCALE_CURRENCY':</span> <span class="pre">'locale_currency',</span> <span class="pre">'DIGIKEY_LOCALE_LANGUAGE':</span> <span class="pre">'locale_language',</span> <span class="pre">'DIGIKEY_LOCALE_SHIP_TO_COUNTRY':</span> <span class="pre">'locale_ship_to_country',</span> <span class="pre">'DIGIKEY_LOCALE_SITE':</span> <span class="pre">'locale_site',</span> <span class="pre">'DIGIKEY_SANDBOX':</span> <span class="pre">'sandbox',</span> <span class="pre">'DIGIKEY_STORAGE_PATH':</span> <span class="pre">'cache_path'}</span></em><a class="headerlink" href="#kicost.distributors.api_digikey.api_digikey.env_ops" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">env_ops</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">{'DIGIKEY_CACHE_PATH':</span> <span class="pre">'cache_path',</span> <span class="pre">'DIGIKEY_CACHE_TTL':</span> <span class="pre">'cache_ttl',</span> <span class="pre">'DIGIKEY_CLIENT_ID':</span> <span class="pre">'client_id',</span> <span class="pre">'DIGIKEY_CLIENT_SANDBOX':</span> <span class="pre">'sandbox',</span> <span class="pre">'DIGIKEY_CLIENT_SECRET':</span> <span class="pre">'client_secret',</span> <span class="pre">'DIGIKEY_EXCLUDE_MARKET_PLACE_PRODUCTS':</span> <span class="pre">'exclude_market_place_products',</span> <span class="pre">'DIGIKEY_LOCALE_CURRENCY':</span> <span class="pre">'locale_currency',</span> <span class="pre">'DIGIKEY_LOCALE_LANGUAGE':</span> <span class="pre">'locale_language',</span> <span class="pre">'DIGIKEY_LOCALE_SHIP_TO_COUNTRY':</span> <span class="pre">'locale_ship_to_country',</span> <span class="pre">'DIGIKEY_LOCALE_SITE':</span> <span class="pre">'locale_site',</span> <span class="pre">'DIGIKEY_SANDBOX':</span> <span class="pre">'sandbox',</span> <span class="pre">'DIGIKEY_STORAGE_PATH':</span> <span class="pre">'cache_path',</span> <span class="pre">'DIGIKEY_VERSION':</span> <span class="pre">'version'}</span></em><a class="headerlink" href="#kicost.distributors.api_digikey.api_digikey.env_ops" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1579,6 +1577,11 @@ particular KiCost cunrrently supports only ‘en_US’.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="kicost.distributors.api_digikey.api_digikey.url">
 <span class="sig-name descname"><span class="pre">url</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">'https://developer.digikey.com/'</span></em><a class="headerlink" href="#kicost.distributors.api_digikey.api_digikey.url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kicost.distributors.api_digikey.api_digikey.version">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">3</span></em><a class="headerlink" href="#kicost.distributors.api_digikey.api_digikey.version" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -3703,7 +3706,7 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 <p>A class to hold the spreadsheet generation settings</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="kicost.spreadsheet.Spreadsheet.ABOUT_MSG">
-<span class="sig-name descname"><span class="pre">ABOUT_MSG</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">'KiCost®</span> <span class="pre">v1.1.18'</span></em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ABOUT_MSG" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">ABOUT_MSG</span></span><em class="property"><span class="w">  </span><span class="p"><span class="pre">=</span></span><span class="w">  </span><span class="pre">'KiCost®</span> <span class="pre">v1.1.20'</span></em><a class="headerlink" href="#kicost.spreadsheet.Spreadsheet.ABOUT_MSG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -3985,74 +3988,75 @@ argument <cite>false</cite> to convert a symbol to False.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-history">History</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id1">1.1.19 (2023-05-06)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id2">1.1.18 (2023-06-22)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id3">1.1.17 (2023-05-15)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id4">1.1.16 (2023-04-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id5">1.1.15 (2022-12-15)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id6">1.1.14 (2022-12-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id7">1.1.12 (2022-09-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id8">1.1.10 (2022-06-29)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id9">1.1.8 (2022-05-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id10">1.1.6 (2021-10-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id11">1.1.4 (2020-03-24)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id12">1.1.3 (2019-12-31)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id13">1.1.2 (2019-09-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id14">1.1.1 (2019-08-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id15">1.1 (2019-07-15)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id16">1.0.4 (2018-10-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id17">1.0.3 (2018-10-06)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id18">1.0.2 (2018-10-06)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id19">1.0.1 (2018-10-05)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id20">1.0.0 (2018-10-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id21">0.1.47 (2018-08-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id22">0.1.46 (2018-07-04)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id23">0.1.45 (2018-06-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id24">0.1.44 (2018-05-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id25">0.1.43 (2018-03-15)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id26">0.1.42 (2017-12-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id27">0.1.41 (2017-11-16)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id28">0.1.40 (2017-11-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id29">0.1.39 (2017-10-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id30">0.1.38 (2017-10-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id31">0.1.37 (2017-10-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id32">0.1.36 (2017-08-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id33">0.1.35 (2017-04-24)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id34">0.1.34 (2017-03-31)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id35">0.1.33 (2017-02-23)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id36">0.1.32 (2017-02-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id37">0.1.31 (2016-11-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id38">0.1.30 (2016-11-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id39">0.1.29 (2016-08-27)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id40">0.1.28 (2016-08-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id41">0.1.27 (2016-07-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id42">0.1.26 (2016-07-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id43">0.1.25 (2016-06-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id44">0.1.24 (2016-05-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id45">0.1.23 (2016-04-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id46">0.1.22 (2016-04-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id47">0.1.21 (2016-03-20)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id48">0.1.20 (2016-03-20)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id49">0.1.19 (2016-02-12)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id50">0.1.18 (2016-02-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id51">0.1.17 (2016-02-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id52">0.1.16 (2016-01-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id53">0.1.15 (2016-01-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id54">0.1.14 (2015-12-31)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id55">0.1.13 (2015-12-29)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id56">0.1.12 (2015-12-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id57">0.1.11 (2015-12-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id58">0.1.10 (2015-10-08)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id59">0.1.9 (2015-09-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id60">0.1.8 (2015-09-17)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id61">0.1.7 (2015-08-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id62">0.1.6 (2015-08-26)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id63">0.1.5 (2015-07-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id64">0.1.4 (2015-07-09)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id65">0.1.3 (2015-07-07)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id66">0.1.2 (2015-07-04)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id67">0.1.1 (2015-07-02)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id68">0.1.0 (2015-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id1">1.1.20 (2025-03-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id2">1.1.19 (2023-05-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id3">1.1.18 (2023-06-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id4">1.1.17 (2023-05-15)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id5">1.1.16 (2023-04-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id6">1.1.15 (2022-12-15)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id7">1.1.14 (2022-12-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id8">1.1.12 (2022-09-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id9">1.1.10 (2022-06-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id10">1.1.8 (2022-05-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id11">1.1.6 (2021-10-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id12">1.1.4 (2020-03-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id13">1.1.3 (2019-12-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id14">1.1.2 (2019-09-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id15">1.1.1 (2019-08-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id16">1.1 (2019-07-15)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id17">1.0.4 (2018-10-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id18">1.0.3 (2018-10-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id19">1.0.2 (2018-10-06)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id20">1.0.1 (2018-10-05)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id21">1.0.0 (2018-10-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id22">0.1.47 (2018-08-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id23">0.1.46 (2018-07-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id24">0.1.45 (2018-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id25">0.1.44 (2018-05-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id26">0.1.43 (2018-03-15)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id27">0.1.42 (2017-12-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id28">0.1.41 (2017-11-16)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id29">0.1.40 (2017-11-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id30">0.1.39 (2017-10-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id31">0.1.38 (2017-10-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id32">0.1.37 (2017-10-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id33">0.1.36 (2017-08-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id34">0.1.35 (2017-04-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id35">0.1.34 (2017-03-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id36">0.1.33 (2017-02-23)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id37">0.1.32 (2017-02-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id38">0.1.31 (2016-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id39">0.1.30 (2016-11-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id40">0.1.29 (2016-08-27)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id41">0.1.28 (2016-08-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id42">0.1.27 (2016-07-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id43">0.1.26 (2016-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id44">0.1.25 (2016-06-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id45">0.1.24 (2016-05-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id46">0.1.23 (2016-04-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id47">0.1.22 (2016-04-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id48">0.1.21 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id49">0.1.20 (2016-03-20)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id50">0.1.19 (2016-02-12)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id51">0.1.18 (2016-02-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id52">0.1.17 (2016-02-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id53">0.1.16 (2016-01-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id54">0.1.15 (2016-01-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id55">0.1.14 (2015-12-31)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id56">0.1.13 (2015-12-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id57">0.1.12 (2015-12-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id58">0.1.11 (2015-12-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id59">0.1.10 (2015-10-08)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id60">0.1.9 (2015-09-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id61">0.1.8 (2015-09-17)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id62">0.1.7 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id63">0.1.6 (2015-08-26)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id64">0.1.5 (2015-07-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id65">0.1.4 (2015-07-09)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id66">0.1.3 (2015-07-07)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id67">0.1.2 (2015-07-04)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id68">0.1.1 (2015-07-02)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id69">0.1.0 (2015-06-30)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-modules">kicost</a><ul>
@@ -4069,8 +4073,8 @@ argument <cite>false</cite> to convert a symbol to False.</p>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
-        <li class="nav-item nav-item-0"><a href="#">kicost 1.1.18 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">kicost 1.1.18 documentation</a></li> 
+        <li class="nav-item nav-item-0"><a href="#">kicost 1.1.20 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">kicost 1.1.20 documentation</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
