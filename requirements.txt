@@ -8,3 +8,4 @@ wxPython >= 3.0.2 # Graphical package/library needed to user guide.
 colorama  # Colors for terminals
 pyyaml  # YAML parser
 kicost-digikey-api-v3
+kicost-digikey-api-v4
