@@ -1271,7 +1271,7 @@ def add_dist_to_worksheet(ss, columns_global, start_row, start_col, unit_cost_ro
     part_range = xl_range(first_part, part_col, last_part)
     qty_col = col_purch
     qty_range = xl_range(first_part, qty_col, last_part)
-    conditional = '=IF(ISNUMBER({qty})*({qty}>={moq})*({catn}<>""),{{}}&CHAR(10),"")'.format(qty=qty_range, catn=part_range, moq=moq_range)
+    conditional = '=IF(ISNUMBER({qty})*({qty}>={moq})*({catn}<>""),{{}}&CHAR(13),"")'.format(qty=qty_range, catn=part_range, moq=moq_range)
     array_range = xl_range(ORDER_FIRST_ROW, ORDER_START_COL, ORDER_FIRST_ROW + num_parts - 1)
     # Concatenation operator plus distributor code delimiter.
     delimiter = '&"' + order.delimiter + '"&'
@@ -1289,7 +1289,7 @@ def add_dist_to_worksheet(ss, columns_global, start_row, start_col, unit_cost_ro
     if order.header:
         cur_row = ORDER_FIRST_ROW + num_parts
         wks.write_formula(cur_row, ORDER_START_COL,
-                          '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}"&CHAR(10),""),"")'
+                          '=IFERROR(IF(COUNTIFS({count_range},">0",{count_range_price},"<>")>0,"{header}"&CHAR(13),""),"")'
                           .format(count_range=purch_range, count_range_price=ext_price_range, header=order.header), value='')
         # Insert the header as the first line
         order_cells.insert(0, xl_rowcol_to_cell(cur_row, ORDER_START_COL))
