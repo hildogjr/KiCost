@@ -352,7 +352,7 @@ def run_test_check(name, inputs=None, output=None, extra=None, price=True, ret_e
 
 def check_errors(errors):
     res = []
-    global last_err
+    # global last_err
     for error in errors:
         m = re.search(error, last_err, re.MULTILINE)
         assert m is not None, error

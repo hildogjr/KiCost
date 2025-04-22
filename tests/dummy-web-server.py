@@ -101,7 +101,7 @@ class S(BaseHTTPRequestHandler):
 
 
 def load_queries(file):
-    global queries
+    # global queries
     with open(file, 'rt') as f:
         is_query = True
         last_comment = None

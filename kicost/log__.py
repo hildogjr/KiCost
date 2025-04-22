@@ -88,7 +88,7 @@ def error(*args):
 
 
 def get_logger():
-    global main_logger
+    # global main_logger
     return main_logger
 
 

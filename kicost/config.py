@@ -136,7 +136,7 @@ def parse_apis_section(d):
         cp = v.get('cache_path', None)
         if cp:
             v['cache_path'] = config_path('cache_path', cp)
-        global api_options
+        # global api_options
         api_options[k] = v
 
 
