@@ -4,7 +4,6 @@
 import setuptools
 import os
 import re
-import kicost.version
 import subprocess
 
 try:
@@ -47,6 +46,13 @@ def post_install_setup():
             call(['kicost', '--setup'])
     except Exception:
         print('Error to run KiCost integration script.')
+
+
+def get_key(key, data):
+    res = re.search(r"__"+key+"__\s*=\s*'(.*)'", data)
+    assert res
+    # print(f"{key} = '{res.group(1)}'")
+    return res.group(1)
 
 
 class PostDevelopCommand(develop):
@@ -113,6 +119,9 @@ data_files = [
 
 with open('kicost/version.py', 'rt') as f:
     version_py = f.read()
+version = get_key('version', version_py)
+author = get_key('author', version_py)
+email = get_key('email', version_py)
 with open('kicost/version.py', 'wt') as f:
     if 'KICOST_RELEASE' in os.environ:
         res = 'release'
@@ -123,16 +132,16 @@ with open('kicost/version.py', 'wt') as f:
             res = 'unknown'
     f.write(re.sub("__build__ = '(.*)'", "__build__ = '{}'".format(res), version_py))
 if 'KICOST_FAKE_VERSION' in os.environ:
-    kicost.version.__version__ = os.environ['KICOST_FAKE_VERSION']
+    version = os.environ['KICOST_FAKE_VERSION']
 
 setup(
     name='kicost',
-    version=kicost.version.__version__,
+    version=version,
     description="Build cost spreadsheet for a KiCad project.",
     long_description=readme + '\n\n' + history,
     # long_description_content_type="text/reStructuredText",
-    author=kicost.version.__author__,
-    author_email=kicost.version.__email__,
+    author=author,
+    author_email=email,
     url='https://hildogjr.github.io/KiCost',
     project_urls={
         'Doc': 'https://hildogjr.github.io/KiCost',
