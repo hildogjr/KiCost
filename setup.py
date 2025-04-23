@@ -49,7 +49,7 @@ def post_install_setup():
 
 
 def get_key(key, data):
-    res = re.search(r"__"+key+"__\s*=\s*'(.*)'", data)
+    res = re.search("__"+key+r"__\s*=\s*'(.*)'", data)
     assert res
     # print(f"{key} = '{res.group(1)}'")
     return res.group(1)
