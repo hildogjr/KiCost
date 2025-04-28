@@ -53,6 +53,15 @@ def extract_fields(part):
             fields[name] = str(f.string) if f.string is not None else ''
     except AttributeError:
         pass  # No fields found for this part.
+
+    # Extract the property "dnp" shown as a X on the component in eeschema
+    try:
+        for prop in part.find_all('property'):
+            name = str(prop['name'])
+            if name == 'dnp':
+                fields[name] = name
+    except AttributeError:
+        pass  # no property for this part.
     return fields
 
 
