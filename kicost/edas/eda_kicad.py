@@ -24,13 +24,14 @@
 
 # Libraries.
 import os
+import re
 from datetime import datetime
 import re
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 from .. import SEPRTR
 from .eda import eda_class
-from .log__ import debug_overview
+from .log__ import debug_overview, debug_obsessive
 
 
 __all__ = ['eda_kicad']
@@ -70,11 +71,17 @@ def get_part_groups(in_file):
        @return `dict()` of the parts designed. The keys are the componentes references.
     '''
     # Read-in the schematic XML file to get a tree and get its root.
-    debug_overview('# Getting from XML \'{}\' KiCad BoM...'.format(
-                                    os.path.basename(in_file)))
-    file_h = open(in_file)
-    root = BeautifulSoup(file_h, 'xml')
-    file_h.close()
+    debug_overview('# Getting from XML \'{}\' KiCad BoM...'.format(os.path.basename(in_file)))
+    # KiCad uses UTF-8 encoding, some broken Python setups uses CP1252 (see #581)
+    with open(in_file, 'rb') as f:
+        xml = f.read()
+    res = re.search(rb'encoding\s*=\s*"(.*)"', xml)
+    assert res, "Broken XML, no encoding declared"
+    encoding = res.group(1).decode()
+    debug_obsessive('XML encoding: {}'.format(encoding))
+    xml_s = xml.decode(encoding)
+
+    root = BeautifulSoup(xml_s, 'xml')
 
     # Get the general information of the project BoM XML file.
     debug_overview('Getting authorship data...')
