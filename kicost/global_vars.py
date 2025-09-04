@@ -105,6 +105,7 @@ class PartGroup(object):
     '''@brief Class to group components.'''
     def __init__(self):
         # None by default, here to avoid try/except in the code
+        self.refs = None
         self.datasheet = None
         self.lifecycle = None
         self.specs = {}  # Miscellaneous data from the queries
