@@ -30,10 +30,11 @@ __webpage__ = 'https://github.com/set-soft'
 __company__ = 'Instituto Nacional de Tecnologia Industrial - Argentina'
 
 # Libraries.
-import pprint
 import json
-import requests
+import pprint
 import re
+import requests
+import time
 
 # KiCost definitions.
 from .. import KiCostError, DistData, W_NOINFO, W_APIFAIL, ERR_SCRAPE
@@ -297,10 +298,16 @@ class api_mouser(distributor_class):
 
     @staticmethod
     def _query_part_info(parts, distributors, currency):
-        '''Fill-in the parts with price/qty/etc info from KitSpace.'''
+        """ Fill-in the parts with price/qty/etc info from Mouser """
         if DIST_NAME not in distributors:
             debug_overview('# Skipping Mouser plug-in')
             return
+
+        # Track timestamps of API calls in a list
+        api_calls = []
+        LIMIT = 30
+        WINDOW = 60  # seconds
+
         debug_overview('# Getting part data from Mouser...')
         field_cat = DIST_NAME + '#'
         # Setup progress bar to track progress of server queries.
@@ -323,10 +330,25 @@ class api_mouser(distributor_class):
                 if loaded:
                     data = MouserPartSearchRequest.get_clean_response(request)
                 else:
+                    # Rate limiting: Burst up to 30, then slide the window
+                    if len(api_calls) >= LIMIT:
+                        # Check how long ago the 30th-most-recent call was
+                        elapsed = time.time() - api_calls[0]
+                        if elapsed < WINDOW:
+                            wait_time = WINDOW - elapsed + 0.1  # Small buffer
+                            debug_overview(f'# Rate limit reached. Waiting {wait_time:.1f}s...')
+                            time.sleep(wait_time)
+
+                        # Remove the oldest call timestamp as we move the window
+                        api_calls.pop(0)
+
                     request = MouserPartSearchRequest('partnumber', api_mouser.key)
                     if request.part_search(partnumber):
                         data = request.get_clean_response(request.response_parsed)
                         api_mouser.cache.save_results(prefix, partnumber, request.response_parsed)
+
+                    # Record the time of this successful/attempted call
+                    api_calls.append(time.time())
 
             if data is None:
                 warning(W_NOINFO, 'No information found at Mouser for part/s \'{}\''.format(part.refs))
