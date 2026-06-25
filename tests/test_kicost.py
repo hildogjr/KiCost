@@ -115,13 +115,13 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
     for d in ET.parse(styles).getroot().find(ns+'dxfs').iter(ns+'dxf'):
         fg = '-'
         font = d.find(ns+'font')
-        if font:
+        if font is not None:
             fg = font.find(ns+'color').attrib['rgb']
         bg = '-'
         fill = d.find(ns+'fill')
-        if fill:
+        if fill is not None:
             fill = fill.find(ns+'patternFill')
-            if fill:
+            if fill is not None:
                 bg = fill.find(ns+'bgColor').attrib['rgb']
         dxfs.append(fg+'/'+bg)
     # Now the conditions
@@ -143,7 +143,7 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
     urls = {}
     nr = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
     hlinks = root.find(ns+'hyperlinks')
-    if hlinks:
+    if hlinks is not None:
         for r in hlinks.iter(ns+'hyperlink'):
             links[r.attrib['ref']] = r.attrib[nr+'id']
     # Read the strings
