@@ -57,6 +57,7 @@ last_err = None
 # Text we want to filter in the XLSX to TXT conversion
 XLSX_FILTERS = (('$ date:', None), ('Prj date:', '(file'), ('KiCost', 0))
 # OCTOPART_KEY = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+xlsx2csv_version = None
 
 
 def to_str(s):
@@ -239,6 +240,19 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
     return True
 
 
+def do_int(v):
+    return int(v) if v is not None else 0
+
+
+def get_xlsx2csv_version():
+    global xlsx2csv_version
+    if xlsx2csv_version:
+        return xlsx2csv_version
+    res = subprocess.check_output(['xlsx2csv', '--version']).decode()
+    ver = tuple(map(do_int, res.split('.')))
+    return ver
+
+
 def xlsx_to_csv(filename, subdir='result_test', price=True):
     res_csv = os.path.join(TESTDIR, subdir, filename + '.csv')
     out_xlsx = os.path.join(TESTDIR, filename + '.xlsx')
@@ -247,6 +261,8 @@ def xlsx_to_csv(filename, subdir='result_test', price=True):
     cmd = ['xlsx2csv']
     if not price:
         cmd.append('--skipemptycolumns')
+    if get_xlsx2csv_version() >= (0, 8, 0):
+        cmd.append('--include-hidden-rows')
     cmd.append(out_xlsx)
     p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     # Filter it
