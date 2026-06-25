@@ -245,7 +245,6 @@ def do_int(v):
 
 
 def get_xlsx2csv_version():
-    global xlsx2csv_version
     if xlsx2csv_version:
         return xlsx2csv_version
     res = subprocess.check_output(['xlsx2csv', '--version']).decode()
