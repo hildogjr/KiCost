@@ -262,6 +262,9 @@ def xlsx_to_csv(filename, subdir='result_test', price=True):
         cmd.append('--skipemptycolumns')
     if get_xlsx2csv_version() >= (0, 8, 0):
         cmd.append('--include-hidden-rows')
+        # WTF?!
+        cmd.append('--floatformat')
+        cmd.append('%.12f')
     cmd.append(out_xlsx)
     p1 = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     # Filter it
