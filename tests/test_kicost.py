@@ -213,6 +213,7 @@ def xlsx_to_txt(filename, subdir='result_test', sheet=1):
                             skip_str = filter[1]
                     url = urls.get(pos)
                     if url:
+                        url = url.replace('http:///', 'http:')
                         f.write('<a href="{}">{}</a>'.format(url, text))
                     else:
                         f.write('"' + text + '"')
