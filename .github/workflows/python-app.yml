@@ -68,7 +68,7 @@ jobs:
         pytest
     - name: Store results
       if: ${{ always() }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: Test_Output_${{ matrix.python-version }}
         path: tests
