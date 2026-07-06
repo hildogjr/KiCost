@@ -49,8 +49,8 @@ except wxPythonNotPresent:
     # If the wxPython dependences are not installed and the user just want the KiCost CLI.
     GUI_ENABLED = False
 from .spreadsheet import Spreadsheet
-from .config import load_config, config_force_ttl, config_force_path, fill_missing_with_defaults
-from . import __version__, __build__, debug_obsessive, debug_detailed, error, warning, info, get_logger, set_logger, KiCostError
+from .config import load_config, config_force_ttl, config_force_path, fill_missing_with_defaults, log_api_options
+from . import __version__, __build__, debug_obsessive, error, warning, info, get_logger, set_logger, KiCostError
 from . import log
 
 
@@ -154,7 +154,8 @@ def command_line_api_options(api_options, args):
             api_options[api]['enable'] = True
         else:
             warning(W_CMDLINE, 'Unknown API `{}`'.format(api))
-    debug_detailed('Final API options {}'.format(api_options))
+    # debug_detailed('Final API options {}'.format(api_options))
+    log_api_options('Final API options')
 
 
 def configure_kicost_apis(config_file, overwrite, apply_user_opts, data):
