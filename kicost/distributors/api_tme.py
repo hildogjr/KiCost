@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # MIT license
 #
-# Copyright (C) 2022 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial
+# Copyright (C) 2022-2026 by Salvador E. Tropea / Instituto Nacional de Tecnologia Industrial
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,6 +22,10 @@
 # THE SOFTWARE.
 #
 # I took the basic query from https://github.com/krzych82/api-client-python3.git
+# https://api-doc.tme.eu/v1
+# https://api-doc.tme.eu/v2 <- tokens generated after 2026-05-14
+#
+# Migration from v1 to v2 assisted by Gemini 3.1 Pro
 
 # Author information.
 __author__ = 'Salvador Eduardo Tropea'
@@ -35,14 +39,12 @@ import difflib
 import collections
 import json
 import base64
-import hmac
-import hashlib
 import time
 if sys.version_info[0] < 3:
-    from urllib import quote, urlencode
+    from urllib import urlencode
     from urllib2 import Request, urlopen, URLError
 else:
-    from urllib.parse import quote, urlencode
+    from urllib.parse import urlencode
     from urllib.request import Request, urlopen
     from urllib.error import URLError
 
@@ -88,167 +90,283 @@ class TME(object):
         self.country = country
         self.language = language
         self.token = token
-        self.app_secret = do_encode(app_secret)
+        self.app_secret = app_secret
         self.cache = cache
+        self.access_token = None
         # Check the language
         lng = self.get_languages()
         if language not in lng:
-            self.language = 'EN'
-            debug_overview('Language `{}` not supported using `EN`'.format(language))
+            self.language = 'en'
+            debug_overview('Language `{}` not supported using `en`'.format(language))
         debug_overview('Using `{}`'.format(self.language))
         # Check the selected country
         cnt = self.get_countries()
         country_l = country.lower()
-        cnt_data = next(iter(filter(lambda x: x['CountryId'].lower() == country_l, cnt)), None)
+        cnt_data = next(iter(filter(lambda x: x['id'].lower() == country_l, cnt)), None)
         if cnt_data is None:
             raise TMEError("Unsupported country `{}`".format(country))
+        currencies = self.get_currencies()
         # Check if the currency is supported for this country
-        if currency not in cnt_data['CurrencyList']:
-            # Nope, use the default for this country
-            self.currency = cnt_data['Currency']
+        if currency not in currencies:
+            # Nope, use one valid
+            self.currency = currencies[-1]
             debug_overview('Currency `{}` not supported for `{}` using `{}`'.format(currency, country, self.currency))
-        debug_overview('Using `{}` for `{}`'.format(self.currency, cnt_data['Name']))
+        debug_overview('Using `{}` for `{}`'.format(self.currency, cnt_data['name']))
 
-    def _get_signature_base(self, url, params):
-        params = collections.OrderedDict(sorted(params.items()))
-        encoded_params = urlencode(params)
-        signature_base = 'POST'+'&'+quote(url, '')+'&'+quote(encoded_params, '')
-        return do_encode(signature_base)
+    def _fetch_oauth_token(self):
+        url = BASE_URL + '/auth/token'
 
-    def _calculate_signature(self, url, params):
-        hmac_value = hmac.new(self.app_secret, self._get_signature_base(url, params), hashlib.sha1).digest()
-        return base64.encodebytes(hmac_value).rstrip()
+        credentials = self.token + ":" + self.app_secret
+        b64_creds = base64.b64encode(credentials.encode()).decode('ascii')
 
-    def request(self, endpoint, params, format='json'):
-        url = BASE_URL+endpoint+'.'+format
-        params['Token'] = self.token
-        params['ApiSignature'] = self._calculate_signature(url, params)
-        data = do_encode(urlencode(params))
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-        return Request(url, data, headers)
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Authorization": "Basic " + b64_creds
+        }
 
-    def json_request(self, endpoint, params={}):
-        reason = code = None
-        debug_obsessive('TME json request endpoint {} params {}'.format(endpoint, params))
+        # URL encode the body payload and encode to bytes for the request
+        data = do_encode(urlencode({'grant_type': 'client_credentials'}))
+
+        debug_obsessive('Fetching TME OAuth token from {}'.format(url))
         try:
-            response = urlopen(self.request(endpoint, params))
+            req = Request(url, data=data, headers=headers)
+            response = urlopen(req)
+
+            # Read and decode the response
+            response_body = response.read()
+            if sys.version_info[0] >= 3:
+                response_body = response_body.decode('utf-8')
+
+            token_data = json.loads(response_body)
+            debug_obsessive('OAuth token successfully retrieved.')
+            return token_data['access_token']
+
         except URLError as e:
-            reason = e.reason
-            code = e.code
-        if code == 403:
-            # Sometimes when we ask too fast
-            time.sleep(1)
+            code = getattr(e, 'code', None)
+            reason = getattr(e, 'reason', str(e))
+            # Attempt to read the error body for more context if available
+            error_body = ""
+            if hasattr(e, 'read'):
+                error_body = e.read()
+                if sys.version_info[0] >= 3:
+                    error_body = error_body.decode('utf-8')
+
+            raise TMEError("OAuth token request failed: `{}` ({}) - {}".format(reason, code, error_body))
+
+    def request(self, endpoint, params):
+        if self.access_token is None:
+            self.access_token = self._fetch_oauth_token()
+
+        url = BASE_URL + endpoint
+
+        if params:
+            # Using OrderedDict ensures deterministic URLs (helpful for caching/debugging)
+            ordered_params = collections.OrderedDict(sorted(params.items()))
+            query_string = urlencode(ordered_params)
+            url += '?' + query_string
+
+        headers = {
+            "Authorization": "Bearer " + self.access_token,
+            "Accept": "application/json",
+            "Accept-Language": self.language
+        }
+
+        # By omitting the 'data' parameter, urllib treats this as a GET request
+        return Request(url, headers=headers)
+
+    def json_request(self, endpoint, params=None):
+        if params is None:
+            params = {}
+
+        debug_obsessive('TME json request endpoint {} params {}'.format(endpoint, params))
+
+        max_retries = 3
+        for attempt in range(max_retries):
+            reason = code = None
             try:
-                response = urlopen(self.request(endpoint, params))
+                req = self.request(endpoint, params)
+                response = urlopen(req)
+                break  # Success! Break out of the retry loop.
+
             except URLError as e:
-                reason = e.reason
-                code = e.code
-        if reason:
-            raise TMEError("Server error `{}` ({})".format(reason, code))
-        data = json.loads(response.read())
-        return data['Data']
+                code = getattr(e, 'code', None)
+                reason = getattr(e, 'reason', str(e))
+
+                if code == 401:
+                    # Token expired or invalid. Fetch a new one and retry.
+                    debug_overview('TME API token expired (401). Refreshing token...')
+                    self.access_token = self._fetch_oauth_token()
+                    continue
+
+                elif code in (403, 429):
+                    # Rate limited by TME server. Wait and retry.
+                    debug_obsessive('TME API rate limited ({}). Waiting 1s...'.format(code))
+                    time.sleep(1)
+                    continue
+
+                else:
+                    # Break immediately on other HTTP errors (e.g., 400 Bad Request)
+                    raise TMEError("Server error `{}` ({}) on endpoint {}".format(reason, code, endpoint))
+        else:
+            # This triggers if the loop finishes without hitting `break`
+            raise TMEError("Server error: Max retries ({}) exceeded for endpoint {}".format(max_retries, endpoint))
+
+        # Parse the JSON response gracefully for Python 2 & 3
+        response_body = response.read()
+        if sys.version_info[0] >= 3:
+            response_body = response_body.decode('utf-8')
+
+        data = json.loads(response_body)
+
+        # API v1 wrapped responses in a "Data" dictionary.
+        # API v2 might return the structure directly. This safely handles both.
+        return data.get('data', data.get('Data', data))
 
     def get_countries(self):
         language = self.language
         data, loaded = self.cache.load_results('all', 'countries_'+language)
         if loaded:
             debug_obsessive('Data from cache: '+pprint.pformat(data))
-            return data['CountryList']
-        data = self.json_request('/Utils/GetCountries', {'Language': language})
+            v1 = data.get('CountryList')
+            if v1 is not None:
+                return [{"id": e.get('CountryId'), "name": e.get('Name')} for e in v1]
+            return data['elements']
+        data = self.json_request('/utils/countries')
         debug_obsessive('Data from web: '+pprint.pformat(data))
         self.cache.save_results('all', 'countries_'+language, data)
-        return data['CountryList']
+        return data['elements']
+
+    def get_currencies(self):
+        country = self.country
+        data, loaded = self.cache.load_results(country, 'currencies')
+        if loaded:
+            debug_obsessive('Data from cache: '+pprint.pformat(data))
+            return data['currencies']
+        data = self.json_request('/utils/currencies', {'country': country})
+        debug_obsessive('Data from web: '+pprint.pformat(data))
+        self.cache.save_results(country, 'currencies', data)
+        return data['currencies']
 
     def get_languages(self):
         data, loaded = self.cache.load_results('all', 'languages')
         if loaded:
             debug_obsessive('Data from cache: '+pprint.pformat(data))
-            return data['LanguageList']
-        data = self.json_request('/Utils/GetLanguages')
+            return data.get('languages', data.get('LanguageList'))
+        data = self.json_request('/utils/languages')
         debug_obsessive('Data from web: '+pprint.pformat(data))
         self.cache.save_results('all', 'languages', data)
-        return data['LanguageList']
+        return data['languages']
+
+    def create_full_cache_name(self, name=''):
+        return name+'_'+self.country+'_'+self.language+'_'+self.currency+'_v2'
 
     def get_from_cache(self, symbol):
-        full_name = symbol+'_'+self.country+'_'+self.language+'_'+self.currency
-        data, loaded = self.cache.load_results('data', full_name)
+        data, loaded = self.cache.load_results('data', self.create_full_cache_name(symbol))
         if loaded:
             debug_obsessive('Data from cache: '+pprint.pformat(data))
             return data
         return None
 
-    def _get_products(self, symbols, kind, currency=False):
-        parameters = {'Country': self.country,
-                      'Language': self.language}
+    def _get_products(self, symbols, endpoint, currency=False, extra_params=None):
+        parameters = {'country': self.country}
         if currency:
-            parameters['Currency'] = self.currency
+            parameters['currency'] = self.currency
+        if extra_params:
+            parameters.update(extra_params)
+
         for c, s in enumerate(symbols):
-            parameters['SymbolList[{}]'.format(c)] = s
+            parameters['symbols[{}]'.format(c)] = s
+
         debug_obsessive(parameters)
-        data = self.json_request('/Products/'+kind, parameters)
+        data = self.json_request(endpoint, parameters)
         debug_obsessive('Data from web: '+pprint.pformat(data))
-        return data['ProductList']
+
+        # Defensive extraction of product lists across v2 response structures
+        if isinstance(data, list):
+            return data
+        if isinstance(data, dict):
+            if 'ProductList' in data:
+                return data['ProductList']
+            if 'elements' in data:
+                return data['elements']
+            if 'products' in data:
+                prods = data['products']
+                if isinstance(prods, list):
+                    return prods
+                if isinstance(prods, dict) and 'elements' in prods:
+                    return prods['elements']
+        return []
 
     def get_products(self, symbols):
-        return self._get_products(symbols, 'GetProducts')
+        return self._get_products(symbols, '/products')
 
     def get_prices(self, symbols):
-        return self._get_products(symbols, 'GetPricesAndStocks', currency=True)
+        # In v2 /products/data, scope[] is required to define what data to retrieve
+        extra = {'scope[0]': 'prices', 'scope[1]': 'stock'}
+        return self._get_products(symbols, '/products/data', currency=True, extra_params=extra)
 
     def get_parameters(self, symbols):
-        return self._get_products(symbols, 'GetParameters')
+        return self._get_products(symbols, '/products/parameters')
 
     def get_files(self, symbols):
-        return self._get_products(symbols, 'GetProductsFiles')
+        return self._get_products(symbols, '/products/files')
 
     def get_part_info(self, missing, known):
         products = self.get_products(missing)
         prices = self.get_prices(missing)
         parameters = self.get_parameters(missing)
         files = self.get_files(missing)
+
         # Join all the data
         all_data = {s: {} for s in missing}
         for d in products+prices+parameters+files:
-            all_data[d['Symbol']].update(d)
+            all_data[d['symbol']].update(d)
+
         # Cache the data and it to the known
-        qual_name = '_'+self.country+'_'+self.language+'_'+self.currency
+        qual_name = self.create_full_cache_name()
         for k, v in all_data.items():
             self.cache.save_results('data', k+qual_name, v)
             known[k] = v
 
     def search(self, name):
         # Try to get the data from the cache
-        full_name = name+'_'+self.country+'_'+self.language+'_'+self.currency
+        full_name = self.create_full_cache_name(name)
         data, loaded = self.cache.load_results('search', full_name)
         if loaded:
             debug_obsessive('Data from cache: '+pprint.pformat(data))
             return data
-        # The docs suggest that spaces are allowed, but I get 400 (Bad Request)
+
+        # v1: The docs suggest that spaces are allowed, but replacing them is safer.
+        # v2: This should avoid interpreting it as different words to search
         name = name.replace(' ', '-')
-        parameters = {'Country': self.country,
-                      'Language': self.language,
-                      'SearchPlain': name,
-                      'SearchOrder': 'PRICE_FIRST_QUANTITY',
-                      'SearchOrderType': 'ASC'}
-        data = self.json_request('/Products/Search', parameters)
+
+        parameters = {
+            'country': self.country,
+            'phrase': name,
+            'scope[0]': 'products',
+            'scope[1]': 'counters',
+            'sort[property]': 'PRICE_FIRST_QUANTITY',
+            'sort[direction]': 'asc',
+            'limit': 100,   # v2 supports 100 (v1 20)
+            'page': 1
+        }
+
+        data = self.json_request('/products/search', parameters)
         debug_obsessive('Data from web: '+pprint.pformat(data))
-        total = data['Amount']
-        if total > 20:
+
+        # In v2, pagination info is under 'counters' and the list is under 'products' -> 'elements'
+        total = data['counters']['count']
+        product_list = data['products']['elements']
+
+        if total > 100:
             # Get the rest of the matches
-            product_list = data['ProductList']
             page = 2
             while len(product_list) < total:
-                parameters = {'Country': self.country,
-                              'Language': self.language,
-                              'SearchPlain': name,
-                              'SearchOrder': 'PRICE_FIRST_QUANTITY',
-                              'SearchOrderType': 'ASC',
-                              'SearchPage': str(page)}
-                data = self.json_request('/Products/Search', parameters)
-                product_list.extend(data['ProductList'])
-                page = page+1
-        else:
-            product_list = data['ProductList']
+                parameters['page'] = page
+                data = self.json_request('/products/search', parameters)
+                product_list.extend(data['products']['elements'])
+                page += 1
+
         self.cache.save_results('search', full_name, product_list)
         return product_list
 
@@ -354,47 +472,69 @@ class api_tme(distributor_class):
             if not part_stock:
                 warning(W_NOINFO, 'No information found at TME for part/s \'{}\''.format(part.refs))
                 continue
+
             data = symbols[part_stock]
             debug_obsessive('* Part info before adding data:')
             debug_obsessive(pprint.pformat(part.__dict__))
             debug_obsessive('* Data found:')
             debug_obsessive(pprint.pformat(data))
+
             if part.datasheet is None:
-                ds = next(iter(filter(lambda x: x['DocumentType'] in ['INS', 'DTE'], data['Files']['DocumentList'])), None)
-                if ds:
-                    part.datasheet = ds['DocumentUrl']
+                docs = data.get('documents', {}).get('elements', [])
+                for x in docs:
+                    doc_type = x.get('type', '')
+                    if doc_type in ['INS', 'DTE', 'datasheet', 'data_sheet']:
+                        part.datasheet = x.get('url')
+                        if part.datasheet:
+                            break
+
+            # Specifications / Parameters Mapping
             specs = {}
-            for sp in data.get('ParameterList', []):
-                name = sp['ParameterName']
-                name_l = name.lower()
-                value = sp['ParameterValue']
-                specs[name_l] = (name, value)
+            params = data.get('parameters', {}).get('elements', [])
+            for sp in params:
+                name = sp.get('name', '')
+                if not name:
+                    continue
+                values_list = sp.get('values', [])
+                value = ", ".join([str(v.get('value', '')) for v in values_list])
+                specs[name.lower()] = (name, value)
             part.update_specs(specs)
+
             dd = part.dd.get(DIST_NAME, DistData())
-            dd.moq = data['MinAmount']
-            dd.qty_increment = data['Multiples']
-            dd.url = data['ProductInformationPage']
+
+            # Stock & Ordering Mapping
+            dd.moq = data.get('minimal_amount', 1)
+            dd.qty_increment = data.get('multiples', 1)
+            dd.qty_avail = data.get('stock_quantity', 0)
+            dd.part_num = part_stock
+
+            # URL Mapping
+            dd.url = data.get('product_information_page')
+            if not dd.url:
+                dd.url = 'https://www.tme.eu/{}/details/{}'.format(api_tme.language, part_stock)
             if dd.url and dd.url.startswith('//'):
                 dd.url = 'https:'+dd.url
-            dd.part_num = part_stock
-            dd.qty_avail = data['Amount']
-            dd.currency = o.currency
-            prices = data.get('PriceList', None)
-            if prices:
-                dd.price_tiers = {p['Amount']: p['PriceValue'] for p in prices}
+
+            # Pricing Mapping
+            dd.currency = data.get('prices', {}).get('currency', o.currency)
+            price_list = data.get('prices', {}).get('elements', [])
+            if price_list:
+                dd.price_tiers = {p.get('amount'): p.get('price') for p in price_list}
+
             # Extra information
-            dd.extra_info['desc'] = data['Description']
+            dd.extra_info['desc'] = data.get('description', '')
             value = ''
             for spec in ('capacitance', 'resistance', 'inductance'):
                 val = specs.get(spec, None)
                 if val:
                     value += val[1] + ' '
             if value:
-                dd.extra_info['value'] = value
+                dd.extra_info['value'] = value.strip()
             for spec, name in SPEC_NAMES.items():
                 val = specs.get(spec, None)
                 if val:
                     dd.extra_info[name] = val[1]
+
             part.dd[DIST_NAME] = dd
             debug_obsessive('* Part info after adding data:')
             debug_obsessive(pprint.pformat(part.__dict__))
@@ -416,10 +556,14 @@ class api_tme(distributor_class):
 MANF_CHANGES = {'fairchild': 'onsemi'}
 
 
+def _get_manufacturer(d, unk=True):
+    return d.get('manufacturer', {}).get('name', 'Unknown' if unk else '')
+
+
 def _get_key(d, qty):
     """ Sorting criteria for the suggested option """
-    moq = d['MinAmount']
-    status = d['ProductStatusList']
+    moq = d.get('minimal_amount', 1)
+    status = d.get('product_status', [])
     cannot_be_ordered = 'CANNOT_BE_ORDERED' in status
     hardly_available = 'HARDLY_AVAILABLE' in status
     return (cannot_be_ordered,  # Put first the ones in stock
@@ -431,9 +575,11 @@ def _filter_by_manf(data, manf):
     """ Select the best matches according to the manufacturer """
     if not manf:
         return data
-    manfs = {d['Producer'].lower() for d in data}
-    if len(manfs) == 1:
+
+    manfs = {d['manufacturer']['name'].lower() for d in data if 'manufacturer' in d}
+    if len(manfs) <= 1:
         return data
+
     manf = manf.lower()
     best_matches = difflib.get_close_matches(manf, manfs)
     if len(best_matches) == 0:
@@ -446,8 +592,9 @@ def _filter_by_manf(data, manf):
             best_matches = difflib.get_close_matches(new_name, manfs)
         if len(best_matches) == 0:
             return data
+
     best_match = best_matches[0]
-    return list(filter(lambda x: x['Producer'].lower() == best_match, data))
+    return list(filter(lambda x: _get_manufacturer(x, unk=False).lower() == best_match, data))
 
 
 def _list_comp_options(data, show, msg):
@@ -456,8 +603,13 @@ def _list_comp_options(data, show, msg):
         return
     debug_full('  - '+msg)
     for c, d in enumerate(data):
+        producer = _get_manufacturer(d)
+        # v2 returns original symbols as an array 'manufacturer_symbols'
+        mfg_symbols = d.get('manufacturer_symbols', [])
+        orig_symbol = mfg_symbols[0] if mfg_symbols else 'N/A'
+
         debug_full('  {}) {} {} moq: {} status: {}'.
-                   format(c+1, d['Producer'], d['OriginalSymbol'], d['MinAmount'], d['ProductStatusList']))
+                   format(c+1, producer, orig_symbol, d.get('minimal_amount'), d.get('product_status')))
 
 
 def _select_best(data, manf, qty):
@@ -466,21 +618,26 @@ def _select_best(data, manf, qty):
     if c == 0:
         return None
     if c == 1:
-        return data[0]['Symbol']
+        return data[0]['symbol']
+
     debug_obsessive(' - Choosing the best match ({} options, qty: {} manf: {})'.format(c, qty, manf))
     ultra_debug = is_debug_full()
     _list_comp_options(data, ultra_debug, 'Original list')
+
     # Try to choose the best manufacturer
     data2 = _filter_by_manf(data, manf)
     if data != data2:
-        debug_obsessive(' - Selected manf `{}`'.format(data2[0]['Producer']))
+        producer = _get_manufacturer(data2[0])
+        debug_obsessive(' - Selected manf `{}`'.format(producer))
         _list_comp_options(data2, ultra_debug, 'Manufacturer selected')
         if len(data2) == 1:
-            return data2[0]['Symbol']
+            return data2[0]['symbol']
+
     # Sort the results according to the best availability/price
     data3 = sorted(data2, key=lambda x: _get_key(x, qty))
     _list_comp_options(data3, ultra_debug, 'Sorted')
-    return data3[0]['Symbol']
+
+    return data3[0]['symbol']
 
 
 distributor_class.register(api_tme, 100)
