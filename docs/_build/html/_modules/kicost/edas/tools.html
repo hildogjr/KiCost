@@ -4,11 +4,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.edas.tools &#8212; kicost 1.1.20 documentation</title>
+    <title>kicost.edas.tools &#8212; kicost 1.1.21 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/classic.css?v=2bf1fcf8" />
     
-    <script src="../../../_static/documentation_options.js?v=88e83a66"></script>
+    <script src="../../../_static/documentation_options.js?v=2c90be7f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -24,7 +24,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.20 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.21 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../edas.html" accesskey="U">kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.tools</a></li> 
@@ -188,15 +188,8 @@
         <span class="c1"># Don&#39;t use the manufacturer&#39;s part number when calculating the hash!</span>
         <span class="c1"># Also, don&#39;t use any fields with SEPRTR in the label because that indicates</span>
         <span class="c1"># a field used by a specific tool (including KiCost).</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">FIELDS_NOT_HASH</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fields</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_NOT_HASH</span> <span class="ow">and</span> <span class="n">SEPRTR</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span>
-        <span class="n">hash_fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fields</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_NOT_HASH</span> <span class="ow">and</span> <span class="n">SEPRTR</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">hash_fields</span><span class="p">))))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">hash_fields</span><span class="p">))</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">hash_fields</span> <span class="o">=</span> <span class="p">(</span><span class="n">fields</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fields</span> <span class="k">if</span> <span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">FIELDS_NOT_HASH</span> <span class="ow">and</span> <span class="n">SEPRTR</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">k</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="nb">hash</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">hash_fields</span><span class="p">)))</span>
 
         <span class="c1"># Now add the hashed component to the group with the matching hash</span>
         <span class="c1"># or create a new group if the hash hasn&#39;t been seen before.</span>
@@ -224,7 +217,7 @@
         <span class="k">for</span> <span class="n">g</span><span class="p">,</span> <span class="n">grp</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">component_groups</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
             <span class="n">debug_full</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">grp</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">grp</span><span class="o">.</span><span class="n">refs</span><span class="p">:</span>
-                <span class="n">debug_full</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="n">r</span><span class="p">]))</span>
+                <span class="n">debug_full</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="n">r</span><span class="p">]))</span>
 
     <span class="c1"># Now we have groups of seemingly identical parts. But some of the parts</span>
     <span class="c1"># within a group may have different manufacturer&#39;s part numbers, and these</span>
@@ -274,7 +267,6 @@
             <span class="n">manfcat_num</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FIELDS_MANFCAT</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">grp</span><span class="o">.</span><span class="n">manfcat_codes</span><span class="p">[</span><span class="n">f</span><span class="p">])</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">i_manfcat</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
                     <span class="n">manfcat_num</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">grp</span><span class="o">.</span><span class="n">manfcat_codes</span><span class="p">[</span><span class="n">f</span><span class="p">])[</span><span class="n">i_manfcat</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
                     <span class="c1"># If not have more code in the set list, is because just</span>
@@ -283,19 +275,12 @@
             <span class="n">sub_group</span> <span class="o">=</span> <span class="n">PartGroup</span><span class="p">()</span>
             <span class="n">sub_group</span><span class="o">.</span><span class="n">manfcat_codes</span> <span class="o">=</span> <span class="n">manfcat_num</span>
             <span class="n">sub_group</span><span class="o">.</span><span class="n">refs</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----- &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">FIELDS_MANFCAT</span><span class="p">))</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">manfcat_num</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">ref</span> <span class="ow">in</span> <span class="n">grp</span><span class="o">.</span><span class="n">refs</span><span class="p">:</span>
                 <span class="c1"># Use get() which returns `None` if the component has no</span>
                 <span class="c1"># manf# or distributor# field. That will match if the</span>
                 <span class="c1"># group manf_num is also None. So append the par to the group.</span>
-                <span class="nb">print</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
-                <span class="nb">print</span><span class="p">([</span><span class="n">get_manfcat</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="n">ref</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">manfcat_num</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FIELDS_MANFCAT</span><span class="p">])</span>
-                <span class="nb">print</span><span class="p">([</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">get_manfcat</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="n">ref</span><span class="p">],</span><span class="w"> </span><span class="n">f</span><span class="p">)</span><span class="si">}</span><span class="s2"> == </span><span class="si">{</span><span class="n">manfcat_num</span><span class="p">[</span><span class="n">f</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FIELDS_MANFCAT</span><span class="p">])</span>
-                <span class="nb">print</span><span class="p">(</span><span class="nb">all</span><span class="p">([</span><span class="n">get_manfcat</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="n">ref</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">manfcat_num</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FIELDS_MANFCAT</span><span class="p">]))</span>
                 <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">get_manfcat</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="n">ref</span><span class="p">],</span> <span class="n">f</span><span class="p">)</span> <span class="o">==</span> <span class="n">manfcat_num</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">FIELDS_MANFCAT</span><span class="p">]):</span>
                     <span class="n">sub_group</span><span class="o">.</span><span class="n">refs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
-            <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">sub_group</span><span class="o">.</span><span class="n">refs</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sub_group</span><span class="o">.</span><span class="vm">__dict__</span>
             <span class="n">new_component_groups</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_group</span><span class="p">)</span>  <span class="c1"># Append one part of the split group.</span>
     <span class="k">if</span> <span class="n">ultra_debug</span><span class="p">:</span>
         <span class="n">debug_full</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n\n\n</span><span class="s1">2++++++++++++++&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">new_component_groups</span><span class="p">)))</span>
@@ -303,7 +288,6 @@
             <span class="n">debug_full</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">grp</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
             <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">grp</span><span class="o">.</span><span class="n">refs</span><span class="p">:</span>
                 <span class="n">debug_full</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">components</span><span class="p">[</span><span class="n">r</span><span class="p">]))</span>
-    <span class="k">assert</span> <span class="kc">False</span>
 
     <span class="c1"># If the identical components grouped have difference in the `fields_merge`</span>
     <span class="c1"># so replace this field with a string composed line-by-line with the</span>
@@ -903,7 +887,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.20 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.21 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../edas.html" >kicost.edas</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.edas.tools</a></li> 

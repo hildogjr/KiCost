@@ -4,11 +4,11 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kicost.distributors.api_mouser &#8212; kicost 1.1.20 documentation</title>
+    <title>kicost.distributors.api_mouser &#8212; kicost 1.1.21 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../../../_static/classic.css?v=2bf1fcf8" />
     
-    <script src="../../../_static/documentation_options.js?v=88e83a66"></script>
+    <script src="../../../_static/documentation_options.js?v=2c90be7f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     
@@ -24,7 +24,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.20 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.21 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" accesskey="U">kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_mouser</a></li> 
@@ -69,10 +69,11 @@
 <span class="n">__company__</span> <span class="o">=</span> <span class="s1">&#39;Instituto Nacional de Tecnologia Industrial - Argentina&#39;</span>
 
 <span class="c1"># Libraries.</span>
-<span class="kn">import</span> <span class="nn">pprint</span>
 <span class="kn">import</span> <span class="nn">json</span>
-<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">time</span>
 
 <span class="c1"># KiCost definitions.</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="kn">import</span> <span class="n">KiCostError</span><span class="p">,</span> <span class="n">DistData</span><span class="p">,</span> <span class="n">W_NOINFO</span><span class="p">,</span> <span class="n">W_APIFAIL</span><span class="p">,</span> <span class="n">ERR_SCRAPE</span>
@@ -341,10 +342,16 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_query_part_info</span><span class="p">(</span><span class="n">parts</span><span class="p">,</span> <span class="n">distributors</span><span class="p">,</span> <span class="n">currency</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&#39;&#39;&#39;Fill-in the parts with price/qty/etc info from KitSpace.&#39;&#39;&#39;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Fill-in the parts with price/qty/etc info from Mouser &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">DIST_NAME</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">distributors</span><span class="p">:</span>
             <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Skipping Mouser plug-in&#39;</span><span class="p">)</span>
             <span class="k">return</span>
+
+        <span class="c1"># Track timestamps of API calls in a list</span>
+        <span class="n">api_calls</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">LIMIT</span> <span class="o">=</span> <span class="mi">30</span>
+        <span class="n">WINDOW</span> <span class="o">=</span> <span class="mi">60</span>  <span class="c1"># seconds</span>
+
         <span class="n">debug_overview</span><span class="p">(</span><span class="s1">&#39;# Getting part data from Mouser...&#39;</span><span class="p">)</span>
         <span class="n">field_cat</span> <span class="o">=</span> <span class="n">DIST_NAME</span> <span class="o">+</span> <span class="s1">&#39;#&#39;</span>
         <span class="c1"># Setup progress bar to track progress of server queries.</span>
@@ -367,10 +374,25 @@
                 <span class="k">if</span> <span class="n">loaded</span><span class="p">:</span>
                     <span class="n">data</span> <span class="o">=</span> <span class="n">MouserPartSearchRequest</span><span class="o">.</span><span class="n">get_clean_response</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Rate limiting: Burst up to 30, then slide the window</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">api_calls</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">LIMIT</span><span class="p">:</span>
+                        <span class="c1"># Check how long ago the 30th-most-recent call was</span>
+                        <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">api_calls</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">elapsed</span> <span class="o">&lt;</span> <span class="n">WINDOW</span><span class="p">:</span>
+                            <span class="n">wait_time</span> <span class="o">=</span> <span class="n">WINDOW</span> <span class="o">-</span> <span class="n">elapsed</span> <span class="o">+</span> <span class="mf">0.1</span>  <span class="c1"># Small buffer</span>
+                            <span class="n">debug_overview</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;# Rate limit reached. Waiting </span><span class="si">{</span><span class="n">wait_time</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">s...&#39;</span><span class="p">)</span>
+                            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">wait_time</span><span class="p">)</span>
+
+                        <span class="c1"># Remove the oldest call timestamp as we move the window</span>
+                        <span class="n">api_calls</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
                     <span class="n">request</span> <span class="o">=</span> <span class="n">MouserPartSearchRequest</span><span class="p">(</span><span class="s1">&#39;partnumber&#39;</span><span class="p">,</span> <span class="n">api_mouser</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">part_search</span><span class="p">(</span><span class="n">partnumber</span><span class="p">):</span>
                         <span class="n">data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">get_clean_response</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">response_parsed</span><span class="p">)</span>
                         <span class="n">api_mouser</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">save_results</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">partnumber</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">response_parsed</span><span class="p">)</span>
+
+                    <span class="c1"># Record the time of this successful/attempted call</span>
+                    <span class="n">api_calls</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
 
             <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">warning</span><span class="p">(</span><span class="n">W_NOINFO</span><span class="p">,</span> <span class="s1">&#39;No information found at Mouser for part/s </span><span class="se">\&#39;</span><span class="si">{}</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">refs</span><span class="p">))</span>
@@ -464,7 +486,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.20 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">kicost 1.1.21 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../distributors.html" >kicost.distributors</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">kicost.distributors.api_mouser</a></li> 
