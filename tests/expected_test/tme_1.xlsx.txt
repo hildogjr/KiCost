@@ -18,7 +18,7 @@ Row: 2
  Col: G
    "Unit Cost:"
  Col: H
-   7.2083
+   12.0056
   Formula: TotalCost/BoardQty
 Row: 3
  Col: A
@@ -28,13 +28,13 @@ Row: 3
  Col: G
    "Total Cost:"
  Col: H
-   720.825
+   1200.56
   Formula: SUM(H7:H53)
  Col: M
-   720.825
+   1200.56
   Formula: SUM(M7:M53)
  Col: N
-   "25 of 47 parts found"
+   "34 of 47 parts found"
   Formula: (COUNTA(M7:M53)&" of "&ROWS(M7:M53)&" parts found")
 Row: 4
  Col: A
@@ -177,13 +177,13 @@ Row: 11
   - greaterThan SUM(I11) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K11),J11,0)) -> -/FFFFFF00
  Col: G
-   0.06931
+   0.0487
   Formula: IF(MIN(K11)<>0,MIN(K11),"")
  Col: H
-   83.172
+   58.44
   Formula: IF(AND(ISNUMBER(F11),ISNUMBER(G11)),F11*G11,"")
  Col: I
-   28330
+   130030
   Styles:
   - lessThan F11 -> FF000000/FFFF9900
  Col: J
@@ -191,15 +191,15 @@ Row: 11
   - =AND(J11>0,MOD(J11,L11)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J11)),OR(I11="NonStk",J11>I11)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.06931
-  Formula: IFERROR(IF(OR(J11>=L11,F11>=L11),LOOKUP(IF(J11="",F11,J11),{0,1,10,100,1000,3000,12000},{0.0,0.25868,0.25868,0.09375,0.06931,0.05992,0.05815}),"MOQ="&L11),"")
+   0.0487
+  Formula: IFERROR(IF(OR(J11>=L11,F11>=L11),LOOKUP(IF(J11="",F11,J11),{0,1,10,100,500,1000,3000},{0.0,0.1705,0.1705,0.0729,0.0539,0.0487,0.0461}),"MOQ="&L11),"")
  Col: L
    10
  Col: M
-   83.172
+   58.44
   Formula: IFERROR(IF(J11="",F11,J11)*K11,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/grm21br71a106ke51l/0805-mlcc-smd-capacitors/murata/">GRM21BR71A106KE51L</a>
+   <a href="https://www.tme.eu/EN/details/GRM21BR71A106KE51L">GRM21BR71A106KE51L</a>
 Row: 12
  Col: A
    "C2,C3,C14"
@@ -243,29 +243,28 @@ Row: 13
   - greaterThan SUM(I13) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K13),J13,0)) -> -/FFFFFF00
  Col: G
-   0.01503
+   0.03645
   Formula: IF(MIN(K13)<>0,MIN(K13),"")
  Col: H
-   12.024
+   29.16
   Formula: IF(AND(ISNUMBER(F13),ISNUMBER(G13)),F13*G13,"")
  Col: I
-   4677700
+   580
   Styles:
   - lessThan F13 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J13>0,MOD(J13,L13)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J13)),OR(I13="NonStk",J13>I13)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.01503
-  Formula: IFERROR(IF(OR(J13>=L13,F13>=L13),LOOKUP(IF(J13="",F13,J13),{0,1,100,1000,4000,12000,20000},{0.0,0.01503,0.01503,0.00425,0.00274,0.00263,0.00256}),"MOQ="&L13),"")
+   0.03645
+  Formula: IFERROR(IF(OR(J13>=L13,F13>=L13),LOOKUP(IF(J13="",F13,J13),{0,1,10,100,1000,4000,12000,20000,40000,60000,100000},{0.0,0.22627,0.11999,0.03645,0.00983,0.00601,0.00589,0.00579,0.00567,0.0056,0.00553}),"MOQ="&L13),"")
  Col: L
-   100
+   1
  Col: M
-   12.024
+   29.16
   Formula: IFERROR(IF(J13="",F13,J13)*K13,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/0603b104k500ct/0603-mlcc-smd-capacitors/walsin/">0603B104K500CT</a>
+   <a href="https://www.tme.eu/EN/details/0603B104K500CT">0603B104K500CT</a>
 Row: 14
  Col: A
    "C7"
@@ -286,29 +285,28 @@ Row: 14
   - greaterThan SUM(I14) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K14),J14,0)) -> -/FFFFFF00
  Col: G
-   0.02441
+   0.0192
   Formula: IF(MIN(K14)<>0,MIN(K14),"")
  Col: H
-   2.441
+   1.92
   Formula: IF(AND(ISNUMBER(F14),ISNUMBER(G14)),F14*G14,"")
  Col: I
-   9700
+   13362
   Styles:
   - lessThan F14 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J14>0,MOD(J14,L14)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J14)),OR(I14="NonStk",J14>I14)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.02441
-  Formula: IFERROR(IF(OR(J14>=L14,F14>=L14),LOOKUP(IF(J14="",F14,J14),{0,1,100,1000,4000,12000},{0.0,0.02441,0.02441,0.0103,0.00846,0.00814}),"MOQ="&L14),"")
+   0.0192
+  Formula: IFERROR(IF(OR(J14>=L14,F14>=L14),LOOKUP(IF(J14="",F14,J14),{0,1,10,25,50,100,250,500,1000,2000,4000},{0.0,0.0933,0.0471,0.0327,0.0248,0.0192,0.0142,0.0117,0.0099,0.0088,0.008}),"MOQ="&L14),"")
  Col: L
-   100
+   1
  Col: M
-   2.441
+   1.92
   Formula: IFERROR(IF(J14="",F14,J14)*K14,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/c0603c103k5rac/0603-mlcc-smd-capacitors/kemet/c0603c103k5ractu/">C0603C103K5RAC</a>
+   <a href="https://www.tme.eu/EN/details/C0603C103K5RAC">C0603C103K5RAC</a>
 Row: 15
  Col: A
    "C11,C16"
@@ -329,29 +327,28 @@ Row: 15
   - greaterThan SUM(I15) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K15),J15,0)) -> -/FFFFFF00
  Col: G
-   0.07882
+   0.0283
   Formula: IF(MIN(K15)<>0,MIN(K15),"")
  Col: H
-   15.764
+   5.66
   Formula: IF(AND(ISNUMBER(F15),ISNUMBER(G15)),F15*G15,"")
  Col: I
-   17330
+   9
   Styles:
   - lessThan F15 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J15>0,MOD(J15,L15)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J15)),OR(I15="NonStk",J15>I15)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.07882
-  Formula: IFERROR(IF(OR(J15>=L15,F15>=L15),LOOKUP(IF(J15="",F15,J15),{0,1,10,100,1000,4000,12000},{0.0,0.23105,0.23105,0.07882,0.04897,0.04488,0.04356}),"MOQ="&L15),"")
+   0.0283
+  Formula: IFERROR(IF(OR(J15>=L15,F15>=L15),LOOKUP(IF(J15="",F15,J15),{0,1,10,100,500,1000,2000,4000},{0.0,0.0945,0.0324,0.0283,0.0256,0.0249,0.024,0.0232}),"MOQ="&L15),"")
  Col: L
-   10
+   1
  Col: M
-   15.764
+   5.66
   Formula: IFERROR(IF(J15="",F15,J15)*K15,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/grm188r61a226me15d/0603-mlcc-smd-capacitors/murata/">GRM188R61A226ME15D</a>
+   <a href="https://www.tme.eu/EN/details/GRM188R61A226ME15D">GRM188R61A226ME15D</a>
 Row: 16
  Col: A
    "C15"
@@ -372,29 +369,28 @@ Row: 16
   - greaterThan SUM(I16) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K16),J16,0)) -> -/FFFFFF00
  Col: G
-   0.02371
+   0.0265
   Formula: IF(MIN(K16)<>0,MIN(K16),"")
  Col: H
-   2.371
+   2.65
   Formula: IF(AND(ISNUMBER(F16),ISNUMBER(G16)),F16*G16,"")
  Col: I
-   4600
+   28557
   Styles:
   - lessThan F16 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J16>0,MOD(J16,L16)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J16)),OR(I16="NonStk",J16>I16)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.02371
-  Formula: IFERROR(IF(OR(J16>=L16,F16>=L16),LOOKUP(IF(J16="",F16,J16),{0,1,100,1000,4000,16000},{0.0,0.02371,0.02371,0.01518,0.01233,0.01195}),"MOQ="&L16),"")
+   0.0265
+  Formula: IFERROR(IF(OR(J16>=L16,F16>=L16),LOOKUP(IF(J16="",F16,J16),{0,1,10,50,100,500,1000,4000,8000,12000,20000},{0.0,0.1086,0.037,0.0293,0.0265,0.021,0.019,0.0155,0.0139,0.0131,0.0121}),"MOQ="&L16),"")
  Col: L
-   100
+   1
  Col: M
-   2.371
+   2.65
   Formula: IFERROR(IF(J16="",F16,J16)*K16,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/c0603c330j5gac/0603-mlcc-smd-capacitors/kemet/c0603c330j5gactu/">C0603C330J5GAC</a>
+   <a href="https://www.tme.eu/EN/details/C0603C330J5GAC">C0603C330J5GAC</a>
 Row: 17
  Col: A
    "C23,C24"
@@ -415,9 +411,28 @@ Row: 17
   - greaterThan SUM(I17) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K17),J17,0)) -> -/FFFFFF00
  Col: G
+   0.0426
   Formula: IF(MIN(K17)<>0,MIN(K17),"")
  Col: H
+   8.52
   Formula: IF(AND(ISNUMBER(F17),ISNUMBER(G17)),F17*G17,"")
+ Col: I
+   3288
+  Styles:
+  - lessThan F17 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J17)),OR(I17="NonStk",J17>I17)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.0426
+  Formula: IFERROR(IF(OR(J17>=L17,F17>=L17),LOOKUP(IF(J17="",F17,J17),{0,1,10,100,500,1000,4000},{0.0,0.1791,0.0797,0.0426,0.0303,0.0271,0.0246}),"MOQ="&L17),"")
+ Col: L
+   1
+ Col: M
+   8.52
+  Formula: IFERROR(IF(J17="",F17,J17)*K17,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/GRM188R61H225KE11D">GRM188R61H225KE11D</a>
 Row: 18
  Col: A
    "C31,C32"
@@ -438,29 +453,28 @@ Row: 18
   - greaterThan SUM(I18) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K18),J18,0)) -> -/FFFFFF00
  Col: G
-   0.03206
+   0.02106
   Formula: IF(MIN(K18)<>0,MIN(K18),"")
  Col: H
-   6.412
+   4.212
   Formula: IF(AND(ISNUMBER(F18),ISNUMBER(G18)),F18*G18,"")
  Col: I
-   33000
+   962
   Styles:
   - lessThan F18 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J18>0,MOD(J18,L18)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J18)),OR(I18="NonStk",J18>I18)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.03206
-  Formula: IFERROR(IF(OR(J18>=L18,F18>=L18),LOOKUP(IF(J18="",F18,J18),{0,1,100,500,1000,4000,20000},{0.0,0.03206,0.03206,0.01503,0.01172,0.00731,0.0069}),"MOQ="&L18),"")
+   0.02106
+  Formula: IFERROR(IF(OR(J18>=L18,F18>=L18),LOOKUP(IF(J18="",F18,J18),{0,1,10,100,1000,4000,8000,12000,20000,40000,100000},{0.0,0.06127,0.02786,0.02106,0.0147,0.01081,0.00914,0.00809,0.00698,0.00555,0.00388}),"MOQ="&L18),"")
  Col: L
-   100
+   1
  Col: M
-   6.412
+   4.212
   Formula: IFERROR(IF(J18="",F18,J18)*K18,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/grm1885c1h221ja01d/0603-mlcc-smd-capacitors/murata/">GRM1885C1H221JA01D</a>
+   <a href="https://www.tme.eu/EN/details/GRM1885C1H221JA01D">GRM1885C1H221JA01D</a>
 Row: 19
  Col: A
    "C35,C36"
@@ -481,29 +495,28 @@ Row: 19
   - greaterThan SUM(I19) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K19),J19,0)) -> -/FFFFFF00
  Col: G
-   0.01924
+   0.0141
   Formula: IF(MIN(K19)<>0,MIN(K19),"")
  Col: H
-   3.848
+   2.82
   Formula: IF(AND(ISNUMBER(F19),ISNUMBER(G19)),F19*G19,"")
  Col: I
-   59200
+   "NonStk"
   Styles:
   - lessThan F19 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J19>0,MOD(J19,L19)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J19)),OR(I19="NonStk",J19>I19)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.01924
-  Formula: IFERROR(IF(OR(J19>=L19,F19>=L19),LOOKUP(IF(J19="",F19,J19),{0,1,100,1000,4000,16000},{0.0,0.01924,0.01924,0.00717,0.00505,0.0049}),"MOQ="&L19),"")
+   0.0141
+  Formula: IFERROR(IF(OR(J19>=L19,F19>=L19),LOOKUP(IF(J19="",F19,J19),{0,1,10,100,500,1000,4000,8000,12000,20000,40000},{0.0,0.065,0.029,0.0141,0.00624,0.00521,0.0039,0.0038,0.00375,0.00369,0.00365}),"MOQ="&L19),"")
  Col: L
-   100
+   1
  Col: M
-   3.848
+   2.82
   Formula: IFERROR(IF(J19="",F19,J19)*K19,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/0603n102j500ct/0603-mlcc-smd-capacitors/walsin/">0603N102J500CT</a>
+   <a href="https://www.tme.eu/EN/details/0603N102J500CT">0603N102J500CT</a>
 Row: 20
  Col: A
    "CN1"
@@ -527,6 +540,22 @@ Row: 20
   Formula: IF(MIN(K20)<>0,MIN(K20),"")
  Col: H
   Formula: IF(AND(ISNUMBER(F20),ISNUMBER(G20)),F20*G20,"")
+ Col: I
+   230
+  Styles:
+  - lessThan F20 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J20>0,MOD(J20,L20)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J20)),OR(I20="NonStk",J20>I20)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J20>=L20,F20>=L20),LOOKUP(IF(J20="",F20,J20),{0,1,230},{0.0,2.06,2.06}),"MOQ="&L20),"")
+ Col: L
+   230
+ Col: M
+  Formula: IFERROR(IF(J20="",F20,J20)*K20,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/20411261-TEC-0">20411261-TEC-0</a>
 Row: 21
  Col: A
    "CON1"
@@ -545,10 +574,10 @@ Row: 21
   - greaterThan SUM(I21) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K21),J21,0)) -> -/FFFFFF00
  Col: G
-   3.1
+   3.17
   Formula: IF(MIN(K21)<>0,MIN(K21),"")
  Col: H
-   310
+   317
   Formula: IF(AND(ISNUMBER(F21),ISNUMBER(G21)),F21*G21,"")
  Col: I
    "NonStk"
@@ -556,17 +585,18 @@ Row: 21
   - lessThan F21 -> FF000000/FFFF9900
  Col: J
   Styles:
+  - =AND(J21>0,MOD(J21,L21)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J21)),OR(I21="NonStk",J21>I21)) -> FFFFFFFF/FFFF0000
  Col: K
-   3.1
-  Formula: IFERROR(IF(OR(J21>=L21,F21>=L21),LOOKUP(IF(J21="",F21,J21),{0,1,5,25,100},{0.0,4.42,3.98,3.54,3.1}),"MOQ="&L21),"")
+   3.17
+  Formula: IFERROR(IF(OR(J21>=L21,F21>=L21),LOOKUP(IF(J21="",F21,J21),{0,1,100},{0.0,3.17,3.17}),"MOQ="&L21),"")
  Col: L
-   1
+   100
  Col: M
-   310
+   317
   Formula: IFERROR(IF(J21="",F21,J21)*K21,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/ntr-np2x/jack-connectors/neutrik/np2x/">NTR-NP2X</a>
+   <a href="https://www.tme.eu/EN/details/NTR-NP2X-BAG-D">NTR-NP2X-BAG-D</a>
 Row: 22
  Col: A
    "CON2"
@@ -585,9 +615,29 @@ Row: 22
   - greaterThan SUM(I22) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K22),J22,0)) -> -/FFFFFF00
  Col: G
+   2.31
   Formula: IF(MIN(K22)<>0,MIN(K22),"")
  Col: H
+   231
   Formula: IF(AND(ISNUMBER(F22),ISNUMBER(G22)),F22*G22,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F22 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J22>0,MOD(J22,L22)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J22)),OR(I22="NonStk",J22>I22)) -> FFFFFFFF/FFFF0000
+ Col: K
+   2.31
+  Formula: IFERROR(IF(OR(J22>=L22,F22>=L22),LOOKUP(IF(J22="",F22,J22),{0,1,100},{0.0,2.31,2.31}),"MOQ="&L22),"")
+ Col: L
+   100
+ Col: M
+   231
+  Formula: IFERROR(IF(J22="",F22,J22)*K22,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/RT3FC-B-D">RT3FC-B-D</a>
 Row: 23
  Col: A
    "CON3"
@@ -606,9 +656,28 @@ Row: 23
   - greaterThan SUM(I23) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K23),J23,0)) -> -/FFFFFF00
  Col: G
+   0.525
   Formula: IF(MIN(K23)<>0,MIN(K23),"")
  Col: H
+   52.5
   Formula: IF(AND(ISNUMBER(F23),ISNUMBER(G23)),F23*G23,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F23 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J23)),OR(I23="NonStk",J23>I23)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.525
+  Formula: IFERROR(IF(OR(J23>=L23,F23>=L23),LOOKUP(IF(J23="",F23,J23),{0,1,250,400,500,1000,2000},{0.0,0.525,0.485,0.464,0.451,0.405,0.384}),"MOQ="&L23),"")
+ Col: L
+   1
+ Col: M
+   52.5
+  Formula: IFERROR(IF(J23="",F23,J23)*K23,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/BRT-L">BRT-L</a>
 Row: 24
  Col: A
    "D1-D3,D5,D6"
@@ -629,29 +698,28 @@ Row: 24
   - greaterThan SUM(I24) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K24),J24,0)) -> -/FFFFFF00
  Col: G
-   0.16251
+   0.261
   Formula: IF(MIN(K24)<>0,MIN(K24),"")
  Col: H
-   81.255
+   130.5
   Formula: IF(AND(ISNUMBER(F24),ISNUMBER(G24)),F24*G24,"")
  Col: I
-   5700
+   1086
   Styles:
   - lessThan F24 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J24>0,MOD(J24,L24)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J24)),OR(I24="NonStk",J24>I24)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.16251
-  Formula: IFERROR(IF(OR(J24>=L24,F24>=L24),LOOKUP(IF(J24="",F24,J24),{0,1,3,10,25,100},{0.0,0.27084,0.27084,0.20452,0.1813,0.16251}),"MOQ="&L24),"")
+   0.261
+  Formula: IFERROR(IF(OR(J24>=L24,F24>=L24),LOOKUP(IF(J24="",F24,J24),{0,1,5,10,100,250,500,1000,3000,6000,9000},{0.0,0.774,0.363,0.343,0.29,0.273,0.261,0.247,0.226,0.215,0.208}),"MOQ="&L24),"")
  Col: L
-   3
+   1
  Col: M
-   81.255
+   130.5
   Formula: IFERROR(IF(J24="",F24,J24)*K24,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/zhcs1000ta/smd-schottky-diodes/diodes-incorporated/">ZHCS1000TA</a>
+   <a href="https://www.tme.eu/EN/details/ZHCS1000">ZHCS1000</a>
 Row: 25
  Col: A
    "D4"
@@ -672,29 +740,28 @@ Row: 25
   - greaterThan SUM(I25) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K25),J25,0)) -> -/FFFFFF00
  Col: G
-   0.3151
+   0.183
   Formula: IF(MIN(K25)<>0,MIN(K25),"")
  Col: H
-   31.51
+   18.3
   Formula: IF(AND(ISNUMBER(F25),ISNUMBER(G25)),F25*G25,"")
  Col: I
-   1661
+   1604
   Styles:
   - lessThan F25 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J25>0,MOD(J25,L25)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J25)),OR(I25="NonStk",J25>I25)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.3151
-  Formula: IFERROR(IF(OR(J25>=L25,F25>=L25),LOOKUP(IF(J25="",F25,J25),{0,1,2,10,50,250,1000},{0.0,0.5516,0.5516,0.3748,0.3151,0.2808,0.2465}),"MOQ="&L25),"")
+   0.183
+  Formula: IFERROR(IF(OR(J25>=L25,F25>=L25),LOOKUP(IF(J25="",F25,J25),{0,1,10,30,50,100,200,500,1000,2000,10000},{0.0,0.279,0.229,0.199,0.19,0.183,0.177,0.169,0.163,0.158,0.149}),"MOQ="&L25),"")
  Col: L
-   2
+   1
  Col: M
-   31.51
+   18.3
   Formula: IFERROR(IF(J25="",F25,J25)*K25,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/hlmp-k150/tht-leds-3mm/broadcom-avago/">HLMP-K150</a>
+   <a href="https://www.tme.eu/EN/details/HLMP-K150">HLMP-K150</a>
 Row: 26
  Col: A
    "D7"
@@ -715,29 +782,28 @@ Row: 26
   - greaterThan SUM(I26) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K26),J26,0)) -> -/FFFFFF00
  Col: G
-   0.08457
+   0.2
   Formula: IF(MIN(K26)<>0,MIN(K26),"")
  Col: H
-   8.457
+   20
   Formula: IF(AND(ISNUMBER(F26),ISNUMBER(G26)),F26*G26,"")
  Col: I
-   "NonStk"
+   4515
   Styles:
   - lessThan F26 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J26>0,MOD(J26,L26)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J26)),OR(I26="NonStk",J26>I26)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.08457
-  Formula: IFERROR(IF(OR(J26>=L26,F26>=L26),LOOKUP(IF(J26="",F26,J26),{0,1,5,25,100,500,5000},{0.0,0.19899,0.19899,0.08988,0.08457,0.06898,0.06511}),"MOQ="&L26),"")
+   0.2
+  Formula: IFERROR(IF(OR(J26>=L26,F26>=L26),LOOKUP(IF(J26="",F26,J26),{0,1,10,50,100,250,500,1000,3000,5000,15000},{0.0,0.45,0.33,0.231,0.2,0.17,0.152,0.13,0.107,0.101,0.087}),"MOQ="&L26),"")
  Col: L
-   5
+   1
  Col: M
-   8.457
+   20
   Formula: IFERROR(IF(J26="",F26,J26)*K26,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/smaj18a-tr/unidirectional-smd-transil-diodes/stmicroelectronics/">SMAJ18A-TR</a>
+   <a href="https://www.tme.eu/EN/details/SMAJ18A-TR">SMAJ18A-TR</a>
 Row: 27
  Col: A
    "D8,D9"
@@ -802,9 +868,29 @@ Row: 29
   - greaterThan SUM(I29) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K29),J29,0)) -> -/FFFFFF00
  Col: G
+   1.99
   Formula: IF(MIN(K29)<>0,MIN(K29),"")
  Col: H
+   199
   Formula: IF(AND(ISNUMBER(F29),ISNUMBER(G29)),F29*G29,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F29 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J29>0,MOD(J29,L29)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J29)),OR(I29="NonStk",J29>I29)) -> FFFFFFFF/FFFF0000
+ Col: K
+   1.99
+  Formula: IFERROR(IF(OR(J29>=L29,F29>=L29),LOOKUP(IF(J29="",F29,J29),{0,1,100},{0.0,1.99,1.99}),"MOQ="&L29),"")
+ Col: L
+   100
+ Col: M
+   199
+  Formula: IFERROR(IF(J29="",F29,J29)*K29,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/RT3MPR-D">RT3MPR-D</a>
 Row: 30
  Col: A
    "L1-L5,L8"
@@ -894,29 +980,28 @@ Row: 33
   - greaterThan SUM(I33) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K33),J33,0)) -> -/FFFFFF00
  Col: G
-   0.48
+   0.479
   Formula: IF(MIN(K33)<>0,MIN(K33),"")
  Col: H
-   48
+   47.9
   Formula: IF(AND(ISNUMBER(F33),ISNUMBER(G33)),F33*G33,"")
  Col: I
-   48241
+   12454
   Styles:
   - lessThan F33 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J33>0,MOD(J33,L33)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J33)),OR(I33="NonStk",J33>I33)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.48
-  Formula: IFERROR(IF(OR(J33>=L33,F33>=L33),LOOKUP(IF(J33="",F33,J33),{0,1,5,75,225,675},{0.0,0.5333,0.5333,0.48,0.4266,0.3733}),"MOQ="&L33),"")
+   0.479
+  Formula: IFERROR(IF(OR(J33>=L33,F33>=L33),LOOKUP(IF(J33="",F33,J33),{0,1,10,25,50,100,1500},{0.0,0.699,0.603,0.546,0.509,0.479,0.426}),"MOQ="&L33),"")
  Col: L
-   5
+   1
  Col: M
-   48
+   47.9
   Formula: IFERROR(IF(J33="",F33,J33)*K33,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/10103594-0001lf_c/usb-ieee1394-connectors/amphenol-communications-solutions/10103594-0001lf/">10103594-0001LF/C</a>
+   <a href="https://www.tme.eu/EN/details/10103594-0001LF/C">10103594-0001LF/C</a>
 Row: 34
  Col: A
    "R1,R2,R8"
@@ -937,9 +1022,28 @@ Row: 34
   - greaterThan SUM(I34) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K34),J34,0)) -> -/FFFFFF00
  Col: G
+   0.01086
   Formula: IF(MIN(K34)<>0,MIN(K34),"")
  Col: H
+   3.258
   Formula: IF(AND(ISNUMBER(F34),ISNUMBER(G34)),F34*G34,"")
+ Col: I
+   3290
+  Styles:
+  - lessThan F34 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J34)),OR(I34="NonStk",J34>I34)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.01086
+  Formula: IFERROR(IF(OR(J34>=L34,F34>=L34),LOOKUP(IF(J34="",F34,J34),{0,1,10,50,100,500,1000,4000,5000,30000},{0.0,0.05056,0.01983,0.01287,0.01086,0.00763,0.00669,0.00527,0.00505,0.00491}),"MOQ="&L34),"")
+ Col: L
+   1
+ Col: M
+   3.258
+  Formula: IFERROR(IF(J34="",F34,J34)*K34,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/ERJ3EKF1803V">ERJ3EKF1803V</a>
 Row: 35
  Col: A
    "R3,R29-R32"
@@ -960,10 +1064,10 @@ Row: 35
   - greaterThan SUM(I35) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K35),J35,0)) -> -/FFFFFF00
  Col: G
-   0.02563
+   0.00842
   Formula: IF(MIN(K35)<>0,MIN(K35),"")
  Col: H
-   12.815
+   4.21
   Formula: IF(AND(ISNUMBER(F35),ISNUMBER(G35)),F35*G35,"")
  Col: I
    "NonStk"
@@ -971,18 +1075,17 @@ Row: 35
   - lessThan F35 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J35>0,MOD(J35,L35)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J35)),OR(I35="NonStk",J35>I35)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.02563
-  Formula: IFERROR(IF(OR(J35>=L35,F35>=L35),LOOKUP(IF(J35="",F35,J35),{0,1,100,1000,5000},{0.0,0.02563,0.02563,0.01184,0.00805}),"MOQ="&L35),"")
+   0.00842
+  Formula: IFERROR(IF(OR(J35>=L35,F35>=L35),LOOKUP(IF(J35="",F35,J35),{0,1,10,100,500,1000,2500,5000,10000,25000},{0.0,0.04708,0.01748,0.01085,0.00842,0.00776,0.00702,0.00622,0.00526,0.00494}),"MOQ="&L35),"")
  Col: L
-   100
+   1
  Col: M
-   12.815
+   4.21
   Formula: IFERROR(IF(J35="",F35,J35)*K35,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/erj3ekf1002v/0603-smd-resistors/panasonic/">ERJ3EKF1002V</a>
+   <a href="https://www.tme.eu/EN/details/ERJ3EKF1002V">ERJ3EKF1002V</a>
 Row: 36
  Col: A
    "R4"
@@ -1026,29 +1129,28 @@ Row: 37
   - greaterThan SUM(I37) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K37),J37,0)) -> -/FFFFFF00
  Col: G
-   0.03394
+   0.00465
   Formula: IF(MIN(K37)<>0,MIN(K37),"")
  Col: H
-   3.394
+   0.465
   Formula: IF(AND(ISNUMBER(F37),ISNUMBER(G37)),F37*G37,"")
  Col: I
-   75000
+   40961
   Styles:
   - lessThan F37 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J37>0,MOD(J37,L37)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J37)),OR(I37="NonStk",J37>I37)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.03394
-  Formula: IFERROR(IF(OR(J37>=L37,F37>=L37),LOOKUP(IF(J37="",F37,J37),{0,1,100,1000,5000,15000,50000},{0.0,0.03394,0.03394,0.01223,0.00495,0.00418,0.00356}),"MOQ="&L37),"")
+   0.00465
+  Formula: IFERROR(IF(OR(J37>=L37,F37>=L37),LOOKUP(IF(J37="",F37,J37),{0,1,10,100,500,1000,5000,10000,15000,25000,50000},{0.0,0.07331,0.00863,0.00465,0.0031,0.00261,0.00177,0.00151,0.00138,0.00123,0.00106}),"MOQ="&L37),"")
  Col: L
-   100
+   1
  Col: M
-   3.394
+   0.465
   Formula: IFERROR(IF(J37="",F37,J37)*K37,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/rc0603fr-0747k/0603-smd-resistors/yageo/rc0603fr-0747kl/">RC0603FR-0747K</a>
+   <a href="https://www.tme.eu/EN/details/RC0603FR-0747K">RC0603FR-0747K</a>
 Row: 38
  Col: A
    "R6"
@@ -1092,29 +1194,28 @@ Row: 39
   - greaterThan SUM(I39) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K39),J39,0)) -> -/FFFFFF00
  Col: G
-   0.02628
+   0.01566
   Formula: IF(MIN(K39)<>0,MIN(K39),"")
  Col: H
-   2.628
+   1.566
   Formula: IF(AND(ISNUMBER(F39),ISNUMBER(G39)),F39*G39,"")
  Col: I
-   "NonStk"
+   37648
   Styles:
   - lessThan F39 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J39>0,MOD(J39,L39)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J39)),OR(I39="NonStk",J39>I39)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.02628
-  Formula: IFERROR(IF(OR(J39>=L39,F39>=L39),LOOKUP(IF(J39="",F39,J39),{0,1,100,1000,5000},{0.0,0.02628,0.02628,0.01213,0.00825}),"MOQ="&L39),"")
+   0.01566
+  Formula: IFERROR(IF(OR(J39>=L39,F39>=L39),LOOKUP(IF(J39="",F39,J39),{0,1,10,50,100,500,1000,2500,5000,10000},{0.0,0.08367,0.02816,0.01864,0.01566,0.01042,0.00872,0.00686,0.00565,0.00513}),"MOQ="&L39),"")
  Col: L
-   100
+   1
  Col: M
-   2.628
+   1.566
   Formula: IFERROR(IF(J39="",F39,J39)*K39,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/erj3ekf1004v/0603-smd-resistors/panasonic/">ERJ3EKF1004V</a>
+   <a href="https://www.tme.eu/EN/details/ERJ3EKF1004V">ERJ3EKF1004V</a>
 Row: 40
  Col: A
    "R9"
@@ -1135,10 +1236,10 @@ Row: 40
   - greaterThan SUM(I40) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K40),J40,0)) -> -/FFFFFF00
  Col: G
-   0.02766
+   0.0073
   Formula: IF(MIN(K40)<>0,MIN(K40),"")
  Col: H
-   2.766
+   0.73
   Formula: IF(AND(ISNUMBER(F40),ISNUMBER(G40)),F40*G40,"")
  Col: I
    "NonStk"
@@ -1149,15 +1250,15 @@ Row: 40
   - =AND(J40>0,MOD(J40,L40)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J40)),OR(I40="NonStk",J40>I40)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.02766
-  Formula: IFERROR(IF(OR(J40>=L40,F40>=L40),LOOKUP(IF(J40="",F40,J40),{0,1,100,1000,5000,15000},{0.0,0.02766,0.02766,0.00996,0.00404,0.0034}),"MOQ="&L40),"")
+   0.0073
+  Formula: IFERROR(IF(OR(J40>=L40,F40>=L40),LOOKUP(IF(J40="",F40,J40),{0,1,100,1000,5000,10000,15000,20000,25000,35000},{0.0,0.0073,0.0073,0.00469,0.00333,0.00279,0.0025,0.00231,0.00221,0.00216}),"MOQ="&L40),"")
  Col: L
    100
  Col: M
-   2.766
+   0.73
   Formula: IFERROR(IF(J40="",F40,J40)*K40,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/rc0603fr-071m8l/0603-smd-resistors/yageo/">RC0603FR-071M8L</a>
+   <a href="https://www.tme.eu/EN/details/RC0603FR-071M8L">RC0603FR-071M8L</a>
 Row: 41
  Col: A
    "R10"
@@ -1178,13 +1279,13 @@ Row: 41
   - greaterThan SUM(I41) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K41),J41,0)) -> -/FFFFFF00
  Col: G
-   0.02628
+   0.025
   Formula: IF(MIN(K41)<>0,MIN(K41),"")
  Col: H
-   2.628
+   2.5
   Formula: IF(AND(ISNUMBER(F41),ISNUMBER(G41)),F41*G41,"")
  Col: I
-   4900
+   13012
   Styles:
   - lessThan F41 -> FF000000/FFFF9900
  Col: J
@@ -1192,15 +1293,15 @@ Row: 41
   - =AND(J41>0,MOD(J41,L41)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J41)),OR(I41="NonStk",J41>I41)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.02628
-  Formula: IFERROR(IF(OR(J41>=L41,F41>=L41),LOOKUP(IF(J41="",F41,J41),{0,1,100,1000,5000},{0.0,0.02628,0.02628,0.01213,0.00825}),"MOQ="&L41),"")
+   0.025
+  Formula: IFERROR(IF(OR(J41>=L41,F41>=L41),LOOKUP(IF(J41="",F41,J41),{0,1,10,5000},{0.0,0.025,0.025,0.00655}),"MOQ="&L41),"")
  Col: L
-   100
+   10
  Col: M
-   2.628
+   2.5
   Formula: IFERROR(IF(J41="",F41,J41)*K41,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/erj3ekf2003v/0603-smd-resistors/panasonic/">ERJ3EKF2003V</a>
+   <a href="https://www.tme.eu/EN/details/ERJ3EKF2003V">ERJ3EKF2003V</a>
 Row: 42
  Col: A
    "R11,R12,R15,R23-R28"
@@ -1221,29 +1322,28 @@ Row: 42
   - greaterThan SUM(I42) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K42),J42,0)) -> -/FFFFFF00
  Col: G
-   0.00947
+   0.00554
   Formula: IF(MIN(K42)<>0,MIN(K42),"")
  Col: H
-   8.523
+   4.986
   Formula: IF(AND(ISNUMBER(F42),ISNUMBER(G42)),F42*G42,"")
  Col: I
-   "NonStk"
+   168212
   Styles:
   - lessThan F42 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J42>0,MOD(J42,L42)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J42)),OR(I42="NonStk",J42>I42)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.00947
-  Formula: IFERROR(IF(OR(J42>=L42,F42>=L42),LOOKUP(IF(J42="",F42,J42),{0,1,100,500,1000,5000},{0.0,0.01824,0.01824,0.00947,0.0074,0.00381}),"MOQ="&L42),"")
+   0.00554
+  Formula: IFERROR(IF(OR(J42>=L42,F42>=L42),LOOKUP(IF(J42="",F42,J42),{0,1,500,1000,5000,10000,15000,20000,25000,50000},{0.0,0.00658,0.00554,0.00473,0.00224,0.00179,0.00147,0.00128,0.0012,0.00117}),"MOQ="&L42),"")
  Col: L
-   100
+   1
  Col: M
-   8.523
+   4.986
   Formula: IFERROR(IF(J42="",F42,J42)*K42,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/crcw06030000z0ea/0603-smd-resistors/vishay/">CRCW06030000Z0EA</a>
+   <a href="https://www.tme.eu/EN/details/CRCW06030000Z0EA">CRCW06030000Z0EA</a>
 Row: 43
  Col: A
    "R13"
@@ -1264,9 +1364,28 @@ Row: 43
   - greaterThan SUM(I43) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K43),J43,0)) -> -/FFFFFF00
  Col: G
+   0.01759
   Formula: IF(MIN(K43)<>0,MIN(K43),"")
  Col: H
+   1.759
   Formula: IF(AND(ISNUMBER(F43),ISNUMBER(G43)),F43*G43,"")
+ Col: I
+   7826
+  Styles:
+  - lessThan F43 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(NOT(ISBLANK(J43)),OR(I43="NonStk",J43>I43)) -> FFFFFFFF/FFFF0000
+ Col: K
+   0.01759
+  Formula: IFERROR(IF(OR(J43>=L43,F43>=L43),LOOKUP(IF(J43="",F43,J43),{0,1,10,50,100,500,1000,5000,25000,50000,200000},{0.0,0.08685,0.03171,0.02081,0.01759,0.01223,0.01059,0.00784,0.0061,0.00558,0.00478}),"MOQ="&L43),"")
+ Col: L
+   1
+ Col: M
+   1.759
+  Formula: IFERROR(IF(J43="",F43,J43)*K43,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/ERJ3EKF2493V">ERJ3EKF2493V</a>
 Row: 44
  Col: A
    "R14"
@@ -1287,29 +1406,28 @@ Row: 44
   - greaterThan SUM(I44) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K44),J44,0)) -> -/FFFFFF00
  Col: G
-   0.02628
+   0.01096
   Formula: IF(MIN(K44)<>0,MIN(K44),"")
  Col: H
-   2.628
+   1.096
   Formula: IF(AND(ISNUMBER(F44),ISNUMBER(G44)),F44*G44,"")
  Col: I
-   "NonStk"
+   193479
   Styles:
   - lessThan F44 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J44>0,MOD(J44,L44)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J44)),OR(I44="NonStk",J44>I44)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.02628
-  Formula: IFERROR(IF(OR(J44>=L44,F44>=L44),LOOKUP(IF(J44="",F44,J44),{0,1,100,1000,5000},{0.0,0.02628,0.02628,0.01213,0.00825}),"MOQ="&L44),"")
+   0.01096
+  Formula: IFERROR(IF(OR(J44>=L44,F44>=L44),LOOKUP(IF(J44="",F44,J44),{0,1,10,50,100,500,1000,2500,5000,10000,50000},{0.0,0.04932,0.01906,0.01274,0.01096,0.00825,0.00753,0.00676,0.00605,0.00523,0.00493}),"MOQ="&L44),"")
  Col: L
-   100
+   1
  Col: M
-   2.628
+   1.096
   Formula: IFERROR(IF(J44="",F44,J44)*K44,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/erj3ekf1003v/0603-smd-resistors/panasonic/">ERJ3EKF1003V</a>
+   <a href="https://www.tme.eu/EN/details/ERJ3EKF1003V">ERJ3EKF1003V</a>
 Row: 45
  Col: A
    "R16-R19"
@@ -1330,29 +1448,28 @@ Row: 45
   - greaterThan SUM(I45) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K45),J45,0)) -> -/FFFFFF00
  Col: G
-   0.0168
+   0.00739
   Formula: IF(MIN(K45)<>0,MIN(K45),"")
  Col: H
-   6.72
+   2.956
   Formula: IF(AND(ISNUMBER(F45),ISNUMBER(G45)),F45*G45,"")
  Col: I
-   595600
+   176521
   Styles:
   - lessThan F45 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J45>0,MOD(J45,L45)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J45)),OR(I45="NonStk",J45>I45)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.0168
-  Formula: IFERROR(IF(OR(J45>=L45,F45>=L45),LOOKUP(IF(J45="",F45,J45),{0,1,100,1000,5000,15000,50000},{0.0,0.0168,0.0168,0.00355,0.00144,0.00135,0.0013}),"MOQ="&L45),"")
+   0.00739
+  Formula: IFERROR(IF(OR(J45>=L45,F45>=L45),LOOKUP(IF(J45="",F45,J45),{0,1,10,100,500,1000,2500,5000,10000,15000,125000},{0.0,0.04989,0.01037,0.00739,0.00581,0.00521,0.0045,0.00401,0.00355,0.0033,0.00218}),"MOQ="&L45),"")
  Col: L
-   100
+   1
  Col: M
-   6.72
+   2.956
   Formula: IFERROR(IF(J45="",F45,J45)*K45,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/rc0603fr-07100r/0603-smd-resistors/yageo/rc0603fr-07100rl/">RC0603FR-07100R</a>
+   <a href="https://www.tme.eu/EN/details/RC0603FR-07100R">RC0603FR-07100R</a>
 Row: 46
  Col: A
    "R20-R22"
@@ -1376,6 +1493,22 @@ Row: 46
   Formula: IF(MIN(K46)<>0,MIN(K46),"")
  Col: H
   Formula: IF(AND(ISNUMBER(F46),ISNUMBER(G46)),F46*G46,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F46 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J46>0,MOD(J46,L46)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J46)),OR(I46="NonStk",J46>I46)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J46>=L46,F46>=L46),LOOKUP(IF(J46="",F46,J46),{0,1,5000,10000,15000,25000,75000,200000,500000},{0.0,0.0471,0.0471,0.043,0.0407,0.0381,0.0331,0.0293,0.0263}),"MOQ="&L46),"")
+ Col: L
+   5000
+ Col: M
+  Formula: IFERROR(IF(J46="",F46,J46)*K46,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/ERJP03F47R0V">ERJP03F47R0V</a>
 Row: 47
  Col: A
    "R33,R34"
@@ -1396,29 +1529,28 @@ Row: 47
   - greaterThan SUM(I47) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K47),J47,0)) -> -/FFFFFF00
  Col: G
-   0.0199
+   0.00587
   Formula: IF(MIN(K47)<>0,MIN(K47),"")
  Col: H
-   3.98
+   1.174
   Formula: IF(AND(ISNUMBER(F47),ISNUMBER(G47)),F47*G47,"")
  Col: I
-   308307
+   "NonStk"
   Styles:
   - lessThan F47 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J47>0,MOD(J47,L47)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J47)),OR(I47="NonStk",J47>I47)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.0199
-  Formula: IFERROR(IF(OR(J47>=L47,F47>=L47),LOOKUP(IF(J47="",F47,J47),{0,1,100,1000,5000,15000,50000},{0.0,0.0199,0.0199,0.00437,0.00179,0.00164,0.00157}),"MOQ="&L47),"")
+   0.00587
+  Formula: IFERROR(IF(OR(J47>=L47,F47>=L47),LOOKUP(IF(J47="",F47,J47),{0,1,10,100,250,500,1000,5000,10000,15000,25000},{0.0,0.04208,0.01135,0.00587,0.00458,0.00381,0.00317,0.00208,0.00178,0.00163,0.00147}),"MOQ="&L47),"")
  Col: L
-   100
+   1
  Col: M
-   3.98
+   1.174
   Formula: IFERROR(IF(J47="",F47,J47)*K47,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/rc0603fr-071k/0603-smd-resistors/yageo/rc0603fr-071kl/">RC0603FR-071K</a>
+   <a href="https://www.tme.eu/EN/details/RC0603FR-071K">RC0603FR-071K</a>
 Row: 48
  Col: A
    "R35,R36"
@@ -1439,29 +1571,28 @@ Row: 48
   - greaterThan SUM(I48) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K48),J48,0)) -> -/FFFFFF00
  Col: G
-   0.01515
+   0.00889
   Formula: IF(MIN(K48)<>0,MIN(K48),"")
  Col: H
-   3.03
+   1.778
   Formula: IF(AND(ISNUMBER(F48),ISNUMBER(G48)),F48*G48,"")
  Col: I
-   52200
+   42787
   Styles:
   - lessThan F48 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J48>0,MOD(J48,L48)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J48)),OR(I48="NonStk",J48>I48)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.01515
-  Formula: IFERROR(IF(OR(J48>=L48,F48>=L48),LOOKUP(IF(J48="",F48,J48),{0,1,100,1000,5000,15000,50000},{0.0,0.01515,0.01515,0.00446,0.00222,0.00203,0.00191}),"MOQ="&L48),"")
+   0.00889
+  Formula: IFERROR(IF(OR(J48>=L48,F48>=L48),LOOKUP(IF(J48="",F48,J48),{0,1,10,50,100,500,1000,5000,10000,15000,25000},{0.0,0.06091,0.0133,0.01005,0.00889,0.00658,0.00573,0.00401,0.00337,0.00303,0.00261}),"MOQ="&L48),"")
  Col: L
-   100
+   1
  Col: M
-   3.03
+   1.778
   Formula: IFERROR(IF(J48="",F48,J48)*K48,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/rc0603fr-0710r/0603-smd-resistors/yageo/rc0603fr-0710rl/">RC0603FR-0710R</a>
+   <a href="https://www.tme.eu/EN/details/RC0603FR-0710R">RC0603FR-0710R</a>
 Row: 49
  Col: A
    "SW1"
@@ -1482,29 +1613,28 @@ Row: 49
   - greaterThan SUM(I49) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K49),J49,0)) -> -/FFFFFF00
  Col: G
-   0.32059
+   0.202
   Formula: IF(MIN(K49)<>0,MIN(K49),"")
  Col: H
-   32.059
+   20.2
   Formula: IF(AND(ISNUMBER(F49),ISNUMBER(G49)),F49*G49,"")
  Col: I
-   2040
+   1990
   Styles:
   - lessThan F49 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J49>0,MOD(J49,L49)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J49)),OR(I49="NonStk",J49>I49)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.32059
-  Formula: IFERROR(IF(OR(J49>=L49,F49>=L49),LOOKUP(IF(J49="",F49,J49),{0,1,2,10,50,250,1000},{0.0,0.38692,0.38692,0.35376,0.32059,0.27637,0.24321}),"MOQ="&L49),"")
+   0.202
+  Formula: IFERROR(IF(OR(J49>=L49,F49>=L49),LOOKUP(IF(J49="",F49,J49),{0,1,10,25,50,100,500,1000,2000,3000,5000},{0.0,0.315,0.271,0.244,0.223,0.202,0.168,0.158,0.149,0.144,0.139}),"MOQ="&L49),"")
  Col: L
-   2
+   1
  Col: M
-   32.059
+   20.2
   Formula: IFERROR(IF(J49="",F49,J49)*K49,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/skhhlqa010/microswitches-tact/alps/">SKHHLQA010</a>
+   <a href="https://www.tme.eu/EN/details/SKHHLQA010">SKHHLQA010</a>
 Row: 50
  Col: A
    "U1"
@@ -1525,29 +1655,28 @@ Row: 50
   - greaterThan SUM(I50) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K50),J50,0)) -> -/FFFFFF00
  Col: G
-   0.22
+   0.243
   Formula: IF(MIN(K50)<>0,MIN(K50),"")
  Col: H
-   22
+   24.3
   Formula: IF(AND(ISNUMBER(F50),ISNUMBER(G50)),F50*G50,"")
  Col: I
-   2565
+   "NonStk"
   Styles:
   - lessThan F50 -> FF000000/FFFF9900
  Col: J
   Styles:
-  - =AND(J50>0,MOD(J50,L50)<>0) -> -/FFFFFF00
   - =AND(NOT(ISBLANK(J50)),OR(I50="NonStk",J50>I50)) -> FFFFFFFF/FFFF0000
  Col: K
-   0.22
-  Formula: IFERROR(IF(OR(J50>=L50,F50>=L50),LOOKUP(IF(J50="",F50,J50),{0,1,3,25,100,500,3000},{0.0,0.28,0.28,0.25,0.22,0.2,0.19}),"MOQ="&L50),"")
+   0.243
+  Formula: IFERROR(IF(OR(J50>=L50,F50>=L50),LOOKUP(IF(J50="",F50,J50),{0,1,10,25,100,250,500,3000},{0.0,0.443,0.313,0.28,0.243,0.227,0.217,0.2}),"MOQ="&L50),"")
  Col: L
-   3
+   1
  Col: M
-   22
+   24.3
   Formula: IFERROR(IF(J50="",F50,J50)*K50,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/ap3211ktr-g1/voltage-regulators-dc-dc-circuits/diodes-incorporated/">AP3211KTR-G1</a>
+   <a href="https://www.tme.eu/EN/details/AP3211KTR-G1">AP3211KTR-G1</a>
 Row: 51
  Col: A
    "U2"
@@ -1568,29 +1697,9 @@ Row: 51
   - greaterThan SUM(I51) -> FF000000/FFFF9900
   - greaterThan SUM(IF(ISNUMBER(K51),J51,0)) -> -/FFFFFF00
  Col: G
-   0.124
   Formula: IF(MIN(K51)<>0,MIN(K51),"")
  Col: H
-   12.4
   Formula: IF(AND(ISNUMBER(F51),ISNUMBER(G51)),F51*G51,"")
- Col: I
-   "NonStk"
-  Styles:
-  - lessThan F51 -> FF000000/FFFF9900
- Col: J
-  Styles:
-  - =AND(J51>0,MOD(J51,L51)<>0) -> -/FFFFFF00
-  - =AND(NOT(ISBLANK(J51)),OR(I51="NonStk",J51>I51)) -> FFFFFFFF/FFFF0000
- Col: K
-   0.124
-  Formula: IFERROR(IF(OR(J51>=L51,F51>=L51),LOOKUP(IF(J51="",F51,J51),{0,1,5,25,100,500},{0.0,0.1769,0.1769,0.1428,0.124,0.1052}),"MOQ="&L51),"")
- Col: L
-   5
- Col: M
-   12.4
-  Formula: IFERROR(IF(J51="",F51,J51)*K51,"")
- Col: N
-   <a href="https://www.tme.eu/en/details/nc7sz74k8x/flip-flops/onsemi/">NC7SZ74K8X</a>
 Row: 52
  Col: A
    "U3,U4"
@@ -1614,8 +1723,20 @@ Row: 52
   Formula: IF(AND(ISNUMBER(F52),ISNUMBER(G52)),F52*G52,"")
  Col: I
    "NonStk"
+  Styles:
+  - lessThan F52 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J52>0,MOD(J52,L52)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J52)),OR(I52="NonStk",J52>I52)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J52>=L52,F52>=L52),LOOKUP(IF(J52="",F52,J52),{0,1,3000},{0.0,0.625,0.625}),"MOQ="&L52),"")
+ Col: L
+   3000
+ Col: M
+  Formula: IFERROR(IF(J52="",F52,J52)*K52,"")
  Col: N
-   <a href="https://www.tme.eu/en/details/tps61070ddcr/voltage-regulators-dc-dc-circuits/texas-instruments/">TPS61070DDCR</a>
+   <a href="https://www.tme.eu/EN/details/TPS61070DDCR">TPS61070DDCR</a>
 Row: 53
  Col: A
    "U5"
@@ -1637,6 +1758,22 @@ Row: 53
   Formula: IF(MIN(K53)<>0,MIN(K53),"")
  Col: H
   Formula: IF(AND(ISNUMBER(F53),ISNUMBER(G53)),F53*G53,"")
+ Col: I
+   "NonStk"
+  Styles:
+  - lessThan F53 -> FF000000/FFFF9900
+ Col: J
+  Styles:
+  - =AND(J53>0,MOD(J53,L53)<>0) -> -/FFFFFF00
+  - =AND(NOT(ISBLANK(J53)),OR(I53="NonStk",J53>I53)) -> FFFFFFFF/FFFF0000
+ Col: K
+  Formula: IFERROR(IF(OR(J53>=L53,F53>=L53),LOOKUP(IF(J53="",F53,J53),{0,1,3000},{0.0,2.32,2.32}),"MOQ="&L53),"")
+ Col: L
+   3000
+ Col: M
+  Formula: IFERROR(IF(J53="",F53,J53)*K53,"")
+ Col: N
+   <a href="https://www.tme.eu/EN/details/LM2611BMFX/NOPB">LM2611BMFX/NOPB</a>
 Row: 55
  Col: G
    "Total Purchase:"
