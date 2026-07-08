@@ -2,11 +2,10 @@ name: release
 
 on:
   push:
-    tags-ignore:
-      - "v1"
-      - "v2"
-      - "v3"
-      - "v4"
+    tags:
+      - "v*"
+  repository_dispatch:
+    types: [test_release]
 
 jobs:
   check:
@@ -40,7 +39,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v6
 
       - name: Build
         id: mdeb
@@ -64,7 +63,7 @@ jobs:
           mv *.deb output
 
       - name: Store
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: package
           path: output
@@ -72,18 +71,25 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v6
 
       - name: Retrieve
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: package
 
       - name: Changelog
         run: |
           tools/history2changelog.py > CHANGELOG.md
+
+      - name: Debug
+        run: |
+          ls -la
+          ls -la ${{needs.build.outputs.DEB_NAME}}
 
       - name: Release
         uses: docker://antonyurchenko/git-release:latest
@@ -95,5 +101,5 @@ jobs:
           KICOST_RELEASE: "true"
         with:
           args: |
-            package/${{needs.build.outputs.DEB_NAME}}
+            ${{needs.build.outputs.DEB_NAME}}
 
