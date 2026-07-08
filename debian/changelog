@@ -1,3 +1,12 @@
+kicost (1.1.21-1) stable; urgency=medium
+
+  * Fixed bulk orders end-of-line (compatible with more spreadsheets)
+  * Fixed Mouser too fast queries (< 30/min)
+  * Added workaround for some broken Python setups on Windows
+  * Added support for TME API V2
+
+ -- Salvador Eduardo Tropea <salvador@inti.gob.ar>  Wed, 08 Jul 2026 11:21:55 -0300
+
 kicost (1.1.20-1) stable; urgency=medium
 
   * Added support for Digi-Key API V4

@@ -3,6 +3,14 @@
 History
 -------
 
+1.1.21 (2026-07-08)
+_____________________
+* Fixed bulk orders end-of-line (compatible with more spreadsheets)
+* Fixed Mouser too fast queries (< 30/min)
+* Added workaround for some broken Python setups on Windows
+* Added support for TME API V2
+
+
 1.1.20 (2025-03-27)
 _____________________
 * Added support for Digi-Key API V4
